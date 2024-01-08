@@ -34,7 +34,7 @@ module API
       class AvailableAssigneesAPI < ::API::OpenProjectAPI
         resource :available_assignees do
           after_validation do
-            authorize_in_work_package(:view_work_packages, work_package: @work_package)
+            authorize_in_work_package(:edit_work_packages, work_package: @work_package)
           end
 
           get &::API::V3::Utilities::Endpoints::Index.new(model: Principal,
