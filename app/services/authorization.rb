@@ -78,6 +78,8 @@ module Authorization
 
     perms = if action.is_a?(Hash)
               OpenProject::AccessControl.allow_actions(action)
+            elsif action.is_a?(Array)
+              action.map {|a| OpenProject::AccessControl.permission(a)}.compact
             else
               [OpenProject::AccessControl.permission(action)].compact
             end
