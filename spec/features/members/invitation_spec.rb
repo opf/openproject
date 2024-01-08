@@ -53,7 +53,7 @@ RSpec.describe 'invite user via email', :js do
 
     it 'adds the invited user to the project' do
       members_page.visit!
-      click_on 'Add member'
+      members_page.open_new_member!
 
       members_page.search_and_select_principal! 'finkelstein@openproject.com',
                                                 'Send invite to finkelstein@openproject.com'
@@ -81,7 +81,7 @@ RSpec.describe 'invite user via email', :js do
 
       it 'shows a warning when the limit is reached' do
         members_page.visit!
-        click_button 'Add member'
+        members_page.open_new_member!
 
         members_page.search_and_select_principal! 'finkelstein@openproject.com',
                                                   'Send invite to finkelstein@openproject.com'
@@ -110,7 +110,7 @@ RSpec.describe 'invite user via email', :js do
       members_page.visit!
 
       retry_block do
-        click_on 'Add member'
+        members_page.open_new_member!
         find_by_id('members_add_form')
       end
 
@@ -128,7 +128,7 @@ RSpec.describe 'invite user via email', :js do
       shared_examples 'no user to invite is found' do
         it 'no matches found' do
           members_page.visit!
-          click_on 'Add member'
+          members_page.open_new_member!
 
           members_page.search_principal! 'hugo@openproject.com'
           expect(members_page).to have_no_search_results

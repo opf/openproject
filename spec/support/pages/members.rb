@@ -51,7 +51,7 @@ module Pages
     end
 
     def open_new_member!
-      click_on 'Add member'
+      page.find('[data-test-selector="member-add-button"]').click
     end
 
     def open_filters!
@@ -84,7 +84,7 @@ module Pages
     # @param as [String] The role as which the user should be added.
     def add_user!(user_name, as:)
       retry_block do
-        click_on 'Add member'
+        open_new_member!
 
         select_principal! user_name if user_name
         select_role! as if as
