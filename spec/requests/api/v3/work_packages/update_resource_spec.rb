@@ -46,7 +46,7 @@ RSpec.describe 'API v3 Work package resource',
            description: 'lorem ipsum')
   end
   let(:role) { create(:project_role, permissions:) }
-  let(:permissions) { %i[view_work_packages edit_work_packages change_work_package_status assign_versions work_package_assigned] }
+  let(:permissions) { %i[view_work_packages edit_work_packages assign_versions work_package_assigned] }
 
   current_user do
     create(:user, member_with_roles: { project => role })

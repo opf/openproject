@@ -49,8 +49,7 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
                                                     add_work_packages
                                                     view_linked_issues
                                                     view_work_packages
-                                                    edit_work_packages
-                                                    change_work_package_status] })
+                                                    edit_work_packages] })
   end
   let(:edit_and_delete_member_user) do
     create(:user,
@@ -66,7 +65,6 @@ RSpec.describe 'BCF 2.1 topics resource', content_type: :json do
            member_with_permissions: { project => %i[add_work_packages
                                                     view_linked_issues
                                                     edit_work_packages
-                                                    change_work_package_status
                                                     view_work_packages] })
   end
   let(:non_member_user) do

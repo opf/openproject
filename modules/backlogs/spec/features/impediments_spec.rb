@@ -58,7 +58,6 @@ RSpec.describe 'Impediments on taskboard', :js,
                            add_work_packages
                            view_work_packages
                            edit_work_packages
-                           change_work_package_status
                            manage_subtasks
                            assign_versions
                            work_package_assigned))

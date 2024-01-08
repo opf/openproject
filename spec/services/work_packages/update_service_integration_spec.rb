@@ -34,7 +34,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
   end
   let(:role) { create(:project_role, permissions:) }
   let(:permissions) do
-    %i(view_work_packages edit_work_packages change_work_package_status add_work_packages move_work_packages manage_subtasks)
+    %i(view_work_packages edit_work_packages add_work_packages move_work_packages manage_subtasks)
   end
 
   let(:status) { create(:default_status) }

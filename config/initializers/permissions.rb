@@ -323,6 +323,7 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :project,
                      dependencies: :view_work_packages
 
+      # WP status can be changed with :edit_work_packages, this permission allows it without Edit WP as well.
       wpt.permission :change_work_package_status,
                      {},
                      permissible_on: :project,

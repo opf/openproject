@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,9 +86,13 @@ RSpec.describe 'edit work package', :js do
   context 'as a user having only the edit_work_packages permission' do
     let(:permissions) { %i[view_work_packages edit_work_packages] }
 
-    it 'can not change the status' do
-      status_button = wp_page.find('.op-wp-status-button--button')
-      expect(status_button).to be_disabled
+    it 'can change the status' do
+      status_field = wp_page.edit_field :status
+      status_field.expect_state_text status_new.name
+      status_field.update status_done.name
+
+      wp_page.expect_toast(message: 'Successful update')
+      status_field.expect_state_text status_done.name
     end
   end
 end

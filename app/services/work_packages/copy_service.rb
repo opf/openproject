@@ -78,8 +78,6 @@ class WorkPackages::CopyService
                    .attributes
                    .slice(*writable_work_package_attributes(work_package))
                    .merge('parent_id' => work_package.parent_id,
-                          # status would be omitted without :change_work_package_status, but we want it for copy
-                          'status_id' => work_package.status_id,
                           'custom_field_values' => work_package.custom_value_attributes)
                    .merge(overwritten_attributes)
 

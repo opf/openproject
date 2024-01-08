@@ -4,7 +4,7 @@ RSpec.describe 'inline create work package', :js do
   let(:type) { create(:type) }
   let(:types) { [type] }
 
-  let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages change_work_package_status) }
+  let(:permissions) { %i(view_work_packages add_work_packages edit_work_packages) }
   let(:role) { create(:project_role, permissions:) }
   let(:user) do
     create(:user, member_with_roles: { project => role })

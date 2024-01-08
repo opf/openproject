@@ -78,7 +78,7 @@ RSpec.describe 'Subtasks action board', :js, with_ee: %i[board_view] do
 
     let(:permissions) do
       %i[show_board_views manage_board_views add_work_packages
-         edit_work_packages change_work_package_status view_work_packages manage_public_queries manage_subtasks]
+         edit_work_packages view_work_packages manage_public_queries manage_subtasks]
     end
 
     it 'allows management of subtasks work packages' do

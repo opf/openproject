@@ -98,7 +98,7 @@ class WorkPackagePolicy < BasePolicy
 
   def change_status_allowed?(work_package)
     @change_status_cache ||= Hash.new do |hash, project|
-      hash[project] = user.allowed_in_project?(:change_work_package_status, work_package.project)
+      hash[project] = user.allowed_in_project?(%i[edit_work_packages change_work_package_status], work_package.project)
     end
 
     @change_status_cache[work_package.project]

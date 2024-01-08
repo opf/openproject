@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe 'Update status from WP card', :js, :with_cuprite do
   let(:manager_role) do
-    create(:project_role, permissions: %i[view_work_packages edit_work_packages change_work_package_status])
+    create(:project_role, permissions: %i[view_work_packages edit_work_packages])
   end
   let(:manager) do
     create(:user,

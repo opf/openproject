@@ -33,8 +33,7 @@ RSpec.describe 'Work package transitive status workflows', :js do
   let(:dev_role) do
     create(:project_role,
            permissions: %i[view_work_packages
-                           edit_work_packages
-                           change_work_package_status])
+                           edit_work_packages])
   end
   let(:dev) do
     create(:user,

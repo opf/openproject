@@ -32,7 +32,7 @@ RSpec.describe Impediments::UpdateService, type: :model do
   let(:instance) { described_class.new(user:, impediment:) }
 
   let(:user) { create(:user) }
-  let(:role) { create(:project_role, permissions: %i(edit_work_packages change_work_package_status view_work_packages)) }
+  let(:role) { create(:project_role, permissions: %i(edit_work_packages view_work_packages)) }
   let(:type_feature) { create(:type_feature) }
   let(:type_task) { create(:type_task) }
   let(:priority) { impediment.priority }

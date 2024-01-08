@@ -34,7 +34,7 @@ RSpec.describe 'API v3 Work package form resource' do
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
-  shared_let(:all_allowed_permissions) { %i[view_work_packages edit_work_packages change_work_package_status assign_versions view_budgets] }
+  shared_let(:all_allowed_permissions) { %i[view_work_packages edit_work_packages assign_versions view_budgets] }
   shared_let(:assign_permissions) { %i[view_work_packages assign_versions] }
   shared_let(:cf_all) { create(:work_package_custom_field, is_for_all: true, field_format: 'text') }
   shared_let(:type) { create(:type_bug, custom_fields: [cf_all]) }

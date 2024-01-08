@@ -864,7 +864,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'status' do
-      context 'if having the assign_versions permission' do
+      context 'if having the change_work_package_status permission' do
         let(:permissions) { [:change_work_package_status] }
 
         it_behaves_like 'has basic schema properties' do
@@ -884,6 +884,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         end
       end
 
+      # Just edit_work_packages without change_work_package_status still makes status writable:
       context 'if having the edit_work_packages permission' do
         let(:permissions) { [:edit_work_packages] }
 
@@ -892,7 +893,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:type) { 'Status' }
           let(:name) { I18n.t('attributes.status') }
           let(:required) { true }
-          let(:writable) { false }
+          let(:writable) { true }
           let(:has_default) { true }
           let(:location) { '_links' }
         end
