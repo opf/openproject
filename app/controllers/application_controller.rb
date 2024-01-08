@@ -574,7 +574,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_breadcrumb
-    label = "label_#{self.class.name.gsub('Controller', '').underscore.singularize}"
+    label = "label_#{self.class.name.demodulize.gsub('Controller', '').underscore.singularize}"
 
     I18n.t(label + '_plural',
            default: label.to_sym)
