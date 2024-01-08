@@ -789,7 +789,7 @@ GEM
       eventmachine_httpserver
       http_parser.rb (~> 0.6.0)
       multi_json
-    puma (6.4.1)
+    puma (6.4.2)
       nio4r (~> 2.0)
     puma-plugin-statsd (2.6.0)
       puma (>= 5.0, < 7)
@@ -1208,7 +1208,7 @@ DEPENDENCIES
   pry-rails (~> 0.3.6)
   pry-rescue (~> 1.5.2)
   puffing-billy (~> 4.0.0)
-  puma (~> 6.3, >= 6.3.1)
+  puma (~> 6.4)
   puma-plugin-statsd (~> 2.0)
   rack-attack (~> 6.7.0)
   rack-cors (~> 2.0.0)
