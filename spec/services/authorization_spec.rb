@@ -138,6 +138,17 @@ RSpec.describe Authorization do
       end
     end
 
+    context 'when action is an array of permission names' do
+      let(:action) { %i[view_work_packages edit_work_packages] }
+
+      it 'returns the Permission object wrapped in an array' do
+        expect(subject).to eq([
+                                OpenProject::AccessControl.permission(:view_work_packages),
+                                OpenProject::AccessControl.permission(:edit_work_packages)
+                              ])
+      end
+    end
+
     context 'when there is a permission but it is disabled' do
       let(:permission_object) { OpenProject::AccessControl.permission(:manage_user) }
       let(:action) { permission_object.name }

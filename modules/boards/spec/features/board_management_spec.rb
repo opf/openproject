@@ -236,7 +236,7 @@ RSpec.describe 'Board management spec', :js, with_ee: %i[board_view] do
     end
   end
 
-  context 'with view boards + edit work package permission' do
+  context 'with view boards + edit work package and change work package status permissions' do
     let(:permissions) { %i[show_board_views view_work_packages add_work_packages edit_work_packages] }
     let(:board_view) { create(:board_grid_with_queries, project:) }
 
