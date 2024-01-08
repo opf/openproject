@@ -38,6 +38,12 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def call(user:, folder:)
+      # OutboundRequestAuthentication::Handler
+      #   .with_authentication(type: :basic_auth,
+      #                        config: @configuration) do |auth|
+      #   binding.pry
+      # end
+
       result = Util.token(user:, configuration: @configuration) do |token|
         base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files")
         @location_prefix = Util.join_uri_path(base_path, token.origin_user_id.gsub(' ', '%20'))

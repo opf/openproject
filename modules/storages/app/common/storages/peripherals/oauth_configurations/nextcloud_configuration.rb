@@ -32,11 +32,12 @@ module Storages
   module Peripherals
     module OAuthConfigurations
       class NextcloudConfiguration < ConfigurationInterface
-        attr_reader :oauth_client
+        attr_reader :oauth_client, :basic_auth_credentials
 
         def initialize(storage)
           @uri = storage.uri
           @oauth_client = storage.oauth_client.freeze
+          @basic_auth_credentials = { username: storage.username, password: storage.password }
           super()
         end
 

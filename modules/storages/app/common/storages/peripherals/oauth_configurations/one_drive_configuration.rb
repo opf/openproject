@@ -56,6 +56,10 @@ module Storages
           DEFAULT_SCOPES
         end
 
+        def client_credential_scope
+          'https://graph.microsoft.com/.default'
+        end
+
         def basic_rack_oauth_client
           Rack::OAuth2::Client.new(
             identifier: @oauth_client.client_id,

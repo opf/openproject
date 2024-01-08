@@ -47,6 +47,12 @@ module Storages
           end
 
           def call(user:, folder:)
+            # OutboundRequestAuthentication::Handler
+            #   .with_authentication(type: :client_credentials,
+            #                        config: @storage.oauth_configuration) do |auth|
+            #   binding.pry
+            # end
+
             result = Util.using_user_token(@storage, user) do |token|
               # Make the Get Request to the necessary endpoints
               response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
