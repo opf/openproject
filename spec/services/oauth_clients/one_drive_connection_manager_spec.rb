@@ -39,6 +39,55 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
     described_class.new(user:, configuration: storage.oauth_configuration)
   end
 
+  describe '#code_to_token' do
+    let(:code) { 'wow.such.code.much.token' }
+    let(:code_to_token_response) do
+      {
+        access_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q...",
+        token_type: "Bearer",
+        expires_in: 3599,
+        scope: "Mail.Read User.Read",
+        refresh_token: "AwABAAAAvPM1KaPlrEqdFSBzjqfTGAMxZGUTdM0t4B4..."
+      }.to_json
+    end
+    let(:me_response) do
+      {
+        businessPhones: [
+          "+45 123 4567 8901"
+        ],
+        displayName: "Sheev Palpatine ",
+        givenName: "Sheev",
+        jobTitle: "Galatic Senator",
+        mail: "palpatine@senate.com",
+        mobilePhone: "+45 123 4567 8901",
+        officeLocation: "500 Republica",
+        preferredLanguage: "en-US",
+        surname: "Palpatine",
+        userPrincipalName: "palpatine@senate.com",
+        id: "87d349ed-44d7-43e1-9a83-5f2406dee5bd"
+      }.to_json
+    end
+
+    before do
+      stub_request(:post, 'https://login.microsoftonline.com/consumers/oauth2/v2.0/token')
+        .to_return(status: 200, body: code_to_token_response, headers: { 'Content-Type' => 'application/json' })
+
+      stub_request(:get, 'https://graph.microsoft.com/v1.0/me')
+        .with(headers: { Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q..." })
+        .to_return(status: 200, body: me_response, headers: { 'Content-Type' => 'application/json' })
+    end
+
+    it 'fills in the origin_user_id' do
+      expect { subject.code_to_token(code) }.to change(OAuthClientToken, :count).by(1)
+
+      last_token = OAuthClientToken
+                     .where(access_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q...")
+                     .last
+
+      expect(last_token.origin_user_id).to eq('palpatine@senate.com')
+    end
+  end
+
   describe '#get_authorization_uri' do
     it 'always add the necessary scopes' do
       uri = connection_manager.get_authorization_uri(state: nil)
