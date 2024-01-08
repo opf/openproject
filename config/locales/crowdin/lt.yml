@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -278,6 +278,15 @@ lt:
       no_results_content_text: Įtraukti narį į projektą
     invite_by_mail: "Siųsti pakvietimą adresu %{mail}"
     send_invite_to: "Siųsti pakvietimą"
+    filters:
+      all_shares: 'Visi bendrinimai'
+    menu:
+      all: 'Visi'
+      invited: 'Pakviesti'
+      locked: 'Užrakinti'
+      project_roles: 'Projekto vaidmenys'
+      wp_shares: 'Darbo paketų bendrinimai'
+      groups: 'Grupės'
   my:
     access_token:
       failed_to_reset_token: "Atpažinimo rakto nepavyko nustatyti iš naujo: %{error}"
@@ -605,6 +614,8 @@ lt:
         begin_insertion: "Įterpimo pradžioje"
         begin_deletion: "Ištrynimo pradžioje"
         children: "Subelementai"
+        derived_remaining_hours: "Išvestas likęs darbas"
+        derived_remaining_time: "Išvestas likęs darbas"
         done_ratio: "% baigta"
         duration: "Trukmė"
         end_insertion: "Įterpimo pabaigoje"
@@ -621,6 +632,8 @@ lt:
         priority: "Pirmenybė"
         progress: "% baigta"
         readonly: "Tik skaitymui"
+        remaining_hours: "Liko darbo"
+        remaining_time: "Liko darbo"
         schedule_manually: "Rankinis laiko parinkimas"
         spent_hours: "Praleista laiko"
         spent_time: "Praleista laiko"
@@ -3317,7 +3330,7 @@ lt:
       oauth_returned_json_error: "OAuth2 grąžino JSON klaidą"
       oauth_returned_http_error: "OAuth2 grąžino tinklo klaidą"
       oauth_returned_standard_error: "OAuth2 grąžino vidinę klaidą"
-      client_id_blank: "ID can't be blank."
+      client_id_blank: "ID negali būti tuščias."
       wrong_token_type_returned: "OAuth2 grąžino netinkamą žetono tipą, tikėtasi AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 grąžino klaidą. Prašome susisiekti su jūsų sistemos administratoriumi."
       oauth_client_not_found: "OAuth2 klientas nerastas „callback“ taške (redirect_uri)."

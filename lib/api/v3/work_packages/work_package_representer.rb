@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -403,6 +403,22 @@ module API
                  end,
                  render_nil: true
 
+        property :remaining_time,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_duration_from_hours(represented.remaining_hours,
+                                                                 allow_nil: true)
+                 end,
+                 render_nil: true
+
+        property :derived_remaining_time,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_duration_from_hours(represented.derived_remaining_hours,
+                                                                 allow_nil: true)
+                 end,
+                 render_nil: true
+
         property :duration,
                  exec_context: :decorator,
                  if: ->(represented:, **) { !represented.milestone? },
@@ -623,14 +639,23 @@ module API
         delegate :schedule_manually=, to: :represented
 
         def estimated_time=(value)
-          represented.estimated_hours = datetime_formatter.parse_duration_to_hours(value,
-                                                                                   'estimatedTime',
-                                                                                   allow_nil: true)
+          represented.estimated_hours =
+            datetime_formatter.parse_duration_to_hours(value, 'estimatedTime', allow_nil: true)
         end
 
         def derived_estimated_time=(value)
-          represented.derived_estimated_hours = datetime_formatter
-            .parse_duration_to_hours(value, 'derivedEstimatedTime', allow_nil: true)
+          represented.derived_estimated_hours =
+            datetime_formatter.parse_duration_to_hours(value, 'derivedEstimatedTime', allow_nil: true)
+        end
+
+        def remaining_time=(value)
+          represented.remaining_hours =
+            datetime_formatter.parse_duration_to_hours(value, 'remainingTime', allow_nil: true)
+        end
+
+        def derived_remaining_time=(value)
+          represented.derived_remaining_hours =
+            datetime_formatter.parse_duration_to_hours(value, 'derivedRemainingTime', allow_nil: true)
         end
 
         def spent_time=(value)

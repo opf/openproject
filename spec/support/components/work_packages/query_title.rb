@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,13 +34,13 @@ module Components
       include RSpec::Matchers
 
       def expect_changed
-        expect(page).to have_selector '.editable-toolbar-title--save'
-        expect(page).to have_selector '.editable-toolbar-title--input.-changed'
+        expect(page).to have_css '.editable-toolbar-title--save'
+        expect(page).to have_css '.editable-toolbar-title--input.-changed'
       end
 
       def expect_not_changed
-        expect(page).not_to have_selector '.editable-toolbar-title--save'
-        expect(page).not_to have_selector '.editable-toolbar-title--input.-changed'
+        expect(page).to have_no_css '.editable-toolbar-title--save'
+        expect(page).to have_no_css '.editable-toolbar-title--input.-changed'
       end
 
       def input_field

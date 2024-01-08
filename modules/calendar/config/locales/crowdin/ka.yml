@@ -5,7 +5,7 @@ ka:
     description: "Provides calendar views."
   label_calendar: "კალენდარი"
   label_calendar_plural: "კალენდრები"
-  label_new_calendar: "New calendar"
+  label_new_calendar: "ახალი კალენდარი"
   permission_view_calendar: "View calendars"
   permission_manage_calendars: "Manage calendars"
   permission_share_calendars: "Subscribe to iCalendars"

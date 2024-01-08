@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -161,6 +161,16 @@ module API
 
           schema :derived_estimated_time,
                  name_source: ->(*) { I18n.t('attributes.derived_estimated_hours') },
+                 type: 'Duration',
+                 required: false
+
+          schema :remaining_time,
+                 name_source: :remaining_hours,
+                 type: 'Duration',
+                 required: false
+
+          schema :derived_remaining_time,
+                 name_source: :derived_remaining_hours,
                  type: 'Duration',
                  required: false
 

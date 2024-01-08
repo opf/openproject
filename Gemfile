@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby file: '.ruby-version'
+ruby '3.2.2'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -79,7 +79,7 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.23.9'
+gem 'commonmarker', '~> 1.0.3'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -123,7 +123,7 @@ gem 'daemons'
 gem 'delayed_cron_job', '~> 0.9.0'
 gem 'delayed_job_active_record', '~> 4.1.5'
 
-gem 'rack-protection', '~> 3.1.0'
+gem 'rack-protection', '~> 3.2.0'
 
 # Rack::Attack is a rack middleware to protect your web app from bad clients.
 # It allows whitelisting, blacklisting, throttling, and tracking based
@@ -152,12 +152,12 @@ gem 'structured_warnings', '~> 0.4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 13.0.0', require: false
 
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: 'cc286655dfa2ea2b30bf2a149063f42f7081aa3d'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: 'bbda8ad0054d465eec01c23fcab5c6d62c7baa44'
 gem 'prawn', '~> 2.4'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
 
-gem 'meta-tags', '~> 2.19.0'
+gem 'meta-tags', '~> 2.20.0'
 
 gem "paper_trail", "~> 12.3"
 
@@ -178,7 +178,7 @@ gem 'puma', '~> 6.3', '>= 6.3.1'
 gem 'puma-plugin-statsd', '~> 2.0'
 gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 
-gem 'nokogiri', '~> 1.15.1'
+gem 'nokogiri', '~> 1.16.0'
 
 gem 'carrierwave', '~> 1.3.1'
 gem 'carrierwave_direct', '~> 2.1.0'
@@ -275,7 +275,7 @@ group :test do
 
   gem 'equivalent-xml', '~> 0.6'
   gem 'json_spec', '~> 1.1.4'
-  gem 'shoulda-matchers', '~> 5.0', require: nil
+  gem 'shoulda-matchers', '~> 6.0', require: nil
 
   gem 'parallel_tests', '~> 4.0'
 end
@@ -328,6 +328,9 @@ group :development, :test do
 
   # Brakeman scanner
   gem 'brakeman', '~> 6.1.0'
+
+  # i18n-tasks helps find and manage missing and unused translations.
+  gem 'i18n-tasks', '~> 1.0.13'
 end
 
 gem 'bootsnap', '~> 1.17.0', require: false

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -82,7 +82,7 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
     # Still on the same page. Filters applied. subproject work package created
     # 45 days ago should not be visible anymore
     expect(page)
-      .not_to have_link(text: /#{subproject_older_work_package.subject}/)
+      .to have_no_link(text: /#{subproject_older_work_package.subject}/)
   end
 
   shared_examples 'subprojects checkbox state is preserved' do
@@ -113,7 +113,7 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
           .to have_link(text: /#{project_work_package.subject}/)
         # work packages for subproject is not visible anymore
         expect(page)
-          .not_to have_link(text: /#{subproject_work_package.subject}/)
+          .to have_no_link(text: /#{subproject_work_package.subject}/)
       end
 
       click_link('Previous')
@@ -126,7 +126,7 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
 
         # work packages for subproject still not visible
         expect(page)
-          .not_to have_link(text: /#{subproject_older_work_package.subject}/)
+          .to have_no_link(text: /#{subproject_older_work_package.subject}/)
       end
 
       click_link('Next')
@@ -139,7 +139,7 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
 
         # work packages for subproject still not visible
         expect(page)
-          .not_to have_link(text: /#{subproject_work_package.subject}/)
+          .to have_no_link(text: /#{subproject_work_package.subject}/)
       end
     end
   end

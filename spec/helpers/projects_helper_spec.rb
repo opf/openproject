@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -108,17 +108,6 @@ RSpec.describe ProjectsHelper do
     it 'returns shortened description' do
       expect(helper.short_project_description(project))
         .to eql(((('Abcd ' * 5) + "\n") * 10)[0..-2] + '...')
-    end
-  end
-
-  describe '#global_menu_items' do
-    subject { global_menu_items.map(&:first) }
-
-    it do
-      expect(subject).to eq([t(:label_all_projects),
-                             t(:label_my_projects),
-                             t(:label_public_projects),
-                             t(:label_archived_projects)])
     end
   end
 

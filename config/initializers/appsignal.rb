@@ -41,8 +41,8 @@ if OpenProject::Appsignal.enabled?
     )
 
     # Extend the core log delegator
-    handler = ::OpenProject::Appsignal.method(:exception_handler)
-    ::OpenProject::Logging::LogDelegator.register(:appsignal, handler)
+    handler = OpenProject::Appsignal.method(:exception_handler)
+    OpenProject::Logging::LogDelegator.register(:appsignal, handler)
 
     Appsignal.start
   end

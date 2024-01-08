@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,7 +89,7 @@ module Pages
     end
 
     def expect_title(title = 'Unnamed calendar')
-      expect(page).to have_selector '.editable-toolbar-title--fixed', text: title
+      expect(page).to have_css '.editable-toolbar-title--fixed', text: title
     end
 
     def expect_event(work_package, present: true)
@@ -109,11 +109,11 @@ module Pages
     end
 
     def expect_wp_not_resizable(work_package)
-      expect(page).to have_selector('.fc-event:not(.fc-event-resizable)', text: work_package.subject)
+      expect(page).to have_css('.fc-event:not(.fc-event-resizable)', text: work_package.subject)
     end
 
     def expect_wp_not_draggable(work_package)
-      expect(page).to have_selector('.fc-event:not(.fc-event-draggable)', text: work_package.subject)
+      expect(page).to have_css('.fc-event:not(.fc-event-draggable)', text: work_package.subject)
     end
 
     def set_title(title)
@@ -150,19 +150,19 @@ module Pages
     end
 
     def expect_create_button
-      expect(page).to have_selector '.button', text: 'Calendar'
+      expect(page).to have_css '.button', text: 'Calendar'
     end
 
     def expect_no_create_button
-      expect(page).not_to have_selector '.button', text: 'Calendar'
+      expect(page).to have_no_css '.button', text: 'Calendar'
     end
 
     def expect_delete_button(query)
-      expect(page).to have_selector "[data-test-selector='calendar-remove-#{query.id}']"
+      expect(page).to have_css "[data-test-selector='calendar-remove-#{query.id}']"
     end
 
     def expect_no_delete_button(query)
-      expect(page).not_to have_selector "[data-test-selector='calendar-remove-#{query.id}']"
+      expect(page).to have_no_css "[data-test-selector='calendar-remove-#{query.id}']"
     end
 
     def expect_no_views_visible
@@ -170,11 +170,11 @@ module Pages
     end
 
     def expect_view_visible(query)
-      expect(page).to have_selector 'td', text: query.name
+      expect(page).to have_css 'td', text: query.name
     end
 
     def expect_view_not_visible(query)
-      expect(page).not_to have_selector 'td', text: query.name
+      expect(page).to have_no_css 'td', text: query.name
     end
 
     def expect_views_listed_in_order(*queries)

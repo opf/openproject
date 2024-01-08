@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -82,10 +82,10 @@ module OpenProject
         end
       end
 
-      def self.authorize_user_for_provider(provider, &block)
+      def self.authorize_user_for_provider(provider)
         callback = AuthorizationBlockCallback.new do |dec, auth_hash|
           if auth_hash.provider.to_sym == provider.to_sym
-            block.call dec, auth_hash
+            yield dec, auth_hash
           else
             dec.approve
           end
@@ -260,9 +260,9 @@ module OpenProject
         ##
         # Passes each element to the given block and returns the
         # result of the block as soon as it's truthy.
-        def find_map(&block)
+        def find_map
           each do |e|
-            result = block.call e
+            result = yield e
 
             return result if result
           end

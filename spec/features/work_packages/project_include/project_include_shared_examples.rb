@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -457,6 +457,6 @@ RSpec.shared_examples 'has a project include dropdown', :js, type: :feature do
     dropdown.toggle!
     dropdown.expect_open
     dropdown.search 'Nonexistent'
-    expect(page).not_to have_selector("[data-test-selector='op-project-include--loading']")
+    expect(page).to have_no_css("[data-test-selector='op-project-include--loading']")
   end
 end

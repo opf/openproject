@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Wysiwyg work package button spec',
-               js: true do
+RSpec.describe 'Wysiwyg work package button spec', :js do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 
@@ -58,12 +57,12 @@ RSpec.describe 'Wysiwyg work package button spec',
         editor.in_editor do |_container, editable|
           editor.insert_macro 'Insert create work package button'
 
-          expect(page).to have_selector('.spot-modal')
+          expect(page).to have_css('.spot-modal')
           select 'MyTaskName', from: 'selected-type'
 
           # Cancel editing
           find('.spot-modal--cancel-button').click
-          expect(editable).not_to have_selector('.macro.-create_work_package_link')
+          expect(editable).to have_no_css('.macro.-create_work_package_link')
 
           editor.insert_macro  'Insert create work package button'
           select 'MyTaskName', from: 'selected-type'
@@ -86,10 +85,10 @@ RSpec.describe 'Wysiwyg work package button spec',
         # Save wiki page
         click_on 'Save'
 
-        expect(page).to have_selector('.op-toast.-success')
+        expect(page).to have_css('.op-toast.-success')
 
         within('#content') do
-          expect(page).to have_selector("a[href=\"/projects/my-project/work_packages/new?type=#{type.id}\"]")
+          expect(page).to have_css("a[href=\"/projects/my-project/work_packages/new?type=#{type.id}\"]")
         end
       end
     end

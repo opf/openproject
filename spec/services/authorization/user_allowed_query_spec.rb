@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,7 +69,7 @@ RSpec.describe Authorization::UserAllowedQuery do
       end
 
       it 'returns the user' do
-        expect(described_class.query(action, project)).to match_array [user]
+        expect(described_class.query(action, project)).to contain_exactly(user)
       end
     end
 
@@ -81,7 +81,7 @@ RSpec.describe Authorization::UserAllowedQuery do
       end
 
       it 'returns the user' do
-        expect(described_class.query(action, project)).to match_array [user]
+        expect(described_class.query(action, project)).to contain_exactly(user)
       end
     end
 
@@ -162,7 +162,7 @@ RSpec.describe Authorization::UserAllowedQuery do
       end
 
       it 'returns the user' do
-        expect(described_class.query(action, project)).to match_array [user]
+        expect(described_class.query(action, project)).to contain_exactly(user)
       end
     end
 
@@ -180,7 +180,7 @@ RSpec.describe Authorization::UserAllowedQuery do
       end
 
       it 'returns the anonymous user' do
-        expect(described_class.query(action, project)).to match_array([anonymous])
+        expect(described_class.query(action, project)).to contain_exactly(anonymous)
       end
     end
 
@@ -248,7 +248,7 @@ RSpec.describe Authorization::UserAllowedQuery do
       end
 
       it 'returns the user' do
-        expect(described_class.query(public_action, project)).to match_array [user]
+        expect(described_class.query(public_action, project)).to contain_exactly(user)
       end
     end
 
@@ -262,7 +262,7 @@ RSpec.describe Authorization::UserAllowedQuery do
       end
 
       it 'returns the user and anonymous' do
-        expect(described_class.query(public_action, project)).to match_array [user, anonymous]
+        expect(described_class.query(public_action, project)).to contain_exactly(user, anonymous)
       end
     end
 

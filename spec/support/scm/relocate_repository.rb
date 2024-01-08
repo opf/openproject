@@ -4,7 +4,7 @@ RSpec.shared_examples_for 'repository can be relocated' do |vendor|
   end
   let(:project) { build(:project) }
   let(:repository) do
-    repo = build("repository_#{vendor}".to_sym,
+    repo = build(:"repository_#{vendor}",
                  project:,
                  scm_type: :managed)
 
@@ -45,7 +45,7 @@ RSpec.shared_examples_for 'repository can be relocated' do |vendor|
     end
   end
 
-  context 'with managed remote config', webmock: true do
+  context 'with managed remote config', :webmock do
     let(:url) { 'http://myreposerver.example.com/api/' }
     let(:config) { { manages: url } }
 
@@ -53,7 +53,7 @@ RSpec.shared_examples_for 'repository can be relocated' do |vendor|
       stub_request(:post, url)
         .to_return(status: 200,
                    body: { success: true, url: 'file:///foo/bar', path: '/tmp/foo/bar' }.to_json)
-      create("repository_#{vendor}".to_sym,
+      create(:"repository_#{vendor}",
              project:,
              scm_type: :managed)
     end

@@ -58,7 +58,7 @@ RSpec.describe 'Global menu item for boards', :js, :with_cuprite do
 
     it 'is not rendered' do
       within '#main-menu' do
-        expect(page).not_to have_content(boards_label)
+        expect(page).to have_no_content(boards_label)
       end
     end
   end

@@ -71,9 +71,9 @@ RSpec.describe 'Copy work packages through Rails view', :js, :with_cuprite do
         context_menu.choose 'Bulk copy'
 
         expect(page).to have_css('#new_project_id') # rubocop:disable RSpec/ExpectInHook
-        
+
         wait_for_network_idle
-        
+
         expect_page_reload do
           select_autocomplete page.find_test_selector('new_project_id'),
                               query: project2.name,

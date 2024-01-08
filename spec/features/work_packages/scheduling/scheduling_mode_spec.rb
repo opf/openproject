@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,7 @@ require 'features/work_packages/shared_contexts'
 require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
-RSpec.describe 'scheduling mode',
-               js: true do
+RSpec.describe 'scheduling mode', :js do
   let(:project) { create(:project_with_types, public: true) }
   # Constructing a work package graph that looks like this:
   #

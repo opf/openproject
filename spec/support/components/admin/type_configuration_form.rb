@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,7 @@ module Components
       end
 
       def expect_empty
-        expect(page).not_to have_selector('#draggable-groups .group-head')
+        expect(page).to have_no_css('#draggable-groups .group-head')
       end
 
       def find_group(name)
@@ -88,7 +88,7 @@ module Components
         attribute = page.find(attribute_selector(key))
 
         unless translation.nil?
-          expect(attribute).to have_selector('.attribute-name', text: translation)
+          expect(attribute).to have_css('.attribute-name', text: translation)
         end
       end
 
@@ -134,7 +134,7 @@ module Components
 
         modal = ::Components::WorkPackages::TableConfigurationModal.new
 
-        within find('.relation-filter-selector') do
+        within '.relation-filter-selector' do
           select I18n.t("js.relation_labels.#{relation_filter}")
 
           # While we are here, let's check that all relation filters are present.
@@ -198,7 +198,7 @@ module Components
         input.set(to)
         input.send_keys(:return)
 
-        expect(page).to have_selector('.group-edit-handler', text: to.upcase)
+        expect(page).to have_css('.group-edit-handler', text: to.upcase)
       end
 
       def remove_group(name)
@@ -206,15 +206,15 @@ module Components
 
         container.find('.delete-group').click
 
-        expect(page).not_to have_selector('.group-head', text: name.upcase)
+        expect(page).to have_no_css('.group-head', text: name.upcase)
       end
 
       def expect_no_attribute(attribute, group)
-        expect(find_group(group)).not_to have_selector(attribute_selector(attribute).to_s)
+        expect(find_group(group)).to have_no_selector(attribute_selector(attribute).to_s)
       end
 
       def expect_group(_label, translation, *attributes)
-        expect(find_group(translation)).to have_selector(".group-edit-handler", text: translation.upcase)
+        expect(find_group(translation)).to have_css(".group-edit-handler", text: translation.upcase)
 
         within find_group(translation) do
           attributes.each do |attribute|
@@ -224,7 +224,7 @@ module Components
       end
 
       def expect_inactive(attribute)
-        expect(inactive_drop).to have_selector(".type-form-conf-attribute[data-key='#{attribute}']")
+        expect(inactive_drop).to have_css(".type-form-conf-attribute[data-key='#{attribute}']")
       end
     end
   end

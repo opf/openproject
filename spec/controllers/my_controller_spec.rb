@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -149,7 +149,7 @@ RSpec.describe MyController do
       end
 
       it "renders the 'Change password' menu entry" do
-        expect(response.body).to have_selector('#menu-sidebar li a', text: 'Change password')
+        expect(response.body).to have_css('#menu-sidebar li a', text: 'Change password')
       end
     end
   end
@@ -210,7 +210,7 @@ RSpec.describe MyController do
 
       render_views
       it 'renders auto hide popups checkbox' do
-        expect(response.body).to have_selector('#my_account_form #pref_auto_hide_popups')
+        expect(response.body).to have_css('#my_account_form #pref_auto_hide_popups')
       end
     end
 
@@ -236,7 +236,7 @@ RSpec.describe MyController do
     render_views
 
     it "does not render 'Change password' menu entry" do
-      expect(response.body).not_to have_selector('#menu-sidebar li a', text: 'Change password')
+      expect(response.body).to have_no_css('#menu-sidebar li a', text: 'Change password')
     end
   end
 
@@ -356,7 +356,7 @@ RSpec.describe MyController do
 
       it 'list the tokens' do
         get :access_token
-        expect(response.body).to have_selector("#storage-oauth-token-#{token.id}")
+        expect(response.body).to have_css("#storage-oauth-token-#{token.id}")
       end
 
       it 'can remove the token' do

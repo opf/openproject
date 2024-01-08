@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/repositories/repository_settings_page'
 
-RSpec.describe 'Create repository', js: true, selenium: true do
+RSpec.describe 'Create repository', :js, :selenium do
   let(:current_user) { create(:admin) }
   let(:project) { create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }
@@ -59,7 +59,7 @@ RSpec.describe 'Create repository', js: true, selenium: true do
       it 'displays the vendor selection' do
         expect(scm_vendor_input).not_to be_nil
         enabled_scms.each do |scm|
-          expect(scm_vendor_input).to have_selector('option', text: scm.camelize)
+          expect(scm_vendor_input).to have_css('option', text: scm.camelize)
         end
       end
     end
@@ -73,7 +73,7 @@ RSpec.describe 'Create repository', js: true, selenium: true do
 
       it_behaves_like 'shows enabled scms'
       it 'does not show git' do
-        expect(scm_vendor_input).not_to have_selector('option', text: 'Git')
+        expect(scm_vendor_input).to have_no_css('option', text: 'Git')
       end
     end
   end
@@ -149,9 +149,9 @@ RSpec.describe 'Create repository', js: true, selenium: true do
 
         click_button(I18n.t(:button_create))
 
-        expect(page).to have_selector('div.op-toast.-success',
-                                      text: I18n.t('repositories.create_successful'))
-        expect(page).to have_selector('a.icon-delete', text: I18n.t(:button_delete))
+        expect(page).to have_css('div.op-toast.-success',
+                                 text: I18n.t('repositories.create_successful'))
+        expect(page).to have_css('a.icon-delete', text: I18n.t(:button_delete))
       end
     end
 
@@ -162,10 +162,10 @@ RSpec.describe 'Create repository', js: true, selenium: true do
 
         click_button(I18n.t(:button_create))
 
-        expect(page).to have_selector('div.op-toast.-success',
-                                      text: I18n.t('repositories.create_successful'))
-        expect(page).to have_selector('button[type="submit"]', text: I18n.t(:button_save))
-        expect(page).to have_selector('a.icon-remove', text: I18n.t(:button_remove))
+        expect(page).to have_css('div.op-toast.-success',
+                                 text: I18n.t('repositories.create_successful'))
+        expect(page).to have_css('button[type="submit"]', text: I18n.t(:button_save))
+        expect(page).to have_css('a.icon-remove', text: I18n.t(:button_remove))
       end
     end
 
@@ -208,7 +208,7 @@ RSpec.describe 'Create repository', js: true, selenium: true do
       end
     end
 
-    describe 'remote managed repositories', webmock: true do
+    describe 'remote managed repositories', :webmock do
       let(:vendor) { 'git' }
       let(:url) { 'http://myreposerver.example.com/api/' }
       let(:config) { { git: { manages: url } } }

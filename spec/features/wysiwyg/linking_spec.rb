@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Wysiwyg linking',
-               js: true do
+RSpec.describe 'Wysiwyg linking', :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
   let(:editor) { Components::WysiwygEditor.new }
@@ -50,7 +49,7 @@ RSpec.describe 'Wysiwyg linking',
       # Save wiki page
       click_on 'Save'
 
-      expect(page).to have_selector('.op-toast.-success')
+      expect(page).to have_css('.op-toast.-success')
 
       wiki_page = project.wiki.pages.first.reload
 
@@ -58,7 +57,7 @@ RSpec.describe 'Wysiwyg linking',
         "[http://example.org/link with spaces](http://example.org/link%20with%20spaces)"
       )
 
-      expect(page).to have_selector('a[href="http://example.org/link%20with%20spaces"]')
+      expect(page).to have_css('a[href="http://example.org/link%20with%20spaces"]')
     end
   end
 end

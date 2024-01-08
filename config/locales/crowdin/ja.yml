@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -279,6 +279,15 @@ ja:
       no_results_content_text: プロジェクトにメンバーを追加
     invite_by_mail: "招待状を %{mail} に送信する"
     send_invite_to: "Send invite to"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "アクセストークンをリセットできませんでした: %{error}"
@@ -601,6 +610,8 @@ ja:
         begin_insertion: "挿入の始まり"
         begin_deletion: "削除の始まり"
         children: "サブ要素"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
         duration: "期間"
         end_insertion: "挿入の終わり"
@@ -617,6 +628,8 @@ ja:
         priority: "優先度"
         progress: "% Complete"
         readonly: "読み取り専用"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "手動スケジュール"
         spent_hours: "作業時間の記録"
         spent_time: "作業時間の記録"

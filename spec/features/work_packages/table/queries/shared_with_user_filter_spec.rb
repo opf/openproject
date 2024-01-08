@@ -50,7 +50,7 @@ RSpec.describe 'Work package filtering',
   end
   shared_let(:project_role_with_insufficient_permissions) do
     create(:project_role, permissions: %i[view_work_packages
-                                  save_queries])
+                                          save_queries])
   end
   shared_let(:work_package_role) do
     create(:work_package_role, permissions: %i[view_work_packages])

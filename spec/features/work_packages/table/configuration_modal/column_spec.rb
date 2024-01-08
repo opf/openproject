@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Work Package table configuration modal columns spec', js: true do
+RSpec.describe 'Work Package table configuration modal columns spec', :js do
   let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
@@ -22,8 +22,8 @@ RSpec.describe 'Work Package table configuration modal columns spec', js: true d
     login_as(user)
     wp_table.visit_query query
     wp_table.expect_work_package_listed work_package
-    expect(page).to have_selector('.wp-table--table-header', text: 'ID')
-    expect(page).to have_selector('.wp-table--table-header', text: 'SUBJECT')
+    expect(page).to have_css('.wp-table--table-header', text: 'ID')
+    expect(page).to have_css('.wp-table--table-header', text: 'SUBJECT')
   end
 
   shared_examples 'add and remove columns' do
@@ -37,9 +37,9 @@ RSpec.describe 'Work Package table configuration modal columns spec', js: true d
       columns.expect_column_available 'Subject'
       columns.expect_column_not_available 'Project'
 
-      expect(page).to have_selector('.wp-table--table-header', text: 'ID')
-      expect(page).to have_selector('.wp-table--table-header', text: 'PROJECT')
-      expect(page).not_to have_selector('.wp-table--table-header', text: 'SUBJECT')
+      expect(page).to have_css('.wp-table--table-header', text: 'ID')
+      expect(page).to have_css('.wp-table--table-header', text: 'PROJECT')
+      expect(page).to have_no_css('.wp-table--table-header', text: 'SUBJECT')
     end
   end
 
@@ -76,9 +76,9 @@ RSpec.describe 'Work Package table configuration modal columns spec', js: true d
         sleep 1
 
         columns.apply
-        expect(page).to have_selector('.wp-table--table-header', text: 'ID')
-        expect(page).to have_selector('.wp-table--table-header', text: 'PROJECT')
-        expect(page).to have_selector('.wp-table--table-header', text: 'SUBJECT')
+        expect(page).to have_css('.wp-table--table-header', text: 'ID')
+        expect(page).to have_css('.wp-table--table-header', text: 'PROJECT')
+        expect(page).to have_css('.wp-table--table-header', text: 'SUBJECT')
 
         names = all('.wp-table--table-header').map(&:text)
         # Depending on what browser is used, subject column may be first or second

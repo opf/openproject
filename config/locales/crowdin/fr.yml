@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -281,6 +281,15 @@ fr:
       no_results_content_text: Ajouter un membre au projet
     invite_by_mail: "Envoyer une invitation à %{mail}"
     send_invite_to: "Envoyer une invitation à"
+    filters:
+      all_shares: 'Tous les partages'
+    menu:
+      all: 'Tout'
+      invited: 'Invité'
+      locked: 'Verrouillé'
+      project_roles: 'Rôle du projet'
+      wp_shares: 'Répartition des lots de travail'
+      groups: 'Groupes'
   my:
     access_token:
       failed_to_reset_token: "Impossible de réinitialiser le jeton d’accès : %{error}"
@@ -606,6 +615,8 @@ fr:
         begin_insertion: "Début de l’insertion"
         begin_deletion: "Début de la suppression"
         children: "Sous-éléments"
+        derived_remaining_hours: "Travail restant dérivé"
+        derived_remaining_time: "Travail restant dérivé"
         done_ratio: "% complet"
         duration: "Durée"
         end_insertion: "Fin de l’insertion"
@@ -622,6 +633,8 @@ fr:
         priority: "Priorité"
         progress: "% complet"
         readonly: "Lecture seule"
+        remaining_hours: "Travail restant"
+        remaining_time: "Travail restant"
         schedule_manually: "Planification manuelle"
         spent_hours: "Temps passé"
         spent_time: "Temps passé"
@@ -3262,7 +3275,7 @@ fr:
       oauth_returned_json_error: "OAuth2 a renvoyé une erreur JSON"
       oauth_returned_http_error: "OAuth2 a renvoyé une erreur réseau"
       oauth_returned_standard_error: "OAuth2 a renvoyé une erreur interne"
-      client_id_blank: "ID can't be blank."
+      client_id_blank: "L'ID ne peut pas être vide."
       wrong_token_type_returned: "OAuth2 a retourné un mauvais type de jeton, AccessToken::Bearer était attendu"
       oauth_issue_contact_admin: "OAuth2 a signalé une erreur. Veuillez contacter votre administrateur système."
       oauth_client_not_found: "Client OAuth2 introuvable dans le point de terminaison « callback » (redirect_uri)."

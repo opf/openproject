@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'random password generation', js: true, with_cuprite: true do
+RSpec.describe 'random password generation', :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
 
   let(:old_password) { 'old_Password!123' }
@@ -44,23 +44,23 @@ RSpec.describe 'random password generation', js: true, with_cuprite: true do
     it 'can log in with a random generated password' do
       user_page.visit!
 
-      expect(page).to have_selector('#user_password')
-      expect(page).to have_selector('#user_password_confirmation')
+      expect(page).to have_css('#user_password')
+      expect(page).to have_css('#user_password_confirmation')
 
       check 'user_assign_random_password'
 
-      expect(page).to have_selector('#user_password[disabled]')
-      expect(page).to have_selector('#user_password_confirmation[disabled]')
+      expect(page).to have_css('#user_password[disabled]')
+      expect(page).to have_css('#user_password_confirmation[disabled]')
 
       # Remember password for login
       password = nil
       expect(OpenProject::Passwords::Generator)
-        .to receive(:random_password)
-        .and_wrap_original { |m, *args| password = m.call(*args) }
+        .to(receive(:random_password)
+        .and_wrap_original { |m, *args| password = m.call(*args) })
 
       click_on 'Save'
 
-      expect(page).to have_selector('.op-toast', text: I18n.t(:notice_successful_update))
+      expect(page).to have_css('.op-toast', text: I18n.t(:notice_successful_update))
       expect(password).to be_present
 
       # Logout
@@ -68,7 +68,7 @@ RSpec.describe 'random password generation', js: true, with_cuprite: true do
       login_with user.login, password
 
       # Expect password change
-      expect(page).to have_selector('#new_password')
+      expect(page).to have_css('#new_password')
 
       # Give wrong password
       fill_in 'password', with: old_password
@@ -90,7 +90,7 @@ RSpec.describe 'random password generation', js: true, with_cuprite: true do
       expect(Sessions::UserSession.for_user(user.id).count).to be >= 1
 
       click_on 'Save'
-      expect(page).to have_selector('.op-toast.-info', text: I18n.t(:notice_account_password_updated))
+      expect(page).to have_css('.op-toast.-info', text: I18n.t(:notice_account_password_updated))
 
       # The old session is removed
       expect(Sessions::UserSession.find_by(session_id: 'other')).to be_nil
@@ -105,7 +105,7 @@ RSpec.describe 'random password generation', js: true, with_cuprite: true do
       login_with user.login, new_password
 
       visit my_account_path
-      expect(page).to have_selector('.account-menu-item.selected')
+      expect(page).to have_css('.account-menu-item.selected')
     end
 
     it 'can configure and enforce password rules' do
@@ -126,7 +126,7 @@ RSpec.describe 'random password generation', js: true, with_cuprite: true do
       find_by_id('settings_password_min_adhered_rules').set 3
 
       scroll_to_and_click(find('.button', text: 'Save'))
-      expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_update))
+      expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_successful_update))
 
       Setting.clear_cache
 
@@ -137,26 +137,26 @@ RSpec.describe 'random password generation', js: true, with_cuprite: true do
       # Go to user page
       user_page.visit!
 
-      expect(page).to have_selector('#user_password')
-      expect(page).to have_selector('#user_password_confirmation')
+      expect(page).to have_css('#user_password')
+      expect(page).to have_css('#user_password_confirmation')
 
       # And I try to set my new password to "adminADMIN"
       fill_in 'user_password', with: 'adminADMIN'
       fill_in 'user_password_confirmation', with: 'adminADMIN'
       scroll_to_and_click(find('.button', text: 'Save'))
-      expect(page).to have_selector('.errorExplanation', text: "Password Must contain characters of the following classes")
+      expect(page).to have_css('.errorExplanation', text: "Password Must contain characters of the following classes")
 
       # 2 of 3 classes
       fill_in 'user_password', with: 'adminADMIN123'
       fill_in 'user_password_confirmation', with: 'adminADMIN123'
       scroll_to_and_click(find('.button', text: 'Save'))
-      expect(page).to have_selector('.errorExplanation', text: "Password Must contain characters of the following classes")
+      expect(page).to have_css('.errorExplanation', text: "Password Must contain characters of the following classes")
 
       # All classes
       fill_in 'user_password', with: 'adminADMIN!'
       fill_in 'user_password_confirmation', with: 'adminADMIN!'
       scroll_to_and_click(find('.button', text: 'Save'))
-      expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_update))
+      expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_successful_update))
     end
   end
 
@@ -169,12 +169,11 @@ RSpec.describe 'random password generation', js: true, with_cuprite: true do
       user_page.visit!
     end
 
-    context 'with 2 of lowercase, uppercase, and numeric characters',
-            js: true, with_settings: {
-              password_active_rules: %w(lowercase uppercase numeric),
-              password_min_adhered_rules: 2,
-              password_min_length: 4
-            } do
+    context 'with 2 of lowercase, uppercase, and numeric characters', :js, with_settings: {
+      password_active_rules: %w(lowercase uppercase numeric),
+      password_min_adhered_rules: 2,
+      password_min_length: 4
+    } do
       it 'enforces those rules' do
         # Change to valid password according to spec
         user_page.change_password(old_password, 'password')

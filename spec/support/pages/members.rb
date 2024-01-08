@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ module Pages
 
     def visit!
       super
-      expect(page).to have_selector('h2', text: I18n.t(:label_member_plural))
+      expect(page).to have_css('h2', text: I18n.t(:label_member_plural))
 
       self
     end
@@ -61,6 +61,20 @@ module Pages
     def search_for_name(name)
       fill_in 'name', with: name
       find('.simple-filters--controls input[type=submit]').click
+    end
+
+    def expect_menu_item(text, selected: false)
+      if selected
+        expect(page).to have_css('.op-sidemenu--item-action.selected', text:)
+      else
+        expect(page).to have_css('.op-sidemenu--item-action', text:)
+      end
+    end
+
+    def click_menu_item(text)
+      page.within('#menu-sidebar') do
+        click_link text
+      end
     end
 
     ##
@@ -89,7 +103,7 @@ module Pages
 
     def has_added_user?(name, visible: true, css: "tr")
       has_text?("Added #{name} to the project") and ((not visible) or
-        has_css?(css, text: user_name_to_text(name)))
+        has_css?(css, text: name))
     end
 
     def has_added_group?(name, visible: true)
@@ -106,7 +120,7 @@ module Pages
     #                                   is why there must be only an edit and no delete button.
     def has_user?(name, roles: nil, group_membership: nil, group: false)
       css = group ? "tr.group" : "tr"
-      has_selector?(css, text: user_name_to_text(name)) &&
+      has_selector?(css, text: name) &&
         (roles.nil? || has_roles?(name, roles, group:)) &&
         (group_membership.nil? || group_membership == has_group_membership?(name))
     end
@@ -138,12 +152,6 @@ module Pages
         end
 
       nodes.map(&:text)
-    end
-
-    def user_name_to_text(name)
-      # the members table shows last name and first name separately
-      # let's just look for the last name
-      name.split(" ").last
     end
 
     def edit_user!(name, add_roles: [], remove_roles: [])
@@ -211,9 +219,9 @@ module Pages
     def expect_sorted_by(column, desc: false)
       page.within('.generic-table--sort-header', text: column.upcase) do
         if desc
-          expect(page).to have_selector('.sort.desc')
+          expect(page).to have_css('.sort.desc')
         else
-          expect(page).to have_selector('.sort.asc')
+          expect(page).to have_css('.sort.asc')
         end
       end
     end

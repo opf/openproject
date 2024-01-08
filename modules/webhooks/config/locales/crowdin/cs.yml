@@ -8,7 +8,7 @@ cs:
         url: "Payload URL\n"
         secret: 'Signature secret'
         events: 'Události'
-        projects: 'Povolit projekty'
+        projects: 'Povolené projekty'
       webhooks/log:
         event_name: 'Název události'
         url: "Payload URL\n"

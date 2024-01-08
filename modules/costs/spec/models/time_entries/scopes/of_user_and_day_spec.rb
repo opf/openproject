@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,7 +57,7 @@ RSpec.describe TimeEntries::Scopes::OfUserAndDay do
 
     it 'are all the time entries of the user on the date' do
       expect(subject)
-        .to match_array([time_entry, other_time_entry])
+        .to contain_exactly(time_entry, other_time_entry)
     end
 
     context 'if excluding a time entry' do
@@ -65,7 +65,7 @@ RSpec.describe TimeEntries::Scopes::OfUserAndDay do
 
       it 'does not include the time entry' do
         expect(subject)
-          .to match_array([time_entry])
+          .to contain_exactly(time_entry)
       end
     end
   end

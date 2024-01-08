@@ -8,8 +8,8 @@ ka:
     attributes:
       openid_connect/provider:
         name: სახელი
-        display_name: Display name
-        identifier: Identifier
+        display_name: საჩვენებელი სახელი
+        identifier: იდენტიფიკატორი
         secret: საიდუმლო
         scope: ფარგლები
         limit_self_registration: Limit self registration

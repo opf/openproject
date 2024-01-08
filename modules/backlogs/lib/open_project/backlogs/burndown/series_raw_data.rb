@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,7 @@ module OpenProject::Backlogs::Burndown
     end
 
     def unit_for(name)
-      return :points if @collect[:points].include? name
+      :points if @collect[:points].include? name
     end
 
     def collect_data
@@ -50,7 +50,7 @@ module OpenProject::Backlogs::Burndown
 
       data_for_dates(collected_days).each do |day_data|
         date = day_data['date']
-        date = date.is_a?(Date) ? date : Date.parse(date)
+        date = Date.parse(date) unless date.is_a?(Date)
 
         day_data.each do |key, value|
           next if key == 'date'

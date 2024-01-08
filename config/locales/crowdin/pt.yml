@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -280,6 +280,15 @@ pt:
       no_results_content_text: Adicionar um membro ao projeto
     invite_by_mail: "Enviar convite para %{mail}"
     send_invite_to: "Enviar convite para"
+    filters:
+      all_shares: 'Todos os compartilhamentos'
+    menu:
+      all: 'Todos'
+      invited: 'Convites'
+      locked: 'Trancado'
+      project_roles: 'Papel no projeto'
+      wp_shares: 'Compartilhamento de pacote de trabalho'
+      groups: 'Grupos'
   my:
     access_token:
       failed_to_reset_token: "Falha ao redefinir o token de acesso: %{error}"
@@ -605,6 +614,8 @@ pt:
         begin_insertion: "Início da inserção"
         begin_deletion: "Início da exclusão"
         children: "Subelementos"
+        derived_remaining_hours: "Trabalho restante derivado"
+        derived_remaining_time: "Trabalho restante derivado"
         done_ratio: "% de conclusão"
         duration: "Duração"
         end_insertion: "Final da inserção"
@@ -621,6 +632,8 @@ pt:
         priority: "Prioridade"
         progress: "% de conclusão"
         readonly: "Somente leitura"
+        remaining_hours: "Trabalho restante"
+        remaining_time: "Trabalho restante"
         schedule_manually: "Planjamento manual"
         spent_hours: "Tempo gasto"
         spent_time: "Tempo gasto"
@@ -3259,7 +3272,7 @@ pt:
       oauth_returned_json_error: "OAuth2 retornou um erro JSON"
       oauth_returned_http_error: "OAuth2 retornou um erro de rede"
       oauth_returned_standard_error: "OAuth2 retornou um erro interno"
-      client_id_blank: "ID can't be blank."
+      client_id_blank: "O ID não pode estar em branco."
       wrong_token_type_returned: "OAuth2 retornou um tipo errado de token, aguardando AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 comunicou um erro. Entre em contato com o administrador do sistema."
       oauth_client_not_found: "Cliente OAuth2 não encontrado no ponto de extremidade 'callback' (redirect_uri)."

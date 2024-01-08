@@ -15,7 +15,10 @@ RSpec.describe AnnouncementsController do
       get :edit
     end
 
-    it do expect(assigns(:announcement)).to eql announcement end
+    it do
+      expect(assigns(:announcement)).to eql announcement
+    end
+
     it { expect(response).to be_successful }
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -72,14 +72,14 @@ RSpec.describe 'Disabled activity', :js, :with_cuprite do
 
     # Not displayed as activity is disabled
     expect(page)
-      .not_to have_content(work_package1.subject)
+      .to have_no_content(work_package1.subject)
     expect(page)
-      .not_to have_content(wiki_page1.title)
+      .to have_no_content(wiki_page1.title)
 
     # Not displayed as all modules except activity are disabled
     expect(page)
-      .not_to have_content(work_package3.subject)
+      .to have_no_content(work_package3.subject)
     expect(page)
-      .not_to have_content(wiki_page3.title)
+      .to have_no_content(wiki_page3.title)
   end
 end

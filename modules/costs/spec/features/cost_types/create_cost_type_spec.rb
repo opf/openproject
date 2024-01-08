@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'creating a cost type', js: true do
+RSpec.describe 'creating a cost type', :js do
   let!(:user) { create(:admin) }
   let!(:cost_type) do
     type = create(:cost_type, name: 'Translations')
@@ -53,14 +53,14 @@ RSpec.describe 'creating a cost type', js: true do
     scroll_to_and_click(find('button.-with-icon.icon-checkmark'))
 
     expect_angular_frontend_initialized
-    expect(page).to have_selector '.generic-table', wait: 10
+    expect(page).to have_css '.generic-table', wait: 10
 
     cost_type_row = find('tr', text: 'Test day rate')
 
-    expect(cost_type_row).to have_selector('td a', text: 'Test day rate')
-    expect(cost_type_row).to have_selector('td', text: 'dayUnit')
-    expect(cost_type_row).to have_selector('td', text: 'dayUnitPlural')
-    expect(cost_type_row).to have_selector('td.currency', text: '1,000.25')
+    expect(cost_type_row).to have_css('td a', text: 'Test day rate')
+    expect(cost_type_row).to have_css('td', text: 'dayUnit')
+    expect(cost_type_row).to have_css('td', text: 'dayUnitPlural')
+    expect(cost_type_row).to have_css('td.currency', text: '1,000.25')
 
     cost_type = CostType.last
     expect(cost_type.name).to eq 'Test day rate'
@@ -84,14 +84,14 @@ RSpec.describe 'creating a cost type', js: true do
       scroll_to_and_click(find('button.-with-icon.icon-checkmark'))
 
       expect_angular_frontend_initialized
-      expect(page).to have_selector '.generic-table', wait: 10
+      expect(page).to have_css '.generic-table', wait: 10
 
       cost_type_row = find('tr', text: 'Test day rate')
 
-      expect(cost_type_row).to have_selector('td a', text: 'Test day rate')
-      expect(cost_type_row).to have_selector('td', text: 'dayUnit')
-      expect(cost_type_row).to have_selector('td', text: 'dayUnitPlural')
-      expect(cost_type_row).to have_selector('td.currency', text: '1.000,25')
+      expect(cost_type_row).to have_css('td a', text: 'Test day rate')
+      expect(cost_type_row).to have_css('td', text: 'dayUnit')
+      expect(cost_type_row).to have_css('td', text: 'dayUnitPlural')
+      expect(cost_type_row).to have_css('td.currency', text: '1.000,25')
 
       cost_type = CostType.last
       expect(cost_type.name).to eq 'Test day rate'

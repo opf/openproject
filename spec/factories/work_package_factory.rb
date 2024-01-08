@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -106,6 +106,7 @@ FactoryBot.define do
                                  .reverse_merge(journable: work_package,
                                                 created_at: timestamp,
                                                 updated_at: timestamp,
+                                                user: work_package.author,
                                                 version: version + 1)
 
           data_attributes = work_package_attributes

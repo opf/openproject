@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -281,6 +281,15 @@ cs:
       no_results_content_text: Přidání člena do projektu
     invite_by_mail: "Poslat pozvánku do %{mail}"
     send_invite_to: "Odeslat pozvánky"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'Vše'
+      invited: 'Pozvané'
+      locked: 'Uzamčeno'
+      project_roles: 'Projektové role'
+      wp_shares: 'Work package shares'
+      groups: 'Skupiny'
   my:
     access_token:
       failed_to_reset_token: "Nepodařilo se obnovit přístupový token: %{error}"
@@ -298,7 +307,7 @@ cs:
     autologins:
       prompt: "Stay logged in for %{num_days}"
     sessions:
-      remembered_devices: "Remembered devices"
+      remembered_devices: "Zapamatovaná zařízení"
       remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
       session_name: "%{browser_name} %{browser_version} on %{os_name}"
       browser: "Prohlížeč"
@@ -608,7 +617,9 @@ cs:
         begin_insertion: "Začátek vložení"
         begin_deletion: "Začátek odstranění"
         children: "Dílčí prvky"
-        done_ratio: "% Complete"
+        derived_remaining_hours: "Odvozené zbývající práce"
+        derived_remaining_time: "Odvozené zbývající práce"
+        done_ratio: "% Dokončeno"
         duration: "Doba trvání"
         end_insertion: "Konec vložení"
         end_deletion: "Konec odstranění"
@@ -622,8 +633,10 @@ cs:
         parent_issue: "Rodič"
         parent_work_package: "Nadřazený"
         priority: "Priorita"
-        progress: "% Complete"
+        progress: "% Dokončeno"
         readonly: "Pouze pro čtení"
+        remaining_hours: "Zbývající práce"
+        remaining_time: "Zbývající práce"
         schedule_manually: "Manuální plánování"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
@@ -936,7 +949,7 @@ cs:
           attributes:
             roles:
               ungrantable: "má nepřiřaditelnou roli."
-              more_than_one: "has more than one role."
+              more_than_one: "má více než jednu roli."
             principal:
               unassignable: "nelze přiřadit k projektu."
         version:
@@ -1011,7 +1024,7 @@ cs:
       parent_no_longer: "Již není podprojekt projektu"
       time_entry:
         hour:
-          one: "%{count} hour"
+          one: "%{count} hodina"
           few: "%{count} hodin"
           many: "%{count} hodin"
           other: "%{count} hodin"
@@ -1056,8 +1069,8 @@ cs:
     derived_start_date: "Derivované Datum zahájení "
     display_sums: "Zobrazit součty"
     due_date: "Datum dokončení"
-    estimated_hours: "Work"
-    estimated_time: "Work"
+    estimated_hours: "Práce"
+    estimated_time: "Práce"
     expires_at: "Vyprší za"
     firstname: "Křestní jméno"
     group: "Skupina"
@@ -1333,10 +1346,10 @@ cs:
         many: "%{count} hodin"
         other: "%{count} hodin"
       x_hours_abbreviated:
-        one: "1 hr"
-        few: "%{count} hrs"
-        many: "%{count} hrs"
-        other: "%{count} hrs"
+        one: "1 h"
+        few: "%{count} hodin"
+        many: ""
+        other: ""
       x_weeks:
         one: "1 week"
         few: "%{count} weeks"
@@ -1545,7 +1558,7 @@ cs:
       dates_changed: "Data změněna"
       system_update: "Aktualizace systému OpenProject:"
     cause_descriptions:
-      work_package_predecessor_changed_times: by changes to predecessor %{link}
+      work_package_predecessor_changed_times: podle změn na předchůdce %{link}
       work_package_parent_changed_times: by changes to parent %{link}
       work_package_children_changed_times: by changes to child %{link}
       work_package_related_changed_times: by changes to related %{link}
@@ -1556,8 +1569,8 @@ cs:
           working: "%{day} je pracovní "
           non_working: "%{day} je nepracovní "
         dates:
-          working: "%{date} is now working"
-          non_working: "%{date} is now non-working"
+          working: "%{date} je pracovní "
+          non_working: "%{date} je nepracovní "
       system_update:
         file_links_journal: >
           From now on, activity related to file links (files stored in external storages) will appear here in the Activity tab. The following represent activity concerning links that already existed:
@@ -1585,7 +1598,7 @@ cs:
         action: "Akce"
         expiration: "Vyprší"
       indefinite_expiration: "Nikdy"
-      simple_revoke_confirmation: "Are you sure you want to revoke this token?"
+      simple_revoke_confirmation: "Opravdu chcete zrušit tento token?"
       api:
         title: "API"
         text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
@@ -1900,8 +1913,8 @@ cs:
   label_custom_export_logo: "Custom export logo"
   label_custom_export_cover: "Custom export cover background"
   label_custom_export_cover_overlay: "Custom export cover background overlay"
-  label_custom_export_cover_text_color: "Text color"
-  label_custom_pdf_export_settings: "Custom PDF export settings"
+  label_custom_export_cover_text_color: "Barva textu"
+  label_custom_pdf_export_settings: "Vlastní nastavení exportu PDF"
   label_custom_favicon: "Vlastní favicon"
   label_custom_touch_icon: "Vlastní ikona dotyku"
   label_logout: "Odhlásit se"
@@ -2210,8 +2223,8 @@ cs:
     zero: "Žádné projekty"
   label_yesterday: "včera"
   label_role_type: "Typ"
-  label_member_role: "Project role"
-  label_global_role: "Global role"
+  label_member_role: "Projektová role"
+  label_global_role: "Globální role"
   label_not_changeable: "(neměnitelné)"
   label_global: "Globální"
   label_seeded_from_env_warning: This record has been created through a setting / environment variable. It is not editable through UI.
@@ -2278,7 +2291,7 @@ cs:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
         create_account: "To access this work package, you will need to create and activate an account on %{instance}."
-        open_work_package: "Open work package"
+        open_work_package: "Otevřít pracovní balíček"
         subject: "Work package #%{id} was shared with you"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
@@ -2454,7 +2467,7 @@ cs:
   permission_add_work_package_notes: "Přidat poznámky"
   permission_add_work_packages: "Přidat pracovní balíčky"
   permission_add_messages: "Odesílat zprávy"
-  permission_add_project: "Create projects"
+  permission_add_project: "Vytvořit projekty"
   permission_add_work_package_attachments: "Přidat přílohy"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Archivovat projekt"
@@ -2470,7 +2483,7 @@ cs:
   permission_commit_access: "Čtěte/zapisovat přístup do repozitáře (commit)"
   permission_copy_projects: "Kopírovat projekty"
   permission_copy_work_packages: "Kopírovat pracovní balíčky"
-  permission_create_backup: "Create backups"
+  permission_create_backup: "Vytvořit zálohy"
   permission_delete_work_package_watchers: "Smazat sledující uživatele"
   permission_delete_work_packages: "Odstranit pracovní balíčky"
   permission_delete_messages: "Odstranit zprávy"
@@ -2512,7 +2525,7 @@ cs:
   permission_protect_wiki_pages: "Ochrana stránky wiki"
   permission_rename_wiki_pages: "Přejmenovat stránky wiki"
   permission_save_queries: "Uložit pohled"
-  permission_search_project: "Search project"
+  permission_search_project: "Hledat projekt"
   permission_select_custom_fields: "Vybrat vlastní pole"
   permission_select_project_modules: "Vyberte moduly projektu"
   permission_share_work_packages: "Sdílet pracovní balíčky"
@@ -2543,7 +2556,7 @@ cs:
   project:
     destroy:
       confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
-      project_delete_result_1: "Delete all related data."
+      project_delete_result_1: "Odstranit všechna související data."
       project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Odstranění projektu je nevratná akce."
       project_verification: "Zadejte název projektu %{name} pro potvrzení odstranění."
@@ -2758,9 +2771,9 @@ cs:
   setting_file_max_size_displayed: "Maximální velikost textových souborů zobrazených přímo na stránce"
   setting_host_name: "Název serveru"
   setting_invitation_expiration_days: "Platnost aktivačního e-mailu vyprší po"
-  setting_work_package_done_ratio: "Calculate work package % Complete with"
-  setting_work_package_done_ratio_field: "The work package field"
-  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio: "Vypočítat % plnění pracovního balíčku z"
+  setting_work_package_done_ratio_field: "Pole pracovního balíčku"
+  setting_work_package_done_ratio_status: "Stav pracovního balíčku"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Zobrazit ve výchozím nastavení"
   setting_work_package_properties: "Vlastnosti pracovního balíčku"
@@ -3094,11 +3107,11 @@ cs:
       title: "Odstranit pracovní balíček"
     sharing:
       count:
-        zero: "0 users"
-        one: "1 user"
-        other: "%{count} users"
+        zero: "0 uživatelů"
+        one: "1 uživatel"
+        other: "%{count} uživatelů"
       filter:
-        project_member: 'Project member'
+        project_member: 'Člen projektu'
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
@@ -3109,16 +3122,16 @@ cs:
       label_toggle_all: "Toggle all shares"
       permissions:
         comment: "Komentář"
-        comment_description: "Can view and comment this work package."
-        denied: "You don't have permissions to share work packages."
+        comment_description: "Může zobrazit a komentovat tento pracovní balíček."
+        denied: "Nemáte oprávnění ke sdílení pracovních balíčků."
         edit: "Upravit"
-        edit_description: "Can view, comment and edit this work package."
+        edit_description: "Může zobrazovat, komentovat a upravovat tento pracovní balíček."
         view: "Zobrazit"
-        view_description: "Can view this work package."
+        view_description: "Může zobrazit tento pracovní balíček."
       remove: "Odebrat"
       share: "Sdílet"
       text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
+      text_empty_search_header: "Nenašli jsme žádné odpovídající výsledky."
       text_empty_state_description: "The work package has not been shared with anyone yet."
       text_empty_state_header: "No shared members."
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
@@ -3130,11 +3143,11 @@ cs:
       warning_no_selected_user: "Please select users to share this work package with"
       warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
-        locked: "Locked user"
-        invited: "Invite sent. "
-        resend_invite: "Resend."
+        locked: "Uzamčený uživatel"
+        invited: "Pozvánka odeslána"
+        resend_invite: "Znovu odeslat."
         invite_resent: "Invite has been resent"
-        not_project_member: "Not a project member"
+        not_project_member: "Není členem projektu"
         project_group: "Group members might have additional privileges (as project members)"
         not_project_group: "Group (shared with all members)"
         additional_privileges_project: "Might have additional privileges (as project member)"

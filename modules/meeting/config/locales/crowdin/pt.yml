@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -171,7 +171,7 @@ pt:
   text_meeting_not_present_anymore: "Esta reunião foi excluída. Selecione outra reunião."
   label_add_work_package_to_meeting_dialog_title: "Adicione o pacote de trabalho à reunião"
   label_add_work_package_to_meeting_dialog_button: "Adicionar à reunião"
-  label_meeting_selection_caption: "Só é possível adicionar este pacote de trabalho a reuniões abertas e futuras."
+  label_meeting_selection_caption: "Só é possível adicionar este pacote de trabalho a reuniões em andamento ou futuras."
   text_add_work_package_to_meeting_description: "Um pacote de trabalho pode ser adicionado a uma ou várias reuniões para discussão. Quaisquer anotações sobre ele também ficarão visíveis aqui."
   text_agenda_item_no_notes: "Nenhum comentário foi feito"
   text_agenda_item_not_editable_anymore: "Este item da agenda não pode mais ser editado."

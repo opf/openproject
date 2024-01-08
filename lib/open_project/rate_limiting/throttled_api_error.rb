@@ -4,7 +4,7 @@ module OpenProject::RateLimiting
     code 429
 
     def initialize(*)
-      super 'You have reached the request limit for this resource.'
+      super('You have reached the request limit for this resource.')
     end
   end
 end

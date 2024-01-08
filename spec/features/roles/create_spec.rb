@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Role creation',
-               js: true,
-               with_cuprite: true do
+RSpec.describe 'Role creation', :js, :with_cuprite do
   let!(:admin) { create(:admin) }
   let!(:existing_role) { create(:project_role) }
   let!(:existing_workflow) { create(:workflow_with_default_status, role: existing_role, type:) }
@@ -58,7 +56,7 @@ RSpec.describe 'Role creation',
     click_button 'Create'
 
     expect(page)
-      .to have_selector('.errorExplanation', text: 'Name has already been taken')
+      .to have_css('.errorExplanation', text: 'Name has already been taken')
 
     fill_in 'Name', with: 'New role name'
 
@@ -68,8 +66,8 @@ RSpec.describe 'Role creation',
     click_button 'Create'
 
     expect(page)
-      .to have_selector('.errorExplanation',
-                        text: "Permissions need to also include 'View members' as 'Manage members' is selected.")
+      .to have_css('.errorExplanation',
+                   text: "Permissions need to also include 'View members' as 'Manage members' is selected.")
 
     check 'View members'
     select existing_role.name, from: 'Copy workflow from'
@@ -77,13 +75,13 @@ RSpec.describe 'Role creation',
     click_button 'Create'
 
     expect(page)
-      .to have_selector('.-success', text: 'Successful creation.')
+      .to have_css('.-success', text: 'Successful creation.')
 
     expect(page)
       .to have_current_path(roles_path)
 
     expect(page)
-      .to have_selector('table td', text: 'New role name')
+      .to have_css('table td', text: 'New role name')
 
     click_link 'New role name'
 

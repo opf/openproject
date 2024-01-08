@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,7 +45,7 @@ RSpec.describe 'group memberships through groups page', :js, :with_cuprite do
 
       groups_page.delete_group! "Bob's Team"
 
-      expect(page).to have_selector('.op-toast.-info', text: I18n.t(:notice_deletion_scheduled))
+      expect(page).to have_css('.op-toast.-info', text: I18n.t(:notice_deletion_scheduled))
       expect(groups_page).to have_group "Bob's Team"
 
       perform_enqueued_jobs

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -113,6 +113,7 @@ module Accounts::CurrentUser
 
   def current_api_key_user
     return unless Setting.rest_api_enabled? && api_request?
+
     key = api_key_from_request
 
     if key && accept_key_auth_actions.include?(params[:action])

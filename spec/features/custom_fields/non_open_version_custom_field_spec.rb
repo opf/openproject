@@ -48,9 +48,9 @@ RSpec.describe "support for non-open version values in version custom field", :j
     wp_page.expect_and_dismiss_toaster(message: "Successful update.")
 
     expect(page).to have_text custom_field.name
-    expect(page).not_to have_text "Version Open"
+    expect(page).to have_no_text "Version Open"
     expect(page).to have_text "Version Locked"
-    expect(page).not_to have_text "Version Closed"
+    expect(page).to have_no_text "Version Closed"
 
     work_package.reload
 
@@ -109,7 +109,7 @@ RSpec.describe "support for non-open version values in version custom field", :j
       expect(page).to have_text custom_field.name
       expect(page).to have_text "Version Open"
       expect(page).to have_text "Version Locked"
-      expect(page).not_to have_text "Version Closed"
+      expect(page).to have_no_text "Version Closed"
 
       work_package.reload
 
@@ -158,8 +158,8 @@ RSpec.describe "support for non-open version values in version custom field", :j
       # We'll just check the options and nothing more, the rest is checked elsewhere
       cf_edit_field.activate!
       expect(page).to have_text "Version Open"
-      expect(page).not_to have_text "Version Locked"
-      expect(page).not_to have_text "Version Closed"
+      expect(page).to have_no_text "Version Locked"
+      expect(page).to have_no_text "Version Closed"
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,11 +51,11 @@ class Storages::ProjectStorage < ApplicationRecord
   scope :active_nextcloud_automatically_managed, -> do
     automatic
       .active
-      .where(storages: Storages::NextcloudStorage.automatically_managed)
+      .where(storages: Storages::NextcloudStorage.automatic_management_enabled)
   end
 
   def automatic_management_possible?
-    storage.present? && storage.provider_type_nextcloud? && storage.automatically_managed?
+    storage.present? && storage.provider_type_nextcloud? && storage.automatic_management_enabled?
   end
 
   def project_folder_path

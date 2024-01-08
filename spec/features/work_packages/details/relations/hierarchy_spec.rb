@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.shared_examples 'work package relations tab', js: true, selenium: true do
+RSpec.shared_examples 'work package relations tab', :js, :selenium do
   include_context 'ng-select-autocomplete helpers'
 
   let(:user) { create(:admin) }
@@ -206,17 +206,17 @@ RSpec.shared_examples 'work package relations tab', js: true, selenium: true do
 
         it 'shows no links to create relations' do
           # No create buttons should exist
-          expect(page).not_to have_selector('.wp-relations-create-button')
+          expect(page).to have_no_css('.wp-relations-create-button')
 
           # Test for add relation
-          expect(page).not_to have_selector('#relation--add-relation')
+          expect(page).to have_no_css('#relation--add-relation')
 
           # Test for add parent
-          expect(page).not_to have_selector('.wp-relation--parent-change')
+          expect(page).to have_no_css('.wp-relation--parent-change')
 
           # Test for add children
-          expect(page).not_to have_selector('#hierarchy--add-existing-child')
-          expect(page).not_to have_selector('#hierarchy--add-new-child')
+          expect(page).to have_no_css('#hierarchy--add-existing-child')
+          expect(page).to have_no_css('#hierarchy--add-new-child')
 
           # But it should show the linked parent
           expect(page).to have_test_selector('op-wp-breadcrumb-parent', text: parent.subject)

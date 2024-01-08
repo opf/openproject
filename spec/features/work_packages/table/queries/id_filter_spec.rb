@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -84,8 +84,8 @@ RSpec.describe 'Work package filtering by id', :js do
 
   it 'can still inline create a new work package (regression #41667)' do
     wp_table.click_inline_create
-    expect(page).to have_selector('.wp--row', count: 2)
+    expect(page).to have_css('.wp--row', count: 2)
 
-    expect(page).to have_selector('.wp-inline-create-row')
+    expect(page).to have_css('.wp-inline-create-row')
   end
 end

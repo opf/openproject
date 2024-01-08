@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -77,7 +77,7 @@ RSpec.describe SettingsHelper do
     it_behaves_like 'field disabled if non writable'
 
     it 'outputs element' do
-      expect(output).to have_selector 'select.form--select > option', count: 3
+      expect(output).to have_css 'select.form--select > option', count: 3
       expect(output).to have_select 'settings_field', selected: 'Jello'
     end
   end
@@ -96,15 +96,15 @@ RSpec.describe SettingsHelper do
     end
 
     it 'has checkboxes wrapped in checkbox-container' do
-      expect(output).to have_selector 'span.form--check-box-container', count: 3
+      expect(output).to have_css 'span.form--check-box-container', count: 3
     end
 
     it 'has three labels' do
-      expect(output).to have_selector 'label.form--label-with-check-box', count: 3
+      expect(output).to have_css 'label.form--label-with-check-box', count: 3
     end
 
     it 'outputs element' do
-      expect(output).to have_selector 'input[type="checkbox"].form--check-box', count: 3
+      expect(output).to have_css 'input[type="checkbox"].form--check-box', count: 3
     end
 
     context 'when the setting isn`t writable' do
@@ -115,8 +115,8 @@ RSpec.describe SettingsHelper do
       end
 
       it 'is disabled and has no hidden field' do
-        expect(output).not_to have_selector 'input[type="hidden"][value=""]', visible: :all
-        expect(output).to have_selector 'input[type="checkbox"][disabled="disabled"].form--check-box', count: 3
+        expect(output).to have_no_css 'input[type="hidden"][value=""]', visible: :all
+        expect(output).to have_css 'input[type="checkbox"][disabled="disabled"].form--check-box', count: 3
       end
     end
   end
@@ -154,15 +154,15 @@ RSpec.describe SettingsHelper do
     it_behaves_like 'not wrapped in container'
 
     it 'is structured as a table' do
-      expect(output).to have_selector 'table.form--matrix'
+      expect(output).to have_css 'table.form--matrix'
     end
 
     it 'has table headers' do
-      expect(output).to have_selector 'thead th.form--matrix-header-cell', count: 3
+      expect(output).to have_css 'thead th.form--matrix-header-cell', count: 3
     end
 
     it 'has three table rows' do
-      expect(output).to have_selector 'tbody > tr.form--matrix-row', count: 4
+      expect(output).to have_css 'tbody > tr.form--matrix-row', count: 4
     end
 
     it 'has cells with text labels' do
@@ -276,8 +276,8 @@ important text</textarea>
       it_behaves_like 'field disabled if non writable'
 
       it 'outputs element' do
-        expect(output).to have_selector 'input[type="hidden"][value=0]', visible: :hidden
-        expect(output).to have_selector 'input[type="checkbox"].custom-class.form--check-box'
+        expect(output).to have_css 'input[type="hidden"][value=0]', visible: :hidden
+        expect(output).to have_css 'input[type="checkbox"].custom-class.form--check-box'
         expect(output).to have_checked_field 'settings_field'
       end
 
@@ -289,7 +289,7 @@ important text</textarea>
         end
 
         it 'does not output a hidden field' do
-          expect(output).not_to have_selector 'input[type="hidden"][value=0]', visible: :hidden
+          expect(output).to have_no_css 'input[type="hidden"][value=0]', visible: :hidden
         end
       end
     end
@@ -305,8 +305,8 @@ important text</textarea>
       it_behaves_like 'field disabled if non writable'
 
       it 'outputs element' do
-        expect(output).to have_selector 'input[type="hidden"][value=0]', visible: :hidden
-        expect(output).to have_selector 'input[type="checkbox"].custom-class.form--check-box'
+        expect(output).to have_css 'input[type="hidden"][value=0]', visible: :hidden
+        expect(output).to have_css 'input[type="checkbox"].custom-class.form--check-box'
         expect(output).to have_unchecked_field 'settings_field'
       end
 
@@ -318,7 +318,7 @@ important text</textarea>
         end
 
         it 'does not output a hidden field' do
-          expect(output).not_to have_selector 'input[type="hidden"][value=0]', visible: :hidden
+          expect(output).to have_no_css 'input[type="hidden"][value=0]', visible: :hidden
         end
       end
     end

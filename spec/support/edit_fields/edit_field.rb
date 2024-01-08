@@ -50,7 +50,7 @@ class EditField
   end
 
   def expect_read_only
-    expect(context).to have_selector "#{@selector} #{display_selector}.-read-only"
+    expect(context).to have_css "#{@selector} #{display_selector}.-read-only"
   end
 
   def expect_state_text(text)
@@ -123,19 +123,19 @@ class EditField
 
   def expect_inactive!
     expect(field_container).to have_selector(display_selector, wait: 10)
-    expect(field_container).not_to have_selector(field_type)
+    expect(field_container).to have_no_selector(field_type)
   end
 
   def expect_enabled!
-    expect(@context).not_to have_selector "#{@selector} #{input_selector}[disabled]"
+    expect(@context).to have_no_css "#{@selector} #{input_selector}[disabled]"
   end
 
   def expect_invalid
-    expect(page).to have_selector("#{@selector} #{field_type}:invalid")
+    expect(page).to have_css("#{@selector} #{field_type}:invalid")
   end
 
   def expect_error
-    expect(page).to have_selector("#{@selector} .-error")
+    expect(page).to have_css("#{@selector} .-error")
   end
 
   def save!

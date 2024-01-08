@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ RSpec.describe 'Recently viewed work packages',
 
       global_search.click_input
       expect(global_search.dropdown).to be_visible
-      expect(global_search.dropdown).not_to have_text(recently_viewed_header_text)
+      expect(global_search.dropdown).to have_no_text(recently_viewed_header_text)
     end
   end
 
@@ -77,7 +77,7 @@ RSpec.describe 'Recently viewed work packages',
       # clicking goes to the work package view
       global_search.click_work_package(work_package)
       expect(page)
-        .to have_selector('.subject', text: work_package.subject)
+        .to have_css('.subject', text: work_package.subject)
       expect(page)
         .to have_current_path project_work_package_path(work_package.project, work_package, state: 'activity')
     end
@@ -89,7 +89,7 @@ RSpec.describe 'Recently viewed work packages',
       global_search.search('random text')
 
       # recently viewed items not shown
-      expect(global_search.dropdown).not_to have_text(recently_viewed_header_text)
+      expect(global_search.dropdown).to have_no_text(recently_viewed_header_text)
       global_search.expect_no_work_package_option(work_package)
     end
   end

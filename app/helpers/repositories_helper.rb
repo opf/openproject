@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -252,7 +252,7 @@ module RepositoriesHelper
                  action: 'repository-settings#updateSelectedType',
                  'repository-settings-target': 'scmVendor'
                },
-               disabled: (repository && !repository.new_record?))
+               disabled: repository && !repository.new_record?)
   end
 
   def git_path_encoding_options(repository)

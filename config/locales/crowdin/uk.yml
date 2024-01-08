@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -276,6 +276,15 @@ uk:
       no_results_content_text: Додайте учасника до проекту
     invite_by_mail: "Надіслати запрошення на адресу %{mail}"
     send_invite_to: "Надіслати запрошення:"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Не вдалося відновити маркер доступу: %{error}"
@@ -603,6 +612,8 @@ uk:
         begin_insertion: "Початок вставки"
         begin_deletion: "Початок видалення"
         children: "Субелементи"
+        derived_remaining_hours: "Отриманий залишок роботи"
+        derived_remaining_time: "Отриманий залишок роботи"
         done_ratio: "% завершення"
         duration: "Тривалість"
         end_insertion: "Кінець вставки"
@@ -619,6 +630,8 @@ uk:
         priority: "Пріоритет"
         progress: "% завершення"
         readonly: "Лише читання"
+        remaining_hours: "Залишок роботи"
+        remaining_time: "Залишок роботи"
         schedule_manually: "Ручне планування"
         spent_hours: "Трудовитрати"
         spent_time: "Трудовитрати"

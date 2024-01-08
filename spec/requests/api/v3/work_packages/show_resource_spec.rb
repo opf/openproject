@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,34 +35,36 @@ RSpec.describe 'API v3 Work package resource',
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
-  let(:closed_status) { create(:closed_status) }
+  shared_let(:project) { create(:project, identifier: 'test_project', public: false) }
+  shared_let(:closed_status) { create(:closed_status) }
+  shared_let(:priority) { create(:priority) }
+  shared_let(:status) { create(:status) }
+  shared_let(:user) do
+    create(:user,
+           member_with_permissions: { project => %i[view_work_packages edit_work_packages assign_versions] })
+  end
+
+  before_all do
+    set_factory_default(:priority, priority)
+    set_factory_default(:project, project)
+    set_factory_default(:project_with_types, project)
+    set_factory_default(:status, status)
+    set_factory_default(:user, user)
+  end
 
   let(:work_package) do
     create(:work_package,
            project_id: project.id,
            description: 'lorem ipsum')
   end
-  let(:project) do
-    create(:project, identifier: 'test_project', public: false)
-  end
-  let(:role) { create(:project_role, permissions:) }
-  let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
-  let(:current_user) do
-    create(:user, member_with_roles: { project => role })
-  end
-  let(:unauthorize_user) { create(:user) }
-  let(:type) { create(:type) }
 
-  before do
-    login_as(current_user)
-  end
+  current_user { user }
 
   describe 'GET /api/v3/work_packages/:id' do
     let(:get_path) { api_v3_paths.work_package work_package.id }
 
     context 'when acting as a user with permission to view work package' do
       before do
-        login_as(current_user)
         get get_path
       end
 
@@ -73,15 +75,11 @@ RSpec.describe 'API v3 Work package resource',
       describe 'response body' do
         subject { last_response.body }
 
-        let!(:other_wp) do
-          create(:work_package,
-                 project_id: project.id,
-                 status: closed_status)
-        end
+        shared_let(:other_wp) { create(:work_package, status: closed_status) }
         let(:work_package) do
           create(:work_package,
-                 project_id: project.id,
-                 description:).tap do |wp|
+                 description:,
+                 remaining_hours: 5) do |wp|
             wp.children << children
           end
         end
@@ -118,15 +116,15 @@ RSpec.describe 'API v3 Work package resource',
           subject { JSON.parse(last_response.body)['description'] }
 
           it 'renders to html' do
-            expect(subject).to have_selector('h1')
-            expect(subject).to have_selector('h2')
+            expect(subject).to have_css('h1')
+            expect(subject).to have_css('h2')
 
             # resolves links
             expect(subject['html'])
-              .to have_selector("opce-macro-wp-quickinfo[data-id='#{other_wp.id}']")
+              .to have_css("opce-macro-wp-quickinfo[data-id='#{other_wp.id}']")
             # resolves macros, e.g. toc
             expect(subject['html'])
-              .to have_selector('.op-uc-toc--list-item', text: "OpenProject Masterplan for 2015")
+              .to have_css('.op-uc-toc--list-item', text: "OpenProject Masterplan for 2015")
           end
         end
 
@@ -176,9 +174,17 @@ RSpec.describe 'API v3 Work package resource',
                     .at_path('_embedded/relations/_embedded/elements/0/_links/to/href')
           end
         end
+
+        describe 'remaining time' do
+          it { is_expected.to be_json_eql('PT5H'.to_json).at_path('remainingTime') }
+        end
+
+        describe 'derived remaining time' do
+          it { is_expected.to be_json_eql(nil.to_json).at_path('derivedRemainingTime') }
+        end
       end
 
-      context 'requesting nonexistent work package' do
+      context 'when requesting nonexistent work package' do
         let(:get_path) { api_v3_paths.work_package 909090 }
 
         it_behaves_like 'not found',
@@ -187,8 +193,11 @@ RSpec.describe 'API v3 Work package resource',
     end
 
     context 'when acting as a user without permission to view work package' do
+      shared_let(:unauthorized_user) { create(:user) }
+
+      current_user { unauthorized_user }
+
       before do
-        allow(User).to receive(:current).and_return unauthorize_user
         get get_path
       end
 
@@ -197,8 +206,9 @@ RSpec.describe 'API v3 Work package resource',
     end
 
     context 'when acting as an anonymous user' do
+      current_user { User.anonymous }
+
       before do
-        allow(User).to receive(:current).and_return User.anonymous
         get get_path
       end
 
@@ -213,7 +223,6 @@ RSpec.describe 'API v3 Work package resource',
 
     describe 'response body' do
       subject do
-        login_as current_user
         get get_path
         last_response.body
       end
@@ -226,7 +235,6 @@ RSpec.describe 'API v3 Work package resource',
         let(:work_package) do
           create(:work_package,
                  subject: "The current work package",
-                 project:,
                  journals: {
                    created_at => { subject: "The original work package" },
                    # This journal creation conflicts with the timestamp "P-1D" due to timing issues.
@@ -350,8 +358,6 @@ RSpec.describe 'API v3 Work package resource',
           end
 
           context "with caching" do
-            before { login_as current_user }
-
             context "with relative timestamps" do
               let(:timestamps) { [Timestamp.parse("P-2D"), Timestamp.now] }
               let(:created_at) { Date.parse('2015-01-01') }
@@ -436,8 +442,6 @@ RSpec.describe 'API v3 Work package resource',
             end
 
             context "with caching" do
-              before { login_as current_user }
-
               context "with relative timestamps" do
                 let(:timestamps) { [Timestamp.parse("oneDayAgo@00:00+00:00"), Timestamp.now] }
                 let(:created_at) { Date.parse('2015-01-01') }

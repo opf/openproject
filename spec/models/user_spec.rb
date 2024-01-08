@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -797,10 +797,10 @@ RSpec.describe User do
         expect([user1.id, user2.id]).to include(match2.id)
 
         matches = described_class.where_mail_with_suffix('foo@example.org')
-        expect(matches.pluck(:id)).to match_array [user1.id, user2.id]
+        expect(matches.pluck(:id)).to contain_exactly(user1.id, user2.id)
 
         matches = described_class.where_mail_with_suffix('foo+test@example.org')
-        expect(matches.pluck(:id)).to match_array [user1.id]
+        expect(matches.pluck(:id)).to contain_exactly(user1.id)
       end
     end
 
@@ -816,7 +816,7 @@ RSpec.describe User do
         expect([user1.id, user2.id, user3.id]).to include(match2.id)
 
         matches = described_class.where_mail_with_suffix('foo@example.org')
-        expect(matches.pluck(:id)).to match_array [user1.id, user2.id, user3.id]
+        expect(matches.pluck(:id)).to contain_exactly(user1.id, user2.id, user3.id)
       end
     end
   end

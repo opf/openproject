@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -27,10 +27,6 @@ id:
     attributes:
       work_package:
         position: "Posisi"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
         story_points: "Cerita poin"
         backlogs_work_package_type: "Jenis jaminan tersimpan"
     errors:
@@ -68,8 +64,8 @@ id:
     properties: "Properti"
     rebuild: "Membangun kembali"
     rebuild_positions: "Membangun posisi kembali"
-    remaining_hours: "Jam yang tersisa"
-    remaining_hours_ideal: "Sisa jam (ideal)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Burndown grafik"
     story: "Cerita"
     story_points: "Cerita point"
@@ -151,7 +147,7 @@ id:
   rb_label_copy_tasks_none: "Tidak ada"
   rb_label_copy_tasks_open: "Buka"
   rb_label_link_to_original: "Sertakan link ke cerita asli"
-  remaining_hours: "jam yang tersisa"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "tingkat pembakaran yang dibutuhkan (jam)"
   required_burn_rate_points: "tingkat pembakaran yang dibutuhkan (poin)"
   todo_work_package_description: "%{total}: %{url}\n%{keterangan}"

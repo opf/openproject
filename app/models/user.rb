@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -366,8 +366,8 @@ class User < Principal
     block_threshold = Setting.brute_force_block_after_failed_logins.to_i
     return false if block_threshold == 0 # disabled
 
-    (last_failed_login_within_block_time? and
-            failed_login_count >= block_threshold)
+    last_failed_login_within_block_time? and
+            failed_login_count >= block_threshold
   end
 
   def log_failed_login

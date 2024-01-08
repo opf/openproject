@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'BCF snapshot column',
-               js: true,
+RSpec.describe 'BCF snapshot column', :js,
                with_config: { edition: 'bim' } do
   let(:project) { create(:project, enabled_module_names: %w[bim work_package_tracking]) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -32,7 +31,7 @@ RSpec.describe 'BCF snapshot column',
 
     page.within(".wp-row-#{work_package.id} td.bcfThumbnail") do
       image_path = "/api/bcf/2.1/projects/#{project.identifier}/topics/#{bcf_issue.uuid}/viewpoints/#{bcf_issue.viewpoints.first.uuid}/snapshot"
-      expect(page).to have_selector("img[src=\"#{image_path}\"]")
+      expect(page).to have_css("img[src=\"#{image_path}\"]")
     end
   end
 end

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Work Package table relations', js: true, with_ee: %i[work_package_query_relation_columns] do
+RSpec.describe 'Work Package table relations', :js, with_ee: %i[work_package_query_relation_columns] do
   let(:user) { create(:admin) }
 
   let(:type) { create(:type) }
@@ -57,28 +57,28 @@ RSpec.describe 'Work Package table relations', js: true, with_ee: %i[work_packag
       wp_from_to = wp_table.row(wp_to)
 
       # Expect count for wp_from in both columns to be one
-      expect(wp_from_row).to have_selector(".#{type_column_id} .wp-table--relation-count", text: '2')
-      expect(wp_from_row).to have_selector(".#{type_column_follows} .wp-table--relation-count", text: '2')
+      expect(wp_from_row).to have_css(".#{type_column_id} .wp-table--relation-count", text: '2')
+      expect(wp_from_row).to have_css(".#{type_column_follows} .wp-table--relation-count", text: '2')
 
       # Expect count for wp_to in both columns to be not rendered
-      expect(wp_from_to).not_to have_selector(".#{type_column_id} .wp-table--relation-count")
-      expect(wp_from_to).not_to have_selector(".#{type_column_follows} .wp-table--relation-count")
+      expect(wp_from_to).to have_no_css(".#{type_column_id} .wp-table--relation-count")
+      expect(wp_from_to).to have_no_css(".#{type_column_follows} .wp-table--relation-count")
 
       # Expand first column
       wp_from_row.find(".#{type_column_id} .wp-table--relation-indicator").click
-      expect(page).to have_selector(".__relations-expanded-from-#{wp_from.id}", count: 2)
+      expect(page).to have_css(".__relations-expanded-from-#{wp_from.id}", count: 2)
       related_row = page.first(".__relations-expanded-from-#{wp_from.id}")
-      expect(related_row).to have_selector('td.wp-table--relation-cell-td', text: "Precedes")
+      expect(related_row).to have_css('td.wp-table--relation-cell-td', text: "Precedes")
 
       # Collapse
       wp_from_row.find(".#{type_column_id} .wp-table--relation-indicator").click
-      expect(page).not_to have_selector(".__relations-expanded-from-#{wp_from.id}")
+      expect(page).to have_no_css(".__relations-expanded-from-#{wp_from.id}")
 
       # Expand second column
       wp_from_row.find(".#{type_column_follows} .wp-table--relation-indicator").click
-      expect(page).to have_selector(".__relations-expanded-from-#{wp_from.id}", count: 2)
+      expect(page).to have_css(".__relations-expanded-from-#{wp_from.id}", count: 2)
       related_row = page.first(".__relations-expanded-from-#{wp_from.id}")
-      expect(related_row).to have_selector('.wp-table--relation-cell-td', text: wp_to.type)
+      expect(related_row).to have_css('.wp-table--relation-cell-td', text: wp_to.type)
 
       # Open Timeline
       # Should be initially closed
@@ -93,7 +93,7 @@ RSpec.describe 'Work Package table relations', js: true, with_ee: %i[work_packag
 
       # Collapse
       wp_from_row.find(".#{type_column_follows} .wp-table--relation-indicator").click
-      expect(page).not_to have_selector(".__relations-expanded-from-#{wp_from.id}")
+      expect(page).to have_no_css(".__relations-expanded-from-#{wp_from.id}")
 
       wp_timeline.expect_row_count(3)
     end

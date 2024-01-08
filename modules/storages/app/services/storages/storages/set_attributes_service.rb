@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,7 @@ module Storages::Storages
       # E.g. when setting up a new storage for the first time, passthrough, credentials are set in a later stage.
       return if storage.automatic_management_unspecified?
 
-      unless storage.automatically_managed?
+      unless storage.automatic_management_enabled?
         %w[username password].each { |field| storage.provider_fields.delete(field) }
       end
     end

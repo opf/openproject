@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -278,6 +278,15 @@ zh-CN:
       no_results_content_text: 将成员添加到该项目
     invite_by_mail: "发送邀请到 %{mail}"
     send_invite_to: "发送邀请至"
+    filters:
+      all_shares: '全部共享'
+    menu:
+      all: '全部'
+      invited: '已邀请'
+      locked: '已锁定'
+      project_roles: '项目角色'
+      wp_shares: '工作包共享'
+      groups: '组'
   my:
     access_token:
       failed_to_reset_token: "无法重置访问令牌: %{error}"
@@ -601,6 +610,8 @@ zh-CN:
         begin_insertion: "开始插入"
         begin_deletion: "开始删除"
         children: "子元素"
+        derived_remaining_hours: "派生的剩余工作"
+        derived_remaining_time: "派生的剩余工作"
         done_ratio: "% 完成"
         duration: "持续时间"
         end_insertion: "结束插入"
@@ -617,6 +628,8 @@ zh-CN:
         priority: "优先级"
         progress: "% 完成"
         readonly: "只读"
+        remaining_hours: "剩余工作"
+        remaining_time: "剩余工作"
         schedule_manually: "手动计划"
         spent_hours: "已耗工时"
         spent_time: "已耗工时"
@@ -3221,7 +3234,7 @@ zh-CN:
       oauth_returned_json_error: "OAuth2 返回 JSON 错误"
       oauth_returned_http_error: "OAuth2 返回网络错误"
       oauth_returned_standard_error: "OAuth2 返回内部错误"
-      client_id_blank: "ID can't be blank."
+      client_id_blank: "ID不能为空。"
       wrong_token_type_returned: "OAuth2 返回了错误类型的令牌，应为 AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 报告错误。请联系您的系统管理员。"
       oauth_client_not_found: "在 'callback' 端点 (redirect_uri) 中找不到 OAuth2 客户端。"

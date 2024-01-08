@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Wiki unicode title spec', js: true do
+RSpec.describe 'Wiki unicode title spec', :js do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 
@@ -90,22 +90,22 @@ RSpec.describe 'Wiki unicode title spec', js: true do
     find('.ck-content').base.send_keys(wiki_body)
     click_button 'Save'
 
-    expect(page).to have_selector('.title-container h2', text: 'Wiki')
-    expect(page).to have_selector('a.wiki-page', count: 5)
+    expect(page).to have_css('.title-container h2', text: 'Wiki')
+    expect(page).to have_css('a.wiki-page', count: 5)
   end
 
   it 'shows renders correct links' do
     expected_titles.each_with_index do |title, i|
       visit project_wiki_path(project, :wiki)
 
-      expect(page).to have_selector('div.wiki-content')
+      expect(page).to have_css('div.wiki-content')
       target_link = all('div.wiki-content a.wiki-page')[i]
 
       expect(target_link.text).to eq(title)
       expect(target_link[:href]).to match("/wiki/#{expected_slugs[i]}")
       target_link.click
 
-      expect(page).to have_selector('.title-container h2', text: title)
+      expect(page).to have_css('.title-container h2', text: title)
     end
   end
 end

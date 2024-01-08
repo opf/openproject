@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ RSpec.describe OpenProject::ChangedBySystem do
 
       it 'returns the attribute' do
         expect(model.changed_by_user)
-          .to match_array ['title']
+          .to contain_exactly('title')
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe OpenProject::ChangedBySystem do
 
       it 'returns the attribute' do
         expect(model.changed_by_user)
-          .to match_array ['title']
+          .to contain_exactly('title')
       end
     end
 

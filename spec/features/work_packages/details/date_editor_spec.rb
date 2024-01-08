@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,7 @@ require 'features/work_packages/shared_contexts'
 require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
-RSpec.describe 'date inplace editor',
-               js: true, selenium: true, with_settings: { date_format: '%Y-%m-%d' } do
+RSpec.describe 'date inplace editor', :js, :selenium, with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:project) { create(:project_with_types, public: true) }
   shared_let(:user) { create(:admin) }
   shared_let(:type) { project.types.first }
@@ -271,7 +270,7 @@ RSpec.describe 'date inplace editor',
     work_packages_page.accept_alert_dialog! if work_packages_page.has_alert_dialog?
 
     # Ensure no modal survives
-    expect(page).not_to have_selector('.spot-modal')
+    expect(page).to have_no_css('.spot-modal')
   end
 
   context 'with a date custom field' do
@@ -353,17 +352,17 @@ RSpec.describe 'date inplace editor',
       let(:schedule_manually) { true }
 
       it 'shows a banner that the relations are ignored' do
-        expect(page).to have_selector("#{test_selector('op-modal-banner-warning')} span",
-                                      text: 'Manual scheduling enabled, all relations ignored.',
-                                      wait: 5)
+        expect(page).to have_css("#{test_selector('op-modal-banner-warning')} span",
+                                 text: 'Manual scheduling enabled, all relations ignored.',
+                                 wait: 5)
 
         # When toggling manually scheduled
         start_date.toggle_scheduling_mode
 
         # Expect new banner info
         expect(page)
-          .to have_selector("#{test_selector('op-modal-banner-warning')} span",
-                            text: 'Changing these dates will affect dates of related work packages.')
+          .to have_css("#{test_selector('op-modal-banner-warning')} span",
+                       text: 'Changing these dates will affect dates of related work packages.')
 
         new_window = window_opened_by { click_on 'Show relations' }
         switch_to_window new_window
@@ -381,15 +380,15 @@ RSpec.describe 'date inplace editor',
 
       it 'shows a banner that the start date is limited' do
         expect(page)
-          .to have_selector("#{test_selector('op-modal-banner-warning')} span",
-                            text: 'Changing these dates will affect dates of related work packages.',
-                            wait: 5)
+          .to have_css("#{test_selector('op-modal-banner-warning')} span",
+                       text: 'Changing these dates will affect dates of related work packages.',
+                       wait: 5)
 
         # When toggling manually scheduled
         start_date.toggle_scheduling_mode
 
-        expect(page).to have_selector("#{test_selector('op-modal-banner-warning')} span",
-                                      text: 'Manual scheduling enabled, all relations ignored.')
+        expect(page).to have_css("#{test_selector('op-modal-banner-warning')} span",
+                                 text: 'Manual scheduling enabled, all relations ignored.')
       end
     end
   end
@@ -411,15 +410,15 @@ RSpec.describe 'date inplace editor',
       let(:schedule_manually) { true }
 
       it 'shows a banner that the relations are ignored' do
-        expect(page).to have_selector("#{test_selector('op-modal-banner-warning')} span",
-                                      text: 'Manual scheduling enabled, all relations ignored.')
+        expect(page).to have_css("#{test_selector('op-modal-banner-warning')} span",
+                                 text: 'Manual scheduling enabled, all relations ignored.')
 
         # When toggling manually scheduled
         start_date.toggle_scheduling_mode
 
         # Expect banner to switch
-        expect(page).to have_selector("#{test_selector('op-modal-banner-info')} span",
-                                      text: 'Automatically scheduled. Dates are derived from relations.')
+        expect(page).to have_css("#{test_selector('op-modal-banner-info')} span",
+                                 text: 'Automatically scheduled. Dates are derived from relations.')
 
         new_window = window_opened_by { click_on 'Show relations' }
         switch_to_window new_window
@@ -434,14 +433,14 @@ RSpec.describe 'date inplace editor',
       let(:schedule_manually) { false }
 
       it 'shows a banner that the dates are not editable' do
-        expect(page).to have_selector("#{test_selector('op-modal-banner-info')} span",
-                                      text: 'Automatically scheduled. Dates are derived from relations.')
+        expect(page).to have_css("#{test_selector('op-modal-banner-info')} span",
+                                 text: 'Automatically scheduled. Dates are derived from relations.')
 
         # When toggling manually scheduled
         start_date.toggle_scheduling_mode
 
-        expect(page).to have_selector("#{test_selector('op-modal-banner-warning')} span",
-                                      text: 'Manual scheduling enabled, all relations ignored.')
+        expect(page).to have_css("#{test_selector('op-modal-banner-warning')} span",
+                                 text: 'Manual scheduling enabled, all relations ignored.')
 
         new_window = window_opened_by { click_on 'Show relations' }
         switch_to_window new_window
@@ -461,8 +460,8 @@ RSpec.describe 'date inplace editor',
         end
 
         it 'allows switching to manual scheduling to set the ignore NWD (Regression #43933)' do
-          expect(page).to have_selector("#{test_selector('op-modal-banner-info')} span",
-                                        text: 'Automatically scheduled. Dates are derived from relations.')
+          expect(page).to have_css("#{test_selector('op-modal-banner-info')} span",
+                                   text: 'Automatically scheduled. Dates are derived from relations.')
 
           # Expect "Working days only" to be checked
           datepicker.expect_ignore_non_working_days_disabled
@@ -474,16 +473,16 @@ RSpec.describe 'date inplace editor',
           datepicker.toggle_ignore_non_working_days
           datepicker.expect_ignore_non_working_days true
 
-          expect(page).to have_selector("#{test_selector('op-modal-banner-warning')} span",
-                                        text: 'Manual scheduling enabled, all relations ignored.')
+          expect(page).to have_css("#{test_selector('op-modal-banner-warning')} span",
+                                   text: 'Manual scheduling enabled, all relations ignored.')
 
           # Reset when disabled
           start_date.toggle_scheduling_mode
           datepicker.expect_ignore_non_working_days_disabled
           datepicker.expect_ignore_non_working_days false, disabled: true
 
-          expect(page).to have_selector("#{test_selector('op-modal-banner-info')} span",
-                                        text: 'Automatically scheduled. Dates are derived from relations.')
+          expect(page).to have_css("#{test_selector('op-modal-banner-info')} span",
+                                   text: 'Automatically scheduled. Dates are derived from relations.')
         end
       end
     end
@@ -509,15 +508,15 @@ RSpec.describe 'date inplace editor',
       let(:schedule_manually) { true }
 
       it 'shows a banner that the relations are ignored' do
-        expect(page).to have_selector("#{test_selector('op-modal-banner-warning')} span",
-                                      text: 'Manual scheduling enabled, all relations ignored.')
+        expect(page).to have_css("#{test_selector('op-modal-banner-warning')} span",
+                                 text: 'Manual scheduling enabled, all relations ignored.')
 
         # When toggling manually scheduled
         start_date.toggle_scheduling_mode
 
         # Expect new banner info
-        expect(page).to have_selector("#{test_selector('op-modal-banner-info')} span",
-                                      text: 'Available start and finish dates are limited by relations.')
+        expect(page).to have_css("#{test_selector('op-modal-banner-info')} span",
+                                 text: 'Available start and finish dates are limited by relations.')
 
         new_window = window_opened_by { click_on 'Show relations' }
         switch_to_window new_window
@@ -532,14 +531,14 @@ RSpec.describe 'date inplace editor',
       let(:schedule_manually) { false }
 
       it 'shows a banner that the start date is limited' do
-        expect(page).to have_selector("#{test_selector('op-modal-banner-info')} span",
-                                      text: 'Available start and finish dates are limited by relations.')
+        expect(page).to have_css("#{test_selector('op-modal-banner-info')} span",
+                                 text: 'Available start and finish dates are limited by relations.')
 
         # When toggling manually scheduled
         start_date.toggle_scheduling_mode
 
-        expect(page).to have_selector("#{test_selector('op-modal-banner-warning')} span",
-                                      text: 'Manual scheduling enabled, all relations ignored.')
+        expect(page).to have_css("#{test_selector('op-modal-banner-warning')} span",
+                                 text: 'Manual scheduling enabled, all relations ignored.')
       end
     end
   end
@@ -564,15 +563,15 @@ RSpec.describe 'date inplace editor',
       let(:schedule_manually) { true }
 
       it 'shows a banner that the relations are ignored' do
-        expect(page).to have_selector("#{test_selector('op-modal-banner-warning')} span",
-                                      text: 'Manual scheduling enabled, all relations ignored.')
+        expect(page).to have_css("#{test_selector('op-modal-banner-warning')} span",
+                                 text: 'Manual scheduling enabled, all relations ignored.')
 
         # When toggling manually scheduled
         start_date.toggle_scheduling_mode
 
         expect(page)
-          .to have_selector("#{test_selector('op-modal-banner-warning')} span",
-                            text: 'Changing these dates will affect dates of related work packages.')
+          .to have_css("#{test_selector('op-modal-banner-warning')} span",
+                       text: 'Changing these dates will affect dates of related work packages.')
 
         new_window = window_opened_by { click_on 'Show relations' }
         switch_to_window new_window
@@ -588,14 +587,14 @@ RSpec.describe 'date inplace editor',
 
       it 'shows a banner that the start date is limited' do
         expect(page)
-          .to have_selector("#{test_selector('op-modal-banner-warning')} span",
-                            text: 'Changing these dates will affect dates of related work packages.')
+          .to have_css("#{test_selector('op-modal-banner-warning')} span",
+                       text: 'Changing these dates will affect dates of related work packages.')
 
         # When toggling manually scheduled
         start_date.toggle_scheduling_mode
 
-        expect(page).to have_selector("#{test_selector('op-modal-banner-warning')} span",
-                                      text: 'Manual scheduling enabled, all relations ignored.')
+        expect(page).to have_css("#{test_selector('op-modal-banner-warning')} span",
+                                 text: 'Manual scheduling enabled, all relations ignored.')
       end
     end
   end

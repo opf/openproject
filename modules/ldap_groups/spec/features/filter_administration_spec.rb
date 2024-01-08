@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-RSpec.describe 'LDAP group filter administration spec', js: true do
+RSpec.describe 'LDAP group filter administration spec', :js do
   let(:admin) { create(:admin) }
 
   before do
@@ -40,8 +40,8 @@ RSpec.describe 'LDAP group filter administration spec', js: true do
         page.find('td.name a', text: 'bar').click
 
         expect(page).to have_text I18n.t(:label_seeded_from_env_warning)
-        expect(page).not_to have_link 'Edit'
-        expect(page).not_to have_link 'Delete'
+        expect(page).to have_no_link 'Edit'
+        expect(page).to have_no_link 'Delete'
       end
     end
   end

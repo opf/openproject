@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -281,6 +281,15 @@ eo:
       no_results_content_text: Aldoni membron al tiu ĉi projekto
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "Send invite to"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Eraro dum restarigo de la alirĵetono: %{error}"
@@ -606,6 +615,8 @@ eo:
         begin_insertion: "Komenco de enmeto"
         begin_deletion: "Komenco de forigo"
         children: "Subelementoj"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
         duration: "Duration"
         end_insertion: "Fino de enmeto"
@@ -622,6 +633,8 @@ eo:
         priority: "Prioritato"
         progress: "% Complete"
         readonly: "Read only"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Manual scheduling"
         spent_hours: "Uzata tempo"
         spent_time: "Uzata tempo"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,7 +49,7 @@ RSpec.shared_context 'grid contract' do
         instance.validate
 
         expect(instance.errors.details[attribute])
-          .to match_array [{ error: :greater_than, count: 0 }]
+          .to contain_exactly({ error: :greater_than, count: 0 })
       end
     end
 
@@ -60,7 +60,7 @@ RSpec.shared_context 'grid contract' do
         instance.validate
 
         expect(instance.errors.details[attribute])
-          .to match_array [{ error: :blank }]
+          .to contain_exactly({ error: :blank })
       end
     end
   end
@@ -86,7 +86,7 @@ RSpec.shared_examples_for 'shared grid contract attributes' do
       it 'notes the error' do
         instance.validate
         expect(instance.errors.details[:row_count])
-          .to match_array [{ error: :greater_than, count: 0 }]
+          .to contain_exactly({ error: :greater_than, count: 0 })
       end
     end
   end
@@ -107,7 +107,7 @@ RSpec.shared_examples_for 'shared grid contract attributes' do
       it 'notes the error' do
         instance.validate
         expect(instance.errors.details[:column_count])
-          .to match_array [{ error: :greater_than, count: 0 }]
+          .to contain_exactly({ error: :greater_than, count: 0 })
       end
     end
   end
@@ -124,7 +124,7 @@ RSpec.shared_examples_for 'shared grid contract attributes' do
 
       it 'is invalid for the grid superclass itself' do
         expect(instance.errors.details[:scope])
-          .to match_array [{ error: :inclusion }]
+          .to contain_exactly({ error: :inclusion })
       end
     end
   end
@@ -160,7 +160,7 @@ RSpec.shared_examples_for 'shared grid contract attributes' do
         instance.validate
 
         expect(instance.errors.details[:widgets])
-          .to match_array [{ error: :inclusion }]
+          .to contain_exactly({ error: :inclusion })
       end
     end
 

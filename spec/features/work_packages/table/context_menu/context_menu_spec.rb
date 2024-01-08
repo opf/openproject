@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative 'context_menu_shared_examples'
 
-RSpec.describe 'Work package table context menu', js: true, with_cuprite: true do
+RSpec.describe 'Work package table context menu', :js, :with_cuprite do
   shared_let(:user) { create(:admin) }
   shared_let(:work_package) { create(:work_package) }
 

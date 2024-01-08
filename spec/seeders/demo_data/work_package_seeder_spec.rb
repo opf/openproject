@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -74,7 +74,7 @@ RSpec.describe DemoData::WorkPackageSeeder do
       ]
     end
 
-    it 'will start n days after the Monday of the current week' do
+    it 'starts n days after the Monday of the current week' do
       current_week_monday = Date.current.monday
       expect(WorkPackage.first.start_date).to eq(current_week_monday + 2.days)
       expect(WorkPackage.second.start_date).to eq(current_week_monday + 42.days)
@@ -89,7 +89,7 @@ RSpec.describe DemoData::WorkPackageSeeder do
       ]
     end
 
-    it 'will start n days before the Monday of the current week' do
+    it 'starts n days before the Monday of the current week' do
       current_week_monday = Date.current.monday
       expect(WorkPackage.first.start_date).to eq(current_week_monday - 3.days)
       expect(WorkPackage.second.start_date).to eq(current_week_monday - 17.days)
@@ -105,7 +105,7 @@ RSpec.describe DemoData::WorkPackageSeeder do
       ]
     end
 
-    it 'will have finish date calculated being start + duration - 1' do
+    it 'has finish date calculated being start + duration - 1' do
       current_week_monday = Date.current.monday
       expect(WorkPackage.first.due_date).to eq(current_week_monday)
       expect(WorkPackage.second.due_date).to eq(current_week_monday + 5.days)
@@ -120,11 +120,11 @@ RSpec.describe DemoData::WorkPackageSeeder do
       ]
     end
 
-    it 'will have no duration' do
+    it 'has no duration' do
       expect(WorkPackage.first.duration).to be_nil
     end
 
-    it 'will have no finish date' do
+    it 'has no finish date' do
       expect(WorkPackage.first.due_date).to be_nil
     end
   end
@@ -136,17 +136,17 @@ RSpec.describe DemoData::WorkPackageSeeder do
       ]
     end
 
-    it 'will have ignore_non_working_day set to true' do
+    it 'has ignore_non_working_day set to true' do
       expect(WorkPackage.first.ignore_non_working_days).to be(false)
     end
 
-    it 'will have finish date calculated from duration based on real days' do
+    it 'has finish date calculated from duration based on real days' do
       work_package = WorkPackage.first
       expect(work_package.due_date).to eq(work_package.start_date + 9.days)
       expect(work_package.due_date.wday).to eq(4)
     end
 
-    it 'will have duration adjusted to count only working days' do
+    it 'has duration adjusted to count only working days' do
       expect(WorkPackage.first.duration).to eq(8)
     end
   end
@@ -159,12 +159,12 @@ RSpec.describe DemoData::WorkPackageSeeder do
       ]
     end
 
-    it 'will have ignore_non_working_day set to true' do
+    it 'has ignore_non_working_day set to true' do
       expect(WorkPackage.first.ignore_non_working_days).to be(true)
       expect(WorkPackage.second.ignore_non_working_days).to be(true)
     end
 
-    it 'will have duration being the same as defined' do
+    it 'has duration being the same as defined' do
       expect(WorkPackage.first.duration).to eq(3)
       expect(WorkPackage.second.duration).to eq(7)
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -108,7 +108,7 @@ RSpec.describe CostEntry do
           cost_entry.save!
         end
 
-        it { expect(CostEntry.visible(user2, project)).to match_array([cost_entry]) }
+        it { expect(CostEntry.visible(user2, project)).to contain_exactly(cost_entry) }
       end
 
       describe "WHEN not having the view_cost_entries permission
@@ -120,7 +120,7 @@ RSpec.describe CostEntry do
           cost_entry.save!
         end
 
-        it { expect(CostEntry.visible(user2, project)).to match_array([]) }
+        it { expect(CostEntry.visible(user2, project)).to be_empty }
       end
 
       describe "WHEN having the view_own_cost_entries permission
@@ -132,7 +132,7 @@ RSpec.describe CostEntry do
           cost_entry.save!
         end
 
-        it { expect(CostEntry.visible(user2, project)).to match_array([]) }
+        it { expect(CostEntry.visible(user2, project)).to be_empty }
       end
 
       describe "WHEN having the view_own_cost_entries permission
@@ -144,7 +144,7 @@ RSpec.describe CostEntry do
           cost_entry2.save!
         end
 
-        it { expect(CostEntry.visible(cost_entry2.user, project)).to match_array([cost_entry2]) }
+        it { expect(CostEntry.visible(cost_entry2.user, project)).to contain_exactly(cost_entry2) }
       end
     end
   end
