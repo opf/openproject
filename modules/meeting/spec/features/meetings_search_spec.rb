@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Meeting search', js: true do
+RSpec.describe 'Meeting search', :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
   let(:project) { create(:project) }
   let(:role) { create(:project_role, permissions: %i(view_meetings view_work_packages)) }

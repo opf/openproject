@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-RSpec.describe 'Work package details toolbar', js: true, selenium: true do
+RSpec.describe 'Work package details toolbar', :js, :selenium do
   let(:project) { create(:project_with_types, public: true) }
   let!(:work_package) { create(:work_package, project:) }
   let(:work_packages_page) { WorkPackagesPage.new(project) }
@@ -44,15 +44,15 @@ RSpec.describe 'Work package details toolbar', js: true, selenium: true do
 
     it 'toggles the watch state' do
       expect(work_package.watcher_users).not_to include(user)
-      expect(page).to have_selector('.work-packages--details-toolbar button', text: 'Watch')
+      expect(page).to have_css('.work-packages--details-toolbar button', text: 'Watch')
       within '.work-packages--details-toolbar' do
         click_button 'Watch'
       end
 
-      expect(page).to have_selector('.work-packages--details-toolbar button', text: 'Unwatch')
+      expect(page).to have_css('.work-packages--details-toolbar button', text: 'Unwatch')
 
       expect(work_package.reload.watcher_users).to include(user)
-      expect(page).to have_selector('.work-packages--details-toolbar button', text: 'Unwatch')
+      expect(page).to have_css('.work-packages--details-toolbar button', text: 'Unwatch')
     end
   end
 end

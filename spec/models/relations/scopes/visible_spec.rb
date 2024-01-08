@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,7 +62,7 @@ RSpec.describe Relations::Scopes::Visible do
 
       it 'returns the relations' do
         expect(Relation.visible(user))
-          .to match_array([relation1, relation2])
+          .to contain_exactly(relation1, relation2)
       end
     end
 
@@ -73,7 +73,7 @@ RSpec.describe Relations::Scopes::Visible do
 
       it 'returns the relation within the one project' do
         expect(Relation.visible(user))
-          .to match_array([relation1])
+          .to contain_exactly(relation1)
       end
     end
 

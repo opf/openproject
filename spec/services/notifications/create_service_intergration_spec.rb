@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -82,7 +82,7 @@ RSpec.describe Notifications::CreateService, 'integration', type: :model do
           .to be_failure
 
         expect(service_result.errors.details[:journal_id])
-          .to match_array [{ error: :does_not_exist }]
+          .to contain_exactly({ error: :does_not_exist })
       end
     end
   end

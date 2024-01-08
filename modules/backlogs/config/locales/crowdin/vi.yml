@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -27,10 +27,6 @@ vi:
     attributes:
       work_package:
         position: "Vị trí"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
         story_points: "Điểm câu chuyện"
         backlogs_work_package_type: "Loại Backlog"
     errors:
@@ -68,8 +64,8 @@ vi:
     properties: "Thuộc tính"
     rebuild: "Dựng lại"
     rebuild_positions: "Xây dựng lại vị trí"
-    remaining_hours: "Số giờ còn lại"
-    remaining_hours_ideal: "Số giờ còn lại (lý tưởng)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Biểu đồ Burndown"
     story: "Câu chuyện"
     story_points: "Story Points"
@@ -151,7 +147,7 @@ vi:
   rb_label_copy_tasks_none: "None"
   rb_label_copy_tasks_open: "Mở"
   rb_label_link_to_original: "Bao gồm liên kết đến câu chuyện gốc"
-  remaining_hours: "giờ còn lại"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "tốc độ ghi yêu cầu (giờ)"
   required_burn_rate_points: "tốc độ ghi yêu cầu (điểm)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

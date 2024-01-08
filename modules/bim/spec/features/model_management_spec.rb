@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/ifc_models/index'
 
-RSpec.describe 'model management',
-               js: true, with_config: { edition: 'bim' } do
+RSpec.describe 'model management', :js, with_config: { edition: 'bim' } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:index_page) { Pages::IfcModels::Index.new(project) }
   let(:role) { create(:project_role, permissions: %i[view_ifc_models manage_bcf manage_ifc_models view_work_packages]) }
@@ -131,7 +130,7 @@ RSpec.describe 'model management',
 
     it "I can't see any models and perform no actions" do
       expected = '[Error 403] You are not authorized to access this page.'
-      expect(page).to have_selector('.op-toast.-error', text: expected)
+      expect(page).to have_css('.op-toast.-error', text: expected)
 
       index_page.add_model_allowed false
     end

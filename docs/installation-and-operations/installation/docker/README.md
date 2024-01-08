@@ -445,12 +445,43 @@ RUN ./docker/prod/setup/postinstall.sh
 The file is based on the normal OpenProject docker image.
 All the Dockerfile does is copy your custom plugins gemfile into the image, install the gems and precompile any new assets.
 
+**slim image**
+
+If you are using the `-slim` tag you will need to do the following to add your plugin.
+
+```
+FROM openproject/community:13 AS plugin
+
+# If installing a local plugin (using `path:` in the `Gemfile.plugins` above),
+# you will have to copy the plugin code into the container here and use the
+# path inside of the container. Say for `/app/vendor/plugins/openproject-slack`:
+# COPY /path/to/my/local/openproject-slack /app/vendor/plugins/openproject-slack
+
+COPY Gemfile.plugins /app/
+
+# If the plugin uses any external NPM dependencies you have to install them here.
+# RUN npm add npm <package-name>*
+
+RUN bundle config unset deployment && bundle install && bundle config set deployment 'true'
+RUN ./docker/prod/setup/postinstall.sh
+
+FROM openproject/community:13-slim
+
+COPY --from=plugin /usr/bin/git /usr/bin/git
+COPY --chown=$APP_USER:$APP_USER --from=plugin /app/vendor/bundle /app/vendor/bundle
+COPY --chown=$APP_USER:$APP_USER --from=plugin /usr/local/bundle /usr/local/bundle
+COPY --chown=$APP_USER:$APP_USER --from=plugin /app/public/assets /app/public/assets
+COPY --chown=$APP_USER:$APP_USER --from=plugin /app/config/frontend_assets.manifest.json /app/config/frontend_assets.manifest.json
+COPY --chown=$APP_USER:$APP_USER --from=plugin /app/Gemfile.* /app/
+
+```
+
 **4. Build the image**
 
 To actually build the docker image run:
 
 ```shell
-docker build -t openproject-with-slack .
+docker build --pull -t openproject-with-slack .
 ```
 
 The `-t` option is the tag for your image. You can choose what ever you want.

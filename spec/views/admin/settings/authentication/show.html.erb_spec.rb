@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,11 +51,11 @@ RSpec.describe 'admin/settings/authentication_settings/show' do
     end
 
     it 'does not show password settings' do
-      expect(rendered).not_to have_text I18n.t('label_password_lost')
+      expect(rendered).to have_no_text I18n.t('label_password_lost')
     end
 
     it 'does not show automated user blocking options' do
-      expect(rendered).not_to have_text I18n.t('settings.brute_force_prevention')
+      expect(rendered).to have_no_text I18n.t('settings.brute_force_prevention')
     end
   end
 end

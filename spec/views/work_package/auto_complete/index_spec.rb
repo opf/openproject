@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,9 +38,9 @@ RSpec.describe 'work_packages/auto_completes/index.html.erb' do
     assign :work_packages, [work_package]
     render
     # there are items
-    expect(rendered).to have_selector 'li'
+    expect(rendered).to have_css 'li'
     # but there is not script tag
-    expect(rendered).not_to have_selector 'script'
+    expect(rendered).to have_no_css 'script'
     # normal text should be included
     expect(rendered).to include 'do not alert this'
   end

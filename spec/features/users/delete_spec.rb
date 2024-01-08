@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,7 @@ RSpec.describe 'user deletion:', :js, :with_cuprite do
       visit my_account_path
 
       within '#main-menu' do
-        expect(page).not_to have_content 'Delete account'
+        expect(page).to have_no_content 'Delete account'
       end
     end
   end
@@ -75,7 +75,7 @@ RSpec.describe 'user deletion:', :js, :with_cuprite do
       visit edit_user_path(user)
 
       expect(page).to have_content "#{user.firstname} #{user.lastname}"
-      expect(page).not_to have_content 'Delete account'
+      expect(page).to have_no_content 'Delete account'
 
       visit deletion_info_user_path(user)
       expect(page).to have_text 'Error 404'
@@ -137,7 +137,7 @@ RSpec.describe 'user deletion:', :js, :with_cuprite do
       Setting.users_deletable_by_admins = 0
       visit edit_user_path(user)
 
-      expect(page).not_to have_content 'Delete account'
+      expect(page).to have_no_content 'Delete account'
     end
 
     it 'can change the deletablilty settings' do
@@ -146,8 +146,8 @@ RSpec.describe 'user deletion:', :js, :with_cuprite do
 
       visit admin_settings_users_path
 
-      find(:css, "#settings_users_deletable_by_admins").set(true)
-      find(:css, "#settings_users_deletable_by_self").set(true)
+      find_by_id('settings_users_deletable_by_admins').set(true)
+      find_by_id('settings_users_deletable_by_self').set(true)
 
       click_on 'Save'
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -177,7 +177,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
       it 'is invalid and notes the error' do
         expect(subject).to be_falsey
         expect(instance.errors.symbols_for(:version_id))
-          .to match_array([:task_version_must_be_the_same_as_story_version])
+          .to contain_exactly(:task_version_must_be_the_same_as_story_version)
       end
     end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -102,7 +102,6 @@ RSpec.describe Users::LogoutService, type: :model do
         expect(Sessions::UserSession.count).to eq(3)
         expect(Sessions::UserSession.for_user(user).count).to eq(2)
       end
-
 
       describe 'autologin cookie' do
         let!(:token) { create(:autologin_token, user:) }

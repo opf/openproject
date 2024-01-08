@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-RSpec.describe 'My page time entries current user widget spec', js: true do
+RSpec.describe 'My page time entries current user widget spec', :js do
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type]) }
   let!(:activity) { create(:time_entry_activity) }
@@ -130,13 +130,13 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
 
     entries_area.expect_to_span(1, 1, 2, 2)
 
-    expect(page).not_to have_selector('.fc-day-mon.fc-non-working-day')
-    expect(page).not_to have_selector('.fc-day-tue.fc-non-working-day')
-    expect(page).not_to have_selector('.fc-day-wed.fc-non-working-day')
-    expect(page).not_to have_selector('.fc-day-thu.fc-non-working-day')
-    expect(page).not_to have_selector('.fc-day-fri.fc-non-working-day')
-    expect(page).to have_selector('.fc-day-sat.fc-non-working-day')
-    expect(page).to have_selector('.fc-day-sun.fc-non-working-day')
+    expect(page).to have_no_css('.fc-day-mon.fc-non-working-day')
+    expect(page).to have_no_css('.fc-day-tue.fc-non-working-day')
+    expect(page).to have_no_css('.fc-day-wed.fc-non-working-day')
+    expect(page).to have_no_css('.fc-day-thu.fc-non-working-day')
+    expect(page).to have_no_css('.fc-day-fri.fc-non-working-day')
+    expect(page).to have_css('.fc-day-sat.fc-non-working-day')
+    expect(page).to have_css('.fc-day-sun.fc-non-working-day')
 
     expect(page)
       .to have_content "Total: 6 h"
@@ -144,12 +144,12 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
     expect(page)
       .to have_content visible_time_entry.spent_on.strftime('%-m/%-d')
     expect(page)
-      .to have_selector('.fc-event .fc-event-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+      .to have_css('.fc-event .fc-event-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
 
     expect(page)
       .to have_content(other_visible_time_entry.spent_on.strftime('%-m/%-d'))
     expect(page)
-      .to have_selector('.fc-event .fc-event-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+      .to have_css('.fc-event .fc-event-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
 
     # go to last week
     within entries_area.area do
@@ -162,7 +162,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
     expect(page)
       .to have_content(last_week_visible_time_entry.spent_on.strftime('%-m/%-d'))
     expect(page)
-      .to have_selector('.fc-event .fc-event-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
+      .to have_css('.fc-event .fc-event-title', text: "#{project.name} - ##{work_package.id}: #{work_package.subject}")
 
     # go to today again
     within entries_area.area do
@@ -177,7 +177,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
     end
 
     expect(page)
-      .to have_selector('.ui-tooltip', text: "Project: #{project.name}")
+      .to have_css('.ui-tooltip', text: "Project: #{project.name}")
 
     # Adding a time entry
 
@@ -195,7 +195,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
     time_logging_modal.shows_field 'user', false
 
     expect(page)
-      .not_to have_selector('.ng-spinner-loader')
+      .to have_no_css('.ng-spinner-loader')
 
     # Expect filtering works
     time_logging_modal.work_package_field.autocomplete work_package.subject, select: false
@@ -222,8 +222,8 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
 
     within entries_area.area do
       expect(page)
-        .to have_selector("td.fc-timegrid-col:nth-of-type(5) .te-calendar--time-entry",
-                          text: other_work_package.subject)
+        .to have_css("td.fc-timegrid-col:nth-of-type(5) .te-calendar--time-entry",
+                     text: other_work_package.subject)
     end
 
     expect(page)
@@ -263,16 +263,16 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
     end
 
     expect(page)
-      .to have_selector('.ui-tooltip', text: "Work package: ##{other_work_package.id}: #{other_work_package.subject}")
+      .to have_css('.ui-tooltip', text: "Work package: ##{other_work_package.id}: #{other_work_package.subject}")
 
     expect(page)
-      .to have_selector('.ui-tooltip', text: "Hours: 6 h")
+      .to have_css('.ui-tooltip', text: "Hours: 6 h")
 
     expect(page)
-      .to have_selector('.ui-tooltip', text: "Activity: #{other_activity.name}")
+      .to have_css('.ui-tooltip', text: "Activity: #{other_activity.name}")
 
     expect(page)
-      .to have_selector('.ui-tooltip', text: "Comment: Some comment")
+      .to have_css('.ui-tooltip', text: "Comment: Some comment")
 
     expect(page)
       .to have_content "Total: 13 h"
@@ -286,9 +286,9 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
 
     within entries_area.area do
       expect(page)
-        .not_to have_selector('.fc-day-header', text: 'Mon')
+        .to have_no_css('.fc-day-header', text: 'Mon')
       expect(page)
-        .not_to have_selector('.fc-duration', text: "6 h")
+        .to have_no_css('.fc-duration', text: "6 h")
     end
 
     ## Removing the time entry
@@ -307,7 +307,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
 
     within entries_area.area do
       expect(page)
-        .not_to have_selector("td.fc-timegrid-col:nth-of-type(5) .te-calendar--time-entry")
+        .to have_no_css("td.fc-timegrid-col:nth-of-type(5) .te-calendar--time-entry")
     end
 
     expect(TimeEntry.where(id: other_visible_time_entry.id))
@@ -322,10 +322,10 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
         .to have_content(/#{Regexp.escape(I18n.t('js.grid.widgets.time_entries_current_user.title'))}/i)
 
       expect(page)
-        .to have_selector(".te-calendar--time-entry", count: 1)
+        .to have_css(".te-calendar--time-entry", count: 1)
 
       expect(page)
-        .not_to have_selector('.fc-col-header-cell', text: 'Mon')
+        .to have_no_css('.fc-col-header-cell', text: 'Mon')
     end
 
     # Removing the widget
@@ -338,7 +338,7 @@ RSpec.describe 'My page time entries current user widget spec', js: true do
 
     within nucleus_area.area do
       expect(page)
-        .to have_selector(".grid--widget-add")
+        .to have_css(".grid--widget-add")
     end
   end
 end

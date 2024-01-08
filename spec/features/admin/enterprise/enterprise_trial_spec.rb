@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -182,9 +182,9 @@ RSpec.describe 'Enterprise trial management',
     fill_out_modal
     find('.button:not(:disabled)', text: 'Submit').click
 
-    expect(page).to have_selector('.-required-highlighting #trial-email')
+    expect(page).to have_css('.-required-highlighting #trial-email')
     expect(page).to have_text('Each user can only create one trial.')
-    expect(page).not_to have_text 'email sent - waiting for confirmation'
+    expect(page).to have_no_text 'email sent - waiting for confirmation'
   end
 
   it 'blocks the request assuming the domain was used' do
@@ -195,9 +195,9 @@ RSpec.describe 'Enterprise trial management',
     fill_out_modal
     find('.button:not(:disabled)', text: 'Submit').click
 
-    expect(page).to have_selector('.-required-highlighting #trial-domain-name')
+    expect(page).to have_css('.-required-highlighting #trial-domain-name')
     expect(page).to have_text('There can only be one active trial per domain.')
-    expect(page).not_to have_text 'email sent - waiting for confirmation'
+    expect(page).to have_no_text 'email sent - waiting for confirmation'
   end
 
   it 'shows an error in case of other errors' do
@@ -209,7 +209,7 @@ RSpec.describe 'Enterprise trial management',
     find('.button:not(:disabled)', text: 'Submit').click
 
     expect(page).to have_text('Token version is invalid')
-    expect(page).not_to have_text 'email sent - waiting for confirmation'
+    expect(page).to have_no_text 'email sent - waiting for confirmation'
   end
 
   context 'with a waiting request pending' do
@@ -247,17 +247,17 @@ RSpec.describe 'Enterprise trial management',
 
       visit enterprise_path
 
-      expect(page).to have_selector('.attributes-key-value--value-container', text: 'OpenProject Test', wait: 20)
-      expect(page).to have_selector('.attributes-key-value--value-container', text: '01/01/2020')
-      expect(page).to have_selector('.attributes-key-value--value-container', text: '01/02/2020')
-      expect(page).to have_selector('.attributes-key-value--value-container', text: '5')
+      expect(page).to have_css('.attributes-key-value--value-container', text: 'OpenProject Test', wait: 20)
+      expect(page).to have_css('.attributes-key-value--value-container', text: '01/01/2020')
+      expect(page).to have_css('.attributes-key-value--value-container', text: '01/02/2020')
+      expect(page).to have_css('.attributes-key-value--value-container', text: '5')
       # Generated expired token has different mail
-      expect(page).to have_selector('.attributes-key-value--value-container', text: 'info@openproject.com')
+      expect(page).to have_css('.attributes-key-value--value-container', text: 'info@openproject.com')
     end
 
     it 'can confirm that trial regularly' do
       find_test_selector('op-ee-trial-waiting-resend-link', text: 'Resend').click
-      expect(page).to have_selector('.op-toast.-success', text: 'Email has been resent.', wait: 20)
+      expect(page).to have_css('.op-toast.-success', text: 'Email has been resent.', wait: 20)
 
       expect(page).to have_text 'foo@foocorp.example'
       expect(page).to have_text 'email sent - waiting for confirmation'
@@ -276,13 +276,13 @@ RSpec.describe 'Enterprise trial management',
       # advance to close
       click_on 'Continue'
 
-      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
-      expect(page).to have_selector('.attributes-key-value--value-container', text: 'OpenProject Test')
-      expect(page).to have_selector('.attributes-key-value--value-container', text: '01/01/2020')
-      expect(page).to have_selector('.attributes-key-value--value-container', text: '01/02/2020')
-      expect(page).to have_selector('.attributes-key-value--value-container', text: '5')
+      expect(page).to have_css('.op-toast.-success', text: 'Successful update.', wait: 10)
+      expect(page).to have_css('.attributes-key-value--value-container', text: 'OpenProject Test')
+      expect(page).to have_css('.attributes-key-value--value-container', text: '01/01/2020')
+      expect(page).to have_css('.attributes-key-value--value-container', text: '01/02/2020')
+      expect(page).to have_css('.attributes-key-value--value-container', text: '5')
       # Generated expired token has different mail
-      expect(page).to have_selector('.attributes-key-value--value-container', text: 'info@openproject.com')
+      expect(page).to have_css('.attributes-key-value--value-container', text: 'info@openproject.com')
     end
   end
 end

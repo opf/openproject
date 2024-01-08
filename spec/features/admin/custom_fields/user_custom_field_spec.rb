@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'User custom fields edit',
-               js: true,
-               with_cuprite: true do
+RSpec.describe 'User custom fields edit', :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
 
@@ -48,7 +46,7 @@ RSpec.describe 'User custom fields edit',
     fill_in 'custom_field_name', with: 'My User CF'
     select 'User', from: 'custom_field_field_format'
 
-    expect(page).not_to have_field('custom_field_custom_options_attributes_0_value')
+    expect(page).to have_no_field('custom_field_custom_options_attributes_0_value')
 
     click_on 'Save'
 
@@ -59,7 +57,7 @@ RSpec.describe 'User custom fields edit',
     # Edit again
     find('a', text: 'My User CF').click
 
-    expect(page).not_to have_field('custom_field_custom_options_attributes_0_value')
+    expect(page).to have_no_field('custom_field_custom_options_attributes_0_value')
     fill_in 'custom_field_name', with: 'My User CF (edited)'
 
     click_on 'Save'

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Working Days', js: true, with_cuprite: true do
+RSpec.describe 'Working Days', :js, :with_cuprite do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:week_days) { week_with_saturday_and_sunday_as_weekend }
@@ -58,7 +58,7 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
 
     it 'contains all defined days from the settings' do
       WeekDay.all.each do |day|
-        expect(page).to have_selector('label', text: day.name)
+        expect(page).to have_css('label', text: day.name)
         if day.working
           expect(page).to have_checked_field day.name
         end
@@ -77,7 +77,7 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
         dialog.cancel
       end
 
-      expect(page).not_to have_selector('.op-toast.-success')
+      expect(page).to have_no_css('.op-toast.-success')
 
       expect(working_days_setting).to eq([1, 2, 3, 4, 5])
 
@@ -101,7 +101,7 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
         dialog.confirm
       end
 
-      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.')
+      expect(page).to have_css('.op-toast.-success', text: 'Successful update.')
       expect(page).to have_unchecked_field 'Monday'
       expect(page).to have_unchecked_field 'Friday'
       expect(page).to have_unchecked_field 'Saturday'
@@ -141,8 +141,8 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
         dialog.confirm
       end
 
-      expect(page).to have_selector('.op-toast.-error',
-                                    text: 'At least one day of the week must be defined as a working day.')
+      expect(page).to have_css('.op-toast.-error',
+                               text: 'At least one day of the week must be defined as a working day.')
       # Restore the checkboxes to their valid state
       expect(page).to have_checked_field 'Monday'
       expect(page).to have_checked_field 'Tuesday'
@@ -175,8 +175,8 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
       # Not executing the background jobs
       dialog.confirm
 
-      expect(page).to have_selector('.op-toast.-error',
-                                    text: 'The previous changes to the working days configuration have not been applied yet.')
+      expect(page).to have_css('.op-toast.-error',
+                               text: 'The previous changes to the working days configuration have not been applied yet.')
     end
   end
 
@@ -213,7 +213,7 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
         click_on 'Add'
       end
 
-      expect(page).to have_selector('.fc-list-event-title', text: 'My holiday')
+      expect(page).to have_css('.fc-list-event-title', text: 'My holiday')
 
       # Add a second day
       click_on 'Non-working day'
@@ -232,7 +232,7 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
       click_on 'Apply changes'
       click_on 'Save and reschedule'
 
-      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.')
+      expect(page).to have_css('.op-toast.-success', text: 'Successful update.')
 
       nwd1 = NonWorkingDay.find_by(name: 'My holiday')
       expect(nwd1.date).to eq date1
@@ -246,7 +246,7 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
       within_test_selector('op-datepicker-modal') do
         click_on 'Add'
       end
-      expect(page).to have_selector('.flatpickr-calendar')
+      expect(page).to have_css('.flatpickr-calendar')
       datepicker.expect_visible
 
       within_test_selector('op-datepicker-modal') do
@@ -258,14 +258,14 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
       within_test_selector('op-datepicker-modal') do
         click_on 'Add'
       end
-      expect(page).not_to have_selector('.flatpickr-calendar')
+      expect(page).to have_no_css('.flatpickr-calendar')
 
-      expect(page).to have_selector('.op-toast', text: /A non-working day for this date exists already/)
+      expect(page).to have_css('.op-toast', text: /A non-working day for this date exists already/)
     end
 
     it 'deletes a non-working day' do
       non_working_days.each do |nwd|
-        expect(page).to have_selector('tr', text: nwd.date.strftime("%B %-d, %Y"))
+        expect(page).to have_css('tr', text: nwd.date.strftime("%B %-d, %Y"))
       end
 
       delete_button = page.first('.op-non-working-days-list--delete-icon .icon-delete', visible: :all)
@@ -277,8 +277,8 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
       dialog.confirm
 
       # Remove the first date
-      expect(page).not_to have_selector('tr', text: non_working_days.first.date.strftime("%B %-d, %Y"))
-      expect(page).to have_selector('tr', text: non_working_days.last.date.strftime("%B %-d, %Y"))
+      expect(page).to have_no_css('tr', text: non_working_days.first.date.strftime("%B %-d, %Y"))
+      expect(page).to have_css('tr', text: non_working_days.last.date.strftime("%B %-d, %Y"))
 
       # Show an error when the changes cannot be saved and preserves the modifications upon submit
       errors = ActiveModel::Errors.new(NonWorkingDay.new)
@@ -299,8 +299,8 @@ RSpec.describe 'Working Days', js: true, with_cuprite: true do
       dialog.confirm
 
       # Keep the second date hidden
-      expect(page).not_to have_selector('tr', text: non_working_days.second.date.strftime("%B %-d, %Y"))
-      expect(page).to have_selector('tr', text: non_working_days.last.date.strftime("%B %-d, %Y"))
+      expect(page).to have_no_css('tr', text: non_working_days.second.date.strftime("%B %-d, %Y"))
+      expect(page).to have_css('tr', text: non_working_days.last.date.strftime("%B %-d, %Y"))
     end
   end
 end

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,7 @@
 
 require 'spec_helper'
 
-RSpec.describe AccountController,
-               skip_2fa_stage: true do
+RSpec.describe AccountController, :skip_2fa_stage do
   let(:user_hook_class) do
     Class.new(OpenProject::Hook::ViewListener) do
       attr_reader :registered_user, :first_login_user
@@ -340,7 +339,7 @@ RSpec.describe AccountController,
         end
 
         context 'with no provider' do
-          it 'will redirect to default' do
+          it 'redirects to default' do
             get :logout
             expect(response).to redirect_to home_path
           end
@@ -357,7 +356,7 @@ RSpec.describe AccountController,
 
           context 'with direct login and redirecting callback',
                   with_config: { omniauth_direct_login_provider: 'foo' }, with_settings: { login_required?: true } do
-            it 'will still call the callback' do
+            it 'stills call the callback' do
               # Set the previous session
               session[:foo] = 'bar'
 
@@ -369,7 +368,7 @@ RSpec.describe AccountController,
             end
           end
 
-          it 'will call the callback' do
+          it 'calls the callback' do
             # Set the previous session
             session[:foo] = 'bar'
 
@@ -382,7 +381,7 @@ RSpec.describe AccountController,
         end
 
         context 'with a no-op callback' do
-          it 'will redirect to default if the callback does nothing' do
+          it 'redirects to default if the callback does nothing' do
             was_called = false
             sso_provider[:single_sign_out_callback] = Proc.new do
               was_called = true
@@ -397,7 +396,7 @@ RSpec.describe AccountController,
         context 'with a provider that does not have slo_callback' do
           let(:slo_callback) { nil }
 
-          it 'will redirect to default if the callback does nothing' do
+          it 'redirects to default if the callback does nothing' do
             get :logout
             expect(response).to redirect_to home_path
           end

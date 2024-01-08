@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ RSpec.describe AttributeGroups::AttributeKeyValueComponent, type: :component do
   it "preserve html in the value if it's a safe string" do
     render_inline(described_class.new(key: 'Attribute Key', value: '<div>Some value</div>'.html_safe))
 
-    expect(page).not_to have_css('.attributes-key-value--value.-text', text: "<div>Some value</div>")
+    expect(page).to have_no_css('.attributes-key-value--value.-text', text: "<div>Some value</div>")
     expect(page).to have_css('.attributes-key-value--value.-text', text: "Some value")
   end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -598,6 +598,26 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:path) { 'derivedEstimatedTime' }
         let(:type) { 'Duration' }
         let(:name) { I18n.t('attributes.derived_estimated_hours') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+    end
+
+    describe 'remainingTime' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'remainingTime' }
+        let(:type) { 'Duration' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.remaining_hours') }
+        let(:required) { false }
+        let(:writable) { true }
+      end
+    end
+
+    describe 'derivedRemainingTime' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'derivedRemainingTime' }
+        let(:type) { 'Duration' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.derived_remaining_hours') }
         let(:required) { false }
         let(:writable) { false }
       end

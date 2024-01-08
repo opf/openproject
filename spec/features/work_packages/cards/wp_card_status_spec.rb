@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Update status from WP card', js: true, with_cuprite: true do
+RSpec.describe 'Update status from WP card', :js, :with_cuprite do
   let(:manager_role) do
     create(:project_role, permissions: %i[view_work_packages edit_work_packages change_work_package_status])
   end

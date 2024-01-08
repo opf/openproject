@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -126,6 +126,11 @@ OpenProject::Application.configure do
   config.autoflush_log = false
 
   config.active_record.dump_schema_after_migration = false
+
+  # Silence the following warning
+  # "Rails couldn't infer whether you are using multiple databases from your database.yml"
+  # This is deprecated in 7.1. and the warning got removed.
+  config.active_record.suppress_multiple_database_warning = true
 
   if OpenProject::Configuration.enable_internal_assets_server?
     config.public_file_server.enabled = true

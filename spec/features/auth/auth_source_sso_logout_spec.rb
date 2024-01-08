@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,11 +53,11 @@ RSpec.describe 'Login with auth source SSO',
   it 'can log out after multiple visits' do
     visit home_path
 
-    expect(page).to have_selector('.controller-homescreen')
+    expect(page).to have_css('.controller-homescreen')
 
     visit home_path
 
-    expect(page).to have_selector('.controller-homescreen')
+    expect(page).to have_css('.controller-homescreen')
 
     visit signout_path
 

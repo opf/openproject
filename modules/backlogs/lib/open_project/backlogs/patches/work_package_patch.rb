@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,8 +33,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     prepend InstanceMethods
     extend ClassMethods
 
-    register_journal_formatted_fields(:fraction, 'remaining_hours')
-    register_journal_formatted_fields(:fraction, 'derived_remaining_hours')
     register_journal_formatted_fields(:decimal, 'story_points')
     register_journal_formatted_fields(:decimal, 'position')
 
@@ -43,16 +41,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
                                              greater_than_or_equal_to: 0,
                                              less_than: 10_000,
                                              if: -> { backlogs_enabled? }
-
-    validates_numericality_of :remaining_hours, only_integer: false,
-                                                allow_nil: true,
-                                                greater_than_or_equal_to: 0,
-                                                if: -> { backlogs_enabled? }
-
-    validates_numericality_of :derived_remaining_hours, only_integer: false,
-                                                        allow_nil: true,
-                                                        greater_than_or_equal_to: 0,
-                                                        if: -> { backlogs_enabled? }
 
     include OpenProject::Backlogs::List
   end

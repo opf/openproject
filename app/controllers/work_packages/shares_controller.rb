@@ -87,7 +87,15 @@ class WorkPackages::SharesController < ApplicationController
       .new(user: current_user, model: @share)
       .call(role_ids: find_role_ids(params[:role_ids]))
 
-    respond_with_update_permission_button
+    find_shares
+
+    if @shares.empty?
+      respond_with_replace_modal
+    elsif @shares.include?(@share)
+      respond_with_update_permission_button
+    else
+      respond_with_remove_share
+    end
   end
 
   def destroy
@@ -197,10 +205,7 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def find_shares
-    @shares = Member.includes(:roles)
-                    .references(:member_roles)
-                    .of_work_package(@work_package)
-                    .merge(MemberRole.only_non_inherited)
+    @shares = load_shares(load_query)
   end
 
   def find_project
@@ -208,11 +213,7 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def current_visible_member_count
-    @current_visible_member_count ||= Member
-      .joins(:member_roles)
-      .of_work_package(@work_package)
-      .merge(MemberRole.only_non_inherited)
-      .size
+    @current_visible_member_count ||= load_shares(load_query).size
   end
 
   def load_query

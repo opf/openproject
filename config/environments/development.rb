@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -87,4 +87,4 @@ OpenProject::Application.configure do
   end
 end
 
-ActiveRecord::Base.logger = ActiveSupport::Logger.new($stdout) unless String(ENV["SILENCE_SQL_LOGS"]).to_bool
+ActiveRecord::Base.logger = ActiveSupport::Logger.new($stdout) unless String(ENV.fetch("SILENCE_SQL_LOGS", nil)).to_bool

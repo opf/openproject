@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -114,7 +114,7 @@ class MessagesController < ApplicationController
     if call.success?
       flash[:notice] = t(:notice_successful_update)
       @message.reload
-      redirect_to topic_path(@message.root, r: (@message.parent_id && @message.id))
+      redirect_to topic_path(@message.root, r: @message.parent_id && @message.id)
     else
       render action: 'edit'
     end

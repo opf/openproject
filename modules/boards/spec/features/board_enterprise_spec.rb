@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,8 +56,8 @@ RSpec.describe 'Boards enterprise spec', :js, :with_cuprite do
     it 'disabled all action boards' do
       page.find('.toolbar-item a', text: 'Board').click
 
-      expect(page).to have_selector("#{test_selector('op-tile-block')}:not(.-disabled)", text: 'Basic')
-      expect(page).to have_selector("#{test_selector('op-tile-block')}.-disabled", count: 5)
+      expect(page).to have_css("#{test_selector('op-tile-block')}:not(.-disabled)", text: 'Basic')
+      expect(page).to have_css("#{test_selector('op-tile-block')}.-disabled", count: 5)
     end
 
     it 'shows a banner on the action board' do
@@ -85,7 +85,7 @@ RSpec.describe 'Boards enterprise spec', :js, :with_cuprite do
     it 'enables all options' do
       page.find('.toolbar-item a', text: 'Board').click
 
-      expect(page).to have_selector("#{test_selector('op-tile-block')}:not(.-disabled)", count: 6)
+      expect(page).to have_css("#{test_selector('op-tile-block')}:not(.-disabled)", count: 6)
     end
 
     it 'shows the action board' do

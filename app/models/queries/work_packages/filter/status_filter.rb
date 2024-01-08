@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,7 +54,6 @@ class Queries::WorkPackages::Filter::StatusFilter < Queries::WorkPackages::Filte
   def value_objects
     values
       .filter_map { |status_id| all_statuses[status_id.to_i] }
-      
   end
 
   def allowed_objects

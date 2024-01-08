@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -100,19 +100,21 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
 
   private $element:JQuery;
 
-  constructor(readonly elementRef:ElementRef,
+  constructor(
+    readonly elementRef:ElementRef,
     readonly injector:Injector,
     readonly sanitization:DomSanitizer,
     readonly PathHelper:PathHelperService,
     readonly wpLinkedActivities:WorkPackagesActivityService,
     readonly commentService:CommentService,
-    readonly ConfigurationService:ConfigurationService,
+    readonly configurationService:ConfigurationService,
     readonly apiV3Service:ApiV3Service,
     readonly cdRef:ChangeDetectorRef,
     readonly I18n:I18nService,
     readonly ngZone:NgZone,
     readonly deviceService:DeviceService,
-    protected appRef:ApplicationRef) {
+    protected appRef:ApplicationRef,
+  ) {
     super(elementRef, injector);
   }
 
@@ -232,7 +234,7 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     return this.focused;
   }
 
-  setErrors(newErrors:string[]):void {
+  setErrors(_newErrors:string[]):void {
     // interface
   }
 
@@ -240,7 +242,8 @@ export class UserActivityComponent extends WorkPackageCommentFieldHandler implem
     const quoted = rawComment.split('\n')
       .map((line:string) => `\n> ${line}`)
       .join('');
-    return `${this.userName} wrote:\n${quoted}`;
+    const userWrote = this.I18n.instance_locale_translate('js.text_user_wrote', { value: this.userName });
+    return `${userWrote}\n${quoted}`;
   }
 
   deactivate(focus:boolean):void {

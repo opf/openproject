@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,11 +37,11 @@ module Pages::Messages
     end
 
     def expect_subject(subject)
-      expect(page).to have_selector('.title-container', text: subject)
+      expect(page).to have_css('.title-container', text: subject)
     end
 
     def expect_content(content)
-      expect(page).to have_selector('.forum-message .wiki', text: content)
+      expect(page).to have_css('.forum-message .wiki', text: content)
     end
 
     def expect_no_replies
@@ -57,7 +57,7 @@ module Pages::Messages
 
       click_button 'Submit'
 
-      expect(page).to have_selector('.forum-message--comments', text:)
+      expect(page).to have_css('.forum-message--comments', text:)
 
       Message.last
     end
@@ -88,7 +88,7 @@ module Pages::Messages
       subject_field.native.send_keys(:return)
 
       text = (quoted_message || Message.first).content
-      expect(page).to have_selector('.forum-message--comments blockquote', text:)
+      expect(page).to have_css('.forum-message--comments blockquote', text:)
 
       Message.last
     end

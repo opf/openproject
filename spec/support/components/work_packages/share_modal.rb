@@ -69,7 +69,7 @@ module Components
       def expect_not_selectable(*principals)
         principals.each do |principal|
           within user_row(principal) do
-            expect(page).not_to have_field(principal.name)
+            expect(page).to have_no_field(principal.name)
           end
         end
       end
@@ -112,7 +112,7 @@ module Components
 
       def expect_select_all_not_available
         expect(shares_header)
-          .not_to have_field('toggle_all', wait: 0)
+          .to have_no_field('toggle_all', wait: 0)
       end
 
       def expect_select_all_toggled
@@ -136,7 +136,7 @@ module Components
 
       def expect_bulk_actions_not_available
         within shares_header do
-          expect(page).not_to have_button('Remove', wait: 0)
+          expect(page).to have_no_button('Remove', wait: 0)
           expect(page).not_to have_test_selector('op-share-wp-bulk-update-role', wait: 0)
         end
       end
@@ -279,7 +279,7 @@ module Components
 
       def close
         within_modal do
-          click_button 'Close'
+          page.find("[data-test-selector='op-share-wp-modal--close-icon']").click
         end
       end
 
@@ -311,7 +311,7 @@ module Components
         within shares_list do
           principals.each do |principal|
             expect(page)
-              .not_to have_text(principal.name)
+              .to have_no_text(principal.name)
           end
         end
       end
@@ -388,7 +388,7 @@ module Components
       def expect_no_user_limit_warning
         within modal_element do
           expect(page)
-            .not_to have_text(I18n.t('work_package.sharing.warning_user_limit_reached'), wait: 0)
+            .to have_no_text(I18n.t('work_package.sharing.warning_user_limit_reached'), wait: 0)
         end
       end
 
@@ -403,7 +403,7 @@ module Components
         within modal_element do
           expect(page)
             .to have_css('[data-test-selector="op-share-wp-error-message"]',
-                         text: text)
+                         text:)
         end
       end
 
@@ -417,7 +417,7 @@ module Components
       def expect_no_select_a_user_hint
         within modal_element do
           expect(page)
-            .not_to have_text(I18n.t("work_package.sharing.warning_no_selected_user"), wait: 0)
+            .to have_no_text(I18n.t("work_package.sharing.warning_no_selected_user"), wait: 0)
         end
       end
     end

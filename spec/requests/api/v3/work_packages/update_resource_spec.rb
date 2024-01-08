@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,6 @@ RSpec.describe 'API v3 Work package resource',
   end
   let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[view_work_packages edit_work_packages change_work_package_status assign_versions work_package_assigned] }
-  let(:type) { create(:type) }
 
   current_user do
     create(:user, member_with_roles: { project => role })
@@ -235,30 +234,45 @@ RSpec.describe 'API v3 Work package resource',
       end
 
       context 'start date' do
-        let(:dateString) { Date.today.to_date.iso8601 }
-        let(:params) { valid_params.merge(startDate: dateString) }
+        let(:date_string) { Date.current.iso8601 }
+        let(:params) { valid_params.merge(startDate: date_string) }
 
         include_context 'patch request'
 
         it { expect(response.status).to eq(200) }
 
         it 'responds with updated start date' do
-          expect(subject.body).to be_json_eql(dateString.to_json).at_path('startDate')
+          expect(subject.body).to be_json_eql(date_string.to_json).at_path('startDate')
         end
 
         it_behaves_like 'lock version updated'
       end
 
       context 'finish date' do
-        let(:dateString) { Date.today.to_date.iso8601 }
-        let(:params) { valid_params.merge(dueDate: dateString) }
+        let(:date_string) { Date.current.iso8601 }
+        let(:params) { valid_params.merge(dueDate: date_string) }
 
         include_context 'patch request'
 
         it { expect(response.status).to eq(200) }
 
         it 'responds with updated finish date' do
-          expect(subject.body).to be_json_eql(dateString.to_json).at_path('dueDate')
+          expect(subject.body).to be_json_eql(date_string.to_json).at_path('dueDate')
+        end
+
+        it_behaves_like 'lock version updated'
+      end
+
+      describe 'remaining time' do
+        let(:duration) { 'PT12H30M' }
+        let(:params) { valid_params.merge(remainingTime: duration) }
+
+        include_context 'patch request'
+
+        it { expect(response.status).to eq(200) } # rubocop:disable RSpec/Rails/HaveHttpStatus
+
+        it 'responds with updated finish date' do
+          expect(subject.body).to be_json_eql(duration.to_json).at_path('remainingTime')
         end
 
         it_behaves_like 'lock version updated'

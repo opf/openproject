@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -146,8 +146,8 @@ RSpec.describe 'filter work packages', :js do
 
       filters.open_autocompleter :status
 
-      expect(page).to have_selector('.ng-option', text: closed_status.name)
-      expect(page).not_to have_selector('.ng-option', text: status.name)
+      expect(page).to have_css('.ng-option', text: closed_status.name)
+      expect(page).to have_no_css('.ng-option', text: status.name)
     end
   end
 
@@ -262,7 +262,7 @@ RSpec.describe 'filter work packages', :js do
       # Do not display already selected values in the autocompleter (Regression #46249)
       filters.open_autocompleter list_cf.attribute_name(:camel_case)
 
-      expect(page).not_to have_selector('.ng-option', text: list_cf.custom_options.last.value)
+      expect(page).to have_no_css('.ng-option', text: list_cf.custom_options.last.value)
 
       wp_table.save_as('Some query name')
 
@@ -487,7 +487,7 @@ RSpec.describe 'filter work packages', :js do
     end
 
     it "does not offer attachment filters" do
-      expect(page).not_to have_select 'add_filter_select', with_options: ['Attachment content', 'Attachment file name']
+      expect(page).to have_no_select 'add_filter_select', with_options: ['Attachment content', 'Attachment file name']
     end
   end
 

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,10 +27,20 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t("project_module_storages"), @storage.name, "#{t("storages.provider_types.#{@storage.short_provider_type}.name")} #{t("storages.label_oauth_client_details")}" %>
+<%= turbo_stream.update :storage_general_info_section do %>
+  <%= render(Storages::Admin::GeneralInfoComponent.new(@storage)) %>
+<% end %>
 
-<%=
-  render(OpTurbo::FrameComponent.new(id: :storage_oauth_client_section)) do
-    render(Storages::Admin::Forms::OAuthClientFormComponent.new(oauth_client: @oauth_client, storage: @storage))
-  end
-%>
+<%= turbo_stream.update :storage_openproject_oauth_section do %>
+  <%=
+    render(
+      Storages::Admin::OAuthApplicationInfoCopyComponent.new(
+        oauth_application: @oauth_application,
+        storage: @storage,
+        submit_button_options: {
+          data: { turbo_stream: true }
+        }
+      )
+    )
+  %>
+<% end %>

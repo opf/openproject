@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -278,6 +278,15 @@ ca:
       no_results_content_text: Afegeix un membre al projecte
     invite_by_mail: "Envia invitació a %{mail}"
     send_invite_to: "Send invite to"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Fallada al reiniciar el token d'accés: %{error}"
@@ -602,6 +611,8 @@ ca:
         begin_insertion: "Inici de la inserció"
         begin_deletion: "Inici de la supressió"
         children: "Sub-elements"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
         duration: "Duració"
         end_insertion: "Final de la inserció"
@@ -618,6 +629,8 @@ ca:
         priority: "Prioritat"
         progress: "% Complete"
         readonly: "Només lectura"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Planificació manual"
         spent_hours: "Temps invertit"
         spent_time: "Temps invertit"
@@ -3252,6 +3265,7 @@ ca:
       oauth_returned_json_error: "L'OAuth2 retorna un error JSON"
       oauth_returned_http_error: "L'OAuth2 retorna un error de xarxa"
       oauth_returned_standard_error: "L'OAuth2 retorna un error intern"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "L'OAuth2 ha retornat una classe de token invàlida, s'espera un AccessToken::Bearer"
       oauth_issue_contact_admin: "L'OAuth2 reporta un error. Si us plau, contacta amb l'administrador del sistema."
       oauth_client_not_found: "No s'ha trobat el client OAuth2 en la \"callback\" al \"endpoint\" (redirect_uri)."

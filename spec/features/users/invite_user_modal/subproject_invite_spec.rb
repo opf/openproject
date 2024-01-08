@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,7 +65,7 @@ RSpec.describe 'Invite user modal subprojects', :js, :with_cuprite do
 
       modal.expect_open
       modal.within_modal do
-        expect(page).to have_selector '.ng-value', text: 'Subproject'
+        expect(page).to have_css '.ng-value', text: 'Subproject'
       end
 
       modal.run_all_steps
@@ -87,9 +87,9 @@ RSpec.describe 'Invite user modal subprojects', :js, :with_cuprite do
 
       assignee_field.activate!
 
-      expect(page).to have_selector '.ng-dropdown-panel'
+      expect(page).to have_css '.ng-dropdown-panel'
 
-      expect(page).not_to have_selector('.ng-dropdown-footer button', text: 'Invite')
+      expect(page).to have_no_css('.ng-dropdown-footer button', text: 'Invite')
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -757,6 +757,7 @@ fil:
           last_day: 'Last day'
     text_are_you_sure: "Sigurado ka ba?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Ang pangalan ng %{group} ay ginamit higit pa sa isang beses. Ang mga pangalan ng grupo ay dapat nakakakatangi."
@@ -981,6 +982,7 @@ fil:
         updatedAt: "Naka-update sa"
         versionName: "Bersyon"
         version: "Bersyon"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"

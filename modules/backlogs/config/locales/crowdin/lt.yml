@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -27,10 +27,6 @@ lt:
     attributes:
       work_package:
         position: "Vieta"
-        remaining_hours: "Liko darbo"
-        remaining_time: "Liko darbo"
-        derived_remaining_hours: "Išvestas likęs darbas"
-        derived_remaining_time: "Išvestas likęs darbas"
         story_points: "Istorijos taškai"
         backlogs_work_package_type: "Darbų sąrašo tipas"
     errors:
@@ -68,8 +64,8 @@ lt:
     properties: "Ypatybės"
     rebuild: "Perkurti"
     rebuild_positions: "Perkurti pozicijas"
-    remaining_hours: "Liko valandų"
-    remaining_hours_ideal: "Liko valandų (idealiai)"
+    remaining_hours: "Liko darbo"
+    remaining_hours_ideal: "Liko darbo (idealiai)"
     show_burndown_chart: "Perdegimo lentelė"
     story: "Istorija"
     story_points: "Istorijos taškai"
@@ -151,7 +147,7 @@ lt:
   rb_label_copy_tasks_none: "Joks"
   rb_label_copy_tasks_open: "Atidaryti"
   rb_label_link_to_original: "Įtraukti nuorodą į originalią istoriją"
-  remaining_hours: "likusios valandos"
+  remaining_hours: "liko darbo"
   required_burn_rate_hours: "reikalingas degimo tempas (valandos)"
   required_burn_rate_points: "reikalingas degimo tempas (taškai)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

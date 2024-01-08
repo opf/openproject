@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,11 +34,11 @@ module Components
       include RSpec::Matchers
 
       def expect_open
-        expect(page).to have_selector('[data-test-selector="op-sidemenu"]')
+        expect(page).to have_css('[data-test-selector="op-sidemenu"]')
       end
 
       def expect_item_not_visible(item)
-        expect(page).not_to have_selector(item_selector, text: item)
+        expect(page).to have_no_selector(item_selector, text: item)
       end
 
       def expect_item_with_count(item, count)
@@ -61,17 +61,17 @@ module Components
 
       def finished_loading
         wait_for_network_idle if using_cuprite?
-        expect(page).not_to have_selector('[data-test-selector="op-ian-center--loading-indicator"]')
+        expect(page).to have_no_css('[data-test-selector="op-ian-center--loading-indicator"]')
       end
 
       private
 
       def expect_count(count)
-        expect(page).to have_selector('.op-bubble', text: count)
+        expect(page).to have_css('.op-bubble', text: count)
       end
 
       def expect_no_count
-        expect(page).not_to have_selector('.op-bubble')
+        expect(page).to have_no_css('.op-bubble')
       end
 
       def item_action_selector(item)

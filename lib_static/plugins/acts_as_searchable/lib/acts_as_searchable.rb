@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,7 @@ module Redmine
           # Permission needed to search this model
           unless searchable_options.has_key?(:permission)
             searchable_options[:permission] =
-              "view_#{name.underscore.pluralize}".to_sym
+              :"view_#{name.underscore.pluralize}"
           end
 
           # Should we search custom fields on this model ?

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package navigation', js: true, selenium: true do
+RSpec.describe 'Work package navigation', :js, :selenium do
   let(:user) { create(:admin) }
   let(:project) { create(:project, name: 'Some project', enabled_module_names: [:work_package_tracking]) }
   let(:work_package) { build(:work_package, project:) }
@@ -85,7 +85,7 @@ RSpec.describe 'Work package navigation', js: true, selenium: true do
     split_work_package.visit!
     split_work_package.expect_subject
     # Should be checked in table
-    expect(global_work_packages.table_container).to have_selector(".wp-row-#{work_package.id}.-checked")
+    expect(global_work_packages.table_container).to have_css(".wp-row-#{work_package.id}.-checked")
 
     # deep link work package show
 
@@ -161,10 +161,10 @@ RSpec.describe 'Work package navigation', js: true, selenium: true do
     visit project_path(project)
 
     find('#main-menu-work-packages ~ .toggler').click
-    expect(page).to have_selector('.op-view-select--search-results')
+    expect(page).to have_css('.op-view-select--search-results')
     find('.op-sidemenu--item-action', text: query.name).click
 
-    expect(page).not_to have_selector('.title-container', text: 'Overview')
+    expect(page).to have_no_css('.title-container', text: 'Overview')
     expect(page).to have_field('editable-toolbar-title', with: query.name)
   end
 
@@ -224,7 +224,7 @@ RSpec.describe 'Work package navigation', js: true, selenium: true do
       query
     end
 
-    it 'will filter out the work package' do
+    it 'filters out the work package' do
       wp_table = Pages::WorkPackagesTable.new project
       wp_table.visit!
 
@@ -250,7 +250,7 @@ RSpec.describe 'Work package navigation', js: true, selenium: true do
       create(:work_package, subject: 'WP attachment A', project:, attachments: [attachment])
     end
 
-    it 'will show it when navigating from table to single view' do
+    it 'shows it when navigating from table to single view' do
       wp_table = Pages::WorkPackagesTable.new project
       wp_table.visit!
 
@@ -290,7 +290,7 @@ RSpec.describe 'Work package navigation', js: true, selenium: true do
   context 'when visiting a query that will lead to a query validation error' do
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
-    it 'will output a correct error message (Regression #39880)' do
+    it 'outputs a correct error message (Regression #39880)' do
       url_query =
         "query_id=%7B%22%7B%22&query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject" \
         "%22%2C%22type%22%2C%22status%22%2C%22assignee%22%2C%22updatedAt%22%5D%2C" \
@@ -302,7 +302,7 @@ RSpec.describe 'Work package navigation', js: true, selenium: true do
       visit "/projects/#{project.identifier}/work_packages?#{url_query}"
 
       wp_table.expect_toast message: 'Your view is erroneous and could not be processed.', type: :error
-      expect(page).to have_selector 'li', text: 'Bad request: id is invalid'
+      expect(page).to have_css 'li', text: 'Bad request: id is invalid'
     end
   end
 end

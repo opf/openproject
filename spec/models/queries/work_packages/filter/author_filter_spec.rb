@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -107,8 +107,7 @@ RSpec.describe Queries::WorkPackages::Filter::AuthorFilter do
             .and_return([[nil, user_1.id.to_s]])
 
           expect(instance.allowed_values)
-            .to match_array([[I18n.t(:label_me), 'me'],
-                             [nil, user_1.id.to_s]])
+            .to contain_exactly([I18n.t(:label_me), 'me'], [nil, user_1.id.to_s])
         end
       end
 
@@ -121,7 +120,7 @@ RSpec.describe Queries::WorkPackages::Filter::AuthorFilter do
             .and_return([[nil, user_1.id.to_s]])
 
           expect(instance.allowed_values)
-            .to match_array([[nil, user_1.id.to_s]])
+            .to contain_exactly([nil, user_1.id.to_s])
         end
       end
     end

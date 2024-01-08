@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe 'Storages module', js: true do
+RSpec.describe 'Storages module', :js do
   current_user { create(:admin) }
 
   let(:role) { create(:project_role, permissions: %i[manage_storages_in_project select_project_modules edit_project]) }
@@ -137,7 +137,7 @@ RSpec.describe 'Storages module', js: true do
         end
 
         it 'mustn\'t show the page' do
-          expect(page).not_to have_text(I18n.t('storages.page_titles.project_settings.index'))
+          expect(page).to have_no_text(I18n.t('storages.page_titles.project_settings.index'))
         end
       end
     end

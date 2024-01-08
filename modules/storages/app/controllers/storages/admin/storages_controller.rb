@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -188,8 +188,7 @@ class Storages::Admin::StoragesController < ApplicationController
     @oauth_application = service_result.result
 
     if service_result.success?
-      flash[:notice] = I18n.t('storages.notice_oauth_application_replaced')
-      render :show_oauth_application
+      render :replace_oauth_application
     else
       render :edit
     end

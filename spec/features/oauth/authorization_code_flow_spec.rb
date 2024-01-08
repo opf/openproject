@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'OAuth authorization code flow',
-               js: true do
+RSpec.describe 'OAuth authorization code flow', :js do
   let!(:user) { create(:user) }
   let!(:redirect_uri) { 'urn:ietf:wg:oauth:2.0:oob' }
   let!(:allowed_redirect_uri) { redirect_uri }
@@ -66,11 +65,11 @@ RSpec.describe 'OAuth authorization code flow',
     login_with user.login, 'adminADMIN!', visit_signin_path: false
 
     # We get to the authorization screen
-    expect(page).to have_selector('h2', text: 'Authorize Cool API app!')
+    expect(page).to have_css('h2', text: 'Authorize Cool API app!')
 
     # With the correct scope printed
-    expect(page).to have_selector('li strong', text: I18n.t('oauth.scopes.api_v3'))
-    expect(page).to have_selector('li', text: I18n.t('oauth.scopes.api_v3_text'))
+    expect(page).to have_css('li strong', text: I18n.t('oauth.scopes.api_v3'))
+    expect(page).to have_css('li', text: I18n.t('oauth.scopes.api_v3_text'))
 
     SeleniumHubWaiter.wait
     # Authorize
@@ -90,8 +89,8 @@ RSpec.describe 'OAuth authorization code flow',
     visit my_account_path
     click_on 'Access token'
 
-    expect(page).to have_selector("#oauth-application-grant-#{app.id}", text: app.name)
-    expect(page).to have_selector('td', text: app.name)
+    expect(page).to have_css("#oauth-application-grant-#{app.id}", text: app.name)
+    expect(page).to have_css('td', text: app.name)
 
     # Revoke the application
     within("#oauth-application-grant-#{app.id}") do
@@ -102,8 +101,8 @@ RSpec.describe 'OAuth authorization code flow',
     page.driver.browser.switch_to.alert.accept
 
     # Should be back on access_token path
-    expect(page).to have_selector('.op-toast.-success')
-    expect(page).not_to have_selector("[id^=oauth-application-grant]")
+    expect(page).to have_css('.op-toast.-success')
+    expect(page).to have_no_css("[id^=oauth-application-grant]")
 
     expect(page).to have_current_path /\/my\/access_token/
 
@@ -119,8 +118,8 @@ RSpec.describe 'OAuth authorization code flow',
     login_with user.login, 'adminADMIN!', visit_signin_path: false
 
     # But we got no further
-    expect(page).to have_selector('.op-toast.-error',
-                                  text: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.')
+    expect(page).to have_css('.op-toast.-error',
+                             text: 'Client authentication failed due to unknown client, no client authentication included, or unsupported authentication method.')
 
     # And also have no grant for this application
     user.oauth_grants.reload
@@ -175,7 +174,7 @@ RSpec.describe 'OAuth authorization code flow',
       login_with user.login, 'adminADMIN!', visit_signin_path: false
 
       # We get to the authorization screen
-      expect(page).to have_selector('h2', text: 'Authorize Cool API app!')
+      expect(page).to have_css('h2', text: 'Authorize Cool API app!')
 
       # Authorize
       find('input.button[value="Authorize"]').click

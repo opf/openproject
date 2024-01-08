@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -78,7 +78,7 @@ RSpec.describe 'Calendar Widget', :js, :with_cuprite, with_settings: { start_of_
 
     overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
-    expect(page).to have_selector('.fc-event-title', text: work_package.subject)
+    expect(page).to have_css('.fc-event-title', text: work_package.subject)
 
     calendar.resize_date(work_package, work_package.due_date - 1.day)
     overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')

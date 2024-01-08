@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,18 +49,6 @@ module OpenProject::Backlogs
                    show_if: ->(*) {
                      backlogs_constraint_passed?(:story_points)
                    }
-
-            schema :remaining_time,
-                   type: 'Duration',
-                   name_source: :remaining_hours,
-                   required: false,
-                   show_if: ->(*) { represented.project && represented.project.backlogs_enabled? }
-
-            schema :derived_remaining_time,
-                   type: 'Duration',
-                   name_source: :derived_remaining_hours,
-                   required: false,
-                   show_if: ->(*) { represented.project && represented.project.backlogs_enabled? }
 
             define_method :backlogs_constraint_passed? do |attribute|
               represented.project&.backlogs_enabled? &&

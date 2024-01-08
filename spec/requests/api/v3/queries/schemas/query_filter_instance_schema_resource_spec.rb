@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -62,7 +62,7 @@ RSpec.describe 'API v3 Query Filter Schema resource' do
     %i[global
        project].each do |current_path|
       context current_path do
-        let(:path) { send "#{current_path}_path".to_sym }
+        let(:path) { send :"#{current_path}_path" }
 
         it 'succeeds' do
           expect(subject.status)

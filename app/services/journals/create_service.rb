@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -229,6 +229,14 @@ module Journals
     def relation_modifications_sql(predecessor)
       relations = []
 
+      for_supported_associations do |association|
+        relations << association_modifications_sql(association, predecessor)
+      end
+
+      relations
+    end
+
+    def for_supported_associations
       associations = {
         attachable?: :attachable,
         customizable?: :customizable,
@@ -238,19 +246,17 @@ module Journals
 
       associations.each do |is_associated, association|
         if journable.respond_to?(is_associated)
-          relations << association_modifications_sql(association, predecessor)
+          yield association
         end
       end
-
-      relations
     end
 
     def association_modifications_sql(association, predecessor)
       <<~SQL
         cleanup_predecessor_#{association} AS (
-          #{send("cleanup_predecessor_#{association}", predecessor)}
+          #{send(:"cleanup_predecessor_#{association}", predecessor)}
         ), insert_#{association} AS (
-          #{send("insert_#{association}_sql")}
+          #{send(:"insert_#{association}_sql")}
         )
       SQL
     end
@@ -612,28 +618,23 @@ module Journals
     end
 
     def select_changed_sql
-      <<~SQL
+      sql = <<~SQL
         SELECT
            *
         FROM
           (#{data_changes_sql}) data_changes
-        FULL JOIN
-          (#{customizable_changes_sql}) customizable_changes
-        ON
-          customizable_changes.journable_id = data_changes.journable_id
-        FULL JOIN
-          (#{attachable_changes_sql}) attachable_changes
-        ON
-          attachable_changes.journable_id = data_changes.journable_id
-        FULL JOIN
-          (#{storable_changes_sql}) storable_changes
-        ON
-          storable_changes.journable_id = data_changes.journable_id
-        FULL JOIN
-          (#{agenda_itemable_changes_sql}) agenda_itemable_changes
-        ON
-          agenda_itemable_changes.journable_id = data_changes.journable_id
       SQL
+
+      for_supported_associations do |association|
+        sql += <<~SQL
+          FULL JOIN
+            (#{send(:"#{association}_changes_sql")}) #{association}_changes
+          ON
+            #{association}_changes.journable_id = data_changes.journable_id
+        SQL
+      end
+
+      sql
     end
 
     def attachable_changes_sql

@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,16 +31,19 @@ import * as i18njs from 'i18n-js';
 
 export function initializeLocale() {
   const meta = document.querySelector<HTMLMetaElement>('meta[name=openproject_initializer]');
-  const locale = meta?.dataset.locale || 'en';
+  const userLocale = meta?.dataset.locale || 'en';
+  const defaultLocale = meta?.dataset.defaultlocale || 'en';
+  const instanceLocale = meta?.dataset.instancelocale || 'en';
   const firstDayOfWeek = parseInt(meta?.dataset.firstdayofweek || '', 10); // properties of meta.dataset are exposed in lowercase
   const firstWeekOfYear = parseInt(meta?.dataset.firstweekofyear || '', 10); // properties of meta.dataset are exposed in lowercase
 
   window.I18n = new i18njs.I18n();
-  I18n.locale = locale;
+  I18n.locale = userLocale;
+  I18n.defaultLocale = defaultLocale;
 
   if (!Number.isNaN(firstDayOfWeek) && !Number.isNaN(firstWeekOfYear)) {
     // ensure locale like "zh-CN" falls back to "zh-cn"
-    moment.locale(locale);
+    moment.locale(userLocale);
     moment.updateLocale(moment.locale(), {
       week: {
         dow: firstDayOfWeek,
@@ -66,8 +69,15 @@ export function initializeLocale() {
     },
   );
 
-  return import(/* webpackChunkName: "locale" */ `../../../locales/${I18n.locale}.json`)
-    .then((imported:{ default:object }) => {
-      I18n.store(imported.default);
-    });
+  const localeImports = _
+    .chain([userLocale, instanceLocale])
+    .uniq()
+    .map(
+      (locale) => import(/* webpackChunkName: "locale" */ `../../../locales/${locale}.json`)
+        .then((imported:{ default:object }) => {
+          I18n.store(imported.default);
+        }),
+      )
+    .value();
+  return Promise.all(localeImports);
 }

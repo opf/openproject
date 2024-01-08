@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -281,6 +281,15 @@ af:
       no_results_content_text: Add a member to the project
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "Send invite to"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -606,6 +615,8 @@ af:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
         duration: "Duration"
         end_insertion: "End of the insertion"
@@ -622,6 +633,8 @@ af:
         priority: "Prioriteit"
         progress: "% Complete"
         readonly: "Read only"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Manual scheduling"
         spent_hours: "Tyd gespandeer"
         spent_time: "Tyd gespandeer"
@@ -3263,6 +3276,7 @@ af:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

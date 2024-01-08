@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -281,6 +281,15 @@ ko:
       no_results_content_text: 프로젝트에 새 멤버 추가
     invite_by_mail: "%{mail}에 초대 보내기"
     send_invite_to: "다음으로 초대장 보내기:"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "액세스 토큰을 재설정하지 못함: %{error}"
@@ -604,6 +613,8 @@ ko:
         begin_insertion: "삽입 시작"
         begin_deletion: "삭제 시작"
         children: "하위 요소"
+        derived_remaining_hours: "파생된 남은 작업"
+        derived_remaining_time: "파생된 남은 작업"
         done_ratio: "완료 %"
         duration: "기간"
         end_insertion: "삽입 끝"
@@ -620,6 +631,8 @@ ko:
         priority: "우선 순위"
         progress: "완료 %"
         readonly: "읽기 전용"
+        remaining_hours: "남은 작업"
+        remaining_time: "남은 작업"
         schedule_manually: "수동 스케줄링"
         spent_hours: "소비한 시간"
         spent_time: "소비한 시간"
@@ -3228,6 +3241,7 @@ ko:
       oauth_returned_json_error: "OAuth2가 JSON 오류를 반환했습니다."
       oauth_returned_http_error: "OAuth2가 네트워크 오류를 반환했습니다."
       oauth_returned_standard_error: "OAuth2가 내부 오류를 반환했습니다."
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2가 잘못된 유형의 토큰을 반환했습니다. AccessToken::Bearer가 필요합니다."
       oauth_issue_contact_admin: "OAuth2가 오류를 보고했습니다. 시스템 관리자에게 문의하세요."
       oauth_client_not_found: "'callback' 엔드포인트(redirect_uri)에서 OAuth2 클라이언트를 찾을 수 없습니다."

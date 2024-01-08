@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-RSpec.describe 'Work package calendar widget on dashboard',
-               js: true do
+RSpec.describe 'Work package calendar widget on dashboard', :js do
   let!(:type) { create(:type) }
   let!(:priority) { create(:default_priority) }
   let!(:project) { create(:project, types: [type]) }
@@ -125,19 +124,19 @@ RSpec.describe 'Work package calendar widget on dashboard',
 
     within(calendar_widget.area) do
       expect(page)
-        .to have_selector('.fc-event-title', text: spanning_work_package.subject)
+        .to have_css('.fc-event-title', text: spanning_work_package.subject)
 
       expect(page)
-        .to have_selector('.fc-event-title', text: starting_work_package.subject)
+        .to have_css('.fc-event-title', text: starting_work_package.subject)
 
       expect(page)
-        .to have_selector('.fc-event-title', text: ending_work_package.subject)
+        .to have_css('.fc-event-title', text: ending_work_package.subject)
 
       expect(page)
-        .not_to have_selector('.fc-event-title', text: outdated_work_package.subject)
+        .to have_no_css('.fc-event-title', text: outdated_work_package.subject)
 
       expect(page)
-        .not_to have_selector('.fc-event-title', text: other_project_work_package.subject)
+        .to have_no_css('.fc-event-title', text: other_project_work_package.subject)
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Logout', js: true do
+RSpec.describe 'Logout', :js do
   let(:user_password) { 'b0B' * 4 }
   let(:user) do
     create(:user,
@@ -55,7 +55,7 @@ RSpec.describe 'Logout', js: true do
     # Can not access the my page but is redirected
     # to login instead.
     visit my_page_path
-    
+
     expect(page)
       .to have_current_path /login/
 

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -173,7 +173,7 @@ lt:
   text_meeting_not_present_anymore: "Šis susitikimas buvo ištrintas. Prašome parinkti kitą susitikimą."
   label_add_work_package_to_meeting_dialog_title: "Pridėti darbo paketą prie susitikimo"
   label_add_work_package_to_meeting_dialog_button: "Pridėti į susitikimą"
-  label_meeting_selection_caption: "Šį darbo paketą galima pridėti tik į atidarytą, artėjantį susitikimą."
+  label_meeting_selection_caption: "Šį darbo paketą galima pridėti tik į artėjantį ar vykstantį susitikimą."
   text_add_work_package_to_meeting_description: "Darbo paketą galima pridėti į vieną ar kelis susitikimus diskusijai. Bet kokios su juo susijusios pastabos taipogi bus ten matomos."
   text_agenda_item_no_notes: "Pastabos nepateiktos"
   text_agenda_item_not_editable_anymore: "Šis plano elementas daugiau neberedaguojamas"

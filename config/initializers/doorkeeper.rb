@@ -5,11 +5,7 @@ Doorkeeper.configure do
   # This block will be called to check whether the resource owner is authenticated or not.
   resource_owner_authenticator do
     logged_user = session[:user_id] && User.active.find_by(id: session[:user_id])
-    if logged_user.present?
-      logged_user
-    else
-      redirect_to(signin_path(back_url: request.fullpath))
-    end
+    logged_user.presence || redirect_to(signin_path(back_url: request.fullpath))
   end
 
   # If you are planning to use Doorkeeper in Rails 5 API-only application, then you might

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,18 +50,18 @@ RSpec.describe 'Authentication Stages' do
   def expect_logged_in(path = my_page_path)
     expect(page).to have_current_path(path)
     visit my_account_path
-    expect(page).to have_selector('.form--field-container', text: user.login)
+    expect(page).to have_css('.form--field-container', text: user.login)
   end
 
   def expect_not_logged_in
     visit my_account_path
-    expect(page).not_to have_selector('.form--field-container', text: user.login)
+    expect(page).to have_no_css('.form--field-container', text: user.login)
   end
 
   context 'when disabled', with_settings: { consent_required: false } do
     it 'does not show consent' do
       login_with user.login, user_password
-      expect(page).not_to have_selector('.account-consent')
+      expect(page).to have_no_css('.account-consent')
       expect_logged_in
     end
 
@@ -70,7 +70,7 @@ RSpec.describe 'Authentication Stages' do
       expect(Setting::Autologin.enabled?).to be true
 
       login_with user.login, user_password, autologin: true
-      expect(page).not_to have_selector('.account-consent')
+      expect(page).to have_no_css('.account-consent')
 
       expect_logged_in
       cookies = Capybara.current_session.driver.request.cookies
@@ -90,7 +90,7 @@ RSpec.describe 'Authentication Stages' do
               .at_least(:once)
               .with('Instance is configured to require consent, but no consent_info has been set.')
       login_with user.login, user_password
-      expect(page).not_to have_selector('.account-consent')
+      expect(page).to have_no_css('.account-consent')
       expect_logged_in
     end
   end
@@ -100,7 +100,6 @@ RSpec.describe 'Authentication Stages' do
             consent_required: true,
             consent_info: { de: '# Einwilligung', en: '# Consent header!' }
           } do
-
     around do |example|
       Capybara.current_session.driver.header('Accept-Language', 'de')
       example.call
@@ -111,8 +110,8 @@ RSpec.describe 'Authentication Stages' do
     it 'shows localized consent as defined by the accept language header (ignoring users language)' do
       login_with user.login, user_password
 
-      expect(page).to have_selector('.account-consent')
-      expect(page).to have_selector('h1', text: 'Einwilligung')
+      expect(page).to have_css('.account-consent')
+      expect(page).to have_css('h1', text: 'Einwilligung')
     end
   end
 
@@ -122,7 +121,6 @@ RSpec.describe 'Authentication Stages' do
             consent_info: { en: '# Consent header!' },
             consent_required: true
           } do
-
     after do
       # Clear session to avoid that the onboarding tour starts
       page.execute_script("window.sessionStorage.clear();")
@@ -132,14 +130,14 @@ RSpec.describe 'Authentication Stages' do
       expect(Setting.consent_time).to be_blank
       login_with user.login, user_password
 
-      expect(page).to have_selector('.account-consent')
-      expect(page).to have_selector('h1', text: 'Consent header')
+      expect(page).to have_css('.account-consent')
+      expect(page).to have_css('h1', text: 'Consent header')
 
       # Can't submit without confirmation
       click_on I18n.t(:button_continue)
 
-      expect(page).to have_selector('.account-consent')
-      expect(page).to have_selector('h1', text: 'Consent header')
+      expect(page).to have_css('.account-consent')
+      expect(page).to have_css('h1', text: 'Consent header')
 
       SeleniumHubWaiter.wait
       # Confirm consent
@@ -162,7 +160,7 @@ RSpec.describe 'Authentication Stages' do
       find_by_id('toggle_consent_time').set(true)
 
       click_on 'Save'
-      expect(page).to have_selector('.op-toast.-success')
+      expect(page).to have_css('.op-toast.-success')
 
       Setting.clear_cache
       expect(Setting.consent_time).to be_present
@@ -199,17 +197,17 @@ RSpec.describe 'Authentication Stages' do
       token = Token::Invitation.last.value
       visit "/account/activate?token=#{token}"
 
-      expect(page).to have_selector('h1', text: 'Consent header')
+      expect(page).to have_css('h1', text: 'Consent header')
       # Cannot create without accepting
       fill_in 'user_password', with: user_password
       fill_in 'user_password_confirmation', with: user_password
       click_on I18n.t(:button_create)
 
-      expect(page).to have_selector('h1', text: 'Consent header')
+      expect(page).to have_css('h1', text: 'Consent header')
       check 'consent_check'
       click_on I18n.t(:button_create)
 
-      expect(page).to have_selector('.op-toast.-success')
+      expect(page).to have_css('.op-toast.-success')
       expect_logged_in('/?first_time_user=true')
     end
 
@@ -219,13 +217,12 @@ RSpec.describe 'Authentication Stages' do
          consent_info: { en: '# Consent header!' },
          consent_required: true
        } do
-
       expect(Setting::Autologin.enabled?).to be true
 
       login_with user.login, user_password, autologin: true
 
-      expect(page).to have_selector('.account-consent')
-      expect(page).to have_selector('h1', text: 'Consent header!')
+      expect(page).to have_css('.account-consent')
+      expect(page).to have_css('h1', text: 'Consent header!')
 
       # Confirm consent
       SeleniumHubWaiter.wait
@@ -245,13 +242,13 @@ RSpec.describe 'Authentication Stages' do
       it 'shows that address to users when declining' do
         login_with user.login, user_password
 
-        expect(page).to have_selector('.account-consent')
-        expect(page).to have_selector('h1', text: 'Consent header')
+        expect(page).to have_css('.account-consent')
+        expect(page).to have_css('h1', text: 'Consent header')
 
         # Decline the consent
         click_on I18n.t(:button_decline)
 
-        expect(page).to have_selector('.op-toast.-error', text: 'foo@example.org')
+        expect(page).to have_css('.op-toast.-error', text: 'foo@example.org')
       end
     end
   end

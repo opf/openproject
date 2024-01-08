@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'invite user via email', js: true do
+RSpec.describe 'invite user via email', :js do
   let!(:project) { create(:project, name: 'Project 1', identifier: 'project1', members: project_members) }
   let!(:developer) { create(:project_role, name: 'Developer') }
   let(:project_members) { {} }
@@ -86,8 +86,8 @@ RSpec.describe 'invite user via email', js: true do
         members_page.search_and_select_principal! 'finkelstein@openproject.com',
                                                   'Send invite to finkelstein@openproject.com'
 
-        expect(members_page).not_to have_text sanitize_string(I18n.t(:warning_user_limit_reached)),
-                                              normalize_ws: true
+        expect(members_page).to have_no_text sanitize_string(I18n.t(:warning_user_limit_reached)),
+                                             normalize_ws: true
 
         members_page.search_and_select_principal! 'frankenstein@openproject.com',
                                                   'Send invite to frankenstein@openproject.com'

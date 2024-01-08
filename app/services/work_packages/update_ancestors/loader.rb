@@ -111,13 +111,13 @@ class WorkPackages::UpdateAncestors::Loader
               .send(relation_type)
               .where.not(id: queried_work_package.id)
 
-    if send("#{relation_type}_joins")
-      scope = scope.joins(send("#{relation_type}_joins"))
+    if send(:"#{relation_type}_joins")
+      scope = scope.joins(send(:"#{relation_type}_joins"))
     end
 
     scope
-      .pluck(*send("selected_#{relation_type}_attributes"))
-      .map { |p| LoaderStruct.new(send("selected_#{relation_type}_attributes").zip(p).to_h) }
+      .pluck(*send(:"selected_#{relation_type}_attributes"))
+      .map { |p| LoaderStruct.new(send(:"selected_#{relation_type}_attributes").zip(p).to_h) }
   end
 
   # Returns the current ancestors sorted by distance (called generations in the table)
@@ -131,8 +131,7 @@ class WorkPackages::UpdateAncestors::Loader
   def former_ancestors
     @former_ancestors ||= if previous_parent_id && include_former_ancestors
                             parent = WorkPackage.find(previous_parent_id)
-
-                            [parent] + parent.ancestors
+                            parent.self_and_ancestors
                           else
                             []
                           end
@@ -140,7 +139,7 @@ class WorkPackages::UpdateAncestors::Loader
 
   def selected_descendants_attributes
     # By having the id in here, we can avoid DISTINCT queries squashing duplicate values
-    %i(id estimated_hours parent_id schedule_manually ignore_non_working_days)
+    %i(id estimated_hours parent_id schedule_manually ignore_non_working_days remaining_hours)
   end
 
   def descendants_joins
@@ -148,7 +147,7 @@ class WorkPackages::UpdateAncestors::Loader
   end
 
   def selected_leaves_attributes
-    %i(id done_ratio derived_estimated_hours estimated_hours is_closed)
+    %i(id done_ratio derived_estimated_hours estimated_hours is_closed remaining_hours derived_remaining_hours)
   end
 
   def leaves_joins
@@ -171,7 +170,7 @@ class WorkPackages::UpdateAncestors::Loader
   def previous_change_parent_id
     previous = work_package.previous_changes
 
-    previous_parent_changes = (previous[:parent_id] || previous[:parent])
+    previous_parent_changes = previous[:parent_id] || previous[:parent]
 
     previous_parent_changes ? previous_parent_changes.first : nil
   end

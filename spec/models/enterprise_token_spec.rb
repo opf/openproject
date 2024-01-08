@@ -113,7 +113,7 @@ RSpec.describe EnterpriseToken do
     end
 
     context 'updating it with an invalid token' do
-      it 'will fail validations' do
+      it 'fails validations' do
         subject.encoded_token = "bar"
         expect(subject.save).to be_falsey
       end

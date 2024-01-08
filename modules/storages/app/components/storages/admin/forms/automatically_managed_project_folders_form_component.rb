@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ module Storages::Admin::Forms
 
     def submit_button_options
       {
-        label: I18n.t("storages.buttons.done_complete_setup"),
+        label: submit_button_label,
         data: { 'storages--automatically-managed-project-folders-form-target': 'submitButton' }.tap do |data_hash|
           # For create action, break from Turbo Frame and follow full page redirect
           data_hash[:turbo] = false if new_record?
@@ -57,9 +57,17 @@ module Storages::Admin::Forms
 
     private
 
+    def submit_button_label
+      if storage.automatic_management_enabled?
+        I18n.t("storages.buttons.done_complete_setup")
+      else
+        I18n.t("storages.buttons.complete_without_setup")
+      end
+    end
+
     def application_password_display_options
       {}.tap do |options_hash|
-        options_hash[:display] = :none unless storage.automatically_managed?
+        options_hash[:display] = :none unless storage.automatic_management_enabled?
       end
     end
 

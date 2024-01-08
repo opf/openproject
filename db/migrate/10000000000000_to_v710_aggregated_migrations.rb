@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Dir["#{Rails.root}/db/migrate/tables/*.rb"].each { |file| require file }
-Dir["#{Rails.root}/db/migrate/aggregated/*.rb"].each { |file| require file }
+Dir["#{Rails.root.join('db/migrate/tables/*.rb')}"].each { |file| require file }
+Dir["#{Rails.root.join('db/migrate/aggregated/*.rb')}"].each { |file| require file }
 
 # This migration aggregates a set of former migrations
 class ToV710AggregatedMigrations < ActiveRecord::Migration[5.1]

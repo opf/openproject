@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -59,9 +59,9 @@ module Pages
           projects.each do |project|
             case project
             when Project
-              expect(page).not_to have_text(project.name)
+              expect(page).to have_no_text(project.name)
             when String
-              expect(page).not_to have_text(project)
+              expect(page).to have_no_text(project)
             else
               raise ArgumentError, "#{project.inspect} is not a Project or a String"
             end
@@ -76,16 +76,25 @@ module Pages
       end
 
       def expect_filters_container_toggled
-        expect(page).to have_selector('form.project-filters')
+        expect(page).to have_css('form.project-filters')
       end
 
       def expect_filters_container_hidden
-        expect(page).to have_selector('form.project-filters', visible: :hidden)
+        expect(page).to have_css('form.project-filters', visible: :hidden)
       end
 
       def expect_filter_set(filter_name)
-        expect(page).to have_selector("li[filter-name='#{filter_name}']:not(.hidden)",
-                                      visible: :hidden)
+        expect(page).to have_css("li[filter-name='#{filter_name}']:not(.hidden)",
+                                 visible: :hidden)
+      end
+
+      def expect_no_project_create_button
+        expect(page).to have_no_css('[data-test-selector="project-new-button"]')
+      end
+
+      def expect_gantt_button(disabled: false)
+        expect(page).to have_css("button#{disabled ? '[disabled]' : ''}",
+                                 text: 'Open as Gantt view')
       end
 
       def filter_by_active(value)
@@ -147,9 +156,9 @@ module Pages
         end
 
         if should_active
-          expect(page).to have_selector('[data-test-selector="spot-switch-handle"][data-qa-active]')
+          expect(page).to have_css('[data-test-selector="spot-switch-handle"][data-qa-active]')
         else
-          expect(page).to have_selector('[data-test-selector="spot-switch-handle"]:not([data-qa-active])')
+          expect(page).to have_css('[data-test-selector="spot-switch-handle"]:not([data-qa-active])')
         end
       end
 
@@ -182,15 +191,15 @@ module Pages
 
       def open_filters
         retry_block do
-          click_button('Show/hide filters')
+          page.find('[data-test-selector="project-filter-toggle"]').click
           page.find_field('Add filter', visible: true)
         end
       end
 
       def click_more_menu_item(item)
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
-        page.within('.menu-drop-down-container') do
-          click_link(item)
+        page.within('.ActionListWrap') do
+          click(item)
         end
       end
 
@@ -206,7 +215,7 @@ module Pages
           menu = find('ul.project-actions')
           menu.click
           wait_for_network_idle if using_cuprite?
-          expect(page).to have_selector('.menu-drop-down-container')
+          expect(page).to have_css('.menu-drop-down-container')
           yield menu
         end
       end
@@ -218,9 +227,7 @@ module Pages
       end
 
       def navigate_to_new_project_page_from_toolbar_items
-        within '.toolbar-items' do
-          click_on 'New project'
-        end
+        find('[data-test-selector="project-new-button"]').click
       end
 
       private
