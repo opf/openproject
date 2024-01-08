@@ -64,7 +64,7 @@ module Authorization
 
   # Normalizes the different types of permission arguments into Permission objects.
   # Possible arguments
-  #  - Symbol permission names (e.g. :view_work_packages)
+  #  - Symbol permission names (e.g. :view_work_packages, or [:edit_work_packages, :change_work_package_status])
   #  - Hash with :controller and :action (e.g. { controller: 'work_packages', action: 'show' })
   #
   # Exceptions
@@ -72,16 +72,13 @@ module Authorization
   #    or an +UnknownPermissionError+ is raised (depending on the +raise_on_unknown+ parameter).
   # .  Additionally a debugger message is logged.
   #    If the permission is disabled, it will not raise an error or log debug output.
-  def permissions_for(action, raise_on_unknown: false) # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
-    return [action] if action.is_a?(OpenProject::AccessControl::Permission)
-    return action if action.is_a?(Array) && (action.empty? || action.all?(OpenProject::AccessControl::Permission))
+  def permissions_for(action, raise_on_unknown: false)
+    return Array(action) if Array(action).all?(OpenProject::AccessControl::Permission)
 
     perms = if action.is_a?(Hash)
               OpenProject::AccessControl.allow_actions(action)
-            elsif action.is_a?(Array)
-              action.map {|a| OpenProject::AccessControl.permission(a)}.compact
             else
-              [OpenProject::AccessControl.permission(action)].compact
+              Array(action).filter_map { |a| OpenProject::AccessControl.permission(a) }
             end
 
     if perms.blank?
