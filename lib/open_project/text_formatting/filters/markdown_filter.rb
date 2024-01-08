@@ -31,17 +31,11 @@ module OpenProject::TextFormatting
     class MarkdownFilter < HTML::Pipeline::MarkdownFilter
       # Convert Markdown to HTML using CommonMarker
       def call
-        render_html
-      end
-
-      private
-
-      ##
-      # Render markdown to html
-      def render_html
         Commonmarker.to_html(text, options: commonmarker_options, plugins: commonmarker_plugins)
                     .tap(&:rstrip!)
       end
+
+      private
 
       ##
       # CommonMarker Options
@@ -49,7 +43,7 @@ module OpenProject::TextFormatting
       def commonmarker_options
         {
           parse: { smart: false },
-          extension: commonmark_extensions.map { |k| [k, true] }.to_h,
+          extension: commonmark_extensions.index_with(true),
           render: {
             unsafe: true,
             escape: false,
