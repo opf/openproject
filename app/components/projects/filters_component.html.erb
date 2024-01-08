@@ -5,6 +5,7 @@
     <%= render(
     Primer::Beta::Button.new(
       scheme: :secondary,
+      classes: 'rounded-right-0 border-right-0',
       mb: 2,
       data: { 'project-filters-target': 'filterFormToggle',
               'action': 'project-filters#toggleDisplayFilters',
@@ -12,11 +13,15 @@
     )
     ) { t(:label_filter) }
     %>
-    <%= text_field_tag :filterText,
-    '',
-    class: 'advanced-filters--text-field -slim',
-    placeholder: t(:label_filter_by_text)
-    %>
+    <%= render(Primer::Alpha::TextField.new(
+      name: "filterText",
+      placeholder: t(:label_filter_by_text),
+      label: "",
+      classes: "rounded-left-0",
+      visually_hide_label: true,
+      value: "",
+      inset: true,
+      )) %>
   </div>
 
   <%= form_tag({},
