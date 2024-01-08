@@ -29,31 +29,20 @@
 require 'spec_helper'
 
 RSpec.describe 'Estimated hours display' do
-  let(:user) { create(:admin) }
-  let(:project) { create(:project) }
-
-  let(:hierarchy) { [] }
-
-  let!(:work_packages) do
-    build_work_package_hierarchy(
-      hierarchy,
-      :subject,
-      :estimated_hours,
-      shared_attributes: {
-        project:
-      }
-    )
+  shared_let(:project) { create(:project) }
+  shared_let(:user) { create(:admin) }
+  shared_let(:query) do
+    create(:query,
+           project:,
+           user:,
+           show_hierarchies: true,
+           column_names: %i[id subject estimated_hours])
   end
 
-  let(:parent) { work_packages.first }
-  let(:child) { work_packages.last }
-
-  let!(:query) do
-    query = build(:query, user:, project:)
-    query.column_names = %w[id subject estimated_hours]
-
-    query.save!
-    query
+  before_all do
+    set_factory_default(:project, project)
+    set_factory_default(:project_with_types, project)
+    set_factory_default(:user, user)
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new project }
@@ -67,15 +56,11 @@ RSpec.describe 'Estimated hours display' do
   end
 
   context "with both work and derived work" do
-    let(:hierarchy) do
-      [
-        {
-          ["Parent", 1] => [
-            ["Child", 3]
-          ]
-        }
-      ]
-    end
+    let_work_packages(<<~TABLE)
+      hierarchy   | work |
+      parent      |   1h |
+        child     |   3h |
+    TABLE
 
     it 'work package index', :js do
       wp_table.visit_query query
@@ -94,15 +79,11 @@ RSpec.describe 'Estimated hours display' do
   end
 
   context "with just work" do
-    let(:hierarchy) do
-      [
-        {
-          ["Parent", 1] => [
-            ["Child", 0]
-          ]
-        }
-      ]
-    end
+    let_work_packages(<<~TABLE)
+      hierarchy   | work |
+      parent      |   1h |
+        child     |   0h |
+    TABLE
 
     it 'work package index', :js do
       wp_table.visit_query query
@@ -121,15 +102,11 @@ RSpec.describe 'Estimated hours display' do
   end
 
   context "with just derived work with (parent work 0 h)" do
-    let(:hierarchy) do
-      [
-        {
-          ["Parent", 0] => [
-            ["Child", 3]
-          ]
-        }
-      ]
-    end
+    let_work_packages(<<~TABLE)
+      hierarchy   | work |
+      parent      |   0h |
+        child     |   3h |
+    TABLE
 
     it 'work package index', :js do
       wp_table.visit_query query
@@ -148,15 +125,11 @@ RSpec.describe 'Estimated hours display' do
   end
 
   context "with just derived work (parent work unset)" do
-    let(:hierarchy) do
-      [
-        {
-          ["Parent", nil] => [
-            ["Child", 3]
-          ]
-        }
-      ]
-    end
+    let_work_packages(<<~TABLE)
+      hierarchy   | work |
+      parent      |      |
+        child     |   3h |
+    TABLE
 
     it 'work package index', :js do
       wp_table.visit_query query
@@ -175,15 +148,11 @@ RSpec.describe 'Estimated hours display' do
   end
 
   context "with neither work nor derived work (both 0 h)" do
-    let(:hierarchy) do
-      [
-        {
-          ["Parent", 0] => [
-            ["Child", 0]
-          ]
-        }
-      ]
-    end
+    let_work_packages(<<~TABLE)
+      hierarchy   | work |
+      parent      |   0h |
+        child     |   0h |
+    TABLE
 
     it 'work package index', :js do
       wp_table.visit_query query
@@ -202,15 +171,11 @@ RSpec.describe 'Estimated hours display' do
   end
 
   context "with neither work nor derived work (both unset)" do
-    let(:hierarchy) do
-      [
-        {
-          ["Parent", nil] => [
-            ["Child", nil]
-          ]
-        }
-      ]
-    end
+    let_work_packages(<<~TABLE)
+      hierarchy   | work |
+      parent      |      |
+        child     |      |
+    TABLE
 
     it 'work package index', :js do
       wp_table.visit_query query
