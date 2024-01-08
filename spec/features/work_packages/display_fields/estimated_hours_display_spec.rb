@@ -28,9 +28,10 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Estimated hours display' do
+RSpec.describe 'Estimated hours display', :js do
   shared_let(:project) { create(:project) }
   shared_let(:user) { create(:admin) }
+  shared_let(:wiki_page) { create(:wiki_page, wiki: project.wiki) }
   shared_let(:query) do
     create(:query,
            project:,
@@ -46,6 +47,7 @@ RSpec.describe 'Estimated hours display' do
   end
 
   let(:wp_table) { Pages::WorkPackagesTable.new project }
+  let(:editor) { Components::WysiwygEditor.new }
 
   before do
     WorkPackages::UpdateAncestorsService
@@ -55,6 +57,32 @@ RSpec.describe 'Estimated hours display' do
     login_as(user)
   end
 
+  shared_examples 'estimated time display' do |expected_text:|
+    it 'work package index' do
+      wp_table.visit_query query
+      wp_table.expect_work_package_listed child
+
+      wp_table.expect_work_package_with_attributes(
+        parent, estimatedTime: expected_text
+      )
+    end
+
+    it 'work package details' do
+      visit work_package_path(parent.id)
+
+      expect(page).to have_content("Work\n#{expected_text}")
+    end
+
+    it 'wiki page workPackageValue:id:estimatedTime macro' do
+      visit edit_project_wiki_path(project, wiki_page.id)
+
+      editor.set_markdown("workPackageValue:#{parent.id}:estimatedTime")
+      click_on 'Save'
+
+      expect(page).to have_css('.wiki-content', text: expected_text)
+    end
+  end
+
   context "with both work and derived work" do
     let_work_packages(<<~TABLE)
       hierarchy   | work |
@@ -62,20 +90,7 @@ RSpec.describe 'Estimated hours display' do
         child     |   3h |
     TABLE
 
-    it 'work package index', :js do
-      wp_table.visit_query query
-      wp_table.expect_work_package_listed child
-
-      wp_table.expect_work_package_with_attributes(
-        parent, estimatedTime: "1 hΣ 4 h"
-      )
-    end
-
-    it 'work package details', :js do
-      visit work_package_path(parent.id)
-
-      expect(page).to have_content("Work\n1 hΣ 4 h")
-    end
+    include_examples 'estimated time display', expected_text: '1 h·Σ 4 h'
   end
 
   context "with just work" do
@@ -85,20 +100,7 @@ RSpec.describe 'Estimated hours display' do
         child     |   0h |
     TABLE
 
-    it 'work package index', :js do
-      wp_table.visit_query query
-      wp_table.expect_work_package_listed child
-
-      wp_table.expect_work_package_with_attributes(
-        parent, subject: parent.subject, estimatedTime: "1 h"
-      )
-    end
-
-    it 'work package details', :js do
-      visit work_package_path(parent.id)
-
-      expect(page).to have_content("Work\n1 h")
-    end
+    include_examples 'estimated time display', expected_text: '1 h'
   end
 
   context "with just derived work with (parent work 0 h)" do
@@ -108,20 +110,7 @@ RSpec.describe 'Estimated hours display' do
         child     |   3h |
     TABLE
 
-    it 'work package index', :js do
-      wp_table.visit_query query
-      wp_table.expect_work_package_listed child
-
-      wp_table.expect_work_package_with_attributes(
-        parent, subject: parent.subject, estimatedTime: "0 hΣ 3 h"
-      )
-    end
-
-    it 'work package details', :js do
-      visit work_package_path(parent.id)
-
-      expect(page).to have_content("Work\n0 hΣ 3 h")
-    end
+    include_examples 'estimated time display', expected_text: '0 h·Σ 3 h'
   end
 
   context "with just derived work (parent work unset)" do
@@ -131,20 +120,7 @@ RSpec.describe 'Estimated hours display' do
         child     |   3h |
     TABLE
 
-    it 'work package index', :js do
-      wp_table.visit_query query
-      wp_table.expect_work_package_listed child
-
-      wp_table.expect_work_package_with_attributes(
-        parent, subject: parent.subject, estimatedTime: "-Σ 3 h"
-      )
-    end
-
-    it 'work package details', :js do
-      visit work_package_path(parent.id)
-
-      expect(page).to have_content("Work\n-Σ 3 h")
-    end
+    include_examples 'estimated time display', expected_text: '-·Σ 3 h'
   end
 
   context "with neither work nor derived work (both 0 h)" do
@@ -154,20 +130,7 @@ RSpec.describe 'Estimated hours display' do
         child     |   0h |
     TABLE
 
-    it 'work package index', :js do
-      wp_table.visit_query query
-      wp_table.expect_work_package_listed child
-
-      wp_table.expect_work_package_with_attributes(
-        parent, subject: parent.subject, estimatedTime: "0 h"
-      )
-    end
-
-    it 'work package details', :js do
-      visit work_package_path(parent.id)
-
-      expect(page).to have_content("Work\n0 h")
-    end
+    include_examples 'estimated time display', expected_text: '0 h'
   end
 
   context "with neither work nor derived work (both unset)" do
@@ -177,19 +140,6 @@ RSpec.describe 'Estimated hours display' do
         child     |      |
     TABLE
 
-    it 'work package index', :js do
-      wp_table.visit_query query
-      wp_table.expect_work_package_listed child
-
-      wp_table.expect_work_package_with_attributes(
-        parent, subject: parent.subject, estimatedTime: "-"
-      )
-    end
-
-    it 'work package details', :js do
-      visit work_package_path(parent.id)
-
-      expect(page).to have_content("Work\n-")
-    end
+    include_examples 'estimated time display', expected_text: '-'
   end
 end
