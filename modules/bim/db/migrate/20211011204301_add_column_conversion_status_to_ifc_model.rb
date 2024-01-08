@@ -29,7 +29,7 @@
 class AddColumnConversionStatusToIfcModel < ActiveRecord::Migration[6.1]
   # Note: rails 7.1 breaks the class' ancestor chain, and raises an error, when a class
   # with an enum definition without a database field is being referenced.
-  # Re-defining the Project class without the enum to avoid the issue.
+  # Re-defining the IfcModel class without the enum to avoid the issue.
   class IfcModel < ApplicationRecord
     has_many :attachments, -> { where(container_type: 'Bim::IfcModels::IfcModel') },
              foreign_key: :container_id,
