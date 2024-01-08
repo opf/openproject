@@ -15,7 +15,14 @@ This integration makes it possible for you to:
 - Link files and folders stored in Nextcloud with work packages in OpenProject
 - View, open and download files and folders linked to a work package via the **Files** tab
 - View all work packages linked to a file
+- Create work packages directly in Nextcloud
+
+Additionally you can:
+
 - View OpenProject notifications via the Nextcloud dashboard
+
+- Pick and preview links to work packages in Nextcloud
+- Search for work packages using Nextcloud's search bar
 
 It is also possible to automatically create dedicated [project folders](../../projects/project-settings/file-storages/#project-folders), which makes documentation structure clearer and makes navigation more intuitive. 
 
@@ -27,6 +34,7 @@ It is also possible to automatically create dedicated [project folders](../../pr
 | [Connect your OpenProject and Nextcloud accounts](#connect-your-openproject-and-nextcloud-accounts) | How to connect your Nextcloud and OpenProject accounts to be able to use this integration |
 | [Link files and folders to work packages](#link-files-and-folders-to-work-packages) | How to link files and folders to work packages and view and download linked files |
 | [Unlink files and folders](#remove-links)                    | How to remove the link between a work package and a Nextcloud file or folder |
+| Create work package                                          |                                                              |
 | [Permissions and access control](#permissions-and-access-control) | Who has access to linked files and who doesn't               |
 | [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them                   |
 
