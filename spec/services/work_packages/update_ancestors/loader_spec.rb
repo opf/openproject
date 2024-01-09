@@ -28,30 +28,37 @@ require 'spec_helper'
 
 RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
   shared_let(:grandgrandparent) do
-    create(:work_package)
+    create(:work_package,
+           subject: 'grandgrandparent')
   end
   shared_let(:grandparent_sibling) do
     create(:work_package,
+           subject: 'grandparent sibling',
            parent: grandgrandparent)
   end
   shared_let(:grandparent) do
     create(:work_package,
+           subject: 'grandparent',
            parent: grandgrandparent)
   end
   shared_let(:parent) do
     create(:work_package,
+           subject: 'parent',
            parent: grandparent)
   end
   shared_let(:sibling) do
     create(:work_package,
+           subject: 'sibling',
            parent:)
   end
-  shared_let(:work_package) do
+  shared_let(:work_package, refind: true) do
     create(:work_package,
+           subject: 'work package',
            parent:)
   end
   shared_let(:child) do
     create(:work_package,
+           subject: 'child',
            parent: work_package)
   end
 
@@ -91,9 +98,9 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
                parent: new_parent)
       end
 
-      it 'iterates over both current and former ancestors' do
+      it 'iterates over the initiator work package, and both its current and former ancestors' do
         expect(subject.select { |ancestor| ancestor })
-          .to eql [new_parent, new_grandparent, new_grandgrandparent, parent, grandparent, grandgrandparent]
+          .to eq [work_package, new_parent, new_grandparent, new_grandgrandparent, parent, grandparent, grandgrandparent]
       end
     end
 
@@ -120,18 +127,31 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
 
       let(:include_former_ancestors) { false }
 
-      it 'iterates over the current ancestors' do
+      it 'iterates over the initiator work package and the current ancestors' do
         expect(subject.select { |ancestor| ancestor })
-          .to eql [new_parent, new_grandparent, new_grandgrandparent]
+          .to eq [work_package, new_parent, new_grandparent, new_grandgrandparent]
+      end
+    end
+
+    context 'when destroying the initiator' do
+      subject do
+        work_package.destroy!
+
+        instance
+      end
+
+      it 'iterates over the former ancestors' do
+        expect(subject.select { |ancestor| ancestor })
+          .to eq [parent, grandparent, grandgrandparent]
       end
     end
 
     context 'when removing the parent' do
       let(:new_parent) { nil }
 
-      it 'iterates over the former ancestors' do
+      it 'iterates over the initiator work package and the former ancestors' do
         expect(subject.select { |ancestor| ancestor })
-          .to eql [parent, grandparent, grandgrandparent]
+          .to eq [work_package, parent, grandparent, grandgrandparent]
       end
     end
 
@@ -139,18 +159,18 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
       let(:new_parent) { nil }
       let(:include_former_ancestors) { false }
 
-      it 'loads nothing' do
+      it 'loads only the initiator' do
         expect(subject.select { |ancestor| ancestor })
-          .to be_empty
+          .to eq [work_package]
       end
     end
 
     context 'when changing the parent within the same hierarchy upwards' do
       let(:new_parent) { grandgrandparent }
 
-      it 'iterates over the former ancestors' do
+      it 'iterates over the initiator and the former ancestors' do
         expect(subject.select { |ancestor| ancestor })
-          .to eql [parent, grandparent, grandgrandparent]
+          .to eq [work_package, parent, grandparent, grandgrandparent]
       end
     end
 
@@ -158,18 +178,18 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
       let(:new_parent) { grandgrandparent }
       let(:include_former_ancestors) { false }
 
-      it 'iterates over the current ancestors' do
+      it 'iterates over the initiator and the current ancestors' do
         expect(subject.select { |ancestor| ancestor })
-          .to eql [grandgrandparent]
+          .to eq [work_package, grandgrandparent]
       end
     end
 
     context 'when changing the parent within the same hierarchy sideways' do
       let(:new_parent) { sibling }
 
-      it 'iterates over the current ancestors' do
+      it 'iterates over the initiator and the current ancestors' do
         expect(subject.select { |ancestor| ancestor })
-          .to eql [sibling, parent, grandparent, grandgrandparent]
+          .to eq [work_package, sibling, parent, grandparent, grandgrandparent]
       end
     end
 
@@ -177,18 +197,18 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
       let(:new_parent) { sibling }
       let(:include_former_ancestors) { false }
 
-      it 'iterates over the current ancestors' do
+      it 'iterates over the initiator and the current ancestors' do
         expect(subject.select { |ancestor| ancestor })
-          .to eql [sibling, parent, grandparent, grandgrandparent]
+          .to eq [work_package, sibling, parent, grandparent, grandgrandparent]
       end
     end
 
     context 'when changing the parent within the same hierarchy sideways but to a different level' do
       let(:new_parent) { grandparent_sibling }
 
-      it 'iterates over the former and the current ancestors' do
+      it 'iterates over the initiator and its former and current ancestors' do
         expect(subject.select { |ancestor| ancestor })
-          .to eql [grandparent_sibling, parent, grandparent, grandgrandparent]
+          .to eq [work_package, grandparent_sibling, parent, grandparent, grandgrandparent]
       end
     end
 
@@ -196,9 +216,9 @@ RSpec.describe WorkPackages::UpdateAncestors::Loader, type: :model do
       let(:new_parent) { grandparent_sibling }
       let(:include_former_ancestors) { false }
 
-      it 'iterates over the former and the current ancestors' do
+      it 'iterates over the initiator and its former and current ancestors' do
         expect(subject.select { |ancestor| ancestor })
-          .to eql [grandparent_sibling, grandgrandparent]
+          .to eq [work_package, grandparent_sibling, grandgrandparent]
       end
     end
   end

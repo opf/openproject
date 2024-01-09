@@ -70,7 +70,7 @@ export class EstimatedTimeDisplayField extends DisplayField {
     this.renderActual(element, displayText);
 
     const derived = this.derivedValue;
-    if (derived && this.timezoneService.toHours(derived) !== 0) {
+    if (derived && derived !== this.value && this.timezoneService.toHours(derived) !== 0) {
       this.renderSeparator(element);
       this.renderDerived(element, this.derivedValueString);
     }

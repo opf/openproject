@@ -28,11 +28,10 @@
 
 @mixin wp-table--time-values
   display: inline-block
-  width: calc(50% - 0.5rem)
+  width: calc(50% - 0.5rem - 1px)
 
 @mixin wp-table--actual-time-values
   text-align: right
-  padding-right: 0.25rem
 
 @mixin wp-table--placeholder-time-values
   display: inline-block
@@ -74,6 +73,9 @@
         height: 1rem
 
   &.split-time-field
+    display: inline-block
+    width: 100%
+    vertical-align: middle
     white-space: nowrap
 
     // Table specific styles
@@ -85,11 +87,13 @@
     .-actual-value
       @include wp-table--actual-time-values
 
-    .-separator
-      padding-right: 0.25rem
-
     .-separator::before
       content: "·"
+      display: inline-block
+      width: 1rem
+      padding-left: 0.25rem
+      padding-right: 0.25rem
+      text-align: center
 
     .-derived-value
       color: var(--color-fg-muted)
@@ -100,7 +104,8 @@
 
 .wp-table--cell-container
   .inline-edit--display-field.-placeholder,
-  &.estimatedTime
+  &.estimatedTime,
+  &.remainingTime
     width: 100%
 
     .-placeholder
