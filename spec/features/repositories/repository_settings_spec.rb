@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'features/repositories/repository_settings_page'
 require 'features/support/components/danger_zone'
 
-RSpec.describe 'Repository Settings', js: true do
+RSpec.describe 'Repository Settings', :js do
   let(:current_user) { create (:admin) }
   let(:project) { create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }
@@ -54,7 +54,7 @@ RSpec.describe 'Repository Settings', js: true do
 
   shared_examples 'manages the repository' do |type|
     it 'displays the repository' do
-      expect(page).to have_selector('select[name="scm_vendor"]')
+      expect(page).to have_css('select[name="scm_vendor"]')
       expect(find("#attributes-group--content-#{type}", visible: true))
         .not_to be_nil
     end
@@ -84,7 +84,7 @@ RSpec.describe 'Repository Settings', js: true do
       else
         SeleniumHubWaiter.wait
         find('a.icon-remove', text: I18n.t(:button_remove)).click
-        expect(page).to have_selector('.op-toast.-warning')
+        expect(page).to have_css('.op-toast.-warning')
         SeleniumHubWaiter.wait
         find('a', text: I18n.t(:button_remove)).click
       end
@@ -105,7 +105,7 @@ RSpec.describe 'Repository Settings', js: true do
 
   shared_examples 'manages the repository with' do |name, type, _repository_type, _project_name|
     let(:repository) do
-      create("repository_#{name}".to_sym,
+      create(:"repository_#{name}",
              scm_type: type,
              project:)
     end
@@ -151,7 +151,7 @@ RSpec.describe 'Repository Settings', js: true do
       end
     end
 
-    context 'remote', webmock: true do
+    context 'remote', :webmock do
       let(:url) { 'http://myreposerver.example.com/api/' }
       let(:config) do
         {
@@ -192,9 +192,9 @@ RSpec.describe 'Repository Settings', js: true do
       fill_in('repository-password-placeholder', with: 'password')
 
       click_button(I18n.t(:button_save))
-      expect(page).to have_selector('[name="repository[login]"][value="foobar"]')
-      expect(page).to have_selector('.op-toast',
-                                    text: I18n.t('repositories.update_settings_successful'))
+      expect(page).to have_css('[name="repository[login]"][value="foobar"]')
+      expect(page).to have_css('.op-toast',
+                               text: I18n.t('repositories.update_settings_successful'))
     end
   end
 end
