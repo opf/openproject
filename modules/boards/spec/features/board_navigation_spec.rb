@@ -96,7 +96,12 @@ RSpec.describe 'Work Package boards spec', :js, with_ee: %i[board_view] do
     expect(page).to have_current_path /details\/#{wp.id}\/overview/
   end
 
-  it 'navigates correctly the path from overview page to the boards page' do
+  it 'navigates correctly the path from overview page to the boards page',
+     # The polling interval is only lowered as the sidemenu relies on Angular's change
+     # detection to be updated. This is a bug.
+     # In reality, it does not really matter as the user will always move the mouse or do
+     # a similar action.
+     with_settings: { notifications_polling_interval: 1_000 } do
     visit project_path(project)
 
     item = page.find('#menu-sidebar li[data-name="boards"]', wait: 10)
