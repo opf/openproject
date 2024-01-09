@@ -32,13 +32,19 @@ module OpenProject::Gantt
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    initializer 'gantt.feature_decisions' do
+      OpenProject::FeatureDecisions.add :show_separate_gantt_module
+    end
+
     register 'openproject-gantt',
              author_url: 'https://www.openproject.org',
              bundled: true,
              settings: {} do
       Rails.application.reloader.to_prepare do
         OpenProject::AccessControl.map do |ac_map|
-          ac_map.project_module(:gantt, dependencies: :work_package_tracking, order: 95)
+          if OpenProject::FeatureDecisions.show_separate_gantt_module_active?
+            ac_map.project_module(:gantt, dependencies: :work_package_tracking, order: 95)
+          end
         end
 
         OpenProject::AccessControl.permission(:view_work_packages).tap do |add|
@@ -47,8 +53,14 @@ module OpenProject::Gantt
       end
 
       should_render_global_menu_item = Proc.new do
+        OpenProject::FeatureDecisions.show_separate_gantt_module_active? &&
         (User.current.logged? || !Setting.login_required?) &&
         User.current.allowed_in_any_project?(:view_work_packages)
+      end
+
+      should_render_project_menu = Proc.new do |project|
+        OpenProject::FeatureDecisions.show_separate_gantt_module_active? &&
+          project.module_enabled?(:gantt)
       end
 
       menu :global_menu,
@@ -64,7 +76,7 @@ module OpenProject::Gantt
            { controller: '/gantt/gantt', action: 'index' },
            caption: :label_gantt,
            after: :work_packages,
-           if: ->(project) { project.module_enabled?(:gantt) },
+           if: ->(project) { should_render_project_menu.call(project) },
            icon: 'view-timeline',
            html: {
              id: 'main-menu-gantt'
@@ -77,7 +89,7 @@ module OpenProject::Gantt
            partial: 'gantt/gantt/menu',
            last: true,
            caption: :label_gantt_chart,
-           if: ->(project) { project.module_enabled?(:gantt) }
+           if: ->(project) { should_render_project_menu.call(project) }
 
       menu :top_menu,
            :gantt,
