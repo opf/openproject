@@ -1,28 +1,16 @@
 <div data-controller="project-filters"
      data-application-target="dynamic"
      data-project-filters-display-filters-value="<%= helpers.show_filters_section? %>">
-  <div style="display: flex;">
-    <%= render(
-    Primer::Beta::Button.new(
-      scheme: :secondary,
-      classes: 'rounded-right-0 border-right-0',
-      mb: 2,
-      data: { 'project-filters-target': 'filterFormToggle',
-              'action': 'project-filters#toggleDisplayFilters',
-              'test-selector': 'project-filter-toggle' }
-    )
-    ) { t(:label_filter) }
-    %>
-    <%= render(Primer::Alpha::TextField.new(
-      name: "filterText",
-      placeholder: t(:label_filter_by_text),
-      label: "",
-      classes: "rounded-left-0",
-      visually_hide_label: true,
-      value: "",
-      inset: true,
-      )) %>
-  </div>
+
+  <%= render(Primer::Beta::Button.new(      
+    scheme: :secondary,
+    mb: 2,
+    data: { 'project-filters-target': 'filterFormToggle',
+          'action': 'project-filters#toggleDisplayFilters',
+          'test-selector': 'project-filter-toggle' })) do %>
+    <%= t(:label_filter) %>
+    <%= render(Primer::Beta::Counter.new(count: query.filters.count, round: true, hide_if_zero: false, scheme: :default)) %>
+  <% end %>
 
   <%= form_tag({},
               method: :get,
