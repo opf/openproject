@@ -2,117 +2,218 @@
 sidebar_navigation:
   title: Implementing Scaled Agile Framework (SAFe) with OpenProject
   priority: 990
-description: Understand the principles of the Scaled Agile Framework (SAFe) to manage and organise work in your organisation and see how you can practically implement them in OpenProjet.
+description: Understand the principles of the Scaled Agile Framework (SAFe) to manage and organise work in your organisation and see how you can practically implement them in OpenProject.
 keywords: safe, scaled agile, release train, program increment, ART backlog, roadmap, portfolio backlog, solution train, script, scrum, roadmap
 ---
 
-# Implementing SAFe (Scaled Agile Framework) with OpenProject
+# Configuring SAFe in OpenProject
 
-OpenProject is a powerful project management tool that can adapt to a number of different project management and organisational frameworks. Larger organisations who choose to implement the Scaled Agile Framework methodology can leverage the wide range of features and customisability of OpenProject to support the implementation of SAFe principles.
+OpenProject is a powerful project management tool that can adapt to a number of different frameworks and methodologies. Larger organisations who choose to implement the Scaled Agile Framework (SAFe) methodology can leverage the wide range of features and customisability that OpenProject offers to define, plan, organise to deliver value to their end customers.
 
-Here, we go through the ten fundamental principles of SAFe and how you can put them into practice with specific OpenProject features.
+## Structure and terminology
 
-## Take an economic view
+Preparing OpenProject for SAFe involves configuration and access at two levels:
 
-In SAFe, taking an economic view involves delivering early and often and applying a comprehensive economic framework that allows lean teams and Agile Release Trains to efficiently asses costs, benefits and risks associated with each decision, at each iteration. This ensures that effort at all levels aligns with larger business strategies. This alignment is facilitated by a prioritised backlog, which functions as a dynamic roadmap in delivering economically valuable increments during each iteration. Decision-making can then be grounded in factors such as development expense, lead time, product cost, value and potential risks and impacts on market share, which enables organisations to make informed choices that optimise value delivery and minimise cost of delay.
+- **Individual projects** are self-contained and consist of a set of modules, members, work packages and project-level settings. Each can further contain sub-projects for additional hierarchy. They represent **Agile Release Trains** in SAFe.
+- **Global modules** encompass content from all projects (and sub-projects) and instance-level settings that affect all modules for all users; these settings can sometimes be overridden at a project-level. The global level serves as a **Solution Train-level** view in SAFe.
 
-In OpenProject:
+Individual users will generally work within one or a set of different projects, using a set of modules to help deliver value. SAFe uses terminology that is different from OpenProject:
 
-- Use **automatic one-click time tracking** to let team members effortless keep track of their effort
-- Use **cost tracking and reporting** features and associate **budgets** with specific features, enablers and epics
-- Use **time and budget reports** to keep an eye on costs and expenditures at all times: before, during and after PI planning
-- Generate **reports** in OpenProject to make informed decisions
+|     |     |
+| --- | --- |
+| **SAFe terminology** | **OpenProject terminology** |
+| Agile Release Train | Project |
+| Solution train | Project portfolio (in development) |
+| Program increment (PI) | Version |
+| Iteration | Version |
+| Capability/Epic | Epic (work package type) |
+| Feature | Feature (work package type) |
+| Enabler | Enabler (custom work package type) |
+| User Story | User story (work package type) |
+| Kanban | Boards |
+| Roadmap | Roadmap |
+| Backlog | Backlog |
 
-## Apply systems thinking
+## Setting up Agile Release Trains
 
-Systems thinking within SAFe necessitates a deep understanding of the interconnectedness of the different components within an organisation. Agile teams play a crucial role in addressing dependencies and bottlenecks. The backlog, a dynamic repository of prioritised features and enablers, serves as a central tool for systematic improvement. This holistic approach, supported by Kanban and Scrum practices, ensures that work flows seamlessly across the train, enhances collaboration and promotes efficient value delivery.
+In OpenProject, each Agile Release Train (ART) is set up as an individual project.
 
-In OpenProject:
+A project consists of a number of different elements:
 
-- \[planned\] Use the upcoming **project portfolio** feature to visualise the entire system, across projects down to individual user stories
-- Use **project templates** and **workflows** to define efficient development value streams that minimise wait time
-- Use the the **project hierarchy** feature in OpenProject to create parent-child relationships between projects or work packages, use **filters** to get exactly the right perspective on parallel value streams
-- Leverage dependency tracking via **work package relations** to understand and manage interdependencies between epics, user stories and portfolios across projects
+- ****Members**:** individual members can be created at an instance-level and then added to individual projects, or external users can directly be "invited" to a project. Each member can have different roles.
+- **Modules** like Work packages, Wiki, Forums, Meetings...
+- **Work packages** collectively include epics, features, enablers, user stories, and bugs.
+- **Integrations** like external file storages.
 
-## Assume variability; preserve options
+Different members groups can also be created at an instance level, and these groups directly added to projects.
 
-Acknowledging variability in SAFe is about recognising the inherent unpredictability of projects and the evolving nature of customer needs. The backlog, as a repository of features, enablers and potential solutions, is a critical tool for preserving options. This principle encourages organisations to avoid premature commitment to a single solution, allowing decisions to be deferred until the last responsible moment. This approach allows teams working within Agile Release Trains (ART) to minimise the risk of investing resources in features that may become obsolete and ensure the organisation remains agile and capable of meeting evolving requirements.
+To learn how to use the Work packages module to configure epics, features and user stories, see: [Working with epics, features and stories](#working-with-epics-features-and-stories)
 
-In OpenProject:
+> **Demo:** View an [overview of an ART set up as a project](https://safe.openproject.com/projects/art-0-test-release-train/work_packages?query_id=40 "https://safe.openproject.com/projects/art-0-test-release-train/").
+> 
+> **Note:** You can also use [project templates](https://www.openproject.org/docs/user-guide/projects/project-templates/) and to make it easier to create news ARTs with the same structure, set of enabled modules, project structure or work package templates. Once a new ART is created using a template, it can then be modified in any way.
 
-- Maintain flexibility by using **epics or work packages** to encapsulate themes or initiatives without defining all details upfront
-- Use **work package templates** to define a clear structure to epics and user stories
-- Use **Backlogs** to keep a list of potential features or user stories that can be prioritised based on changing needs at every program increment (PI)
+Agile teams *within* an ART can also be organised using the Team planner or Assignee-based Kanban boards. To learn more, read [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) below.
 
-## Build incrementally with fast, integrated learning cycles
+## Solution Trains
 
-Incremental development in SAFe is a key principle that involves breaking down complex projects into manageable Product Increments (PI). These are developed through short, time-boxed iterations, allowing for rapid feedback and learning at specific integration points. Agile teams within ARTs integrate these learning cycles for continuous improvement. The roadmap guides the train towards strategic objectives. This iterative approach allows for quick response to changing requirements and integration points reduce the risk by allowing teams to integrate feedback, develop prototypes for testing and adjust course early if required.
+Project portfolios allow you to view, organise, sort and filter through all projects. Since each project can be an ART, it can also be used to access information at a **Solution train**-level.
 
-In OpenProject:
+> In a near future release, OpenProject will have dedicated project portfolio features. [View mockups.](#add-URL)
+> 
+> For the moment, **global modules** give you an overview of content from all projects, including the ability to view and filter though a **project list**, and view, sort and filter **work packages at a global level**.
 
-- Use **agile boards** and **versions** to plan and execute incremental development cycles
-- Create **custom table views** to get an overview of user stories as prioritised by individual ARTs, along with estimated effort and value.
-- Leverage the **wiki** feature to document lessons learned and insights gained during each iteration
-- Create quality assurance tasks with **custom templates** and **workflows** to track and manage QA issues
+> **Demo:** [Solution train (project list)](https://safe.openproject.com/projects)
+> 
+> **Demo:** [Global work package view (epics, features and stories from all ARTs)](https://safe.openproject.com/work_packages?query_id=74)
 
-## Base milestones on objective evaluation of working systems
+## Using versions to program increments (PIs) and iterations
 
-Milestones with SAFe are based on an objective evaluation of tangible, working systems as a measure of progress. Milestones define key moments in the roadmap for the delivery of specific features or increments. This aligns with Scrum practices, where the emphasis is on delivering working solutions during each sprint. This approach provides transparency and accountability, reinforcing the commitment to delivering outcomes that have a measurable impact on the organisation&#39;s goals.
+In OpenProject, a program increment (PI) or iteration corresponds to a version.
 
-In OpenProject:
+Like most things in OpenProject, a version is technically contained within a project. As such, a PI or iteration can be contained with in an ART. However, it is possible to *share* versions with sub-projects, other projects or even with the entire instance.
 
-- Use **milestones** in to mark significant achievements and sprint/PI delivery dates
-- Attach **progress values to work package status** so that indicators properly reflect reality and allow for objective evaluation against set milestones
-- **Generate reports** with **progress** **and aggregate progress tracking** to objectively evaluate completed work against predefined milestones
+Versions shared with the entire instance are useful when you need PIs to be shared between multiple ARTs.
 
-## Make value flow without interruptions
+> **Demo:** [Versions set up as PIs shared with all ARTs](https://safe.openproject.com/projects/art-0-test-release-train/settings/versions)
 
-The SAFe framework encourages organising around an uninterrupted flow of value. This involves visualising and limiting Work in Progress (WIP), addressing bottlenecks, minimising dependencies, working in smaller batches and reducing key length. The Kanban board, which allows teams to visualise user stories and features in the the backlog and on-going planning intervals, becomes a valuable tool for teams within the Agile Release Train. It allows members at each level get a concrete sense of progress and enables efficient pre- and post-PI (Program Increment) planning. By limiting WIP and reducing batch sizes, teams can respond quickly to changing priorities and adapt their work as needed.
+Versions are also tied to the Backlog module. To learn more, read [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) below.
 
-In OpenProject:
+## Working with epics, features and stories
 
-- Use **Agile boards** and visualisations to track and limit work in progress.
-- Set up work packages or tasks with manageable batch sizes and use **priority indications** to manage queue lengths effectively
-- Use the **Backlogs** module or **filtered work package tables** to navigate user stories by priority or any number of custom fields unique to your team or project
+Once the instance, individual ARTs and versions are set up, you are ready to move on to the configuration of individual work initiatives or functionalities.
 
-## Apply cadence, synchronise with cross-domain planning
+In OpenProject, all work is expressed as work packages of various types. In the context of SAFe, it already comes with **Epic**, **Feature**, **User story** and **Milestone** types out of the box. Depending on your needs, **Capability** and **Enabler** types can be easier created and configured.
 
-Cadence in SAFe involves establishing a regular rhythm for planning, executing, and delivering work. Agile teams, operating on a predictable cadence, synchronise during Program Increment (PI) planning sessions. These cross-domain planning sessions ensure alignment not only within teams but also with Solution Trains and the overall portfolio backlog, which provides strategic direction at all levels of the organisation. This synchronisation enhances collaboration, minimises delays, and ensures that the efforts of Agile Release Trains are directed towards achieving overarching business objectives.
+Apart from milestone (which has the particularity of having a single date), all types can be freely configured and new ones freely created.
 
-In OpenProject:
+A work package type is a set of configurations:
 
-- Use **time-tracking** and **scheduling** features to establish fixed time-boxes (cadence) for iterations
-- Use **Backlogs** and **Versions** to manage the cargo for each ART during PI planning
-- Leverage **live one-click tracking** allows team members to be confident about time-boxing tasks and planning sessions
-- Facilitate cross-domain planning using the **cross-project timeline or Gantt chart**
+- A set of fields (including custom fields)
+- Workflows (statuses and available status transitions)
+- Settings (which projects/ARTs have access to the type)
 
-## Unlock the intrinsic motivation of knowledge workers
+In the context of SAFe, it's best to pre-configure the set of types that are required for your project. Since types can be shared between projects, a type can share the same structure between different ARTs if needed.
 
-Unlocking the intrinsic motivation of knowledge workers in SAFe involves creating an environment that fosters autonomy, competence and purpose. Autonomous teams within the ART make decisions about features based on their expertise, contributing to a sense of ownership and responsibility. Opportunities for skill development and continuous learning create an engaging work environment. A clear sense of purpose ensures that teams are motivated to deliver high-quality solutions that align with the organisation&#39;s strategic goals. This allows allows organisations to cultivate a culture of innovation and excellence.
+### Type template
 
-In OpenProject:
+A [type template (or default text for description)](/Applications/Joplin.app/Contents/Resources/app.asar/type%20template%20%28or%20default%20text%20for%20description%29) can defined for each type. For example a **Feature** can be pre-configured to include:
 
-- Encourage autonomy by providing team members with access to self-organising **Agile boards**
-- Use the **Team planner** module for a clear overview of tasks and responsibilities across projects for each team member
-- Encourage team collaboration using **discussion forums**, **document sharing (using Nextcloud or Sharepoint/OneDrive)**, and **wiki** features within OpenProject.
-- \[planned\] Use the upcoming **integration with Matrix-based client Element** to facilitate clear communication through integrated messaging features and notifications.
+- A short description
+- Capability
+- Hypothesis
+- Acceptance criteria
 
-## Decentralise decision-making
+> **Demo**: Defining a [type template for features](https://safe.openproject.com/types/4/edit/settings).
 
-Decision-making in SAFe is decentralised to empower individual teams to make decisions at the level closest to the work. This principle, supported by Scrum and Kanban practices, recognises that individuals who are closest to the work are often best equipped to make informed choices. This decentralisation of decision-making authority reduces delays compared to a centralised decision-making processes and helps create a culture of trust and accountability. Teams within the Agile Release Train can also respond quicker to changing circumstances, making the process even more agile.
+Similarly, a template can be defined for **User stories** so that they can be expressed in a SAFe-compatible manner, like so:
 
-In OpenProject:
+> **As a** *{role}*, 
+> **I want to** *{activity} *
+> **so that** *{business or user value}*
+> 
+> **Demo**: Defining a [type template for user stories](https://safe.openproject.com/types/6/edit/settings).
 
-- Leverage **user role management** in OpenProject to define roles such as Release Train Engineers, Product Owners, Scrum Masters, etc.
-- Assign **specific permissions and responsibilities to each role** to delegate decision-making authority to appropriate levels within the organisation
-- Use **dynamic meetings** to schedule regular Inspect and Adapt workshops within OpenProject and link them to relevant epics, features or user stories.
-- Use the **discussion forums**, **@mentions** and collaboration features (like **integration with file storage services** like Nextcloud or Microsoft SharePoint/OneDrive) for decentralised communication and decision-making
+## Custom fields
 
-## Organise around value
+[Custom fields](https://www.openproject.org/docs/system-admin-guide/custom-fields/) can be added to each type (or even to multiple types) to add additional structured information. The benefit of a custom field over a heading in that custom fields can be used to later filter, search or group work packages. This can be immensely useful to create dashboards or highly-specific queries.
 
-Organising around value in SAFe involves creating teams that align with value streams: Agile Release Trains and, when the solution gets too big for an individual ART, Solution Trains that group multiple ARTs.  The portfolio backlog, prioritised based on value to the end customer or end user, provides strategic direction.
+For a Feature, **Benefit hypothesis** can be expressed as a custom fields.
 
-In OpenProject:
+For an Epic, **Business outcome hypothesis**, **Non-functional requirements** and **Target KPIs** can be expressed as custom fields.
 
-- Organise work packages or epics around customer value by quantifying and tracking value per user story or epic (using **custom fields**), focusing on delivering features that provide the most value
-- Use **prioritisation features** in OpenProject to ensure that teams are working on items that align with the organisation&#39;s value stream
+> **Demo:** [Defining custom fields for different work unit types](https://safe.openproject.com/custom_fields)
+
+Or if you are using Kanban class of service, you can create a "**Class of service**" custom field of type multi-select with these options:
+
+- Standard
+- Fixed
+- Expedite
+
+> **Demo**: [Class of service custom field](https://safe.openproject.com/custom_fields/5/edit)
+
+## Story points
+
+**Story points** can be added to **User Stories** (or even to **Features**).
+
+> **Demo:** [Adding story points as a field in a Feature](https://safe.openproject.com/types/4/edit/form_configuration).
+
+Story points are particularly powerful as they are also visible in the Backlog. To learn more, read [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) below.
+
+## Progress
+
+OpenProject allows you to track the progress of each work package (or a set of work packages in a parent-child relationship) using the **Progress** field.
+
+Progress can either be manually entered or based on set values tied to statuses. For more information, read the [documentation on progress tracking](https://www.openproject.org/docs/user-guide/time-and-costs/progress-tracking/).
+
+Progress can be viewed at a team label, at an ART-level or at a solution train level by creating filtered views showing only the information you need.
+
+> **Demo:** [Progress overview at a PI level](https://safe.openproject.com/projects/art-0-test-release-train/work_packages?query_id=40)
+
+## Backlogs, Kanban and Team planner
+
+The Backlog and Kanban are key tools in a scaled agile environment, not only during PI Planning but during the course of the entire project.
+
+### Backlog
+
+The Backlog module displays all versions available to a particular project or ART in a two-column format. For each version (representing a Product increment, Iteration or a Feature or Story backlog), the module displays:
+
+- Version name
+- Start and end date
+- Total story points
+
+It also displays the id, name, status and story points for each work package contained in a version.
+
+We recommend organising all relevant sprints on the left column and the backlog on the right column. Any epic, feature, story, enabler or capability can easier be dragged and dropped between versions or to and from the backlog.
+
+> **Demo**: [Backlog of an ART showing planned Sprints and a feature backlog](https://safe.openproject.com/projects/art-0-test-release-train/backlogs)
+
+### Kanban
+
+Kanban boards allow you to clearly visualise work items in a number of different ways. In OpenProject, dynamic boards can easily be created for a number of different fields.
+
+For each ART, we recommend creating these dynamic Kanban boards:
+
+- Sprints (or PIs, [see demo](https://safe.openproject.com/projects/art-0-test-release-train/boards/9))
+- Assignees ([see demo](https://safe.openproject.com/projects/art-0-test-release-train/boards/10))
+- Status ([see demo](https://safe.openproject.com/projects/art-0-test-release-train/boards/11))
+
+OpenProject boards are powerful and can be filtered for more control over what is displayed.
+
+> **Note**: Swimlanes are already in our roadmap will soon be added to OpenProject.
+
+### Team planner
+
+Team planners allow you to visualise work packages assigned to particular team members in a weekly or two-week calendar view. It is a powerful tool to monitor work on an on-going and day-to-day level.
+
+If you have multiple agile teams under a single ART, it allows you create custom planners for each team.
+
+> **Demo**: [Team planner for an agile team within an ART](https://safe.openproject.com/projects/art-0-test-release-train/team_planners/75?cdate=2024-01-07&cview=resourceTimelineWorkWeek)
+
+At a solution train level, it allows you to view the work of members across multiple ARTS.
+
+## Organising work using table view, Gantt view
+
+OpenProject is a very powerful tool that allows you to view work packages in a number of different ways.
+
+### Work package table view
+
+The work package table view lets you view work packages of all types (Epic,Capability, Feature, Enabler, User Story) in any number of ways.
+
+It allows you to **sort** or **group** by certain fields, use **filters** to create a highly precise query, and even show nested parent-children relations in **hierarchy view**.
+
+> **Demo**: [An table view of all epics, features and stories in an ART](https://safe.openproject.com/projects/art-0-test-release-train/work_packages?query_id=29)
+
+You can [**configure work package table views**](https://www.openproject.org/docs/user-guide/work-packages/work-package-table-configuration/) using filter queries and save them as views to easily access them later and share them with other team members.
+
+The [**Baseline** **comparison**](https://www.openproject.org/docs/user-guide/work-packages/baseline-comparison/) feature allow lets you view changes to a certain view over a certain period of time, allowing yet another way to monitor progress and changes in your agile team.
+
+**Gantt view**
+
+The Gantt allows you to quickly visualise planning at any level (Solution, ART or agile team) in a calendar view that also displays [work package relations](https://www.openproject.org/docs/user-guide/work-packages/work-package-relations-hierarchies/). Like table view, it can be filtered to create custom views that can be saved.
+
+> **Demo:** [A Gantt view of a sprint within a PI](https://safe.openproject.com/projects/art-0-test-release-train/work_packages?query_id=39)
+
+## Here for you
+
+OpenProject is a powerful and highly-configurable tool that can be customised to fit the needs of your scaled agile implementation. Should you have questions about how to use OpenProject for a particular use case, please get in touch. Our custom success are happy to help you figure it out.
