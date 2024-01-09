@@ -2418,6 +2418,8 @@ nl:
   permission_assign_versions: "Versies toewijzen"
   permission_browse_repository: "Alleen-lezen toegang tot opslagplaats (bladeren en uitchecken)"
   permission_change_wiki_parent_page: "Bovenliggende wiki-pagina wijzigen"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Opmerking nieuws"
   permission_commit_access: "Lees/schrijf toegang tot opslagplaats (bevestig)"
   permission_copy_projects: "Kopiëren van projecten"

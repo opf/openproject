@@ -2479,6 +2479,8 @@ cs:
   permission_assign_versions: "Přiřadit verze"
   permission_browse_repository: "Přístup pouze pro čtení do repozitáře (procházet a pokladna)"
   permission_change_wiki_parent_page: "Změnit nadřazenou wiki stránku"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Komentování novinek"
   permission_commit_access: "Čtěte/zapisovat přístup do repozitáře (commit)"
   permission_copy_projects: "Kopírovat projekty"

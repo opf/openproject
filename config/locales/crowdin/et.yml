@@ -2422,6 +2422,8 @@ et:
   permission_assign_versions: "Assign versions"
   permission_browse_repository: "Read-only access to repository (browse and checkout)"
   permission_change_wiki_parent_page: "Muuta viki ülemlehti"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Uudiseid kommenteerida"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Kopeerida projekte"

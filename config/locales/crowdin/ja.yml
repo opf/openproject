@@ -2389,6 +2389,8 @@ ja:
   permission_assign_versions: "バージョンの割り当て"
   permission_browse_repository: "リポジトリに読み取り専用のアクセス (参照およびチェックアウト)"
   permission_change_wiki_parent_page: "親Wikiページの変更"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "ニュースへのコメント"
   permission_commit_access: "リポジトリに読み取り/書き込みアクセス (コミット)"
   permission_copy_projects: "プロジェクトのコピー"

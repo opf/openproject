@@ -2417,6 +2417,8 @@ el:
   permission_assign_versions: "Ανάθεση εκδόσεων"
   permission_browse_repository: "Πρόσβαση ανάγνωσης-μόνο στο αποθετήριο (περιήγηση και ολοκλήρωση παραγγελίας)"
   permission_change_wiki_parent_page: "Αλλαγή σελίδας wiki γονέα"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Σχολιασμός νέων"
   permission_commit_access: "Πρόσβαση ανάγνωσης/εγγραφής στο αποθετήριο (δέσμευση)"
   permission_copy_projects: "Αντιγραφή έργων"

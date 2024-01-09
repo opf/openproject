@@ -2384,6 +2384,8 @@ id:
   permission_assign_versions: "Tetapkan versi"
   permission_browse_repository: "Read-only access to repository (browse and checkout)"
   permission_change_wiki_parent_page: "Ubah halaman induk Wiki"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Komentar berita"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Copy Project"

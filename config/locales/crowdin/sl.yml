@@ -2477,6 +2477,8 @@ sl:
   permission_assign_versions: "Dodeli različice"
   permission_browse_repository: "Dostop samo za branje do skladišča (brskanje in odjava)"
   permission_change_wiki_parent_page: "Zamenjaj nadrejeno stran wiki"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Komentiraj novice"
   permission_commit_access: "Beri/piši dostop do skladišča (storiti)"
   permission_copy_projects: "Kopiraj projekte"

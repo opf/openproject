@@ -2422,6 +2422,8 @@ si:
   permission_assign_versions: "අනුවාදයන් පැවරීම"
   permission_browse_repository: "ගබඩාවට කියවීමට පමණක් ප්රවේශය (පිරික්සන්න සහ පිරික්සන්න)"
   permission_change_wiki_parent_page: "මව් විකි පිටුව වෙනස් කරන්න"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "අදහස් ප්රවෘත්ති"
   permission_commit_access: "කියවීමට/ගබඩාවට ප්රවේශ වීම (කැප කිරීම)"
   permission_copy_projects: "ව්යාපෘති පිටපත් කරන්න"

@@ -2418,6 +2418,8 @@ hu:
   permission_assign_versions: "Hozzárendelt verziók."
   permission_browse_repository: "Csak olvasható hozzáférés a tárolóhoz (böngészés és kijelentkezés)"
   permission_change_wiki_parent_page: "A szülő wiki oldal megváltoztatása"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Megjegyzések írása a hírekehez"
   permission_commit_access: "Olvasási és írási jog a tárolóhoz (commit)"
   permission_copy_projects: "Projekt másolása"

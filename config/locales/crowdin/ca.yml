@@ -2413,6 +2413,8 @@ ca:
   permission_assign_versions: "Assigna versions"
   permission_browse_repository: "Accés de només lectura al repositori (navegar i checkout)"
   permission_change_wiki_parent_page: "Canviar la pàgina de pare de la wiki"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Comentar noticies"
   permission_commit_access: "Accés de lectura/escriptura al repositori (commit)"
   permission_copy_projects: "Copiar projectes"

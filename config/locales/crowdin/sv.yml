@@ -2421,6 +2421,8 @@ sv:
   permission_assign_versions: "Tilldela versioner"
   permission_browse_repository: "Skrivskyddad åtkomst till databasen (bläddra och och checka ut)"
   permission_change_wiki_parent_page: "Ändra överordnad wiki-sida"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Kommentera nyhet"
   permission_commit_access: "Läs- och skrivbehörighet till databasen (incheckning)"
   permission_copy_projects: "Kopiera projekt"

@@ -2419,6 +2419,8 @@ pt:
   permission_assign_versions: "Atribuir versões"
   permission_browse_repository: "Acesso somente leitura ao repositório (browse e check-out)"
   permission_change_wiki_parent_page: "Alterar página pai da wiki"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Comentar notícias"
   permission_commit_access: "Acesso de leitura/gravação para o repositório (commit)"
   permission_copy_projects: "Copiar projetos"
