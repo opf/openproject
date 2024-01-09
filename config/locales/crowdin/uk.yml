@@ -2472,6 +2472,8 @@ uk:
   permission_assign_versions: "Призначити версії"
   permission_browse_repository: "Доступ лише на читання з репозиторію (перегляд і перевірка)"
   permission_change_wiki_parent_page: "Змінити батьківську wiki сторінку"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Коментування новин"
   permission_commit_access: "Доступ для читання/запису до сховища (фіксація)"
   permission_copy_projects: "Копіювати проекти"

@@ -2538,6 +2538,8 @@ ar:
   permission_assign_versions: "Assign versions"
   permission_browse_repository: "وصول للقراءة فقط إلى مستودع (استعراض والخروج)"
   permission_change_wiki_parent_page: "تغيير صفحة wikiالاصلية"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "أخبار التعليق"
   permission_commit_access: "الوصول للقراءة/الكتابة إلى المستودع (الالتزام)"
   permission_copy_projects: "نسخ المشاريع"

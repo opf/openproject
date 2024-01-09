@@ -118,6 +118,12 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
       case 'log_time':
         this.logTimeForSelectedWorkPackage();
         break;
+      case 'relations':
+        void this.$state.go(
+          `${splitViewRoute(this.$state)}.tabs`,
+          { workPackageId: this.workPackageId, tabIdentifier: 'relations' },
+        );
+        break;
 
       default:
         window.location.href = link!;

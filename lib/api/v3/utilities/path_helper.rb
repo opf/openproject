@@ -144,8 +144,12 @@ module API
             "#{root}/attachments/#{attachment_id}/uploaded"
           end
 
-          def self.available_assignees(project_id)
+          def self.available_assignees_in_project(project_id)
             "#{project(project_id)}/available_assignees"
+          end
+
+          def self.available_assignees_in_work_package(work_package_id)
+            "#{work_package(work_package_id)}/available_assignees"
           end
 
           def self.available_responsibles(project_id)

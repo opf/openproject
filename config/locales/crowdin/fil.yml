@@ -2422,6 +2422,8 @@ fil:
   permission_assign_versions: "Assign versions"
   permission_browse_repository: "Basahin-lamang nag-access sa respositoryo (browse at checkout)"
   permission_change_wiki_parent_page: "Baguhin ang pahina ng magulang na wiki"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Mga komento ng balita"
   permission_commit_access: "Magbasa/magsulat acess sa repositoryo (commit)"
   permission_copy_projects: "Kopyahin ang mga proyekto"

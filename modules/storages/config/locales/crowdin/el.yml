@@ -30,7 +30,7 @@ el:
               not_nextcloud_server: δεν είναι εξυπηρετητής Nextcloud
               op_application_not_installed: appears to not have the app "OpenProject integration" installed. Please install it first and then try again.
             password:
-              invalid_password: is not valid.
+              invalid_password: δεν είναι έγκυρο.
               unknown_error: could not be validated. Please check your storage connection and try again.
     models:
       file_link: Aρχείο

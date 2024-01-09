@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,28 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Views::Filters::TypeFilter < Queries::Views::Filters::ViewFilter
-  def type
-    :list_optional
-  end
+require 'spec_helper'
 
-  def where
-    operator_strategy.sql_for_field(transformed_values, View.table_name, 'type')
-  end
+RSpec.describe "API::V3::WorkPackages::AvailableAssigneesAPI" do
+  include API::V3::Utilities::PathHelper
 
-  def transformed_values
-    if !OpenProject::FeatureDecisions.show_separate_gantt_module_active? && values.include?('Views::WorkPackagesTable')
-      # If there is no separate Gantt module enabled: Show the Gantt queries in the WorkPackage module as well
-      values.push('Views::Gantt')
-    end
-
-    values.map { |value| value[/Views::(?<name>.*?)$/, "name"].underscore }
-  end
-
-  def allowed_values
-    Constants::Views.registered_types.map do |type|
-      long_name = "Views::#{type}"
-      [long_name, long_name]
-    end
+  it_behaves_like 'available principals', :assignees, work_package_scope: true do
+    let(:base_permissions) { %i[edit_work_packages view_work_packages] }
+    let(:href) { api_v3_paths.available_assignees_in_work_package(work_package.id) }
   end
 end

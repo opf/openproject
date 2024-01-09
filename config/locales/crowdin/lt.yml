@@ -2475,6 +2475,8 @@ lt:
   permission_assign_versions: "Priskirti versijas"
   permission_browse_repository: "Tik skaityti prieiga prie repozitorijos (naršyti ir pasiimti)"
   permission_change_wiki_parent_page: "Pakeisti tėvinį wiki puslapį"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Komentuoti naujienas"
   permission_commit_access: "Skaitymo/rašymo prieiga į repozitoriją"
   permission_copy_projects: "Kopijuoti projekus"

@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,30 +26,35 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class Queries::Views::Filters::TypeFilter < Queries::Views::Filters::ViewFilter
-  def type
-    :list_optional
+class Members::IndexPageHeaderComponent < ApplicationComponent
+  include OpPrimer::ComponentHelpers
+  include ApplicationHelper
+
+  BUTTON_MARGIN_RIGHT = 2
+
+  def initialize(project: nil)
+    super
+    @project = project
   end
 
-  def where
-    operator_strategy.sql_for_field(transformed_values, View.table_name, 'type')
+  def add_button_data_attributes
+    attributes = {
+      'members-form-target': 'addMemberButton',
+      action: 'members-form#showAddMemberForm',
+      'test-selector': 'member-add-button'
+    }
+
+    attributes['trigger-initially'] = "true" if params[:show_add_members]
+
+    attributes
   end
 
-  def transformed_values
-    if !OpenProject::FeatureDecisions.show_separate_gantt_module_active? && values.include?('Views::WorkPackagesTable')
-      # If there is no separate Gantt module enabled: Show the Gantt queries in the WorkPackage module as well
-      values.push('Views::Gantt')
-    end
-
-    values.map { |value| value[/Views::(?<name>.*?)$/, "name"].underscore }
-  end
-
-  def allowed_values
-    Constants::Views.registered_types.map do |type|
-      long_name = "Views::#{type}"
-      [long_name, long_name]
-    end
+  def filter_button_data_attributes
+    {
+      'members-form-target': 'filterMemberButton',
+      action: 'members-form#toggleMemberFilter'
+    }
   end
 end

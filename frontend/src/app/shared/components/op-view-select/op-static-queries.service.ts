@@ -35,6 +35,7 @@ import { StateService } from '@uirouter/core';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
 import { ViewType } from 'core-app/shared/components/op-view-select/op-view-select.component';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 interface IStaticQuery extends IOpSidemenuItem {
   view:ViewType;
@@ -50,6 +51,7 @@ export class StaticQueriesService {
     private readonly CurrentProject:CurrentProjectService,
     private readonly PathHelper:PathHelperService,
     private readonly CurrentUser:CurrentUserService,
+    private readonly configurationService:ConfigurationService,
   ) {
     this.staticQueries = this.buildQueries();
   }
@@ -169,7 +171,7 @@ export class StaticQueriesService {
           query_id: '',
           query_props: '{"c":["id","type","subject","status","startDate","dueDate","duration"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',
         },
-        view: 'Gantt',
+        view: this.configurationService.activeFeatureFlags.includes('showSeparateGanttModule') ? 'Gantt' : 'WorkPackagesTable',
       },
     ];
 

@@ -39,7 +39,11 @@ RSpec.describe 'Work package table context menu', :js, :with_cuprite do
         # Open context menu
         menu.expect_closed
         menu.open_for(work_package)
-        menu.expect_options 'Add predecessor', 'Add follower'
+        menu.expect_options 'Add predecessor', 'Add follower', 'Show relations'
+
+        # Show relations tab when selecting show-relations from menu
+        menu.choose('Show relations')
+        expect(page).to have_current_path /details\/#{work_package.id}\/relations/
       end
 
       context 'for multiple selected WPs' do

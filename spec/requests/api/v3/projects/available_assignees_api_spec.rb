@@ -32,6 +32,7 @@ RSpec.describe "API::V3::Projects::AvailableAssigneesAPI" do
   include API::V3::Utilities::PathHelper
 
   it_behaves_like 'available principals', :assignees do
-    let(:href) { api_v3_paths.available_assignees(project.id) }
+    let(:base_permissions) { %i[add_work_packages] }
+    let(:href) { api_v3_paths.available_assignees_in_project(project.id) }
   end
 end
