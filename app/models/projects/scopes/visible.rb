@@ -41,8 +41,7 @@ module Projects::Scopes
         if user.admin? || user.anonymous?
           Project.allowed_to(user, :view_project)
         else
-          Project.allowed_to(user, :view_project)
-                 .or(where(id: WorkPackage.allowed_to(user, :view_work_packages).select(:project_id)))
+          Project.where(id: user.members.select(:project_id))
         end
       end
     end
