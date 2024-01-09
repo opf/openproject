@@ -91,7 +91,7 @@ module Users
     # rubocop:disable Rails/DynamicFindBy
     def existing_auth_source
       if ldap_auth_source_id && LdapAuthSource.find_by_unique(ldap_auth_source_id).nil?
-        errors.add :auth_source, :error_not_found
+        errors.add :ldap_auth_source, :error_not_found
       end
     end
     # rubocop:enable Rails/DynamicFindBy

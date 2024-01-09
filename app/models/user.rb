@@ -507,7 +507,7 @@ class User < Principal
   #   - OmniAuth
   #   - LDAP
   def missing_authentication_method?
-    identity_url.nil? && passwords.empty? && auth_source.nil?
+    identity_url.nil? && passwords.empty? && ldap_auth_source_id.nil?
   end
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only

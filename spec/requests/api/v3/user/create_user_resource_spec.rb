@@ -117,7 +117,7 @@ RSpec.describe API::V3::Users::UsersAPI do
           expect(last_response.status).to eq(422)
 
           expect(last_response.body)
-            .to be_json_eql('authSource'.to_json)
+            .to be_json_eql('ldapAuthSource'.to_json)
                   .at_path('_embedded/details/attribute')
 
           expect(last_response.body)
