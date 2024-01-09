@@ -1952,6 +1952,7 @@ en:
   label_home: "Home"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Legal notice"
   label_in: "in"
   label_in_less_than: "in less than"
