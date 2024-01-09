@@ -57,7 +57,8 @@ class Member < ApplicationRecord
          :of_any_work_package,
          :of_any_entity,
          :of_anything_in_project,
-         :visible
+         :visible,
+         :with_shared_work_packages_count
 
   delegate :name, to: :principal
 

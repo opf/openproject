@@ -73,6 +73,15 @@ module Members
       end
     end
 
+    def shared
+      count = member.shared_work_packages_count
+      if count > 0
+        link_to I18n.t(:'label_x_work_packages', count:),
+                helpers.project_work_packages_shared_with_path(principal, member.project),
+                target: "_blank"
+      end
+    end
+
     def roles_label
       label = h member.roles.uniq.sort.collect(&:name).join(', ')
 

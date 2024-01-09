@@ -31,8 +31,16 @@
 module Members
   class TableComponent < ::TableComponent
     options :authorize_update, :available_roles, :is_filtered
-    columns :name, :mail, :roles, :groups, :status
+    columns :name, :mail, :roles, :groups, :shared, :status
     sortable_columns :name, :mail, :status
+
+    def initialize_sorted_model
+      super
+
+      # There's no way to provide an additional scope to the query
+      # without accessing the results. So we have to do it here.
+      @model = @model.with_shared_work_packages_count
+    end
 
     def initial_sort
       %i[name asc]
@@ -45,7 +53,15 @@ module Members
     end
 
     def header_options(name)
-      { caption: User.human_attribute_name(name) }
+      caption =
+        case name
+        when :shared
+          I18n.t('members.columns.shared')
+        else
+          User.human_attribute_name(name)
+        end
+
+      { caption: }
     end
 
     ##

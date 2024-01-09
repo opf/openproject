@@ -313,6 +313,8 @@ en:
       no_results_content_text: Add a member to the project
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "Send invite to"
+    columns:
+      shared: "Shared"
     filters:
       all_shares: 'All shares'
     menu:
@@ -2288,6 +2290,10 @@ en:
     one: "1 open"
     other: "%{count} open"
     zero: "0 open"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 project"
     other: "%{count} projects"
