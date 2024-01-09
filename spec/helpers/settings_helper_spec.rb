@@ -36,7 +36,7 @@ RSpec.describe SettingsHelper do
 
   before do
     allow(Setting)
-      .to receive(:field_writable?)
+      .to receive(:host_name_writable?)
             .and_return true
   end
 
@@ -44,31 +44,31 @@ RSpec.describe SettingsHelper do
     context 'when the setting is writable' do
       it 'is enabled' do
         expect(output)
-          .to have_field 'settings_field', disabled: false
+          .to have_field 'settings_host_name', disabled: false
       end
     end
 
     context 'when the setting isn`t writable' do
       before do
         allow(Setting)
-          .to receive(:field_writable?)
+          .to receive(:host_name_writable?)
                 .and_return false
       end
 
       it 'is disabled' do
         expect(output)
-          .to have_field 'settings_field', disabled: true
+          .to have_field 'settings_host_name', disabled: true
       end
     end
   end
 
   describe '#setting_select' do
     subject(:output) do
-      helper.setting_select :field, [['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']], options
+      helper.setting_select :host_name, [['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']], options
     end
 
     before do
-      allow(Setting).to receive(:field).and_return('2')
+      allow(Setting).to receive(:host_name).and_return('2')
     end
 
     it_behaves_like 'labelled by default'
@@ -78,17 +78,17 @@ RSpec.describe SettingsHelper do
 
     it 'outputs element' do
       expect(output).to have_css 'select.form--select > option', count: 3
-      expect(output).to have_select 'settings_field', selected: 'Jello'
+      expect(output).to have_select 'settings_host_name', selected: 'Jello'
     end
   end
 
   describe '#setting_multiselect' do
     subject(:output) do
-      helper.setting_multiselect :field, [['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']], options
+      helper.setting_multiselect :host_name, [['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']], options
     end
 
     before do
-      allow(Setting).to receive(:field).at_least(:once).and_return('1')
+      allow(Setting).to receive(:host_name).at_least(:once).and_return('1')
     end
 
     it_behaves_like 'wrapped in container' do
@@ -110,7 +110,7 @@ RSpec.describe SettingsHelper do
     context 'when the setting isn`t writable' do
       before do
         allow(Setting)
-          .to receive(:field_writable?)
+          .to receive(:host_name_writable?)
                 .and_return false
       end
 
@@ -123,7 +123,7 @@ RSpec.describe SettingsHelper do
 
   describe '#settings_matrix' do
     subject(:output) do
-      settings = %i[field_a field_b]
+      settings = %i[host_name protocol]
       choices = [
         {
           caption: 'Popsickle',
@@ -145,10 +145,12 @@ RSpec.describe SettingsHelper do
     end
 
     before do
-      allow(Setting).to receive(:field_a).at_least(:once).and_return('2')
-      allow(Setting).to receive(:field_b).at_least(:once).and_return('3')
-      allow(Setting).to receive(:field_a_writable?).and_return true
-      allow(Setting).to receive(:field_b_writable?).and_return true
+      allow(Setting).to receive(:host_name).at_least(:once).and_return('2')
+      allow(Setting).to receive(:protocol).at_least(:once).and_return('3')
+      allow(Setting).to receive_messages(
+        host_name_writable?: true,
+        protocol_writable?: true
+      )
     end
 
     it_behaves_like 'not wrapped in container'
@@ -175,8 +177,8 @@ RSpec.describe SettingsHelper do
       expect(output).to be_html_eql(%{
         <td class="form--matrix-checkbox-cell">
           <span class="form--check-box-container">
-            <input class="form--check-box" id="field_a_1"
-              name="settings[field_a][]" type="checkbox" value="1">
+            <input class="form--check-box" id="host_name_1"
+              name="settings[host_name][]" type="checkbox" value="1">
           </span>
         </td>
       }).at_path('tr.form--matrix-row:first-child > td:nth-of-type(2)')
@@ -184,22 +186,22 @@ RSpec.describe SettingsHelper do
       expect(output).to be_html_eql(%{
         <td class="form--matrix-checkbox-cell">
           <span class="form--check-box-container">
-            <input class="form--check-box" id="field_a_Quarkspeise"
-              name="settings[field_a][]" type="checkbox" value="Quarkspeise">
+            <input class="form--check-box" id="host_name_Quarkspeise"
+              name="settings[host_name][]" type="checkbox" value="Quarkspeise">
           </span>
         </td>
       }).at_path('tr.form--matrix-row:last-child > td:nth-of-type(2)')
     end
 
     it 'has the correct fields checked' do
-      expect(output).to have_checked_field 'field_a_2'
-      expect(output).to have_checked_field 'field_b_3'
+      expect(output).to have_checked_field 'host_name_2'
+      expect(output).to have_checked_field 'protocol_3'
     end
 
     context 'when the setting isn`t writable' do
       before do
         allow(Setting)
-          .to receive(:field_a_writable?)
+          .to receive(:host_name_writable?)
                 .and_return false
       end
 
@@ -207,8 +209,8 @@ RSpec.describe SettingsHelper do
         expect(output).to be_html_eql(%{
         <td class="form--matrix-checkbox-cell">
           <span class="form--check-box-container">
-            <input class="form--check-box" id="field_a_1"
-              name="settings[field_a][]" type="checkbox" disabled="disabled" value="1">
+            <input class="form--check-box" id="host_name_1"
+              name="settings[host_name][]" type="checkbox" disabled="disabled" value="1">
           </span>
         </td>
       }).at_path('tr.form--matrix-row:first-child > td:nth-of-type(2)')
@@ -218,11 +220,11 @@ RSpec.describe SettingsHelper do
 
   describe '#setting_text_field' do
     subject(:output) do
-      helper.setting_text_field :field, options
+      helper.setting_text_field :host_name, options
     end
 
     before do
-      allow(Setting).to receive(:field).and_return('important value')
+      allow(Setting).to receive(:host_name).and_return('important value')
     end
 
     it_behaves_like 'labelled by default'
@@ -233,18 +235,18 @@ RSpec.describe SettingsHelper do
     it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field"
-          id="settings_field" name="settings[field]" type="text" value="important value" />
+          id="settings_host_name" name="settings[host_name]" type="text" value="important value" />
       }).at_path('input')
     end
   end
 
   describe '#setting_text_area' do
     subject(:output) do
-      helper.setting_text_area :field, options
+      helper.setting_text_area :host_name, options
     end
 
     before do
-      allow(Setting).to receive(:field).and_return('important text')
+      allow(Setting).to receive(:host_name).and_return('important text')
     end
 
     it_behaves_like 'labelled by default'
@@ -254,7 +256,7 @@ RSpec.describe SettingsHelper do
 
     it 'outputs element' do
       expect(output).to be_html_eql(%{
-        <textarea class="custom-class form--text-area" id="settings_field" name="settings[field]">
+        <textarea class="custom-class form--text-area" id="settings_host_name" name="settings[host_name]">
 important text</textarea>
       }).at_path('textarea')
     end
@@ -262,12 +264,12 @@ important text</textarea>
 
   describe '#setting_check_box' do
     subject(:output) do
-      helper.setting_check_box :field, options
+      helper.setting_check_box :host_name, options
     end
 
     context 'when setting is true' do
       before do
-        allow(Setting).to receive(:field?).and_return(true)
+        allow(Setting).to receive(:host_name?).and_return(true)
       end
 
       it_behaves_like 'labelled by default'
@@ -278,13 +280,13 @@ important text</textarea>
       it 'outputs element' do
         expect(output).to have_css 'input[type="hidden"][value=0]', visible: :hidden
         expect(output).to have_css 'input[type="checkbox"].custom-class.form--check-box'
-        expect(output).to have_checked_field 'settings_field'
+        expect(output).to have_checked_field 'settings_host_name'
       end
 
       context 'when the setting isn`t writable' do
         before do
           allow(Setting)
-            .to receive(:field_writable?)
+            .to receive(:host_name_writable?)
                   .and_return false
         end
 
@@ -296,7 +298,7 @@ important text</textarea>
 
     context 'when setting is false' do
       before do
-        allow(Setting).to receive(:field?).and_return(false)
+        allow(Setting).to receive(:host_name?).and_return(false)
       end
 
       it_behaves_like 'labelled by default'
@@ -307,13 +309,13 @@ important text</textarea>
       it 'outputs element' do
         expect(output).to have_css 'input[type="hidden"][value=0]', visible: :hidden
         expect(output).to have_css 'input[type="checkbox"].custom-class.form--check-box'
-        expect(output).to have_unchecked_field 'settings_field'
+        expect(output).to have_unchecked_field 'settings_host_name'
       end
 
       context 'when the setting isn`t writable' do
         before do
           allow(Setting)
-            .to receive(:field_writable?)
+            .to receive(:host_name_writable?)
                   .and_return false
         end
 
@@ -326,11 +328,11 @@ important text</textarea>
 
   describe '#setting_time_field' do
     subject(:output) do
-      helper.setting_time_field :field, options
+      helper.setting_time_field :host_name, options
     end
 
     before do
-      allow(Setting).to receive(:field).and_return('16:00')
+      allow(Setting).to receive(:host_name).and_return('16:00')
     end
 
     it_behaves_like 'labelled by default'
@@ -340,14 +342,14 @@ important text</textarea>
     it 'outputs element' do
       expect(output).to be_html_eql(%{
         <input class="custom-class form--text-field -time"
-          id="settings_field" name="settings[field]" type="time" value="16:00" />
+          id="settings_host_name" name="settings[host_name]" type="time" value="16:00" />
       }).at_path('input')
     end
   end
 
   describe '#setting_label' do
     subject(:output) do
-      helper.setting_label :field
+      helper.setting_label :host_name
     end
 
     it_behaves_like 'labelled'
