@@ -114,7 +114,7 @@ Similarly, a template can be defined for **User stories** so that they can be ex
 > 
 > **Demo**: Defining a [type template for user stories](https://safe.openproject.com/types/6/edit/settings).
 
-## Custom fields
+### Custom fields
 
 [Custom fields](https://www.openproject.org/docs/system-admin-guide/custom-fields/) can be added to each type (or even to multiple types) to add additional structured information. The benefit of a custom field over a heading in that custom fields can be used to later filter, search or group work packages. This can be immensely useful to create dashboards or highly-specific queries.
 
@@ -132,7 +132,7 @@ Or if you are using Kanban class of service, you can create a "**Class of servic
 
 > **Demo**: [Class of service custom field](https://safe.openproject.com/custom_fields/5/edit)
 
-## Story points
+### Story points
 
 **Story points** can be added to **User Stories** (or even to **Features**).
 
@@ -140,7 +140,7 @@ Or if you are using Kanban class of service, you can create a "**Class of servic
 
 Story points are particularly powerful as they are also visible in the Backlog. To learn more, read [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) below.
 
-## Progress
+### Progress
 
 OpenProject allows you to track the progress of each work package (or a set of work packages in a parent-child relationship) using the **Progress** field.
 
