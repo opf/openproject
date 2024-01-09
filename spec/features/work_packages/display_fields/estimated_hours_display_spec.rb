@@ -82,14 +82,14 @@ RSpec.describe 'Estimated hours display' do
       wp_table.expect_work_package_listed child
 
       wp_table.expect_work_package_with_attributes(
-        parent, estimatedTime: "1 h(+3 h)"
+        parent, estimatedTime: "1 hΣ 3 h"
       )
     end
 
     it 'work package details', :js do
       visit work_package_path(parent.id)
 
-      expect(page).to have_content("Work\n1 h(+3 h)")
+      expect(page).to have_content("Work\n1 hΣ 3 h")
     end
   end
 
@@ -120,7 +120,7 @@ RSpec.describe 'Estimated hours display' do
     end
   end
 
-  context "with just derived work" do
+  context "with just derived work with (parent work 0 h)" do
     let(:hierarchy) do
       [
         {
@@ -136,18 +136,45 @@ RSpec.describe 'Estimated hours display' do
       wp_table.expect_work_package_listed child
 
       wp_table.expect_work_package_with_attributes(
-        parent, subject: parent.subject, estimatedTime: "0 h(+3 h)"
+        parent, subject: parent.subject, estimatedTime: "0 hΣ 3 h"
       )
     end
 
     it 'work package details', :js do
       visit work_package_path(parent.id)
 
-      expect(page).to have_content("Work\n0 h(+3 h)")
+      expect(page).to have_content("Work\n0 hΣ 3 h")
     end
   end
 
-  context "with neither work nor derived work" do
+  context "with just derived work (parent work unset)" do
+    let(:hierarchy) do
+      [
+        {
+          ["Parent", nil] => [
+            ["Child", 3]
+          ]
+        }
+      ]
+    end
+
+    it 'work package index', :js do
+      wp_table.visit_query query
+      wp_table.expect_work_package_listed child
+
+      wp_table.expect_work_package_with_attributes(
+        parent, subject: parent.subject, estimatedTime: "-Σ 3 h"
+      )
+    end
+
+    it 'work package details', :js do
+      visit work_package_path(parent.id)
+
+      expect(page).to have_content("Work\n-Σ 3 h")
+    end
+  end
+
+  context "with neither work nor derived work (both 0 h)" do
     let(:hierarchy) do
       [
         {
@@ -171,6 +198,33 @@ RSpec.describe 'Estimated hours display' do
       visit work_package_path(parent.id)
 
       expect(page).to have_content("Work\n0 h")
+    end
+  end
+
+  context "with neither work nor derived work (both unset)" do
+    let(:hierarchy) do
+      [
+        {
+          ["Parent", nil] => [
+            ["Child", nil]
+          ]
+        }
+      ]
+    end
+
+    it 'work package index', :js do
+      wp_table.visit_query query
+      wp_table.expect_work_package_listed child
+
+      wp_table.expect_work_package_with_attributes(
+        parent, subject: parent.subject, estimatedTime: "-"
+      )
+    end
+
+    it 'work package details', :js do
+      visit work_package_path(parent.id)
+
+      expect(page).to have_content("Work\n-")
     end
   end
 end
