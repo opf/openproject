@@ -38,6 +38,11 @@ RSpec.describe SettingsHelper do
     allow(Setting)
       .to receive(:host_name_writable?)
             .and_return true
+
+    allow(I18n).to receive(:t).and_call_original
+    allow(I18n).to receive(:t).with('setting_field_a').and_return('Field A')
+    allow(I18n).to receive(:t).with('setting_field_b').and_return('Field B')
+    allow(I18n).to receive(:t).with('setting_field').and_return('Field')
   end
 
   shared_examples_for 'field disabled if non writable' do
