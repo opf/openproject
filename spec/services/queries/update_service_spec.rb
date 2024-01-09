@@ -29,6 +29,6 @@
 require 'spec_helper'
 require 'services/base_services/behaves_like_update_service'
 
-RSpec.describe Queries::UpdateService do
+RSpec.describe Queries::UpdateService, with_flag: { show_separate_gantt_module: true } do
   it_behaves_like 'BaseServices update service'
 end
