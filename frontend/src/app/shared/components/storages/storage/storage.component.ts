@@ -58,7 +58,7 @@ import { IPrepareUploadLink, IStorage } from 'core-app/core/state/storages/stora
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import {
-  fileLinkViewError,
+  fileLinkStatusError,
   nextcloud,
   storageConnected,
 } from 'core-app/shared/components/storages/storages-constants.const';
@@ -515,7 +515,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   private hasFileLinkViewErrors(fileLinks:IFileLink[]):boolean {
-    return fileLinks.filter((fileLink) => fileLink._links.permission?.href === fileLinkViewError).length > 0;
+    return fileLinks.filter((fileLink) => fileLink._links.status?.href === fileLinkStatusError).length > 0;
   }
 
   private collectionKey():Observable<string> {
