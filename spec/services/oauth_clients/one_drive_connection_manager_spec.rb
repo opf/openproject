@@ -84,7 +84,7 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
                      .where(access_token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q...")
                      .last
 
-      expect(last_token.origin_user_id).to eq('palpatine@senate.com')
+      expect(last_token.origin_user_id).to eq('87d349ed-44d7-43e1-9a83-5f2406dee5bd')
     end
   end
 

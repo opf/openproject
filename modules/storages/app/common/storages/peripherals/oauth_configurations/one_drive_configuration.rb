@@ -56,15 +56,12 @@ module Storages
 
         def extract_origin_user_id(rack_access_token)
           Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-            response = http.get('/v1.0/me',
-                                { Authorization: "Bearer #{rack_access_token.access_token}", Accept: 'application/json' })
+            response = http.get(
+              '/v1.0/me',
+              { Authorization: "Bearer #{rack_access_token.access_token}", Accept: 'application/json' }
+            )
 
-            # if response == Net::HTTPSuccess
-            parsed = JSON.parse(response.body)
-            parsed['userPrincipalName']
-            # else
-            #   nil
-            # end
+            JSON.parse(response.body)['id']
           end
         end
 
