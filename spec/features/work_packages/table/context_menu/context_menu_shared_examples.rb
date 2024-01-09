@@ -60,7 +60,7 @@ RSpec.shared_examples_for 'provides a single WP context menu' do
     wp_timeline.expect_timeline!(open: false)
 
     open_context_menu.call
-    menu.expect_no_options 'Add predecessor', 'Add follower'
+    menu.expect_no_options 'Add predecessor', 'Add follower, Show relations'
 
     # Copy to other project
     open_context_menu.call
