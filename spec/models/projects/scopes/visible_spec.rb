@@ -78,8 +78,7 @@ RSpec.describe Projects::Scopes::Visible do
     let(:current_user) { admin_user }
 
     it 'list all projects' do
-      expect(subject)
-        .to contain_exactly(shared_in_project, project, public_project)
+      expect(subject).to contain_exactly(shared_in_project, project, public_project)
     end
   end
 
@@ -87,8 +86,7 @@ RSpec.describe Projects::Scopes::Visible do
     let(:current_user) { shared_user }
 
     it 'list all projects' do
-      expect(subject)
-        .to contain_exactly(shared_in_project, project, public_project)
+      expect(subject).to contain_exactly(shared_in_project, project, public_project)
     end
   end
 
@@ -96,8 +94,7 @@ RSpec.describe Projects::Scopes::Visible do
     let(:current_user) { only_project_user }
 
     it 'list only the project in which the user has the membership and the public project' do
-      expect(subject)
-        .to contain_exactly(project, public_project)
+      expect(subject).to contain_exactly(project, public_project)
     end
   end
 
@@ -105,8 +102,7 @@ RSpec.describe Projects::Scopes::Visible do
     let(:current_user) { only_shared_user }
 
     it 'list only the project in which the shared work package is and the public project' do
-      expect(subject)
-        .to contain_exactly(shared_in_project, public_project)
+      expect(subject).to contain_exactly(shared_in_project, public_project)
     end
   end
 
@@ -114,8 +110,7 @@ RSpec.describe Projects::Scopes::Visible do
     let(:current_user) { no_membership_user }
 
     it 'list only the public project' do
-      expect(subject)
-        .to contain_exactly(public_project)
+      expect(subject).to contain_exactly(public_project)
     end
   end
 
@@ -123,8 +118,7 @@ RSpec.describe Projects::Scopes::Visible do
     let(:current_user) { create(:anonymous) }
 
     it 'list only the public project' do
-      expect(subject)
-        .to contain_exactly(public_project)
+      expect(subject).to contain_exactly(public_project)
     end
   end
 end
