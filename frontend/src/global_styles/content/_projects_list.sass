@@ -39,7 +39,7 @@ $project-table--description-indention: 9px
   // This does not work for big font-sizes
   padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} + #{$project-table--description-indention})
 
-form.project-filters
+form.project-filters-box
   display: none
   &.-expanded
     display: block
@@ -82,6 +82,9 @@ form.project-filters
 
   .advanced-filters--controls
     margin-top: 1rem
+
+.project-filters-text
+  display: flex
 
 .projects-table--hierarchy-icon
   display: none

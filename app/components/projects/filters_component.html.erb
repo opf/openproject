@@ -1,20 +1,40 @@
 <div data-controller="project-filters"
      data-application-target="dynamic"
      data-project-filters-display-filters-value="<%= helpers.show_filters_section? %>">
+  
 
-  <%= render(Primer::Beta::Button.new(      
-    scheme: :secondary,
-    mb: 2,
-    data: { 'project-filters-target': 'filterFormToggle',
-          'action': 'project-filters#toggleDisplayFilters',
-          'test-selector': 'project-filter-toggle' })) do %>
-    <%= t(:label_filter) %>
-    <%= render(Primer::Beta::Counter.new(count: query.filters.count, round: true, hide_if_zero: false, scheme: :default)) %>
-  <% end %>
+  <div class="project-filters-text">
+    <%= render(Primer::Beta::Button.new(      
+      scheme: :secondary,
+      mb: 2,
+      mr: 2,
+      data: { 'project-filters-target': 'filterFormToggle',
+            'action': 'project-filters#toggleDisplayFilters',
+            'test-selector': 'project-filter-toggle' })) do %>
+      <%= t(:label_filter) %>
+      <%= render(Primer::Beta::Counter.new(count: query.filters.count, round: true, hide_if_zero: false, scheme: :default)) %>
+    <% end %>
 
+    <% if helpers.current_user.allowed_globally?(:add_project) %>
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              href: new_project_path,
+              scheme: :primary,
+              size: :medium,
+              aria: { label: I18n.t(:label_project_new) },
+              data: { 'test-selector': 'project-new-button' }
+            )
+          ) do |button|
+            button.with_leading_visual_icon(icon: :plus)
+            Project.model_name.human
+          end
+      %>
+    <% end %>
+  </div>
   <%= form_tag({},
               method: :get,
-              class: "project-filters",
+              class: "project-filters-box",
               data: {
                 'project-filters-target': 'filterForm',
                 action: 'submit->project-filters#sendForm:prevent'

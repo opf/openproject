@@ -2,23 +2,7 @@
   <% header.with_title(variant: :large) { t(:label_project_plural) } %>
 
   <% header.with_actions do %>
-    <% if current_user.allowed_globally?(:add_project) %>
-      <%= render(
-            Primer::Beta::Button.new(
-              tag: :a,
-              href: new_project_path,
-              scheme: :primary,
-              size: :medium,
-              aria: { label: I18n.t(:label_project_new) },
-              mr: BUTTON_MARGIN_RIGHT,
-              data: { 'test-selector': 'project-new-button' }
-            )
-          ) do |button|
-            button.with_leading_visual_icon(icon: :plus)
-            Project.model_name.human
-          end
-      %>
-    <% end %>
+
 
     <%= render(
           Primer::Beta::Button.new(
