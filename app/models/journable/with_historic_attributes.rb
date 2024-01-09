@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2022 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -235,6 +235,7 @@ class Journable::WithHistoricAttributes < SimpleDelegator
     historic_journable = at_timestamp(Timestamp.parse(timestamp))
 
     return unless historic_journable
+
     changes = ::Acts::Journalized::JournableDiffer.changes(__getobj__, historic_journable)
 
     # In the other occurrences of JournableDiffer.association_changes calls, we are using the plural

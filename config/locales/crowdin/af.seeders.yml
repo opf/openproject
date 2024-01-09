@@ -50,15 +50,15 @@ af:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: Nie-lid
         item_1:
-          name: Anonymous
+          name: Anoniem
         item_2:
-          name: Member
+          name: Lid
         item_3:
-          name: Reader
+          name: Leser
         item_4:
-          name: Project admin
+          name: Projek admin
       global_roles:
         item_0:
           name: Staff and projects manager

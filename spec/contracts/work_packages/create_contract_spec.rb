@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require 'contracts/work_packages/shared_base_contract'
 
 RSpec.describe WorkPackages::CreateContract do
   let(:work_package) do
-    WorkPackage.new(project: work_package_project).tap do |wp|
+    WorkPackage.new(project: work_package_project) do |wp|
       wp.extend(OpenProject::ChangedBySystem)
     end
   end
@@ -50,7 +50,7 @@ RSpec.describe WorkPackages::CreateContract do
   it_behaves_like 'work package contract'
 
   describe 'authorization' do
-    context 'user allowed in project and project specified' do
+    context 'when user allowed in project and project specified' do
       before do
         mock_permissions_for(user) do |mock|
           mock.allow_in_project :add_work_packages, project:
@@ -64,7 +64,7 @@ RSpec.describe WorkPackages::CreateContract do
       end
     end
 
-    context 'user not allowed in project and project specified' do
+    context 'when user not allowed in project and project specified' do
       before do
         mock_permissions_for(user) do |mock|
           mock.allow_in_project :add_work_packages, project: other_project
@@ -79,7 +79,7 @@ RSpec.describe WorkPackages::CreateContract do
       end
     end
 
-    context 'user allowed in a project and no project specified' do
+    context 'when user allowed in a project and no project specified' do
       before do
         mock_permissions_for(user) do |mock|
           mock.allow_in_project :add_work_packages, project:
@@ -91,7 +91,7 @@ RSpec.describe WorkPackages::CreateContract do
       end
     end
 
-    context 'user not allowed in any project and no project specified' do
+    context 'when user not allowed in any projects and no project specified' do
       before do
         mock_permissions_for(user, &:forbid_everything)
       end
@@ -102,7 +102,7 @@ RSpec.describe WorkPackages::CreateContract do
       end
     end
 
-    context 'user not allowed in any project and project specified' do
+    context 'when user not allowed in any projects and project specified' do
       before do
         mock_permissions_for(user, &:forbid_everything)
 
@@ -121,7 +121,6 @@ RSpec.describe WorkPackages::CreateContract do
       mock_permissions_for(user) do |mock|
         mock.allow_in_project :add_work_packages, project:
       end
-      work_package.project = project
     end
 
     context 'if the user is set by the system and the user is the user the contract is evaluated for' do
@@ -143,6 +142,27 @@ RSpec.describe WorkPackages::CreateContract do
         expect(validated_contract.errors.symbols_for(:author_id))
           .to match_array %i[invalid error_readonly]
       end
+    end
+  end
+
+  describe 'remaining hours' do
+    before do
+      mock_permissions_for(user) do |mock|
+        mock.allow_in_project :add_work_packages, project:
+      end
+      work_package.project = project
+    end
+
+    context 'when not changed' do
+      it('is valid') { expect(validated_contract.errors[:remaining_hours]).to be_empty }
+    end
+
+    context 'when changed' do
+      before do
+        work_package.remaining_hours = 10
+      end
+
+      it('is valid') { expect(validated_contract.errors[:remaining_hours]).to be_empty }
     end
   end
 end

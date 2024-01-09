@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,12 +31,10 @@ class WorkPackagePolicy < BasePolicy
 
   def cache(work_package)
     @cache ||= Hash.new do |wp_hash, wp|
-      wp_hash[wp] = Hash.new do |project_hash, project|
-        project_hash[project] = allowed_hash(wp)
-      end
+      wp_hash[wp] = allowed_hash(wp)
     end
 
-    @cache[work_package][work_package.project]
+    @cache[work_package]
   end
 
   def allowed_hash(work_package)
@@ -51,6 +49,7 @@ class WorkPackagePolicy < BasePolicy
       delete: delete_allowed?(work_package),
       manage_subtasks: manage_subtasks_allowed?(work_package),
       comment: comment_allowed?(work_package),
+      change_status: change_status_allowed?(work_package),
       assign_version: assign_version_allowed?(work_package)
     }
   end
@@ -95,5 +94,13 @@ class WorkPackagePolicy < BasePolicy
 
   def assign_version_allowed?(work_package)
     user.allowed_in_project?(:assign_versions, work_package.project)
+  end
+
+  def change_status_allowed?(work_package)
+    @change_status_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_in_project?(%i[edit_work_packages change_work_package_status], work_package.project)
+    end
+
+    @change_status_cache[work_package.project]
   end
 end

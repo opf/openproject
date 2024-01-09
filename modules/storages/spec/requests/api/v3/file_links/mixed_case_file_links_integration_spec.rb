@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -149,7 +149,7 @@ RSpec.describe 'API v3 file links resource' do
     login_as user
   end
 
-  describe 'GET /api/v3/work_packages/:work_package_id/file_links', webmock: true do
+  describe 'GET /api/v3/work_packages/:work_package_id/file_links', :webmock do
     let(:path) { api_v3_paths.file_links(work_package.id) }
     let(:response_host_happy) do
       {
@@ -211,7 +211,7 @@ RSpec.describe 'API v3 file links resource' do
       happy_file_link = elements.detect { |e| e["originData"]["id"] == "24" }
       expect(happy_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_VIEW
       # Check that we've got an updated mtime
-      expect(happy_file_link["originData"]["lastModifiedAt"]).to eql Time.zone.at(1655301234).iso8601
+      expect(happy_file_link["originData"]["lastModifiedAt"]).to eql Time.zone.at(1655301234).iso8601(3)
 
       # A file link created by another user is not_allowed
       other_user_file_link = elements.detect { |e| e["originData"]["id"] == "25" }

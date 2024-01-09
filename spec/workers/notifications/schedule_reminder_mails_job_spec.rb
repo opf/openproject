@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -73,10 +73,10 @@ RSpec.describe Notifications::ScheduleReminderMailsJob, type: :job do
         reminder_jobs = jobs.select { |job| job.job_data['job_class'] == "Mails::ReminderJob" }
 
         expect(reminder_jobs[0].job_data['arguments'])
-          .to match_array([23])
+          .to contain_exactly(23)
 
         expect(reminder_jobs[1].job_data['arguments'])
-          .to match_array([42])
+          .to contain_exactly(42)
       end
 
       it 'queries with the intended job execution time (which might have been missed due to high load)' do

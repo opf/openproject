@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -103,7 +103,7 @@ module OpenProject
         h(truncate(message.subject, length: 60)),
         topic_path_or_url(options.delete(:no_root) ? message : message.root,
                           {
-                            r: (message.parent_id && message.id),
+                            r: message.parent_id && message.id,
                             anchor: (message.parent_id ? "message-#{message.id}" : nil)
                           }.merge(options)),
         html_options

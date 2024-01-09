@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -123,10 +123,12 @@ module Pages
               end
 
               target = page.find_field(name)
+              has_no_css?('.ng-spinner-loader') # wait for possible async loading of options for ng-select
               target.send_keys val
             end
 
             if autocomplete
+              has_no_css?('.ng-spinner-loader') # wait for possible async loading of options for ng-select
               dropdown_el = find('.ng-option', text: val, wait: 5)
               scroll_to_and_click(dropdown_el)
             end

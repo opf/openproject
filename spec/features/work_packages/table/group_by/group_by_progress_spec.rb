@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Work Package group by progress', js: true do
+RSpec.describe 'Work Package group by progress', :js do
   let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
@@ -30,7 +30,7 @@ RSpec.describe 'Work Package group by progress', js: true do
 
   it 'shows group headers for group by progress (regression test #26717)' do
     # Group by category
-    group_by.enable_via_menu 'Progress (%)'
+    group_by.enable_via_menu '% Complete'
 
     # Expect table to be grouped as WP created above
     group_by.expect_number_of_groups 3

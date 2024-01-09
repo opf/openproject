@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -27,10 +27,6 @@ sr:
     attributes:
       work_package:
         position: "Pozicija"
-        remaining_hours: "Preostalo časova"
-        remaining_time: "Preostalo časova"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
         story_points: "Poeni Priče"
         backlogs_work_package_type: "Tip backlog-a"
     errors:
@@ -68,8 +64,8 @@ sr:
     properties: "Svojstva"
     rebuild: "Rekonstrukcija"
     rebuild_positions: "Rekonstruiši pozicije"
-    remaining_hours: "Preostalo časova"
-    remaining_hours_ideal: "Preostalo časova (idealno)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Burndown grafik"
     story: "Priča"
     story_points: "Poeni Priče"
@@ -90,9 +86,9 @@ sr:
   backlogs_sprint_unestimated: "Closed or active sprints with unestimated stories"
   backlogs_sprint_unsized: "Project has stories on active or recently closed sprints that were not sized"
   backlogs_sprints: "Sprints"
-  backlogs_story: "Story"
+  backlogs_story: "Priča"
   backlogs_story_type: "Story types"
-  backlogs_task: "Task"
+  backlogs_task: "Zadatak"
   backlogs_task_type: "Task type"
   backlogs_velocity_missing: "No velocity could be calculated for this project"
   backlogs_velocity_varies: "Velocity varies significantly over sprints"
@@ -133,7 +129,7 @@ sr:
   label_stories_tasks: "Stories/Tasks"
   label_task_board: "Task board"
   label_version_setting: "Versions"
-  label_version: 'Version'
+  label_version: 'Verzija'
   label_webcal: "Webcal Feed"
   label_wiki: "Wiki"
   permission_view_master_backlog: "View master backlog"
@@ -151,7 +147,7 @@ sr:
   rb_label_copy_tasks_none: "None"
   rb_label_copy_tasks_open: "Open"
   rb_label_link_to_original: "Include link to original story"
-  remaining_hours: "remaining hours"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "required burn rate (hours)"
   required_burn_rate_points: "required burn rate (points)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

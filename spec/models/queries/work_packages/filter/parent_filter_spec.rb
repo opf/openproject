@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -114,7 +114,7 @@ RSpec.describe Queries::WorkPackages::Filter::ParentFilter do
           .and_return([visible_wp])
 
         expect(instance.value_objects)
-          .to match_array [visible_wp]
+          .to contain_exactly(visible_wp)
       end
 
       context "with the 'templated' value" do
@@ -161,7 +161,7 @@ RSpec.describe Queries::WorkPackages::Filter::ParentFilter do
           instance.valid_values!
 
           expect(instance.values)
-            .to match_array [visible_wp.id.to_s]
+            .to contain_exactly(visible_wp.id.to_s)
         end
       end
 
@@ -181,7 +181,7 @@ RSpec.describe Queries::WorkPackages::Filter::ParentFilter do
           instance.valid_values!
 
           expect(instance.values)
-            .to match_array [visible_wp.id.to_s]
+            .to contain_exactly(visible_wp.id.to_s)
         end
       end
     end
@@ -282,7 +282,7 @@ RSpec.describe Queries::WorkPackages::Filter::ParentFilter do
                 .where(instance.where)
 
         expect(scope)
-          .to match_array [visible_wp]
+          .to contain_exactly(visible_wp)
       end
     end
   end

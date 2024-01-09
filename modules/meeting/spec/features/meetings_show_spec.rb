@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,7 @@
 require 'spec_helper'
 require_relative '../support/pages/meetings/show'
 
-
-RSpec.describe 'Meetings', js: true do
+RSpec.describe 'Meetings', :js do
   let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:role) { create(:project_role, permissions:) }
   let(:user) do
@@ -50,10 +49,10 @@ RSpec.describe 'Meetings', js: true do
       visit meetings_path(project)
 
       find('td.title a', text: 'Awesome meeting!', wait: 10).click
-      expect(page).to have_selector('h2', text: 'Meeting: Awesome meeting!')
+      expect(page).to have_css('h2', text: 'Meeting: Awesome meeting!')
 
       expect(page).to have_test_selector('op-meeting--meeting_agenda',
-                                    text: 'There is currently nothing to display')
+                                         text: 'There is currently nothing to display')
     end
 
     context 'with a location' do
@@ -85,12 +84,12 @@ RSpec.describe 'Meetings', js: true do
       it 'shows the agenda' do
         visit meeting_path(meeting)
         expect(page).to have_test_selector('op-meeting--meeting_agenda',
-                                      text: 'foo')
+                                           text: 'foo')
 
         # May not edit
-        expect(page).not_to have_selector('.button--edit-agenda')
+        expect(page).to have_no_css('.button--edit-agenda')
         expect(page).not_to have_test_selector('op-meeting--meeting_agenda',
-                                          text: 'Edit')
+                                               text: 'Edit')
       end
 
       it 'can view history' do
@@ -139,7 +138,7 @@ RSpec.describe 'Meetings', js: true do
           click_link 'Minutes'
           expect(page).not_to have_test_selector('op-meeting--meeting_minutes', text: 'Edit')
           expect(page).to have_test_selector('op-meeting--meeting_minutes',
-                                        text: 'There is currently nothing to display')
+                                             text: 'There is currently nothing to display')
         end
       end
     end
@@ -149,9 +148,9 @@ RSpec.describe 'Meetings', js: true do
 
       it 'shows the minutes when visiting' do
         visit meeting_path(meeting)
-        expect(page).not_to have_selector('h2', text: 'Agenda')
-        expect(page).not_to have_selector('#meeting_minutes_text')
-        expect(page).to have_selector('h2', text: 'Minutes')
+        expect(page).to have_no_css('h2', text: 'Agenda')
+        expect(page).to have_no_css('#meeting_minutes_text')
+        expect(page).to have_css('h2', text: 'Minutes')
       end
 
       context 'and edit permissions' do
@@ -170,8 +169,8 @@ RSpec.describe 'Meetings', js: true do
           click_button 'Save'
 
           expect(page)
-            .to have_selector('.op-uc-container',
-                              text: 'This is what we talked about')
+            .to have_css('.op-uc-container',
+                         text: 'This is what we talked about')
         end
       end
     end

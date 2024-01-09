@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -143,9 +143,8 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
         'amet', ', consetetur sadipscing elitr.', ' ', '@OpenProject Admin',
         'Image Caption',
         'Foo',
-        '1', export_time_formatted, project.name,
         'LongText', 'foo',
-        '2', export_time_formatted, project.name
+        '1', export_time_formatted, project.name
       ].join(' ')
       expect(result).to eq(expected_result)
       expect(result).not_to include('DisabledCustomField')

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,7 @@ RSpec.describe 'edit users', :js, :with_cuprite do
     it 'hides password settings when switching to an LDAP auth source' do
       auth_select.select auth_source.name
 
-      expect(page).not_to have_field('#user_password')
+      expect(page).to have_no_field('#user_password')
     end
   end
 
@@ -74,7 +74,7 @@ RSpec.describe 'edit users', :js, :with_cuprite do
 
     it 'shows external authentication being selected and no password settings' do
       expect(auth_select.value).to eq auth_source.id.to_s
-      expect(page).not_to have_field('#user_password')
+      expect(page).to have_no_field('#user_password')
     end
 
     it 'shows password settings when switching back to internal authentication' do
@@ -106,17 +106,17 @@ RSpec.describe 'edit users', :js, :with_cuprite do
 
       expect(page).to have_visible_tab('GENERAL')
 
-      expect(page).not_to have_selector('.admin-overview-menu-item', text: 'Overview')
-      expect(page).not_to have_selector('.users-and-permissions-menu-item', text: 'Users and permissions')
-      expect(page).to have_selector('.users-menu-item.selected', text: 'Users')
+      expect(page).to have_no_css('.admin-overview-menu-item', text: 'Overview')
+      expect(page).to have_no_css('.users-and-permissions-menu-item', text: 'Users and permissions')
+      expect(page).to have_css('.users-menu-item.selected', text: 'Users')
 
       expect(page).to have_select(id: 'user_ldap_auth_source_id')
-      expect(page).not_to have_field '#user_password'
+      expect(page).to have_no_field '#user_password'
 
-      expect(page).to have_selector '#user_login'
-      expect(page).to have_selector '#user_firstname'
-      expect(page).to have_selector '#user_lastname'
-      expect(page).to have_selector '#user_mail'
+      expect(page).to have_css '#user_login'
+      expect(page).to have_css '#user_firstname'
+      expect(page).to have_css '#user_lastname'
+      expect(page).to have_css '#user_mail'
 
       firstname_field = find_by_id('user_firstname')
       firstname_field.value.length.times do
@@ -127,7 +127,7 @@ RSpec.describe 'edit users', :js, :with_cuprite do
 
       click_button 'Save'
 
-      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.')
+      expect(page).to have_css('.op-toast.-success', text: 'Successful update.')
 
       user.reload
 
@@ -140,7 +140,7 @@ RSpec.describe 'edit users', :js, :with_cuprite do
 
       click_button 'Send invitation'
 
-      expect(page).to have_selector('.op-toast.-success', text: 'An invitation has been sent to foo@example.com')
+      expect(page).to have_css('.op-toast.-success', text: 'An invitation has been sent to foo@example.com')
     end
 
     it 'can not edit attributes of an admin user' do

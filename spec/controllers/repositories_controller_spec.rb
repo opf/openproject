@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -165,7 +165,7 @@ RSpec.describe RepositoriesController do
         context 'requested by an authorized user' do
           let(:role) do
             create(:project_role, permissions: %i[browse_repository
-                                          view_commit_author_statistics])
+                                                  view_commit_author_statistics])
           end
 
           it 'is successful' do
@@ -222,7 +222,7 @@ RSpec.describe RepositoriesController do
         describe 'requested by a user with view_commit_author_statistics permission' do
           let(:role) do
             create(:project_role, permissions: %i[browse_repository
-                                          view_commit_author_statistics])
+                                                  view_commit_author_statistics])
           end
 
           it 'show the commits per author graph' do
@@ -242,7 +242,7 @@ RSpec.describe RepositoriesController do
       shared_examples 'renders the repository title' do |active_breadcrumb|
         it do
           expect(response).to be_successful
-          expect(response.body).to have_selector('.repository-breadcrumbs', text: active_breadcrumb)
+          expect(response.body).to have_css('.repository-breadcrumbs', text: active_breadcrumb)
         end
       end
 
@@ -311,7 +311,7 @@ RSpec.describe RepositoriesController do
 
           expect(response.code).to eq('200')
           expect(response).to render_template partial: 'repositories/_checkout_instructions'
-          expect(response.body).to have_selector("#repository-checkout-url[value='#{expected_path}']")
+          expect(response.body).to have_css("#repository-checkout-url[value='#{expected_path}']")
         end
       end
     end

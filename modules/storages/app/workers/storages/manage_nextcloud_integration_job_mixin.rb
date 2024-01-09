@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,16 +39,14 @@ module Storages
         timeout_seconds: 0,
         transaction: false
       ) do
-        ::Storages::NextcloudStorage.automatically_managed.includes(:oauth_client).find_each do |storage|
+        ::Storages::NextcloudStorage.automatic_management_enabled.includes(:oauth_client).find_each do |storage|
           result = GroupFolderPropertiesSyncService.call(storage)
           result.match(
             on_success: ->(_) do
-              storage.mark_as_healthy unless storage.health_healthy?
+              storage.mark_as_healthy
             end,
             on_failure: ->(errors) do
-              if !storage.health_unhealthy? || storage.health_reason != errors.to_s
-                storage.mark_as_unhealthy(reason: errors.to_s)
-              end
+              storage.mark_as_unhealthy(reason: errors.to_s)
             end
           )
         end

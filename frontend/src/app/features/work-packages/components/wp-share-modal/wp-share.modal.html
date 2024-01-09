@@ -13,6 +13,7 @@
       class="button button_no-margin -transparent spot-modal--header-close-button"
       [attr.aria-label]="text.button_close"
       (click)="closeMe($event)"
+      data-test-selector="op-share-wp-modal--close-icon"
     >
       <svg
         x-icon
@@ -33,16 +34,5 @@
         <svg:rect height="25%" rx="2" ry="2" width="180" x="0" y="16"/>
       </op-content-loader>
     </turbo-frame>
-  </div>
-  <div class="spot-action-bar">
-    <div class="spot-action-bar--right">
-      <button
-        class="button button_no-margin spot-modal--cancel-button spot-action-bar--action"
-        data-test-selector="confirmation-modal--cancel"
-        (click)="closeMe($event)"
-        [textContent]="text.button_close"
-        [attr.title]="text.button_close"
-      ></button>
-    </div>
   </div>
 </div>

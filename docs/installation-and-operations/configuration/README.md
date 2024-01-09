@@ -283,9 +283,9 @@ When a filter is defined, synchronization happens directly during seeding for en
 * [`global_basic_auth`](#global-basic-auth)
 * [`apiv3_enable_basic_auth`](#apiv3-enable-basic-auth)
 * [`enterprise_fail_fast`](#enterprise-fail-fast)
-* [`backup_enabled`](#backup-enabled)
-* [`show_community_links`](#show-community-links)
-* [`web`](#web) (nested configuration)
+* [`backup_enabled`](#enable-backups)
+* [`show_community_links`](#show-or-hide-community-links)
+* [`web`](#web-worker-configuration) (nested configuration)
 * [`statsd`](#statsd) (nested configuration)
 
 
@@ -591,7 +591,7 @@ You can optionally enable additional rules on API rate limiting as follows:
 
 Additional application-level rate limiting rules will be added in the future. Additionally to these application level rules, use your load balancer / proxying web server to apply individual rate limiting rules using modules such as `ngx_http_limit_req_module` or `mod_security`. 
 
-### Blocklisted routes
+### Blacklisted routes
 
 You can blacklist specific routes
 

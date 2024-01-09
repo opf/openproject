@@ -1,6 +1,6 @@
 ARG RUBY_VERSION="3.2.2"
 ARG NODE_VERSION="20.9.0"
-ARG BUNDLER_VERSION="2.4.7"
+ARG BUNDLER_VERSION="2.4.22"
 ARG DEBIAN_FRONTEND=noninteractive
 
 # -------------------------------------
@@ -15,7 +15,7 @@ WORKDIR /app
 
 RUN gem install bundler --version "$BUNDLER_VERSION" --no-document
 
-COPY Gemfile Gemfile.modules Gemfile.lock ./
+COPY Gemfile Gemfile.modules Gemfile.lock .ruby-version ./
 COPY modules ./modules
 RUN bundle install
 
@@ -66,6 +66,11 @@ RUN --mount=type=cache,target=/app/frontend/.angular/cache,uid=1000,gid=1000 \
 # -------------------------------------
 FROM ruby:${RUBY_VERSION}-slim-bullseye as base
 LABEL maintainer="operations@openproject.com"
+
+# Labels for artifacthub.io
+LABEL io.artifacthub.package.readme-url="https://www.openproject.org/docs/installation-and-operations/installation/docker/"
+LABEL org.opencontainers.image.documentation="https://www.openproject.org/docs/"
+LABEL org.opencontainers.image.vendor="OpenProject GmbH"
 
 # SYSTEM
 ENV APP_USER=app
@@ -124,6 +129,11 @@ COPY --chown=$APP_USER:$APP_USER --from=rubygems /usr/local/bundle /usr/local/bu
 COPY --chown=$APP_USER:$APP_USER --from=assets /app/public/assets /app/public/assets
 COPY --chown=$APP_USER:$APP_USER --from=assets /app/config/frontend_assets.manifest.json /app/config/frontend_assets.manifest.json
 COPY --chown=$APP_USER:$APP_USER . .
+COPY --chown=$APP_USER:$APP_USER ./config/database.production.yml /app/config/database.yml
+# Update Gemfile.lock in case a plugin has been added. It it hasn't, the file stays identical.
+COPY --chown=$APP_USER:$APP_USER --from=rubygems /app/Gemfile.lock /app/
+
+ENV BUNDLE_FROZEN=true
 
 # We need this so puma is allowed to create the tmp/pids folder and
 # temporary upload files when running with a uid other than 1000 (app)
@@ -149,7 +159,7 @@ ARG PLATFORM=on-prem
 # Use OAuth token in case private gems need to be fetched
 ARG GITHUB_OAUTH_TOKEN
 ARG BIM_SUPPORT=true
-ARG GOSU_VERSION="1.16"
+ARG GOSU_VERSION="1.17"
 ARG OPENPROJECT_ANGULAR_UGLIFY=true
 
 ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
@@ -169,8 +179,7 @@ RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
 RUN ln -s /app/docker/prod/setup/.irbrc /home/$APP_USER/
 RUN ln -s /app/docker/prod/setup/.irbrc /root/
 
-COPY Gemfile ./Gemfile
-COPY Gemfile.* ./
+COPY Gemfile Gemfile.* .ruby-version ./
 COPY modules ./modules
 COPY vendor ./vendor
 # some gemspec files of plugins require files in there, notably OpenProject::Version
@@ -193,6 +202,9 @@ COPY . .
 RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak
 
 RUN ./docker/prod/setup/postinstall.sh
+
+# this has to happen after postinstall.sh since it uses a different database.yml
+COPY config/database.production.yml ./config/database.yml
 
 # Expose ports for apache and postgres
 EXPOSE 80 5432

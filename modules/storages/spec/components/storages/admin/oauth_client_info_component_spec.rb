@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,10 +36,9 @@ RSpec.describe Storages::Admin::OAuthClientInfoComponent, type: :component do # 
         storage = build_stubbed(:nextcloud_storage,
                                 oauth_client: build_stubbed(:oauth_client))
         component = described_class.new(storage:, oauth_client: storage.oauth_client)
-
         expect(component.edit_icon_button_options).to include(
           icon: :sync,
-          data: { confirm: "Are you sure? All users will have to authorize again against the storage." }
+          data: { confirm: "Are you sure? All users will have to authorize again against the storage.", turbo_stream: true }
         )
       end
     end
@@ -50,7 +49,7 @@ RSpec.describe Storages::Admin::OAuthClientInfoComponent, type: :component do # 
         component = described_class.new(storage:, oauth_client: nil)
 
         edit_icon_button_data_options = component.edit_icon_button_options
-        expect(edit_icon_button_data_options).to include(icon: :pencil)
+        expect(edit_icon_button_data_options).to include(icon: :pencil, data: { turbo_stream: true })
         expect(edit_icon_button_data_options[:data]).not_to include(:confirm)
       end
     end

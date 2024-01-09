@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,7 +52,7 @@ RSpec.describe Queries::WorkPackages::Filter::AttachmentContentFilter do
         perform_enqueued_jobs
 
         expect(WorkPackage.joins(instance.joins).where(instance.where))
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe Queries::WorkPackages::Filter::AttachmentContentFilter do
           instance.valid_values!
 
           expect(instance.values)
-            .to match_array ['none', 'is', 'changed']
+            .to contain_exactly('none', 'is', 'changed')
         end
       end
 

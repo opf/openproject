@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ export class EstimatedTimeDisplayField extends DisplayField {
   private derivedText = this.I18n.t('js.label_value_derived_from_children');
 
   public get valueString():string {
-    return this.timezoneService.formattedDuration(this.value);
+    return this.timezoneService.formattedDuration(this.value as string);
   }
 
   /**
@@ -67,37 +67,42 @@ export class EstimatedTimeDisplayField extends DisplayField {
     }
 
     element.classList.add('split-time-field');
-    if (this.value) {
-      this.renderActual(element, displayText);
-    }
+    this.renderActual(element, displayText);
 
     const derived = this.derivedValue;
-    if (derived && this.timezoneService.toHours(derived) !== 0) {
-      this.renderDerived(element, this.derivedValueString, !!this.value);
+    if (derived && derived !== this.value && this.timezoneService.toHours(derived) !== 0) {
+      this.renderSeparator(element);
+      this.renderDerived(element, this.derivedValueString);
     }
   }
 
   public renderActual(element:HTMLElement, displayText:string):void {
     const span = document.createElement('span');
 
-    span.textContent = displayText;
-    span.title = this.valueString;
+    if (this.value) {
+      span.textContent = displayText;
+      span.title = this.valueString;
+    } else {
+      span.textContent = this.texts.placeholder;
+      span.title = this.texts.placeholder;
+    }
     span.classList.add('-actual-value');
 
     element.appendChild(span);
   }
 
-  public renderDerived(element:HTMLElement, displayText:string, actualPresent:boolean):void {
+  public renderSeparator(element:HTMLElement) {
+    const span = document.createElement('span');
+    span.classList.add('-separator');
+    element.appendChild(span);
+  }
+
+  public renderDerived(element:HTMLElement, displayText:string):void {
     const span = document.createElement('span');
 
-    span.setAttribute('title', this.texts.empty);
-    span.textContent = `(${actualPresent ? '+' : ''}${displayText})`;
+    span.textContent = `Σ ${displayText}`;
     span.title = `${this.derivedValueString} ${this.derivedText}`;
     span.classList.add('-derived-value');
-
-    if (actualPresent) {
-      span.classList.add('-with-actual-value');
-    }
 
     element.appendChild(span);
   }

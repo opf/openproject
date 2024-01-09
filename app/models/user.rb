@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,6 +55,9 @@ class User < Principal
      inverse_of: :user
   has_one :rss_token, class_name: '::Token::RSS', dependent: :destroy
   has_one :api_token, class_name: '::Token::API', dependent: :destroy
+
+  # The user might have one invitation token
+  has_one :invitation_token, class_name: '::Token::Invitation', dependent: :destroy
 
   # everytime a user subscribes to a calendar, a new ical_token is generated
   # unlike on other token types, all previously generated ical_tokens are kept
@@ -363,8 +366,8 @@ class User < Principal
     block_threshold = Setting.brute_force_block_after_failed_logins.to_i
     return false if block_threshold == 0 # disabled
 
-    (last_failed_login_within_block_time? and
-            failed_login_count >= block_threshold)
+    last_failed_login_within_block_time? and
+            failed_login_count >= block_threshold
   end
 
   def log_failed_login

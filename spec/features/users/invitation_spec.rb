@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,19 +31,17 @@ require 'spec_helper'
 RSpec.describe 'invitations', :js, :with_cuprite do
   let(:user) { create(:invited_user, mail: 'holly@openproject.com') }
 
-  before do
-    allow(User).to receive(:current).and_return current_user
-  end
-
   shared_examples 'resending invitations' do |redirect_to_edit_page: true|
     it 'resends the invitation' do
+      login_with current_user.login, 'adminADMIN!'
+
       visit user_path(user)
       click_on I18n.t(:label_send_invitation)
       expect(page).to have_text 'An invitation has been sent to holly@openproject.com.'
       expect(page).to have_current_path redirect_to_edit_page ? edit_user_path(user) : user_path(user)
 
       # Logout admin
-      logout
+      visit signout_path
 
       # Visit invitation with wrong token
       visit account_activate_path(token: 'some invalid value')
@@ -52,7 +50,7 @@ RSpec.describe 'invitations', :js, :with_cuprite do
       # Visit invitation link with correct token
       visit account_activate_path(token: Token::Invitation.last.value)
 
-      expect(page).to have_selector('.spot-modal--header', text: 'Welcome to OpenProject')
+      expect(page).to have_css('.spot-modal--header', text: 'Welcome to OpenProject')
     end
   end
 

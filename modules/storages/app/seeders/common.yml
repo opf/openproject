@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,9 +38,15 @@ modules_permissions:
     add:
     - :view_file_links
     - :manage_file_links
+    - :read_files
+    - :write_files
+    - :create_files
+    - :delete_files
+    - :share_files
   - role: :default_role_reader
     add:
     - :view_file_links
+    - :read_files
   - role: :default_role_work_package_editor
     add:
       - :view_file_links

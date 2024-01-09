@@ -27,11 +27,11 @@ module Components
     end
 
     def expect_empty
-      expect(page).not_to have_selector("#{context_selector} [data-test-selector='op-attachment-list-item']")
+      expect(page).to have_no_css("#{context_selector} [data-test-selector='op-attachment-list-item']")
     end
 
     def expect_attached(name, count: 1)
-      expect(page).to have_selector("#{context_selector} [data-test-selector='op-attachment-list-item']", text: name, count:)
+      expect(page).to have_css("#{context_selector} [data-test-selector='op-attachment-list-item']", text: name, count:)
     end
 
     def wait_until_visible

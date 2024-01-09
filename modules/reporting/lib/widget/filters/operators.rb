@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 class Widget::Filters::Operators < Widget::Filters::Base
   def render
     write(content_tag(:div, class: 'advanced-filters--filter-operator') do
-      hide_select_box = (filter_class.available_operators.count == 1 || filter_class.heavy?)
+      hide_select_box = filter_class.available_operators.count == 1 || filter_class.heavy?
       options = { class: 'advanced-filters--select filters-select filter_operator',
                   id: "operators[#{filter_class.underscore_name}]",
                   name: "operators[#{filter_class.underscore_name}]",

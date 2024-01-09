@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package timeline hierarchies', js: true, selenium: true do
+RSpec.describe 'Work package timeline hierarchies', :js, :selenium do
   let(:user) { create(:admin) }
   let!(:wp_root) do
     create(:work_package,
@@ -82,7 +82,7 @@ RSpec.describe 'Work package timeline hierarchies', js: true, selenium: true do
     wp_timeline.expect_hidden_row(wp_leaf)
 
     # Should now have exactly two rows (one in each split view)
-    expect(page).to have_selector('.wp--row', count: 2)
+    expect(page).to have_css('.wp--row', count: 2)
   end
 
   context 'with a relation being rendered to a hidden row' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'form query configuration', js: true, with_cuprite: true do
+RSpec.describe 'form query configuration', :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
   let(:type_bug) { create(:type_bug) }
   let(:type_task) { create(:type_task) }
@@ -93,7 +93,7 @@ RSpec.describe 'form query configuration', js: true, with_cuprite: true do
     it 'can save an empty query group' do
       form.add_query_group('Empty test', :children)
       form.save_changes
-      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
+      expect(page).to have_css('.op-toast.-success', text: 'Successful update.', wait: 10)
       type_bug.reload
 
       query_group = type_bug.attribute_groups.detect { |x| x.is_a?(Type::QueryGroup) }
@@ -105,7 +105,7 @@ RSpec.describe 'form query configuration', js: true, with_cuprite: true do
       form.add_query_group('Subtasks', :children)
       # Save changed query
       form.save_changes
-      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
+      expect(page).to have_css('.op-toast.-success', text: 'Successful update.', wait: 10)
 
       # Visit wp_table
       wp_table.visit!
@@ -131,13 +131,13 @@ RSpec.describe 'form query configuration', js: true, with_cuprite: true do
         form.add_query_group('Subtasks', :children)
         # Save changed query
         form.save_changes
-        expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
+        expect(page).to have_css('.op-toast.-success', text: 'Successful update.', wait: 10)
 
         # Visit new wp page
         visit new_project_work_packages_path(project)
 
         wp_page.expect_no_group 'Subtasks'
-        expect(page).not_to have_text 'Subtasks'
+        expect(page).to have_no_text 'Subtasks'
       end
     end
 
@@ -156,7 +156,7 @@ RSpec.describe 'form query configuration', js: true, with_cuprite: true do
         filters.save
 
         form.save_changes
-        expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
+        expect(page).to have_css('.op-toast.-success', text: 'Successful update.', wait: 10)
 
         archived.update_attribute(:active, false)
 
@@ -184,7 +184,7 @@ RSpec.describe 'form query configuration', js: true, with_cuprite: true do
 
       # Save changed query
       form.save_changes
-      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
+      expect(page).to have_css('.op-toast.-success', text: 'Successful update.', wait: 10)
 
       type_bug.reload
       query = type_bug.attribute_groups.detect { |x| x.key == 'Columns Test' }
@@ -206,7 +206,7 @@ RSpec.describe 'form query configuration', js: true, with_cuprite: true do
 
       # Save changed query
       form.save_changes
-      expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
+      expect(page).to have_css('.op-toast.-success', text: 'Successful update.', wait: 10)
 
       type_bug.reload
       query = type_bug.attribute_groups.detect { |x| x.key == 'Columns Test' }
@@ -253,7 +253,7 @@ RSpec.describe 'form query configuration', js: true, with_cuprite: true do
         filters.save
 
         form.save_changes
-        expect(page).to have_selector('.op-toast.-success', text: 'Successful update.', wait: 10)
+        expect(page).to have_css('.op-toast.-success', text: 'Successful update.', wait: 10)
 
         # Visit work package with that type
         wp_page.visit!
@@ -274,7 +274,7 @@ RSpec.describe 'form query configuration', js: true, with_cuprite: true do
                                                      wait_for_fetched_options: false
 
         expect(results).to have_text "Unrelated task"
-        expect(results).not_to have_text "Bug ##{unrelated_task.id} Unrelated bug"
+        expect(results).to have_no_text "Bug ##{unrelated_task.id} Unrelated bug"
 
         # Cancel that referencing
         page.find('.wp-create-relation--cancel').click

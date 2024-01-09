@@ -9,8 +9,8 @@ ro:
   boards:
     label_board: "Tablă"
     label_boards: "Panouri"
-    label_create_new_board: "Create new board"
-    label_board_type: "Board type"
+    label_create_new_board: "Creează un nou panou"
+    label_board_type: "Tipul de placă"
     board_types:
       free: De bază
       action: "Tablă de acțiune (%{attribute})"
@@ -23,17 +23,17 @@ ro:
       basic: De bază
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Începeți de la zero cu o planșă albă. Adăugați manual cărți și coloane pe această planșă.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Tablă de bază în stil Kanban cu coloane pentru statusuri precum "De făcut", "În curs", "Realizat".
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        Tablă cu coloane automate pe baza utilizatorilor atribuiți. Ideal pentru expedierea pachetelor de lucru.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        Tablă cu coloane automate bazate pe atributul de versiune. Ideal pentru planificarea dezvoltării produselor.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        Tablă cu coloane automate pentru subproiecte. Glisarea pachetelor de lucru în alte liste actualizează (sub)proiectul în mod corespunzător.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        Tablă cu coloane automate pentru subelemente. Glisarea pachetelor de lucru în alte liste actualizează în mod corespunzător lista părinte.
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
-      upgrade: 'Upgrade now'
+      teaser_text: 'Doriți să vă automatizați fluxurile de lucru cu Boards? Tablourile avansate sunt un add-on pentru Enterprise. Vă rugăm să treceți la un plan plătit.'
+      upgrade: 'Actualizează acum'

@@ -12,7 +12,7 @@ RSpec.shared_examples_for 'mail is sent' do
   end
 
   it 'is sent from the configured address' do
-    expect(deliveries.first.from).to match_array([Setting.mail_from])
+    expect(deliveries.first.from).to contain_exactly(Setting.mail_from)
   end
 end
 

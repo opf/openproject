@@ -59,9 +59,9 @@ cs:
         selection:
           zero: "Vyberte soubory, které chcete propojit"
           one: "Propojit 1 Soubor"
-          few: "Link %{count} files"
-          many: "Link %{count} files"
-          other: "Link %{count} files"
+          few: "Propojit %{count} souborů"
+          many: "Propojit %{count} souborů"
+          other: "Propojit %{count} souborů"
         success_create:
           one: "Odkaz na soubor byl úspěšně vytvořen."
           few: "Successfully created %{count} file links."

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,6 +38,18 @@ RSpec.describe Storages::FileLinks::CreateContract do
       let(:file_link_creator) { build_stubbed(:user) }
 
       include_examples 'contract is invalid', creator: :invalid
+    end
+
+    context 'with one drive storage and missing ee token', with_ee: false do
+      let(:storage) { create(:one_drive_storage) }
+
+      include_examples 'contract is invalid', base: I18n.t('api_v3.errors.code_500_missing_enterprise_token')
+    end
+
+    context 'with one drive storage and valid ee token', with_ee: %i[one_drive_sharepoint_file_storage] do
+      let(:storage) { create(:one_drive_storage) }
+
+      include_examples 'contract is valid'
     end
   end
 end

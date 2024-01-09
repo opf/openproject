@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,11 +38,11 @@ module Users::PermissionChecks
       entity_name_underscored = entity_model_name.underscore
       entity_class = entity_model_name.constantize
 
-      define_method "allowed_in_#{entity_name_underscored}?" do |permission, entity|
+      define_method :"allowed_in_#{entity_name_underscored}?" do |permission, entity|
         allowed_in_entity?(permission, entity, entity_class)
       end
 
-      define_method "allowed_in_any_#{entity_name_underscored}?" do |permission, in_project: nil|
+      define_method :"allowed_in_any_#{entity_name_underscored}?" do |permission, in_project: nil|
         allowed_in_any_entity?(permission, entity_class, in_project:)
       end
     end
@@ -89,6 +89,20 @@ module Users::PermissionChecks
   end
   alias :roles :roles_for_project
 
+  # Return user's role for the work package.
+  # Which consists of both the roles granted to the user directly on the work package
+  # as well as those granted to the user on the project the work package belongs to.
+  def roles_for_work_package(work_package)
+    roles_for_project(work_package.project) +
+      Role.includes(:member_roles)
+          .where(member_roles: { member_id: Member.of_work_package(work_package).select(:id) })
+  end
+
+  # Return true when the user is either a member of the project or any resource under the project
+  def access_to?(project)
+    admin? || members.exists?(project_id: project.id)
+  end
+
   # Return true if the user is a member of project
   def member_of?(project)
     roles_for_project(project).any?(&:member?)
@@ -109,9 +123,9 @@ module Users::PermissionChecks
   def allowed_based_on_permission_context?(permission, project: nil, entity: nil) # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
     permissions = Authorization.permissions_for(permission, raise_on_unknown: true)
 
-    entity_blank_or_not_project_scoped = (entity.blank? || !entity.respond_to?(:project) || (entity.respond_to?(:project) && entity.project.blank?))
-    entity_is_work_package_or_list = ((entity.is_a?(WorkPackage) && entity.persisted?) || (entity.is_a?(Enumerable) && entity.all?(WorkPackage)))
-    entity_is_project_scoped_and_project_is_present = (entity.respond_to?(:project) && entity.project.present?)
+    entity_blank_or_not_project_scoped = entity.blank? || !entity.respond_to?(:project) || (entity.respond_to?(:project) && entity.project.blank?)
+    entity_is_work_package_or_list = (entity.is_a?(WorkPackage) && entity.persisted?) || (entity.is_a?(Enumerable) && entity.all?(WorkPackage))
+    entity_is_project_scoped_and_project_is_present = entity.respond_to?(:project) && entity.project.present?
 
     permissions.any? do |perm|
       if perm.global?

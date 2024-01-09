@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -603,6 +603,26 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe 'remainingTime' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'remainingTime' }
+        let(:type) { 'Duration' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.remaining_hours') }
+        let(:required) { false }
+        let(:writable) { true }
+      end
+    end
+
+    describe 'derivedRemainingTime' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'derivedRemainingTime' }
+        let(:type) { 'Duration' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.derived_remaining_hours') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+    end
+
     describe 'spentTime' do
       context 'with the view_time_entries permission' do
         let(:permissions) { %i[edit_work_packages view_time_entries] }
@@ -844,20 +864,39 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'status' do
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'status' }
-        let(:type) { 'Status' }
-        let(:name) { I18n.t('attributes.status') }
-        let(:required) { true }
-        let(:writable) { true }
-        let(:has_default) { true }
-        let(:location) { '_links' }
+      context 'if having the change_work_package_status permission' do
+        let(:permissions) { [:change_work_package_status] }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'status' }
+          let(:type) { 'Status' }
+          let(:name) { I18n.t('attributes.status') }
+          let(:required) { true }
+          let(:writable) { true }
+          let(:has_default) { true }
+          let(:location) { '_links' }
+        end
+
+        it_behaves_like 'has a collection of allowed values' do
+          let(:json_path) { 'status' }
+          let(:href_path) { 'statuses' }
+          let(:factory) { :status }
+        end
       end
 
-      it_behaves_like 'has a collection of allowed values' do
-        let(:json_path) { 'status' }
-        let(:href_path) { 'statuses' }
-        let(:factory) { :status }
+      # Just edit_work_packages without change_work_package_status still makes status writable:
+      context 'if having the edit_work_packages permission' do
+        let(:permissions) { [:edit_work_packages] }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'status' }
+          let(:type) { 'Status' }
+          let(:name) { I18n.t('attributes.status') }
+          let(:required) { true }
+          let(:writable) { true }
+          let(:has_default) { true }
+          let(:location) { '_links' }
+        end
       end
     end
 
@@ -965,6 +1004,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         it_behaves_like 'links to allowed values via collection link' do
           let(:path) { 'assignee' }
+          let(:base_href) { "/api/v3/work_packages/#{work_package.id}" }
           let(:href) { "#{base_href}/available_assignees" }
         end
 
@@ -976,9 +1016,13 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           end
         end
 
-        context 'when not having a project (yet)' do
+        context 'when not having a project (yet) and not yet persisted' do
           before do
             work_package.project = nil
+
+            allow(work_package)
+              .to receive(:persisted?)
+                    .and_return(false)
           end
 
           it_behaves_like 'does not link to allowed values' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,7 +57,7 @@ module OpenProject
         end
 
         def client_version
-          @client_version ||= (git_binary_version || [])
+          @client_version ||= git_binary_version || []
         end
 
         def scm_version_from_command_line
@@ -479,11 +479,11 @@ module OpenProject
         # Builds the full git arguments from the parameters
         # and calls the given block with in, out, err, thread
         # from +Open3#popen3+.
-        def popen3(args, opt = {}, &block)
+        def popen3(args, opt = {})
           opt = opt.merge(chdir: checkout_path) if checkout?
           cmd = build_git_cmd(args)
           super(cmd, opt) do |_stdin, stdout, stderr, wait_thr|
-            block.call(stdout)
+            yield(stdout)
 
             process = wait_thr.value
             if process.exitstatus != 0

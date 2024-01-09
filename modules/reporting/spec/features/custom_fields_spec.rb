@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Custom fields reporting', js: true do
+RSpec.describe 'Custom fields reporting', :js do
   let(:type) { create(:type) }
   let(:project) { create(:project, types: [type]) }
 
@@ -90,24 +90,24 @@ RSpec.describe 'Custom fields reporting', js: true do
     end
 
     it 'filters by the multi CF' do
-      expect(page).to have_selector('#add_filter_select option', text: 'List CF')
+      expect(page).to have_css('#add_filter_select option', text: 'List CF')
       select 'List CF', from: 'add_filter_select'
 
       # Adds filter to page, filtering out the time entries on the work package
-      expect(page).to have_selector("label##{cf_id}")
+      expect(page).to have_css("label##{cf_id}")
       custom_field_selector = "##{cf_id}_arg_1_val"
       select = find(custom_field_selector)
-      expect(select).to have_selector('option', text: 'First option')
-      expect(select).to have_selector('option', text: 'Second option')
+      expect(select).to have_css('option', text: 'First option')
+      expect(select).to have_css('option', text: 'Second option')
       select.find('option', text: 'Second option').select_option
 
       click_link 'Apply'
 
       # Expect empty result table
       within('#result-table') do
-        expect(page).not_to have_selector('.top.result', text: '12.50 hours')
+        expect(page).to have_no_css('.top.result', text: '12.50 hours')
       end
-      expect(page).to have_selector('.generic-table--no-results-title')
+      expect(page).to have_css('.generic-table--no-results-title')
 
       # Update filter to value the work package has
       select = find(custom_field_selector)
@@ -116,13 +116,13 @@ RSpec.describe 'Custom fields reporting', js: true do
 
       # Expect row of work package
       within('#result-table') do
-        expect(page).to have_selector('.top.result', text: '12.50 hours')
+        expect(page).to have_css('.top.result', text: '12.50 hours')
       end
     end
 
     it 'groups by the multi CF (Regression #26050)' do
-      expect(page).to have_selector('#group-by--add-columns')
-      expect(page).to have_selector('#group-by--add-rows')
+      expect(page).to have_css('#group-by--add-columns')
+      expect(page).to have_css('#group-by--add-rows')
 
       select 'List CF', from: 'group-by--add-columns'
       select 'Work package', from: 'group-by--add-rows'
@@ -131,13 +131,13 @@ RSpec.describe 'Custom fields reporting', js: true do
 
       # Expect row of work package
       within('#result-table') do
-        expect(page).to have_selector('a.work_package', text: "#{work_package.type} ##{work_package.id}")
+        expect(page).to have_css('a.work_package', text: "#{work_package.type} ##{work_package.id}")
         # There used to be additional and unwanted text after the option name being rendered.
-        expect(page).to have_selector('th.inner', text: /^First option$/)
-        expect(page).not_to have_selector('th.inner', text: 'Second option')
+        expect(page).to have_css('th.inner', text: /^First option$/)
+        expect(page).to have_no_css('th.inner', text: 'Second option')
 
         # Only first option should have content for the work package
-        expect(page).to have_selector('table.report tbody tr', count: 1)
+        expect(page).to have_css('table.report tbody tr', count: 1)
         row_elements = page.all('table.report tr.odd th')
 
         expect(row_elements[0].text).to eq(project.name)
@@ -183,8 +183,8 @@ RSpec.describe 'Custom fields reporting', js: true do
       it 'groups by the raw values when an invalid value exists' do
         expect(work_package2.send(custom_field_2.attribute_getter)).to eq(['invalid not found'])
 
-        expect(page).to have_selector('#group-by--add-columns')
-        expect(page).to have_selector('#group-by--add-rows')
+        expect(page).to have_css('#group-by--add-columns')
+        expect(page).to have_css('#group-by--add-rows')
 
         select 'Invalid List CF', from: 'group-by--add-columns'
         select 'Work package', from: 'group-by--add-rows'
@@ -194,9 +194,9 @@ RSpec.describe 'Custom fields reporting', js: true do
 
         # Expect row of work package
         within('#result-table') do
-          expect(page).to have_selector('a.work_package', text: "#{work_package.type} ##{work_package.id}")
-          expect(page).to have_selector('th.inner', text: '1')
-          expect(page).not_to have_selector('th.inner', text: 'invalid!')
+          expect(page).to have_css('a.work_package', text: "#{work_package.type} ##{work_package.id}")
+          expect(page).to have_css('th.inner', text: '1')
+          expect(page).to have_no_css('th.inner', text: 'invalid!')
         end
       end
     end
@@ -217,8 +217,8 @@ RSpec.describe 'Custom fields reporting', js: true do
     end
 
     it 'groups by a text CF' do
-      expect(page).to have_selector('#group-by--add-columns')
-      expect(page).to have_selector('#group-by--add-rows')
+      expect(page).to have_css('#group-by--add-columns')
+      expect(page).to have_css('#group-by--add-rows')
 
       select 'Text CF', from: 'group-by--add-columns'
       select 'Work package', from: 'group-by--add-rows'
@@ -227,12 +227,12 @@ RSpec.describe 'Custom fields reporting', js: true do
 
       # Expect row of work package
       within('#result-table') do
-        expect(page).to have_selector('a.work_package', text: "#{work_package.type} ##{work_package.id}")
-        expect(page).to have_selector('th.inner', text: 'foo')
-        expect(page).not_to have_selector('th.inner', text: 'None')
+        expect(page).to have_css('a.work_package', text: "#{work_package.type} ##{work_package.id}")
+        expect(page).to have_css('th.inner', text: 'foo')
+        expect(page).to have_no_css('th.inner', text: 'None')
 
         # Only first option should have content for the work package
-        expect(page).to have_selector('table.report tbody tr', count: 1)
+        expect(page).to have_css('table.report tbody tr', count: 1)
         row_elements = page.all('table.report tr.odd th')
 
         expect(row_elements[0].text).to eq(project.name)

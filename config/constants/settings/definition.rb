@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -206,13 +206,13 @@ module Settings
         description: 'The memcache server host and IP',
         format: :string,
         default: nil,
-        writable: false,
+        writable: false
       },
       cache_redis_url: {
         description: 'URL to the redis cache server',
         format: :string,
         default: nil,
-        writable: false,
+        writable: false
       },
       cache_namespace: {
         format: :string,
@@ -648,6 +648,13 @@ module Settings
         default: nil,
         allowed: -> { Role.pluck(:id) }
       },
+      notifications_hidden: {
+        default: false
+      },
+      notifications_polling_interval: {
+        format: :integer,
+        default: 60000
+      },
       oauth_allow_remapping_of_existing_users: {
         description: 'When set to false, prevent users from other identity providers to take over accounts connected ' \
                      'to another identity provider.',
@@ -889,7 +896,7 @@ module Settings
       },
       show_product_version: {
         description: 'Show product version information in the administration section',
-        default: true,
+        default: true
       },
       show_pending_migrations_warning: {
         description: 'Enable or disable warning bar in case of pending migrations',

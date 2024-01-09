@@ -101,7 +101,7 @@ RSpec.shared_examples 'a workpackage autocomplete field' do
     field.activate!
     field.clear
     field.type(" ##{wp2.id}")
-    expect(page).to have_selector('.mention-list-item', text: wp2.to_s.strip)
+    expect(page).to have_css('.mention-list-item', text: wp2.to_s.strip)
   end
 end
 
@@ -132,9 +132,9 @@ RSpec.shared_examples 'a principal autocomplete field' do
       field.activate!
       field.clear with_backspace: true
       field.input_element.send_keys(" @lau")
-      expect(page).to have_selector('.mention-list-item', text: mentioned_user.name)
-      expect(page).to have_selector('.mention-list-item', text: mentioned_group.name)
-      expect(page).not_to have_selector('.mention-list-item', text: user.name)
+      expect(page).to have_css('.mention-list-item', text: mentioned_user.name)
+      expect(page).to have_css('.mention-list-item', text: mentioned_group.name)
+      expect(page).to have_no_css('.mention-list-item', text: user.name)
 
       # Close the autocompleter
       field.input_element.send_keys :escape
@@ -143,9 +143,9 @@ RSpec.shared_examples 'a principal autocomplete field' do
       sleep 2
 
       field.ckeditor.type_slowly '@Laura'
-      expect(page).to have_selector('.mention-list-item', text: mentioned_user.name)
-      expect(page).not_to have_selector('.mention-list-item', text: mentioned_group.name)
-      expect(page).not_to have_selector('.mention-list-item', text: user.name)
+      expect(page).to have_css('.mention-list-item', text: mentioned_user.name)
+      expect(page).to have_no_css('.mention-list-item', text: mentioned_group.name)
+      expect(page).to have_no_css('.mention-list-item', text: user.name)
     end
   end
 
@@ -190,7 +190,7 @@ RSpec.shared_examples 'not a principal autocomplete field' do
       field.clear with_backspace: true
       field.input_element.send_keys(" @lau")
       sleep 2
-      expect(page).not_to have_selector('.mention-list-item')
+      expect(page).to have_no_css('.mention-list-item')
     end
   end
 

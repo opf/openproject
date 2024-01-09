@@ -444,6 +444,8 @@ paths:
     "$ref": "./paths/work_package_activities.yml"
   "/api/v3/work_packages/{id}/attachments":
     "$ref": "./paths/work_package_attachments.yml"
+  "/api/v3/work_packages/{id}/available_assignees":
+    "$ref": "./paths/work_package_available_assignees.yml"
   "/api/v3/work_packages/{id}/available_projects":
     "$ref": "./paths/work_package_available_projects.yml"
   "/api/v3/work_packages/{id}/available_relation_candidates":
@@ -497,12 +499,16 @@ components:
       $ref: './components/examples/project.yml'
     ProjectBody:
       $ref: './components/examples/project_body.yml'
+    ProjectCollection:
+      $ref: './components/examples/project_collection.yml'
     QueriesModel:
       $ref: './components/examples/queries.yml'
     QueryModel:
       $ref: './components/examples/query.yml'
     QuerySchemaModel:
       $ref: './components/examples/query_schema.yml'
+    StatusCollection:
+      $ref: './components/examples/status_collection.yml'
     StoragesSimpleCollectionModel:
       $ref: './components/examples/storages-simple-collection-response.yml'
     ValuesPropertyStartDateSchema:
@@ -631,8 +637,6 @@ components:
       "$ref": "./components/schemas/list_capabilities_model.yml"
     List_of_NewsModel:
       "$ref": "./components/schemas/list_of_news_model.yml"
-    List_projectsModel:
-      "$ref": "./components/schemas/list_projects_model.yml"
     List_projects_by_versionModel:
       "$ref": "./components/schemas/list_projects_by_version_model.yml"
     MarkdownModel:
@@ -675,6 +679,8 @@ components:
       "$ref": "./components/schemas/priorities_model.yml"
     PriorityModel:
       "$ref": "./components/schemas/priority_model.yml"
+    ProjectCollectionModel:
+      "$ref": "./components/schemas/project_collection_model.yml"
     ProjectModel:
       "$ref": "./components/schemas/project_model.yml"
     ProjectStorageCollectionModel:
@@ -733,10 +739,10 @@ components:
       "$ref": "./components/schemas/schema_for_project_queries_model.yml"
     Star_QueryModel:
       "$ref": "./components/schemas/star_query_model.yml"
+    StatusCollectionModel:
+      "$ref": "./components/schemas/status_collection_model.yml"
     StatusModel:
       "$ref": "./components/schemas/status_model.yml"
-    StatusesModel:
-      "$ref": "./components/schemas/statuses_model.yml"
     StorageCollectionModel:
       "$ref": "./components/schemas/storage_collection_model.yml"
     StorageFileModel:

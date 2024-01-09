@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,6 @@
 #++
 
 require 'support/pages/page'
-require_relative './board_page'
 
 module Pages
   class Board < Page
@@ -130,7 +129,7 @@ module Pages
                                             query: work_package.subject,
                                             results_selector: '.work-packages-partitioned-query-space--container')
 
-      expect(target_dropdown).not_to have_selector('.ui-menu-item', text: work_package.subject)
+      expect(target_dropdown).to have_no_css('.ui-menu-item', text: work_package.subject)
     end
 
     ##
@@ -159,7 +158,7 @@ module Pages
 
     def expect_movable(list_name, card_title, movable: true)
       within_list(list_name) do
-        expect(page).to have_selector('[data-test-selector="op-wp-single-card"]', text: card_title)
+        expect(page).to have_css('[data-test-selector="op-wp-single-card"]', text: card_title)
         expect(page).to have_conditional_selector(movable,
                                                   '[data-test-selector="op-wp-single-card"][data-qa-draggable]',
                                                   text: card_title)
@@ -177,8 +176,8 @@ module Pages
       # wait for reload of lists to start and finish
       # Not sure if that's the most reliable way to do it, but there is nothing visible
       # about the PATCH request being sent and executed successfully after moving a card.
-      expect(page).to have_selector('.op-loading-indicator', wait: 5)
-      expect(page).not_to have_selector('.op-loading-indicator')
+      expect(page).to have_css('.op-loading-indicator', wait: 5)
+      expect(page).to have_no_css('.op-loading-indicator')
     end
 
     def add_list(option: nil, query: option)
@@ -190,7 +189,7 @@ module Pages
 
       if option.nil?
         page.find('.boards-list--add-item').click
-        expect(page).to have_selector('[data-test-selector="op-board-list"]', count: count + 1)
+        expect(page).to have_css('[data-test-selector="op-board-list"]', count: count + 1)
       else
         open_and_fill_add_list_modal query
         page.find('.ng-option', text: option, wait: 10).click
@@ -210,23 +209,23 @@ module Pages
     end
 
     def expect_changed
-      expect(page).to have_selector('.editable-toolbar-title--save')
+      expect(page).to have_css('.editable-toolbar-title--save')
     end
 
     def expect_not_changed
-      expect(page).not_to have_selector('.editable-toolbar-title--save')
+      expect(page).to have_no_css('.editable-toolbar-title--save')
     end
 
     def expect_list(name)
-      expect(page).to have_selector('[data-test-selector="op-board-list--header"]', text: name, wait: 10)
+      expect(page).to have_css('[data-test-selector="op-board-list--header"]', text: name, wait: 10)
     end
 
     def expect_no_list(name)
-      expect(page).not_to have_selector('[data-test-selector="op-board-list--header"]', text: name)
+      expect(page).to have_no_css('[data-test-selector="op-board-list--header"]', text: name)
     end
 
     def expect_empty
-      expect(page).not_to have_selector('.boards-list--item', wait: 10)
+      expect(page).to have_no_css('.boards-list--item', wait: 10)
     end
 
     def remove_list(name)
@@ -235,7 +234,7 @@ module Pages
       accept_alert_dialog!
       expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
-      expect(page).not_to have_selector list_selector(name)
+      expect(page).to have_no_selector list_selector(name)
     end
 
     def click_list_dropdown(list_name, action)
@@ -255,9 +254,9 @@ module Pages
       open_and_fill_add_list_modal name
 
       if present
-        expect(page).to have_selector('.ng-option', text: name)
+        expect(page).to have_css('.ng-option', text: name)
       else
-        expect(page).not_to have_selector('.ng-option', text: name)
+        expect(page).to have_no_css('.ng-option', text: name)
       end
       find('body').send_keys [:escape]
     end
@@ -334,7 +333,7 @@ module Pages
       if editable
         expect(page).to have_field('editable-toolbar-title', with: name)
       else
-        expect(page).to have_selector('.editable-toolbar-title--fixed', text: name)
+        expect(page).to have_css('.editable-toolbar-title--fixed', text: name)
       end
     end
 
@@ -358,7 +357,7 @@ module Pages
 
     def open_add_list_modal
       page.find('.boards-list--add-item').click
-      expect(page).to have_selector('.new-list--action-select input')
+      expect(page).to have_css('.new-list--action-select input')
     end
 
     def add_list_modal_shows_warning(value, with_link: false)

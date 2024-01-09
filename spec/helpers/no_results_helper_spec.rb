@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ RSpec.describe NoResultsHelper do
   describe '#no_results_box' do
     it "contains the just the title" do
       expect(helper.no_results_box).to have_content 'Nothing here!'
-      expect(helper.no_results_box).not_to have_link 'Add some foo'
+      expect(helper.no_results_box).to have_no_link 'Add some foo'
     end
 
     it "contains the title and content link" do

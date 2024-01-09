@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -95,12 +95,40 @@ module Storages
       end
     end
 
+    def self.one_drive_without_ee_token?(provider_type)
+      provider_type == ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE &&
+        !EnterpriseToken.allows_to?(:one_drive_sharepoint_file_storage)
+    end
+
+    def self.extract_part_from_piped_string(text, index)
+      return if text.nil?
+
+      split_reason = text.split('|')
+      if split_reason.length > index
+        split_reason[index].strip
+      end
+    end
+
     def mark_as_unhealthy(reason: nil)
-      update(health_status: 'unhealthy', health_changed_at: Time.now.utc, health_reason: reason)
+      if health_status == 'unhealthy' && reason_is_same(reason)
+        touch(:health_checked_at)
+      else
+        update(health_status: 'unhealthy',
+               health_changed_at: Time.now.utc,
+               health_checked_at: Time.now.utc,
+               health_reason: reason)
+      end
     end
 
     def mark_as_healthy
-      update(health_status: 'healthy', health_changed_at: Time.now.utc, health_reason: nil)
+      if health_status == 'healthy'
+        touch(:health_checked_at)
+      else
+        update(health_status: 'healthy',
+               health_changed_at: Time.now.utc,
+               health_checked_at: Time.now.utc,
+               health_reason: nil)
+      end
     end
 
     def configured?
@@ -137,16 +165,18 @@ module Storages
       provider_type == ::Storages::Storage::PROVIDER_TYPE_ONE_DRIVE
     end
 
-    # Currently the error messages saved look like:
-    # "unauthorized | Outbound request not authorized | #<Storages::StorageErrorData:0x0000ffff646ac570>"
-    # This method returns the first two parts of the error message.
-    def formatted_health_reason
-      split_reason = health_reason.split('|')
-      if split_reason.length === 3
-        "#{split_reason[0].strip.capitalize}: #{split_reason[1]}"
-      else
-        health_reason
-      end
+    def health_reason_identifier
+      @health_reason_identifier ||= self.class.extract_part_from_piped_string(health_reason, 0)
+    end
+
+    def health_reason_description
+      @health_reason_description ||= self.class.extract_part_from_piped_string(health_reason, 1)
+    end
+
+    private
+
+    def reason_is_same(new_health_reason)
+      health_reason_identifier == self.class.extract_part_from_piped_string(new_health_reason, 0)
     end
   end
 end

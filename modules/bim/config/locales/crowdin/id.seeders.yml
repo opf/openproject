@@ -96,14 +96,14 @@ id:
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
-              description: The actual news
+              description: Berita aktual
           categories:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
               name: Project plan
             item_1:
-              name: Milestones
+              name: Tahapan pencapaian
             item_2:
               name: Tasks
             item_3:
@@ -147,14 +147,14 @@ id:
                   name: Paket-Penugasan
               item_6:
                 options:
-                  name: Milestones
+                  name: Tahapan pencapaian
         demo-planning-constructing-project:
           name: "(Demo) Perencanaan & konstruksi"
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo planning and constructing project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Selamat datang di demo proyek Anda
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
@@ -202,7 +202,7 @@ id:
                   name: Paket-Penugasan
               item_6:
                 options:
-                  name: Milestones
+                  name: Tahapan pencapaian
           work_packages:
             item_0:
               subject: Project kick off construction project
@@ -408,18 +408,18 @@ id:
           description: This is a short summary of the goals of this demo BIM project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Selamat datang di demo proyek Anda
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
-              description: The actual news
+              description: Berita aktual
           categories:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
               name: Project plan
             item_1:
-              name: Milestones
+              name: Tahapan pencapaian
             item_2:
               name: Tasks
             item_3:
@@ -459,7 +459,7 @@ id:
                   name: Paket-Penugasan
               item_6:
                 options:
-                  name: Milestones
+                  name: Tahapan pencapaian
           work_packages:
             item_0:
               subject: Project kick off creating BIM model
@@ -692,7 +692,7 @@ id:
             item_4:
               name: Project plan
             item_5:
-              name: Milestones
+              name: Tahapan pencapaian
             item_6:
               name: Tasks
             item_7:

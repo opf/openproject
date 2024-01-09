@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -144,18 +144,18 @@ RSpec.describe 'Admin storages',
 
           # OAuth application
           expect(page).to have_test_selector('storage-openproject-oauth-label', text: 'OpenProject OAuth')
-          expect(page).to have_test_selector('label-openproject_oauth_application_configured-status', text: 'Incomplete')
+          expect(page).not_to have_test_selector('label-openproject_oauth_application_configured-status')
 
           # OAuth client
           wait_for(page).to have_test_selector('storage-oauth-client-label', text: 'Nextcloud OAuth')
-          expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Incomplete')
+          expect(page).not_to have_test_selector('label-storage_oauth_client_configured-status')
           expect(page).to have_test_selector('storage-oauth-client-id-description',
                                              text: "Allow OpenProject to access Nextcloud data using OAuth.")
 
           # Automatically managed project folders
           expect(page).to have_test_selector('storage-managed-project-folders-label',
                                              text: 'Automatically managed folders')
-          expect(page).to have_test_selector('label-managed-project-folders-status', text: 'Incomplete')
+          expect(page).not_to have_test_selector('label-managed-project-folders-status')
           expect(page).to have_test_selector('storage-automatically-managed-project-folders-description',
                                              text: 'Let OpenProject create folders per project automatically.')
         end
@@ -201,15 +201,17 @@ RSpec.describe 'Admin storages',
             expect(page).to have_test_selector('storage-provider-credentials-instructions',
                                                text: 'Copy these values from Nextcloud Administration / OpenProject.')
 
-            # With null values, submit button should be disabled
+            # With null values, form should render inline errors
             expect(page).to have_css('#oauth_client_client_id', value: '')
             expect(page).to have_css('#oauth_client_client_secret', value: '')
-            expect(find_test_selector('storage-oauth-client-submit-button')).to be_disabled
+            click_button 'Save and continue'
+
+            expect(page).to have_text("Client ID can't be blank.")
+            expect(page).to have_text("Client secret can't be blank.")
 
             # Happy path - Submit valid values
             fill_in 'oauth_client_client_id', with: '1234567890'
             fill_in 'oauth_client_client_secret', with: '0987654321'
-            expect(find_test_selector('storage-oauth-client-submit-button')).not_to be_disabled
             click_button 'Save and continue'
           end
 
@@ -219,7 +221,7 @@ RSpec.describe 'Admin storages',
 
         aggregate_failures 'Automatically managed project folders' do
           within_test_selector('storage-automatically-managed-project-folders-form') do
-            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             application_password_input = page.find_by_id('storages_nextcloud_storage_password')
             expect(automatically_managed_switch).to be_checked
             expect(application_password_input.value).to be_empty
@@ -232,7 +234,7 @@ RSpec.describe 'Admin storages',
             # Mock a valid response (=401) for example.com, so the password validation should fail
             mock_nextcloud_application_credentials_validation('https://example.com', password: "1234567890",
                                                                                      response_code: 401)
-            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             expect(automatically_managed_switch).to be_checked
             fill_in 'storages_nextcloud_storage_password', with: "1234567890"
             # Clicking submit with application password empty should show an error
@@ -243,7 +245,7 @@ RSpec.describe 'Admin storages',
             # Mock a valid response (=200) for example.com, so the password validation should succeed
             # Fill in application password and submit
             mock_nextcloud_application_credentials_validation('https://example.com', password: "1234567890")
-            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             expect(automatically_managed_switch).to be_checked
             fill_in 'storages_nextcloud_storage_password', with: "1234567890"
             click_button('Done, complete setup')
@@ -259,7 +261,22 @@ RSpec.describe 'Admin storages',
       end
     end
 
-    context 'with OneDrive Storage' do
+    context 'with OneDrive Storage and enterprise token missing', with_ee: false do
+      it 'renders enterprise icon and redirects to upsale', :webmock do
+        visit admin_settings_storages_path
+        within('.PageHeader') { click_button("Storage") }
+
+        within_test_selector('storages-select-provider-action-menu') do
+          expect(page).to have_css('.octicon-op-enterprise-addons')
+          click_link('OneDrive/SharePoint')
+        end
+
+        expect(page).to have_current_path(upsale_admin_settings_storages_path)
+        wait_for(page).to have_text("OneDrive/SharePoint integration")
+      end
+    end
+
+    context 'with OneDrive Storage', with_ee: %i[one_drive_sharepoint_file_storage] do
       it 'renders a One Drive specific multi-step form', :webmock do
         visit admin_settings_storages_path
 
@@ -278,19 +295,24 @@ RSpec.describe 'Admin storages',
           # General information
           expect(page).to have_test_selector('storage-provider-configuration-instructions',
                                              text: "Please make sure you have administration privileges in the " \
-                                                   "Azure application before doing the setup.")
+                                                   "Azure portal or contact your Microsoft administrator before " \
+                                                   "doing the setup. In the portal, you also need to register an " \
+                                                   "Azure application or use an existing one for authentication.")
 
           # OAuth client
           wait_for(page).to have_test_selector('storage-oauth-client-label', text: 'Azure OAuth')
-          expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Incomplete')
+          expect(page).not_to have_test_selector('label-storage_oauth_client_configured-status')
           expect(page).to have_test_selector('storage-oauth-client-id-description',
                                              text: "Allow OpenProject to access Azure data using OAuth " \
                                                    "to connect OneDrive/Sharepoint.")
+          expect(page).to have_test_selector('storage-redirect-uri-description',
+                                             text: "Complete the setup with the correct URI redirection.")
         end
 
         aggregate_failures 'General information' do
           within_test_selector('storage-general-info-form') do
             fill_in 'storages_one_drive_storage_name', with: 'My OneDrive', fill_options: { clear: :backspace }
+            fill_in 'storages_one_drive_storage_tenant_id', with: '029d4741-a4be-44c6-a8e4-e4eff7b19f65'
             click_button 'Save and continue'
 
             expect(page).to have_text("Drive can't be blank.")
@@ -307,19 +329,26 @@ RSpec.describe 'Admin storages',
         aggregate_failures 'OAuth Client' do
           within_test_selector('storage-oauth-client-form') do
             expect(page).to have_test_selector('storage-provider-credentials-instructions',
-                                               text: 'Copy these values from the Azure application. ' \
-                                                     'After that, copy the redirect URI back to the Azure application.')
+                                               text: 'Copy these values from the desired application in the ' \
+                                                     'Azure portal.')
 
-            # With null values, submit button should be disabled
+            # With null values, upon submit validation errors are show
             expect(page).to have_css('#oauth_client_client_id', value: '')
             expect(page).to have_css('#oauth_client_client_secret', value: '')
-            expect(find_test_selector('storage-oauth-client-submit-button')).to be_disabled
+            click_button 'Save and continue'
+
+            expect(page).to have_text("Client ID can't be blank.")
+            expect(page).to have_text("Client secret can't be blank.")
 
             # Happy path - Submit valid values
             fill_in 'oauth_client_client_id', with: '1234567890'
             fill_in 'oauth_client_client_secret', with: '0987654321'
             expect(find_test_selector('storage-oauth-client-submit-button')).not_to be_disabled
             click_button 'Save and continue'
+
+            expect(page).to have_test_selector('storage-oauth-client-redirect-uri')
+
+            click_button 'Done, complete setup'
           end
 
           expect(page).to have_current_path(admin_settings_storages_path)
@@ -372,7 +401,7 @@ RSpec.describe 'Admin storages',
 
       storage_delete_button.click
 
-      expect(page).not_to have_text("Foo Nextcloud")
+      expect(page).to have_no_text("Foo Nextcloud")
       expect(page).to have_text('Successful deletion.')
       expect(page).to have_current_path(admin_settings_storages_path)
     end
@@ -474,10 +503,13 @@ RSpec.describe 'Admin storages',
           end
 
           within_test_selector('storage-oauth-client-form') do
-            # With null values, submit button should be disabled
+            # With null values, form should render inline errors
             expect(page).to have_css('#oauth_client_client_id', value: '')
             expect(page).to have_css('#oauth_client_client_secret', value: '')
-            expect(find_test_selector('storage-oauth-client-submit-button')).to be_disabled
+            click_button 'Save and continue'
+
+            expect(page).to have_text("Client ID can't be blank.")
+            expect(page).to have_text("Client secret can't be blank.")
 
             # Happy path - Submit valid values
             fill_in 'oauth_client_client_id', with: '1234567890'
@@ -488,13 +520,14 @@ RSpec.describe 'Admin storages',
 
           expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Completed')
           expect(page).to have_test_selector('storage-oauth-client-id-description', text: "OAuth Client ID: 1234567890")
+          expect(OAuthClient.where(integration: storage).count).to eq(1)
         end
 
         aggregate_failures 'Automatically managed project folders' do
           find_test_selector('storage-edit-automatically-managed-project-folders-button').click
 
           within_test_selector('storage-automatically-managed-project-folders-form') do
-            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             application_password_input = page.find_by_id('storages_nextcloud_storage_password')
             expect(automatically_managed_switch).to be_checked
             expect(application_password_input.value).to be_empty
@@ -507,7 +540,7 @@ RSpec.describe 'Admin storages',
             # Mock a valid response (=401) for example.com, so the password validation should fail
             mock_nextcloud_application_credentials_validation(storage.host, password: "1234567890",
                                                                             response_code: 401)
-            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             expect(automatically_managed_switch).to be_checked
             fill_in 'storages_nextcloud_storage_password', with: "1234567890"
             # Clicking submit with application password empty should show an error
@@ -518,7 +551,7 @@ RSpec.describe 'Admin storages',
             # Mock a valid response (=200) for example.com, so the password validation should succeed
             # Fill in application password and submit
             mock_nextcloud_application_credentials_validation(storage.host, password: "1234567890")
-            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatically_managed]"]')
+            automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             expect(automatically_managed_switch).to be_checked
             fill_in 'storages_nextcloud_storage_password', with: "1234567890"
             click_button('Done, complete setup')
@@ -585,16 +618,29 @@ RSpec.describe 'Admin storages',
           end
 
           within_test_selector('storage-oauth-client-form') do
-            # With null values, submit button should be disabled
+            # With null values, form should render inline errors
             expect(page).to have_css('#oauth_client_client_id', value: '')
             expect(page).to have_css('#oauth_client_client_secret', value: '')
-            expect(find_test_selector('storage-oauth-client-submit-button')).to be_disabled
+            click_button 'Save and continue'
+
+            expect(page).to have_text("Client ID can't be blank.")
+            expect(page).to have_text("Client secret can't be blank.")
 
             # Happy path - Submit valid values
             fill_in 'oauth_client_client_id', with: '1234567890'
             fill_in 'oauth_client_client_secret', with: '0987654321'
-            expect(find_test_selector('storage-oauth-client-submit-button')).not_to be_disabled
             click_button 'Save and continue'
+          end
+
+          aggregate_failures 'Redirect URI' do
+            expect(page).to have_test_selector('storage-redirect-uri-label')
+            expect(page).to have_test_selector('storage-show-redirect-uri-button')
+            expect(page).not_to have_test_selector('storage-oauth-client-redirect-uri')
+
+            find('a[data-test-selector="storage-show-redirect-uri-button"]').click
+
+            expect(page).to have_test_selector('storage-oauth-client-redirect-uri')
+            expect(find_test_selector('storage-oauth-client-submit-button')).to be_disabled
           end
 
           expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Completed')
@@ -629,7 +675,7 @@ RSpec.describe 'Admin storages',
     it 'shows healthy status for storages that are healthy' do
       visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_healthy)
       expect(page).to have_test_selector('storage-health-label-healthy', text: 'Healthy')
-      expect(page).to have_test_selector('storage-health-changed-at', text: "Checked 11/28/2023 01:02 AM")
+      expect(page).to have_test_selector('storage-health-checked-at', text: "Last checked 11/28/2023 01:02 AM")
     end
 
     it 'shows pending label for a storage that is pending' do
@@ -640,13 +686,14 @@ RSpec.describe 'Admin storages',
     it 'shows error status for storages that are unhealthy' do
       visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_unhealthy)
       expect(page).to have_test_selector('storage-health-label-error', text: 'Error')
-      expect(page).to have_test_selector('storage-health-reason', text: 'error reason')
+      expect(page).to have_test_selector('storage-health-reason', text: 'Error code: description since 11/28/2023 01:02 AM')
     end
 
     it 'shows formatted error reason for storages that are unhealthy' do
       visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_unhealthy_long_reason)
       expect(page).to have_test_selector('storage-health-label-error', text: 'Error')
-      expect(page).to have_test_selector('storage-health-reason', text: 'Unauthorized: Outbound request not authorized')
+      expect(page).to have_test_selector('storage-health-reason', text:
+        'Unauthorized: Outbound request not authorized since 11/28/2023 01:02 AM')
     end
   end
 end

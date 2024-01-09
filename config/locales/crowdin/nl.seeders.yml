@@ -50,18 +50,18 @@ nl:
           name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: Derde
         item_1:
-          name: Anonymous
+          name: Anoniem
         item_2:
-          name: Member
+          name: Deelnemer
         item_3:
-          name: Reader
+          name: Lezer
         item_4:
           name: Project admin
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Medewerker en projectbeheerder
     standard:
       priorities:
         item_0:

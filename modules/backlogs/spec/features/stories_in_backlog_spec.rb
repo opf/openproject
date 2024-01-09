@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,7 @@
 require 'spec_helper'
 require_relative '../support/pages/backlogs'
 
-RSpec.describe 'Stories in backlog',
-               js: true,
+RSpec.describe 'Stories in backlog', :js,
                with_cuprite: false do
   let!(:project) do
     create(:project,
@@ -191,7 +190,7 @@ RSpec.describe 'Stories in backlog',
 
     # All positions will be unique in the sprint
     expect(Story.where(version: sprint, type: story, project:).pluck(:position))
-      .to match_array([1, 2, 3])
+      .to contain_exactly(1, 2, 3)
 
     backlogs_page
       .expect_stories_in_order(sprint, new_story, sprint_story1, sprint_story2)
@@ -229,7 +228,7 @@ RSpec.describe 'Stories in backlog',
       .expect_stories_in_order(sprint, sprint_story1, new_story, sprint_story2)
 
     expect(Story.where(version: sprint, type: story, project:).pluck(:position))
-      .to match_array([1, 2, 3])
+      .to contain_exactly(1, 2, 3)
 
     # Moving a story to bottom
     backlogs_page
@@ -241,7 +240,7 @@ RSpec.describe 'Stories in backlog',
       .expect_stories_in_order(sprint, new_story, sprint_story2, sprint_story1)
 
     expect(Story.where(version: sprint, type: story, project:).pluck(:position))
-      .to match_array([1, 2, 3])
+      .to contain_exactly(1, 2, 3)
 
     # Moving a story to from the backlog to the sprint (3rd position)
 
@@ -255,7 +254,7 @@ RSpec.describe 'Stories in backlog',
       .expect_stories_in_order(sprint, new_story, sprint_story2, backlog_story1, sprint_story1)
 
     expect(Story.where(version: sprint, type: story, project:).pluck(:position))
-      .to match_array([1, 2, 3, 4])
+      .to contain_exactly(1, 2, 3, 4)
 
     # Available statuses when editing
 

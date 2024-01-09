@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -60,6 +60,12 @@ export function initializeGlobalListeners():void {
       // Avoid handling clicks on anything other than a
       const linkElement = target.closest<HTMLAnchorElement>('a');
       if (!linkElement) {
+        return;
+      }
+
+      // Avoid opening new tab when clicking links while editing in ckeditor
+      if (linkElement.classList.contains('ck-link_selected')) {
+        evt.preventDefault();
         return;
       }
 

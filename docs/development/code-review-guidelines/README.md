@@ -67,7 +67,7 @@ Every developer and reviewer should read the Rails Security Guide as well as the
 - All changes made to the OpenProject software are managed and documented via work packages in the [OpenProject project](https://community.openproject.org/projects/openproject/).
 - The [Roadmap view](https://community.openproject.com/projects/openproject/roadmap) gives a corresponding overview.
 - For any nontrivial or pure maintenance changes (Gem bumps etc.), please ensure you have a corresponding ticket you link to in the form of `OP##<Work package ID> `or `https://community.openproject.org/work_packages/ID` in your pull request.
-- To prevent inconsistencies and avoid redundant work there is no additional change log in the source code. Releases will contain a changelog of the publicly visible tickets in the GitHub releases pages, as well as [on our release notes](https://www.openproject.org/docs/release-notes/).
+- To prevent inconsistencies and avoid redundant work there is no additional change log in the source code. Releases will contain a changelog of the publicly visible tickets in the GitHub releases pages, as well as [on our release notes](../../release-notes/).
 
 
 
@@ -135,6 +135,11 @@ Verify that the appropriate tests have been added as documented above.
 
 When testing a feature or change, check out the code test at least the happy paths according to the specification of the ticket.
 
+### Documenting changes right away
+
+If possible, add smaller documentation changes right away.
+
+If there are breaking changes (e.g., to permissions, code relevant for developers), add them to the release notes draft for the release or create a new draft if none exists yet.
 
 
 ## Other

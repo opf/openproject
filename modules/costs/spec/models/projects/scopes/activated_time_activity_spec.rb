@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,7 +40,7 @@ RSpec.describe Projects::Scopes::ActivatedTimeActivity do
       context 'and being active' do
         it 'returns all projects' do
           expect(subject)
-            .to match_array [project, other_project]
+            .to contain_exactly(project, other_project)
         end
       end
 
@@ -65,7 +65,7 @@ RSpec.describe Projects::Scopes::ActivatedTimeActivity do
       context 'and being active' do
         it 'returns the project the activity is activated in' do
           expect(subject)
-            .to match_array [project]
+            .to contain_exactly(project)
         end
       end
 
@@ -76,7 +76,7 @@ RSpec.describe Projects::Scopes::ActivatedTimeActivity do
 
         it 'returns only the projects the activity is activated in' do
           expect(subject)
-            .to match_array [project]
+            .to contain_exactly(project)
         end
       end
     end

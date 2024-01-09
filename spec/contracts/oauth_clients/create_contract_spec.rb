@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,6 +69,16 @@ RSpec.describe OAuthClients::CreateContract do
 
           include_examples 'contract is invalid', attribute_name => :blank
         end
+      end
+    end
+
+    context 'with blank client ID' do
+      let(:client_id) { '' }
+
+      it 'is invalid, includes `ID` in error message' do
+        expect(contract).not_to be_valid
+
+        expect(contract.errors[:client_id]).to eq(["ID can't be blank."])
       end
     end
 

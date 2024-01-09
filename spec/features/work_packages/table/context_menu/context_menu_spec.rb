@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative 'context_menu_shared_examples'
 
-RSpec.describe 'Work package table context menu', js: true, with_cuprite: true do
+RSpec.describe 'Work package table context menu', :js, :with_cuprite do
   shared_let(:user) { create(:admin) }
   shared_let(:work_package) { create(:work_package) }
 
@@ -39,7 +39,11 @@ RSpec.describe 'Work package table context menu', js: true, with_cuprite: true d
         # Open context menu
         menu.expect_closed
         menu.open_for(work_package)
-        menu.expect_options ['Add predecessor', 'Add follower']
+        menu.expect_options 'Add predecessor', 'Add follower', 'Show relations'
+
+        # Show relations tab when selecting show-relations from menu
+        menu.choose('Show relations')
+        expect(page).to have_current_path /details\/#{work_package.id}\/relations/
       end
 
       context 'for multiple selected WPs' do
@@ -57,8 +61,8 @@ RSpec.describe 'Work package table context menu', js: true, with_cuprite: true d
           find('body').send_keys [:control, 'a']
 
           menu.open_for(work_package)
-          menu.expect_options ['Open details view', 'Open fullscreen view',
-                               'Bulk edit', 'Bulk copy', 'Bulk change of project', 'Bulk delete']
+          menu.expect_options 'Open details view', 'Open fullscreen view',
+                              'Bulk edit', 'Bulk copy', 'Bulk change of project', 'Bulk delete'
         end
       end
     end

@@ -1,4 +1,4 @@
-require_relative './edit_field'
+require_relative 'edit_field'
 
 class TextEditorField < EditField
   def ckeditor
@@ -11,9 +11,9 @@ class TextEditorField < EditField
 
   def expect_save_button(enabled: true)
     if enabled
-      expect(field_container).not_to have_selector("#{control_link}[disabled]")
+      expect(field_container).to have_no_css("#{control_link}[disabled]")
     else
-      expect(field_container).to have_selector("#{control_link}[disabled]")
+      expect(field_container).to have_css("#{control_link}[disabled]")
     end
   end
 

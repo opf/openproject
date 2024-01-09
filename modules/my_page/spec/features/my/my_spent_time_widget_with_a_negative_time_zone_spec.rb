@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,6 +31,7 @@ require 'spec_helper'
 require_relative '../../support/pages/my/page'
 
 RSpec.describe 'My spent time widget with a negative time zone', :js,
+               driver: :chrome_headless_new,
                with_settings: { start_of_week: 1 } do
   let(:beginning_of_week) { monday }
   let(:end_of_week) { sunday }
@@ -85,11 +86,11 @@ RSpec.describe 'My spent time widget with a negative time zone', :js,
     my_page.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
 
     aggregate_failures("non-working days are displayed properly") do
-      expect(page).not_to have_css('.fc-day-mon.fc-non-working-day', wait: 0)
+      expect(page).to have_no_css('.fc-day-mon.fc-non-working-day', wait: 0)
       expect(page).to have_css('.fc-day-tue.fc-non-working-day', wait: 0)
-      expect(page).not_to have_css('.fc-day-wed.fc-non-working-day', wait: 0)
-      expect(page).not_to have_css('.fc-day-thu.fc-non-working-day', wait: 0)
-      expect(page).not_to have_css('.fc-day-fri.fc-non-working-day', wait: 0)
+      expect(page).to have_no_css('.fc-day-wed.fc-non-working-day', wait: 0)
+      expect(page).to have_no_css('.fc-day-thu.fc-non-working-day', wait: 0)
+      expect(page).to have_no_css('.fc-day-fri.fc-non-working-day', wait: 0)
       expect(page).to have_css('.fc-day-sat.fc-non-working-day', wait: 0)
       expect(page).to have_css('.fc-day-sun.fc-non-working-day', wait: 0)
     end

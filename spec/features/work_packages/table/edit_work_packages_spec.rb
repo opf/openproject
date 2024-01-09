@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Inline editing work packages', js: true do
+RSpec.describe 'Inline editing work packages', :js do
   let(:manager_role) do
     create(:project_role,
            permissions: %i[view_work_packages
@@ -175,9 +175,9 @@ RSpec.describe 'Inline editing work packages', js: true do
         message: "#{cf_list_name} can't be blank.\n#{cf_text_name} can't be blank."
       )
 
-      expect(page).to have_selector('th a', text: cf_list_name.upcase)
-      expect(page).to have_selector('th a', text: cf_text_name.upcase)
-      expect(wp_table.row(work_package)).to have_selector('.wp-table--cell-container.-error', count: 2)
+      expect(page).to have_css('th a', text: cf_list_name.upcase)
+      expect(page).to have_css('th a', text: cf_text_name.upcase)
+      expect(wp_table.row(work_package)).to have_css('.wp-table--cell-container.-error', count: 2)
 
       cf_text = wp_table.edit_field(work_package, custom_fields.last.attribute_name(:camel_case))
       cf_text.update('my custom text', expect_failure: true)

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -103,7 +103,7 @@ id:
       cancelled_due_to: "Pekerjaan dibatalkan karena kesalahan: %{message}"
   ldap_auth_sources:
     ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_auth_failed: "Authentikasi pada LDAP-Server gagal."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Formulir LDAP ini membutuhkan pengetahuan teknis LDAP anda / pengaturan Direktori Aktif. <br/><a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Silahkan kungjungi dokumentasi untuk instruksi lebih jelas</a>.
@@ -160,18 +160,18 @@ id:
     index:
       no_results_title_text: Tidak ada warna saat ini.
       no_results_content_text: Buat warna baru
-      label_new_color: "New color"
+      label_new_color: "Warna baru"
     new:
       label_new_color: "New Color"
     edit:
       label_edit_color: "Edit Color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "Warna baru"
+      label_edit_color: "Edit warna"
     label_no_color: "Tidak ada warna"
-    label_properties: "Properties"
+    label_properties: "Properti"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      Yakin ingin menghapus? Tipe yang menggunakan warna tersebut tidak akan dihapus.
   custom_actions:
     actions:
       name: "Tindakan"
@@ -195,12 +195,21 @@ id:
     confirm_destroy_option: "Menghapus sebuah pilihan akan menghapus semua kemunculan yang terjadi (mis. dalam paket pekerjaan). Apakah Anda yakin ingin menghapusnya?"
     reorder_alphabetical: "Susun ulang nilai menurut abjad"
     reorder_confirmation: "Peringatan: Urutan nilai yang tersedia saat ini akan hilang.  Melanjutkan?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: Tidak ada bidang kustom saat ini.
       no_results_content_text: Buat bidang kustom baru
   concatenation:
     single: "atau"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Forum"
@@ -254,7 +263,7 @@ id:
       types:
         no_results_title_text: There are currently no types available.
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: 'Aktifkan Tipe "%{type}"'
       versions:
         no_results_title_text: There are currently no versions for the project.
         no_results_content_text: Create a new version
@@ -266,6 +275,15 @@ id:
       no_results_content_text: Add a member to the project
     invite_by_mail: "Kirim undangan ke %{mail}"
     send_invite_to: "Send invite to"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Gagal untuk menset ulang akses token: %{error}"
@@ -274,7 +292,7 @@ id:
       no_results_title_text: There are currently no access tokens available.
       notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
-      notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
+      notice_ical_token_revoked: 'Token iCalendar "%{token_name}" untuk kalender "%{calendar_name}" proyek "%{project_name}" telah dicabut.  URL iCalendar dengan token ini sekarang tidak valid.'
   news:
     index:
       no_results_title_text: There is currently no news to report.
@@ -384,8 +402,8 @@ id:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -449,20 +467,20 @@ id:
         attribute_name: "Atribut"
         help_text: "Teks bantuan"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
+        account: "Akun"
+        attr_firstname: "Atribut nama depan"
+        attr_lastname: "Atribut nama belakang"
+        attr_login: "Atribut nama pengguna"
+        attr_mail: "Atribut email"
         base_dn: "Base DN"
         host: "Host"
-        onthefly: "Automatic user creation"
+        onthefly: "Otomatis membuat pengguna"
         port: "Port"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repositori"
       color:
-        hexcode: "Hex code"
+        hexcode: "Kode Hexa"
       comment:
         commented: "Komentar" #an object that this comment belongs to
       custom_action:
@@ -558,7 +576,7 @@ id:
         color: "Warna"
       user:
         admin: "Administrator"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "koneksi LDAP"
         identity_url: "Identity URL"
         current_password: "Current password"
         force_password_change: "Ubah password saat pertama Login"
@@ -589,7 +607,9 @@ id:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "Subelemen"
-        done_ratio: "Progress (%)"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
+        done_ratio: "% Complete"
         duration: "Durasi"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
@@ -603,8 +623,10 @@ id:
         parent_issue: "Induk"
         parent_work_package: "Induk"
         priority: "Prioritas"
-        progress: "Progress (%)"
+        progress: "% Complete"
         readonly: "Baca saja"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Penjadwalan manual"
         spent_hours: "Durasi"
         spent_time: "Durasi"
@@ -638,7 +660,7 @@ id:
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
         error_unauthorized: "mungkin tidak dapat diakses."
         error_readonly: "Mencoba untuk ditulis tetapi tidak dapat ditulis."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "Informasi telah diperbarui oleh setidaknya satu user lain."
         email: "bukan alamat email yang valid."
         empty: "harus di isi."
         even: "harus imbang."
@@ -907,7 +929,7 @@ id:
             status:
               invalid_on_create: "bukan status yang valid untuk user baru."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "tidak ditemukan"
         member:
           principal_blank: "Silakan pilih setidaknya satu user atau grup."
           role_blank: "need to be assigned."
@@ -956,7 +978,7 @@ id:
       wiki_page: "Halaman Wiki"
   errors:
     header_invalid_fields:
-      other: "There were problems with the following fields:"
+      other: "Eror pada isian berikut :"
     header_additional_invalid_fields:
       other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "Bidang ini tidak valid: %{full_errors} masukkan nilai yang berlaku."
@@ -1009,13 +1031,13 @@ id:
     default_columns: "Kolom default"
     description: "Deskripsi"
     derived_due_date: "Tanggal selesai turunan"
-    derived_estimated_hours: "Perkiraan waktu turunan"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Tanggal mulai turunan"
     display_sums: "Tampilkan jumlah"
     due_date: "Tanggal selesai"
-    estimated_hours: "Estimasi Waktu"
-    estimated_time: "Estimasi Waktu"
-    expires_at: "Expires at"
+    estimated_hours: "Work"
+    estimated_time: "Work"
+    expires_at: "Berakhir masa berlaku pada"
     firstname: "Nama depan"
     group: "Grup"
     groups: "Grup"
@@ -1255,7 +1277,7 @@ id:
       x_minutes_abbreviated:
         other: "%{count} mins"
       x_hours:
-        other: "%{count} hours"
+        other: "1 jam\n%{count} jam"
       x_hours_abbreviated:
         other: "%{count} hrs"
       x_weeks:
@@ -1329,7 +1351,7 @@ id:
   error_can_not_unarchive_project: "Proyek ini tidak dapat diarsipkan: %{errors}"
   error_check_user_and_role: "Silakan pilih user dan Role."
   error_code: "Error %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "Warna tidak dapat disimpan"
   error_cookie_missing: "The OpenProject cookie is missing. Please ensure that cookies are enabled, as this application will not properly function without."
   error_custom_option_not_found: "Pilihan tidak ada."
   error_enterprise_activation_user_limit: "Akun Anda tidak dapat diaktifkan (batas pengguna tercapai). Silakan hubungi administrator Anda untuk mendapatkan akses."
@@ -1342,7 +1364,7 @@ id:
   error_pdf_export_too_many_columns: "Kolom yang dipilih utnuk ekspor PDF terlalu banyak. Mohon kurangi jumlah kolom."
   error_pdf_failed_to_export: "Ekspor PDF tidak dapat disimpan: %{error}"
   error_token_authenticity: "Tidak dapat memverifikasi token Pemalsuan Permintaan Lintas Situs. Apakah Anda mencoba mengirimkan data di beberapa browser atau tab? Harap tutup semua tab dan coba lagi."
-  error_work_package_done_ratios_not_updated: "Paket-Penugasan selesai, rasio tidak diupdate."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Paket-Penugasan tidak ditemukan atau tidak termasuk dalam Project ini"
   error_must_be_project_member: "harus sbg Project Member"
   error_migrations_are_pending: "Instalasi OpenProject anda tertunda karena migrasi databse. kemungkinan anda melewatkan migrasi yang ada saat upgrade terakhir. silahkan periksa panduan upgrade untuk meng-upgrade dengan benar."
@@ -1354,7 +1376,7 @@ id:
   error_password_change_failed: "Terjadi kesalahan saat mencoba mengubah kata sandi."
   error_scm_command_failed: "Error ketika mengakses repositori: %{value}"
   error_scm_not_found: "Entri atau revisi tidak ditemukan dalam repositori."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "Tipe tidak bisa disimpan"
   error_unable_delete_status: "Work package tidak dapat dihapus karena dipakai oleh work package lain."
   error_unable_delete_default_status: "Status default tidak dapat dihapus. Tentukan nilai default lain sebelum menghapus status yang anda ingin hapus."
   error_unable_to_connect: "Tidak dapat terhubung (%{value})"
@@ -1558,7 +1580,7 @@ id:
   label_age: "Usia"
   label_ago: "hari yang lalu"
   label_all: "semua"
-  label_all_projects: "All projects"
+  label_all_projects: "Semua proyek"
   label_all_time: "Sepanjang waktu"
   label_all_words: "Semua kata"
   label_all_open_wps: "Semua terbuka"
@@ -1585,7 +1607,7 @@ id:
   label_attribute: "Atribut"
   label_attribute_plural: "Atribut"
   label_ldap_auth_source_new: "New LDAP connection"
-  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source: "koneksi LDAP"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Otentikasi"
   label_available_global_roles: "Available global roles"
@@ -1647,7 +1669,7 @@ id:
   label_confirmation: "Konfirmasi"
   label_contains: "berisi"
   label_content: "Konten"
-  label_color_plural: "Colors"
+  label_color_plural: "Warna"
   label_copied: "copied"
   label_copy_same_as_target: "Sama seperti target"
   label_copy_source: "Source"
@@ -1677,7 +1699,7 @@ id:
   label_deleted: "dihapus"
   label_deleted_custom_field: "(isian kustom dihapus)"
   label_deleted_custom_option: "(opsi dihapus)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(kosong)"
   label_missing_or_hidden_custom_option: "(nilai hilang atau kurang izin untuk mengakses)"
   label_descending: "Deskending"
   label_details: "Detil"
@@ -1875,7 +1897,7 @@ id:
   label_operator_none: "kosong"
   label_operator_equals_or: "adalah (ATAU)"
   label_operator_equals_all: "adalah (DAN)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "Apa saja"
   label_open_menu: "Buka menu"
   label_open_work_packages: "buka"
   label_open_work_packages_plural: "buka"
@@ -2013,7 +2035,7 @@ id:
   label_this_week: "minggu ini"
   label_this_year: "tahun ini"
   label_time_entry_plural: "Durasi"
-  label_title: "Title"
+  label_title: "Judul"
   label_projects_menu: "Project"
   label_today: "hari ini"
   label_top_menu: "Top Menu"
@@ -2022,7 +2044,7 @@ id:
   label_type_new: "Tipe baru"
   label_type_plural: "Tipe"
   label_ui: "Antarmuka user"
-  label_update_work_package_done_ratios: "Rasio Paket-Penugasan telah diupdate"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Diperbarui %{value} yang lalu"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Diperbarui oleh %{author} %{age} yang lalu"
@@ -2177,9 +2199,9 @@ id:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Open work package"
-        subject: "You have been shared work package #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
@@ -2213,8 +2235,8 @@ id:
   mail_body_register_ending: "Tetap terhubung! Salam Hormat,"
   mail_body_reminder: "%{count} Paket-Penugasan yang dilimpahkan kepada Anda akan berakhir dalam %{days} hari :"
   mail_body_group_reminder: '%{count} paket pekerjaan yang ditugaskan ke grup "%{group}" akan jatuh tempo dalam %{days} hari ke depan:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "Halaman Wiki '%{id}' telah ditambahkan oleh %{author}."
+  mail_body_wiki_page_updated: "Halaman Wiki '%{id}' telah diupdate oleh %{author}."
   mail_subject_account_activation_request: "Permintaan aktivasi akun %{value}"
   mail_subject_backup_ready: "Cadangan Anda sudah siap"
   mail_subject_backup_token_reset: "Atur ulang token cadangan"
@@ -2289,7 +2311,7 @@ id:
   notice_file_not_found: "Halaman yang Anda akses sudah dihapus atau dipindahkan."
   notice_forced_logout: "Anda secara otomatis telah Logout setelah %{ttl_time} menit tanpa aktivitas."
   notice_internal_server_error: "Error pada halaman yang Anda akses. Jika Anda tetap mengalami masalah hubungi administrator %{app_title} untuk bantuan."
-  notice_work_package_done_ratios_updated: "Paket-Penugasan selesai, rasio telah diupdate."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Informasi telah diperbarui oleh setidaknya satu user lain."
   notice_locking_conflict_additional_information: "Diupdate oleh %{users}."
   notice_locking_conflict_reload_page: "Silahkan reload halaman, tinjau perubahan dan reapply."
@@ -2351,7 +2373,7 @@ id:
   permission_add_work_packages: "Tambah Paket-Penugasan"
   permission_add_messages: "Kirim pesan"
   permission_add_project: "Create projects"
-  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments: "Tambahkan lampiran"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Proyek arsip"
   permission_create_user: "Create users"
@@ -2362,10 +2384,12 @@ id:
   permission_assign_versions: "Tetapkan versi"
   permission_browse_repository: "Read-only access to repository (browse and checkout)"
   permission_change_wiki_parent_page: "Ubah halaman induk Wiki"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Komentar berita"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Copy Project"
-  permission_copy_work_packages: "Copy work packages"
+  permission_copy_work_packages: "Salin paket kerja"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Hapus pemantau"
   permission_delete_work_packages: "Hapus Paket-Penugasan"
@@ -2438,7 +2462,9 @@ id:
     default: "Hapus nilai"
   project:
     destroy:
-      confirmation: "If you continue, the project %{identifier} and all related data will be permanently destroyed."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Deleting the project is an irreversible action."
       project_verification: "Enter the project's name %{name} to verify the deletion."
       subprojects_confirmation: "Its subproject(s): %{value} will also be deleted."
@@ -2462,6 +2488,7 @@ id:
   project_module_news: "News"
   project_module_repository: "Repositori"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2649,10 +2676,10 @@ id:
   setting_file_max_size_displayed: "Ukuran maks. file teks yang ditampilkan inline"
   setting_host_name: "Nama host"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Hitung Paket-Penugasan dengan Rasio Penyelesaian"
-  setting_work_package_done_ratio_field: "Gunakan isian Paket-Penugasan"
-  setting_work_package_done_ratio_status: "Gunakan status Paket-Penugasan"
-  setting_work_package_done_ratio_disabled: "Nonaktifkan (sembunyikan progress)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Tampilkan secara default"
   setting_work_package_properties: "Properti Paket-Penugasan"
   setting_work_package_startdate_is_adddate: "Gunakan tanggal sekarang untuk start Paket-Penugasan"
@@ -2992,28 +3019,32 @@ id:
         project_group: 'Project group'
         not_project_group: 'Not project group'
         role: 'Role'
-        type: 'Type'
+        type: 'Tipe'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Komentar"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
         edit: "Edit"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Lihat"
         view_description: "Can view this work package."
       remove: "Remove"
       share: "Share"
+      text_empty_search_description: "There are no users with the current filter criteria."
+      text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared users"
+      text_empty_state_header: "No shared members."
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "
@@ -3056,6 +3087,7 @@ id:
       code_429: "Terlalu banyak permintaan. Coba lagi nanti."
       code_500: "An internal error has occurred."
       code_500_outbound_request_failure: "Permintaan keluar ke sumber daya lain telah gagal dengan kode status %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "Paket pekerjaan yang Anda cari tidak dapat ditemukan atau telah dihapus."
       expected:
@@ -3084,9 +3116,9 @@ id:
         unsupported_context: "The resource given is not supported as context."
         context_object_not_found: "Cannot find the resource given as the context."
       validation:
-        done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Tanggal selesai tidak dapat diatur pada paket pekerjaan induk."
-        estimated_hours: "Estimated hours cannot be set on parent work packages."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Pilihan pengguna tidak diperbolehkan untuk menjadi '%{property}' untuk paket pekerjaan ini."
         start_date: "Start date cannot be set on parent work packages."
       eprops:
@@ -3204,6 +3236,7 @@ id:
       oauth_returned_json_error: "OAuth2 mengembalikan kesalahan JSON"
       oauth_returned_http_error: "OAuth2 mengembalikan kesalahan jaringan"
       oauth_returned_standard_error: "OAuth2 mengembalikan kesalahan internal"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 mengembalikan jenis token yang salah, mengharapkan AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 melaporkan kesalahan. Silakan hubungi administrator sistem Anda."
       oauth_client_not_found: "Klien OAuth2 tidak ditemukan di titik akhir 'panggilan balik' (redirect_uri)."

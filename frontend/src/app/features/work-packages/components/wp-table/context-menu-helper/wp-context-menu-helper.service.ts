@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -87,6 +87,14 @@ export class WorkPackageContextMenuHelperService {
     let allowedActions = this.getAllowedActions(workPackage, permittedActionConstants);
 
     allowedActions = allowedActions.concat(this.getAllowedParentActions(workPackage));
+
+    // remove some actions on Gantt
+    if (this.wpViewTimeline.isVisible) {
+      allowedActions = allowedActions.filter((el) => {
+        const ganttNotAllowedActions = ['log_time', 'copy', 'copy_to_other_project', 'export-pdf', 'export-atom', 'log_costs'];
+        return !(ganttNotAllowedActions.includes(el.key));
+      });
+    }
 
     allowedActions = allowedActions.concat(this.getAllowedRelationActions(workPackage, allowSplitScreenActions));
 
@@ -211,6 +219,14 @@ export class WorkPackageContextMenuHelperService {
         key: 'relation-follows',
         text: I18n.t('js.relation_buttons.add_follower'),
         link: 'addRelation',
+      });
+    }
+
+    if (this.wpViewTimeline.isVisible) {
+      allowedActions.push({
+        key: 'relations',
+        text: I18n.t('js.relation_buttons.show_relations'),
+        link: 'relations',
       });
     }
 

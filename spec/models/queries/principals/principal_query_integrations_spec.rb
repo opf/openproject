@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,7 +69,7 @@ RSpec.describe Queries::Principals::PrincipalQuery, 'integration' do
 
       it 'returns all principals being member' do
         expect(instance.results)
-          .to match_array [project_user]
+          .to contain_exactly(project_user)
       end
     end
 
@@ -80,7 +80,7 @@ RSpec.describe Queries::Principals::PrincipalQuery, 'integration' do
 
       it 'returns all principals not being member' do
         expect(instance.results)
-          .to match_array [current_user, other_project_user]
+          .to contain_exactly(current_user, other_project_user)
       end
     end
   end

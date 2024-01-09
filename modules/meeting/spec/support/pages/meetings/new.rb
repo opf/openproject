@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative './base'
-require_relative './show'
+require_relative 'base'
+require_relative 'show'
 
 module Pages::Meetings
   class New < Base
     include Components::Autocompleter::NgSelectAutocompleteHelpers
 
     def expect_no_main_menu
-      expect(page).not_to have_selector '#main-menu'
+      expect(page).to have_no_css '#main-menu'
     end
 
     def click_create
@@ -74,7 +74,7 @@ module Pages::Meetings
     end
 
     def set_start_time(time)
-      input = page.find('#meeting-form-start-time')
+      input = page.find_by_id('meeting-form-start-time')
       page.execute_script("arguments[0].value = arguments[1]", input.native, time)
     end
 

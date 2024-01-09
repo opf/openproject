@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -102,8 +102,8 @@ ca:
       error_requeue: "La tasca ha produït un error, però s'està reintentant. L'error era: %{message}"
       cancelled_due_to: "La feina s'ha cancel·lat a causa d'un error: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_error: "Error LDAP: %{error_message}"
+    ldap_auth_failed: "No s'ha pogut autenticar en el servidor de LDAP."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Aquest formulari LDAP requereix coneixement tècnic sobre la teva configuració LDAP / Directori actiu.
@@ -128,7 +128,7 @@ ca:
         Afegeix un filtre RFC4515 opcional per aplicar els resultats retornats per usuaris filtrats en el LDAP.
         Això, pot ser utilitzat per a restringir el set d'usuaris que OpenProject troba per autentificar i agrupar la sincronització.
       filter_string_concat: |
-        OpanProject sempre filtre segons l'atribut d'inici de sessió subministrat per l'usuari per tal d'identificar el registre. Si has subministrat un filtre aquí, serà encadenat amb un "I". Per defecte, un filtre catch-all (objectClass=*) serà utilitzat.
+        OpenProject sempre filtre segons l'atribut d'inici de sessió subministrat per l'usuari per tal d'identificar el registre. Si heu proporcionat un filtre aquí, serà encadenat amb un "I". Per defecte, un filtre catch-all (objectClass=*) serà utilitzat.
       onthefly_register: |
         Si actives aquesta casella, OpenProject automàticament crearà nous usuaris a partir de les seves entrades LDAP durant la seva primera autentificació a OpenProject.
         Deixa-la desactivada si sols voleu permetre a comptes existents a OpenProject que s'autentifiquin via LDAP!
@@ -198,12 +198,21 @@ ca:
     confirm_destroy_option: "Eliminant una opció n'eliminareu totes les ocurrències (ex. en un paquet de treball). Segur que vols eliminar-ho?"
     reorder_alphabetical: "Reorganitza els valors alfabèticament"
     reorder_confirmation: "Alerta: L'ordre actual dels valors disponibles es perdran. Vols continuar?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: Actualment no hi ha camps personalitzats.
       no_results_content_text: Crea un camp personalitzat nou
   concatenation:
     single: "o"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "Wiki"
       messages: "Fòrum"
@@ -269,6 +278,15 @@ ca:
       no_results_content_text: Afegeix un membre al projecte
     invite_by_mail: "Envia invitació a %{mail}"
     send_invite_to: "Send invite to"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Fallada al reiniciar el token d'accés: %{error}"
@@ -277,7 +295,7 @@ ca:
       no_results_title_text: Actualment no hi ha cap token d'accés disponible.
       notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
       notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
-      notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
+      notice_ical_token_revoked: 'El token d''iCalendar "%{token_name}" per al calendari "%{calendar_name}" en el projecte "%{project_name}" s''ha revocat. L''URL d''iCalendar amb aquest token és ara invàlida.'
   news:
     index:
       no_results_title_text: Actualment no hi ha cap novetat per a informar.
@@ -388,8 +406,8 @@ ca:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -453,20 +471,20 @@ ca:
         attribute_name: "Atribut"
         help_text: "Text d'ajuda"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
+        account: "Compte"
+        attr_firstname: "Atribut Nom"
+        attr_lastname: "Atribut Cognom"
+        attr_login: "Atribut Nom d'usuari"
+        attr_mail: "Atribut de Correu electrònic"
         base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatic user creation"
+        host: "Servidor"
+        onthefly: "Creació d'usuari automàtica"
         port: "Port"
-        tls_certificate_string: "LDAP server SSL certificate"
+        tls_certificate_string: "Servidor LDAP del certificat SSL"
       changeset:
         repository: "Repositori"
       color:
-        hexcode: "Hex code"
+        hexcode: "Codi hexadecimal"
       comment:
         commented: "Comentat" #an object that this comment belongs to
       custom_action:
@@ -562,7 +580,7 @@ ca:
         color: "Color"
       user:
         admin: "Administrador"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "Connexió LDAP"
         identity_url: "Identity URL"
         current_password: "Contrassenya actual"
         force_password_change: "Forçar el canvi de contrasenya en el proper inici de sessió"
@@ -593,7 +611,9 @@ ca:
         begin_insertion: "Inici de la inserció"
         begin_deletion: "Inici de la supressió"
         children: "Sub-elements"
-        done_ratio: "Progrés (%)"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
+        done_ratio: "% Complete"
         duration: "Duració"
         end_insertion: "Final de la inserció"
         end_deletion: "Final de la supressió"
@@ -607,8 +627,10 @@ ca:
         parent_issue: "Pare"
         parent_work_package: "Pare"
         priority: "Prioritat"
-        progress: "Progrés (%)"
+        progress: "% Complete"
         readonly: "Només lectura"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Planificació manual"
         spent_hours: "Temps invertit"
         spent_time: "Temps invertit"
@@ -642,7 +664,7 @@ ca:
         error_enterprise_only: "%{action} només està disponible en l'edició Enterprise d'OpenProject"
         error_unauthorized: "no és possible accedir."
         error_readonly: "es va intentar d'escriure-hi però no és modificable."
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "La informació s'ha actualitzat per almenys un altre usuari mentrestant."
         email: "no és una adreça de correu electrònic vàlida."
         empty: "no pot estar buit."
         even: "ha de ser parell."
@@ -690,7 +712,7 @@ ca:
         ldap_auth_source:
           attributes:
             tls_certificate_string:
-              invalid_certificate: "The provided SSL certificate is invalid: %{additional_message}"
+              invalid_certificate: "El certificat SSL proporcionat és invàlid: %{additional_message}"
               format: "%{message}"
         attachment:
           attributes:
@@ -912,7 +934,7 @@ ca:
             status:
               invalid_on_create: "no és un valor vàlid per a nous usuaris."
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "no trobat"
         member:
           principal_blank: "Trieu com a mínim un usuari o grup."
           role_blank: "s'ha d'assignar."
@@ -923,7 +945,7 @@ ca:
             principal:
               unassignable: "no pot ser assignat a un projecte."
         version:
-          undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
+          undeletable_archived_projects: "La versió no es pot eliminar, ja que té paquets de treball adjunts."
           undeletable_work_packages_attached: "La versió no es pot eliminar, ja que té paquets de treball adjunts."
         status:
           readonly_default_exlusive: "no pot ser activat per estats que estan marcats per defecte."
@@ -965,7 +987,7 @@ ca:
   errors:
     header_invalid_fields:
       one: "There was a problem with the following field:"
-      other: "There were problems with the following fields:"
+      other: "S'han detectat problemes en els camps següents:"
     header_additional_invalid_fields:
       one: "Additionally, there was a problem with the following field:"
       other: "Additionally, there were problems with the following fields:"
@@ -1021,13 +1043,13 @@ ca:
     default_columns: "Columnes predeterminades"
     description: "Descripció"
     derived_due_date: "Data final derivada"
-    derived_estimated_hours: "Temps estimat derivat"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Data d'inici derivada"
     display_sums: "Mostra les sumes"
     due_date: "Data final"
-    estimated_hours: "Temps estimat"
-    estimated_time: "Temps estimat"
-    expires_at: "Expires at"
+    estimated_hours: "Work"
+    estimated_time: "Work"
+    expires_at: "Caduca el"
     firstname: "Nom"
     group: "Grup"
     groups: "Grups"
@@ -1277,8 +1299,8 @@ ca:
         one: "1 min"
         other: "%{count} mins"
       x_hours:
-        one: "1 hour"
-        other: "%{count} hours"
+        one: "1 hora"
+        other: "%{count} hores"
       x_hours_abbreviated:
         one: "1 hr"
         other: "%{count} hrs"
@@ -1289,7 +1311,7 @@ ca:
         one: "Un mes"
         other: "%{count} mesos"
       x_years:
-        one: "1 year"
+        one: "1 any"
         other: "%{count} years"
       x_seconds:
         one: "Un segon"
@@ -1359,7 +1381,7 @@ ca:
   error_can_not_unarchive_project: "Aquest projecte no es pot desarxivar: %{errors}"
   error_check_user_and_role: "Trieu un usuari i un rol."
   error_code: "Error %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "No s'ha pogut desar el color"
   error_cookie_missing: "La cookie d'OpenProject no s'ha trobat. Assegureu-vos que les cookies estan habilitades, ja que aquesta aplicació no pot funcionar correctament sense."
   error_custom_option_not_found: "L'opció no existeix."
   error_enterprise_activation_user_limit: "El teu compte no s'ha pogut activar (límit d'usuaris assolit). Si us plau, contacte amb el teu administrador per obtenir accés."
@@ -1372,7 +1394,7 @@ ca:
   error_pdf_export_too_many_columns: "Masses columnes seleccionades per a l'exportació PDF. Si us plau, redueix el nombre de columnes."
   error_pdf_failed_to_export: "No s'ha pogut guardar l'exportació PDF: %{error}"
   error_token_authenticity: "No s'ha pogut verificar el token de \"Cross-Site Request Forgery\". Has provat de sotmetre les dades en múltiples navegadors o pestanyes? Si us plau, tanca totes les pestanyes i prova-ho de nou."
-  error_work_package_done_ratios_not_updated: "Ratios d'execució de paquets de treball no actualitzats."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "El paquet de treball no s'ha trobat o no pertany a aquest projecte"
   error_must_be_project_member: "ha de ser membre del projecte"
   error_migrations_are_pending: "La teva instal·lació d'OpenProject té migracions de base de dades pendents. Probablement no vas fer les migracions en la teva última actualització. Si us plau, comprova la guia d'actualització per actualitzar la teva instal·lació correctament."
@@ -1384,7 +1406,7 @@ ca:
   error_password_change_failed: "Hi ha hagut un error l'intentar canviar la contrasenya."
   error_scm_command_failed: "S'ha produït un error en intentar accedir al repositori: %{value}"
   error_scm_not_found: "No s'ha trobat l'entrada o la revisió en el repositori."
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "No s'han pogut desar el tipus"
   error_unable_delete_status: "No es pot suprimir l'estat del paquet de treball ja que és utilitzat per almenys un paquet de treball."
   error_unable_delete_default_status: "No es pot suprimir l'estat per defecte del paquet de treball. Seleccioneu un altre estat de paquet de treball per defecte abans de suprimir l'actual."
   error_unable_to_connect: "No s'ha pogut connectar (%{value})"
@@ -1588,7 +1610,7 @@ ca:
   label_age: "Edat"
   label_ago: "dies abans"
   label_all: "tot"
-  label_all_projects: "All projects"
+  label_all_projects: "Tots els projectes"
   label_all_time: "tot el temps"
   label_all_words: "Totes les paraules"
   label_all_open_wps: "Tots els oberts"
@@ -1615,7 +1637,7 @@ ca:
   label_attribute: "Atribut"
   label_attribute_plural: "Atributs"
   label_ldap_auth_source_new: "New LDAP connection"
-  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source: "Connexió LDAP"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "Autenticació"
   label_available_global_roles: "Available global roles"
@@ -1707,7 +1729,7 @@ ca:
   label_deleted: "suprimit"
   label_deleted_custom_field: "(camp personalitzat suprimit)"
   label_deleted_custom_option: "(opció eliminada)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(buit)"
   label_missing_or_hidden_custom_option: "(valor absent o manca de permisos per accedir)"
   label_descending: "Descendent"
   label_details: "Detalls"
@@ -1844,7 +1866,7 @@ ca:
   label_max_size: "Mida màxima"
   label_me: "jo mateix"
   label_member_new: "Nou membre"
-  label_member_all_admin: "(Tots els roles a causa de l'estat d'administrador)"
+  label_member_all_admin: "(Tots els rols a causa de l'estat d'administrador)"
   label_member_plural: "Membres"
   lable_membership_added: "Membre afegit"
   lable_membership_updated: "Membre actualitzat"
@@ -1905,7 +1927,7 @@ ca:
   label_operator_none: "està buit"
   label_operator_equals_or: "és (OR)"
   label_operator_equals_all: "és (AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "qualsevol"
   label_open_menu: "Obrir menú"
   label_open_work_packages: "obrir"
   label_open_work_packages_plural: "obrir"
@@ -2043,7 +2065,7 @@ ca:
   label_this_week: "aquesta setmana"
   label_this_year: "aquest any"
   label_time_entry_plural: "Temps utilitzat"
-  label_title: "Title"
+  label_title: "Títol"
   label_projects_menu: "Projectes"
   label_today: "avui"
   label_top_menu: "Menú superior"
@@ -2052,7 +2074,7 @@ ca:
   label_type_new: "Nou tipus"
   label_type_plural: "Classes"
   label_ui: "Interifície d'usuari"
-  label_update_work_package_done_ratios: "Actualitzar el ratio de paquets de treball fets"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Actualitzat fa %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Actualitzat per %{author} fa %{age}"
@@ -2208,9 +2230,9 @@ ca:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Open work package"
-        subject: "You have been shared work package #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
@@ -2242,8 +2264,8 @@ ca:
   mail_body_register_ending: "Segueix en contacte! Atentament,"
   mail_body_reminder: "%{count} paquet(s) de treball que tens assignats arribaran a la seva data final en els %{days} dies vinents:"
   mail_body_group_reminder: '%{count} paquet(s) de treball que estan assignats al grup "%{group}" arribaran a la seva data final en els pròxims %{days} dies:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "En %{author} ha afegit la pàgina wiki «%{id}»."
+  mail_body_wiki_page_updated: "L'autor %{author} ha actualitzat la pàgina wiki «%{id}»."
   mail_subject_account_activation_request: "Sol·licitud d'activació del compte de %{value}"
   mail_subject_backup_ready: "La teva còpia de seguretat està a punt"
   mail_subject_backup_token_reset: "Còpia de seguretat reiniciada"
@@ -2317,7 +2339,7 @@ ca:
   notice_file_not_found: "La pàgina a la que intentes accedir no existeix o s'ha suprimit."
   notice_forced_logout: "S'et ha desconnectant automàticament després %{ttl_time} minuts d'inactivitat."
   notice_internal_server_error: "S'ha produït un error a la pàgina a la qual intentes accedir. Si continues tenint problemes contacte amb el vostre administrador %{app_title} per obtenir ajuda."
-  notice_work_package_done_ratios_updated: "S'han actualitzars els ràtios de paquets de treball fets."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "La informació s'ha actualitzat per almenys un altre usuari mentrestant."
   notice_locking_conflict_additional_information: "Les actualitzacions provenen de %{users}."
   notice_locking_conflict_reload_page: "Si us plau, regarrega la pàgina, revisa els canvis i torna a aplicar les actualitzacions."
@@ -2380,7 +2402,7 @@ ca:
   permission_add_work_packages: "Afegir paquets de treball"
   permission_add_messages: "Publicar missatges"
   permission_add_project: "Create projects"
-  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments: "Afegir fitxers adjunts"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "Arxiva el projecte"
   permission_create_user: "Create users"
@@ -2391,10 +2413,12 @@ ca:
   permission_assign_versions: "Assigna versions"
   permission_browse_repository: "Accés de només lectura al repositori (navegar i checkout)"
   permission_change_wiki_parent_page: "Canviar la pàgina de pare de la wiki"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Comentar noticies"
   permission_commit_access: "Accés de lectura/escriptura al repositori (commit)"
   permission_copy_projects: "Copiar projectes"
-  permission_copy_work_packages: "Copy work packages"
+  permission_copy_work_packages: "Copia paquets de treball"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "Suprimir observadors"
   permission_delete_work_packages: "Eliminar paquets de treball"
@@ -2467,7 +2491,9 @@ ca:
     default: "-"
   project:
     destroy:
-      confirmation: "Si continues, el projecte %{identifier} i totes les dades associades es destruiran permanentment."
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "Suprimir el projecte és una acció irreversible."
       project_verification: "Introdueixi el nom del projecte %{name} per verificar la supressió."
       subprojects_confirmation: "Els subproject(s): %{value} també es suprimiran."
@@ -2491,6 +2517,7 @@ ca:
   project_module_news: "Notícies"
   project_module_repository: "Repositori"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2678,10 +2705,10 @@ ca:
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
   setting_host_name: "Nom del servidor"
   setting_invitation_expiration_days: "L'activació de correu electrònic caduca després de"
-  setting_work_package_done_ratio: "Calcular la ratio d'execució del paquet de treball amb"
-  setting_work_package_done_ratio_field: "Utilitzar el camp de paquet de treball"
-  setting_work_package_done_ratio_status: "Utilitzar l'estat de paquet de treball"
-  setting_work_package_done_ratio_disabled: "Deshabilitar (amagar el progrés)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Mostrar per defecte"
   setting_work_package_properties: "Propietats de paquet de treball"
   setting_work_package_startdate_is_adddate: "Utilitzar la data actual com a data d'inici dels paquets de treball nous"
@@ -2743,7 +2770,7 @@ ca:
     brute_force_prevention: "Bloqueig automàtic d'usuari"
     date_format:
       first_date_of_week_and_year_set: >
-        If either options "%{day_of_week_setting_name}" or "%{first_week_setting_name}" are set, the other has to be set as well to avoid inconsistencies in the frontend.
+        Si alguna de les opcions "%{day_of_week_setting_name}" o "%{first_week_setting_name}" estan configurades, l'altre ha d'estar també configurada per evitar inconsistències en l'aplicació.
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
     experimental:
@@ -2907,7 +2934,7 @@ ca:
     views:
       project: >
         %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
-      public: "Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results."
+      public: "Publica aquesta vista permetent a altres usuaris accedir a les teves vistes. Els usuaris amb el permís per \"Administrar vistes públiques\" poden modificar o eliminar elements públics. Aquesta acció no afecta la visibilitat dels paquets de treball resultants en aquella vista i depenent dels permisos altres usuaris potser veuen resultats diferents."
       favoured: "Mark this view as favourite and add to the saved views sidebar on the left."
   time:
     am: "AM"
@@ -3021,29 +3048,33 @@ ca:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: 'Rol'
+        type: 'Tipus'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "Comentari"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "Editar"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "Mostra"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "Suprimir"
+      share: "Compartir"
+      text_empty_search_description: "There are no users with the current filter criteria."
+      text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared users"
+      text_empty_state_header: "No shared members."
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "
@@ -3086,6 +3117,7 @@ ca:
       code_429: "Masses demandes. Si us plau, prova-ho de nou més tard."
       code_500: "S'ha produït un error intern."
       code_500_outbound_request_failure: "Hi ha un error en una petició sortint a un altre recurs amb el codi d'estat %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "No s'ha pogut trobar o s'ha eliminat el paquet de treball que estàs buscant."
       expected:
@@ -3114,9 +3146,9 @@ ca:
         unsupported_context: "El recurs proporcionat no s'admet com a context."
         context_object_not_found: "No puc trobar el recurs proporionat com al context."
       validation:
-        done_ratio: "El ràtio de compleció no es pot definir per paquets de treball del pare, quan s'infereix de l'estat o quan està deshabilitat."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "La data de finalització no es pot establir als paquets de treball pare."
-        estimated_hours: "Les hores estimades no es poden definir per paquets de treball del pare."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "L'usuari escollit no pot ser \"%{property}\" per a aquest paquet de treball."
         start_date: "La data d'inici no es pot definir per paquets de treball del pare."
       eprops:
@@ -3235,6 +3267,7 @@ ca:
       oauth_returned_json_error: "L'OAuth2 retorna un error JSON"
       oauth_returned_http_error: "L'OAuth2 retorna un error de xarxa"
       oauth_returned_standard_error: "L'OAuth2 retorna un error intern"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "L'OAuth2 ha retornat una classe de token invàlida, s'espera un AccessToken::Bearer"
       oauth_issue_contact_admin: "L'OAuth2 reporta un error. Si us plau, contacta amb l'administrador del sistema."
       oauth_client_not_found: "No s'ha trobat el client OAuth2 en la \"callback\" al \"endpoint\" (redirect_uri)."

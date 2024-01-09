@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -120,25 +120,25 @@ RSpec.describe OpenProject::Bim::BcfXml::IssueWriter do
       expect(subject.at('Markup')).to be_present
       expect(subject.at('Topic')).to be_present
 
-      expect(subject.at('Topic/@Guid').content).to be_eql bcf_issue.uuid
-      expect(subject.at('Topic/@TopicStatus').content).to be_eql work_package.status.name
-      expect(subject.at('Topic/@TopicType').content).to be_eql 'Issue'
+      expect(subject.at('Topic/@Guid').content).to eql bcf_issue.uuid
+      expect(subject.at('Topic/@TopicStatus').content).to eql work_package.status.name
+      expect(subject.at('Topic/@TopicType').content).to eql 'Issue'
 
-      expect(subject.at('Topic/Title').content).to be_eql work_package.subject
-      expect(subject.at('Topic/CreationDate').content).to be_eql work_package.created_at.iso8601
-      expect(subject.at('Topic/ModifiedDate').content).to be_eql work_package.updated_at.iso8601
-      expect(subject.at('Topic/Description').content).to be_eql work_package.description
-      expect(subject.at('Topic/CreationAuthor').content).to be_eql work_package.author.mail
-      expect(subject.at('Topic/ReferenceLink').content).to be_eql url_helpers.work_package_url(work_package)
-      expect(subject.at('Topic/Priority').content).to be_eql work_package.priority.name
-      expect(subject.at('Topic/ModifiedAuthor').content).to be_eql work_package.journals.last.user.mail
-      expect(subject.at('Topic/AssignedTo').content).to be_eql work_package.assigned_to.mail
-      expect(subject.at('Topic/DueDate').content).to be_eql work_package.due_date.to_datetime.iso8601
+      expect(subject.at('Topic/Title').content).to eql work_package.subject
+      expect(subject.at('Topic/CreationDate').content).to eql work_package.created_at.iso8601
+      expect(subject.at('Topic/ModifiedDate').content).to eql work_package.updated_at.iso8601
+      expect(subject.at('Topic/Description').content).to eql work_package.description
+      expect(subject.at('Topic/CreationAuthor').content).to eql work_package.author.mail
+      expect(subject.at('Topic/ReferenceLink').content).to eql url_helpers.work_package_url(work_package)
+      expect(subject.at('Topic/Priority').content).to eql work_package.priority.name
+      expect(subject.at('Topic/ModifiedAuthor').content).to eql work_package.journals.last.user.mail
+      expect(subject.at('Topic/AssignedTo').content).to eql work_package.assigned_to.mail
+      expect(subject.at('Topic/DueDate').content).to eql work_package.due_date.to_datetime.iso8601
     end
   end
 
   def valid_markup?(doc)
-    schema = Nokogiri::XML::Schema(File.read(File.join(Rails.root, 'modules/bim/spec/bcf/bcf_xml/markup.xsd')))
+    schema = Nokogiri::XML::Schema(File.read(Rails.root.join("modules/bim/spec/bcf/bcf_xml/markup.xsd").to_s))
     errors = schema.validate(doc)
     if errors.empty?
       true
@@ -166,8 +166,8 @@ RSpec.describe OpenProject::Bim::BcfXml::IssueWriter do
     it_behaves_like 'valid markup'
 
     it "maintains existing nodes and attributes untouched" do
-      expect(subject.at('Index').content).to be_eql "0"
-      expect(subject.at('BimSnippet')['SnippetType']).to be_eql "JSON"
+      expect(subject.at('Index').content).to eql "0"
+      expect(subject.at('BimSnippet')['SnippetType']).to eql "JSON"
     end
 
     it 'exports all BCF comments' do

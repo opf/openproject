@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -21,7 +21,7 @@
 #++
 he:
   plugin_budgets_engine:
-    name: 'Budgets'
+    name: 'תקציבים'
   activerecord:
     attributes:
       budget:
@@ -60,11 +60,11 @@ he:
   help_click_to_edit: "Click here to edit."
   help_currency_format: "Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit."
   help_override_rate: "Enter a value here to override the default rate."
-  label_budget: "Budget"
+  label_budget: "תקציב"
   label_budget_new: "New budget"
-  label_budget_plural: "Budgets"
+  label_budget_plural: "תקציבים"
   label_budget_id: "Budget #%{id}"
-  label_deliverable: "Budget"
+  label_deliverable: "תקציב"
   label_example_placeholder: 'e.g., %{decimal}'
   label_view_all_budgets: "View all budgets"
   label_yes: "כן"
@@ -72,7 +72,7 @@ he:
   notice_no_budgets_available: "No budgets available."
   permission_edit_budgets: "Edit budgets"
   permission_view_budgets: "View budgets"
-  project_module_budgets: "Budgets"
+  project_module_budgets: "תקציבים"
   text_budget_reassign_to: "Reassign them to this budget:"
   text_budget_delete: "Delete the budget from all work packages"
   text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"

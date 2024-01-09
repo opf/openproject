@@ -2,9 +2,7 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 
 # rubocop:disable RSpec/ScatteredLet
-RSpec.describe "Notification center date alerts",
-               js: true,
-               with_cuprite: true,
+RSpec.describe "Notification center date alerts", :js, :with_cuprite,
                with_settings: { journal_aggregation_time_minutes: 0 } do
   include ActiveSupport::Testing::TimeHelpers
 

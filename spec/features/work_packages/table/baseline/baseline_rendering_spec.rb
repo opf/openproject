@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,7 +69,8 @@ RSpec.describe 'baseline rendering',
     create(:admin,
            firstname: 'Itsa',
            lastname: 'Me',
-           member_with_permissions: { project => %i[view_work_packages edit_work_packages work_package_assigned assign_versions] })
+           member_with_permissions: { project => %i[view_work_packages edit_work_packages work_package_assigned
+                                                    assign_versions] })
   end
 
   shared_let(:assignee) do
@@ -372,16 +373,16 @@ RSpec.describe 'baseline rendering',
       # show icons on work package single card
       display_representation.switch_to_card_layout
       within "wp-single-card[data-work-package-id='#{wp_bug_was_task.id}']" do
-        expect(page).to have_selector(".op-table-baseline--icon-removed")
+        expect(page).to have_css(".op-table-baseline--icon-removed")
       end
       within "wp-single-card[data-work-package-id='#{wp_task_was_bug.id}']" do
-        expect(page).to have_selector(".op-table-baseline--icon-added")
+        expect(page).to have_css(".op-table-baseline--icon-added")
       end
       within "wp-single-card[data-work-package-id='#{wp_task_changed.id}']" do
-        expect(page).to have_selector(".op-table-baseline--icon-changed")
+        expect(page).to have_css(".op-table-baseline--icon-changed")
       end
       within "wp-single-card[data-work-package-id='#{wp_task.id}']" do
-        expect(page).not_to have_selector(".op-wp-single-card--content-baseline")
+        expect(page).to have_no_css(".op-wp-single-card--content-baseline")
       end
     end
 
@@ -437,10 +438,10 @@ RSpec.describe 'baseline rendering',
       baseline_modal.expect_closed
       baseline_modal.toggle_drop_modal
       baseline_modal.expect_open
-      expect(page).to have_selector(".op-baseline--enterprise-title")
+      expect(page).to have_css(".op-baseline--enterprise-title")
       # only yesterday is selectable
       page.select('a specific date', from: 'op-baseline-filter')
-      expect(page).not_to have_select('op-baseline-filter', selected: 'a specific date')
+      expect(page).to have_no_select('op-baseline-filter', selected: 'a specific date')
 
       page.select('yesterday', from: 'op-baseline-filter')
       expect(page).to have_select('op-baseline-filter', selected: 'yesterday')

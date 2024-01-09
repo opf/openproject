@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -73,7 +73,7 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
     login_as user
   end
 
- it 'copying a meeting' do
+  it 'copying a meeting' do
     visit project_meetings_path(project)
 
     click_link meeting.title
@@ -99,7 +99,7 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
     click_button "Create"
 
     # Be on the new meeting's page with copied over attributes
-    expect(page).not_to have_current_path meeting_path(meeting.id)
+    expect(page).to have_no_current_path meeting_path(meeting.id)
 
     expect(page)
       .to have_content("Added by #{user.name}")
@@ -116,7 +116,7 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
 
     # Does not copy the attendees
     expect(page)
-      .not_to have_content "Attendees: #{other_user.name}"
+      .to have_no_content "Attendees: #{other_user.name}"
     expect(page)
       .to have_content "Attendees:"
 

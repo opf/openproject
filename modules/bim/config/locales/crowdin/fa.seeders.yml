@@ -96,9 +96,9 @@ fa:
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
-              description: The actual news
+              description: اخبار واقعی
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: دسته‌بندی 1 (باید در تنظیمات پروژه تغییر یاید)
           queries:
             item_0:
               name: Project plan
@@ -141,7 +141,7 @@ fa:
                     Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: اعضا
               item_5:
                 options:
                   name: Work packages
@@ -196,7 +196,7 @@ fa:
                     Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: اعضا
               item_5:
                 options:
                   name: Work packages
@@ -412,9 +412,9 @@ fa:
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
-              description: The actual news
+              description: اخبار واقعی
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: دسته‌بندی 1 (باید در تنظیمات پروژه تغییر یاید)
           queries:
             item_0:
               name: Project plan
@@ -453,7 +453,7 @@ fa:
                     Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: اعضا
               item_5:
                 options:
                   name: Work packages
@@ -679,7 +679,7 @@ fa:
             item_2:
               name: Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: دسته‌بندی 1 (باید در تنظیمات پروژه تغییر یاید)
           queries:
             item_0:
               name: Issues
@@ -728,7 +728,7 @@ fa:
                     Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
-                  name: Members
+                  name: اعضا
               item_5:
                 options:
                   name: Work packages

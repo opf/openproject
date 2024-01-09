@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,16 +46,11 @@ RSpec.describe 'API v3 storage files', :webmock, content_type: :json do
   let(:storage) { create(:nextcloud_storage, creator: current_user, oauth_application:) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
 
-  let(:authorize_url) { 'https://example.com/authorize' }
-  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
-
   subject(:last_response) do
     get path
   end
 
   before do
-    allow(connection_manager).to receive_messages(get_authorization_uri: authorize_url, authorization_state: :connected)
-    allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
     project_storage
     login_as current_user
   end
@@ -313,6 +308,18 @@ RSpec.describe 'API v3 storage files', :webmock, content_type: :json do
           expect(body['errorIdentifier']).to eq('urn:openproject-org:api:v3:errors:OutboundRequest:NotFound')
         end
       end
+    end
+
+    context 'with invalid request body' do
+      let(:body) { { fileNam_: "ape.png", parent: "/Pictures", projectId: project.id }.to_json }
+
+      it { expect(last_response.status).to be(400) }
+    end
+
+    context 'without ee token', with_ee: false do
+      let(:storage) { create(:one_drive_storage, creator: current_user) }
+
+      it { expect(last_response.status).to be(500) }
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -34,7 +34,7 @@ zh-TW:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
+      loading: "讀取中..."
       not_found: "No items found"
       type_to_search: "Type to search"
     autocomplete_select:
@@ -111,7 +111,7 @@ zh-TW:
         inline: 'Highlight inline:'
         entire_card_by: 'Entire card by'
       remove_from_list: '從清單列表中移除'
-    caption_rate_history: "Rate history"
+    caption_rate_history: "費率歷史紀錄"
     clipboard:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy it manually: %{content}"
       copied_successful: "已成功複製到剪貼簿"
@@ -302,33 +302,33 @@ zh-TW:
           two: "第二個排序條件"
           three: "第三個排序條件"
     gantt_chart:
-      label: 'Gantt chart'
+      label: '甘特圖'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: '標籤配置'
+        bar: '列標籤'
+        left: '左'
+        right: '右'
+        farRight: '最右'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: '檢視甘特圖'
+      button_deactivate: '隱藏甘特圖'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "（無）"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: '按一下任何標示的工作項目來建立關聯。按 ESC 取消。'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "放大"
+        out: "縮小"
+        auto: "自動縮放"
+        days: "日"
+        weeks: "週"
+        months: "月"
+        quarters: "季"
+        years: "年"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          選擇自動縮放無法接通應顯示的初始縮放級別。
     general_text_no: "否"
     general_text_yes: "是"
     general_text_No: "否"
@@ -351,7 +351,7 @@ zh-TW:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -755,6 +755,7 @@ zh-TW:
           last_day: 'Last day'
     text_are_you_sure: "是否確定？"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "名稱 %{group} 已被使用，群組名稱不可重複。"
@@ -964,7 +965,6 @@ zh-TW:
         date: "日期"
         dueDate: "完成日期"
         duration: "時間長度"
-        estimatedTime: "預估時間"
         spentTime: "耗時"
         category: "類別"
         percentageDone: "完成百分比"
@@ -980,6 +980,7 @@ zh-TW:
         updatedAt: "更新於"
         versionName: "版本"
         version: "版本"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "最新活動"
         created_by_me: "由我創建"
@@ -1025,7 +1026,7 @@ zh-TW:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: '分享'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:

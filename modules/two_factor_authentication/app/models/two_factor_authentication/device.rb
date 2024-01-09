@@ -71,7 +71,7 @@ module TwoFactorAuthentication
     end
 
     def channel=(value)
-      super value.to_sym
+      super(value.to_sym)
     end
 
     def channel

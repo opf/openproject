@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -27,10 +27,6 @@ zh-CN:
     attributes:
       work_package:
         position: "位置"
-        remaining_hours: "剩余工时"
-        remaining_time: "剩余工时"
-        derived_remaining_hours: "派生的剩余工时"
-        derived_remaining_time: "派生的剩余工时"
         story_points: "故事点"
         backlogs_work_package_type: "待办清单类型"
     errors:
@@ -68,8 +64,8 @@ zh-CN:
     properties: "属性"
     rebuild: "重建"
     rebuild_positions: "重建顺序"
-    remaining_hours: "剩余工时"
-    remaining_hours_ideal: "剩余工时（理想）"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "燃尽图"
     story: "故事"
     story_points: "故事点"
@@ -151,7 +147,7 @@ zh-CN:
   rb_label_copy_tasks_none: "无"
   rb_label_copy_tasks_open: "打开"
   rb_label_link_to_original: "包括原始故事的链接"
-  remaining_hours: "剩余工时"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "所需燃尽率（小时）"
   required_burn_rate_points: "所需燃尽率（点数）"
   todo_work_package_description: "%{summary}：%{url}\n%{description}"

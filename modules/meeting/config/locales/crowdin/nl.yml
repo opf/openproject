@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -73,7 +73,7 @@ nl:
   label_meeting_new: "Nieuwe vergadering"
   label_meeting_edit: "Vergadering bewerken"
   label_meeting_agenda: "Agenda"
-  label_meeting_minutes: "Minuten"
+  label_meeting_minutes: "Notulen"
   label_meeting_close: "Sluiten"
   label_meeting_open: "Open"
   label_meeting_agenda_close: "Sluit de agenda om de notulen te beginnen"
@@ -100,6 +100,7 @@ nl:
       invited:
         summary: "%{actor} heeft je een uitnodiging gestuurd voor de meeting %{title}"
       rescheduled:
+        header: "Meeting %{title} has been rescheduled"
         summary: "Vergadering %{title} is verplaatst door %{actor}"
         body: "De vergadering %{title} is opnieuw gepland door %{actor}."
         old_date_time: "Oude datum/tijd"
@@ -137,7 +138,7 @@ nl:
   text_meeting_minutes_for_meeting: 'minuten voor de vergadering "%{meeting}"'
   text_notificiation_invited: "Deze mail bevat een ics item voor de vergadering hieronder:"
   text_meeting_empty_heading: "Je vergadering is leeg"
-  text_meeting_empty_description_1: "Begin met het toevoegen van agendapunten hieronder. Elk item kan zo eenvoudig zijn als alleen een titel, maar u kunt ook extra gegevens toevoegen, zoals duur, aantekeningen en een verantwoordelijke persoon."
+  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
   text_meeting_empty_description_2: "Je kunt ook verwijzingen naar bestaande werkpakketten toevoegen. Wanneer je dit doet, zullen gerelateerde notities automatisch zichtbaar zijn in het tabblad \"Vergaderingen\" van het werkpakket."
   label_meeting_empty_action: "Agendapunt toevoegen"
   label_meeting_actions: "Vergadering acties"
@@ -145,7 +146,7 @@ nl:
   label_meeting_delete: "Verwijder vergadering"
   label_meeting_created_by: "Gemaakt door"
   label_meeting_last_updated: "Laatst bijgewerkt"
-  label_agenda_item_undisclosed_wp: "Onbekend werk pakket referentie #%{id}"
+  label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
   label_agenda_item_deleted_wp: "Verwijderde verwijzing naar het werkpakket"
   label_agenda_item_actions: "Agenda items acties"
   label_agenda_item_move_to_top: "Verplaats naar top"
@@ -164,13 +165,13 @@ nl:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
-  label_meeting_show_all_participants: "Show all"
+  label_meeting_show_all_participants: "Toon alle"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."
   label_add_work_package_to_meeting_dialog_title: "Add work package to meeting"
   label_add_work_package_to_meeting_dialog_button: "Add to meeting"
-  label_meeting_selection_caption: "It's only possible to add this work package to open, upcoming meetings."
+  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
   text_add_work_package_to_meeting_description: "A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here."
   text_agenda_item_no_notes: "No notes provided"
   text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."

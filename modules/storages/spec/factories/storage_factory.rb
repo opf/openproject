@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -69,24 +69,28 @@ FactoryBot.define do
       health_status { 'healthy' }
       health_reason { nil }
       health_changed_at { Time.now.utc }
+      health_checked_at { Time.now.utc }
     end
 
     trait :as_unhealthy do
       health_status { 'unhealthy' }
-      health_reason { 'error reason' }
+      health_reason { 'error_code | description' }
       health_changed_at { Time.now.utc }
+      health_checked_at { Time.now.utc }
     end
 
     trait :as_unhealthy_long_reason do
       health_status { 'unhealthy' }
       health_reason { 'unauthorized | Outbound request not authorized | #<Storages::StorageErrorData:0x0000ffff646ac570>' }
       health_changed_at { Time.now.utc }
+      health_checked_at { Time.now.utc }
     end
 
     trait :as_pending do
       health_status { 'pending' }
       health_reason { nil }
       health_changed_at { Time.now.utc }
+      health_checked_at { Time.now.utc }
     end
   end
 

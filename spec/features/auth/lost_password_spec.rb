@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,14 +39,14 @@ RSpec.describe 'Lost password' do
     fill_in 'mail', with: 'invalid mail'
     click_on 'Submit'
 
-    expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_account_lost_email_sent))
+    expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_account_lost_email_sent))
 
     perform_enqueued_jobs
     expect(ActionMailer::Base.deliveries.size).to be 0
 
     fill_in 'mail', with: user.mail
     click_on 'Submit'
-    expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_account_lost_email_sent))
+    expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_account_lost_email_sent))
 
     perform_enqueued_jobs
     expect(ActionMailer::Base.deliveries.size).to be 1
@@ -60,7 +60,7 @@ RSpec.describe 'Lost password' do
 
     click_button 'Save'
 
-    expect(page).to have_selector('.op-toast.-info', text: I18n.t(:notice_account_password_updated))
+    expect(page).to have_css('.op-toast.-info', text: I18n.t(:notice_account_password_updated))
 
     login_with user.login, new_password
 
@@ -79,7 +79,7 @@ RSpec.describe 'Lost password' do
       fill_in 'mail', with: user.mail
       click_on 'Submit'
 
-      expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_account_lost_email_sent))
+      expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_account_lost_email_sent))
 
       perform_enqueued_jobs
       expect(ActionMailer::Base.deliveries.size).to be 1
@@ -99,7 +99,7 @@ RSpec.describe 'Lost password' do
       fill_in 'mail', with: user.mail
       click_on 'Submit'
 
-      expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_account_lost_email_sent))
+      expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_account_lost_email_sent))
 
       perform_enqueued_jobs
       expect(ActionMailer::Base.deliveries.size).to be 1

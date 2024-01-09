@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Manage webhooks through UI', js: true do
+RSpec.describe 'Manage webhooks through UI', :js do
   before do
     login_as user
   end
@@ -20,7 +20,7 @@ RSpec.describe 'Manage webhooks through UI', js: true do
 
     it 'allows the management flow' do
       visit admin_outgoing_webhooks_path
-      expect(page).to have_selector('.generic-table--empty-row')
+      expect(page).to have_css('.generic-table--empty-row')
 
       # Visit inline create
       find('.wp-inline-create--add-link').click
@@ -40,16 +40,16 @@ RSpec.describe 'Manage webhooks through UI', js: true do
       # 1st webhook created
       #
 
-      expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_create))
-      expect(page).to have_selector('.webhooks--outgoing-webhook-row .name', text: 'My webhook')
+      expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_successful_create))
+      expect(page).to have_css('.webhooks--outgoing-webhook-row .name', text: 'My webhook')
       webhook = Webhooks::Webhook.last
       expect(webhook.event_names).to eq %w(work_package:created)
       expect(webhook.all_projects).to be_truthy
 
-      expect(page).to have_selector('.webhooks--outgoing-webhook-row .enabled .icon-yes')
-      expect(page).to have_selector('.webhooks--outgoing-webhook-row .selected_projects', text: '(all)')
-      expect(page).to have_selector('.webhooks--outgoing-webhook-row .events', text: 'Work packages')
-      expect(page).to have_selector('.webhooks--outgoing-webhook-row .description', text: webhook.description)
+      expect(page).to have_css('.webhooks--outgoing-webhook-row .enabled .icon-yes')
+      expect(page).to have_css('.webhooks--outgoing-webhook-row .selected_projects', text: '(all)')
+      expect(page).to have_css('.webhooks--outgoing-webhook-row .events', text: 'Work packages')
+      expect(page).to have_css('.webhooks--outgoing-webhook-row .description', text: webhook.description)
 
       SeleniumHubWaiter.wait
       # Edit this webhook
@@ -65,8 +65,8 @@ RSpec.describe 'Manage webhooks through UI', js: true do
       find(".webhooks--selected-project-ids[value='#{project.id}']").set true
 
       click_on 'Save'
-      expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_update))
-      expect(page).to have_selector('.webhooks--outgoing-webhook-row .name', text: 'My webhook')
+      expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_successful_update))
+      expect(page).to have_css('.webhooks--outgoing-webhook-row .name', text: 'My webhook')
       webhook = Webhooks::Webhook.last
       expect(webhook.event_names).to eq %w(work_package:updated)
       expect(webhook.projects.all).to eq [project]
@@ -77,8 +77,8 @@ RSpec.describe 'Manage webhooks through UI', js: true do
       find(".webhooks--outgoing-webhook-row-#{webhook.id} .icon-delete").click
       page.driver.browser.switch_to.alert.accept
 
-      expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_delete))
-      expect(page).to have_selector('.generic-table--empty-row')
+      expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_successful_delete))
+      expect(page).to have_css('.generic-table--empty-row')
     end
 
     context 'with existing webhook' do
@@ -90,17 +90,17 @@ RSpec.describe 'Manage webhooks through UI', js: true do
         SeleniumHubWaiter.wait
         find('.webhooks--outgoing-webhook-row .name a', text: 'testing').click
 
-        expect(page).to have_selector('.on-off-status.-enabled')
-        expect(page).to have_selector('td.event_name', text: 'foo')
-        expect(page).to have_selector('td.response_code', text: '200')
+        expect(page).to have_css('.on-off-status.-enabled')
+        expect(page).to have_css('td.event_name', text: 'foo')
+        expect(page).to have_css('td.response_code', text: '200')
 
         # Open modal
         SeleniumHubWaiter.wait
         find('td.response_body a', text: 'Show').click
 
         page.within('.spot-modal') do
-          expect(page).to have_selector('.webhooks--response-headers strong', text: 'test')
-          expect(page).to have_selector('.webhooks--response-body', text: log.response_body)
+          expect(page).to have_css('.webhooks--response-headers strong', text: 'test')
+          expect(page).to have_css('.webhooks--response-body', text: log.response_body)
         end
       end
 
@@ -123,7 +123,7 @@ RSpec.describe 'Manage webhooks through UI', js: true do
             end
 
             page.within('.spot-modal') do
-              expect(page).to have_selector('.webhooks--response-body', text: matching_log.response_body)
+              expect(page).to have_css('.webhooks--response-body', text: matching_log.response_body)
               click_button('Close')
             end
           end

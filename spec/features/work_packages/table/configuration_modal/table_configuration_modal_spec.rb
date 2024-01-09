@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Work Package table configuration modal', js: true do
+RSpec.describe 'Work Package table configuration modal', :js do
   let(:user) { create(:admin) }
 
   let(:project) { create(:project) }
@@ -32,6 +32,6 @@ RSpec.describe 'Work Package table configuration modal', js: true do
     find('#column-context-menu .menu-item', text: 'Insert columns').click
 
     # Expect active tab is columns
-    expect(page).to have_selector('.op-tab-row--link_selected', text: 'COLUMNS')
+    expect(page).to have_css('.op-tab-row--link_selected', text: 'COLUMNS')
   end
 end

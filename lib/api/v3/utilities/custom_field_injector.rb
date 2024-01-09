@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,7 @@ module API
           def create_value_representer(custom_fields, representer)
             new_representer_class_with(representer) do |injector|
               custom_fields.each do |custom_field|
-                injector.inject_value(custom_field)
+                injector.inject_value(custom_field, representer.custom_field_injector_config)
               end
             end
           end
@@ -116,12 +116,12 @@ module API
           end
         end
 
-        def inject_value(custom_field)
+        def inject_value(custom_field, config)
           case custom_field.field_format
           when *LINK_FORMATS
-            inject_link_value(custom_field)
+            inject_link_value(custom_field, config)
           else
-            inject_property_value(custom_field)
+            inject_property_value(custom_field, config)
           end
         end
 
@@ -181,7 +181,7 @@ module API
                         options: cf_options(custom_field)
         end
 
-        def inject_link_value(custom_field)
+        def inject_link_value(custom_field, config)
           name = property_name(custom_field)
           expected_namespace = NAMESPACE_MAP[custom_field.field_format]
 
@@ -197,6 +197,8 @@ module API
 
           @class.send(method,
                       property_name(custom_field),
+                      link_cache_if: config[:cache_if],
+                      skip_render: config[:cache_if] ? ->(*) { !instance_exec(&config[:cache_if]) } : nil,
                       link:,
                       setter:,
                       getter:)
@@ -242,11 +244,12 @@ module API
           end
         end
 
-        def inject_property_value(custom_field)
+        def inject_property_value(custom_field, config)
           @class.property custom_field.attribute_name.to_sym,
                           as: property_name(custom_field),
                           getter: property_value_getter_for(custom_field),
                           setter: property_value_setter_for(custom_field),
+                          cache_if: config[:cache_if],
                           render_nil: true
         end
 

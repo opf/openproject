@@ -34,5 +34,5 @@ example:
         format: markdown
         raw: Everything **fine**
         html: "<p>Everything <strong>fine</strong></p>"
-      createdAt: '2014-05-21T08:51:20Z'
-      updatedAt: '2014-05-21T08:51:20Z'
+      createdAt: '2014-05-21T08:51:20.142Z'
+      updatedAt: '2014-05-21T08:51:20.142Z'

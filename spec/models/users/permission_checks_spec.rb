@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -202,6 +202,49 @@ RSpec.describe User, "permission check methods" do
       expect(subject.all_permissions_for(nil)).to match_array(%i[create_user
                                                                  view_work_packages edit_work_packages
                                                                  manage_members] + public_permissions)
+    end
+  end
+
+  describe '#access_to?' do
+    let(:project) { create(:project) }
+    let(:another_project) { create(:project) }
+
+    context 'when the user is a member of the project' do
+      subject { create(:user, member_with_permissions: { project => [:view_project] }) }
+
+      it 'returns true' do
+        expect(subject.access_to?(project)).to be true
+      end
+
+      it 'returns false for another project' do
+        expect(subject.access_to?(another_project)).to be false
+      end
+    end
+
+    context 'when the user is not a member of the project' do
+      subject { create(:user, member_with_permissions: { another_project => [:view_work_packages] }) }
+
+      it 'returns false' do
+        expect(subject.access_to?(project)).to be false
+      end
+    end
+
+    context 'when the user is member of a work package within the project' do
+      let(:work_package) { create(:work_package, project:) }
+
+      subject { create(:user, member_with_permissions: { work_package => [:view_work_packages] }) }
+
+      it 'returns false' do
+        expect(subject.access_to?(project)).to be true
+      end
+    end
+
+    context 'when the user is an admin' do
+      subject { create(:admin) }
+
+      it 'returns true' do
+        expect(subject.access_to?(project)).to be true
+      end
     end
   end
 end

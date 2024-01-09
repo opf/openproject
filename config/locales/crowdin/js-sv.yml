@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -34,9 +34,9 @@ sv:
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      loading: "Laddar..."
+      not_found: "Inga objekt hittades"
+      type_to_search: "Skriv för att söka"
     autocomplete_select:
       placeholder:
         multi: "Lägg till ”%{name}”"
@@ -302,33 +302,33 @@ sv:
           two: "Andra sorteringskriteriet"
           three: "Tredje sorteringskriteriet"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Gantt-schema'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Etikettsinställning'
+        bar: 'Bar etiketter'
+        left: 'Vänster'
+        right: 'Höger'
+        farRight: 'Längst till höger'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'Visa Gantt-schema'
+      button_deactivate: 'Dölj Gantt-schema'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(ingen)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Klicka på ett markerat arbetspaket för att skapa relationen. Tryck på escape för att avbryta.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
+        in: "Zooma in"
+        out: "Zooma ut"
+        auto: "Autozoom"
         days: "Dagar"
         weeks: "Veckor"
         months: "Månader"
-        quarters: "Quarters"
+        quarters: "Kvartal"
         years: "År"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Välj den initiala zoomnivån som ska visas när autozoom inte är tillgänglig.
     general_text_no: "nej"
     general_text_yes: "ja"
     general_text_No: "Nej"
@@ -351,7 +351,7 @@ sv:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -756,6 +756,7 @@ sv:
           last_day: 'Last day'
     text_are_you_sure: "Är du säker?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Namnet %{group} används redan. Gruppnamn måste vara unika."
@@ -965,7 +966,6 @@ sv:
         date: "Datum"
         dueDate: "Slutdatum"
         duration: "Varaktighet"
-        estimatedTime: "Beräknad tid"
         spentTime: "Förbrukad tid"
         category: "Kategori"
         percentageDone: "Procent gjort"
@@ -981,6 +981,7 @@ sv:
         updatedAt: "Uppdaterat den"
         versionName: "Version"
         version: "Version"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Senaste aktivitet"
         created_by_me: "Skapad av mig"
@@ -1026,7 +1027,7 @@ sv:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'Dela'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:

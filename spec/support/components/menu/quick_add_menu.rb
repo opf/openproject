@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require_relative './dropdown'
+require_relative 'dropdown'
 
 module Components
   class QuickAddMenu < Dropdown
@@ -57,7 +57,7 @@ module Components
 
     def expect_no_work_package_types
       within_dropdown do
-        expect(page).not_to have_text 'Work packages'
+        expect(page).to have_no_text 'Work packages'
       end
     end
 
@@ -72,7 +72,7 @@ module Components
         if present
           expect(page).to have_link matcher
         else
-          expect(page).not_to have_link matcher
+          expect(page).to have_no_link matcher
         end
       end
     end

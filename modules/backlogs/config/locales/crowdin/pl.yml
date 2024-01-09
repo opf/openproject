@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -21,16 +21,12 @@
 #++
 pl:
   plugin_openproject_backlogs:
-    name: "OpenProject Backlogs"
-    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
+    name: "Backlogi OpenProject"
+    description: "Moduł ten dodaje funkcje umożliwiające zwinnym zespołom pracę z OpenProject w projektach Scrum."
   activerecord:
     attributes:
       work_package:
         position: "Pozycja"
-        remaining_hours: "Pozostałe godziny"
-        remaining_time: "Pozostałe godziny"
-        derived_remaining_hours: "Wyprowadzone pozostałe godziny"
-        derived_remaining_time: "Wyprowadzone pozostałe godziny"
         story_points: "Historia Punktów"
         backlogs_work_package_type: "Typ backlogu"
     errors:
@@ -68,8 +64,8 @@ pl:
     properties: "Właściwości"
     rebuild: "Przebuduj"
     rebuild_positions: "Przebuduj pozycje"
-    remaining_hours: "Pozostałe godziny"
-    remaining_hours_ideal: "Czas pozostały (idealny)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Burndown Chart"
     story: "Story"
     story_points: "Historia Punktów"
@@ -151,7 +147,7 @@ pl:
   rb_label_copy_tasks_none: "Żaden"
   rb_label_copy_tasks_open: "Otwórz"
   rb_label_link_to_original: "Podepnij łącze do oryginalnego wątku"
-  remaining_hours: "pozostałe godziny"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "wskaźnik wymaganego czasu nagrywania (godziny)"
   required_burn_rate_points: "wskaźnik wymaganego czasu nagrywania (punkty)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

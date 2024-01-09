@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,7 +67,7 @@ RSpec.describe ParseSchemaFilterParamsService do
       end
 
       it 'returns the [project, type] pair' do
-        expect(result.result).to match_array [[project, type]]
+        expect(result.result).to contain_exactly([project, type])
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe ParseSchemaFilterParamsService do
       end
 
       it 'returns an empty array' do
-        expect(result.result).to match_array []
+        expect(result.result).to be_empty
       end
     end
 
@@ -91,7 +91,7 @@ RSpec.describe ParseSchemaFilterParamsService do
       end
 
       it 'returns an empty array' do
-        expect(result.result).to match_array []
+        expect(result.result).to be_empty
       end
     end
 
@@ -109,7 +109,7 @@ RSpec.describe ParseSchemaFilterParamsService do
       end
 
       it 'returns an error message' do
-        expect(result.errors.messages[:base]).to match_array ['The operator is not supported.']
+        expect(result.errors.messages[:base]).to contain_exactly('The operator is not supported.')
       end
     end
 
@@ -127,7 +127,7 @@ RSpec.describe ParseSchemaFilterParamsService do
       end
 
       it 'returns an error message' do
-        expect(result.errors.messages[:base]).to match_array ['A value is invalid.']
+        expect(result.errors.messages[:base]).to contain_exactly('A value is invalid.')
       end
     end
 
@@ -145,7 +145,7 @@ RSpec.describe ParseSchemaFilterParamsService do
       end
 
       it 'returns an error message' do
-        expect(result.errors.messages[:base]).to match_array ['An \'id\' filter is required.']
+        expect(result.errors.messages[:base]).to contain_exactly('An \'id\' filter is required.')
       end
     end
   end

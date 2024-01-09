@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,7 +64,7 @@ module Components
       end
 
       def expect_no_groups
-        expect(page).not_to have_css('[data-test-selector="op-group--value"]')
+        expect(page).to have_no_css('[data-test-selector="op-group--value"]')
       end
 
       def expect_not_grouped_by(name)

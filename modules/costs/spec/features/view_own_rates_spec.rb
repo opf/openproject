@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-RSpec.describe 'Only see your own rates', js: true do
+RSpec.describe 'Only see your own rates', :js do
   let(:project) { work_package.project }
   let(:user) do
     create(:user,
@@ -36,12 +36,12 @@ RSpec.describe 'Only see your own rates', js: true do
   end
   let(:role) do
     create(:project_role, permissions: %i[view_own_hourly_rate
-                                  view_work_packages
-                                  view_work_packages
-                                  view_own_time_entries
-                                  view_own_cost_entries
-                                  view_cost_rates
-                                  log_costs])
+                                          view_work_packages
+                                          view_work_packages
+                                          view_own_time_entries
+                                          view_own_cost_entries
+                                          view_cost_rates
+                                          log_costs])
   end
   let(:work_package) { create(:work_package) }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }

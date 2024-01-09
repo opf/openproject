@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,8 @@
 
 require_relative '../../spec_helper'
 
-RSpec.describe 'BIM Revit Add-in navigation spec',
-               driver: :chrome_revit_add_in, js: true, with_config: { edition: 'bim' } do
+RSpec.describe 'BIM Revit Add-in navigation spec', :js,
+               driver: :chrome_revit_add_in, with_config: { edition: 'bim' } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let!(:work_package) { create(:work_package, project:) }
   let(:role) do
@@ -71,7 +71,7 @@ RSpec.describe 'BIM Revit Add-in navigation spec',
       within '.op-app-header' do
         page.find("a[title='#{user.name}']").click
 
-        expect(page).to have_selector('li', text: I18n.t('js.revit.revit_add_in_settings'))
+        expect(page).to have_css('li', text: I18n.t('js.revit.revit_add_in_settings'))
       end
     end
 
@@ -81,14 +81,14 @@ RSpec.describe 'BIM Revit Add-in navigation spec',
       find('.menu-item', text: 'NONE', wait: 10).click
 
       full_create.edit_field(:subject).expect_active!
-      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: :all)
+      expect(page).to have_css('.work-packages-partitioned-page--content-right', visible: :all)
     end
 
     it 'shows work package details page in full view on Cards display mode' do
       model_page.click_info_icon(work_package)
 
-      expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
-      expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: :all)
+      expect(page).to have_css('.work-packages-partitioned-page--content-left', text: work_package.subject)
+      expect(page).to have_css('.work-packages-partitioned-page--content-right', visible: :all)
     end
 
     context 'with the table display mode' do
@@ -98,12 +98,12 @@ RSpec.describe 'BIM Revit Add-in navigation spec',
         model_page.switch_view 'Table'
         loading_indicator_saveguard
 
-        expect(page).to have_selector('.work-package-table')
+        expect(page).to have_css('.work-package-table')
         wp_table.expect_work_package_listed work_package
         wp_table.open_split_view work_package
 
-        expect(page).to have_selector('.work-packages-partitioned-page--content-left', text: work_package.subject)
-        expect(page).to have_selector('.work-packages-partitioned-page--content-right', visible: false)
+        expect(page).to have_css('.work-packages-partitioned-page--content-left', text: work_package.subject)
+        expect(page).to have_css('.work-packages-partitioned-page--content-right', visible: false)
       end
     end
 

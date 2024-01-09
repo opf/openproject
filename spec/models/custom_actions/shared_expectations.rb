@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,7 +66,7 @@ RSpec.shared_examples_for 'base custom action' do
   describe '.all' do
     it 'is an array with the class itself' do
       expect(described_class.all)
-        .to match_array [described_class]
+        .to contain_exactly(described_class)
     end
   end
 
@@ -392,7 +392,7 @@ RSpec.shared_examples_for 'int values transformation' do
       instance.values = [42, nil, '23', 'some bogus', '12.34234', '42a34e324r32']
 
       expect(instance.values)
-        .to match_array [42, nil, 23]
+        .to contain_exactly(42, nil, 23)
     end
   end
 end
@@ -403,7 +403,7 @@ RSpec.shared_examples_for 'float values transformation' do
       instance.values = [42, nil, '23', 'some bogus', '12.34234', '42a34e324r32']
 
       expect(instance.values)
-        .to match_array [42, nil, 23, 12.34234]
+        .to contain_exactly(42, nil, 23, 12.34234)
     end
   end
 end
@@ -414,7 +414,7 @@ RSpec.shared_examples_for 'string values transformation' do
       instance.values = [42, nil, '23', 'some bogus', '12.34234', '42a34e324r32']
 
       expect(instance.values)
-        .to match_array ['42', nil, '23', 'some bogus', '12.34234', '42a34e324r32']
+        .to contain_exactly('42', nil, '23', 'some bogus', '12.34234', '42a34e324r32')
     end
   end
 end
@@ -425,7 +425,7 @@ RSpec.shared_examples_for 'text values transformation' do
       instance.values = [42, nil, '23', 'some bogus', '12.34234', '42a34e324r32']
 
       expect(instance.values)
-        .to match_array ['42', nil, '23', 'some bogus', '12.34234', '42a34e324r32']
+        .to contain_exactly('42', nil, '23', 'some bogus', '12.34234', '42a34e324r32')
     end
   end
 end
@@ -436,7 +436,7 @@ RSpec.shared_examples_for 'date values transformation' do
       instance.values = ["2015-03-29", Date.today, nil, (Date.today - 1.day).to_datetime, 'bogus', '%CURRENT_DATE%']
 
       expect(instance.values)
-        .to match_array [Date.parse("2015-03-29"), Date.today, nil, Date.today - 1.day, '%CURRENT_DATE%']
+        .to contain_exactly(Date.parse("2015-03-29"), Date.today, nil, Date.today - 1.day, '%CURRENT_DATE%')
     end
   end
 end

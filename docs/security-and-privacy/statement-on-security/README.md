@@ -57,7 +57,7 @@ If you can, please send us a PGP-encrypted email using the following key:
 
 - Key ID: [0x7D669C6D47533958](https://keys.openpgp.org/vks/v1/by-fingerprint/BDCFE01EDE84EA199AE172CE7D669C6D47533958),
 - Fingerprint BDCF E01E DE84 EA19 9AE1 72CE 7D66 9C6D 4753 3958
-- You may also find the key [attached in our OpenProject repository.](https://www.openproject.org/docs/security-and-privacy/statement-on-security/security-at-openproject.com.asc)
+- You may also find the key [attached in our OpenProject repository.](security-at-openproject.com.asc)
 
 Please include a description on how to reproduce the issue if possible. Our security team will get your email and will attempt to reproduce and fix the issue as soon as possible.
 

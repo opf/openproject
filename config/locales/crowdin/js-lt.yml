@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -352,7 +352,7 @@ lt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                Šioje laidoje yra kelios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Dalinkitės darbo paketais su išoriniais naudotojais ir grupėmis, kurios nėra projekto nariai (Enterprise priedas).</li> <li>Nauji dinaminiai susitikimai su planais ir protokolu, susietu su darbo paketais.</li> <li>Prieinamumo testai ir pirmi patobulinimai pagal WCAG 2.1 AA, įskaitant didelio kontrasto režimą.</li> <li>Susiekite darbo paketus su failais, esančiais SharePoint/OneDrive.</li> <li>Tęsiama integracija su Primer dizaino sistema.</li> </ul>
+                Šioje laidoje yra kelios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Dalinkitės darbo paketais su išoriniais naudotojais ir grupėmis, kurios nėra projekto nariai (Enterprise priedas).</li> <li>Nauji dinaminiai susitikimai su planais ir protokolu, susietu su darbo paketais.</li> <li>Susiekite darbo paketus su failais, esančiais OneDrive/SharePoint.</li> <li>Prieinamumo testai ir pirmi patobulinimai pagal WCAG 2.1 AA, įskaitant didelio kontrasto režimą.</li> <li>Tęsiama integracija su Primer dizaino sistema.</li> </ul>
     ical_sharing_modal:
       title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
@@ -759,6 +759,7 @@ lt:
           last_day: 'Paskutinė diena'
     text_are_you_sure: "Ar esate įsitikinę?"
     text_data_lost: "Visa įvesta informacija bus prarasta."
+    text_user_wrote: "%{value} parašė:"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} grupės pavadinimas naudotas daugiau nei kartą. Grupių pavadinimai privalo būti unikalūs."
@@ -968,7 +969,6 @@ lt:
         date: "Data"
         dueDate: "Pabaigos data"
         duration: "Trukmė"
-        estimatedTime: "Numatyta trukmė"
         spentTime: "Praleista laiko"
         category: "Kategorija"
         percentageDone: "Atlikta procentinė dalis"
@@ -984,6 +984,7 @@ lt:
         updatedAt: "Atnaujinta"
         versionName: "Versija"
         version: "Versija"
+        remainingTime: "Liko darbo"
       default_queries:
         latest_activity: "Paskutinė veikla"
         created_by_me: "Sukūriau pats"

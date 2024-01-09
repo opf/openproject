@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,7 @@ module Components
         modal_open? or open_modal
 
         column_autocompleter.click
-        expect(page).not_to have_selector('.ng-option', text: name, visible: :all)
+        expect(page).to have_no_css('.ng-option', text: name, visible: :all)
         close_autocompleter
       end
 
@@ -66,7 +66,7 @@ module Components
         modal_open? or open_modal
 
         column_autocompleter.click
-        expect(page).to have_selector('.ng-option', text: name, visible: :all)
+        expect(page).to have_css('.ng-option', text: name, visible: :all)
         close_autocompleter
       end
 
@@ -82,7 +82,7 @@ module Components
           within ".work-package-table" do
             # for some reason these columns (e.g. 'Overall costs') don't have a proper link
             if finicky
-              expect(page).to have_selector("a", text: /#{name}/i, visible: :all)
+              expect(page).to have_css("a", text: /#{name}/i, visible: :all)
             else
               expect(page).to have_link(name)
             end
@@ -103,13 +103,13 @@ module Components
 
       def expect_checked(name)
         within_modal do
-          expect(page).to have_selector('.op-draggable-autocomplete--item', text: name)
+          expect(page).to have_css('.op-draggable-autocomplete--item', text: name)
         end
       end
 
       def expect_unchecked(name)
         within_modal do
-          expect(page).not_to have_selector('.op-draggable-autocomplete--item', text: name)
+          expect(page).to have_no_css('.op-draggable-autocomplete--item', text: name)
         end
       end
 
@@ -117,7 +117,7 @@ module Components
         open_modal unless modal_open?
 
         within_modal do
-          expect(page).to have_selector('.op-draggable-autocomplete--item', minimum: 1)
+          expect(page).to have_css('.op-draggable-autocomplete--item', minimum: 1)
           page.all('.op-draggable-autocomplete--remove-item').each(&:click)
         end
 

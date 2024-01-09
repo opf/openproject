@@ -34,8 +34,12 @@ export class CellBuilder {
       td.classList.add('-max');
     }
 
-    if (['startDate', 'dueDate', 'duration'].indexOf(attribute) !== -1) {
+    if (['startDate', 'dueDate', 'duration'].includes(attribute)) {
       td.classList.add('-no-ellipsis');
+    }
+
+    if (['estimatedTime', 'remainingTime'].includes(attribute)) {
+      td.classList.add('-min-150');
     }
 
     const schema = this.schemaCache.of(workPackage);

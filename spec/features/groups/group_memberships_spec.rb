@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -166,8 +166,8 @@ RSpec.describe 'group memberships through groups page', :js, :with_cuprite do
         group_page.open_projects_tab!
 
         target_dropdown = group_page.search_for_project 'project'
-        expect(target_dropdown).to have_selector(".ng-option", text: 'Other project')
-        expect(target_dropdown).not_to have_selector(".ng-option", text: 'Archived project')
+        expect(target_dropdown).to have_css(".ng-option", text: 'Other project')
+        expect(target_dropdown).to have_no_css(".ng-option", text: 'Archived project')
       end
     end
   end

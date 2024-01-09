@@ -17,7 +17,7 @@ allOf:
               - $ref: "./link.yml"
               - description: |-
                   This group collection
-                  
+
                   **Resource**: GroupCollectionReadModel
       _embedded:
         type: object
@@ -41,8 +41,8 @@ example:
       - _type: Group
         id: 1337
         name: Stormtroopers
-        createdAt: '2022-09-23T11:06:36Z'
-        updatedAt: '2022-09-23T11:06:36Z'
+        createdAt: '2022-09-23T11:06:36.300Z'
+        updatedAt: '2022-09-23T11:06:36.300Z'
         _links:
           self:
             href: '/api/v3/groups/9'

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,11 +36,11 @@
 module Capybara
   module Node
     module Matchers
-      def has_conditional_selector?(condition, *args, **kw_args)
+      def has_conditional_selector?(condition, *, **kw_args)
         if condition
-          has_selector? *args, **kw_args
+          has_selector?(*, **kw_args)
         else
-          has_no_selector? *args, **kw_args
+          has_no_selector?(*, **kw_args)
         end
       end
     end

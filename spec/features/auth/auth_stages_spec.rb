@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Authentication Stages',
-               skip_2fa_stage: true do
+RSpec.describe 'Authentication Stages', :skip_2fa_stage do
   before do
     @capybara_ignore_elements = Capybara.ignore_hidden_elements
     Capybara.ignore_hidden_elements = true
@@ -160,7 +159,7 @@ RSpec.describe 'Authentication Stages',
 
     visit "/my/account"
 
-    expect(page).not_to have_text user.login # just checking we're really not logged in
+    expect(page).to have_no_text user.login # just checking we're really not logged in
   end
 
   it 'redirects to the login page and shows an error on authentication stage failure' do
@@ -176,7 +175,7 @@ RSpec.describe 'Authentication Stages',
 
     visit "/my/account"
 
-    expect(page).not_to have_text user.login # just checking we're really not logged in
+    expect(page).to have_no_text user.login # just checking we're really not logged in
   end
 
   it 'redirects to the login page and shows an error on returning to the wrong stage' do
@@ -192,7 +191,7 @@ RSpec.describe 'Authentication Stages',
 
     visit "/my/account"
 
-    expect(page).not_to have_text user.login # just checking we're really not logged in
+    expect(page).to have_no_text user.login # just checking we're really not logged in
   end
 
   it 'redirects to the referer if there is one' do

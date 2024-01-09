@@ -10,7 +10,7 @@ module Components::Autocompleter
 
       # Wait for autocompleter options to be loaded (data fetching is debounced by 250ms after creation or typing)
       wait_for_network_idle if using_cuprite? && wait_for_fetched_options
-      expect(element).not_to have_selector('.ng-spinner-loader')
+      expect(element).to have_no_css('.ng-spinner-loader')
 
       # Insert the text to find
       within(element) do
@@ -18,7 +18,7 @@ module Components::Autocompleter
       end
 
       # Wait for options to be refreshed after having entered some text.
-      expect(element).not_to have_selector('.ng-spinner-loader')
+      expect(element).to have_no_css('.ng-spinner-loader')
 
       # probably not necessary anymore
       sleep(0.5) unless using_cuprite?
@@ -42,13 +42,13 @@ module Components::Autocompleter
 
     def expect_ng_option(element, option, results_selector: nil)
       within(ng_find_dropdown(element, results_selector:)) do
-        expect(page).to have_selector('.ng-option', text: option)
+        expect(page).to have_css('.ng-option', text: option)
       end
     end
 
     def expect_no_ng_option(element, option, results_selector: nil)
       within(ng_find_dropdown(element, results_selector:)) do
-        expect(page).not_to have_selector('.ng-option', text: option)
+        expect(page).to have_no_css('.ng-option', text: option)
       end
     end
 

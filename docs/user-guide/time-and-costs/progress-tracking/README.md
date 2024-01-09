@@ -73,7 +73,7 @@ your OpenProject system to associate work packages statuses .
 In the Administration, please navigate to Work packages -> Settings and change “Calculate the work package done ratio” to
 “Use the work package status”.
 
-![Change calculate the work package done ration](image-20221102110738283.png)
+![Change calculate the work package done ratio](image-20221102110738283.png)
 
 In this mode, OpenProject does _not_ allow you to manually modify the
 **Progress (%)** field in the work packages.
@@ -89,7 +89,7 @@ statuses together with suitable “Progress (%)” values.
 For example, setting the status of a work package to “In progress”
 is equivalent to setting **Progress (%)** to 50% manually.
 
-Note: The status and it’s associated progress value from the
+Note: The status and its associated progress value from the
 administration screen also determines the **Progress (%)** of
 work packages with children. So there is no roll-up of progress
 in the work package table hierarchy in this configuration.

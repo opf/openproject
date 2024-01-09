@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -122,8 +122,8 @@ RSpec.describe 'Open the Meetings tab', :js do
           expect(page).to have_content(visible_meeting.title)
           expect(page).to have_content(meeting_agenda_item_of_visible_meeting.notes)
 
-          expect(page).not_to have_content(invisible_meeting.title)
-          expect(page).not_to have_content(meeting_agenda_item_of_invisible_meeting.notes)
+          expect(page).to have_no_content(invisible_meeting.title)
+          expect(page).to have_no_content(meeting_agenda_item_of_invisible_meeting.notes)
         end
       end
     end
@@ -140,7 +140,7 @@ RSpec.describe 'Open the Meetings tab', :js do
         meetings_tab.expect_tab_not_present
       end
 
-      context 'when the user has permission in another project' do
+      context 'when the user has permission to view in another project' do
         let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
 
         let(:user) do
@@ -151,10 +151,32 @@ RSpec.describe 'Open the Meetings tab', :js do
                  })
         end
 
-        it 'does show the tab' do
+        it 'does show the tab, but does not show the button' do
           work_package_page.visit!
 
           meetings_tab.expect_tab_present
+          switch_to_meetings_tab
+          meetings_tab.expect_add_to_meeting_button_not_present
+        end
+      end
+
+      context 'when the user has permission to manage in another project' do
+        let(:other_project) { create(:project, enabled_module_names: %w[meetings]) }
+
+        let(:user) do
+          create(:user,
+                 member_with_permissions: {
+                   project => %i(view_work_packages),
+                   other_project => %i(view_work_packages view_meetings manage_agendas)
+                 })
+        end
+
+        it 'does show the tab and shows the add button' do
+          work_package_page.visit!
+
+          meetings_tab.expect_tab_present
+          switch_to_meetings_tab
+          meetings_tab.expect_add_to_meeting_button_present
         end
       end
     end
@@ -274,10 +296,13 @@ RSpec.describe 'Open the Meetings tab', :js do
       end
 
       context 'when open, upcoming meetings are visible for the user' do
-        let!(:past_meeting) { create(:structured_meeting, project:, start_time: Date.yesterday - 10.hours) }
-        let!(:first_upcoming_meeting) { create(:structured_meeting, project:) }
-        let!(:second_upcoming_meeting) { create(:structured_meeting, project:) }
-        let!(:closed_upcoming_meeting) { create(:structured_meeting, project:, state: :closed) }
+        shared_let(:past_meeting) { create(:structured_meeting, project:, start_time: Date.yesterday - 10.hours) }
+        shared_let(:first_upcoming_meeting) { create(:structured_meeting, project:) }
+        shared_let(:second_upcoming_meeting) { create(:structured_meeting, project:) }
+        shared_let(:closed_upcoming_meeting) { create(:structured_meeting, project:, state: :closed) }
+        shared_let(:ongoing_meeting) do
+          create(:structured_meeting, title: 'Ongoing', project:, start_time: 1.hour.ago, duration: 4.0)
+        end
 
         it 'enables the user to add the work package to multiple open, upcoming meetings' do
           work_package_page.visit!
@@ -312,6 +337,16 @@ RSpec.describe 'Open the Meetings tab', :js do
           end
         end
 
+        it 'allows the user to select ongoing meetings' do
+          work_package_page.visit!
+          switch_to_meetings_tab
+
+          meetings_tab.open_add_to_meeting_dialog
+
+          fill_in('meeting_agenda_item_meeting_id', with: ongoing_meeting.title)
+          expect(page).to have_css('.ng-option-marked', text: ongoing_meeting.title)
+        end
+
         it 'does not enable the user to select a past meeting' do
           work_package_page.visit!
           switch_to_meetings_tab
@@ -319,7 +354,7 @@ RSpec.describe 'Open the Meetings tab', :js do
           meetings_tab.open_add_to_meeting_dialog
 
           fill_in('meeting_agenda_item_meeting_id', with: past_meeting.title)
-          expect(page).not_to have_css('.ng-option-marked', text: past_meeting.title)
+          expect(page).to have_no_css('.ng-option-marked', text: past_meeting.title)
         end
 
         it 'does not enable the user to select a closed, upcoming meeting' do
@@ -329,7 +364,7 @@ RSpec.describe 'Open the Meetings tab', :js do
           meetings_tab.open_add_to_meeting_dialog
 
           fill_in('meeting_agenda_item_meeting_id', with: closed_upcoming_meeting.title)
-          expect(page).not_to have_css('.ng-option-marked', text: closed_upcoming_meeting.title)
+          expect(page).to have_no_css('.ng-option-marked', text: closed_upcoming_meeting.title)
         end
 
         it 'requires a meeting to be selected' do

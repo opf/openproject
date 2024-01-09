@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -160,23 +160,10 @@ module OpenProject::Storages
             storage = project_storage.storage
             next unless storage.configured?
 
-            url_helpers = Rails.application.routes.url_helpers
-            open_project_storage_url = url_helpers.open_project_storage_url(
-              host: Setting.host_name,
-              protocol: 'https',
-              project_id: project_storage.project.identifier,
-              id: project_storage.id
-            )
-            href = url_helpers.oauth_clients_ensure_connection_path(
-              oauth_client_id: storage.oauth_client.client_id,
-              storage_id: storage.id,
-              destination_url: open_project_storage_url
-            )
             icon = storage.provider_type_nextcloud? ? 'nextcloud-circle' : 'hosting'
-
             menu.push(
               :"storage_#{storage.id}",
-              href,
+              project_storage.open_with_connection_ensured,
               caption: storage.name,
               before: :members,
               icon:,

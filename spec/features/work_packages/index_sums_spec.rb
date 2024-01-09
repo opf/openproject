@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -110,8 +110,8 @@ RSpec.describe 'Work package index sums', :js do
   it 'calculates sums correctly' do
     wp_table.expect_work_package_listed work_package_1, work_package_2
 
-    # Add estimated time column
-    columns.add 'Estimated time'
+    # Add work column
+    columns.add 'Work'
     # Add int cf column
     columns.add int_cf.name
     # Add float cf column
@@ -129,66 +129,66 @@ RSpec.describe 'Work package index sums', :js do
     wp_table.expect_work_package_listed work_package_1, work_package_2
 
     # Expect the total sums row
-    expect(page).to have_selector('.wp-table--sums-row', count: 1)
+    expect(page).to have_css('.wp-table--sums-row', count: 1)
 
-    expect(page).to have_selector('.wp-table--sum-container', text: 'Total sum')
-    expect(page).to have_selector('.wp-table--sum-container', text: '25')
-    expect(page).to have_selector('.wp-table--sum-container', text: '12')
-    expect(page).to have_selector('.wp-table--sum-container', text: '13.2')
+    expect(page).to have_css('.wp-table--sum-container', text: 'Total sum')
+    expect(page).to have_css('.wp-table--sum-container', text: '25')
+    expect(page).to have_css('.wp-table--sum-container', text: '12')
+    expect(page).to have_css('.wp-table--sum-container', text: '13.2')
     # Unit costs
-    expect(page).to have_selector('.wp-table--sum-container', text: '7.50')
+    expect(page).to have_css('.wp-table--sum-container', text: '7.50')
     # Overall costs
-    expect(page).to have_selector('.wp-table--sum-container', text: '22.50')
+    expect(page).to have_css('.wp-table--sum-container', text: '22.50')
     # Labor costs
-    expect(page).to have_selector('.wp-table--sum-container', text: '15.00')
+    expect(page).to have_css('.wp-table--sum-container', text: '15.00')
 
     # Update the sum
     edit_field = wp_table.edit_field(work_package_1, :estimatedTime)
     edit_field.update '20'
 
-    expect(page).to have_selector('.wp-table--sum-container', text: 'Total sum')
-    expect(page).to have_selector('.wp-table--sum-container', text: '35')
-    expect(page).to have_selector('.wp-table--sum-container', text: '12')
-    expect(page).to have_selector('.wp-table--sum-container', text: '13.2')
+    expect(page).to have_css('.wp-table--sum-container', text: 'Total sum')
+    expect(page).to have_css('.wp-table--sum-container', text: '35')
+    expect(page).to have_css('.wp-table--sum-container', text: '12')
+    expect(page).to have_css('.wp-table--sum-container', text: '13.2')
     # Unit costs
-    expect(page).to have_selector('.wp-table--sum-container', text: '7.50')
+    expect(page).to have_css('.wp-table--sum-container', text: '7.50')
     # Overall costs
-    expect(page).to have_selector('.wp-table--sum-container', text: '22.50')
+    expect(page).to have_css('.wp-table--sum-container', text: '22.50')
     # Labor costs
-    expect(page).to have_selector('.wp-table--sum-container', text: '15.00')
+    expect(page).to have_css('.wp-table--sum-container', text: '15.00')
 
     # Enable groups
     group_by.enable_via_menu 'Status'
 
     # Expect to have three sums rows now
-    expect(page).to have_selector('.wp-table--sums-row', count: 3)
+    expect(page).to have_css('.wp-table--sums-row', count: 3)
 
     # First status row
-    expect(page).to have_selector('.wp-table--sum-container', text: '20 h')
-    expect(page).to have_selector(".wp-table--sum-container.customField#{int_cf.id}", text: '5')
-    expect(page).to have_selector(".wp-table--sum-container.customField#{float_cf.id}", text: '5.5')
+    expect(page).to have_css('.wp-table--sum-container', text: '20 h')
+    expect(page).to have_css(".wp-table--sum-container.customField#{int_cf.id}", text: '5')
+    expect(page).to have_css(".wp-table--sum-container.customField#{float_cf.id}", text: '5.5')
     # Unit costs
-    expect(page).to have_selector('.wp-table--sum-container.materialCosts', text: '7.50')
+    expect(page).to have_css('.wp-table--sum-container.materialCosts', text: '7.50')
     # Overall costs
-    expect(page).to have_selector('.wp-table--sum-container.overallCosts', text: '22.50')
+    expect(page).to have_css('.wp-table--sum-container.overallCosts', text: '22.50')
     # Labor costs
-    expect(page).to have_selector('.wp-table--sum-container.laborCosts', text: '15.00')
+    expect(page).to have_css('.wp-table--sum-container.laborCosts', text: '15.00')
 
     # Second status row
-    expect(page).to have_selector('.wp-table--sum-container', text: '15 h')
-    expect(page).to have_selector(".wp-table--sum-container.customField#{int_cf.id}", text: '7')
-    expect(page).to have_selector(".wp-table--sum-container.customField#{float_cf.id}", text: '7.7')
+    expect(page).to have_css('.wp-table--sum-container', text: '15 h')
+    expect(page).to have_css(".wp-table--sum-container.customField#{int_cf.id}", text: '7')
+    expect(page).to have_css(".wp-table--sum-container.customField#{float_cf.id}", text: '7.7')
 
     # Total sums row is unchanged
-    expect(page).to have_selector('tbody .wp-table--sum-container', text: '35')
-    expect(page).to have_selector("tbody .wp-table--sum-container.customField#{int_cf.id}", text: '12')
-    expect(page).to have_selector("tbody .wp-table--sum-container.customField#{float_cf.id}", text: '13.2')
+    expect(page).to have_css('tbody .wp-table--sum-container', text: '35')
+    expect(page).to have_css("tbody .wp-table--sum-container.customField#{int_cf.id}", text: '12')
+    expect(page).to have_css("tbody .wp-table--sum-container.customField#{float_cf.id}", text: '13.2')
     # Unit costs
-    expect(page).to have_selector('tbody .wp-table--sum-container.materialCosts', text: '7.50')
+    expect(page).to have_css('tbody .wp-table--sum-container.materialCosts', text: '7.50')
     # Overall costs
-    expect(page).to have_selector('tbody .wp-table--sum-container.overallCosts', text: '22.50')
+    expect(page).to have_css('tbody .wp-table--sum-container.overallCosts', text: '22.50')
     # Labor costs
-    expect(page).to have_selector('tbody .wp-table--sum-container.laborCosts', text: '15.00')
+    expect(page).to have_css('tbody .wp-table--sum-container.laborCosts', text: '15.00')
 
     # Collapsing groups will also hide the sums row
     page.find('.expander.icon-minus2', match: :first).click
@@ -196,6 +196,6 @@ RSpec.describe 'Work package index sums', :js do
     page.find('.expander.icon-minus2', match: :first).click
 
     # Expect to have only the final sums
-    expect(page).to have_selector('tbody .wp-table--sums-row', count: 1)
+    expect(page).to have_css('tbody .wp-table--sums-row', count: 1)
   end
 end

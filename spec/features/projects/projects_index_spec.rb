@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,7 +35,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
   shared_let(:manager)   { create(:project_role, name: 'Manager') }
   shared_let(:developer) { create(:project_role, name: 'Developer') }
 
-  shared_let(:custom_field) { create(:project_custom_field) }
+  shared_let(:custom_field) { create(:text_project_custom_field) }
   shared_let(:invisible_custom_field) { create(:project_custom_field, visible: false) }
 
   shared_let(:project) do
@@ -60,6 +60,8 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
   let(:news) { create(:news, project:) }
   let(:projects_page) { Pages::Projects::Index.new }
 
+  include ProjectStatusHelper
+
   def load_and_open_filters(user)
     login_as(user)
     projects_page.visit!
@@ -72,8 +74,8 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
 
   def expect_project_at_place(project, place)
     expect(page)
-      .to have_selector("#project-table .project:nth-of-type(#{place}) td.name",
-                        text: project.name)
+      .to have_css("#project-table .project:nth-of-type(#{place}) td.name",
+                   text: project.name)
   end
 
   def expect_projects_in_order(*projects)
@@ -88,11 +90,11 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         ProjectRole.anonymous
         visit projects_path
 
-        expect(page).not_to have_text(project.name)
+        expect(page).to have_no_text(project.name)
         expect(page).to have_text(public_project.name)
 
         # Test that the 'More' menu stays invisible on hover
-        expect(page).not_to have_selector('.icon-show-more-horizontal')
+        expect(page).to have_no_css('.icon-show-more-horizontal')
       end
     end
 
@@ -112,11 +114,46 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
 
         expect(page).to have_text(development_project.name)
         expect(page).to have_text(public_project.name)
-        expect(page).not_to have_text(project.name)
+        expect(page).to have_no_text(project.name)
 
         # Non-admin users shall not see invisible CFs.
-        expect(page).not_to have_text(invisible_custom_field.name.upcase)
-        expect(page).not_to have_select('add_filter_select', with_options: [invisible_custom_field.name])
+        expect(page).to have_no_text(invisible_custom_field.name.upcase)
+        expect(page).to have_no_select('add_filter_select', with_options: [invisible_custom_field.name])
+      end
+    end
+
+    context 'for work package members', with_ee: %i[custom_fields_in_projects_list] do
+      shared_let(:work_package) { create(:work_package, project: development_project) }
+      shared_let(:user) do
+        create(:user,
+               member_with_permissions: { work_package => [:view_work_packages] },
+               login: 'nerd',
+               firstname: 'Alan',
+               lastname: 'Turing')
+      end
+
+      specify 'only public projects or those the user is member in a specific work package' do
+        Setting.enabled_projects_columns += [custom_field.column_name]
+
+        development_project.update(
+          description: 'I am a nice project',
+          status_explanation: 'We are on track',
+          status_code: 'on_track',
+          custom_field_values: { custom_field.id => 'This is a test value' }
+        )
+
+        login_as(user)
+        visit projects_path
+
+        expect(page).to have_text(development_project.name)
+        expect(page).to have_text(public_project.name)
+        expect(page).to have_no_text(project.name)
+
+        # They should not see the description, status or custom fields for the project
+        expect(page).to have_no_text(development_project.description)
+        expect(page).to have_no_text(project_status_name(development_project.status_code))
+        expect(page).to have_no_text(development_project.status_explanation)
+        expect(page).to have_no_text(development_project.custom_value_for(custom_field))
       end
     end
 
@@ -149,15 +186,15 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         # Test visibility of admin only properties
         within('#project-table') do
           expect(page)
-            .to have_selector('th', text: 'REQUIRED DISK STORAGE')
+            .to have_css('th', text: 'REQUIRED DISK STORAGE')
           expect(page)
-            .to have_selector('th', text: 'CREATED ON')
+            .to have_css('th', text: 'CREATED ON')
           expect(page)
-            .to have_selector('td', text: project.created_at.strftime('%m/%d/%Y'))
+            .to have_css('td', text: project.created_at.strftime('%m/%d/%Y'))
           expect(page)
-            .to have_selector('th', text: 'LATEST ACTIVITY AT')
+            .to have_css('th', text: 'LATEST ACTIVITY AT')
           expect(page)
-            .to have_selector('td', text: news.created_at.strftime('%m/%d/%Y'))
+            .to have_css('td', text: news.created_at.strftime('%m/%d/%Y'))
         end
       end
 
@@ -167,7 +204,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
 
         error_text = "Orders ><script src='/foobar js'></script> is not set to one of the allowed values. and does not exist."
         error_html = "Orders &gt;&lt;script src='/foobar js'&gt;&lt;/script&gt; is not set to one of the allowed values. and does not exist."
-        expect(page).to have_selector('.op-toast.-error', text: error_text)
+        expect(page).to have_css('.op-toast.-error', text: error_text)
 
         error_container = page.find('.op-toast.-error')
         expect(error_container['innerHTML']).to include error_html
@@ -180,9 +217,9 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
       load_and_open_filters admin
 
       # CF's columns are not present:
-      expect(page).not_to have_text(custom_field.name.upcase)
+      expect(page).to have_no_text(custom_field.name.upcase)
       # CF's filters are not present:
-      expect(page).not_to have_select('add_filter_select', with_options: [custom_field.name])
+      expect(page).to have_no_select('add_filter_select', with_options: [custom_field.name])
     end
   end
 
@@ -191,7 +228,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
       load_and_open_filters admin
 
       # CF's columns are not shown due to setting
-      expect(page).not_to have_text(custom_field.name.upcase)
+      expect(page).to have_no_text(custom_field.name.upcase)
     end
 
     specify 'CF columns and filters are visible when added to settings' do
@@ -306,7 +343,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
       projects_page.expect_projects_listed(project)
       projects_page.expect_projects_not_listed(public_project)
       # Filter form is visible and the filter is still set.
-      expect(page).to have_selector('li[filter-name="name_and_identifier"]')
+      expect(page).to have_css('li[filter-name="name_and_identifier"]')
     end
   end
 
@@ -347,7 +384,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
       projects_page.expect_projects_listed(public_project)
       projects_page.expect_projects_not_listed(project,             # Filtered out
                                                development_project) # Present on page 1
-      expect(page).not_to have_text('Next') # Filters kept active, so there is no third page.
+      expect(page).to have_no_text('Next') # Filters kept active, so there is no third page.
 
       # Sorts DESC by name
       click_on 'Ascending sorted by "Name"'
@@ -358,8 +395,8 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
       projects_page.expect_projects_not_listed(project,        # Filtered out
                                                public_project) # Present on page 1
 
-      expect(page).not_to have_text('Next') # Filters kept active, so there is no third page.
-      expect(page).to have_selector('.sort.desc', text: 'NAME')
+      expect(page).to have_no_text('Next') # Filters kept active, so there is no third page.
+      expect(page).to have_css('.sort.desc', text: 'NAME')
 
       # Sending the filter form again what implies to compose the request freshly
       click_on 'Apply'
@@ -371,7 +408,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
       projects_page.expect_projects_not_listed(development_project, # as it is on the second page
                                                project)             # as it filtered out
       expect(page).to have_text('Next') # as the result set is larger than 1
-      expect(page).to have_selector('.sort.desc', text: 'NAME')
+      expect(page).to have_css('.sort.desc', text: 'NAME')
     end
   end
 
@@ -423,7 +460,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         load_and_open_filters admin
 
         # value selection defaults to "active"'
-        expect(page).to have_selector('li[filter-name="active"]')
+        expect(page).to have_css('li[filter-name="active"]')
 
         projects_page.expect_projects_listed(parent_project,
                                              child_project,
@@ -458,10 +495,10 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         projects_page.activate_menu_of(parent_project) do |menu|
           expect(menu).to have_text('Unarchive')
           expect(menu).to have_text('Delete')
-          expect(menu).not_to have_text('Archive')
-          expect(menu).not_to have_text('Copy')
-          expect(menu).not_to have_text('Settings')
-          expect(menu).not_to have_text('New subproject')
+          expect(menu).to have_no_text('Archive')
+          expect(menu).to have_no_text('Copy')
+          expect(menu).to have_no_text('Settings')
+          expect(menu).to have_no_text('New subproject')
 
           click_link('Unarchive')
         end
@@ -547,7 +584,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         wait_for_reload
 
         expect(page).to have_text(green_project.name)
-        expect(page).not_to have_text(no_status_project.name)
+        expect(page).to have_no_text(no_status_project.name)
 
         projects_page.set_filter('project_status_code',
                                  'Project status',
@@ -558,7 +595,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         wait_for_reload
 
         expect(page).to have_text(green_project.name)
-        expect(page).not_to have_text(no_status_project.name)
+        expect(page).to have_no_text(no_status_project.name)
 
         projects_page.set_filter('project_status_code',
                                  'Project status',
@@ -568,7 +605,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         click_on 'Apply'
         wait_for_reload
 
-        expect(page).not_to have_text(green_project.name)
+        expect(page).to have_no_text(green_project.name)
         expect(page).to have_text(no_status_project.name)
 
         projects_page.set_filter('project_status_code',
@@ -579,7 +616,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         click_on 'Apply'
         wait_for_reload
 
-        expect(page).not_to have_text(green_project.name)
+        expect(page).to have_no_text(green_project.name)
         expect(page).to have_text(no_status_project.name)
       end
     end
@@ -651,8 +688,8 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         wait_for_reload
 
         expect(page).to have_text(project_created_on_today.name)
-        expect(page).not_to have_text(project_created_on_this_week.name)
-        expect(page).not_to have_text(project_created_on_fixed_date.name)
+        expect(page).to have_no_text(project_created_on_this_week.name)
+        expect(page).to have_no_text(project_created_on_fixed_date.name)
 
         # created on 'this week' shows projects that were created within the last seven days
         remove_filter('created_at')
@@ -666,7 +703,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
 
         expect(page).to have_text(project_created_on_today.name)
         expect(page).to have_text(project_created_on_this_week.name)
-        expect(page).not_to have_text(project_created_on_fixed_date.name)
+        expect(page).to have_no_text(project_created_on_fixed_date.name)
 
         # created on 'on' shows projects that were created within the last seven days
         remove_filter('created_at')
@@ -680,8 +717,8 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         wait_for_reload
 
         expect(page).to have_text(project_created_on_fixed_date.name)
-        expect(page).not_to have_text(project_created_on_today.name)
-        expect(page).not_to have_text(project_created_on_this_week.name)
+        expect(page).to have_no_text(project_created_on_today.name)
+        expect(page).to have_no_text(project_created_on_this_week.name)
 
         # created on 'less than days ago'
         remove_filter('created_at')
@@ -695,7 +732,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         wait_for_reload
 
         expect(page).to have_text(project_created_on_today.name)
-        expect(page).not_to have_text(project_created_on_fixed_date.name)
+        expect(page).to have_no_text(project_created_on_fixed_date.name)
 
         # created on 'more than days ago'
         remove_filter('created_at')
@@ -709,7 +746,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         wait_for_reload
 
         expect(page).to have_text(project_created_on_fixed_date.name)
-        expect(page).not_to have_text(project_created_on_today.name)
+        expect(page).to have_no_text(project_created_on_today.name)
 
         # created on 'between'
         remove_filter('created_at')
@@ -723,7 +760,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         wait_for_reload
 
         expect(page).to have_text(project_created_on_fixed_date.name)
-        expect(page).not_to have_text(project_created_on_today.name)
+        expect(page).to have_no_text(project_created_on_today.name)
 
         # Latest activity at 'today'. This spot check would fail if the data does not get collected from multiple tables
         remove_filter('created_at')
@@ -736,7 +773,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         wait_for_reload
 
         expect(page).to have_text(project_created_on_today.name)
-        expect(page).not_to have_text(project_created_on_fixed_date.name)
+        expect(page).to have_no_text(project_created_on_fixed_date.name)
 
         # CF List
         remove_filter('latest_activity_at')
@@ -750,7 +787,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         wait_for_reload
 
         expect(page).to have_text(project_created_on_today.name)
-        expect(page).not_to have_text(project_created_on_fixed_date.name)
+        expect(page).to have_no_text(project_created_on_fixed_date.name)
 
         # switching to multiselect keeps the current selection
         cf_filter = page.find("li[filter-name='#{list_custom_field.column_name}']")
@@ -784,7 +821,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
           click_on 'Toggle multiselect'
           expect(cf_filter.find(:select, 'value')).not_to be_multiple
           expect(cf_filter).to have_select('value', selected: list_custom_field.possible_values[1].value)
-          expect(cf_filter).not_to have_select('value', selected: list_custom_field.possible_values[3].value)
+          expect(cf_filter).to have_no_select('value', selected: list_custom_field.possible_values[3].value)
         end
 
         click_on 'Apply'
@@ -808,7 +845,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         wait_for_reload
 
         expect(page).to have_text(project_created_on_today.name)
-        expect(page).not_to have_text(project_created_on_fixed_date.name)
+        expect(page).to have_no_text(project_created_on_fixed_date.name)
       end
 
       pending "NOT WORKING YET: Date vs. DateTime issue: Selecting same date for from and to value shows projects of that date"
@@ -886,7 +923,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
 
       # 'More' does not become visible on hover
       page.find('tbody tr').hover
-      expect(page).not_to have_selector('.icon-show-more-horizontal')
+      expect(page).to have_no_css('.icon-show-more-horizontal')
 
       # For a project member with :copy_projects privilege the 'More' menu is visible.
       login_as(can_copy_projects_manager)
@@ -897,16 +934,16 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
       # 'More' becomes visible on hover
       # because we use css opacity we can not test for the visibility changes
       page.find('tbody tr').hover
-      expect(page).to have_selector('.icon-show-more-horizontal')
+      expect(page).to have_css('.icon-show-more-horizontal')
 
       # Test visibility of 'more' menu list items
       page.find('tbody tr .icon-show-more-horizontal').click
       menu = page.find('tbody tr .project-actions')
       expect(menu).to have_text('Copy')
-      expect(menu).not_to have_text('New subproject')
-      expect(menu).not_to have_text('Delete')
-      expect(menu).not_to have_text('Archive')
-      expect(menu).not_to have_text('Unarchive')
+      expect(menu).to have_no_text('New subproject')
+      expect(menu).to have_no_text('Delete')
+      expect(menu).to have_no_text('Archive')
+      expect(menu).to have_no_text('Unarchive')
 
       # For a project member with :add_subprojects privilege the 'More' menu is visible.
       login_as(can_add_subprojects_manager)
@@ -915,29 +952,29 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
       # 'More' becomes visible on hover
       # because we use css opacity we can not test for the visibility changes
       page.find('tbody tr').hover
-      expect(page).to have_selector('.icon-show-more-horizontal')
+      expect(page).to have_css('.icon-show-more-horizontal')
 
       # Test visibility of 'more' menu list items
       page.find('tbody tr .icon-show-more-horizontal').click
       menu = page.find('tbody tr .project-actions')
       expect(menu).to have_text('New subproject')
-      expect(menu).not_to have_text('Copy')
-      expect(menu).not_to have_text('Delete')
-      expect(menu).not_to have_text('Archive')
-      expect(menu).not_to have_text('Unrchive')
+      expect(menu).to have_no_text('Copy')
+      expect(menu).to have_no_text('Delete')
+      expect(menu).to have_no_text('Archive')
+      expect(menu).to have_no_text('Unrchive')
 
       # Test admin only properties are invisible
       within('#project-table') do
         expect(page)
-          .not_to have_selector('th', text: 'REQUIRED DISK STORAGE')
+          .to have_no_css('th', text: 'REQUIRED DISK STORAGE')
         expect(page)
-          .not_to have_selector('th', text: 'CREATED ON')
+          .to have_no_css('th', text: 'CREATED ON')
         expect(page)
-          .not_to have_selector('td', text: project.created_at.strftime('%m/%d/%Y'))
+          .to have_no_css('td', text: project.created_at.strftime('%m/%d/%Y'))
         expect(page)
-          .not_to have_selector('th', text: 'LATEST ACTIVITY AT')
+          .to have_no_css('th', text: 'LATEST ACTIVITY AT')
         expect(page)
-          .not_to have_selector('td', text: news.created_at.strftime('%m/%d/%Y'))
+          .to have_no_css('td', text: news.created_at.strftime('%m/%d/%Y'))
       end
     end
   end
@@ -1041,9 +1078,9 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
     it 'is not visible' do
       load_and_open_filters admin
 
-      expect(page).not_to have_select('add_filter_select', with_options: ["Principal"])
-      expect(page).not_to have_select('add_filter_select', with_options: ["ID"])
-      expect(page).not_to have_select('add_filter_select', with_options: ["Subproject of"])
+      expect(page).to have_no_select('add_filter_select', with_options: ["Principal"])
+      expect(page).to have_no_select('add_filter_select', with_options: ["ID"])
+      expect(page).to have_no_select('add_filter_select', with_options: ["Subproject of"])
     end
   end
 
@@ -1070,7 +1107,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
                         .where(value: %w[A B])
                         .reorder(:id)
                         .pluck(:value)
-      expect(page).to have_selector(".#{list_custom_field.column_name}.format-list", text: expected_sort.join(", "))
+      expect(page).to have_css(".#{list_custom_field.column_name}.format-list", text: expected_sort.join(", "))
     end
   end
 
@@ -1097,8 +1134,8 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
 
         # 'More' becomes visible on hover
         # because we use css opacity we can not test for the visibility changes
-        page.find('tbody tr').hover
-        expect(page).to have_selector('.icon-show-more-horizontal')
+        page.find('tbody tr', text: project.name).hover
+        expect(page).to have_css('.icon-show-more-horizontal')
 
         # "Project activity" item should be displayed in the 'more' menu
         page.find('tbody tr .icon-show-more-horizontal').click

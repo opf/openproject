@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -118,7 +118,7 @@ RSpec.describe 'authorization for BCF api', :js, with_config: { edition: 'bim' }
     visit my_account_path
     click_on 'Access token'
 
-    expect(page).to have_selector("#oauth-application-grant-#{app.id}", text: app.name)
+    expect(page).to have_css("#oauth-application-grant-#{app.id}", text: app.name)
     expect(page).to have_css('td', text: app.name)
 
     # While being logged in, the api can be accessed with the session
@@ -128,8 +128,18 @@ RSpec.describe 'authorization for BCF api', :js, with_config: { edition: 'bim' }
 
     logout
 
+    # A basic auth alert is displayed asking to enter name and password Register
+    # some basic auth credentials
+    # - A non-matching url is used so that capybara will issue a CancelAuth
+    #   instead of trying to authenticate
+    # - The register method is not recognized by selenium-webdriver with Chrome
+    #   120 with old headless
+    if page.driver.browser.respond_to?(:register)
+      page.driver.browser.register(username: 'foo', password: 'bar', uri: /does_not_match/)
+    end
     # While not being logged in and without a token, the api cannot be accessed
     visit("/api/bcf/2.1/projects/#{project.id}")
+    # Cancel button of basic auth should have been chosen now
     expect(page)
       .to have_content(JSON.dump({ message: "You need to be authenticated to access this resource." }))
 

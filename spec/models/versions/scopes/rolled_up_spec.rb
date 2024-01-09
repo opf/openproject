@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,14 +43,14 @@ RSpec.describe Versions::Scopes::RolledUp do
   describe '.rolled_up' do
     it 'includes versions of self and all descendants' do
       expect(project.rolled_up_versions)
-        .to match_array [version, child_version, grand_child_version]
+        .to contain_exactly(version, child_version, grand_child_version)
     end
 
     it 'excludes versions from inactive projects' do
       grand_child_project.update(active: false)
 
       expect(project.rolled_up_versions)
-        .to match_array [version, child_version]
+        .to contain_exactly(version, child_version)
     end
   end
 end

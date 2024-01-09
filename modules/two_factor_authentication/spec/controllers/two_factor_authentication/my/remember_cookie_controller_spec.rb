@@ -1,5 +1,5 @@
 require_relative '../../../spec_helper'
-require_relative './../authentication_controller_shared_examples'
+require_relative '../authentication_controller_shared_examples'
 
 RSpec.describe TwoFactorAuthentication::My::RememberCookieController do
   let(:user) { create(:user, login: 'foobar') }

@@ -73,7 +73,7 @@ RSpec.describe 'Cost and Reports Main Menu Item', :js, :with_cuprite do
 
       it 'is not rendered' do
         within '#main-menu' do
-          expect(page).not_to have_link(I18n.t(:cost_reports_title))
+          expect(page).to have_no_link(I18n.t(:cost_reports_title))
         end
       end
     end

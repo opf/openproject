@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,7 +89,7 @@ RSpec.describe IssuePriority do
       priority.transfer_relations(new_priority)
 
       expect(new_priority.work_packages.reload)
-        .to match_array [work_package3, work_package1]
+        .to contain_exactly(work_package3, work_package1)
     end
   end
 

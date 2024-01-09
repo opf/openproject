@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,7 +89,8 @@ module MeetingAgendaItems
 
     def add_note_action_item(menu)
       menu.with_item(label: t("label_agenda_item_add_notes"),
-                     href: edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item, display_notes_input: true),
+                     href: edit_meeting_agenda_item_path(@meeting_agenda_item.meeting, @meeting_agenda_item,
+                                                         display_notes_input: true),
                      content_arguments: {
                        data: { 'turbo-stream': true }
                      }) do |item|

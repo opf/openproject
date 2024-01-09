@@ -14,7 +14,7 @@ module Pages
 
         # Safeguard to force waiting for the form to be cleared
         expect(page)
-          .not_to have_selector('.group-by--selected-element')
+          .to have_no_css('.group-by--selected-element')
       end
     end
 
@@ -65,25 +65,25 @@ module Pages
 
     def expect_row_element(text, present: true)
       if present
-        expect(page).to have_selector('#group-by--selected-rows .group-by--selected-element', text:)
+        expect(page).to have_css('#group-by--selected-rows .group-by--selected-element', text:)
       else
-        expect(page).not_to have_selector('#group-by--selected-rows .group-by--selected-element', text:)
+        expect(page).to have_no_css('#group-by--selected-rows .group-by--selected-element', text:)
       end
     end
 
     def expect_column_element(text, present: true)
       if present
-        expect(page).to have_selector('#group-by--selected-columns .group-by--selected-element', text:)
+        expect(page).to have_css('#group-by--selected-columns .group-by--selected-element', text:)
       else
-        expect(page).not_to have_selector('#group-by--selected-columns .group-by--selected-element', text:)
+        expect(page).to have_no_css('#group-by--selected-columns .group-by--selected-element', text:)
       end
     end
 
     def show_loading_indicator(present: true)
       if present
-        expect(page).to have_selector('#ajax-indicator')
+        expect(page).to have_css('#ajax-indicator')
       else
-        expect(page).not_to have_selector('#ajax-indicator')
+        expect(page).to have_no_css('#ajax-indicator')
       end
     end
 

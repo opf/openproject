@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -87,7 +87,7 @@ RSpec.describe 'Omniauth authentication' do
       fill_in('email', with: user.mail)
       click_link_or_button 'Sign In'
 
-      expect(current_url).to eql account_lost_password_url
+      expect(current_url).to eql my_page_url
     end
 
     it 'signs in user' do

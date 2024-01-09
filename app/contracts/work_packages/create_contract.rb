@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,6 +34,11 @@ module WorkPackages
               writable: false do
       errors.add :author_id, :invalid if model.author != user
     end
+    attribute :status_id,
+              # Overriding permission from WP base contract to ignore change_work_package_status for creation,
+              # because we don't require that permission for writable status during WP creation.
+              # Note that nil would not override and [] would ignore the default permission, so we use the default here:
+              permission: :add_work_packages
 
     default_attribute_permission :add_work_packages
 

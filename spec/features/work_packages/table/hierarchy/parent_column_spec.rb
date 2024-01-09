@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Work Package table parent column', js: true do
+RSpec.describe 'Work Package table parent column', :js do
   let(:user) { create(:admin) }
   let!(:parent) { create(:work_package, project:) }
   let!(:child) { create(:work_package, project:, parent:) }
@@ -28,11 +28,11 @@ RSpec.describe 'Work Package table parent column', js: true do
 
     # Hierarchy mode is enabled by default
     page.within(".wp-row-#{parent.id}") do
-      expect(page).to have_selector('td.parent', text: '-')
+      expect(page).to have_css('td.parent', text: '-')
     end
 
     page.within(".wp-row-#{child.id}") do
-      expect(page).to have_selector('td.parent', text: "##{parent.id}")
+      expect(page).to have_css('td.parent', text: "##{parent.id}")
     end
   end
 

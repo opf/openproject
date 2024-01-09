@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -32,11 +32,11 @@ it:
       draggable_hint: |
         Trascina l'elemento nei campi dell'editor per allineare l'immagine o il riferimento allegato. I campi dell'editor chiusi verranno sbloccati durante il trascinamento.
     autocomplete_ng_select:
-      add_tag: "Add item"
-      clear_all: "Clear all"
-      loading: "Loading..."
-      not_found: "No items found"
-      type_to_search: "Type to search"
+      add_tag: "Aggiungi elemento"
+      clear_all: "Cancella tutto"
+      loading: "Caricamento..."
+      not_found: "Nessun elemento trovato"
+      type_to_search: "Digita per cercare"
     autocomplete_select:
       placeholder:
         multi: "Aggiungi \"%{name}\""
@@ -352,7 +352,7 @@ it:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Condividi macro-attività con utenti e gruppi esterni che non sono membri del progetto (componente aggiuntivo Enterprise).</ li> <li>Nuove riunioni dinamiche con ordini del giorno e verbali collegati alle macro-attività.</li> <li>Collega le macro-attività a file e cartelle in OneDrive/SharePoint.</li> <li>Test di accessibilità e primi miglioramenti secondo WCAG 2.1AA, inclusa modalità ad alto contrasto.</li> <li>Integrazione continua di Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Iscriviti al calendario"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
@@ -422,7 +422,7 @@ it:
     label_filename: "File"
     label_filesize: "Dimensione"
     label_general: "Generale"
-    label_global_roles: "Global roles"
+    label_global_roles: "Ruoli globali"
     label_greater_or_equal: ">="
     label_group: 'Gruppo'
     label_group_by: "Raggruppa per"
@@ -604,7 +604,7 @@ it:
         processed: 'elaborato'
         prioritized: 'prioritizzato'
         dateAlert: 'Avviso data'
-        shared: 'shared'
+        shared: 'condiviso'
       date_alerts:
         milestone_date: 'Data inizio'
         overdue: 'In ritardo'
@@ -649,7 +649,7 @@ it:
         mentioned: 'Menzionato'
         watched: 'Osservatore'
         date_alert: 'Avviso data'
-        shared: 'Shared'
+        shared: 'Condiviso'
       settings:
         change_notification_settings: 'Puoi modificare le tue <a target="_blank" href="%{url}">impostazioni di notifica</a> per assicurarti di non perderti mai un aggiornamento importante.'
         title: "Impostazioni notifiche"
@@ -672,7 +672,7 @@ it:
             description: 'Ricevi una notifica ogni volta che qualcuno ti menziona ovunque'
           assignee: 'Assegnatario'
           responsible: 'Responsabile'
-          shared: 'Shared'
+          shared: 'Condiviso'
           watched: 'Osservatore'
           work_package_commented: 'Tutti i nuovi commenti'
           work_package_created: 'Nuove macro-attività'
@@ -757,6 +757,7 @@ it:
           last_day: 'Ultimo giorno'
     text_are_you_sure: "Sei sicuro/a?"
     text_data_lost: "Tutti i dati inseriti andranno persi."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Il nome %{group} è usato più di una volta. I nomi dei gruppi devono essere univoci."
@@ -966,7 +967,6 @@ it:
         date: "Data"
         dueDate: "Data di fine"
         duration: "Durata"
-        estimatedTime: "Tempo stimato"
         spentTime: "Tempo speso"
         category: "Categoria"
         percentageDone: "Percentuale di completamento"
@@ -982,6 +982,7 @@ it:
         updatedAt: "Aggiornato il"
         versionName: "Versione"
         version: "Versione"
+        remainingTime: "Lavoro rimanente"
       default_queries:
         latest_activity: "Ultima attività"
         created_by_me: "Creato da me"
@@ -989,7 +990,7 @@ it:
         recently_created: "Creato di recente"
         all_open: "Apri tutto"
         summary: "Sommario"
-        shared_with_users: "Shared with users"
+        shared_with_users: "Condiviso con gli utenti"
       jump_marks:
         pagination: "Salta alla impaginazione tabella"
         label_pagination: "Clicca qui per saltare la tabella macro-attività e passare alla impaginazione"
@@ -1027,11 +1028,11 @@ it:
         is_parent: "Le date di questa macro-attività vengono automaticamente dedotte dai suoi figli. Attiva 'Programmazione manuale' per impostare le date."
         is_switched_from_manual_to_automatic: "Potrebbe essere necessario ricalcolare le date di questa macro-attività dopo il passaggio dalla programmazione manuale alla programmazione automatica a causa delle relazioni con altre macro-attività."
       sharing:
-        share: 'Share'
-        title: "Share work package"
-        selected_count: "%{count} selected"
+        share: 'Condividi'
+        title: "Condividi macro-attività"
+        selected_count: "%{count} selezionati"
         selection:
-          mixed: "Mixed"
+          mixed: "Misto"
       table:
         configure_button: 'Configura la tabella della macro-attività'
         summary: "Tabella con righe di macro-attività e colonne dei loro attributi."

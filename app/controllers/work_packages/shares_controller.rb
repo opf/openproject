@@ -45,20 +45,26 @@ class WorkPackages::SharesController < ApplicationController
 
     @shares = load_shares query
 
-    render WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: @shares), layout: nil
+    render WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: @shares, errors: @errors), layout: nil
   end
 
   def create
     overall_result = []
+    @errors = ActiveModel::Errors.new(self)
 
     find_or_create_users(send_notification: false) do |member_params|
-      service_call = WorkPackageMembers::CreateOrUpdateService
-        .new(user: current_user)
-        .call(entity: @work_package,
-              user_id: member_params[:user_id],
-              role_ids: find_role_ids(params[:member][:role_id]))
+      user = User.find_by(id: member_params[:user_id])
+      if user.present? && user.locked?
+        @errors.add(:base, I18n.t("work_package.sharing.warning_locked_user", user: user.name))
+      else
+        service_call = WorkPackageMembers::CreateOrUpdateService
+                         .new(user: current_user)
+                         .call(entity: @work_package,
+                               user_id: member_params[:user_id],
+                               role_ids: find_role_ids(params[:member][:role_id]))
 
-      overall_result.push(service_call)
+        overall_result.push(service_call)
+      end
     end
 
     @new_shares = overall_result.map(&:result).reverse
@@ -71,6 +77,8 @@ class WorkPackages::SharesController < ApplicationController
       else
         respond_with_replace_modal
       end
+    else
+      respond_with_new_invite_form
     end
   end
 
@@ -79,7 +87,15 @@ class WorkPackages::SharesController < ApplicationController
       .new(user: current_user, model: @share)
       .call(role_ids: find_role_ids(params[:role_ids]))
 
-    respond_with_update_permission_button
+    find_shares
+
+    if @shares.empty?
+      respond_with_replace_modal
+    elsif @shares.include?(@share)
+      respond_with_update_permission_button
+    else
+      respond_with_remove_share
+    end
   end
 
   def destroy
@@ -112,7 +128,9 @@ class WorkPackages::SharesController < ApplicationController
 
   def respond_with_replace_modal
     replace_via_turbo_stream(
-      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: @new_shares || find_shares)
+      component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package,
+                                                             shares: @new_shares || find_shares,
+                                                             errors: @errors)
     )
 
     respond_with_turbo_streams
@@ -120,7 +138,7 @@ class WorkPackages::SharesController < ApplicationController
 
   def respond_with_prepend_shares
     replace_via_turbo_stream(
-      component: WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package)
+      component: WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package, errors: @errors)
     )
 
     update_via_turbo_stream(
@@ -130,9 +148,19 @@ class WorkPackages::SharesController < ApplicationController
     @new_shares.each do |share|
       prepend_via_turbo_stream(
         component: WorkPackages::Share::ShareRowComponent.new(share:),
-        target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package, shares: find_shares)
+        target_component: WorkPackages::Share::ModalBodyComponent.new(work_package: @work_package,
+                                                                      shares: find_shares,
+                                                                      errors: @errors)
       )
     end
+
+    respond_with_turbo_streams
+  end
+
+  def respond_with_new_invite_form
+    replace_via_turbo_stream(
+      component: WorkPackages::Share::InviteUserFormComponent.new(work_package: @work_package, errors: @errors)
+    )
 
     respond_with_turbo_streams
   end
@@ -172,15 +200,12 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def find_share
-    @share = Member.of_work_packages.find(params[:id])
+    @share = Member.of_any_work_package.find(params[:id])
     @work_package = @share.entity
   end
 
   def find_shares
-    @shares = Member.includes(:roles)
-                    .references(:member_roles)
-                    .of_work_package(@work_package)
-                    .merge(MemberRole.only_non_inherited)
+    @shares = load_shares(load_query)
   end
 
   def find_project
@@ -188,11 +213,7 @@ class WorkPackages::SharesController < ApplicationController
   end
 
   def current_visible_member_count
-    @current_visible_member_count ||= Member
-      .joins(:member_roles)
-      .of_work_package(@work_package)
-      .merge(MemberRole.only_non_inherited)
-      .size
+    @current_visible_member_count ||= load_shares(load_query).size
   end
 
   def load_query

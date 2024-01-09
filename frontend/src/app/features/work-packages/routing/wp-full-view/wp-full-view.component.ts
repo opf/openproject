@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ import {
   Injector,
   OnInit,
 } from '@angular/core';
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { WorkPackageSingleViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-package-single-view.base';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
@@ -42,6 +42,7 @@ import { WpSingleViewService } from 'core-app/features/work-packages/routing/wp-
 import { CommentService } from 'core-app/features/work-packages/components/wp-activity/comment-service';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
+import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 
 @Component({
   templateUrl: './wp-full-view.html',
@@ -62,7 +63,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
 
   public displayTimerButton = false;
 
-  public displayShareButton = false;
+  public displayShareButton$:false|Observable<boolean> = false;
 
   public watchers:any;
 
@@ -79,6 +80,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
     public wpTableSelection:WorkPackageViewSelectionService,
     public recentItemsService:RecentItemsService,
     readonly $state:StateService,
+    readonly currentUserService:CurrentUserService,
     private readonly configurationService:ConfigurationService,
   ) {
     super(injector, $state.params.workPackageId);
@@ -105,7 +107,7 @@ export class WorkPackagesFullViewComponent extends WorkPackageSingleViewBase imp
     this.isWatched = Object.prototype.hasOwnProperty.call(wp, 'unwatch');
     this.displayWatchButton = Object.prototype.hasOwnProperty.call(wp, 'unwatch') || Object.prototype.hasOwnProperty.call(wp, 'watch');
     this.displayTimerButton = Object.prototype.hasOwnProperty.call(wp, 'logTime');
-    this.displayShareButton = this.configurationService.activeFeatureFlags.includes('workPackageSharing');
+    this.displayShareButton$ = this.currentUserService.hasCapabilities$('work_package_shares/index', wp.project.id);
 
     // watchers
     if (wp.watchers) {

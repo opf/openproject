@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,6 +45,7 @@ class Storages::Admin::StoragesController < ApplicationController
   before_action :find_model_object,
                 only: %i[show show_oauth_application destroy edit edit_host confirm_destroy update replace_oauth_application]
   before_action :ensure_valid_provider_type_selected, only: %i[select_provider]
+  before_action :require_ee_token_for_one_drive, only: %i[select_provider]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -80,46 +81,51 @@ class Storages::Admin::StoragesController < ApplicationController
     end
   end
 
+  def upsale; end
+
   def select_provider
     @object = Storages::Storage.new(provider_type: @provider_type)
     service_result = ::Storages::Storages::SetAttributesService
-                 .new(user: current_user,
-                      model: @object,
-                      contract_class: Storages::Storages::BaseContract,
-                      contract_options: { skip_provider_type_strategy: true })
-                 .call
+                       .new(user: current_user,
+                            model: @object,
+                            contract_class: EmptyContract)
+                       .call
     @storage = service_result.result
 
-    service_result.on_failure { render :new }
-
-    service_result.on_success do
-      respond_to do |format|
-        format.html { render :new }
-      end
+    respond_to do |format|
+      format.html { render :new }
     end
   end
 
   def create
     service_result = Storages::Storages::CreateService
-                      .new(user: current_user)
-                      .call(permitted_storage_params)
+                       .new(user: current_user)
+                       .call(permitted_storage_params)
 
     @storage = service_result.result
     @oauth_application = oauth_application(service_result)
 
     service_result.on_failure do
-      render :new
+      respond_to do |format|
+        format.turbo_stream { render :new }
+      end
     end
 
     service_result.on_success do
-      respond_to { |format| format.turbo_stream }
+      service_result.on_success do
+        respond_to do |format|
+          format.turbo_stream
+        end
+      end
     end
   end
 
   def show_oauth_application
     @oauth_application = @storage.oauth_application
 
-    respond_to { |format| format.turbo_stream }
+    respond_to do |format|
+      format.turbo_stream
+    end
   end
 
   # Edit page is very similar to new page, except that we don't need to set
@@ -128,7 +134,9 @@ class Storages::Admin::StoragesController < ApplicationController
   def edit; end
 
   def edit_host
-    respond_to { |format| format.turbo_stream }
+    respond_to do |format|
+      format.turbo_stream
+    end
   end
 
   # Update is similar to create above
@@ -141,7 +149,9 @@ class Storages::Admin::StoragesController < ApplicationController
     @storage = service_result.result
 
     if service_result.success?
-      respond_to { |format| format.turbo_stream }
+      respond_to do |format|
+        format.turbo_stream
+      end
     else
       respond_to do |format|
         format.html { render :edit }
@@ -156,8 +166,8 @@ class Storages::Admin::StoragesController < ApplicationController
 
   def destroy
     service_result = Storages::Storages::DeleteService
-      .new(user: User.current, model: @storage)
-      .call
+                       .new(user: User.current, model: @storage)
+                       .call
 
     # rubocop:disable Rails/ActionControllerFlashBeforeRender
     service_result.on_failure do
@@ -178,8 +188,7 @@ class Storages::Admin::StoragesController < ApplicationController
     @oauth_application = service_result.result
 
     if service_result.success?
-      flash[:notice] = I18n.t('storages.notice_oauth_application_replaced')
-      render :show_oauth_application
+      render :replace_oauth_application
     else
       render :edit
     end
@@ -207,7 +216,7 @@ class Storages::Admin::StoragesController < ApplicationController
   def ensure_valid_provider_type_selected
     short_provider_type = params[:provider]
     if short_provider_type.blank? || (@provider_type = ::Storages::Storage::PROVIDER_TYPE_SHORT_NAMES[short_provider_type]).blank?
-      flash[:error] = I18n.t('storages.error_invalid_provider_type')
+      flash[:primer_banner] = { message: I18n.t('storages.error_invalid_provider_type'), scheme: :danger }
       redirect_to admin_settings_storages_path
     end
   end
@@ -231,6 +240,12 @@ class Storages::Admin::StoragesController < ApplicationController
       :storages_one_drive_storage
     else
       :storages_storage
+    end
+  end
+
+  def require_ee_token_for_one_drive
+    if ::Storages::Storage::one_drive_without_ee_token?(@provider_type)
+      redirect_to action: :upsale
     end
   end
 end

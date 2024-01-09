@@ -56,10 +56,10 @@ RSpec.describe 'Configuring the workflow for work package sharing',
     # There is a warning bar at the bottom informing of the missing workflow
     within '.warning-bar--item' do
       expect(page)
-        .to have_content("No workflow configured for the '#{work_package_role.name}' role. " \
-                         "Without a workflow, the status of a shared work package cannot be changed.")
+        .to have_content("No workflow is configured for the '#{work_package_role.name}' role. " \
+                         "Without a workflow, the shared with user cannot alter the status of the work package.")
 
-      click_link "Configure a workflow"
+      click_link "Configure the workflows in the administration."
     end
 
     # On the copy workflow form, select the already existing workflow for copying
@@ -82,6 +82,6 @@ RSpec.describe 'Configuring the workflow for work package sharing',
                           assignee: false).count).to eq(1)
 
     expect(page)
-      .not_to have_css('.warning-bar--item')
+      .to have_no_css('.warning-bar--item')
   end
 end

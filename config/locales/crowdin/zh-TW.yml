@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -102,8 +102,8 @@ zh-TW:
       error_requeue: "作業出現錯誤但重試中.錯誤訊息%{message}"
       cancelled_due_to: "作業因錯誤取消: %{message}"
   ldap_auth_sources:
-    ldap_error: "LDAP-Error: %{error_message}"
-    ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    ldap_error: "LDAP 錯誤: %{error_message}"
+    ldap_auth_failed: "無法在 LDAP 伺服器上驗證"
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -166,18 +166,18 @@ zh-TW:
     index:
       no_results_title_text: 目前沒有顏色
       no_results_content_text: 建立一個新顏色
-      label_new_color: "New color"
+      label_new_color: "新顏色"
     new:
       label_new_color: "New Color"
     edit:
       label_edit_color: "Edit Color"
     form:
-      label_new_color: "New color"
-      label_edit_color: "Edit color"
+      label_new_color: "新顏色"
+      label_edit_color: "編輯顏色"
     label_no_color: "無顏色"
-    label_properties: "Properties"
+    label_properties: "屬性"
     label_really_delete_color: >
-      Are you sure, you want to delete the following color? Types using this color will not be deleted.
+      確定要刪除這個顏色? 使用這個類型的顏色不會被刪除。
   custom_actions:
     actions:
       name: "操作"
@@ -201,12 +201,21 @@ zh-TW:
     confirm_destroy_option: "刪除一個項目將會一併刪除所有出現這個項目的地方 (例如：在工作項目中)。你確定要刪除它嗎？"
     reorder_alphabetical: "Reorder values alphabetically"
     reorder_confirmation: "Warning: The current order of available values will be lost. Continue?"
+    instructions:
+      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
+      is_for_all: "Mark the custom field as available in all existing and new projects."
+      searchable: "Include the field values when using the global search functionality."
+      editable: "Allow the field to be editable by users themselves."
+      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_filter: >
+        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
     tab:
       no_results_title_text: 目前沒有自定義的欄位
       no_results_content_text: 建立一個新的自定義欄位
   concatenation:
     single: "或者"
   global_search:
+    placeholder: "Search in %{app_title}"
     overwritten_tabs:
       wiki_pages: "維基"
       messages: "討論區"
@@ -260,7 +269,7 @@ zh-TW:
       types:
         no_results_title_text: 目前沒有可用的類型
         form:
-          enable_type_in_project: 'Enable type "%{type}"'
+          enable_type_in_project: '啟用 "%{type}" 類型'
       versions:
         no_results_title_text: 目前的專案沒有版本號
         no_results_content_text: 建立一個新版本號
@@ -272,6 +281,15 @@ zh-TW:
       no_results_content_text: 新增一個成員到這個專案
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "Send invite to"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "無法重置訪問憑證: %{error}"
@@ -391,8 +409,8 @@ zh-TW:
     sharing:
       missing_workflow_waring:
         title: "Workflow missing for work package sharing"
-        message: "No workflow configured for the 'Work package editor' role. Without a workflow, the status of a shared work package cannot be changed."
-        link_message: "Configure a workflow in the administration."
+        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        link_message: "Configure the workflows in the administration."
     summary:
       reports:
         category:
@@ -456,20 +474,20 @@ zh-TW:
         attribute_name: "属性"
         help_text: "說明文字"
       ldap_auth_source:
-        account: "Account"
-        attr_firstname: "Firstname attribute"
-        attr_lastname: "Lastname attribute"
-        attr_login: "Username attribute"
-        attr_mail: "Email attribute"
+        account: "帳號"
+        attr_firstname: "名"
+        attr_lastname: "姓"
+        attr_login: "使用者名稱屬性。"
+        attr_mail: "Email"
         base_dn: "Base DN"
-        host: "Host"
-        onthefly: "Automatic user creation"
-        port: "Port"
+        host: "主機"
+        onthefly: "自動新增用戶"
+        port: "埠"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
         repository: "Repository"
       color:
-        hexcode: "Hex code"
+        hexcode: "十六進位碼"
       comment:
         commented: "已評論" #an object that this comment belongs to
       custom_action:
@@ -565,7 +583,7 @@ zh-TW:
         color: "顏色"
       user:
         admin: "管理員"
-        ldap_auth_source: "LDAP connection"
+        ldap_auth_source: "LDAP 連線"
         identity_url: "Identity URL"
         current_password: "目前的密碼"
         force_password_change: "強制在下次登入時更改密碼"
@@ -596,7 +614,9 @@ zh-TW:
         begin_insertion: "開始插入"
         begin_deletion: "開始刪除"
         children: "子項"
-        done_ratio: "進度 (%)"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
+        done_ratio: "% Complete"
         duration: "時間長度"
         end_insertion: "結束插入"
         end_deletion: "結束刪除"
@@ -610,8 +630,10 @@ zh-TW:
         parent_issue: "上層目錄："
         parent_work_package: "上層目錄："
         priority: "優先等級"
-        progress: "進度 (%)"
+        progress: "% Complete"
         readonly: "Read only"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "手動排程"
         spent_hours: "耗時"
         spent_time: "耗時"
@@ -645,7 +667,7 @@ zh-TW:
         error_enterprise_only: "%{action}僅在 OpenProject 企業版中可用"
         error_unauthorized: "無法被存取。"
         error_readonly: "被嘗試寫入但是無法寫入。"
-        error_conflict: "Information has been updated by at least one other user in the meantime."
+        error_conflict: "在此同時，資訊已經被至少一個使用者更新"
         email: "不是一個有效的電子郵件地址。 "
         empty: "不可為空"
         even: "必須是偶數"
@@ -914,7 +936,7 @@ zh-TW:
             status:
               invalid_on_create: "不是新用戶的有效狀態"
             ldap_auth_source:
-              error_not_found: "not found"
+              error_not_found: "未找到"
         member:
           principal_blank: "請至少選擇一個使用者或群組。"
           role_blank: "需要被指定"
@@ -963,7 +985,7 @@ zh-TW:
       wiki_page: "維基頁面"
   errors:
     header_invalid_fields:
-      other: "There were problems with the following fields:"
+      other: "以下的欄位有問題:"
     header_additional_invalid_fields:
       other: "Additionally, there were problems with the following fields:"
     field_erroneous_label: "此欄位不正確: %{full_errors}\n請輸入一個有效的值！"
@@ -1016,13 +1038,13 @@ zh-TW:
     default_columns: "預設欄"
     description: "說明"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Derived start date"
     display_sums: "顯示加總"
     due_date: "完成日期"
-    estimated_hours: "預估時間"
-    estimated_time: "預估時間"
-    expires_at: "Expires at"
+    estimated_hours: "Work"
+    estimated_time: "Work"
+    expires_at: "過期於"
     firstname: "名字"
     group: "群組"
     groups: "群組"
@@ -1262,7 +1284,7 @@ zh-TW:
       x_minutes_abbreviated:
         other: "%{count} mins"
       x_hours:
-        other: "%{count} hours"
+        other: "%{count} 一個小時"
       x_hours_abbreviated:
         other: "%{count} hrs"
       x_weeks:
@@ -1336,7 +1358,7 @@ zh-TW:
   error_can_not_unarchive_project: "這個專案無法解除封存：%{errors}"
   error_check_user_and_role: "請選擇一個使用者與一個角色。"
   error_code: "錯誤碼 %{code}"
-  error_color_could_not_be_saved: "Color could not be saved"
+  error_color_could_not_be_saved: "無法儲存顏色"
   error_cookie_missing: "OpenProject的Cookie遺失了。請確保瀏覽器的Cookie已經啟用，否則本應用程式將無法正常做用。"
   error_custom_option_not_found: "選項不存在。"
   error_enterprise_activation_user_limit: "無法啟動您的帳戶 (已達到使用者限制)。請與管理員聯繫以獲取存取權限。"
@@ -1349,7 +1371,7 @@ zh-TW:
   error_pdf_export_too_many_columns: "為 PDF 匯出選擇的列太多。請減少列數。"
   error_pdf_failed_to_export: "無法保存 pdf 匯出: %{error}"
   error_token_authenticity: "無法驗證跨網域請求權杖。你是不是試圖在多個瀏覽器或者分頁上傳送資料？請關閉所有的分頁後再試一次。"
-  error_work_package_done_ratios_not_updated: "工作項目完成比例未更新"
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "工作項目找不到或是不屬於這個專案"
   error_must_be_project_member: "必須是專案的成員"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -1361,7 +1383,7 @@ zh-TW:
   error_password_change_failed: "An error occurred when trying to change the password."
   error_scm_command_failed: "嘗試存取版本庫的時候發生錯誤: %{value}"
   error_scm_not_found: "在版本庫中找不到項目或修訂"
-  error_type_could_not_be_saved: "Type could not be saved"
+  error_type_could_not_be_saved: "類型無法保存"
   error_unable_delete_status: "工作項目狀態無法刪除，因為它被至少一個工作項目使用了。"
   error_unable_delete_default_status: "無法刪除預設工作項目狀態。請在刪除這個狀態前選擇另外一個預設工作項目狀態。"
   error_unable_to_connect: "無法連接 (%{value})"
@@ -1511,7 +1533,7 @@ zh-TW:
         text_hint: "OAuth tokens allow third-party applications to connect with this OpenProject instance."
         empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
       rss:
-        title: "RSS"
+        title: "RSS訂閱"
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
         static_token_name: "RSS token"
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
@@ -1565,7 +1587,7 @@ zh-TW:
   label_age: "年齡"
   label_ago: "天前"
   label_all: "所有"
-  label_all_projects: "All projects"
+  label_all_projects: "所有專案"
   label_all_time: "所有的時間"
   label_all_words: "所以的詞"
   label_all_open_wps: "全部打開"
@@ -1592,7 +1614,7 @@ zh-TW:
   label_attribute: "属性"
   label_attribute_plural: "属性"
   label_ldap_auth_source_new: "New LDAP connection"
-  label_ldap_auth_source: "LDAP connection"
+  label_ldap_auth_source: "LDAP 連線"
   label_ldap_auth_source_plural: "LDAP connections"
   label_authentication: "身份驗證"
   label_available_global_roles: "Available global roles"
@@ -1654,7 +1676,7 @@ zh-TW:
   label_confirmation: "確認密碼"
   label_contains: "包含"
   label_content: "內容"
-  label_color_plural: "Colors"
+  label_color_plural: "顏色"
   label_copied: "已複製"
   label_copy_same_as_target: "與目標相同"
   label_copy_source: "來源"
@@ -1684,7 +1706,7 @@ zh-TW:
   label_deleted: "刪除線"
   label_deleted_custom_field: "(已刪除的自訂欄位)"
   label_deleted_custom_option: "(deleted option)"
-  label_empty_element: "(empty)"
+  label_empty_element: "(空)"
   label_missing_or_hidden_custom_option: "(missing value or lacking permissions to access)"
   label_descending: "降冪"
   label_details: "詳細資料"
@@ -1882,7 +1904,7 @@ zh-TW:
   label_operator_none: "is empty"
   label_operator_equals_or: "is (OR)"
   label_operator_equals_all: "is (AND)"
-  label_operator_shared_with_user_any: "any"
+  label_operator_shared_with_user_any: "任何"
   label_open_menu: "開啟選單"
   label_open_work_packages: "打開"
   label_open_work_packages_plural: "打開"
@@ -2020,7 +2042,7 @@ zh-TW:
   label_this_week: "本週"
   label_this_year: "今年"
   label_time_entry_plural: "耗時"
-  label_title: "Title"
+  label_title: "標題"
   label_projects_menu: "專案"
   label_today: "今天"
   label_top_menu: "頂層選單"
@@ -2029,7 +2051,7 @@ zh-TW:
   label_type_new: "新類型"
   label_type_plural: "類型"
   label_ui: "使用者介面"
-  label_update_work_package_done_ratios: "更新工作項目完成比例"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "%{value}前更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "由%{author}於%{age}前更新"
@@ -2184,9 +2206,9 @@ zh-TW:
     sharing:
       work_packages:
         allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
-        create_account: "To access this work package you will need to create an %{instance} account. "
+        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "Open work package"
-        subject: "You have been shared work package #%{id}"
+        subject: "Work package #%{id} was shared with you"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
@@ -2220,8 +2242,8 @@ zh-TW:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} 個指派給您的工作項目將在 %{days} 天後到期"
   mail_body_group_reminder: '%{count} work package(s) that are assigned to group "%{group}" are due in the next %{days} days:'
-  mail_body_wiki_page_added: "The '%{id}' wiki page has been added by %{author}."
-  mail_body_wiki_page_updated: "The '%{id}' wiki page has been updated by %{author}."
+  mail_body_wiki_page_added: "Wiki 頁面 '%{id}' 已經被 %{author} 增加"
+  mail_body_wiki_page_updated: "Wiki 頁面 '%{id}' 已經被 %{author} 更新"
   mail_subject_account_activation_request: "帳號 %{value} 啟用請求"
   mail_subject_backup_ready: "Your backup is ready"
   mail_subject_backup_token_reset: "Backup token reset"
@@ -2295,7 +2317,7 @@ zh-TW:
   notice_file_not_found: "您試圖存取的頁面不存在或已被移除。"
   notice_forced_logout: "由於超過 %{ttl_time} 分鐘沒有操作，您已被自動登出。"
   notice_internal_server_error: "你試圖前往的頁面發生一個錯誤。如果你一直遇到問題，請聯絡你的 %{app_title} 管理員以得到協助！"
-  notice_work_package_done_ratios_updated: "工作項目完成比例已更新"
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "在此同時，資訊已經被至少一個使用者更新"
   notice_locking_conflict_additional_information: "更新來自於 %{users}"
   notice_locking_conflict_reload_page: "請重新載入頁面，檢查所做的更改並重新套用您的更新。"
@@ -2359,7 +2381,7 @@ zh-TW:
   permission_add_work_packages: "新增工作項目"
   permission_add_messages: "張貼訊息"
   permission_add_project: "Create projects"
-  permission_add_work_package_attachments: "Add attachments"
+  permission_add_work_package_attachments: "新增附件"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "專案歸檔"
   permission_create_user: "Create users"
@@ -2370,10 +2392,12 @@ zh-TW:
   permission_assign_versions: "指派版本"
   permission_browse_repository: "唯讀版本庫 (瀏覽和 Checkout)"
   permission_change_wiki_parent_page: "更改上層 Wiki 頁面"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "對新聞發表評論"
   permission_commit_access: "讀/寫 權限版本庫 (Commit)"
   permission_copy_projects: "複製專案"
-  permission_copy_work_packages: "Copy work packages"
+  permission_copy_work_packages: "複製工作項目"
   permission_create_backup: "Create backups"
   permission_delete_work_package_watchers: "刪除監看者"
   permission_delete_work_packages: "刪除工作項目"
@@ -2446,7 +2470,9 @@ zh-TW:
     default: "-"
   project:
     destroy:
-      confirmation: "如果你確定繼續，這個專案 %{identifier} 和所有與其相關的資料將會被永久刪除"
+      confirmation: "If you continue, the project %{identifier} will be permanently destroyed. To confirm this action please introduce the project name in the field below, this will:"
+      project_delete_result_1: "Delete all related data."
+      project_delete_result_2: "Delete all managed project folders in the attached storages."
       info: "刪除這個專案是不可逆的動作"
       project_verification: "輸入專案的名稱 %{name} 來確認刪除"
       subprojects_confirmation: "它的子專案: %{value} 將會一併刪除"
@@ -2470,6 +2496,7 @@ zh-TW:
   project_module_news: "新知"
   project_module_repository: "Repository"
   project_module_wiki: "維基"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2659,10 +2686,10 @@ zh-TW:
   setting_file_max_size_displayed: "直接显示文字文件內容的最大檔案容量"
   setting_host_name: "主機名稱"
   setting_invitation_expiration_days: "啟動信件在......天後過期"
-  setting_work_package_done_ratio: "計算工作項目的完成比例"
-  setting_work_package_done_ratio_field: "使用工作項目欄位"
-  setting_work_package_done_ratio_status: "使用工作項目狀態"
-  setting_work_package_done_ratio_disabled: "禁用 （隱藏進度）"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "預設顯示"
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
@@ -3001,29 +3028,33 @@ zh-TW:
         not_project_member: 'Not project member'
         project_group: 'Project group'
         not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Type'
+        role: '角色'
+        type: '類型'
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
       permissions:
-        comment: "Comment"
+        comment: "評論"
         comment_description: "Can view and comment this work package."
         denied: "You don't have permissions to share work packages."
-        edit: "Edit"
+        edit: "編輯"
         edit_description: "Can view, comment and edit this work package."
-        view: "View"
+        view: "檢視"
         view_description: "Can view this work package."
-      remove: "Remove"
-      share: "Share"
+      remove: "刪除"
+      share: "分享"
+      text_empty_search_description: "There are no users with the current filter criteria."
+      text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared users"
+      text_empty_state_header: "No shared members."
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
         Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package.
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
+      warning_no_selected_user: "Please select users to share this work package with"
+      warning_locked_user: "The user %{user} is locked and cannot be shared with"
       user_details:
         locked: "Locked user"
         invited: "Invite sent. "
@@ -3066,6 +3097,7 @@ zh-TW:
       code_429: "Too many requests. Please try again later."
       code_500: "發生內部錯誤。"
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
       not_found:
         work_package: "The work package you are looking for cannot be found or has been deleted."
       expected:
@@ -3094,9 +3126,9 @@ zh-TW:
         unsupported_context: "所提供的資源不受相對應支援。"
         context_object_not_found: "Cannot find the resource given with the context.\n無法找到本文對應的資源。"
       validation:
-        done_ratio: "在所屬工作包中, 當按狀態或禁用時, 無法設置完成比率。"
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "無法在所屬工作包上設置截止日期。"
-        estimated_hours: "無法在所屬工作包上設置估計小時數。"
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "所指定的使用者不允許成為工作項目的 '%{property}' 。"
         start_date: "無法在所屬工作包上設置開始日期。"
       eprops:
@@ -3214,6 +3246,7 @@ zh-TW:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
+      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

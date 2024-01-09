@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,7 @@
 require 'spec_helper'
 require 'support/edit_fields/edit_field'
 
-RSpec.describe 'Datepicker modal logic test cases (WP #43539)',
-               js: true,
-               with_cuprite: true, with_settings: { date_format: '%Y-%m-%d' } do
+RSpec.describe 'Datepicker modal logic test cases (WP #43539)', :js, :with_cuprite, with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:user) { create(:admin) }
 
   shared_let(:type_bug) { create(:type_bug) }

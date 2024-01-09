@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -64,7 +64,7 @@ sr:
     button_back: "Back"
     button_back_to_list_view: "Back to list view"
     button_cancel: "Cancel"
-    button_close: "Close"
+    button_close: "Zatvori"
     button_change_project: "Change project"
     button_check_all: "Check all"
     button_configure-form: "Configure form"
@@ -249,7 +249,7 @@ sr:
             professional_support: "Professional support"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "Nadogradite"
           button_contact_us: "Contact us for a demo"
           button_book_now: "Book now"
           confidence: >
@@ -352,7 +352,7 @@ sr:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Link work packages with files and folders in SharePoint/OneDrive.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -365,7 +365,7 @@ sr:
       ical_generation_error_text: "An error occured while generating the calendar URL."
       success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
     label_activate: "Activate"
-    label_assignee: 'Assignee'
+    label_assignee: 'Zadužen'
     label_add_column_after: "Add column after"
     label_add_column_before: "Add column before"
     label_add_columns: "Add columns"
@@ -385,7 +385,7 @@ sr:
     label_avatar: "Avatar"
     label_between: "between"
     label_board: "Board"
-    label_board_locked: "Locked"
+    label_board_locked: "Zaključano"
     label_board_plural: "Boards"
     label_board_sticky: "Sticky"
     label_change: "Change"
@@ -596,7 +596,7 @@ sr:
       reasons:
         mentioned: 'mentioned'
         watched: 'watcher'
-        assigned: 'assignee'
+        assigned: 'zadužen'
         responsible: 'accountable'
         created: 'created'
         scheduled: 'scheduled'
@@ -671,7 +671,7 @@ sr:
           mentioned:
             title: 'Mentioned'
             description: 'Receive a notification every time someone mentions me anywhere'
-          assignee: 'Assignee'
+          assignee: 'Zadužen'
           responsible: 'Accountable'
           shared: 'Shared'
           watched: 'Watcher'
@@ -758,6 +758,7 @@ sr:
           last_day: 'Last day'
     text_are_you_sure: "Are you sure?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -960,14 +961,13 @@ sr:
         estimatesAndTime: "Estimates & Time"
         other: "Other"
       properties:
-        assignee: "Assignee"
+        assignee: "Zadužen"
         author: "Author"
         createdAt: "Created on"
         description: "Description"
         date: "Date"
         dueDate: "Finish date"
         duration: "Duration"
-        estimatedTime: "Estimated time"
         spentTime: "Spent time"
         category: "Category"
         percentageDone: "Percentage done"
@@ -977,12 +977,13 @@ sr:
         startDate: "Start date"
         status: "Status"
         subject: "Subject"
-        subproject: "Subproject"
+        subproject: "Potprojekat"
         title: "Title"
         type: "Type"
         updatedAt: "Updated on"
-        versionName: "Version"
-        version: "Version"
+        versionName: "Verzija"
+        version: "Verzija"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"
@@ -1311,4 +1312,4 @@ sr:
         remove: 'Remove'
       drop_modal:
         focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
-        Close: 'Close'
+        Close: 'Zatvori'

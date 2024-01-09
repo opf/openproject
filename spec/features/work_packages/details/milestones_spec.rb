@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Milestones full screen v iew', js: true do
+RSpec.describe 'Milestones full screen v iew', :js do
   let(:type) { create(:type, is_milestone: true) }
   let(:project) { create(:project, types: [type]) }
   let!(:work_package) do
@@ -31,7 +31,7 @@ RSpec.describe 'Milestones full screen v iew', js: true do
       expect(button).not_to be_disabled
 
       button.click
-      expect(page).to have_selector('.menu-item', text: type.name.upcase)
+      expect(page).to have_css('.menu-item', text: type.name.upcase)
     end
   end
 
