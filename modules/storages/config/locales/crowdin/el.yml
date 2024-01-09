@@ -49,7 +49,7 @@ el:
               authorization_header_missing: >
                 is not fully set up. The Nextcloud instance does not receive the "Authorization" header, which is necessary for a Bearer token based authorization of API requests. Please double check your HTTP server configuration.
             password:
-              invalid_password: "is not valid."
+              invalid_password: "δεν είναι έγκυρο."
               unknown_error: "could not be validated. Please check your storage connection and try again."
         storages/file_link:
           attributes:
