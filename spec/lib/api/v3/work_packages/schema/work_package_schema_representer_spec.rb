@@ -1004,6 +1004,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
         it_behaves_like 'links to allowed values via collection link' do
           let(:path) { 'assignee' }
+          let(:base_href) { "/api/v3/work_packages/#{work_package.id}" }
           let(:href) { "#{base_href}/available_assignees" }
         end
 
@@ -1015,9 +1016,13 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           end
         end
 
-        context 'when not having a project (yet)' do
+        context 'when not having a project (yet) and not yet persisted' do
           before do
             work_package.project = nil
+
+            allow(work_package)
+              .to receive(:persisted?)
+                    .and_return(false)
           end
 
           it_behaves_like 'does not link to allowed values' do

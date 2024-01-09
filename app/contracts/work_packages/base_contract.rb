@@ -199,7 +199,9 @@ module WorkPackages
     end
 
     def assignable_assignees
-      if model.project
+      if model.persisted?
+        Principal.possible_assignee(model)
+      elsif model.project
         Principal.possible_assignee(model.project)
       else
         Principal.none
