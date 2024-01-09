@@ -32,7 +32,7 @@
 
 require File.expand_path('config/application', __dir__)
 
-OpenProject::Application.load_rake_tasks
+Rails.application.load_rake_tasks
 
 Rake::Task[:default].clear
 task default: 'test:suite:run'
