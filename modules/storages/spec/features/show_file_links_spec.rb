@@ -57,11 +57,11 @@ RSpec.describe 'Showing of file links in work package', :js do
                            get_access_token: ServiceResult.success(result: oauth_client_token),
                            authorization_state: :connected)
 
-    # Mock FileLinkSyncService as if Nextcloud would respond with origin_permission=nil
+    # Mock FileLinkSyncService as if Nextcloud would respond with origin_status=nil
     allow(Storages::FileLinkSyncService)
       .to receive(:new).and_return(sync_service)
     allow(sync_service).to receive(:call) do |file_links|
-      ServiceResult.success(result: file_links.each { |file_link| file_link.origin_permission = :view })
+      ServiceResult.success(result: file_links.each { |file_link| file_link.origin_status = :view_allowed })
     end
 
     project_storage

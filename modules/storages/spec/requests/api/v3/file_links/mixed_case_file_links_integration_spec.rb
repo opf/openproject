@@ -120,7 +120,7 @@ RSpec.describe 'API v3 file links resource' do
     file_link_other_user
     file_link_deleted
 
-    #  FileLinks on host-unauth and host-error that we'll see in the result list with origin_permission=:error
+    #  FileLinks on host-unauth and host-error that we'll see in the result list with origin_status=:error
     file_link_unauth_happy
     file_link_error_happy
     file_link_timeout_happy
