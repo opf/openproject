@@ -427,7 +427,7 @@ RSpec.describe 'new work package', :js, :with_cuprite do
       type_field.set_value type_bug.name
       # wait after the type change
       sleep(0.2)
-      subject_field.update('new work package')
+      subject_field.update('new work package', save: true)
 
       wp_page.expect_and_dismiss_toaster(
         message: 'Successful creation.'

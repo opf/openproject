@@ -255,7 +255,7 @@ RSpec.describe 'Moving a work package through Rails view', :js do
     context 'with permissions' do
       it 'does allow to move' do
         context_menu.open_for work_package
-        context_menu.expect_options ['Bulk change of project']
+        context_menu.expect_options 'Bulk change of project'
       end
     end
 
@@ -264,7 +264,7 @@ RSpec.describe 'Moving a work package through Rails view', :js do
 
       it 'does not allow to move' do
         context_menu.open_for work_package
-        context_menu.expect_no_options ['Bulk change of project']
+        context_menu.expect_no_options 'Bulk change of project'
       end
     end
   end
