@@ -1134,7 +1134,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
 
         # 'More' becomes visible on hover
         # because we use css opacity we can not test for the visibility changes
-        page.find('tbody tr').hover
+        page.find('tbody tr:first-child').hover
         expect(page).to have_css('.icon-show-more-horizontal')
 
         # "Project activity" item should be displayed in the 'more' menu
