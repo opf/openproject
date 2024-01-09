@@ -98,6 +98,11 @@ module Users::PermissionChecks
           .where(member_roles: { member_id: Member.of_work_package(work_package).select(:id) })
   end
 
+  # Return true when the user is either a member of the project or any resource under the project
+  def access_to?(project)
+    admin? || members.exists?(project_id: project.id)
+  end
+
   # Return true if the user is a member of project
   def member_of?(project)
     roles_for_project(project).any?(&:member?)
