@@ -40,3 +40,4 @@ require_relative '../../lib_static/open_project/feature_decisions'
 #   end
 
 OpenProject::FeatureDecisions.add :work_package_sharing
+OpenProject::FeatureDecisions.add :project_attributes

@@ -60,7 +60,8 @@ module Projects
                    href: toggle_project_settings_project_custom_fields_path(project_id: @project.id,
                                                                             project_custom_field_id: @project_custom_field.id),
                    scheme: :invisible,
-                   data: { 'turbo-method': :put, 'turbo-stream': true }
+                   data: { 'turbo-method': :put, 'turbo-stream': true,
+                           qa_selector: "toggle-project-custom-field-mapping-#{@project_custom_field.id}" }
                  )) do |button|
             button.with_leading_visual_icon(icon: (active_in_project? ? 'check-circle' : 'circle'))
             @project_custom_field.name

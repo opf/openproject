@@ -31,6 +31,7 @@ module ProjectCustomFields
     module ProjectCustomFields
       class ShowComponent < ApplicationComponent
         include ApplicationHelper
+        include CustomFieldsHelper
         include OpPrimer::ComponentHelpers
 
         def initialize(project_custom_field:, project_custom_field_values:)
@@ -42,35 +43,24 @@ module ProjectCustomFields
 
         private
 
-        def render_formated_value
-          return if @project_custom_field_values.empty?
+        def render_formatted_value
+          @project_custom_field_values&.map do |cf_value|
+            format_value(cf_value.value, @project_custom_field)
+          end&.join(", ")&.html_safe
+        end
 
-          if @project_custom_field_values.one?
-            render_single_value(@project_custom_field_values.first)
+        def render_formatted_default_value
+          if @project_custom_field.default_value.is_a?(Array)
+            @project_custom_field.default_value.map do |default_value|
+              format_value(default_value, @project_custom_field)
+            end.join(", ").html_safe
           else
-            render_multiple_values(@project_custom_field_values)
+            format_value(@project_custom_field.default_value, @project_custom_field)
           end
         end
 
-        def render_single_value(value)
-          formated_value(value)
-        end
-
-        def render_multiple_values(values)
-          values.map do |value|
-            formated_value(value)
-          end.join(", ")
-        end
-
-        def formated_value(value)
-          case @project_custom_field.field_format
-          when "text"
-            ::OpenProject::TextFormatting::Renderer.format_text(value.typed_value)
-          when "date"
-            format_date(value.typed_value)
-          else
-            value.typed_value&.to_s
-          end
+        def not_set?
+          @project_custom_field_values.empty? || @project_custom_field_values.all? { |cf_value| cf_value.value.blank? }
         end
       end
     end

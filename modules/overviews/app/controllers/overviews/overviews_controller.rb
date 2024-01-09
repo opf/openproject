@@ -3,6 +3,8 @@ module ::Overviews
     include OpTurbo::ComponentStream
 
     before_action :jump_to_project_menu_item
+    before_action :check_project_attributes_feature_enabled,
+                  only: %i[attributes_sidebar attribute_section_dialog update_attributes]
 
     menu_item :overview
 
@@ -69,6 +71,10 @@ module ::Overviews
     end
 
     private
+
+    def check_project_attributes_feature_enabled
+      render_404 unless OpenProject::FeatureDecisions.project_attributes_active?
+    end
 
     def project_attribute_params
       params.require(:project).permit(

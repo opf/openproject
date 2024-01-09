@@ -1,6 +1,8 @@
 <%=
   component_wrapper do
-    render(Primer::Beta::BorderBox.new(mt: 3)) do |component|
+    render(Primer::Beta::BorderBox.new(mt: 3, classes: 'op-project-custom-field-section', data: {
+        qa_selector: "project-custom-field-section-#{@project_custom_field_section.id}"
+      })) do |component|
       component.with_header(font_weight: :bold, py: 2) do
         flex_layout(justify_content: :space_between, align_items: :center) do |section_header_container|
           section_header_container.with_column(py: 2) do |content_container|
@@ -22,7 +24,7 @@
                 font_weight: :bold,
                 color: :subtle,
                 'aria-label': t('projects.settings.project_custom_fields.actions.label_enable_all'),
-                data: { 'turbo-method': :put, 'turbo-stream': true }
+                data: { 'turbo-method': :put, 'turbo-stream': true, qa_selector: "enable-all-project-custom-field-mappings-#{@project_custom_field_section.id}" }
               )) do |button|
                 button.with_leading_visual_icon(icon: 'check-circle', color: :subtle)
                 t('projects.settings.project_custom_fields.actions.label_enable_all')
@@ -39,7 +41,7 @@
                 font_weight: :bold,
                 color: :subtle,
                 'aria-label': t('projects.settings.project_custom_fields.actions.label_disable_all'),
-                data: { 'turbo-method': :put, 'turbo-stream': true }
+                data: { 'turbo-method': :put, 'turbo-stream': true, qa_selector: "disable-all-project-custom-field-mappings-#{@project_custom_field_section.id}" }
               )) do |button|
                 button.with_leading_visual_icon(icon: 'x-circle', color: :subtle)
                 t('projects.settings.project_custom_fields.actions.label_disable_all')

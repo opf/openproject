@@ -1,15 +1,21 @@
 <%=
-  flex_layout(align_items: :flex_start, justify_content: :space_between) do |custom_field_value_container|
+  flex_layout(align_items: :flex_start, justify_content: :space_between, classes: 'op-project-custom-field-container', data: {
+      qa_selector: "project-custom-field-#{@project_custom_field.id}"
+    }) do |custom_field_value_container|
     # temporarily using inline styles in order to align the content as desired
     custom_field_value_container.with_row(mb: 1) do
       render(Primer::Beta::Text.new(font_weight: :bold)) { @project_custom_field.name }
     end
 
     custom_field_value_container.with_row do
-      if @project_custom_field_values.empty?
-        render(Primer::Beta::Text.new(color: :subtle)) { t('label_not_set_yet') }
+      if not_set?
+        if @project_custom_field.default_value.present?
+          render(Primer::Beta::Text.new()) { render_formatted_default_value }
+        else
+          render(Primer::Beta::Text.new()) { t('label_not_set_yet') }
+        end
       else
-        render(Primer::Beta::Text.new()) { render_formated_value }
+        render(Primer::Beta::Text.new()) { render_formatted_value }
       end
     end
   end
