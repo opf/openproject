@@ -33,6 +33,7 @@ import { InAppNotificationCenterComponent } from 'core-app/features/in-app-notif
 import { InAppNotificationCenterPageComponent } from 'core-app/features/in-app-notifications/center/in-app-notification-center-page.component';
 import { WorkPackagesBaseComponent } from 'core-app/features/work-packages/routing/wp-base/wp--base.component';
 import { InAppNotificationsDateAlertsUpsaleComponent } from 'core-app/features/in-app-notifications/date-alerts-upsale/ian-date-alerts-upsale.component';
+import { ShareUpsaleComponent } from 'core-app/features/enterprise/share-upsale/share-upsale.component';
 
 export interface INotificationPageQueryParameters {
   filter?:string;
@@ -56,6 +57,11 @@ export const IAN_ROUTES:Ng2StateDeclaration[] = [
     url: '/date_alerts',
     name: 'notifications.date_alerts_upsale',
     component: InAppNotificationsDateAlertsUpsaleComponent,
+  },
+  {
+    url: '/share',
+    name: 'notifications.share_upsale',
+    component: ShareUpsaleComponent,
   },
   {
     name: 'notifications.center',
