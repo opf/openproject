@@ -26,30 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackages::Columns::RelationColumn
-  def initialize(type)
-    super
+module TableHelpers
+  class TableRepresenter
+    attr_reader :tables_data, :columns
 
-    self.type = type
-  end
+    def initialize(tables_data:, columns:)
+      @tables_data = tables_data
+      @columns = columns
+    end
 
-  def name
-    :"relations_of_type_#{type[:sym]}"
-  end
+    # rubocop:disable Style/MultilineBlockChain
+    def render(table_data)
+      column_and_cell_sizes
+        .map do |column, cell_size|
+          header = column.title.ljust(cell_size)
+          cells = table_data.values_for_attribute(column.attribute).map { column.cell_format(_1, cell_size) }
+          [header, *cells]
+        end
+        .transpose
+        .map { |row| "| #{row.join(' | ')} |\n" }
+        .join
+    end
+    # rubocop:enable Style/MultilineBlockChain
 
-  def sym
-    type[:sym]
-  end
-  alias :relation_type :sym
+    private
 
-  def caption
-    I18n.t(:'activerecord.attributes.query.relations_of_type_column',
-           type: I18n.t(type[:sym_name]).capitalize)
-  end
-
-  def self.instances(_context = nil)
-    return [] unless granted_by_enterprise_token
-
-    Relation::TYPES.map { |_key, type| new(type) }
+    def column_and_cell_sizes
+      @column_and_cell_sizes ||=
+        columns.index_with do |column|
+          values = tables_data.flat_map { _1.values_for_attribute(column.attribute) }
+          values_max_size = values.map { column.format(_1).size }.max
+          [column.title.size, values_max_size].max
+        end
+    end
   end
 end

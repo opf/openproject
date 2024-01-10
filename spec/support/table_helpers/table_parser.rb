@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,30 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackages::Columns::RelationColumn
-  def initialize(type)
-    super
+module TableHelpers
+  class TableParser
+    def parse(representation)
+      headers, *rows = representation.split("\n")
+      headers = headers.split('|')
+      rows = rows.filter_map { |row| parse_row(row, headers) }
+      work_packages_data = rows.map.with_index do |row, index|
+        {
+          attributes: {},
+          index:,
+          row:
+        }
+      end
+      headers.compact_blank.each do |header|
+        column = Column.for(header)
+        column.read_and_update_work_packages_data(work_packages_data)
+      end
+      work_packages_data
+    end
 
-    self.type = type
-  end
+    private
 
-  def name
-    :"relations_of_type_#{type[:sym]}"
-  end
-
-  def sym
-    type[:sym]
-  end
-  alias :relation_type :sym
-
-  def caption
-    I18n.t(:'activerecord.attributes.query.relations_of_type_column',
-           type: I18n.t(type[:sym_name]).capitalize)
-  end
-
-  def self.instances(_context = nil)
-    return [] unless granted_by_enterprise_token
-
-    Relation::TYPES.map { |_key, type| new(type) }
+    def parse_row(row, headers)
+      case row
+      when '', /^\s*#/
+        # noop
+      else
+        values = row.split('|')
+        headers.zip(values).to_h.compact_blank
+      end
+    end
   end
 end

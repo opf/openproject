@@ -26,30 +26,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackages::Columns::RelationColumn
-  def initialize(type)
-    super
+module TableHelpers
+  module LetWorkPackages
+    # Declare work packages and relations from a visual chart representation.
+    #
+    # It uses +create_table+ internally and is useful to have direct access
+    # to the created work packages.
+    #
+    # To see supported columns, see +TableHelpers::Column+.
+    #
+    # For instance:
+    #
+    #   let_work_packages(<<~TABLE)
+    #     hierarchy   | work |
+    #     parent      |   1h |
+    #       child     | 2.5h |
+    #     another one |      |
+    #   TABLE
+    #
+    # is equivalent to:
+    #
+    #   let!(:_table) do
+    #     create_table(table_representation)
+    #   end
+    #   let(:parent) do
+    #     _table.work_package(:parent)
+    #   end
+    #   let(:child) do
+    #     _table.work_package(:child)
+    #   end
+    #   let(:another_one) do
+    #     _table.work_package(:another_one)
+    #   end
+    def let_work_packages(table_representation)
+      let!(:_table) { create_table(table_representation) }
 
-    self.type = type
-  end
-
-  def name
-    :"relations_of_type_#{type[:sym]}"
-  end
-
-  def sym
-    type[:sym]
-  end
-  alias :relation_type :sym
-
-  def caption
-    I18n.t(:'activerecord.attributes.query.relations_of_type_column',
-           type: I18n.t(type[:sym_name]).capitalize)
-  end
-
-  def self.instances(_context = nil)
-    return [] unless granted_by_enterprise_token
-
-    Relation::TYPES.map { |_key, type| new(type) }
+      table_data = TableData.for(table_representation)
+      table_data.work_package_identifiers.each do |identifier|
+        let(identifier) { _table.work_package(identifier) }
+      end
+    end
   end
 end

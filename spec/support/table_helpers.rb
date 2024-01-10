@@ -26,30 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackages::Columns::RelationColumn
-  def initialize(type)
-    super
+Dir[Rails.root.join('spec/support/table_helpers/*.rb')].each { |f| require f }
 
-    self.type = type
-  end
+RSpec.configure do |config|
+  config.extend TableHelpers::LetWorkPackages
+  config.include TableHelpers::ExampleMethods
 
-  def name
-    :"relations_of_type_#{type[:sym]}"
-  end
+  RSpec::Matchers.define :match_table do |expected|
+    match do |actual_work_packages|
+      expected_data = TableHelpers::TableData.for(expected)
+      actual_data = TableHelpers::TableData.from_work_packages(actual_work_packages, expected_data.columns)
 
-  def sym
-    type[:sym]
-  end
-  alias :relation_type :sym
+      representer = TableHelpers::TableRepresenter.new(tables_data: [expected_data, actual_data],
+                                                       columns: expected_data.columns)
+      @expected = representer.render(expected_data)
+      @actual = representer.render(actual_data)
 
-  def caption
-    I18n.t(:'activerecord.attributes.query.relations_of_type_column',
-           type: I18n.t(type[:sym_name]).capitalize)
-  end
+      values_match? @expected, @actual
+    end
 
-  def self.instances(_context = nil)
-    return [] unless granted_by_enterprise_token
-
-    Relation::TYPES.map { |_key, type| new(type) }
+    diffable
+    attr_reader :expected, :actual
   end
 end

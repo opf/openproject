@@ -94,6 +94,8 @@ export class EstimatedTimeDisplayField extends DisplayField {
   public renderSeparator(element:HTMLElement) {
     const span = document.createElement('span');
     span.classList.add('-separator');
+    span.textContent = '·';
+    span.ariaHidden = 'true';
     element.appendChild(span);
   }
 

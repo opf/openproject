@@ -42,7 +42,7 @@ RSpec.describe API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter d
       it_behaves_like 'has a titled link' do
         let(:link) { 'self' }
         let(:href) { api_v3_paths.query_column "relationsOfType#{type[:sym].to_s.camelcase}" }
-        let(:title) { "#{I18n.t(type[:name])} relations" }
+        let(:title) { "#{I18n.t(type[:name]).capitalize} relations" }
       end
     end
 
@@ -66,7 +66,7 @@ RSpec.describe API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter d
 
     it 'has name attribute' do
       expect(subject)
-        .to be_json_eql("#{I18n.t(type[:name])} relations".to_json)
+        .to be_json_eql("#{I18n.t(type[:name]).capitalize} relations".to_json)
         .at_path('name')
     end
   end

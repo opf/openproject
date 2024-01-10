@@ -26,30 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackages::Columns::RelationColumn
-  def initialize(type)
-    super
+module TableHelpers
+  class Table
+    def initialize(work_packages_by_identifier)
+      @work_packages_by_identifier = work_packages_by_identifier
+    end
 
-    self.type = type
-  end
+    def work_package(name)
+      name = normalize_name(name)
+      @work_packages_by_identifier[name]
+    end
 
-  def name
-    :"relations_of_type_#{type[:sym]}"
-  end
+    private
 
-  def sym
-    type[:sym]
-  end
-  alias :relation_type :sym
+    def normalize_name(name)
+      symbolic_name = name.to_sym
+      return symbolic_name if @work_packages_by_identifier.has_key?(symbolic_name)
 
-  def caption
-    I18n.t(:'activerecord.attributes.query.relations_of_type_column',
-           type: I18n.t(type[:sym_name]).capitalize)
-  end
-
-  def self.instances(_context = nil)
-    return [] unless granted_by_enterprise_token
-
-    Relation::TYPES.map { |_key, type| new(type) }
+      spell_checker = DidYouMean::SpellChecker.new(dictionary: @work_packages_by_identifier.keys.map(&:to_s))
+      suggestions = spell_checker.correct(name).map(&:inspect).join(' ')
+      did_you_mean = " Did you mean #{suggestions} instead?" if suggestions.present?
+      raise "No work package with name #{name.inspect} in _table.#{did_you_mean}"
+    end
   end
 end
