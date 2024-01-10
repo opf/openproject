@@ -87,7 +87,7 @@ module Members
       label = h project_roles.collect(&:name).join(', ')
 
       if principal&.admin?
-        label << tag(:br)
+        label << tag(:br) if project_roles.any?
         label << I18n.t(:label_member_all_admin)
       end
 
