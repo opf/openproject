@@ -38,7 +38,7 @@ module API
           get &::API::V3::Utilities::Endpoints::Index
                  .new(model: Member,
                       scope: -> { Member.where.not(entity: nil).includes(ShareRepresenter.to_eager_load) },
-                      api_name: 'Membership')
+                      api_name: 'Share')
                  .mount
         end
       end
