@@ -70,7 +70,7 @@ To learn how to use the Work packages module to configure epics, features and us
 
 You can also use [project templates](../../user-guide/projects/project-templates/) and to make it easier to create news ARTs with the same structure, set of enabled modules, project structure or work package templates. Once a new ART is created using a template, it can then be modified in any way.
 
-**Agile teams** *within* an Agile Release Train (ART) can either be organised as sub-projects of an ART or simply as saved custom views in a Team planner or Assignee-based Kanban board. To learn more, read [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) below.
+**Agile teams** *within* an Agile Release Train (ART) can either be organised as sub-projects of an ART or simply as saved custom views in a Team planner or Assignee-based Kanban board. To learn more, read [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) below.
 
 ### Solution Trains
 
@@ -88,19 +88,19 @@ Project portfolios allow you to view, organise, sort and filter through all proj
 
 In OpenProject, a **program increment (PI)** or **iteration** corresponds to a version.
 
-Like most things in OpenProject, a version is technically contained within a project. As such, a PI or iteration can be contained within an ART. However, it is possible to *share* versions with sub-projects, other projects or even with the entire instance.
+Like most things in OpenProject, a version is technically contained within a project. As such, a PI or iteration can be contained within an ART. However, it is possible to *share* versions with sub-projects, other projects or even with the entire instance.
 
-Shared versions are especially useful when you need PIs to be shared between multiple ARTs.
+Shared versions are especially useful when you need PIs to be shared between multiple ARTs.
 
 > **Demo:** [Versions set up as PIs shared with all ARTs](https://safe.openproject.com/projects/art-0-test-release-train/settings/versions)
 
-Versions are also tied to the Backlog module. To learn more, read [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) below.
+Versions are also tied to the Backlog module. To learn more, read [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) below.
 
 ## Working with epics, features and stories
 
 Once the instance, individual ARTs and versions are set up, you are ready to move on to the configuration of individual work initiatives.
 
-In OpenProject, all work is expressed as work packages of various types. For SAFe, it already comes with **Epic**, **Feature**, **User story** and **Milestone** types out of the box. Depending on your needs, **Capability** and **Enabler** types can be easily created and configured.
+In OpenProject, all work is expressed as work packages of various types. For SAFe, it already comes with **Epic**, **Feature**, **User story** and **Milestone** types out of the box. Depending on your needs, **Capability** and **Enabler** types can be easily created and configured.
 
 Apart from milestones (which have the particularity of having a single date), all other types can be freely configured and new ones created.
 
@@ -153,7 +153,7 @@ Custom fields can also hold different *types* of values, like lists, booleans, d
 
 > **Demo:** [Adding story points as a field in a Feature](https://safe.openproject.com/types/4/edit/form_configuration).
 
-Story points are particularly powerful as they are also visible in the Backlog. To learn more, read the [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) section below.
+Story points are particularly powerful as they are also visible in the Backlog. To learn more, read the [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) section below.
 
 ### Progress
 
@@ -224,7 +224,7 @@ OpenProject boards are powerful and can be filtered for more control over what i
 ### Team planner
 
 The [**Team planner module**](../../user-guide/team-planner/) allows you to visualise work packages assigned to particular team members in a week or two-week calendar view. It is a powerful tool to monitor work at a day-to-day level.
-../../
+
 If you have multiple agile teams under a single ART, you can create and save custom Team planner views for each team.
 
 > **Demo**: [Team planner for an agile team within an ART](https://safe.openproject.com/projects/art-0-test-release-train/team_planners/75?cdate=2024-01-07&cview=resourceTimelineWorkWeek)
