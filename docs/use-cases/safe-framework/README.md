@@ -7,7 +7,7 @@ keywords: safe, scaled agile, release train, program increment, ART backlog, roa
 
 ---
 
-# Configuring SAFe in OpenProject
+# Implementing Scaled Agile Framework (SAFe) in OpenProject
 
 OpenProject is a powerful project management tool that can adapt to a number of different frameworks and methodologies. Larger organisations who choose to implement the **Scaled Agile Framework (SAFe)** methodology can leverage the wide range of features and customisability that OpenProject offers to define, plan organise to deliver value to their end customers.
 
