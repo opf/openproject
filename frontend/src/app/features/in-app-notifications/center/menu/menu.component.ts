@@ -104,6 +104,7 @@ export class IanMenuComponent implements OnInit {
     {
       key: 'shared',
       title: this.I18n.t('js.notifications.menu.shared'),
+      isEnterprise: true,
       icon: 'share',
       ...getUiLinkForFilters({ filter: 'reason', name: 'shared' }),
     },

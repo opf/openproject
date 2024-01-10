@@ -236,6 +236,7 @@ export class StaticQueriesService {
           query_props: '{"c":["id","subject","type","project"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"sharedWithUser","o":"*","v":[]}]}',
         },
         view: 'WorkPackagesTable',
+        isEnterprise: true,
       },
       {
         title: this.text.created_by_me,
