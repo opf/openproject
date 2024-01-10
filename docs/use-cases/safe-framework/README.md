@@ -104,15 +104,15 @@ A [type template (or default text for description)](/Applications/Joplin.app/Con
 - Hypothesis
 - Acceptance criteria
 
-> **Demo**: Defining a [type template for features](https://safe.openproject.com/types/4/edit/settings).
+> **Demo**: Defining a [type template for features](https://safe.openproject.com/types/4/edit/settings) (requires admin privileges).
 
 Similarly, a template can be defined for **User stories** so that they can be expressed in a SAFe-compatible manner, like so:
 
 > **As a** *{role}*, 
 > **I want to** *{activity} *
 > **so that** *{business or user value}*
-> 
-> **Demo**: Defining a [type template for user stories](https://safe.openproject.com/types/6/edit/settings).
+>
+> **Demo**: Defining a [type template for user stories](https://safe.openproject.com/types/6/edit/settings) (requires admin privileges).
 
 ### Custom fields
 
