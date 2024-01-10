@@ -65,7 +65,7 @@ RSpec.describe TabularFormBuilder do
     context 'with help text' do
       let(:options) { { title: 'Name', class: 'custom-class', help_text: { attribute: 'foo', 'attribute-scope': 'bar' } } }
 
-      it 'will output a label with an attribute-help-text tag' do
+      it 'outputs a label with an attribute-help-text tag' do
         expect(output).to be_html_eql(%{
           <label class="form--label"
                  for="user_name"
@@ -209,8 +209,8 @@ JJ Abrams</textarea>
 
       context 'an id is missing' do
         it 'outputs the wysiwyg wrapper' do
-          expect(output).to have_selector 'textarea'
-          expect(output).to have_selector 'ckeditor-augmented-textarea'
+          expect(output).to have_css 'textarea'
+          expect(output).to have_css 'ckeditor-augmented-textarea'
         end
       end
 
@@ -218,8 +218,8 @@ JJ Abrams</textarea>
         let(:options) { { id: 'my-id', title: 'Name', class: 'custom-class', with_text_formatting: true } }
 
         it 'outputs the wysiwyg wrapper' do
-          expect(output).to have_selector 'textarea'
-          expect(output).to have_selector 'ckeditor-augmented-textarea'
+          expect(output).to have_css 'textarea'
+          expect(output).to have_css 'ckeditor-augmented-textarea'
         end
       end
     end
@@ -262,8 +262,8 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in container', 'select-container'
 
     it 'outputs element' do
-      expect(output).to have_selector 'select.custom-class.form--select > option', count: 3
-      expect(output).to have_selector 'option:first[value="56"]'
+      expect(output).to have_css 'select.custom-class.form--select > option', count: 3
+      expect(output).to have_css 'option:first[value="56"]'
       expect(output).to have_text 'Jonas'
     end
   end
@@ -279,9 +279,9 @@ JJ Abrams</textarea>
     it_behaves_like 'wrapped in field-container by default'
 
     it 'outputs element' do
-      expect(output).to have_selector 'select', count: 3
-      expect(output).to have_selector 'select:nth-of-type(2) > option', count: 12
-      expect(output).to have_selector 'select:last > option', count: 31
+      expect(output).to have_css 'select', count: 3
+      expect(output).to have_css 'select:nth-of-type(2) > option', count: 12
+      expect(output).to have_css 'select:last > option', count: 31
     end
   end
 
@@ -524,7 +524,7 @@ JJ Abrams</textarea>
     it_behaves_like 'not wrapped in container', 'submit-container'
 
     it 'outputs element' do
-      expect(output).to have_selector('input[name=commit]')
+      expect(output).to have_css('input[name=commit]')
     end
   end
 
@@ -654,16 +654,16 @@ JJ Abrams</textarea>
           end
 
           it 'shows an appropriate error label' do
-            expect(output).to have_selector 'label.-error',
-                                            count: 1,
-                                            text: 'Name'
+            expect(output).to have_css 'label.-error',
+                                       count: 1,
+                                       text: 'Name'
           end
 
           it 'contains a specific error as a hidden sub-label' do
-            expect(output).to have_selector 'label.-error p',
-                                            count: 1,
-                                            text: 'This field is invalid: Name is invalid. ' \
-                                                  'Name is not set to one of the allowed values.'
+            expect(output).to have_css 'label.-error p',
+                                       count: 1,
+                                       text: 'This field is invalid: Name is invalid. ' \
+                                             'Name is not set to one of the allowed values.'
           end
         end
       end

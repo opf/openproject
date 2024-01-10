@@ -43,7 +43,7 @@ RSpec.describe OpenProject::Storage do
       subject { OpenProject::Storage.known_storage_paths }
 
       it 'contains attachments path' do
-        expect(subject.length).to be == 1
+        expect(subject.length).to eq 1
         expect(subject[:attachments])
           .to eq(label: I18n.t('attributes.attachments'),
                  path: OpenProject::Configuration.attachments_storage_path.to_s)
@@ -62,7 +62,7 @@ RSpec.describe OpenProject::Storage do
 
       it 'contains one fs entry' do
         expect(File.exist?(tmpdir)).to be true
-        expect(subject.length).to be == 1
+        expect(subject.length).to eq 1
 
         entry = subject.values.first
         expect(entry[:labels]).to eq(['this is foobar'])
@@ -92,12 +92,11 @@ RSpec.describe OpenProject::Storage do
       subject { OpenProject::Storage.known_storage_paths }
 
       it 'contains both paths' do
-        expect(subject.length).to be == 2
+        expect(subject.length).to eq 2
 
         labels = subject.values.pluck(:label)
         expect(labels)
-          .to match_array([I18n.t(:label_managed_repositories_vendor, vendor: 'Git'),
-                           I18n.t('attributes.attachments')])
+          .to contain_exactly(I18n.t(:label_managed_repositories_vendor, vendor: 'Git'), I18n.t('attributes.attachments'))
       end
     end
 
@@ -109,8 +108,7 @@ RSpec.describe OpenProject::Storage do
 
         entry = subject.values.first
         expect(entry[:labels])
-          .to match_array([I18n.t(:label_managed_repositories_vendor, vendor: 'Git'),
-                           I18n.t('attributes.attachments')])
+          .to contain_exactly(I18n.t(:label_managed_repositories_vendor, vendor: 'Git'), I18n.t('attributes.attachments'))
       end
 
       context 'with multiple filesystem ids' do

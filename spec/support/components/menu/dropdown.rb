@@ -37,11 +37,11 @@ module Components
     end
 
     def expect_closed
-      expect(page).not_to have_selector('.op-app-menu--dropdown')
+      expect(page).to have_no_css('.op-app-menu--dropdown')
     end
 
     def expect_open
-      expect(page).to have_selector('.op-app-menu--dropdown')
+      expect(page).to have_css('.op-app-menu--dropdown')
     end
 
     def within_dropdown(&)

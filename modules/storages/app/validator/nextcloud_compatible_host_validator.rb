@@ -150,10 +150,8 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
   end
 
   def json_response_with_version?(response)
-    (
-      response['content-type'].split(';').first.strip.downcase == 'application/json' \
-      && read_version(response)
-    )
+    response['content-type'].split(';').first.strip.downcase == 'application/json' \
+    && read_version(response)
   rescue JSON::ParserError
     false
   end

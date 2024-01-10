@@ -27,10 +27,10 @@
 #++
 
 require 'spec_helper'
-require_relative './support/board_index_page'
-require_relative './support/board_page'
+require_relative 'support/board_index_page'
+require_relative 'support/board_page'
 
-RSpec.describe 'Board remote changes resolution', js: true, with_ee: %i[board_view] do
+RSpec.describe 'Board remote changes resolution', :js, with_ee: %i[board_view] do
   let(:user1) do
     create(:user,
            member_with_roles: { project => role })

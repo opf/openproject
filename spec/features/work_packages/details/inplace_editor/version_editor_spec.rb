@@ -4,7 +4,7 @@ require 'features/work_packages/shared_contexts'
 require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
-RSpec.describe 'subject inplace editor', js: true, selenium: true do
+RSpec.describe 'subject inplace editor', :js, :selenium do
   let(:project) { create(:project_with_types, name: 'Root', public: true) }
   let(:subproject1) { create(:project_with_types, name: 'Child', parent: project) }
   let(:subproject2) { create(:project_with_types, name: 'Aunt', parent: project) }
@@ -62,10 +62,10 @@ RSpec.describe 'subject inplace editor', js: true, selenium: true do
       field = work_package_page.work_package_field(:version)
       field.activate!
 
-      expect(page).to have_selector('.ng-option-label', text: '-')
-      expect(page).to have_selector('.ng-option-label', text: version3.name)
-      expect(page).to have_selector('.ng-option-label', text: version2.name)
-      expect(page).to have_selector('.ng-option-label', text: version.name)
+      expect(page).to have_css('.ng-option-label', text: '-')
+      expect(page).to have_css('.ng-option-label', text: version3.name)
+      expect(page).to have_css('.ng-option-label', text: version2.name)
+      expect(page).to have_css('.ng-option-label', text: version.name)
 
       # Expect the order to be descending by version date
       labels = page.all('.ng-option-label').map { |el| el.text.strip }
@@ -103,7 +103,7 @@ RSpec.describe 'subject inplace editor', js: true, selenium: true do
       field.activate!
 
       field.input_element.find('input').set 'Version that does not exist'
-      expect(page).not_to have_selector('.ng-option', text: 'Create: Version that does not exist')
+      expect(page).to have_no_css('.ng-option', text: 'Create: Version that does not exist')
     end
   end
 end

@@ -28,26 +28,22 @@
 
 class WorkPackages::UpdateAncestorsService
   attr_accessor :user,
-                :work_package
+                :initiator_work_package
 
   def initialize(user:, work_package:)
     self.user = user
-    self.work_package = work_package
+    self.initiator_work_package = work_package
   end
 
   def call(attributes)
-    modified = update_current_and_former_ancestors(attributes)
+    updated_work_packages = update_current_and_former_ancestors(attributes)
 
-    set_journal_note(modified)
+    set_journal_note(ancestors(updated_work_packages))
+    success = save_updated_work_packages(updated_work_packages)
 
-    # Do not send notification for parent updates
-    success = Journal::NotificationConfiguration.with(false) do
-      modified.all? { |wp| wp.save(validate: false) }
-    end
+    result = ServiceResult.new(success:, result: initiator_work_package)
 
-    result = ServiceResult.new(success:, result: work_package)
-
-    modified.each do |wp|
+    ancestors(updated_work_packages).each do |wp|
       result.add_dependent!(ServiceResult.new(success: !wp.changed?, result: wp))
     end
 
@@ -56,43 +52,66 @@ class WorkPackages::UpdateAncestorsService
 
   private
 
+  def initiator?(work_package)
+    work_package == initiator_work_package
+  end
+
+  def ancestors(work_packages)
+    work_packages.reject { initiator?(_1) }
+  end
+
   def update_current_and_former_ancestors(attributes)
+    include_former_ancestors = attributes.intersect?(%i[parent_id parent])
     WorkPackages::UpdateAncestors::Loader
-      .new(work_package, (%i(parent_id parent) & attributes).any?)
+      .new(initiator_work_package, include_former_ancestors)
       .select do |ancestor, loader|
-        inherit_attributes(ancestor, loader, attributes)
+        derive_attributes(ancestor, loader, attributes)
 
         ancestor.changed?
       end
   end
 
-  def inherit_attributes(ancestor, loader, attributes)
-    return unless attributes_justify_inheritance?(attributes)
+  def save_updated_work_packages(updated_work_packages)
+    updated_initiators, updated_ancestors = updated_work_packages.partition { initiator?(_1) }
 
-    # Estimated hours need to be calculated before the done_ratio below.
-    # The aggregation only depends on estimated hours.
-    derive_estimated_hours(ancestor, loader) if inherit?(attributes, :estimated_hours)
-
-    # Progress (done_ratio or also: percentDone) depends on both
-    # the completion of sub-WPs, as well as the estimated hours
-    # as a weight factor. So changes in estimated hours also have
-    # to trigger a recalculation of done_ratio.
-    inherit_done_ratio(ancestor, loader) if inherit?(attributes, :done_ratio) || inherit?(attributes, :estimated_hours)
-
-    inherit_ignore_non_working_days(ancestor, loader) if inherit?(attributes, :ignore_non_working_days)
+    # Send notifications for initiator updates
+    success = updated_initiators.all? { |wp| wp.save(validate: false) }
+    # Do not send notifications for parent updates
+    success &&= Journal::NotificationConfiguration.with(false) do
+      updated_ancestors.all? { |wp| wp.save(validate: false) }
+    end
+    success
   end
 
-  def inherit?(attributes, attribute)
-    ([attribute, :parent, :parent_id] & attributes).any?
+  def derive_attributes(work_package, loader, attributes)
+    return unless modified_attributes_justify_derivation?(attributes)
+
+    {
+      # Estimated hours need to be calculated before the done_ratio below.
+      # The aggregation only depends on estimated hours.
+      %i[estimated_hours] => :derive_estimated_hours,
+      # Progress (done_ratio or also: percentDone) depends on both
+      # the completion of sub-WPs, as well as the estimated hours
+      # as a weight factor. So changes in estimated hours also have
+      # to trigger a recalculation of done_ratio.
+      %i[done_ratio estimated_hours status status_id] => :derive_done_ratio,
+      %i[remaining_hours] => :derive_remaining_hours,
+      %i[ignore_non_working_days] => :derive_ignore_non_working_days
+    }.each do |derivative_attributes, method|
+      if attributes.intersect?(derivative_attributes + %i[parent parent_id])
+        send(method, work_package, loader)
+      end
+    end
   end
 
   def set_journal_note(work_packages)
     work_packages.each do |wp|
-      wp.journal_notes = I18n.t('work_package.updated_automatically_by_child_changes', child: "##{work_package.id}")
+      wp.journal_notes = I18n.t('work_package.updated_automatically_by_child_changes', child: "##{initiator_work_package.id}")
     end
   end
 
-  def inherit_done_ratio(ancestor, loader)
+  def derive_done_ratio(ancestor, loader)
+    return if initiator?(ancestor)
     return if WorkPackage.done_ratio_disabled?
 
     return if WorkPackage.use_status_for_done_ratio? && ancestor.status && ancestor.status.default_done_ratio
@@ -101,20 +120,21 @@ class WorkPackages::UpdateAncestorsService
     ancestor.done_ratio = (aggregate_done_ratio(ancestor, loader) || 0).round
   end
 
-  # Sets the ignore_non_working_days to true if any ancestor has its value set to true.
+  # Sets the ignore_non_working_days to true if any descendant has its value set to true.
   # If there is no value returned from the descendants, that means that the work package in
   # question no longer has a descendant. But since we are in the service going up the ancestor chain,
   # such a work package is the former parent. The property of such a work package is reset to `false`.
-  def inherit_ignore_non_working_days(work_package, loader)
-    return if work_package.schedule_manually
+  def derive_ignore_non_working_days(ancestor, loader)
+    return if initiator?(ancestor)
+    return if ancestor.schedule_manually
 
-    descendant_value = ignore_non_working_days_of_descendants(work_package, loader)
+    descendant_value = ignore_non_working_days_of_descendants(ancestor, loader)
 
     if descendant_value.nil?
-      descendant_value = work_package.ignore_non_working_days
+      descendant_value = ancestor.ignore_non_working_days
     end
 
-    work_package.ignore_non_working_days = descendant_value
+    ancestor.ignore_non_working_days = descendant_value
   end
 
   ##
@@ -168,7 +188,13 @@ class WorkPackages::UpdateAncestorsService
   def derive_estimated_hours(work_package, loader)
     descendants = loader.descendants_of(work_package)
 
-    work_package.derived_estimated_hours = not_zero(all_estimated_hours(descendants).sum.to_f)
+    work_package.derived_estimated_hours = not_zero(all_estimated_hours([work_package] + descendants).sum.to_f)
+  end
+
+  def derive_remaining_hours(work_package, loader)
+    descendants = loader.descendants_of(work_package)
+
+    work_package.derived_remaining_hours = not_zero(all_remaining_hours([work_package] + descendants).sum.to_f)
   end
 
   def not_zero(value)
@@ -181,8 +207,19 @@ class WorkPackages::UpdateAncestorsService
       .reject { |hours| hours.to_f.zero? }
   end
 
-  def attributes_justify_inheritance?(attributes)
-    (%i(estimated_hours done_ratio parent parent_id status status_id ignore_non_working_days) & attributes).any?
+  def all_remaining_hours(work_packages)
+    work_packages.map(&:remaining_hours).reject { |hours| hours.to_f.zero? }
+  end
+
+  def modified_attributes_justify_derivation?(attributes)
+    attributes.intersect?(%i[
+                            done_ratio
+                            estimated_hours
+                            ignore_non_working_days
+                            parent parent_id
+                            remaining_hours
+                            status status_id
+                          ])
   end
 
   def ignore_non_working_days_of_descendants(ancestor, loader)

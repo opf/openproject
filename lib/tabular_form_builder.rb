@@ -165,7 +165,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                            text = field.to_s + "_#{checked_value}",
                            options = {})
 
-    label_for = "#{sanitized_object_name}_#{field}_#{checked_value}".to_sym
+    label_for = :"#{sanitized_object_name}_#{field}_#{checked_value}"
     unchecked_value = options.delete(:unchecked_value) { '' }
 
     input_options = options.reverse_merge(multiple: true,

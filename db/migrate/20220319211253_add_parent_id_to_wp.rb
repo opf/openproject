@@ -111,7 +111,6 @@ class AddParentIdToWp < ActiveRecord::Migration[6.1]
 
   def add_closure_tree_table
     # Copied from closure tree migration
-    # rubocop:disable Rails/CreateTableWithTimestamps
     create_table :work_package_hierarchies, id: false do |t|
       t.integer :ancestor_id, null: false
       t.integer :descendant_id, null: false
@@ -125,7 +124,6 @@ class AddParentIdToWp < ActiveRecord::Migration[6.1]
     add_index :work_package_hierarchies, [:descendant_id],
               name: "work_package_desc_idx"
     # End copied from closure tree migration
-    # rubocop:enable Rails/CreateTableWithTimestamps
   end
 
   # Creates the actual closure tree data.

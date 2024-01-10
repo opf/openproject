@@ -37,7 +37,7 @@ RSpec.describe 'attachments' do
     allow(User).to receive(:current).and_return current_user
   end
 
-  describe 'upload', js: true do
+  describe 'upload', :js do
     let(:file) { create(:file, name: 'textfile.txt') }
 
     # FIXME rework this spec after implementing fullscreen create view

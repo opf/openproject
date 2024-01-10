@@ -31,7 +31,7 @@ require_module_spec_helper
 require 'services/base_services/behaves_like_delete_service'
 require_relative 'shared_event_gun_examples'
 
-RSpec.describe Storages::ProjectStorages::DeleteService, type: :model, webmock: true do
+RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model do
   context 'with records written to DB' do
     let(:user) { create(:user) }
     let(:role) { create(:project_role, permissions: [:manage_storages_in_project]) }

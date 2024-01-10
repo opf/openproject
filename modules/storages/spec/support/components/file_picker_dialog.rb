@@ -55,7 +55,7 @@ module Components
 
     def wait_for_folder_loaded
       page.within(container) do
-        expect(page).not_to have_selector('[data-test-selector="op-file-list--loading-indicator"]')
+        expect(page).to have_no_css('[data-test-selector="op-file-list--loading-indicator"]')
       end
     end
 

@@ -73,7 +73,7 @@ module OpenProject::Reporting::Patches
       end
 
       def remove_custom_field_from_session(id)
-        custom_field_name = "custom_field#{id}".to_sym
+        custom_field_name = :"custom_field#{id}"
         report_engine_name = CostQuery.name.underscore.to_sym
         cookie = session[report_engine_name]
 

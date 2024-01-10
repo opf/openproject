@@ -27,10 +27,6 @@ de:
     attributes:
       work_package:
         position: "Position"
-        remaining_hours: "Verbleibender Aufwand"
-        remaining_time: "Verbleibender Aufwand"
-        derived_remaining_hours: "Abgeleitete verbleibender Aufwand"
-        derived_remaining_time: "Abgeleitete verbleibende ArbeitAbgeleitete verbleibender Aufwand"
         story_points: "Story-Punkte"
         backlogs_work_package_type: "Backlog Typ"
     errors:
@@ -68,8 +64,8 @@ de:
     properties: "Eigenschaften"
     rebuild: "Neu berechnen"
     rebuild_positions: "Positionen neu berechnen"
-    remaining_hours: "Verbleibende Stunden"
-    remaining_hours_ideal: "Verbleibende Stunden (ideal)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Burndown-Chart"
     story: "Story"
     story_points: "Story Punkte"
@@ -151,7 +147,7 @@ de:
   rb_label_copy_tasks_none: "Keine"
   rb_label_copy_tasks_open: "Öffnen"
   rb_label_link_to_original: "Link zur Original-Story einfügen"
-  remaining_hours: "Verbleibende Stunden"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "benötigte Burn-Rate (Stunden)"
   required_burn_rate_points: "benötigte Burn-Rate (Punkte)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

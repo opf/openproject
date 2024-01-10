@@ -521,6 +521,7 @@ ko:
     label_watcher_added_successfully: "주시하는 사람이 추가되었습니다."
     label_watcher_deleted_successfully: "주시하는 사람이 삭제되었습니다."
     label_work_package_details_you_are_here: "%{type} %{subject}에 대한 %{tab} 탭에 있습니다."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "주시 안 함"
     label_unwatch_work_package: "작업 패키지 주시 해제"
     label_uploaded_by: "업로드 : "
@@ -831,6 +832,7 @@ ko:
       toggle_description: "토글 관계 설명"
       update_relation: "관계 타입을 변경하려면 클릭하세요"
       add_follower: "팔로워 추가"
+      show_relations: "Show relations"
       add_predecessor: "선행 단계 추가"
       remove: "관계 제거"
       save: "관계 저장"
@@ -981,6 +983,7 @@ ko:
         updatedAt: "업데이트 날짜"
         versionName: "버전"
         version: "버전"
+        remainingTime: "남은 작업"
       default_queries:
         latest_activity: "최근 활동"
         created_by_me: "내가 만듦"

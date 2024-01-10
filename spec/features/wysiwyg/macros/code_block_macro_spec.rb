@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Wysiwyg code block macro',
-               js: true do
+RSpec.describe 'Wysiwyg code block macro', :js do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
@@ -66,20 +65,20 @@ RSpec.describe 'Wysiwyg code block macro',
           editor.set_markdown expected
 
           # Expect first macro saved to editor
-          expect(container).to have_selector('.op-uc-code-block', text: snippet)
-          expect(container).to have_selector('.op-uc-code-block--language', text: 'ruby')
+          expect(container).to have_css('.op-uc-code-block', text: snippet)
+          expect(container).to have_css('.op-uc-code-block--language', text: 'ruby')
 
           editor.set_markdown "#{expected}\n#{expected}"
-          expect(container).to have_selector('.op-uc-code-block', text: snippet, count: 2)
-          expect(container).to have_selector('.op-uc-code-block--language', text: 'ruby', count: 2)
+          expect(container).to have_css('.op-uc-code-block', text: snippet, count: 2)
+          expect(container).to have_css('.op-uc-code-block--language', text: 'ruby', count: 2)
         end
 
         click_on 'Save'
-        expect(page).to have_selector('.op-toast.-success')
+        expect(page).to have_css('.op-toast.-success')
 
         # Expect output widget
         within('#content') do
-          expect(page).to have_selector('pre.highlight-ruby', count: 2)
+          expect(page).to have_css('pre.highlight-ruby', count: 2)
         end
 
         SeleniumHubWaiter.wait
@@ -88,8 +87,8 @@ RSpec.describe 'Wysiwyg code block macro',
         # SeleniumHubWaiter.wait
 
         editor.in_editor do |container,|
-          expect(container).to have_selector('.op-uc-code-block', text: snippet, count: 2)
-          expect(container).to have_selector('.op-uc-code-block--language', text: 'ruby', count: 2)
+          expect(container).to have_css('.op-uc-code-block', text: snippet, count: 2)
+          expect(container).to have_css('.op-uc-code-block--language', text: 'ruby', count: 2)
         end
       end
 
@@ -97,17 +96,17 @@ RSpec.describe 'Wysiwyg code block macro',
         editor.in_editor do |container,|
           editor.click_toolbar_button 'Insert code snippet'
 
-          expect(page).to have_selector('.spot-modal')
+          expect(page).to have_css('.spot-modal')
 
           # CM wraps an accessor to the editor instance on the outer container
           cm = page.find('.CodeMirror')
           page.execute_script('arguments[0].CodeMirror.setValue(arguments[1]);', cm.native, 'asdf')
           find('.spot-modal--submit-button').click
 
-          expect(container).to have_selector('.op-uc-code-block', text: 'asdf')
+          expect(container).to have_css('.op-uc-code-block', text: 'asdf')
 
           click_on 'Save'
-          expect(page).to have_selector('.op-toast.-success')
+          expect(page).to have_css('.op-toast.-success')
 
           wp = WikiPage.last
           expect(wp.text.gsub("\r\n", "\n")).to eq("```text\nasdf\n```")
@@ -116,11 +115,11 @@ RSpec.describe 'Wysiwyg code block macro',
           click_on 'Edit'
 
           editor.in_editor do |container,|
-            expect(container).to have_selector('.op-uc-code-block', text: 'asdf')
+            expect(container).to have_css('.op-uc-code-block', text: 'asdf')
           end
 
           click_on 'Save'
-          expect(page).to have_selector('.op-toast.-success')
+          expect(page).to have_css('.op-toast.-success')
 
           wp.reload
           # Regression added two newlines before fence here
@@ -132,7 +131,7 @@ RSpec.describe 'Wysiwyg code block macro',
         editor.in_editor do |container,|
           editor.click_toolbar_button 'Insert code snippet'
 
-          expect(page).to have_selector('.spot-modal')
+          expect(page).to have_css('.spot-modal')
 
           # CM wraps an accessor to the editor instance on the outer container
           cm = page.find('.CodeMirror')
@@ -141,20 +140,20 @@ RSpec.describe 'Wysiwyg code block macro',
           fill_in 'selected-language', with: 'ruby'
 
           # Expect some highlighting classes
-          expect(page).to have_selector('.cm-keyword', text: 'def')
-          expect(page).to have_selector('.cm-def', text: 'foobar')
+          expect(page).to have_css('.cm-keyword', text: 'def')
+          expect(page).to have_css('.cm-def', text: 'foobar')
 
           find('.spot-modal--submit-button').click
 
           # Expect macro saved to editor
-          expect(container).to have_selector('.op-uc-code-block', text: snippet)
-          expect(container).to have_selector('.op-uc-code-block--language', text: 'ruby')
+          expect(container).to have_css('.op-uc-code-block', text: snippet)
+          expect(container).to have_css('.op-uc-code-block--language', text: 'ruby')
         end
 
         # Save wiki page
         click_on 'Save'
 
-        expect(page).to have_selector('.op-toast.-success')
+        expect(page).to have_css('.op-toast.-success')
 
         wiki_page = project.wiki.find_page('wiki')
         text = wiki_page.text.gsub(/\r\n?/, "\n")
@@ -162,7 +161,7 @@ RSpec.describe 'Wysiwyg code block macro',
 
         # Expect output widget
         within('#content') do
-          expect(page).to have_selector('pre.highlight-ruby')
+          expect(page).to have_css('pre.highlight-ruby')
         end
 
         # Edit page again, expect widget
@@ -170,16 +169,16 @@ RSpec.describe 'Wysiwyg code block macro',
         click_on 'Edit'
 
         editor.in_editor do |container,|
-          expect(container).to have_selector('.op-uc-code-block', text: snippet)
-          expect(container).to have_selector('.op-uc-code-block--language', text: 'ruby')
+          expect(container).to have_css('.op-uc-code-block', text: snippet)
+          expect(container).to have_css('.op-uc-code-block--language', text: 'ruby')
 
           widget = container.find('.op-uc-code-block')
           page.driver.browser.action.double_click(widget.native).perform
-          expect(page).to have_selector('.spot-modal')
+          expect(page).to have_css('.spot-modal')
 
-          expect(page).to have_selector('.op-uc-code-block--language', text: 'ruby')
-          expect(page).to have_selector('.cm-keyword', text: 'def')
-          expect(page).to have_selector('.cm-def', text: 'foobar')
+          expect(page).to have_css('.op-uc-code-block--language', text: 'ruby')
+          expect(page).to have_css('.cm-keyword', text: 'def')
+          expect(page).to have_css('.cm-def', text: 'foobar')
         end
       end
     end

@@ -1,18 +1,41 @@
 require 'spec_helper'
 
 RSpec.describe Announcement do
-  it do is_expected.to respond_to :text end
-  it do is_expected.to respond_to :text= end
-  it do is_expected.to respond_to :show_until end
-  it do is_expected.to respond_to :show_until= end
-  it do is_expected.to respond_to :active? end
-  it do is_expected.to respond_to :active= end
+  it do
+    expect(subject).to respond_to :text
+  end
+
+  it do
+    expect(subject).to respond_to :text=
+  end
+
+  it do
+    expect(subject).to respond_to :show_until
+  end
+
+  it do
+    expect(subject).to respond_to :show_until=
+  end
+
+  it do
+    expect(subject).to respond_to :active?
+  end
+
+  it do
+    expect(subject).to respond_to :active=
+  end
 
   describe 'class methods' do
     describe '#only_one' do
       context 'WHEN no announcement exists' do
-        it do expect(Announcement.only_one.text).to eql 'Announcement' end
-        it do expect(Announcement.only_one.show_until).to eql(Date.today + 14.days) end
+        it do
+          expect(Announcement.only_one.text).to eql 'Announcement'
+        end
+
+        it do
+          expect(Announcement.only_one.show_until).to eql(Date.today + 14.days)
+        end
+
         it { expect(Announcement.only_one.active).to be false }
       end
 

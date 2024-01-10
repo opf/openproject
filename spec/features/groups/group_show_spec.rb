@@ -42,9 +42,9 @@ RSpec.describe 'group show page' do
 
     it 'I can visit the group page' do
       visit show_group_path(group)
-      expect(page).to have_selector('h2', text: "Bob's Team")
-      expect(page).to have_selector('.toolbar-item', text: 'Edit')
-      expect(page).to have_selector('li', text: member.name)
+      expect(page).to have_css('h2', text: "Bob's Team")
+      expect(page).to have_css('.toolbar-item', text: 'Edit')
+      expect(page).to have_css('li', text: member.name)
     end
   end
 
@@ -53,9 +53,9 @@ RSpec.describe 'group show page' do
 
     it 'I can visit the group page' do
       visit show_group_path(group)
-      expect(page).to have_selector('h2', text: "Bob's Team")
-      expect(page).not_to have_selector('.toolbar-item')
-      expect(page).not_to have_selector('li', text: member.name)
+      expect(page).to have_css('h2', text: "Bob's Team")
+      expect(page).to have_no_css('.toolbar-item')
+      expect(page).to have_no_css('li', text: member.name)
     end
   end
 end

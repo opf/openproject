@@ -521,6 +521,7 @@ id:
     label_watcher_added_successfully: "Pemantau telah ditambahkan!"
     label_watcher_deleted_successfully: "Pemantau telah dihapus!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Unwatch"
     label_unwatch_work_package: "Tidak pantau Paket-Penugasan"
     label_uploaded_by: "Diupload oleh"
@@ -831,6 +832,7 @@ id:
       toggle_description: "Mengganti-ganti penjelasan hubungan"
       update_relation: "Klik untuk mengganti jenis hubungan"
       add_follower: "Tambah pengikut"
+      show_relations: "Show relations"
       add_predecessor: "Tambahkan pendahulu"
       remove: "Remove relation"
       save: "Save relation"
@@ -981,6 +983,7 @@ id:
         updatedAt: "Diperbarui"
         versionName: "Versi"
         version: "Versi"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"

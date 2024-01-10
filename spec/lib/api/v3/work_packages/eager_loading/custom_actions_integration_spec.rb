@@ -27,7 +27,7 @@
 #++require 'rspec'
 
 require 'spec_helper'
-require_relative './eager_loading_mock_wrapper'
+require_relative 'eager_loading_mock_wrapper'
 
 RSpec.describe API::V3::WorkPackages::EagerLoading::CustomAction do
   let!(:work_package1) { create(:work_package) }
@@ -60,10 +60,10 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::CustomAction do
         .not_to receive(:custom_actions)
 
       expect(wrapped.detect { |w| w.id == work_package1.id }.custom_actions(user))
-        .to match_array [status_custom_action]
+        .to contain_exactly(status_custom_action)
 
       expect(wrapped.detect { |w| w.id == work_package2.id }.custom_actions(user))
-        .to match_array [role_custom_action]
+        .to contain_exactly(role_custom_action)
     end
   end
 end

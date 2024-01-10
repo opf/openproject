@@ -31,6 +31,8 @@ FactoryBot.define do
     project
     user factory: :user
     include_subprojects { Setting.display_subprojects_work_packages? }
+    show_hierarchies { false }
+    display_sums { false }
     sequence(:name) { |n| "Query #{n}" }
 
     factory :public_query do

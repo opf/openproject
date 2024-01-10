@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects status administration',
-               js: true,
-               with_cuprite: true do
+RSpec.describe 'Projects status administration', :js, :with_cuprite do
   include_context 'ng-select-autocomplete helpers'
 
   let(:current_user) do

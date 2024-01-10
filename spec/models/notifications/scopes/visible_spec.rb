@@ -60,7 +60,7 @@ RSpec.describe Notifications::Scopes::Visible do
     context 'with the user being recipient and being allowed to see the work package' do
       it 'returns the notification' do
         expect(scope)
-          .to match_array([notification])
+          .to contain_exactly(notification)
       end
     end
 

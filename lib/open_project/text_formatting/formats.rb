@@ -32,20 +32,20 @@ module OpenProject::TextFormatting
       attr_reader :plain, :rich
 
       %i(plain rich).each do |flavor|
-        define_method("#{flavor}_format") do
+        define_method(:"#{flavor}_format") do
           send(flavor).format
         end
 
-        define_method("#{flavor}_formatter") do
+        define_method(:"#{flavor}_formatter") do
           send(flavor).formatter
         end
 
-        define_method("#{flavor}_helper") do
+        define_method(:"#{flavor}_helper") do
           send(flavor).helper
         end
 
-        define_method("register_#{flavor}!") do |klass|
-          instance_variable_set("@#{flavor}", klass)
+        define_method(:"register_#{flavor}!") do |klass|
+          instance_variable_set(:"@#{flavor}", klass)
         end
       end
 

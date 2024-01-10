@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'version show graph', js: true do
+RSpec.describe 'version show graph', :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:version) { create(:version, project:) }
@@ -45,7 +45,7 @@ RSpec.describe 'version show graph', js: true do
   end
 
   it 'shows a status graph' do
-    expect(page).to have_selector('.work-packages-embedded-view--container', wait: 20)
-    expect(page).to have_selector('.op-wp-embeded-graph', visible: :all, wait: 20)
+    expect(page).to have_css('.work-packages-embedded-view--container', wait: 20)
+    expect(page).to have_css('.op-wp-embeded-graph', visible: :all, wait: 20)
   end
 end

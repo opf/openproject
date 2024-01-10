@@ -521,6 +521,7 @@ be:
     label_watcher_added_successfully: "Watcher successfully added!"
     label_watcher_deleted_successfully: "Watcher successfully deleted!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Unwatch"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
@@ -834,6 +835,7 @@ be:
       toggle_description: "Toggle relation description"
       update_relation: "Click to change the relation type"
       add_follower: "Add follower"
+      show_relations: "Show relations"
       add_predecessor: "Add predecessor"
       remove: "Remove relation"
       save: "Save relation"
@@ -984,6 +986,7 @@ be:
         updatedAt: "Updated on"
         versionName: "Version"
         version: "Version"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"

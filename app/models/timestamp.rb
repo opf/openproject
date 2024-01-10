@@ -38,7 +38,7 @@ class Timestamp
 
     DATE_KEYWORD_REGEX =
       %r{
-        ^(?:#{ALLOWED_DATE_KEYWORDS.join("|")}) # match the relative date keyword
+        ^(?:#{ALLOWED_DATE_KEYWORDS.join('|')}) # match the relative date keyword
         @(?:([0-1]?[0-9]|2[0-3]):[0-5]?[0-9]) # match the hour part
           [+-](?:([0-1]?[0-9]|2[0-3]):[0-5]?[0-9])$ # match the timezone offset
       }x

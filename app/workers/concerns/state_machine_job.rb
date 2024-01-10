@@ -35,8 +35,8 @@ module StateMachineJob
   extend ActiveSupport::Concern
 
   included do
-    def perform(state, *args)
-      results = instance_exec(*args, &states[state][:block])
+    def perform(state, *)
+      results = instance_exec(*, &states[state][:block])
 
       to = states[state][:to]
 

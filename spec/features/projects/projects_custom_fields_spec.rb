@@ -110,7 +110,7 @@ RSpec.describe 'Projects custom fields', :js, :with_cuprite do
       visit project_settings_general_path(project.id)
 
       # expect CF, description and status description ckeditor-augmented-textarea
-      expect(page).to have_selector('.op-ckeditor--wrapper', count: 3)
+      expect(page).to have_css('.op-ckeditor--wrapper', count: 3)
 
       # single hash autocomplete
       editor.insert_link 'http://example.org/link with spaces'
@@ -126,7 +126,7 @@ RSpec.describe 'Projects custom fields', :js, :with_cuprite do
       cv = project.custom_values.find_by(custom_field_id: custom_field.id).value
 
       expect(cv).to include '[http://example.org/link with spaces](http://example.org/link%20with%20spaces)'
-      expect(page).to have_selector('a[href="http://example.org/link with spaces"]')
+      expect(page).to have_css('a[href="http://example.org/link with spaces"]')
     end
   end
 
@@ -289,7 +289,7 @@ RSpec.describe 'Projects custom fields', :js, :with_cuprite do
 
       cf_field.expect_visible
       cf_field.expect_no_option invisible_user
-      expect(page).not_to have_selector('.ng-dropdown-footer button', text: 'Invite')
+      expect(page).to have_no_css('.ng-dropdown-footer button', text: 'Invite')
     end
   end
 end

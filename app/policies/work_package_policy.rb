@@ -49,6 +49,7 @@ class WorkPackagePolicy < BasePolicy
       delete: delete_allowed?(work_package),
       manage_subtasks: manage_subtasks_allowed?(work_package),
       comment: comment_allowed?(work_package),
+      change_status: change_status_allowed?(work_package),
       assign_version: assign_version_allowed?(work_package)
     }
   end
@@ -93,5 +94,13 @@ class WorkPackagePolicy < BasePolicy
 
   def assign_version_allowed?(work_package)
     user.allowed_in_project?(:assign_versions, work_package.project)
+  end
+
+  def change_status_allowed?(work_package)
+    @change_status_cache ||= Hash.new do |hash, project|
+      hash[project] = user.allowed_in_project?(%i[edit_work_packages change_work_package_status], work_package.project)
+    end
+
+    @change_status_cache[work_package.project]
   end
 end

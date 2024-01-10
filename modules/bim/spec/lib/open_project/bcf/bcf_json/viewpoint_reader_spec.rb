@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './viewpoint_reader_shared_examples'
+require_relative 'viewpoint_reader_shared_examples'
 
 RSpec.describe OpenProject::Bim::BcfJson::ViewpointReader do
   let(:instance) { described_class.new xml_viewpoint.uuid, xml_viewpoint.viewpoint }

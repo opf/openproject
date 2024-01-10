@@ -81,23 +81,23 @@ module Pages
       def expect_no_item(*notifications)
         notifications.each do |notification|
           expect(page)
-            .not_to have_selector("[data-test-selector='op-ian-notification-item-#{notification.id}']")
+            .to have_no_css("[data-test-selector='op-ian-notification-item-#{notification.id}']")
         end
       end
 
       def expect_read_item(notification)
         expect(page)
-          .to have_selector("[data-test-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
+          .to have_css("[data-test-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
       end
 
       def expect_item_not_read(notification)
         expect(page)
-          .not_to have_selector("[data-test-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
+          .to have_no_css("[data-test-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-read]")
       end
 
       def expect_item_selected(notification)
         expect(page)
-          .to have_selector("[data-test-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-selected]")
+          .to have_css("[data-test-selector='op-ian-notification-item-#{notification.id}'][data-qa-ian-selected]")
       end
 
       def expect_work_package_item(*notifications)
@@ -111,11 +111,11 @@ module Pages
       end
 
       def expect_closed
-        expect(page).not_to have_selector('op-in-app-notification-center')
+        expect(page).to have_no_css('op-in-app-notification-center')
       end
 
       def expect_open
-        expect(page).to have_selector('op-in-app-notification-center')
+        expect(page).to have_css('op-in-app-notification-center')
       end
 
       def expect_empty
@@ -124,17 +124,17 @@ module Pages
 
       def expect_number_of_notifications(count)
         if count == 0
-          expect(page).not_to have_selector('[data-test-selector^="op-ian-notification-item-"]')
+          expect(page).to have_no_css('[data-test-selector^="op-ian-notification-item-"]')
         else
-          expect(page).to have_selector('[data-test-selector^="op-ian-notification-item-"]', count:, wait: 10)
+          expect(page).to have_css('[data-test-selector^="op-ian-notification-item-"]', count:, wait: 10)
         end
       end
 
       def expect_bell_count(count)
         if count == 0
-          expect(page).not_to have_selector('[data-test-selector="op-ian-notifications-count"]')
+          expect(page).to have_no_css('[data-test-selector="op-ian-notifications-count"]')
         else
-          expect(page).to have_selector('[data-test-selector="op-ian-notifications-count"]', text: count, wait: 10)
+          expect(page).to have_css('[data-test-selector="op-ian-notifications-count"]', text: count, wait: 10)
         end
       end
 
@@ -143,11 +143,11 @@ module Pages
       end
 
       def expect_no_toaster
-        expect(page).not_to have_selector('.op-toast.-info', wait: 10)
+        expect(page).to have_no_css('.op-toast.-info', wait: 10)
       end
 
       def expect_toast
-        expect(page).to have_selector('.op-toast.-info', wait: 10)
+        expect(page).to have_css('.op-toast.-info', wait: 10)
       end
 
       def update_via_toaster

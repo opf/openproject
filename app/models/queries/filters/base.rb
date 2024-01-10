@@ -49,7 +49,7 @@ class Queries::Filters::Base
     self.context = options[:context]
 
     self.class.filter_params.each do |param_field|
-      send("#{param_field}=", options[param_field])
+      send(:"#{param_field}=", options[param_field])
     end
   end
 

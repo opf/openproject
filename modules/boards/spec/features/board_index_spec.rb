@@ -67,7 +67,6 @@ RSpec.describe 'Work Package Project Boards Index Page',
   shared_let(:priority) { create(:default_priority) }
   shared_let(:status) { create(:default_status) }
 
-
   let(:current_user) { user_with_full_permissions }
   let(:board_index) { Pages::BoardIndex.new(project) }
 

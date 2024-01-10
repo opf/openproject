@@ -40,7 +40,6 @@ module OpenProject::Backlogs::Patches::ProjectSeederPatch
 
       versions = version_data
         .filter_map { |data| Version.find_by(name: data['name']) }
-        
 
       versions.each do |version|
         display = version_settings_display_map[version.name] || VersionSetting::DISPLAY_NONE

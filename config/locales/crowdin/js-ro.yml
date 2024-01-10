@@ -520,6 +520,7 @@ ro:
     label_watcher_added_successfully: "Observator adăugat cu succes!"
     label_watcher_deleted_successfully: "Observator eliminat cu succes!"
     label_work_package_details_you_are_here: "Sunteți pe fila %{tab} pentru %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Stop monitorizare"
     label_unwatch_work_package: "Opriți urmărirea pachetului de lucru"
     label_uploaded_by: "Încărcat de"
@@ -832,6 +833,7 @@ ro:
       toggle_description: "Activați/Dezactivați descrierea legăturilor"
       update_relation: "Faceți click pentru a schimba tipul de legătură"
       add_follower: "Adaugă urmăritor"
+      show_relations: "Show relations"
       add_predecessor: "Adăugați predecesorul"
       remove: "Eliminare relaţie"
       save: "Salvează relația"
@@ -982,6 +984,7 @@ ro:
         updatedAt: "Actualizat pe"
         versionName: "Versiune"
         version: "Versiune"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Activitate recentă"
         created_by_me: "Creat de mine"

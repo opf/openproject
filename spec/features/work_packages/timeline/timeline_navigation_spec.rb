@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
+RSpec.describe 'Work package timeline navigation', :js, :selenium do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:query_menu) { Components::WorkPackages::QueryMenu.new }
@@ -282,7 +282,7 @@ RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
       group_by.enable_via_menu 'Category'
 
       # Expect table to be grouped as WP created above
-      expect(page).to have_selector('.group--value .count', count: 3)
+      expect(page).to have_css('.group--value .count', count: 3)
 
       # Expect timeline to have relation between first and second group
       wp_timeline.expect_timeline_relation(wp_cat1, wp_cat2)
@@ -325,7 +325,7 @@ RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
 
       # The button to fold/expand all groups is only present when grouping
       expect(page)
-        .not_to have_button('wp-fold-toggle-button')
+        .to have_no_button('wp-fold-toggle-button')
 
       group_by.enable_via_menu 'Project'
 
@@ -335,30 +335,30 @@ RSpec.describe 'Work package timeline navigation', js: true, selenium: true do
         .click
 
       # Folding will lead to having milestones presented within the group row
-      expect(page).to have_selector('.-group-row .timeline-element.milestone')
+      expect(page).to have_css('.-group-row .timeline-element.milestone')
 
       # Check hover labels (milestone)
       milestone = find('.timeline-element.milestone')
       milestone.hover
 
-      expect(milestone).to have_selector(".labelHoverLeft.not-empty")
-      expect(milestone).to have_selector(".labelHoverRight.not-empty", text: milestone_work_package.subject)
-      expect(milestone).to have_selector(".labelLeft", visible: :hidden)
-      expect(milestone).to have_selector(".labelRight", visible: :hidden)
-      expect(milestone).to have_selector(".labelFarRight", visible: :hidden)
+      expect(milestone).to have_css(".labelHoverLeft.not-empty")
+      expect(milestone).to have_css(".labelHoverRight.not-empty", text: milestone_work_package.subject)
+      expect(milestone).to have_css(".labelLeft", visible: :hidden)
+      expect(milestone).to have_css(".labelRight", visible: :hidden)
+      expect(milestone).to have_css(".labelFarRight", visible: :hidden)
 
       # Unfold Group rows
       find('.wp-table--group-header', text: 'My Project No.')
         .find('.expander')
         .click
 
-      expect(page).not_to have_selector('.-group-row .timeline-element')
+      expect(page).to have_no_css('.-group-row .timeline-element')
 
       click_button('wp-fold-toggle-button')
       click_button(I18n.t('js.button_collapse_all'))
 
       # Will again fold all rows so the milestone elements should again be present
-      expect(page).to have_selector('.-group-row .timeline-element.milestone')
+      expect(page).to have_css('.-group-row .timeline-element.milestone')
     end
   end
 end

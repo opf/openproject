@@ -39,19 +39,19 @@ module Components
     end
 
     def rows_count(count)
-      expect(page).to have_selector('#result-table tbody tr', count:)
+      expect(page).to have_css('#result-table tbody tr', count:)
     end
 
     def expect_action_icon(icon, row, present: true)
       if present
-        expect(page).to have_selector("#{row_selector(row)} .icon-#{icon}")
+        expect(page).to have_css("#{row_selector(row)} .icon-#{icon}")
       else
-        expect(page).not_to have_selector("#{row_selector(row)} .icon-#{icon}")
+        expect(page).to have_no_css("#{row_selector(row)} .icon-#{icon}")
       end
     end
 
     def expect_value(value, row)
-      expect(page).to have_selector("#{row_selector(row)} .units", text: value)
+      expect(page).to have_css("#{row_selector(row)} .units", text: value)
     end
 
     def edit_time_entry(new_value, row)
@@ -78,7 +78,7 @@ module Components
       SeleniumHubWaiter.wait
       fill_in('cost_entry_units', with: new_value)
       click_button 'Save'
-      expect(page).to have_selector('.op-toast.-success')
+      expect(page).to have_css('.op-toast.-success')
     end
 
     def delete_entry(row)

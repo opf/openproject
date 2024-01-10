@@ -46,7 +46,7 @@ RSpec.describe Grids::Query, type: :model do
   context 'without a filter' do
     describe '#results' do
       it 'is the same as getting all the grids visible to the user' do
-        expect(instance.results).to match_array [my_page_grid]
+        expect(instance.results).to contain_exactly(my_page_grid)
       end
     end
   end
@@ -58,7 +58,7 @@ RSpec.describe Grids::Query, type: :model do
 
     describe '#results' do
       it 'is the same as handwriting the query' do
-        expect(instance.results).to match_array [my_page_grid]
+        expect(instance.results).to contain_exactly(my_page_grid)
       end
     end
 

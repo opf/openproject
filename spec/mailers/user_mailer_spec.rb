@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_examples'
+require_relative 'shared_examples'
 
 RSpec.describe UserMailer do
   subject(:deliveries) { ActionMailer::Base.deliveries }

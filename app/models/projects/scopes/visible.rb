@@ -39,10 +39,9 @@ module Projects::Scopes
         # Use a shortcut for admins and anonymous where
         # we don't need to calculate for work package roles which is more expensive
         if user.admin? || user.anonymous?
-          Project.allowed_to(user, :view_project)
+          allowed_to(user, :view_project)
         else
-          Project.allowed_to(user, :view_project)
-                 .or(where(id: WorkPackage.allowed_to(user, :view_work_packages).select(:project_id)))
+          active.public_projects.or(active.where(id: user.members.select(:project_id)))
         end
       end
     end

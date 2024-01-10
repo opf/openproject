@@ -42,7 +42,7 @@ RSpec.describe Type do
     end
 
     it 'returns the types enabled in the provided project' do
-      expect(Type.enabled_in(project)).to match_array([type])
+      expect(Type.enabled_in(project)).to contain_exactly(type)
     end
   end
 

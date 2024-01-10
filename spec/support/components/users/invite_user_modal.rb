@@ -178,7 +178,7 @@ module Components
       def expect_error_displayed(message)
         within_modal do
           expect(page)
-            .to have_selector('.spot-form-field--error', text: message)
+            .to have_css('.spot-form-field--error', text: message)
         end
       end
 

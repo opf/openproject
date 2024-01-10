@@ -29,9 +29,7 @@
 require 'spec_helper'
 require_relative 'mock_global_permissions'
 
-RSpec.describe 'Global role: Global role assignment',
-               js: true,
-               with_cuprite: true do
+RSpec.describe 'Global role: Global role assignment', :js, :with_cuprite do
   before do
     login_as current_user
   end
@@ -62,7 +60,7 @@ RSpec.describe 'Global role: Global role assignment',
       # And I should not see "global_role1" within "#available_principal_roles"
       # And I should see "global_role2" within "#available_principal_roles"
       page.within('#available_principal_roles') do
-        expect(page).not_to have_text 'global_role1'
+        expect(page).to have_no_text 'global_role1'
         expect(page).to have_text 'global_role2'
       end
 
@@ -83,8 +81,8 @@ RSpec.describe 'Global role: Global role assignment',
       # And I should not see "global_role1" within "#available_principal_roles"
       # And I should not see "global_role2" within "#available_principal_roles"
       page.within('#available_principal_roles') do
-        expect(page).not_to have_text 'global_role1'
-        expect(page).not_to have_text 'global_role2'
+        expect(page).to have_no_text 'global_role1'
+        expect(page).to have_no_text 'global_role2'
       end
 
       # And I delete the assigned role "global_role1"
@@ -98,13 +96,13 @@ RSpec.describe 'Global role: Global role assignment',
       # And I should not see "global_role2" within "#available_principal_roles"
       page.within('#available_principal_roles') do
         expect(page).to have_text 'global_role1'
-        expect(page).not_to have_text 'global_role2'
+        expect(page).to have_no_text 'global_role2'
       end
 
       # And I should not see "global_role1" within "#table_principal_roles"
       # And I should see "global_role1" within "#table_principal_roles"
       page.within('#table_principal_roles') do
-        expect(page).not_to have_text 'global_role1'
+        expect(page).to have_no_text 'global_role1'
         expect(page).to have_text 'global_role2'
       end
     end

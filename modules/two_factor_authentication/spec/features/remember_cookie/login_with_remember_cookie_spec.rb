@@ -1,13 +1,12 @@
 require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
-RSpec.describe 'Login with 2FA remember cookie',
-               js: true, with_settings: {
-                 plugin_openproject_two_factor_authentication: {
-                   active_strategies: [:developer],
-                   allow_remember_for_days: 30
-                 }
-               } do
+RSpec.describe 'Login with 2FA remember cookie', :js, with_settings: {
+  plugin_openproject_two_factor_authentication: {
+    active_strategies: [:developer],
+    allow_remember_for_days: 30
+  }
+} do
   let(:user_password) do
     "user!user!"
   end
@@ -27,7 +26,7 @@ RSpec.describe 'Login with 2FA remember cookie',
 
     first_login_step
 
-    expect(page).to have_selector('input#remember_me')
+    expect(page).to have_css('input#remember_me')
     SeleniumHubWaiter.wait
     check 'remember_me'
 
@@ -38,7 +37,7 @@ RSpec.describe 'Login with 2FA remember cookie',
   def expect_no_autologin
     first_login_step
 
-    expect(page).to have_selector('input#otp')
+    expect(page).to have_css('input#otp')
     expect_not_logged_in
   end
 
@@ -51,7 +50,7 @@ RSpec.describe 'Login with 2FA remember cookie',
           } do
     it 'does not show the save form' do
       first_login_step
-      expect(page).not_to have_selector('input#remember_me')
+      expect(page).to have_no_css('input#remember_me')
     end
   end
 
@@ -61,8 +60,8 @@ RSpec.describe 'Login with 2FA remember cookie',
       visit my_2fa_devices_path
 
       find('.two-factor-authentication--remove-remember-cookie-link').click
-      expect(page).to have_selector('.op-toast.-success')
-      expect(page).not_to have_selector('.two-factor-authentication--remove-remember-cookie-link')
+      expect(page).to have_css('.op-toast.-success')
+      expect(page).to have_no_css('.two-factor-authentication--remove-remember-cookie-link')
 
       # Log out and in again
       visit '/logout'

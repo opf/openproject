@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 # Concern is included into AccountController and depends on methods available there
-RSpec.describe AccountController,
-               skip_2fa_stage: true do
+RSpec.describe AccountController, :skip_2fa_stage do
   let(:omniauth_strategy) { double('Google Strategy', name: 'google') }
   let(:omniauth_hash) do
     OmniAuth::AuthHash.new(

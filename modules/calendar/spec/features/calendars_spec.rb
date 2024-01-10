@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package calendars', js: true do
+RSpec.describe 'Work package calendars', :js do
   let(:project) { create(:project) }
   let(:user) do
     create(:user,
@@ -86,13 +86,13 @@ RSpec.describe 'Work package calendars', js: true do
 
     # should open the calendar with the current month displayed
     expect(page)
-      .to have_selector '.fc-event-title', text: current_work_package.subject
+      .to have_css '.fc-event-title', text: current_work_package.subject
     expect(page)
-      .to have_selector '.fc-event-title', text: another_current_work_package.subject
+      .to have_css '.fc-event-title', text: another_current_work_package.subject
     expect(page)
-      .not_to have_selector '.fc-event-title', text: future_work_package.subject
+      .to have_no_css '.fc-event-title', text: future_work_package.subject
     expect(page)
-      .not_to have_selector '.fc-event-title', text: another_future_work_package.subject
+      .to have_no_css '.fc-event-title', text: another_future_work_package.subject
 
     filters.expect_filter_count 1
 
@@ -105,9 +105,9 @@ RSpec.describe 'Work package calendars', js: true do
 
     # non matching work packages are no longer displayed
     expect(page)
-      .not_to have_selector '.fc-event-title', text: current_work_package.subject
+      .to have_no_css '.fc-event-title', text: current_work_package.subject
     expect(page)
-      .to have_selector '.fc-event-title', text: another_current_work_package.subject
+      .to have_css '.fc-event-title', text: another_current_work_package.subject
 
     # The filter for the time frame added implicitly should not be visible
     filters.expect_filter_count 2
@@ -116,25 +116,25 @@ RSpec.describe 'Work package calendars', js: true do
     find('.fc-next-button').click
 
     expect(page)
-      .not_to have_selector '.fc-event-title', text: current_work_package.subject
+      .to have_no_css '.fc-event-title', text: current_work_package.subject
     expect(page)
-      .not_to have_selector '.fc-event-title', text: another_current_work_package.subject
+      .to have_no_css '.fc-event-title', text: another_current_work_package.subject
     expect(page)
-      .not_to have_selector '.fc-event-title', text: future_work_package.subject
+      .to have_no_css '.fc-event-title', text: future_work_package.subject
     expect(page)
-      .to have_selector '.fc-event-title', text: another_future_work_package.subject
+      .to have_css '.fc-event-title', text: another_future_work_package.subject
 
     # removing the filter will show the event again
     filters.remove_filter 'subject'
 
     expect(page)
-      .not_to have_selector '.fc-event-title', text: current_work_package.subject
+      .to have_no_css '.fc-event-title', text: current_work_package.subject
     expect(page)
-      .not_to have_selector '.fc-event-title', text: another_current_work_package.subject
+      .to have_no_css '.fc-event-title', text: another_current_work_package.subject
     expect(page)
-      .to have_selector '.fc-event-title', text: future_work_package.subject
+      .to have_css '.fc-event-title', text: future_work_package.subject
     expect(page)
-      .to have_selector '.fc-event-title', text: another_future_work_package.subject
+      .to have_css '.fc-event-title', text: another_future_work_package.subject
 
     future_url = current_url
 
@@ -142,37 +142,37 @@ RSpec.describe 'Work package calendars', js: true do
     find('.fc-prev-button').click
 
     expect(page)
-      .to have_selector '.fc-event-title', text: current_work_package.subject
+      .to have_css '.fc-event-title', text: current_work_package.subject
     expect(page)
-      .to have_selector '.fc-event-title', text: another_current_work_package.subject
+      .to have_css '.fc-event-title', text: another_current_work_package.subject
     expect(page)
-      .not_to have_selector '.fc-event-title', text: future_work_package.subject
+      .to have_no_css '.fc-event-title', text: future_work_package.subject
     expect(page)
-      .not_to have_selector '.fc-event-title', text: another_future_work_package.subject
+      .to have_no_css '.fc-event-title', text: another_future_work_package.subject
 
     # open the page via the url should show the next month again
     visit future_url
 
     expect(page)
-      .not_to have_selector '.fc-event-title', text: current_work_package.subject
+      .to have_no_css '.fc-event-title', text: current_work_package.subject
     expect(page)
-      .not_to have_selector '.fc-event-title', text: another_current_work_package.subject
+      .to have_no_css '.fc-event-title', text: another_current_work_package.subject
     expect(page)
-      .to have_selector '.fc-event-title', text: future_work_package.subject
+      .to have_css '.fc-event-title', text: future_work_package.subject
     expect(page)
-      .to have_selector '.fc-event-title', text: another_future_work_package.subject
+      .to have_css '.fc-event-title', text: another_future_work_package.subject
 
     # go back a month by using the browser back functionality
     page.execute_script('window.history.back()')
 
     expect(page)
-      .to have_selector '.fc-event-title', text: current_work_package.subject
+      .to have_css '.fc-event-title', text: current_work_package.subject
     expect(page)
-      .to have_selector '.fc-event-title', text: another_current_work_package.subject
+      .to have_css '.fc-event-title', text: another_current_work_package.subject
     expect(page)
-      .not_to have_selector '.fc-event-title', text: future_work_package.subject
+      .to have_no_css '.fc-event-title', text: future_work_package.subject
     expect(page)
-      .not_to have_selector '.fc-event-title', text: another_future_work_package.subject
+      .to have_no_css '.fc-event-title', text: another_future_work_package.subject
 
     # click goes to work package split screen
     page.find('.fc-event-title', text: current_work_package.subject).click
@@ -182,7 +182,7 @@ RSpec.describe 'Work package calendars', js: true do
     # Regression #29664
     page.go_back
     expect(page)
-      .to have_selector('.fc-event-title', text: current_work_package.subject, wait: 20)
+      .to have_css('.fc-event-title', text: current_work_package.subject, wait: 20)
     current_wp_split_screen.expect_closed
 
     # click goes to work package split screen page again
@@ -193,7 +193,7 @@ RSpec.describe 'Work package calendars', js: true do
     current_wp_split_screen.close
 
     expect(page)
-      .to have_selector '.fc-event-title', text: current_work_package.subject, wait: 20
+      .to have_css '.fc-event-title', text: current_work_package.subject, wait: 20
     current_wp_split_screen.expect_closed
   end
 end

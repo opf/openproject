@@ -55,7 +55,7 @@ module Components
             .to have_text(I18n.t('js.button_log_time'))
         end
       else
-        expect(page).not_to have_selector '.spot-modal'
+        expect(page).to have_no_css '.spot-modal'
       end
     end
 
@@ -67,16 +67,16 @@ module Components
 
     def expect_work_package(subject)
       within modal_container do
-        expect(page).to have_selector('.ng-value', text: subject, wait: 10)
+        expect(page).to have_css('.ng-value', text: subject, wait: 10)
       end
     end
 
     def shows_field(field, visible)
       within modal_container do
         if visible
-          expect(page).to have_selector "##{field_identifier(field)}"
+          expect(page).to have_css "##{field_identifier(field)}"
         else
-          expect(page).not_to have_selector "##{field_identifier(field)}"
+          expect(page).to have_no_css "##{field_identifier(field)}"
         end
       end
     end
@@ -134,7 +134,7 @@ module Components
     private
 
     def field_object(field_name)
-      send("#{field_name}_field")
+      send(:"#{field_name}_field")
     end
 
     def modal_container

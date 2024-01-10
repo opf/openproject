@@ -69,14 +69,14 @@ module Components
         end
         element.click(x: -((width / 2) - 10), y: -((height / 2) - 10))
       end
-      expect(page).not_to have_css('[data-test-selector="attribute-help-text--header"]', text: help_text.attribute_caption)
+      expect(page).to have_no_css('[data-test-selector="attribute-help-text--header"]', text: help_text.attribute_caption)
     end
 
     def expect_edit(editable:)
       if editable
         expect(page).to have_css('.help-text--edit-button')
       else
-        expect(page).not_to have_css('.help-text--edit-button')
+        expect(page).to have_no_css('.help-text--edit-button')
       end
     end
 

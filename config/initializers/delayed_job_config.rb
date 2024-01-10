@@ -36,7 +36,7 @@ Delayed::Worker.delay_jobs = true
 Rails.application.reloader.to_prepare do
   # Set default priority (lower = higher priority)
   # Example ordering, see ApplicationJob.priority_number
-  Delayed::Worker.default_priority = ::ApplicationJob.priority_number(:default)
+  Delayed::Worker.default_priority = ApplicationJob.priority_number(:default)
 end
 
 # Do not retry jobs from delayed_job

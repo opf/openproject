@@ -72,7 +72,7 @@ RSpec.describe 'TimeEntry activity',
 
     within("li.op-activity-list--item", match: :first) do
       expect(page).to have_link("#{project.types.first} ##{work_package.id}: #{work_package.subject}")
-      expect(page).to have_selector('li', text: "Spent time: 5 hours")
+      expect(page).to have_css('li', text: "Spent time: 5 hours")
       expect(page).to have_link('Details')
       click_link('Details')
     end
@@ -103,13 +103,13 @@ RSpec.describe 'TimeEntry activity',
 
     within("li.op-activity-list--item", match: :first) do
       expect(page).to have_link("#{project.types.first} ##{work_package2.id}: #{work_package2.subject}")
-      expect(page).to have_selector('li', text: "Logged for #{user2.name}")
-      expect(page).to have_selector('li', text: "Work package changed from #{work_package.name} to #{work_package2.name}")
-      expect(page).to have_selector('li', text: "Spent time changed from 5 hours to 1 hour")
-      expect(page).to have_selector('li', text: "Comment changed from #{old_comments} to #{time_entry.comments}")
-      expect(page).to have_selector('li',
-                                    text: "Activity changed from #{time_entry_activity.name} to #{time_entry_activity2.name}")
-      expect(page).to have_selector('li', text: "Date changed from #{old_spent_on} to #{time_entry.spent_on}")
+      expect(page).to have_css('li', text: "Logged for #{user2.name}")
+      expect(page).to have_css('li', text: "Work package changed from #{work_package.name} to #{work_package2.name}")
+      expect(page).to have_css('li', text: "Spent time changed from 5 hours to 1 hour")
+      expect(page).to have_css('li', text: "Comment changed from #{old_comments} to #{time_entry.comments}")
+      expect(page).to have_css('li',
+                               text: "Activity changed from #{time_entry_activity.name} to #{time_entry_activity2.name}")
+      expect(page).to have_css('li', text: "Date changed from #{old_spent_on} to #{time_entry.spent_on}")
       click_link('Details')
     end
 

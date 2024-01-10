@@ -44,7 +44,7 @@ RSpec.describe Notifications::Scopes::MailReminderUnsent do
 
     it 'contains the notifications with read_mail: false' do
       expect(scope)
-        .to match_array([unread_mail_notification])
+        .to contain_exactly(unread_mail_notification)
     end
   end
 end

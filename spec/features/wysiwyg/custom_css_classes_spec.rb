@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
-               js: true do
+RSpec.describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)', :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:editor) { Components::WysiwygEditor.new }
@@ -159,17 +158,17 @@ RSpec.describe 'Wysiwyg paragraphs in lists behavior (Regression #28765)',
       editor.align_table_by_label(editor, table, 'Align table to the left')
 
       # Table figure should now has the proper alignment class
-      expect(editable).to have_selector('figure.op-uc-figure_align-start')
+      expect(editable).to have_css('figure.op-uc-figure_align-start')
 
       editor.align_table_by_label(editor, table, 'Align table to the right')
 
       # Table figure should now has the proper alignment class
-      expect(editable).to have_selector('figure.op-uc-figure_align-end')
+      expect(editable).to have_css('figure.op-uc-figure_align-end')
 
       editor.align_table_by_label(editor, table, 'Center table')
 
       # Table figure should now has the proper alignment class
-      expect(editable).to have_selector('figure.op-uc-figure_align-center')
+      expect(editable).to have_css('figure.op-uc-figure_align-center')
     end
   end
 end

@@ -521,6 +521,7 @@ ka:
     label_watcher_added_successfully: "Watcher successfully added!"
     label_watcher_deleted_successfully: "Watcher successfully deleted!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "მეთვალყურეობის გაუქმება"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "ატვირთული ფაილის მფლობელი"
@@ -832,6 +833,7 @@ ka:
       toggle_description: "Toggle relation description"
       update_relation: "Click to change the relation type"
       add_follower: "გამომწერის დამატება"
+      show_relations: "Show relations"
       add_predecessor: "Add predecessor"
       remove: "Remove relation"
       save: "ურთიერთობის შენახვა"
@@ -982,6 +984,7 @@ ka:
         updatedAt: "განახლების თარიღი"
         versionName: "ვერსია"
         version: "ვერსია"
+        remainingTime: "დარჩენილი სამუშაო"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "ჩემი შექმნილები"

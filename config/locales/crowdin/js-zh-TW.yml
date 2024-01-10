@@ -520,6 +520,7 @@ zh-TW:
     label_watcher_added_successfully: "已成功新增關注者！"
     label_watcher_deleted_successfully: "已成功刪除關注者！"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "取消監看"
     label_unwatch_work_package: "取消關注工作項目"
     label_uploaded_by: "上傳者"
@@ -830,6 +831,7 @@ zh-TW:
       toggle_description: "切換關係描述"
       update_relation: "按一下此處以更改關聯類型"
       add_follower: "增加後置項目"
+      show_relations: "Show relations"
       add_predecessor: "增加前置項目"
       remove: "刪除關係"
       save: "儲存關聯"
@@ -980,6 +982,7 @@ zh-TW:
         updatedAt: "更新於"
         versionName: "版本"
         version: "版本"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "最新活動"
         created_by_me: "由我創建"

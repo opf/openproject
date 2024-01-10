@@ -45,7 +45,7 @@ RSpec.describe Admin::Settings::ProjectsSettingsController do
 
         expect(response).to be_successful
         expect(response).to render_template 'admin/settings/projects_settings/show'
-        expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity']"
+        expect(response.body).to have_css "input[@name='settings[default_projects_modules][]'][@value='activity']"
       end
 
       context 'without activated activity module' do
@@ -59,7 +59,7 @@ RSpec.describe Admin::Settings::ProjectsSettingsController do
           expect(response).to be_successful
           expect(response).to render_template 'admin/settings/projects_settings/show'
 
-          expect(response.body).not_to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
+          expect(response.body).to have_no_css "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
         end
       end
 
@@ -74,7 +74,7 @@ RSpec.describe Admin::Settings::ProjectsSettingsController do
           expect(response).to be_successful
           expect(response).to render_template 'admin/settings/projects_settings/show'
 
-          expect(response.body).to have_selector "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
+          expect(response.body).to have_css "input[@name='settings[default_projects_modules][]'][@value='activity'][@checked='checked']"
         end
       end
     end

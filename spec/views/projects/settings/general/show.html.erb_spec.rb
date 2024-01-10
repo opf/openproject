@@ -44,7 +44,7 @@ RSpec.describe 'projects/settings/general/show' do
       end
 
       it 'the copy link should be visible' do
-        expect(rendered).to have_selector 'a.copy'
+        expect(rendered).to have_css 'a.copy'
       end
     end
 
@@ -55,7 +55,7 @@ RSpec.describe 'projects/settings/general/show' do
       end
 
       it 'the copy link should not be visible' do
-        expect(rendered).not_to have_selector 'a.copy'
+        expect(rendered).to have_no_css 'a.copy'
       end
     end
   end
@@ -72,8 +72,8 @@ RSpec.describe 'projects/settings/general/show' do
     end
 
     it 'show delete and archive buttons' do
-      expect(rendered).to have_selector('li.toolbar-item span.button--text', text: 'Archive')
-      expect(rendered).to have_selector('li.toolbar-item span.button--text', text: 'Delete')
+      expect(rendered).to have_css('li.toolbar-item span.button--text', text: 'Archive')
+      expect(rendered).to have_css('li.toolbar-item span.button--text', text: 'Delete')
     end
   end
 
@@ -89,8 +89,8 @@ RSpec.describe 'projects/settings/general/show' do
     end
 
     it 'hide delete and archive buttons' do
-      expect(rendered).not_to have_selector('li.toolbar-item span.button--text', text: 'Archive project')
-      expect(rendered).not_to have_selector('li.toolbar-item span.button--text', text: 'Delete project')
+      expect(rendered).to have_no_css('li.toolbar-item span.button--text', text: 'Archive project')
+      expect(rendered).to have_no_css('li.toolbar-item span.button--text', text: 'Delete project')
     end
   end
 end

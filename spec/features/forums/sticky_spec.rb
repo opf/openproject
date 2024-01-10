@@ -60,7 +60,7 @@ RSpec.describe 'sticky messages' do
 
   def expect_order_of_messages(*order)
     order.each_with_index do |message, index|
-      expect(page).to have_selector("table tbody tr:nth-of-type(#{index + 1})", text: message.subject)
+      expect(page).to have_css("table tbody tr:nth-of-type(#{index + 1})", text: message.subject)
     end
   end
 

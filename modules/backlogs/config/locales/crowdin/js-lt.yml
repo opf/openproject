@@ -24,4 +24,3 @@ lt:
     work_packages:
       properties:
         storyPoints: "Istorijos taškai"
-        remainingTime: "Liko darbo"

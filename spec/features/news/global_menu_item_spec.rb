@@ -51,7 +51,7 @@ RSpec.describe 'News global menu item spec', :js, :with_cuprite do
       expect(page).to have_current_path(news_index_path)
 
       within '#main-menu' do
-        expect(page).to have_selector('.selected', text: 'News')
+        expect(page).to have_css('.selected', text: 'News')
       end
     end
   end
@@ -61,7 +61,7 @@ RSpec.describe 'News global menu item spec', :js, :with_cuprite do
 
     it "doesn't render the menu item" do
       within '#main-menu' do
-        expect(page).not_to have_link 'News'
+        expect(page).to have_no_link 'News'
       end
     end
   end

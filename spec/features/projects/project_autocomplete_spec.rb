@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects autocomplete page', js: true, with_cuprite: true do
+RSpec.describe 'Projects autocomplete page', :js, :with_cuprite do
   let!(:user) { create(:user) }
   let(:top_menu) { Components::Projects::TopMenu.new }
 
@@ -110,8 +110,8 @@ RSpec.describe 'Projects autocomplete page', js: true, with_cuprite: true do
 
     # Expect highlights
     within(top_menu.search_results) do
-      expect(page).to have_selector('.op-search-highlight', text: '<strong')
-      expect(page).not_to have_selector('strong')
+      expect(page).to have_css('.op-search-highlight', text: '<strong')
+      expect(page).to have_no_css('strong')
     end
 
     # Expect fuzzy matches for plain
@@ -156,7 +156,7 @@ RSpec.describe 'Projects autocomplete page', js: true, with_cuprite: true do
 
     # Keeps the current module
     visit project_news_index_path(project2)
-    expect(page).to have_selector('.news-menu-item.selected')
+    expect(page).to have_css('.news-menu-item.selected')
 
     retry_block do
       top_menu.toggle
@@ -165,7 +165,7 @@ RSpec.describe 'Projects autocomplete page', js: true, with_cuprite: true do
     end
 
     expect(page).to have_current_path(project_news_index_path(project), ignore_query: true)
-    expect(page).to have_selector('.news-menu-item.selected')
+    expect(page).to have_css('.news-menu-item.selected')
   end
 
   it 'navigates to the first project upon hitting enter in the search bar' do

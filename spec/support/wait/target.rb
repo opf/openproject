@@ -14,17 +14,17 @@ module RSpec
       end
 
       # From: https://github.com/rspec/rspec-expectations/blob/v3.12.3/lib/rspec/expectations/expectation_target.rb#L36-L47
-      def self.for(value, block, **options)
+      def self.for(value, block, **)
         if UndefinedValue.equal?(value)
           unless block
             raise ArgumentError, "You must pass either an argument or a block to `wait_for`."
           end
 
-          new(block, **options)
+          new(block, **)
         elsif block
           raise ArgumentError, "You cannot pass both an argument and a block to `wait_for`."
         else
-          new(value, **options)
+          new(value, **)
         end
       end
 

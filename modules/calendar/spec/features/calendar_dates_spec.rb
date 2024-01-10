@@ -51,22 +51,22 @@ RSpec.describe 'Calendar non working days', :js, :with_cuprite do
       expect(page).to have_css('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
       expect(page).to have_css('.fc-day-sun.fc-non-working-day', minimum: 1)
 
-      expect(page).not_to have_css('.fc-day-mon.fc-non-working-day')
-      expect(page).not_to have_css('.fc-day-tue.fc-non-working-day')
-      expect(page).not_to have_css('.fc-day-wed.fc-non-working-day')
-      expect(page).not_to have_css('.fc-day-thu.fc-non-working-day')
-      expect(page).not_to have_css('.fc-day-fri.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-mon.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-tue.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-wed.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-thu.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-fri.fc-non-working-day')
 
       find('.fc-next-button').click
 
       expect(page).to have_css('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
       expect(page).to have_css('.fc-day-sun.fc-non-working-day', minimum: 1)
 
-      expect(page).not_to have_css('.fc-day-mon.fc-non-working-day')
-      expect(page).not_to have_css('.fc-day-tue.fc-non-working-day')
-      expect(page).not_to have_css('.fc-day-wed.fc-non-working-day')
-      expect(page).not_to have_css('.fc-day-thu.fc-non-working-day')
-      expect(page).not_to have_css('.fc-day-fri.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-mon.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-tue.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-wed.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-thu.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-fri.fc-non-working-day')
     end
   end
 

@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Impediments on taskboard',
-               js: true,
+RSpec.describe 'Impediments on taskboard', :js,
                with_cuprite: false do
   let!(:project) do
     create(:project,
@@ -121,9 +120,9 @@ RSpec.describe 'Impediments on taskboard',
 
     # Saves successfully
     expect(page)
-      .to have_selector('div.impediment', text: 'New impediment')
+      .to have_css('div.impediment', text: 'New impediment')
     expect(page)
-      .not_to have_selector('div.impediment.error', text: 'New impediment')
+      .to have_no_css('div.impediment.error', text: 'New impediment')
 
     # Attempt to create a new impediment with the id of a story from another sprint
     find('#impediments .add_new').click
@@ -134,12 +133,12 @@ RSpec.describe 'Impediments on taskboard',
 
     # Saves unsuccessfully
     expect(page)
-      .to have_selector('div.impediment', text: 'Other sprint impediment')
+      .to have_css('div.impediment', text: 'Other sprint impediment')
     expect(page)
-      .to have_selector('div.impediment.error', text: 'Other sprint impediment')
+      .to have_css('div.impediment.error', text: 'Other sprint impediment')
     expect(page)
-      .to have_selector('#msgBox',
-                        text: "IDs of blocked work packages can only contain IDs of work packages in the current sprint.")
+      .to have_css('#msgBox',
+                   text: "IDs of blocked work packages can only contain IDs of work packages in the current sprint.")
 
     click_on 'OK'
 
@@ -152,12 +151,12 @@ RSpec.describe 'Impediments on taskboard',
 
     # Saves unsuccessfully
     expect(page)
-      .to have_selector('div.impediment', text: 'Invalid id impediment')
+      .to have_css('div.impediment', text: 'Invalid id impediment')
     expect(page)
-      .to have_selector('div.impediment.error', text: 'Invalid id impediment')
+      .to have_css('div.impediment.error', text: 'Invalid id impediment')
     expect(page)
-      .to have_selector('#msgBox',
-                        text: "IDs of blocked work packages can only contain IDs of work packages in the current sprint.")
+      .to have_css('#msgBox',
+                   text: "IDs of blocked work packages can only contain IDs of work packages in the current sprint.")
     click_on 'OK'
 
     # Attempt to create a new impediment without specifying the blocked story/task
@@ -168,11 +167,11 @@ RSpec.describe 'Impediments on taskboard',
 
     # Saves unsuccessfully
     expect(page)
-      .to have_selector('div.impediment', text: 'Unblocking impediment')
+      .to have_css('div.impediment', text: 'Unblocking impediment')
     expect(page)
-      .to have_selector('div.impediment.error', text: 'Unblocking impediment')
+      .to have_css('div.impediment.error', text: 'Unblocking impediment')
     expect(page)
-      .to have_selector('#msgBox', text: "IDs of blocked work packages must contain the ID of at least one ticket")
+      .to have_css('#msgBox', text: "IDs of blocked work packages must contain the ID of at least one ticket")
     click_on 'OK'
 
     # Updating an impediment
@@ -184,8 +183,8 @@ RSpec.describe 'Impediments on taskboard',
 
     # Saves successfully
     expect(page)
-      .to have_selector('div.impediment', text: 'Updated impediment')
+      .to have_css('div.impediment', text: 'Updated impediment')
     expect(page)
-      .not_to have_selector('div.impediment.error', text: 'Updated impediment')
+      .to have_no_css('div.impediment.error', text: 'Updated impediment')
   end
 end

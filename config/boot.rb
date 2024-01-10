@@ -36,7 +36,7 @@ end
 
 require 'bundler/setup' # Set up gems listed in the Gemfile.
 
-env = ENV['RAILS_ENV']
+env = ENV.fetch('RAILS_ENV', nil)
 # Disable deprecation warnings early on (before loading gems), which behaves as RUBYOPT="-w0"
 # to disable the Ruby warnings in production.
 # Set OPENPROJECT_PROD_DEPRECATIONS=true if you want to see them for debugging purposes

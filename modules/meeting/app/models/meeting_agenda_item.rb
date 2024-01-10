@@ -35,7 +35,7 @@ class MeetingAgendaItem < ApplicationRecord
 
   enum item_type: ITEM_TYPES
 
-  belongs_to :meeting, foreign_key: 'meeting_id', class_name: 'StructuredMeeting'
+  belongs_to :meeting, class_name: 'StructuredMeeting'
   belongs_to :work_package, class_name: '::WorkPackage'
   has_one :project, through: :meeting
   belongs_to :author, class_name: 'User', optional: false

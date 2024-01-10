@@ -521,6 +521,7 @@ fil:
     label_watcher_added_successfully: "Ang mga manunuod ay matagunoay naidagdag!"
     label_watcher_deleted_successfully: "Ang manunuod ay matagumpay naibura!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "I-unwatch"
     label_unwatch_work_package: "I-unwatch ang work package"
     label_uploaded_by: "Naka-upload sa pamamagitan ng"
@@ -832,6 +833,7 @@ fil:
       toggle_description: "I-toggle ang kaugnayan sa paglalarawan"
       update_relation: "Pindutin upang baguhin ang uri ng kaugnayan"
       add_follower: "Magdagdag ng follower"
+      show_relations: "Show relations"
       add_predecessor: "Magdagdag ng predecessor"
       remove: "Alisin ang relasyon"
       save: "I-save ang pakipag-ugnayan"
@@ -982,6 +984,7 @@ fil:
         updatedAt: "Naka-update sa"
         versionName: "Bersyon"
         version: "Bersyon"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"

@@ -169,7 +169,7 @@ module SettingsHelper
         hidden +
           styled_check_box_tag("settings[#{setting}]",
                                1,
-                               Setting.send("#{setting}?"),
+                               Setting.send(:"#{setting}?"),
                                disabled_setting_option(setting).merge(options))
       end
   end
@@ -199,11 +199,11 @@ module SettingsHelper
 
   private
 
-  def wrap_field_outer(options, &block)
+  def wrap_field_outer(options, &)
     if options[:label] == false
-      block.call
+      yield
     else
-      content_tag(:span, class: 'form--field-container', &block)
+      content_tag(:span, class: 'form--field-container', &)
     end
   end
 
@@ -216,7 +216,7 @@ module SettingsHelper
             hidden_field_tag("settings[#{setting}][]", '') +
               I18n.t("setting_#{setting}")
           end
-        end.join.html_safe # rubocop:disable Rails/OutputSafety
+        end.join.html_safe
     end
   end
 

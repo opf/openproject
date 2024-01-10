@@ -224,7 +224,7 @@ RSpec.describe UserPreference do
   describe '[]=' do
     let(:user) { create(:user) }
 
-    it 'will save the values on sending "save"' do
+    it 'saves the values on sending "save"' do
       subject.save
 
       value_warn_on_leaving_unsaved = !subject[:warn_on_leaving_unsaved]

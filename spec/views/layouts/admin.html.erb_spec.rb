@@ -59,7 +59,7 @@ RSpec.describe 'layouts/admin' do
       end
 
       it 'is shown' do
-        expect(rendered).to have_selector('a', text: I18n.t(:label_ldap_auth_source_plural))
+        expect(rendered).to have_css('a', text: I18n.t(:label_ldap_auth_source_plural))
       end
     end
 
@@ -70,7 +70,7 @@ RSpec.describe 'layouts/admin' do
       end
 
       it 'is hidden' do
-        expect(rendered).not_to have_selector('a', text: I18n.t(:label_ldap_auth_source_plural))
+        expect(rendered).to have_no_css('a', text: I18n.t(:label_ldap_auth_source_plural))
       end
     end
   end

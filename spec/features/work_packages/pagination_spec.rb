@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package pagination', js: true do
+RSpec.describe 'Work package pagination', :js do
   shared_let(:admin) { create(:admin) }
 
   let(:project) do
@@ -51,8 +51,8 @@ RSpec.describe 'Work package pagination', js: true do
       expect(page).to have_content('All open')
 
       within('.work-packages-partitioned-query-space--container') do
-        expect(page).to     have_content(work_package_1.subject)
-        expect(page).not_to have_content(work_package_2.subject)
+        expect(page).to have_content(work_package_1.subject)
+        expect(page).to have_no_content(work_package_2.subject)
       end
 
       within('.op-pagination--pages') do
@@ -60,8 +60,8 @@ RSpec.describe 'Work package pagination', js: true do
       end
 
       within('.work-packages-partitioned-query-space--container') do
-        expect(page).to     have_content(work_package_2.subject)
-        expect(page).not_to have_content(work_package_1.subject)
+        expect(page).to have_content(work_package_2.subject)
+        expect(page).to have_no_content(work_package_1.subject)
       end
 
       within('.op-pagination--options') do

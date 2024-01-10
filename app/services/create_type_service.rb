@@ -28,7 +28,7 @@
 
 class CreateTypeService < BaseTypeService
   def initialize(user)
-    super Type.new, user
+    super(Type.new, user)
   end
 
   private

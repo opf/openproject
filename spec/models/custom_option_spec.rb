@@ -79,7 +79,7 @@ RSpec.describe CustomOption do
 
       it 'reports an error' do
         expect(custom_option.errors[:base])
-          .to match_array [I18n.t(:'activerecord.errors.models.custom_field.at_least_one_custom_option')]
+          .to contain_exactly(I18n.t(:'activerecord.errors.models.custom_field.at_least_one_custom_option'))
       end
 
       it 'does not remove the custom option' do

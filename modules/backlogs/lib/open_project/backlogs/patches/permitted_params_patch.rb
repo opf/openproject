@@ -35,7 +35,7 @@ module OpenProject::Backlogs::Patches::PermittedParamsPatch
     def update_work_package(args = {})
       permitted_params = super(args)
 
-      backlogs_params = params.require(:work_package).permit(:story_points, :remaining_hours)
+      backlogs_params = params.require(:work_package).permit(:story_points)
       permitted_params.merge!(backlogs_params)
 
       permitted_params

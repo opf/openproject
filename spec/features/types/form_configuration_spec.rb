@@ -78,7 +78,7 @@ RSpec.describe 'form configuration', :js do
         # Wait for page reload
         sleep 1
 
-        expect(page).not_to have_css('.group-head', text: 'WHATEVER')
+        expect(page).to have_no_css('.group-head', text: 'WHATEVER')
         form.expect_group('details', 'Details')
         form.expect_attribute(key: :assignee)
       end
@@ -159,7 +159,7 @@ RSpec.describe 'form configuration', :js do
         input.set('FOOBAR')
         input.send_keys(:escape)
         expect(page).to have_css('.group-edit-handler', text: 'COOL STUFF')
-        expect(page).not_to have_css('.group-edit-handler', text: 'FOOBAR')
+        expect(page).to have_no_css('.group-edit-handler', text: 'FOOBAR')
 
         # Create new group
         form.add_attribute_group('New Group')
@@ -309,8 +309,8 @@ RSpec.describe 'form configuration', :js do
           # when adding them to the form configuration
           project_settings_page.visit_tab!('custom_fields')
 
-          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: 'MyNumber')
-          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
+          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: 'MyNumber')
+          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: type.name)
 
           id_checkbox = find("#project_work_package_custom_field_ids_#{custom_field.id}")
           expect(id_checkbox).to be_checked
@@ -328,8 +328,8 @@ RSpec.describe 'form configuration', :js do
 
           # Enable in project, should then be visible
           project_settings_page.visit_tab!('custom_fields')
-          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: 'MyNumber')
-          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
+          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: 'MyNumber')
+          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: type.name)
 
           id_checkbox = find("#project_work_package_custom_field_ids_#{custom_field.id}")
           expect(id_checkbox).not_to be_checked
@@ -369,9 +369,9 @@ RSpec.describe 'form configuration', :js do
 
           # Ensure CF is checked
           project_settings_page.visit_tab!('custom_fields')
-          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: 'MyNumber')
-          expect(page).to have_selector(".custom-field-#{custom_field.id} td", text: type.name)
-          expect(page).to have_selector("#project_work_package_custom_field_ids_#{custom_field.id}[checked]")
+          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: 'MyNumber')
+          expect(page).to have_css(".custom-field-#{custom_field.id} td", text: type.name)
+          expect(page).to have_css("#project_work_package_custom_field_ids_#{custom_field.id}[checked]")
         end
       end
     end

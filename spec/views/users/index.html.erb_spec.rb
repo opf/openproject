@@ -70,7 +70,7 @@ RSpec.describe 'users/index' do
     it "does not show the current number of active and allowed users" do
       render
 
-      expect(subject).not_to have_text("booked active users")
+      expect(subject).to have_no_text("booked active users")
     end
   end
 end

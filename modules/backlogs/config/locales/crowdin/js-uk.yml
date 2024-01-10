@@ -24,4 +24,3 @@ uk:
     work_packages:
       properties:
         storyPoints: "Точки історії"
-        remainingTime: "Залишок роботи"

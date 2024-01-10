@@ -252,7 +252,7 @@ module RepositoriesHelper
                  action: 'repository-settings#updateSelectedType',
                  'repository-settings-target': 'scmVendor'
                },
-               disabled: (repository && !repository.new_record?))
+               disabled: repository && !repository.new_record?)
   end
 
   def git_path_encoding_options(repository)

@@ -510,6 +510,7 @@ class PermittedParams
           :budget_id,
           :parent_id,
           :priority_id,
+          :remaining_hours,
           :responsible_id,
           :start_date,
           :status_id,

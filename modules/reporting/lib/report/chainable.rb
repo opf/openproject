@@ -176,7 +176,7 @@ module Report
         unless self.class.extra_options.include? key
           raise ArgumentError, "may not set #{key}" unless engine.accepted_properties.include? key.to_s
 
-          send "#{key}=", value
+          send :"#{key}=", value
         end
       end
       if child
@@ -218,14 +218,14 @@ module Report
       end
     end
 
-    def chain_collect(name, *args, &)
-      top.subchain_collect(name, *args, &)
+    def chain_collect(name, *, &)
+      top.subchain_collect(name, *, &)
     end
 
     # See #chain_collect
-    def subchain_collect(name, *args, &)
-      subchain = child.subchain_collect(name, *args, &) unless bottom?
-      [* send(name, *args, &)].push(*subchain).compact.uniq
+    def subchain_collect(name, *, &)
+      subchain = child.subchain_collect(name, *, &) unless bottom?
+      [* send(name, *, &)].push(*subchain).compact.uniq
     end
 
     # overwrite in subclass to maintain constisten state

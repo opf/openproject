@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-RSpec.describe 'Work package index accessibility', selenium: true do
+RSpec.describe 'Work package index accessibility', :selenium do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
@@ -51,7 +51,7 @@ RSpec.describe 'Work package index accessibility', selenium: true do
     work_packages_page.ensure_loaded
   end
 
-  describe 'Sort link', js: true do
+  describe 'Sort link', :js do
     before { visit_index_page }
 
     def click_sort_ascending_link
@@ -153,7 +153,7 @@ RSpec.describe 'Work package index accessibility', selenium: true do
     end
   end
 
-  describe 'hotkeys', js: true do
+  describe 'hotkeys', :js do
     let!(:another_work_package) do
       create(:work_package,
              project:)
@@ -172,8 +172,8 @@ RSpec.describe 'Work package index accessibility', selenium: true do
       end
 
       it 'navigates with J and K' do
-        expect(page).to have_selector(".wp-row-#{work_package.id}")
-        expect(page).to have_selector(".wp-row-#{another_work_package.id}")
+        expect(page).to have_css(".wp-row-#{work_package.id}")
+        expect(page).to have_css(".wp-row-#{another_work_package.id}")
 
         find('body').native.send_keys('j')
         expect(page).to have_focus_on(first_row_selector)
@@ -218,14 +218,14 @@ RSpec.describe 'Work package index accessibility', selenium: true do
         element = find(target_link)
 
         element.native.send_keys(:escape)
-        expect(page).not_to have_selector(target_link)
+        expect(page).to have_no_selector(target_link)
 
         # Expect reset focus on originating element
         expect(page).to have_focus_on(source_link) if sets_focus
       end
     end
 
-    describe 'work package context menu', js: true do
+    describe 'work package context menu', :js do
       it_behaves_like 'context menu' do
         let(:target_link) { '#work-package-context-menu a.detailsViewMenuItem' }
         let(:source_link) { '.work-package-table--container tr.issue td.id a' }

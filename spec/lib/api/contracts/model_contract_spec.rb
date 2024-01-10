@@ -37,6 +37,7 @@ RSpec.describe ModelContract do
            not_allowed: nil,
            changed: [],
            valid?: true,
+           new_record?: false,
            errors: ActiveModel::Errors.new(nil))
   end
 

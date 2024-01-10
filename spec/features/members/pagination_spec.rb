@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'members pagination', js: true do
+RSpec.describe 'members pagination', :js do
   shared_let(:admin) { create(:admin) }
   let(:project) do
     create(:project,

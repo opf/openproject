@@ -46,7 +46,7 @@ RSpec.describe 'hourly rates on a member', :js do
   def expect_current_rate_in_members_table(amount)
     view_project_members
 
-    expect(page).to have_selector("#member-#{member.id} .currency", text: amount)
+    expect(page).to have_css("#member-#{member.id} .currency", text: amount)
   end
 
   def add_rate(rate:, date:)

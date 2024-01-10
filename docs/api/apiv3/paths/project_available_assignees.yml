@@ -87,7 +87,7 @@ get:
       description: |-
         Returned if the client does not have sufficient permissions.
 
-        **Required permission:** view work packages
+        **Required permission:** add work packages
 
         *Note that you will only receive this error, if you are at least allowed to see the corresponding project.*
       headers: {}
@@ -111,5 +111,5 @@ get:
   - Work Packages
   description: Gets a list of users that can be assigned to work packages in the given
     project.
-  operationId: Available_assignees
-  summary: Available assignees
+  operationId: Project_Available_assignees
+  summary: Project Available assignees

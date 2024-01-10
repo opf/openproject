@@ -44,7 +44,7 @@ RSpec.describe Versions::Scopes::SharedWith do
 
       it 'is visible within the original project' do
         expect(Version.shared_with(project))
-          .to match_array [version]
+          .to contain_exactly(version)
       end
 
       it 'is not visible in any other project' do
@@ -69,7 +69,7 @@ RSpec.describe Versions::Scopes::SharedWith do
          child_project,
          grand_child_project].each do |p|
           expect(Version.shared_with(p))
-            .to match_array [version]
+            .to contain_exactly(version)
         end
       end
 
@@ -110,7 +110,7 @@ RSpec.describe Versions::Scopes::SharedWith do
          child_project,
          grand_child_project].each do |p|
           expect(Version.shared_with(p))
-            .to match_array [version]
+            .to contain_exactly(version)
         end
       end
 
@@ -151,7 +151,7 @@ RSpec.describe Versions::Scopes::SharedWith do
          aunt_project,
          sibling_project].each do |p|
           expect(Version.shared_with(p))
-            .to match_array [version]
+            .to contain_exactly(version)
         end
       end
 
@@ -191,7 +191,7 @@ RSpec.describe Versions::Scopes::SharedWith do
          sibling_project,
          other_root_project].each do |p|
           expect(Version.shared_with(p))
-            .to match_array [version]
+            .to contain_exactly(version)
         end
       end
 

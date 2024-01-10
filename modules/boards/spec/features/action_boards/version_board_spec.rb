@@ -245,18 +245,18 @@ RSpec.describe 'Version action board', :js, with_ee: %i[board_view] do
       end
 
       board_page.expect_list 'Closed version'
-      expect(page).to have_selector("#{test_selector('op-version-board-header')}.-closed")
+      expect(page).to have_css("#{test_selector('op-version-board-header')}.-closed")
 
       # Can open that version
       board_page.click_list_dropdown 'Closed version', 'Open version'
-      expect(page).not_to have_selector("#{test_selector('op-version-board-header')}.-closed")
+      expect(page).to have_no_css("#{test_selector('op-version-board-header')}.-closed")
 
       closed_version.reload
       expect(closed_version.status).to eq 'open'
 
       # Can lock that version
       board_page.click_list_dropdown 'Closed version', 'Lock version'
-      expect(page).to have_selector("#{test_selector('op-version-board-header')}.-locked")
+      expect(page).to have_css("#{test_selector('op-version-board-header')}.-locked")
 
       closed_version.reload
       expect(closed_version.status).to eq 'locked'
@@ -323,7 +323,7 @@ RSpec.describe 'Version action board', :js, with_ee: %i[board_view] do
       board_page.expect_editable_board(true)
       board_page.expect_editable_list(false)
 
-      expect(page).not_to have_selector("#{test_selector('op-wp-single-card')}.-draggable")
+      expect(page).to have_no_css("#{test_selector('op-wp-single-card')}.-draggable")
     end
   end
 
@@ -337,7 +337,7 @@ RSpec.describe 'Version action board', :js, with_ee: %i[board_view] do
 
       board_page.open_and_fill_add_list_modal 'Completely new version'
 
-      expect(page).not_to have_css('.ng-option', text: 'Completely new version')
+      expect(page).to have_no_css('.ng-option', text: 'Completely new version')
     end
   end
 end

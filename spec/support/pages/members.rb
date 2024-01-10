@@ -41,7 +41,7 @@ module Pages
 
     def visit!
       super
-      expect(page).to have_selector('h2', text: I18n.t(:label_member_plural))
+      expect(page).to have_css('h2', text: I18n.t(:label_member_plural))
 
       self
     end
@@ -51,7 +51,7 @@ module Pages
     end
 
     def open_new_member!
-      click_on 'Add member'
+      page.find('[data-test-selector="member-add-button"]').click
     end
 
     def open_filters!
@@ -84,7 +84,7 @@ module Pages
     # @param as [String] The role as which the user should be added.
     def add_user!(user_name, as:)
       retry_block do
-        click_on 'Add member'
+        open_new_member!
 
         select_principal! user_name if user_name
         select_role! as if as
@@ -219,9 +219,9 @@ module Pages
     def expect_sorted_by(column, desc: false)
       page.within('.generic-table--sort-header', text: column.upcase) do
         if desc
-          expect(page).to have_selector('.sort.desc')
+          expect(page).to have_css('.sort.desc')
         else
-          expect(page).to have_selector('.sort.asc')
+          expect(page).to have_css('.sort.asc')
         end
       end
     end

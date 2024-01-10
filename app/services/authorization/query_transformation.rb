@@ -42,7 +42,7 @@ class Authorization::QueryTransformation
     self.block = block
   end
 
-  def apply(*args)
-    block.call(*args)
+  def apply(*)
+    block.call(*)
   end
 end

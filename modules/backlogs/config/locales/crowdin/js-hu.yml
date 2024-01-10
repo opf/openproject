@@ -24,4 +24,3 @@ hu:
     work_packages:
       properties:
         storyPoints: "Story pontok"
-        remainingTime: "Remaining work"

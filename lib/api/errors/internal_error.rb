@@ -39,7 +39,7 @@ module API
           error += " #{error_message}"
         end
 
-        super error
+        super(error)
       end
 
       private

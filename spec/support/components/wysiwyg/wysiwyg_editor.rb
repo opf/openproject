@@ -52,7 +52,7 @@ module Components
     end
 
     def expect_no_button(label)
-      expect(container).not_to have_css('.ck-button', visible: :all, text: label)
+      expect(container).to have_no_css('.ck-button', visible: :all, text: label)
     end
 
     def expect_value(value)
@@ -61,7 +61,7 @@ module Components
 
     def expect_supports_no_macros
       expect(container)
-          .not_to have_css('.ck-button', visible: :all, text: 'Macros')
+          .to have_no_css('.ck-button', visible: :all, text: 'Macros')
     end
 
     def within_enabled_preview

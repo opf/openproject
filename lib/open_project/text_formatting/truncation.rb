@@ -33,8 +33,8 @@ module OpenProject
       include ActionView::Helpers::TextHelper
 
       # Truncates and returns the string as a single line
-      def truncate_single_line(string, *args)
-        truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ').html_safe
+      def truncate_single_line(string, *)
+        truncate(string.to_s, *).gsub(%r{[\r\n]+}m, ' ').html_safe
       end
     end
   end

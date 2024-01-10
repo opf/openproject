@@ -522,6 +522,7 @@ ja:
     label_watcher_added_successfully: "ウォッチャーが正常に追加されました ！"
     label_watcher_deleted_successfully: "ウォッチャーが正常に削除されました ！"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "ウォッチしない"
     label_unwatch_work_package: "作業項目のウォッチを削除"
     label_uploaded_by: "アップロードした人"
@@ -832,6 +833,7 @@ ja:
       toggle_description: "関係の説明を切り替え"
       update_relation: "クリックして関係のタイプを変更"
       add_follower: "後続を追加"
+      show_relations: "Show relations"
       add_predecessor: "先行を追加"
       remove: "関係を削除"
       save: "関係を保存"
@@ -982,6 +984,7 @@ ja:
         updatedAt: "更新日時"
         versionName: "バージョン"
         version: "バージョン"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "最新の活動"
         created_by_me: "私が作成した"

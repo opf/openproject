@@ -32,7 +32,7 @@ RSpec.describe OpenProject::Bim::BcfXml::Importer do
   let(:filename) { 'MaximumInformation.bcf' }
   let(:file) do
     Rack::Test::UploadedFile.new(
-      File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
+      Rails.root.join("modules/bim/spec/fixtures/files/#{filename}").to_s,
       'application/octet-stream'
     )
   end
@@ -95,8 +95,8 @@ RSpec.describe OpenProject::Bim::BcfXml::Importer do
     it 'creates 2 work packages' do
       subject.import!
 
-      expect(Bim::Bcf::Issue.count).to be_eql 2
-      expect(WorkPackage.count).to be_eql 2
+      expect(Bim::Bcf::Issue.count).to eql 2
+      expect(WorkPackage.count).to eql 2
     end
   end
 

@@ -59,17 +59,23 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
   private copyToClipboardService:CopyToClipboardService;
 
-  constructor(public injector:Injector,
+  constructor(
+    public injector:Injector,
     protected workPackageId:string,
     protected $element:JQuery,
     protected additionalPositionArgs:any = {},
-    protected allowSplitScreenActions:boolean = true) {
+    protected allowSplitScreenActions:boolean = true,
+  ) {
     super(injector.get(OPContextMenuService));
     this.copyToClipboardService = injector.get(CopyToClipboardService);
   }
 
   public get locals():OpContextMenuLocalsMap {
-    return { contextMenuId: 'work-package-context-menu', items: this.items };
+    return {
+      contextMenuId: 'work-package-context-menu',
+      label: I18n.t('js.label_work_package_context_menu'),
+      items: this.items,
+    };
   }
 
   public positionArgs(evt:JQuery.TriggeredEvent) {
@@ -111,6 +117,12 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
       case 'log_time':
         this.logTimeForSelectedWorkPackage();
+        break;
+      case 'relations':
+        void this.$state.go(
+          `${splitViewRoute(this.$state)}.tabs`,
+          { workPackageId: this.workPackageId, tabIdentifier: 'relations' },
+        );
         break;
 
       default:

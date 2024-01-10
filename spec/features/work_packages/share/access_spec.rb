@@ -69,7 +69,7 @@ RSpec.describe 'Shared Work Package Access',
       results = assignee_field.autocomplete('Mean Turkey', select: false)
       wait_for_network_idle
       expect(results)
-        .not_to have_css('.ng-option', text: 'Mean Turkey', wait: 0)
+        .to have_no_css('.ng-option', text: 'Mean Turkey', wait: 0)
       assignee_field.cancel_by_escape
     end
 
@@ -109,7 +109,7 @@ RSpec.describe 'Shared Work Package Access',
       work_package_page.within_active_tab do
         # Commenting is disabled
         expect(page)
-          .not_to have_css(add_comment_button_selector)
+          .to have_no_css(add_comment_button_selector)
       end
 
       # And so is viewing and uploading attachments

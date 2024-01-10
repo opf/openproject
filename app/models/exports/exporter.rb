@@ -67,9 +67,9 @@ module Exports
       ::Exports::Register.formatter_for(model, attribute, export_format)
     end
 
-    def format_attribute(object, attribute, export_format, **options)
+    def format_attribute(object, attribute, export_format, **)
       formatter = formatter_for(attribute, export_format)
-      formatter.format(object, **options)
+      formatter.format(object, **)
     end
   end
 end

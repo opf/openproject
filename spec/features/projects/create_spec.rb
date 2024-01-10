@@ -43,14 +43,6 @@ RSpec.describe 'Projects', 'creation',
     projects_page.visit!
   end
 
-  context 'within the button on the global sidebar' do
-    it 'can navigate to the create project page' do
-      projects_page.navigate_to_new_project_page_from_global_sidebar
-
-      expect(page).to have_current_path(new_project_path)
-    end
-  end
-
   context 'with the button on the toolbar items' do
     it 'can navigate to the create project page' do
       projects_page.navigate_to_new_project_page_from_toolbar_items
@@ -112,8 +104,8 @@ RSpec.describe 'Projects', 'creation',
 
     find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
-    expect(page).not_to have_content 'Active'
-    expect(page).not_to have_content 'Identifier'
+    expect(page).to have_no_content 'Active'
+    expect(page).to have_no_content 'Identifier'
   end
 
   context 'with optional and required custom fields' do
@@ -138,7 +130,7 @@ RSpec.describe 'Projects', 'creation',
 
       within('.op-fieldset') do
         expect(page).to have_text 'Optional Foo'
-        expect(page).not_to have_text 'Required Foo'
+        expect(page).to have_no_text 'Required Foo'
       end
     end
   end

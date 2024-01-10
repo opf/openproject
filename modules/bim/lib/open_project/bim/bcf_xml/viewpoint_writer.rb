@@ -42,8 +42,8 @@ module OpenProject::Bim::BcfXml
       { Guid: viewpoint.uuid }
     end
 
-    def dig_json(*args)
-      viewpoint.json_viewpoint.dig(*args)
+    def dig_json(*)
+      viewpoint.json_viewpoint.dig(*)
     end
 
     def components(xml)
@@ -165,7 +165,7 @@ module OpenProject::Bim::BcfXml
       hash.transform_keys do |key|
         # `camelize` uses the inflections of ActiveSupport. There we defined inflections for `IFC`. However, here we
         # don't want that applied here. `ifc_foo` shall be converted to `IfcFoo` and not to `IFCFoo`.
-        key.camelize.gsub(/IFC/, 'Ifc')
+        key.camelize.gsub("IFC", 'Ifc')
       end
     end
 

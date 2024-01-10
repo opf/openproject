@@ -72,14 +72,14 @@ RSpec.describe 'Disabled activity', :js, :with_cuprite do
 
     # Not displayed as activity is disabled
     expect(page)
-      .not_to have_content(work_package1.subject)
+      .to have_no_content(work_package1.subject)
     expect(page)
-      .not_to have_content(wiki_page1.title)
+      .to have_no_content(wiki_page1.title)
 
     # Not displayed as all modules except activity are disabled
     expect(page)
-      .not_to have_content(work_package3.subject)
+      .to have_no_content(work_package3.subject)
     expect(page)
-      .not_to have_content(wiki_page3.title)
+      .to have_no_content(wiki_page3.title)
   end
 end

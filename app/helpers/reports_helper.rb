@@ -41,8 +41,8 @@ module ReportsHelper
     end || 0
   end
 
-  def aggregate_link(data, criteria, *args)
+  def aggregate_link(data, criteria, *)
     a = aggregate data, criteria
-    a.positive? ? link_to(h(a), *args) : '-'
+    a.positive? ? link_to(h(a), *) : '-'
   end
 end

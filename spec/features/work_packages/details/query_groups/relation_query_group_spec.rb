@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package with relation query group', js: true, selenium: true do
+RSpec.describe 'Work package with relation query group', :js, :selenium do
   include_context 'ng-select-autocomplete helpers'
 
   let(:user) { create(:admin) }
@@ -150,7 +150,7 @@ RSpec.describe 'Work package with relation query group', js: true, selenium: tru
         full_wp.visit!
         full_wp.ensure_page_loaded
 
-        expect(page).to have_selector('.attributes-group--header-text', text: query_text, wait: 20)
+        expect(page).to have_css('.attributes-group--header-text', text: query_text, wait: 20)
         embedded_table.expect_work_package_listed related_work_package
         embedded_table.click_inline_create
 
@@ -176,8 +176,8 @@ RSpec.describe 'Work package with relation query group', js: true, selenium: tru
         full_wp.ensure_page_loaded
 
         # Will first try to load the query, and then hide it.
-        expect(page).not_to have_selector('.attributes-group--header-text', text: query_text, wait: 20)
-        expect(page).not_to have_selector('.work-packages-embedded-view--container .op-toast.-error')
+        expect(page).to have_no_css('.attributes-group--header-text', text: query_text, wait: 20)
+        expect(page).to have_no_css('.work-packages-embedded-view--container .op-toast.-error')
       end
     end
   end

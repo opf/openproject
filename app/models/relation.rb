@@ -154,7 +154,7 @@ class Relation < ApplicationRecord
   end
 
   TYPES.each_key do |type|
-    define_method "#{type}?" do
+    define_method :"#{type}?" do
       canonical_type == self.class.canonical_type(type)
     end
   end

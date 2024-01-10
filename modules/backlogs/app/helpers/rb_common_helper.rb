@@ -95,7 +95,7 @@ module RbCommonHelper
 
   def background_color_hex(task)
     background_color = get_backlogs_preference(task.assigned_to, :task_color)
-    background_color_hex = background_color.sub(/\#/, '0x').hex
+    background_color_hex = background_color.sub("#", '0x').hex
   end
 
   def id_or_empty(item)

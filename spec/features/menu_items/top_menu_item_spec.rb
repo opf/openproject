@@ -39,14 +39,14 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
         expect(page).to have_link(item.label)
       end
       (all_items - items).each do |item|
-        expect(page).not_to have_link(item.label)
+        expect(page).to have_no_link(item.label)
       end
     end
   end
 
   def click_link_in_open_menu(title)
     within '.op-app-menu--dropdown[aria-expanded=true]' do
-      expect(page).not_to have_css('[style~=overflow]')
+      expect(page).to have_no_css('[style~=overflow]')
 
       click_link(title)
     end
@@ -180,7 +180,7 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
 
       it 'does not display new_project' do
         expect(page).to have_css('a.button', exact_text: all_projects)
-        expect(page).not_to have_css('a.button', exact_text: add_project)
+        expect(page).to have_no_css('a.button', exact_text: add_project)
       end
     end
 
@@ -195,7 +195,7 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
       end
 
       it 'does not show the menu' do
-        expect(page).not_to have_css('#projects-menu')
+        expect(page).to have_no_css('#projects-menu')
       end
     end
   end

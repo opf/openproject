@@ -27,10 +27,6 @@ nl:
     attributes:
       work_package:
         position: "Positie"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
         story_points: "Verhaal punten"
         backlogs_work_package_type: "Backlog type"
     errors:
@@ -68,8 +64,8 @@ nl:
     properties: "Eigenschappen"
     rebuild: "Opnieuw opbouwen"
     rebuild_positions: "Posities van opnieuw opbouwen"
-    remaining_hours: "Resterende uren"
-    remaining_hours_ideal: "Resterende uren (ideaal)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Verbrandingstabel"
     story: "Verhaal"
     story_points: "Verhaal punten"
@@ -151,7 +147,7 @@ nl:
   rb_label_copy_tasks_none: "Geen"
   rb_label_copy_tasks_open: "Open"
   rb_label_link_to_original: "Link toevoegen aan het originele verhaal"
-  remaining_hours: "resterende uren"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "vereiste burn rate (uren)"
   required_burn_rate_points: "vereiste burn rate (punten)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

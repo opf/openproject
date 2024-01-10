@@ -158,7 +158,7 @@ RSpec.describe 'messages', :js do
                            subject: 'And now to something completely different',
                            content: 'No, there really isn\'t')
 
-    expect(page).to have_selector('blockquote', text: 'But, but there should be one')
+    expect(page).to have_css('blockquote', text: 'But, but there should be one')
 
     # Quoting the first message
     show_page.quote(subject: 'Also quoting the first message',

@@ -41,7 +41,7 @@ module Principals::Scopes
           not_builtin.where(status: val)
         end
 
-        define_singleton_method("not_#{key}") do
+        define_singleton_method(:"not_#{key}") do
           not_builtin.where.not(status: val)
         end
       end

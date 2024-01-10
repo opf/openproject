@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-RSpec.describe 'Project description widget on dashboard', js: true do
+RSpec.describe 'Project description widget on dashboard', :js do
   let(:project_description) { "Some text I like to write" }
   let!(:project) do
     create(:project, description: project_description)
@@ -112,7 +112,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
         # The edit field is toggled and the value saved.
         expect(page).to have_content('A completely new description which is super cool.')
         expect(page).to have_selector(field.selector)
-        expect(page).not_to have_selector(field.input_selector)
+        expect(page).to have_no_selector(field.input_selector)
       end
     end
   end
@@ -137,7 +137,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
 
       editor.insert_macro 'Insert create work package button'
 
-      expect(page).to have_selector('.spot-modal')
+      expect(page).to have_css('.spot-modal')
       select 'Task', from: 'selected-type'
       find('.spot-modal--submit-button').click
 
@@ -146,7 +146,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
       dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       within('#content') do
-        expect(page).to have_selector("a[href=\"/projects/#{project.identifier}/work_packages/new?type=#{type.id}\"]")
+        expect(page).to have_css("a[href=\"/projects/#{project.identifier}/work_packages/new?type=#{type.id}\"]")
       end
     end
   end

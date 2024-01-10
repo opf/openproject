@@ -26,4 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::UpdateService < BaseServices::Update; end
+class Queries::UpdateService < BaseServices::Update
+  protected
+
+  # Todo: remove the whole block when removing the feature flag
+  def persist(service_result)
+    service_result = super(service_result)
+
+    query = service_result.result
+    unless OpenProject::FeatureDecisions.show_separate_gantt_module_active?
+      query_view = View.find_by(query_id: query.id)
+      if query.timeline_visible && query_view&.type === 'work_packages_table'
+        query_view.update(type: 'gantt')
+      elsif query_view&.type === 'gantt'
+        query_view.update(type: 'work_packages_table')
+      end
+    end
+
+    service_result
+  end
+end

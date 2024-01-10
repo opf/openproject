@@ -35,7 +35,7 @@ module OpenProject::Patches::MailerControllerCsp
 
     def extend_content_security_policy
       append_content_security_policy_directives(
-        script_src: %w('unsafe-inline'),
+        script_src: %w('unsafe-inline')
       )
     end
   end

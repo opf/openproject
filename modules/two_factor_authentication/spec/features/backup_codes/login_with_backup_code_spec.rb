@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
-RSpec.describe 'Login with 2FA backup code', js: true, with_settings: {
+RSpec.describe 'Login with 2FA backup code', :js, with_settings: {
   plugin_openproject_two_factor_authentication: { 'active_strategies' => [:developer] }
 } do
   let(:user_password) { 'bob!' * 4 }
@@ -19,7 +19,7 @@ RSpec.describe 'Login with 2FA backup code', js: true, with_settings: {
 
       # Open other options
       find_by_id('toggle_resend_form').click
-      expect(page).not_to have_selector('a', text: I18n.t('two_factor_authentication.backup_codes.enter_backup_code_title'))
+      expect(page).to have_no_css('a', text: I18n.t('two_factor_authentication.backup_codes.enter_backup_code_title'))
     end
   end
 
@@ -31,7 +31,7 @@ RSpec.describe 'Login with 2FA backup code', js: true, with_settings: {
 
       first_login_step
 
-      expect(page).to have_selector('#toggle_resend_form', wait: 10)
+      expect(page).to have_css('#toggle_resend_form', wait: 10)
 
       # Wait for the frontend to be loaded and initialized
       # On downstream configurations, this might take longer than marionette selecting the element
@@ -44,13 +44,13 @@ RSpec.describe 'Login with 2FA backup code', js: true, with_settings: {
       SeleniumHubWaiter.wait
       find('a', text: I18n.t('two_factor_authentication.login.enter_backup_code_title'), wait: 2).click
 
-      expect(page).to have_selector('h2', text: I18n.t('two_factor_authentication.login.enter_backup_code_title'))
+      expect(page).to have_css('h2', text: I18n.t('two_factor_authentication.login.enter_backup_code_title'))
       SeleniumHubWaiter.wait
       fill_in 'backup_code', with: 'whatever'
       click_on 'Submit'
 
       # Expect failure
-      expect(page).to have_selector('.op-toast.-error', text: I18n.t('two_factor_authentication.error_invalid_backup_code'))
+      expect(page).to have_css('.op-toast.-error', text: I18n.t('two_factor_authentication.error_invalid_backup_code'))
       expect(page).to have_current_path signin_path
 
       # Try again!
@@ -60,7 +60,7 @@ RSpec.describe 'Login with 2FA backup code', js: true, with_settings: {
       SeleniumHubWaiter.wait
       find('a', text: I18n.t('two_factor_authentication.login.enter_backup_code_title')).click
 
-      expect(page).to have_selector('h2', text: I18n.t('two_factor_authentication.login.enter_backup_code_title'))
+      expect(page).to have_css('h2', text: I18n.t('two_factor_authentication.login.enter_backup_code_title'))
       SeleniumHubWaiter.wait
       fill_in 'backup_code', with: valid_backup_codes.first
       click_on 'Submit'

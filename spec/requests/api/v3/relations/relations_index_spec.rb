@@ -85,31 +85,31 @@ RSpec.describe 'GET /api/v3/relations' do
     # This saves about 75% on the runtime (6s vs 24s on this machine) of the spec.
     it 'work' do
       expect(filter_relations("id", "=", [relations[0], relations[2]]))
-        .to match_array [relations[0], relations[2]]
+        .to contain_exactly(relations[0], relations[2])
       expect(filter_relations("id", "!", [relations[0], relations[2]]))
-        .to match_array [relations[1], relations[3]]
+        .to contain_exactly(relations[1], relations[3])
 
       expect(filter_relations("from", "=", [work_package.id]))
-        .to match_array [relations[0], relations[1]]
+        .to contain_exactly(relations[0], relations[1])
       expect(filter_relations("from", "!", [work_package.id]))
-        .to match_array [relations[2], relations[3]]
+        .to contain_exactly(relations[2], relations[3])
 
       expect(filter_relations("to", "=", [work_package.id]))
         .to eq [relations[2]]
       expect(filter_relations("to", "!", [work_package.id]))
-        .to match_array [relations[0], relations[1], relations[3]]
+        .to contain_exactly(relations[0], relations[1], relations[3])
 
       expect(filter_relations("involved", "=", [work_package.id]))
-        .to match_array [relations[0], relations[1], relations[2]]
+        .to contain_exactly(relations[0], relations[1], relations[2])
       expect(filter_relations("involved", "!", [work_package.id]))
         .to eq [relations[3]]
 
       expect(filter_relations("type", "=", ["blocks"]))
-        .to match_array [relations[1], relations[3]]
+        .to contain_exactly(relations[1], relations[3])
       expect(filter_relations("type", "=", ["blocks", "precedes"]))
-        .to match_array [relations[0], relations[1], relations[2], relations[3]]
+        .to contain_exactly(relations[0], relations[1], relations[2], relations[3])
       expect(filter_relations("type", "!", ["blocks"]))
-        .to match_array [relations[0], relations[2]]
+        .to contain_exactly(relations[0], relations[2])
     end
   end
 end

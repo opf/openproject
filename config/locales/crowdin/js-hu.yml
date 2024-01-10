@@ -521,6 +521,7 @@ hu:
     label_watcher_added_successfully: "Megfigyelő sikeresen hozzáadva!"
     label_watcher_deleted_successfully: "Megfigyelő sikeresen törölve!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Megfigyelés leállítása"
     label_unwatch_work_package: "Nem megfigyelt feladatcsoport"
     label_uploaded_by: "Által feltöltött"
@@ -832,6 +833,7 @@ hu:
       toggle_description: "Kapcsolat leírás kapcsolása"
       update_relation: "Klikk a kapcsolat típus módosításához"
       add_follower: "Követő hozzáadása"
+      show_relations: "Show relations"
       add_predecessor: "Előző hozzáadása"
       remove: "Kapcsolat eltávolítása"
       save: "Kapcsolat mentése"
@@ -982,6 +984,7 @@ hu:
         updatedAt: "Frissítve"
         versionName: "Verzió"
         version: "Verzió"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Utolsó aktivitás"
         created_by_me: "Általam készített"

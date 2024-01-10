@@ -42,14 +42,14 @@ RSpec.describe Bim::Bcf::Issue do
 
     it "caches the document" do
       first_fetched_doc = subject.markup_doc
-      expect(subject.markup_doc).to be_eql(first_fetched_doc)
+      expect(subject.markup_doc).to eql(first_fetched_doc)
     end
 
     it "invalidates the cache after an update of the issue" do
       first_fetched_doc = subject.markup_doc
       subject.markup = subject.markup + ' '
       subject.save
-      expect(subject.markup_doc).not_to be_eql(first_fetched_doc)
+      expect(subject.markup_doc).not_to eql(first_fetched_doc)
     end
   end
 
@@ -59,7 +59,7 @@ RSpec.describe Bim::Bcf::Issue do
 
     it 'returns all issues of the provided project' do
       expect(described_class.of_project(issue.project))
-        .to match_array [issue]
+        .to contain_exactly(issue)
     end
   end
 end

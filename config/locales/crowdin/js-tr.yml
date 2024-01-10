@@ -520,6 +520,7 @@ tr:
     label_watcher_added_successfully: "Takipçi başarıyla eklendi!"
     label_watcher_deleted_successfully: "Takipçi başarıyla silindi!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "İzleme"
     label_unwatch_work_package: "İş pakaketini izlemeyi bırak"
     label_uploaded_by: "Yükleyen"
@@ -831,6 +832,7 @@ tr:
       toggle_description: "İlişki açıklamasını göster"
       update_relation: "İlişki türünü değiştirmek için tıklayın"
       add_follower: "Takipçi ekle"
+      show_relations: "Show relations"
       add_predecessor: "Öncelik ekle"
       remove: "İlişkiyi kaldır"
       save: "İlişkiyi kaydet"
@@ -981,6 +983,7 @@ tr:
         updatedAt: "Güncelleme tarihi"
         versionName: "Sürüm"
         version: "Sürüm"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "En son etkinlik"
         created_by_me: "Benim oluşturduklarım"
