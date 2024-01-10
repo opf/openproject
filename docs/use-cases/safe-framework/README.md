@@ -40,7 +40,7 @@ In OpenProject, each Agile Release Train (ART) is set up as an individual projec
 
 A project consists of a number of different elements:
 
-- ****Members**:** individual members can be created at an instance-level and then added to individual projects, or external users can directly be "invited" to a project. Each member can have different roles.
+- **Members**: individual members can be created at an instance-level and then added to individual projects, or external users can directly be "invited" to a project. Each member can have different roles.
 - **Modules** like Work packages, Wiki, Forums, Meetings...
 - **Work packages** collectively include epics, features, enablers, user stories, and bugs.
 - **Integrations** like external file storages.
