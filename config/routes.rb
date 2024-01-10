@@ -493,6 +493,7 @@ OpenProject::Application.routes.draw do
     get '/new' => 'work_packages#index', on: :collection, as: 'new', state: 'new'
     # We do not want to match the work package export routes
     get '(/*state)' => 'work_packages#show', on: :member, as: '', constraints: { id: /\d+/ }
+    get '/share_upsale' => 'work_packages#index', on: :collection, as: 'share_upsale'
     get '/edit' => 'work_packages#show', on: :member, as: 'edit'
   end
 
