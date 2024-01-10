@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
-  title: Implementing Scaled Agile Framework (SAFe) with OpenProject
-  priority: 980
+  title: Scaled Agile Framework (SAFe)
+  priority: 930
 description: Learn how to set up and configure OpenProject to support the Scaled Agile Framework (SAFe) to successfully deliver value to customers using agile practices at scale.
 keywords: safe, scaled agile, release train, program increment, ART backlog, roadmap, portfolio backlog, solution train, kanban, enabler, capability, scrum, roadmap
 
@@ -53,9 +53,12 @@ It is important to note that OpenProject terminology can vary somewhat form SAFe
 
 In OpenProject, each **Agile Release Train** (ART) is set up as an individual project.
 
+![Viewing epics, features and stories within one ART](art_view_one_sprint.png)
+
 A project consists of a number of different elements:
 
-- **Members**: individual members can be created at an instance-level and then added to individual projects, or external users can directly be "invited" to a project. Each member can have different roles in different projects.
+- **Members**: individual members can be created at an instance-level and then added to individual projects, or external users 
+- can directly be "invited" to a project. Each member can have different roles in different projects.
 - **Modules** like Work packages, Gantt, Backlog, Team planner, Wiki, Forums, Meetings.
 - **Work packages** that can be of different types, including epics, features, enablers, user stories, and bugs.
 - **Integrations** like external file storages.
@@ -76,23 +79,27 @@ You can also use [project templates](../../user-guide/projects/project-templates
 
 Project portfolios allow you to view, organise, sort and filter through all projects and their hierarchies. Since individual projects represent Agile Release trains, project porfolios  can be used to access information at a **Solution train**-level.
 
+![All Features and User Stories across all teams](all_features_across_all_teams.png)
+
 > In a near future release, OpenProject will have dedicated project portfolio features. [View mockups.](https://www.figma.com/file/YCCMdJWkrtP9YSmf49Od0i/Project-lists?type=design&node-id=470%3A13037&mode=design&t=g1EZesuy0Jj0VZFD-1)
 > 
 > For the moment, **[global modules](../../user-guide/home/global-modules/)** give you an overview of content from all projects, including the ability to view and filter though a **project list**, and view, sort and filter **work packages at a global level**.
 
 > **Demo:** [Solution train (project list)](https://safe.openproject.com/projects)
 > 
-> **Demo:** [Global work package view (epics, features and stories from all ARTs)](https://safe.openproject.com/projects/safe-demo/work_packages?query_id=77)
+> **Demo:** [Global work package view (epics, features and stories from all ARTs)](https://safe.openproject.com/projects/safe-solution-train-1/work_packages?query_id=120)
 
 ## Using versions to set Program Increments
 
 In OpenProject, a **program increment (PI)** or **iteration** corresponds to a version.
 
+![Create versions to represent PIs, iterations and sprints](versions_represent_PI_iterations_sprints.png)
+
 Like most things in OpenProject, a version is technically contained within a project. As such, a PI or iteration can be contained within an ART. However, it is possible to *share* versions with sub-projects, other projects or even with the entire instance.
 
 Shared versions are especially useful when you need PIs to be shared between multiple ARTs.
 
-> **Demo:** [Versions set up as PIs shared with all ARTs](https://safe.openproject.com/projects/art-0-test-release-train/settings/versions)
+> **Demo:** [Versions set up as PIs shared with all ARTs](https://safe.openproject.com/projects/safe-solution-train-1/settings/versions)
 
 Versions are also tied to the Backlog module. To learn more, read [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) below.
 
@@ -121,16 +128,18 @@ A [type template (or default text for description)](../../system-admin-guide/man
 - Hypothesis
 - Acceptance criteria
 
+![Define types - User story](define_types_userStory.png)
+
 > **Demo**: Defining a [type template for features](https://safe.openproject.com/types/4/edit/settings) (requires admin privileges).
 
 Similarly, a template can be defined for **User stories** so that they can be expressed in a SAFe-compatible manner, like so:
 
-> **As a** *{role}*,
+> **As a** *{role}*
 >
 > **I want to** *{activity}*
 > 
 > **so that** *{business or user value}*
- 
+
 > **Demo**: Defining a [type template for user stories](https://safe.openproject.com/types/6/edit/settings) (requires admin privileges).
 
 ### Custom fields
@@ -143,6 +152,8 @@ Similarly, **Business outcome hypothesis**, **Non-functional requirements** and 
 
 > **Demo:** [Defining custom fields for different work unit types](https://safe.openproject.com/custom_fields)
 
+![Defining a custom field - Class of service](define_custom_field_ClassService.png)
+
 Custom fields can also hold different *types* of values, like lists, booleans, dates and even users. If you are using Kanban class of service for example, you can create a **Class of service** custom field of type multi-select with these options: *Standard*, *Fixed*, *Expedite*.
 
 > **Demo**: [Class of service custom field](https://safe.openproject.com/custom_fields/5/edit)
@@ -151,15 +162,15 @@ Custom fields can also hold different *types* of values, like lists, booleans, d
 
 **Story points** can be added to **User Stories** (or even to **Features**).
 
+![Story points visible for stories in a Feature](storyPoints.png)
+
 > **Demo:** [Adding story points as a field in a Feature](https://safe.openproject.com/types/4/edit/form_configuration).
 
 Story points are particularly powerful as they are also visible in the Backlog. To learn more, read the [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) section below.
 
 ### Progress
 
-OpenProject allows you to track the progress of each work package (or a set of work packages in a parent-child hierarchy) using the **Progress** field.
-
-Progress can either be manually entered or based on set values tied to statuses. For more information, read the [documentation on progress tracking](../../user-guide/time-and-costs/progress-tracking/).
+OpenProject allows you to track the progress of each work package (or a set of work packages in a parent-child hierarchy) using the **Progress** field. Progress can either be manually entered or based on set values tied to statuses. For more information, read the [documentation on progress tracking](../../user-guide/time-and-costs/progress-tracking/).
 
 Progress can be viewed at a team label, at an ART-level or at a solution train level by creating filtered views showing only the information you need.
 
@@ -172,7 +183,9 @@ OpenProject is a powerful tool that allows you to view work packages in a variet
 
 ### Work package table view
 
-The work package table view lets you view and edit work packages of all types (Epic,Capability, Feature, Enabler, User Story) in a tabular format, with one line per work package and different attributes as columns.
+The work package table view lets you view and edit work packages of all types (Epic, Capability, Feature, Enabler, User Story) in a tabular format, with one line per work package and different attributes as columns.
+
+![Work package table view](work_package_table_view.png)
 
 These tables are highly customisable and can be [configured](../../user-guide/work-packages/work-package-table-configuration/) to show precisely the information you need. Tables can also be **sorted** (for example by id, name, start dates, project, assignee, priority), **grouped** and **filtered** to create highly precise views. They can also show nested parent-children relations in **hierarchy view**.
 
@@ -182,9 +195,11 @@ Configured tables can be saved as private (for you only) or public views (for al
 
 Additionally, the [**Baseline** **comparison**](../../user-guide/work-packages/baseline-comparison/) feature allow lets you visualise changes to a table (in relation to the filter criteria) over a period of time, affording you yet another way to monitor progress and changes within your ART or agile team.
 
-**Gantt view**
+### Gantt view
 
 The **[Gantt chart](../../user-guide/gantt-chart/)** module allows you to quickly visualise planning at any level (Solution, ART or agile team) in a calendar view that also displays [work package relations](../../user-guide/work-packages/work-package-relations-hierarchies/). Like table view, it can be filtered to create custom views that can be saved.
+
+![Gantt view of one sprint in one ART](Gantt_view.png)
 
 > **Demo:** [A Gantt view of a sprint within an ART](https://safe.openproject.com/projects/art-0-test-release-train/work_packages?query_id=39)
 
@@ -203,6 +218,8 @@ The [**Backlog module**](../../user-guide/backlogs-scrum/work-with-backlogs/) di
 
 It also displays the *id*, *name*, *status* and *story points* for each work package contained in a version.
 
+![Backlock view of one ART](Backlogs.png)
+
 We recommend organising all relevant sprints on the left column and the backlog on the right column. Any epic, feature, story, enabler or capability can easier be dragged and dropped between versions or to and from the backlog.
 
 > **Demo**: [Backlog of an ART showing planned Sprints and a feature backlog](https://safe.openproject.com/projects/art-0-test-release-train/backlogs)
@@ -210,6 +227,8 @@ We recommend organising all relevant sprints on the left column and the backlog 
 ### Kanban
 
 [**Kanban boards**](../../user-guide/agile-boards/) allow you to clearly visualise work items in a number of different ways. In OpenProject, dynamic boards can easily be created for a number of different fields.
+
+![Kanban board of one ART organised by status](Kanban_status.png)
 
 For each ART, we recommend creating these dynamic Kanban boards:
 
@@ -224,6 +243,8 @@ OpenProject boards are powerful and can be filtered for more control over what i
 ### Team planner
 
 The [**Team planner module**](../../user-guide/team-planner/) allows you to visualise work packages assigned to particular team members in a week or two-week calendar view. It is a powerful tool to monitor work at a day-to-day level.
+
+![Team planner view configured for one agile team](teamPlanner.png)
 
 If you have multiple agile teams under a single ART, you can create and save custom Team planner views for each team.
 
