@@ -48,10 +48,10 @@ module Storages
 
           def call(user:, folder:)
             result = Util.using_user_token(@storage, user) do |token|
-              # Make the Get Request to the necessary endpoints
-              response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-                http.get(children_uri_path_for(folder) + FIELDS, { 'Authorization' => "Bearer #{token.access_token}" })
-              end
+              response = HTTPX.get(
+                Util.join_uri_path(@uri, children_uri_path_for(folder) + FIELDS),
+                headers: { 'Authorization' => "Bearer #{token.access_token}" }
+              )
 
               handle_response(response, :value)
             end
@@ -66,16 +66,16 @@ module Storages
           private
 
           def handle_response(response, map_value)
-            json = MultiJson.load(response.body, symbolize_keys: true)
+            json = MultiJson.load(response.body.to_s, symbolize_keys: true)
             error_data = ::Storages::StorageErrorData.new(source: self, payload: json)
 
-            case response
-            when Net::HTTPSuccess
-              ServiceResult.success(result: MultiJson.load(response.body, symbolize_keys: true)[map_value])
-            when Net::HTTPNotFound
+            case response.status
+            when 200..299
+              ServiceResult.success(result: json.fetch(map_value))
+            when 404
               ServiceResult.failure(result: :not_found,
                                     errors: ::Storages::StorageError.new(code: :not_found, data: error_data))
-            when Net::HTTPUnauthorized
+            when 401
               ServiceResult.failure(result: :unauthorized,
                                     errors: ::Storages::StorageError.new(code: :unauthorized, data: error_data))
             else
@@ -108,9 +108,10 @@ module Storages
 
           def empty_response(user, folder)
             result = Util.using_user_token(@storage, user) do |token|
-              response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-                http.get(location_uri_path_for(folder) + FIELDS, { 'Authorization' => "Bearer #{token.access_token}" })
-              end
+              response = HTTPX.get(
+                Util.join_uri_path(@uri, location_uri_path_for(folder) + FIELDS),
+                headers: { 'Authorization' => "Bearer #{token.access_token}" }
+              )
 
               handle_response(response, :id)
             end

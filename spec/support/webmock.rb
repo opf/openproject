@@ -25,7 +25,9 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+
 require 'webmock/rspec'
+require "httpx/adapters/webmock"
 
 RSpec.configure do |config|
   config.before(:suite) do
