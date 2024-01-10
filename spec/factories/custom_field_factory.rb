@@ -158,6 +158,22 @@ FactoryBot.define do
     end
 
     factory :project_custom_field, class: 'ProjectCustomField' do
+      project_custom_field_section
+
+      transient do
+        projects { [] }
+      end
+
+      # enable the the custom_field for the given projects
+      after(:create) do |custom_field, evaluator|
+        projects = Array(evaluator.projects)
+        next if projects.blank?
+
+        projects.each do |project|
+          create(:project_custom_field_project_mapping, project:, project_custom_field: custom_field)
+        end
+      end
+
       factory :boolean_project_custom_field, traits: [:boolean]
       factory :string_project_custom_field, traits: [:string]
       factory :text_project_custom_field, traits: [:text]

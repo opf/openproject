@@ -9,6 +9,7 @@ import { GridResource } from 'core-app/features/hal/resources/grid-resource';
 import { GridAddWidgetService } from 'core-app/shared/components/grids/grid/add-widget.service';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Directive()
 export abstract class GridPageComponent implements OnInit, OnDestroy {
@@ -26,11 +27,13 @@ export abstract class GridPageComponent implements OnInit, OnDestroy {
     readonly title:Title,
     readonly addWidget:GridAddWidgetService,
     readonly renderer:Renderer2,
-    readonly areas:GridAreaService) {}
-
+    readonly areas:GridAreaService,
+    readonly configurationService:ConfigurationService) {}
+    
   public grid:GridResource;
 
   protected isTurboFrameSidebarEnabled():boolean {
+    // may be overridden by subclasses
     return false;
   }
 

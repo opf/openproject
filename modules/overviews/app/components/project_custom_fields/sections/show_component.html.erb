@@ -1,6 +1,8 @@
 <%=
   component_wrapper do
-    flex_layout(border: :bottom, pb: 2) do |details_container|
+    flex_layout(border: :bottom, pb: 2, classes: 'op-project-custom-field-section-container', data: {
+      qa_selector: "project-custom-field-section-#{@project_custom_field_section.id}"
+    }) do |details_container|
       details_container.with_row(mb: 2) do
         flex_layout(align_items: :center, justify_content: :space_between) do |heading|
           heading.with_column(flex: 1) do
@@ -14,7 +16,9 @@
               size: :medium_portrait,
               title: "#{t('label_edit')} #{ @project_custom_field_section.name }",
               button_icon: :pencil,
-              button_attributes: { scheme: :invisible }
+              button_attributes: { scheme: :invisible, data: {
+                qa_selector: "project-custom-field-section-edit-button"
+              } }
             ))
           end
         end
