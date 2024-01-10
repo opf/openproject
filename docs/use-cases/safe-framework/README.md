@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Implementing Scaled Agile Framework (SAFe) with OpenProject
-  priority: 990
+  priority: 980
 description: Learn how to set up and configure OpenProject to support the Scaled Agile Framework (SAFe) to successfully deliver value to customers using agile practices at scale.
 keywords: safe, scaled agile, release train, program increment, ART backlog, roadmap, portfolio backlog, solution train, kanban, enabler, capability, scrum, roadmap
 
