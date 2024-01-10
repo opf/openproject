@@ -28,14 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class FiltersComponent < ApplicationComponent
-  options :query
-  
-  renders_many :buttons, lambda { |**system_arguments|
-    Primer::Beta::Button.new(**system_arguments)
-  }
+class Projects::ProjectsFiltersComponent < FiltersComponent
   
   def allowed_filters
-    raise NotImplementedError
+    query
+      .available_filters
+      .select { |f| allowed_filter?(f) }
+      .sort_by(&:human_name)
+  end
+
+  private
+
+  def allowed_filter?(filter)
+    allowlist = [
+      Queries::Projects::Filters::ActiveFilter,
+      Queries::Projects::Filters::TemplatedFilter,
+      Queries::Projects::Filters::PublicFilter,
+      Queries::Projects::Filters::ProjectStatusFilter,
+      Queries::Projects::Filters::MemberOfFilter,
+      Queries::Projects::Filters::CreatedAtFilter,
+      Queries::Projects::Filters::LatestActivityAtFilter,
+      Queries::Projects::Filters::NameAndIdentifierFilter,
+      Queries::Projects::Filters::TypeFilter
+    ]
+    allowlist << Queries::Filters::Shared::CustomFields::Base if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
+
+    allowlist.detect { |clazz| filter.is_a? clazz }
   end
 end

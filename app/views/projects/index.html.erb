@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
     current_user:
   ) %>
 
-  <%= render (FiltersComponent.new(
+  <%= render (Projects::ProjectsFiltersComponent.new(
     query: @query,
     ) ) do |component|
 
