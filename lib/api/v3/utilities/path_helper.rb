@@ -421,6 +421,7 @@ module API
           end
 
           index :shares
+          show :share
 
           def self.show_user(user_id)
             user_path(user_id)

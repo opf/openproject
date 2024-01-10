@@ -40,6 +40,9 @@ module API
         associated_resource :project
 
         # associated_resource :entity # TODO: Check if neeeded, and check how we can use polymorphism here
+        associated_resource :entity,
+                            getter: ::API::V3::Shares::EntityRepresenterFactory.create_getter_lambda(:entity),
+                            link: ::API::V3::Shares::EntityRepresenterFactory.create_link_lambda(:entity, getter: 'user_id')
 
         associated_resource :principal,
                             getter: ::API::V3::Principals::PrincipalRepresenterFactory
@@ -75,11 +78,11 @@ module API
                               { member_roles: :role }]
 
         def _type
-          'Membership'
+          'Share'
         end
 
         def unmarked_roles
-          represented
+          @unmarked_roles ||= represented
             .member_roles
             .reject(&:marked_for_destruction?)
             .map(&:role)

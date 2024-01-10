@@ -37,9 +37,18 @@ module API
 
           get &::API::V3::Utilities::Endpoints::Index
                  .new(model: Member,
-                      scope: -> { Member.where.not(entity: nil).includes(ShareRepresenter.to_eager_load) },
+                      scope: -> { Member.visible(User.current).where.not(entity: nil).includes(ShareRepresenter.to_eager_load) },
                       api_name: 'Share')
                  .mount
+
+          route_param :id, type: Integer, desc: 'Share ID' do
+            after_validation do
+              @member = Member.where.not(entity: nil).visible(User.current).find(params[:id])
+            end
+
+            get &::API::V3::Utilities::Endpoints::Show.new(model: Member,
+                                                           api_name: 'Share').mount
+          end
         end
       end
     end
