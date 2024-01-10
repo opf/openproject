@@ -106,7 +106,7 @@ RSpec.describe 'inline create work package', :js do
         sleep(0.3)
 
         columns.open_modal
-        columns.add(cf_list.name, save_changes: true, finicky: true)
+        columns.add(cf_list.name, save_changes: true)
 
         wp_table.click_inline_create
 

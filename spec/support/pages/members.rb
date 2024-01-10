@@ -77,6 +77,10 @@ module Pages
       end
     end
 
+    def in_user_row(user, &block)
+      page.within(".principal-#{user.id}", &block)
+    end
+
     ##
     # Adds the given user to this project.
     #
@@ -120,7 +124,7 @@ module Pages
     #                                   is why there must be only an edit and no delete button.
     def has_user?(name, roles: nil, group_membership: nil, group: false)
       css = group ? "tr.group" : "tr"
-      has_selector?(css, text: name) &&
+      has_selector?(css, text: name, wait: 0.5) &&
         (roles.nil? || has_roles?(name, roles, group:)) &&
         (group_membership.nil? || group_membership == has_group_membership?(name))
     end

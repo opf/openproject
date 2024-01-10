@@ -38,6 +38,20 @@
   width: 100%
   text-align: center
 
+// READ value of display fields in wiki macros
+
+display-field
+  & .split-time-field
+    white-space: nowrap
+
+    .-separator
+      display: inline-block
+      width: 1rem
+      padding-left: 0.25rem
+      padding-right: 0.25rem
+      text-align: center
+
+
 // READ value of edit fields
 .inline-edit--display-field
   display: inline-block
@@ -87,8 +101,7 @@
     .-actual-value
       @include wp-table--actual-time-values
 
-    .-separator::before
-      content: "·"
+    .-separator
       display: inline-block
       width: 1rem
       padding-left: 0.25rem

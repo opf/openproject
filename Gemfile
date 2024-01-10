@@ -28,7 +28,11 @@
 
 source 'https://rubygems.org'
 
-ruby '3.2.2'
+# TODO: Once packager.io and heroku buildpacks support bundler 2.4.22,
+# then we can use the new bundler syntax `ruby file: '.ruby-version'`.
+# https://github.com/heroku/heroku-buildpack-ruby/issues/1408#issuecomment-1841596215
+
+ruby File.read('.ruby-version').strip
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -375,4 +379,4 @@ end
 
 gem "openproject-octicons", '~>19.8.0'
 gem "openproject-octicons_helper", '~>19.8.0'
-gem "openproject-primer_view_components", '~>0.18.1'
+gem "openproject-primer_view_components", '~>0.20.0'
