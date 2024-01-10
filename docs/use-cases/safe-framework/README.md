@@ -83,7 +83,7 @@ Versions are also tied to the Backlog module. To learn more, read [Backlogs, Ka
 
 Once the instance, individual ARTs and versions are set up, you are ready to move on to the configuration of individual work initiatives or functionalities.
 
-In OpenProject, all work is expressed as work packages of various types. In the context of SAFe, it already comes with **Epic**, **Feature**, **User story** and **Milestone** types out of the box. Depending on your needs, **Capability** and **Enabler** types can be easier created and configured.
+In OpenProject, all work is expressed as work packages of various types. In the context of SAFe, it already comes with **Epic**, **Feature**, **User story** and **Milestone** types out of the box. Depending on your needs, **Capability** and **Enabler** types can be easily created and configured.
 
 Apart from milestone (which has the particularity of having a single date), all types can be freely configured and new ones freely created.
 
