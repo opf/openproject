@@ -59,7 +59,7 @@ Agile teams *within* an ART can also be organised using the Team planner or Ass
 
 Project portfolios allow you to view, organise, sort and filter through all projects. Since each project can be an ART, it can also be used to access information at a **Solution train**-level.
 
-> In a near future release, OpenProject will have dedicated project portfolio features. [View mockups.](#add-URL)
+> In a near future release, OpenProject will have dedicated project portfolio features. [View mockups.](https://www.figma.com/file/YCCMdJWkrtP9YSmf49Od0i/Project-lists?type=design&node-id=470%3A13037&mode=design&t=g1EZesuy0Jj0VZFD-1)
 > 
 > For the moment, **global modules** give you an overview of content from all projects, including the ability to view and filter though a **project list**, and view, sort and filter **work packages at a global level**.
 
