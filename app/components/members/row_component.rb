@@ -41,7 +41,7 @@ module Members
     end
 
     def row_css_class
-      "member #{principal_class_name}".strip
+      "member #{principal_class_name} principal-#{principal.id}".strip
     end
 
     def name
@@ -114,7 +114,7 @@ module Members
     end
 
     def may_update?
-      table.authorize_update && model.project_role?
+      table.authorize_update
     end
 
     def may_delete?
@@ -122,12 +122,21 @@ module Members
     end
 
     def button_links
-      if may_update? && may_delete?
+      if !model.project_role?
+        [share_warning]
+      elsif may_update? && may_delete?
         [edit_link, delete_link].compact
       elsif may_delete?
         [delete_link].compact
       else
         []
+      end
+    end
+
+    def share_warning
+      content_tag(:span,
+                  title: I18n.t('members.no_modify_on_shared')) do
+        helpers.op_icon('icon icon-info1')
       end
     end
 
