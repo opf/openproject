@@ -110,7 +110,7 @@ Depending on the individual use and permissions of the user the following person
 - Email header including sender and recipients
 - Person mentioned in an email
 
-##### Files (fi-01) 
+##### Files (cf-01) 
 
 - Assignment of a files to an uploader or creator
 - Change history
@@ -498,7 +498,7 @@ subgraph openproject[OpenProject]
 
 * `bu-01`
 * `bu-03 `
-* `fi-01`
+* `cf-01`
 
 #### Security measures
 
@@ -545,7 +545,7 @@ subgraph openproject[OpenProject]
 
 * `bu-01`
 * `bu-03`
-* `fi-01`
+* `cf-01`
 
 #### Security measures
 
