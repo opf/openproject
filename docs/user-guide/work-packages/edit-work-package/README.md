@@ -140,28 +140,28 @@ At the bottom of the page you can decide whether email updates regarding these c
 
 ##  Update a work package in a work package table view
 
-In the work package table view you can not only open a single work package, but also trigger direct actions, such as logging time and costs, copying, downloading or deleting said work package. To access the quick context menu simply right-click any work package in a work package table view and select the preferred action. 
+In the work package table view, you can not only open a single work package but also trigger direct actions such as logging time and costs, copying, downloading or deleting said work package. To access the quick context menu, simply right-click any work package in a work package table view and select the preferred action. 
 
 ![Quick context menu in OpenProject work package table](quick-context-menu.png)
 
-You have the following options here: 
+You have the following options:
 
 - **Open details view** - opens the details view of a work package on the right side of the screen.
 - **Open fullscreen view** - opens the detailed view of a work package across the entire screen.
 - **Log time** - opens a pop-up dialogue allowing you to [log time](/././time-and-costs/time-tracking/#log-time-in-the-work-package-view) directly to a work package without having to open it first.
 - **Log unit costs** - navigates you to the cost logging screen. Once you [log the costs](../../time-and-costs/cost-tracking/) and save the entry, you will return to the work package table view.
 - **Change project** - allows moving the selected work package to a different project.
-- **Copy** - opens a details view of a new work package on the right side of the screen. This new work package is an exact copy of the work package you selected, you can adjust any details and save it.
+- **Copy** - opens a details view of a new work package on the right side of the screen. This new work package is an exact copy of the work package you selected, but you can adjust any details you would like to change and then save it.
 - **Copy link to clipboard** - copies a short link to the selected work package to your clipboard. 
 - **Copy to other project** - allows copying the selected work package to a different project. 
 - **Delete** - deletes a work package. You will need to confirm the deletion.
-- **Download PDF** - downloads the selected work package in a PDF format. 
-- **Download Atom** - downloads the selected work package in an Atom format.
+- **Download PDF** - downloads the selected work package as a PDF file. 
+- **Download Atom** - downloads the selected work package as an Atom file.
 - **Indent hierarchy** - creates a child-parent relationship with the work package directly above. The work package you selected become the child work package. The work package directly above becomes the parent work package.
 - **Create new child** - opens a new work package on the right side of the screen. This new work package already has a child relationship to the work package you selected.  
 
-If you have opened the quick context menu for a work package that has a parent work package, you will also have the 
+If you have opened the quick context menu for a work package that has a parent work package, you will also see:
 
 - **Outdent hierarchy** option, which will remove the child-parent relationship. 
 
-> Note: if you open the [Gantt view](../../gantt-chart/), the quick context menu will have different options than in the work package table view.
+> **Note**: if you open the [Gantt view](../../gantt-chart/), the quick context menu will have different options than in the work package table view.
