@@ -114,7 +114,7 @@ module Members
     end
 
     def may_update?
-      table.authorize_update
+      table.authorize_update && model.project_role?
     end
 
     def may_delete?

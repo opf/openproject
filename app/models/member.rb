@@ -79,6 +79,10 @@ class Member < ApplicationRecord
     member_roles.detect(&:inherited_from).nil?
   end
 
+  def project_role?
+    entity_id.nil?
+  end
+
   def deletable_role?(role)
     member_roles
       .only_inherited
