@@ -14,12 +14,11 @@
       <%= t(:label_filter) %>
       <%= render(Primer::Beta::Counter.new(count: query.filters.count, round: true, hide_if_zero: false, scheme: :default)) %>
     <% end %>
-
-    <% buttons.each do |button| %>
-      <div>
+    <div class="project-filters-text-actions">
+      <% buttons.each do |button| %>
         <%= button %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
   <%= form_tag({},
               method: :get,
