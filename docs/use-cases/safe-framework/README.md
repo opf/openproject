@@ -17,7 +17,7 @@ This guide contains the following sections:
 | -------------------------------------------- | ------------------------------------------------------------ |
 | [Structure and terminology](#structure-and-terminology)   | What concepts in SAFe translate to in OpenProject and how to structure them  |
 | [Setting up Agile Release Trains](#setting-up-agile-release-trains) | Configuring projects and using project templates to create and administer Agile Release Trains |
-| [Using versions to set Program Increments](#using-versions-to-organise-set-increments) | Using versions in OpenProject to define Program Increments (PIs) and Iterations |
+| [Using versions to set Program Increments](#using-versions-to-set-program-increments) | Using versions in OpenProject to define Program Increments (PIs) and Iterations |
 | [Working with epics, features and stories](#working-with-epics-features-and-stories) | Configuring and using work packages for Epics, Capabilities, Enablers, Features and User Stories |
 | [Organising work using table view, Gantt view](#organising-work-using-table-view-gantt-view) | Using table and Gantt views to visualise, sort, filter and group work packages and save custom views at all levels (agile team, Agile Release Train or Solution Train) |
 | [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) | Organising work and facilitating planning using Backlogs, Kanban boards and Team planner  |
@@ -125,10 +125,12 @@ A [type template (or default text for description)](../../system-admin-guide/man
 
 Similarly, a template can be defined for **User stories** so that they can be expressed in a SAFe-compatible manner, like so:
 
-> **As a** *{role}*, 
-> **I want to** *{activity} *
-> **so that** *{business or user value}*
+> **As a** *{role}*,
 >
+> **I want to** *{activity}*
+> 
+> **so that** *{business or user value}*
+ 
 > **Demo**: Defining a [type template for user stories](https://safe.openproject.com/types/6/edit/settings) (requires admin privileges).
 
 ### Custom fields
