@@ -28,7 +28,11 @@
 
 source 'https://rubygems.org'
 
-ruby '3.2.2'
+# TODO: Once packager.io and heroku buildpacks support bundler 2.4.22,
+# then we can use the new bundler syntax `ruby file: '.ruby-version'`.
+# https://github.com/heroku/heroku-buildpack-ruby/issues/1408#issuecomment-1841596215
+
+ruby File.read('.ruby-version').strip
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
