@@ -74,9 +74,9 @@ require 'rubocop/rspec/support'
 # may lead to broken specs on the CI, if we don't sort here
 # (example: with_config.rb has to precede with_direct_uploads.rb).
 #
-require_relative "./support/parallel_helper"
-require_relative "./support/download_list"
-require_relative "./support/capybara"
+require_relative "support/parallel_helper"
+require_relative "support/download_list"
+require_relative "support/capybara"
 Dir[Rails.root.join('spec/support/**/*.rb')].sort.each { |f| require_relative f }
 Dir[Rails.root.join('spec/features/support/**/*.rb')].sort.each { |f| require f }
 Dir[Rails.root.join('spec/lib/api/v3/support/**/*.rb')].sort.each { |f| require f }
@@ -88,7 +88,7 @@ ActiveRecord::Migration.maintain_test_schema! unless ENV['CI']
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{Rails.root}/spec/fixtures"
+  config.fixture_path = "#{Rails.root.join('spec/fixtures')}"
 
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!

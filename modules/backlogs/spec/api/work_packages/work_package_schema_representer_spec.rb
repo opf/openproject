@@ -61,7 +61,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       let(:writable) { true }
     end
 
-    context 'backlogs disabled' do
+    context 'when backlogs module is disabled' do
       before do
         allow(schema.project).to receive(:backlogs_enabled?).and_return(false)
       end
@@ -78,71 +78,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       it 'does not show story points' do
         expect(subject).not_to have_json_path('storyPoints')
-      end
-    end
-  end
-
-  describe 'remainingTime & derivedRemainingtime' do
-    subject { representer.to_json }
-
-    shared_examples_for 'has schema for remainingTime' do
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'remainingTime' }
-        let(:type) { 'Duration' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.remaining_hours') }
-        let(:required) { false }
-        let(:writable) { true }
-      end
-    end
-
-    shared_examples_for 'has schema for derivedRemainingTime' do
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'derivedRemainingTime' }
-        let(:type) { 'Duration' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.derived_remaining_hours') }
-        let(:required) { false }
-        let(:writable) { false }
-      end
-    end
-
-    it_behaves_like 'has schema for remainingTime'
-    it_behaves_like 'has schema for derivedRemainingTime'
-
-    context 'backlogs disabled' do
-      before do
-        allow(schema.project).to receive(:backlogs_enabled?).and_return(false)
-      end
-
-      it 'has no schema for remainingTime' do
-        expect(subject).not_to have_json_path('remainingTime')
-      end
-
-      it 'has no schema for derivedRemainingTime' do
-        expect(subject).not_to have_json_path('derivedRemainingTime')
-      end
-    end
-
-    context 'not a story' do
-      before do
-        allow(schema.type).to receive(:story?).and_return(false)
-      end
-
-      it_behaves_like 'has schema for remainingTime'
-      it_behaves_like 'has schema for derivedRemainingTime'
-    end
-
-    context 'remainingTime not writable' do
-      before do
-        allow(schema).to receive(:writable?).and_call_original
-        allow(schema).to receive(:writable?).with('remaining_hours').and_return(false)
-      end
-
-      it_behaves_like 'has basic schema properties' do
-        let(:path) { 'remainingTime' }
-        let(:type) { 'Duration' }
-        let(:name) { I18n.t('activerecord.attributes.work_package.remaining_hours') }
-        let(:required) { false }
-        let(:writable) { false }
       end
     end
   end

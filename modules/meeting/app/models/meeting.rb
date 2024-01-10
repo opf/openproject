@@ -109,7 +109,7 @@ class Meeting < ApplicationRecord
   end
 
   def start_time=(value)
-    super value&.to_datetime
+    super(value&.to_datetime)
   end
 
   def start_month
@@ -154,7 +154,7 @@ class Meeting < ApplicationRecord
   def all_changeable_participants
     changeable_participants = participants.select(&:invited).collect(&:user)
     changeable_participants = changeable_participants + participants.select(&:attended).collect(&:user)
-    changeable_participants = changeable_participants + \
+    changeable_participants = changeable_participants +
       User.allowed_members(:view_meetings, project)
 
     changeable_participants

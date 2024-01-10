@@ -57,7 +57,7 @@ module OpenProject::TextFormatting
       #
       # Returns nothing.
       def filter!
-        list_items(doc).reverse.each do |li|
+        list_items(doc).reverse_each do |li|
           next if list_items(li.parent).empty?
 
           add_css_class(li.parent, 'op-uc-list_task-list')
@@ -68,7 +68,7 @@ module OpenProject::TextFormatting
             else
               [li, li.inner_html]
             end
-          if match = (inner.chomp =~ ItemPattern && $1)
+          if match = inner.chomp =~ ItemPattern && $1
             item = TaskList::Item.new(match, inner)
             # prepend because we're iterating in reverse
             task_list_items.unshift item

@@ -136,7 +136,6 @@ class ::Query::Results
     query
       .sort_criteria_columns
       .filter_map { |column, _direction| column.sortable_join_statement(query) }
-      
   end
 
   def sort_criteria_array

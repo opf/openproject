@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Refreshing query menu item', js: true do
+RSpec.describe 'Refreshing query menu item', :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }

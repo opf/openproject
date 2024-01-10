@@ -54,7 +54,7 @@ class Queries::Columns::Base
        association
        null_handling
        default_order).each do |attribute|
-      send("#{attribute}=", options[attribute])
+      send(:"#{attribute}=", options[attribute])
     end
   end
 

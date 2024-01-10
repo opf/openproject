@@ -314,7 +314,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.2)
       rbtree3 (~> 0.6)
-    appsignal (3.5.2)
+    appsignal (3.5.3)
       rack
     ast (2.4.2)
     attr_required (1.0.2)
@@ -399,7 +399,8 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     colored2 (4.0.0)
-    commonmarker (0.23.10)
+    commonmarker (1.0.4)
+      rb_sys (~> 0.9)
     compare-xml (0.66)
       nokogiri (~> 1.8)
     concurrent-ruby (1.2.2)
@@ -744,7 +745,7 @@ GEM
     parallel (1.24.0)
     parallel_tests (4.4.0)
       parallel
-    parser (3.2.2.4)
+    parser (3.3.0.2)
       ast (~> 2.4.1)
       racc
     pdf-core (0.9.0)
@@ -788,7 +789,7 @@ GEM
       eventmachine_httpserver
       http_parser.rb (~> 0.6.0)
       multi_json
-    puma (6.4.1)
+    puma (6.4.2)
       nio4r (~> 2.0)
     puma-plugin-statsd (2.6.0)
       puma (>= 5.0, < 7)
@@ -859,6 +860,7 @@ GEM
     rb-fsevent (0.11.2)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
+    rb_sys (0.9.86)
     rbtree3 (0.7.1)
     rdoc (6.6.2)
       psych (>= 4.0.0)
@@ -868,7 +870,7 @@ GEM
       redis-client (>= 0.17.0)
     redis-client (0.19.1)
       connection_pool
-    regexp_parser (2.8.3)
+    regexp_parser (2.9.0)
     reline (0.4.1)
       io-console (~> 0.5)
     representable (3.2.0)
@@ -923,15 +925,15 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.30.0)
       parser (>= 3.2.1.0)
-    rubocop-capybara (2.19.0)
+    rubocop-capybara (2.20.0)
       rubocop (~> 1.41)
-    rubocop-factory_bot (2.24.0)
+    rubocop-factory_bot (2.25.0)
       rubocop (~> 1.33)
     rubocop-inflector (0.2.1)
       activesupport
       rubocop
       rubocop-rspec
-    rubocop-performance (1.20.1)
+    rubocop-performance (1.20.2)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.30.0, < 2.0)
     rubocop-rails (2.23.1)
@@ -939,7 +941,7 @@ GEM
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
       rubocop-ast (>= 1.30.0, < 2.0)
-    rubocop-rspec (2.25.0)
+    rubocop-rspec (2.26.1)
       rubocop (~> 1.40)
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
@@ -948,7 +950,7 @@ GEM
       i18n
       iso8601
     ruby-ole (1.2.12.2)
-    ruby-prof (1.6.3)
+    ruby-prof (1.7.0)
     ruby-progressbar (1.13.0)
     ruby-rc4 (0.1.5)
     ruby-saml (1.16.0)
@@ -1107,7 +1109,7 @@ DEPENDENCIES
   climate_control
   closure_tree (~> 7.4.0)
   colored2
-  commonmarker (~> 0.23.9)
+  commonmarker (~> 1.0.3)
   compare-xml (~> 0.66)
   costs!
   cuprite (~> 0.15.0)
@@ -1206,7 +1208,7 @@ DEPENDENCIES
   pry-rails (~> 0.3.6)
   pry-rescue (~> 1.5.2)
   puffing-billy (~> 4.0.0)
-  puma (~> 6.3, >= 6.3.1)
+  puma (~> 6.4)
   puma-plugin-statsd (~> 2.0)
   rack-attack (~> 6.7.0)
   rack-cors (~> 2.0.0)

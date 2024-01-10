@@ -986,6 +986,7 @@ ar:
         updatedAt: "تم التحديث بتاريخ"
         versionName: "الإصدار"
         version: "الإصدار"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"

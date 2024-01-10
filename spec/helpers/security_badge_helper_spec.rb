@@ -39,7 +39,7 @@ RSpec.describe SecurityBadgeHelper do
       uri = URI.parse(helper.security_badge_url)
       query = Rack::Utils.parse_nested_query(uri.query)
       expect(uri.host).to eq("releases.openproject.com")
-      expect(query.keys).to match_array(["uuid", "type", "version", "db", "lang", "ee"])
+      expect(query.keys).to contain_exactly("uuid", "type", "version", "db", "lang", "ee")
       expect(query["uuid"]).to eq("abcd1234")
       expect(query["version"]).to eq(OpenProject::VERSION.to_semver)
       expect(query["type"]).to eq("manual")

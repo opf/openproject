@@ -36,7 +36,7 @@ module API
         message = I18n.t("api_v3.errors.invalid_signal.#{type}",
                          invalid: Array(invalid).join(', '),
                          supported: Array(supported).join(', '))
-        super message
+        super(message)
       end
     end
   end

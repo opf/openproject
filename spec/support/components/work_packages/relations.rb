@@ -56,7 +56,7 @@ module Components
         SeleniumHubWaiter.wait
         row.find('.relation-row--type').click
 
-        expect(row).to have_selector('select.inline-edit--field')
+        expect(row).to have_css('select.inline-edit--field')
         row.find('.inline-edit--field option', text: to_type).select_option
       end
 
@@ -107,13 +107,13 @@ module Components
                             query: to.subject,
                             select_text: to.subject
 
-        expect(page).to have_selector('.relation-group--header',
-                                      text: relation_label.upcase,
-                                      wait: 10)
+        expect(page).to have_css('.relation-group--header',
+                                 text: relation_label.upcase,
+                                 wait: 10)
 
-        expect(page).to have_selector("[data-test-selector='op-relation--row-type']", text: to.type.name.upcase)
+        expect(page).to have_css("[data-test-selector='op-relation--row-type']", text: to.type.name.upcase)
 
-        expect(page).to have_selector("[data-test-selector='op-relation--row-subject']", text: to.subject)
+        expect(page).to have_css("[data-test-selector='op-relation--row-subject']", text: to.subject)
 
         ## Test if relation exist
         work_package.reload
@@ -123,15 +123,15 @@ module Components
       end
 
       def expect_relation(relatable)
-        expect(relations_group).to have_selector("[data-test-selector='op-relation--row-subject']", text: relatable.subject)
+        expect(relations_group).to have_css("[data-test-selector='op-relation--row-subject']", text: relatable.subject)
       end
 
       def expect_relation_by_text(text)
-        expect(relations_group).to have_selector("[data-test-selector='op-relation--row-subject']", text:)
+        expect(relations_group).to have_css("[data-test-selector='op-relation--row-subject']", text:)
       end
 
       def expect_no_relation(relatable)
-        expect(page).not_to have_selector("[data-test-selector='op-relation--row-subject']", text: relatable.subject)
+        expect(page).to have_no_css("[data-test-selector='op-relation--row-subject']", text: relatable.subject)
       end
 
       def add_parent(query, work_package)
@@ -149,13 +149,13 @@ module Components
       end
 
       def expect_parent(work_package)
-        expect(page).to have_selector '[data-test-selector="op-wp-breadcrumb-parent"]',
-                                      text: work_package.subject,
-                                      wait: 10
+        expect(page).to have_css '[data-test-selector="op-wp-breadcrumb-parent"]',
+                                 text: work_package.subject,
+                                 wait: 10
       end
 
       def expect_no_parent
-        expect(page).not_to have_selector '[data-test-selector="op-wp-breadcrumb-parent"]', wait: 10
+        expect(page).to have_no_css '[data-test-selector="op-wp-breadcrumb-parent"]', wait: 10
       end
 
       def remove_parent
@@ -177,7 +177,8 @@ module Components
           next if page.has_selector?('.wp-relations--children .ng-input input')
 
           SeleniumHubWaiter.wait
-          find('[data-test-selector="op-wp-inline-create-reference"]', text: I18n.t('js.relation_buttons.add_existing_child')).click
+          find('[data-test-selector="op-wp-inline-create-reference"]',
+               text: I18n.t('js.relation_buttons.add_existing_child')).click
 
           # Security check to be sure that the autocompleter has finished loading
           page.find '.wp-relations--children .ng-input input'
@@ -198,7 +199,7 @@ module Components
 
         within container do
           expect(page)
-            .to have_selector('.wp-table--cell-td.subject', text: work_package.subject, wait: 10)
+            .to have_css('.wp-table--cell-td.subject', text: work_package.subject, wait: 10)
         end
       end
 
@@ -206,7 +207,7 @@ module Components
         page.within('wp-relations-tab .work-packages-embedded-view--container') do
           row = ".wp-row-#{work_package.id}-table"
 
-          expect(page).not_to have_selector(row)
+          expect(page).to have_no_selector(row)
         end
       end
 

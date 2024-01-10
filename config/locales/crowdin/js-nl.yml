@@ -982,6 +982,7 @@ nl:
         updatedAt: "Bijgewerkt op"
         versionName: "Versie"
         version: "Versie"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Laatste Activiteit"
         created_by_me: "Gemaakt door mijzelf"

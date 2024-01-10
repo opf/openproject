@@ -982,6 +982,7 @@ hu:
         updatedAt: "Frissítve"
         versionName: "Verzió"
         version: "Verzió"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Utolsó aktivitás"
         created_by_me: "Általam készített"

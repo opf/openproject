@@ -36,7 +36,7 @@ module OpenProject::TwoFactorAuthentication
           @token = create_mobile_otp
         end
 
-        send "send_#{channel}"
+        send :"send_#{channel}"
       end
 
       def identifier

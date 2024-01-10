@@ -39,7 +39,7 @@ module PageObjects
     def expect_type(type, message)
       raise "Unimplemented type #{type}." unless types.include?(type)
 
-      expect(page).to have_selector(".op-toast.-#{type}", text: message, wait: 10)
+      expect(page).to have_css(".op-toast.-#{type}", text: message, wait: 10)
     end
 
     def expect_success(message)

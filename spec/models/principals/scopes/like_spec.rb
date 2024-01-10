@@ -57,22 +57,22 @@ RSpec.describe Principals::Scopes::Like do
 
     it 'finds by login' do
       expect(Principal.like('login'))
-        .to match_array [login, login2]
+        .to contain_exactly(login, login2)
     end
 
     it 'finds by firstname' do
       expect(Principal.like('firstname'))
-        .to match_array [firstname, firstname2]
+        .to contain_exactly(firstname, firstname2)
     end
 
     it 'finds by lastname' do
       expect(Principal.like('lastname'))
-        .to match_array [lastname, lastname2]
+        .to contain_exactly(lastname, lastname2)
     end
 
     it 'finds by mail' do
       expect(Principal.like('mail'))
-        .to match_array [mail, mail2]
+        .to contain_exactly(mail, mail2)
     end
   end
 end

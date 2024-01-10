@@ -24,4 +24,3 @@ ca:
     work_packages:
       properties:
         storyPoints: "Punts d'història"
-        remainingTime: "Remaining work"

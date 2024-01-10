@@ -70,7 +70,7 @@ RSpec.describe Activities::WorkPackageActivityProvider do
           .map { |a| a.journable_id.to_s }
       end
 
-      it { is_expected.to eq(work_packages.reverse.first(3)) }
+      it { is_expected.to eq(work_packages.last(3).reverse) }
     end
 
     context 'when a work package has been created and then closed' do

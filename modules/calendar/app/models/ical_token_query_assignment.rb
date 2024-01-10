@@ -29,11 +29,8 @@
 class ICalTokenQueryAssignment < ApplicationRecord
   self.table_name = 'ical_token_query_assignments'
 
-  # rubocop:disable Rails/BelongsTo
   belongs_to :ical_token, class_name: 'Token::ICal', optional: true
   belongs_to :query, optional: true
-  # rubocop:enable Rails/BelongsTo
-
   validates :name, presence: true
   validate :unique_name_per_user_and_query
 

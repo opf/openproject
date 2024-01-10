@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-RSpec.describe 'Work package transitive status workflows', js: true do
+RSpec.describe 'Work package transitive status workflows', :js do
   let(:dev_role) do
     create(:project_role,
            permissions: %i[view_work_packages

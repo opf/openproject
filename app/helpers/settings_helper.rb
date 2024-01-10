@@ -164,7 +164,7 @@ module SettingsHelper
         hidden +
           styled_check_box_tag("settings[#{setting}]",
                                1,
-                               Setting.send("#{setting}?"),
+                               Setting.send(:"#{setting}?"),
                                disabled_setting_option(setting).merge(options))
       end
   end

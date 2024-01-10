@@ -153,14 +153,14 @@ RSpec.describe 'Activation of storages in projects', :js, :webmock, with_setting
     expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
                                                                                  id: Storages::ProjectStorage.last)
     expect(page).to have_text('Edit the file storage to this project')
-    expect(page).not_to have_select('storages_project_storage_storage_id')
+    expect(page).to have_no_select('storages_project_storage_storage_id')
     expect(page).to have_text(storage.name)
     expect(page).to have_checked_field('storages_project_storage_project_folder_mode_manual')
     expect(page).to have_text('Folder1')
 
     # Change the project folder mode to inactive, project folder is hidden but retained
     page.find_by_id('storages_project_storage_project_folder_mode_inactive').click
-    expect(page).not_to have_text('Folder1')
+    expect(page).to have_no_text('Folder1')
     page.click_button('Save')
 
     # The list of enabled file storages should still contain Storage 1
@@ -207,7 +207,7 @@ RSpec.describe 'Activation of storages in projects', :js, :webmock, with_setting
       it 'automatic option is not available' do
         visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 
-        expect(page).not_to have_content('New folder with automatically managed permissions')
+        expect(page).to have_no_content('New folder with automatically managed permissions')
       end
     end
 
@@ -236,8 +236,8 @@ RSpec.describe 'Activation of storages in projects', :js, :webmock, with_setting
       aggregate_failures 'select field options' do
         expect(page).to have_select('storages_project_storage_storage_id',
                                     options: ["#{configured_storage.name} (#{configured_storage.short_provider_type})"])
-        expect(page).not_to have_select('storages_project_storage_storage_id',
-                                        options: ["#{unconfigured_storage.name} (#{unconfigured_storage.short_provider_type})"])
+        expect(page).to have_no_select('storages_project_storage_storage_id',
+                                       options: ["#{unconfigured_storage.name} (#{unconfigured_storage.short_provider_type})"])
       end
     end
   end

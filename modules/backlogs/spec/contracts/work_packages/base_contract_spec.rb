@@ -29,47 +29,27 @@
 require 'spec_helper'
 
 RSpec.describe WorkPackages::BaseContract, type: :model do
+  shared_let(:type_feature) { create(:type_feature) }
+  shared_let(:type_task) { create(:type_task) }
+  shared_let(:type_bug) { create(:type_bug) }
+  shared_let(:backlogs_types) { [type_feature, type_task, type_bug] }
+  shared_let(:project) do
+    create(:project, types: backlogs_types)
+  end
+  shared_let(:other_project) do
+    create(:project, types: backlogs_types)
+  end
+  shared_let(:user) do
+    create(:admin, member_with_roles: { project => create(:project_role),
+                                        other_project => create(:project_role) })
+  end
+
   let(:instance) { described_class.new(work_package, user) }
-  let(:type_feature) { build(:type_feature) }
-  let(:type_task) { build(:type_task) }
-  let(:type_bug) { build(:type_bug) }
   let(:version1) { build_stubbed(:version, name: 'Version1', project: p) }
   let(:version2) { build_stubbed(:version, name: 'Version2', project: p) }
-  let(:role) { build(:project_role) }
-  let(:user) { build(:admin) }
+
   let(:issue_priority) { build(:priority) }
   let(:status) { build_stubbed(:status, name: 'status 1', is_default: true) }
-
-  let(:project) do
-    p = build(:project, members: [build(:member,
-                                        principal: user,
-                                        roles: [role])],
-                        types: [type_feature, type_task, type_bug])
-
-    allow(p)
-      .to receive(:assignable_versions)
-      .and_return([version1,
-                   version2])
-
-    p.enabled_module_names += ['backlogs']
-
-    p
-  end
-
-  let(:other_project) do
-    p = build(:project, members: [build(:member,
-                                        principal: user,
-                                        roles: [role])],
-                        types: [type_feature, type_task, type_bug])
-
-    allow(p)
-      .to receive(:assignable_versions)
-      .and_return([version1,
-                   version2])
-    p.enabled_module_names += ['backlogs']
-
-    p
-  end
 
   let(:story) do
     build_stubbed(:work_package,
@@ -141,12 +121,8 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
     scope = instance_double(ActiveRecord::Relation)
 
     allow(scope)
-      .to receive(:where)
-            .and_return(scope)
-
-    allow(scope)
-      .to receive(:empty?)
-            .and_return(false)
+      .to receive_messages(where: scope,
+                           empty?: false)
 
     scope
   end
@@ -154,7 +130,12 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
   subject(:valid) { instance.validate }
 
   before do
-    project.save!
+    allow(project)
+      .to receive(:assignable_versions)
+      .and_return([version1, version2])
+    allow(other_project)
+      .to receive(:assignable_versions)
+      .and_return([version1, version2])
 
     allow(WorkPackage)
       .to receive(:relatable)
@@ -166,6 +147,15 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
                                                                          'task_type' => type_task.id.to_s })
   end
 
+  describe 'story_points' do
+    let(:work_package) { task }
+
+    it 'is writable' do
+      work_package.story_points = 5
+      expect(subject).to be_truthy
+    end
+  end
+
   shared_examples_for 'is valid' do
     it 'is valid' do
       expect(subject).to be_truthy
@@ -173,68 +163,9 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
   end
 
   describe 'version being restricted' do
-    shared_examples_for 'is invalid and notes the error' do
-      it 'is invalid and notes the error' do
-        expect(subject).to be_falsey
-        expect(instance.errors.symbols_for(:version_id))
-          .to match_array([:task_version_must_be_the_same_as_story_version])
-      end
-    end
-
-    shared_examples_for 'version being restricted by the parent' do
-      before do
-        work_package.parent = parent if work_package.parent.blank?
-      end
-
-      describe 'WITHOUT a version and the parent also having no version' do
-        before do
-          parent.version = nil
-          work_package.version = nil
-        end
-
-        it_behaves_like 'is valid'
-      end
-
-      describe 'WITHOUT a version and the parent having a version' do
-        before do
-          parent.version = version1
-          work_package.version = nil
-        end
-
-        it_behaves_like 'is invalid and notes the error'
-      end
-
-      describe 'WITH a version and the parent having a different version' do
-        before do
-          parent.version = version1
-          work_package.version = version2
-        end
-
-        it_behaves_like 'is invalid and notes the error'
-      end
-
-      describe 'WITH a version and the parent having the same version' do
-        before do
-          parent.version = version1
-          work_package.version = version1
-        end
-
-        it_behaves_like 'is valid'
-      end
-
-      describe 'WITH a version and the parent having no version' do
-        before do
-          parent.version = nil
-          work_package.version = version1
-        end
-
-        it_behaves_like 'is invalid and notes the error'
-      end
-    end
-
     shared_examples_for 'version not being restricted by the parent' do
       before do
-        work_package.parent = parent if work_package.parent.blank?
+        work_package.parent ||= parent
       end
 
       describe 'WITHOUT a version and the parent also having no version' do
@@ -243,7 +174,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
           work_package.version = nil
         end
 
-        it_behaves_like 'is valid'
+        include_examples 'is valid'
       end
 
       describe 'WITHOUT a version and the parent having a version' do
@@ -252,7 +183,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
           work_package.version = nil
         end
 
-        it_behaves_like 'is valid'
+        include_examples 'is valid'
       end
 
       describe 'WITH a version and the parent having a different version' do
@@ -261,7 +192,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
           work_package.version = version2
         end
 
-        it_behaves_like 'is valid'
+        include_examples 'is valid'
       end
 
       describe 'WITH a version and the parent having the same version' do
@@ -270,7 +201,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
           work_package.version = version1
         end
 
-        it_behaves_like 'is valid'
+        include_examples 'is valid'
       end
 
       describe 'WITH a version and the parent having no version' do
@@ -279,7 +210,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
           work_package.version = version1
         end
 
-        it_behaves_like 'is valid'
+        include_examples 'is valid'
       end
     end
 
@@ -289,7 +220,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
           work_package.version = nil
         end
 
-        it_behaves_like 'is valid'
+        include_examples 'is valid'
       end
 
       describe 'WITH a version' do
@@ -297,7 +228,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
           work_package.version = version1
         end
 
-        it_behaves_like 'is valid'
+        include_examples 'is valid'
       end
     end
 
@@ -335,13 +266,13 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
 
         let(:parent) { task2 }
 
-        it_behaves_like 'version being restricted by the parent'
+        it_behaves_like 'version not being restricted by the parent'
       end
 
       describe "WITH a story as its parent" do
         let(:parent) { story }
 
-        it_behaves_like 'version being restricted by the parent'
+        it_behaves_like 'version not being restricted by the parent'
       end
 
       describe "WITH a non backlogs tracked work_package as its parent" do
@@ -386,7 +317,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
           work_package.parent = parent
         end
 
-        it_behaves_like 'is valid'
+        include_examples 'is valid'
       end
 
       describe 'WITH the work_package having a different project' do
@@ -395,7 +326,7 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
           work_package.project = other_project
         end
 
-        it_behaves_like 'is valid'
+        include_examples 'is valid'
       end
     end
 
@@ -405,13 +336,13 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
       describe 'WITH a story as its parent' do
         let(:parent) { story }
 
-        it_behaves_like 'project id unrestricted by parent'
+        include_examples 'project id unrestricted by parent'
       end
 
       describe 'WITH a non backlogs work package as its parent' do
         let(:parent) { bug }
 
-        it_behaves_like 'project id unrestricted by parent'
+        include_examples 'project id unrestricted by parent'
       end
     end
 
@@ -421,13 +352,13 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
       describe 'WITH a story as its parent' do
         let(:parent) { story2 }
 
-        it_behaves_like 'project id unrestricted by parent'
+        include_examples 'project id unrestricted by parent'
       end
 
       describe 'WITH a non backlogs work package as its parent' do
         let(:parent) { bug }
 
-        it_behaves_like 'project id unrestricted by parent'
+        include_examples 'project id unrestricted by parent'
       end
     end
 
@@ -437,13 +368,13 @@ RSpec.describe WorkPackages::BaseContract, type: :model do
       describe 'WITH a story as its parent' do
         let(:parent) { story }
 
-        it_behaves_like 'project id unrestricted by parent'
+        include_examples 'project id unrestricted by parent'
       end
 
       describe 'WITH a non backlogs work package as its parent' do
         let(:parent) { bug2 }
 
-        it_behaves_like 'project id unrestricted by parent'
+        include_examples 'project id unrestricted by parent'
       end
     end
   end

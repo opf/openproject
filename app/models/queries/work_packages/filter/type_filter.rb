@@ -53,7 +53,6 @@ class Queries::WorkPackages::Filter::TypeFilter <
 
     values
       .filter_map { |type_id| available_types[type_id.to_i] }
-      
   end
 
   private

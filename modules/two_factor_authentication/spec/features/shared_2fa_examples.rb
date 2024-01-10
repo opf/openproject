@@ -9,7 +9,7 @@ def first_login_step
 end
 
 def two_factor_step(token)
-  expect(page).to have_selector('input#otp')
+  expect(page).to have_css('input#otp')
   SeleniumHubWaiter.wait
   fill_in 'otp', with: token
   click_button I18n.t(:button_login)
@@ -18,12 +18,12 @@ end
 def expect_logged_in
   visit my_account_path
   SeleniumHubWaiter.wait
-  expect(page).to have_selector('.form--field-container', text: user.login)
+  expect(page).to have_css('.form--field-container', text: user.login)
 end
 
 def expect_not_logged_in
   visit my_account_path
-  expect(page).not_to have_selector('.form--field-container', text: user.login)
+  expect(page).to have_no_css('.form--field-container', text: user.login)
 end
 
 RSpec.shared_examples 'login without 2FA' do
@@ -35,8 +35,8 @@ end
 
 RSpec.shared_examples 'create enforced sms device' do
   it do
-    expect(page).to have_selector('.op-toast.-info',
-                                  text: I18n.t('two_factor_authentication.forced_registration.required_to_add_device'))
+    expect(page).to have_css('.op-toast.-info',
+                             text: I18n.t('two_factor_authentication.forced_registration.required_to_add_device'))
 
     SeleniumHubWaiter.wait
     # Create SMS device
@@ -46,15 +46,15 @@ RSpec.shared_examples 'create enforced sms device' do
     click_on 'Continue'
 
     # Expect error on invalid phone
-    expect(page).to have_selector('#errorExplanation', text: 'Phone number must be of format +XX XXXXXXXXX')
+    expect(page).to have_css('#errorExplanation', text: 'Phone number must be of format +XX XXXXXXXXX')
 
     SeleniumHubWaiter.wait
     fill_in 'device_phone_number', with: '+49 123456789'
     click_on 'Continue'
 
     # Confirm page
-    expect(page).to have_selector('h2', text: I18n.t('two_factor_authentication.devices.confirm_device'))
-    expect(page).to have_selector('input#otp')
+    expect(page).to have_css('h2', text: I18n.t('two_factor_authentication.devices.confirm_device'))
+    expect(page).to have_css('input#otp')
 
     SeleniumHubWaiter.wait
     # Fill in wrong token
@@ -69,10 +69,10 @@ RSpec.shared_examples 'create enforced sms device' do
 
     click_button I18n.t(:button_continue)
 
-    expect(page).to have_selector('h2', text: I18n.t('two_factor_authentication.devices.confirm_device'))
-    expect(page).to have_selector('input#otp')
-    expect(page).to have_selector('.op-toast.-error',
-                                  text: I18n.t('two_factor_authentication.devices.registration_failed_token_invalid'))
+    expect(page).to have_css('h2', text: I18n.t('two_factor_authentication.devices.confirm_device'))
+    expect(page).to have_css('input#otp')
+    expect(page).to have_css('.op-toast.-error',
+                             text: I18n.t('two_factor_authentication.devices.registration_failed_token_invalid'))
 
     SeleniumHubWaiter.wait
     # Fill in wrong token

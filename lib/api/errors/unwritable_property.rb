@@ -33,7 +33,7 @@ module API
       code 422
 
       def initialize(property, message)
-        super message
+        super(message)
 
         @property = property
         @details = { attribute: property }

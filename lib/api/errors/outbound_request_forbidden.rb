@@ -33,7 +33,7 @@ module API
       code 500
 
       def initialize
-        super I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 403)
+        super(I18n.t('api_v3.errors.code_500_outbound_request_failure', status_code: 403))
       end
     end
   end

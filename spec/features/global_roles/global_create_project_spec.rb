@@ -48,8 +48,8 @@ RSpec.describe 'Global role: Global Create project',
     # Then I should not see "Create project"
     it 'does not show the global permission' do
       visit edit_role_path(role)
-      expect(page).to have_selector('.form--label-with-check-box', text: 'Edit project')
-      expect(page).not_to have_selector('.form--label-with-check-box', text: 'Create project')
+      expect(page).to have_css('.form--label-with-check-box', text: 'Edit project')
+      expect(page).to have_no_css('.form--label-with-check-box', text: 'Create project')
     end
   end
 
@@ -65,8 +65,8 @@ RSpec.describe 'Global role: Global Create project',
 
     it 'does show the global permission' do
       visit edit_role_path(role)
-      expect(page).not_to have_selector('.form--label-with-check-box', text: 'Edit project')
-      expect(page).to have_selector('.form--label-with-check-box', text: 'Create project')
+      expect(page).to have_no_css('.form--label-with-check-box', text: 'Edit project')
+      expect(page).to have_css('.form--label-with-check-box', text: 'Create project')
     end
   end
 

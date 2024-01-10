@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require File.join(Rails.root, 'spec', 'requests', 'api', 'v3', 'attachments', 'attachment_resource_shared_examples')
+require Rails.root.join("spec/requests/api/v3/attachments/attachment_resource_shared_examples").to_s
 
 RSpec.describe "grid attachments" do
   before do

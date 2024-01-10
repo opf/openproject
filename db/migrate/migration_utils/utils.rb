@@ -30,9 +30,9 @@ module Migration
   module Utils
     UpdateResult = Struct.new(:row, :updated)
 
-    def say_with_time_silently(message, &block)
+    def say_with_time_silently(message, &)
       say_with_time message do
-        suppress_messages(&block)
+        suppress_messages(&)
       end
     end
 

@@ -43,7 +43,7 @@ RSpec.describe 'Group memberships through groups page' do
   end
 
   shared_examples 'errors when adding members' do
-    it 'adding a role without a principal', js: true do
+    it 'adding a role without a principal', :js do
       members_page.visit!
       expect_angular_frontend_initialized
       members_page.add_user! nil, as: 'Manager'

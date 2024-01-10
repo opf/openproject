@@ -7,7 +7,7 @@ RSpec.shared_context 'model contract' do
     it 'explains the not writable error' do
       instance.validate
       expect(instance.errors.details[attribute])
-        .to match_array [{ error: :error_readonly }]
+        .to contain_exactly({ error: :error_readonly })
     end
   end
 

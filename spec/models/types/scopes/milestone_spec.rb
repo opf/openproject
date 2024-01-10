@@ -37,7 +37,7 @@ RSpec.describe Types::Scopes::Milestone do
 
     it 'returns only milestones' do
       expect(subject)
-        .to match_array [milestone]
+        .to contain_exactly(milestone)
     end
   end
 end

@@ -37,6 +37,10 @@ module Pages
       @project = project
     end
 
+    def create_page?
+      is_a?(AbstractWorkPackageCreate)
+    end
+
     def visit_tab!(tab)
       visit path(tab)
     end
@@ -81,7 +85,7 @@ module Pages
 
     def expect_hidden_field(attribute)
       page.within(container) do
-        expect(page).not_to have_selector(".inline-edit--display-field.#{attribute}")
+        expect(page).to have_no_css(".inline-edit--display-field.#{attribute}")
       end
     end
 
@@ -117,7 +121,7 @@ module Pages
     end
 
     def expect_no_group(name)
-      expect(page).not_to have_css('.attributes-group--header-text', text: name.upcase)
+      expect(page).to have_no_css('.attributes-group--header-text', text: name.upcase)
     end
 
     def expect_attributes(attribute_expectations)
@@ -126,13 +130,13 @@ module Pages
         if label == 'status'
           expect(page).to have_css("[data-test-selector='op-wp-status-button'] .button", text: value)
         else
-          expect(page).to have_selector(".inline-edit--container.#{label.camelize(:lower)}", text: value)
+          expect(page).to have_css(".inline-edit--container.#{label.camelize(:lower)}", text: value)
         end
       end
     end
 
     def expect_no_attribute(label)
-      expect(page).not_to have_selector(".inline-edit--container.#{label.downcase}")
+      expect(page).to have_no_css(".inline-edit--container.#{label.downcase}")
     end
     alias :expect_attribute_hidden :expect_no_attribute
 
@@ -140,7 +144,7 @@ module Pages
       container = '#work-package-activites-container'
       container += " #activity-#{number}" if number
 
-      expect(page).to have_selector("#{container} .op-user-activity--user-line", text: user.name)
+      expect(page).to have_css("#{container} .op-user-activity--user-line", text: user.name)
     end
 
     def expect_activity_message(message)
@@ -151,7 +155,7 @@ module Pages
     def expect_no_parent
       visit_tab!('relations')
 
-      expect(page).not_to have_css('[data-test-selector="op-wp-breadcrumb-parent"]')
+      expect(page).to have_no_css('[data-test-selector="op-wp-breadcrumb-parent"]')
     end
 
     def expect_zen_mode
@@ -161,7 +165,7 @@ module Pages
     end
 
     def expect_no_zen_mode
-      expect(page).not_to have_css('.zen-mode')
+      expect(page).to have_no_css('.zen-mode')
       expect(page).to have_css('#main-menu')
       expect(page).to have_css('.op-app-header')
     end
@@ -178,7 +182,7 @@ module Pages
 
     def expect_no_custom_action(name)
       expect(page)
-        .not_to have_css('.custom-action', text: name)
+        .to have_no_css('.custom-action', text: name)
     end
 
     def expect_custom_action_order(*names)
@@ -189,15 +193,15 @@ module Pages
       end
     end
 
-    def update_attributes(save: true, **key_value_map)
+    def update_attributes(save: !create_page?, **key_value_map)
       set_attributes(key_value_map, save:)
     end
 
-    def set_attributes(key_value_map, save: true)
+    def set_attributes(key_value_map, save: !create_page?)
       key_value_map.each_with_index.map do |(key, value), index|
         field = work_package_field(key)
         field.update(value, save:)
-        unless index == key_value_map.length - 1
+        if save && (index != key_value_map.length - 1)
           ensure_no_conflicting_modifications
         end
       end
@@ -214,13 +218,13 @@ module Pages
       # The AbstractWorkPackageCreate pages do not require a special WorkPackageStatusField,
       # because the status field on the create pages is a simple EditField.
       when :status
-        if is_a?(AbstractWorkPackageCreate)
-          EditField.new container, key
+        if create_page?
+          EditField.new container, key, create_form: true
         else
           WorkPackageStatusField.new container
         end
       else
-        EditField.new container, key
+        EditField.new container, key, create_form: create_page?
       end
     end
 

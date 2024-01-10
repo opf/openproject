@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Enterprise Edition token domain',
-               js: true,
-               with_cuprite: true do
+RSpec.describe 'Enterprise Edition token domain', :js, :with_cuprite do
   let(:current_user) { create(:admin) }
   let(:ee_token) { Rails.root.join("spec/fixtures/ee_tokens/v2_1_user_localhost_3001.token").read }
 

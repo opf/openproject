@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Work Package table hierarchy and sorting', js: true do
+RSpec.describe 'Work Package table hierarchy and sorting', :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
 

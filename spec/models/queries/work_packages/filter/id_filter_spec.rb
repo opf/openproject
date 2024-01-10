@@ -43,7 +43,7 @@ RSpec.describe Queries::WorkPackages::Filter::IdFilter do
 
       it 'filters' do
         expect(WorkPackage.where(instance.where))
-          .to match_array [visible_wp]
+          .to contain_exactly(visible_wp)
       end
     end
   end

@@ -36,7 +36,7 @@ module API
         # Try to find a localizable error message for
         # the not found error by checking the "model" property set by rails.
         model ||= exception&.model&.underscore
-        super not_found_message(model)
+        super(not_found_message(model))
       end
 
       private

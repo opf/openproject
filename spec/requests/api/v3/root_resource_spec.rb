@@ -80,7 +80,7 @@ RSpec.describe 'API v3 Root resource' do
         expect(subject).to have_json_path('instanceName')
       end
 
-      context 'without the X-requested-with header', skip_xhr_header: true do
+      context 'without the X-requested-with header', :skip_xhr_header do
         it 'returns OK because GET requests are allowed' do
           expect(response.status).to eq(200)
           expect(subject).to have_json_path('instanceName')

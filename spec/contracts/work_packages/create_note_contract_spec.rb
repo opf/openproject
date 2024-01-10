@@ -73,7 +73,7 @@ RSpec.describe WorkPackages::CreateNoteContract do
 
       it 'is invalid' do
         expect(contract.errors.symbols_for(:journal_notes))
-          .to match_array([:error_unauthorized])
+          .to contain_exactly(:error_unauthorized)
       end
     end
   end
@@ -89,7 +89,7 @@ RSpec.describe WorkPackages::CreateNoteContract do
 
     it 'is invalid' do
       expect(contract.errors.symbols_for(:subject))
-        .to match_array([:error_readonly])
+        .to contain_exactly(:error_readonly)
     end
   end
 end

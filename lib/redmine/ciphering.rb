@@ -79,7 +79,7 @@ module Redmine
         !!transaction do
           all.each do |object|
             clear = object.send(attribute)
-            object.send "#{attribute}=", clear
+            object.send :"#{attribute}=", clear
             raise(ActiveRecord::Rollback) unless object.save(validate: false)
           end
         end

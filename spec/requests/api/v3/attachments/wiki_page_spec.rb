@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './attachment_resource_shared_examples'
+require_relative 'attachment_resource_shared_examples'
 
 RSpec.describe "wiki page attachments" do
   it_behaves_like "an APIv3 attachment resource" do

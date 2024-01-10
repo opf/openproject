@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Enterprise token',
-               js: true,
-               with_cuprite: true do
+RSpec.describe 'Enterprise token', :js, :with_cuprite do
   include Redmine::I18n
 
   shared_let(:admin) { create(:admin) }
@@ -54,20 +52,20 @@ RSpec.describe 'Enterprise token',
     end
 
     it 'shows a teaser and token form without a token' do
-      expect(page).to have_selector('.button', text: 'Start free trial')
-      expect(page).to have_selector('.button', text: 'Book now')
+      expect(page).to have_css('.button', text: 'Start free trial')
+      expect(page).to have_css('.button', text: 'Book now')
       expect(textarea.value).to be_empty
 
       textarea.set 'foobar'
       submit_button.click
 
       # Error output
-      expect(page).to have_selector('.errorExplanation',
-                                    text: "Enterprise support token can't be read. " \
-                                          "Are you sure it is a support token?")
+      expect(page).to have_css('.errorExplanation',
+                               text: "Enterprise support token can't be read. " \
+                                     "Are you sure it is a support token?")
 
       within 'span.errorSpan' do
-        expect(page).to have_selector('#enterprise_token_encoded_token')
+        expect(page).to have_css('#enterprise_token_encoded_token')
       end
     end
 
@@ -80,7 +78,7 @@ RSpec.describe 'Enterprise token',
         textarea.set 'foobar'
         submit_button.click
 
-        expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_update))
+        expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_successful_update))
         expect(page).to have_test_selector('op-enterprise--active-token')
 
         expect(page.all('.attributes-key-value--key').map(&:text))
@@ -88,10 +86,10 @@ RSpec.describe 'Enterprise token',
         expect(page.all('.attributes-key-value--value').map(&:text))
           .to eq ['Foobar', 'foo@example.org', Setting.host_name, 'Unlimited', format_date(Time.zone.today), 'Unlimited']
 
-        expect(page).to have_selector('.button.icon-delete', text: I18n.t(:button_delete))
+        expect(page).to have_css('.button.icon-delete', text: I18n.t(:button_delete))
 
         # Expect section to be collapsed
-        expect(page).not_to have_selector('#token_encoded_token')
+        expect(page).to have_no_css('#token_encoded_token')
 
         RequestStore.clear!
         expect(EnterpriseToken.current.encoded_token).to eq('foobar')
@@ -103,7 +101,7 @@ RSpec.describe 'Enterprise token',
 
         wait_for_reload
 
-        expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_update))
+        expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_successful_update))
 
         # Assume next request
         RequestStore.clear!
@@ -117,7 +115,7 @@ RSpec.describe 'Enterprise token',
 
         wait_for_reload
 
-        expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_successful_delete))
+        expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_successful_delete))
 
         # Assume next request
         RequestStore.clear!

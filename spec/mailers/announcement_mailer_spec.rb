@@ -57,7 +57,7 @@ RSpec.describe AnnouncementMailer do
 
     it 'sends to the recipient' do
       expect(mail.to)
-        .to match_array [recipient.mail]
+        .to contain_exactly(recipient.mail)
     end
   end
 end

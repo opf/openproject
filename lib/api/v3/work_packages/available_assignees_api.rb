@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2012-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,34 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs::Patches::UpdateAncestorsServicePatch
-  def self.included(base)
-    base.prepend InstanceMethods
-  end
+require 'api/v3/users/user_collection_representer'
 
-  module InstanceMethods
-    private
+module API
+  module V3
+    module WorkPackages
+      class AvailableAssigneesAPI < ::API::OpenProjectAPI
+        resource :available_assignees do
+          after_validation do
+            authorize_in_work_package(:edit_work_packages, work_package: @work_package)
+          end
 
-    ##
-    # Overrides method in original UpdateAncestorsService.
-    def inherit_attributes(ancestor, loader, attributes)
-      super
-
-      derive_remaining_hours(ancestor, loader) if inherit?(attributes, :remaining_hours)
-    end
-
-    def derive_remaining_hours(work_package, loader)
-      descendants = loader.descendants_of(work_package)
-
-      work_package.derived_remaining_hours = not_zero(all_remaining_hours(descendants).sum.to_f)
-    end
-
-    def all_remaining_hours(work_packages)
-      work_packages.map(&:remaining_hours).reject { |hours| hours.to_f.zero? }
-    end
-
-    def attributes_justify_inheritance?(attributes)
-      super || attributes.include?(:remaining_hours)
+          get &::API::V3::Utilities::Endpoints::Index.new(model: Principal,
+                                                          scope: -> {
+                                                            Principal.possible_assignee(@work_package).includes(:preference)
+                                                          },
+                                                          render_representer: Users::UnpaginatedUserCollectionRepresenter)
+                                                     .mount
+        end
+      end
     end
   end
 end

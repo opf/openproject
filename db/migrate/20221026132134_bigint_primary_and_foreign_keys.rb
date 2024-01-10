@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "./migration_utils/column"
+require_relative "migration_utils/column"
 
 class BigintPrimaryAndForeignKeys < ActiveRecord::Migration[7.0]
   KEY_CHANGES = {

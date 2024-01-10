@@ -38,11 +38,11 @@ module Users::PermissionChecks
       entity_name_underscored = entity_model_name.underscore
       entity_class = entity_model_name.constantize
 
-      define_method "allowed_in_#{entity_name_underscored}?" do |permission, entity|
+      define_method :"allowed_in_#{entity_name_underscored}?" do |permission, entity|
         allowed_in_entity?(permission, entity, entity_class)
       end
 
-      define_method "allowed_in_any_#{entity_name_underscored}?" do |permission, in_project: nil|
+      define_method :"allowed_in_any_#{entity_name_underscored}?" do |permission, in_project: nil|
         allowed_in_any_entity?(permission, entity_class, in_project:)
       end
     end
@@ -96,6 +96,11 @@ module Users::PermissionChecks
     roles_for_project(work_package.project) +
       Role.includes(:member_roles)
           .where(member_roles: { member_id: Member.of_work_package(work_package).select(:id) })
+  end
+
+  # Return true when the user is either a member of the project or any resource under the project
+  def access_to?(project)
+    admin? || members.exists?(project_id: project.id)
   end
 
   # Return true if the user is a member of project

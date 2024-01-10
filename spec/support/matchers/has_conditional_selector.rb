@@ -36,11 +36,11 @@
 module Capybara
   module Node
     module Matchers
-      def has_conditional_selector?(condition, *args, **kw_args)
+      def has_conditional_selector?(condition, *, **kw_args)
         if condition
-          has_selector? *args, **kw_args
+          has_selector?(*, **kw_args)
         else
-          has_no_selector? *args, **kw_args
+          has_no_selector?(*, **kw_args)
         end
       end
     end

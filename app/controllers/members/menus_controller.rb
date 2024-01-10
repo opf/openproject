@@ -65,8 +65,6 @@ module Members
       ]
     end
 
-    private
-
     def project_roles_entries
       ProjectRole
         .where(id: MemberRole.where(member_id: @project.members.select(:id)).select(:role_id))

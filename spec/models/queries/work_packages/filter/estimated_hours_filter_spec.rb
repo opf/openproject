@@ -58,7 +58,7 @@ RSpec.describe Queries::WorkPackages::Filter::EstimatedHoursFilter do
         end
 
         it 'finds zero and none values' do
-          expect(WorkPackage.where(instance.where)).to match_array [work_package_zero_hour, work_package_no_hours]
+          expect(WorkPackage.where(instance.where)).to contain_exactly(work_package_zero_hour, work_package_no_hours)
         end
       end
     end

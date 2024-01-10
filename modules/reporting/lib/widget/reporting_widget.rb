@@ -52,8 +52,8 @@ class Widget::ReportingWidget < ActionView::Base
     false
   end
 
-  def method_missing(name, *args, &)
-    controller.send(name, *args, &)
+  def method_missing(name, *, &)
+    controller.send(name, *, &)
   rescue NoMethodError
     raise NoMethodError, "undefined method `#{name}' for #<#{self.class}:0x#{object_id}>"
   end

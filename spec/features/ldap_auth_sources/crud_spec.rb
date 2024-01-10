@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'CRUD LDAP connections',
-               js: true,
-               with_cuprite: true do
+RSpec.describe 'CRUD LDAP connections', :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
   let(:ldap_page) { Pages::Admin::LdapAuthSources::Index.new }
 
@@ -57,8 +55,8 @@ RSpec.describe 'CRUD LDAP connections',
     click_on 'Create'
 
     ldap_page.expect_and_dismiss_toaster message: 'Successful creation.'
-    expect(page).to have_selector('td.name', text: 'My LDAP connection')
-    expect(page).to have_selector('td.host', text: 'localhost')
+    expect(page).to have_css('td.name', text: 'My LDAP connection')
+    expect(page).to have_css('td.host', text: 'localhost')
 
     created_connection = LdapAuthSource.last
     connection = created_connection.dup
@@ -77,11 +75,11 @@ RSpec.describe 'CRUD LDAP connections',
 
     ldap_page.expect_and_dismiss_toaster message: 'Successful deletion.'
 
-    expect(page).not_to have_text 'My LDAP connection'
+    expect(page).to have_no_text 'My LDAP connection'
     expect(page).to have_text 'Admin connection'
 
     page.within("#ldap-auth-source-#{connection.id}") do
-      expect(page).not_to have_link 'Delete'
+      expect(page).to have_no_link 'Delete'
     end
 
     page.within("#ldap-auth-source-#{connection.id}") do
@@ -93,7 +91,7 @@ RSpec.describe 'CRUD LDAP connections',
     click_on 'Save'
 
     ldap_page.expect_and_dismiss_toaster message: 'Successful update.'
-    expect(page).to have_selector('td.name', text: 'Updated Admin connection')
+    expect(page).to have_css('td.name', text: 'Updated Admin connection')
   end
 
   context 'when providing seed variables',
@@ -115,7 +113,7 @@ RSpec.describe 'CRUD LDAP connections',
 
       expect(page).to have_text(I18n.t(:label_seeded_from_env_warning))
       expect(page).to have_field('ldap_auth_source_name', with: 'foobar', disabled: true)
-      expect(page).not_to have_button 'Save'
+      expect(page).to have_no_button 'Save'
     end
   end
 end

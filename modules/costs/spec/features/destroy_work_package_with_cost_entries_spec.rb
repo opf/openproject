@@ -28,7 +28,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-RSpec.describe 'Deleting time entries', js: true do
+RSpec.describe 'Deleting time entries', :js do
   let(:project) { work_package.project }
   let(:user) do
     create(:user,

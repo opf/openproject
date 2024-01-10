@@ -78,7 +78,7 @@ RSpec.describe "API v3 version's projects resource" do
       it 'includes only the projects which the user can see' do
         id_in_response = JSON.parse(response.body)['_embedded']['elements'].map { |p| p['id'] }
 
-        expect(id_in_response).to match_array [project.id, project2.id, project3.id]
+        expect(id_in_response).to contain_exactly(project.id, project2.id, project3.id)
       end
     end
 

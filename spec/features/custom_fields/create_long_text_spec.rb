@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'support/pages/custom_fields'
 
-RSpec.describe 'custom fields', js: true do
+RSpec.describe 'custom fields', :js do
   let(:user) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
   let(:editor) { Components::WysiwygEditor.new '#custom_field_form' }
@@ -57,8 +57,8 @@ RSpec.describe 'custom fields', js: true do
       wp_editor.expect_active!
 
       wp_editor.ckeditor.in_editor do |container, _|
-        expect(container).to have_selector('h1', text: 'This is an exemplary test')
-        expect(container).to have_selector('strong', text: 'Foo bar')
+        expect(container).to have_css('h1', text: 'This is an exemplary test')
+        expect(container).to have_css('strong', text: 'Foo bar')
       end
     end
   end

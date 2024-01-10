@@ -123,7 +123,7 @@ RSpec.configure do |config|
     end
   end
 
-  config.around(:each, type: :feature, with_cuprite: true) do |example|
+  config.around(:each, :with_cuprite, type: :feature) do |example|
     original_driver = Capybara.javascript_driver
     begin
       Capybara.javascript_driver = :better_cuprite_en

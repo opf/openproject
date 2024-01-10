@@ -24,4 +24,3 @@ sl:
     work_packages:
       properties:
         storyPoints: "Točke v zgodbi"
-        remainingTime: "Remaining work"

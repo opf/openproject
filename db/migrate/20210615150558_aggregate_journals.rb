@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative './20200924085508_cleanup_orphaned_journal_data'
-require_relative './migration_utils/utils'
+require_relative '20200924085508_cleanup_orphaned_journal_data'
+require_relative 'migration_utils/utils'
 
 class AggregateJournals < ActiveRecord::Migration[6.1]
   include ::Migration::Utils

@@ -24,4 +24,3 @@ id:
     work_packages:
       properties:
         storyPoints: "Cerita poin"
-        remainingTime: "Remaining work"

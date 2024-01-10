@@ -598,7 +598,7 @@ RSpec.describe Journable::WithHistoricAttributes,
     context 'for a timestamp where the work package did exist' do
       it 'returns the changed attributes at the timestamp compared to the current attribute values' do
         expect(subject.changed_at_timestamp(Timestamp.parse("2022-01-01T00:00:00Z")))
-          .to match_array ['subject']
+          .to contain_exactly('subject')
       end
 
       context 'when the work package includes custom field changes' do

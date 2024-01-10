@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'deleting a cost type', js: true do
+RSpec.describe 'deleting a cost type', :js do
   let!(:user) { create(:admin) }
   let!(:cost_type) do
     type = create(:cost_type, name: 'Translations')
@@ -49,7 +49,7 @@ RSpec.describe 'deleting a cost type', js: true do
 
     # Expect no results if not locked
     expect_angular_frontend_initialized
-    expect(page).to have_selector '.generic-table--no-results-container', wait: 10
+    expect(page).to have_css '.generic-table--no-results-container', wait: 10
 
     SeleniumHubWaiter.wait
     # Show locked
@@ -59,7 +59,7 @@ RSpec.describe 'deleting a cost type', js: true do
     # Expect no results if not locked
     expect(page).to have_text I18n.t(:label_locked_cost_types)
 
-    expect(page).to have_selector('.restore_cost_type')
-    expect(page).to have_selector('.cost-types--list-deleted td', text: 'Translations')
+    expect(page).to have_css('.restore_cost_type')
+    expect(page).to have_css('.cost-types--list-deleted td', text: 'Translations')
   end
 end

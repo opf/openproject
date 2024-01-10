@@ -59,9 +59,9 @@ module Pages
           projects.each do |project|
             case project
             when Project
-              expect(page).not_to have_text(project.name)
+              expect(page).to have_no_text(project.name)
             when String
-              expect(page).not_to have_text(project)
+              expect(page).to have_no_text(project)
             else
               raise ArgumentError, "#{project.inspect} is not a Project or a String"
             end
@@ -89,7 +89,7 @@ module Pages
       end
 
       def expect_no_project_create_button
-        expect(page).not_to have_css('[data-test-selector="project-new-button"]')
+        expect(page).to have_no_css('[data-test-selector="project-new-button"]')
       end
 
       def expect_gantt_button(disabled: false)

@@ -981,6 +981,7 @@ el:
         updatedAt: "Τροποποιήθηκε"
         versionName: "Έκδοση"
         version: "Έκδοση"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Τελευταία δραστηριότητα"
         created_by_me: "Δημιουργήθηκε από εμένα"

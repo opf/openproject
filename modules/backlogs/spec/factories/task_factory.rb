@@ -31,7 +31,7 @@ FactoryBot.define do
     association :type, factory: :type_task
     subject { 'Printing Recipes' }
     description { 'Just printing recipes' }
-    association :priority, factory: :priority
+    association :priority
     association :author, factory: :user
   end
 end

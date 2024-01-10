@@ -52,6 +52,7 @@ module WorkPackages
       with_unchanged_project_id do
         next if @can.allowed?(model, :edit) ||
                 @can.allowed?(model, :assign_version) ||
+                @can.allowed?(model, :change_status) ||
                 @can.allowed?(model, :manage_subtasks) ||
                 @can.allowed?(model, :move)
         next if allowed_journal_addition?

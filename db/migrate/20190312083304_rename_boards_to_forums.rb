@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative './tables/forums'
+require_relative 'tables/forums'
 
 class RenameBoardsToForums < ActiveRecord::Migration[5.2]
   def up

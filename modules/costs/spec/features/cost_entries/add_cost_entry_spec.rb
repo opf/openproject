@@ -28,7 +28,7 @@
 
 require_relative '../../spec_helper'
 
-RSpec.describe 'Work Package cost fields', js: true do
+RSpec.describe 'Work Package cost fields', :js do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:status) { create(:status, is_default: true) }
   shared_let(:priority) { create(:priority, is_default: true) }
@@ -79,17 +79,17 @@ RSpec.describe 'Work Package cost fields', js: true do
     # Set single value, should update suffix
     select 'A', from: 'cost_entry_cost_type_id'
     fill_in 'cost_entry_units', with: '1'
-    expect(page).to have_selector('#cost_entry_unit_name', text: 'A single')
-    expect(page).to have_selector('#cost_entry_costs', text: '1.00 EUR')
+    expect(page).to have_css('#cost_entry_unit_name', text: 'A single')
+    expect(page).to have_css('#cost_entry_costs', text: '1.00 EUR')
 
     fill_in 'cost_entry_units', with: '2'
-    expect(page).to have_selector('#cost_entry_unit_name', text: 'A plural')
-    expect(page).to have_selector('#cost_entry_costs', text: '2.00 EUR')
+    expect(page).to have_css('#cost_entry_unit_name', text: 'A plural')
+    expect(page).to have_css('#cost_entry_costs', text: '2.00 EUR')
 
     # Switch cost type
     select 'B', from: 'cost_entry_cost_type_id'
-    expect(page).to have_selector('#cost_entry_unit_name', text: 'B plural')
-    expect(page).to have_selector('#cost_entry_costs', text: '4.00 EUR')
+    expect(page).to have_css('#cost_entry_unit_name', text: 'B plural')
+    expect(page).to have_css('#cost_entry_costs', text: '4.00 EUR')
 
     # Override costs
     find_by_id('cost_entry_costs').click
@@ -99,7 +99,7 @@ RSpec.describe 'Work Package cost fields', js: true do
     click_on 'Save'
 
     # Expect correct costs
-    expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_cost_logged_successfully))
+    expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_cost_logged_successfully))
     entry = CostEntry.last
     expect(entry.cost_type_id).to eq(cost_type2.id)
     expect(entry.units).to eq(2.0)
@@ -107,7 +107,7 @@ RSpec.describe 'Work Package cost fields', js: true do
     expect(entry.real_costs).to eq(15.52)
 
     visit edit_cost_entry_path(entry)
-    expect(page).to have_selector('#cost_entry_costs', text: '15.52 EUR')
+    expect(page).to have_css('#cost_entry_costs', text: '15.52 EUR')
   end
 
   context 'with german locale' do
@@ -125,8 +125,8 @@ RSpec.describe 'Work Package cost fields', js: true do
       SeleniumHubWaiter.wait
       fill_in 'cost_entry_units', with: '1,42'
       select 'B', from: 'cost_entry_cost_type_id'
-      expect(page).to have_selector('#cost_entry_unit_name', text: 'B plural')
-      expect(page).to have_selector('#cost_entry_costs', text: '2,84 EUR')
+      expect(page).to have_css('#cost_entry_unit_name', text: 'B plural')
+      expect(page).to have_css('#cost_entry_costs', text: '2,84 EUR')
 
       # Override costs
       find_by_id('cost_entry_costs').click
@@ -136,7 +136,7 @@ RSpec.describe 'Work Package cost fields', js: true do
       click_on I18n.t(:button_save)
 
       # Expect correct costs
-      expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_cost_logged_successfully))
+      expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_cost_logged_successfully))
       entry = CostEntry.last
       expect(entry.cost_type_id).to eq(cost_type2.id)
       expect(entry.units).to eq(1.42)
@@ -145,7 +145,7 @@ RSpec.describe 'Work Package cost fields', js: true do
 
       # Can edit the costs again
       visit edit_cost_entry_path(entry)
-      expect(page).to have_selector('#cost_entry_costs', text: '1.350,25 EUR')
+      expect(page).to have_css('#cost_entry_costs', text: '1.350,25 EUR')
 
       # Toggle the cost button
       SeleniumHubWaiter.wait
@@ -156,7 +156,7 @@ RSpec.describe 'Work Package cost fields', js: true do
       fill_in 'cost_entry_overridden_costs', with: '55.000,55'
       click_on I18n.t(:button_save)
 
-      expect(page).to have_selector('#cost_entry_costs', text: '55.000,55 EUR')
+      expect(page).to have_css('#cost_entry_costs', text: '55.000,55 EUR')
       entry.reload
       expect(entry.units).to eq(1.42)
       expect(entry.costs).to eq(2.84)
@@ -181,8 +181,8 @@ RSpec.describe 'Work Package cost fields', js: true do
       find('.menu-item', text: I18n.t(:button_log_costs)).click
 
       SeleniumHubWaiter.wait
-      expect(page).not_to have_selector('#cost_entry_user_id option', text: placeholder_user.name, visible: :all)
-      expect(page).to have_selector('#cost_entry_user_id option', text: user.name, visible: :all)
+      expect(page).to have_no_css('#cost_entry_user_id option', text: placeholder_user.name, visible: :all)
+      expect(page).to have_css('#cost_entry_user_id option', text: user.name, visible: :all)
     end
   end
 end

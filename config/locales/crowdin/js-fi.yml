@@ -982,6 +982,7 @@ fi:
         updatedAt: "Päivitetty"
         versionName: "Versio"
         version: "Versio"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Viimeisimmät tapahtumat"
         created_by_me: "Itse luodut"

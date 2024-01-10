@@ -215,6 +215,10 @@ table.generic-table
           width: 100%
           max-width: 500px
 
+      &.-min-150
+        @media screen
+          min-width: 150px
+
       // The avatar image is not taken into the width calculation of the table cell by the browser.
       // That is why we add the space manually.
       &.-contains-avatar

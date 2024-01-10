@@ -982,6 +982,7 @@ fa:
         updatedAt: "به روز شده"
         versionName: "نسخه"
         version: "نسخه"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "آخرین فعالیت"
         created_by_me: "Created by me"

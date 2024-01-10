@@ -69,7 +69,7 @@ RSpec.describe Queries::Principals::PrincipalQuery, 'integration' do
 
       it 'returns all principals being member' do
         expect(instance.results)
-          .to match_array [project_user]
+          .to contain_exactly(project_user)
       end
     end
 
@@ -80,7 +80,7 @@ RSpec.describe Queries::Principals::PrincipalQuery, 'integration' do
 
       it 'returns all principals not being member' do
         expect(instance.results)
-          .to match_array [current_user, other_project_user]
+          .to contain_exactly(current_user, other_project_user)
       end
     end
   end

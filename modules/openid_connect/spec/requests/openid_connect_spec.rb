@@ -33,8 +33,7 @@ RSpec.configure do |c|
   c.include OpenIDConnectSpecHelpers
 end
 
-RSpec.describe 'OpenID Connect',
-               skip_2fa_stage: true, # Prevent redirects to 2FA stage
+RSpec.describe 'OpenID Connect', :skip_2fa_stage, # Prevent redirects to 2FA stage
                type: :rails_request,
                with_ee: %i[openid_providers] do
   let(:host) { OmniAuth::OpenIDConnect::Heroku.new('foo', {}).host }
@@ -180,7 +179,7 @@ RSpec.describe 'OpenID Connect',
       )
     end
 
-    it 'will show no option unless EE', with_ee: false do
+    it 'shows no option unless EE', with_ee: false do
       get '/login'
       expect(response.body).not_to match /Google/i
       expect(response.body).not_to match /Azure/i

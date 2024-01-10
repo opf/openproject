@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_context'
+require_relative 'shared_context'
 
 RSpec.describe 'Team planner index', :js, :with_cuprite do
   include_context 'with team planner full access'

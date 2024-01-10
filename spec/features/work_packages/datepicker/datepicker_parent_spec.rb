@@ -29,8 +29,7 @@
 require 'spec_helper'
 require 'support/edit_fields/edit_field'
 
-RSpec.describe 'Datepicker logic on parents',
-               js: true, with_settings: { date_format: '%Y-%m-%d' } do
+RSpec.describe 'Datepicker logic on parents', :js, with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:user) { create(:admin) }
 
   # assume sat+sun are non working days

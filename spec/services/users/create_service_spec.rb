@@ -36,7 +36,7 @@ RSpec.describe Users::CreateService do
       context 'and the mail is present' do
         let(:model_instance) { build(:invited_user, mail: 'foo@example.com') }
 
-        it 'will call UserInvitation' do
+        it 'calls UserInvitation' do
           expect(UserInvitation).to receive(:invite_user!).with(model_instance).and_return(model_instance)
           expect(subject).to be_success
         end
@@ -45,7 +45,7 @@ RSpec.describe Users::CreateService do
       context 'and the user has no names set' do
         let(:model_instance) { build(:invited_user, firstname: nil, lastname: nil, mail: 'foo@example.com') }
 
-        it 'will call UserInvitation' do
+        it 'calls UserInvitation' do
           expect(UserInvitation).to receive(:invite_user!).with(model_instance).and_return(model_instance)
           expect(subject).to be_success
         end
@@ -54,7 +54,7 @@ RSpec.describe Users::CreateService do
       context 'and the mail is empty' do
         let(:model_instance) { build(:invited_user, mail: nil) }
 
-        it 'will call not call UserInvitation' do
+        it 'calls not call UserInvitation' do
           expect(UserInvitation).not_to receive(:invite_user!)
           expect(subject).not_to be_success
           expect(subject.errors.details[:mail]).to eq [{ error: :blank }]

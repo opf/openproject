@@ -31,7 +31,7 @@ class OpenProject::JournalFormatter::Visibility < JournalFormatter::Base
     label_text = I18n.t('activerecord.attributes.project.public_value.title')
     label_text = content_tag(:strong, label_text) if options[:html]
 
-    value = \
+    value =
       if values.last
         I18n.t('activerecord.attributes.project.public_value.true')
       else

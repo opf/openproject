@@ -81,7 +81,7 @@ RSpec.describe 'Wiki Activity', :js, :with_cuprite do
 
     within("li.op-activity-list--item", match: :first) do
       expect(page)
-        .to have_selector('li', text: "Text changed (Details)")
+        .to have_css('li', text: "Text changed (Details)")
       expect(page)
         .to have_link('Details')
     end
@@ -103,6 +103,6 @@ RSpec.describe 'Wiki Activity', :js, :with_cuprite do
     visit project_activity_index_path(project)
 
     expect(page)
-      .not_to have_content('Wiki edits')
+      .to have_no_content('Wiki edits')
   end
 end

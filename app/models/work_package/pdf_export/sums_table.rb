@@ -27,7 +27,7 @@
 #++
 
 module WorkPackage::PDFExport::SumsTable
-  def write_work_packages_sums!(work_packages)
+  def write_work_packages_sums!(_work_packages)
     return unless has_summable_column?
 
     write_optional_page_break

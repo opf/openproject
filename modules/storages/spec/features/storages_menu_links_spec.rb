@@ -56,8 +56,8 @@ RSpec.describe 'Storage links in project menu', :js do
 
       expect(page).to have_link(storage_configured_linked1.name, href: ensure_connection_path(project_storage1))
       expect(page).to have_link(storage_configured_linked2.name, href: ensure_connection_path(project_storage2))
-      expect(page).not_to have_link(storage_configured_unlinked.name)
-      expect(page).not_to have_link(storage_unconfigured_linked.name)
+      expect(page).to have_no_link(storage_configured_unlinked.name)
+      expect(page).to have_no_link(storage_unconfigured_linked.name)
     end
 
     context 'if user is an admin but not a member of the project' do
@@ -66,10 +66,10 @@ RSpec.describe 'Storage links in project menu', :js do
       it 'has no links to enabled storage' do
         visit(project_path(id: project.id))
 
-        expect(page).not_to have_link(storage_configured_linked1.name)
-        expect(page).not_to have_link(storage_configured_linked2.name)
-        expect(page).not_to have_link(storage_configured_unlinked.name)
-        expect(page).not_to have_link(storage_unconfigured_linked.name)
+        expect(page).to have_no_link(storage_configured_linked1.name)
+        expect(page).to have_no_link(storage_configured_linked2.name)
+        expect(page).to have_no_link(storage_configured_unlinked.name)
+        expect(page).to have_no_link(storage_unconfigured_linked.name)
       end
     end
   end
@@ -80,10 +80,10 @@ RSpec.describe 'Storage links in project menu', :js do
     it 'has no links to enabled storages' do
       visit(project_path(id: project.id))
 
-      expect(page).not_to have_link(storage_configured_linked1.name)
-      expect(page).not_to have_link(storage_configured_linked2.name)
-      expect(page).not_to have_link(storage_configured_unlinked.name)
-      expect(page).not_to have_link(storage_unconfigured_linked.name)
+      expect(page).to have_no_link(storage_configured_linked1.name)
+      expect(page).to have_no_link(storage_configured_linked2.name)
+      expect(page).to have_no_link(storage_configured_unlinked.name)
+      expect(page).to have_no_link(storage_unconfigured_linked.name)
     end
   end
 end

@@ -35,7 +35,7 @@ FactoryBot.define do
     transient do
       ifc_attachment do
         Rack::Test::UploadedFile.new(
-          File.join(Rails.root, "modules/bim/spec/fixtures/files/minimal.ifc"),
+          Rails.root.join("modules/bim/spec/fixtures/files/minimal.ifc").to_s,
           'application/binary'
         )
       end
@@ -55,7 +55,7 @@ FactoryBot.define do
       transient do
         xkt_attachment do
           Rack::Test::UploadedFile.new(
-            File.join(Rails.root, "modules/bim/spec/fixtures/files/minimal.xkt"),
+            Rails.root.join("modules/bim/spec/fixtures/files/minimal.xkt").to_s,
             'application/binary'
           )
         end

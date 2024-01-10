@@ -24,4 +24,3 @@ ar:
     work_packages:
       properties:
         storyPoints: "نقاط القصة"
-        remainingTime: "Remaining work"

@@ -30,11 +30,11 @@ class Type::QueryGroup < Type::FormGroup
   MEMBER_PREFIX = 'query_'.freeze
 
   def self.query_attribute?(name)
-    name.to_s.match?(/#{Type::QueryGroup::MEMBER_PREFIX}(\d+)/)
+    name.to_s.match?(/#{Type::QueryGroup::MEMBER_PREFIX}(\d+)/o)
   end
 
   def self.query_attribute_id(name)
-    match = name.to_s.match(/#{Type::QueryGroup::MEMBER_PREFIX}(\d+)/)
+    match = name.to_s.match(/#{Type::QueryGroup::MEMBER_PREFIX}(\d+)/o)
 
     match ? match[1] : nil
   end

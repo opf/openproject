@@ -58,7 +58,6 @@ module Queries::WorkPackages::Filter
 
       values
         .filter_map { |budget_id| available_budgets[budget_id.to_i] }
-        
     end
 
     def human_name

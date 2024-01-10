@@ -32,7 +32,6 @@ require 'spec_helper'
 require_module_spec_helper
 
 RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
-  # rubocop:disable RSpec/IndexedLet
   let(:group_users_response_body) do
     <<~XML
       <?xml version="1.0"?>

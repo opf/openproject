@@ -30,10 +30,10 @@ class Queries::WorkPackages::Columns::ManualSortingColumn < Queries::WorkPackage
   include ::Queries::WorkPackages::Common::ManualSorting
 
   def initialize
-    super :manual_sorting,
+    super(:manual_sorting,
           default_order: 'asc',
           displayable: false,
-          sortable: "#{OrderedWorkPackage.table_name}.position NULLS LAST, #{WorkPackage.table_name}.id"
+          sortable: "#{OrderedWorkPackage.table_name}.position NULLS LAST, #{WorkPackage.table_name}.id")
   end
 
   def sortable_join_statement(query)

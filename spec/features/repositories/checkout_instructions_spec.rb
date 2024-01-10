@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Create repository', js: true do
+RSpec.describe 'Create repository', :js do
   let(:current_user) { create (:admin) }
   let(:project) { create(:project) }
   let(:enabled_scms) { %w[git] }
@@ -66,12 +66,12 @@ RSpec.describe 'Create repository', js: true do
     it 'toggles checkout instructions' do
       visit project_repository_path(project)
 
-      expect(page).to have_selector('#repository--checkout-instructions')
+      expect(page).to have_css('#repository--checkout-instructions')
 
       button = find_by_id('repository--checkout-instructions-toggle')
       button.click
 
-      expect(page).not_to have_selector('#repository--checkout-instructions')
+      expect(page).to have_no_css('#repository--checkout-instructions')
     end
   end
 end

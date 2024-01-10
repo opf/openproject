@@ -34,12 +34,10 @@ namespace :openproject do
     task update: %w[openproject:dependencies:update:gems]
 
     namespace :update do
-      def parse_capture(capture, &block)
+      def parse_capture(capture, &)
         capture
           .split("\n")
-          .filter_map do |line|
-          block.call(line)
-        end
+          .filter_map(&)
       end
 
       desc 'Update gems to the extend the Gemfile allows in individual commits'

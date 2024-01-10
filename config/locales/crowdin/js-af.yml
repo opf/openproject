@@ -982,6 +982,7 @@ af:
         updatedAt: "Opgedateer op"
         versionName: "Weergawe"
         version: "Weergawe"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"

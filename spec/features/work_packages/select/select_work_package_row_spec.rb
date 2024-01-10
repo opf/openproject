@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Select work package row', js: true, selenium: true do
+RSpec.describe 'Select work package row', :js, :selenium do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package_1) { create(:work_package, project:) }
@@ -105,13 +105,13 @@ RSpec.describe 'Select work package row', js: true, selenium: true do
   def check_all
     find('body').send_keys [:control, 'a']
     expect_row_checked(1, 2, 3)
-    expect(page).not_to have_selector '#work-package-context-menu'
+    expect(page).to have_no_css '#work-package-context-menu'
   end
 
   def uncheck_all
     find('body').send_keys [:control, 'd']
     expect_row_unchecked(1, 2, 3)
-    expect(page).not_to have_selector '#work-package-context-menu'
+    expect(page).to have_no_css '#work-package-context-menu'
   end
 
   it 'handles selection flows' do
@@ -204,8 +204,8 @@ RSpec.describe 'Select work package row', js: true, selenium: true do
     end
 
     it do
-      expect(page).to have_selector('.work-packages--details--subject',
-                                    text: work_package_1.subject)
+      expect(page).to have_css('.work-packages--details--subject',
+                               text: work_package_1.subject)
     end
   end
 
@@ -221,7 +221,7 @@ RSpec.describe 'Select work package row', js: true, selenium: true do
       split_wp.expect_attributes Subject: work_package_2.subject
 
       find_by_id('work-packages-details-view-button').click
-      expect(page).not_to have_selector('.work-packages--details')
+      expect(page).to have_no_css('.work-packages--details')
     end
   end
 end

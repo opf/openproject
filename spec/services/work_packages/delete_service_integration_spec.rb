@@ -39,11 +39,12 @@ RSpec.describe WorkPackages::DeleteService, 'integration', type: :model do
   end
 
   describe 'deleting a child with estimated_hours set' do
-    let(:parent) { create(:work_package, project:) }
+    let(:parent) { create(:work_package, project:, subject: 'parent') }
     let(:child) do
       create(:work_package,
              project:,
              parent:,
+             subject: 'child',
              estimated_hours: 123)
     end
 
@@ -65,7 +66,8 @@ RSpec.describe WorkPackages::DeleteService, 'integration', type: :model do
       expect(parent.derived_estimated_hours).to eq 123
       expect(parent.estimated_hours).to be_nil
 
-      expect(subject).to be_success
+      expect(subject).to be_success, "Expected service call to be successful, but failed\n" \
+                                     "service call errors: #{subject.errors.full_messages.inspect}"
 
       parent.reload
 

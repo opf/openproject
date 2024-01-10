@@ -80,7 +80,7 @@ RSpec.describe 'project export', :js, :with_cuprite do
     let(:export_type) { 'CSV' }
 
     it 'exports the visible projects' do
-      expect(page).to have_selector('td.name', text: important_project.name)
+      expect(page).to have_css('td.name', text: important_project.name)
 
       export!
 
@@ -101,12 +101,12 @@ RSpec.describe 'project export', :js, :with_cuprite do
 
         click_on 'Apply'
         expect(page).to have_text(important_project.name)
-        expect(page).not_to have_text(party_project.name)
+        expect(page).to have_no_text(party_project.name)
 
         export!
 
         expect(subject).to have_text(important_project.name)
-        expect(subject).not_to have_text(party_project.name)
+        expect(subject).to have_no_text(party_project.name)
       end
     end
   end

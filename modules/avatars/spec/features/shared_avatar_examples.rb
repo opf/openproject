@@ -24,12 +24,12 @@ RSpec.shared_examples 'avatar management' do
     it 'shows the gravatar avatar' do
       visit avatar_management_path
 
-      expect(page).to have_selector('.form--fieldset-legend', text: 'GRAVATAR')
-      expect(page).to have_selector('.avatars--current-gravatar')
+      expect(page).to have_css('.form--fieldset-legend', text: 'GRAVATAR')
+      expect(page).to have_css('.avatars--current-gravatar')
 
       # Local not rendered
-      expect(page).not_to have_selector('.form--fieldset-legend', text: 'CUSTOM AVATAR')
-      expect(page).not_to have_selector('.avatars--current-local-avatar', text: 'none')
+      expect(page).to have_no_css('.form--fieldset-legend', text: 'CUSTOM AVATAR')
+      expect(page).to have_no_css('.avatars--current-local-avatar', text: 'none')
     end
   end
 
@@ -38,36 +38,36 @@ RSpec.shared_examples 'avatar management' do
 
     it 'can upload a new image' do
       visit avatar_management_path
-      expect(page).to have_selector('.form--fieldset-legend', text: 'CUSTOM AVATAR')
-      expect(page).to have_selector('.avatars--current-local-avatar', text: 'none')
+      expect(page).to have_css('.form--fieldset-legend', text: 'CUSTOM AVATAR')
+      expect(page).to have_css('.avatars--current-local-avatar', text: 'none')
 
       # Gravatars not rendered
-      expect(page).not_to have_selector('.form--fieldset-legend', text: 'GRAVATAR')
+      expect(page).to have_no_css('.form--fieldset-legend', text: 'GRAVATAR')
 
       # Attach a new invalid image
       find_by_id('avatar_file_input').set UploadedFile.load_from(File.join(image_base_path, 'invalid.txt')).path
 
       # Expect error
-      expect(page).to have_selector('.form--label.-error')
-      expect(page).to have_selector('.avatars--error-pane', text: 'Allowed formats are jpg, png, gif')
+      expect(page).to have_css('.form--label.-error')
+      expect(page).to have_css('.avatars--error-pane', text: 'Allowed formats are jpg, png, gif')
 
       # Attach new image
       visit avatar_management_path
-      expect(page).to have_selector('.avatars--current-local-avatar', text: 'none')
+      expect(page).to have_css('.avatars--current-local-avatar', text: 'none')
       find_by_id('avatar_file_input').set UploadedFile.load_from(File.join(image_base_path, 'too_big.jpg')).path
 
       # Expect not error, since ng-file-upload resizes the image
-      expect(page).not_to have_selector('.form--label.-error')
-      expect(page).not_to have_selector('.avatars--error-pane span')
+      expect(page).to have_no_css('.form--label.-error')
+      expect(page).to have_no_css('.avatars--error-pane span')
 
       # Expect preview
-      expect(page).to have_selector('.preview img')
+      expect(page).to have_css('.preview img')
 
       # Click button
       click_on 'Update'
 
       # Expect avatar rendered
-      expect(page).to have_selector('.form--fieldset-legend', text: 'CUSTOM AVATAR')
+      expect(page).to have_css('.form--fieldset-legend', text: 'CUSTOM AVATAR')
       avatar_tag = find('.avatars--current-local-avatar img')
       expect(avatar_tag[:src]).to include user_avatar_path(target_user)
 
@@ -82,7 +82,7 @@ RSpec.shared_examples 'avatar management' do
         find('.avatars--local-avatar-delete-link').click
       end
 
-      expect(page).to have_selector('.avatars--current-local-avatar', text: 'none', wait: 20)
+      expect(page).to have_css('.avatars--current-local-avatar', text: 'none', wait: 20)
     end
   end
 
@@ -94,12 +94,12 @@ RSpec.shared_examples 'avatar management' do
       visit avatar_management_path
 
       # Gravatar
-      expect(page).to have_selector('.form--fieldset-legend', text: 'GRAVATAR')
-      expect(page).to have_selector('.avatars--current-gravatar')
+      expect(page).to have_css('.form--fieldset-legend', text: 'GRAVATAR')
+      expect(page).to have_css('.avatars--current-gravatar')
 
       # Local
-      expect(page).to have_selector('.form--fieldset-legend', text: 'CUSTOM AVATAR')
-      expect(page).to have_selector('.avatars--current-local-avatar', text: 'none')
+      expect(page).to have_css('.form--fieldset-legend', text: 'CUSTOM AVATAR')
+      expect(page).to have_css('.avatars--current-local-avatar', text: 'none')
     end
   end
 end

@@ -984,6 +984,7 @@ sk:
         updatedAt: "Aktualizované"
         versionName: "Verzia"
         version: "Verzia"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Posledná aktivita"
         created_by_me: "Vytvorené mnou"

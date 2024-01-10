@@ -86,8 +86,7 @@ module Principals
        Budget,
        MeetingAgenda,
        MeetingMinutes,
-       MeetingAgendaItem
-      ].each do |klass|
+       MeetingAgendaItem].each do |klass|
         rewrite(klass, :author_id, from, to)
       end
     end

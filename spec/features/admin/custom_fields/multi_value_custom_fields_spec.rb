@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Multi-value custom fields creation', js: true do
+RSpec.describe 'Multi-value custom fields creation', :js do
   shared_let(:admin) { create(:admin) }
 
   before do
@@ -44,19 +44,19 @@ RSpec.describe 'Multi-value custom fields creation', js: true do
     fill_in 'custom_field_name', with: 'My List CF'
     select 'List', from: 'custom_field_field_format'
 
-    expect(page).to have_selector('input#custom_field_custom_options_attributes_0_value')
+    expect(page).to have_css('input#custom_field_custom_options_attributes_0_value')
     fill_in 'custom_field_custom_options_attributes_0_value', with: 'A'
 
     # Add new row
     page.find_test_selector('add-custom-option').click
     SeleniumHubWaiter.wait
-    expect(page).to have_selector('input#custom_field_custom_options_attributes_1_value')
+    expect(page).to have_css('input#custom_field_custom_options_attributes_1_value')
     fill_in 'custom_field_custom_options_attributes_1_value', with: 'B'
 
     # Add new row
     page.find_test_selector('add-custom-option').click
     SeleniumHubWaiter.wait
-    expect(page).to have_selector('input#custom_field_custom_options_attributes_2_value')
+    expect(page).to have_css('input#custom_field_custom_options_attributes_2_value')
     fill_in 'custom_field_custom_options_attributes_2_value', with: 'C'
 
     click_on 'Save'
@@ -64,9 +64,9 @@ RSpec.describe 'Multi-value custom fields creation', js: true do
     # Edit again
     SeleniumHubWaiter.wait
     page.find('a', text: 'My List CF').click
-    expect(page).to have_selector('input#custom_field_custom_options_attributes_0_value[value=A]')
-    expect(page).to have_selector('input#custom_field_custom_options_attributes_1_value[value=B]')
-    expect(page).to have_selector('input#custom_field_custom_options_attributes_2_value[value=C]')
+    expect(page).to have_css('input#custom_field_custom_options_attributes_0_value[value=A]')
+    expect(page).to have_css('input#custom_field_custom_options_attributes_1_value[value=B]')
+    expect(page).to have_css('input#custom_field_custom_options_attributes_2_value[value=C]')
 
     # Expect correct values
     cf = CustomField.last

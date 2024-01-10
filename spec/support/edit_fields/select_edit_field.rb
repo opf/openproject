@@ -1,4 +1,4 @@
-require_relative './edit_field'
+require_relative 'edit_field'
 
 class SelectField < EditField
   def expect_value(value)

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Filter by backlog type', js: true do
+RSpec.describe 'Filter by backlog type', :js do
   let(:story_type) do
     type = create(:type_feature)
     project.types << type

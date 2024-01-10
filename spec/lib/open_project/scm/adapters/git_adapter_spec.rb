@@ -442,8 +442,7 @@ RSpec.describe OpenProject::SCM::Adapters::Git do
             annotate = adapter.annotate('renamed_test.txt')
             expect(annotate.lines.length).to eq(2)
             expect(annotate.content).to eq("This is a test\nLet's pretend I'm adding a new feature!")
-            expect(annotate.lines).to match_array(['This is a test',
-                                                   "Let's pretend I'm adding a new feature!"])
+            expect(annotate.lines).to contain_exactly('This is a test', "Let's pretend I'm adding a new feature!")
 
             expect(annotate.revisions.length).to eq(2)
             expect(annotate.revisions[0].identifier).to eq('fba357b886984ee71185ad2065e65fc0417d9b92')

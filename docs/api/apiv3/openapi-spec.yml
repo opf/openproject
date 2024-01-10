@@ -444,6 +444,8 @@ paths:
     "$ref": "./paths/work_package_activities.yml"
   "/api/v3/work_packages/{id}/attachments":
     "$ref": "./paths/work_package_attachments.yml"
+  "/api/v3/work_packages/{id}/available_assignees":
+    "$ref": "./paths/work_package_available_assignees.yml"
   "/api/v3/work_packages/{id}/available_projects":
     "$ref": "./paths/work_package_available_projects.yml"
   "/api/v3/work_packages/{id}/available_relation_candidates":

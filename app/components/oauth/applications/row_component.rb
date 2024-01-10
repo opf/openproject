@@ -31,7 +31,6 @@
 module OAuth
   module Applications
     class RowComponent < ::RowComponent
-
       property :confidential
 
       def application

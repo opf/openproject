@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/overview'
 
-RSpec.describe 'Overview page managing', js: true do
+RSpec.describe 'Overview page managing', :js do
   let!(:type) { create(:type) }
   let!(:project) { create(:project, types: [type], description: 'My **custom** description') }
   let!(:open_status) { create(:default_status) }

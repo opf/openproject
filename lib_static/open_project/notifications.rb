@@ -45,7 +45,7 @@ module OpenProject
     # @raises ArgumentError if no block is given.
     def subscribe(name, clear_subscriptions: false, &block)
       # if no block is given, raise an error
-      raise ArgumentError, 'please provide a block as a callback' unless block_given?
+      raise ArgumentError, 'please provide a block as a callback' unless block
 
       if clear_subscriptions
         subscriptions[name].each do |sub|
@@ -54,7 +54,7 @@ module OpenProject
       end
 
       sub = ActiveSupport::Notifications.subscribe(name.to_s) do |_, _, _, _, data|
-        block.call(data.fetch(:payload, data))
+        yield(data.fetch(:payload, data))
       end
 
       subs = clear_subscriptions ? [] : Array(subscriptions[name])

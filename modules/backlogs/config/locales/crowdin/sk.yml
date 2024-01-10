@@ -27,10 +27,6 @@ sk:
     attributes:
       work_package:
         position: "Pozícia"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
         story_points: "História bodov"
         backlogs_work_package_type: "Typ oneskorenia"
     errors:
@@ -68,8 +64,8 @@ sk:
     properties: "Vlastnosti"
     rebuild: "Obnoviť"
     rebuild_positions: "Obnoviť pozície"
-    remaining_hours: "Zvyšné hodiny"
-    remaining_hours_ideal: "Zvyšné hodiny (ideálne)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Burndown Graf"
     story: "Príbeh"
     story_points: "História bodov"
@@ -151,7 +147,7 @@ sk:
   rb_label_copy_tasks_none: "Žiadne"
   rb_label_copy_tasks_open: "Otvorené"
   rb_label_link_to_original: "Obsahuje odkaz na pôvodný príbeh"
-  remaining_hours: "zvyšné hodiny"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "potrebné napáliť hodnotiť (hodiny)"
   required_burn_rate_points: "požadované horenia (body)"
   todo_work_package_description: "%{summary}: %{url}%{description}"

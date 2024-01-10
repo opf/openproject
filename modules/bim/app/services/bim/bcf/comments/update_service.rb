@@ -35,7 +35,7 @@ module Bim::Bcf
         journal_call = update_journal(params[:original_comment].journal, params[:comment])
         return journal_call if journal_call.failure?
 
-        super params.slice(*::Bim::Bcf::Comment::UPDATE_ATTRIBUTES), service_result
+        super(params.slice(*::Bim::Bcf::Comment::UPDATE_ATTRIBUTES), service_result)
       end
 
       def update_journal(journal, comment)

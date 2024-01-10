@@ -59,9 +59,9 @@ class ApplicationJob < ActiveJob::Base
 
   def self.queue_with_priority(value = :default)
     if value.is_a?(Symbol)
-      super priority_number(value)
+      super(priority_number(value))
     else
-      super value
+      super(value)
     end
   end
 

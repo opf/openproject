@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'support/pages/custom_fields'
 
-RSpec.describe 'custom fields', js: true, with_cuprite: true do
+RSpec.describe 'custom fields', :js, :with_cuprite do
   let(:user) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
 
@@ -21,7 +21,7 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
       expect(page).to have_text("Allow multi-select")
       check("custom_field_multi_value")
 
-      expect(page).to have_selector('.custom-option-row', count: 1)
+      expect(page).to have_css('.custom-option-row', count: 1)
       within all(".custom-option-row").last do
         find(".custom-option-value input").set "Windows"
         find(".custom-option-default-value input").set true
@@ -29,14 +29,14 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
 
       page.find_test_selector('add-custom-option').click
 
-      expect(page).to have_selector('.custom-option-row', count: 2)
+      expect(page).to have_css('.custom-option-row', count: 2)
       within all(".custom-option-row").last do
         find(".custom-option-value input").set "Linux"
       end
 
       page.find_test_selector('add-custom-option').click
 
-      expect(page).to have_selector('.custom-option-row', count: 3)
+      expect(page).to have_css('.custom-option-row', count: 3)
       within all(".custom-option-row").last do
         find(".custom-option-value input").set "Solaris"
 
@@ -52,7 +52,7 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
 
       expect(page).to have_field("custom_field_multi_value", checked: true)
 
-      expect(page).to have_selector('.custom-option-row', count: 3)
+      expect(page).to have_css('.custom-option-row', count: 3)
       expect(page).to have_field("custom_field_custom_options_attributes_0_value", with: "Solaris")
       expect(page).to have_field("custom_field_custom_options_attributes_1_value", with: "Windows")
       expect(page).to have_field("custom_field_custom_options_attributes_2_value", with: "Linux")
@@ -90,67 +90,84 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
 
       def expect_page_not_to_have_texts(*text)
         text.each do |t|
-          expect(page).not_to have_text(t)
+          expect(page).to have_no_text(t)
         end
       end
 
       select "Text", from: "custom_field_field_format"
       expect_page_to_have_texts(
-        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required)
+        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required
+      )
       expect_page_not_to_have_texts(
-        label_multi_value, label_allow_non_open_versions, label_possible_values)
+        label_multi_value, label_allow_non_open_versions, label_possible_values
+      )
 
       select "Long text", from: "custom_field_field_format"
       expect_page_to_have_texts(
-        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required)
+        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required
+      )
       expect_page_not_to_have_texts(
-        label_multi_value, label_allow_non_open_versions, label_possible_values)
+        label_multi_value, label_allow_non_open_versions, label_possible_values
+      )
 
       # Both Integer and Float have min/max_len and regex as well which seems strange.
       select "Integer", from: "custom_field_field_format"
       expect_page_to_have_texts(
-        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required)
+        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required
+      )
       expect_page_not_to_have_texts(
-        label_multi_value, label_allow_non_open_versions, label_possible_values)
+        label_multi_value, label_allow_non_open_versions, label_possible_values
+      )
 
       select "Float", from: "custom_field_field_format"
       expect_page_to_have_texts(
-        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required)
+        label_min_length, label_max_length, label_regexp, label_default_value, label_is_required
+      )
       expect_page_not_to_have_texts(
-        label_multi_value, label_allow_non_open_versions, label_possible_values)
+        label_multi_value, label_allow_non_open_versions, label_possible_values
+      )
 
       select "List", from: "custom_field_field_format"
       expect_page_to_have_texts(
-        label_multi_value, label_possible_values, label_is_required)
+        label_multi_value, label_possible_values, label_is_required
+      )
       expect_page_not_to_have_texts(
-        label_min_length, label_max_length, label_regexp, label_allow_non_open_versions, label_default_value)
+        label_min_length, label_max_length, label_regexp, label_allow_non_open_versions, label_default_value
+      )
 
       select "Date", from: "custom_field_field_format"
       expect_page_to_have_texts(label_is_required)
       expect_page_not_to_have_texts(
         label_min_length, label_max_length, label_regexp, label_multi_value,
-        label_allow_non_open_versions, label_possible_values, label_default_value)
+        label_allow_non_open_versions, label_possible_values, label_default_value
+      )
 
       select "Boolean", from: "custom_field_field_format"
       expect_page_to_have_texts(
-        label_default_value, label_is_required)
+        label_default_value, label_is_required
+      )
       expect_page_not_to_have_texts(
         label_min_length, label_max_length, label_regexp, label_multi_value,
-        label_allow_non_open_versions, label_possible_values)
+        label_allow_non_open_versions, label_possible_values
+      )
 
       select "User", from: "custom_field_field_format"
       expect_page_to_have_texts(
-        label_multi_value, label_is_required)
+        label_multi_value, label_is_required
+      )
       expect_page_not_to_have_texts(
         label_min_length, label_max_length, label_regexp, label_allow_non_open_versions,
-        label_possible_values, label_default_value)
+        label_possible_values, label_default_value
+      )
 
       select "Version", from: "custom_field_field_format"
       expect_page_to_have_texts(
-        label_multi_value, label_allow_non_open_versions, label_is_required)
+        label_multi_value, label_allow_non_open_versions, label_is_required
+      )
       expect_page_not_to_have_texts(
         label_min_length, label_max_length, label_regexp,
-        label_possible_values, label_default_value)
+        label_possible_values, label_default_value
+      )
     end
 
     it "shows the correct breadcrumbs" do
@@ -160,8 +177,8 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
       wait_for_reload
 
       page.within_test_selector('op-breadcrumb') do
-        expect(page).to have_selector('.breadcrumb-item', text: type)
-        expect(page).to have_selector('.breadcrumb-item.breadcrumb-item-selected', text:  "New custom field")
+        expect(page).to have_css('.breadcrumb-item', text: type)
+        expect(page).to have_css('.breadcrumb-item.breadcrumb-item-selected', text: "New custom field")
       end
     end
   end
@@ -203,7 +220,7 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
       page.find_test_selector('add-custom-option').click
       wait_for_reload
 
-      expect(page).to have_selector('.custom-option-row', count: 5)
+      expect(page).to have_css('.custom-option-row', count: 5)
       within all(".custom-option-row").last do
         find(".custom-option-value input").set "Sega"
       end
@@ -211,7 +228,7 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
       page.find_test_selector('add-custom-option').click
       wait_for_reload
 
-      expect(page).to have_selector('.custom-option-row', count: 6)
+      expect(page).to have_css('.custom-option-row', count: 6)
       within all(".custom-option-row").last do
         find(".custom-option-value input").set "Atari"
       end
@@ -220,7 +237,7 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
 
       expect(page).to have_text("Successful update")
       expect(page).to have_text("Platform")
-      expect(page).to have_selector('.custom-option-row', count: 6)
+      expect(page).to have_css('.custom-option-row', count: 6)
 
       %w[Playstation Xbox Nintendo PC Sega Atari].each_with_index do |value, i|
         expect(page).to have_field("custom_field_custom_options_attributes_#{i}_value", with: value)
@@ -230,7 +247,7 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
     it "updates the values and orders of the custom options" do
       expect(page).to have_text("Platform")
 
-      expect(page).to have_selector('.custom-option-row', count: 4)
+      expect(page).to have_css('.custom-option-row', count: 4)
       %w[Playstation Xbox Nintendo PC].each_with_index do |value, i|
         expect(page).to have_field("custom_field_custom_options_attributes_#{i}_value", with: value)
       end
@@ -261,8 +278,8 @@ RSpec.describe 'custom fields', js: true, with_cuprite: true do
 
     it "shows the correct breadcrumbs" do
       page.within_test_selector('op-breadcrumb') do
-        expect(page).to have_selector('.breadcrumb-item', text: "Work packages")
-        expect(page).to have_selector('.breadcrumb-item.breadcrumb-item-selected', text:  "Platform")
+        expect(page).to have_css('.breadcrumb-item', text: "Work packages")
+        expect(page).to have_css('.breadcrumb-item.breadcrumb-item-selected', text: "Platform")
       end
     end
 

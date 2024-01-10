@@ -982,6 +982,7 @@ ka:
         updatedAt: "განახლების თარიღი"
         versionName: "ვერსია"
         version: "ვერსია"
+        remainingTime: "დარჩენილი სამუშაო"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "ჩემი შექმნილები"

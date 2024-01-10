@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-require_relative './expected_markdown'
+require_relative 'expected_markdown'
 RSpec.describe OpenProject::TextFormatting,
                'images' do
   include_context 'expected markdown modules'

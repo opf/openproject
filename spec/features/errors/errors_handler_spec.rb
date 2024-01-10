@@ -7,7 +7,7 @@ RSpec.describe 'Errors handling' do
     visit '/500'
     expect(page).to have_current_path '/500'
     expect(page).to have_text "An error occurred on the page you were trying to access."
-    expect(page).not_to have_text "Oh no, this is an internal error!"
+    expect(page).to have_no_text "Oh no, this is an internal error!"
   end
 
   it 'renders the not found page' do

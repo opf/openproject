@@ -42,8 +42,8 @@ module Queries::Filters::Shared
         super(name, options)
       end
 
-      def self.create!(custom_field:, custom_field_context:, **options)
-        new(custom_field:, custom_field_context:, **options)
+      def self.create!(custom_field:, custom_field_context:, **)
+        new(custom_field:, custom_field_context:, **)
       end
 
       def project

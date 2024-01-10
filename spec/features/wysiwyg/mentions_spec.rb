@@ -164,7 +164,7 @@ RSpec.describe 'Wysiwyg work package mentions',
     comment_field.input_element.send_keys("@Richard Hendricks")
     page.driver.wait_for_reload
     expect(page)
-        .not_to have_css(".mention-list-item", text: work_package_viewer.name)
+        .to have_no_css(".mention-list-item", text: work_package_viewer.name)
     comment_field.cancel_by_click
 
     # Mentioning a group works

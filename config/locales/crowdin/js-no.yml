@@ -982,6 +982,7 @@
         updatedAt: "Oppdatert"
         versionName: "Versjon"
         version: "Versjon"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Siste aktivitet"
         created_by_me: "Opprettet av meg"

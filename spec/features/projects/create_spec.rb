@@ -104,8 +104,8 @@ RSpec.describe 'Projects', 'creation',
 
     find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
-    expect(page).not_to have_content 'Active'
-    expect(page).not_to have_content 'Identifier'
+    expect(page).to have_no_content 'Active'
+    expect(page).to have_no_content 'Identifier'
   end
 
   context 'with optional and required custom fields' do
@@ -130,7 +130,7 @@ RSpec.describe 'Projects', 'creation',
 
       within('.op-fieldset') do
         expect(page).to have_text 'Optional Foo'
-        expect(page).not_to have_text 'Required Foo'
+        expect(page).to have_no_text 'Required Foo'
       end
     end
   end

@@ -112,7 +112,7 @@ module API
         @message = message
         @errors = []
 
-        super message:
+        super(message:)
       end
     end
   end

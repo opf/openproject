@@ -62,7 +62,7 @@ RSpec.describe 'API v3 Query Filter Schema resource' do
     %i[global
        project].each do |current_path|
       context current_path do
-        let(:path) { send "#{current_path}_path".to_sym }
+        let(:path) { send :"#{current_path}_path" }
 
         it 'succeeds' do
           expect(subject.status)

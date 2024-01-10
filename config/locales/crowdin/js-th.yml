@@ -981,6 +981,7 @@ th:
         updatedAt: "แก้ไขเมื่อ"
         versionName: "เวอร์ชัน"
         version: "เวอร์ชัน"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"

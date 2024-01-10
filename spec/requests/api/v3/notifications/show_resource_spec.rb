@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 
 require 'spec_helper'
-require_relative './show_resource_examples'
+require_relative 'show_resource_examples'
 
 RSpec.describe API::V3::Notifications::NotificationsAPI,
                'show',

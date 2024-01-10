@@ -136,32 +136,5 @@ RSpec.describe 'API v3 Work package form resource' do
         it_behaves_like 'having an error', 'storyPoints'
       end
     end
-
-    describe 'remainingTime' do
-      include_context 'post request'
-
-      context 'valid remainingTime' do
-        let(:params) { valid_params.merge(remainingTime: 'PT2H45M') }
-
-        it_behaves_like 'valid payload'
-
-        it_behaves_like 'having no errors'
-
-        it 'responds with updated story points' do
-          expect(subject.body).to be_json_eql('PT2H45M'.to_json)
-            .at_path('_embedded/payload/remainingTime')
-        end
-      end
-
-      context 'invalid remainingTime' do
-        let(:params) { valid_params.merge(remainingTime: 3) }
-
-        it_behaves_like 'format error',
-                        I18n.t('api_v3.errors.invalid_format',
-                               property: 'remainingTime',
-                               expected_format: 'ISO 8601 duration',
-                               actual: '3')
-      end
-    end
   end
 end
