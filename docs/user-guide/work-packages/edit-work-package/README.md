@@ -11,7 +11,7 @@ keywords: edit work packages
 | Feature                                                      | Documentation for                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Update a work package](#update-a-work-package)              | How to make a change to an existing work package.-           |
-| [Update a work package in a table view](#update-a-work-package-in-a-work-package table-view) | How to use the quick context menu in the work package table view. |
+| [Update a work package in a table view](#update-a-work-package-in-a-work-package-table-view) | How to use the quick context menu in the work package table view. |
 | [Attach files to work packages](#attach-files-to-work-packages) | How to manually attach files to work packages.               |
 | [Watchers](#watchers)                                        | How to add or remove watchers from a work package.           |
 | [Export work packages](#export-work-packages)                | How to export work packages.                                 |
@@ -19,7 +19,7 @@ keywords: edit work packages
 
 ## Update a work package
 
-To edit a work package, double-click in the row of a work package in the [table view](../../work-packages/work-package-views/#table-view) or open the [split screen view](../../work-packages/work-package-views/#split-screen-view) to see the details. 
+To edit a work package, double-click a work package row in [table view](../../work-packages/work-package-views/#table-view) or open the [split screen view](../../work-packages/work-package-views/#split-screen-view) to see the details. 
 
 In the work package details, you can click in any field to update it, e.g. change the description, status, priority, assignee, or add a comment. 
 
