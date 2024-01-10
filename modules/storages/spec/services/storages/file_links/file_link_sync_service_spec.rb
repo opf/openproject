@@ -80,9 +80,9 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
           .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
-      it 'returns a FileLink with #origin_permission :not_allowed' do
+      it 'returns a FileLink with #origin_status :not_allowed' do
         expect(service.success).to be_truthy
-        expect(service.result.first.origin_permission).to be :not_allowed
+        expect(service.result.first.origin_status).to be :view_not_allowed
       end
     end
 
@@ -106,8 +106,8 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
         expect(service.result.count).to be 2
         expect(service.result[0].origin_id).to eql file_info_one.id
         expect(service.result[1].origin_id).to eql file_info_two.id
-        expect(service.result[0].origin_permission).to be :view
-        expect(service.result[1].origin_permission).to be :not_allowed
+        expect(service.result[0].origin_status).to be :view_allowed
+        expect(service.result[1].origin_status).to be :view_not_allowed
       end
     end
 
@@ -120,10 +120,11 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
           .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
-      it 'deletes the file link' do
+      it 'returns the file link with a status set to :not_found' do
         expect(service.success).to be_truthy
-        expect(service.result.count).to be 0
-        expect(Storages::FileLink.all.count).to be 0
+        expect(service.result.count).to be 1
+        expect(Storages::FileLink.count).to be 1
+        expect(service.result.first.origin_status).to be :not_found
       end
     end
 
@@ -136,11 +137,11 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
           .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
-      it 'returns the file link with a permission set to :error' do
+      it 'returns the file link with a status set to :error' do
         expect(service.success).to be_truthy
         expect(service.result.count).to be 1
-        expect(Storages::FileLink.all.count).to be 1
-        expect(service.result.first.origin_permission).to be :error
+        expect(Storages::FileLink.count).to be 1
+        expect(service.result.first.origin_status).to be :error
       end
     end
 
@@ -153,23 +154,7 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
 
       it 'leaves the list of file_links unchanged with permissions = :error' do
         expect(service.success).to be_truthy
-        expect(service.result.first.origin_permission).to be :error
-      end
-    end
-
-    context 'with file trashed in storage' do
-      let(:file_info) { build(:storage_file_info, trashed: true) }
-      let(:file_link_one) { create(:file_link, origin_id: file_info.id, storage: storage_one, container: work_package) }
-
-      before do
-        Storages::Peripherals::Registry
-          .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
-      end
-
-      it 'returns an empty list of FileLinks' do
-        expect(subject).to be_a ServiceResult
-        expect(service.success).to be_truthy
-        expect(service.result.length).to be 0
+        expect(service.result.first.origin_status).to be :error
       end
     end
   end

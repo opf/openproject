@@ -96,7 +96,7 @@ RSpec.describe 'API v3 file links resource' do
     allow(Storages::FileLinkSyncService)
       .to receive(:new).and_return(sync_service)
     allow(sync_service).to receive(:call) do |file_links|
-      ServiceResult.success(result: file_links.each { |file_link| file_link.origin_permission = :view })
+      ServiceResult.success(result: file_links.each { |file_link| file_link.origin_status = :view_allowed })
     end
 
     login_as current_user

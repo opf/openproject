@@ -26,23 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ID } from '@datorama/akita';
-import { IHalOptionalTitledLink, IHalResourceLink, IHalResourceLinks } from 'core-app/core/state/hal-resource';
-
-export interface IProjectStorageHalResourceLinks extends IHalResourceLinks {
-  storage:IHalResourceLink;
-  project:IHalResourceLink;
-  creator:IHalResourceLink;
-  projectFolder?:IHalOptionalTitledLink;
-  openWithConnectionEnsured:IHalResourceLink;
-}
-
-export interface IProjectStorage {
-  id:ID;
-  projectFolderMode:string;
-  projectFolderId:string|null;
-  createdAt?:string;
-  lastModifiedAt?:string;
-
-  _links:IProjectStorageHalResourceLinks;
+export class FloatingAction {
+  constructor(
+    public readonly iconClass:string,
+    public readonly title:string,
+    public readonly action?:() => void,
+    public readonly href?:{ url:string, target:string },
+  ) { }
 }
