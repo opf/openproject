@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/citizensadvice/capybara_accessible_selectors
-  revision: da34e96c4787bd7705c477fe2e70f993bfad8f5c
+  revision: 70f7f125c7c662057c407a93c931286b6865f458
   branch: main
   specs:
     capybara_accessible_selectors (0.10.0)
-      capybara (>= 3.36.0)
+      capybara (~> 3.36)
 
 GIT
   remote: https://github.com/crohr/turbo_tests.git
