@@ -139,7 +139,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
       'content-left': { component: WorkPackageListViewComponent },
     },
     data: {
-      bodyClasses: 'router--work-packages-partitioned-split-view',
+      bodyClasses: ['router--work-packages-partitioned-split-view', 'router--work-packages-base'],
       menuItem: menuItemClass,
       partition: '-left-only',
     },
