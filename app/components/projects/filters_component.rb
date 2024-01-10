@@ -30,7 +30,11 @@
 
 class Projects::FiltersComponent < ApplicationComponent
   options :query
-
+  
+  renders_many :buttons, lambda { |**system_arguments|
+    Primer::Beta::Button.new(**system_arguments)
+  }
+  
   def allowed_filters
     query
       .available_filters

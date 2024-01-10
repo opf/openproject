@@ -15,21 +15,10 @@
       <%= render(Primer::Beta::Counter.new(count: query.filters.count, round: true, hide_if_zero: false, scheme: :default)) %>
     <% end %>
 
-    <% if helpers.current_user.allowed_globally?(:add_project) %>
-      <%= render(
-            Primer::Beta::Button.new(
-              tag: :a,
-              href: new_project_path,
-              scheme: :primary,
-              size: :medium,
-              aria: { label: I18n.t(:label_project_new) },
-              data: { 'test-selector': 'project-new-button' }
-            )
-          ) do |button|
-            button.with_leading_visual_icon(icon: :plus)
-            Project.model_name.human
-          end
-      %>
+    <% buttons.each do |button| %>
+      <div>
+        <%= button %>
+      </div>
     <% end %>
   </div>
   <%= form_tag({},
