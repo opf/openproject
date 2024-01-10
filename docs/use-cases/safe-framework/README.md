@@ -85,7 +85,7 @@ Once the instance, individual ARTs and versions are set up, you are ready to mov
 
 In OpenProject, all work is expressed as work packages of various types. In the context of SAFe, it already comes with **Epic**, **Feature**, **User story** and **Milestone** types out of the box. Depending on your needs, **Capability** and **Enabler** types can be easily created and configured.
 
-Apart from milestone (which has the particularity of having a single date), all types can be freely configured and new ones freely created.
+Apart from milestones (which has the particularity of having a single date), all types can be freely configured and new ones freely created.
 
 A work package type is a set of configurations:
 
