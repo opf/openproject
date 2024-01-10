@@ -66,8 +66,13 @@ class API::V3::FileLinks::CreateEndpoint < API::Utilities::Endpoints::Create
   end
 
   def present_success(request, service_call)
+    file_links = service_call.all_results.map do |file_link|
+      file_link.origin_status = :view_allowed
+      file_link
+    end
+
     render_representer.create(
-      service_call.all_results,
+      file_links,
       self_link: self_link(request),
       current_user: request.current_user
     )
