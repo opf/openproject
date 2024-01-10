@@ -66,12 +66,11 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
 
               oauth_client = storage.oauth_client
               expect(last_response.status).to eq(302)
-              expect(last_response.body).to eq(
-                "<html><body>You are being <a href=\"#{storage.host}/index.php/apps/oauth2/authorize?client_id=" \
-                "#{oauth_client.client_id}&amp;redirect_uri=#{CGI.escape(Rails.application.root_url)}" \
+              expect(last_response.location).to eq(
+                "#{storage.host}/index.php/apps/oauth2/authorize?client_id=" \
+                "#{oauth_client.client_id}&redirect_uri=#{CGI.escape(Rails.application.root_url)}" \
                 "%2Foauth_clients%2F#{oauth_client.client_id}%2F" \
-                "callback&amp;response_type=code&amp;state=#{nonce}\">redirected</a>." \
-                "</body></html>"
+                "callback&response_type=code&state=#{nonce}"
               )
               expect(last_response.cookies["oauth_state_#{nonce}"]).to eq(["%7B%22href%22%3A%22http%3A%2F%2Fwww.example.com%2F%22%2C%22storageId%22%3A%22#{storage.id}%22%7D"])
             end
@@ -86,12 +85,11 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
 
                 oauth_client = storage.oauth_client
                 expect(last_response.status).to eq(302)
-                expect(last_response.body).to eq(
-                  "<html><body>You are being <a href=\"#{storage.host}/index.php/apps/oauth2/authorize?client_id=" \
-                  "#{oauth_client.client_id}&amp;redirect_uri=#{CGI.escape(Rails.application.root_url)}" \
+                expect(last_response.location).to eq(
+                  "#{storage.host}/index.php/apps/oauth2/authorize?client_id=" \
+                  "#{oauth_client.client_id}&redirect_uri=#{CGI.escape(Rails.application.root_url)}" \
                   "%2Foauth_clients%2F#{oauth_client.client_id}%2F" \
-                  "callback&amp;response_type=code&amp;state=#{nonce}\">redirected</a>." \
-                  "</body></html>"
+                  "callback&response_type=code&state=#{nonce}"
                 )
                 expect(last_response.cookies["oauth_state_#{nonce}"]).to eq(["%7B%22href%22%3A%22http%3A%2F%2Fwww.example.com%2F123%22%2C%22storageId%22%3A%22#{storage.id}%22%7D"])
               end
@@ -105,12 +103,11 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
 
                 oauth_client = storage.oauth_client
                 expect(last_response.status).to eq(302)
-                expect(last_response.body).to eq(
-                  "<html><body>You are being <a href=\"#{storage.host}/index.php/apps/oauth2/authorize?client_id=" \
-                  "#{oauth_client.client_id}&amp;redirect_uri=#{CGI.escape(Rails.application.root_url)}" \
+                expect(last_response.location).to eq(
+                  "#{storage.host}/index.php/apps/oauth2/authorize?client_id=" \
+                  "#{oauth_client.client_id}&redirect_uri=#{CGI.escape(Rails.application.root_url)}" \
                   "%2Foauth_clients%2F#{oauth_client.client_id}%2F" \
-                  "callback&amp;response_type=code&amp;state=#{nonce}\">redirected</a>." \
-                  "</body></html>"
+                  "callback&response_type=code&state=#{nonce}"
                 )
                 expect(last_response.cookies["oauth_state_#{nonce}"]).to eq(["%7B%22href%22%3A%22http%3A%2F%2Fwww.example.com%2F%22%2C%22storageId%22%3A%22#{storage.id}%22%7D"])
               end
@@ -139,9 +136,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
               get oauth_clients_ensure_connection_url(oauth_client_id: oauth_client.client_id, storage_id: storage.id)
 
               expect(last_response.status).to eq(302)
-              expect(last_response.body).to eq(
-                "<html><body>You are being <a href=\"http://www.example.com/\">redirected</a>.</body></html>"
-              )
+              expect(last_response.location).to eq("http://www.example.com/")
               expect(last_response.cookies.keys).to eq(["_open_project_session"])
             end
           end
@@ -155,9 +150,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
 
                 storage.oauth_client
                 expect(last_response.status).to eq(302)
-                expect(last_response.body).to eq(
-                  "<html><body>You are being <a href=\"http://www.example.com/123\">redirected</a>.</body></html>"
-                )
+                expect(last_response.location).to eq("http://www.example.com/123")
                 expect(last_response.cookies.keys).to eq(["_open_project_session"])
               end
             end
@@ -170,9 +163,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
 
                 storage.oauth_client
                 expect(last_response.status).to eq(302)
-                expect(last_response.body).to eq(
-                  "<html><body>You are being <a href=\"http://www.example.com/\">redirected</a>.</body></html>"
-                )
+                expect(last_response.location).to eq("http://www.example.com/")
                 expect(last_response.cookies.keys).to eq(["_open_project_session"])
               end
             end
