@@ -83,7 +83,8 @@ module Members
     end
 
     def roles_label
-      label = h member.roles.uniq.sort.collect(&:name).join(', ')
+      project_roles = member.roles.select { |role| role.is_a?(ProjectRole) }.uniq.sort
+      label = h project_roles.collect(&:name).join(', ')
 
       if principal&.admin?
         label << tag(:br)
