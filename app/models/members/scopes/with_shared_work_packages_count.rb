@@ -31,26 +31,39 @@ module Members::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
-      def with_shared_work_packages_count
+      def with_shared_work_packages_count(only_role_id: nil)
         Member
           .from("#{Member.table_name} members")
-          .joins(shared_work_packages_sql)
+          .joins(shared_work_packages_sql(only_role_id))
           .select('members.*')
           .select('members_sums.shared_work_packages_count AS shared_work_packages_count')
       end
 
       private
 
-      def shared_work_packages_sql
+      def shared_work_packages_sql(only_role_id)
         <<~SQL.squish
           LEFT JOIN (
             SELECT members_sums.user_id, members_sums.project_id, COUNT(*) AS shared_work_packages_count
             FROM #{Member.table_name} members_sums
+            #{shared_work_packages_role_condition(only_role_id)}
             WHERE members_sums.entity_type = 'WorkPackage'
             GROUP BY members_sums.user_id, members_sums.project_id
           ) members_sums
           ON members.user_id = members_sums.user_id AND members.project_id = members_sums.project_id
         SQL
+      end
+
+      def shared_work_packages_role_condition(only_role_id)
+        if only_role_id.present?
+          sql = <<~SQL.squish
+            INNER JOIN #{MemberRole.table_name} members_roles
+            ON members_sums.id = members_roles.member_id
+            AND members_roles.role_id = ?
+          SQL
+
+          OpenProject::SqlSanitization.sanitize sql, only_role_id
+        end
       end
     end
 

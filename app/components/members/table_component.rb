@@ -39,7 +39,17 @@ module Members
 
       # There's no way to provide an additional scope to the query
       # without accessing the results. So we have to do it here.
-      @model = @model.with_shared_work_packages_count
+      @model = @model
+        .with_shared_work_packages_count(only_role_id:)
+    end
+
+    def only_role_id
+      case params[:shared_role_id]
+      when 'all', nil
+        nil
+      else
+        params[:shared_role_id]
+      end
     end
 
     def initial_sort
