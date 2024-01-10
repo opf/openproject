@@ -38,7 +38,7 @@ RSpec.describe 'Managing file links in work package', :js, :webmock do
   let(:work_package) { create(:work_package, project:, description: 'Initial description') }
 
   let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:nextcloud_storage, oauth_application:) }
+  let(:storage) { create(:nextcloud_storage, name: 'My Storage', oauth_application:) }
   let(:oauth_client) { create(:oauth_client, integration: storage) }
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
   let(:project_storage) { create(:project_storage, project:, storage:, project_folder_id: nil, project_folder_mode: 'inactive') }
@@ -56,8 +56,7 @@ RSpec.describe 'Managing file links in work package', :js, :webmock do
   end
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
-  let(:file_picker) { Components::FilePickerDialog.new }
-  let(:confirmation_dialog) { Components::ConfirmationDialog.new }
+  let(:modal) { Components::Common::Modal.new }
 
   before do
     allow(Storages::FileLinkSyncService).to receive(:new).and_return(sync_service)
@@ -83,48 +82,66 @@ RSpec.describe 'Managing file links in work package', :js, :webmock do
     wp_page.visit_tab! :files
   end
 
-  xdescribe 'create with the file picker and delete', with_flag: { storage_file_picking_select_all: true } do
-    # failing due to missing selector for remove button
-    it 'must enable the user to manage existing files on the storage' do
-      expect(wp_page.all(test_selector("file-list--item")).size).to eq 1
-      expect(wp_page).to have_test_selector('file-list--item', text: file_link.name)
-
-      page.find_test_selector('op-storage--link-existing-file-button').click
-
-      file_picker.expect_open
-      file_picker.confirm_button_state(selection_count: 0)
-
-      file_picker.select_file('Manual.pdf')
-      file_picker.confirm_button_state(selection_count: 1)
-
-      file_picker.enter_folder('Folder1')
-      file_picker.has_list_item?(text: file_link.name, checked: true, disabled: true)
-      file_picker.select_all
-      file_picker.confirm_button_state(selection_count: 3)
-
-      file_picker.select_file('notes.txt')
-      file_picker.confirm_button_state(selection_count: 2)
-
-      file_picker.use_breadcrumb(position: 'root')
-      file_picker.has_list_item?(text: 'Manual.pdf', checked: true, disabled: false)
-
-      file_picker.confirm
-
-      expect(wp_page).to have_test_selector('file-list--item', text: 'Manual.pdf')
-      expect(wp_page).to have_test_selector('file-list--item', text: 'logo.png')
-      expect(wp_page).to have_test_selector('file-list--item', text: file_link.name)
-      expect(wp_page.all(test_selector("file-list--item")).size).to eq 3
-
-      page.find_test_selector('file-list--item', text: 'logo.png').hover
-      within_test_selector('file-list--item', text: 'logo.png') do
-        # FIXME find good selector
-        page.find_test_selector('file-list--item-remove-floating-action').click
+  context 'with select all in file picker enabled', with_flag: { storage_file_picking_select_all: true } do
+    it 'must enable the user to select files from file picker to create file links' do
+      within_test_selector('op-tab-content--tab-section', text: 'MY STORAGE', wait: 25) do
+        expect(page).to have_list_item(count: 1)
+        expect(page).to have_list_item(text: 'jingle.ogg')
+        page.click_on('Link existing files')
       end
 
-      confirmation_dialog.confirm
+      modal.expect_open
+      modal.expect_title('Select files')
+      modal.within_modal do
+        expect(page).to have_button('Select files to link', disabled: true)
 
-      expect(wp_page).not_to have_test_selector('file-list--item', text: 'logo.png')
-      expect(wp_page.all(test_selector("file-list--item")).size).to eq 2
+        within(:list_item, text: 'Manual.pdf') { page.click }
+
+        expect(page).to have_button('Link 1 file', disabled: false)
+
+        within(:list_item, text: 'Folder1') { page.click }
+
+        within(:list_item, text: 'jingle.ogg') do
+          expect(page).to have_field(type: 'checkbox', checked: true, disabled: true)
+        end
+
+        page.click_on('Select all')
+        expect(page).to have_button('Link 3 files', disabled: false)
+
+        within(:list_item, text: 'notes.txt') { page.click }
+        expect(page).to have_button('Link 2 files', disabled: false)
+
+        page.click_on('My Storage')
+        within(:list_item, text: 'Manual.pdf') do
+          expect(page).to have_field(type: 'checkbox', checked: true, disabled: false)
+        end
+
+        page.click_on('Link 2 files')
+      end
+
+      within_test_selector('op-tab-content--tab-section', text: 'MY STORAGE') do
+        expect(page).to have_list_item(count: 3)
+        expect(page).to have_list_item(text: 'jingle.ogg')
+        expect(page).to have_list_item(text: 'Manual.pdf')
+        expect(page).to have_list_item(text: 'logo.png')
+      end
     end
+  end
+
+  it 'must enable the user to remove a file link' do
+    within_test_selector('op-tab-content--tab-section', text: 'MY STORAGE', wait: 25) do
+      within(:list_item, text: 'jingle.ogg') do
+        page.find('span', text: 'jingle.ogg').hover
+        page.click_on('Remove file link')
+      end
+    end
+
+    modal.expect_open
+    modal.expect_title('Remove file link')
+    modal.within_modal do
+      page.click_on('Remove link')
+    end
+
+    expect(page).not_to have_list_item(text: 'jingle.ogg')
   end
 end

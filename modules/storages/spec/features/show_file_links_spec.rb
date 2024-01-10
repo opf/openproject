@@ -38,11 +38,11 @@ RSpec.describe 'Showing of file links in work package', :js do
   let(:work_package) { create(:work_package, project:, description: 'Initial description') }
 
   let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:nextcloud_storage, oauth_application:) }
+  let(:storage) { create(:nextcloud_storage, name: 'My storage', oauth_application:) }
   let(:oauth_client) { create(:oauth_client, integration: storage) }
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
-  let(:file_link) { create(:file_link, container: work_package, storage:) }
+  let(:file_link) { create(:file_link, container: work_package, storage:, origin_id: '42', origin_name: 'logo.png') }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
 
   let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
@@ -72,10 +72,11 @@ RSpec.describe 'Showing of file links in work package', :js do
   end
 
   context 'if work package has associated file links' do
-    it "must show associated file links" do
+    it 'must show associated file links' do
       expect(page).to have_test_selector('op-tab-content--tab-section', count: 2)
-      within_test_selector('file-list') do
-        expect(page).to have_test_selector('file-list--item', text: file_link.origin_name, count: 1)
+      within_test_selector('op-tab-content--tab-section', text: 'MY STORAGE') do
+        expect(page).to have_list_item(count: 1)
+        expect(page).to have_list_item(text: 'logo.png')
       end
     end
   end
@@ -103,7 +104,11 @@ RSpec.describe 'Showing of file links in work package', :js do
     end
 
     it 'must show storage information box with login button' do
-      expect(page.find_test_selector('op-storage--information')).to have_button(count: 1)
+      within_test_selector('op-tab-content--tab-section', text: 'MY STORAGE', wait: 25) do
+        expect(page).to have_button('Nextcloud login')
+        expect(page).to have_text('Login to Nextcloud')
+        expect(page).to have_list_item(text: 'logo.png')
+      end
     end
   end
 
@@ -113,7 +118,11 @@ RSpec.describe 'Showing of file links in work package', :js do
     end
 
     it 'must show storage information box' do
-      expect(page).to have_test_selector('op-storage--information', count: 1)
+      within_test_selector('op-tab-content--tab-section', text: 'MY STORAGE', wait: 25) do
+        expect(page).to have_no_button
+        expect(page).to have_text('No Nextcloud connection')
+        expect(page).to have_list_item(text: 'logo.png')
+      end
     end
   end
 end
