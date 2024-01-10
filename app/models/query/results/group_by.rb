@@ -163,7 +163,7 @@ module ::Query::Results::GroupBy
     column = case_insensitive_condition(sortable, column, columns_hash)
 
     if order
-      column + " #{order} "
+      column.to_s + " #{order} "
     else
       column
     end
