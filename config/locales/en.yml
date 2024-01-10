@@ -1697,6 +1697,7 @@ en:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
 
   notifications:
     send_notifications: "Send notifications for this action"
