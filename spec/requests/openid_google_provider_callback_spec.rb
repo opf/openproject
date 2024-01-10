@@ -97,6 +97,6 @@ RSpec.describe 'OpenID Google provider callback', with_ee: %i[openid_providers] 
   } do
     response = get uri.to_s
     expect(response.status).to eq(302)
-    expect(response.body).to eq("<html><body>You are being <a href=\"http://example.org/two_factor_authentication/request\">redirected</a>.</body></html>")
+    expect(response.location).to eq("http://example.org/two_factor_authentication/request")
   end
 end
