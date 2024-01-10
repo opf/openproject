@@ -44,7 +44,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
       overview_page.visit_page
 
       within '.op-grid-page' do
-        expect(page).not_to have_css('#project-attributes-sidebar')
+        expect(page).to have_no_css('#project-attributes-sidebar')
       end
     end
   end
@@ -100,7 +100,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
         overview_page.visit_page
 
         overview_page.within_async_loaded_sidebar do
-          expect(page).not_to have_text 'String field enabled for other project'
+          expect(page).to have_no_text 'String field enabled for other project'
         end
       end
     end

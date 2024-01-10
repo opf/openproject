@@ -45,13 +45,117 @@ RSpec.describe 'Edit project custom fields on project overview page', :js, :with
         it 'opens a dialog showing inputs for project custom fields of a specific section' do
           overview_page.visit_page
 
-          overview_page.within_async_loaded_sidebar do
-            overview_page.within_custom_field_section_container(section_for_input_fields) do
-              page.find("[data-qa-selector='project-custom-field-section-edit-button']").click
+          overview_page.open_edit_dialog_for_section(section_for_input_fields)
+
+          expect(page).to have_css("modal-dialog#edit-project-attributes-dialog-#{section_for_input_fields.id}")
+        end
+
+        it 'renders the dialog body asynchronically' do
+          overview_page.visit_page
+
+          expect(page).to have_no_css('#project-custom-fields-sections-edit-dialog-component', visible: :all)
+
+          overview_page.open_edit_dialog_for_section(section_for_input_fields)
+
+          expect(page).to have_css('#project-custom-fields-sections-edit-dialog-component', visible: :visible)
+        end
+
+        it 'can be closed via close icon or cancel button' do
+          overview_page.visit_page
+
+          overview_page.open_edit_dialog_for_section(section_for_input_fields)
+
+          within("modal-dialog#edit-project-attributes-dialog-#{section_for_input_fields.id}") do
+            page.find(".close-button").click
+          end
+
+          expect(page).to have_no_css("modal-dialog#edit-project-attributes-dialog-#{section_for_input_fields.id}")
+
+          overview_page.open_edit_dialog_for_section(section_for_input_fields)
+
+          within("modal-dialog#edit-project-attributes-dialog-#{section_for_input_fields.id}") do
+            click_link_or_button 'Cancel'
+          end
+
+          expect(page).to have_no_css("modal-dialog#edit-project-attributes-dialog-#{section_for_input_fields.id}")
+        end
+
+        it 'shows only the project custom fields of the specific section within the dialog' do
+          overview_page.visit_page
+
+          overview_page.open_edit_dialog_for_section(section_for_input_fields)
+
+          overview_page.within_edit_dialog_for_section(section_for_input_fields) do
+            (input_fields + select_fields + multi_select_fields).each do |project_custom_field|
+              if input_fields.include?(project_custom_field)
+                expect(page).to have_content(project_custom_field.name)
+              else
+                expect(page).to have_no_content(project_custom_field.name)
+              end
             end
           end
 
-          expect(page).to have_css("modal-dialog#edit-project-attributes-dialog-#{section_for_input_fields.id}")
+          overview_page.close_edit_dialog_for_section(section_for_input_fields)
+
+          overview_page.open_edit_dialog_for_section(section_for_select_fields)
+
+          overview_page.within_edit_dialog_for_section(section_for_select_fields) do
+            (input_fields + select_fields + multi_select_fields).each do |project_custom_field|
+              if select_fields.include?(project_custom_field)
+                expect(page).to have_content(project_custom_field.name)
+              else
+                expect(page).to have_no_content(project_custom_field.name)
+              end
+            end
+          end
+
+          overview_page.close_edit_dialog_for_section(section_for_select_fields)
+
+          overview_page.open_edit_dialog_for_section(section_for_multi_select_fields)
+
+          overview_page.within_edit_dialog_for_section(section_for_multi_select_fields) do
+            (input_fields + select_fields + multi_select_fields).each do |project_custom_field|
+              if multi_select_fields.include?(project_custom_field)
+                expect(page).to have_content(project_custom_field.name)
+              else
+                expect(page).to have_no_content(project_custom_field.name)
+              end
+            end
+          end
+        end
+
+        it 'shows the inputs in the correct order defined by the position of project custom field in a section' do
+          overview_page.visit_page
+
+          overview_page.open_edit_dialog_for_section(section_for_input_fields)
+
+          overview_page.within_edit_dialog_for_section(section_for_input_fields) do
+            fields = page.all('.op-project-custom-field-input-container')
+
+            expect(fields[0].text).to include('Boolean field')
+            expect(fields[1].text).to include('String field')
+            expect(fields[2].text).to include('Integer field')
+            expect(fields[3].text).to include('Float field')
+            expect(fields[4].text).to include('Date field')
+            expect(fields[5].text).to include('Text field')
+          end
+
+          overview_page.close_edit_dialog_for_section(section_for_input_fields)
+
+          boolean_project_custom_field.move_to_bottom
+
+          overview_page.open_edit_dialog_for_section(section_for_input_fields)
+
+          overview_page.within_edit_dialog_for_section(section_for_input_fields) do
+            fields = page.all('.op-project-custom-field-input-container')
+
+            expect(fields[0].text).to include('String field')
+            expect(fields[1].text).to include('Integer field')
+            expect(fields[2].text).to include('Float field')
+            expect(fields[3].text).to include('Date field')
+            expect(fields[4].text).to include('Text field')
+            expect(fields[5].text).to include('Boolean field')
+          end
         end
       end
     end

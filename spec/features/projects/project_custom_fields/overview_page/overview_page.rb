@@ -53,4 +53,22 @@ class OverviewPage
   def within_custom_field_container(custom_field, &)
     within("[data-qa-selector='project-custom-field-#{custom_field.id}']", &)
   end
+
+  def open_edit_dialog_for_section(section)
+    within_async_loaded_sidebar do
+      within_custom_field_section_container(section) do
+        page.find("[data-qa-selector='project-custom-field-section-edit-button']").click
+      end
+    end
+  end
+
+  def close_edit_dialog_for_section(section)
+    within("modal-dialog#edit-project-attributes-dialog-#{section.id}") do
+      page.find(".close-button").click
+    end
+  end
+
+  def within_edit_dialog_for_section(section, &)
+    within("modal-dialog#edit-project-attributes-dialog-#{section.id}", &)
+  end
 end
