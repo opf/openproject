@@ -59,7 +59,7 @@ export const IAN_ROUTES:Ng2StateDeclaration[] = [
     component: InAppNotificationsDateAlertsUpsaleComponent,
   },
   {
-    url: '/share',
+    url: '/share_upsale',
     name: 'notifications.share_upsale',
     component: ShareUpsaleComponent,
   },
