@@ -38,7 +38,7 @@ interface Filter {
   };
 }
 
-export default class ProjectFiltersController extends Controller {
+export default class FiltersController extends Controller {
   static targets = [
     'filterFormToggle',
     'filterForm',

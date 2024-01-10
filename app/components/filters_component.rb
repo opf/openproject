@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Projects::FiltersComponent < ApplicationComponent
+class FiltersComponent < ApplicationComponent
   options :query
   
   renders_many :buttons, lambda { |**system_arguments|

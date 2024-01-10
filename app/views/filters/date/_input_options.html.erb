@@ -9,15 +9,15 @@
   end
 %>
 <div class="advanced-filters--filter-value <%= value_visibility %> <%= value_format %>"
-     data-project-filters-target="filterValueContainer"
+     data-filters-target="filterValueContainer"
      data-filter-name="<%= filter.name %>">
-  <%= render partial: 'projects/filters/date/days',
+  <%= render partial: 'filters/date/days',
              locals: { filter: filter,
                        value: value_format == 'days' ? filter.values.first : '' } %>
-  <%= render partial: 'projects/filters/date/on_date',
+  <%= render partial: 'filters/date/on_date',
              locals: { filter: filter,
                        value: value_format == 'on-date' ? filter.values.first : '' } %>
-  <%= render partial: 'projects/filters/date/between_dates',
+  <%= render partial: 'filters/date/between_dates',
              locals: { filter: filter,
                        from_value: value_format == 'between-dates' ? filter.values.first : '',
                        to_value: value_format == 'between-dates' ? filter.values.second : ''} %>
