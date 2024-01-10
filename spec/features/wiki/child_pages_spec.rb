@@ -62,12 +62,12 @@ RSpec.describe 'wiki child pages', :js do
     click_button 'Save'
 
     # hierarchy displayed in the breadcrumb
-    expect(page).to have_selector("#breadcrumb #{test_selector('op-breadcrumb')}",
-                                  text: parent_page.title.to_s)
+    expect(page).to have_css("#breadcrumb #{test_selector('op-breadcrumb')}",
+                             text: parent_page.title.to_s)
 
     # hierarchy displayed in the sidebar
-    expect(page).to have_selector('.pages-hierarchy',
-                                  text: "#{parent_page.title}\n#{child_page_name}")
+    expect(page).to have_css('.pages-hierarchy',
+                             text: "#{parent_page.title}\n#{child_page_name}")
 
     # on toc page
     visit index_project_wiki_index_path(project)

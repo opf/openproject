@@ -521,6 +521,7 @@ pl:
     label_watcher_added_successfully: "Obserwator dodany pomyślnie!"
     label_watcher_deleted_successfully: "Obserwator usunięty pomyślnie!"
     label_work_package_details_you_are_here: "Jesteś na karcie %{tab}, %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Nie obserwuj"
     label_unwatch_work_package: "Wyłącz obserwowanie zadania"
     label_uploaded_by: "Przesłane przez"
@@ -834,6 +835,7 @@ pl:
       toggle_description: "Przełącz opis powiązania"
       update_relation: "Kliknij, aby zmienić typ powiązania"
       add_follower: "Dodaj obserwującego"
+      show_relations: "Show relations"
       add_predecessor: "Dodaj poprzednika"
       remove: "Usuń relację"
       save: "Zapisz relację"
@@ -984,6 +986,7 @@ pl:
         updatedAt: "Aktualizacja"
         versionName: "Wersja"
         version: "Wersja"
+        remainingTime: "Pozostała praca"
       default_queries:
         latest_activity: "Ostatnia aktywność"
         created_by_me: "Utworzone przeze mnie"

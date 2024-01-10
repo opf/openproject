@@ -593,10 +593,16 @@ RSpec.describe API::V3::Utilities::PathHelper do
     end
 
     describe 'available ... paths' do
-      describe '#available_assignees' do
-        subject { helper.available_assignees 42 }
+      describe '#available_assignees_in_project' do
+        subject { helper.available_assignees_in_project 42 }
 
         it_behaves_like 'api v3 path', '/projects/42/available_assignees'
+      end
+
+      describe '#available_assignees_in_work_package' do
+        subject { helper.available_assignees_in_work_package 42 }
+
+        it_behaves_like 'api v3 path', '/work_packages/42/available_assignees'
       end
 
       describe '#available_responsibles' do

@@ -108,7 +108,7 @@ module OpenProject
         ]
       end
 
-      def method_missing(name, *args, &)
+      def method_missing(name, *, &)
         setting_name = name.to_s.sub(/\?$/, '')
 
         definition = Settings::Definition[setting_name]
@@ -116,7 +116,7 @@ module OpenProject
         if definition
           define_config_methods(definition)
 
-          send(name, *args, &)
+          send(name, *, &)
         else
           super
         end
@@ -131,7 +131,7 @@ module OpenProject
           self[definition.name]
         end
 
-        define_singleton_method "#{definition.name}?" do
+        define_singleton_method :"#{definition.name}?" do
           if definition.format != :boolean
             ActiveSupport::Deprecation.warn "Calling #{self}.#{definition.name}? is deprecated since it is not a boolean", caller
           end

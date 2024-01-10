@@ -263,7 +263,7 @@ class ApplicationController < ActionController::Base
   end
 
   def authorize_in_model(ctrl = params[:controller], action = params[:action])
-    model = instance_variable_get("@#{model_object.to_s.underscore}")
+    model = instance_variable_get(:"@#{model_object.to_s.underscore}")
 
     allowed = User.current.allowed_in_entity?({ controller: ctrl, action: }, model, model_object)
 
@@ -377,7 +377,7 @@ class ApplicationController < ActionController::Base
     model = self.class._model_object
     if model
       @object = model.find(params[object_id])
-      instance_variable_set("@#{controller_name.singularize}", @object) if @object
+      instance_variable_set(:"@#{controller_name.singularize}", @object) if @object
     end
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -388,7 +388,7 @@ class ApplicationController < ActionController::Base
       model_object = self.class._model_object
       instance = model_object.find(params[object_id])
       @project = instance.project
-      instance_variable_set("@#{model_object.to_s.underscore}", instance)
+      instance_variable_set(:"@#{model_object.to_s.underscore}", instance)
     else
       @project = Project.find(params[:project_id])
     end

@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-RSpec.describe 'hourly rates on user edit', js: true do
+RSpec.describe 'hourly rates on user edit', :js do
   let(:user) { create(:admin) }
 
   def view_rates
@@ -73,7 +73,7 @@ RSpec.describe 'hourly rates on user edit', js: true do
         expect(page).to have_text /rate history/i
         expect(page).to have_text I18n.t('no_results_title_text')
 
-        expect(page).not_to have_text 'Current rate'
+        expect(page).to have_no_text 'Current rate'
       end
     end
   end
@@ -98,8 +98,8 @@ RSpec.describe 'hourly rates on user edit', js: true do
 
       view_rates
 
-      expect(page).to have_selector('.currency', text: '1,00')
-      expect(page).to have_selector('.currency', text: '5,12')
+      expect(page).to have_css('.currency', text: '1,00')
+      expect(page).to have_css('.currency', text: '5,12')
     end
   end
 end

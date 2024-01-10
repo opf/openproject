@@ -103,7 +103,7 @@ RSpec.describe 'Invite user modal custom fields', :js, :with_cuprite do
       expect(page).to have_text "Multi list can't be blank."
 
       # Does not show the non req field
-      expect(page).not_to have_text non_req_cf.name
+      expect(page).to have_no_text non_req_cf.name
     end
 
     # Fill all fields

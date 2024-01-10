@@ -49,10 +49,17 @@ RSpec.shared_examples_for 'work package contract' do
   let!(:assignable_assignees_scope) do
     scope = double 'assignable assignees scope'
 
-    allow(Principal)
-      .to receive(:possible_assignee)
-      .with(work_package_project)
-      .and_return scope
+    if work_package.persisted?
+      allow(Principal)
+        .to receive(:possible_assignee)
+              .with(work_package)
+              .and_return scope
+    else
+      allow(Principal)
+        .to receive(:possible_assignee)
+              .with(work_package.project)
+              .and_return scope
+    end
 
     allow(scope)
       .to receive(:exists?) do |hash|
@@ -83,7 +90,7 @@ RSpec.shared_examples_for 'work package contract' do
       it 'is not a valid assignee' do
         error = I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                        property: I18n.t('attributes.assignee'))
-        expect(validated_contract.errors[:assigned_to]).to match_array [error]
+        expect(validated_contract.errors[:assigned_to]).to contain_exactly(error)
       end
     end
 
@@ -109,7 +116,7 @@ RSpec.shared_examples_for 'work package contract' do
       it 'is not a valid responsible' do
         error = I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                        property: I18n.t('attributes.responsible'))
-        expect(validated_contract.errors[:responsible]).to match_array [error]
+        expect(validated_contract.errors[:responsible]).to contain_exactly(error)
       end
     end
 

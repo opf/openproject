@@ -35,9 +35,9 @@ class WithConfig
 
   ##
   # We need this so calls to rspec mocks (allow, expect etc.) will work here as expected.
-  def method_missing(method, *args, &)
+  def method_missing(method, *, &)
     if context.respond_to?(method)
-      context.send(method, *args, &)
+      context.send(method, *, &)
     else
       super
     end

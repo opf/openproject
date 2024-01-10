@@ -101,7 +101,7 @@ module OpenProject::Bim::BcfXml
         .select(&:element?)
         .group_by(&:name)
 
-      sequence.reverse.each do |name|
+      sequence.reverse_each do |name|
         if children_with_name = children_by_name[name]
           children_with_name.each do |child|
             parent_node.delete child

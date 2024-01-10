@@ -625,7 +625,7 @@ RSpec.describe Journable::Timestamps do
           end
 
           it 'loads the custom_values relation with the historic values' do
-            expect(subject.send("custom_field_#{custom_field.id}"))
+            expect(subject.send(:"custom_field_#{custom_field.id}"))
               .to eq 'The custom field as it has been on Monday'
           end
         end

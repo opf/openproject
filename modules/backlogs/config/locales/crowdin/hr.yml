@@ -27,10 +27,6 @@ hr:
     attributes:
       work_package:
         position: "Pozicija"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
         story_points: "Točke priče"
         backlogs_work_package_type: "Backlog tip"
     errors:
@@ -68,8 +64,8 @@ hr:
     properties: "Postavke"
     rebuild: "Obnovi"
     rebuild_positions: "Obnovi pozicije"
-    remaining_hours: "Preostalo vrijeme"
-    remaining_hours_ideal: "Preostali vrijeme (idealno)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Burndown graf"
     story: "Scenarij"
     story_points: "Točke priče"
@@ -151,7 +147,7 @@ hr:
   rb_label_copy_tasks_none: "Nijedan"
   rb_label_copy_tasks_open: "Otvoren"
   rb_label_link_to_original: "Uključi poveznicu u orginalni scenarij"
-  remaining_hours: "preostali sati"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "potrebni burn omjer (sati)"
   required_burn_rate_points: "potrebni burn omjer (točke)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

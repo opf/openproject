@@ -175,7 +175,7 @@ RSpec.describe Storages::NextcloudStorage do
 
     context "with a new value of 'foo'" do
       it "sets the value to 'foo'" do
-        storage.public_send("#{attribute}=", 'foo')
+        storage.public_send(:"#{attribute}=", 'foo')
         expect(storage.public_send(attribute)).to eq('foo')
       end
     end

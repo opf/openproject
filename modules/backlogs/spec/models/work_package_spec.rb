@@ -33,7 +33,7 @@ RSpec.describe WorkPackage do
     it 'returns all the ids of types that are configures to be considered backlogs types' do
       allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [1], 'task_type' => 2 })
 
-      expect(described_class.backlogs_types).to match_array([1, 2])
+      expect(described_class.backlogs_types).to contain_exactly(1, 2)
     end
 
     it 'returns an empty array if nothing is defined' do
@@ -44,10 +44,10 @@ RSpec.describe WorkPackage do
 
     it 'reflects changes to the configuration' do
       allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [1], 'task_type' => 2 })
-      expect(described_class.backlogs_types).to match_array([1, 2])
+      expect(described_class.backlogs_types).to contain_exactly(1, 2)
 
       allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [3], 'task_type' => 4 })
-      expect(described_class.backlogs_types).to match_array([3, 4])
+      expect(described_class.backlogs_types).to contain_exactly(3, 4)
     end
   end
 

@@ -129,7 +129,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
       it 'consists of the parent' do
         expect(WorkPackage.for_scheduling([origin]))
-          .to match_array([parent])
+          .to contain_exactly(parent)
       end
     end
 
@@ -138,7 +138,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
       it 'consists of the successor' do
         expect(WorkPackage.for_scheduling([origin]))
-          .to match_array([successor])
+          .to contain_exactly(successor)
       end
     end
 
@@ -166,7 +166,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       context 'with all scheduled automatically' do
         it 'consists of the successor, its child and parent' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([successor, successor_child, successor_parent])
+            .to contain_exactly(successor, successor_child, successor_parent)
         end
       end
 
@@ -188,7 +188,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
         it 'consists of the successor and its child' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([successor, successor_child])
+            .to contain_exactly(successor, successor_child)
         end
       end
 
@@ -214,7 +214,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       context 'with all scheduled automatically' do
         it 'consists of the successor, its child and parent and the successor successor' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([successor, successor_child, successor_parent, successor_successor])
+            .to contain_exactly(successor, successor_child, successor_parent, successor_successor)
         end
       end
 
@@ -225,7 +225,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
         it 'consists of the successor, its child and successor successor' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([successor, successor_child, successor_successor])
+            .to contain_exactly(successor, successor_child, successor_successor)
         end
       end
 
@@ -251,7 +251,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       context 'with all scheduled automatically' do
         it 'consists of the successor, its child and parent' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([successor, successor_parent])
+            .to contain_exactly(successor, successor_parent)
         end
       end
 
@@ -273,7 +273,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
         it 'consists of the successor' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([successor])
+            .to contain_exactly(successor)
         end
       end
 
@@ -296,7 +296,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       context 'with all scheduled automatically' do
         it 'consists of the successor, its child and the successor˚s successor' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([successor, successor_child, successor_child2, successor_successor])
+            .to contain_exactly(successor, successor_child, successor_child2, successor_successor)
         end
       end
 
@@ -307,7 +307,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
         it 'consists of the successor, its automatically scheduled child and the successor˚s successor' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([successor_child, successor, successor_successor])
+            .to contain_exactly(successor_child, successor, successor_successor)
         end
       end
 
@@ -329,7 +329,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
       it 'consists of the parent, grandparent' do
         expect(WorkPackage.for_scheduling([origin]))
-          .to match_array([parent, grandparent])
+          .to contain_exactly(parent, grandparent)
       end
     end
 
@@ -338,7 +338,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
       it 'consists of the parent, parent successor' do
         expect(WorkPackage.for_scheduling([origin]))
-          .to match_array([parent, parent_successor])
+          .to contain_exactly(parent, parent_successor)
       end
     end
 
@@ -348,7 +348,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       context 'with all scheduled automatically' do
         it 'consists of the parent, self and the whole parent successor hierarchy' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([parent, parent_successor, parent_successor_parent, parent_successor_child])
+            .to contain_exactly(parent, parent_successor, parent_successor_parent, parent_successor_child)
         end
       end
 
@@ -359,7 +359,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
         it 'consists of the parent' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([parent])
+            .to contain_exactly(parent)
         end
       end
 
@@ -381,7 +381,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
         it 'contains the parent and self' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([parent])
+            .to contain_exactly(parent)
         end
       end
     end
@@ -392,7 +392,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       context 'with all scheduled automatically' do
         it 'consists of both successors' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([successor, successor_successor])
+            .to contain_exactly(successor, successor_successor)
         end
       end
 
@@ -414,7 +414,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
         it 'contains the successor' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([successor])
+            .to contain_exactly(successor)
         end
       end
     end
@@ -425,7 +425,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       context 'with all scheduled automatically' do
         it 'consists of both successors' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([successor, successor_child, successor_grandchild])
+            .to contain_exactly(successor, successor_child, successor_grandchild)
         end
       end
 
@@ -436,7 +436,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
         it 'contains the successor' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array [successor]
+            .to contain_exactly(successor)
         end
       end
     end
@@ -451,7 +451,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
       context 'with all scheduled automatically' do
         it 'consists of the successor with its descendants' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([successor, successor_child, successor_grandchild, successor_grandchild2])
+            .to contain_exactly(successor, successor_child, successor_grandchild, successor_grandchild2)
         end
       end
 
@@ -462,7 +462,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
         it 'contains the successor and the non automatically scheduled descendants' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([successor, successor_child, successor_grandchild2])
+            .to contain_exactly(successor, successor_child, successor_grandchild2)
         end
       end
 
@@ -474,7 +474,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
         it 'includes successor' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array([successor])
+            .to contain_exactly(successor)
         end
       end
 
@@ -498,7 +498,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
         it 'contains the successor' do
           expect(WorkPackage.for_scheduling([origin]))
-            .to match_array [successor]
+            .to contain_exactly(successor)
         end
       end
     end
@@ -515,7 +515,7 @@ RSpec.describe WorkPackages::Scopes::ForScheduling, 'allowed scope' do
 
       it 'contains the successor and the parents but not the siblings' do
         expect(WorkPackage.for_scheduling([origin]))
-          .to match_array([successor, parent, successor_parent])
+          .to contain_exactly(successor, parent, successor_parent)
       end
     end
   end

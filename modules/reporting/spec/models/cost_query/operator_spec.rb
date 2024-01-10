@@ -28,7 +28,7 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
-RSpec.describe CostQuery, reporting_query_helper: true do
+RSpec.describe CostQuery, :reporting_query_helper do
   minimal_query
 
   let!(:project1) { create(:project, name: "project1", created_at: 5.minutes.ago) }
@@ -261,7 +261,7 @@ RSpec.describe CostQuery, reporting_query_helper: true do
 
     # y/n seem are for filtering overridden costs
     it "does y" do
-      expect(query_on_entries('overridden_costs', 'y').size).to eq(Entry.all.count { |e| !(e.overridden_costs.nil?) })
+      expect(query_on_entries('overridden_costs', 'y').size).to eq(Entry.all.count { |e| !e.overridden_costs.nil? })
     end
 
     it "does n" do

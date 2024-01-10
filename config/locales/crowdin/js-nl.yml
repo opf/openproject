@@ -521,6 +521,7 @@ nl:
     label_watcher_added_successfully: "Toezichthouder succesvol toegevoegd!"
     label_watcher_deleted_successfully: "Toezichthouder succesvol verwijderd!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Niet meer volgen"
     label_unwatch_work_package: "Stop met het bekijken van werkpakket"
     label_uploaded_by: "Geüpload door"
@@ -832,6 +833,7 @@ nl:
       toggle_description: "Wissel de relatie beschrijving"
       update_relation: "Klik op het type relatie wijzigen"
       add_follower: "Volgeling toevoegen"
+      show_relations: "Show relations"
       add_predecessor: "Toevoegen van de voorganger"
       remove: "Relatie verwijderen"
       save: "Sla relatie op"
@@ -982,6 +984,7 @@ nl:
         updatedAt: "Bijgewerkt op"
         versionName: "Versie"
         version: "Versie"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Laatste Activiteit"
         created_by_me: "Gemaakt door mijzelf"

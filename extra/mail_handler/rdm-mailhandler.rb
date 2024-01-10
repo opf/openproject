@@ -132,7 +132,8 @@ class RedmineMailHandler
       when '--verbose'
         self.verbose = true
       when '--version'
-        puts VERSION; exit
+        puts VERSION
+        exit
       when '--project', '--status', '--type', '--category', '--priority'
         issue_attributes[opt.gsub(%r{^--}, '')] = arg.dup
       when '--allow-override'

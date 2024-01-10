@@ -164,6 +164,10 @@ Rails/I18nLocaleAssignment:
   Exclude:
     - 'spec/**/*.rb'
 
+# Do not bother if `let` statements use an index in their name
+RSpec/IndexedLet:
+  Enabled: false
+
 # The http verbs in Rack::Test do not accept named parameters (params: params)
 Rails/HttpPositionalArguments:
   Exclude:

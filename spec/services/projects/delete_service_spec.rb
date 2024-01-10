@@ -48,7 +48,7 @@ RSpec.describe Projects::DeleteService, type: :model do
           .not_to have_received(:new)
       end
 
-      context 'when the file storages are involved', webmock: true do
+      context 'when the file storages are involved', :webmock do
         it 'removes any remote storages defined for the project' do
           storage = create(:nextcloud_storage)
           project_storage = create(:project_storage, project:, storage:)

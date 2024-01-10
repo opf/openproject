@@ -99,7 +99,7 @@ RSpec.describe Activities::ItemComponent, type: :component do
       render_inline(component)
 
       expect(component.project_suffix).to be_nil
-      expect(page).not_to have_css('.op-activity-list--item-title', text: '(Project: My project)')
+      expect(page).to have_no_css('.op-activity-list--item-title', text: '(Project: My project)')
     end
 
     it 'adds "(Subproject: ...)" suffix for activities of subprojects of the current project' do
@@ -118,7 +118,7 @@ RSpec.describe Activities::ItemComponent, type: :component do
       allow(event.journal).to receive(:details).and_return(i_do_not_have_a_formatter_associated: ['old', 'new'])
       render_inline(described_class.new(event:))
 
-      expect(page).not_to have_css('.op-activity-list--item-detail')
+      expect(page).to have_no_css('.op-activity-list--item-detail')
     end
   end
 

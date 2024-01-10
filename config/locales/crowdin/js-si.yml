@@ -521,6 +521,7 @@ si:
     label_watcher_added_successfully: "මුරකරු සාර්ථකව එකතු කළා!"
     label_watcher_deleted_successfully: "මුරකරු සාර්ථකව මකා දමන ලදි!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "අසන්න"
     label_unwatch_work_package: "වැඩ පැකේජය අසන්න"
     label_uploaded_by: "විසින් උඩුගත"
@@ -832,6 +833,7 @@ si:
       toggle_description: "සම්බන්ධතා විස්තරය ටොගල් කරන්න"
       update_relation: "සම්බන්ධතා වර්ගය වෙනස් කිරීමට ක්ලික් කරන්න"
       add_follower: "අනුගාමිකයෙක් එකතු කරන්න"
+      show_relations: "Show relations"
       add_predecessor: "පූර්වගාමියා එකතු කරන්න"
       remove: "සම්බන්ධතාවය ඉවත් කරන්න"
       save: "සම්බන්ධතාවය සුරකින්න"
@@ -982,6 +984,7 @@ si:
         updatedAt: "යාවත්කාලීන කරන ලදි"
         versionName: "අනුවාදය"
         version: "අනුවාදය"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "නවතම ක්රියාකාරකම්"
         created_by_me: "මා විසින් නිර්මාණය කරන ලදී"

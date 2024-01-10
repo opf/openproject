@@ -109,7 +109,7 @@ RSpec.describe 'Calendar sharing via ical', :js do
           page.click_button("Subscribe to calendar")
 
           # modal should not be shown
-          expect(page).not_to have_css('.spot-modal--header', text: "Subscribe to calendar")
+          expect(page).to have_no_css('.spot-modal--header', text: "Subscribe to calendar")
         end
       end
     end
@@ -155,7 +155,7 @@ RSpec.describe 'Calendar sharing via ical', :js do
           page.click_button("Subscribe to calendar")
 
           # modal should not be shown
-          expect(page).not_to have_css('.spot-modal--header', text: "Subscribe to calendar")
+          expect(page).to have_no_css('.spot-modal--header', text: "Subscribe to calendar")
         end
       end
     end
@@ -199,7 +199,7 @@ RSpec.describe 'Calendar sharing via ical', :js do
 
         click_button "Cancel"
 
-        expect(page).not_to have_css('.spot-modal--header', text: "Subscribe to calendar")
+        expect(page).to have_no_css('.spot-modal--header', text: "Subscribe to calendar")
       end
 
       it 'successfully requests a new tokenized iCalendar URL when a unique name is provided' do
@@ -210,7 +210,7 @@ RSpec.describe 'Calendar sharing via ical', :js do
         click_button "Copy URL"
 
         # implicitly testing for success -> modal is closed and fallback message is shown
-        expect(page).not_to have_css('.spot-modal--header', text: "Subscribe to calendar")
+        expect(page).to have_no_css('.spot-modal--header', text: "Subscribe to calendar")
         expect(page).to have_content("/projects/#{saved_query.project.id}/calendars/#{saved_query.id}/ical?ical_token=")
 
         # explictly testing for success message is not working in test env, probably
@@ -242,7 +242,7 @@ RSpec.describe 'Calendar sharing via ical', :js do
 
         click_button "Copy URL"
 
-        expect(page).not_to have_css('.spot-modal--header', text: "Subscribe to calendar")
+        expect(page).to have_no_css('.spot-modal--header', text: "Subscribe to calendar")
         expect(page).to have_content("/projects/#{saved_query.project.id}/calendars/#{saved_query.id}/ical?ical_token=")
 
         # do the same thing again, now expect validation error
@@ -309,7 +309,7 @@ RSpec.describe 'Calendar sharing via ical', :js do
         page.click_button("Subscribe to calendar")
 
         # modal should not be shown
-        expect(page).not_to have_css('.spot-modal--header', text: "Subscribe to calendar")
+        expect(page).to have_no_css('.spot-modal--header', text: "Subscribe to calendar")
       end
     end
   end

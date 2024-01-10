@@ -59,7 +59,7 @@ module ::OpenProject::Plugins
       # For that, search all gems with the group :opf_plugins
       def regenerate_angular_links
         all_frontend_plugins.tap do |plugins|
-          target_dir = Rails.root.join('frontend', 'src', 'app', 'features', 'plugins', 'linked')
+          target_dir = Rails.root.join("frontend/src/app/features/plugins/linked")
           puts "Cleaning linked target directory #{target_dir}"
 
           # Removing the current linked directory and recreate
@@ -103,7 +103,7 @@ module ::OpenProject::Plugins
       ##
       # Regenerate the frontend plugin module orchestrating the linked frontends
       def generate_plugin_module(plugins)
-        file_register = Rails.root.join('frontend', 'src', 'app', 'features', 'plugins', 'linked-plugins.module.ts')
+        file_register = Rails.root.join("frontend/src/app/features/plugins/linked-plugins.module.ts")
         template_file = File.read(File.expand_path('linked-plugins.module.ts.erb', __dir__))
         template = ::ERB.new template_file, trim_mode: '-'
 
@@ -116,7 +116,7 @@ module ::OpenProject::Plugins
       ##
       # Regenerate the frontend plugin sass files
       def generate_plugin_sass(plugins)
-        file_register = Rails.root.join('frontend', 'src', 'app', 'features', 'plugins', 'linked-plugins.styles.sass')
+        file_register = Rails.root.join("frontend/src/app/features/plugins/linked-plugins.styles.sass")
         template_file = File.read(File.expand_path('linked-plugins.styles.sass.erb', __dir__))
         template = ::ERB.new template_file, trim_mode: '-'
 

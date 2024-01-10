@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_model'
+require_relative 'shared_model'
 
 RSpec.describe Grids::Grid do
   let(:instance) { Grids::Grid.new column_count: 5, row_count: 5 }

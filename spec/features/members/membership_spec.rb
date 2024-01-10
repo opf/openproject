@@ -100,8 +100,8 @@ RSpec.describe 'Administrating memberships via the project settings', :js, :with
       expect(members_page.contents('status', raw: true)).to eq %w(invited active active)
 
       # Cannot sort by group, roles or status
-      expect(page).not_to have_selector('.generic-table--sort-header a', text: 'ROLES')
-      expect(page).not_to have_selector('.generic-table--sort-header a', text: 'GROUP')
+      expect(page).to have_no_css('.generic-table--sort-header a', text: 'ROLES')
+      expect(page).to have_no_css('.generic-table--sort-header a', text: 'GROUP')
     end
 
     it 'navigating the menu' do
@@ -143,7 +143,7 @@ RSpec.describe 'Administrating memberships via the project settings', :js, :with
     members_page.add_user! 'A-Team', as: 'Manager'
 
     expect(members_page).to have_added_group('A-Team')
-    expect(page).to have_selector '.op-avatar_group'
+    expect(page).to have_css '.op-avatar_group'
     SeleniumHubWaiter.wait
 
     members_page.remove_group! 'A-Team'
@@ -155,7 +155,7 @@ RSpec.describe 'Administrating memberships via the project settings', :js, :with
     members_page.add_user! 'Hannibal Smith', as: 'Manager'
 
     expect(members_page).to have_added_user 'Hannibal Smith'
-    expect(page).to have_selector '.op-avatar_user'
+    expect(page).to have_css '.op-avatar_user'
 
     SeleniumHubWaiter.wait
     members_page.remove_user! 'Hannibal Smith'
@@ -167,7 +167,7 @@ RSpec.describe 'Administrating memberships via the project settings', :js, :with
     members_page.add_user! developer_placeholder.name, as: developer.name
 
     expect(members_page).to have_added_user developer_placeholder.name
-    expect(page).to have_selector '.op-avatar_placeholder-user'
+    expect(page).to have_css '.op-avatar_placeholder-user'
 
     SeleniumHubWaiter.wait
     members_page.remove_user! developer_placeholder.name

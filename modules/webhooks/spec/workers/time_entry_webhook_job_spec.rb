@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe TimeEntryWebhookJob, type: :job, webmock: true do
+RSpec.describe TimeEntryWebhookJob, :webmock, type: :job do
   shared_let(:user) { create(:admin) }
   shared_let(:request_url) { "http://example.net/test/42" }
   shared_let(:time_entry) { create(:time_entry, hours: 10) }

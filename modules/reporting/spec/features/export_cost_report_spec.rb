@@ -29,7 +29,7 @@
 require_relative '../spec_helper'
 require_relative 'support/pages/cost_report_page'
 
-RSpec.describe "Cost reports XLS export", js: true do
+RSpec.describe "Cost reports XLS export", :js do
   shared_let(:project) { create(:project) }
   shared_let(:user) { create(:admin) }
   shared_let(:cost_type) { create(:cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps') }

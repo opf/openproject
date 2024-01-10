@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Closed status and version in full view', js: true do
+RSpec.describe 'Closed status and version in full view', :js do
   let(:type) { create(:type) }
   let(:status) { create(:closed_status) }
 
@@ -25,6 +25,6 @@ RSpec.describe 'Closed status and version in full view', js: true do
     wp_page.expect_and_dismiss_toaster type: :error,
                                        message: I18n.t('js.work_packages.message_work_package_status_blocked')
 
-    expect(page).to have_selector("#{test_selector('op-wp-status-button')} button[disabled]")
+    expect(page).to have_css("#{test_selector('op-wp-status-button')} button[disabled]")
   end
 end

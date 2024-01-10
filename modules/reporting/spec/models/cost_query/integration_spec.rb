@@ -28,7 +28,7 @@
 
 require File.expand_path("#{File.dirname(__FILE__)}/../../spec_helper")
 
-RSpec.describe CostQuery, reporting_query_helper: true do
+RSpec.describe CostQuery, :reporting_query_helper do
   minimal_query
 
   let!(:project1) { create(:project_with_types) }

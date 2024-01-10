@@ -295,9 +295,9 @@ module OpenProject::Plugins
 
       ##
       # Register a "cron"-like background job
-      def add_cron_jobs(&block)
+      def add_cron_jobs
         config.to_prepare do
-          Array(block.call).each do |clz|
+          Array(yield).each do |clz|
             ::Cron::CronJob.register!(clz.is_a?(Class) ? clz : clz.to_s.constantize)
           end
         end

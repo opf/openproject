@@ -345,7 +345,7 @@ class Notifications::CreateFromModelService
   end
 
   def strategy
-    @strategy ||= if self.class.const_defined?("#{resource.class}Strategy")
+    @strategy ||= if self.class.const_defined?(:"#{resource.class}Strategy")
                     "#{self.class}::#{resource.class}Strategy".constantize
                   end
   end

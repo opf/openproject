@@ -297,8 +297,8 @@ class MailHandler < ActionMailer::Base
   # Adds To and Cc as watchers of the given object if the sender has the
   # appropriate permission
   def add_watchers(obj)
-    if user.allowed_in_project?("add_#{obj.class.name.underscore}_watchers".to_sym, obj.project) ||
-       user.allowed_in_project?("add_#{obj.class.lookup_ancestors.last.name.underscore}_watchers".to_sym, obj.project)
+    if user.allowed_in_project?(:"add_#{obj.class.name.underscore}_watchers", obj.project) ||
+       user.allowed_in_project?(:"add_#{obj.class.lookup_ancestors.last.name.underscore}_watchers", obj.project)
       addresses = [email.to, email.cc].flatten.compact.uniq.map { |a| a.strip.downcase }
       unless addresses.empty?
         User

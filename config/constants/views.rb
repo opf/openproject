@@ -33,7 +33,7 @@ module Constants
               contract_strategy: nil)
         @registered ||= {}
 
-        @registered[canonical_type(type)] = { contract_strategy: contract_strategy }
+        @registered[canonical_type(type)] = { contract_strategy: }
       end
 
       def registered_types

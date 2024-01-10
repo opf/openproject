@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe "Workday notification settings", js: true, with_cuprite: true do
+RSpec.describe "Workday notification settings", :js, :with_cuprite do
   shared_examples 'workday settings' do
     before do
       current_user.language = locale

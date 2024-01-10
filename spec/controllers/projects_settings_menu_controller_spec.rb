@@ -67,7 +67,7 @@ RSpec.describe Projects::Settings::ModulesController, 'menu' do
     it do
       get('show', params:)
 
-      expect(response.body).not_to have_selector selector
+      expect(response.body).to have_no_selector selector
     end
   end
 

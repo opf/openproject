@@ -57,9 +57,6 @@ RSpec.describe VersionsController do
     @params = {}
     @params[:id] = version.id
     @params[:version] = { name: @newVersionName }
-  end
-
-  before do
     login_as current_user
   end
 

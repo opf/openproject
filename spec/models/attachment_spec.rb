@@ -68,7 +68,7 @@ RSpec.describe Attachment do
 
       it 'raises an error regarding description length' do
         expect(stubbed_attachment.errors[:description])
-          .to match_array [I18n.t('activerecord.errors.messages.too_long', count: 255)]
+          .to contain_exactly(I18n.t('activerecord.errors.messages.too_long', count: 255))
       end
     end
 
@@ -103,7 +103,7 @@ RSpec.describe Attachment do
         stubbed_attachment.valid?
 
         expect(stubbed_attachment.errors.symbols_for(:container))
-          .to match_array [:unchangeable]
+          .to contain_exactly(:unchangeable)
       end
     end
 
@@ -116,7 +116,7 @@ RSpec.describe Attachment do
         stubbed_attachment.valid?
 
         expect(stubbed_attachment.errors.symbols_for(:container))
-          .to match_array [:unchangeable]
+          .to contain_exactly(:unchangeable)
       end
     end
 
@@ -129,7 +129,7 @@ RSpec.describe Attachment do
         stubbed_attachment.valid?
 
         expect(stubbed_attachment.errors.symbols_for(:container))
-          .to match_array [:unchangeable]
+          .to contain_exactly(:unchangeable)
       end
     end
   end
@@ -210,7 +210,7 @@ RSpec.describe Attachment do
 
   # We just use with_direct_uploads here to make sure the
   # FogAttachment class is defined and Fog is mocked.
-  describe "#external_url", with_direct_uploads: true do
+  describe "#external_url", :with_direct_uploads do
     let(:author) { create(:user) }
 
     let(:image_path) { Rails.root.join("spec/fixtures/files/image.png") }

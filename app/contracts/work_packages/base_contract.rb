@@ -34,6 +34,7 @@ module WorkPackages
     attribute :subject
     attribute :description
     attribute :status_id,
+              permission: %i[edit_work_packages change_work_package_status],
               writable: ->(*) {
                 # If we did not change into the status,
                 # mark unwritable if status and version is closed
@@ -58,6 +59,10 @@ module WorkPackages
 
     attribute :estimated_hours
     attribute :derived_estimated_hours,
+              writable: false
+
+    attribute :remaining_hours
+    attribute :derived_remaining_hours,
               writable: false
 
     attribute :parent_id,
@@ -194,7 +199,9 @@ module WorkPackages
     end
 
     def assignable_assignees
-      if model.project
+      if model.persisted?
+        Principal.possible_assignee(model)
+      elsif model.project
         Principal.possible_assignee(model.project)
       else
         Principal.none

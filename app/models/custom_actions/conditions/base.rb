@@ -110,17 +110,17 @@ class CustomActions::Conditions::Base
   private_class_method :habtm_table
 
   def self.key_id
-    @key_id ||= "#{key}_id".to_sym
+    @key_id ||= :"#{key}_id"
   end
   private_class_method :key_id
 
   def self.association_key
-    "#{key}_conditions".to_sym
+    :"#{key}_conditions"
   end
   private_class_method :association_key
 
   def self.association_ids
-    "#{key}_condition_ids".to_sym
+    :"#{key}_condition_ids"
   end
   private_class_method :association_ids
 end

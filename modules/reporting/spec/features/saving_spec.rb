@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
-RSpec.describe 'Cost report saving', js: true do
+RSpec.describe 'Cost report saving', :js do
   let(:project) { create(:project) }
   let(:user) { create(:admin) }
 
@@ -21,9 +21,9 @@ RSpec.describe 'Cost report saving', js: true do
     report_page.save as: 'Testreport'
 
     # Check if the category is displayed
-    expect(page).to have_selector('.op-sidemenu--title', text: I18n.t(:label_private_report_plural).upcase)
+    expect(page).to have_css('.op-sidemenu--title', text: I18n.t(:label_private_report_plural).upcase)
     # Check if the new report is displayed
-    expect(page).to have_selector('.op-sidemenu--item-title', text: 'Testreport')
+    expect(page).to have_css('.op-sidemenu--item-title', text: 'Testreport')
 
     report_page.expect_column_element 'Work package'
     report_page.expect_row_element 'Project'
@@ -38,9 +38,9 @@ RSpec.describe 'Cost report saving', js: true do
     report_page.save as: 'Public report', public: true
 
     # Check if the category is displayed
-    expect(page).to have_selector('.op-sidemenu--title', text: I18n.t(:label_public_report_plural).upcase)
+    expect(page).to have_css('.op-sidemenu--title', text: I18n.t(:label_public_report_plural).upcase)
     # Check if the new report is displayed
-    expect(page).to have_selector('.op-sidemenu--item-title', text: 'Public report')
+    expect(page).to have_css('.op-sidemenu--item-title', text: 'Public report')
 
     report_page.expect_column_element 'Work package'
     report_page.expect_row_element 'Project'
@@ -54,7 +54,7 @@ RSpec.describe 'Cost report saving', js: true do
     end
 
     it 'cannot save reports' do
-      expect(page).not_to have_selector('.buttons', text: 'Save')
+      expect(page).to have_no_css('.buttons', text: 'Save')
     end
   end
 end

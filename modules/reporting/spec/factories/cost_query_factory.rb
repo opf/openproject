@@ -28,8 +28,8 @@
 
 FactoryBot.define do
   factory :cost_query do
-    association :user, factory: :user
-    association :project, factory: :project
+    association :user
+    association :project
     sequence(:name) { |n| "Cost Query #{n}" }
     factory :private_cost_query do
       is_public { false }

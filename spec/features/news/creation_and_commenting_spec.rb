@@ -70,7 +70,7 @@ RSpec.describe 'News creation and commenting', :js, :with_cuprite do
       .to eq 1
 
     expect(ActionMailer::Base.deliveries.last.to)
-      .to match_array [other_user.mail]
+      .to contain_exactly(other_user.mail)
 
     expect(ActionMailer::Base.deliveries.last.subject)
       .to include 'My new news'
@@ -93,7 +93,7 @@ RSpec.describe 'News creation and commenting', :js, :with_cuprite do
       .to eq 2
 
     expect(ActionMailer::Base.deliveries.last.to)
-      .to match_array [other_user.mail]
+      .to contain_exactly(other_user.mail)
 
     expect(ActionMailer::Base.deliveries.last.subject)
       .to include 'My new news'

@@ -5,7 +5,7 @@ require 'bigdecimal'
 module OpenProject::Bim
   module BcfJson
     class ViewpointReader
-      ROOT_NODE ||= 'VisualizationInfo'.freeze
+      ROOT_NODE ||= 'VisualizationInfo'
 
       attr_reader :uuid, :xml
 

@@ -67,7 +67,7 @@ RSpec.describe WorkPackage, 'custom_actions' do
 
       it 'returns the action' do
         expect(work_package.custom_actions(user))
-          .to match_array [custom_action]
+          .to contain_exactly(custom_action)
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe WorkPackage, 'custom_actions' do
 
         it 'returns the action' do
           expect(work_package.custom_actions(user))
-            .to match_array [custom_action]
+            .to contain_exactly(custom_action)
         end
       end
 
@@ -103,7 +103,7 @@ RSpec.describe WorkPackage, 'custom_actions' do
       context 'with the user having the same role' do
         it 'returns the action' do
           expect(work_package.custom_actions(user))
-            .to match_array [custom_action]
+            .to contain_exactly(custom_action)
         end
       end
 

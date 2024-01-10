@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Cost report showing my own times', js: true do
+RSpec.describe 'Cost report showing my own times', :js do
   let(:project) { create(:project) }
   let(:user) do
     create(:user, member_with_roles: { project => role })
@@ -38,9 +38,9 @@ RSpec.describe 'Cost report showing my own times', js: true do
     end
 
     within_window new_window do
-      expect(page).to have_selector('#query_saved_name', text: 'New cost report')
+      expect(page).to have_css('#query_saved_name', text: 'New cost report')
       expect(page).to have_field('values[work_package_id][]', with: work_package.id)
-      expect(page).to have_selector('td.units', text: '10.0 Foobars')
+      expect(page).to have_css('td.units', text: '10.0 Foobars')
     end
   end
 end

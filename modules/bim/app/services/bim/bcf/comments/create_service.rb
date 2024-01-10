@@ -39,7 +39,7 @@ module Bim::Bcf
         input = { journal: journal_call.result }
                   .merge(params)
                   .slice(*::Bim::Bcf::Comment::CREATE_ATTRIBUTES)
-        super input, service_result
+        super(input, service_result)
       end
 
       def create_journal(work_package, comment)

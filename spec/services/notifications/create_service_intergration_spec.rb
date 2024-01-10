@@ -82,7 +82,7 @@ RSpec.describe Notifications::CreateService, 'integration', type: :model do
           .to be_failure
 
         expect(service_result.errors.details[:journal_id])
-          .to match_array [{ error: :does_not_exist }]
+          .to contain_exactly({ error: :does_not_exist })
       end
     end
   end

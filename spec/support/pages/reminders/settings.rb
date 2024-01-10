@@ -70,9 +70,9 @@ module Pages
 
       def expect_immediate_reminder(name, enabled)
         if enabled
-          expect(page).to have_selector("input[data-qa-immediate-reminder='#{name}']:checked")
+          expect(page).to have_css("input[data-qa-immediate-reminder='#{name}']:checked")
         else
-          expect(page).to have_selector("input[data-qa-immediate-reminder='#{name}']:not(:checked)")
+          expect(page).to have_css("input[data-qa-immediate-reminder='#{name}']:not(:checked)")
         end
       end
 
@@ -112,12 +112,12 @@ module Pages
         if paused
           expect(page).to have_checked_field 'Temporarily pause daily email reminders'
         else
-          expect(page).not_to have_checked_field 'Temporarily pause daily email reminders'
+          expect(page).to have_no_checked_field 'Temporarily pause daily email reminders'
         end
 
         if first && last
-          expect(page).to have_selector('[data-test-selector="op-basic-range-date-picker"]',
-                                        value: "#{first.iso8601} - #{last.iso8601}")
+          expect(page).to have_css('[data-test-selector="op-basic-range-date-picker"]',
+                                   value: "#{first.iso8601} - #{last.iso8601}")
         end
       end
 

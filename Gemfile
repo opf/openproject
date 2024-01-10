@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby file: '.ruby-version'
+ruby '3.2.2'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -79,7 +79,7 @@ gem 'htmldiff'
 gem 'stringex', '~> 2.8.5'
 
 # CommonMark markdown parser with GFM extension
-gem 'commonmarker', '~> 0.23.9'
+gem 'commonmarker', '~> 1.0.3'
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -152,7 +152,7 @@ gem 'structured_warnings', '~> 0.4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 13.0.0', require: false
 
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: 'cc286655dfa2ea2b30bf2a149063f42f7081aa3d'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: 'bbda8ad0054d465eec01c23fcab5c6d62c7baa44'
 gem 'prawn', '~> 2.4'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
@@ -174,7 +174,7 @@ gem 'rails-i18n', '~> 7.0.0'
 gem 'sprockets', '~> 3.7.2' # lock sprockets below 4.0
 gem 'sprockets-rails', '~> 3.4.2'
 
-gem 'puma', '~> 6.3', '>= 6.3.1'
+gem 'puma', '~> 6.4'
 gem 'puma-plugin-statsd', '~> 2.0'
 gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
 

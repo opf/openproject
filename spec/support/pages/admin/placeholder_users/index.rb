@@ -53,10 +53,10 @@ module Pages
 
         def expect_non_listed
           expect(page)
-            .not_to have_selector('tr.placeholder-user')
+            .to have_no_css('tr.placeholder-user')
 
           expect(page)
-            .to have_selector('tr.generic-table--empty-row', text: 'There is currently nothing to display.')
+            .to have_css('tr.generic-table--empty-row', text: 'There is currently nothing to display.')
         end
 
         def filter_by_name(value)
@@ -75,18 +75,18 @@ module Pages
         end
 
         def expect_no_delete_button_for_all_rows
-          expect(page).to have_selector('i.icon-help2')
+          expect(page).to have_css('i.icon-help2')
         end
 
         def expect_no_delete_button(placeholder_user)
           within_placeholder_user_row(placeholder_user) do
-            expect(page).to have_selector('i.icon-help2')
+            expect(page).to have_css('i.icon-help2')
           end
         end
 
         def expect_delete_button(placeholder_user)
           within_placeholder_user_row(placeholder_user) do
-            expect(page).to have_selector('i.icon-delete')
+            expect(page).to have_css('i.icon-delete')
           end
         end
 

@@ -27,9 +27,9 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_context'
+require_relative 'shared_context'
 
-RSpec.describe 'Team planner split view navigation', js: true, with_ee: %i[team_planner_view] do
+RSpec.describe 'Team planner split view navigation', :js, with_ee: %i[team_planner_view] do
   include_context 'with team planner full access'
 
   let!(:view) { create(:view_team_planner, query:) }
@@ -66,7 +66,7 @@ RSpec.describe 'Team planner split view navigation', js: true, with_ee: %i[team_
 
     # Expect clicking on a work package does not open the details
     page.find_test_selector('op-wp-single-card--content-subject', text: work_package1.subject).click
-    expect(page).not_to have_current_path /team_planners\/new\/details\/#{work_package1.id}/
+    expect(page).to have_no_current_path /team_planners\/new\/details\/#{work_package1.id}/
 
     # Open split view through info icon
     split_view = team_planner.open_split_view_by_info_icon work_package1

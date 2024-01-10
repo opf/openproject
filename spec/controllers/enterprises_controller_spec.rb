@@ -119,7 +119,7 @@ RSpec.describe EnterprisesController do
 
         it 'still renders #show with form' do
           expect(response).not_to render_template partial: 'enterprises/_current'
-          expect(response.body).to have_selector '.upsale-benefits'
+          expect(response.body).to have_css '.upsale-benefits'
         end
       end
     end

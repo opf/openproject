@@ -324,9 +324,8 @@ RSpec.describe MailHandler do
   end
 
   shared_context 'with a new work package with attachment' do
-    # The edit_work_packages is currently wrongfully needed as the work package
-    # is created first and only then the attachment is added.
-    let(:permissions) { %i[add_work_packages edit_work_packages] }
+    # The work package is created first and only then the attachment is added.
+    let(:permissions) { %i[add_work_packages add_work_package_attachments] }
     let!(:user) do
       create(:user,
              mail: 'JSmith@somenet.foo',
@@ -342,9 +341,8 @@ RSpec.describe MailHandler do
   end
 
   shared_context 'with a new work package with attachment in apple format' do
-    # The edit_work_packages is currently wrongfully needed as the work package
-    # is created first and only then the attachment is added.
-    let(:permissions) { %i[add_work_packages edit_work_packages] }
+    # The work package is created first and only then the attachment is added.
+    let(:permissions) { %i[add_work_packages add_work_package_attachments] }
     let!(:user) do
       create(:user,
              mail: 'JSmith@somenet.foo',

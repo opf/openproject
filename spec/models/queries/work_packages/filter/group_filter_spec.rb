@@ -63,7 +63,7 @@ RSpec.describe Queries::WorkPackages::Filter::GroupFilter do
 
       it 'is an array of group values' do
         expect(instance.allowed_values)
-          .to match_array [[group.name, group.id.to_s]]
+          .to contain_exactly([group.name, group.id.to_s])
       end
     end
 
@@ -87,7 +87,7 @@ RSpec.describe Queries::WorkPackages::Filter::GroupFilter do
 
       it 'returns an array of groups' do
         expect(instance.value_objects)
-          .to match_array([group2])
+          .to contain_exactly(group2)
       end
     end
   end

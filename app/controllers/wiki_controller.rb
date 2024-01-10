@@ -336,7 +336,7 @@ class WikiController < ApplicationController
     default_item = default_menu_item(page)
     return unless default_item
 
-    "no-menu-item-#{default_item.menu_identifier}".to_sym
+    :"no-menu-item-#{default_item.menu_identifier}"
   end
 
   private

@@ -84,8 +84,8 @@ RSpec.describe 'Work package filtering by id', :js do
 
   it 'can still inline create a new work package (regression #41667)' do
     wp_table.click_inline_create
-    expect(page).to have_selector('.wp--row', count: 2)
+    expect(page).to have_css('.wp--row', count: 2)
 
-    expect(page).to have_selector('.wp-inline-create-row')
+    expect(page).to have_css('.wp-inline-create-row')
   end
 end

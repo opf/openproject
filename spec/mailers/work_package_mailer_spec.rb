@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_examples'
+require_relative 'shared_examples'
 
 RSpec.describe WorkPackageMailer do
   include OpenProject::ObjectLinking
@@ -63,7 +63,7 @@ RSpec.describe WorkPackageMailer do
 
     it 'is sent to the recipient' do
       expect(mail.to)
-        .to match_array([recipient.mail])
+        .to contain_exactly(recipient.mail)
     end
 
     it 'has a project header' do

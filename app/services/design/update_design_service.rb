@@ -83,7 +83,7 @@ module Design
     end
 
     def custom_style
-      @custom_style ||= (CustomStyle.current || CustomStyle.create!)
+      @custom_style ||= CustomStyle.current || CustomStyle.create!
     end
   end
 end

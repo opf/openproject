@@ -1,7 +1,7 @@
 require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 
-RSpec.describe 'Cost report calculations', js: true do
+RSpec.describe 'Cost report calculations', :js do
   let(:project) { create(:project) }
   let(:admin) { create(:admin) }
 
@@ -86,7 +86,7 @@ RSpec.describe 'Cost report calculations', js: true do
       expect(page).to have_content '5.00 hours'
       expect(page).to have_content '10.00 hours'
       report_page.switch_to_type 'Translations'
-      expect(page).to have_selector('td.units', text: '3.0 plural_unit', wait: 10)
+      expect(page).to have_css('td.units', text: '3.0 plural_unit', wait: 10)
     end
   end
 
@@ -107,9 +107,9 @@ RSpec.describe 'Cost report calculations', js: true do
 
     it 'shows his own costs' do
       expect(page).to have_content '5.00 hours'
-      expect(page).not_to have_content '10.00 hours'
+      expect(page).to have_no_content '10.00 hours'
       report_page.switch_to_type 'Translations'
-      expect(page).to have_selector('td.units', text: '3.0 plural_unit', wait: 10)
+      expect(page).to have_css('td.units', text: '3.0 plural_unit', wait: 10)
     end
   end
 
@@ -121,11 +121,11 @@ RSpec.describe 'Cost report calculations', js: true do
 
     it 'shows his own time only' do
       expect(page).to have_content '5.00 hours'
-      expect(page).not_to have_content '10.00 hours'
+      expect(page).to have_no_content '10.00 hours'
 
       report_page.switch_to_type 'Translations'
-      expect(page).to have_selector('.generic-table--no-results-title')
-      expect(page).not_to have_selector('td.unit', text: '3.0 plural_unit')
+      expect(page).to have_css('.generic-table--no-results-title')
+      expect(page).to have_no_css('td.unit', text: '3.0 plural_unit')
     end
   end
 
@@ -136,11 +136,11 @@ RSpec.describe 'Cost report calculations', js: true do
     end
 
     it 'shows his own costs' do
-      expect(page).to have_selector('.generic-table--no-results-title')
-      expect(page).not_to have_content '5.00 hours'
-      expect(page).not_to have_content '10.00 hours'
+      expect(page).to have_css('.generic-table--no-results-title')
+      expect(page).to have_no_content '5.00 hours'
+      expect(page).to have_no_content '10.00 hours'
       report_page.switch_to_type 'Translations'
-      expect(page).not_to have_selector('td.unit', text: '3.0 plural_unit')
+      expect(page).to have_no_css('td.unit', text: '3.0 plural_unit')
     end
   end
 end

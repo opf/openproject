@@ -37,7 +37,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             caption: I18n.t('label_projects_menu'),
             icon: 'projects',
             if: Proc.new {
-              (User.current.logged? || !Setting.login_required?)
+              User.current.logged? || !Setting.login_required?
             }
 
   menu.push :activity,
@@ -139,13 +139,13 @@ Redmine::MenuManager.map :global_menu do |menu|
             icon: 'projects',
             after: :home,
             if: Proc.new {
-              (User.current.logged? || !Setting.login_required?)
+              User.current.logged? || !Setting.login_required?
             }
 
   menu.push :projects_query_select,
             { controller: '/projects', project_id: nil, action: 'index' },
             parent: :projects,
-            partial: 'projects/menu_query_select'
+            partial: 'projects/menus/menu'
 
   # Activity
   menu.push :activity,

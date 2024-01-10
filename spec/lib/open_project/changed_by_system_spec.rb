@@ -43,7 +43,7 @@ RSpec.describe OpenProject::ChangedBySystem do
 
       it 'returns the attribute' do
         expect(model.changed_by_user)
-          .to match_array ['title']
+          .to contain_exactly('title')
       end
     end
 
@@ -71,7 +71,7 @@ RSpec.describe OpenProject::ChangedBySystem do
 
       it 'returns the attribute' do
         expect(model.changed_by_user)
-          .to match_array ['title']
+          .to contain_exactly('title')
       end
     end
 

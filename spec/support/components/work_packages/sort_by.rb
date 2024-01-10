@@ -70,7 +70,7 @@ module Components
           .each_with_index do |entry, i|
           column, direction = entry
           page.within(".modal-sorting-row-#{i}") do
-            expect(page).to have_selector("#modal-sorting-attribute-#{i} option", text: column)
+            expect(page).to have_css("#modal-sorting-attribute-#{i} option", text: column)
             checked_radio = (descending?(direction) ? 'Descending' : 'Ascending')
             expect(page.find_field(checked_radio)).to be_checked
           end

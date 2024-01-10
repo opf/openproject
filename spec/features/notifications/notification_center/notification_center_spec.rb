@@ -58,7 +58,7 @@ RSpec.describe "Notification center", :js, :with_cuprite,
   describe 'notification for a new journal' do
     current_user { recipient }
 
-    it 'will not show all details of the journal' do
+    it 'does not show all details of the journal' do
       visit home_path
       wait_for_reload
       center.expect_bell_count 2

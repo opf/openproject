@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Toggle watching', js: true do
+RSpec.describe 'Toggle watching', :js do
   let(:project) { create(:project) }
   let(:role) { create(:project_role, permissions: %i[view_messages view_wiki_pages]) }
   let(:user) { create(:user, member_with_roles: { project => role }) }

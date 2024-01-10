@@ -47,7 +47,7 @@ RSpec.describe 'BCF XML API v1 bcf_xml resource' do
   let(:filename) { 'MaximumInformation.bcf' }
   let(:bcf_xml_file) do
     Rack::Test::UploadedFile.new(
-      File.join(Rails.root, "modules/bim/spec/fixtures/files/#{filename}"),
+      Rails.root.join("modules/bim/spec/fixtures/files/#{filename}").to_s,
       'application/octet-stream'
     )
   end

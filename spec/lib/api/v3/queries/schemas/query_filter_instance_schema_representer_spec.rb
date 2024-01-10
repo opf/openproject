@@ -226,10 +226,6 @@ RSpec.describe API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter d
                 form_embedded:)
           .and_return(dependency)
       end
-    end
-
-    before do
-      # fill the cache
       instance.to_json
     end
 

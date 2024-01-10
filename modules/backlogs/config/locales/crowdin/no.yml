@@ -27,10 +27,6 @@
     attributes:
       work_package:
         position: "Plassering"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
         story_points: "Historiepoeng"
         backlogs_work_package_type: "Backlog-type"
     errors:
@@ -68,8 +64,8 @@
     properties: "Egenskaper"
     rebuild: "Gjenoppbygg"
     rebuild_positions: "Gjenoppbygg posisjoner"
-    remaining_hours: "Gjenstående timer"
-    remaining_hours_ideal: "Gjenstående timer (ideell)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Burndown-graf"
     story: "Historie"
     story_points: "Historiepoeng"
@@ -151,7 +147,7 @@
   rb_label_copy_tasks_none: "Ingen"
   rb_label_copy_tasks_open: "Åpne"
   rb_label_link_to_original: "Inkluder lenke til den originale historien"
-  remaining_hours: "Gjenstående timer"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "Nødvendig brennetid (timer)"
   required_burn_rate_points: "Nødvendig brennetid (poeng)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Default work package queries', js: true do
+RSpec.describe 'Default work package queries', :js do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:user) { create(:admin) }

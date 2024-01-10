@@ -281,13 +281,13 @@ ru:
     invite_by_mail: "Отправить приглашение на %{mail}"
     send_invite_to: "Отправить приглашение"
     filters:
-      all_shares: 'All shares'
+      all_shares: 'Все используемое совместно'
     menu:
       all: 'Все'
       invited: 'Приглашённые'
       locked: 'Заблокировано'
       project_roles: 'Роли проекта'
-      wp_shares: 'Work package shares'
+      wp_shares: 'Пакеты работ используемые совместно'
       groups: 'Группы'
   my:
     access_token:
@@ -411,7 +411,7 @@ ru:
     sharing:
       missing_workflow_waring:
         title: "Отсутствует рабочий процесс для совместного использования пакета работ"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        message: "Рабочий процесс не настроен для роли 'Редактора пакетов работ'. Без рабочего процесса, общий с пользователем не может изменить статус рабочего пакета. Рабочие процессы могут быть скопированы. Выберите исходный тип (например, «Задача») и исходную роль (например, «Участник»). Затем выберите нужные типы. Чтобы начать, можно выбрать все типы в качестве целей. Наконец, выберите роль 'Редактор пакетов работ' в качестве цели и нажмите 'Копировать'. После создания таким образом по умолчанию, тонкая настройка рабочих процессов как вы делаете для каждой другой роли."
         link_message: "Настройка рабочих процессов в администрации."
     summary:
       reports:
@@ -616,6 +616,8 @@ ru:
         begin_insertion: "Начало вставки"
         begin_deletion: "Начало удаления"
         children: "Вложенные элементы"
+        derived_remaining_hours: "Производная оставшаяся работа"
+        derived_remaining_time: "Производная оставшаяся работа"
         done_ratio: "% Завершено"
         duration: "Продолжительность"
         end_insertion: "Завершение вставки"
@@ -632,6 +634,8 @@ ru:
         priority: "Приоритет"
         progress: "% Завершено"
         readonly: "Только для чтения"
+        remaining_hours: "Оставшаяся работа"
+        remaining_time: "Оставшаяся работа"
         schedule_manually: "Ручное планирование"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"
@@ -1447,7 +1451,7 @@ ru:
   error_pdf_export_too_many_columns: "Для экспорта в PDF-файл выбрано слишком много столбцов. Пожалуйста, сократите количество столбцов."
   error_pdf_failed_to_export: "Не удалось сохранить экспорт в PDF: %{error}"
   error_token_authenticity: "Не удалось проверить CSRF-токен. Возможно, вы попытались отправить данные сразу из нескольких браузеров или вкладок. Закройте все вкладки и попробуйте снова."
-  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
+  error_work_package_done_ratios_not_updated: "% пакета работ Полные значения не обновлены."
   error_work_package_not_found_in_project: "Пакет работ не найден или не принадлежит к этому проекту"
   error_must_be_project_member: "должен быть участник проекта"
   error_migrations_are_pending: "Ваша версия OpenProject находится в ожидании миграции базы данных. Вероятно, вы пропустили запуск миграции при во время последнего обновления. Пожалуйста, ознакомьтесь с руководством по обновлению, чтобы правильно настроить вашу новую установку."
@@ -2127,7 +2131,7 @@ ru:
   label_type_new: "Новый тип"
   label_type_plural: "Типы"
   label_ui: "Интерфейс пользователя"
-  label_update_work_package_done_ratios: "Update work package % Complete values"
+  label_update_work_package_done_ratios: "Обновить пакет работ % окончательные значения"
   label_updated_time: "Обновлено %{value} назад"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Обновил %{author} %{age} назад"
@@ -2285,9 +2289,9 @@ ru:
     sharing:
       work_packages:
         allowed_actions: "Вы можете %{allowed_actions} этот пакет работ. Это может измениться в зависимости от роли и разрешений вашего проекта."
-        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
+        create_account: "Для доступа к этому пакету работ необходимо создать и активировать учетную запись на %{instance}."
         open_work_package: "Открыть пакет работ"
-        subject: "Work package #%{id} was shared with you"
+        subject: "Пакет работ #%{id} был разделен с вами"
         enterprise_text: "Поделитесь пакетами работ с пользователями, не являющимися участниками проекта."
         summary:
           user: ""
@@ -2474,6 +2478,8 @@ ru:
   permission_assign_versions: "Назначить версии"
   permission_browse_repository: "Возможность только чтения из репозитория (просмотр и проверка)"
   permission_change_wiki_parent_page: "Смена родительской wiki-страницы"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Комментировать новость"
   permission_commit_access: "Возможность чтения/записи в репозиторий (commit)"
   permission_copy_projects: "Копировать проект"
@@ -2764,10 +2770,10 @@ ru:
   setting_file_max_size_displayed: "Максимальная длина  строки текстовых файлов"
   setting_host_name: "Имя компьютера в сети"
   setting_invitation_expiration_days: "Действие письма активации истекает после"
-  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio: "Расчет пакета работ % завершен с помощью"
   setting_work_package_done_ratio_field: "Поле пакета работ"
   setting_work_package_done_ratio_status: "Статус пакета работ"
-  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
+  setting_work_package_done_ratio_disabled: "Отключить (скрыть % заполненное поле)"
   setting_work_package_list_default_columns: "Отображать по умолчанию"
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"
@@ -3206,7 +3212,7 @@ ru:
         unsupported_context: "Ресурс не поддерживается как контекст."
         context_object_not_found: "Не удается найти ресурс заданный как контекст."
       validation:
-        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
+        done_ratio: "% законченный не может быть установлен в родительских пакетах работ, когда он устанавливается по статусу или когда он отключен."
         due_date: "Дату окончания нельзя задать на родительских пакетах работ."
         estimated_hours: "Работа не может быть установлена на родительская" #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Выбранный пользователь не может быть «%{property}» для этого пакета работ."

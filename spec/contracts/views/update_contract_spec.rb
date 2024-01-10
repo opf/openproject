@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_contract_examples'
+require_relative 'shared_contract_examples'
 
 RSpec.describe Views::UpdateContract do
   # TODO: this is just a stub to ensure that the type is not altered

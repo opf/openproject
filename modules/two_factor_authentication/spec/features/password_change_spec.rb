@@ -1,11 +1,10 @@
 require_relative '../spec_helper'
 
-RSpec.describe 'Password change with OTP',
-               js: true, with_settings: {
-                 plugin_openproject_two_factor_authentication: {
-                   'active_strategies' => [:developer]
-                 }
-               } do
+RSpec.describe 'Password change with OTP', :js, with_settings: {
+  plugin_openproject_two_factor_authentication: {
+    'active_strategies' => [:developer]
+  }
+} do
   let(:user_password) { 'boB&' * 4 }
   let(:new_user_password) { '%obB' * 4 }
   let(:user) do
@@ -32,7 +31,7 @@ RSpec.describe 'Password change with OTP',
     end
     # rubocop:enable RSpec/AnyInstance
 
-    expect(page).to have_selector('h2', text: I18n.t(:button_change_password))
+    expect(page).to have_css('h2', text: I18n.t(:button_change_password))
     within('#content') do
       SeleniumHubWaiter.wait
       fill_in('password', with: user_password)
@@ -42,7 +41,7 @@ RSpec.describe 'Password change with OTP',
     end
 
     if requires_otp
-      expect(page).to have_selector('input#otp')
+      expect(page).to have_css('input#otp')
       SeleniumHubWaiter.wait
       fill_in 'otp', with: sms_token
       click_button I18n.t(:button_login)

@@ -85,7 +85,7 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
       context 'within a project' do
         before do
           expect(instance.allowed_values)
-            .to match_array [[version.id.to_s, version.id.to_s]]
+            .to contain_exactly([version.id.to_s, version.id.to_s])
         end
       end
 
@@ -94,7 +94,7 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
 
         before do
           expect(instance.allowed_values)
-            .to match_array [[version.id.to_s, version.id.to_s]]
+            .to contain_exactly([version.id.to_s, version.id.to_s])
         end
       end
     end
@@ -120,7 +120,7 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
 
       it 'returns an array of versions' do
         expect(instance.value_objects)
-          .to match_array([version1])
+          .to contain_exactly(version1)
       end
     end
   end

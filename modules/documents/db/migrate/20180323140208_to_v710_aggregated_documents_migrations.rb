@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require Rails.root.join("db", "migrate", "migration_utils", "migration_squasher").to_s
+require Rails.root.join("db/migrate/migration_utils/migration_squasher").to_s
 # This migration aggregates the migrations detailed in MIGRATION_FILES
 class ToV710AggregatedDocumentsMigrations < ActiveRecord::Migration[5.1]
   MIGRATION_FILES = <<-MIGRATIONS

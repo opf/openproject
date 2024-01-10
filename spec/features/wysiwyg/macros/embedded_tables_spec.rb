@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Wysiwyg embedded work package tables',
-               js: true do
+RSpec.describe 'Wysiwyg embedded work package tables', :js do
   shared_let(:admin) { create(:admin) }
   shared_let(:type_task) { create(:type_task) }
   shared_let(:type_bug) { create(:type_bug) }
@@ -106,7 +105,7 @@ RSpec.describe 'Wysiwyg embedded work package tables',
         # Save wiki page
         click_on 'Save'
 
-        expect(page).to have_selector('.op-toast.-success')
+        expect(page).to have_css('.op-toast.-success')
 
         embedded_table = Pages::EmbeddedWorkPackagesTable.new find('.wiki-content')
         embedded_table.expect_work_package_listed wp_task
@@ -142,7 +141,7 @@ RSpec.describe 'Wysiwyg embedded work package tables',
           # Save wiki page
           click_on 'Save'
 
-          expect(page).to have_selector('.op-toast.-success')
+          expect(page).to have_css('.op-toast.-success')
 
           # Embedded queries
           wikipage = project.wiki.pages.last
@@ -167,7 +166,7 @@ RSpec.describe 'Wysiwyg embedded work package tables',
 
           # Subproject filter is gone
           filters.expect_filter_count 2
-          expect(page).not_to have_text 'Subproject'
+          expect(page).to have_no_text 'Subproject'
         end
       end
     end

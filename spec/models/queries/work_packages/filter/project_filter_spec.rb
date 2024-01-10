@@ -99,8 +99,7 @@ RSpec.describe Queries::WorkPackages::Filter::ProjectFilter do
           .and_yield(child, 1)
 
         expect(instance.allowed_values)
-          .to match_array [[parent.name, parent.id.to_s],
-                           ["-- #{child.name}", child.id.to_s]]
+          .to contain_exactly([parent.name, parent.id.to_s], ["-- #{child.name}", child.id.to_s])
       end
     end
 
@@ -124,7 +123,7 @@ RSpec.describe Queries::WorkPackages::Filter::ProjectFilter do
 
       it 'returns an array of projects' do
         expect(instance.value_objects)
-          .to match_array([selected])
+          .to contain_exactly(selected)
       end
 
       context 'with a visible child' do
@@ -133,7 +132,7 @@ RSpec.describe Queries::WorkPackages::Filter::ProjectFilter do
 
         it 'still only returns the parent object' do
           expect(instance.value_objects)
-            .to match_array([selected])
+            .to contain_exactly(selected)
         end
       end
     end

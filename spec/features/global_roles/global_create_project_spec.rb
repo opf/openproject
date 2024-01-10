@@ -29,11 +29,13 @@
 require 'spec_helper'
 
 RSpec.describe 'Global role: Global Create project',
-               js: true,
-               with_cuprite: true do
+               :js,
+               :with_cuprite do
   shared_let(:admin) { create(:admin) }
   shared_let(:user) { create(:user) }
   shared_let(:project) { create(:project) }
+
+  let(:projects_page) { Pages::Projects::Index.new }
 
   describe 'Create project is not a member permission' do
     # Given there is a role "Member"
@@ -46,8 +48,8 @@ RSpec.describe 'Global role: Global Create project',
     # Then I should not see "Create project"
     it 'does not show the global permission' do
       visit edit_role_path(role)
-      expect(page).to have_selector('.form--label-with-check-box', text: 'Edit project')
-      expect(page).not_to have_selector('.form--label-with-check-box', text: 'Create project')
+      expect(page).to have_css('.form--label-with-check-box', text: 'Edit project')
+      expect(page).to have_no_css('.form--label-with-check-box', text: 'Create project')
     end
   end
 
@@ -63,12 +65,12 @@ RSpec.describe 'Global role: Global Create project',
 
     it 'does show the global permission' do
       visit edit_role_path(role)
-      expect(page).not_to have_selector('.form--label-with-check-box', text: 'Edit project')
-      expect(page).to have_selector('.form--label-with-check-box', text: 'Create project')
+      expect(page).to have_no_css('.form--label-with-check-box', text: 'Edit project')
+      expect(page).to have_css('.form--label-with-check-box', text: 'Create project')
     end
   end
 
-  describe 'Create project displayed to user' do
+  describe 'for a user with the global permission to add projects' do
     let!(:global_role) { create(:global_role, name: 'Global', permissions: %i[add_project]) }
     let!(:member_role) { create(:project_role, name: 'Member', permissions: %i[view_project]) }
 
@@ -82,12 +84,9 @@ RSpec.describe 'Global role: Global Create project',
 
     current_user { user }
 
-    it 'does show the global permission' do
-      visit projects_path
-      expect(page).to have_selector('.button.-alt-highlight', text: 'Project')
-
-      # Can add new project
-      visit new_project_path
+    it 'allows creating projects via the "+ Project" button' do
+      projects_page.visit!
+      projects_page.navigate_to_new_project_page_from_toolbar_items
 
       name_field.set_value 'New project name'
 
@@ -97,20 +96,12 @@ RSpec.describe 'Global role: Global Create project',
     end
   end
 
-  describe 'Create project not displayed to user without global role' do
-    # Given there is 1 User with:
-    # | Login | bob |
-    # | Firstname | Bob |
-    # | Lastname | Bobbit |
-    #   When I am already logged in as "bob"
-
+  describe 'for a user without permission to add projects' do
     current_user { user }
 
-    it 'does show the global permission' do
-      # And I go to the overall projects page
-      visit projects_path
-      # Then I should not see "Project" within ".toolbar-items"
-      expect(page).not_to have_selector('.button.-alt-highlight', text: 'Project')
+    it 'does show the button for project creation' do
+      projects_page.visit!
+      projects_page.expect_no_project_create_button
     end
   end
 end

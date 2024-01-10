@@ -520,6 +520,7 @@ el:
     label_watcher_added_successfully: "Ο παρατηρητής προστέθηκε επιτυχώς!"
     label_watcher_deleted_successfully: "Ο παρατηρητής διαγράφηκε επιτυχώς!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Αναίρεση παρακολούθησης"
     label_unwatch_work_package: "Αναίρεση παρακολούθησης πακέτου εργασίας"
     label_uploaded_by: "Μεταφορτώθηκε από"
@@ -831,6 +832,7 @@ el:
       toggle_description: "Ενεργοποίηση περιγραφής συσχέτισης"
       update_relation: "Κάντε κλικ για να αλλάξετε τον τύπο συσχέτισης"
       add_follower: "Προσθήκη ακολούθου"
+      show_relations: "Show relations"
       add_predecessor: "Προσθήκη προκατόχου"
       remove: "Αφαίρεση συσχέτισης"
       save: "Αποθήκευση συσχέτισης"
@@ -981,6 +983,7 @@ el:
         updatedAt: "Τροποποιήθηκε"
         versionName: "Έκδοση"
         version: "Έκδοση"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Τελευταία δραστηριότητα"
         created_by_me: "Δημιουργήθηκε από εμένα"

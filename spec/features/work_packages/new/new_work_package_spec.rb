@@ -142,7 +142,7 @@ RSpec.describe 'new work package', :js, :with_cuprite do
         description_field.set_value description
 
         save_work_package!
-        expect(page).to have_selector('.op-work-package-tabs')
+        expect(page).to have_css('.op-work-package-tabs')
 
         subject_field.expect_state_text(subject)
         description_field = wp_page.edit_field :description
@@ -194,7 +194,7 @@ RSpec.describe 'new work package', :js, :with_cuprite do
           cf1 = find(".#{custom_fields.first.attribute_name(:camel_case)} input")
           expect(cf1).not_to be_nil
 
-          expect(page).to have_selector(".#{custom_fields.last.attribute_name(:camel_case)} ng-select")
+          expect(page).to have_css(".#{custom_fields.last.attribute_name(:camel_case)} ng-select")
 
           cf = wp_page.edit_field custom_fields.last.attribute_name(:camel_case)
           cf.field_type = 'create-autocompleter'
@@ -240,7 +240,7 @@ RSpec.describe 'new work package', :js, :with_cuprite do
     end
 
     it 'reloads the table and selects the new work package' do
-      expect(page).not_to have_selector('.wp--row')
+      expect(page).to have_no_css('.wp--row')
 
       create_work_package(type_task)
       expect(page).to have_selector(safeguard_selector, wait: 10)
@@ -249,7 +249,7 @@ RSpec.describe 'new work package', :js, :with_cuprite do
       save_work_package!
       wp_page.dismiss_toaster!
 
-      expect(page).to have_selector('.wp--row.-checked')
+      expect(page).to have_css('.wp--row.-checked')
 
       # Editing the subject after creation
       # Fix for WP #23879
@@ -325,7 +325,7 @@ RSpec.describe 'new work package', :js, :with_cuprite do
       click_on 'Cancel'
 
       wp_page.click_create_wp_button type_bug
-      expect(page).not_to have_selector('.ng-value', text: project.name)
+      expect(page).to have_no_css('.ng-value', text: project.name)
 
       project_field.openSelectField
       project_field.set_value project.name
@@ -380,13 +380,13 @@ RSpec.describe 'new work package', :js, :with_cuprite do
         create(:project, name: 'Unrelated project', types: [type_task])
       end
 
-      it 'will not show that value in the project drop down' do
+      it 'does not show that value in the project drop down' do
         create_work_package_globally(type_bug, project.name)
 
         project_field.openSelectField
 
-        expect(page).to have_selector('.ng-dropdown-panel .ng-option', text: project.name)
-        expect(page).not_to have_selector('.ng-dropdown-panel .ng-option', text: project_without_bug.name)
+        expect(page).to have_css('.ng-dropdown-panel .ng-option', text: project.name)
+        expect(page).to have_no_css('.ng-dropdown-panel .ng-option', text: project_without_bug.name)
       end
     end
   end
@@ -427,7 +427,7 @@ RSpec.describe 'new work package', :js, :with_cuprite do
       type_field.set_value type_bug.name
       # wait after the type change
       sleep(0.2)
-      subject_field.update('new work package')
+      subject_field.update('new work package', save: true)
 
       wp_page.expect_and_dismiss_toaster(
         message: 'Successful creation.'

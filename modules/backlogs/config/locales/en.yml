@@ -36,10 +36,6 @@ en:
     attributes:
       work_package:
         position: "Position"
-        remaining_hours: "Remaining work"
-        remaining_time: "Remaining work"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
         story_points: "Story Points"
         backlogs_work_package_type: "Backlog type"
 
@@ -79,8 +75,8 @@ en:
     properties: "Properties"
     rebuild: "Rebuild"
     rebuild_positions: "Rebuild positions"
-    remaining_hours: "Remaining hours"
-    remaining_hours_ideal: "Remaining hours (ideal)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Burndown Chart"
     story: "Story"
     story_points: "Story Points"
@@ -175,7 +171,7 @@ en:
   rb_label_copy_tasks_open: "Open"
   rb_label_link_to_original: "Include link to original story"
 
-  remaining_hours: "remaining hours"
+  remaining_hours: "remaining work"
 
   required_burn_rate_hours: "required burn rate (hours)"
   required_burn_rate_points: "required burn rate (points)"

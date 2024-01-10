@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Query menu item', js: true do
+RSpec.describe 'Query menu item', :js do
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
@@ -62,8 +62,8 @@ RSpec.describe 'Query menu item', js: true do
 
     it 'shows the query menu with queries stored for the global page' do
       wp_table.visit!
-      expect(page).to have_selector('.op-view-select--search-results')
-      expect(page).to have_selector('.op-sidemenu--item-action', wait: 20, minimum: 1)
+      expect(page).to have_css('.op-view-select--search-results')
+      expect(page).to have_css('.op-sidemenu--item-action', wait: 20, minimum: 1)
 
       within '.op-sidebar' do
         expect(page)
@@ -71,9 +71,9 @@ RSpec.describe 'Query menu item', js: true do
         expect(page)
           .to have_content(global_public_view.query.name, wait: 10)
         expect(page)
-          .not_to have_content(global_other_view.query.name)
+          .to have_no_content(global_other_view.query.name)
         expect(page)
-          .not_to have_content(project_view.query.name)
+          .to have_no_content(project_view.query.name)
       end
     end
   end
@@ -100,7 +100,7 @@ RSpec.describe 'Query menu item', js: true do
 
       find('.button', text: 'Save').click
 
-      expect(page).to have_selector('.op-sidemenu--item-action', text: 'Some query name', wait: 20)
+      expect(page).to have_css('.op-sidemenu--item-action', text: 'Some query name', wait: 20)
 
       last_query = Query.last
       expect(last_query.public).to be_truthy
@@ -117,7 +117,7 @@ RSpec.describe 'Query menu item', js: true do
       query_title.rename 'My special query!123'
 
       query_title.expect_title 'My special query!123'
-      expect(page).to have_selector('.op-sidemenu--item-action', text: 'My special query!123', wait: 20, count: 1)
+      expect(page).to have_css('.op-sidemenu--item-action', text: 'My special query!123', wait: 20, count: 1)
     end
 
     it 'allows filtering, saving, retrieving and altering the saved filter (Regression #25372)' do

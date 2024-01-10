@@ -520,6 +520,7 @@ pt:
     label_watcher_added_successfully: "Observador adicionado com sucesso!"
     label_watcher_deleted_successfully: "Observador excluído com sucesso!"
     label_work_package_details_you_are_here: "Você está na aba %{tab} por %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Deixar de observar"
     label_unwatch_work_package: "Deixar de observar pacote de trabalho"
     label_uploaded_by: "Enviado por"
@@ -831,6 +832,7 @@ pt:
       toggle_description: "Alternar descrição da relação"
       update_relation: "Clique para alterar o tipo de relação"
       add_follower: "Adicionar seguidor"
+      show_relations: "Show relations"
       add_predecessor: "Adicionar antecessor"
       remove: "Remover relação"
       save: "Salvar relação"
@@ -981,6 +983,7 @@ pt:
         updatedAt: "Atualizado em"
         versionName: "Versão"
         version: "Versão"
+        remainingTime: "Trabalho restante"
       default_queries:
         latest_activity: "Última atividade"
         created_by_me: "Criado por mim"

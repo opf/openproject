@@ -151,7 +151,7 @@ class SearchController < ApplicationController
       # don't search projects
       types.delete('projects')
       # only show what the user is allowed to view
-      types = types.select { |o| User.current.allowed_in_project?("view_#{o}".to_sym, projects_to_search) }
+      types = types.select { |o| User.current.allowed_in_project?(:"view_#{o}", projects_to_search) }
     end
 
     types

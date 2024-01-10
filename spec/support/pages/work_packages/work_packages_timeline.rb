@@ -45,7 +45,7 @@ module Pages
 
     def expect_row_count(num)
       within(timeline_container) do
-        expect(page).to have_selector('.wp-timeline-cell', count: num)
+        expect(page).to have_css('.wp-timeline-cell', count: num)
       end
     end
 
@@ -55,7 +55,7 @@ module Pages
       if page.has_selector?('#wp-view-toggle-button', text: 'Gantt')
         within(timeline_container) do
           work_packages.each do |wp|
-            expect(page).to have_selector(".wp-row-#{wp.id}-timeline", visible: true)
+            expect(page).to have_css(".wp-row-#{wp.id}-timeline", visible: true)
           end
         end
       end
@@ -67,7 +67,7 @@ module Pages
       if page.has_selector?('#wp-view-toggle-button', text: 'Gantt')
         within(timeline_container) do
           work_packages.each do |wp|
-            expect(page).not_to have_selector(".wp-row-#{wp.id}-timeline", visible: true)
+            expect(page).to have_no_css(".wp-row-#{wp.id}-timeline", visible: true)
           end
         end
       end
@@ -85,11 +85,11 @@ module Pages
 
     def expect_timeline!(open: true)
       if open
-        expect(page).to have_selector('#wp-view-toggle-button', text: 'Gantt')
-        expect(page).to have_selector('.wp-table-timeline--container .wp-timeline-cell')
+        expect(page).to have_css('#wp-view-toggle-button', text: 'Gantt')
+        expect(page).to have_css('.wp-table-timeline--container .wp-timeline-cell')
       else
-        expect(page).not_to have_selector('#wp-view-toggle-button', text: 'Gantt')
-        expect(page).not_to have_selector('.wp-table-timeline--container .wp-timeline-cell', visible: true)
+        expect(page).to have_no_css('#wp-view-toggle-button', text: 'Gantt')
+        expect(page).to have_no_css('.wp-table-timeline--container .wp-timeline-cell', visible: true)
       end
     end
 
@@ -122,34 +122,34 @@ module Pages
         raise ArgumentError, "Invalid value"
       end
 
-      expect(page).to have_selector(".wp-table-timeline--header-inner[data-current-zoom-level='#{value}']")
+      expect(page).to have_css(".wp-table-timeline--header-inner[data-current-zoom-level='#{value}']")
     end
 
     def expect_timeline_element(work_package)
       type = work_package.milestone? ? :milestone : :bar
-      expect(page).to have_selector(".wp-row-#{work_package.id}-timeline .timeline-element.#{type}")
+      expect(page).to have_css(".wp-row-#{work_package.id}-timeline .timeline-element.#{type}")
     end
 
     def expect_timeline_relation(from, to)
       within(timeline_container) do
-        expect(page).to have_selector(".relation-line.__tl-relation-#{from.id}.__tl-relation-#{to.id}", minimum: 1)
+        expect(page).to have_css(".relation-line.__tl-relation-#{from.id}.__tl-relation-#{to.id}", minimum: 1)
       end
     end
 
     def expect_no_timeline_relation(from, to)
       within(timeline_container) do
-        expect(page).not_to have_selector(".relation-line.__tl-relation-#{from.id}.__tl-relation-#{to.id}")
+        expect(page).to have_no_css(".relation-line.__tl-relation-#{from.id}.__tl-relation-#{to.id}")
       end
     end
 
     def expect_no_relations
       within(timeline_container) do
-        expect(page).not_to have_selector(".relation-line")
+        expect(page).to have_no_css(".relation-line")
       end
     end
 
     def expect_hidden_row(work_package)
-      expect(page).to have_selector(".wp-row-#{work_package.id}-timeline", visible: :hidden)
+      expect(page).to have_css(".wp-row-#{work_package.id}-timeline", visible: :hidden)
     end
   end
 end

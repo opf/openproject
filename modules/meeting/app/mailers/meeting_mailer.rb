@@ -74,7 +74,6 @@ class MeetingMailer < UserMailer
 
   def with_attached_ics(meeting, user)
     User.execute_as(user) do
-
       call = ::Meetings::ICalService
         .new(user:, meeting: @meeting)
         .call

@@ -1,4 +1,4 @@
-require_relative './edit_field'
+require_relative 'edit_field'
 
 class DateEditField < EditField
   attr_accessor :milestone, :is_table
@@ -115,12 +115,12 @@ class DateEditField < EditField
 
   def expect_inactive!
     expect(context).to have_selector(display_selector, wait: 10)
-    expect(page).not_to have_selector("#{modal_selector} #{input_selector}")
+    expect(page).to have_no_css("#{modal_selector} #{input_selector}")
   end
 
   def expect_calendar
     within_modal do
-      expect(page).to have_selector(".flatpickr-calendar")
+      expect(page).to have_css(".flatpickr-calendar")
     end
   end
 
@@ -132,7 +132,7 @@ class DateEditField < EditField
       set_value value
 
       save! if save
-      expect_state! open: (expect_failure || !save)
+      expect_state! open: expect_failure || !save
     end
   end
 
@@ -150,7 +150,7 @@ class DateEditField < EditField
   end
 
   def expect_value(value)
-    expect(page).to have_selector(".#{property_name} .spot-input", value:)
+    expect(page).to have_css(".#{property_name} .spot-input", value:)
   end
 
   def set_active_date(value)

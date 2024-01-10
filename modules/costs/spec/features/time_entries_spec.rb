@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-RSpec.describe 'Work Package table cost entries', js: true do
+RSpec.describe 'Work Package table cost entries', :js do
   shared_let(:project) { create(:project_with_types) }
   shared_let(:user) { create(:admin) }
 
@@ -73,8 +73,8 @@ RSpec.describe 'Work Package table cost entries', js: true do
     parent_row = wp_table.row(parent)
     wp_row = wp_table.row(work_package)
 
-    expect(parent_row).to have_selector('.inline-edit--container.spentTime', text: '12.5 h')
-    expect(wp_row).to have_selector('.inline-edit--container.spentTime', text: '2.5 h')
+    expect(parent_row).to have_css('.inline-edit--container.spentTime', text: '12.5 h')
+    expect(wp_row).to have_css('.inline-edit--container.spentTime', text: '2.5 h')
   end
 
   it 'creates an activity' do
@@ -86,7 +86,7 @@ RSpec.describe 'Work Package table cost entries', js: true do
 
     wp1 = time_entry1.work_package
     wp2 = time_entry2.work_package
-    expect(page).to have_selector('.op-activity-list--item-title', text: "#{wp1.type.name} ##{wp1.id}: #{wp1.subject}")
-    expect(page).to have_selector('.op-activity-list--item-title', text: "#{wp2.type.name} ##{wp2.id}: #{wp2.subject}")
+    expect(page).to have_css('.op-activity-list--item-title', text: "#{wp1.type.name} ##{wp1.id}: #{wp1.subject}")
+    expect(page).to have_css('.op-activity-list--item-title', text: "#{wp2.type.name} ##{wp2.id}: #{wp2.subject}")
   end
 end

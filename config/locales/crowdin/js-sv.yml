@@ -520,6 +520,7 @@ sv:
     label_watcher_added_successfully: "Bevakare har lagts till!"
     label_watcher_deleted_successfully: "Bevakare har tagits bort!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Sluta bevaka"
     label_unwatch_work_package: "Sluta bevaka arbetspaket"
     label_uploaded_by: "Uppladdad av"
@@ -831,6 +832,7 @@ sv:
       toggle_description: "Visa/dölj relationsbeskrivning"
       update_relation: "Klicka för att ändra relationstypen"
       add_follower: "Lägg till följare"
+      show_relations: "Show relations"
       add_predecessor: "Lägg till föregångare"
       remove: "Radera relation"
       save: "Spara relation"
@@ -981,6 +983,7 @@ sv:
         updatedAt: "Uppdaterat den"
         versionName: "Version"
         version: "Version"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Senaste aktivitet"
         created_by_me: "Skapad av mig"

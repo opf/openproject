@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'baseline with a work package moved to an invisible project',
-               js: true,
+RSpec.describe 'baseline with a work package moved to an invisible project', :js,
                with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:visible_project) { create(:project, types: [type_bug]) }
@@ -39,7 +38,8 @@ RSpec.describe 'baseline with a work package moved to an invisible project',
     create(:user,
            firstname: 'Itsa',
            lastname: 'Me',
-           member_with_permissions: { visible_project => %i[view_work_packages edit_work_packages work_package_assigned assign_versions] })
+           member_with_permissions: { visible_project => %i[view_work_packages edit_work_packages work_package_assigned
+                                                            assign_versions] })
   end
 
   shared_let(:wp_bug) do

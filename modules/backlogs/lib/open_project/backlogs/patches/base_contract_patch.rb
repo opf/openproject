@@ -30,19 +30,6 @@ module OpenProject::Backlogs::Patches::BaseContractPatch
   extend ActiveSupport::Concern
 
   included do
-    attribute :remaining_hours
     attribute :story_points
-
-    validate :validate_has_parents_version
-
-    private
-
-    def validate_has_parents_version
-      if model.is_task? &&
-         model.parent && model.parent.in_backlogs_type? &&
-         model.version_id != model.parent.version_id
-        errors.add :version_id, :task_version_must_be_the_same_as_story_version
-      end
-    end
   end
 end

@@ -520,6 +520,7 @@ sl:
     label_watcher_added_successfully: "Opazovalec je bil uspešno dodan!"
     label_watcher_deleted_successfully: "Opazovalec je bil uspešno izbrisan!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Prenehaj slediti"
     label_unwatch_work_package: "Nihče ne spremlja delovnega paketa"
     label_uploaded_by: "Naložil"
@@ -833,6 +834,7 @@ sl:
       toggle_description: "Preklopi opis razmerja"
       update_relation: "Za spremembo tipa povezave kliknite tukaj"
       add_follower: "Dodaj naslednjika"
+      show_relations: "Show relations"
       add_predecessor: "Dodaj prednika"
       remove: "Odstrani povezavo"
       save: "Shrani povezavo"
@@ -983,6 +985,7 @@ sl:
         updatedAt: "Posodobljeno"
         versionName: "Različica"
         version: "Različica"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Zadnja dejavnost"
         created_by_me: "Ustvaril jaz"

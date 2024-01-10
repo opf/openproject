@@ -63,7 +63,7 @@ RSpec.describe Queries::WorkPackages::Filter::StatusFilter do
 
       it 'is an array of status values' do
         expect(instance.allowed_values)
-          .to match_array [[status.name, status.id.to_s]]
+          .to contain_exactly([status.name, status.id.to_s])
       end
     end
 
@@ -79,7 +79,7 @@ RSpec.describe Queries::WorkPackages::Filter::StatusFilter do
       it 'remove the invalid value' do
         instance.valid_values!
 
-        expect(instance.values).to match_array [status.id.to_s]
+        expect(instance.values).to contain_exactly(status.id.to_s)
       end
     end
 
@@ -94,7 +94,7 @@ RSpec.describe Queries::WorkPackages::Filter::StatusFilter do
         instance.values = [status.id.to_s]
 
         expect(instance.value_objects)
-          .to match_array [status]
+          .to contain_exactly(status)
       end
     end
 

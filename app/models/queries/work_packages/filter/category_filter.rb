@@ -49,7 +49,6 @@ class Queries::WorkPackages::Filter::CategoryFilter <
 
     values
       .filter_map { |category_id| available_categories[category_id.to_i] }
-      
   end
 
   def ar_object_filter?

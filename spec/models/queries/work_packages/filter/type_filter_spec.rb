@@ -89,7 +89,7 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
 
         it 'returns an array of type options' do
           expect(instance.allowed_values)
-            .to match_array [[type.name, type.id.to_s]]
+            .to contain_exactly([type.name, type.id.to_s])
         end
       end
 
@@ -104,7 +104,7 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
 
         it 'returns an array of type options' do
           expect(instance.allowed_values)
-            .to match_array [[type.name, type.id.to_s]]
+            .to contain_exactly([type.name, type.id.to_s])
         end
       end
     end
@@ -130,7 +130,7 @@ RSpec.describe Queries::WorkPackages::Filter::TypeFilter do
 
       it 'returns an array of types' do
         expect(instance.value_objects)
-          .to match_array([type1, type2])
+          .to contain_exactly(type1, type2)
       end
     end
   end

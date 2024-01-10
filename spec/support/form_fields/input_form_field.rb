@@ -1,14 +1,14 @@
-require_relative './form_field'
+require_relative 'form_field'
 
 module FormFields
   class InputFormField < FormField
     def expect_value(value)
       scroll_to_element(field_container)
-      expect(field_container).to have_selector('input') { |el| el.value == value }
+      expect(field_container).to have_css('input') { |el| el.value == value }
     end
 
     def expect_visible
-      expect(field_container).to have_selector('input')
+      expect(field_container).to have_css('input')
     end
 
     ##
@@ -28,8 +28,8 @@ module FormFields
       end
     end
 
-    def send_keys(*args)
-      input_element.send_keys(*args)
+    def send_keys(*)
+      input_element.send_keys(*)
     end
 
     def input_element

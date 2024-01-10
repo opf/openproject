@@ -43,7 +43,7 @@ RSpec.describe Queries::WorkPackages::Filter::ManualSortFilter do
   describe '#where' do
     it 'filters based on the manual sort order' do
       expect(WorkPackage.where(instance.where))
-        .to match_array [in_order2, in_order]
+        .to contain_exactly(in_order2, in_order)
     end
   end
 end

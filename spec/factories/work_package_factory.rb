@@ -106,6 +106,7 @@ FactoryBot.define do
                                  .reverse_merge(journable: work_package,
                                                 created_at: timestamp,
                                                 updated_at: timestamp,
+                                                user: work_package.author,
                                                 version: version + 1)
 
           data_attributes = work_package_attributes

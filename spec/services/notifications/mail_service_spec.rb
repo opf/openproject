@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe Notifications::MailService, type: :model do
-  require_relative './mentioned_journals_shared'
+  require_relative 'mentioned_journals_shared'
 
   subject(:call) { instance.call }
 

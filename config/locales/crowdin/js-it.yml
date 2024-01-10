@@ -521,6 +521,7 @@ it:
     label_watcher_added_successfully: "Osservatore aggiunto correttamente!"
     label_watcher_deleted_successfully: "Osservatore eliminato correttamente!"
     label_work_package_details_you_are_here: "Sei nella scheda %{tab} per %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Smetti di Osservare"
     label_unwatch_work_package: "Smetti di osservare macro-attività"
     label_uploaded_by: "Caricato da"
@@ -832,6 +833,7 @@ it:
       toggle_description: "Attiva/disattiva descrizione della relazione"
       update_relation: "Clicca per modificare il tipo di relazione"
       add_follower: "Aggiungi successore"
+      show_relations: "Show relations"
       add_predecessor: "Aggiungi predecessore"
       remove: "Rimuovi la relazione"
       save: "Salva la relazione"
@@ -982,6 +984,7 @@ it:
         updatedAt: "Aggiornato il"
         versionName: "Versione"
         version: "Versione"
+        remainingTime: "Lavoro rimanente"
       default_queries:
         latest_activity: "Ultima attività"
         created_by_me: "Creato da me"

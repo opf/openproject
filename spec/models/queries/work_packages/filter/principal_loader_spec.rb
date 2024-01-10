@@ -44,7 +44,7 @@ RSpec.describe Queries::WorkPackages::Filter::PrincipalLoader do
 
     describe '#user_values' do
       it 'returns a user array' do
-        expect(instance.user_values).to match_array([[nil, user.id.to_s]])
+        expect(instance.user_values).to contain_exactly([nil, user.id.to_s])
       end
 
       it 'is empty if no user exists' do
@@ -58,7 +58,7 @@ RSpec.describe Queries::WorkPackages::Filter::PrincipalLoader do
 
     describe '#group_values' do
       it 'returns a group array' do
-        expect(instance.group_values).to match_array([[nil, group.id.to_s]])
+        expect(instance.group_values).to contain_exactly([nil, group.id.to_s])
       end
 
       it 'is empty if no group exists' do
@@ -73,9 +73,7 @@ RSpec.describe Queries::WorkPackages::Filter::PrincipalLoader do
     describe '#principal_values' do
       it 'returns an array of principals as [name, id]' do
         expect(instance.principal_values)
-          .to match_array([[nil, group.id.to_s],
-                           [nil, user.id.to_s],
-                           [nil, placeholder_user.id.to_s]])
+          .to contain_exactly([nil, group.id.to_s], [nil, user.id.to_s], [nil, placeholder_user.id.to_s])
       end
 
       it 'is empty if no principal exists' do
@@ -105,7 +103,7 @@ RSpec.describe Queries::WorkPackages::Filter::PrincipalLoader do
 
     describe '#user_values' do
       it 'returns a user array' do
-        expect(instance.user_values).to match_array([[nil, user.id.to_s]])
+        expect(instance.user_values).to contain_exactly([nil, user.id.to_s])
       end
 
       context 'if no user exists' do
@@ -119,7 +117,7 @@ RSpec.describe Queries::WorkPackages::Filter::PrincipalLoader do
 
     describe '#group_values' do
       it 'returns a group array' do
-        expect(instance.group_values).to match_array([[nil, group.id.to_s]])
+        expect(instance.group_values).to contain_exactly([nil, group.id.to_s])
       end
 
       context 'if no group exists' do
@@ -134,9 +132,7 @@ RSpec.describe Queries::WorkPackages::Filter::PrincipalLoader do
     describe '#principal_values' do
       it 'returns an array of principals as [name, id]' do
         expect(instance.principal_values)
-          .to match_array([[nil, group.id.to_s],
-                           [nil, user.id.to_s],
-                           [nil, placeholder_user.id.to_s]])
+          .to contain_exactly([nil, group.id.to_s], [nil, user.id.to_s], [nil, placeholder_user.id.to_s])
       end
 
       context 'if no principals exist' do

@@ -29,28 +29,15 @@
 require 'spec_helper'
 
 RSpec.describe 'Work packages remaining time', :js, :with_cuprite do
-  before do
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return('points_burn_direction' => 'down',
-                                                                       'wiki_template' => '',
-                                                                       'story_types' => [story_type.id.to_s],
-                                                                       'task_type' => task_type.id.to_s)
-  end
-
   shared_current_user { create(:admin) }
   shared_let(:project) do
     create(:project,
-           enabled_module_names: %w(work_package_tracking backlogs))
+           enabled_module_names: %w(work_package_tracking))
   end
-  shared_let(:status) { create(:default_status) }
-  shared_let(:story_type) { create(:type_feature) }
-  shared_let(:task_type) { create(:type_feature) }
-
   shared_let(:work_package) do
-    create(:story,
-           type: task_type,
-           author: current_user,
+    create(:work_package,
            project:,
-           status:)
+           author: current_user)
   end
 
   it 'can set and edit the remaining time in hours (Regression #43549)' do
@@ -58,20 +45,16 @@ RSpec.describe 'Work packages remaining time', :js, :with_cuprite do
 
     wp_page.visit!
     wp_page.expect_subject
-
     wp_page.expect_attributes remainingTime: '-'
 
     wp_page.update_attributes remainingTime: '125' # rubocop:disable Rails/ActiveRecordAliases
-
     wp_page.expect_attributes remainingTime: '125 h'
 
     work_package.reload
-
     expect(work_package.remaining_hours).to eq 125.0
   end
 
   it 'displays the remaining time sum properly in hours (Regression #43833)' do
-    work_package
     wp_table_page = Pages::WorkPackagesTable.new(project)
 
     query_props = JSON.dump({
@@ -80,13 +63,10 @@ RSpec.describe 'Work packages remaining time', :js, :with_cuprite do
                             })
 
     wp_table_page.visit_with_params("query_props=#{query_props}")
-
     wp_table_page.expect_work_package_with_attributes work_package, remainingTime: '-'
 
     wp_table_page.update_work_package_attributes work_package, remainingTime: '125'
-
     wp_table_page.expect_work_package_with_attributes work_package, remainingTime: '125 h'
-
     wp_table_page.expect_sums_row_with_attributes remainingTime: '125 h'
 
     work_package.reload

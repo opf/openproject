@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package filtering by subject', js: true do
+RSpec.describe 'Work package filtering by subject', :js do
   let(:project) { create(:project, public: true) }
   let(:admin) { create(:admin) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }

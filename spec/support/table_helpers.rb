@@ -26,34 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs::Patches::UpdateAncestorsServicePatch
-  def self.included(base)
-    base.prepend InstanceMethods
-  end
+Dir[Rails.root.join('spec/support/table_helpers/*.rb')].each { |f| require f }
 
-  module InstanceMethods
-    private
+RSpec.configure do |config|
+  config.extend TableHelpers::LetWorkPackages
+  config.include TableHelpers::ExampleMethods
 
-    ##
-    # Overrides method in original UpdateAncestorsService.
-    def inherit_attributes(ancestor, loader, attributes)
-      super
+  RSpec::Matchers.define :match_table do |expected|
+    match do |actual_work_packages|
+      expected_data = TableHelpers::TableData.for(expected)
+      actual_data = TableHelpers::TableData.from_work_packages(actual_work_packages, expected_data.columns)
 
-      derive_remaining_hours(ancestor, loader) if inherit?(attributes, :remaining_hours)
+      representer = TableHelpers::TableRepresenter.new(tables_data: [expected_data, actual_data],
+                                                       columns: expected_data.columns)
+      @expected = representer.render(expected_data)
+      @actual = representer.render(actual_data)
+
+      values_match? @expected, @actual
     end
 
-    def derive_remaining_hours(work_package, loader)
-      descendants = loader.descendants_of(work_package)
-
-      work_package.derived_remaining_hours = not_zero(all_remaining_hours(descendants).sum.to_f)
-    end
-
-    def all_remaining_hours(work_packages)
-      work_packages.map(&:remaining_hours).reject { |hours| hours.to_f.zero? }
-    end
-
-    def attributes_justify_inheritance?(attributes)
-      super || attributes.include?(:remaining_hours)
-    end
+    diffable
+    attr_reader :expected, :actual
   end
 end

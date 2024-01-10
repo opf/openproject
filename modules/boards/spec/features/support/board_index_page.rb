@@ -73,10 +73,10 @@ module Pages
       new_board_page.click_on_submit
 
       if expect_empty
-        expect(page).to have_selector('.boards-list--add-item-text', wait: 10)
-        expect(page).not_to have_selector('.boards-list--item')
+        expect(page).to have_css('.boards-list--add-item-text', wait: 10)
+        expect(page).to have_no_css('.boards-list--item')
       else
-        expect(page).to have_selector('.boards-list--item', wait: 10)
+        expect(page).to have_css('.boards-list--item', wait: 10)
       end
 
       ::Pages::Board.new ::Boards::Grid.last

@@ -35,7 +35,7 @@ module Bim::Bcf
         wp_call = get_work_package params
         return wp_call if wp_call.failure?
 
-        super issue_params(work_package: wp_call.result, params:), service_result
+        super(issue_params(work_package: wp_call.result, params:), service_result)
       end
 
       def issue_params(work_package:, params:)

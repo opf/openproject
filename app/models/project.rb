@@ -39,7 +39,7 @@ class Project < ApplicationRecord
   IDENTIFIER_MAX_LENGTH = 100
 
   # reserved identifiers
-  RESERVED_IDENTIFIERS = %w(new).freeze
+  RESERVED_IDENTIFIERS = %w(new menu).freeze
 
   has_many :members, -> {
     # TODO: check whether this should
@@ -179,8 +179,7 @@ class Project < ApplicationRecord
   }
 
   def visible?(user = User.current)
-    active? and (public? or user.admin? or user.member_of?(self) or user.allowed_in_any_work_package?(:view_work_packages,
-                                                                                                      in_project: self))
+    active? && (public? || user.admin? || user.access_to?(self))
   end
 
   def archived?

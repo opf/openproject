@@ -48,15 +48,15 @@ module Pages
 
         def expect_non_listed
           expect(page)
-            .not_to have_selector('tr.user')
+            .to have_no_css('tr.user')
 
           expect(page)
-            .to have_selector('tr.generic-table--empty-row', text: 'There is currently nothing to display.')
+            .to have_css('tr.generic-table--empty-row', text: 'There is currently nothing to display.')
         end
 
         def expect_user_locked(user)
           expect(page)
-            .to have_selector('tr.user.locked td.username', text: user.login)
+            .to have_css('tr.user.locked td.username', text: user.login)
         end
 
         def filter_by_status(value)

@@ -24,4 +24,3 @@ sk:
     work_packages:
       properties:
         storyPoints: "História bodov"
-        remainingTime: "Remaining work"

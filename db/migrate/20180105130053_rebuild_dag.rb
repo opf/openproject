@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require_relative './migration_utils/utils'
+require_relative 'migration_utils/utils'
 require_relative 'migration_utils/typed_dag'
 
 class RebuildDag < ActiveRecord::Migration[5.0]

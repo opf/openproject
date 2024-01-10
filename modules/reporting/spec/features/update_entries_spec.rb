@@ -30,7 +30,7 @@ require 'spec_helper'
 require_relative 'support/pages/cost_report_page'
 require_relative 'support/components/cost_reports_base_table'
 
-RSpec.describe 'Updating entries within the cost report', js: true do
+RSpec.describe 'Updating entries within the cost report', :js do
   let(:project) { create(:project) }
   let(:user) { create(:admin, member_with_permissions: { project => %i[work_package_assigned] }) }
   let(:work_package) { create(:work_package, project:) }

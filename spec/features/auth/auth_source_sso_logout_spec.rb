@@ -53,11 +53,11 @@ RSpec.describe 'Login with auth source SSO',
   it 'can log out after multiple visits' do
     visit home_path
 
-    expect(page).to have_selector('.controller-homescreen')
+    expect(page).to have_css('.controller-homescreen')
 
     visit home_path
 
-    expect(page).to have_selector('.controller-homescreen')
+    expect(page).to have_css('.controller-homescreen')
 
     visit signout_path
 

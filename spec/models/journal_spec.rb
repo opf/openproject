@@ -47,7 +47,7 @@ RSpec.describe Journal do
 
     it 'has a notifications association' do
       expect(journal.notifications)
-        .to match_array([notification])
+        .to contain_exactly(notification)
     end
 
     it 'destroys the associated notifications upon journal destruction' do

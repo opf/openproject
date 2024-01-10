@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects copy', :with_cuprite, js: true do
+RSpec.describe 'Projects copy', :js, :with_cuprite do
   describe 'with a full copy example' do
     let!(:project) do
       create(:project,

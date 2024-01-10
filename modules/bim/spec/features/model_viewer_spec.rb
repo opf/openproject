@@ -28,8 +28,7 @@
 
 require_relative '../spec_helper'
 
-RSpec.describe 'model viewer',
-               js: true, with_config: { edition: 'bim' } do
+RSpec.describe 'model viewer', :js, with_config: { edition: 'bim' } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   # TODO: Add empty viewpoint and stub method to load viewpoints once defined
   let(:work_package) { create(:work_package, project:) }
@@ -94,7 +93,7 @@ RSpec.describe 'model viewer',
       it 'shows a warning that no IFC models exist yet' do
         login_as user
         visit defaults_bcf_project_ifc_models_path(project)
-        expect(page).to have_selector('.op-toast.-info', text: I18n.t('js.ifc_models.empty_warning'))
+        expect(page).to have_css('.op-toast.-info', text: I18n.t('js.ifc_models.empty_warning'))
       end
     end
   end
@@ -135,7 +134,7 @@ RSpec.describe 'model viewer',
 
     it 'shows no viewer' do
       expected = '[Error 403] You are not authorized to access this page.'
-      expect(page).to have_selector('.op-toast.-error', text: expected)
+      expect(page).to have_css('.op-toast.-error', text: expected)
 
       show_model_page.model_viewer_visible false
       show_model_page.model_viewer_shows_a_toolbar false

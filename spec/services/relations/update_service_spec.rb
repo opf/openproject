@@ -138,7 +138,7 @@ RSpec.describe Relations::UpdateService do
 
     it 'has a dependent result for the from-work package' do
       expect(subject.dependent_results)
-        .to match_array [set_schedule_work_package2_result]
+        .to contain_exactly(set_schedule_work_package2_result)
     end
   end
 

@@ -53,7 +53,6 @@ class Queries::WorkPackages::Filter::PriorityFilter <
 
     values
       .filter_map { |priority_id| available_priorities[priority_id.to_i] }
-      
   end
 
   private

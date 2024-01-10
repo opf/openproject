@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-RSpec.describe 'Work Package timer', js: true do
+RSpec.describe 'Work Package timer', :js do
   shared_let(:project) { create(:project_with_types) }
 
   shared_let(:work_package_a) { create(:work_package, subject: 'WP A', project:) }
@@ -59,8 +59,8 @@ RSpec.describe 'Work Package timer', js: true do
       expect(timer_entry.hours).to be_nil
 
       page.find('.op-top-menu-user').click
-      expect(page).to have_selector('.op-timer-account-menu', wait: 10)
-      expect(page).to have_selector('.op-timer-account-menu--wp-details', text: "##{work_package_a.id}: WP A")
+      expect(page).to have_css('.op-timer-account-menu', wait: 10)
+      expect(page).to have_css('.op-timer-account-menu--wp-details', text: "##{work_package_a.id}: WP A")
       page.find_test_selector('op-timer-account-menu-stop').click
 
       time_logging_modal.is_visible true
@@ -92,7 +92,7 @@ RSpec.describe 'Work Package timer', js: true do
 
       timer_button.start
 
-      expect(page).to have_selector('.op-timer-stop-modal')
+      expect(page).to have_css('.op-timer-stop-modal')
       expect(page).to have_text('Tracking time:')
 
       active_time_entries = TimeEntry.where(ongoing: true, user:)
@@ -163,7 +163,7 @@ RSpec.describe 'Work Package timer', js: true do
       timer_button.expect_inactive
       timer_button.start
 
-      expect(page).to have_selector('.op-timer-stop-modal')
+      expect(page).to have_css('.op-timer-stop-modal')
       expect(page).to have_text('Tracking time:')
 
       page.within('.spot-modal') { click_button 'Stop current timer' }
@@ -207,7 +207,7 @@ RSpec.describe 'Work Package timer', js: true do
       wp_view_a.visit!
 
       # Wait for another button to be present
-      expect(page).to have_selector('#watch-button', wait: 10)
+      expect(page).to have_css('#watch-button', wait: 10)
       timer_button.expect_visible visible: false
     end
   end

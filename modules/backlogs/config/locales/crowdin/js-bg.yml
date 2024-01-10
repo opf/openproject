@@ -24,4 +24,3 @@ bg:
     work_packages:
       properties:
         storyPoints: "Точки на история"
-        remainingTime: "Remaining work"

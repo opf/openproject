@@ -72,7 +72,7 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
     @engine = options[:engine]
     @allow_deeplink = options[:allow_deeplink]
     @skip_permissions_check = !!options[:skip_permissions_check]
-    super @name.to_sym
+    super(@name.to_sym)
   end
 
   def caption(project = nil)

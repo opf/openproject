@@ -35,9 +35,6 @@ RSpec.describe Queries::Members::Filters::PrincipalFilter do
 
   before do
     login_as(current_user)
-  end
-
-  before do
     principal_scope = double('principal scope')
 
     allow(Principal)

@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe AuthSourceSSO,
-               skip_2fa_stage: true, # Prevent redirects to 2FA stage
+RSpec.describe AuthSourceSSO, :skip_2fa_stage, # Prevent redirects to 2FA stage
                type: :rails_request do
   let(:sso_config) do
     {

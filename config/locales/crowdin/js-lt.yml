@@ -521,6 +521,7 @@ lt:
     label_watcher_added_successfully: "Stebėtojas sėkmingai pridėtas!"
     label_watcher_deleted_successfully: "Stebėtojas sėkmingai ištrintas!"
     label_work_package_details_you_are_here: "Esate %{type} %{subject} %{tab} skirtuke."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Nestebėti"
     label_unwatch_work_package: "Nebestebėti darbų paketo"
     label_uploaded_by: "Įkėlė"
@@ -834,6 +835,7 @@ lt:
       toggle_description: "Perjungti ryšio aprašymą"
       update_relation: "Paspauskite, jei norite pakeisti ryšio tipą"
       add_follower: "Pridėti pasekėją"
+      show_relations: "Show relations"
       add_predecessor: "Pridėti pirmtaką"
       remove: "Pašalinti ryšį"
       save: "Įrašyti ryšį"
@@ -984,6 +986,7 @@ lt:
         updatedAt: "Atnaujinta"
         versionName: "Versija"
         version: "Versija"
+        remainingTime: "Liko darbo"
       default_queries:
         latest_activity: "Paskutinė veikla"
         created_by_me: "Sukūriau pats"

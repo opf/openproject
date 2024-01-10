@@ -521,6 +521,7 @@ ar:
     label_watcher_added_successfully: "تم إضافة المراقب بنجاح!"
     label_watcher_deleted_successfully: "تم حذف المراقب بنجاح!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "وقْف المشاهدة"
     label_unwatch_work_package: "لا تراقب مجموعة العمل"
     label_uploaded_by: "تم التحميل بواسطة"
@@ -836,6 +837,7 @@ ar:
       toggle_description: "Toggle relation description"
       update_relation: "Click to change the relation type"
       add_follower: "Add follower"
+      show_relations: "Show relations"
       add_predecessor: "Add predecessor"
       remove: "حذف علاقة"
       save: "إحفظ العلاقة"
@@ -986,6 +988,7 @@ ar:
         updatedAt: "تم التحديث بتاريخ"
         versionName: "الإصدار"
         version: "الإصدار"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"

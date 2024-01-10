@@ -33,8 +33,7 @@ require 'features/work_packages/shared_contexts'
 require 'support/edit_fields/edit_field'
 require 'features/work_packages/work_packages_page'
 
-RSpec.describe 'scheduling mode',
-               js: true do
+RSpec.describe 'scheduling mode', :js do
   let(:project) { create(:project_with_types, public: true) }
   # Constructing a work package graph that looks like this:
   #

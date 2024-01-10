@@ -68,7 +68,7 @@ class Activities::BaseActivityProvider
     self.activity_provider_options = {
       type: name.underscore.pluralize,
       activities: [:activity],
-      permission: "view_#{name.underscore.pluralize}".to_sym
+      permission: :"view_#{name.underscore.pluralize}"
     }.merge(options)
   end
 

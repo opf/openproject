@@ -45,7 +45,7 @@ require 'table_print' # Add this dependency to your gemfile
 # https://github.com/oesmith/puffing-billy/issues/253
 module BillyProxyPatch
   def stop
-    return unless EM.reactor_running?
+    nil unless EM.reactor_running?
   rescue Errno::ECONNRESET => e
     warn "Got error while shutting down Billy proxy"
   end

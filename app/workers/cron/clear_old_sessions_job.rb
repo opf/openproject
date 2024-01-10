@@ -34,7 +34,7 @@ module Cron
     self.cron_expression = '15 1 * * *'
 
     def perform
-      super 'db:sessions:expire', 7
+      super('db:sessions:expire', 7)
     end
   end
 end

@@ -73,10 +73,10 @@ RSpec.describe 'Projects module administration' do
     click_button 'Save'
 
     expect(page)
-      .to have_selector '.op-toast.-error',
-                        text: I18n.t(:'activerecord.errors.models.project.attributes.enabled_modules.dependency_missing',
-                                     dependency: 'Work packages',
-                                     module: 'Calendars')
+      .to have_css '.op-toast.-error',
+                   text: I18n.t(:'activerecord.errors.models.project.attributes.enabled_modules.dependency_missing',
+                                dependency: 'Work packages',
+                                module: 'Calendars')
 
     check 'Work packages'
 
@@ -107,7 +107,7 @@ RSpec.describe 'Projects module administration' do
 
     it "I can't see the modules menu item" do
       expect(page)
-        .not_to have_selector('[data-name="settings_modules"]')
+        .to have_no_css('[data-name="settings_modules"]')
     end
   end
 end

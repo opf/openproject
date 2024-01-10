@@ -49,12 +49,12 @@ end
 module Capybara
   module RSpecMatchers
     %i[list list_item].each do |selector|
-      define_method "have_#{selector}" do |locator = nil, **options, &optional_filter_block|
+      define_method :"have_#{selector}" do |locator = nil, **options, &optional_filter_block|
         Matchers::HaveSelector.new(selector, locator, **options, &optional_filter_block)
       end
 
-      define_method "have_no_#{selector}" do |*args, **options, &optional_filter_block|
-        Matchers::NegatedMatcher.new(send("have_#{selector}", *args, **options, &optional_filter_block))
+      define_method :"have_no_#{selector}" do |*args, **options, &optional_filter_block|
+        Matchers::NegatedMatcher.new(send(:"have_#{selector}", *args, **options, &optional_filter_block))
       end
     end
   end

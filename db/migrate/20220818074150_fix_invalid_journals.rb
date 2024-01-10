@@ -65,7 +65,6 @@ class FixInvalidJournals < ActiveRecord::Migration[7.0]
       .pluck('DISTINCT(journable_type)')
       .compact
       .to_h do |journable_type|
-
       relation = Journal
         .where(journable_type:)
         .where.not(data_type: "Journal::#{journable_type}Journal")

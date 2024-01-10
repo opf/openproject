@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-file_name = File.join([Rails.root.to_s, 'config', 'plaintext.yml'])
+file_name = Rails.root.join.to_s
 if File.file?(file_name)
   config_file = File.read(file_name)
   Plaintext::Configuration.load(config_file)

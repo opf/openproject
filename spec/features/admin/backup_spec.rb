@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'backup', js: true do
+RSpec.describe 'backup', :js do
   let(:current_user) do
     create(:user,
            global_permissions: [:create_backup],
@@ -122,6 +122,6 @@ RSpec.describe 'backup', js: true do
     token = Token::Backup.find_by(user: current_user)
 
     expect(token).to be_nil
-    expect(page).not_to have_content /#{I18n.t('js.backup.title')}/i
+    expect(page).to have_no_content /#{I18n.t('js.backup.title')}/i
   end
 end

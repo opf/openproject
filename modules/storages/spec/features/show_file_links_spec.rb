@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe 'Showing of file links in work package', js: true do
+RSpec.describe 'Showing of file links in work package', :js do
   let(:permissions) { %i(view_work_packages edit_work_packages view_file_links manage_file_links) }
   let(:project) { create(:project) }
   let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }

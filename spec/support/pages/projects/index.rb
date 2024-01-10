@@ -59,9 +59,9 @@ module Pages
           projects.each do |project|
             case project
             when Project
-              expect(page).not_to have_text(project.name)
+              expect(page).to have_no_text(project.name)
             when String
-              expect(page).not_to have_text(project)
+              expect(page).to have_no_text(project)
             else
               raise ArgumentError, "#{project.inspect} is not a Project or a String"
             end
@@ -76,21 +76,25 @@ module Pages
       end
 
       def expect_filters_container_toggled
-        expect(page).to have_selector('form.project-filters-box')
+        expect(page).to have_css('form.project-filters')
       end
 
       def expect_filters_container_hidden
-        expect(page).to have_selector('form.project-filters-box', visible: :hidden)
+        expect(page).to have_css('form.project-filters', visible: :hidden)
       end
 
       def expect_filter_set(filter_name)
-        expect(page).to have_selector("li[filter-name='#{filter_name}']:not(.hidden)",
-                                      visible: :hidden)
+        expect(page).to have_css("li[filter-name='#{filter_name}']:not(.hidden)",
+                                 visible: :hidden)
+      end
+
+      def expect_no_project_create_button
+        expect(page).to have_no_css('[data-test-selector="project-new-button"]')
       end
 
       def expect_gantt_button(disabled: false)
-        expect(page).to have_selector("button#{disabled ? '[disabled]' : ''}",
-                                      text: 'Open as Gantt view')
+        expect(page).to have_css("button#{disabled ? '[disabled]' : ''}",
+                                 text: 'Open as Gantt view')
       end
 
       def filter_by_active(value)
@@ -152,9 +156,9 @@ module Pages
         end
 
         if should_active
-          expect(page).to have_selector('[data-test-selector="spot-switch-handle"][data-qa-active]')
+          expect(page).to have_css('[data-test-selector="spot-switch-handle"][data-qa-active]')
         else
-          expect(page).to have_selector('[data-test-selector="spot-switch-handle"]:not([data-qa-active])')
+          expect(page).to have_css('[data-test-selector="spot-switch-handle"]:not([data-qa-active])')
         end
       end
 
@@ -211,7 +215,7 @@ module Pages
           menu = find('ul.project-actions')
           menu.click
           wait_for_network_idle if using_cuprite?
-          expect(page).to have_selector('.menu-drop-down-container')
+          expect(page).to have_css('.menu-drop-down-container')
           yield menu
         end
       end

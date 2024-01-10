@@ -43,7 +43,7 @@ RSpec.describe Sprint do
         end
 
         it {
-          expect(Sprint.displayed_left(project)).to match_array [sprint]
+          expect(Sprint.displayed_left(project)).to contain_exactly(sprint)
         }
       end
 
@@ -58,7 +58,7 @@ RSpec.describe Sprint do
           sprint.save
         end
 
-        it { expect(Sprint.displayed_left(project)).to match_array [sprint] }
+        it { expect(Sprint.displayed_left(project)).to contain_exactly(sprint) }
       end
 
       describe 'WITH no version setting defined' do
@@ -67,7 +67,7 @@ RSpec.describe Sprint do
           sprint.save!
         end
 
-        it { expect(Sprint.displayed_left(project)).to match_array [sprint] }
+        it { expect(Sprint.displayed_left(project)).to contain_exactly(sprint) }
       end
 
       context 'WITH a shared version from another project' do
@@ -93,7 +93,7 @@ RSpec.describe Sprint do
 
         describe 'WITH no version settings' do
           it "includes the shared version by default" do
-            expect(displayed).to match_array [version]
+            expect(displayed).to contain_exactly(version)
           end
         end
 
@@ -103,7 +103,7 @@ RSpec.describe Sprint do
           end
 
           it "includes the shared version" do
-            expect(displayed).to match_array [version]
+            expect(displayed).to contain_exactly(version)
           end
         end
 
@@ -113,7 +113,7 @@ RSpec.describe Sprint do
           end
 
           it "includes the shared version" do
-            expect(displayed).to match_array []
+            expect(displayed).to be_empty
           end
         end
 
@@ -123,7 +123,7 @@ RSpec.describe Sprint do
           end
 
           it "includes the shared version" do
-            expect(displayed).to match_array [version]
+            expect(displayed).to contain_exactly(version)
           end
         end
 
@@ -133,7 +133,7 @@ RSpec.describe Sprint do
           end
 
           it "does not include the shared version" do
-            expect(displayed).to match_array []
+            expect(displayed).to be_empty
           end
         end
 
@@ -144,7 +144,7 @@ RSpec.describe Sprint do
           end
 
           it "includes the shared version" do
-            expect(displayed).to match_array [version]
+            expect(displayed).to contain_exactly(version)
           end
         end
 
@@ -155,7 +155,7 @@ RSpec.describe Sprint do
           end
 
           it "does not include the shared version" do
-            expect(displayed).to match_array []
+            expect(displayed).to be_empty
           end
         end
 
@@ -166,7 +166,7 @@ RSpec.describe Sprint do
           end
 
           it "includes the shared version" do
-            expect(displayed).to match_array [version]
+            expect(displayed).to contain_exactly(version)
           end
         end
 
@@ -177,7 +177,7 @@ RSpec.describe Sprint do
           end
 
           it "does not include the shared version" do
-            expect(displayed).to match_array []
+            expect(displayed).to be_empty
           end
         end
       end
@@ -190,7 +190,7 @@ RSpec.describe Sprint do
         sprint.save!
       end
 
-      it { expect(Sprint.displayed_right(project)).to match_array [sprint] }
+      it { expect(Sprint.displayed_right(project)).to contain_exactly(sprint) }
     end
 
     describe '#order_by_date' do

@@ -34,7 +34,7 @@ RSpec.describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI' do
 
   let(:edit_role) do
     create(:project_role, permissions: %i[edit_work_packages
-                                  view_work_packages])
+                                          view_work_packages])
   end
   let(:move_role) do
     create(:project_role, permissions: [:move_work_packages])

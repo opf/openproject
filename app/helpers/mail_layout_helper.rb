@@ -61,10 +61,10 @@ module MailLayoutHelper
 
   def placeholder_cell(number, vertical:)
     style = if vertical
-      "max-width:#{number}; min-width:#{number}; width:#{number}"
-    else
-      "line-height:#{number}; max-width:0; min-width:0; height:#{number}; width:0; font-size:#{number}"
-    end
+              "max-width:#{number}; min-width:#{number}; width:#{number}"
+            else
+              "line-height:#{number}; max-width:0; min-width:0; height:#{number}; width:0; font-size:#{number}"
+            end
 
     content_tag('td', '&nbsp;'.html_safe, style:)
   end

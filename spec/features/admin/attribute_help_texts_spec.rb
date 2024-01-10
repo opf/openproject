@@ -140,7 +140,7 @@ RSpec.describe 'Attribute help texts', :js, :with_cuprite do
         # Create new, status is now blocked
         find('.attribute-help-texts--create-button').click
         expect(page).to have_css('#attribute_help_text_attribute_name option', text: 'Assignee')
-        expect(page).not_to have_css('#attribute_help_text_attribute_name option', text: 'Status')
+        expect(page).to have_no_css('#attribute_help_text_attribute_name option', text: 'Status')
         visit attribute_help_texts_path
 
         # Destroy

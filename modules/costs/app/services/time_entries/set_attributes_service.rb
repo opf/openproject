@@ -30,7 +30,7 @@ module TimeEntries
   class SetAttributesService < ::BaseServices::SetAttributes
     private
 
-    def set_attributes(attributes)
+    def set_attributes(_attributes)
       model.attributes = params
 
       ##

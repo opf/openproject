@@ -520,6 +520,7 @@ de:
     label_watcher_added_successfully: "Beobachter erfolgreich hinzugefügt!"
     label_watcher_deleted_successfully: "Beobachter erfolgreich gelöscht!"
     label_work_package_details_you_are_here: "Sie sind auf dem Reiter %{tab} von %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Nicht mehr beobachten"
     label_unwatch_work_package: "Arbeitspaket nicht mehr beobachten"
     label_uploaded_by: "Hochgeladen von"
@@ -831,6 +832,7 @@ de:
       toggle_description: "Beschreibung der Beziehung ein-/ausklappen"
       update_relation: "Klicken um den Beziehungstyp zu ändern"
       add_follower: "Nachfolger hinzufügen"
+      show_relations: "Show relations"
       add_predecessor: "Vorgänger hinzufügen"
       remove: "Beziehung entfernen"
       save: "Beziehung speichern"
@@ -981,6 +983,7 @@ de:
         updatedAt: "Aktualisiert am"
         versionName: "Version"
         version: "Version"
+        remainingTime: "Verbleibender Aufwand"
       default_queries:
         latest_activity: "Letzte Änderungen"
         created_by_me: "Erstellt von mir"

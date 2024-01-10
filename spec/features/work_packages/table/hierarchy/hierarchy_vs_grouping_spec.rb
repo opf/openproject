@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work Package table hierarchy vs grouping', js: true do
+RSpec.describe 'Work Package table hierarchy vs grouping', :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
 

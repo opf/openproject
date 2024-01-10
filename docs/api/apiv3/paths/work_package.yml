@@ -169,7 +169,7 @@ patch:
       description: |-
         Returned if the client does not have sufficient permissions.
 
-        **Required permission:** edit work package, assign version, manage subtasks or move work package
+        **Required permission:** edit work package, assign version, change work package status, manage subtasks or move work package
     '404':
       content:
         application/hal+json:

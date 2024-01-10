@@ -62,7 +62,7 @@ RSpec.describe Relations::Scopes::Visible do
 
       it 'returns the relations' do
         expect(Relation.visible(user))
-          .to match_array([relation1, relation2])
+          .to contain_exactly(relation1, relation2)
       end
     end
 
@@ -73,7 +73,7 @@ RSpec.describe Relations::Scopes::Visible do
 
       it 'returns the relation within the one project' do
         expect(Relation.visible(user))
-          .to match_array([relation1])
+          .to contain_exactly(relation1)
       end
     end
 

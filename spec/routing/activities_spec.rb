@@ -39,6 +39,7 @@ RSpec.describe ActivitiesController, 'routing' do
                                               action: 'index',
                                               format: 'atom')
   }
+
   it {
     expect(get('/activity/menu')).to route_to(controller: 'activities',
                                               action: 'menu')

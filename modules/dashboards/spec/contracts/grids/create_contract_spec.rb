@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_examples'
+require_relative 'shared_examples'
 
 RSpec.describe Grids::CreateContract do
   include_context 'grid contract'

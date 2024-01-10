@@ -521,6 +521,7 @@ sk:
     label_watcher_added_successfully: "Pozorovateľ úspešne pridaný!"
     label_watcher_deleted_successfully: "Pozorovateľ úspešne odstránený!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Prestať pozorovať"
     label_unwatch_work_package: "Prestaň sledovať pracovný balíček"
     label_uploaded_by: "Nahral"
@@ -834,6 +835,7 @@ sk:
       toggle_description: "Prepnúť popis vzťahu"
       update_relation: "Kliknite na tlačidlo zmeniť typ vzťahu"
       add_follower: "Pridať follower"
+      show_relations: "Show relations"
       add_predecessor: "Pridať predchodcu"
       remove: "Odstrániť vzťah"
       save: "Uložiť vzťah"
@@ -984,6 +986,7 @@ sk:
         updatedAt: "Aktualizované"
         versionName: "Verzia"
         version: "Verzia"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Posledná aktivita"
         created_by_me: "Vytvorené mnou"

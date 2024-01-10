@@ -38,11 +38,11 @@ module Components
       end
 
       def expect_closed
-        expect(page).not_to have_selector('op-baseline')
+        expect(page).to have_no_css('op-baseline')
       end
 
       def expect_open
-        expect(page).to have_selector('op-baseline')
+        expect(page).to have_css('op-baseline')
         expect(page).to have_field('op-baseline-filter')
       end
 
@@ -55,7 +55,7 @@ module Components
       end
 
       def expect_no_time_field
-        expect(page).not_to have_field('op-baseline-time')
+        expect(page).to have_no_field('op-baseline-time')
       end
 
       def select_filter(option)
@@ -64,11 +64,11 @@ module Components
       end
 
       def expect_offset(value, count: 1)
-        expect(page).to have_selector('.op-baseline--time-help', text: value, count:)
+        expect(page).to have_css('.op-baseline--time-help', text: value, count:)
       end
 
       def expect_time_help_text(text)
-        expect(page).to have_selector('.spot-form-field--description', text:)
+        expect(page).to have_css('.spot-form-field--description', text:)
       end
 
       def set_time(value, selector = 'op-baseline-time')

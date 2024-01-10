@@ -521,6 +521,7 @@ uk:
     label_watcher_added_successfully: "Спостерігач успішно доданий!"
     label_watcher_deleted_successfully: "Спостерігач успішно видалений!"
     label_work_package_details_you_are_here: "Зараз ви на вкладці %{tab} для %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Перестати відстежувати"
     label_unwatch_work_package: "Припинити спостерігати за пакетом робіт"
     label_uploaded_by: "Завантажено"
@@ -834,6 +835,7 @@ uk:
       toggle_description: "Переключити опис відносин"
       update_relation: "Натисніть, щоб змінити тип відносини"
       add_follower: "Додати послідовника"
+      show_relations: "Show relations"
       add_predecessor: "Додати попередника"
       remove: "Видалити зв'язок"
       save: "Зберегти відношення"
@@ -984,6 +986,7 @@ uk:
         updatedAt: "Оновлене"
         versionName: "Версія"
         version: "Версія"
+        remainingTime: "Залишок роботи"
       default_queries:
         latest_activity: "Останні дії"
         created_by_me: "Створений мною"

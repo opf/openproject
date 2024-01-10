@@ -78,7 +78,9 @@ module WorkPackage::Journalized
                   url: JournalizedProcs.event_url
 
     register_journal_formatted_fields(:id, 'parent_id')
-    register_journal_formatted_fields(:fraction, 'estimated_hours', 'derived_estimated_hours')
+    register_journal_formatted_fields(:fraction,
+                                      'estimated_hours', 'derived_estimated_hours',
+                                      'remaining_hours', 'derived_remaining_hours')
     register_journal_formatted_fields(:decimal, 'done_ratio')
     register_journal_formatted_fields(:diff, 'description')
     register_journal_formatted_fields(:schedule_manually, 'schedule_manually')
