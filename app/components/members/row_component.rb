@@ -31,6 +31,7 @@
 module Members
   class RowComponent < ::RowComponent
     property :principal
+    delegate :project, to: :table
 
     def member
       model
@@ -105,7 +106,7 @@ module Members
 
     def groups
       if user?
-        principal.groups.map(&:name).join(", ")
+        (principal.groups & project.groups).map(&:name).join(", ")
       end
     end
 
