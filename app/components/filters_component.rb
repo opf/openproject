@@ -32,6 +32,7 @@ class FiltersComponent < ApplicationComponent
   options :query
   
   renders_many :buttons, lambda { |**system_arguments|
+    system_arguments[:ml] ||= 2
     Primer::Beta::Button.new(**system_arguments)
   }
   
