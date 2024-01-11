@@ -34,6 +34,28 @@ To activate the Gantt chart, select the **Gantt** icon at the top right corner o
 
 ![activate-gantt](activate-gantt.gif)
 
+
+## Quick context menu in Gantt chart view
+
+Once you have selected the Gantt chart view, you can use the quick context menu. To do that, right-click on any of the work packages in the table. 
+> **Note**: if you use the [work packages view](../work-packages/edit-work-package#update-a-work-package-in-a-work-package table-view), the options in the quick context menu will differ slightly from the ones in the Gantt chart view.
+
+
+![Quick context menu in OpenProjedt Gantt chart work packages view](gantt-context-menu.png)
+
+You can use any of the following options. 
+
+- **Open details view** - opens the details view of a work package on the right side of the screen.
+- **Open fullscreen view** - opens the detailed view of a work package across the entire screen.
+- **Change project** - allows moving the selected work package to a different project.
+- **Copy link to clipboard** - copies a short link to the selected work package to your clipboard. 
+- **Delete** - deletes a work package. You will need to confirm the deletion.
+- **Indent hierarchy** - creates a child-parent relationship with the work package directly above. The work package you selected become the child work package. The work package directly above becomes the parent work package.
+- **Add predecessor** - adds a predecessor (it will prompt you to select a work package in Gantt view).
+- **Add follower** - adds a follower (it will prompt you to select a work package in Gantt view).
+- **Show relations** - open the details view of a work package and displays the **Relations** tab.
+- **Create new child** - opens a new work package on the right side of the screen. This new work package already has a child relationship to the work package you selected.  **This option will not be available if the work package type is a milestone**. 
+
 ## Create a new element in the Gantt chart
 
 To add a work package (e.g. phase, milestone or task) to a Gantt chart, click the **+ Create new work package** link at the bottom of the work package table view.
@@ -66,8 +88,6 @@ Select the item to which you want to create a dependency. The precede and follow
 
 
 ![dependencies-gantt-chart](dependencies-gantt-chart-1566556144225.gif)
-
-*OpenProject does not yet include a baseline feature to compare scheduled versions. However, we are aware of the need for it and documented it. Please check [here](https://community.openproject.com/wp/26448) for an update.*
 
 When work packages have a precedes/follows relationship:
 

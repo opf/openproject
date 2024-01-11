@@ -42,7 +42,7 @@ The table view shows all work packages in a table with selected attributes in th
 
 ![1566306576394](1566306576394.png)
 
-Find out how to make changes to the work package table view, e.g. change the titles in the header, filter, group or add dependencies.
+Find out how to make changes to the work package table view, e.g. change the titles in the header, filter, group or add dependencies in the [work package table configuration guide](../work-package-table-configuration/).
 
 ### Split screen view
 
