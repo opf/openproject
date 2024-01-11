@@ -47,7 +47,6 @@ az:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "Download %{fileName}"
-        no_permission: "You have no permission to see this file."
         open: "Open file on storage"
         open_location: "Open file in location"
         remove: "Remove file link"
@@ -77,6 +76,9 @@ az:
               Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
         link_uploaded_file_error: >
           An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
-        not_allowed_tooltip: "Please log in to Nextcloud to access this file"
+        tooltip:
+          not_logged_in: "Please log in to Nextcloud to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
         already_linked_file: "This file is already linked to this work package."
         already_linked_directory: "This directory is already linked to this work package."

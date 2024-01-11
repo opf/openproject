@@ -47,7 +47,6 @@ ca:
         empty: >
           Actualment no hi ha cap fitxer enllaçat a aquest paquet de treball. Comença a enllaçar fitxers amb l'acció de sota o dins de %{storageType}.
         download: "Descarrega %{fileName}"
-        no_permission: "No tens permisos per veure aquest fitxer."
         open: "Obre el fitxer a l'emmagatzematge"
         open_location: "Obre la ubicació del fitxer"
         remove: "Elimina l'enllaç del fitxer"
@@ -77,6 +76,9 @@ ca:
               Si us plau, comprova l'última versió de l'aplicació Nextcloud "OpenProject Integration" estigui instal·lada i contacta el teu administrador per més informació.
         link_uploaded_file_error: >
           S'ha produït un error en enllaçar els fitxers carregats recentment "%{fileName}" al paquet de treball %{workPackageId}.
-        not_allowed_tooltip: "Si us plau, inicia sessió a Nextcloud per accedir a aquest fitxer"
+        tooltip:
+          not_logged_in: "Please log in to Nextcloud to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
         already_linked_file: "Aquest fitxer ja està enllaçat a aquest paquet de treball."
         already_linked_directory: "Aquest directori ja està enllaçat a aquest paquet de treball."

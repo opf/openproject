@@ -47,7 +47,6 @@ ro:
         empty: >
           În prezent, nu există fișiere legate de acest pachet de lucru. Începeți să legați fișierele cu acțiunea de mai jos sau din interiorul %{storageType}.
         download: "Descarcă %{fileName}"
-        no_permission: "Nu aveți permisiunea de a vedea acest fișier."
         open: "Deschide fişierul pe stocare"
         open_location: "Deschide fișierul în locație"
         remove: "Elimină link-ul fișierului"
@@ -79,6 +78,9 @@ ro:
               Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
         link_uploaded_file_error: >
           A apărut o eroare la conectarea fișierului încărcat recent '%{fileName}' la pachetul de lucru %{workPackageId}.
-        not_allowed_tooltip: "Vă rugăm să vă autentificaţi în Nextcloud pentru a accesa acest fişier"
+        tooltip:
+          not_logged_in: "Please log in to Nextcloud to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
         already_linked_file: "Acest fișier este deja legat la acest pachet de lucru."
         already_linked_directory: "Acest director este deja conectat la acest pachet de lucru."

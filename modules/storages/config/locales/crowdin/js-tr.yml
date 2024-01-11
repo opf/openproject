@@ -47,7 +47,6 @@ tr:
         empty: >
           Şu anda bu çalışma paketine bağlı dosya yok. Aşağıdaki işlemle veya %{storageType} içinden dosyaları bağlamaya başlayın.
         download: "%{fileName} dosyasını indir"
-        no_permission: "Bu dosyayı görme izniniz yok."
         open: "Dosyayı depoda aç"
         open_location: "Dosyayı konumda aç"
         remove: "Dosya bağlantısını kaldır"
@@ -77,6 +76,9 @@ tr:
               Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
         link_uploaded_file_error: >
           Yakın zamanda yüklenen '%{fileName}' dosyasını %{workPackageId} iş paketine bağlarken bir hata oluştu.
-        not_allowed_tooltip: "Bu dosyaya erişmek için lütfen Nextcloud'da oturum açın"
+        tooltip:
+          not_logged_in: "Please log in to Nextcloud to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
         already_linked_file: "Bu dosya zaten bu iş paketine bağlı."
         already_linked_directory: "Bu dizin zaten bu çalışma paketine bağlı."

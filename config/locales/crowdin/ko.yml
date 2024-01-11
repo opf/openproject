@@ -281,6 +281,9 @@ ko:
       no_results_content_text: 프로젝트에 새 멤버 추가
     invite_by_mail: "%{mail}에 초대 보내기"
     send_invite_to: "다음으로 초대장 보내기:"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
     filters:
       all_shares: 'All shares'
     menu:
@@ -2135,6 +2138,10 @@ ko:
     one: "1개 열림"
     other: "%{count}개 열림"
     zero: "0개 열림"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1개 프로젝트"
     other: "%{count}개 프로젝트"

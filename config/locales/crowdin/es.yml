@@ -278,6 +278,9 @@ es:
       no_results_content_text: Añadir un miembro a este proyecto
     invite_by_mail: "Enviar invitación a %{mail}"
     send_invite_to: "Enviar invitación a"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
     filters:
       all_shares: 'All shares'
     menu:
@@ -2160,6 +2163,10 @@ es:
     one: "1 abierto"
     other: "%{count} abiertos"
     zero: "0 abiertos"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 proyecto"
     other: "%{count} proyectos"

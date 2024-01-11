@@ -47,7 +47,6 @@ es:
         empty: >
           Actualmente no hay archivos enlazados a este paquete de trabajo. Vincule sus primeros archivos usando la acción de abajo o desde %{storageType}.
         download: "Descargar %{fileName}"
-        no_permission: "No tienes permisos para ver este archivo."
         open: "Abrir el fichero en almacenamiento"
         open_location: "Abrir fichero en su ubicación"
         remove: "Eliminar vínculo de fichero"
@@ -77,6 +76,9 @@ es:
               Por favor, compruebe que la última versión de la aplicación de Nextcloud "OpenProject Integration" está instalada y póngase en contacto con su administrador para obtener más información.
         link_uploaded_file_error: >
           Se ha producido un error al vincular el archivo cargado recientemente "%{fileName}" al paquete de trabajo %{workPackageId}.
-        not_allowed_tooltip: "Por favor, inicia sesión en Nextcloud para acceder a este archivo"
+        tooltip:
+          not_logged_in: "Please log in to Nextcloud to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
         already_linked_file: "El archivo ya está vinculado a este paquete de trabajo."
         already_linked_directory: "El directorio ya está vinculado a este paquete de trabajo."

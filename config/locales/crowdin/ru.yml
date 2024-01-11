@@ -280,6 +280,9 @@ ru:
       no_results_content_text: Добавить участника в проект
     invite_by_mail: "Отправить приглашение на %{mail}"
     send_invite_to: "Отправить приглашение"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
     filters:
       all_shares: 'Все используемое совместно'
     menu:
@@ -2216,6 +2219,10 @@ ru:
     one: "1 открыт"
     other: "%{count} открыто"
     zero: "0 открытых"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 проект"
     other: "%{count} проектов"

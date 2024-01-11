@@ -47,7 +47,6 @@ de:
         empty: >
           Derzeit gibt es keine verknüpften Dateien zu diesem Arbeitspaket. Starten Sie die Verknüpfung von Dateien mit der unten stehenden Aktion oder über %{storageType}.
         download: "%{fileName} herunterladen"
-        no_permission: "Sie haben keine Berechtigung, diese Datei zu sehen."
         open: "Datei im Speicher öffnen"
         open_location: "Datei am Speicherort öffnen"
         remove: "Datei-Link entfernen"
@@ -77,6 +76,9 @@ de:
               Bitte überprüfen Sie, ob die neueste Version der Nextcloud App "OpenProject Integration" installiert ist und kontaktieren Sie Ihren Administrator für weitere Informationen.
         link_uploaded_file_error: >
           Beim Verknüpfen der kürzlich hochgeladenen Datei '%{fileName}' mit dem Arbeitspaket %{workPackageId} ist ein Fehler aufgetreten.
-        not_allowed_tooltip: "Bitte melden Sie sich bei Nextcloud an, um auf diese Datei zuzugreifen"
+        tooltip:
+          not_logged_in: "Please log in to Nextcloud to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
         already_linked_file: "Die Datei ist bereits mit diesem Arbeitspaket verknüpft."
         already_linked_directory: "Das Verzeichnis ist bereits mit diesem Arbeitspaket verknüpft."

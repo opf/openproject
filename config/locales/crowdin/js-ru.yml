@@ -347,11 +347,11 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_1':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li> Предоставлять общий доступ к рабочим пакетам внешним пользователям и группам, которые не являются участниками проекта (корпоративное дополнение).</li> <li> Новые динамичные собрания с повестками дня и протоколами, связанными с рабочими пакетами.</li> <li> Свяжите рабочие пакеты с файлами и папками в OneDrive/ SharePoint.</li> <li> Тест доступности и первые улучшения в соответствии с WCAG 2.1 AA, вкл. режим высокой контрастности.</li> <li> Продолжена интеграция системы проектирования грунтовки. </li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
@@ -1036,6 +1036,8 @@ ru:
         selected_count: "%{count} выбрано"
         selection:
           mixed: "Смешанное"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: 'Настроить таблицу пакета работ'
         summary: "Таблица с названиями пакетов работ в строках и атрибутами пакетов работ в столбцах."

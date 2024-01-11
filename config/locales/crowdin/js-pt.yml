@@ -347,11 +347,11 @@ pt:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_1':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                A versão contém vários recursos e melhorias novas: <br> <ul class="%{list_styling_class}"> <li>Compartilhar pacotes de trabalho com usuários e grupos externos que não são membros do projeto (complemento empresarial).</li> <li>Novas reuniões dinâmicas com agendas e minutas vinculadas ao pacotes de trabalho.</li> <li>Vinculação de pacotes de trabalho a arquivos e pastas no OneDrive/SharePoint.</li> <li>Teste de acessibilidade e primeiras melhorias de acordo com as WCAG 2.1 AA, incluindo o modo de alto contraste.</li> <li>Continuação da integração do Sistema Primer Design.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."
@@ -1034,6 +1034,8 @@ pt:
         selected_count: "%{count} selecionado"
         selection:
           mixed: "Misturado"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: 'Configurar a tabela de pacote de trabalho'
         summary: "Tabela com linhas de pacote de trabalho e colunas com atributos do pacote de trabalho."

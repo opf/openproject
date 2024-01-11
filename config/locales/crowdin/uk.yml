@@ -276,6 +276,9 @@ uk:
       no_results_content_text: Додайте учасника до проекту
     invite_by_mail: "Надіслати запрошення на адресу %{mail}"
     send_invite_to: "Надіслати запрошення:"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
     filters:
       all_shares: 'All shares'
     menu:
@@ -2212,6 +2215,10 @@ uk:
     one: "1 відкрита"
     other: "%{count} відкритих"
     zero: "0 відкрито"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 проект"
     other: "%{count} проектів"
