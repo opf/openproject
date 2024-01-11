@@ -47,8 +47,9 @@ Here you can choose which kind of OneDrive/SharePoint project folder will be the
 
 ![Select OndeDrive/SharePoint folder type in OpenProject](onedrive-storage-add-folders.png)
 
-1. **No specific folder**: By default, each user will start at their own home folder when they upload a file.
-2. **Existing folder with manually managed permissions**: Once you selected this option, you can designate an existing folder as the project folder for this project using the button **Select folder**. The permissions are however not automatically managed. The administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
+1. **No specific folder**: By default, each user will start at the drive root when they upload a file or select files for linking.
+2. **Existing folder with manually managed permissions**: Once you selected this option, you can designate an existing folder as the project folder for this project using the button **Select folder**. The permissions are however not automatically managed, **instead the folder and its content inherits the permissions as configured in the SharePoint site or drive**. The administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
+
 
 Click on **Add** to add your new OneDrive/SharePoint file storage to this project.
 
