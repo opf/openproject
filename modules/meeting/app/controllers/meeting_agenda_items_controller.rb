@@ -35,7 +35,7 @@ class MeetingAgendaItemsController < ApplicationController
   before_action :set_meeting
   before_action :set_agenda_item_type, only: %i[new create]
   before_action :set_meeting_agenda_item,
-                except: %i[index new cancel_new create author_autocomplete_index]
+                except: %i[new cancel_new create] # author_autocomplete_index
   before_action :authorize
 
   def new
