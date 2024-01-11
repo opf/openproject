@@ -26,29 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module API
-  module V3
-    module Shares
-      class SharesAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::UrlPropsParsingHelper
+require 'spec_helper'
 
-        resources :shares do
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: Member,
-                      scope: -> { Member.visible(User.current).where.not(entity: nil).includes(ShareRepresenter.to_eager_load) },
-                      api_name: 'Share')
-                 .mount
-
-          route_param :id, type: Integer, desc: 'Share ID' do
-            after_validation do
-              @member = Member.where.not(entity: nil).visible(User.current).find(params[:id])
-            end
-
-            get &::API::V3::Utilities::Endpoints::Show.new(model: Member,
-                                                           api_name: 'Share').mount
-          end
-        end
-      end
+RSpec.describe API::V3::Shares::ShareCollectionRepresenter do
+  let(:self_base_link) { '/api/v3/shares' }
+  let(:members) do
+    build_stubbed_list(:work_package_member, 3).tap do |members|
+      allow(members).to receive(:limit).with(page_size).and_return(members)
+      allow(members).to receive(:offset).with(page - 1).and_return(members)
+      allow(members).to receive(:count).and_return(3)
     end
+  end
+  let(:current_user) { build_stubbed(:user) }
+  let(:representer) do
+    described_class.new(members,
+                        self_link: self_base_link,
+                        per_page: page_size,
+                        page:,
+                        current_user:)
+  end
+  let(:total) { 3 }
+  let(:page) { 1 }
+  let(:page_size) { 2 }
+  let(:actual_count) { 3 }
+  let(:collection_inner_type) { 'Share' }
+
+  include API::V3::Utilities::PathHelper
+
+  context 'generation' do
+    subject(:collection) { representer.to_json }
+
+    it_behaves_like 'offset-paginated APIv3 collection', 3, 'shares', 'Share'
   end
 end
