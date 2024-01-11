@@ -21,9 +21,11 @@ Project management is a complex process. At the same time, when it comes to soft
 [G](#g)
 [H](#h)
 [I](#i)
+[M](#m)
 [N](#n)
 [O](#o)
 [P](#p)
+[Q](#q)
 [R](#r)
 [S](#s)
 [T](#t)
@@ -202,9 +204,11 @@ Hybrid project management is an approach that combines elements of both classic 
 
 In OpenProject, you can choose from several integrations, such as the [Excel synchronization](#excel-synchronization) or the [Nextcloud integration](#nextcloud-integration). In contrast to a plugin, an integration refers to cross features between two software products (e.g., OpenProject and Nextcloud), where both pieces of software have code that is responsible for interacting with the other software, through e.g., an API. Whereas a [plugin](#plugin) is installed on top of / as part of the OpenProject installation. You'll need to actively install it. [See all available plugins and integrations for OpenProject](https://www.openproject.org/docs/system-admin-guide/integrations/).
 
+## M
+
 ### Meetings
 
-In OpenProject Software, Meetings is defined as a [module](#module) that allows the organization of meetings. The module has to be activated in the [project settings](#project-settings) by a project admin in order to be displayed in the side navigation. Since the release of OpenProject 13.1, you can choose between the previously used classic meetings and the new dynamic meetings. [See our user guide for more information on Meeting management in OpenProject](https://www.openproject.org/docs/user-guide/meetings/).
+In OpenProject Software, Meetings is defined as a [module](#module) that allows the organization of meetings. The module has to be activated in the [project settings](#project-settings) by a project admin in order to be displayed in the side navigation. You can choose between classic meetings and dynamic meetings. Please note that only dynamic meetings will remain available in the long term. [See our user guide for more information on Meeting management in OpenProject](https://www.openproject.org/docs/user-guide/meetings/).
 
 ### Member
 
@@ -282,7 +286,7 @@ In OpenProject, a [project](https://www.openproject.org/docs/user-guide/projects
 
 ### Project folder
 
-Project folders are a feature in OpenProject's [Nextcloud integration](#nextcloud-integration) to collaborate in the most efficient way. [Read more about project folders in OpenProject](https://www.openproject.org/docs/user-guide/projects/project-settings/file-storages/#project-folders).
+Project folders help collaborating in the most efficient way. They can be used with OpenProject's [Nextcloud integration](#nextcloud-integration) or with OpenProject's [OneDrive/SharePoint integration](#onedrivesharepoint-integration). [Read more about project folders in OpenProject](https://www.openproject.org/docs/user-guide/projects/project-settings/file-storages/#project-folders).
 
 ### Project identifier
 
@@ -316,7 +320,7 @@ In OpenProject, projects can be private or public. Public means that the project
 
 ### Quick context menu
 
-The quick context menu in OpenProject opens when you open a [work package table](#work-package-table) and then right-click on a single work package. It allows you to perform quick actions like *open details view*, *copy link to clipboard* or *create new child*. Please note that, beginning with OpenProject 13.2, the quick context menu differs depending on whether you are in the [Gantt](#gantt-chart) view or not.
+The quick context menu in OpenProject opens when you open a [work package table](#work-package-table) and then right-click on a single work package. It allows you to perform quick actions like *open details view*, *copy link to clipboard* or *create new child*. Please note that the quick context menu differs depending on whether you are in the [Gantt](#gantt-chart) view or not.
 
 ## R
 
