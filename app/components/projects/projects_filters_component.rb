@@ -31,8 +31,7 @@
 class Projects::ProjectsFiltersComponent < FiltersComponent
   
   def allowed_filters
-    query
-      .available_filters
+    super
       .select { |f| allowed_filter?(f) }
       .sort_by(&:human_name)
   end

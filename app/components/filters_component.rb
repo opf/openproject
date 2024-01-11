@@ -36,6 +36,7 @@ class FiltersComponent < ApplicationComponent
   }
   
   def allowed_filters
-    raise NotImplementedError
+     query
+      .available_filters
   end
 end
