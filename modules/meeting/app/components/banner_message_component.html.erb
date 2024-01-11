@@ -28,5 +28,12 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(Primer::Alpha::Banner.new(full:, full_when_narrow:, dismiss_scheme:, icon:, scheme:,test_selector:)) { message }
+  render(Primer::Alpha::Banner.new(full:,
+                                   full_when_narrow:,
+                                   dismiss_scheme:,
+                                   dismiss_label:,
+                                   icon:,
+                                   scheme:,
+                                   test_selector:,
+                                   )) { message }
 %>
