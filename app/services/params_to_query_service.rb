@@ -54,7 +54,7 @@ class ParamsToQueryService
   end
 
   def apply_filters(query, params)
-    return query unless params[:filters]
+    return query if params[:filters].blank?
 
     filters = parse_filters_from_json(params[:filters])
 

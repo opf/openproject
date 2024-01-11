@@ -57,6 +57,22 @@ RSpec.describe ParamsToQueryService do
                               { field: :created_at, operator: ">t-", values: ["4"] })
       end
     end
+
+    context 'with an empty filters string' do
+      let(:params) do
+        { filters: "" }
+      end
+
+      it 'returns a new query' do
+        expect(service_call)
+          .to be_a Queries::Projects::ProjectQuery
+      end
+
+      it 'applies no filters' do
+        expect(service_call.filters)
+          .to be_empty
+      end
+    end
   end
 
   context 'for a persisted Project query' do
