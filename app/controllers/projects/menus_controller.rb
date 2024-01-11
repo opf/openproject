@@ -48,12 +48,13 @@ module Projects
 
     def static_filters
       [
-        menu_item(I18n.t(:'projects.sidemenu.all'),
-                  []),
-        menu_item(I18n.t(:'projects.sidemenu.my'),
-                  [{ member_of: { operator: '=', values: ['t'] } }]),
-        menu_item(I18n.t(:'projects.sidemenu.archived'),
-                  [{ active: { operator: '=', values: ['f'] } }])
+        filter_menu_item(I18n.t(:'projects.sidemenu.all'),
+                         [],
+                         selected: filters_in_props.nil? && query_in_props.nil?),
+        filter_menu_item(I18n.t(:'projects.sidemenu.my'),
+                         [{ member_of: { operator: '=', values: ['t'] } }]),
+        filter_menu_item(I18n.t(:'projects.sidemenu.archived'),
+                         [{ active: { operator: '=', values: ['f'] } }])
       ]
     end
 
@@ -62,18 +63,20 @@ module Projects
         .where(user: current_user)
         .order(:name)
         .map do |query|
-        OpenProject::Menu::MenuItem.new(title: query.name,
-                                        href: projects_path(query_id: query.id, hide_filters_section: true),
-                                        selected: false)
+        query_menu_item(query)
       end
     end
 
-    def menu_item(title, filters)
-      href = projects_path_with_filters(filters)
-
+    def filter_menu_item(title, filters, selected: filter_item_selected?(filters))
       OpenProject::Menu::MenuItem.new(title:,
-                                      href:,
-                                      selected: item_selected?(filters))
+                                      href: projects_path_with_filters(filters),
+                                      selected:)
+    end
+
+    def query_menu_item(query)
+      OpenProject::Menu::MenuItem.new(title: query.name,
+                                      href: projects_path(query_id: query.id),
+                                      selected: query_item_selected?(query))
     end
 
     def projects_path_with_filters(filters)
@@ -82,12 +85,25 @@ module Projects
       projects_path(filters: filters.to_json, hide_filters_section: true)
     end
 
-    def item_selected?(filters)
-      active_filters = JSON.parse(params[:filters] || '[]')
+    def filter_item_selected?(filters)
+      filters == filters_in_props && query_in_props.nil?
+    end
 
-      filters == active_filters.map(&:deep_symbolize_keys)
-    rescue JSON::ParserError
-      false
+    def query_item_selected?(query)
+      query.id.to_s == query_in_props && filters_in_props.nil?
+    end
+
+    def query_in_props
+      params[:query_id]
+    end
+
+    def filters_in_props
+      @filters_in_props ||= begin
+        # Will have to recheck params[:filters] again in case it is empty but that is cheap.
+        JSON.parse(params[:filters]).map(&:deep_symbolize_keys) if params[:filters]
+      rescue JSON::ParserError
+        nil
+      end
     end
   end
 end
