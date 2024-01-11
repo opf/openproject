@@ -28,10 +28,19 @@
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import * as URI from 'urijs';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 
 export class EstimatedTimeDisplayField extends DisplayField {
   @InjectField() timezoneService:TimezoneService;
+
+  @InjectField() PathHelper:PathHelperService;
+
+  @InjectField() apiV3Service:ApiV3Service;
 
   private derivedText = this.I18n.t('js.label_value_derived_from_children');
 
@@ -100,13 +109,15 @@ export class EstimatedTimeDisplayField extends DisplayField {
   }
 
   public renderDerived(element:HTMLElement, displayText:string):void {
-    const span = document.createElement('span');
+    const link = document.createElement('a');
 
-    span.textContent = `Σ ${displayText}`;
-    span.title = `${this.derivedValueString} ${this.derivedText}`;
-    span.classList.add('-derived-value');
+    link.textContent = `Σ ${displayText}`;
+    link.title = `${this.derivedValueString} ${this.derivedText}`;
+    link.classList.add('-derived-value', uiStateLinkClass);
 
-    element.appendChild(span);
+    this.addURLToViewWorkPackageChildren(link);
+
+    element.appendChild(link);
   }
 
   public get title():string|null {
@@ -119,5 +130,30 @@ export class EstimatedTimeDisplayField extends DisplayField {
     const derived = this.derivedValue;
 
     return !value && !derived;
+  }
+
+  private addURLToViewWorkPackageChildren(link:HTMLAnchorElement):void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (this.resource && this.resource.id && this.resource.project) {
+      const wpID = this.resource.id.toString();
+      this
+        .apiV3Service
+        .projects
+        .id(this.resource.project as ProjectResource)
+        .get()
+        .subscribe((project:ProjectResource) => {
+          const props = {
+            c: ['id', 'subject', 'type', 'status', 'estimatedTime', 'remainingTime'],
+            hi: true,
+            is: true,
+            f: [{ n: 'parent', o: '=', v: [wpID] }],
+          };
+          const href = URI(this.PathHelper.projectWorkPackagesPath(project.identifier as string))
+            .query({ query_props: JSON.stringify(props) })
+            .toString();
+
+          link.href = href;
+        });
+    }
   }
 }
