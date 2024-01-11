@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OpIconComponent } from './icon.component';
 import {
+  OpEnterpriseAddonsIconComponent,
   ShareAndroidIconComponent,
   XIconComponent,
 } from '@openproject/octicons-angular';
@@ -12,6 +13,7 @@ import {
 
     ShareAndroidIconComponent,
     XIconComponent,
+    OpEnterpriseAddonsIconComponent,
   ],
   declarations: [
     OpIconComponent,
@@ -23,6 +25,7 @@ import {
 
     ShareAndroidIconComponent,
     XIconComponent,
+    OpEnterpriseAddonsIconComponent,
   ],
 })
 export class IconModule {}

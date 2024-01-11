@@ -8,17 +8,18 @@ keywords: edit work packages
 
 # Edit work packages
 
-| Feature                                                         | Documentation for                                  |
-|-----------------------------------------------------------------|----------------------------------------------------|
-| [Update a work package](#update-a-work-package)                 | How to make a change to an existing work package.  |
-| [Attach files to work packages](#attach-files-to-work-packages) | How to manually attach files to work packages.     |
-| [Watchers](#watchers)                                           | How to add or remove watchers from a work package. |
-| [Export work packages](#export-work-packages)                   | How to export work packages.                       |
-| [Bulk edit work packages](#bulk-edit-work-packages)             | How to edit several work packages as once.         |
+| Feature                                                      | Documentation for                                            |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| [Update a work package](#update-a-work-package)              | How to make a change to an existing work package.-           |
+| [Update a work package in a table view](#update-a-work-package-in-a-work-package-table-view) | How to use the quick context menu in the work package table view. |
+| [Attach files to work packages](#attach-files-to-work-packages) | How to manually attach files to work packages.               |
+| [Watchers](#watchers)                                        | How to add or remove watchers from a work package.           |
+| [Export work packages](#export-work-packages)                | How to export work packages.                                 |
+| [Bulk edit work packages](#bulk-edit-work-packages)          | How to edit several work packages as once.                   |
 
 ## Update a work package
 
-To edit a work package, double-click in the row of a work package in the [table view](../../work-packages/work-package-views/#table-view) or open the [split screen view](../../work-packages/work-package-views/#split-screen-view) to see the details.
+To edit a work package, double-click a work package row in [table view](../../work-packages/work-package-views/#table-view) or open the [split screen view](../../work-packages/work-package-views/#split-screen-view) to see the details. 
 
 In the work package details, you can click in any field to update it, e.g. change the description, status, priority, assignee, or add a comment. 
 
@@ -36,15 +37,12 @@ All changes of a work package are documented in the work package [Activity](../.
 
 > **Note**: There is no possibility to undo changes to work packages (Ctrl+Z).
 
-
 ### How to assign a team member to a work package
 
 When you assign a team member to a work package, you can distinguish between **assignee** and **accountable**. Accountable per definition would be the one accountable for the delivery of the work package. The assignee is the person currently assigned and working on the work package.
 Choose the respective team member from the drop down for assignee or accountable. If you are looking to add a team member that is not coming up in the drop down, this team member might not yet be a member of the project and needs to be [invited](../../members/#add-members).
 
 ![Assignee_accountable](Assignee_accountable-3987223.png)
-
-
 
 ### How to update the status of a work package
 
@@ -74,6 +72,7 @@ You can mention and notify team members via [@notification](../../notifications/
 Starting with OpenProject 13.0 you can add emojis to all text editors. Type a colon and a letter, e.g. **:a** into the text editor and get a suggested list of emojis you can use.
 
 ![openproject_user_guide_wp_comment_emojis](openproject_user_guide_wp_comment_emojis.png)
+
 
 ## Attach files to work packages
 
@@ -138,3 +137,31 @@ Then you have the possibility to:
 At the bottom of the page you can decide whether email updates regarding these changes should be sent or not. It makes sense not to tick the box for large updates to prevent users from getting flooded by emails.
 
 ![bulk-edit_email-updates](image-20201119163714831.png)
+
+##  Update a work package in a work package table view
+
+In the work package table view, you can not only open a single work package but also trigger direct actions such as logging time and costs, copying, downloading or deleting said work package. To access the quick context menu, simply right-click any work package in a work package table view and select the preferred action. 
+
+![Quick context menu in OpenProject work package table](quick-context-menu.png)
+
+You have the following options:
+
+- **Open details view** - opens the details view of a work package on the right side of the screen.
+- **Open fullscreen view** - opens the detailed view of a work package across the entire screen.
+- **Log time** - opens a pop-up dialogue allowing you to [log time](/././time-and-costs/time-tracking/#log-time-in-the-work-package-view) directly to a work package without having to open it first.
+- **Log unit costs** - navigates you to the cost logging screen. Once you [log the costs](../../time-and-costs/cost-tracking/) and save the entry, you will return to the work package table view.
+- **Change project** - allows moving the selected work package to a different project.
+- **Copy** - opens a details view of a new work package on the right side of the screen. This new work package is an exact copy of the work package you selected, but you can adjust any details you would like to change and then save it.
+- **Copy link to clipboard** - copies a short link to the selected work package to your clipboard. 
+- **Copy to other project** - allows copying the selected work package to a different project. 
+- **Delete** - deletes a work package. You will need to confirm the deletion.
+- **Download PDF** - downloads the selected work package as a PDF file. 
+- **Download Atom** - downloads the selected work package as an Atom file.
+- **Indent hierarchy** - creates a child-parent relationship with the work package directly above. The work package you selected become the child work package. The work package directly above becomes the parent work package.
+- **Create new child** - opens a new work package on the right side of the screen. This new work package already has a child relationship to the work package you selected.  
+
+If you have opened the quick context menu for a work package that has a parent work package, you will also see:
+
+- **Outdent hierarchy** option, which will remove the child-parent relationship. 
+
+> **Note**: if you open the [Gantt view](../../gantt-chart/), the quick context menu will have different options than in the work package table view.
