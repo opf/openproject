@@ -312,6 +312,12 @@ A project template in OpenProject is defined as a dummy project to copy and adju
 
 In OpenProject, projects can be private or public. Public means that the project is visible to any user, regardless of project [membership](#member). The visibility of a project can be changed in the project settings. [Read how to set a project to public in OpenProject](https://www.openproject.org/docs/user-guide/projects/#set-a-project-to-public).
 
+## Q
+
+### Quick context menu
+
+The quick context menu in OpenProject opens when you open a [work package table](#work-package-table) and then right-click on a single work package. It allows you to perform quick actions like *open details view*, *copy link to clipboard* or *create new child*. Please note that, beginning with OpenProject 13.2, the quick context menu differs depending on whether you are in the [Gantt](#gantt-chart) view or not.
+
 ## R
 
 ## Repository
