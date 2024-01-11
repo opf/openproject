@@ -41,7 +41,7 @@ module Projects
       [
         OpenProject::Menu::MenuGroup.new(header: nil,
                                          children: static_filters),
-        OpenProject::Menu::MenuGroup.new(header: I18n.t(:'projects.menu.my_private_lists'),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t(:'projects.sidemenu.my_private_lists'),
                                          children: my_filters)
       ]
     end

@@ -26,33 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Projects::QueriesController < ApplicationController
-  before_action :find_query, only: :destroy
+require 'spec_helper'
 
-  # TODO authorization
-  def create
-    query = load_query
-    query.name = params[:name]
-
-    query.save
-
-    redirect_to projects_path(query_id: query.id)
+RSpec.describe 'Project query routes' do
+  it '/projects/queries POST routes to projects/queries#create' do
+    expect(post('/projects/queries')).to route_to('projects/queries#create')
   end
 
-  def destroy
-    @query.destroy
-
-    redirect_to projects_path
-  end
-
-  private
-
-  # TODO: move to module to share with projects_controller
-  def load_query
-    @query = ParamsToQueryService.new(Project, current_user).call(params)
-  end
-
-  def find_query
-    @query = Queries::Projects::ProjectQuery.find(params[:id])
+  it '/projects/queries/:id DELETE routes to projects/queries#destroy' do
+    expect(delete('/projects/queries/42')).to route_to('projects/queries#destroy',
+                                                       id: '42')
   end
 end

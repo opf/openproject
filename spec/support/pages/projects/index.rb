@@ -80,6 +80,12 @@ module Pages
         end
       end
 
+      def expect_no_sidebar_filter(filter_name)
+        within '#main-menu' do
+          expect(page).to have_no_css(".op-sidemenu--item-action", text: filter_name)
+        end
+      end
+
       def set_sidebar_filter(filter_name)
         within '#main-menu' do
           click_link text: filter_name
@@ -242,6 +248,10 @@ module Pages
 
           click_button 'Save'
         end
+      end
+
+      def delete_query
+        click_more_menu_item('Delete')
       end
 
       private

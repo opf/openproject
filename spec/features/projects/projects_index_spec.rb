@@ -1161,15 +1161,18 @@ RSpec.describe 'Projects index page',
 
     let!(:member) { create(:member, principal: admin, project:, roles: [developer]) }
 
-    it 'allows saving and loading persisted filter sets with them being displayed in the sidebar' do
+    it 'allows saving, loading and deleting persisted filters' do
       projects_page.visit!
 
+      # Adding some filters
       projects_page.open_filters
       projects_page.filter_by_membership('yes')
 
+      # The filters are applied
       projects_page.expect_projects_listed(project)
       projects_page.expect_projects_not_listed(public_project, development_project)
 
+      # Saving the query will lead to it being displayed in the sidebar
       projects_page.save_query('My saved query')
 
       projects_page.expect_sidebar_filter('My saved query', selected: false)
@@ -1186,6 +1189,12 @@ RSpec.describe 'Projects index page',
 
       projects_page.expect_projects_listed(project)
       projects_page.expect_projects_not_listed(public_project, development_project)
+
+      # The query can be deleted
+      projects_page.delete_query
+
+      # It will then also be removed from the sidebar
+      projects_page.expect_no_sidebar_filter('My saved query')
     end
   end
 end
