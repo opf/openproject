@@ -42,11 +42,16 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { IFileIcon } from 'core-app/shared/components/storages/icons.mapping';
 import { IFileLink, IFileLinkOriginData } from 'core-app/core/state/file-links/file-link.model';
-import { fileLinkViewAllowed } from 'core-app/shared/components/storages/storages-constants.const';
+import {
+  fileLinkStatusError, fileLinkStatusNotFound,
+  fileLinkViewAllowed,
+  fileLinkViewNotAllowed,
+} from 'core-app/shared/components/storages/storages-constants.const';
 import { PrincipalRendererService } from 'core-app/shared/components/principal/principal-renderer.service';
 import { ConfirmDialogOptions } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { getIconForMimeType, isDirectory } from 'core-app/shared/components/storages/functions/storages.functions';
+import { FloatingAction } from 'core-app/shared/components/storages/file-link-list-item/floating-action';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
 
 @Component({
@@ -70,11 +75,11 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
   fileLinkIcon:IFileIcon;
 
-  downloadAllowed:boolean;
+  floatingActions:FloatingAction[];
 
-  viewAllowed:boolean;
+  tooltipAlignment:SpotDropAlignmentOption = SpotDropAlignmentOption.TopLeft;
 
-  tooltipAllignment:SpotDropAlignmentOption = SpotDropAlignmentOption.TopLeft;
+  tooltip:string;
 
   text = {
     title: {
@@ -83,13 +88,12 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
       removeFileLink: this.i18n.t('js.storages.file_links.remove'),
       downloadFileLink: '',
     },
-    floatingText: {
-      noViewPermission: this.i18n.t('js.storages.file_links.no_permission'),
-    },
     removalTitle: this.i18n.t('js.storages.file_links.remove'),
     removalButtonLabel: this.i18n.t('js.storages.file_links.remove_short'),
     removalConfirmation: this.i18n.t('js.storages.file_links.remove_confirmation'),
-    notAllowdTooltipText: this.i18n.t('js.storages.file_links.not_allowed_tooltip'),
+    notLoggedInTooltipText: this.i18n.t('js.storages.file_links.tooltip.not_logged_in'),
+    viewNotAllowedTooltipText: this.i18n.t('js.storages.file_links.tooltip.view_not_allowed'),
+    notFoundTooltipText: this.i18n.t('js.storages.file_links.tooltip.not_found'),
   };
 
   constructor(
@@ -98,6 +102,18 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
     private readonly confirmDialogService:ConfirmDialogService,
     private readonly principalRendererService:PrincipalRendererService,
   ) {}
+
+  public get hasTooltip():boolean {
+    return this.tooltip !== '';
+  }
+
+  public get clickable():boolean {
+    return !(this.disabled || this.statusIs(fileLinkStatusNotFound));
+  }
+
+  public get hasFaultyStatus():boolean {
+    return !this.statusIs(fileLinkViewAllowed);
+  }
 
   private get originData():IFileLinkOriginData {
     return this.fileLink.originData;
@@ -110,14 +126,14 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
 
     this.fileLinkIcon = getIconForMimeType(this.originData.mimeType);
 
-    this.downloadAllowed = !isDirectory(this.originData);
+    this.tooltip = this.toolTipText();
 
     this.text.title.downloadFileLink = this.i18n.t(
       'js.storages.file_links.download',
       { fileName: this.fileLink.originData.name },
     );
 
-    this.viewAllowed = !this.fileLink._links.permission || this.fileLink._links.permission.href === fileLinkViewAllowed;
+    this.floatingActions = this.getFloatingActions();
   }
 
   ngAfterViewInit():void {
@@ -153,5 +169,84 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
       .confirm(options)
       .then(() => { this.removeFileLink.emit(); })
       .catch(() => { /* confirmation rejected */ });
+  }
+
+  private toolTipText():string {
+    if (this.disabled) {
+      return this.text.notLoggedInTooltipText;
+    }
+
+    if (!this.fileLink._links.status) {
+      return '';
+    }
+
+    switch (this.fileLink._links.status.href) {
+      case fileLinkViewNotAllowed:
+        return this.text.viewNotAllowedTooltipText;
+      case fileLinkStatusError:
+        return this.text.notLoggedInTooltipText;
+      case fileLinkStatusNotFound:
+        return this.text.notFoundTooltipText;
+      default:
+        return '';
+    }
+  }
+
+  private statusIs(value:string):boolean {
+    return !!this.fileLink._links.status && this.fileLink._links.status.href === value;
+  }
+
+  private getFloatingActions():FloatingAction[] {
+    if (this.disabled) {
+      return [];
+    }
+
+    if (this.statusIs(fileLinkStatusNotFound) && this.allowEditing) {
+      return [this.removeAction()];
+    }
+
+    if (this.hasFaultyStatus) {
+      return [];
+    }
+
+    // healthy file link
+    const actions:FloatingAction[] = [];
+    if (!isDirectory(this.originData)) {
+      actions.push(this.downloadAction());
+    }
+
+    actions.push(this.openInLocationAction());
+
+    if (this.allowEditing) {
+      actions.push(this.removeAction());
+    }
+
+    return actions;
+  }
+
+  private removeAction():FloatingAction {
+    return new FloatingAction(
+      'remove-link',
+      this.text.title.removeFileLink,
+      () => this.confirmRemoveFileLink(),
+    );
+  }
+
+  private downloadAction():FloatingAction {
+    return new FloatingAction(
+      'download-arrow',
+      this.text.title.downloadFileLink,
+      undefined,
+      { url: this.fileLink._links.staticOriginDownload.href, target: '_self' },
+    );
+  }
+
+  private openInLocationAction():FloatingAction {
+    return new FloatingAction(
+      'folder-open',
+      this.text.title.openFileLocation,
+      undefined,
+      { url: this.fileLink._links.staticOriginOpenLocation.href, target: '_blank' },
+    );
   }
 }

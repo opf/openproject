@@ -222,6 +222,8 @@ gem 'factory_bot_rails', '~> 6.4.0', require: false
 
 gem 'turbo-rails', "~> 1.1"
 
+gem 'httpx'
+
 group :test do
   gem 'launchy', '~> 2.5.0'
   gem 'rack-test', '~> 2.1.0'

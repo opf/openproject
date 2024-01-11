@@ -278,6 +278,9 @@ lt:
       no_results_content_text: Įtraukti narį į projektą
     invite_by_mail: "Siųsti pakvietimą adresu %{mail}"
     send_invite_to: "Siųsti pakvietimą"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
     filters:
       all_shares: 'Visi bendrinimai'
     menu:
@@ -2214,6 +2217,10 @@ lt:
     one: "1 atidarytas"
     other: "%{count} atidaryti (-as, -ų)"
     zero: "0 atvirų"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 projektas"
     other: "%{count} projektai (-as, -ų)"
@@ -2475,8 +2482,8 @@ lt:
   permission_assign_versions: "Priskirti versijas"
   permission_browse_repository: "Tik skaityti prieiga prie repozitorijos (naršyti ir pasiimti)"
   permission_change_wiki_parent_page: "Pakeisti tėvinį wiki puslapį"
-  permission_change_work_package_status: "Change work package status"
-  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
+  permission_change_work_package_status: "Keisti darbo paketo būseną"
+  permission_change_work_package_status_explanation: "Leidžia keisti būseną neturint darbo paketo keitimo teisių"
   permission_comment_news: "Komentuoti naujienas"
   permission_commit_access: "Skaitymo/rašymo prieiga į repozitoriją"
   permission_copy_projects: "Kopijuoti projekus"

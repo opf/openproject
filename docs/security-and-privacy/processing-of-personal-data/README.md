@@ -7,7 +7,7 @@ keywords: GDPR, data flow, processing personal data, data privacy information
 ---
 # Processing of personal data
 
-Status of this document: 2023-11-01
+Status of this document: 2024-01-10
 
 ## Purpose of this document
 
@@ -105,16 +105,16 @@ Depending on the individual use and permissions of the user the following person
 - Reactions of a user to a comment
 - Person mentioned in a comment
 
-##### Documents (cd-01) 
-
-- Assignment of a document to an uploader or creator
-- Change history
-- Person mentioned in a document (incl. file attributes)
-
 ##### Email notifications (ce-01)
 
 - Email header including sender and recipients
 - Person mentioned in an email
+
+##### Files (cf-01) 
+
+- Assignment of a files to an uploader or creator
+- Change history
+- Person mentioned in a file (incl. file attributes)
 
 ##### Meetings (cm-01)
 
@@ -233,6 +233,7 @@ flowchart TD
   direction TB
     idp["Identity provider (idp)"]
     nex["Nextcloud (nex)"]
+    osh["OneDrive/SharePoint (osh)"]
     gih["GitHub (gih)"]
     cal["Calendar (cal)"]
   	O["API integrations (api)"]
@@ -272,7 +273,7 @@ As a web application, the primary data flow is between the user's web browser (o
 
 The external web server acts as a proxy/reverse-proxy for the OpenProject Puma app server, relaying requests for it to handle and respond. In the course of the request, access to external services such as the PostgreSQL database, a caching server, or attached storages might be performed. In case of S3-compatible object storage set ups, OpenProject performs calls to the object storage to put or request files from it. Likewise, for network-attached storages linked into the application, underlying network requests are performed. These are out of scope for this evaluation, as they are provided and maintained by the operator of the system.
 
-In the course of using the application, background tasks are enqueued in the database such as outgoing emails, cleanup tasks, or notification processing. These tasks are performed in a separate process, the background worker queue. This process accesses the same services as the application server process to access or modify data. It might connect to external integrations such as a [Nextcloud](../../user-guide/file-management/nextcloud-integration/) instance to set up file sharings depending on actions performed by the users.
+In the course of using the application, background tasks are enqueued in the database such as outgoing emails, cleanup tasks, or notification processing. These tasks are performed in a separate process, the background worker queue. This process accesses the same services as the application server process to access or modify data. It might connect to external integrations such as a [Nextcloud](../../user-guide/file-management/nextcloud-integration/) or [OneDrive/SharePoint]((../../user-guide/file-management/one-drive-integration/)) instance to set up file sharings depending on actions performed by the users.
 
 **Exemplary request flow**
 
@@ -490,15 +491,14 @@ subgraph openproject[OpenProject]
 
 #### Purpose
 
-* Users can link files stored in Nextcloud with work package in OpenProject.
+* Users can link files stored in Nextcloud with work packages in OpenProject.
 * Project folders in Nextcloud can be managed in OpenProject (create, delete, update, user permissions).
 
 #### Processed data
 
 * `bu-01`
-* `bu-03 (iCalendar access tokens)`
-* `cm-01`
-* `cw-02`
+* `bu-03 `
+* `cf-01`
 
 #### Security measures
 
@@ -507,7 +507,54 @@ subgraph openproject[OpenProject]
 * `nex-03` TLS
 * `nex-04` TLS
 
-### F: GitHub (gih)
+### F: OneDrive/SharePoint (osh)
+
+#### Overview
+
+```mermaid
+%%{init: {'theme':'neutral'}}%%
+flowchart LR
+  Browser <--> |osh-01| openproject
+  Browser <-->|osh-02| onedrive
+  onedrivedesktopclient[Nextcloud desktop client] <-->|osh-03| onedriveapi
+  appopenprojectintegration <-->|osh-04| openprojectapi
+  
+  subgraph local[Local clients]
+  	Browser
+  	onedrivedesktopclient[OneDrive desktop client]
+   end
+
+subgraph openproject[OpenProject]
+   
+  	oponedrivetegration[OneDrive/SharePoint integration]
+  	openprojectapi[API]
+  		end
+
+  subgraph onedrive[OneDrive/SharePoint]
+  	appopenprojectintegration[OpenProject integration app]
+  	onedriveapi[API]
+	end 
+  
+```
+
+#### Purpose
+
+* Users can link files stored in OneDrive/SharePoint with work packages in OpenProject.
+
+#### Processed data
+
+* `bu-01`
+* `bu-03`
+* `cf-01`
+
+#### Security measures
+
+* `osh-01` TLS
+* `osh-02` TLS
+* `osh-03` TLS
+* `osh-04` TLS
+
+### G: GitHub (gih)
 
 #### Overview
 
@@ -553,7 +600,7 @@ flowchart LR
 * `gih-02` TLS
 * `gih-03` TLS
 
-### G: API integrations (api)
+### H: API integrations (api)
 
 #### Overview
 

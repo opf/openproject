@@ -281,6 +281,9 @@ tr:
       no_results_content_text: Projeye üye ekle
     invite_by_mail: "Davet gönder %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
     filters:
       all_shares: 'All shares'
     menu:
@@ -2162,6 +2165,10 @@ tr:
     one: "1 açık"
     other: "%{count} açık"
     zero: "0 açık"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 proje"
     other: "%{count} proje"

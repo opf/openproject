@@ -47,7 +47,6 @@ fr:
         empty: >
           Il n'y a actuellement aucun fichier lié à ce lot de travaux. Commencez à lier les fichiers avec l'action ci-dessous ou à partir de %{storageType}.
         download: "Télécharger %{fileName}"
-        no_permission: "Vous n'avez pas la permission de voir ce fichier."
         open: "Ouvrir le fichier sur le stockage"
         open_location: "Ouvrir le fichier à l'emplacement"
         remove: "Supprimer le lien de fichier"
@@ -77,6 +76,9 @@ fr:
               Veuillez vérifier que la dernière version de l'application Nextcloud "OpenProject Integration" est installée et contactez votre administrateur pour plus d'informations.
         link_uploaded_file_error: >
           Une erreur s'est produite lors de la liaison du fichier '%{fileName}' récemment téléversé au lot de travaux %{workPackageId}.
-        not_allowed_tooltip: "Veuillez vous connecter à Nextcloud pour accéder à ce fichier"
+        tooltip:
+          not_logged_in: "Please log in to Nextcloud to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
         already_linked_file: "Ce fichier est déjà lié à ce lot de travaux."
         already_linked_directory: "Ce répertoire est déjà lié à ce lot de travaux."

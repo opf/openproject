@@ -116,6 +116,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::CopyTemplat
 
               expect(result).to be_failure
               expect(result.errors.code).to eq(:conflict)
+              expect(result.errors.log_message).to eq("The destination node is not found")
             end
           end
         end

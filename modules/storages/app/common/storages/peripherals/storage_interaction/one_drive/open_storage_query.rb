@@ -51,27 +51,27 @@ module Storages
           private
 
           def request_drive(token)
-            response_data = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-              http.get(drive_uri_path, { 'Authorization' => "Bearer #{token.access_token}" })
-            end
-
-            handle_responses(response_data)
+            response = HTTPX.get(
+              Util.join_uri_path(@uri, drive_uri_path),
+              headers: { 'Authorization' => "Bearer #{token.access_token}" }
+            )
+            handle_responses(response)
           end
 
           def handle_responses(response)
-            json = MultiJson.load(response.body, symbolize_keys: true)
+            json = MultiJson.load(response.body.to_s, symbolize_keys: true)
             error_data = ::Storages::StorageErrorData.new(source: self, payload: json)
 
-            case response
-            when Net::HTTPSuccess
+            case response.status
+            when 200..299
               ServiceResult.success(result: json)
-            when Net::HTTPNotFound
+            when 404
               ServiceResult.failure(result: :not_found,
                                     errors: ::Storages::StorageError.new(code: :not_found, data: error_data))
-            when Net::HTTPForbidden
+            when 403
               ServiceResult.failure(result: :forbidden,
                                     errors: ::Storages::StorageError.new(code: :forbidden, data: error_data))
-            when Net::HTTPUnauthorized
+            when 401
               ServiceResult.failure(result: :unauthorized,
                                     errors: ::Storages::StorageError.new(code: :unauthorized, data: error_data))
             else

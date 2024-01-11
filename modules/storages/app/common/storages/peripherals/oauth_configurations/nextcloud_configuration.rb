@@ -44,16 +44,14 @@ module Storages
           util = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
 
           authorization_check_wrapper do
-            Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-              http.get(
-                util.join_uri_path(@uri.path, '/ocs/v1.php/cloud/user'),
-                {
-                  'Authorization' => "Bearer #{token}",
-                  'OCS-APIRequest' => 'true',
-                  'Accept' => 'application/json'
-                }
-              )
-            end
+            HTTPX.get(
+              util.join_uri_path(@uri, '/ocs/v1.php/cloud/user'),
+              headers: {
+                'Authorization' => "Bearer #{token}",
+                'OCS-APIRequest' => 'true',
+                'Accept' => 'application/json'
+              }
+            ).status
           end
         end
 

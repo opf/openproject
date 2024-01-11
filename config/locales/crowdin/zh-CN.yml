@@ -278,6 +278,9 @@ zh-CN:
       no_results_content_text: 将成员添加到该项目
     invite_by_mail: "发送邀请到 %{mail}"
     send_invite_to: "发送邀请至"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
     filters:
       all_shares: '全部共享'
     menu:
@@ -2132,6 +2135,10 @@ zh-CN:
     one: "1 个打开"
     other: "%{count} 个打开"
     zero: "0 个已打开"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 个项目"
     other: "%{count} 个项目"
