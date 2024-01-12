@@ -31,44 +31,47 @@ require 'spec_helper'
 RSpec.describe Queries::Projects::ProjectQuery, 'results' do
   let(:instance) { described_class.new }
   let(:base_scope) { Project.order(id: :desc) }
-  let(:current_user) { build_stubbed(:admin) }
 
-  before do
-    login_as(current_user)
+  shared_let(:view_role) { create(:project_role, permissions: %i[view_project]) }
+  shared_let(:non_member_role) { create(:non_member, permissions: %i[view_project]) }
+  shared_let(:grandparent) { create(:project, name: 'Grandparent') }
+  shared_let(:parent) { create(:project, parent: grandparent, name: 'Parent') }
+  shared_let(:child) { create(:project, parent:, name: 'Child') }
+  shared_let(:grandchild) { create(:project, parent: child, name: 'Grandchild') }
+  shared_let(:sibling) { create(:project, parent:, name: 'Sibling') }
+  shared_let(:not_member) { create(:project, name: 'Not member') }
+  shared_let(:public) { create(:public_project, name: 'Public') }
+  shared_let(:no_hierarchy) { create(:project, name: 'No Hierarchy') }
+
+  shared_let(:user) do
+    create(:user, member_with_roles: {
+             grandparent => [view_role],
+             parent => [view_role],
+             child => [view_role],
+             grandchild => [view_role],
+             sibling => [view_role],
+             no_hierarchy => [view_role]
+           })
   end
 
+  current_user { user }
+
   context 'without a filter' do
-    context 'as an admin' do
-      it 'is the same as getting all projects' do
-        expect(instance.results.to_sql).to eql base_scope.to_sql
-      end
-    end
-
-    context 'as a non admin' do
-      let(:current_user) { build_stubbed(:user) }
-
-      it 'is the same as getting all visible projects' do
-        expect(instance.results.to_sql).to eql base_scope.where(id: Project.visible).to_sql
-      end
+    it 'gets all visible projects' do
+      expect(instance.results)
+        .to contain_exactly(grandparent, parent, child, sibling, grandchild, public, no_hierarchy)
     end
   end
 
   context 'with a parent filter' do
     context 'with a "=" operator' do
       before do
-        allow(Project)
-          .to receive_message_chain(:visible, :pluck) # rubocop:disable RSpec/MessageChain
-          .with(:id)
-          .and_return([8])
-
-        instance.where('parent_id', '=', ['8'])
+        instance.where('parent_id', '=', [parent.id])
       end
 
-      it 'is the same as handwriting the query' do
-        expected = base_scope
-                     .where(projects: { parent_id: ['8'] })
-
-        expect(instance.results.to_sql).to eql expected.to_sql
+      it 'returns all children of the specified parent' do
+        expect(instance.results)
+          .to contain_exactly(child, sibling)
       end
     end
   end
@@ -76,68 +79,31 @@ RSpec.describe Queries::Projects::ProjectQuery, 'results' do
   context 'with an ancestor filter' do
     context 'with a "=" operator' do
       before do
-        instance.where('ancestor', '=', ['8'])
+        instance.where('ancestor', '=', [grandparent.id])
       end
 
-      describe '#results' do
-        it 'is the same as handwriting the query' do
-          projects_table = Project.arel_table
-          projects_ancestor_table = projects_table.alias(:ancestor_projects)
-
-          condition = projects_table[:lft]
-                        .gt(projects_ancestor_table[:lft])
-                        .and(projects_table[:rgt].lt(projects_ancestor_table[:rgt]))
-                        .and(projects_ancestor_table[:id].in(['8']))
-
-          arel = projects_table
-                   .join(projects_ancestor_table)
-                   .on(condition)
-
-          expected = base_scope.joins(arel.join_sources)
-
-          expect(instance.results.to_sql).to eql expected.to_sql
-        end
+      it 'gets all projects that are descendants' do
+        expect(instance.results)
+          .to contain_exactly(parent, child, sibling, grandchild)
       end
     end
 
     context 'with a "!" operator' do
       before do
-        instance.where('ancestor', '!', ['8'])
+        instance.where('ancestor', '!', [grandparent.id])
       end
 
-      describe '#results' do
-        it 'is the same as handwriting the query' do
-          projects_table = Project.arel_table
-          projects_ancestor_table = projects_table.alias(:ancestor_projects)
-
-          condition = projects_table[:lft]
-                      .gt(projects_ancestor_table[:lft])
-                      .and(projects_table[:rgt].lt(projects_ancestor_table[:rgt]))
-
-          arel = projects_table
-                 .outer_join(projects_ancestor_table)
-                 .on(condition)
-
-          where_condition = projects_ancestor_table[:id]
-                            .not_in(['8'])
-                            .or(projects_ancestor_table[:id].eq(nil))
-
-          expected = base_scope
-                     .joins(arel.join_sources)
-                     .where(where_condition)
-
-          expect(instance.results.to_sql).to eql expected.to_sql
-        end
+      it 'gets all projects that are not descendants' do
+        expect(instance.results)
+          .to contain_exactly(grandparent, public, no_hierarchy)
       end
     end
   end
 
   context 'with an order by id asc' do
-    describe '#results' do
-      it 'returns all visible projects ordered by id asc' do
-        expect(instance.order(id: :asc).results.to_sql)
-          .to eql base_scope.except(:order).order(id: :asc).to_sql
-      end
+    it 'returns all visible projects ordered by id asc' do
+      expect(instance.order(id: :asc).results.to_a)
+        .to eql [grandparent, parent, child, sibling, grandchild, public, no_hierarchy].sort_by(&:id)
     end
   end
 
@@ -146,11 +112,9 @@ RSpec.describe Queries::Projects::ProjectQuery, 'results' do
       instance.order(typeahead: :asc)
     end
 
-    describe '#results' do
-      it 'returns all visible projects ordered by lft asc' do
-        expect(instance.results.to_sql)
-          .to eql base_scope.except(:order).order(lft: :asc, id: :desc).to_sql
-      end
+    it 'returns all visible projects ordered by lft asc' do
+      expect(instance.results.to_a)
+        .to eql [grandparent, parent, child, grandchild, sibling, no_hierarchy, public]
     end
   end
 end
