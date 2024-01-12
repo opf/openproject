@@ -1541,6 +1541,7 @@ en:
     message: Message edited
     news: News
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Project edited"
     reply: Replied
     time_entry: "Timelog edited"
