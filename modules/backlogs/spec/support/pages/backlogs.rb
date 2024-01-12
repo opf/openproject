@@ -54,13 +54,13 @@ module Pages
         attributes.each do |key, value|
           case key
           when :subject
-            fill_in 'subject', with: value
+            fill_in 'Subject', with: value
           when :story_points
-            fill_in 'story points', with: value
+            fill_in 'Story Points', with: value
           when :status
-            select value, from: 'status'
+            select value, from: 'Status'
           when :type
-            select value, from: 'type'
+            select value, from: 'Type'
           else
             raise NotImplementedError
           end
