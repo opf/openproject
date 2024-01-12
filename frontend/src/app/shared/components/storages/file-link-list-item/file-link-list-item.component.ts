@@ -201,12 +201,8 @@ export class FileLinkListItemComponent implements OnInit, AfterViewInit {
       return [];
     }
 
-    if (this.statusIs(fileLinkStatusNotFound) && this.allowEditing) {
+    if (this.hasFaultyStatus && this.allowEditing) {
       return [this.removeAction()];
-    }
-
-    if (this.hasFaultyStatus) {
-      return [];
     }
 
     // healthy file link
