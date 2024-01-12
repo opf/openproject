@@ -21,10 +21,11 @@
     .inline-edit--field
       min-width: 125px
 
-  .work-packages--type-selector,
-  .work-packages--status-selector
-    .-active
-      margin: 6px 6px 6px 0px
-
-.work-packages--type-selector .-active
-    margin: 6px 6px 0px 0px
+.work-packages--type-selector,
+.work-packages--status-selector
+  .-active
+    .ng-select-container
+      height: 36px !important
+      line-height: 36px !important
+    .ng-select input
+      height: initial !important
