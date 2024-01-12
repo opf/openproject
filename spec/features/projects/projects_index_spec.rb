@@ -1182,6 +1182,8 @@ RSpec.describe 'Projects index page',
       # Reloading the persisted query will reconstruct filters and columns
       projects_page.set_sidebar_filter('My saved query')
 
+      projects_page.expect_title('My saved query')
+
       projects_page.expect_projects_listed(project)
       projects_page.expect_projects_not_listed(public_project, development_project)
     end

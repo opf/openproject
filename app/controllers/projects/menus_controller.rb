@@ -48,13 +48,9 @@ module Projects
 
     def static_filters
       [
-        filter_menu_item(I18n.t(:'projects.sidemenu.all'),
-                         [],
-                         selected: filters_in_props.nil? && query_in_props.nil?),
-        filter_menu_item(I18n.t(:'projects.sidemenu.my'),
-                         [{ member_of: { operator: '=', values: ['t'] } }]),
-        filter_menu_item(I18n.t(:'projects.sidemenu.archived'),
-                         [{ active: { operator: '=', values: ['f'] } }])
+        query_menu_item(Queries::Projects::DefaultFactory.static_query_all, selected: no_query_props?),
+        query_menu_item(Queries::Projects::DefaultFactory.static_query_my, id: 'my'),
+        query_menu_item(Queries::Projects::DefaultFactory.static_query_archived, id: 'archived')
       ]
     end
 
@@ -67,16 +63,10 @@ module Projects
       end
     end
 
-    def filter_menu_item(title, filters, selected: filter_item_selected?(filters))
-      OpenProject::Menu::MenuItem.new(title:,
-                                      href: projects_path_with_filters(filters),
-                                      selected:)
-    end
-
-    def query_menu_item(query)
+    def query_menu_item(query, id: nil, selected: query_item_selected?(id || query.id))
       OpenProject::Menu::MenuItem.new(title: query.name,
-                                      href: projects_path(query_id: query.id),
-                                      selected: query_item_selected?(query))
+                                      href: projects_path(query_id: id || query.id),
+                                      selected:)
     end
 
     def projects_path_with_filters(filters)
@@ -85,25 +75,12 @@ module Projects
       projects_path(filters: filters.to_json, hide_filters_section: true)
     end
 
-    def filter_item_selected?(filters)
-      filters == filters_in_props && query_in_props.nil?
+    def query_item_selected?(id)
+      id.to_s == params[:query_id] && params[:filters].nil?
     end
 
-    def query_item_selected?(query)
-      query.id.to_s == query_in_props && filters_in_props.nil?
-    end
-
-    def query_in_props
-      params[:query_id]
-    end
-
-    def filters_in_props
-      @filters_in_props ||= begin
-        # Will have to recheck params[:filters] again in case it is empty but that is cheap.
-        JSON.parse(params[:filters]).map(&:deep_symbolize_keys) if params[:filters]
-      rescue JSON::ParserError
-        nil
-      end
+    def no_query_props?
+      params[:query_id].nil? && params[:filters].nil?
     end
   end
 end

@@ -50,6 +50,10 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
                                      .pluck(:id)
   end
 
+  def page_title
+    query.name || t(:label_project_plural)
+  end
+
   def gantt_portfolio_title
     title = t('projects.index.open_as_gantt_title')
 

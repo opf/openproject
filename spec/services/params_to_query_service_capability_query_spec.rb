@@ -28,68 +28,33 @@
 
 require 'spec_helper'
 
-RSpec.describe ParamsToQueryService do
+RSpec.describe ParamsToQueryService, 'capability query' do
   # This spec does currently not cover the whole functionality.
-
   let(:user) { build_stubbed(:admin) }
-
+  let(:model) { Capability }
   let(:params) { {} }
   let(:instance) { described_class.new(model, user) }
   let(:service_call) { instance.call(params) }
 
-  context 'for a new Project query' do
-    let(:model) { Project }
-
+  context 'for a new query' do
     context 'when applying filters' do
       let(:params) do
-        { filters: JSON.dump([{ active: { operator: "=", values: ["t"] } },
-                              { created_at: { operator: ">t-", values: ["4"] } }]) }
+        { filters: JSON.dump([{ principal: { operator: "=", values: ["4"] } },
+                              { context: { operator: "=", values: ["g"] } },
+                              { action: { operator: "=", values: ["projects/create"] } }]) }
       end
 
       it 'returns a new query' do
         expect(service_call)
-          .to be_a Queries::Projects::ProjectQuery
+          .to be_a Queries::Capabilities::CapabilityQuery
       end
 
       it 'applies the filters' do
         expect(service_call.filters.map { |f| { field: f.field, operator: f.operator, values: f.values } })
-          .to contain_exactly({ field: :active, operator: "=", values: ["t"] },
-                              { field: :created_at, operator: ">t-", values: ["4"] })
+          .to contain_exactly({ field: :principal_id, operator: "=", values: ["4"] },
+                              { field: :context, operator: "=", values: ["g"] },
+                              { field: :action, operator: "=", values: ["projects/create"] })
       end
-    end
-
-    context 'with an empty filters string' do
-      let(:params) do
-        { filters: "" }
-      end
-
-      it 'returns a new query' do
-        expect(service_call)
-          .to be_a Queries::Projects::ProjectQuery
-      end
-
-      it 'applies no filters' do
-        expect(service_call.filters)
-          .to be_empty
-      end
-    end
-  end
-
-  context 'for a persisted Project query' do
-    let(:model) { Project }
-    let(:projects_query) { build_stubbed(:project_query) }
-    let(:params) { { query_id: projects_query.id.to_s } }
-
-    before do
-      allow(Queries::Projects::ProjectQuery)
-        .to receive(:find)
-        .with(projects_query.id.to_s)
-        .and_return(projects_query)
-    end
-
-    it 'returns the query' do
-      expect(service_call)
-        .to eq projects_query
     end
   end
 end

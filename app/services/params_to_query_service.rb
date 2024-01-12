@@ -28,15 +28,18 @@
 
 class ParamsToQueryService
   attr_accessor :user,
-                :query_class
+                :query_class,
+                :model
 
   def initialize(model, user, query_class: nil)
-    set_query_class(query_class, model)
+    self.model = model
     self.user = user
+
+    set_query_class(query_class)
   end
 
   def call(params)
-    query = find_query(params)
+    query = find_query(params[:query_id])
 
     query = apply_filters(query, params)
     apply_order(query, params)
@@ -45,9 +48,15 @@ class ParamsToQueryService
 
   private
 
-  def find_query(params)
-    if params[:query_id]
-      query_class.find(params[:query_id])
+  def find_query(query_id)
+    model_name = model.name
+
+    if "::Queries::#{model_name.pluralize}".constantize.const_defined?(:DefaultFactory) && query_id
+      factory = "::Queries::#{model_name.pluralize}::DefaultFactory".constantize
+
+      factory.find(query_id)
+    elsif query_class.respond_to?(:find) && query_id
+      query_class.find(query_id)
     else
       query_class.new(user:)
     end
@@ -55,6 +64,8 @@ class ParamsToQueryService
 
   def apply_filters(query, params)
     return query if params[:filters].blank?
+
+    query.filters = []
 
     filters = parse_filters_from_json(params[:filters])
 
@@ -69,6 +80,8 @@ class ParamsToQueryService
 
   def apply_order(query, params)
     return query unless params[:sortBy]
+
+    query.orders = []
 
     sort = parse_sorting_from_json(params[:sortBy])
 
@@ -131,7 +144,7 @@ class ParamsToQueryService
     @conversion_model ||= ::API::Utilities::QueryFiltersNameConverterContext.new(query_class)
   end
 
-  def set_query_class(query_class, model)
+  def set_query_class(query_class)
     self.query_class = if query_class
                          query_class
                        else

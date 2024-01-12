@@ -26,20 +26,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Projects::QueriesController < ApplicationController
-  # TODO authorization
-  def create
-    query = load_query
-    query.name = params[:name]
+class Queries::Projects::DefaultFactory
+  class << self
+    def find(id)
+      static_query(id) || Queries::Projects::ProjectQuery.find(id)
+    end
 
-    query.save
+    def static_query(id)
+      case id
+      when nil, 'all'
+        static_query_all
+      when 'my'
+        static_query_my
+      when 'archived'
+        static_query_archived
+      end
+    end
 
-    redirect_to projects_path(query_id: query.id)
-  end
+    def static_query_all
+      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.sidemenu.all')) do |query|
+        query.where('active', '=', OpenProject::Database::DB_VALUE_TRUE)
 
-  private
+        query.order(lft: :asc)
+      end
+    end
 
-  def load_query
-    @query = ParamsToQueryService.new(Project, current_user).call(params)
+    def static_query_my
+      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.sidemenu.my')) do |query|
+        query.where('member_of', '=', OpenProject::Database::DB_VALUE_TRUE)
+
+        query.order(lft: :asc)
+      end
+    end
+
+    def static_query_archived
+      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.sidemenu.archived')) do |query|
+        query.where('active', '=', OpenProject::Database::DB_VALUE_FALSE)
+
+        query.order(lft: :asc)
+      end
+    end
   end
 end

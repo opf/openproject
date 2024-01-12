@@ -69,6 +69,11 @@ module Pages
         end
       end
 
+      def expect_title(name)
+        expect(page)
+          .to have_css('[data-test-selector="project-query-name"]', text: name)
+      end
+
       def expect_sidebar_filter(filter_name, selected: false)
         within '#main-menu' do
           expect(page).to have_css(".op-sidemenu--item-action#{selected ? '.selected' : ''}", text: filter_name)
