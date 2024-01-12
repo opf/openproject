@@ -352,7 +352,7 @@ uk:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
+                Цей випуск містить нові й поліпшені функції. <br> <ul class="%{list_styling_class}"> <li>Фільтруйте список учасників проєкту за ролями, групами й поширеннями.</li> <li>Призначайте виконавця й відповідальну особу для спільних пакетів робіт.</li> <li>Використовуйте нові назви полів «Робота», «Залишок роботи» й «% виконання» під час підготовки звітів про перебіг виконання для ієрархій пакетів робіт.</li> <li>Змінюйте статус без довзолу на редагування пакета робіт.</li> <li>Активуйте папки проєкту з ручним керуванням для сховищ OneDrive і/або SharePoint.</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -521,7 +521,7 @@ uk:
     label_watcher_added_successfully: "Спостерігач успішно доданий!"
     label_watcher_deleted_successfully: "Спостерігач успішно видалений!"
     label_work_package_details_you_are_here: "Зараз ви на вкладці %{tab} для %{type} %{subject}."
-    label_work_package_context_menu: "Work package context menu"
+    label_work_package_context_menu: "Контекстне меню пакета робіт"
     label_unwatch: "Перестати відстежувати"
     label_unwatch_work_package: "Припинити спостерігати за пакетом робіт"
     label_uploaded_by: "Завантажено"
@@ -760,7 +760,7 @@ uk:
           last_day: 'Останній день'
     text_are_you_sure: "Ви впевненені?"
     text_data_lost: "Усі введені дані буде втрачено."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} написав(-ла):"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} використовується більше одного разу. Назви груп повинні бути унікальними."
@@ -835,7 +835,7 @@ uk:
       toggle_description: "Переключити опис відносин"
       update_relation: "Натисніть, щоб змінити тип відносини"
       add_follower: "Додати послідовника"
-      show_relations: "Show relations"
+      show_relations: "Показати зв’язки"
       add_predecessor: "Додати попередника"
       remove: "Видалити зв'язок"
       save: "Зберегти відношення"
@@ -1038,7 +1038,7 @@ uk:
         selection:
           mixed: "Змішані"
         upsale:
-          description: "Share work packages with users who are not members of the project."
+          description: "Діліться пакетами робіт із користувачами, які не належать до учасників проєкту."
       table:
         configure_button: 'Налаштуйте таблицю робочих пакетів'
         summary: "Таблиця з рядками пакетів робіт і стовпцями атрибутів пакетів робіт."

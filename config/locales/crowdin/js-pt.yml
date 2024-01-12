@@ -351,7 +351,7 @@ pt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
+                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Filtro para funções, grupos e compartilhamentos na lista de membros do projeto.</li> <li>Permitir atribuição e responsável por pacotes de trabalho compartilhados.</li> <li>Introduzir novos nomes de campo Trabalho, Trabalho Restante e % Concluído para preparar relatórios de progresso para hierarquias do pacotes de trabalho.</li> <li>Permitir alteração de status sem direitos de edição do pacote de trabalho.</li> <li>Habilitar pastas de projeto manual para armazenamentos OneDrive/SharePoint.</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."
@@ -520,7 +520,7 @@ pt:
     label_watcher_added_successfully: "Observador adicionado com sucesso!"
     label_watcher_deleted_successfully: "Observador excluído com sucesso!"
     label_work_package_details_you_are_here: "Você está na aba %{tab} por %{type} %{subject}."
-    label_work_package_context_menu: "Work package context menu"
+    label_work_package_context_menu: "Menu de contexto do pacote de trabalho"
     label_unwatch: "Deixar de observar"
     label_unwatch_work_package: "Deixar de observar pacote de trabalho"
     label_uploaded_by: "Enviado por"
@@ -832,7 +832,7 @@ pt:
       toggle_description: "Alternar descrição da relação"
       update_relation: "Clique para alterar o tipo de relação"
       add_follower: "Adicionar seguidor"
-      show_relations: "Show relations"
+      show_relations: "Exibir relações"
       add_predecessor: "Adicionar antecessor"
       remove: "Remover relação"
       save: "Salvar relação"
@@ -1035,7 +1035,7 @@ pt:
         selection:
           mixed: "Misturado"
         upsale:
-          description: "Share work packages with users who are not members of the project."
+          description: "Compartilhe pacotes de trabalho com usuários que não são membros do projeto."
       table:
         configure_button: 'Configurar a tabela de pacote de trabalho'
         summary: "Tabela com linhas de pacote de trabalho e colunas com atributos do pacote de trabalho."
