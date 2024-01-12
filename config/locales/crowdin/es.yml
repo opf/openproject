@@ -278,18 +278,18 @@ es:
       no_results_content_text: Añadir un miembro a este proyecto
     invite_by_mail: "Enviar invitación a %{mail}"
     send_invite_to: "Enviar invitación a"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    no_modify_on_shared: "Actualmente no puedes modificar o eliminar membresías compartidas a través de la página de miembros. Utiliza la dialogo para compartir para completar esta acción."
     columns:
-      shared: "Shared"
+      shared: "Compartido"
     filters:
-      all_shares: 'All shares'
+      all_shares: 'Todos los compartidos'
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: 'Todos'
+      invited: 'Invitado'
+      locked: 'Bloqueado'
+      project_roles: 'Roles de proyecto'
+      wp_shares: 'Comparticiones de paquete de trabajo'
+      groups: 'Grupos'
   my:
     access_token:
       failed_to_reset_token: "No se pudo restablecer el token de acceso: %{error}"
@@ -2164,9 +2164,9 @@ es:
     other: "%{count} abiertos"
     zero: "0 abiertos"
   label_x_work_packages:
-    one: "1 work package"
-    other: "%{count} work packages"
-    zero: "No work packages"
+    one: "1 paquete de trabajo"
+    other: "%{count} paquetes de trabajo"
+    zero: "Sin paquetes de trabajo"
   label_x_projects:
     one: "1 proyecto"
     other: "%{count} proyectos"
@@ -2425,8 +2425,8 @@ es:
   permission_assign_versions: "Asignar versiones"
   permission_browse_repository: "Permiso de solo lectura sobre el repositorio (Navegación y checkout)"
   permission_change_wiki_parent_page: "Cambiar wiki pagina madre"
-  permission_change_work_package_status: "Change work package status"
-  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
+  permission_change_work_package_status: "Cambiar el estado del paquete de trabajo"
+  permission_change_work_package_status_explanation: "Permite cambiar el estado sin el permiso Editar paquetes de trabajo"
   permission_comment_news: "Comentar noticias"
   permission_commit_access: "Permiso de escritura sobre el repositorio (commit)"
   permission_copy_projects: "Copiar proyectos"
@@ -3280,7 +3280,7 @@ es:
       oauth_returned_json_error: "Hay un error de JSON en el OAuth2 "
       oauth_returned_http_error: "Hay un error de red en el OAuth2 "
       oauth_returned_standard_error: "Hay un error interno en el OAuth2 "
-      client_id_blank: "ID can't be blank."
+      client_id_blank: "El ID no puede estar en blanco."
       wrong_token_type_returned: "Tipo de token incorrecto en el OAuth2, se espera un AccessToken::Bearer"
       oauth_issue_contact_admin: "Hay un error en el OAuth2. Por favor, consulte con el administrador del sistema."
       oauth_client_not_found: "Cliente del OAuth2 no encontrado en el punto final 'callback' (redirect_uri)."

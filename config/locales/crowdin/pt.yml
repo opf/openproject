@@ -280,9 +280,9 @@ pt:
       no_results_content_text: Adicionar um membro ao projeto
     invite_by_mail: "Enviar convite para %{mail}"
     send_invite_to: "Enviar convite para"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    no_modify_on_shared: "No momento, você não pode modificar ou remover associações compartilhadas através da página de membros. Em vez disso, use o modal de compartilhamento."
     columns:
-      shared: "Shared"
+      shared: "Compartilhado"
     filters:
       all_shares: 'Todos os compartilhamentos'
     menu:
@@ -2166,9 +2166,9 @@ pt:
     other: "%{count} abertos"
     zero: "0 aberto"
   label_x_work_packages:
-    one: "1 work package"
-    other: "%{count} work packages"
-    zero: "No work packages"
+    one: "1 pacote de trabalho"
+    other: "%{count} pacotes de trabalho"
+    zero: "Nenhum pacote de trabalho"
   label_x_projects:
     one: "1 projeto"
     other: "%{count} projetos"
@@ -2426,8 +2426,8 @@ pt:
   permission_assign_versions: "Atribuir versões"
   permission_browse_repository: "Acesso somente leitura ao repositório (browse e check-out)"
   permission_change_wiki_parent_page: "Alterar página pai da wiki"
-  permission_change_work_package_status: "Change work package status"
-  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
+  permission_change_work_package_status: "Alterar status do pacote de trabalho"
+  permission_change_work_package_status_explanation: "Permite alterar o status sem permissão para Editar pacotes de trabalho"
   permission_comment_news: "Comentar notícias"
   permission_commit_access: "Acesso de leitura/gravação para o repositório (commit)"
   permission_copy_projects: "Copiar projetos"

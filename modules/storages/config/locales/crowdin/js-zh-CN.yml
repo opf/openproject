@@ -75,8 +75,8 @@ zh-CN:
         link_uploaded_file_error: >
           在链接最近上传的文件 '%{fileName}' 到工作包 %{workPackageId} 时出现错误。
         tooltip:
-          not_logged_in: "Please log in to Nextcloud to access this file."
-          view_not_allowed: "You have no permission to see this file."
-          not_found: "This file cannot be found."
+          not_logged_in: "请登录 Nextcloud 访问此文件。"
+          view_not_allowed: "您无权查看此文件。"
+          not_found: "找不到此文件。"
         already_linked_file: "此文件已链接到该工作包。"
         already_linked_directory: "此目录已连接到该工作包。"

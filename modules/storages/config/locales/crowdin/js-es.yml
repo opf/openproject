@@ -77,8 +77,8 @@ es:
         link_uploaded_file_error: >
           Se ha producido un error al vincular el archivo cargado recientemente "%{fileName}" al paquete de trabajo %{workPackageId}.
         tooltip:
-          not_logged_in: "Please log in to Nextcloud to access this file."
-          view_not_allowed: "You have no permission to see this file."
-          not_found: "This file cannot be found."
+          not_logged_in: "Por favor, inicia sesión en Nextcloud para acceder a este archivo"
+          view_not_allowed: "No tienes permisos para ver este archivo."
+          not_found: "No se ha encontrado este archivo."
         already_linked_file: "El archivo ya está vinculado a este paquete de trabajo."
         already_linked_directory: "El directorio ya está vinculado a este paquete de trabajo."
