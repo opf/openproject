@@ -32,19 +32,17 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="header">
     <% icon = folded ? 'icon-arrow-down1' : 'icon-arrow-up1' %>
     <div class="toggler <%= icon %> icon-small<%= ' closed' if folded %>"> </div>
-    <%= render :partial => "rb_sprints/sprint", :object => backlog.sprint %>
+    <%= render partial: "rb_sprints/sprint", object: backlog.sprint %>
     <div class="velocity"> </div>
     <%= render_backlog_menu backlog %>
   </div>
   <ul class="stories<%= ' closed' if folded %>">
     <% reset_cycle 'stories' %>
     <% backlog.stories.each_with_index do |story, index| %>
-      <% higher_item = index == 0 ? nil :
-                                    backlog.stories[index - 1] %>
+      <% higher_item = index == 0 ? nil : backlog.stories[index - 1] %>
 
-      <%= render :partial => "rb_stories/story",
-                 :locals => { :story => story,
-                              :higher_item => higher_item } %>
+      <%= render partial: "rb_stories/story",
+                 locals: { story:, higher_item: } %>
     <% end %>
   </ul>
 </div>
