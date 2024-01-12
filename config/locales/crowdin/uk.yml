@@ -276,18 +276,18 @@ uk:
       no_results_content_text: Додайте учасника до проекту
     invite_by_mail: "Надіслати запрошення на адресу %{mail}"
     send_invite_to: "Надіслати запрошення:"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    no_modify_on_shared: "Зараз ви не можете змінювати або вилучати спільні членства через сторінку учасника. Використайте натомість модальний спосіб поширення."
     columns:
-      shared: "Shared"
+      shared: "Поширені"
     filters:
-      all_shares: 'All shares'
+      all_shares: 'Усі поширення'
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: 'Усі'
+      invited: 'Запрошені'
+      locked: 'Заблоковані'
+      project_roles: 'Ролі в проєкті'
+      wp_shares: 'Поширення пакета робіт'
+      groups: 'Групи'
   my:
     access_token:
       failed_to_reset_token: "Не вдалося відновити маркер доступу: %{error}"
@@ -1876,7 +1876,7 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: "Інструкції зі встановлення"
+  label_installation_guides: "Інструкції із встановлення"
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
@@ -2216,9 +2216,9 @@ uk:
     other: "%{count} відкритих"
     zero: "0 відкрито"
   label_x_work_packages:
-    one: "1 work package"
-    other: "%{count} work packages"
-    zero: "No work packages"
+    one: "1 пакет робіт"
+    other: "Пакетів робіт: %{count}"
+    zero: "Немає пакетів робіт"
   label_x_projects:
     one: "1 проект"
     other: "%{count} проектів"
@@ -2292,9 +2292,9 @@ uk:
     sharing:
       work_packages:
         allowed_actions: "Ви можете %{allowed_actions} у цьому пакеті робіт, але це залежить від вашої ролі й дозволів у проєкті."
-        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
+        create_account: "Щоб отримати доступ до цього пакета робіт, вам знадобиться створити й активувати обліковий запис в %{instance}. "
         open_work_package: "Відкрити пакет робіт"
-        subject: "Work package #%{id} was shared with you"
+        subject: "Вам надано доступ до пакета робіт #%{id}"
         enterprise_text: "Діліться пакетами робіт із користувачами, які не належать до учасників проєкту."
         summary:
           user: "%{user} надав(-ла) вам доступ до пакета робіт із такими правами: %{role_rights}"
@@ -2479,8 +2479,8 @@ uk:
   permission_assign_versions: "Призначити версії"
   permission_browse_repository: "Доступ лише на читання з репозиторію (перегляд і перевірка)"
   permission_change_wiki_parent_page: "Змінити батьківську wiki сторінку"
-  permission_change_work_package_status: "Change work package status"
-  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
+  permission_change_work_package_status: "Змінити статус пакета робіт"
+  permission_change_work_package_status_explanation: "Дає змогу змінювати статус без дозволу «Редагування пакетів робіт»"
   permission_comment_news: "Коментування новин"
   permission_commit_access: "Доступ для читання/запису до сховища (фіксація)"
   permission_copy_projects: "Копіювати проекти"
@@ -3338,7 +3338,7 @@ uk:
       oauth_returned_json_error: "Клієнт OAuth2 повернув помилку JSON"
       oauth_returned_http_error: "Клієнт OAuth2 повернув помилку мережі"
       oauth_returned_standard_error: "Клієнт OAuth2 повернув внутрішню помилку"
-      client_id_blank: "ID can't be blank."
+      client_id_blank: "Поле «ID» не може бути порожнє."
       wrong_token_type_returned: "Клієнт OAuth2 повернув неправильний тип маркеру (очікувався тип AccessToken::Bearer)"
       oauth_issue_contact_admin: "Клієнт OAuth2 повідомив про помилку. Зверніться до системного адміністратора."
       oauth_client_not_found: "Клієнта OAuth2 не знайдено в кінцевій точці 'callback' (redirect_uri)."

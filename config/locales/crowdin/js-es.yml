@@ -352,7 +352,7 @@ es:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
+                El lanzamiento contiene varias funcionalidades y mejoras: <br><ul class="%{list_styling_class}"><li>Filtrar por roles, grupos y comparticiones en la lista de miembros de proyectos.</li> <li>Permitir marcar como usuario asignado o responsable por paquetes de trabajo compartidos.</li> <li>Introducción de los nuevos nombres Trabajo, Trabajo restante y % Completado para preparar reportes de progreso para jerarquías de paquetes de trabajo. </li> <li> Permitir cambios de estado para paquetes de trabajo sin permisos de edición.</li> <li>Activar carpetas manuales de proyecto para almacenamientos OneDrive/SharePoint.</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -521,7 +521,7 @@ es:
     label_watcher_added_successfully: "¡Observador agregado exitosamente!"
     label_watcher_deleted_successfully: "¡Observador borrado con éxito!"
     label_work_package_details_you_are_here: "Se encuentra en la pestaña %{tab} para %{type}%{subject}."
-    label_work_package_context_menu: "Work package context menu"
+    label_work_package_context_menu: "Menú contextual del paquete de trabajo"
     label_unwatch: "Dejar de observar"
     label_unwatch_work_package: "Dejar de observar paquetes de trabajo"
     label_uploaded_by: "Cargado por"
@@ -758,7 +758,7 @@ es:
           last_day: 'Último día'
     text_are_you_sure: "¿Estás seguro?"
     text_data_lost: "Todos los datos introducidos se perderán."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} escribió:"
     types:
       attribute_groups:
         error_duplicate_group_name: "El nombre %{group} se ha usado más de una vez. Los nombres de grupos deben ser únicos."
@@ -833,7 +833,7 @@ es:
       toggle_description: "Activar descripción de la relación"
       update_relation: "Haga clic para cambiar el tipo de relación"
       add_follower: "Añadir seguidor"
-      show_relations: "Show relations"
+      show_relations: "Mostrar relaciones"
       add_predecessor: "Añadir predecesor"
       remove: "Eliminar la relación"
       save: "Guardar relación"
@@ -1036,7 +1036,7 @@ es:
         selection:
           mixed: "Mixto"
         upsale:
-          description: "Share work packages with users who are not members of the project."
+          description: "Compartir paquetes de trabajo con usuarios que no son miembros del proyecto."
       table:
         configure_button: 'Configurar tabla de paquetes de trabajo'
         summary: "Tabla con filas de paquetes de trabajo y columnas con sus atributos."

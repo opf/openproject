@@ -237,8 +237,6 @@ In this section, we detail some of the required and optional configuration optio
 
 SAML responses by identity providers are required to be signed. You can configure this by either specifying the response's certificate fingerprint in `idp_cert_fingerprint` , or by passing the entire PEM-encoded certificate string in `idp_cert` (beware of newlines and formatting the cert, [c.f. the idP certificate options in omniauth-saml](https://github.com/omniauth/omniauth-saml#options))
 
-
-
 #### 2.2 Mandatory: Attribute mapping
 
 Use the key `attribute_statements` to provide mappings for attributes returned by the SAML identity provider's response to OpenProject internal attributes. 
@@ -290,7 +288,6 @@ default:
         # What attribute in SAML maps to the last name (default: sn)
         last_name: ['sn']
 ```
-
 
 
 #### 2.3 Optional: Set the attribute format
@@ -391,6 +388,19 @@ default:
 ```
 
 
+#### 2.6. Optional: Set name_identifier_format
+
+There are a number of name identifier formats that are relevant, so if you have specific requirements or configuration on the identity provider side, you might need to set the name_identifier_format property.
+
+The default behavior would be to use the email Address like so:
+
+```
+default:
+  # <-- other configuration -->
+    mysaml1:
+      # <-- other configuration -->
+      name_identifier_format: "urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress"
+```
 
 ### 3: Restart the server
 
