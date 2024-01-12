@@ -47,7 +47,8 @@ class Projects::QueriesController < ApplicationController
   end
 
   def destroy
-    @query.destroy
+    Queries::Projects::ProjectQueries::DeleteService.new(user: current_user, model: @query)
+                                                    .call
 
     redirect_to projects_path
   end

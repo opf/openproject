@@ -26,8 +26,4 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  class DeleteContract < ::DeleteContract
-    delete_permission :admin
-  end
-end
+class Queries::Projects::ProjectQueries::DeleteService < BaseServices::Delete; end
