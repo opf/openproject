@@ -48,10 +48,11 @@ RSpec.describe 'Estimated hours display', :js do
 
   let(:wp_table) { Pages::WorkPackagesTable.new project }
   let(:editor) { Components::WysiwygEditor.new }
+  let(:initiator_work_package) { child }
 
   before do
     WorkPackages::UpdateAncestorsService
-      .new(user:, work_package: child)
+      .new(user:, work_package: initiator_work_package)
       .call([:estimated_hours])
 
     login_as(user)
@@ -141,5 +142,62 @@ RSpec.describe 'Estimated hours display', :js do
     TABLE
 
     include_examples 'estimated time display', expected_text: '-'
+  end
+
+  describe 'link to detailed view' do
+    let_work_packages(<<~TABLE)
+      hierarchy          | work |
+      parent             |   5h |
+        child 1          |   0h |
+        child 2          |   3h |
+          grand child 21 |  12h |
+        child 3          |      |
+      other one          |   2h |
+    TABLE
+
+    # Run UpdateAncestorsService on the grand child to update the whole hierarchy derived values
+    let(:initiator_work_package) { grand_child21 }
+
+    it 'displays a link to a detailed view explaining work calculation' do
+      wp_table.visit_query query
+
+      # parent
+      expect(page).to have_content("5 h·Σ 20 h")
+      expect(page).to have_link("Σ 20 h")
+      # child 2
+      expect(page).to have_content("3 h·Σ 15 h")
+      expect(page).to have_link("Σ 15 h")
+    end
+
+    context 'when clicking the link of a top parent' do
+      before do
+        visit work_package_path(parent)
+      end
+
+      it 'shows a work package table with a parent filter to list the direct children' do
+        click_on("Σ 20 h")
+
+        wp_table.expect_work_package_count(4)
+        wp_table.expect_work_package_listed(parent, child1, child2, child3)
+        within(:table) do
+          expect(page).to have_columnheader('Work')
+          expect(page).to have_columnheader('Remaining work')
+        end
+      end
+    end
+
+    context 'when clicking the link of an intermediate parent' do
+      before do
+        visit work_package_path(child2)
+      end
+
+      it 'shows also all ancestors in the work package table' do
+        expect(page).to have_content("Work\n3 h·Σ 15 h")
+        click_on("Σ 15 h")
+
+        wp_table.expect_work_package_count(3)
+        wp_table.expect_work_package_listed(parent, child2, grand_child21)
+      end
+    end
   end
 end
