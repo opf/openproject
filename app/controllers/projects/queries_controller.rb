@@ -27,16 +27,23 @@
 # ++
 
 class Projects::QueriesController < ApplicationController
+  # No need for a more specific authorization check. That is carried out in the contracts.
+  before_action :require_login
   before_action :find_query, only: :destroy
 
-  # TODO authorization
   def create
-    query = load_query
-    query.name = params[:name]
+    call = Queries::Projects::ProjectQueries::CreateService.new(user: current_user)
+                                                           .call(load_query.attributes.merge(name: params[:name]))
 
-    query.save
+    if call.success?
+      redirect_to projects_path(query_id: call.result.id)
+    else
+      # This is a workaround as long as a modal is used.
+      # In the final implementation, errors will be displayed under the text box that replaces the header.
+      flash[:error] = call.errors.full_messages
 
-    redirect_to projects_path(query_id: query.id)
+      redirect_to projects_path
+    end
   end
 
   def destroy
@@ -49,7 +56,7 @@ class Projects::QueriesController < ApplicationController
 
   # TODO: move to module to share with projects_controller
   def load_query
-    @query = ParamsToQueryService.new(Project, current_user).call(params)
+    ParamsToQueryService.new(Project, current_user).call(params)
   end
 
   def find_query

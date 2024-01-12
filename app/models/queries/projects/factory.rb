@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,9 +24,47 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Queries
-  class CreateContract < BaseContract
+class Queries::Projects::Factory
+  class << self
+    def find(id)
+      static_query(id) || Queries::Projects::ProjectQuery.find(id)
+    end
+
+    def static_query(id)
+      case id
+      when nil, 'all'
+        static_query_all
+      when 'my'
+        static_query_my
+      when 'archived'
+        static_query_archived
+      end
+    end
+
+    def static_query_all
+      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.sidemenu.all')) do |query|
+        query.where('active', '=', OpenProject::Database::DB_VALUE_TRUE)
+
+        query.order(lft: :asc)
+      end
+    end
+
+    def static_query_my
+      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.sidemenu.my')) do |query|
+        query.where('member_of', '=', OpenProject::Database::DB_VALUE_TRUE)
+
+        query.order(lft: :asc)
+      end
+    end
+
+    def static_query_archived
+      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.sidemenu.archived')) do |query|
+        query.where('active', '=', OpenProject::Database::DB_VALUE_FALSE)
+
+        query.order(lft: :asc)
+      end
+    end
   end
 end

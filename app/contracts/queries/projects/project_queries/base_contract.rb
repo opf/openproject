@@ -26,44 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Queries::Projects::DefaultFactory
-  class << self
-    def find(id)
-      static_query(id) || Queries::Projects::ProjectQuery.find(id)
+module Queries::Projects::ProjectQueries
+  class BaseContract < ::ModelContract
+    attribute :name
+    attribute :columns
+    attribute :filters
+    attribute :orders
+
+    def self.model
+      Queries::Projects::ProjectQuery
     end
 
-    def static_query(id)
-      case id
-      when nil, 'all'
-        static_query_all
-      when 'my'
-        static_query_my
-      when 'archived'
-        static_query_archived
-      end
-    end
+    validates :name,
+              presence: true,
+              length: { maximum: 255 }
 
-    def static_query_all
-      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.sidemenu.all')) do |query|
-        query.where('active', '=', OpenProject::Database::DB_VALUE_TRUE)
+    validate :user_is_current_user_and_logged_in
 
-        query.order(lft: :asc)
-      end
-    end
-
-    def static_query_my
-      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.sidemenu.my')) do |query|
-        query.where('member_of', '=', OpenProject::Database::DB_VALUE_TRUE)
-
-        query.order(lft: :asc)
-      end
-    end
-
-    def static_query_archived
-      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.sidemenu.archived')) do |query|
-        query.where('active', '=', OpenProject::Database::DB_VALUE_FALSE)
-
-        query.order(lft: :asc)
+    def user_is_current_user_and_logged_in
+      unless user.logged? && user == model.user
+        errors.add :base, :error_unauthorized
       end
     end
   end

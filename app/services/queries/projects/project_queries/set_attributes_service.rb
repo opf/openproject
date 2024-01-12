@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,9 +24,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Queries
-  class CreateContract < BaseContract
+class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::SetAttributes
+  def set_default_attributes(_params)
+    set_default_user
+  end
+
+  def set_default_user
+    model.change_by_system do
+      model.user = user
+    end
   end
 end

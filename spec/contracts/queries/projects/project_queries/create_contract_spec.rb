@@ -26,7 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries
-  class CreateContract < BaseContract
+require 'spec_helper'
+require_relative 'shared_contract_examples'
+
+RSpec.describe Queries::Projects::ProjectQueries::CreateContract do
+  it_behaves_like 'project queries contract' do
+    let(:query) do
+      Queries::Projects::ProjectQuery.new(name: query_name).tap do |query|
+        query.extend(OpenProject::ChangedBySystem)
+
+        query.change_by_system do
+          query.user = query_user
+        end
+      end
+    end
+
+    let(:contract) { described_class.new(query, current_user) }
   end
 end

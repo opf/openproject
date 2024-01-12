@@ -26,7 +26,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries
-  class CreateContract < BaseContract
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
+
+RSpec.shared_examples_for 'project queries contract' do
+  include_context 'ModelContract shared context'
+
+  let(:current_user) { build_stubbed(:user) }
+  let(:query_name) { "Query name" }
+  let(:query_user) { current_user }
+
+  describe 'validation' do
+    it_behaves_like 'contract is valid'
+
+    context 'if the name is nil' do
+      let(:query_name) { nil }
+
+      it_behaves_like 'contract is invalid', name: :blank
+    end
+
+    context 'if the name is too long' do
+      let(:query_name) { 'A' * 256 }
+
+      it_behaves_like 'contract is invalid', name: :too_long
+    end
+
+    context 'if the user is not the current user' do
+      let(:query_user) { build_stubbed(:user) }
+
+      it_behaves_like 'contract is invalid', base: :error_unauthorized
+    end
+
+    context 'if the user and the current user is anonymous' do
+      let(:current_user) { build_stubbed(:anonymous) }
+
+      it_behaves_like 'contract is invalid', base: :error_unauthorized
+    end
   end
 end

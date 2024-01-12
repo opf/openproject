@@ -51,8 +51,8 @@ class ParamsToQueryService
   def find_query(query_id)
     model_name = model.name
 
-    if "::Queries::#{model_name.pluralize}".constantize.const_defined?(:DefaultFactory) && query_id
-      factory = "::Queries::#{model_name.pluralize}::DefaultFactory".constantize
+    if "::Queries::#{model_name.pluralize}".constantize.const_defined?(:Factory)
+      factory = "::Queries::#{model_name.pluralize}::Factory".constantize
 
       factory.find(query_id)
     elsif query_class.respond_to?(:find) && query_id

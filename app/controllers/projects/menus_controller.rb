@@ -48,14 +48,14 @@ module Projects
 
     def static_filters
       [
-        query_menu_item(Queries::Projects::DefaultFactory.static_query_all, selected: no_query_props?),
-        query_menu_item(Queries::Projects::DefaultFactory.static_query_my, id: 'my'),
-        query_menu_item(Queries::Projects::DefaultFactory.static_query_archived, id: 'archived')
+        query_menu_item(::Queries::Projects::Factory.static_query_all, selected: no_query_props?),
+        query_menu_item(::Queries::Projects::Factory.static_query_my, id: 'my'),
+        query_menu_item(::Queries::Projects::Factory.static_query_archived, id: 'archived')
       ]
     end
 
     def my_filters
-      Queries::Projects::ProjectQuery
+      ::Queries::Projects::ProjectQuery
         .where(user: current_user)
         .order(:name)
         .map do |query|
