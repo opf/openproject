@@ -21,30 +21,32 @@ keywords: members, project participants
 
 ## Project members overview
 
-On the left side menu you will see **Members**. When selected, it will show a list of project members, project groups, as well as the users, with whom work packages from this project have been shared. You can **edit** or **delete** a user or a group by click the respective icon at the end of the line listing said user or group.
+On the left side menu you will see **Members**. When selected, it will show a list of project members, project groups, as well as the users with whom work packages from this project have been shared. You can **edit** or **delete** a user or a group by clicking the respective icon at the end of the line listing the user or group.
 
 ![Project members overview in OpenProject](members-overview.png)
 
 Standard filters on the left side menu include the following: 
 
-- **All** - returns all members and groups of the project, as well as non-members, with whom a work package from this project has been shared
+- **All** - returns all members and groups of the project, as well as non-members, with whom one or more work packages from this project have been shared
 
-- **Locked** - returns all locked users that are members of this project, as well as locked non-members, with whom a work package from this project has been shared
+- **Locked** - returns all locked users that are members of this project, as well as locked non-members, with whom one or more work packages from this project have been shared
 
 - **Invited** - returns all users that have been invited, but have not yet registered
 
-- **Project roles** provides filters based on all the user roles that have been assigned to users in that specific project. 
+- **Project roles** provides filters based on all the member roles that have been assigned to users in that specific project. 
 
-- **Work package shares** provides filters based on all the roles available for sharing work packages. They include
-- **All shares** - returns all users that a work package in this project has been shared with
-  
-- **View** - returns all users that can view, but not edit or comment on a work package that has been shared with them
-  
-- **Comment** - returns all users that are allowed to add comments to a work package that has been shared with them
-  
-- **Edit** - returns all users that are permitted to edit a work package that has been shared with them
+- **Work package shares** provides filters based on all the roles available for sharing work packages. They include:
+  -  **All shares** - returns all users that a work package in this project has been shared with
+  - **View** - returns all users that can view, but not edit or comment on a work package that has been shared with them
 
-> Note: users, with whom work packages from a given project have been shared, can not be edited or deleted under **Members**. To edit or revoke their viewing rights please navigate to **Work packages**, select the **Shared with users** filter and adjust the privileges accordingly. [Read more](../work-packages/share-work-packages/#remove-sharing-privileges).
+  - **Comment** - returns all users that are allowed to add comments to a work package that has been shared with them
+
+  - **Edit** - returns all users that are permitted to edit a work package that has been shared with them
+
+
+> Note: users, with whom work packages from a given project have been shared, can not be edited or deleted under **Members**. To edit or revoke their viewing rights you can click on the "Number of work package(s) in the column "Shared" (3 work packages in the example above). This will open an already filtered work package list of all  work packages shared with that user.
+>
+> Another way is to navigate to **Work packages**, select the **Shared with users** filter and adjust the privileges accordingly. [Read more here](../work-packages/share-work-packages/#remove-sharing-privileges).
 
 - **Groups** lists all the groups that have been added to this project. 
 
@@ -52,7 +54,7 @@ Standard filters on the left side menu include the following:
 
 ![Group project member in OpenProject](members-overview-group.png)
 
-You can adjust the overview by clicking the **menu icon** in the top right corner next to **+ Member** button. Once you are done adjusting your preferences, click the blue **Apply** button.
+You can adjust the displayed members by clicking on the **filter icon** in the top right corner next to **+ Member** button. Once you are done adjusting your preferences, click the blue **Apply** button.
 
 ![Filter project members overview](filter-project-members.png)
 
@@ -60,8 +62,8 @@ You can adjust the project member overview based on following filters:
 
 - **Status** - allows filtering based on the user status, such as active, invited, locked or registered.
 - **Group** - allows filtering for project members that are part of an existing group (all groups available in your instance will be listed as options), even if the group itself has not been added to the project.
-- **Role** - allows filtering based on all the user roles that have been assigned to users in that specific project. This will duplicate the options in the left side menu.
-- **Work package shares** - provides same filters as listed in the left hand menu, based on all the roles available for sharing work packages,. They include all shares, work, comment, edit.
+- **Role** - allows filtering based on all the user roles that have been assigned to users in that specific project. The options of this filters are the same as in the left side menu.
+- **Work package shares** - provides same filters as listed in the left side menu, based on all the roles available for sharing work packages. They include all shares, work, comment, edit.
 - **Name** - allows searching for a specific user or group by typing in a user or group name.
 
 ## Add members
