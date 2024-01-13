@@ -278,18 +278,18 @@ it:
       no_results_content_text: Aggiungi un membro al progetto
     invite_by_mail: "Invia invito a %{mail}"
     send_invite_to: "Invia l'invito a"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    no_modify_on_shared: "Al momento non è possibile modificare o rimuovere le iscrizioni condivise tramite la pagina dei membri. Utilizza invece la modalità di condivisione.\n"
     columns:
-      shared: "Shared"
+      shared: "Condivisa"
     filters:
-      all_shares: 'All shares'
+      all_shares: 'Tutte le condivisioni'
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: 'Tutti'
+      invited: 'Invitato'
+      locked: 'Bloccato'
+      project_roles: 'Ruoli del progetto'
+      wp_shares: 'Condivisioni della macro-attività'
+      groups: 'Gruppi'
   my:
     access_token:
       failed_to_reset_token: "Impossibile reimpostare il token di accesso: %{error}"
@@ -2164,9 +2164,9 @@ it:
     other: "%{count} aperti"
     zero: "0 aperti"
   label_x_work_packages:
-    one: "1 work package"
-    other: "%{count} work packages"
-    zero: "No work packages"
+    one: "1 macro-attività"
+    other: "%{count} macro-attività"
+    zero: "Nessuna macro-attività"
   label_x_projects:
     one: "1 progetto"
     other: "%{count} progetti"
@@ -2238,9 +2238,9 @@ it:
     sharing:
       work_packages:
         allowed_actions: "Puoi %{allowed_actions} questa macro-attività. Questa impostazione può cambiare a seconda del ruolo e delle autorizzazioni del progetto."
-        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
+        create_account: "Per accedere a questa macro-attività è necessario creare e attivare un account su %{instance}"
         open_work_package: "Apri macro-attività"
-        subject: "Work package #%{id} was shared with you"
+        subject: "La macro-attività #%{id} è stata condivisa con te"
         enterprise_text: "Condividi macro-attività con utenti che non sono membri del progetto."
         summary:
           user: "%{user} ha condiviso con te una macro-attività con i diritti %{role_rights}"
@@ -2426,8 +2426,8 @@ it:
   permission_assign_versions: "Assegna versioni"
   permission_browse_repository: "Accesso in sola lettura all'archivio (consultazione e check-out)"
   permission_change_wiki_parent_page: "Cambiare la pagina padre del wiki"
-  permission_change_work_package_status: "Change work package status"
-  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
+  permission_change_work_package_status: "Cambia lo stato della macro-attività"
+  permission_change_work_package_status_explanation: "Consente di cambiare lo stato senza l'autorizzazione Modifica macro-attività"
   permission_comment_news: "Commentare le novità"
   permission_commit_access: "Accesso in lettura/scrittura all'archivio (commit)"
   permission_copy_projects: "Copiare progetti"
@@ -2489,7 +2489,7 @@ it:
   permission_view_news: "Visualizza notizie"
   permission_view_members: "Mostra membri"
   permission_view_reportings: "Visualizzare prospetti"
-  permission_view_shared_work_packages: "Vedi macro-attività condivise"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Visualizza il tempo impiegato"
   permission_view_timelines: "Visualizza le cronologie"
   permission_view_wiki_edits: "Visualizza il registro della wiki"
@@ -3282,7 +3282,7 @@ it:
       oauth_returned_json_error: "OAuth2 ha restituito un errore JSON"
       oauth_returned_http_error: "OAuth2 ha restituito un errore di rete"
       oauth_returned_standard_error: "OAuth2 ha restituito un errore interno"
-      client_id_blank: "ID can't be blank."
+      client_id_blank: "Il campo ID non può essere vuoto."
       wrong_token_type_returned: "OAuth2 ha restituito un tipo di token sbagliato, aspettandosi AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 ha segnalato un errore. Contatta l'amministratore di sistema."
       oauth_client_not_found: "Client OAuth2 non trovato nell'endpoint 'callback' (redirect_uri)."

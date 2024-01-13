@@ -278,9 +278,9 @@ lt:
       no_results_content_text: Įtraukti narį į projektą
     invite_by_mail: "Siųsti pakvietimą adresu %{mail}"
     send_invite_to: "Siųsti pakvietimą"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    no_modify_on_shared: "Jūs šiuo metu negalite keisti ar išimti bendrintų narysčių per nario puslapį. Vietoje to naudokite bendrinimo dialogą."
     columns:
-      shared: "Shared"
+      shared: "Bendrinta"
     filters:
       all_shares: 'Visi bendrinimai'
     menu:
@@ -2218,9 +2218,9 @@ lt:
     other: "%{count} atidaryti (-as, -ų)"
     zero: "0 atvirų"
   label_x_work_packages:
-    one: "1 work package"
-    other: "%{count} work packages"
-    zero: "No work packages"
+    one: "1 darbo paketas"
+    other: "%{count} darbo paketai"
+    zero: "Nėra darbo paketų"
   label_x_projects:
     one: "1 projektas"
     other: "%{count} projektai (-as, -ų)"
@@ -2545,7 +2545,7 @@ lt:
   permission_view_news: "Žiūrėti naujienas"
   permission_view_members: "Rodyti narius"
   permission_view_reportings: "Peržiūrėti ataskaitas"
-  permission_view_shared_work_packages: "Žiūrėti bendrinamus darbų paketus"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Peržiūrėti dirbtą laiką"
   permission_view_timelines: "Peržiūrėti laiko juostas"
   permission_view_wiki_edits: "Peržiūrėti wiki istoriją"

@@ -81,8 +81,8 @@ pl:
         link_uploaded_file_error: >
           Wystąpił błąd podczas łączenia niedawno przesłanego pliku '%{fileName}' z pakietem roboczym %{workPackageId}.
         tooltip:
-          not_logged_in: "Please log in to Nextcloud to access this file."
-          view_not_allowed: "You have no permission to see this file."
-          not_found: "This file cannot be found."
+          not_logged_in: "Zaloguj się do Nextcloud aby uzyskać dostęp do tego pliku"
+          view_not_allowed: "Nie masz uprawnień do wyświetlania tego pliku."
+          not_found: "Nie można znaleźć tego pliku."
         already_linked_file: "Ten plik jest już powiązany z tym pakietem roboczym."
         already_linked_directory: "Ten katalog jest już powiązany z tym pakietem roboczym."

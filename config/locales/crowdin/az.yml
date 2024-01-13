@@ -2492,7 +2492,7 @@ az:
   permission_view_news: "View news"
   permission_view_members: "View members"
   permission_view_reportings: "View reportings"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "View spent time"
   permission_view_timelines: "View timelines"
   permission_view_wiki_edits: "View wiki history"

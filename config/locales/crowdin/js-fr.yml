@@ -352,7 +352,7 @@ fr:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
+                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Filtre pour les rôles, les groupes et les partages dans la liste des membres du projet.</li> <li>Possibilité de définir les responsables et les attributaires des lots de travaux partagés.</li> <li>Introduction de nouveaux noms de champs Travail, Travail restant et % d'achèvement pour préparer les rapports d'avancement pour les hiérarchies de lots de travaux.</li> <li>Possibilité de modifier le statut sans avoir le droit de modifier les lots de travaux.</li> <li>Utilisation de dossiers de projet manuels pour les stockages OneDrive/SharePoint.</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -521,7 +521,7 @@ fr:
     label_watcher_added_successfully: "Observateur ajouté avec succès !"
     label_watcher_deleted_successfully: "Observateur supprimé avec succès !"
     label_work_package_details_you_are_here: "Vous êtes sur l'onglet %{tab} de %{type} %{subject}."
-    label_work_package_context_menu: "Work package context menu"
+    label_work_package_context_menu: "Menu contextuel des lots de travaux"
     label_unwatch: "Ne plus suivre"
     label_unwatch_work_package: "Ne plus suivre le lot de travaux"
     label_uploaded_by: "Téléversé par"
@@ -833,7 +833,7 @@ fr:
       toggle_description: "Alterner la description de relation"
       update_relation: "Cliquez pour modifier le type de relation"
       add_follower: "Ajouter un successeur"
-      show_relations: "Show relations"
+      show_relations: "Afficher les relations"
       add_predecessor: "Ajouter un prédécesseur"
       remove: "Supprimer la relation"
       save: "Enregistrer la relation"
@@ -1036,7 +1036,7 @@ fr:
         selection:
           mixed: "Mixte"
         upsale:
-          description: "Share work packages with users who are not members of the project."
+          description: "Partagez les lots de travaux avec des utilisateurs qui ne sont pas membres du projet."
       table:
         configure_button: 'Configurer le tableau du lot de travaux'
         summary: "Tableau avec lignes de lots de travaux et colonnes d’attributs de lots de travaux."

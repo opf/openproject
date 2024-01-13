@@ -2454,7 +2454,7 @@ id:
   permission_view_news: "View news"
   permission_view_members: "Tampilkan Anggota"
   permission_view_reportings: "Lihat laporan"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Lihat durasi"
   permission_view_timelines: "Lihat Timeline"
   permission_view_wiki_edits: "Lihat Wiki histori"

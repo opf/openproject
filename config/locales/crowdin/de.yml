@@ -2487,7 +2487,7 @@ de:
   permission_view_news: "News anzeigen"
   permission_view_members: "Mitglieder ansehen"
   permission_view_reportings: "Statusberichte ansehen"
-  permission_view_shared_work_packages: "Sehen, mit wem Arbeitspakete geteilt werden"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Gebuchte Aufwände ansehen"
   permission_view_timelines: "Zeitplan-Reporte anzeigen"
   permission_view_wiki_edits: "Wiki-Versionsgeschichte ansehen"

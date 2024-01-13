@@ -81,8 +81,8 @@ ru:
         link_uploaded_file_error: >
           Произошла ошибка при привязке недавно загруженного файла '%{fileName}' к пакету работ %{workPackageId}.
         tooltip:
-          not_logged_in: "Please log in to Nextcloud to access this file."
-          view_not_allowed: "You have no permission to see this file."
-          not_found: "This file cannot be found."
+          not_logged_in: "Войдите в Nextcloud для доступа к этому файлу."
+          view_not_allowed: "У вас недостаточно прав для просмотра этого файла."
+          not_found: "Этот файл не найден."
         already_linked_file: "Этот файл уже связан с этим пакетом работ."
         already_linked_directory: "Этот каталог уже связан с этим пакетом работ."

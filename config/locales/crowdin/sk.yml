@@ -2549,7 +2549,7 @@ sk:
   permission_view_news: "View news"
   permission_view_members: "Zobraziť členov"
   permission_view_reportings: "Zobraziť prehľady"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Zobrazenie stráveného času"
   permission_view_timelines: "Zobrazenie časovej osi"
   permission_view_wiki_edits: "Zobrazenie histórie wiki"

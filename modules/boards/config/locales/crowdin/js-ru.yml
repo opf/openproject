@@ -21,7 +21,7 @@ ru:
         edit_version: 'Изменить версию'
         show_version: 'Показать спринт'
         locked: 'Заблокировано'
-        closed: 'закрыто'
+        closed: 'Закрыто'
       new_board: 'Новая доска'
       add_list: 'Добавить список в форум'
       add_card: 'Добавить карточку'

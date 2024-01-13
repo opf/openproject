@@ -2455,7 +2455,7 @@ zh-CN:
   permission_view_news: "查看新闻"
   permission_view_members: "查看成员"
   permission_view_reportings: "查看报告"
-  permission_view_shared_work_packages: "查看共享工作包"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "查看消耗时间"
   permission_view_timelines: "查看时间线"
   permission_view_wiki_edits: "查看维基历史记录"

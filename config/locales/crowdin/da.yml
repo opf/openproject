@@ -2490,7 +2490,7 @@ da:
   permission_view_news: "View news"
   permission_view_members: "Vis medlemmer"
   permission_view_reportings: "Vis rapporteringer"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Vis anvendt tid"
   permission_view_timelines: "Vis tidslinjer"
   permission_view_wiki_edits: "Vis wiki-historik"

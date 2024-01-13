@@ -2521,7 +2521,7 @@ hr:
   permission_view_news: "View news"
   permission_view_members: "View members"
   permission_view_reportings: "Prikaži izvještaje"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Prikaži utrošeno vrijeme"
   permission_view_timelines: "Prikaži kronologiju"
   permission_view_wiki_edits: "Pogledaj povijest wiki stranice"

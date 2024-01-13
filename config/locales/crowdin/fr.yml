@@ -281,9 +281,9 @@ fr:
       no_results_content_text: Ajouter un membre au projet
     invite_by_mail: "Envoyer une invitation à %{mail}"
     send_invite_to: "Envoyer une invitation à"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    no_modify_on_shared: "Actuellement, vous ne pouvez pas modifier ou supprimer les adhésions partagées depuis la page des membres. Utilisez plutôt la fenêtre modale de partage."
     columns:
-      shared: "Shared"
+      shared: "Partagé"
     filters:
       all_shares: 'Tous les partages'
     menu:
@@ -2167,9 +2167,9 @@ fr:
     other: "%{count} ouverts"
     zero: "0 ouvert"
   label_x_work_packages:
-    one: "1 work package"
-    other: "%{count} work packages"
-    zero: "No work packages"
+    one: "1 lot de travaux"
+    other: "%{count} lots de travaux"
+    zero: "Aucun lot de travaux"
   label_x_projects:
     one: "1 projet"
     other: "%{count} projets"
@@ -2429,8 +2429,8 @@ fr:
   permission_assign_versions: "Assigner les versions"
   permission_browse_repository: "Accès au dépôt en lecture seule (navigation et « checkout »)"
   permission_change_wiki_parent_page: "Changer la page wiki parent"
-  permission_change_work_package_status: "Change work package status"
-  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
+  permission_change_work_package_status: "Modifier le statut du lot de travaux"
+  permission_change_work_package_status_explanation: "Permet de modifier le statut sans avoir le droit de modifier les lots de travaux"
   permission_comment_news: "Commenter les actualités"
   permission_commit_access: "Accès au dépôt en lecture/écriture (« commit »)"
   permission_copy_projects: "Copier des projets"
@@ -2492,7 +2492,7 @@ fr:
   permission_view_news: "Voir les nouvelles"
   permission_view_members: "Afficher les membres"
   permission_view_reportings: "Voir rapports"
-  permission_view_shared_work_packages: "Voir les lots de travaux partagés"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Voir temps passé"
   permission_view_timelines: "Voir les lignes du temps"
   permission_view_wiki_edits: "Voir l'historique du wiki"

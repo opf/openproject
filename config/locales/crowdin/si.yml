@@ -2492,7 +2492,7 @@ si:
   permission_view_news: "View news"
   permission_view_members: "සාමාජිකයන් බලන්න"
   permission_view_reportings: "වාර්තා බලන්න"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "ගත කළ කාලය බලන්න"
   permission_view_timelines: "කාල නියමයන් බලන්න"
   permission_view_wiki_edits: "විකි ඉතිහාසය බලන්න"

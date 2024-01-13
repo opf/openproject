@@ -2492,7 +2492,7 @@ fil:
   permission_view_news: "View news"
   permission_view_members: "Tingnan ang mga miyembro"
   permission_view_reportings: "Tanawin ang mga ulat"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Tanawin ang ginugol na oras"
   permission_view_timelines: "Tingnan ang mga timeline"
   permission_view_wiki_edits: "Tingnan ang mga kasaysayan ng wiki"

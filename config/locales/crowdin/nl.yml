@@ -2488,7 +2488,7 @@ nl:
   permission_view_news: "View news"
   permission_view_members: "Bekijk leden"
   permission_view_reportings: "Weergave rapporteringen"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Verbruikte tijd weergeven"
   permission_view_timelines: "Weergave tijdlijnen"
   permission_view_wiki_edits: "Wiki weergavegeschiedenis"

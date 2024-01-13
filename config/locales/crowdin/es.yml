@@ -2488,7 +2488,7 @@ es:
   permission_view_news: "Ver noticias"
   permission_view_members: "Ver miembros"
   permission_view_reportings: "Ver reportes"
-  permission_view_shared_work_packages: "Ver paquetes de trabajo compartidos"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Ver tiempo invertido"
   permission_view_timelines: "Ver cronogramas"
   permission_view_wiki_edits: "Ver historial wiki"

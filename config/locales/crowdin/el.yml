@@ -2487,7 +2487,7 @@ el:
   permission_view_news: "View news"
   permission_view_members: "Εμφάνιση μελών"
   permission_view_reportings: "Εμφάνιση αναφορών"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Προβολή χρόνου που δαπανήθηκε"
   permission_view_timelines: "Προβολή χρονοδιαγραμμάτων"
   permission_view_wiki_edits: "Προβολή ιστορικού wiki"

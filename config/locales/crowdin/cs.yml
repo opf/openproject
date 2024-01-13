@@ -2549,7 +2549,7 @@ cs:
   permission_view_news: "Zobrazit novinky"
   permission_view_members: "Zobrazit členy"
   permission_view_reportings: "Zobrazit přehledy"
-  permission_view_shared_work_packages: "Zobrazit všechny sdílené pracovní balíčky"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Zobrazit strávený čas"
   permission_view_timelines: "Zobrazit časové osy"
   permission_view_wiki_edits: "Zobrazit historii wiki"

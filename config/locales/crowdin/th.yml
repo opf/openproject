@@ -2463,7 +2463,7 @@ th:
   permission_view_news: "View news"
   permission_view_members: "View members"
   permission_view_reportings: "ดูรายงาน"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "ดูเวลาที่ใช้"
   permission_view_timelines: "ดูแผนภูมิเวลา"
   permission_view_wiki_edits: "ดูประวัติวิกิ"

@@ -2462,7 +2462,7 @@ zh-TW:
   permission_view_news: "View news"
   permission_view_members: "檢視成員"
   permission_view_reportings: "檢視報表"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "檢視耗時"
   permission_view_timelines: "檢視時間軸"
   permission_view_wiki_edits: "檢視維基歷史"
