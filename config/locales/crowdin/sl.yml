@@ -1281,8 +1281,8 @@ sl:
       - "avgust"
       - "september"
       - "oktober"
-      - "november"
-      - "december"
+      - "November"
+      - "December"
     order:
       - :leto
       - :mesec
@@ -2547,7 +2547,7 @@ sl:
   permission_view_news: "View news"
   permission_view_members: "Poglej člane"
   permission_view_reportings: "Ogled poročil"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Porabljen čas"
   permission_view_timelines: "Oglejte si časovnice"
   permission_view_wiki_edits: "Poglej wiki zgodovino"

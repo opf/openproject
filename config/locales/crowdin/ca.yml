@@ -2483,7 +2483,7 @@ ca:
   permission_view_news: "View news"
   permission_view_members: "Veure els membres"
   permission_view_reportings: "Veure els informes"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Visualitzar el temps invertit"
   permission_view_timelines: "Veure els terminis"
   permission_view_wiki_edits: "Visualitza l'historial de la wiki"

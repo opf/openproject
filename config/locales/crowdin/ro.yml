@@ -2520,7 +2520,7 @@ ro:
   permission_view_news: "View news"
   permission_view_members: "Vezi membrii"
   permission_view_reportings: "Vizualizare raportări"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Vizualizare timp consumat"
   permission_view_timelines: "Vizualizare linii de timp"
   permission_view_wiki_edits: "Vizualizare istoric wiki"

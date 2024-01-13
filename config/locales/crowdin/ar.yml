@@ -2608,7 +2608,7 @@ ar:
   permission_view_news: "View news"
   permission_view_members: "عرض الأعضاء"
   permission_view_reportings: "عرض التقارير"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "عرض الوقت المنقضي"
   permission_view_timelines: "عرض الخطوط الزمنية"
   permission_view_wiki_edits: "عرض تاريخ wiki"

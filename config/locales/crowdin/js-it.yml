@@ -232,7 +232,7 @@ it:
           status_label: "Stato:"
           status_confirmed: "confermato"
           status_waiting: "email inviata, in attesa di conferma"
-          test_ee: "Prova l'Enterprise Edition gratuitamente per 14 giorni"
+          test_ee: "Prova l'Enterprise edition gratuitamente per 14 giorni"
           quick_overview: "Veloce panoramica sulla gestione dei progetti e il lavoro di squadra nell'edizione OpenProject Enterprise."
         upsale:
           become_hero: "Diventa un eroe!"
@@ -352,7 +352,7 @@ it:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
+                Questa versione contiene varie nuove funzionalità e miglioramenti: <br> <ul class="%{list_styling_class}"> <li>Filtro per ruoli, gruppi e condivisioni nell'elenco dei membri del progetto.</li> <li>Possibilità di consentire assegnatario e responsabile delle macro-attività condivise.</li> <li>Introduzione di nuovi nomi di campo Lavoro, Lavoro residuo e % completamento per preparare report sullo stato di avanzamento per le gerarchie delle macro-attività.</li> <li>Possibilità di consentire di modificare lo stato senza diritti di modifica della macro-attività. </li> <li>Abilitazione di cartelle di progetto manuali per archivi OneDrive/SharePoint.</li> </ul>
     ical_sharing_modal:
       title: "Iscriviti al calendario"
       inital_setup_error_message: "Si è verificato un errore recuperando i dati."
@@ -521,7 +521,7 @@ it:
     label_watcher_added_successfully: "Osservatore aggiunto correttamente!"
     label_watcher_deleted_successfully: "Osservatore eliminato correttamente!"
     label_work_package_details_you_are_here: "Sei nella scheda %{tab} per %{type} %{subject}."
-    label_work_package_context_menu: "Work package context menu"
+    label_work_package_context_menu: "Menu contestuale macro-attività"
     label_unwatch: "Smetti di Osservare"
     label_unwatch_work_package: "Smetti di osservare macro-attività"
     label_uploaded_by: "Caricato da"
@@ -758,7 +758,7 @@ it:
           last_day: 'Ultimo giorno'
     text_are_you_sure: "Sei sicuro/a?"
     text_data_lost: "Tutti i dati inseriti andranno persi."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} ha scritto:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Il nome %{group} è usato più di una volta. I nomi dei gruppi devono essere univoci."
@@ -833,7 +833,7 @@ it:
       toggle_description: "Attiva/disattiva descrizione della relazione"
       update_relation: "Clicca per modificare il tipo di relazione"
       add_follower: "Aggiungi successore"
-      show_relations: "Show relations"
+      show_relations: "Visualizza relazioni"
       add_predecessor: "Aggiungi predecessore"
       remove: "Rimuovi la relazione"
       save: "Salva la relazione"
@@ -1036,7 +1036,7 @@ it:
         selection:
           mixed: "Misto"
         upsale:
-          description: "Share work packages with users who are not members of the project."
+          description: "Condividi macro-attività con utenti che non sono membri del progetto."
       table:
         configure_button: 'Configura la tabella della macro-attività'
         summary: "Tabella con righe di macro-attività e colonne dei loro attributi."

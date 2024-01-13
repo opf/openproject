@@ -77,8 +77,8 @@ it:
         link_uploaded_file_error: >
           Si è verificato un errore caricando il file caricato '%{fileName}' al pacchetto di lavoro %{workPackageId}.
         tooltip:
-          not_logged_in: "Please log in to Nextcloud to access this file."
-          view_not_allowed: "You have no permission to see this file."
-          not_found: "This file cannot be found."
+          not_logged_in: "Accedi a Nextcloud per accedere a questo file."
+          view_not_allowed: "Non hai i permessi per accedere al file."
+          not_found: "Impossibile trovare questo file."
         already_linked_file: "Questo file è già collegato a questa macro-attività."
         already_linked_directory: "Questa directory è già collegata a questa macro-attività."

@@ -352,7 +352,7 @@ pl:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Filtruj role, grupy i udostępnienia na liście członków projektu.</li> <li>Zezwalaj osobie przypisane i odpowiedzialnej na udostępnianie pakietów roboczych.</li> <li>Wprowadź nowe nazwy pól Praca, Pozostała praca i % ukończenia, aby przygotować raporty postępu do hierarchii pakietów roboczych.</li> <li>Zezwalaj na zmianę statusu bez uprawnień do edycji pakietu roboczego.</li> <li>Włącz ręczne foldery projektów dla magazynów OneDrive/SharePoint.</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -521,7 +521,7 @@ pl:
     label_watcher_added_successfully: "Obserwator dodany pomyślnie!"
     label_watcher_deleted_successfully: "Obserwator usunięty pomyślnie!"
     label_work_package_details_you_are_here: "Jesteś na karcie %{tab}, %{type} %{subject}."
-    label_work_package_context_menu: "Work package context menu"
+    label_work_package_context_menu: "Menu kontekstowe pakietu roboczego"
     label_unwatch: "Nie obserwuj"
     label_unwatch_work_package: "Wyłącz obserwowanie zadania"
     label_uploaded_by: "Przesłane przez"
@@ -760,7 +760,7 @@ pl:
           last_day: 'Ostatni dzień'
     text_are_you_sure: "Jesteś pewny?"
     text_data_lost: "Wszystkie wprowadzone dane zostaną utracone."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} napisał(a):"
     types:
       attribute_groups:
         error_duplicate_group_name: "Nazwa  %{group} jest użyta więcej niż raz. Nazwy grup muszą być unikalne."
@@ -835,7 +835,7 @@ pl:
       toggle_description: "Przełącz opis powiązania"
       update_relation: "Kliknij, aby zmienić typ powiązania"
       add_follower: "Dodaj obserwującego"
-      show_relations: "Show relations"
+      show_relations: "Pokaż relacje"
       add_predecessor: "Dodaj poprzednika"
       remove: "Usuń relację"
       save: "Zapisz relację"
@@ -1038,7 +1038,7 @@ pl:
         selection:
           mixed: "Mieszane"
         upsale:
-          description: "Share work packages with users who are not members of the project."
+          description: "Udostępnij pakiety robocze użytkownikom, którzy nie są członkami projektu."
       table:
         configure_button: 'Konfiguruj tabelę pakietów roboczych'
         summary: "Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty."

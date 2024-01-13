@@ -2459,7 +2459,7 @@ ja:
   permission_view_news: "View news"
   permission_view_members: "メンバーを表示"
   permission_view_reportings: "レポートの閲覧"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "作業時間記録の閲覧"
   permission_view_timelines: "タイムラインの閲覧"
   permission_view_wiki_edits: "Wiki履歴の閲覧"

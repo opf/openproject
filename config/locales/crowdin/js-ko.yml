@@ -352,7 +352,7 @@ ko:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>프로젝트 멤버 목록에서 역할, 그룹 및 공유 항목을 필터링합니다.</li> <li>공유된 작업 패키지에 대한 담당자와 책임자를 허용합니다.</li> <li>작업 패키지 계층에 대한 진행률 보고를 준비하기 위해 새로운 필드 이름인 "작업", "남은 작업" 및 "완료 %"를 도입합니다.</li> <li>작업 패키지 편집 권한 없이 상태 변경을 허용합니다.</li> <li>OneDrive/SharePoint 저장소에 대한 수동 프로젝트 폴더를 활성화합니다.</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
@@ -521,7 +521,7 @@ ko:
     label_watcher_added_successfully: "주시하는 사람이 추가되었습니다."
     label_watcher_deleted_successfully: "주시하는 사람이 삭제되었습니다."
     label_work_package_details_you_are_here: "%{type} %{subject}에 대한 %{tab} 탭에 있습니다."
-    label_work_package_context_menu: "Work package context menu"
+    label_work_package_context_menu: "작업 패키지 콘텍스트 메뉴"
     label_unwatch: "주시 안 함"
     label_unwatch_work_package: "작업 패키지 주시 해제"
     label_uploaded_by: "업로드 : "
@@ -757,7 +757,7 @@ ko:
           last_day: '마지막 날'
     text_are_you_sure: "계속하시겠습니까?"
     text_data_lost: "입력한 모든 데이터가 손실됩니다."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value}이(가) 작성함:"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} 이라는 그룹 이름은 한 번 이상 사용되었습니다. 그룹 이름은 중복될 수 없습니다."
@@ -832,7 +832,7 @@ ko:
       toggle_description: "토글 관계 설명"
       update_relation: "관계 타입을 변경하려면 클릭하세요"
       add_follower: "팔로워 추가"
-      show_relations: "Show relations"
+      show_relations: "관계 표시"
       add_predecessor: "선행 단계 추가"
       remove: "관계 제거"
       save: "관계 저장"
@@ -1035,7 +1035,7 @@ ko:
         selection:
           mixed: "혼합"
         upsale:
-          description: "Share work packages with users who are not members of the project."
+          description: "프로젝트 멤버가 아닌 사용자와 작업 패키지를 공유합니다."
       table:
         configure_button: '작업 패키지 테이블 구성'
         summary: "작업 패키지의 행 및 작업 패키지 특성의 열이 있는 테이블."
