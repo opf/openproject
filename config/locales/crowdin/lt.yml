@@ -2545,7 +2545,7 @@ lt:
   permission_view_news: "Žiūrėti naujienas"
   permission_view_members: "Rodyti narius"
   permission_view_reportings: "Peržiūrėti ataskaitas"
-  permission_view_shared_work_packages: "View work package shares"
+  permission_view_shared_work_packages: "Žiūrėti darbo paketo bendrinimus"
   permission_view_time_entries: "Peržiūrėti dirbtą laiką"
   permission_view_timelines: "Peržiūrėti laiko juostas"
   permission_view_wiki_edits: "Peržiūrėti wiki istoriją"
