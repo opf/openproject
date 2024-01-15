@@ -132,21 +132,21 @@ de:
       welcome:
         title: Willkommen bei OpenProject!
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject ist die führende Open-Source-Projektmanagement-Software. Es unterstützt das klassische und agile sowie das hybride Projektmanagement und gibt Ihnen die volle Kontrolle über Ihre Daten.
 
-          Core features and use cases:
+          Kernfunktionen und Anwendungsfälle:
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * [Projektportfolio Management](https://www.openproject.org/de/projektmanagement-funktionen/projektportfolio-management/)
+          * * [Projektplanung](https://www.openproject.org/de/projektmanagement-funktionen/projektplanung/)
+          * [Aufgaben-Management und Issue Tracking](https://www.openproject.org/de/projektmanagement-funktionen/aufgabenverwaltung/)
+          * [Agile Boards (Scrum und Kanban)](https://www.openproject.org/de/projektmanagement-funktionen/agiles-projektmanagement/)
+          * [Anforderungs-Management und Release-Planung](https://www.openproject.org/de/projektmanagement-funktionen/produktentwicklung/)
+          * [Zeit- und Kostenerfassung, Budgets](https://www.openproject.org/de/projektmanagement-funktionen/zeiterfassung/)
+          * [Team-Zusammenarbeit und Dokumentation](https://www.openproject.org/de/projektmanagement-funktionen/team-kollaboration/)
 
-          Welcome to the future of project management.
+          Willkommen in der Zukunft des Projektmanagements.
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Für Administratoren: Sie können diesen Willkommenstext [hier]({{opSetting:base_url}}/admin/settings/general) ändern.
       projects:
         demo-project:
           name: Demo-Projekt
