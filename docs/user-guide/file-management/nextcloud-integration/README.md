@@ -109,7 +109,9 @@ The selected file is uploaded to your Nextcloud instance and linked to the curre
 
 ![List of linked files](NC_12.5-fileIsNowLinked.png)
 
+If a file has been deleted from a Nextcloud storage, it will still be visible under the **Files** tab for better transparency.
 
+![A file has been deleted in a Nextcloud file storage](nc-deleted-file.png)
 
 #### Download, open folders and remove links
 
