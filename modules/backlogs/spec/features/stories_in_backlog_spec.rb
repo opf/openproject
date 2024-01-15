@@ -224,6 +224,9 @@ RSpec.describe 'Stories in backlog', :js,
     backlogs_page
       .drag_in_sprint(sprint_story1, new_story)
 
+    # wait for backend to process the reordering
+    sleep(0.5)
+
     backlogs_page
       .expect_stories_in_order(sprint, sprint_story1, new_story, sprint_story2)
 
@@ -234,6 +237,7 @@ RSpec.describe 'Stories in backlog', :js,
     backlogs_page
       .drag_in_sprint(sprint_story1, sprint_story2, before: false)
 
+    # wait for backend to process the reordering
     sleep(0.5)
 
     backlogs_page
@@ -248,6 +252,7 @@ RSpec.describe 'Stories in backlog', :js,
     backlogs_page
       .drag_in_sprint(backlog_story1, sprint_story2, before: false)
 
+    # wait for backend to process the reordering
     sleep(0.5)
 
     backlogs_page
