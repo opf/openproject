@@ -36,9 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
        fieldname="story_points"
        fieldlabel="<%= WorkPackage.human_attribute_name(:story_points) %>"
        fieldorder="4"
-       field_id="<%= story.id %>">
-    <%= story_points_or_empty(story) %>
-  </div>
+       field_id="<%= story.id %>"><%= story_points_or_empty(story) %></div>
   <div class="status_id editable"
        fieldtype="select"
        fieldname="status_id"
@@ -61,10 +59,8 @@ See COPYRIGHT and LICENSE files for more details.
        fieldname="subject"
        fieldlabel="<%= WorkPackage.human_attribute_name(:subject) %>"
        fieldorder="2"
-       title="<%= h story.subject %>"
-       field_id="<%= story.id %>">
-    <%=h story.subject %>
-  </div>
+       title="<%= story.subject %>"
+       field_id="<%= story.id %>"><%= story.subject %></div>
   <div class="version_id"><%= story.version_id %></div>
   <div class="higher_item_id"><%= !defined?(higher_item) || higher_item.nil? ? '' : higher_item.id %></div>
   <div class="meta">

@@ -39,15 +39,11 @@ See COPYRIGHT and LICENSE files for more details.
        fieldtype="textarea"
        fieldname="subject"
        fieldlabel="<%= WorkPackage.human_attribute_name(:subject) %>"
-       field_id="<%= impediment.id %>">
-    <%= impediment.subject %>
-  </div>
+       field_id="<%= impediment.id %>"><%= impediment.subject %></div>
   <div class="blocks editable"
        fieldname="blocks_ids"
        fieldlabel="<%= t(:label_blocks_ids) %>"
-       field_id="<%= impediment.id %>">
-    <%= blocks_ids(impediment.blocks_ids) %>
-  </div>
+       field_id="<%= impediment.id %>"><%= blocks_ids(impediment.blocks_ids) %></div>
   <div class="assigned_to_id editable"
        fieldtype="select"
        fieldname="assigned_to_id"
@@ -59,9 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="remaining_hours editable<%= ' empty' if remaining_hours(impediment).blank? %>"
        fieldname="remaining_hours"
        fieldlabel="<%= WorkPackage.human_attribute_name(:remaining_hours) %>"
-       field_id="<%= impediment.id %>">
-    <%= remaining_hours(impediment) %>
-  </div>
+       field_id="<%= impediment.id %>"><%= remaining_hours(impediment) %></div>
   <div class="indicator"> </div>
   <div class="meta">
     <div class="story_id"><%= impediment.parent_id %></div>

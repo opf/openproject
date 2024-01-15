@@ -37,9 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
        fieldtype="textarea"
        fieldname="subject"
        fieldlabel="<%= WorkPackage.human_attribute_name(:subject) %>"
-       field_id="<%= task.id %>">
-    <%= task.subject %>
-  </div>
+       field_id="<%= task.id %>"><%= task.subject %></div>
   <div class="assigned_to_id editable"
        fieldtype="select"
        fieldname="assigned_to_id"
@@ -50,9 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
   <div class="remaining_hours editable<%= ' empty' if remaining_hours(task).blank? %>"
        fieldname="remaining_hours"
-       fieldlabel="<%= WorkPackage.human_attribute_name(:remaining_hours) %>">
-    <%= remaining_hours(task) %>
-  </div>
+       fieldlabel="<%= WorkPackage.human_attribute_name(:remaining_hours) %>"><%= remaining_hours(task) %></div>
   <div class="indicator"> </div>
   <div class="meta">
     <div class="story_id"><%= task.parent_id %></div>
