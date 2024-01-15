@@ -363,7 +363,7 @@ GEM
       smart_properties
     bigdecimal (3.1.5)
     bindata (2.4.15)
-    bootsnap (1.17.0)
+    bootsnap (1.17.1)
       msgpack (~> 1.2)
     brakeman (6.1.1)
       racc
