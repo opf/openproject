@@ -32,6 +32,7 @@ require_relative './notification_handler/issue_hook'
 require_relative './notification_handler/merge_request_hook'
 require_relative './notification_handler/note_hook'
 require_relative './notification_handler/push_hook'
+require_relative './notification_handler/system_hook'
 
 module OpenProject::GitlabIntegration
 
@@ -66,6 +67,12 @@ module OpenProject::GitlabIntegration
       def pipeline_hook(payload)
         with_logging('pipeline_hook') do
           OpenProject::GitlabIntegration::NotificationHandler::PipelineHook.new.process(payload)
+        end
+      end
+
+      def system_hook(payload)
+        with_logging('system_hook') do
+          OpenProject::GitlabIntegration::NotificationHandler::SystemHook.new.process(payload)
         end
       end
 

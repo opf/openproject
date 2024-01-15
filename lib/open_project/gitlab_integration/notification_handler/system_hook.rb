@@ -28,39 +28,40 @@
 #++
 
 module OpenProject::GitlabIntegration
-  class HookHandler
-    # List of the gitlab events we can handle.
-    KNOWN_EVENTS = %w[
-      push_hook 
-      issue_hook 
-      note_hook 
-      merge_request_hook
-      pipeline_hook
-      system_hook
-    ].freeze
+  module NotificationHandler
+    ##
+    # Handles Gitlab commit notifications.
+    class SystemHook
+      include OpenProject::GitlabIntegration::NotificationHandler::Helper
+      
+      def process(payload_params)
+        @payload = wrap_payload(payload_params)
+        return nil unless payload.object_kind == 'push'
+        payload.commits.each do |commit|
+          user = User.find_by_id(payload.open_project_user_id)
+          text = commit['title'] + " - " + commit['message']
+          work_packages = find_mentioned_work_packages(text, user)
+          notes = generate_notes(commit, payload)
+          comment_on_referenced_work_packages(work_packages, user, notes)
+        end
+      end
 
-    # A gitlab webhook happened.
-    # We need to check validity of the data and send a Notification
-    # which we process in our NotificationHandler.
-    def process(hook, request, params, user)
-      event_type = request.env['HTTP_X_GITLAB_EVENT']
-      event_type.gsub!(' ','_')
-      event_type = event_type.to_s.downcase
+      private
 
-      Rails.logger.debug "Received gitlab webhook #{event_type}"
+      attr_reader :payload
 
-      return 404 unless KNOWN_EVENTS.include?(event_type)
-      return 403 unless user.present?
-
-      payload = params[:payload]
-                .permit!
-                .to_h
-                .merge('open_project_user_id' => user.id,
-                       'gitlab_event' => event_type)
-
-      OpenProject::Notifications.send("gitlab.#{event_type}", payload)
-
-      return 200
+      def generate_notes(commit, payload)
+        commit_id = commit['id']
+        I18n.t("gitlab_integration.push_single_commit_comment",
+          :commit_number => commit_id[0, 8],
+          :commit_note => commit['message'],
+          :commit_url => commit['url'],
+          :commit_timestamp => commit['timestamp'],
+          :repository => payload.repository.name,
+          :repository_url => payload.repository.homepage,
+          :gitlab_user => payload.user_name,
+          :gitlab_user_url => payload.user_avatar)
+      end
     end
   end
 end
