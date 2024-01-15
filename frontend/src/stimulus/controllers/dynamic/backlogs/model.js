@@ -156,16 +156,12 @@ RB.Model = (function ($) {
           const field = $(this);
           const fieldId = field.attr('field_id');
           const fieldName = field.attr('fieldname');
+          const fieldLabel = field.attr('fieldlabel');
           const fieldOrder = parseInt(field.attr('fieldorder'), 10);
           const fieldType = field.attr('fieldtype') || 'input';
-          let fieldLabel = field.attr('fieldlabel');
           let typeId;
           let statusId;
           let input;
-
-          if (!fieldLabel) {
-            fieldLabel = fieldName.replace(/_/ig, " ").replace(/ id$/ig, "");
-          }
 
           if (fieldType === 'select') {
             // Special handling for status_id => they are dependent of type_id

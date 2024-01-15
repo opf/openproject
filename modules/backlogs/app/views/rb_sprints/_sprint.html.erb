@@ -36,13 +36,24 @@ See COPYRIGHT and LICENSE files for more details.
   <% User.current.allowed_in_project?(:update_sprints, @project) ? editable = "editable" :  editable = "" %>
 
   <div class="show">
-    <div class="effective_date date <%= editable %>" fieldname="effective_date" field_id=<%= sprint.id %>>
+    <div class="effective_date date <%= editable %>"
+         fieldname="effective_date"
+         fieldlabel="<%= Version.human_attribute_name(:effective_date) %>"
+         field_id="<%= sprint.id %>">
       <%= sprint.effective_date %>
     </div>
-    <div class="start_date <%= editable %> date" fieldname="start_date" field_id=<%= sprint.id %>>
+    <div class="start_date <%= editable %> date"
+         fieldname="start_date"
+         fieldlabel="<%= Version.human_attribute_name(:start_date) %>"
+         field_id="<%= sprint.id %>">
       <%= sprint.start_date %>
     </div>
-    <div class="name <%= editable %>" fieldname="name" field_id="<%= sprint.id %>"><%= sprint.name %></div>
+    <div class="name <%= editable %>"
+         fieldname="name"
+         fieldlabel="<%= Version.human_attribute_name(:name) %>"
+         field_id="<%= sprint.id %>">
+      <%= sprint.name %>
+    </div>
   </div>
 
   <% if User.current.allowed_in_project?(:update_sprints, @project) %>

@@ -28,18 +28,40 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <% prevent_edit = User.current.allowed_in_project?(:edit_work_packages, defined?(project) ? project : impediment.project) ? '' : 'prevent_edit'%>
-<div class="model work_package impediment <%= color_contrast_class(impediment) %> <%= prevent_edit %> <%= mark_if_closed(impediment) %><%= color_contrast_class(impediment) %>" id="work_package_<%= impediment.id %>" <%= build_inline_style(impediment) %>>
+<div class="model work_package impediment <%= color_contrast_class(impediment) %> <%= prevent_edit %> <%= mark_if_closed(impediment) %><%= color_contrast_class(impediment) %>"
+     id="work_package_<%= impediment.id %>"
+     <%= build_inline_style(impediment) %>>
   <div class="id">
     <div class="t"><%= work_package_link_or_empty(impediment) %></div>
     <div class="v"><%= id_or_empty(impediment) %></div>
   </div>
-  <div class="subject editable" fieldtype="textarea" fieldname="subject" field_id=<%= impediment.id %>><%= impediment.subject %></div>
-  <div class="blocks editable" fieldname="blocks_ids" fieldlabel="<%= t(:label_blocks_ids) %>" field_id=<%= impediment.id %>><%= blocks_ids(impediment.blocks_ids) %></div>
-  <div class="assigned_to_id editable" fieldtype="select" fieldname="assigned_to_id" field_id=<%= impediment.id %>>
+  <div class="subject editable"
+       fieldtype="textarea"
+       fieldname="subject"
+       fieldlabel="<%= WorkPackage.human_attribute_name(:subject) %>"
+       field_id="<%= impediment.id %>">
+    <%= impediment.subject %>
+  </div>
+  <div class="blocks editable"
+       fieldname="blocks_ids"
+       fieldlabel="<%= t(:label_blocks_ids) %>"
+       field_id="<%= impediment.id %>">
+    <%= blocks_ids(impediment.blocks_ids) %>
+  </div>
+  <div class="assigned_to_id editable"
+       fieldtype="select"
+       fieldname="assigned_to_id"
+       fieldlabel="<%= WorkPackage.human_attribute_name(:assigned_to) %>"
+       field_id="<%= impediment.id %>">
     <div class="t"><%= assignee_name_or_empty(impediment) %></div>
     <div class="v"><%= assignee_id_or_empty(impediment) %></div>
   </div>
-  <div class="remaining_hours editable<%= ' empty' if remaining_hours(impediment).blank? %>" fieldname="remaining_hours" field_id=<%= impediment.id %>><%= remaining_hours(impediment) %></div>
+  <div class="remaining_hours editable<%= ' empty' if remaining_hours(impediment).blank? %>"
+       fieldname="remaining_hours"
+       fieldlabel="<%= WorkPackage.human_attribute_name(:remaining_hours) %>"
+       field_id="<%= impediment.id %>">
+    <%= remaining_hours(impediment) %>
+  </div>
   <div class="indicator"> </div>
   <div class="meta">
     <div class="story_id"><%= impediment.parent_id %></div>
