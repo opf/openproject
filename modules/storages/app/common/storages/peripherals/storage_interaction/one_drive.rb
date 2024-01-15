@@ -49,6 +49,7 @@ module Storages
             register(:create_folder, CreateFolderCommand)
             register(:delete_folder, DeleteFolderCommand)
             register(:rename_file, RenameFileCommand)
+            register(:set_permissions, SetPermissionsCommand)
           end
         end
       end

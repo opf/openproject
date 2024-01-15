@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissionsCommand, :vcr, :webmock do
+RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissionsCommand, :webmock do
   let(:storage) do
     create(:sharepoint_dev_drive_storage,
            drive_id: 'b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy')
@@ -48,13 +48,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
 
   let(:path) { folder.id }
 
-  after do
-    Storages::Peripherals::Registry
-      .resolve('commands.one_drive.delete_folder')
-      .call(storage:, location: path)
+  it 'is registered at commands.one_drive.set_permissions' do
+    expect(Storages::Peripherals::Registry.resolve('commands.one_drive.set_permissions')).to eq(described_class)
   end
-
-  it 'is registered at commands.one_drive.set_permissions'
 
   it 'responds to .call with storage, path and permissions keyword args' do
     expect(described_class).to respond_to(:call)
@@ -63,54 +59,100 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
     expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq path], %i[keyreq permissions])
   end
 
-  context 'when a permission set already exists' do
-    it 'replaces the current write permission grant with the provided list', vcr: 'one_drive/replace_permissions_write'
-    it 'replaces the current read permission grant with the provided list', vcr: 'one_drive/replace_permissions_read'
+  describe '#call' do
+    after do
+      Storages::Peripherals::Registry
+        .resolve('commands.one_drive.delete_folder')
+        .call(storage:, location: path)
+    end
+
+    context 'when a permission set already exists' do
+      it 'replaces the write permission grant with the provided list',
+         vcr: 'one_drive/set_permissions_replace_permissions_write' do
+        permissions_command.call(path:, permissions: { write: ['84acc1d5-61be-470b-9d79-0d1f105c2c5f'] })
+        expect(user_list('write')).to match_array('84acc1d5-61be-470b-9d79-0d1f105c2c5f')
+
+        permissions_command.call(path:, permissions: { write: ['d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce'] })
+        expect(user_list('write')).to match_array('d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce')
+      end
+
+      it 'replaces the read permission grant with the provided list',
+         vcr: 'one_drive/set_permissions_replace_permissions_read' do
+        permissions_command.call(path:, permissions: { read: ['84acc1d5-61be-470b-9d79-0d1f105c2c5f'] })
+        expect(user_list('read')).to match_array('84acc1d5-61be-470b-9d79-0d1f105c2c5f')
+
+        permissions_command.call(path:, permissions: { read: ['d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce'] })
+        expect(user_list('read')).to match_array('d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce')
+      end
+    end
+
+    context 'when no expected permission exists' do
+      it 'creates the write permission', vcr: 'one_drive/set_permissions_create_permission_write' do
+        current_roles = remote_permissions.map { |permission| permission[:roles].first }
+        expect(current_roles).not_to include('write')
+
+        permissions_command.call(path:, permissions: { write: ['d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce'] })
+
+        current_roles = remote_permissions.map { |permission| permission[:roles].first }
+        expect(current_roles).to include('write')
+      end
+
+      it 'creates the read permission', vcr: 'one_drive/set_permissions_create_permission_read' do
+        current_roles = remote_permissions.map { |permission| permission[:roles].first }
+        expect(current_roles).not_to include('read')
+
+        permissions_command.call(path:, permissions: { read: ['d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce'] })
+
+        current_roles = remote_permissions.map { |permission| permission[:roles].first }
+        expect(current_roles).to include('read')
+      end
+    end
+
+    context 'when there are no user to set permissions' do
+      it 'deletes the write permission', vcr: 'one_drive/set_permissions_delete_permission_write' do
+        permissions_command.call(path:, permissions: { write: ['d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce'] })
+        current_roles = remote_permissions.map { |permission| permission[:roles].first }
+        expect(current_roles).to include('write')
+
+        permissions_command.call(path:, permissions: { write: [] })
+
+        current_roles = remote_permissions.map { |permission| permission[:roles].first }
+        expect(current_roles).not_to include('write')
+      end
+
+      it 'deletes the read permission', vcr: 'one_drive/set_permissions_delete_permission_read' do
+        permissions_command.call(path:, permissions: { read: ['d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce'] })
+        current_roles = remote_permissions.map { |permission| permission[:roles].first }
+        expect(current_roles).to include('read')
+
+        permissions_command.call(path:, permissions: { read: [] })
+
+        current_roles = remote_permissions.map { |permission| permission[:roles].first }
+        expect(current_roles).not_to include('read')
+      end
+    end
   end
 
-  context 'when no expected permission exists' do
-    it 'creates the write permission', vcr: 'one_drive/create_permission_write' do
-      permission_list = permissions_command.get_permissions(path).result.map { |permission| permission[:roles].first }
-      expect(permission_list).not_to include('write')
+  private
 
-      permissions_command.call(path:, permissions: { write: ['d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce'] })
-
-      permission_list = permissions_command.get_permissions(path).result.map { |permission| permission[:roles].first }
-      expect(permission_list).to include('write')
-    end
-
-    it 'creates the read permission', vcr: 'one_drive/create_permission_read' do
-      permission_list = permissions_command.get_permissions(path).result.map { |permission| permission[:roles].first }
-      expect(permission_list).not_to include('read')
-
-      permissions_command.call(path:, permissions: { read: ['d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce'] })
-
-      permission_list = permissions_command.get_permissions(path).result.map { |permission| permission[:roles].first }
-      expect(permission_list).to include('read')
-    end
+  def user_list(role)
+    remote_permissions
+      .select { |item| item[:roles].first == role }
+      .map { |grant| grant.dig(:grantedToV2, :user, :id) }
   end
 
-  context 'when there are no user to set permissions' do
-    it 'deletes the write permission', vcr: 'one_drive/delete_permission_write' do
-      permissions_command.call(path:, permissions: { write: ['d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce'] })
-      permission_list = permissions_command.get_permissions(path).result.map { |permission| permission[:roles].first }
-      expect(permission_list).to include('write')
-
-      permissions_command.call(path:, permissions: { write: [] })
-
-      permission_list = permissions_command.get_permissions(path).result.map { |permission| permission[:roles].first }
-      expect(permission_list).not_to include('write')
-    end
-
-    it 'deletes the read permission', vcr: 'one_drive/delete_permission_read' do
-      permissions_command.call(path:, permissions: { read: ['d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce'] })
-      permission_list = permissions_command.get_permissions(path).result.map { |permission| permission[:roles].first }
-      expect(permission_list).to include('read')
-
-      permissions_command.call(path:, permissions: { read: [] })
-
-      permission_list = permissions_command.get_permissions(path).result.map { |permission| permission[:roles].first }
-      expect(permission_list).not_to include('read')
+  def remote_permissions
+    Storages::Peripherals::StorageInteraction::OneDrive::Util.using_admin_token(storage) do |token|
+      HTTPX.with(
+        origin: storage.uri,
+        headers: { authorization: "Bearer #{token}",
+                   accept: "application/json",
+                   'content-type': 'application/json' }
+      )
+           .get("/v1.0/drives/#{storage.drive_id}/items/#{path}/permissions")
+           .raise_for_status
+           .json(symbolize_keys: true)
+           .fetch(:value)
     end
   end
 end

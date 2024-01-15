@@ -34,6 +34,7 @@ module Storages
       module OneDrive
         class SetPermissionsCommand
           using ServiceResultRefinements
+
           def self.call(storage:, path:, permissions:)
             new(storage).call(path:, permissions:)
           end
@@ -81,10 +82,14 @@ module Storages
 
           def do_things_with(role, permissions, permission_set_id, item_id)
             return delete_permissions(permission_set_id, item_id) if permissions.empty? && permission_set_id
+            return create_permissions(role, permissions, item_id) if permissions.any? && permission_set_id.nil?
 
-            create_permissions(role, permissions, item_id) if permissions.any? && permission_set_id.nil?
+            # create_permissions(role, permissions, item_id)
+            update_permissions(role, permissions, permission_set_id, item_id)
+          end
 
-            # update_permissions(permissions, permission_set_id)
+          def update_permissions(role, permissions, permission_set_id, item_id)
+            delete_permissions(permission_set_id, item_id).on_success { create_permissions(role, permissions, item_id) }
           end
 
           def create_permissions(role, permissions, item_id)
@@ -111,7 +116,11 @@ module Storages
             httpx do |http|
               response = http.delete(permission_path(item_id, permission_set_id))
 
-              response
+              if response.status == 204
+                ServiceResult.success
+              else
+                ServiceResult.failure
+              end
             end
           end
 
