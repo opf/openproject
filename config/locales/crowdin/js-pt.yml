@@ -351,7 +351,7 @@ pt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Filtro para funções, grupos e compartilhamentos na lista de membros do projeto.</li> <li>Permitir atribuição e responsável por pacotes de trabalho compartilhados.</li> <li>Introduzir novos nomes de campo Trabalho, Trabalho Restante e % Concluído para preparar relatórios de progresso para hierarquias do pacotes de trabalho.</li> <li>Permitir alteração de status sem direitos de edição do pacote de trabalho.</li> <li>Habilitar pastas de projeto manual para armazenamentos OneDrive/SharePoint.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."

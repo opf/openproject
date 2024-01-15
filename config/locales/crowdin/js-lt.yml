@@ -352,7 +352,7 @@ lt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                Šioje laidoje yra keli nauji funkcionalumai ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Vaidmenų, grupių ir bendrinimų filtravimas projekto narių sąraše.</li> <li>Leisti paskirtuosius ir atsakingus bendrinamuose darbo paketuose.</li> <li>Pridėti nauji laukų pavadinimai Darbas, Likęs darbas ir % Baigta, pasiruošiant darbo hierarchijos progreso ataskaitoms.</li> <li>Leisti būsenos pakeitimą be darbo paketo keitimo teisių.</li> <li>Leisti rankinius projekto aplankus OneDrive/SharePoint saugykloms.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
     ical_sharing_modal:
       title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
