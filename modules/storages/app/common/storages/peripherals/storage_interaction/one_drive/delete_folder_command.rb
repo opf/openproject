@@ -43,13 +43,8 @@ module Storages
           end
 
           def call(location:)
-            Util.using_admin_token(@storage) do |token|
-              response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-                http.delete(
-                  "/v1.0/drives/#{@storage.drive_id}/items/#{location}",
-                  Authorization: "Bearer #{token.access_token}"
-                )
-              end
+            Util.using_admin_token(@storage) do |http|
+              response = http.delete("/v1.0/drives/#{@storage.drive_id}/items/#{location}")
 
               ServiceResult.success(result: response.body)
             end

@@ -44,12 +44,8 @@ module Storages
 
           # NOTE: This is currently creating a folder only on the root folder
           def call(folder_path:)
-            Util.using_admin_token(@storage) do |token|
-              response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-                http.post("/v1.0/drives/#{@storage.drive_id}/root/children",
-                          payload(folder_path),
-                          { 'Authorization' => "Bearer #{token.access_token}", 'Content-Type' => 'application/json' })
-              end
+            Util.using_admin_token(@storage) do |http|
+              response = http.post("/v1.0/drives/#{@storage.drive_id}/root/children", body: payload(folder_path))
 
               handle_response(response)
             end
@@ -60,17 +56,17 @@ module Storages
           def handle_response(response)
             data = ::Storages::StorageErrorData.new(source: self, payload: response.body)
 
-            case response
-            when Net::HTTPSuccess
+            case response.status
+            when 200..299
               ServiceResult.success(result: file_info_for(MultiJson.load(response.body, symbolize_keys: true)),
                                     message: 'Folder was successfully created.')
-            when Net::HTTPNotFound
+            when 404
               ServiceResult.failure(result: :not_found,
                                     errors: ::Storages::StorageError.new(code: :not_found, data:))
-            when Net::HTTPUnauthorized
+            when 401
               ServiceResult.failure(result: :unauthorized,
                                     errors: ::Storages::StorageError.new(code: :unauthorized, data:))
-            when Net::HTTPConflict
+            when 409
               ServiceResult.failure(result: :already_exists,
                                     errors: ::Storages::StorageError.new(code: :conflict, data:))
             else

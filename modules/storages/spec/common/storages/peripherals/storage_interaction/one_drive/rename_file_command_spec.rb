@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::RenameFileCommand, :vcr, :webmock do
+RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::RenameFileCommand, :webmock do
   let(:storage) { create(:sharepoint_dev_drive_storage) }
   let(:folder) do
     Storages::Peripherals::Registry

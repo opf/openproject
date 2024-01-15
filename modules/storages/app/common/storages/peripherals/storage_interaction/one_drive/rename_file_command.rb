@@ -43,13 +43,8 @@ module Storages
           end
 
           def call(source:, target:)
-            Util.using_admin_token(@storage) do |token|
-              response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-                http.patch(uri_path(source),
-                           { name: target }.to_json,
-                           Authorization: "Bearer #{token.access_token}",
-                           'Content-Type' => 'application/json')
-              end
+            Util.using_admin_token(@storage) do |http|
+              response = http.patch(uri_path(source), body: { name: target }.to_json)
 
               handle_response(response)
             end
@@ -60,18 +55,16 @@ module Storages
           def handle_response(response)
             data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
 
-            case response
-            when Net::HTTPSuccess
-              parsed_response = MultiJson.load(response.body, symbolize_keys: true)
-
-              ServiceResult.success(result: storage_file(parsed_response))
-            when Net::HTTPUnauthorized
+            case response.status
+            when 200..299
+              ServiceResult.success(result: storage_file(response.json(symbolize_keys: true)))
+            when 401
               ServiceResult.failure(result: :unauthorized,
                                     errors: ::Storages::StorageError.new(code: :unauthorized, data:))
-            when Net::HTTPNotFound
+            when 404
               ServiceResult.failure(result: :not_found,
                                     errors: ::Storages::StorageError.new(code: :not_found, data:))
-            when Net::HTTPConflict
+            when 409
               ServiceResult.failure(result: :conflict,
                                     errors: ::Storages::StorageError.new(code: :conflict, data:))
             else
