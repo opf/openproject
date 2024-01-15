@@ -82,6 +82,14 @@ RSpec.describe API::V3::Shares::ShareRepresenter, 'rendering' do
       end
     end
 
+    describe 'entity' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'entity' }
+        let(:href) { api_v3_paths.work_package(work_package.id) }
+        let(:title) { work_package.subject }
+      end
+    end
+
     describe 'project' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'project' }
@@ -156,6 +164,26 @@ RSpec.describe API::V3::Shares::ShareRepresenter, 'rendering' do
   end
 
   describe '_embedded' do
+    describe 'entity' do
+      let(:embedded_path) { '_embedded/entity' }
+
+      context 'for a work package' do
+        it 'has the work package embedded' do
+          expect(subject)
+            .to be_json_eql('WorkPackage'.to_json)
+            .at_path("#{embedded_path}/_type")
+
+          expect(subject)
+            .to be_json_eql(work_package.subject.to_json)
+            .at_path("#{embedded_path}/subject")
+
+          expect(subject)
+          .to be_json_eql(work_package.id.to_json)
+          .at_path("#{embedded_path}/id")
+        end
+      end
+    end
+
     describe 'project' do
       let(:embedded_path) { '_embedded/project' }
 
@@ -167,15 +195,6 @@ RSpec.describe API::V3::Shares::ShareRepresenter, 'rendering' do
         expect(subject)
           .to be_json_eql(project.name.to_json)
           .at_path("#{embedded_path}/name")
-      end
-
-      context 'for a global member' do
-        let(:project) { nil }
-
-        it 'has no project embedded' do
-          expect(subject)
-            .not_to have_json_path(embedded_path)
-        end
       end
     end
 
