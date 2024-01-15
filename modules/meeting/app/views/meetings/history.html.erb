@@ -1,5 +1,5 @@
 <%=
     render(OpTurbo::FrameComponent.new(@meeting, context: :meeting_history)) do
-      styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark'
+      render(Activities::DaysComponent.new(events: @events, current_project: @project, activity_page: @activity_page))
     end
 %>
