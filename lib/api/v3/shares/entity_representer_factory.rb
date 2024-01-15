@@ -36,8 +36,7 @@ module API
         # Create the appropriate subclass representer
         # for each principal entity
         def create(model, **args)
-          representer_class(model)
-            .create(model, **args)
+          representer_class(model).create(model, **args)
         end
 
         def representer_class(model)
@@ -57,14 +56,23 @@ module API
           end
         end
 
+        def title_attribute(model)
+          case model
+          when WorkPackage then :subject
+          else
+            raise ArgumentError, "Missing concrete entity representer for #{model}"
+          end
+        end
+
         def create_link_lambda(name, getter: "#{name}_id")
           ->(*) {
             v3_path = API::V3::Shares::EntityRepresenterFactory.representer_type(represented.send(name))
+            title_attribute = API::V3::Shares::EntityRepresenterFactory.title_attribute(represented.send(name))
 
             instance_exec(&self.class.associated_resource_default_link(name,
                                                                        v3_path:,
                                                                        skip_link: -> { false },
-                                                                       title_attribute: :subject,
+                                                                       title_attribute:,
                                                                        getter:))
           }
         end
