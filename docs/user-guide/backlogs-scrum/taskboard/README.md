@@ -29,7 +29,7 @@ In the background, the status of the work package will be adjusted accordingly. 
 
 On the very top of the table, sprint impediments are documented and assigned to the scrum master for removal.
 
-![User-guide-sprint-impediments](user-guide-sprint-impediments.png)
+![User-guide-sprint-impediments](User-guide-sprint-impediments.png)
 
 > **Note**: If you add an impediment and type the work package number into the field Blocked (ID), the respective work package will be linked to the impediment. As long as the impediment remains, the work package cannot be closed.
 
