@@ -22,7 +22,7 @@ Alternatively, you can also chose the **Global work package overview** by select
 
 ![OpenProject global work packages overview](openproject_global_wp_view.png)
 
-Step 2: You can add existing fields, such as **Estimated time**, **Spent time** and **Remaining hours** to your work packages list. Also, you can [create additional custom fields](../../system-admin-guide/custom-fields/), e.g. **Scope (h)**, to get an overview of the team capacity. 
+Step 2: You can add existing fields, such as **Work** (earlier called **Estimated time**), **Spent time** and **Remaining work** (earlier called **Remaining hours**) to your work packages list. Also, you can [create additional custom fields](../../system-admin-guide/custom-fields/), e.g. **Scope (h)**, to get an overview of the team capacity. 
 
 Step 3: You can add these fields via the **Insert columns** option via the drop-down menu. 
 
@@ -44,7 +44,7 @@ You can also use the sum function. Select **[⋮]** -> ***Configure view*** -> *
 
 ![OpenProject display sums](openproject_display_sums.png) 
 
-You will see the estimated, spent and remaining hours summed up by user, as well as the overall sum.
+You will see the **Work** (previously called estimated time), **Spent time** and **Remaining work** (called remaining hours) summed up by user, as well as the overall sum.
 
 ![OpenProject work packages sums](openproject_work_packages_sum.png)
 
