@@ -5,7 +5,11 @@
       concat(configuration_check_label_for(:openproject_oauth_application_configured))
     end
 
-    grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-openproject-oauth-application-description') do
+    grid.with_area(:description,
+                   classes: 'break-word',
+                   tag: :div,
+                   color: :subtle,
+                   test_selector: 'storage-openproject-oauth-application-description') do
       render(Primer::Beta::Text.new) { openproject_oauth_client_description }
     end
 
