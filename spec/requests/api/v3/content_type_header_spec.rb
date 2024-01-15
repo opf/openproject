@@ -54,5 +54,13 @@ RSpec.describe 'API v3 Content-Type header' do
         expect(last_response).to be_ok
       end
     end
+
+    context 'on a DELETE request' do
+      it 'is successful' do
+        delete api_v3_paths.work_package(work_package.id)
+        expect(last_response.status).not_to eq(406)
+        expect(last_response).to be_no_content
+      end
+    end
   end
 end
