@@ -41,6 +41,8 @@ module Components
       def open
         SeleniumHubWaiter.wait
         retry_block do
+          # Wait for the filters dropdown to be fully loaded.
+          expect(page).to have_css("#{page.test_selector('wp-filter-button')} .badge")
           # Run in retry block because filters do nothing if not yet loaded
           filter_button.click
           find(filters_selector, visible: true)
