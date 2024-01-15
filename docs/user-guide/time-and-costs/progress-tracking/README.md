@@ -45,7 +45,7 @@ You can also bulk-modify the **% Complete** in the list of work packages.
 ## Progress tracking in the work package hierarchy
 
 The progress of **work package with children** is calculated as the weighted average of all direct children, using the field **Work (earlier called Estimated time)** as the weight.
-When adding the **% Complete (earlier called Progress(%)** column to a work package hierarchy view, please also add the **Work**
+When adding the **% Complete (earlier called Progress (%))** column to a work package hierarchy view, please also add the **Work**
 column as well so that you can track the calculation.
 The screenshot below shows an example hierarchy with aggregated **% Complete**.
 
@@ -69,7 +69,7 @@ In the Administration, please navigate to Work packages -> Settings and change â
 ![Change calculate the work package done ratio](image-20221102110738283.png)
 
 In this mode, OpenProject does _not_ allow you to manually modify the
-**% Complete (earlier called Progress(%)** field in the work packages.
+**% Complete (earlier called Progress (%))** field in the work packages.
 Instead, the **% Complete** value will be set automatically based on the work package
 status configuration page.
 
