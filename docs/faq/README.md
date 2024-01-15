@@ -185,7 +185,7 @@ Yes, you can. Starting with OpenProject 12.4 we implemented date alerts and emai
 
 ### Does OpenProject offer resource management?
 
-You can [set up budgets](../user-guide/budgets), [set an Estimated time](../user-guide/work-packages/edit-work-package/) for a work package and use the [Assignee board](../user-guide/agile-boards/#choose-between-board-types) to find out how many work packages are assigned to a person at the moment.
+You can [set up budgets](../user-guide/budgets), [set the estimated time in **Work** field](../user-guide/work-packages/edit-work-package/) of a work package and use the [Assignee board](../user-guide/agile-boards/#choose-between-board-types) to find out how many work packages are assigned to a person at the moment.
 Additional resource management features will be added within the next years. You can find the road-map for future releases [here](https://community.openproject.com/projects/openproject/work_packages?query_id=1993).
 More infomation regarding resource management in OpenProject can be found in the [Use Cases](../use-cases/resource-management) section.
 
