@@ -38,7 +38,7 @@ To activate the Gantt chart, select the **Gantt** icon at the top right corner o
 ## Quick context menu in Gantt chart view
 
 Once you have selected the Gantt chart view, you can use the quick context menu. To do that, right-click on any of the work packages in the table. 
-> **Note**: if you use the [work packages view](../work-packages/edit-work-package#update-a-work-package-in-a-work-package table-view), the options in the quick context menu will differ slightly from the ones in the Gantt chart view.
+> **Note**: if you use the [work packages view](../work-packages/edit-work-package#update-a-work-package-in-a-work-package-table-view), the options in the quick context menu will differ slightly from the ones in the Gantt chart view.
 
 
 ![Quick context menu in OpenProjedt Gantt chart work packages view](gantt-context-menu.png)
