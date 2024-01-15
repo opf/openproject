@@ -39,7 +39,6 @@ module API
 
         associated_resource :project
 
-        # associated_resource :entity # TODO: Check if neeeded, and check how we can use polymorphism here
         associated_resource :entity,
                             getter: ::API::V3::Shares::EntityRepresenterFactory.create_getter_lambda(:entity),
                             link: ::API::V3::Shares::EntityRepresenterFactory.create_link_lambda(:entity, getter: 'entity_id')
