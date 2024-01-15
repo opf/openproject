@@ -62,5 +62,13 @@ RSpec.describe 'API v3 Content-Type header' do
         expect(last_response).to be_no_content
       end
     end
+
+    context 'on any other HTTP method' do
+      it 'responds with a 406 status and a missing Content-Type header message' do
+        patch api_v3_paths.work_package(work_package.id), {}
+        expect(last_response.status).to eq(406)
+        expect(last_response.body).to include('Missing content-type header')
+      end
+    end
   end
 end
