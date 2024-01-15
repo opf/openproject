@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -31,6 +31,12 @@ es:
         ¿Estás seguro de que quieres eliminar este archivo? Esta acción es irreversible.
       draggable_hint: |
         Arrastre el campo del editor a una imagen alineada o un archivo adjunto de referencia. Los campos del editor cerrados se abrirán mientras siga arrastrando elementos.
+    autocomplete_ng_select:
+      add_tag: "Añadir elemento"
+      clear_all: "Limpiar todo"
+      loading: "Cargando..."
+      not_found: "No se encontraron elementos"
+      type_to_search: "Escriba para buscar"
     autocomplete_select:
       placeholder:
         multi: "Añadir \"%{name}\""
@@ -342,11 +348,11 @@ es:
           learn_about: "Más información sobre las nuevas funciones"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                El lanzamiento contiene varias características nuevas y mejoras: <br> <ul class="%{list_styling_class}"> <li>Comparación de referencia para facilitar el seguimiento de los cambios.</li> <li>Exportación de PDF para informes sobre planes de trabajo.</li> <li>Suscripción a calendarios de proyectos a través de URL (iCalendar).</li> <li>Carpetas de proyectos con plantillas de documentos para la integración de Nextcloud.</li> <li>Sembrado localizado de todos los datos de semillas.</li> <li>Los módulos globales se enumeran en nuevas páginas de índice.</li> </ul>
+                El lanzamiento contiene varias funcionalidades y mejoras: <br><ul class="%{list_styling_class}"><li>Filtrar por roles, grupos y comparticiones en la lista de miembros de proyectos.</li> <li>Permitir marcar como usuario asignado o responsable por paquetes de trabajo compartidos.</li> <li>Introducción de los nuevos nombres Trabajo, Trabajo restante y % Completado para preparar reportes de progreso para jerarquías de paquetes de trabajo. </li> <li> Permitir cambios de estado para paquetes de trabajo sin permisos de edición.</li> <li>Activar carpetas manuales de proyecto para almacenamientos OneDrive/SharePoint.</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -416,7 +422,7 @@ es:
     label_filename: "Archivo"
     label_filesize: "Tamaño"
     label_general: "General"
-    label_global_roles: "Global roles"
+    label_global_roles: "Roles globales"
     label_greater_or_equal: ">="
     label_group: 'Grupo'
     label_group_by: "Agrupar por"
@@ -515,6 +521,7 @@ es:
     label_watcher_added_successfully: "¡Observador agregado exitosamente!"
     label_watcher_deleted_successfully: "¡Observador borrado con éxito!"
     label_work_package_details_you_are_here: "Se encuentra en la pestaña %{tab} para %{type}%{subject}."
+    label_work_package_context_menu: "Menú contextual del paquete de trabajo"
     label_unwatch: "Dejar de observar"
     label_unwatch_work_package: "Dejar de observar paquetes de trabajo"
     label_uploaded_by: "Cargado por"
@@ -598,7 +605,7 @@ es:
         processed: 'procesado'
         prioritized: 'priorizar'
         dateAlert: 'Alerta de fecha'
-        shared: 'shared'
+        shared: 'compartido'
       date_alerts:
         milestone_date: 'Fecha de hito'
         overdue: 'Vencido'
@@ -643,7 +650,7 @@ es:
         mentioned: 'Mencionado'
         watched: 'Observador'
         date_alert: 'Alerta de fecha'
-        shared: 'Shared'
+        shared: 'Compartido'
       settings:
         change_notification_settings: 'Puede modificar su <a target="_blank" href="%{url}">configuración de notificaciones</a> para asegurarse que nunca se pierda una actualización importante.'
         title: "Ajustes de notificación"
@@ -666,7 +673,7 @@ es:
             description: 'Recibir una notificación cada vez que un usuario me mencione'
           assignee: 'Asignado a'
           responsible: 'Responsable'
-          shared: 'Shared'
+          shared: 'Compartido'
           watched: 'Observador'
           work_package_commented: 'Todos los nuevos comentarios'
           work_package_created: 'Nuevos paquetes de trabajo'
@@ -751,6 +758,7 @@ es:
           last_day: 'Último día'
     text_are_you_sure: "¿Estás seguro?"
     text_data_lost: "Todos los datos introducidos se perderán."
+    text_user_wrote: "%{value} escribió:"
     types:
       attribute_groups:
         error_duplicate_group_name: "El nombre %{group} se ha usado más de una vez. Los nombres de grupos deben ser únicos."
@@ -825,6 +833,7 @@ es:
       toggle_description: "Activar descripción de la relación"
       update_relation: "Haga clic para cambiar el tipo de relación"
       add_follower: "Añadir seguidor"
+      show_relations: "Mostrar relaciones"
       add_predecessor: "Añadir predecesor"
       remove: "Eliminar la relación"
       save: "Guardar relación"
@@ -960,7 +969,6 @@ es:
         date: "Fecha"
         dueDate: "Fecha de finalización"
         duration: "Duración"
-        estimatedTime: "Tiempo estimado"
         spentTime: "Tiempo invertido"
         category: "Categoría"
         percentageDone: "Porcentaje realizado"
@@ -976,6 +984,7 @@ es:
         updatedAt: "Actualizada el"
         versionName: "Versión"
         version: "Versión"
+        remainingTime: "Trabajo restante"
       default_queries:
         latest_activity: "Actividad reciente"
         created_by_me: "Creado por mí"
@@ -983,7 +992,7 @@ es:
         recently_created: "Creado recientemente"
         all_open: "Todo abierto"
         summary: "Resumen"
-        shared_with_users: "Shared with users"
+        shared_with_users: "Compartido con usuarios"
       jump_marks:
         pagination: "Saltar a la paginación de la tabla"
         label_pagination: "Haga clic aquí para omitir la tabla de paquetes de trabajo e ir a la paginación"
@@ -1021,11 +1030,13 @@ es:
         is_parent: "Las fechas de este paquete de trabajo son deducidas automáticamente de sus sub-elementos. Active 'Programación manual' para establecer las fechas."
         is_switched_from_manual_to_automatic: "Las fechas de este paquete de trabajo pueden necesitar ser recalculadas después de pasar de programación manual a programación automática debido a las relaciones con otros paquetes de trabajo."
       sharing:
-        share: 'Share'
-        title: "Share work package"
-        selected_count: "%{count} selected"
+        share: 'Compartir'
+        title: "Compartir paquete de trabajo"
+        selected_count: "%{count} seleccionados"
         selection:
-          mixed: "Mixed"
+          mixed: "Mixto"
+        upsale:
+          description: "Compartir paquetes de trabajo con usuarios que no son miembros del proyecto."
       table:
         configure_button: 'Configurar tabla de paquetes de trabajo'
         summary: "Tabla con filas de paquetes de trabajo y columnas con sus atributos."

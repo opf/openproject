@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
   let(:paris_user) do
     create(
       :user,
-      firstname: 'Europe/Paris',
+      firstname: 'Europe-Paris',
       preferences: {
         time_zone: "Europe/Paris",
         workdays: paris_user_workdays,
@@ -80,7 +80,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
   context 'for a user whose local time is matching the configured time' do
     it 'contains the user' do
       expect(scope)
-        .to match_array([paris_user])
+        .to contain_exactly(paris_user)
     end
   end
 
@@ -135,7 +135,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
 
     it 'contains the user' do
       expect(scope)
-        .to match_array([paris_user])
+        .to contain_exactly(paris_user)
     end
   end
 
@@ -154,7 +154,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:hawaii_user) do
       create(
         :user,
-        firstname: 'Pacific/Honolulu',
+        firstname: 'Pacific-Honolulu',
         preferences: {
           time_zone: "Pacific/Honolulu",
           workdays: hawaii_user_workdays,
@@ -179,7 +179,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
 
     it 'contains the user' do
       expect(scope)
-        .to match_array([hawaii_user])
+        .to contain_exactly(hawaii_user)
     end
 
     context 'when the user disables Wednesday as a workday' do
@@ -217,7 +217,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
 
       it 'contains the user' do
         expect(scope)
-          .to match_array([hawaii_user])
+          .to contain_exactly(hawaii_user)
       end
     end
   end
@@ -230,7 +230,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:samoa_user) do
       create(
         :user,
-        firstname: 'Pacific/Apia',
+        firstname: 'Pacific-Apia',
         preferences: {
           time_zone: "Pacific/Apia",
           workdays: samoa_user_workdays,
@@ -249,7 +249,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
 
     it 'contains the user' do
       expect(scope)
-        .to match_array([samoa_user])
+        .to contain_exactly(samoa_user)
     end
 
     context 'when the user disables Wednesday as a workday' do
@@ -266,7 +266,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:moscow_user) do
       create(
         :user,
-        firstname: 'Europe/Moscow',
+        firstname: 'Europe-Moscow',
         preferences: {
           time_zone: "Europe/Moscow",
           daily_reminders: {
@@ -283,7 +283,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
 
     it 'contains the user' do
       expect(scope)
-        .to match_array([moscow_user])
+        .to contain_exactly(moscow_user)
     end
   end
 
@@ -301,7 +301,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
 
     it 'contains the user' do
       expect(scope)
-        .to match_array([paris_user])
+        .to contain_exactly(paris_user)
     end
   end
 
@@ -319,7 +319,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
 
     it 'contains the user' do
       expect(scope)
-        .to match_array([paris_user])
+        .to contain_exactly(paris_user)
     end
   end
 
@@ -370,7 +370,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe/Paris',
+        firstname: 'Europe-Paris',
         preferences: {
           time_zone: "Europe/Paris"
         }
@@ -381,7 +381,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
 
     it 'contains the user' do
       expect(scope)
-        .to match_array([paris_user])
+        .to contain_exactly(paris_user)
     end
   end
 
@@ -389,7 +389,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe/Paris',
+        firstname: 'Europe-Paris',
         preferences: {
           time_zone: "Europe/Paris"
         }
@@ -408,7 +408,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:kathmandu_user) do
       create(
         :user,
-        firstname: 'Asia/Kathmandu',
+        firstname: 'Asia-Kathmandu',
         preferences: {
           time_zone: "Asia/Kathmandu",
           daily_reminders: {
@@ -428,7 +428,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
 
     it 'contains the user' do
       expect(scope)
-        .to match_array([kathmandu_user])
+        .to contain_exactly(kathmandu_user)
     end
   end
 
@@ -436,7 +436,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:kathmandu_user) do
       create(
         :user,
-        firstname: 'Asia/Kathmandu',
+        firstname: 'Asia-Kathmandu',
         preferences: {
           time_zone: "Asia/Kathmandu",
           daily_reminders: {
@@ -464,7 +464,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:kathmandu_user) do
       create(
         :user,
-        firstname: 'Asia/Kathmandu',
+        firstname: 'Asia-Kathmandu',
         preferences: {
           time_zone: "Asia/Kathmandu",
           daily_reminders: {
@@ -557,7 +557,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe/Paris',
+        firstname: 'Europe-Paris',
         preferences: {
           daily_reminders: {
             enabled: true,
@@ -569,7 +569,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
 
     it 'is including the user as Etc/UTC is assumed' do
       expect(scope)
-        .to match_array([paris_user])
+        .to contain_exactly(paris_user)
     end
   end
 
@@ -577,7 +577,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe/Paris',
+        firstname: 'Europe-Paris',
         preferences: {
           time_zone: '',
           daily_reminders: {
@@ -590,7 +590,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
 
     it 'is including the user as Etc/UTC is assumed' do
       expect(scope)
-        .to match_array([paris_user])
+        .to contain_exactly(paris_user)
     end
   end
 
@@ -598,7 +598,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe/Paris',
+        firstname: 'Europe-Paris',
         preferences: {}
       )
     end
@@ -606,7 +606,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
 
     it 'is including the user as Etc/UTC at 08:00 is assumed' do
       expect(scope)
-        .to match_array([paris_user])
+        .to contain_exactly(paris_user)
     end
   end
 
@@ -614,7 +614,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:paris_user) do
       create(
         :user,
-        firstname: 'Europe/Paris',
+        firstname: 'Europe-Paris',
         preferences: {}
       )
     end
@@ -632,7 +632,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
     let(:moscow_user) do
       create(
         :user,
-        firstname: 'Europe/Moscow',
+        firstname: 'Europe-Moscow',
         preferences: {
           daily_reminders: {
             enabled: true,
@@ -648,7 +648,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
 
     it 'is including the configured default timezone is assumed' do
       expect(scope)
-        .to match_array([moscow_user])
+        .to contain_exactly(moscow_user)
     end
   end
 
@@ -671,7 +671,7 @@ RSpec.describe User, '.having_reminder_mail_to_send' do
 
     it 'is including the user as Etc/UTC at 08:00 is assumed' do
       expect(scope)
-        .to match_array([paris_user])
+        .to contain_exactly(paris_user)
     end
   end
 

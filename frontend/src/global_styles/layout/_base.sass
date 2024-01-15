@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@
   @include default-transition
   @include styled-scroll-bar
   margin: 0 0 0 0
-  padding: 0px
+  padding: 0
   // Needed for Safari
   height: calc(100vh - var(--header-height))
   overflow-y: auto
@@ -79,3 +79,6 @@
 
 .-draggable
   cursor: grab
+
+a
+  text-decoration: var(--link-text-decoration)

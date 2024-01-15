@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,6 +66,10 @@ module OpenProject
     # https://community.openproject.org/wp/45463 for details.
     config.load_defaults 5.0
 
+    # Silence the "multiple database warning"
+    # Note that this warning can be removed in the 7.1 upgrade
+    ActiveRecord.suppress_multiple_database_warning = true
+
     # Do not require `belongs_to` associations to be present by default.
     # Rails 5.0+ default is true. Because of history, lots of tests fail when
     # set to true.
@@ -84,7 +88,9 @@ module OpenProject
     if ENV["RAILS_LOG_TO_STDOUT"].present?
       logger           = ActiveSupport::Logger.new($stdout)
       logger.formatter = config.log_formatter
-      config.logger    = ActiveSupport::TaggedLogging.new(logger)
+      # Prepend all log lines with the following tags.
+      config.log_tags = [:request_id]
+      config.logger = ActiveSupport::TaggedLogging.new(logger)
     end
 
     # Use Rack::Deflater to gzip/deflate all the responses if the
@@ -135,7 +141,7 @@ module OpenProject
     # config.time_zone = 'Central Time (US & Canada)'
 
     # Add locales from crowdin translations to i18n
-    config.i18n.load_path += Dir[Rails.root.join('config', 'locales', 'crowdin', '*.{rb,yml}').to_s]
+    config.i18n.load_path += Dir[Rails.root.join("config/locales/crowdin/*.{rb,yml}").to_s]
     config.i18n.default_locale = :en
 
     # Fall back to default locale

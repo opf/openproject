@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,9 +34,10 @@ require_module_spec_helper
 # Setup storages in Project -> Settings -> File Storages
 # This tests assumes that a Storage has already been setup
 # in the Admin section, tested by admin_storage_spec.rb.
-RSpec.describe(
-  'Activation of storages in projects', :js, :webmock
-) do
+
+# We decrease the notification polling interval because some portions of the JS code rely on something triggering
+# the Angular change detection. This is usually done by the notification polling, but we don't want to wait
+RSpec.describe 'Activation of storages in projects', :js, :webmock, with_settings: { notifications_polling_interval: 1_000 } do
   let(:user) { create(:user) }
   # The first page is the Project -> Settings -> General page, so we need
   # to provide the user with the edit_project permission in the role.
@@ -152,14 +153,14 @@ RSpec.describe(
     expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
                                                                                  id: Storages::ProjectStorage.last)
     expect(page).to have_text('Edit the file storage to this project')
-    expect(page).not_to have_select('storages_project_storage_storage_id')
+    expect(page).to have_no_select('storages_project_storage_storage_id')
     expect(page).to have_text(storage.name)
     expect(page).to have_checked_field('storages_project_storage_project_folder_mode_manual')
     expect(page).to have_text('Folder1')
 
     # Change the project folder mode to inactive, project folder is hidden but retained
     page.find_by_id('storages_project_storage_project_folder_mode_inactive').click
-    expect(page).not_to have_text('Folder1')
+    expect(page).to have_no_text('Folder1')
     page.click_button('Save')
 
     # The list of enabled file storages should still contain Storage 1
@@ -206,7 +207,7 @@ RSpec.describe(
       it 'automatic option is not available' do
         visit edit_project_settings_project_storage_path(project_id: project, id: project_storage)
 
-        expect(page).not_to have_content('New folder with automatically managed permissions')
+        expect(page).to have_no_content('New folder with automatically managed permissions')
       end
     end
 
@@ -235,8 +236,8 @@ RSpec.describe(
       aggregate_failures 'select field options' do
         expect(page).to have_select('storages_project_storage_storage_id',
                                     options: ["#{configured_storage.name} (#{configured_storage.short_provider_type})"])
-        expect(page).not_to have_select('storages_project_storage_storage_id',
-                                        options: ["#{unconfigured_storage.name} (#{unconfigured_storage.short_provider_type})"])
+        expect(page).to have_no_select('storages_project_storage_storage_id',
+                                       options: ["#{unconfigured_storage.name} (#{unconfigured_storage.short_provider_type})"])
       end
     end
   end

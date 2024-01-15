@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -79,29 +79,34 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         end
       end.to_xml
 
-      response = Util.http(@uri).proppatch(
-        Util.join_uri_path(@uri.path,
-                           "remote.php/dav/files",
-                           CGI.escapeURIComponent(@username),
-                           Util.escape_path(path)),
-        body,
-        Util.basic_auth_header(@username, @password)
-      )
+      response = Util
+                   .httpx
+                   .basic_auth(@username, @password)
+                   .request(
+                     "PROPPATCH",
+                     Util.join_uri_path(@uri,
+                                        "remote.php/dav/files",
+                                        CGI.escapeURIComponent(@username),
+                                        Util.escape_path(path)),
+                     xml: body
+                   )
 
-      case response
-      when Net::HTTPSuccess
-        doc = Nokogiri::XML(response.body)
+      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+
+      case response.status
+      when 200..299
+        doc = Nokogiri::XML(response.body.to_s)
         if doc.xpath("/d:multistatus/d:response/d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/nc:acl-list").present?
           ServiceResult.success(result: :success)
         else
-          Util.error(:error, "nc:acl properly has not been set for #{path}")
+          Util.error(:error, "nc:acl properly has not been set for #{path}", error_data)
         end
-      when Net::HTTPNotFound
-        Util.error(:not_found, 'Outbound request destination not found', response)
-      when Net::HTTPUnauthorized
-        Util.error(:unauthorized, 'Outbound request not authorized', response)
+      when 404
+        Util.error(:not_found, 'Outbound request destination not found', error_data)
+      when 401
+        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
       else
-        Util.error(:error, 'Outbound request failed', response)
+        Util.error(:error, 'Outbound request failed', error_data)
       end
     end
     # rubocop:enable Metrics/AbcSize

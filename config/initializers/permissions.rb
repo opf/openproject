@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,7 +63,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :manage_user,
                      {
-                       users: %i[index show edit update],
+                       users: %i[index show edit update change_status change_status_info],
                        'users/memberships': %i[create update destroy],
                        admin: %i[index]
                      },
@@ -110,30 +110,20 @@ Rails.application.reloader.to_prepare do
                      require: :member
 
       map.permission :manage_members,
-                     { members: %i[index new create update destroy autocomplete_for_member] },
+                     {
+                       members: %i[index new create update destroy autocomplete_for_member menu],
+                       'members/menus': %i[show]
+                     },
                      permissible_on: :project,
                      require: :member,
                      dependencies: :view_members,
                      contract_actions: { members: %i[create update destroy] }
 
-      map.permission :share_work_packages,
-                     {
-                       'work_packages/shares': %i[index create destroy update],
-                       'work_packages/shares/bulk': %i[update destroy]
-                     },
-                     permissible_on: :project,
-                     dependencies: %i[edit_work_packages view_shared_work_packages],
-                     require: :member
-
-      map.permission :view_shared_work_packages,
-                     {
-                       'work_packages/shares': %i[index]
-                     },
-                     permissible_on: :project,
-                     require: :member
-
       map.permission :view_members,
-                     { members: [:index] },
+                     {
+                       members: %i[index menu],
+                       'members/menus': %i[show]
+                     },
                      permissible_on: :project,
                      contract_actions: { members: %i[read] }
 
@@ -311,7 +301,30 @@ Rails.application.reloader.to_prepare do
                      permissible_on: :project,
                      dependencies: :view_work_packages
 
+      map.permission :share_work_packages,
+                     {
+                       'work_packages/shares': %i[index create destroy update resend_invite],
+                       'work_packages/shares/bulk': %i[update destroy]
+                     },
+                     permissible_on: :project,
+                     dependencies: %i[edit_work_packages view_shared_work_packages],
+                     require: :member
+
+      map.permission :view_shared_work_packages,
+                     {
+                       'work_packages/shares': %i[index]
+                     },
+                     permissible_on: :project,
+                     require: :member,
+                     contract_actions: { work_package_shares: %i[index] }
+
       wpt.permission :assign_versions,
+                     {},
+                     permissible_on: :project,
+                     dependencies: :view_work_packages
+
+      # WP status can be changed with :edit_work_packages, this permission allows it without Edit WP as well.
+      wpt.permission :change_work_package_status,
                      {},
                      permissible_on: :project,
                      dependencies: :view_work_packages

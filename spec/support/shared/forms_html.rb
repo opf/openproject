@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,13 +28,13 @@
 
 RSpec.shared_examples_for 'labelled' do
   it 'has a label with title' do
-    expect(subject).to have_selector 'label.form--label[title]'
+    expect(subject).to have_css 'label.form--label[title]'
   end
 end
 
 RSpec.shared_examples_for 'not labelled' do
   it 'does not have a label with title' do
-    expect(subject).not_to have_selector 'label.form--label[title]'
+    expect(subject).to have_no_css 'label.form--label[title]'
   end
 end
 
@@ -51,7 +51,7 @@ RSpec.shared_examples_for 'labelled by default' do
 end
 
 RSpec.shared_examples_for 'wrapped in container' do |container = 'field-container'|
-  it { is_expected.to have_selector "span.form--#{container}", count: 1 }
+  it { is_expected.to have_css "span.form--#{container}", count: 1 }
 
   context 'with additional class provided' do
     let(:css_class) { 'my-additional-class' }
@@ -62,13 +62,13 @@ RSpec.shared_examples_for 'wrapped in container' do |container = 'field-containe
     end
 
     it 'has the class' do
-      expect(subject).to have_selector "span.#{css_class}", count: expected_container_count
+      expect(subject).to have_css "span.#{css_class}", count: expected_container_count
     end
   end
 end
 
 RSpec.shared_examples_for 'not wrapped in container' do |container = 'field-container'|
-  it { is_expected.not_to have_selector "span.form--#{container}" }
+  it { is_expected.to have_no_css "span.form--#{container}" }
 end
 
 RSpec.shared_examples_for 'wrapped in field-container by default' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,7 @@
 class MeetingAgendaItem::Submit < ApplicationForm
   form do |agenda_item_form|
     agenda_item_form.group(layout: :horizontal) do |button_group|
+      button_group.hidden(name: :lock_version)
       button_group.hidden(name: :type, value: @type, scope_name_to_model: false)
       button_group.submit(name: :submit_button, label: I18n.t("button_save"), scheme: :primary)
     end

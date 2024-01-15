@@ -32,7 +32,7 @@ require 'spec_helper'
 
 RSpec.describe 'Work Packages', 'Bulk Sharing',
                :js, :with_cuprite,
-               with_flag: { work_package_sharing: true } do
+               with_ee: %i[work_package_sharing] do
   shared_let(:view_work_package_role)    { create(:view_work_package_role)    }
   shared_let(:comment_work_package_role) { create(:comment_work_package_role) }
   shared_let(:edit_work_package_role)    { create(:edit_work_package_role)    }
@@ -76,7 +76,8 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
     it 'allows administrating shares in bulk' do
       work_package_page.visit!
 
-      click_button 'Share'
+      work_package_page.click_share_button
+
       share_modal.expect_open
       share_modal.expect_shared_count_of(3)
 
@@ -256,7 +257,8 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
 
         share_modal.close
         share_modal.expect_closed
-        click_button 'Share'
+
+        work_package_page.click_share_button
         share_modal.expect_open
 
         share_modal.expect_shared_count_of(3)
@@ -286,7 +288,7 @@ RSpec.describe 'Work Packages', 'Bulk Sharing',
     it 'does not allow bulk sharing' do
       work_package_page.visit!
 
-      click_button 'Share'
+      work_package_page.click_share_button
       share_modal.expect_open
 
       share_modal.expect_shared_count_of(3)

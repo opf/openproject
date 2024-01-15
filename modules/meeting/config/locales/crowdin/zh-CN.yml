@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -33,6 +33,8 @@ zh-CN:
         duration: "时长"
         notes: "备注"
         participants: "参加者"
+        participant:
+          other: "1位参与者"
         participants_attended: "与会者"
         participants_invited: "受邀者"
         project: "项目"
@@ -42,7 +44,7 @@ zh-CN:
       meeting_agenda_items:
         title: "标题"
         author: "责任人"
-        duration_in_minutes: "持续时间（分钟）"
+        duration_in_minutes: "时长(分钟)"
         description: "备注"
     errors:
       messages:
@@ -93,20 +95,22 @@ zh-CN:
   label_start_date: "开始日期"
   meeting:
     email:
-      open_meeting_link: "Open meeting"
+      open_meeting_link: "打开会议"
       invited:
-        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+        summary: "%{actor} 已经向您发送了一个 %{title} 会议邀请"
       rescheduled:
-        summary: "Meeting %{title} has been rescheduled by %{actor}"
-        body: "The meeting %{title} has been rescheduled by %{actor}."
-        old_date_time: "Old date/time"
-        new_date_time: "New date/time"
-    label_mail_all_participants: "Send email to all participants"
+        header: " %{title} 会议已经被重新安排"
+        summary: "会议 %{title} 已经被 %{actor} 重新安排"
+        body: "此会议 %{title} 已经被 %{actor} 重新安排。"
+        old_date_time: "旧日期/时间"
+        new_date_time: "新日期/时间"
+    label_mail_all_participants: "发送电子邮件给所有参与者"
     types:
       classic: '经典'
       classic_text: '以格式化文本议程和协议组织您的会议。'
       structured: '动态'
       structured_text: '将您的会议组织成一个议程项目列表，并可选择地将它们与一个工作包连接起来。'
+      structured_text_copy: '目前复制会议不会复制相关会议的议程项目，只会复制会议的详细信息。'
     copied: "从会议 #%{id} 复制"
   notice_successful_notification: "通知发送成功"
   notice_timezone_missing: 没有设定时区，预设时区为 %{zone}。要选择您的时区，请单击此处。
@@ -133,7 +137,7 @@ zh-CN:
   text_meeting_minutes_for_meeting: '“%{meeting}“会议记录'
   text_notificiation_invited: "此邮件包含以下会议的 ics 条目："
   text_meeting_empty_heading: "您的会议为空"
-  text_meeting_empty_description_1: "从下面开始添加议程事项。每个事项可以简单地只有一个标题，但你也可以添加额外的细节，比如持续时间、备注和负责人。"
+  text_meeting_empty_description_1: "首先在下方添加议程条目。 每个条目都可以简单到只包含一个标题，但您也可以添加更多详细信息，例如持续时间和备注。"
   text_meeting_empty_description_2: "您也可以添加引用到现有工作包。当您这样做时，相关的注释将自动可见于工作包的“会议”选项卡。"
   label_meeting_empty_action: "添加议程项目"
   label_meeting_actions: "会议行动"
@@ -141,13 +145,14 @@ zh-CN:
   label_meeting_delete: "删除会议"
   label_meeting_created_by: "创建者:"
   label_meeting_last_updated: "最后更新"
-  label_agenda_item_undisclosed_wp: "未公开的工作包参考#%{id}"
+  label_agenda_item_undisclosed_wp: "工作包 #%{id} 不可见"
   label_agenda_item_deleted_wp: "已删除工作包引用"
   label_agenda_item_actions: "议程项目行动"
   label_agenda_item_move_to_top: "移至顶部"
   label_agenda_item_move_to_bottom: "移至底部"
   label_agenda_item_move_up: "向上移动"
   label_agenda_item_move_down: "向下移动"
+  label_agenda_item_add_notes: "添加备注"
   label_meeting_details: "会议详情"
   label_meeting_details_edit: "编辑会议详情"
   label_meeting_state_open: "开放"
@@ -159,14 +164,16 @@ zh-CN:
   label_meeting_manage_participants: "管理与会者"
   label_meeting_no_participants: "沒有与会者"
   label_meeting_show_hide_participants: "显示/隐藏 %{count} 更多"
+  label_meeting_show_all_participants: "显示全部"
   label_meeting_add_participants: "添加与会者"
   text_meeting_not_editable_anymore: "本次会议已不可编辑。"
   text_meeting_not_present_anymore: "此次会议已被删除。请选择另一次会议。"
   label_add_work_package_to_meeting_dialog_title: "将工作包添加到会议"
   label_add_work_package_to_meeting_dialog_button: "添加到会议"
-  label_meeting_selection_caption: "只能将此工作包添加到即将举行的公开会议。"
+  label_meeting_selection_caption: "只能将此工作包添加到即将举行或正在举行的公开会议。"
   text_add_work_package_to_meeting_description: "一个工作包可以添加到一个或多个会议供讨论。与此相关的任何说明也可在这里看到。"
   text_agenda_item_no_notes: "未提供备注"
+  text_agenda_item_not_editable_anymore: "此议程项目已不可编辑。"
   text_work_package_has_no_upcoming_meeting_agenda_items: "该工作包尚未被安排到即将举行的会议议程中。"
   text_work_package_add_to_meeting_hint: "使用\"添加到会议\"按钮将此工作包添加到即将举行的会议。"
   text_work_package_has_no_past_meeting_agenda_items: "在过往会议中没有提及过该工作包。"

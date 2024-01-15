@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ module Components
       end
 
       def expect_filter_count(num)
-        expect(filter_button).to have_selector('.badge', text: num, wait: 10)
+        expect(filter_button).to have_css('.badge', text: num, wait: 10)
       end
 
       def expect_open
@@ -97,7 +97,7 @@ module Components
 
       def expect_loaded
         SeleniumHubWaiter.wait
-        expect(filter_button).to have_selector('.badge', wait: 2)
+        expect(filter_button).to have_css('.badge', wait: 2)
       end
 
       def add_filter(name)
@@ -110,6 +110,10 @@ module Components
         add_filter(name)
 
         set_filter(name, operator, value, selector)
+
+        # Wait for the debounce of the filter input to apply filters
+        # See frontend/src/app/features/work-packages/components/filters/query-filters/query-filters.component.ts:69
+        sleep 0.5
       end
 
       def set_operator(name, operator, selector = nil)
@@ -134,7 +138,7 @@ module Components
                                               results_selector: '.ng-dropdown-panel-items')
 
         within target_dropdown do
-          expect(page).not_to have_selector('.ng-option', text: name)
+          expect(page).to have_no_css('.ng-option', text: name)
         end
       end
 
@@ -148,7 +152,7 @@ module Components
         elsif value
           expect_value(id, Array(value))
         else
-          expect(page).not_to have_selector("#values-#{id}")
+          expect(page).to have_no_css("#values-#{id}")
         end
       end
 
@@ -187,8 +191,8 @@ module Components
       def expect_no_filter_by(name, selector = nil)
         id = selector || name.downcase
 
-        expect(page).not_to have_select("operators-#{id}")
-        expect(page).not_to have_select("values-#{id}")
+        expect(page).to have_no_select("operators-#{id}")
+        expect(page).to have_no_select("values-#{id}")
       end
 
       def expect_filter_order(name, values, selector = nil)
@@ -294,7 +298,7 @@ module Components
       def expect_value_placeholder(id)
         filter_element = page.find("#filter_#{id}")
         if filter_element.has_selector?(".ng-select-container", wait: false)
-          expect(filter_element).to have_selector(".ng-placeholder", text: I18n.t('js.placeholders.selection'))
+          expect(filter_element).to have_css(".ng-placeholder", text: I18n.t('js.placeholders.selection'))
         else
           raise "Non ng-select may not have placeholders currently"
         end
@@ -304,7 +308,7 @@ module Components
         within_values(id) do |is_select|
           if is_select
             value.each do |v|
-              expect(page).to have_selector("#values-#{id} .ng-value-label", text: v)
+              expect(page).to have_css("#values-#{id} .ng-value-label", text: v)
             end
           elsif page.has_selector?("#filter_#{id} [data-test-selector='op-basic-range-date-picker']", wait: false)
             expected_value =

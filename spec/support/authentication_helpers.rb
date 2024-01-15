@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,11 @@ module AuthenticationHelpers
     within('.user-login--form') do
       fill_in 'username', with: login
       fill_in 'password', with: password
-      check I18n.t(:label_stay_logged_in) if autologin
+      if autologin
+        autologin_label = I18n.t('users.autologins.prompt',
+                                 num_days: I18n.t('datetime.distance_in_words.x_days', count: Setting.autologin))
+        check autologin_label
+      end
       click_button I18n.t(:button_login)
     end
   end

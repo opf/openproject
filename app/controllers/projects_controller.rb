@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,6 +39,8 @@ class ProjectsController < ApplicationController
   include PaginationHelper
   include QueriesHelper
   include ProjectsHelper
+
+  helper_method :has_managed_project_folders?
 
   current_menu_item :index do
     :projects
@@ -95,6 +97,10 @@ class ProjectsController < ApplicationController
   end
 
   private
+
+  def has_managed_project_folders?(project)
+    project.project_storages.any?(&:project_folder_automatic?)
+  end
 
   def find_optional_project
     return true unless params[:id]

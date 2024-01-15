@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,7 +45,6 @@ class ::Query::SortCriteria < SortHelper::SortCriteria
       .reject { |column, criterion, _| column.nil? || criterion.nil? }
       .map { |column, criterion, order| [column, execute_criterion(criterion), order] }
       .filter_map { |column, criterion, order| append_order(column, Array(criterion), order) }
-      
   end
 
   private

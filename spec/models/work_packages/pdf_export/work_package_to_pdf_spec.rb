@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,15 +32,16 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   include Redmine::I18n
   include PDFExportSpecUtils
   let(:type) do
-    create(:type_bug, custom_fields: [long_text_custom_field]).tap do |t|
-      t.attribute_groups.first.attributes.push(long_text_custom_field.attribute_name)
+    create(:type_bug, custom_fields: [cf_long_text, cf_disabled_in_project, cf_global_bool]).tap do |t|
+      t.attribute_groups.first.attributes.push(cf_disabled_in_project.attribute_name, cf_long_text.attribute_name)
     end
   end
   let(:project) do
     create(:project,
            name: 'Foo Bla. Report No. 4/2021 with/for Case 42',
            types: [type],
-           work_package_custom_fields: [long_text_custom_field])
+           work_package_custom_fields: [cf_long_text, cf_disabled_in_project, cf_global_bool],
+           work_package_custom_field_ids: [cf_long_text.id, cf_global_bool.id]) # cf_disabled_in_project.id is disabled
   end
   let(:user) do
     create(:user,
@@ -51,7 +52,19 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   let(:image_path) { Rails.root.join("spec/fixtures/files/image.png") }
   let(:image_attachment) { Attachment.new author: user, file: File.open(image_path) }
   let(:attachments) { [image_attachment] }
-  let(:long_text_custom_field) { create(:issue_custom_field, :text, name: 'LongText') }
+  let(:cf_long_text) { create(:issue_custom_field, :text, name: 'LongText') }
+  let!(:cf_disabled_in_project) do
+    # NOT enabled by project.work_package_custom_field_ids => NOT in PDF
+    create(:float_wp_custom_field, name: 'DisabledCustomField')
+  end
+  let(:cf_global_bool) do
+    create(
+      :work_package_custom_field,
+      field_format: 'bool',
+      is_for_all: true,
+      default_value: true
+    )
+  end
   let(:work_package) do
     description = <<~DESCRIPTION
       **Lorem** _ipsum_ ~~dolor~~ `sit` [amet](https://example.com/), consetetur sadipscing elitr.
@@ -73,7 +86,11 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
            subject: 'Work package 1',
            story_points: 1,
            description:,
-           custom_values: { long_text_custom_field.id => 'foo' }).tap do |wp|
+           custom_values: {
+             cf_long_text.id => 'foo',
+             cf_disabled_in_project.id => '6.25',
+             cf_global_bool.id => true
+           }).tap do |wp|
       allow(wp)
         .to receive(:attachments)
               .and_return attachments
@@ -110,25 +127,27 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   describe 'with a request for a PDF' do
     it 'contains correct data' do
       details = exporter.send(:attributes_data_by_wp, work_package)
-                  .flat_map do |item|
+                        .flat_map do |item|
         value = get_column_value(item[:name])
         result = [item[:label].upcase]
         result << value if value.present?
         result
       end
       # Joining the results for comparison since word wrapping leads to a different array for the same content
-      expect(pdf[:strings].join(' ')).to eq([
-                                    "#{type.name} ##{work_package.id} - #{work_package.subject}",
-                                    *details,
-                                    label_title(:description),
-                                    'Lorem', ' ', 'ipsum', ' ', 'dolor', ' ', 'sit', ' ',
-                                    'amet', ', consetetur sadipscing elitr.', ' ', '@OpenProject Admin',
-                                    'Image Caption',
-                                    'Foo',
-                                    '1', export_time_formatted, project.name,
-                                    'LongText', 'foo',
-                                    '2', export_time_formatted, project.name
-                                  ].join(' '))
+      result = pdf[:strings].join(' ')
+      expected_result = [
+        "#{type.name} ##{work_package.id} - #{work_package.subject}",
+        *details,
+        label_title(:description),
+        'Lorem', ' ', 'ipsum', ' ', 'dolor', ' ', 'sit', ' ',
+        'amet', ', consetetur sadipscing elitr.', ' ', '@OpenProject Admin',
+        'Image Caption',
+        'Foo',
+        'LongText', 'foo',
+        '1', export_time_formatted, project.name
+      ].join(' ')
+      expect(result).to eq(expected_result)
+      expect(result).not_to include('DisabledCustomField')
       expect(pdf[:images].length).to eq(2)
     end
   end

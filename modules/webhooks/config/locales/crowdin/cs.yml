@@ -8,7 +8,7 @@ cs:
         url: "Payload URL\n"
         secret: 'Signature secret'
         events: 'Události'
-        projects: 'Povolit projekty'
+        projects: 'Povolené projekty'
       webhooks/log:
         event_name: 'Název události'
         url: "Payload URL\n"
@@ -42,7 +42,7 @@ cs:
       deliveries:
         no_results_table: Pro tento webhook nebyly provedeny žádné dodávky.
         title: 'Nedávné dodávky'
-        time: 'Dodací doba'
+        time: 'Dodací lhůta'
       form:
         introduction: >
           Pošlete POST požadavek na URL adresu payload pro jakoukoliv událost v projektu, ke kterému jste přihlášeni. Užitečné zatížení bude odpovídat reprezentaci modifikovaného objektu APIv3.

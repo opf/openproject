@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,7 +89,7 @@ RSpec.shared_examples_for 'onedrive storage contract' do
   it_behaves_like 'storage contract'
 end
 
-RSpec.shared_examples_for 'nextcloud storage contract', :storage_server_helpers, webmock: true do
+RSpec.shared_examples_for 'nextcloud storage contract', :storage_server_helpers, :webmock do
   include_context 'ModelContract shared context'
 
   # Only admins have the right to create/delete storages.
@@ -252,14 +252,14 @@ RSpec.shared_examples_for 'nextcloud storage contract', :storage_server_helpers,
     end
 
     context 'when automatically managed, no username or password' do
-      before { storage.automatically_managed = true }
+      before { storage.automatic_management_enabled = true }
 
       it_behaves_like 'contract is invalid', password: :blank
     end
 
     context 'when automatically managed, with username and password' do
       before do
-        storage.assign_attributes(automatically_managed: true, username: 'OpenProject', password: 'Password')
+        storage.assign_attributes(automatic_management_enabled: true, username: 'OpenProject', password: 'Password')
       end
 
       it_behaves_like 'contract is valid'
@@ -268,7 +268,7 @@ RSpec.shared_examples_for 'nextcloud storage contract', :storage_server_helpers,
     context 'when not automatically managed, no username or password' do
       before do
         storage.provider_fields = {}
-        storage.assign_attributes(automatically_managed: false)
+        storage.assign_attributes(automatic_management_enabled: false)
       end
 
       it_behaves_like 'contract is valid'
@@ -276,7 +276,7 @@ RSpec.shared_examples_for 'nextcloud storage contract', :storage_server_helpers,
 
     context 'when not automatically managed, with username default and password' do
       before do
-        storage.assign_attributes(automatically_managed: false, username: 'OpenProject', password: 'Password')
+        storage.assign_attributes(automatic_management_enabled: false, username: 'OpenProject', password: 'Password')
       end
 
       it_behaves_like 'contract is invalid', password: :present
@@ -284,10 +284,37 @@ RSpec.shared_examples_for 'nextcloud storage contract', :storage_server_helpers,
 
     context 'when not automatically managed, with user defined username and password' do
       before do
-        storage.assign_attributes(automatically_managed: false, username: 'Username', password: 'Password')
+        storage.assign_attributes(automatic_management_enabled: false, username: 'Username', password: 'Password')
       end
 
       it_behaves_like 'contract is invalid', username: :present, password: :present
+    end
+
+    describe 'provider_type_strategy' do
+      before do
+        allow(contract).to receive(:provider_type_strategy)
+      end
+
+      context 'without `skip_provider_type_strategy` option' do
+        it 'validates the provider type contract' do
+          contract.validate
+
+          expect(contract).to have_received(:provider_type_strategy)
+        end
+      end
+
+      context 'with `skip_provider_type_strategy` option' do
+        let(:contract) do
+          described_class.new(storage, build_stubbed(:admin),
+                              options: { skip_provider_type_strategy: true })
+        end
+
+        it 'does not validate the provider type' do
+          contract.validate
+
+          expect(contract).not_to have_received(:provider_type_strategy)
+        end
+      end
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,6 +50,14 @@ RSpec.describe WorkPackagePolicy, type: :controller do
         expect(subject).to be_allowed(work_package, :edit)
       end
 
+      it 'is true if the user has the edit_work_package permission on the work packge' do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_work_package :edit_work_packages, work_package:
+        end
+
+        expect(subject).to be_allowed(work_package, :edit)
+      end
+
       it 'is false if the user has only the add_work_package_notes permission' do
         mock_permissions_for(user) do |mock|
           mock.allow_in_project :add_work_package_notes, project:
@@ -87,6 +95,13 @@ RSpec.describe WorkPackagePolicy, type: :controller do
       it 'is true if the user has the add_work_package_notes permission' do
         mock_permissions_for(user) do |mock|
           mock.allow_in_project :add_work_package_notes, project:
+        end
+        expect(subject).to be_allowed(work_package, :comment)
+      end
+
+      it 'is true if the user has the add_work_package_notes permission on the work package' do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_work_package :add_work_package_notes, work_package:
         end
         expect(subject).to be_allowed(work_package, :comment)
       end

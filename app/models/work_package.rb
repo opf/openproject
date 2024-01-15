@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -79,9 +79,7 @@ class WorkPackage < ApplicationRecord
     order(updated_at: :desc)
   }
 
-  scope :visible, ->(*args) {
-    where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages))
-  }
+  scope :visible, ->(user = User.current) { allowed_to(user, :view_work_packages) }
 
   scope :in_status, ->(*args) do
                       where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first))
@@ -222,7 +220,7 @@ class WorkPackage < ApplicationRecord
 
   # Returns true if usr or current user is allowed to view the work_package
   def visible?(usr = User.current)
-    usr.allowed_in_project?(:view_work_packages, project)
+    usr.allowed_in_work_package?(:view_work_packages, self)
   end
 
   # RELATIONS
@@ -361,7 +359,7 @@ class WorkPackage < ApplicationRecord
   # see Acts::Journalized::Permissions#journal_editable_by
   def journal_editable_by?(journal, user)
     user.allowed_in_project?(:edit_work_package_notes, project) ||
-      (user.allowed_in_project?(:edit_own_work_package_notes, project) && journal.user_id == user.id)
+      (user.allowed_in_work_package?(:edit_own_work_package_notes, self) && journal.user_id == user.id)
   end
 
   # Returns a scope for the projects

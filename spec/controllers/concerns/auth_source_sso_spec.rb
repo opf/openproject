@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe MyController,
-               skip_2fa_stage: true do
+RSpec.describe MyController, :skip_2fa_stage do
   render_views
 
   let(:sso_config) do
@@ -209,11 +208,11 @@ RSpec.describe MyController,
 
     it 'logs out the user and logs it in again' do
       allow(Users::LogoutService).to receive(:new).and_return(service)
-      allow(service).to receive(:call).with(other_user).and_call_original
+      allow(service).to receive(:call!).with(other_user).and_call_original
 
       get :account
 
-      expect(service).to have_received(:call).with(other_user)
+      expect(service).to have_received(:call!).with(other_user)
       expect(response).to redirect_to my_account_path
       expect(user.reload.last_login_on).to be_within(10.seconds).of(Time.current)
       expect(session[:user_id]).to eq user.id

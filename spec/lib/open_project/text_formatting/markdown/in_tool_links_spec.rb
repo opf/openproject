@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -295,9 +295,8 @@ RSpec.describe OpenProject::TextFormatting,
 
       describe 'double hash work_package link' do
         let(:work_package_link) do
-          content_tag :macro,
+          content_tag 'opce-macro-wp-quickinfo',
                       '',
-                      class: "macro--wp-quickinfo",
                       data: { id: '1234', detailed: 'false' }
         end
 
@@ -308,9 +307,8 @@ RSpec.describe OpenProject::TextFormatting,
 
       describe 'triple hash work_package link' do
         let(:work_package_link) do
-          content_tag :macro,
+          content_tag 'opce-macro-wp-quickinfo',
                       '',
-                      class: "macro--wp-quickinfo",
                       data: { id: '1234', detailed: 'true' }
         end
 

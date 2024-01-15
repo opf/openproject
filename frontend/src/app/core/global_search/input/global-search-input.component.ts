@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -33,33 +33,37 @@ import {
   Component,
   ElementRef,
   HostListener,
+  Input,
   NgZone,
   OnDestroy,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import {
-  first, map, switchMap, tap,
-} from 'rxjs/operators';
+import { first, map, switchMap, tap } from 'rxjs/operators';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
-import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import {
+  Highlighting,
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { insideOrSelf } from 'core-app/shared/directives/focus/contain-helpers';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import {
+  OpAutocompleterComponent,
+} from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ApiV3Service } from '../../apiv3/api-v3.service';
-import { ApiV3WorkPackageCachedSubresource } from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource';
+import {
+  ApiV3WorkPackageCachedSubresource,
+} from 'core-app/core/apiv3/endpoints/work_packages/api-v3-work-package-cached-subresource';
 import { RecentItemsService } from 'core-app/core/recent-items.service';
-
-export const globalSearchSelector = 'global-search-input';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 interface SearchResultItem {
   id:string;
@@ -82,7 +86,7 @@ interface SearchResultItems {
 }
 
 @Component({
-  selector: globalSearchSelector,
+  selector: 'opce-global-search',
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './global-search-input.component.html',
   styleUrls: [
@@ -94,6 +98,8 @@ interface SearchResultItems {
   encapsulation: ViewEncapsulation.None,
 })
 export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
+  @Input() public placeholder:string;
+
   @ViewChild('btn', { static: true }) btn:ElementRef;
 
   @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
@@ -135,8 +141,6 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     current_project_and_all_descendants: this.I18n.t('js.global_search.current_project_and_all_descendants'),
     current_project: this.I18n.t('js.global_search.current_project'),
     recently_viewed: this.I18n.t('js.global_search.recently_viewed'),
-    search_dots: `${this.I18n.t('js.global_search.search')} ...`,
-    search: this.I18n.t('js.global_search.search'),
   };
 
   constructor(
@@ -153,6 +157,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     readonly ngZone:NgZone,
     readonly recentItemsService:RecentItemsService,
   ) {
+    populateInputsFromDataset(this);
   }
 
   ngAfterViewInit():void {

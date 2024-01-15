@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,8 @@ import { IPrepareUploadLink, IStorage } from 'core-app/core/state/storages/stora
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import {
-  fileLinkViewError,
+  fileLinkStatusError,
+  nextcloud,
   storageConnected,
 } from 'core-app/shared/components/storages/storages-constants.const';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -99,6 +100,9 @@ import {
   IStorageFileUploadResponse,
   StorageUploadService,
 } from 'core-app/shared/components/storages/upload/storage-upload.service';
+import {
+  IHalErrorBase, v3ErrorIdentifierMissingEnterpriseToken,
+} from 'core-app/features/hal/resources/error-resource';
 
 @Component({
   selector: 'op-storage',
@@ -143,6 +147,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
     toast: {
       successFileLinksCreated: (count:number):string => this.i18n.t('js.storages.file_links.success_create', { count }),
       uploadFailed: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error.default', { fileName }),
+      uploadFailedNextcloudDetail: this.i18n.t('js.storages.file_links.upload_error.detail.nextcloud'),
       uploadFailedForbidden: (fileName:string):string => this.i18n.t('js.storages.file_links.upload_error.403', { fileName }),
       uploadFailedSizeLimit:
         (fileName:string, storageType:string):string => this.i18n.t(
@@ -416,6 +421,11 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   private handleUploadError(error:HttpErrorResponse, fileName:string):void {
+    if (error.status === 500 && (error.error as IHalErrorBase).errorIdentifier === v3ErrorIdentifierMissingEnterpriseToken) {
+      this.toastService.addError(error);
+      return;
+    }
+
     switch (error.status) {
       case 403:
         this.toastService.addError(this.text.toast.uploadFailedForbidden(fileName));
@@ -433,7 +443,12 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
         this.toastService.addError(this.text.toast.uploadFailedQuota(fileName));
         break;
       default:
-        this.toastService.addError(this.text.toast.uploadFailed(fileName));
+        this.storage
+          .pipe(first())
+          .subscribe((storage) => {
+            const additionalInfo = storage._links.type.href === nextcloud ? this.text.toast.uploadFailedNextcloudDetail : [];
+            this.toastService.addError(this.text.toast.uploadFailed(fileName), additionalInfo);
+          });
     }
   }
 
@@ -500,7 +515,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   private hasFileLinkViewErrors(fileLinks:IFileLink[]):boolean {
-    return fileLinks.filter((fileLink) => fileLink._links.permission?.href === fileLinkViewError).length > 0;
+    return fileLinks.filter((fileLink) => fileLink._links.status?.href === fileLinkStatusError).length > 0;
   }
 
   private collectionKey():Observable<string> {

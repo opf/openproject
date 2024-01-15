@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,7 +39,7 @@ module API
             end
 
             after_validation do
-              authorize_in_any_project(:view_work_packages)
+              authorize_in_any_work_package(:view_work_packages)
             end
 
             route_param :id, type: String, regexp: /\A\w+\z/, desc: 'Group by ID' do

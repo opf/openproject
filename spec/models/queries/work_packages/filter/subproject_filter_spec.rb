@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -114,8 +114,8 @@ RSpec.describe Queries::WorkPackages::Filter::SubprojectFilter do
       let(:projects) { [subproject1, subproject2] }
 
       it 'returns a list of all visible descendants' do
-        expect(instance.allowed_values).to match_array [[subproject1.name, subproject1.id.to_s],
-                                                        [subproject2.name, subproject2.id.to_s]]
+        expect(instance.allowed_values).to contain_exactly([subproject1.name, subproject1.id.to_s],
+                                                           [subproject2.name, subproject2.id.to_s])
       end
     end
 

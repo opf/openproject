@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -89,12 +89,14 @@ class JournalsController < ApplicationController
   end
 
   def ensure_permitted
-    permission =
-      case @journal.journable_type
-      when 'WorkPackage' then :view_work_packages
-      when 'Project' then :view_project
-      end
+    permission = case @journal.journable_type
+                 when 'WorkPackage' then :view_work_packages
+                 when 'Project' then :view_project
+                 end
+
     do_authorize(permission)
+  rescue Authorization::UnknownPermissionError
+    deny_access
   end
 
   def field_param

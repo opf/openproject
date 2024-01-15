@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,31 +44,40 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     # rubocop:disable Metrics/AbcSize
     def call(folder_path:)
-      response = Util.http(@uri).mkcol(
-        Util.join_uri_path(@uri.path, "remote.php/dav/files", CGI.escapeURIComponent(@username), Util.escape_path(folder_path)),
-        nil,
-        Util.basic_auth_header(@username, @password)
-      )
+      response = Util
+                   .httpx
+                   .basic_auth(@username, @password)
+                   .mkcol(
+                     Util.join_uri_path(
+                       @uri,
+                       "remote.php/dav/files",
+                       CGI.escapeURIComponent(@username),
+                       Util.escape_path(folder_path)
+                     )
+                   )
 
-      case response
-      when Net::HTTPSuccess
+      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+
+      case response.status
+      when 200..299
         ServiceResult.success(message: 'Folder was successfully created.')
-      when Net::HTTPMethodNotAllowed
+      when 405
         if Util.error_text_from_response(response) == 'The resource you tried to create already exists'
           ServiceResult.success(message: 'Folder already exists.')
         else
-          Util.error(:not_allowed, 'Outbound request method not allowed', response)
+          Util.error(:not_allowed, 'Outbound request method not allowed', error_data)
         end
-      when Net::HTTPNotFound
-        Util.error(:not_found, 'Outbound request destination not found', response)
-      when Net::HTTPUnauthorized
-        Util.error(:unauthorized, 'Outbound request not authorized', response)
-      when Net::HTTPConflict
-        Util.error(:conflict, Util.error_text_from_response(response), response)
+      when 401
+        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
+      when 404
+        Util.error(:not_found, 'Outbound request destination not found', error_data)
+      when 409
+        Util.error(:conflict, Util.error_text_from_response(response), error_data)
       else
-        Util.error(:error, 'Outbound request failed', response)
+        Util.error(:error, 'Outbound request failed', error_data)
       end
     end
+
     # rubocop:enable Metrics/AbcSize
   end
 end

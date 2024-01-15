@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,6 +30,7 @@ class WorkPackagesController < ApplicationController
   include QueriesHelper
   include PaginationHelper
   include Layout
+  include WorkPackagesControllerHelper
 
   accept_key_auth :index, :show
 
@@ -116,51 +117,10 @@ class WorkPackagesController < ApplicationController
                      journals: }
   end
 
-  def atom_list
-    render_feed(@work_packages,
-                title: "#{@project || Setting.app_title}: #{I18n.t(:label_work_package_plural)}")
-  end
-
   private
 
   def authorize_on_work_package
     deny_access(not_found: true) unless work_package
-  end
-
-  def protect_from_unauthorized_export
-    if (supported_list_formats + %w[atom]).include?(params[:format]) && !user_allowed_to_export?
-      deny_access
-      false
-    end
-  end
-
-  def user_allowed_to_export?
-    if @project
-      User.current.allowed_in_project?(:export_work_packages, @project)
-    else
-      User.current.allowed_in_any_project?(:export_work_packages)
-    end
-  end
-
-  def supported_list_formats
-    ::Exports::Register.list_formats(WorkPackage).map(&:to_s)
-  end
-
-  def supported_single_formats
-    ::Exports::Register.single_formats(WorkPackage).map(&:to_s)
-  end
-
-  def load_and_validate_query
-    @query ||= retrieve_query(@project)
-    @query.name = params[:title] if params[:title].present?
-
-    unless @query.valid?
-      # Ensure outputting an html response
-      request.format = 'html'
-      render_400(message: @query.errors.full_messages.join(". "))
-    end
-  rescue ActiveRecord::RecordNotFound
-    render_404
   end
 
   def per_page_param

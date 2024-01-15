@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ RSpec.describe 'Attribute help texts', :js, :with_cuprite do
   let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
   let(:enterprise_token) { true }
 
-  describe 'Work package help texts', with_ee: %i[attribute_help_texts] do
+  describe 'Work package help texts' do
     before do
       login_as(user_with_permission)
       visit attribute_help_texts_path
@@ -140,7 +140,7 @@ RSpec.describe 'Attribute help texts', :js, :with_cuprite do
         # Create new, status is now blocked
         find('.attribute-help-texts--create-button').click
         expect(page).to have_css('#attribute_help_text_attribute_name option', text: 'Assignee')
-        expect(page).not_to have_css('#attribute_help_text_attribute_name option', text: 'Status')
+        expect(page).to have_no_css('#attribute_help_text_attribute_name option', text: 'Status')
         visit attribute_help_texts_path
 
         # Destroy
@@ -150,13 +150,6 @@ RSpec.describe 'Attribute help texts', :js, :with_cuprite do
 
         expect(page).to have_css('.generic-table--no-results-container')
         expect(AttributeHelpText.count).to be_zero
-      end
-    end
-
-    context 'with help texts disallowed by the enterprise token', with_ee: false do
-      it 'hides CRUD to attribute help texts' do
-        expect(page).to have_current_path /upsale/
-        expect(page).to have_text I18n.t('attribute_help_texts.enterprise.description')
       end
     end
   end

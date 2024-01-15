@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,6 +52,8 @@ module Projects
     end
 
     def custom_field_column(column)
+      return nil unless user_can_view_project?
+
       cf = custom_field(column)
       custom_value = project.formatted_custom_value_for(cf)
 
@@ -92,6 +94,8 @@ module Projects
     end
 
     def project_status
+      return nil unless user_can_view_project?
+
       content = ''.html_safe
 
       status_code = project.status_code
@@ -106,6 +110,8 @@ module Projects
     end
 
     def status_explanation
+      return nil unless user_can_view_project?
+
       if project.status_explanation
         content_tag :div, helpers.format_text(project.status_explanation), class: 'wiki'
       end
@@ -164,6 +170,10 @@ module Projects
         formattable = cf.field_format == 'text' ? ' -no-ellipsis' : ''
         "format-#{cf.field_format}#{formattable}"
       end
+    end
+
+    def user_can_view_project?
+      User.current.allowed_in_project?(:view_project, project)
     end
   end
 end

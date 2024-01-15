@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -26,32 +26,23 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Component,
-  EventEmitter,
-  forwardRef,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  filter,
-  map,
-} from 'rxjs/operators';
-import {
-  ControlValueAccessor,
-  NG_VALUE_ACCESSOR,
-} from '@angular/forms';
+import { filter, map } from 'rxjs/operators';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { ID } from '@datorama/akita';
 import { OpInviteUserModalService } from 'core-app/features/invite-user-modal/invite-user-modal.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import {
+  OpAutocompleterComponent,
+} from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
-import { UserAutocompleterTemplateComponent } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter-template.component';
+import {
+  UserAutocompleterTemplateComponent,
+} from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter-template.component';
 import { IUser } from 'core-app/core/state/principals/user.model';
 
 export const usersAutocompleterSelector = 'op-user-autocompleter';
@@ -115,8 +106,9 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
       .http
       .get<IHALCollection<IUser>>(filteredURL.toString())
       .pipe(
-        map((res) => {
-            return res._embedded.elements.map((user) => {
+        map((res) => _.uniqBy(res._embedded.elements, (el) => el._links.self?.href || el.id)),
+        map((users) => {
+          return users.map((user) => {
               return { id: user.id, name: user.name, href: user._links.self?.href };
             });
           }),

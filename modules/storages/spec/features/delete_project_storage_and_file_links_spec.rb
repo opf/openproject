@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -76,8 +76,8 @@ RSpec.describe 'Delete ProjectStorage with FileLinks', :js, :webmock do
     page.find('.icon.icon-delete').click
 
     # Danger zone confirmation flow
-    expect(page).to have_selector('.form--section-title', text: "DELETE FILE STORAGE")
-    expect(page).to have_selector('.danger-zone--warning', text: "Deleting a file storage is an irreversible action.")
+    expect(page).to have_css('.form--section-title', text: "DELETE FILE STORAGE")
+    expect(page).to have_css('.danger-zone--warning', text: "Deleting a file storage is an irreversible action.")
     expect(page).to have_button('Delete', disabled: true)
 
     # Cancel Confirmation

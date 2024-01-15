@@ -53,23 +53,23 @@ properties:
           - $ref: './link.yml'
           - description: |-
               This file link.
-              
+
               **Resource**: FileLink
       storage:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The storage resource of the linked file.
-              
+
               **Resource**: Storage
       container:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The container the origin file is linked to.
-              
-              Can be one of the following **Resources**: 
-              
+
+              Can be one of the following **Resources**:
+
               - WorkPackage
       creator:
         allOf:
@@ -85,14 +85,16 @@ properties:
               The uri to delete the file link.
 
               **Resource**: N/A
-      permission:
+      status:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              The urn of the user specific file link permission on its storage. Can be one of:
+              The urn of the user specific file link status on its storage. Can be one of:
 
-              - urn:openproject-org:api:v3:file-links:permission:View
-              - urn:openproject-org:api:v3:file-links:permission:NotAllowed
+              - urn:openproject-org:api:v3:file-links:permission:ViewAllowed
+              - urn:openproject-org:api:v3:file-links:permission:ViewNotAllowed
+              - urn:openproject-org:api:v3:file-links:NotFound
+              - urn:openproject-org:api:v3:file-links:Error
 
               **Resource**: N/A
       originOpen:
@@ -100,35 +102,35 @@ properties:
           - $ref: './link.yml'
           - description: |-
               The uri to open the origin file on the origin itself.
-              
+
               **Resource**: N/A
       staticOriginOpen:
         allOf:
           - $ref: './link.yml'
           - description: |-
               A static uri to open the origin file on the storage. Responds with a redirect.
-              
+
               **Resource**: N/A
       originOpenLocation:
         allOf:
           - $ref: './link.yml'
           - description: |-
               The uri to open the location of origin file on the origin itself.
-              
+
               **Resource**: N/A
       staticOriginOpenLocation:
         allOf:
           - $ref: './link.yml'
           - description: |-
               A static uri to open the location of the origin file on the storage. Responds with a redirect.
-              
+
               **Resource**: N/A
       staticOriginDownload:
         allOf:
           - $ref: './link.yml'
           - description: |-
               A static uri to generate a new download URL from the storage. Responds with a redirect.
-              
+
               **Resource**: N/A
 
 example:
@@ -180,8 +182,8 @@ example:
       readonly: false
       startDate:
       dueDate:
-      createdAt: '2014-08-29T12:40:53Z'
-      updatedAt: '2014-08-29T12:44:41Z'
+      createdAt: '2014-08-29T12:40:53.860Z'
+      updatedAt: '2014-08-29T12:44:41.036Z'
   _links:
     self:
       href: /api/v3/work_package/17/file_links/1337
@@ -196,7 +198,7 @@ example:
       title: Obi-Wan Kenobi
     delete:
       href: /api/v3/work_package/17/file_links/1337
-    permission:
+    status:
       href: urn:openproject-org:api:v3:file-links:permission:View
       title: View
     originOpen:

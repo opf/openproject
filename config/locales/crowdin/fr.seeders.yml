@@ -43,25 +43,25 @@ fr:
           name: Autre
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: Éditeur de lot de travaux
         item_1:
-          name: Work Package Commenter
+          name: Commentateur du lot de travaux
         item_2:
-          name: Work Package Viewer
+          name: Visualisateur de lots de travaux
       project_roles:
         item_0:
-          name: Non member
+          name: Non membre
         item_1:
-          name: Anonymous
+          name: Anonyme
         item_2:
-          name: Member
+          name: Membre
         item_3:
-          name: Reader
+          name: Lecteur
         item_4:
-          name: Project admin
+          name: Administrateur du projet
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Personnel et gestionnaire de projets
     standard:
       priorities:
         item_0:
@@ -132,21 +132,21 @@ fr:
       welcome:
         title: Bienvenue sur OpenProject !
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject est le principal logiciel de gestion de projet open source. Il prend en charge la gestion de projets classiques, agiles et hybrides et vous donne un contrôle total sur vos données.
 
-          Core features and use cases:
+          Fonctionnalités principales et cas d'utilisation :
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * [Gestion de portefeuille de projets] (https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [Planification et organisation de projets](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Gestion des tâches et suivi des problèmes](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Tableaux agiles (Scrum et Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Gestion des exigences et planification des versions](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [Suivi du temps et des coûts, budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [Collaboration d'équipe et documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Welcome to the future of project management.
+          Bienvenue dans l'avenir de la gestion de projet.
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Pour les administrateurs : Vous pouvez modifier ce texte de bienvenue [ici] ({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Projet de démonstration
@@ -351,22 +351,20 @@ fr:
                 options:
                   name: Pour commencer
                   text: |
-                    Nous sommes heureux que vous nous ayez rejoints ! Nous vous suggérons d'effectuer quelques essais pour vous familiariser avec OpenProject.
+                    Nous sommes ravis que vous nous ayez rejoints ! Nous vous suggérons de faire quelques essais pour commencer à utiliser OpenProject.
 
-                    Découvrez les fonctionnalités les plus importantes grâce à notre [Visite guidée]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
+                    _Essayez les étapes suivantes:_
 
-                    _Essayez les étapes suivantes :_
+                    1. *Invitez de nouveaux membres à votre projet* : &rightarrow ; Accédez à [Membres]({{opSetting:base_url}}/projets/votre-projet-scrum/membres) dans la navigation du projet.
+                    2. *Consulter votre backlogs de produit et de sprint* : &rightarrow ; Accédez à [Backlogs]({{opSetting:base_url}}/projets/votre-scrum-projet/backlogs) dans la navigation du projet.
+                    3. *Consulter votre tableau des tâches* : &rightarrow ; Accéder à [Backlogs]({{opSetting:base_url}}/projects/votre-projet-scrum/backlogs) &rightarrow ; Cliquer sur la flèche droite sur Sprint &rightarrow ; Sélectionner [Task Board](##sprint:scrum_project__version__sprint_1).
+                    4. *Créer un nouveau lot de travaux* : &rightarrow ; Aller sur [Lots de travaux &rightarrow ; Créer]({{opSetting:base_url}}/projets/votre-scrum-projet/lots_de_travaux/nouveau).
+                    5. *Créer et mettre à jour un plan de projet* : &rightarrow ; Aller sur [Plan de projet](##query:scrum_project__query__project_plan) dans la navigation du projet.
+                    6. *Créer un wiki de sprint* : &rightarrow ; Allez dans [Backlogs]({{opSetting:base_url}}/projects/votre-projet-scrum/backlogs) et ouvrez le wiki de sprint à partir du menu déroulant de droite dans un sprint. Vous pouvez modifier le [modèle de wiki]({{opSetting:base_url}}/projets/votre-scrum-projet/wiki/) en fonction de vos besoins.
+                    7. *Activer d'autres modules* : &rightarrow ; Allez dans les [Paramètres du projet &rightarrow ; Modules]({{opSetting:base_url}}/projet/votre-scrum-projet/paramètres/modules).
 
-                    1. *Invitez de nouveaux membres à rejoindre votre projet* : &rightarrow; Accédez à [Membres]({{opSetting:base_url}}/projects/your-scrum-project/members) dans la navigation du projet.
-                    2. *Consultez votre backlog de produit et de sprint* : &rightarrow; Accédez à [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) dans la navigation du projet.
-                    3. *Consultez votre tableau des tâches* : &rightarrow; Accédez à [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Cliquez sur la flèche droite dans Sprint &rightarrow; Sélectionnez [Tableau des tâches](##sprint:scrum_project__version__sprint_1).
-                    4. *Créez un nouveau lot de travaux* : &rightarrow; Accédez à [Lots de travaux &rightarrow; Créer]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Créez et mettez à jour un plan de projet* : &rightarrow; Accédez à [Plan de projet](##query:scrum_project__query__project_plan) dans la navigation du projet.
-                    6. *Créez un wiki de sprint* : &rightarrow; Accédez à [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) et ouvrez le wiki de sprint à partir du menu déroulant de droite dans un sprint. Vous pouvez modifier le [modèle du wiki]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) en fonction de vos besoins.
-                    7. *Activez d'autres modules* : &rightarrow; Accédez à [Paramètres du projet &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
-
-                    Vous trouverez ici nos [Guides de l'utilisateur](https://www.openproject.org/docs/user-guide/).
-                    Si vous avez des questions ou si vous avez besoin d'aide, n'hésitez pas à nous contacter : [support[at]openproject.com](mailto:support@openproject.com).
+                    Vous y trouverez nos [guides de l'utilisateur](https://www.openproject.org/docs/user-guide/).
+                    N'hésitez pas à nous contacter si vous avez des questions ou si vous avez besoin d'aide. N'hésitez pas à nous contacter : [support[at]openproject.com(mailto:support@openproject.com).
               item_5:
                 options:
                   name: Lots de Travaux

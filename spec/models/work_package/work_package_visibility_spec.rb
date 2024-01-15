@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ RSpec.describe 'WorkPackage-Visibility' do
       # is a default in Redmine::DefaultData::Loader - but this not loaded in the tests: here we
       # just make sure, that the work package is visible, when this permission is set
       ProjectRole.anonymous.add_permission! :view_work_packages
-      expect(WorkPackage.visible(anonymous)).to match_array [subject]
+      expect(WorkPackage.visible(anonymous)).to contain_exactly(subject)
     end
   end
 
@@ -54,11 +54,11 @@ RSpec.describe 'WorkPackage-Visibility' do
     subject { create(:work_package, project: private_project) }
 
     it 'is visible for the admin, even if the project is private' do
-      expect(WorkPackage.visible(admin)).to match_array [subject]
+      expect(WorkPackage.visible(admin)).to contain_exactly(subject)
     end
 
     it 'is not visible for anonymous users, when the project is private' do
-      expect(WorkPackage.visible(anonymous)).to match_array []
+      expect(WorkPackage.visible(anonymous)).to be_empty
     end
 
     it 'is visible for members of the project, with the view_work_packages permission' do
@@ -67,7 +67,7 @@ RSpec.describe 'WorkPackage-Visibility' do
              project: private_project,
              role_ids: [view_work_packages.id])
 
-      expect(WorkPackage.visible(user)).to match_array [subject]
+      expect(WorkPackage.visible(user)).to contain_exactly(subject)
     end
 
     it 'is only returned once for members with two roles having view_work_packages permission' do
@@ -79,11 +79,11 @@ RSpec.describe 'WorkPackage-Visibility' do
              role_ids: [view_work_packages.id,
                         view_work_packages_role2.id])
 
-      expect(WorkPackage.visible(user).pluck(:id)).to match_array [subject.id]
+      expect(WorkPackage.visible(user).pluck(:id)).to contain_exactly(subject.id)
     end
 
     it 'is not visible for non-members of the project without the view_work_packages permission' do
-      expect(WorkPackage.visible(user)).to match_array []
+      expect(WorkPackage.visible(user)).to be_empty
     end
 
     it 'is not visible for members of the project, without the view_work_packages permission' do
@@ -93,7 +93,7 @@ RSpec.describe 'WorkPackage-Visibility' do
              project: private_project,
              role_ids: [no_permission.id])
 
-      expect(WorkPackage.visible(user)).to match_array []
+      expect(WorkPackage.visible(user)).to be_empty
     end
   end
 end

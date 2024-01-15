@@ -1,6 +1,6 @@
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Cancel editing work package', js: true do
+RSpec.describe 'Cancel editing work package', :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
@@ -53,7 +53,7 @@ RSpec.describe 'Cancel editing work package', js: true do
   def expect_active_edit(path)
     visit path
     expect_angular_frontend_initialized
-    expect(page).to have_selector('#wp-new-inline-edit--field-subject', wait: 10)
+    expect(page).to have_css('#wp-new-inline-edit--field-subject', wait: 10)
   end
 
   def expect_subject(val)
@@ -65,7 +65,7 @@ RSpec.describe 'Cancel editing work package', js: true do
     find('.op-logo--link').click
 
     page.driver.browser.switch_to.alert.accept if alert
-    expect(page).to have_selector('#projects-menu', text: 'Select a project')
+    expect(page).to have_css('#projects-menu', text: 'Select a project')
   end
 
   it 'does not show an alert when moving to other pages' do
@@ -92,7 +92,7 @@ RSpec.describe 'Cancel editing work package', js: true do
     wp_table.open_split_view(work_package2)
     page.driver.browser.switch_to.alert.dismiss
 
-    expect(page).to have_selector('#wp-new-inline-edit--field-subject')
+    expect(page).to have_css('#wp-new-inline-edit--field-subject')
     expect(wp_page).not_to have_alert_dialog
   end
 
@@ -138,14 +138,14 @@ RSpec.describe 'Cancel editing work package', js: true do
     find('.work-packages-show-view-button').click
 
     expect(wp_page).not_to have_alert_dialog
-    expect(page).to have_selector('#wp-new-inline-edit--field-subject')
+    expect(page).to have_css('#wp-new-inline-edit--field-subject')
     expect_subject('foobar')
 
     # Moving back also works
     page.execute_script('window.history.back()')
 
     expect(wp_page).not_to have_alert_dialog
-    expect(page).to have_selector('#wp-new-inline-edit--field-subject')
+    expect(page).to have_css('#wp-new-inline-edit--field-subject')
     expect_subject('foobar')
 
     # Cancel edition
@@ -193,8 +193,8 @@ RSpec.describe 'Cancel editing work package', js: true do
       wp_table.open_split_view(work_package2)
       expect(wp_page).not_to have_alert_dialog
 
-      expect(page).not_to have_selector('#wp-new-inline-edit--field-subject')
-      expect(page).to have_selector('.work-packages--details--subject', text: work_package2.subject)
+      expect(page).to have_no_css('#wp-new-inline-edit--field-subject')
+      expect(page).to have_css('.work-packages--details--subject', text: work_package2.subject)
 
       # Moving somewhere else
       expect_active_edit(new_split_work_packages_path)

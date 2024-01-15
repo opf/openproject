@@ -5,6 +5,7 @@
   <%= angular_component_tag 'opce-ckeditor-augmented-textarea',
                             inputs: {
                               textareaSelector: "##{builder.field_id(@input.name)}",
+                              macros: 'resource',
                               turboMode: true
                             }
   %>

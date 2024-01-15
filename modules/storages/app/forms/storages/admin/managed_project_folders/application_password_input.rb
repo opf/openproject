@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,10 @@ module Storages::Admin::ManagedProjectFolders
         name: :password,
         label: I18n.t(:'storages.label_managed_project_folders.application_password'),
         required: true,
-        caption: application_password_caption
+        caption: application_password_caption,
+        value: nil, # IMPORTANT: We don't want to show the password in the form
+        placeholder: @storage.password.present? ? "••••••••••••••••" : nil,
+        input_width: :large
       )
     end
 

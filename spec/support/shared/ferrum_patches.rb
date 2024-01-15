@@ -41,3 +41,24 @@ def ignore_ferrum_javascript_error
   yield
 rescue Ferrum::JavaScriptError
 end
+
+# Override Ferrum::Network#pending_connections to only consider connections for current
+# page. Any pending connection from previous loaded pages will be ignored as
+# they have most likely be aborted anyway.
+
+module Ferrum
+  class Network
+    class Request
+      def loader_id
+        @params['loaderId']
+      end
+    end
+
+    def pending_connections
+      main_frame_id = @traffic.first&.request&.frame_id
+      current_navigation = @traffic.reverse.find { |conn| conn.navigation_request?(main_frame_id) }
+      current_traffic = @traffic.filter { |exchange| exchange.request.loader_id == current_navigation.request.loader_id }
+      current_traffic.count(&:pending?)
+    end
+  end
+end

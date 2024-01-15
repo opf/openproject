@@ -9,21 +9,21 @@ pt:
         demo-project:
           meetings:
             item_0:
-              title: Weekly
+              title: Semanal
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: Boas notícias
             item_1:
-              title: Updates from development team
+              title: Atualizações da equipe de desenvolvimento
             item_2:
-              title: Updates from product team
+              title: Atualizações da equipe do produto
             item_3:
-              title: Updates from marketing team
+              title: Atualizações da equipe de marketing
             item_4:
-              title: Updates from sales team
+              title: Atualizações da equipe de vendas
             item_5:
-              title: Review of quarterly goals
+              title: Análise dos objetivos trimestrais
             item_6:
-              title: Core values feedback
+              title: Feedback sobre os valores fundamentais
             item_7:
-              title: General topics
+              title: Tópicos gerais

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -193,7 +193,8 @@ module API
           }
         end
 
-        link :revisions do
+        link :revisions,
+             cache_if: -> { current_user.allowed_in_project?(:view_changesets, represented.project) } do
           {
             href: api_v3_paths.work_package_revisions(represented.id)
           }
@@ -247,7 +248,7 @@ module API
         end
 
         link :addRelation,
-             cache_if: -> { current_user.allowed_in_project?(:manage_work_package_relations, represented.project) } do
+             cache_if: -> { current_user.allowed_in_work_package?(:manage_work_package_relations, represented) } do
           {
             href: api_v3_paths.work_package_relations(represented.id),
             method: :post,
@@ -276,7 +277,7 @@ module API
         end
 
         link :addComment,
-             cache_if: -> { current_user.allowed_in_project?(:add_work_package_notes, represented.project) } do
+             cache_if: -> { current_user.allowed_in_work_package?(:add_work_package_notes, represented) } do
           {
             href: api_v3_paths.work_package_activities(represented.id),
             method: :post,
@@ -398,6 +399,22 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) do
                    datetime_formatter.format_duration_from_hours(represented.derived_estimated_hours,
+                                                                 allow_nil: true)
+                 end,
+                 render_nil: true
+
+        property :remaining_time,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_duration_from_hours(represented.remaining_hours,
+                                                                 allow_nil: true)
+                 end,
+                 render_nil: true
+
+        property :derived_remaining_time,
+                 exec_context: :decorator,
+                 getter: ->(*) do
+                   datetime_formatter.format_duration_from_hours(represented.derived_remaining_hours,
                                                                  allow_nil: true)
                  end,
                  render_nil: true
@@ -565,20 +582,30 @@ module API
 
         def current_user_update_allowed?
           @current_user_update_allowed ||=
-            current_user.allowed_in_project?(:edit_work_packages, represented.project) ||
+            current_user.allowed_in_work_package?(:edit_work_packages, represented) ||
+              current_user.allowed_in_project?(:change_work_package_status, represented.project) ||
               current_user.allowed_in_project?(:assign_versions, represented.project)
         end
 
         def view_time_entries_allowed?
           @view_time_entries_allowed ||=
             current_user.allowed_in_project?(:view_time_entries, represented.project) ||
-              current_user.allowed_in_project?(:view_own_time_entries, represented.project)
+            view_own_time_entries_allowed?
+        end
+
+        def view_own_time_entries_allowed?
+          @view_own_time_entries_allowed ||= if represented.new_record?
+                                               current_user.allowed_in_any_work_package?(:view_own_time_entries,
+                                                                                         in_project: represented.project)
+                                             else
+                                               current_user.allowed_in_work_package?(:view_own_time_entries, represented)
+                                             end
         end
 
         def log_time_allowed?
           @log_time_allowed ||=
             current_user.allowed_in_project?(:log_time, represented.project) ||
-              current_user.allowed_in_project?(:log_own_time, represented.project)
+              current_user.allowed_in_work_package?(:log_own_time, represented)
         end
 
         def view_budgets_allowed?
@@ -587,7 +614,7 @@ module API
 
         def export_work_packages_allowed?
           @export_work_packages_allowed ||=
-            current_user.allowed_in_project?(:export_work_packages, represented.project)
+            current_user.allowed_in_work_package?(:export_work_packages, represented)
         end
 
         def add_work_packages_allowed?
@@ -613,14 +640,23 @@ module API
         delegate :schedule_manually=, to: :represented
 
         def estimated_time=(value)
-          represented.estimated_hours = datetime_formatter.parse_duration_to_hours(value,
-                                                                                   'estimatedTime',
-                                                                                   allow_nil: true)
+          represented.estimated_hours =
+            datetime_formatter.parse_duration_to_hours(value, 'estimatedTime', allow_nil: true)
         end
 
         def derived_estimated_time=(value)
-          represented.derived_estimated_hours = datetime_formatter
-            .parse_duration_to_hours(value, 'derivedEstimatedTime', allow_nil: true)
+          represented.derived_estimated_hours =
+            datetime_formatter.parse_duration_to_hours(value, 'derivedEstimatedTime', allow_nil: true)
+        end
+
+        def remaining_time=(value)
+          represented.remaining_hours =
+            datetime_formatter.parse_duration_to_hours(value, 'remainingTime', allow_nil: true)
+        end
+
+        def derived_remaining_time=(value)
+          represented.derived_remaining_hours =
+            datetime_formatter.parse_duration_to_hours(value, 'derivedRemainingTime', allow_nil: true)
         end
 
         def spent_time=(value)

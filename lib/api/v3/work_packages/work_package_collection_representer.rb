@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,7 +75,7 @@ module API
           # and set those to be the represented collection.
           # A potential ordering is reapplied to the work package collection in ruby.
 
-          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper \
+          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper
             .wrap(represented, current_user, timestamps:, query:)
         end
 
@@ -135,8 +135,7 @@ module API
         end
 
         links :representations do
-          if (project && current_user.allowed_in_project?(:export_work_packages, project)) ||
-              (!project && current_user.allowed_in_any_project?(:export_work_packages))
+          if current_user.allowed_in_any_work_package?(:export_work_packages, in_project: project)
             representation_formats
           end
         end
@@ -186,11 +185,7 @@ module API
         end
 
         def current_user_allowed_to_edit_work_packages?
-          if project
-            current_user.allowed_in_project?(:edit_work_packages, project)
-          else
-            current_user.allowed_in_any_project?(:edit_work_packages)
-          end
+          current_user.allowed_in_any_work_package?(:edit_work_packages, in_project: project)
         end
 
         def schemas

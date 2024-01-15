@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,6 +58,8 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def create
+    clear_slate = @meeting.agenda_items.empty?
+
     call = ::MeetingAgendaItems::CreateService
       .new(user: current_user)
       .call(
@@ -71,16 +73,15 @@ class MeetingAgendaItemsController < ApplicationController
 
     if call.success?
       # enable continue editing
-      update_list_via_turbo_stream(form_hidden: false, form_type: @agenda_item_type)
+      add_item_via_turbo_stream(clear_slate:)
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
-    elsif call.errors[:base].present?
-      render_base_error_in_flash_message_via_turbo_stream(call)
     else
       # show errors
       update_new_component_via_turbo_stream(
         hidden: false, meeting_agenda_item: @meeting_agenda_item, type: @agenda_item_type
       )
+      render_base_error_in_flash_message_via_turbo_stream(call.errors)
     end
 
     respond_with_turbo_streams
@@ -88,7 +89,7 @@ class MeetingAgendaItemsController < ApplicationController
 
   def edit
     if @meeting_agenda_item.editable?
-      update_item_via_turbo_stream(state: :edit)
+      update_item_via_turbo_stream(state: :edit, display_notes_input: params[:display_notes_input])
     else
       update_all_via_turbo_stream
       render_error_flash_message_via_turbo_stream(message: t("text_meeting_not_editable_anymore"))
@@ -112,12 +113,10 @@ class MeetingAgendaItemsController < ApplicationController
       update_item_via_turbo_stream
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
-    elsif call.errors[:base].present?
-      render_base_error_in_flash_message_via_turbo_stream(call)
     else
       # show errors
       update_item_via_turbo_stream(state: :edit)
-      render_base_error_in_flash_message_via_turbo_stream(call)
+      render_base_error_in_flash_message_via_turbo_stream(call.errors)
     end
 
     respond_with_turbo_streams
@@ -129,7 +128,7 @@ class MeetingAgendaItemsController < ApplicationController
       .call
 
     if call.success?
-      update_list_via_turbo_stream
+      remove_item_via_turbo_stream(clear_slate: @meeting.agenda_items.empty?)
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
     else
@@ -145,7 +144,7 @@ class MeetingAgendaItemsController < ApplicationController
       .call(position: params[:position].to_i)
 
     if call.success?
-      update_list_via_turbo_stream
+      update_show_items_via_turbo_stream
       update_header_component_via_turbo_stream
     else
       generic_call_failure_response(call)
@@ -160,7 +159,7 @@ class MeetingAgendaItemsController < ApplicationController
       .call(move_to: params[:move_to]&.to_sym)
 
     if call.success?
-      update_list_via_turbo_stream
+      move_item_via_turbo_stream
       update_header_component_via_turbo_stream
     else
       generic_call_failure_response(call)
@@ -196,7 +195,9 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   def meeting_agenda_item_params
-    params.require(:meeting_agenda_item).permit(:title, :duration_in_minutes, :notes, :work_package_id)
+    params
+      .require(:meeting_agenda_item)
+      .permit(:title, :duration_in_minutes, :notes, :work_package_id, :lock_version)
   end
 
   def generic_call_failure_response(call)
@@ -204,12 +205,6 @@ class MeetingAgendaItemsController < ApplicationController
     # updating all components resolves the stale state of that window
     update_all_via_turbo_stream
     # show additional base error message
-    render_base_error_in_flash_message_via_turbo_stream(call)
-  end
-
-  def render_base_error_in_flash_message_via_turbo_stream(call)
-    if call.errors[:base].present?
-      render_error_flash_message_via_turbo_stream(message: call.errors[:base].to_sentence)
-    end
+    render_base_error_in_flash_message_via_turbo_stream(call.errors)
   end
 end

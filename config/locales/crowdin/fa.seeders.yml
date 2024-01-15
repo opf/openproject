@@ -38,25 +38,25 @@ fa:
         item_0:
           name: Documentation
         item_1:
-          name: Specification
+          name: ویژگی
         item_2:
-          name: Other
+          name: غیره
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: Work package editor
         item_1:
-          name: Work Package Commenter
+          name: Work package commenter
         item_2:
-          name: Work Package Viewer
+          name: Work package viewer
       project_roles:
         item_0:
           name: Non member
         item_1:
           name: Anonymous
         item_2:
-          name: Member
+          name: عضو
         item_3:
-          name: Reader
+          name: خواننده
         item_4:
           name: Project admin
       global_roles:
@@ -65,11 +65,11 @@ fa:
     standard:
       priorities:
         item_0:
-          name: Low
+          name: کم
         item_1:
-          name: Normal
+          name: عادی
         item_2:
-          name: High
+          name: بالا
         item_3:
           name: Immediate
       statuses:
@@ -86,7 +86,7 @@ fa:
         item_5:
           name: Scheduled
         item_6:
-          name: In progress
+          name: در حال انجام
         item_7:
           name: Developed
         item_8:
@@ -96,7 +96,7 @@ fa:
         item_10:
           name: Test failed
         item_11:
-          name: Closed
+          name: بسته
         item_12:
           name: On hold
         item_13:
@@ -105,7 +105,7 @@ fa:
         item_0:
           name: مدیریت
         item_1:
-          name: Specification
+          name: ویژگی
         item_2:
           name: Development
         item_3:
@@ -113,14 +113,14 @@ fa:
         item_4:
           name: پشتیبانی
         item_5:
-          name: Other
+          name: غیره
       types:
         item_0:
           name: وظیفه
         item_1:
-          name: Milestone
+          name: نقطه عطف
         item_2:
-          name: Phase
+          name: گام
         item_3:
           name: Feature
         item_4:
@@ -130,7 +130,7 @@ fa:
         item_6:
           name: Bug
       welcome:
-        title: Welcome to OpenProject!
+        title: خوش آمدید به اوپن‌پروژه!
         text: |
           OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
 
@@ -158,9 +158,9 @@ fa:
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
-              description: The actual news
+              description: اخبار واقعی
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: دسته‌بندی 1 (باید در تنظیمات پروژه تغییر یاید)
           queries:
             item_0:
               name: Project plan
@@ -319,7 +319,7 @@ fa:
             item_3:
               name: Sprint 2
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: دسته‌بندی 1 (باید در تنظیمات پروژه تغییر یاید)
           queries:
             item_0:
               name: Project plan
@@ -353,8 +353,6 @@ fa:
                   name: Getting started
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
-
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
 
                     _Try the following steps:_
 

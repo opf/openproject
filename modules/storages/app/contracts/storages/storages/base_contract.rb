@@ -2,7 +2,7 @@
 
 # -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,8 @@ module Storages::Storages
 
     attribute :provider_fields
 
-    validate :provider_type_strategy, unless: -> { errors.include?(:provider_type) }
+    validate :provider_type_strategy,
+             unless: -> { errors.include?(:provider_type) || @options.delete(:skip_provider_type_strategy) }
 
     private
 
@@ -64,6 +65,12 @@ module Storages::Storages
       # of this contract so we save them for later.
       with_merged_former_errors do
         contract.validate
+      end
+    end
+
+    def require_ee_token_for_one_drive
+      if ::Storages::Storage.one_drive_without_ee_token?(provider_type)
+        errors.add(:base, I18n.t('api_v3.errors.code_500_missing_enterprise_token'))
       end
     end
   end

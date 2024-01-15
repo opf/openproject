@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'features/page_objects/notification'
 require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 
-RSpec.describe 'Moving a work package through Rails view', js: true do
+RSpec.describe 'Moving a work package through Rails view', :js do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:dev_role) do
@@ -82,7 +82,7 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
         context_menu.choose 'Change project'
 
         # On work packages move page
-        expect(page).to have_selector('#new_project_id')
+        expect(page).to have_css('#new_project_id')
         select_autocomplete page.find_test_selector('new_project_id'),
                             query: 'Target',
                             select_text: 'Target',
@@ -159,9 +159,9 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
           end
 
           expect(page)
-            .to have_selector('.op-toast.-error',
-                              text: I18n.t(:'work_packages.bulk.none_could_be_saved',
-                                           total: 1))
+            .to have_css('.op-toast.-error',
+                         text: I18n.t(:'work_packages.bulk.none_could_be_saved',
+                                      total: 1))
           child_wp.reload
           work_package.reload
           expect(work_package.project_id).to eq(project.id)
@@ -180,7 +180,7 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
             click_on 'Move and follow'
           end
 
-          expect(page).to have_selector('.op-toast.-success')
+          expect(page).to have_css('.op-toast.-success')
 
           child_wp.reload
           work_package.reload
@@ -224,21 +224,21 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
 
     it 'displays an error message explaining which work package could not be moved and why' do
       expect(page)
-        .to have_selector('.op-toast.-error',
-                          text: I18n.t('work_packages.bulk.could_not_be_saved'))
+        .to have_css('.op-toast.-error',
+                     text: I18n.t('work_packages.bulk.could_not_be_saved'))
 
       expect(page)
-        .to have_selector(
+        .to have_css(
           '.op-toast.-error',
           text: "#{work_package2.id}: Project #{I18n.t('activerecord.errors.messages.error_readonly')}"
         )
 
       expect(page)
-        .to have_selector('.op-toast.-error',
-                          text: I18n.t('work_packages.bulk.x_out_of_y_could_be_saved',
-                                       failing: 1,
-                                       total: 2,
-                                       success: 1))
+        .to have_css('.op-toast.-error',
+                     text: I18n.t('work_packages.bulk.x_out_of_y_could_be_saved',
+                                  failing: 1,
+                                  total: 2,
+                                  success: 1))
 
       expect(work_package.reload.project_id).to eq(project2.id)
       expect(work_package2.reload.project_id).to eq(project.id)
@@ -255,7 +255,7 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
     context 'with permissions' do
       it 'does allow to move' do
         context_menu.open_for work_package
-        context_menu.expect_options ['Bulk change of project']
+        context_menu.expect_options 'Bulk change of project'
       end
     end
 
@@ -264,7 +264,7 @@ RSpec.describe 'Moving a work package through Rails view', js: true do
 
       it 'does not allow to move' do
         context_menu.open_for work_package
-        context_menu.expect_no_options ['Bulk change of project']
+        context_menu.expect_no_options 'Bulk change of project'
       end
     end
   end

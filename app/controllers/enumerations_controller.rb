@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ class EnumerationsController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  before_action :find_enumeration, only: %i[edit update destroy]
+  before_action :find_enumeration, only: %i[edit update move destroy]
 
   include CustomFieldsHelper
 
@@ -88,6 +88,16 @@ class EnumerationsController < ApplicationController
       end
     end
     @enumerations = @enumeration.class.all - [@enumeration]
+  end
+
+  def move
+    if @enumeration.update(permitted_params.enumerations_move)
+      flash[:notice] = I18n.t(:notice_successful_update)
+      redirect_to enumerations_path
+    else
+      flash.now[:error] = I18n.t(:error_type_could_not_be_saved)
+      render action: 'edit'
+    end
   end
 
   protected

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -158,7 +158,7 @@ RSpec.describe 'messages', :js do
                            subject: 'And now to something completely different',
                            content: 'No, there really isn\'t')
 
-    expect(page).to have_selector('blockquote', text: 'But, but there should be one')
+    expect(page).to have_css('blockquote', text: 'But, but there should be one')
 
     # Quoting the first message
     show_page.quote(subject: 'Also quoting the first message',

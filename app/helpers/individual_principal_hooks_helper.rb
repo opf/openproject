@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 module IndividualPrincipalHooksHelper
   def call_individual_principals_memberships_hook(individual_principal, suffix, context = {})
     call_context = { individual_principal_key(individual_principal) => individual_principal }.merge(context)
-    call_hook("view_#{individual_principal.class.name.underscore.pluralize}_memberships_table_#{suffix}".to_sym, call_context)
+    call_hook(:"view_#{individual_principal.class.name.underscore.pluralize}_memberships_table_#{suffix}", call_context)
   end
 
   def individual_principal_key(individual_principal)

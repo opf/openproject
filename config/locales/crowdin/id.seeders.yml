@@ -43,20 +43,20 @@ id:
           name: Lainnya
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: Work package editor
         item_1:
-          name: Work Package Commenter
+          name: Work package commenter
         item_2:
-          name: Work Package Viewer
+          name: Work package viewer
       project_roles:
         item_0:
           name: Non member
         item_1:
-          name: Anonymous
+          name: Anonimus
         item_2:
           name: Member
         item_3:
-          name: Reader
+          name: Pembaca
         item_4:
           name: Project admin
       global_roles:
@@ -154,18 +154,18 @@ id:
           description: This is a short summary of the goals of this demo project.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Selamat datang di demo proyek Anda
               summary: |
                 We are glad you joined.
                 In this module you can communicate project news to your team members.
-              description: The actual news
+              description: Berita aktual
           categories:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
               name: Project plan
             item_1:
-              name: Milestones
+              name: Tahapan pencapaian
             item_2:
               name: Tasks
             item_3:
@@ -215,7 +215,7 @@ id:
                   name: Paket-Penugasan
               item_6:
                 options:
-                  name: Milestones
+                  name: Tahapan pencapaian
           work_packages:
             item_0:
               subject: Start of project
@@ -353,8 +353,6 @@ id:
                   name: Getting started
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
-
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
 
                     _Try the following steps:_
 

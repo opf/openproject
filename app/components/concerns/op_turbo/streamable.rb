@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,10 +86,10 @@ module OpTurbo
         ).render_in(view_context)
       end
 
-      def component_wrapper(method = nil, tag: "div", class: nil, data: nil, style: nil, &block)
+      def component_wrapper(method = nil, tag: "div", **kwargs, &block)
         @wrapped = true
 
-        wrapper_arguments = { id: wrapper_key, class:, data:, style: }
+        wrapper_arguments = { id: wrapper_key }.merge(kwargs)
 
         if inner_html_only?
           capture(&block)

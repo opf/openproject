@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,6 +29,7 @@
 require 'digest/sha1'
 
 class User < Principal
+  VALID_NAME_REGEX = /\A[\d\p{Alpha}\p{Mark}\p{Space}\p{Emoji}'’´\-_.,@()+&*–]+\z/
   CURRENT_USER_LOGIN_ALIAS = 'me'.freeze
   USER_FORMATS_STRUCTURE = {
     firstname_lastname: %i[firstname lastname],
@@ -54,6 +55,9 @@ class User < Principal
      inverse_of: :user
   has_one :rss_token, class_name: '::Token::RSS', dependent: :destroy
   has_one :api_token, class_name: '::Token::API', dependent: :destroy
+
+  # The user might have one invitation token
+  has_one :invitation_token, class_name: '::Token::Invitation', dependent: :destroy
 
   # everytime a user subscribes to a calendar, a new ical_token is generated
   # unlike on other token types, all previously generated ical_tokens are kept
@@ -121,7 +125,10 @@ class User < Principal
   # Login must contain letters, numbers, underscores only
   validates :login, format: { with: /\A[a-z0-9_\-@.+ ]*\z/i }
   validates :login, length: { maximum: 256 }
+
   validates :firstname, :lastname, length: { maximum: 256 }
+  validates :firstname, :lastname, format: { with: VALID_NAME_REGEX, allow_blank: true }
+
   validates :mail, email: true, unless: Proc.new { |user| user.mail.blank? }
   validates :mail, length: { maximum: 256, allow_nil: true }
 
@@ -255,7 +262,6 @@ class User < Principal
     token = Token::AutoLogin.find_by_plaintext_value(key)
     # Make sure there's only 1 token that matches the key
     if token && ((token.created_at > Setting.autologin.to_i.day.ago) && token.user && token.user.active?)
-      token.user.log_successful_login
       token.user
     end
   end
@@ -360,8 +366,8 @@ class User < Principal
     block_threshold = Setting.brute_force_block_after_failed_logins.to_i
     return false if block_threshold == 0 # disabled
 
-    (last_failed_login_within_block_time? and
-            failed_login_count >= block_threshold)
+    last_failed_login_within_block_time? and
+            failed_login_count >= block_threshold
   end
 
   def log_failed_login

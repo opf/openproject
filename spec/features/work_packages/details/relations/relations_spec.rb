@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package relations tab', js: true, selenium: true do
+RSpec.describe 'Work package relations tab', :js, :selenium do
   include_context 'ng-select-autocomplete helpers'
 
   let(:user) { create(:admin) }
@@ -98,20 +98,20 @@ RSpec.describe 'Work package relations tab', js: true, selenium: true do
       expect(page).to have_selector(toggle_btn_selector,
                                     text: 'Group by work package type', wait: 20)
 
-      expect(page).to have_selector('.relation-group--header', text: 'FOLLOWS')
-      expect(page).to have_selector('.relation-group--header', text: 'RELATED TO')
+      expect(page).to have_css('.relation-group--header', text: 'FOLLOWS')
+      expect(page).to have_css('.relation-group--header', text: 'RELATED TO')
 
-      expect(page).to have_selector('.relation-row--type', text: type1.name.upcase)
-      expect(page).to have_selector('.relation-row--type', text: type2.name.upcase)
+      expect(page).to have_css('.relation-row--type', text: type1.name.upcase)
+      expect(page).to have_css('.relation-row--type', text: type2.name.upcase)
 
       find(toggle_btn_selector).click
       expect(page).to have_selector(toggle_btn_selector, text: 'Group by relation type', wait: 10)
 
-      expect(page).to have_selector('.relation-group--header', text: type1.name.upcase)
-      expect(page).to have_selector('.relation-group--header', text: type2.name.upcase)
+      expect(page).to have_css('.relation-group--header', text: type1.name.upcase)
+      expect(page).to have_css('.relation-group--header', text: type2.name.upcase)
 
-      expect(page).to have_selector('.relation-row--type', text: 'Follows')
-      expect(page).to have_selector('.relation-row--type', text: 'Related To')
+      expect(page).to have_css('.relation-row--type', text: 'Follows')
+      expect(page).to have_css('.relation-row--type', text: 'Related To')
     end
 
     it 'allows to edit relation types when toggled' do
@@ -119,15 +119,15 @@ RSpec.describe 'Work package relations tab', js: true, selenium: true do
       expect(page).to have_selector(toggle_btn_selector, text: 'Group by relation type', wait: 20)
 
       # Expect current to be follows and other one related
-      expect(page).to have_selector('.relation-row--type', text: 'Follows')
-      expect(page).to have_selector('.relation-row--type', text: 'Related To')
+      expect(page).to have_css('.relation-row--type', text: 'Follows')
+      expect(page).to have_css('.relation-row--type', text: 'Related To')
 
       # edit to blocks
       relations.edit_relation_type(to1, to_type: 'Blocks')
 
       # the other one should not be altered
-      expect(page).to have_selector('.relation-row--type', text: 'Blocks')
-      expect(page).to have_selector('.relation-row--type', text: 'Related To')
+      expect(page).to have_css('.relation-row--type', text: 'Blocks')
+      expect(page).to have_css('.relation-row--type', text: 'Related To')
 
       updated_relation = Relation.find(relation1.id)
       expect(updated_relation.relation_type).to eq('blocks')
@@ -136,8 +136,8 @@ RSpec.describe 'Work package relations tab', js: true, selenium: true do
 
       relations.edit_relation_type(to1, to_type: 'Blocked by')
 
-      expect(page).to have_selector('.relation-row--type', text: 'Blocked by')
-      expect(page).to have_selector('.relation-row--type', text: 'Related To')
+      expect(page).to have_css('.relation-row--type', text: 'Blocked by')
+      expect(page).to have_css('.relation-row--type', text: 'Related To')
 
       updated_relation = Relation.find(relation1.id)
       expect(updated_relation.relation_type).to eq('blocks')
@@ -162,10 +162,10 @@ RSpec.describe 'Work package relations tab', js: true, selenium: true do
 
       it 'shows no links to create relations' do
         # No create buttons should exist
-        expect(page).not_to have_selector('.wp-relations-create-button')
+        expect(page).to have_no_css('.wp-relations-create-button')
 
         # Test for add relation
-        expect(page).not_to have_selector('#relation--add-relation')
+        expect(page).to have_no_css('#relation--add-relation')
       end
     end
 
@@ -183,7 +183,7 @@ RSpec.describe 'Work package relations tab', js: true, selenium: true do
         tabs.expect_counter(relations_tab, 1)
 
         relations.remove_relation(relatable)
-        expect(page).not_to have_selector('.relation-group--header', text: 'FOLLOWS')
+        expect(page).to have_no_css('.relation-group--header', text: 'FOLLOWS')
 
         # If there are no relations, the counter badge should not be displayed
         tabs.expect_no_counter(relations_tab)
@@ -203,15 +203,15 @@ RSpec.describe 'Work package relations tab', js: true, selenium: true do
         # Expect to have row
         relations.hover_action(relatable, :delete)
 
-        expect(page).not_to have_selector('.relation-group--header', text: 'FOLLOWS')
-        expect(page).not_to have_selector('.wp-relations--subject-field', text: relatable.subject)
+        expect(page).to have_no_css('.relation-group--header', text: 'FOLLOWS')
+        expect(page).to have_no_css('.wp-relations--subject-field', text: relatable.subject)
 
         # Back to split view
         page.execute_script('window.history.back()')
         work_packages_page.expect_subject
 
-        expect(page).not_to have_selector('.relation-group--header', text: 'FOLLOWS')
-        expect(page).not_to have_selector('.wp-relations--subject-field', text: relatable.subject)
+        expect(page).to have_no_css('.relation-group--header', text: 'FOLLOWS')
+        expect(page).to have_no_css('.wp-relations--subject-field', text: relatable.subject)
       end
 
       it 'follows the relation links (Regression #26794)' do
@@ -273,7 +273,7 @@ RSpec.describe 'Work package relations tab', js: true, selenium: true do
 
         # Toggle to close
         relations.hover_action(relatable, :info)
-        expect(created_row).not_to have_selector('.wp-relation--description-read-value')
+        expect(created_row).to have_no_css('.wp-relation--description-read-value')
       end
     end
   end

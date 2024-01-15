@@ -47,7 +47,6 @@ de:
         empty: >
           Derzeit gibt es keine verknüpften Dateien zu diesem Arbeitspaket. Starten Sie die Verknüpfung von Dateien mit der unten stehenden Aktion oder über %{storageType}.
         download: "%{fileName} herunterladen"
-        no_permission: "Sie haben keine Berechtigung, diese Datei zu sehen."
         open: "Datei im Speicher öffnen"
         open_location: "Datei am Speicherort öffnen"
         remove: "Datei-Link entfernen"
@@ -65,15 +64,21 @@ de:
           other: "%{count} Dateiverknüpfungen erfolgreich erstellt."
         upload_error:
           default: >
-            Ihre Datei (%{fileName}) konnte nicht hochgeladen werden. Bitte überprüfen Sie, ob die neueste Version der Nextcloud-App „OpenProject Integration“ installiert ist und kontaktieren Sie Ihren Administrator für weitere Informationen.
+            Ihre Datei (%{fileName}) konnte nicht hochgeladen werden.
           403: >
             Ihre Datei (%{fileName}) konnte aufgrund von Systembeschränkungen nicht hochgeladen werden. Bitte kontaktieren Sie Ihren Administrator für weitere Informationen.
           413: >
             Ihre Datei (%{fileName}) ist größer als das, was OpenProject zu %{storageType} hochladen kann. Sie können sie zuerst direkt auf %{storageType} hochladen und dann die Datei verlinken.
           507: >
             Ihre Datei (%{fileName}) ist größer als das Speicherkontingent erlaubt. Kontaktieren Sie Ihren Administrator, um dieses Kontingent zu ändern.
+          detail:
+            nextcloud: >
+              Bitte überprüfen Sie, ob die neueste Version der Nextcloud App "OpenProject Integration" installiert ist und kontaktieren Sie Ihren Administrator für weitere Informationen.
         link_uploaded_file_error: >
           Beim Verknüpfen der kürzlich hochgeladenen Datei '%{fileName}' mit dem Arbeitspaket %{workPackageId} ist ein Fehler aufgetreten.
-        not_allowed_tooltip: "Bitte melden Sie sich bei Nextcloud an, um auf diese Datei zuzugreifen"
+        tooltip:
+          not_logged_in: "Please log in to Nextcloud to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
         already_linked_file: "Die Datei ist bereits mit diesem Arbeitspaket verknüpft."
         already_linked_directory: "Das Verzeichnis ist bereits mit diesem Arbeitspaket verknüpft."

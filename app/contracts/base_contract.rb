@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -180,9 +180,10 @@ class BaseContract < Disposable::Twin
 
   # Traverse ancestor hierarchy to collect contract information.
   # This allows to define attributes on a common base class of two or more contracts.
+  # Reverse merge is important to use the more specific overrides from subclasses.
   def collect_ancestor_attributes(attribute_to_collect)
     combination_method, cleanup_method = if self.class.send(attribute_to_collect).is_a?(Hash)
-                                           %i[merge with_indifferent_access]
+                                           %i[reverse_merge! with_indifferent_access]
                                          else
                                            %i[concat uniq]
                                          end
@@ -198,6 +199,7 @@ class BaseContract < Disposable::Twin
     # similar object from the superclass, every call would alter the memoized object as an unwanted side effect.
     # Not only would that lead to the subclass now having all the attributes of the superclass,
     # but those attributes would also be duplicated so that performance suffers significantly.
+    # `dup` also enables usage of combination methods working in place, e.g. `reverse_merge!`
     attributes = klass.send(attribute_to_collect).dup
 
     while klass.superclass != ::BaseContract
@@ -239,24 +241,43 @@ class BaseContract < Disposable::Twin
     attributes
   end
 
-  def reduce_by_writable_permissions(attributes) # rubocop:disable Metrics/PerceivedComplexity, Metrics/AbcSize
+  def reduce_by_writable_permissions(attributes)
     attribute_permissions = collect_ancestor_attributes(:attribute_permissions)
 
     attributes.reject do |attribute|
       canonical_attribute = attribute.delete_suffix('_id')
 
       permissions = attribute_permissions[canonical_attribute] ||
-                    attribute_permissions["#{canonical_attribute}_id"] ||
-                    attribute_permissions[:default_permission]
+        attribute_permissions["#{canonical_attribute}_id"] ||
+        attribute_permissions[:default_permission]
 
       next unless permissions
 
-      # This will break once a model that does not respond to project is used.
-      # This is intended to be worked on then with the additional knowledge.
-      next if model.project.present? && permissions.any? { |perm| user.allowed_in_project?(perm, model.project) }
-      next if model.project.blank? && permissions.any? { |perm| user.allowed_in_any_project?(perm) }
+      next if permissions.any? do |perm|
+        user.allowed_based_on_permission_context?(
+          perm,
+          project: project_for_permission_check,
+          entity: entity_for_permission_check
+        )
+      end
 
       true
+    end
+  end
+
+  def project_for_permission_check
+    if model.is_a?(Project)
+      model
+    else
+      model.respond_to?(:project) ? model.project : nil
+    end
+  end
+
+  def entity_for_permission_check
+    if model.is_a?(Project)
+      nil
+    else
+      model
     end
   end
 

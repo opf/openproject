@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,5 +29,14 @@
 module MeetingAgendaItems
   class CreateService < ::BaseServices::Create
     include AfterPerformHook
+
+    alias_method :original_after_perform, :after_perform
+
+    def after_perform(call)
+      # The reload is required because, the time slot calculations are changing the
+      # `start_time`, `end_time` attributes and they should be available for rendering.
+      call.result.reload
+      original_after_perform(call)
+    end
   end
 end

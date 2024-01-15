@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -31,6 +31,12 @@ ru:
         Вы уверены, что хотите удалить этот файл? Это действие необратимо.
       draggable_hint: |
         Перенесите в поле редактора для вставки изображения или прикрепления ссылки. Закрытые поля будут открыты в процессе переноса.
+    autocomplete_ng_select:
+      add_tag: "Добавить элемент"
+      clear_all: "Очистить все"
+      loading: "Загрузка..."
+      not_found: "Элементов не найдено"
+      type_to_search: "Введите для поиска"
     autocomplete_select:
       placeholder:
         multi: "Добавить \"%{name}\""
@@ -341,11 +347,11 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
               new_features_html: >
-                Релиз содержит различные новые функции и улучшения: <br> <ul class="%{list_styling_class}"> <li> Сравнение базовых показателей для удобства отслеживания изменений.</li> <li> Экспорт в PDF для отчетов по рабочим планам.</li> <li>Подпишитесь на календари проекта по URL (iCalendar).</li> <li> Папки проекта с шаблонами документов для интеграции Nextcloud.</li> <li> Локализованный ввод всех исходных данных.</li> <li>Глобальные модули перечислены на новых страницах индекса.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
@@ -514,6 +520,7 @@ ru:
     label_watcher_added_successfully: "Наблюдатель успешно добавлен!"
     label_watcher_deleted_successfully: "Наблюдатель успешно удален!"
     label_work_package_details_you_are_here: "Вы находитесь на вкладке %{tab} для %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Прекратить наблюдение"
     label_unwatch_work_package: "Прекратить наблюдение за пакетом работ"
     label_uploaded_by: "Загружено"
@@ -597,7 +604,7 @@ ru:
         processed: 'обработано'
         prioritized: 'приоритизировано'
         dateAlert: 'Дата оповещения'
-        shared: 'shared'
+        shared: 'поделился'
       date_alerts:
         milestone_date: 'Дата контрольной точки'
         overdue: 'Просрочено'
@@ -644,7 +651,7 @@ ru:
         mentioned: 'Упомянутые'
         watched: 'Наблюдатель'
         date_alert: 'Дата оповещения'
-        shared: 'Shared'
+        shared: 'Общий доступ'
       settings:
         change_notification_settings: 'Измените <a target="_blank" href="%{url}">настройки уведомлений</a> , чтобы не пропустить важное обновление.'
         title: "Настройки уведомлений"
@@ -667,7 +674,7 @@ ru:
             description: 'Получать уведомления каждый раз, когда кто-то упоминает меня'
           assignee: 'Назначенный'
           responsible: 'Подотчетный'
-          shared: 'Shared'
+          shared: 'Общий доступ'
           watched: 'Наблюдатель'
           work_package_commented: 'Все новые комментарии'
           work_package_created: 'Новые пакеты работ'
@@ -752,6 +759,7 @@ ru:
           last_day: 'Последний день'
     text_are_you_sure: "Уверены?"
     text_data_lost: "Все введенные данные будут потеряны."
+    text_user_wrote: "%{value} написал(а):"
     types:
       attribute_groups:
         error_duplicate_group_name: "Имя %{group} используется более одного раза. Имена групп должны быть уникальными."
@@ -826,6 +834,7 @@ ru:
       toggle_description: "Переключить описание отношения"
       update_relation: "Нажмите, чтобы изменить тип отношения"
       add_follower: "Добавить подписчика"
+      show_relations: "Show relations"
       add_predecessor: "Добавить предшественника"
       remove: "Удалить связь"
       save: "Сохранить связь"
@@ -961,7 +970,6 @@ ru:
         date: "Дата"
         dueDate: "Дата окончания"
         duration: "Продолжительность"
-        estimatedTime: "Предполагаемое время"
         spentTime: "Затраченное время"
         category: "Категория"
         percentageDone: "Сделано в процентах"
@@ -977,6 +985,7 @@ ru:
         updatedAt: "Обновлено"
         versionName: "Этап"
         version: "Этап"
+        remainingTime: "Оставшаяся работа"
       default_queries:
         latest_activity: "Последние действия"
         created_by_me: "Создано мной"
@@ -1024,9 +1033,11 @@ ru:
       sharing:
         share: 'Поделиться'
         title: "Поделиться пакетом работ"
-        selected_count: "%{count} selected"
+        selected_count: "%{count} выбрано"
         selection:
-          mixed: "Mixed"
+          mixed: "Смешанное"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: 'Настроить таблицу пакета работ'
         summary: "Таблица с названиями пакетов работ в строках и атрибутами пакетов работ в столбцах."

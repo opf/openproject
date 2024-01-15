@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -73,8 +73,7 @@ RSpec.describe Authorization::EnterpriseService do
         end
       end
 
-      %i(attribute_help_texts
-         baseline_comparison
+      %i(baseline_comparison
          board_view
          conditional_highlighting
          custom_actions
@@ -89,7 +88,8 @@ RSpec.describe Authorization::EnterpriseService do
          readonly_work_packages
          team_planner_view
          two_factor_authentication
-         work_package_query_relation_columns).each do |guarded_action|
+         work_package_query_relation_columns
+         work_package_sharing).each do |guarded_action|
         context "guarded action #{guarded_action}" do
           let(:action) { guarded_action }
 

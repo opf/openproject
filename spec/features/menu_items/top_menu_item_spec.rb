@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,14 +39,14 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
         expect(page).to have_link(item.label)
       end
       (all_items - items).each do |item|
-        expect(page).not_to have_link(item.label)
+        expect(page).to have_no_link(item.label)
       end
     end
   end
 
   def click_link_in_open_menu(title)
     within '.op-app-menu--dropdown[aria-expanded=true]' do
-      expect(page).not_to have_css('[style~=overflow]')
+      expect(page).to have_no_css('[style~=overflow]')
 
       click_link(title)
     end
@@ -138,8 +138,16 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
     context 'as an anonymous user' do
       let(:user) { create(:anonymous) }
 
-      it 'displays only projects, activity and news' do
-        has_menu_items? project_item, activity_item, news_item
+      context 'when login_required', with_settings: { login_required: true } do
+        it 'redirects to login' do
+          expect(page).to have_current_path /login/
+        end
+      end
+
+      context 'when not login_required', with_settings: { login_required: false } do
+        it 'displays only projects, activity and news' do
+          has_menu_items? project_item, activity_item, news_item
+        end
       end
     end
   end
@@ -172,7 +180,7 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
 
       it 'does not display new_project' do
         expect(page).to have_css('a.button', exact_text: all_projects)
-        expect(page).not_to have_css('a.button', exact_text: add_project)
+        expect(page).to have_no_css('a.button', exact_text: add_project)
       end
     end
 
@@ -187,7 +195,7 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
       end
 
       it 'does not show the menu' do
-        expect(page).not_to have_css('#projects-menu')
+        expect(page).to have_no_css('#projects-menu')
       end
     end
   end

@@ -51,7 +51,7 @@ RSpec.describe 'Boards',
 
     context 'with a Community Edition', with_ee: %i[] do
       it 'renders an enterprise banner and disables all restriced board types', :aggregate_failures do
-        expect(page).to have_selector('op-enterprise-banner')
+        expect(page).to have_css('op-enterprise-banner')
         expect(page).to have_selector(:radio_button, 'Basic')
 
         %w[Status Assignee Version Subproject Parent-child].each do |restricted_board_type|
@@ -96,7 +96,7 @@ RSpec.describe 'Boards',
             expect(page).to have_text(I18n.t(:notice_successful_create))
             expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
             expect(page).to have_text "Gotham Renewal Board"
-            expect(page).to have_selector("[data-query-name='#{status.name}']")
+            expect(page).to have_css("[data-query-name='#{status.name}']")
           end
         end
 
@@ -128,10 +128,10 @@ RSpec.describe 'Boards',
             expect(page).to have_current_path("/projects/#{project.identifier}/boards/#{Boards::Grid.last.id}")
             expect(page).to have_text "Gotham Renewal Board"
             versions.each do |version|
-              expect(page).to have_selector("[data-query-name='#{version.name}'")
+              expect(page).to have_css("[data-query-name='#{version.name}'")
             end
             excluded_versions.each do |version|
-              expect(page).not_to have_selector("[data-query-name='#{version.name}'")
+              expect(page).to have_no_css("[data-query-name='#{version.name}'")
             end
           end
         end

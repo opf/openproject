@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -83,7 +83,7 @@ OpenProject::Application.routes.draw do
     match '/account/register', action: 'register', via: %i[get post patch]
     get '/account/activate', action: 'activate'
 
-    match '/login', action: 'login',  as: 'signin', via: %i[get post]
+    match '/login', action: 'login', as: 'signin', via: %i[get post]
     get '/login/internal', action: 'internal_login', as: 'internal_signin'
     get '/logout', action: 'logout', as: 'signout'
 
@@ -177,6 +177,10 @@ OpenProject::Application.routes.draw do
   scope ':object_type/:object_id', constraints: OpenProject::Acts::Watchable::Routes do
     post '/watch' => 'watchers#watch'
     delete '/unwatch' => 'watchers#unwatch'
+  end
+
+  namespace :projects do
+    resource :menu, only: %[show]
   end
 
   resources :projects, except: %i[show edit create update] do
@@ -294,6 +298,10 @@ OpenProject::Application.routes.draw do
       end
     end
 
+    namespace :members do
+      resource :menu, only: %[show]
+    end
+
     resource :repository, controller: 'repositories', except: [:new] do
       # Destroy uses a get request to prompt the user before the actual DELETE request
       get :destroy_info
@@ -352,7 +360,9 @@ OpenProject::Application.routes.draw do
         delete 'enterprise/delete_trial_key' => 'enterprises#delete_trial_key'
       end
     end
-    resources :enumerations
+    resources :enumerations do
+      post 'move/:id', action: 'move', on: :collection
+    end
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
     delete 'design/export_logo' => 'custom_styles#export_logo_delete', as: 'custom_style_export_logo_delete'
@@ -469,6 +479,9 @@ OpenProject::Application.routes.draw do
 
     # Rails managed sharing route
     resources :shares, controller: 'work_packages/shares', only: %i[index create] do
+      member do
+        post 'resend_invite' => 'work_packages/shares#resend_invite'
+      end
       collection do
         resource :bulk, controller: 'work_packages/shares/bulk', only: %i[update destroy], as: :shares_bulk
       end
@@ -480,6 +493,7 @@ OpenProject::Application.routes.draw do
     get '/new' => 'work_packages#index', on: :collection, as: 'new', state: 'new'
     # We do not want to match the work package export routes
     get '(/*state)' => 'work_packages#show', on: :member, as: '', constraints: { id: /\d+/ }
+    get '/share_upsale' => 'work_packages#index', on: :collection, as: 'share_upsale'
     get '/edit' => 'work_packages#show', on: :member, as: 'edit'
   end
 
@@ -572,6 +586,7 @@ OpenProject::Application.routes.draw do
     delete '/storage_token/:id' => 'my#delete_storage_token', as: 'storage_token_delete'
 
     resources :sessions, controller: 'my/sessions', as: 'my_sessions', only: %i[index show destroy]
+    resources :auto_login_tokens, controller: 'my/auto_login_tokens', as: 'my_auto_login_tokens', only: %i[destroy]
   end
 
   scope controller: 'my' do
@@ -617,6 +632,7 @@ OpenProject::Application.routes.draw do
   # OAuthClient needs a "callback" URL that Nextcloud calls with a "code" (see OAuth2 RFC)
   scope 'oauth_clients/:oauth_client_id' do
     get 'callback', controller: 'oauth_clients', action: :callback
+    get 'ensure_connection', controller: 'oauth_clients', action: :ensure_connection, as: 'oauth_clients_ensure_connection'
   end
 
   if OpenProject::Configuration.lookbook_enabled?

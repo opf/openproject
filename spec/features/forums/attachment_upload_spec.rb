@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,7 +63,7 @@ RSpec.describe 'Upload attachment to forum message', :js do
 
     click_button 'Create'
 
-    expect(page).to have_selector('#content .wiki img', count: 1)
+    expect(page).to have_css('#content .wiki img', count: 1)
     expect(page).to have_content('Image uploaded on creation')
     attachments_list.expect_attached('image.png')
 
@@ -83,7 +83,7 @@ RSpec.describe 'Upload attachment to forum message', :js do
 
     click_button 'Save'
 
-    expect(page).to have_selector('#content .wiki img', count: 2)
+    expect(page).to have_css('#content .wiki img', count: 2)
     expect(page).to have_content('Image uploaded on creation')
     expect(page).to have_content('Image uploaded the second time')
 

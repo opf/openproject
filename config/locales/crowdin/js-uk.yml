@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -31,6 +31,12 @@ uk:
         Справді видалити цей файл? Цю дію не можна скасувати.
       draggable_hint: |
         Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
+    autocomplete_ng_select:
+      add_tag: "Додати елемент"
+      clear_all: "Очистити все"
+      loading: "Завантаження..."
+      not_found: "Елементів не знайдено"
+      type_to_search: "Введіть для пошуку"
     autocomplete_select:
       placeholder:
         multi: "Додати %{name}"
@@ -342,11 +348,11 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br> <ul class="%{list_styling_class}"> <li>Порівняння базових значень для зручного відстеження змін.</li> <li>Експорт звітів про плани робіт у форматі PDF.</li> <li>Підписки на календарі проєкту за URL-адресою (iCalendar).</li> <li>Папки проєкту із шаблонами для інтеграції Nextcloud.</li> <li>Локалізовані дані для заповнення бази даних.</li> <li>Список глобальних модулів на нових сторінках індексу.</li> </ul>
+                Цей випуск містить нові й поліпшені функції. <br> <ul class="%{list_styling_class}"> <li>Фільтруйте список учасників проєкту за ролями, групами й поширеннями.</li> <li>Призначайте виконавця й відповідальну особу для спільних пакетів робіт.</li> <li>Використовуйте нові назви полів «Робота», «Залишок роботи» й «% виконання» під час підготовки звітів про перебіг виконання для ієрархій пакетів робіт.</li> <li>Змінюйте статус без довзолу на редагування пакета робіт.</li> <li>Активуйте папки проєкту з ручним керуванням для сховищ OneDrive і/або SharePoint.</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -416,7 +422,7 @@ uk:
     label_filename: "Файл"
     label_filesize: "Розмір"
     label_general: "Загальні"
-    label_global_roles: "Global roles"
+    label_global_roles: "Глобальні ролі"
     label_greater_or_equal: ">="
     label_group: 'Група'
     label_group_by: "Групувати за"
@@ -515,6 +521,7 @@ uk:
     label_watcher_added_successfully: "Спостерігач успішно доданий!"
     label_watcher_deleted_successfully: "Спостерігач успішно видалений!"
     label_work_package_details_you_are_here: "Зараз ви на вкладці %{tab} для %{type} %{subject}."
+    label_work_package_context_menu: "Контекстне меню пакета робіт"
     label_unwatch: "Перестати відстежувати"
     label_unwatch_work_package: "Припинити спостерігати за пакетом робіт"
     label_uploaded_by: "Завантажено"
@@ -598,7 +605,7 @@ uk:
         processed: 'оброблено'
         prioritized: 'надано пріоритет'
         dateAlert: 'Оповіщення про дату'
-        shared: 'shared'
+        shared: 'спільні'
       date_alerts:
         milestone_date: 'Дата віхи'
         overdue: 'Прострочено'
@@ -645,7 +652,7 @@ uk:
         mentioned: 'Згадано'
         watched: 'Спостерігач'
         date_alert: 'Оповіщення про дату'
-        shared: 'Shared'
+        shared: 'Спільні'
       settings:
         change_notification_settings: 'Ви можете змінити <a target="_blank" href="%{url}">налаштування сповіщень</a>, щоб ніколи не пропускати важливі оновлення.'
         title: "Налаштування сповіщень"
@@ -668,7 +675,7 @@ uk:
             description: 'Отримувати сповіщення щоразу, коли хтось згадує мене де завгодно'
           assignee: 'Виконавець'
           responsible: 'Відповідальний'
-          shared: 'Shared'
+          shared: 'Спільні'
           watched: 'Спостерігач'
           work_package_commented: 'Усі нові коментарі'
           work_package_created: 'Нові пакети робіт'
@@ -753,6 +760,7 @@ uk:
           last_day: 'Останній день'
     text_are_you_sure: "Ви впевненені?"
     text_data_lost: "Усі введені дані буде втрачено."
+    text_user_wrote: "%{value} написав(-ла):"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} використовується більше одного разу. Назви груп повинні бути унікальними."
@@ -827,6 +835,7 @@ uk:
       toggle_description: "Переключити опис відносин"
       update_relation: "Натисніть, щоб змінити тип відносини"
       add_follower: "Додати послідовника"
+      show_relations: "Показати зв’язки"
       add_predecessor: "Додати попередника"
       remove: "Видалити зв'язок"
       save: "Зберегти відношення"
@@ -962,7 +971,6 @@ uk:
         date: "Дата"
         dueDate: "Дата закінчення"
         duration: "Тривалість"
-        estimatedTime: "Час (приблизно)"
         spentTime: "Трудовитрати"
         category: "Категорія"
         percentageDone: "Процент виконання"
@@ -978,6 +986,7 @@ uk:
         updatedAt: "Оновлене"
         versionName: "Версія"
         version: "Версія"
+        remainingTime: "Залишок роботи"
       default_queries:
         latest_activity: "Останні дії"
         created_by_me: "Створений мною"
@@ -985,7 +994,7 @@ uk:
         recently_created: "Нещодавно створений"
         all_open: "Всі відкрити"
         summary: "Резюме"
-        shared_with_users: "Shared with users"
+        shared_with_users: "Надано доступ користувачам"
       jump_marks:
         pagination: "Перейти до розбиття таблиці на сторінки"
         label_pagination: "Клацніть тут, щоб пропустити пакунки робіт і перейти до розбивки на сторінки"
@@ -1023,11 +1032,13 @@ uk:
         is_parent: "Дати цього пакета робіт автоматично виводяться з його дочірніх елементів. Активуйте «Ручне планування», щоб установити ці дати."
         is_switched_from_manual_to_automatic: "Можливо, дати цього пакета робіт знадобиться перерахувати після переходу з ручного на автоматичне планування через зв’язок з іншими пакетами робіт."
       sharing:
-        share: 'Share'
-        title: "Share work package"
-        selected_count: "%{count} selected"
+        share: 'Поширити'
+        title: "Надати доступ до пакета робіт"
+        selected_count: "Вибрано: %{count}"
         selection:
-          mixed: "Mixed"
+          mixed: "Змішані"
+        upsale:
+          description: "Діліться пакетами робіт із користувачами, які не належать до учасників проєкту."
       table:
         configure_button: 'Налаштуйте таблицю робочих пакетів'
         summary: "Таблиця з рядками пакетів робіт і стовпцями атрибутів пакетів робіт."

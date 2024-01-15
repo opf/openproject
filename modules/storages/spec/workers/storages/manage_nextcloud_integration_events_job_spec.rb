@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,52 +39,48 @@ RSpec.describe Storages::ManageNextcloudIntegrationEventsJob, type: :job do
   end
 
   describe '.debounce' do
-    it 'debounces job with 1 minute timeframe' do
-      ActiveJob::Base.disable_test_adapter
+    context 'when has been debounced by other thread' do
+      before do
+        Rails.cache.write(described_class::KEY, Time.current)
+      end
 
-      other_handler = Storages::ManageNextcloudIntegrationCronJob.perform_later.provider_job_id
-      same_handler_within_timeframe1 = described_class.set(wait: 1.second).perform_later.provider_job_id
-      same_handler_within_timeframe2 = described_class.set(wait: 2.seconds).perform_later.provider_job_id
-      same_handler_within_timeframe3 = described_class.set(wait: 3.seconds).perform_later.provider_job_id
-      same_handler_out_of_timeframe = described_class.set(wait: 1.minute).perform_later.provider_job_id
-      same_handler_within_timeframe_in_progress = described_class.set(wait: 18.seconds).perform_later.tap do |job|
-        # simulate in progress state
-        Delayed::Job.where(id: job.provider_job_id).update_all(locked_at: Time.current, locked_by: "test_process #{Process.pid}")
-      end.provider_job_id
+      it 'does nothing' do
+        expect { described_class.debounce }.not_to change(enqueued_jobs, :count)
+      end
+    end
 
-      expect(Delayed::Job.count).to eq(6)
+    context 'when has not been debounced by other thread' do
+      it 'schedules a job' do
+        expect { described_class.debounce }.to change(enqueued_jobs, :count).from(0).to(1)
+      end
 
-      described_class.debounce
+      it 'hits cache once when called 1000 times in a short period of time' do
+        allow(Rails.cache).to receive(:fetch).and_call_original
 
-      expect(Delayed::Job.count).to eq(4)
-      expect(Delayed::Job.pluck(:id)).to include(other_handler,
-                                                 same_handler_out_of_timeframe,
-                                                 same_handler_within_timeframe_in_progress)
-      expect(Delayed::Job.pluck(:id)).not_to include(same_handler_within_timeframe1,
-                                                     same_handler_within_timeframe2,
-                                                     same_handler_within_timeframe3)
-      expect(
-        Delayed::Job
-          .where("handler LIKE ?", "%job_class: #{described_class}%")
-          .last
-          .run_at
-      ).to be_within(3.seconds).of(described_class::DEBOUNCE_TIME.from_now)
+        expect do
+          1000.times { described_class.debounce }
+        end.to change(enqueued_jobs, :count).from(0).to(1)
+
+        expect(Rails.cache).to have_received(:fetch).once
+      end
     end
   end
 
   describe '#perform' do
-    subject { described_class.new.perform }
-
-    it 'works out silently' do
-      allow(Storages::NextcloudStorage).to receive(:sync_all_group_folders).and_return(true)
-      subject
-    end
-
-    it 'debounces itself when sync has been started by another process' do
-      allow(Storages::NextcloudStorage).to receive(:sync_all_group_folders).and_return(false)
+    it 'responds with true when parent perform responds with true' do
+      allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_return(true)
       allow(described_class).to receive(:debounce)
 
-      subject
+      expect(described_class.new.perform).to be(true)
+
+      expect(described_class).not_to have_received(:debounce)
+    end
+
+    it 'debounces itself when parent perform responds with false' do
+      allow(OpenProject::Mutex).to receive(:with_advisory_lock).and_return(false)
+      allow(described_class).to receive(:debounce)
+
+      expect(described_class.new.perform).to be(false)
 
       expect(described_class).to have_received(:debounce).once
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,6 +75,16 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         it { is_expected.to have_json_type(Integer).at_path('lockVersion') }
 
         it { is_expected.to be_json_eql(work_package.lock_version.to_json).at_path('lockVersion') }
+
+        context 'with only change_work_package_status permission' do
+          before do
+            mock_permissions_for(user) do |mock|
+              mock.allow_in_project :change_work_package_status, project: work_package.project
+            end
+          end
+
+          it { is_expected.to have_json_path('lockVersion') }
+        end
 
         context 'with a lock version of nil (new work package)' do
           before do
@@ -279,7 +289,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       shared_examples_for 'linked property with 0 value' do |attribute, association = attribute|
         context "with a 0 for #{attribute}_id" do
           before do
-            work_package.send("#{association}_id=", 0)
+            work_package.send(:"#{association}_id=", 0)
           end
 
           it_behaves_like 'linked property' do

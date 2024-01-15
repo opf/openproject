@@ -32,17 +32,22 @@ require 'support/components/autocompleter/ng_select_autocomplete_helpers'
 module Components
   module WorkPackages
     class ShareModal < Components::Common::Modal
-      include Capybara::DSL
-      include Capybara::RSpecMatchers
-      include RSpec::Matchers
       include Components::Autocompleter::NgSelectAutocompleteHelpers
 
-      attr_reader :work_package
+      attr_reader :work_package, :title
 
       def initialize(work_package)
         super()
 
         @work_package = work_package
+        @title = I18n.t('js.work_packages.sharing.title')
+      end
+
+      def expect_open
+        super
+
+        expect_title(title)
+        wait_for_network_idle(timeout: 10)
       end
 
       def select_shares(*principals)
@@ -64,7 +69,7 @@ module Components
       def expect_not_selectable(*principals)
         principals.each do |principal|
           within user_row(principal) do
-            expect(page).not_to have_field(principal.name)
+            expect(page).to have_no_field(principal.name)
           end
         end
       end
@@ -107,7 +112,7 @@ module Components
 
       def expect_select_all_not_available
         expect(shares_header)
-          .not_to have_field('toggle_all', wait: 0)
+          .to have_no_field('toggle_all', wait: 0)
       end
 
       def expect_select_all_toggled
@@ -131,8 +136,8 @@ module Components
 
       def expect_bulk_actions_not_available
         within shares_header do
-          expect(page).not_to have_button 'Remove'
-          expect(page).not_to have_test_selector('op-share-wp-bulk-update-role')
+          expect(page).to have_no_button('Remove', wait: 0)
+          expect(page).not_to have_test_selector('op-share-wp-bulk-update-role', wait: 0)
         end
       end
 
@@ -189,6 +194,12 @@ module Components
         end
       end
 
+      def expect_empty_search_blankslate
+        within_modal do
+          expect(page).to have_text(I18n.t('work_package.sharing.text_empty_search_description'))
+        end
+      end
+
       def invite_user(users, role_name)
         Array(users).each do |user|
           case user
@@ -201,13 +212,23 @@ module Components
 
         select_invite_role(role_name)
 
-        within modal_element do
+        within_modal do
           click_button 'Share'
         end
       end
 
       alias_method :invite_users, :invite_user
       alias_method :invite_group, :invite_user
+
+      # Augments +invite_user+ by asserting that the modifications to the
+      # share have reflected in the modal's UI and we're able to continue
+      # with our spec without any waits or network related assertions.
+      #
+      # As a side benefit, it just keeps the spec file cleaner.
+      def invite_user!(user, role_name)
+        invite_user(user, role_name)
+        expect_shared_with(user, role_name)
+      end
 
       def search_user(search_string)
         search_autocomplete page.find('[data-test-selector="op-share-wp-invite-autocomplete"]'),
@@ -234,41 +255,54 @@ module Components
         within user_row(user) do
           find('[data-test-selector="op-share-wp-update-role"]').click
 
-          find('.ActionListContent', text: role_name).click
+          within '.ActionListWrap' do
+            click_button role_name
+          end
         end
       end
 
+      def filter(filter_name, value)
+        within(shares_header) do
+          retry_block do
+            # The button's text changes dynamically based on the currently selected option
+            # Hence the spec's readability is hindered by using something like
+            # `click_button filter_name.capitalize`
+            find("[data-test-selector='op-share-wp-filter-#{filter_name}-button']").click
+
+            # Open the ActionMenu
+            find('.ActionListContent', text: value).click
+          end
+        end
+
+        wait_for_network_idle # Ensures filtering is done
+      end
+
       def close
-        within modal_element do
-          click_button 'Close'
+        within_modal do
+          page.find("[data-test-selector='op-share-wp-modal--close-icon']").click
+        end
+      end
+
+      def click_share
+        within_modal do
+          click_button 'Share'
         end
       end
 
       def expect_shared_with(user, role_name = nil, position: nil, editable: true)
-        within shares_list do
-          expect(page)
-            .to have_text(user.name)
-        end
-
-        if position
+        within_modal do
           within shares_list do
-            expect(page)
-              .to have_selector("li:nth-child(#{position})", text: user.name),
-                  "Expected #{user.name} to be ##{position} on the shares list."
-          end
-        end
-
-        if role_name
-          within user_row(user) do
-            expect(page)
-              .to have_button(role_name)
-          end
-        end
-
-        unless editable
-          within user_row(user) do
-            expect(page)
-              .not_to have_button
+            expect(page).to have_list_item(text: user.name, position:)
+            within(:list_item, text: user.name, position:) do
+              if role_name
+                expect(page).to have_button(role_name),
+                                "Expected share with #{user.name.inspect} to have button #{role_name}."
+              end
+              unless editable
+                expect(page).not_to have_button,
+                                    "Expected share with #{user.name.inspect} not to be editable (expected no buttons)."
+              end
+            end
           end
         end
       end
@@ -277,7 +311,7 @@ module Components
         within shares_list do
           principals.each do |principal|
             expect(page)
-              .not_to have_text(principal.name)
+              .to have_no_text(principal.name)
           end
         end
       end
@@ -288,15 +322,29 @@ module Components
       end
 
       def expect_no_invite_option
-        within modal_element do
+        within_modal do
           expect(page)
             .to have_text(I18n.t('work_package.sharing.permissions.denied'))
         end
       end
 
+      def resend_invite(user)
+        within user_row(user) do
+          click_button I18n.t("work_package.sharing.user_details.resend_invite")
+        end
+      end
+
+      def expect_invite_resent(user)
+        within user_row(user) do
+          expect(page)
+            .to have_text(I18n.t("work_package.sharing.user_details.invite_resent"))
+        end
+      end
+
       def user_row(user)
-        shares_list
-          .find("[data-test-selector=\"op-share-wp-active-user-#{user.id}\"]")
+        within_modal do
+          find(:list_item, text: user.name)
+        end
       end
 
       def active_list
@@ -313,7 +361,7 @@ module Components
       end
 
       def shares_list
-        active_list.find_by_id('op-share-wp-active-shares')
+        find_by_id('op-share-wp-active-shares')
       end
 
       def select_existing_user(user)
@@ -328,6 +376,49 @@ module Components
                             query: email,
                             select_text: "Send invite to\"#{email}\"",
                             results_selector: 'body'
+      end
+
+      def expect_upsale_banner
+        within_modal do
+          expect(page)
+            .to have_text(I18n.t(:label_enterprise_addon))
+        end
+      end
+
+      def expect_no_user_limit_warning
+        within modal_element do
+          expect(page)
+            .to have_no_text(I18n.t('work_package.sharing.warning_user_limit_reached'), wait: 0)
+        end
+      end
+
+      def expect_user_limit_warning
+        within modal_element do
+          expect(page)
+            .to have_text(I18n.t('work_package.sharing.warning_user_limit_reached'))
+        end
+      end
+
+      def expect_error_message(text)
+        within modal_element do
+          expect(page)
+            .to have_css('[data-test-selector="op-share-wp-error-message"]',
+                         text:)
+        end
+      end
+
+      def expect_select_a_user_hint
+        within modal_element do
+          expect(page)
+            .to have_text(I18n.t("work_package.sharing.warning_no_selected_user"))
+        end
+      end
+
+      def expect_no_select_a_user_hint
+        within modal_element do
+          expect(page)
+            .to have_no_text(I18n.t("work_package.sharing.warning_no_selected_user"), wait: 0)
+        end
       end
     end
   end

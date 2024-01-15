@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,12 +33,13 @@ module API
         resources :activities do
           route_param :id, type: Integer, desc: 'Time entry activity ID' do
             after_validation do
-              authorize_in_any_project(%i(log_time
-                                          view_time_entries
-                                          edit_time_entries
-                                          edit_own_time_entries
-                                          manage_project_activities)) do
-                raise API::Errors::NotFound.new
+              authorize_in_any_work_package(:edit_own_time_entries) do
+                authorize_in_any_project(%i(log_time
+                                            view_time_entries
+                                            edit_time_entries
+                                            manage_project_activities)) do
+                  raise API::Errors::NotFound.new
+                end
               end
 
               @activity = TimeEntryActivity

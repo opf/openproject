@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ RSpec.shared_context 'work package table helpers' do
 
       preceeding_elements.each_with_index do |wp_1, i|
         wp_2 = following_elements[i]
-        expect(self).to have_selector(".wp-row-#{wp_1.id} + \
+        expect(self).to have_css(".wp-row-#{wp_1.id} + \
                                        .wp-row-#{wp_2.id}")
       end
     end

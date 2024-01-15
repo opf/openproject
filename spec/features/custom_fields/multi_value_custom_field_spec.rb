@@ -1,9 +1,7 @@
 require "spec_helper"
 require "support/pages/work_packages/abstract_work_package"
 
-RSpec.describe "multi select custom values",
-               js: true,
-               with_cuprite: true do
+RSpec.describe "multi select custom values", :js, :with_cuprite do
   let(:type) { create(:type) }
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
   let(:wp_table) { Pages::WorkPackagesTable.new project }
@@ -89,12 +87,12 @@ RSpec.describe "multi select custom values",
 
         edit_field.submit_by_dashboard
 
-        expect(page).to have_selector('.custom-option.-multiple-lines', count: 3)
+        expect(page).to have_css('.custom-option.-multiple-lines', count: 3)
         expect(page).to have_text "Successful update"
 
         expect(page).to have_text custom_field.name
         expect(page).to have_text "ham"
-        expect(page).not_to have_text "pineapple"
+        expect(page).to have_no_text "pineapple"
         expect(page).to have_text "onions"
         expect(page).to have_text "mushrooms"
       end
@@ -130,16 +128,16 @@ RSpec.describe "multi select custom values",
 
         # Should show truncated values
         expect(page).to have_text "ham, pineapple, ...3"
-        expect(page).not_to have_text "onions"
+        expect(page).to have_no_text "onions"
 
         # Group by the CF
         group_by.enable_via_menu 'Ingredients'
         loading_indicator_saveguard
 
         # Expect changed groups
-        expect(page).to have_selector('.group--value .count', count: 2)
-        expect(page).to have_selector('.group--value', text: 'ham, onions, pineapple (1)')
-        expect(page).to have_selector('.group--value', text: 'ham (1)')
+        expect(page).to have_css('.group--value .count', count: 2)
+        expect(page).to have_css('.group--value', text: 'ham, onions, pineapple (1)')
+        expect(page).to have_css('.group--value', text: 'ham (1)')
 
         wp1_field.activate!
 
@@ -151,8 +149,8 @@ RSpec.describe "multi select custom values",
         wp_page.expect_and_dismiss_toaster message: 'Successful update'
 
         # Expect changed groups
-        expect(page).to have_selector('.group--value .count', count: 1)
-        expect(page).to have_selector('.group--value', text: 'ham (2)')
+        expect(page).to have_css('.group--value .count', count: 1)
+        expect(page).to have_css('.group--value', text: 'ham (2)')
 
         # Open split view
         split_view = wp_table.open_split_view work_package
@@ -169,9 +167,9 @@ RSpec.describe "multi select custom values",
         wp1_field.expect_state_text '-'
 
         # Expect changed groups
-        expect(page).to have_selector('.group--value .count', count: 2)
-        expect(page).to have_selector('.group--value', text: '- (1)')
-        expect(page).to have_selector('.group--value', text: 'ham (1)')
+        expect(page).to have_css('.group--value .count', count: 2)
+        expect(page).to have_css('.group--value', text: '- (1)')
+        expect(page).to have_css('.group--value', text: 'ham (1)')
 
         # Activate again
         field.activate!
@@ -182,9 +180,9 @@ RSpec.describe "multi select custom values",
         field.submit_by_dashboard
 
         # Expect changed groups
-        expect(page).to have_selector('.group--value .count', count: 2)
-        expect(page).to have_selector('.group--value', text: 'ham, onions (1)')
-        expect(page).to have_selector('.group--value', text: 'ham (1)')
+        expect(page).to have_css('.group--value .count', count: 2)
+        expect(page).to have_css('.group--value', text: 'ham, onions (1)')
+        expect(page).to have_css('.group--value', text: 'ham (1)')
 
         expect(field.display_element).to have_text('ham')
         expect(field.display_element).to have_text('onions')
@@ -201,9 +199,9 @@ RSpec.describe "multi select custom values",
         expect(field.display_element).to have_text('mushrooms')
 
         # Expect changed groups
-        expect(page).to have_selector('.group--value .count', count: 2)
-        expect(page).to have_selector('.group--value', text: 'ham, mushrooms, onions, pineapple (1)')
-        expect(page).to have_selector('.group--value', text: 'ham (1)')
+        expect(page).to have_css('.group--value .count', count: 2)
+        expect(page).to have_css('.group--value', text: 'ham, mushrooms, onions, pineapple (1)')
+        expect(page).to have_css('.group--value', text: 'ham (1)')
 
         wp1_field.expect_state_text ", ...4"
       end

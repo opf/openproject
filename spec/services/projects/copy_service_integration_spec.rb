@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -216,7 +216,6 @@ RSpec.describe(
 
     context 'with all modules selected' do
       let(:only_args) { all_modules }
-      # rubocop:disable RSpec/IndexedLet
       let(:storage1) { source_automatic_project_storage.storage }
       let(:storage2) { source_manual_project_storage.storage }
       # rubocop:enable RSpec/IndexedLet
@@ -1014,7 +1013,7 @@ RSpec.describe(
       context 'with wiki' do
         let(:only_args) { %i[wiki] }
 
-        it 'will copy wiki menu items' do
+        it 'copies wiki menu items' do
           source.wiki.wiki_menu_items << create(:wiki_menu_item_with_parent, wiki: source.wiki)
 
           expect(subject).to be_success
@@ -1057,7 +1056,7 @@ RSpec.describe(
       let(:only_args) { nil }
 
       # rubocop:disable RSpec/MultipleExpectations
-      it 'will set attributes only without copying dependencies' do
+      it 'sets attributes only without copying dependencies' do
         expect(subject).to be_success
 
         expect(project_copy.members.count).to eq 1
@@ -1102,7 +1101,7 @@ RSpec.describe(
           create(:group, members: [user])
         end
 
-        it 'will not copy group members' do
+        it 'does not copy group members' do
           Members::CreateService
             .new(user: current_user, contract_class: EmptyContract)
             .call(principal: group, roles: [another_role], project: source)

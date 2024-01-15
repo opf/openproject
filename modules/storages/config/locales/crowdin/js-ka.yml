@@ -4,7 +4,7 @@ ka:
     storages:
       link_files_in_storage: "Link files in %{storageType}"
       link_existing_files: "Link existing files"
-      upload_files: "Upload files"
+      upload_files: "ფაილების ატვირთვა"
       drop_files: "Drop files here to upload them to %{name}."
       drop_or_click_files: "Drop files here or click to upload them to %{name}."
       login: "%{storageType} login"
@@ -47,33 +47,38 @@ ka:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "Download %{fileName}"
-        no_permission: "You have no permission to see this file."
         open: "Open file on storage"
         open_location: "Open file in location"
         remove: "Remove file link"
         remove_confirmation: >
           Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
-        remove_short: "Remove link"
-        select: "Select files"
-        select_all: "Select all"
+        remove_short: "ბმულის წაშლა"
+        select: "ფაილის არჩევა"
+        select_all: "ყველას მონიშვნა"
         selection:
           zero: "Select files to link"
-          one: "Link 1 file"
-          other: "Link %{count} files"
+          one: "ბმული 1 ფაილზე"
+          other: "ბმული %{count} ფაილზე"
         success_create:
           one: "Successfully created 1 file link."
           other: "Successfully created %{count} file links."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+            Your file (%{fileName}) could not be uploaded.
           403: >
             Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
           413: >
             Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
           507: >
             Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
+          detail:
+            nextcloud: >
+              Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
         link_uploaded_file_error: >
           An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
-        not_allowed_tooltip: "Please log in to Nextcloud to access this file"
+        tooltip:
+          not_logged_in: "Please log in to Nextcloud to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
         already_linked_file: "This file is already linked to this work package."
         already_linked_directory: "This directory is already linked to this work package."

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -31,6 +31,12 @@ de:
         Sind Sie sicher, dass Sie diese Datei löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.
       draggable_hint: |
         Ziehen Sie diesen Anhang auf ein editierbares Feld, um das Bild oder den Anhang einzubinden. Geöffnete Felder werden automatisch geöffnet während Sie das Attachment mit der Maus ziehen und halten.
+    autocomplete_ng_select:
+      add_tag: "Eintrag hinzufügen"
+      clear_all: "Eingabe löschen"
+      loading: "Wird geladen…"
+      not_found: "Keine Elemente gefunden"
+      type_to_search: "Zum Suchen tippen"
     autocomplete_select:
       placeholder:
         multi: "\"%{name}\" hinzufügen"
@@ -341,11 +347,11 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release
+              learn_about_link: https://www.openproject.org/de/blog/openproject-13-2-release/
               new_features_html: >
-                Das Release enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Basislinien Vergleich zur einfachen Verfolgung von Änderungen.</li> <li>PDF-Export für Berichte über Arbeitspläne.</li> <li>Abonnieren Sie Projektkalender über die URL (iCalendar).</li> <li>Projektordner mit Dokumentvorlagen für die Nextcloud-Integration.</li> <li>Lokalisiertes Befüllen der Datenbank mit Basis-Daten.</li> <li>Globale Module werden auf neuen Indexseiten gelistet.</li> </ul>
+                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Filter für Rollen, Gruppen und geteilte Arbeitspakete in der Liste der Projektmitglieder.</li> <li>Geteilte Nutzer können für die Attribute "Zugewiesen an" und "Verantwortlich" ausgewählt werden.</li> <li>Umbenennen von Attributen zu Aufwand und Fortschritt in Arbeit, Verbleibende Arbeit und % vollständig ein, um Fortschrittsberichte für Arbeitspaket-Hierarchien vorzubereiten.</li> <li>Separates Recht, um Statusänderungen in Arbeitspaketen ohne Bearbeitungsrechte zu ermöglichen.</li> <li>Manuelle Projektordner für OneDrive/SharePoint-Speicher.</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -514,6 +520,7 @@ de:
     label_watcher_added_successfully: "Beobachter erfolgreich hinzugefügt!"
     label_watcher_deleted_successfully: "Beobachter erfolgreich gelöscht!"
     label_work_package_details_you_are_here: "Sie sind auf dem Reiter %{tab} von %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Nicht mehr beobachten"
     label_unwatch_work_package: "Arbeitspaket nicht mehr beobachten"
     label_uploaded_by: "Hochgeladen von"
@@ -750,6 +757,7 @@ de:
           last_day: 'Letzter Tag'
     text_are_you_sure: "Sind Sie sicher?"
     text_data_lost: "Alle eingegebenen Daten gehen verloren."
+    text_user_wrote: "%{value} schrieb:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Der Name %{group} wird mehr als einmal verwendet. Gruppen-Namen müssen eindeutig sein."
@@ -824,6 +832,7 @@ de:
       toggle_description: "Beschreibung der Beziehung ein-/ausklappen"
       update_relation: "Klicken um den Beziehungstyp zu ändern"
       add_follower: "Nachfolger hinzufügen"
+      show_relations: "Show relations"
       add_predecessor: "Vorgänger hinzufügen"
       remove: "Beziehung entfernen"
       save: "Beziehung speichern"
@@ -959,7 +968,6 @@ de:
         date: "Datum"
         dueDate: "Endtermin"
         duration: "Dauer"
-        estimatedTime: "Geschätzter Aufwand"
         spentTime: "Aufgewendete Zeit"
         category: "Kategorie"
         percentageDone: "Prozentsatz erledigt"
@@ -975,6 +983,7 @@ de:
         updatedAt: "Aktualisiert am"
         versionName: "Version"
         version: "Version"
+        remainingTime: "Verbleibender Aufwand"
       default_queries:
         latest_activity: "Letzte Änderungen"
         created_by_me: "Erstellt von mir"
@@ -1025,6 +1034,8 @@ de:
         selected_count: "%{count} ausgewählt"
         selection:
           mixed: "Gemischt"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: 'Arbeitspaket-Tabelle konfigurieren'
         summary: "Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen dieser Arbeitspakete."

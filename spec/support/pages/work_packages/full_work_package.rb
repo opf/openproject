@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,22 @@ module Pages
   class FullWorkPackage < Pages::AbstractWorkPackage
     def ensure_loaded
       find('.work-packages--details--subject', match: :first)
+    end
+
+    def toolbar
+      find_by_id('toolbar-items')
+    end
+
+    def click_share_button
+      within toolbar do
+        # The request to the capabilities endpoint determines
+        # whether the "Share" button is rendered or not.
+        # Instead of waiting for an idle network (which may
+        # include waiting for other network requests unrelated to
+        # sharing), waiting for the button to be present makes
+        # the spec a tad faster.
+        click_button('Share', wait: 10)
+      end
     end
 
     private

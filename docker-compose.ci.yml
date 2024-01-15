@@ -1,19 +1,10 @@
-version: "3.7"
-
-networks:
-  testing:
 
 name: "openproject-ci"
 
 services:
-  db:
-    image: postgres:13
-    tmpfs:
-      - /var/lib/postgresql/data
-    command: "-c autovacuum=off -c fsync=off -c synchronous_commit=off -c checkpoint_timeout=30min -c full_page_writes=off -c deadlock_timeout=5s -c track_activities=off -c track_counts=off -c max_connections=200 -c shared_buffers=8GB -c work_mem=10485kB -c min_wal_size=1GB -c max_wal_size=4GB -c max_worker_processes=16 -c max_parallel_workers=16"
-    environment:
-      POSTGRES_PASSWORD: p4ssw0rd
-  ci:
+  # Note: not using a database container since it adds 1min to pull and start it on CI
+  app:
+    image: openproject/ci:v1
     build:
       context: .
       dockerfile: ./docker/ci/Dockerfile
@@ -26,14 +17,13 @@ services:
       RSPEC_RETRY_RETRY_COUNT: "${CI_RETRY_COUNT:-3}"
       CAPYBARA_AWS_ACCESS_KEY_ID: "${CAPYBARA_AWS_ACCESS_KEY_ID}"
       CAPYBARA_AWS_SECRET_ACCESS_KEY: "${CAPYBARA_AWS_SECRET_ACCESS_KEY}"
-      PGHOST: db
     tmpfs:
       - "/tmp"
-    depends_on:
-      - db
     volumes:
       - .:/app
+      - ${LOCAL_CACHE_PATH}/node/.npm:/app/.npm
+      - ${LOCAL_CACHE_PATH}/node/node_modules:/app/node_modules
+      - ${LOCAL_CACHE_PATH}/node/frontend/node_modules:/app/frontend/node_modules
       - ${LOCAL_CACHE_PATH}/bundle:/usr/local/bundle
-      - ${LOCAL_CACHE_PATH}/npm:/app/.npm
       - ${LOCAL_CACHE_PATH}/angular:/app/frontend/.angular/cache
       - ${LOCAL_CACHE_PATH}/runtime-logs:/app/spec/support/runtime-logs

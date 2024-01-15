@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,12 +34,10 @@ namespace :openproject do
     task update: %w[openproject:dependencies:update:gems]
 
     namespace :update do
-      def parse_capture(capture, &block)
+      def parse_capture(capture, &)
         capture
           .split("\n")
-          .filter_map do |line|
-          block.call(line)
-        end
+          .filter_map(&)
       end
 
       desc 'Update gems to the extend the Gemfile allows in individual commits'

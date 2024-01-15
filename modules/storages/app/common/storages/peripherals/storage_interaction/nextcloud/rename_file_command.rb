@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def initialize(storage)
       @uri = storage.uri
-      @base_path = Util.join_uri_path(@uri.path, "remote.php/dav/files", CGI.escapeURIComponent(storage.username))
+      @base_path = Util.join_uri_path(@uri, "remote.php/dav/files", CGI.escapeURIComponent(storage.username))
       @username = storage.username
       @password = storage.password
     end
@@ -44,22 +44,28 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def call(source:, target:)
-      response = Util.http(@uri).move(
-        Util.join_uri_path(@base_path, Util.escape_path(source)),
-        Util.basic_auth_header(@username, @password).merge(
-          'Destination' => Util.join_uri_path(@base_path, Util.escape_path(target))
-        )
-      )
+      response = Util
+                   .httpx
+                   .basic_auth(@username, @password)
+                   .request(
+                     "MOVE",
+                     Util.join_uri_path(@base_path, Util.escape_path(source)),
+                     headers: {
+                       'Destination' => Util.join_uri_path(@uri.path, "remote.php/dav/files", CGI.escapeURIComponent(@username), Util.escape_path(target))
+                     }
+                   )
 
-      case response
-      when Net::HTTPSuccess
+      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+
+      case response.status
+      when 200..299
         ServiceResult.success
-      when Net::HTTPNotFound
-        Util.error(:not_found, 'Outbound request destination not found', response)
-      when Net::HTTPUnauthorized
-        Util.error(:unauthorized, 'Outbound request not authorized', response)
+      when 404
+        Util.error(:not_found, 'Outbound request destination not found', error_data)
+      when 401
+        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
       else
-        Util.error(:error, 'Outbound request failed', response)
+        Util.error(:error, 'Outbound request failed', error_data)
       end
     end
   end

@@ -6,11 +6,11 @@ tr:
     attributes:
       ldap_groups/synchronized_group:
         dn: 'DN'
-        ldap_auth_source: 'LDAP connection'
+        ldap_auth_source: 'LDAP bağlantısı'
         sync_users: 'Kullanıcıları senkronize et'
       ldap_groups/synchronized_filter:
         filter_string: 'LDAP süzgeçi'
-        ldap_auth_source: 'LDAP connection'
+        ldap_auth_source: 'LDAP bağlantısı'
         group_name_attribute: "Grup adı özelliği"
         sync_users: 'Kullanıcıları senkronize et'
         base_dn: "Arama tabanı DN"

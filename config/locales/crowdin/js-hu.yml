@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -31,6 +31,12 @@ hu:
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Húzza át a szerkesztőmezőt a beillesztett képre vagy hivatkozási mellékletre. Zárt szerkesztőmezők nyílnak meg, amíg húzza.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Betöltés..."
+      not_found: "Nem található elem"
+      type_to_search: "Gépeljen a kereséshez"
     autocomplete_select:
       placeholder:
         multi: "\"%{name}\" hozzáadása"
@@ -297,33 +303,33 @@ hu:
           two: "Második rendezési feltétel"
           three: "Harmadik rendezési feltétel"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Gantt-diagram'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'Címke konfiguráció'
+        bar: 'Oszlop címkék'
+        left: 'Bal'
+        right: 'Jobb'
+        farRight: 'Jobb szélen'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'Gannt diagramm megtekintése'
+      button_deactivate: 'Gannt diagramm elrejtése'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(nincs)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Klikkeljen valamelyik feladatcsoportra a kapcsolat létrehozásához. Visszavonás az Esc megnyomásával.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Nagyítás"
+        out: "Kicsinyítés"
+        auto: "Automatikus nagyítás"
+        days: "Nap"
+        weeks: "Hetek"
+        months: "Hónap"
+        quarters: "Negyedek"
+        years: "Évek"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Válassza ki a megjelenítendő kezdeti nagyítási szintet, ha az automatikus nagyítás nem áll rendelkezésre.
     general_text_no: "nem"
     general_text_yes: "igen"
     general_text_No: "Nem"
@@ -342,11 +348,11 @@ hu:
           learn_about: "Tudjon meg többet az új funkciókról"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -515,6 +521,7 @@ hu:
     label_watcher_added_successfully: "Megfigyelő sikeresen hozzáadva!"
     label_watcher_deleted_successfully: "Megfigyelő sikeresen törölve!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Megfigyelés leállítása"
     label_unwatch_work_package: "Nem megfigyelt feladatcsoport"
     label_uploaded_by: "Által feltöltött"
@@ -751,6 +758,7 @@ hu:
           last_day: 'Utolsó nap'
     text_are_you_sure: "Biztos vagy benne?"
     text_data_lost: "Az összes adat elveszhet"
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "A %{group} név már használatban van. A csoport névnek egyedinek kell lennie."
@@ -825,6 +833,7 @@ hu:
       toggle_description: "Kapcsolat leírás kapcsolása"
       update_relation: "Klikk a kapcsolat típus módosításához"
       add_follower: "Követő hozzáadása"
+      show_relations: "Show relations"
       add_predecessor: "Előző hozzáadása"
       remove: "Kapcsolat eltávolítása"
       save: "Kapcsolat mentése"
@@ -960,7 +969,6 @@ hu:
         date: "dátum"
         dueDate: "Befejezési dátum"
         duration: "Időtartam"
-        estimatedTime: "Becsült idő (óra)"
         spentTime: "Eltöltött idő"
         category: "Kategória"
         percentageDone: "Százalékosan elkészült"
@@ -976,6 +984,7 @@ hu:
         updatedAt: "Frissítve"
         versionName: "Verzió"
         version: "Verzió"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Utolsó aktivitás"
         created_by_me: "Általam készített"
@@ -1021,11 +1030,13 @@ hu:
         is_parent: "A munkacsomag dátumait automatikusan levezetik a gyermekeiből. A dátumok beállításához aktiválja a „Kézi ütemezést”"
         is_switched_from_manual_to_automatic: "Ennek a munkacsomagnak a dátumait újra kell kalkulálni, miután a kézi üzemmódról az automatikus ütemezésre váltott, más munkacsomagokkal való kapcsolat miatt.\n"
       sharing:
-        share: 'Share'
+        share: 'Megosztás'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: 'Feladatcsoport táblázat beállítása'
         summary: "Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok."

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -250,6 +250,78 @@ RSpec.describe 'API v3 Principals resource' do
       it 'is the reduced set of properties of the embedded elements' do
         expect(last_response.body)
           .to be_json_eql(expected.to_json)
+      end
+    end
+
+    # This request is executed like this by the user dropdown in the frontend
+    # INFO -- : duration=55.89 db=29.21 view=26.68 status=200 method=GET path=/api/v3/principals params={"filters"=>"[{\"status\":{\"operator\":\"!\",\"values\":[\"3\"]}},{\"type\":{\"operator\":\"=\",\"values\":[\"User\",\"Group\",\"PlaceholderUser\"]}},{\"member\":{\"operator\":\"*\",\"values\":[]}}]", "pageSize"=>"-1", "select"=>"elements/id,elements/name,elements/self,total,count,pageSize"} host=localhost user=4
+    describe 'REGRESSION #50930: When the user is member of multiple projects, filtering for memberships and using select' do
+      let(:filter) do
+        [
+          { status: { operator: "!", values: ["3"] } },
+          { type: { operator: "=", values: ["User", "Group", "PlaceholderUser"] } },
+          { member: { operator: "*", values: [] } }
+        ]
+      end
+
+      let(:select) { "elements/id,elements/name,elements/self,total,count,pageSize" }
+
+      let(:expected) do
+        {
+          count: 4,
+          total: 4,
+          pageSize: 20,
+          _embedded: {
+            elements: [
+              {
+                id: placeholder_user.id,
+                name: placeholder_user.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.placeholder_user(placeholder_user.id),
+                    title: placeholder_user.name
+                  }
+                }
+              },
+              {
+                id: group.id,
+                name: group.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.group(group.id),
+                    title: group.name
+                  }
+                }
+              },
+              {
+                id: other_user.id,
+                name: other_user.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.user(other_user.id),
+                    title: other_user.name
+                  }
+                }
+              },
+              # The user is member of multiple projects, we still expect them to only be included once in our result set
+              {
+                id: user.id,
+                name: user.name,
+                _links: {
+                  self: {
+                    href: api_v3_paths.user(user.id),
+                    title: user.name
+                  }
+                }
+              }
+            ]
+          }
+        }
+      end
+
+      it 'contains each user element only once' do
+        pending "This is just a fix to note that we have the bug, the fix will be done in the frontend at first, then we can come back here"
+        expect(last_response.body).to be_json_eql(expected.to_json)
       end
     end
   end

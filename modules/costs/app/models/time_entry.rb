@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,7 +52,6 @@ class TimeEntry < ApplicationRecord
   include Entry::SplashedDates
 
   scopes :of_user_and_day,
-         :visible,
          :ongoing
 
   # TODO: move into service
@@ -86,7 +85,7 @@ class TimeEntry < ApplicationRecord
 
   # Returns true if the time entry can be edited by usr, otherwise false
   def editable_by?(usr)
-    (usr == user && usr.allowed_in_project?(:edit_own_time_entries, project)) ||
+    (usr == user && usr.allowed_in_work_package?(:edit_own_time_entries, work_package)) ||
       usr.allowed_in_project?(:edit_time_entries, project)
   end
 
@@ -96,7 +95,7 @@ class TimeEntry < ApplicationRecord
 
   def visible_by?(usr)
     usr.allowed_in_project?(:view_time_entries, project) ||
-      (user_id == usr.id && usr.allowed_in_project?(:view_own_time_entries, project))
+      (user_id == usr.id && usr.allowed_in_work_package?(:view_own_time_entries, work_package))
   end
 
   def costs_visible_by?(usr)

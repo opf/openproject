@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,9 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'menu permissions',
-               js: true,
-               with_cuprite: true do
+RSpec.describe 'menu permissions', :js, :with_cuprite do
   let(:user) do
     create(:user,
            member_with_permissions: { project => %i[manage_versions view_work_packages] })
@@ -48,14 +46,14 @@ RSpec.describe 'menu permissions',
     end
 
     it 'I can see all menu entries' do
-      expect(page).to have_selector('#menu-sidebar .op-menu--item-title', text: 'Versions')
-      expect(page).to have_selector('#menu-sidebar .op-menu--item-title', text: 'Information')
-      expect(page).to have_selector('#menu-sidebar .op-menu--item-title', text: 'Modules')
+      expect(page).to have_css('#menu-sidebar .op-menu--item-title', text: 'Versions')
+      expect(page).to have_css('#menu-sidebar .op-menu--item-title', text: 'Information')
+      expect(page).to have_css('#menu-sidebar .op-menu--item-title', text: 'Modules')
     end
 
     specify 'the parent node directs to the general settings page' do
       # The settings menu item exists
-      expect(page).to have_selector('#menu-sidebar .main-item-wrapper', text: 'Project settings', visible: false)
+      expect(page).to have_css('#menu-sidebar .main-item-wrapper', text: 'Project settings', visible: false)
 
       # Clicking the menu parent item leads to the version page
       find('.main-menu--parent-node', text: 'Project settings').click
@@ -72,14 +70,14 @@ RSpec.describe 'menu permissions',
     end
 
     it 'I can only see the version settings page' do
-      expect(page).to have_selector('#menu-sidebar .op-menu--item-title', text: 'Versions')
-      expect(page).not_to have_selector('#menu-sidebar .op-menu--item-title', text: 'Information')
-      expect(page).not_to have_selector('#menu-sidebar .op-menu--item-title', text: 'Modules')
+      expect(page).to have_css('#menu-sidebar .op-menu--item-title', text: 'Versions')
+      expect(page).to have_no_css('#menu-sidebar .op-menu--item-title', text: 'Information')
+      expect(page).to have_no_css('#menu-sidebar .op-menu--item-title', text: 'Modules')
     end
 
     specify 'the parent node directs to the only visible children page' do
       # The settings menu item exists
-      expect(page).to have_selector('#menu-sidebar .main-item-wrapper', text: 'Project settings', visible: false)
+      expect(page).to have_css('#menu-sidebar .main-item-wrapper', text: 'Project settings', visible: false)
 
       # Clicking the menu parent item leads to the version page
       find('.main-menu--parent-node', text: 'Project settings').click

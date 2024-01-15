@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -31,6 +31,12 @@ he:
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "טוען..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "Add \"%{name}\""
@@ -243,7 +249,7 @@ he:
             professional_support: "Professional support"
             professional_support_text: "Get reliable, high-touch support from senior support engineers with expert knowledge about running OpenProject in business-critical environments."
           button_start_trial: "Start free trial"
-          button_upgrade: "Upgrade now"
+          button_upgrade: "שדרג עכשיו"
           button_contact_us: "Contact us for a demo"
           button_book_now: "Book now"
           confidence: >
@@ -278,7 +284,7 @@ he:
       query_saving: "The view could not be saved."
       embedded_table_loading: "The embedded view could not be loaded: %{message}"
     enumeration_activities: "פעילויות (מעקב זמן)"
-    enumeration_doc_categories: "Document categories"
+    enumeration_doc_categories: "קטגוריות מסמכים"
     enumeration_work_package_priorities: "עדיפויות חבילת עבודה"
     filter:
       more_values_not_shown: "There are %{total} more results, search to filter results."
@@ -317,8 +323,8 @@ he:
         in: "Zoom in"
         out: "Zoom out"
         auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
+        days: "ימים"
+        weeks: "שבועות"
         months: "Months"
         quarters: "Quarters"
         years: "Years"
@@ -342,11 +348,11 @@ he:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -378,9 +384,9 @@ he:
     label_author: "Author: %{user}"
     label_avatar: "אווטר"
     label_between: "between"
-    label_board: "Board"
+    label_board: "לוח"
     label_board_locked: "נעול"
-    label_board_plural: "Boards"
+    label_board_plural: "לוחות"
     label_board_sticky: "נעוץ"
     label_change: "שנה"
     label_create: "צור"
@@ -509,12 +515,13 @@ he:
     label_warning: "Warning"
     label_work_package: "חבילת עבודה"
     label_work_package_parent: "Parent work package"
-    label_work_package_plural: "Work packages"
+    label_work_package_plural: "חבילת עבודה"
     label_watch: "צפה"
     label_watch_work_package: "חבילת שעון עבודה"
     label_watcher_added_successfully: "הצופה נוסף בהצלחה!"
     label_watcher_deleted_successfully: "הצופה נמחק בהצלחה!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "הספק מעקב"
     label_unwatch_work_package: "חבילת שעון עבודה"
     label_uploaded_by: "הועלה על ידי"
@@ -590,7 +597,7 @@ he:
       reasons:
         mentioned: 'mentioned'
         watched: 'watcher'
-        assigned: 'assignee'
+        assigned: 'משויך אל'
         responsible: 'accountable'
         created: 'created'
         scheduled: 'מתוכנן'
@@ -753,6 +760,7 @@ he:
           last_day: 'Last day'
     text_are_you_sure: "האם הינך בטוח?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -827,6 +835,7 @@ he:
       toggle_description: "Toggle relation description"
       update_relation: "Click to change the relation type"
       add_follower: "Add follower"
+      show_relations: "Show relations"
       add_predecessor: "Add predecessor"
       remove: "Remove relation"
       save: "Save relation"
@@ -962,7 +971,6 @@ he:
         date: "תאריך"
         dueDate: "Finish date"
         duration: "משך זמן"
-        estimatedTime: "זמן משוער"
         spentTime: "זמן שבוזבז"
         category: "קטגוריה"
         percentageDone: "האחוזים הסתיימו"
@@ -978,6 +986,7 @@ he:
         updatedAt: "עודכן בתאריך"
         versionName: "גירסה"
         version: "גירסה"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"
@@ -1023,11 +1032,13 @@ he:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'שתף'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: 'Configure work package table'
         summary: "Table with rows of work package and columns of work package attributes."

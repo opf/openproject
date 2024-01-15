@@ -1,7 +1,7 @@
 # Custom OpenID Connect providers
 
 OpenProject's admin interface only allows you to configure providers from a pre-defined list.
-This includes Google Workspace and Microsoft Azure Active Directory right now. Find out how to use those in the [OpenID Providers Authentication Guide](https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/).
+This includes Google Workspace and Microsoft Azure Active Directory right now. Find out how to use those in the [OpenID Providers Authentication Guide](../../../system-admin-guide/authentication/openid-providers/).
 
 You can still use an arbitrary provider. But for the time being there is no user interface for this.
 That means you will have to do it directly using the console on the server or via environment variables.
@@ -83,9 +83,9 @@ _**Note**: This is an Enterprise add-on. If you do not see the button you will h
 ## Environment variables
 
 Rather than setting these options via the rails console, you can also define them through the
-[OpenProject configuration](https://www.openproject.org/docs/installation-and-operations/configuration/) which can
+[OpenProject configuration](../../configuration/) which can
 also be defined through
-[environment variables](https://www.openproject.org/docs/installation-and-operations/configuration/environment/).
+[environment variables](../../configuration/environment/).
 
 The variable names can be derived from the options seen above. All variables will start with the prefix
 `OPENPROJECT_OPENID__CONNECT_` followed by the provider name. For instance the okta example from above would

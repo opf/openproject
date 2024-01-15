@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -56,7 +56,7 @@ RSpec.describe Grids::Query, type: :model do
   context 'without a filter' do
     describe '#results' do
       it 'is the same as getting all the boards visible to the user' do
-        expect(instance.results).to match_array [board_grid]
+        expect(instance.results).to contain_exactly(board_grid)
       end
     end
   end
@@ -69,7 +69,7 @@ RSpec.describe Grids::Query, type: :model do
 
       describe '#results' do
         it 'yields boards assigned to the project' do
-          expect(instance.results).to match_array [board_grid]
+          expect(instance.results).to contain_exactly(board_grid)
         end
       end
 

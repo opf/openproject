@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,14 +65,16 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
         on_success: ->(token) do
           connection_manager.request_with_token_refresh(token) { yield token }
         end,
-        on_failure: ->(_) { error(:unauthorized, 'Query could not be created! No access token found!') }
+        on_failure: ->(_) do
+          error(:unauthorized,
+                'Query could not be created! No access token found!',
+                Storages::StorageErrorData.new(source: connection_manager))
+        end
       )
     end
 
-    def http(uri)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = uri.scheme == 'https'
-      http
+    def httpx
+      HTTPX.plugin(:basic_auth).plugin(:webdav)
     end
 
     def error_text_from_response(response)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative './new'
+require_relative 'new'
 
 module Pages::Meetings
   class Index < Pages::Page
@@ -47,34 +47,34 @@ module Pages::Meetings
     end
 
     def expect_no_main_menu
-      expect(page).not_to have_selector '#main-menu'
+      expect(page).to have_no_css '#main-menu'
     end
 
     def expect_no_create_new_button
       within '.toolbar-items' do
-        expect(page).not_to have_selector '#add-meeting-button'
+        expect(page).to have_no_css '#add-meeting-button'
       end
     end
 
     def expect_no_create_new_buttons
       within '.toolbar-items' do
-        expect(page).not_to have_selector '#add-meeting-button'
+        expect(page).to have_no_css '#add-meeting-button'
       end
 
       within '#main-menu' do
-        expect(page).not_to have_button 'Meeting'
+        expect(page).to have_no_button 'Meeting'
       end
     end
 
     def expect_create_new_button
       within '.toolbar-items' do
-        expect(page).to have_selector '#add-meeting-button'
+        expect(page).to have_css '#add-meeting-button'
       end
     end
 
     def expect_create_new_buttons
       within '.toolbar-items' do
-        expect(page).to have_selector '#add-meeting-button'
+        expect(page).to have_css '#add-meeting-button'
       end
 
       within '#main-menu' do
@@ -106,8 +106,8 @@ module Pages::Meetings
     def expect_meetings_listed(*meetings)
       within '.generic-table tbody' do
         meetings.each do |meeting|
-          expect(page).to have_selector("td.title",
-                                        text: meeting.title)
+          expect(page).to have_css("td.title",
+                                   text: meeting.title)
         end
       end
     end
@@ -115,8 +115,8 @@ module Pages::Meetings
     def expect_meetings_not_listed(*meetings)
       within '#content-wrapper' do
         meetings.each do |meeting|
-          expect(page).not_to have_selector("td.title",
-                                            text: meeting.title)
+          expect(page).to have_no_css("td.title",
+                                      text: meeting.title)
         end
       end
     end
@@ -132,8 +132,8 @@ module Pages::Meetings
     def expect_plaintext_meeting_location(meeting)
       within '#content-wrapper' do
         within row_for(meeting) do
-          expect(page).to have_selector('td.location', text: meeting.location)
-          expect(page).not_to have_link meeting.location
+          expect(page).to have_css('td.location', text: meeting.location)
+          expect(page).to have_no_link meeting.location
         end
       end
     end
@@ -141,15 +141,15 @@ module Pages::Meetings
     def expect_no_meeting_location(meeting)
       within '#content-wrapper' do
         within row_for(meeting) do
-          expect(page).to have_selector('td.location', text: '')
+          expect(page).to have_css('td.location', text: '')
         end
       end
     end
 
     def expect_to_be_on_page(number)
       expect(page)
-        .to have_selector('.op-pagination--item_current',
-                          text: number)
+        .to have_css('.op-pagination--item_current',
+                     text: number)
     end
 
     def to_page(number)

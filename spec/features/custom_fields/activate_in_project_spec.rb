@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'support/pages/custom_fields'
 
-RSpec.describe 'custom fields', js: true, with_cuprite: true do
+RSpec.describe 'custom fields', :js, :with_cuprite do
   let(:user) { create(:admin) }
   let(:cf_page) { Pages::CustomFields.new }
   let(:for_all_cf) { create(:list_wp_custom_field, is_for_all: true) }

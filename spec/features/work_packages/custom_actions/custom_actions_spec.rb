@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -316,15 +316,24 @@ RSpec.describe 'Custom actions', :js, :with_cuprite,
 
     wp_page.click_custom_action('Unassign')
     wp_page.expect_attributes assignee: '-'
+    within '.work-package-details-activities-list' do
+      expect(page)
+        .to have_css('.op-user-activity .op-user-activity--user-name',
+                     text: user.name,
+                     wait: 10)
+    end
 
     wp_page.click_custom_action('Escalate')
     wp_page.expect_attributes priority: immediate_priority.name,
                               status: default_status.name,
                               assignee: '-',
                               "customField#{list_custom_field.id}" => selected_list_custom_field_options.map(&:name).join("\n")
-
-    expect(page)
-      .to have_css('.work-package-details-activities-activity-contents a.user-mention', text: other_member_user.name)
+    within '.work-package-details-activities-list' do
+      expect(page)
+        .to have_css('.op-user-activity a.user-mention',
+                     text: other_member_user.name,
+                     wait: 10)
+    end
 
     wp_page.click_custom_action('Close')
     wp_page.expect_attributes status: closed_status.name,

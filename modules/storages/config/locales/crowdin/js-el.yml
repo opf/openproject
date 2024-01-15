@@ -47,7 +47,6 @@ el:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "Download %{fileName}"
-        no_permission: "You have no permission to see this file."
         open: "Open file on storage"
         open_location: "Open file in location"
         remove: "Remove file link"
@@ -65,15 +64,21 @@ el:
           other: "Successfully created %{count} file links."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+            Your file (%{fileName}) could not be uploaded.
           403: >
             Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
           413: >
             Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
           507: >
             Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
+          detail:
+            nextcloud: >
+              Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
         link_uploaded_file_error: >
           An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
-        not_allowed_tooltip: "Please log in to Nextcloud to access this file"
+        tooltip:
+          not_logged_in: "Please log in to Nextcloud to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
         already_linked_file: "This file is already linked to this work package."
         already_linked_directory: "This directory is already linked to this work package."

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Watcher tab', js: true, selenium: true do
+RSpec.describe 'Watcher tab', :js, :selenium do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
   let(:project) { create(:project) }
@@ -20,14 +20,14 @@ RSpec.describe 'Watcher tab', js: true, selenium: true do
 
   def expect_button_is_watching
     title = I18n.t('js.label_unwatch_work_package')
-    expect(page).to have_selector("#unwatch-button[title='#{title}']", wait: 10)
-    expect(page).to have_selector('#unwatch-button .button--icon.icon-watched', wait: 10)
+    expect(page).to have_css("#unwatch-button[title='#{title}']", wait: 10)
+    expect(page).to have_css('#unwatch-button .button--icon.icon-watched', wait: 10)
   end
 
   def expect_button_is_not_watching
     title = I18n.t('js.label_watch_work_package')
-    expect(page).to have_selector("#watch-button[title='#{title}']")
-    expect(page).to have_selector('#watch-button .button--icon.icon-unwatched')
+    expect(page).to have_css("#watch-button[title='#{title}']")
+    expect(page).to have_css('#watch-button .button--icon.icon-unwatched')
   end
 
   shared_examples 'watch and unwatch with button' do
@@ -53,7 +53,7 @@ RSpec.describe 'Watcher tab', js: true, selenium: true do
       login_as(user)
       wp_page.visit_tab! :watchers
       expect_angular_frontend_initialized
-      expect(page).to have_selector('.op-tab-row--link_selected', text: 'WATCHERS')
+      expect(page).to have_css('.op-tab-row--link_selected', text: 'WATCHERS')
     end
 
     it 'modifying the watcher list modifies the watch button' do
@@ -86,6 +86,7 @@ RSpec.describe 'Watcher tab', js: true, selenium: true do
     context 'with a user with arbitrary characters' do
       let!(:html_user) do
         create(:user,
+               :skip_validations,
                firstname: '<em>foo</em>',
                member_with_roles: { project => role })
       end
@@ -96,8 +97,8 @@ RSpec.describe 'Watcher tab', js: true, selenium: true do
                                               query: 'foo',
                                               results_selector: 'body'
 
-        expect(target_dropdown).to have_selector(".ng-option", text: html_user.firstname)
-        expect(target_dropdown).not_to have_selector(".ng-option em")
+        expect(target_dropdown).to have_css(".ng-option", text: html_user.firstname)
+        expect(target_dropdown).to have_no_css(".ng-option em")
       end
     end
 
@@ -156,8 +157,8 @@ RSpec.describe 'Watcher tab', js: true, selenium: true do
                                             query: '',
                                             results_selector: 'body'
 
-      expect(target_dropdown).to have_selector(".ng-option", text: user.name)
-      expect(target_dropdown).not_to have_selector(".ng-option", text: placeholder.name)
+      expect(target_dropdown).to have_css(".ng-option", text: user.name)
+      expect(target_dropdown).to have_no_css(".ng-option", text: placeholder.name)
     end
   end
 end

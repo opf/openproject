@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -28,15 +28,24 @@
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import * as URI from 'urijs';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { ProjectResource } from 'core-app/features/hal/resources/project-resource';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 
 export class EstimatedTimeDisplayField extends DisplayField {
   @InjectField() timezoneService:TimezoneService;
 
+  @InjectField() PathHelper:PathHelperService;
+
+  @InjectField() apiV3Service:ApiV3Service;
+
   private derivedText = this.I18n.t('js.label_value_derived_from_children');
 
   public get valueString():string {
-    return this.timezoneService.formattedDuration(this.value);
+    return this.timezoneService.formattedDuration(this.value as string);
   }
 
   /**
@@ -67,39 +76,48 @@ export class EstimatedTimeDisplayField extends DisplayField {
     }
 
     element.classList.add('split-time-field');
-    if (this.value) {
-      this.renderActual(element, displayText);
-    }
+    this.renderActual(element, displayText);
 
     const derived = this.derivedValue;
-    if (derived && this.timezoneService.toHours(derived) !== 0) {
-      this.renderDerived(element, this.derivedValueString, !!this.value);
+    if (derived && derived !== this.value && this.timezoneService.toHours(derived) !== 0) {
+      this.renderSeparator(element);
+      this.renderDerived(element, this.derivedValueString);
     }
   }
 
   public renderActual(element:HTMLElement, displayText:string):void {
     const span = document.createElement('span');
 
-    span.textContent = displayText;
-    span.title = this.valueString;
+    if (this.value) {
+      span.textContent = displayText;
+      span.title = this.valueString;
+    } else {
+      span.textContent = this.texts.placeholder;
+      span.title = this.texts.placeholder;
+    }
     span.classList.add('-actual-value');
 
     element.appendChild(span);
   }
 
-  public renderDerived(element:HTMLElement, displayText:string, actualPresent:boolean):void {
+  public renderSeparator(element:HTMLElement) {
     const span = document.createElement('span');
-
-    span.setAttribute('title', this.texts.empty);
-    span.textContent = `(${actualPresent ? '+' : ''}${displayText})`;
-    span.title = `${this.derivedValueString} ${this.derivedText}`;
-    span.classList.add('-derived-value');
-
-    if (actualPresent) {
-      span.classList.add('-with-actual-value');
-    }
-
+    span.classList.add('-separator');
+    span.textContent = '·';
+    span.ariaHidden = 'true';
     element.appendChild(span);
+  }
+
+  public renderDerived(element:HTMLElement, displayText:string):void {
+    const link = document.createElement('a');
+
+    link.textContent = `Σ ${displayText}`;
+    link.title = `${this.derivedValueString} ${this.derivedText}`;
+    link.classList.add('-derived-value', uiStateLinkClass);
+
+    this.addURLToViewWorkPackageChildren(link);
+
+    element.appendChild(link);
   }
 
   public get title():string|null {
@@ -112,5 +130,30 @@ export class EstimatedTimeDisplayField extends DisplayField {
     const derived = this.derivedValue;
 
     return !value && !derived;
+  }
+
+  private addURLToViewWorkPackageChildren(link:HTMLAnchorElement):void {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    if (this.resource && this.resource.id && this.resource.project) {
+      const wpID = this.resource.id.toString();
+      this
+        .apiV3Service
+        .projects
+        .id(this.resource.project as ProjectResource)
+        .get()
+        .subscribe((project:ProjectResource) => {
+          const props = {
+            c: ['id', 'subject', 'type', 'status', 'estimatedTime', 'remainingTime'],
+            hi: true,
+            is: true,
+            f: [{ n: 'parent', o: '=', v: [wpID] }],
+          };
+          const href = URI(this.PathHelper.projectWorkPackagesPath(project.identifier as string))
+            .query({ query_props: JSON.stringify(props) })
+            .toString();
+
+          link.href = href;
+        });
+    }
   }
 }

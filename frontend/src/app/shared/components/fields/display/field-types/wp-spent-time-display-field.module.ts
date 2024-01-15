@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -63,16 +63,16 @@ export class WorkPackageSpentTimeDisplayField extends EstimatedTimeDisplayField 
       link.setAttribute('class', 'time-logging--value');
     }
 
-    if (this.resource.project) {
+    if (this.resource.project && this.resource.id) {
       const wpID = this.resource.id.toString();
       this
         .apiV3Service
         .projects
-        .id(this.resource.project)
+        .id(this.resource.project as ProjectResource)
         .get()
         .subscribe((project:ProjectResource) => {
           // Link to the cost report having the work package filter preselected. No grouping.
-          const href = URI(this.PathHelper.projectTimeEntriesPath(project.identifier))
+          const href = URI(this.PathHelper.projectTimeEntriesPath(project.identifier as string))
             .search(`fields[]=WorkPackageId&operators[WorkPackageId]=%3D&values[WorkPackageId]=${wpID}&set_filter=1`)
             .toString();
 

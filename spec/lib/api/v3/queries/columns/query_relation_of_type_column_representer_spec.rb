@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,7 @@ RSpec.describe API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter d
       it_behaves_like 'has a titled link' do
         let(:link) { 'self' }
         let(:href) { api_v3_paths.query_column "relationsOfType#{type[:sym].to_s.camelcase}" }
-        let(:title) { "#{I18n.t(type[:name])} relations" }
+        let(:title) { "#{I18n.t(type[:name]).capitalize} relations" }
       end
     end
 
@@ -66,7 +66,7 @@ RSpec.describe API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter d
 
     it 'has name attribute' do
       expect(subject)
-        .to be_json_eql("#{I18n.t(type[:name])} relations".to_json)
+        .to be_json_eql("#{I18n.t(type[:name]).capitalize} relations".to_json)
         .at_path('name')
     end
   end

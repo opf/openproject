@@ -19,17 +19,17 @@ RSpec.shared_examples_for 'is a countable repository' do
     end
 
     it 'has has not been counted initially' do
-      expect(repository.required_storage_bytes).to be == 0
+      expect(repository.required_storage_bytes).to eq 0
       expect(repository.storage_updated_at).to be_nil
     end
 
     it 'counts the repository storage automatically' do
-      expect(repository.required_storage_bytes).to be == 0
+      expect(repository.required_storage_bytes).to eq 0
       expect(repository.update_required_storage).to be true
 
       perform_enqueued_jobs
 
-      expect(repository.required_storage_bytes).to be == count
+      expect(repository.required_storage_bytes).to eq count
       expect(repository.update_required_storage).to be false
       expect(repository.storage_updated_at).to be >= 1.minute.ago
     end
@@ -40,19 +40,19 @@ RSpec.shared_examples_for 'is a countable repository' do
       end
 
       it 'sucessfuly updates the count to what the adapter returns' do
-        expect(repository.required_storage_bytes).to be == 0
+        expect(repository.required_storage_bytes).to eq 0
         expect(repository.update_required_storage).to be true
 
         perform_enqueued_jobs
 
-        expect(repository.required_storage_bytes).to be == count
+        expect(repository.required_storage_bytes).to eq count
       end
     end
   end
 
   context 'with real counter' do
     it 'counts the repository storage automatically' do
-      expect(repository.required_storage_bytes).to be == 0
+      expect(repository.required_storage_bytes).to eq 0
       expect(repository.update_required_storage).to be true
 
       perform_enqueued_jobs

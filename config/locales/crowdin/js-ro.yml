@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -31,6 +31,12 @@ ro:
         Sunteți sigur că doriți să ștergeți acest fișier? Această acțiune nu este reversibilă.
       draggable_hint: |
         Trageți pe câmpul editorului pentru a introduce o imagine sau un atașament de referință. Câmpurile de editor închise vor fi deschise în timp ce continuați să trageți.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Se încarcă..."
+      not_found: "Niciun articol găsit"
+      type_to_search: "Introduceți textul de căutat"
     autocomplete_select:
       placeholder:
         multi: "Adăugaţi \"%{name}\""
@@ -296,33 +302,33 @@ ro:
           two: "Al doilea criteriu de sortare"
           three: "Al treilea criteriu de sortare"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Grafic Gantt'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: '-- Fără etichetă --'
+        bar: 'Etichete de bare'
+        left: 'Stânga'
+        right: 'Dreapta'
+        farRight: 'Extrema dreaptă'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Selectați atributele pe care doriți să le afișați în pozițiile respective ale graficului Gantt tot timpul. Țineți cont că atunci când planează deasupra unui element, etichetele sale vor fi afișate în locul acestor atribute.
+      button_activate: 'Grafic Gantt'
+      button_deactivate: 'Grafic Gantt'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(nimic)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Faceți click pe oricare dintre pachetele de lucru pentru a crea o legătură. Apăsați Escape pentru a anula.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "Mărire"
+        out: "Micșorare"
+        auto: "Mărire"
+        days: "Zile"
+        weeks: "Săptămâni"
+        months: "Luni"
+        quarters: "Trimestre"
+        years: "Ani"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Selectați nivelul inițial de zoom care trebuie afișat atunci când funcția de zoom automat nu este disponibilă.
     general_text_no: "nu"
     general_text_yes: "da"
     general_text_No: "Nu"
@@ -341,11 +347,11 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -514,6 +520,7 @@ ro:
     label_watcher_added_successfully: "Observator adăugat cu succes!"
     label_watcher_deleted_successfully: "Observator eliminat cu succes!"
     label_work_package_details_you_are_here: "Sunteți pe fila %{tab} pentru %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Stop monitorizare"
     label_unwatch_work_package: "Opriți urmărirea pachetului de lucru"
     label_uploaded_by: "Încărcat de"
@@ -751,6 +758,7 @@ ro:
           last_day: 'Ultima zi'
     text_are_you_sure: "Sunteți sigur?"
     text_data_lost: "Toate datele introduse vor fi pierdute."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Numele %{group} este utilizat de mai multe ori. Fiecare grup trebuie să aibă un nume unic."
@@ -825,6 +833,7 @@ ro:
       toggle_description: "Activați/Dezactivați descrierea legăturilor"
       update_relation: "Faceți click pentru a schimba tipul de legătură"
       add_follower: "Adaugă urmăritor"
+      show_relations: "Show relations"
       add_predecessor: "Adăugați predecesorul"
       remove: "Eliminare relaţie"
       save: "Salvează relația"
@@ -960,7 +969,6 @@ ro:
         date: "Dată"
         dueDate: "Data de finalizare"
         duration: "Durată"
-        estimatedTime: "Durata estimată"
         spentTime: "Timp consumat"
         category: "Categorie"
         percentageDone: "Procent realizat"
@@ -976,6 +984,7 @@ ro:
         updatedAt: "Actualizat pe"
         versionName: "Versiune"
         version: "Versiune"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Activitate recentă"
         created_by_me: "Creat de mine"
@@ -1021,11 +1030,13 @@ ro:
         is_parent: "Datele acestui pachet de lucru sunt deduse automat din copiii săi. Activați \"Programare manuală\" pentru a stabili datele."
         is_switched_from_manual_to_automatic: "Este posibil ca datele acestui pachet de lucru să trebuiască să fie recalculate după trecerea de la programarea manuală la cea automată din cauza relațiilor cu alte pachete de lucru."
       sharing:
-        share: 'Share'
+        share: 'Distribuiți'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: 'Configurarea tabelului pachetului de lucru'
         summary: "Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane."

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -146,7 +146,7 @@ class Changeset < ApplicationRecord
       refs = match[3]
       next unless action.present? || ref_keywords_any
 
-      refs.scan(/#(\d+)(\s+@#{TIMELOG_RE})?/).each do |m|
+      refs.scan(/#(\d+)(\s+@#{TIMELOG_RE})?/o).each do |m|
         work_package = find_referenced_work_package_by_id(m[0].to_i)
         hours = m[2]
         if work_package

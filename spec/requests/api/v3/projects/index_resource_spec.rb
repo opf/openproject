@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -106,22 +106,38 @@ RSpec.describe 'API v3 Project resource index', content_type: :json do
   end
 
   context 'with filtering by capability action' do
-    let(:other_project) do
-      create(:project, members: [current_user])
+    let(:other_project) { create(:project) }
+    let(:another_project) { create(:project) }
+    let(:projects) { [project, other_project, another_project] }
+    let(:role) { create(:project_role, permissions: %i[copy_projects view_work_packages]) }
+    let(:other_role) { create(:project_role, permissions: %i[view_work_packages]) }
+    let(:another_role) { create(:project_role, permissions: []) }
+    let(:current_user) do
+      create(:user, member_with_roles: { project => role,
+                                         other_project => other_role,
+                                         another_project => another_role })
     end
-    let(:projects) { [project, other_project] }
-    let(:role) { create(:project_role, permissions: [:copy_projects]) }
 
     let(:get_path) do
-      api_v3_paths.path_for :projects, filters: [{ user_action: { operator: "=", values: ["projects/copy"] } }]
+      api_v3_paths.path_for :projects, filters: [{ user_action: { operator:, values: %w[projects/copy work_packages/read] } }]
     end
 
-    it_behaves_like 'API V3 collection response', 1, 1, 'Project'
+    context 'if using the equals operator' do
+      let(:operator) { '=' }
 
-    it 'returns the project the current user has the capability in' do
-      expect(response.body)
-        .to be_json_eql(api_v3_paths.project(project.id).to_json)
-              .at_path('_embedded/elements/0/_links/self/href')
+      it_behaves_like 'API V3 collection response', 2, 2, 'Project'
+    end
+
+    context 'if using the all operator' do
+      let(:operator) { '&=' }
+
+      it_behaves_like 'API V3 collection response', 1, 1, 'Project'
+
+      it 'returns the project the current user has the capabilities in' do
+        expect(response.body)
+          .to be_json_eql(api_v3_paths.project(project.id).to_json)
+                .at_path('_embedded/elements/0/_links/self/href')
+      end
     end
   end
 

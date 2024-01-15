@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'version delete', js: true, with_cuprite: true do
+RSpec.describe 'version delete', :js, :with_cuprite do
   let!(:project) { create(:project, name: 'Parent') }
   let!(:archived_child) { create(:project, name: 'Archived child', parent: project, active: false) }
 
@@ -53,8 +53,8 @@ RSpec.describe 'version delete', js: true, with_cuprite: true do
       end
     end
 
-    expect(page).to have_selector('.op-toast.-error', text: I18n.t(:error_can_not_delete_in_use_archived_undisclosed))
-    expect(page).not_to have_selector("a", text: 'Archived child')
+    expect(page).to have_css('.op-toast.-error', text: I18n.t(:error_can_not_delete_in_use_archived_undisclosed))
+    expect(page).to have_no_css("a", text: 'Archived child')
 
     user.update!(admin: true)
 
@@ -67,7 +67,7 @@ RSpec.describe 'version delete', js: true, with_cuprite: true do
       end
     end
 
-    expect(page).to have_selector('.op-toast.-error', text: 'There are also work packages in archived projects.')
-    expect(page).to have_selector("a", text: 'Archived child')
+    expect(page).to have_css('.op-toast.-error', text: 'There are also work packages in archived projects.')
+    expect(page).to have_css("a", text: 'Archived child')
   end
 end

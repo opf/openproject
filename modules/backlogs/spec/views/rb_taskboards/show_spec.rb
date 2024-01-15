@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,11 +37,7 @@ RSpec.describe 'rb_taskboards/show' do
   end
   let(:role_forbidden) { create(:project_role) }
   # We need to create these as some view helpers access the database
-  let(:statuses) do
-    [create(:status),
-     create(:status),
-     create(:status)]
-  end
+  let(:statuses) { create_list(:status, 3) }
 
   let(:type_task) { create(:type_task) }
   let(:type_feature) { create(:type_feature) }
@@ -108,7 +104,7 @@ RSpec.describe 'rb_taskboards/show' do
       render
 
       stories.each do |story|
-        expect(rendered).to have_selector("#story_#{story.id} .id", text: story.id.to_s)
+        expect(rendered).to have_css("#story_#{story.id} .id", text: story.id.to_s)
       end
     end
 
@@ -116,7 +112,7 @@ RSpec.describe 'rb_taskboards/show' do
       render
 
       stories.each do |story|
-        expect(rendered).to have_selector("#story_#{story.id} .subject", text: story.subject)
+        expect(rendered).to have_css("#story_#{story.id} .subject", text: story.subject)
       end
     end
 
@@ -124,7 +120,7 @@ RSpec.describe 'rb_taskboards/show' do
       render
 
       stories.each do |story|
-        expect(rendered).to have_selector("#story_#{story.id} .status", text: story.status.name)
+        expect(rendered).to have_css("#story_#{story.id} .status", text: story.status.name)
       end
     end
 
@@ -136,7 +132,7 @@ RSpec.describe 'rb_taskboards/show' do
 
       stories.each do |story|
         expected_text = story.assigned_to ? story.assigned_to.name : 'Unassigned'
-        expect(rendered).to have_selector("#story_#{story.id} .assigned_to_id", text: expected_text)
+        expect(rendered).to have_css("#story_#{story.id} .assigned_to_id", text: expected_text)
       end
     end
   end
@@ -164,7 +160,7 @@ RSpec.describe 'rb_taskboards/show' do
       stories.each do |story|
         assert_select "tr.story_#{story.id} td.add_new" do |td|
           expect(td.count).to eq 1
-          expect(td.first).not_to have_content '+'
+          expect(td.first).to have_no_content '+'
           expect(td.first[:class]).not_to include 'clickable'
         end
       end
@@ -192,7 +188,7 @@ RSpec.describe 'rb_taskboards/show' do
       stories.each do |_story|
         assert_select '#impediments td.add_new' do |td|
           expect(td.count).to eq 1
-          expect(td.first).not_to have_content '+'
+          expect(td.first).to have_no_content '+'
           expect(td.first[:class]).not_to include 'clickable'
         end
       end
@@ -208,7 +204,7 @@ RSpec.describe 'rb_taskboards/show' do
 
       assert_select '.model.work_package.task' do |task|
         expect(task.count).to eq 1
-        expect(task.first).not_to have_css '.task.prevent_edit'
+        expect(task.first).to have_no_css '.task.prevent_edit'
       end
     end
 
@@ -234,7 +230,7 @@ RSpec.describe 'rb_taskboards/show' do
 
       assert_select '.model.work_package.impediment' do |impediment|
         expect(impediment.count).to eq 3 # 2 additional for the task and the invisible form
-        expect(impediment.first).not_to have_css '.impediment.prevent_edit'
+        expect(impediment.first).to have_no_css '.impediment.prevent_edit'
       end
     end
 

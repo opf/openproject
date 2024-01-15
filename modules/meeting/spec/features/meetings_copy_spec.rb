@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
            member_with_permissions: { project => permissions })
   end
 
-  shared_let(:start_time) { Time.current.tomorrow.at_noon }
+  shared_let(:start_time) { Time.current.next_day.at_noon }
   shared_let(:duration) { 1.5 }
   shared_let(:agenda_text) { "We will talk" }
   shared_let(:meeting) do
@@ -62,7 +62,7 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
 
   shared_let(:twelve_hour_format) { "%I:%M %p" }
   shared_let(:copied_meeting_time_heading) do
-    date = start_time.strftime("%m/%d/%Y")
+    date = (start_time + 1.week).strftime("%m/%d/%Y")
     start_of_meeting = start_time.strftime(twelve_hour_format)
     end_of_meeting = (start_time + meeting.duration.hours).strftime(twelve_hour_format)
 
@@ -90,14 +90,16 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
     expect(page)
       .to have_field 'Duration',   with: meeting.duration
     expect(page)
-      .to have_field 'Start date', with: start_time.strftime("%Y-%m-%d")
+      .to have_field 'Start date', with: (start_time + 1.week).strftime("%Y-%m-%d")
     expect(page)
       .to have_field 'Time',       with: start_time.strftime("%H:%M")
+
+    choose 'Classic'
 
     click_button "Create"
 
     # Be on the new meeting's page with copied over attributes
-    expect(page).not_to have_current_path meeting_path(meeting.id)
+    expect(page).to have_no_current_path meeting_path(meeting.id)
 
     expect(page)
       .to have_content("Added by #{user.name}")
@@ -114,7 +116,7 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
 
     # Does not copy the attendees
     expect(page)
-      .not_to have_content "Attendees: #{other_user.name}"
+      .to have_no_content "Attendees: #{other_user.name}"
     expect(page)
       .to have_content "Attendees:"
 

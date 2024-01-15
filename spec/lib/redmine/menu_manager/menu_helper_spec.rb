@@ -40,7 +40,7 @@ RSpec.describe Redmine::MenuManager::MenuHelper, type: :helper do
 
     # Return a fake permission for the URLs that are allowed
     allowed_urls.each do |url|
-      allow(Authorization).to receive(:permissions_for).with(url).and_return([fake_permission])
+      allow(Authorization).to receive(:permissions_for).with(url, any_args).and_return([fake_permission])
     end
 
     # When the permission is requested itself, return it

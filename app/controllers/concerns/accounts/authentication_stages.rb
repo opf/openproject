@@ -91,7 +91,7 @@ module Accounts::AuthenticationStages
     session[:back_url] ||= params[:back_url]
 
     # Remember the autologin cookie decision
-    session[:autologin_requested] = params[:autologin]
+    session[:autologin_requested] = params[:autologin] == '1'
 
     stages
   end

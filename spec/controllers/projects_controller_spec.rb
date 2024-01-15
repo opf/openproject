@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -99,11 +99,19 @@ RSpec.describe ProjectsController do
     context 'as anonymous user' do
       let(:user) { User.anonymous }
 
-      it_behaves_like 'successful index'
+      context 'when login_required', with_settings: { login_required: true } do
+        it 'redirects to login' do
+          expect(response).to redirect_to signin_path(back_url: projects_url)
+        end
+      end
 
-      it "shows only (active) public projects" do
-        expect(assigns[:projects])
-          .to contain_exactly(project_c)
+      context 'when not login_required', with_settings: { login_required: false } do
+        it_behaves_like 'successful index'
+
+        it "shows only (active) public projects" do
+          expect(assigns[:projects])
+            .to contain_exactly(project_c)
+        end
       end
     end
 

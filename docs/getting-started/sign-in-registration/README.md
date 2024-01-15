@@ -30,9 +30,9 @@ To sign in to an OpenProject installation with an existing account, please enter
 
 ![modern-browser-searchbar](modern-browser-searchbar.png)
 
-Type in your user name and password in the respective fields and click the blue Sign in button. You will then be signed in to your OpenProject environment.
+Type in your user name and password in the respective fields and click the blue Sign in button. You will then be signed in to your OpenProject environment. If the autologin option was activated for your installation you will also be able to stay logged in for several days.
 
-![Sign-in to OpenProject](1565974792215.png)
+![Sign-in to OpenProject](openproject_user_guide_sign_in.png)
 
 ## Sign in with a Google account
 

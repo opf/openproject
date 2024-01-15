@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ class MeetingAgendaItem::Duration < ApplicationForm
   form do |agenda_item_form|
     agenda_item_form.text_field(
       name: :duration_in_minutes,
-      placeholder: MeetingAgendaItem.human_attribute_name(:duration_in_minutes),
+      placeholder: I18n.t('activerecord.attributes.meeting_agenda_items.duration_in_minutes'),
       label: MeetingAgendaItem.human_attribute_name(:duration_in_minutes),
       leading_visual: { icon: :stopwatch },
       visually_hide_label: true,

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -31,6 +31,12 @@ vi:
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Kéo trên trường được soạn thảo để chèn ảnh hoặc file đính kèm. Trường soạn thảo đang được đóng sẽ được mở lại khi bạn kéo thả.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Loading..."
+      not_found: "No items found"
+      type_to_search: "Type to search"
     autocomplete_select:
       placeholder:
         multi: "Thêm \"%{name}\""
@@ -296,25 +302,25 @@ vi:
           two: "Tiêu chí phân loại thứ hai"
           three: "Tiêu chí phân loại thứ ba"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Biểu đồ Gantt'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
+        title: 'Cấu hình nhãn'
         bar: 'Bar labels'
         left: 'Left'
         right: 'Right'
         farRight: 'Far right'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'Xem biểu đồ sự kiện'
+      button_deactivate: 'Ân biểu đồ sự kiện'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(trống)"
       selection_mode:
         notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
+        in: "Phóng to"
+        out: "Thu nhỏ"
         auto: "Auto zoom"
         days: "Days"
         weeks: "Weeks"
@@ -322,7 +328,7 @@ vi:
         quarters: "Quarters"
         years: "Years"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Chọn mức phóng to ban đầu sẽ được hiển thị khi phóng tự động không có sẵn.
     general_text_no: "không"
     general_text_yes: "có"
     general_text_No: "Không"
@@ -341,11 +347,11 @@ vi:
           learn_about: "Tìm hiểu thêm về các tính năng mới"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -514,6 +520,7 @@ vi:
     label_watcher_added_successfully: "Đã thêm nhận xét thành công."
     label_watcher_deleted_successfully: "Watcher successfully deleted!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Ngừng theo dõi"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
@@ -749,6 +756,7 @@ vi:
           last_day: 'Last day'
     text_are_you_sure: "Are you sure?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
@@ -823,6 +831,7 @@ vi:
       toggle_description: "Toggle relation description"
       update_relation: "Click to change the relation type"
       add_follower: "Add follower"
+      show_relations: "Show relations"
       add_predecessor: "Add predecessor"
       remove: "Loại bỏ các mối quan hệ"
       save: "Save relation"
@@ -958,7 +967,6 @@ vi:
         date: "Ngày"
         dueDate: "Ngày hoàn thành"
         duration: "Duration"
-        estimatedTime: "Thời gian dự kiến"
         spentTime: "Thời gian"
         category: "Thể loại"
         percentageDone: "Percentage done"
@@ -974,6 +982,7 @@ vi:
         updatedAt: "Được cập nhật vào lúc"
         versionName: "Phiên bản"
         version: "Phiên bản"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Hoạt động mới nhất"
         created_by_me: "Do tôi tạo ra"
@@ -1019,11 +1028,13 @@ vi:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'Chia sẻ'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: 'Cấu hình bảng gói công việc'
         summary: "Bảng với hàng work package và cột của các thuộc tính work package."

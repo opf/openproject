@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,9 @@ require 'spec_helper'
 RSpec.describe Projects::Scopes::VisibleWithActivatedTimeActivity do
   let!(:activity) { create(:time_entry_activity) }
   let!(:project) { create(:project) }
+  let!(:work_package) { create(:work_package, project:) }
   let!(:other_project) { create(:project) }
+  let!(:other_work_package) { create(:work_package, project: other_project) }
   let(:project_permissions) { [:view_time_entries] }
   let(:other_project_permissions) { [:view_time_entries] }
   let(:current_user) do
@@ -59,7 +61,7 @@ RSpec.describe Projects::Scopes::VisibleWithActivatedTimeActivity do
       context 'and being active' do
         it 'returns all projects' do
           expect(subject)
-            .to match_array [project, other_project]
+            .to contain_exactly(project, other_project)
         end
       end
 
@@ -80,7 +82,7 @@ RSpec.describe Projects::Scopes::VisibleWithActivatedTimeActivity do
 
         it 'returns all projects' do
           expect(subject)
-            .to match_array [project, other_project]
+            .to contain_exactly(project, other_project)
         end
       end
 
@@ -104,7 +106,7 @@ RSpec.describe Projects::Scopes::VisibleWithActivatedTimeActivity do
       context 'and being active' do
         it 'returns the project the activity is activated in' do
           expect(subject)
-            .to match_array [project]
+            .to contain_exactly(project)
         end
       end
 
@@ -115,7 +117,7 @@ RSpec.describe Projects::Scopes::VisibleWithActivatedTimeActivity do
 
         it 'returns only the projects the activity is activated in' do
           expect(subject)
-            .to match_array [project]
+            .to contain_exactly(project)
         end
       end
     end

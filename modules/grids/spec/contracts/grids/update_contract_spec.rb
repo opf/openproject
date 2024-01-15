@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,7 +27,7 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_examples'
+require_relative 'shared_examples'
 
 RSpec.describe Grids::UpdateContract do
   include_context 'model contract'
@@ -49,7 +49,7 @@ RSpec.describe Grids::UpdateContract do
       instance.validate
       # scope because that is what type is called on the outside for grids
       expect(instance.errors.details[:scope])
-        .to match_array [{ error: :error_readonly }, { error: :inclusion }]
+        .to contain_exactly({ error: :error_readonly }, { error: :inclusion })
     end
   end
 

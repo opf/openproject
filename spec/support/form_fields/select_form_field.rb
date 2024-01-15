@@ -1,10 +1,10 @@
-require_relative './form_field'
+require_relative 'form_field'
 
 module FormFields
   class SelectFormField < FormField
     def expect_selected(*values)
       values.each do |val|
-        expect(field_container).to have_selector('.ng-value', text: val)
+        expect(field_container).to have_css('.ng-value', text: val)
       end
     end
 
@@ -12,11 +12,11 @@ module FormFields
       field_container.find('.ng-select-container').click
 
       expect(page)
-        .not_to have_selector('.ng-option', text: option, visible: :all)
+        .to have_no_css('.ng-option', text: option, visible: :all)
     end
 
     def expect_visible
-      expect(field_container).to have_selector('ng-select')
+      expect(field_container).to have_css('ng-select')
     end
 
     def select_option(*values)

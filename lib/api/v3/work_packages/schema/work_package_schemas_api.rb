@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -73,7 +73,7 @@ module API
             end
 
             get do
-              authorize_in_any_project(:view_work_packages)
+              authorize_in_any_work_package(:view_work_packages)
 
               project_type_pairs = parse_filter_for_project_type_pairs
 
@@ -104,7 +104,7 @@ module API
                   raise404
                 end
 
-                authorize_in_project(:view_work_packages, project: @project) do
+                authorize_in_any_work_package(:view_work_packages, in_project: @project) do
                   raise404
                 end
               end
@@ -124,7 +124,7 @@ module API
 
             namespace 'sums' do
               get do
-                authorize_in_any_project(:view_work_packages) do
+                authorize_in_any_work_package(:view_work_packages) do
                   raise404
                 end
 

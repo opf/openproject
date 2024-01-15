@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -248,6 +248,44 @@ RSpec.describe User do
 
       it 'is invalid' do
         expect(user).not_to be_valid
+      end
+    end
+  end
+
+  describe 'name validation' do
+    let(:user) do
+      build(:user)
+    end
+
+    it 'restricts some options', :aggregate_failures do
+      [
+        'http://foobar.com',
+        '<script>foobar</script>',
+        'https://hello.com'
+      ].each do |name|
+        user.firstname = name
+        user.lastname = name
+        expect(user).not_to be_valid
+        expect(user.errors.symbols_for(:firstname)).to eq [:invalid]
+        expect(user.errors.symbols_for(:lastname)).to eq [:invalid]
+      end
+    end
+
+    it 'allows a lot of options', :aggregate_failures do
+      [
+        "Tim O'Reilly",
+        "🔴Emojinames",
+        "山本由紀夫",
+        "Татьяна",
+        "Users with spaces",
+        "Müller, Phd.",
+        "@invited+user.com",
+        "Foo & Bar",
+        "T’Oole"
+      ].each do |name|
+        user.firstname = name
+        user.lastname = name
+        expect(user).to be_valid
       end
     end
   end
@@ -548,6 +586,35 @@ RSpec.describe User do
     end
   end
 
+  describe '#roles_for_work_package' do
+    let(:work_package) { create(:work_package) }
+    let!(:user) do
+      create(:user,
+             member_with_roles: {
+               work_package.project => project_roles,
+               work_package => work_package_roles
+             })
+    end
+    let(:project_roles) { create_list(:project_role, 2) }
+    let(:work_package_roles) { create_list(:work_package_role, 1) }
+
+    context 'for a work_package the user has roles in' do
+      it 'returns the roles' do
+        expect(user.roles_for_work_package(work_package))
+          .to match_array project_roles + work_package_roles
+      end
+    end
+
+    context 'for a work_package the user does not have roles in' do
+      let(:other_work_package) { create(:work_package) }
+
+      it 'returns an empty set' do
+        expect(user.roles_for_work_package(other_work_package))
+          .to be_empty
+      end
+    end
+  end
+
   describe '.system' do
     context 'no SystemUser exists' do
       before do
@@ -730,10 +797,10 @@ RSpec.describe User do
         expect([user1.id, user2.id]).to include(match2.id)
 
         matches = described_class.where_mail_with_suffix('foo@example.org')
-        expect(matches.pluck(:id)).to match_array [user1.id, user2.id]
+        expect(matches.pluck(:id)).to contain_exactly(user1.id, user2.id)
 
         matches = described_class.where_mail_with_suffix('foo+test@example.org')
-        expect(matches.pluck(:id)).to match_array [user1.id]
+        expect(matches.pluck(:id)).to contain_exactly(user1.id)
       end
     end
 
@@ -749,7 +816,7 @@ RSpec.describe User do
         expect([user1.id, user2.id, user3.id]).to include(match2.id)
 
         matches = described_class.where_mail_with_suffix('foo@example.org')
-        expect(matches.pluck(:id)).to match_array [user1.id, user2.id, user3.id]
+        expect(matches.pluck(:id)).to contain_exactly(user1.id, user2.id, user3.id)
       end
     end
   end

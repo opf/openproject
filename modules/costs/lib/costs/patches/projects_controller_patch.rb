@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ module Costs::Patches::ProjectsControllerPatch
 
   module InstanceMethods
     def own_total_hours
-      if User.current.allowed_in_project?(:view_own_time_entries, @project)
+      if User.current.allowed_in_any_work_package?(:view_own_time_entries, in_project: @project)
         cond = @project.project_condition(Setting.display_subprojects_work_packages?)
         @total_hours = TimeEntry.not_ongoing.visible.includes(:project).where(cond).sum(:hours).to_f
       end

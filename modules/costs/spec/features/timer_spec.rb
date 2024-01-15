@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require_relative '../spec_helper'
 
-RSpec.describe 'Work Package timer', js: true do
+RSpec.describe 'Work Package timer', :js do
   shared_let(:project) { create(:project_with_types) }
 
   shared_let(:work_package_a) { create(:work_package, subject: 'WP A', project:) }
@@ -59,8 +59,8 @@ RSpec.describe 'Work Package timer', js: true do
       expect(timer_entry.hours).to be_nil
 
       page.find('.op-top-menu-user').click
-      expect(page).to have_selector('.op-timer-account-menu', wait: 10)
-      expect(page).to have_selector('.op-timer-account-menu--wp-details', text: "##{work_package_a.id}: WP A")
+      expect(page).to have_css('.op-timer-account-menu', wait: 10)
+      expect(page).to have_css('.op-timer-account-menu--wp-details', text: "##{work_package_a.id}: WP A")
       page.find_test_selector('op-timer-account-menu-stop').click
 
       time_logging_modal.is_visible true
@@ -68,6 +68,8 @@ RSpec.describe 'Work Package timer', js: true do
       time_logging_modal.has_field_with_value 'spentOn', Date.current.strftime
       time_logging_modal.has_field_with_value 'hours', /(\d\.)?\d+/
       time_logging_modal.work_package_is_missing false
+      # wait for available_work_packages query to finish before saving
+      time_logging_modal.expect_work_package(work_package_a.subject)
 
       time_logging_modal.perform_action 'Save'
       time_logging_modal.is_visible false
@@ -90,7 +92,7 @@ RSpec.describe 'Work Package timer', js: true do
 
       timer_button.start
 
-      expect(page).to have_selector('.op-timer-stop-modal')
+      expect(page).to have_css('.op-timer-stop-modal')
       expect(page).to have_text('Tracking time:')
 
       active_time_entries = TimeEntry.where(ongoing: true, user:)
@@ -104,6 +106,8 @@ RSpec.describe 'Work Package timer', js: true do
       time_logging_modal.has_field_with_value 'spentOn', Date.current.strftime
       time_logging_modal.has_field_with_value 'hours', /(\d\.)?\d+/
       time_logging_modal.work_package_is_missing false
+      # wait for available_work_packages query to finish before saving
+      time_logging_modal.expect_work_package(work_package_a.subject)
 
       time_logging_modal.perform_action 'Save'
 
@@ -159,7 +163,7 @@ RSpec.describe 'Work Package timer', js: true do
       timer_button.expect_inactive
       timer_button.start
 
-      expect(page).to have_selector('.op-timer-stop-modal')
+      expect(page).to have_css('.op-timer-stop-modal')
       expect(page).to have_text('Tracking time:')
 
       page.within('.spot-modal') { click_button 'Stop current timer' }
@@ -167,6 +171,8 @@ RSpec.describe 'Work Package timer', js: true do
       time_logging_modal.has_field_with_value 'spentOn', Date.current.strftime
       time_logging_modal.has_field_with_value 'hours', /(\d\.)?\d+/
       time_logging_modal.work_package_is_missing false
+      # wait for available_work_packages query to finish before saving
+      time_logging_modal.expect_work_package(work_package_a.subject)
 
       time_logging_modal.perform_action 'Save'
       wp_view_b.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
@@ -178,6 +184,8 @@ RSpec.describe 'Work Package timer', js: true do
       time_logging_modal.has_field_with_value 'spentOn', Date.current.strftime
       time_logging_modal.has_field_with_value 'hours', /(\d\.)?\d+/
       time_logging_modal.work_package_is_missing false
+      # wait for available_work_packages query to finish before saving
+      time_logging_modal.expect_work_package(work_package_a.subject)
 
       time_logging_modal.perform_action 'Save'
       wp_view_b.expect_and_dismiss_toaster message: I18n.t(:notice_successful_update)
@@ -199,7 +207,7 @@ RSpec.describe 'Work Package timer', js: true do
       wp_view_a.visit!
 
       # Wait for another button to be present
-      expect(page).to have_selector('#watch-button', wait: 10)
+      expect(page).to have_css('#watch-button', wait: 10)
       timer_button.expect_visible visible: false
     end
   end

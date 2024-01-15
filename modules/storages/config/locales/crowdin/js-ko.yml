@@ -47,7 +47,6 @@ ko:
         empty: >
           현재 이 작업 패키지에 연결된 파일이 없습니다. 아래 작업으로 파일 연결을 시작하거나 %{storageType} 내에서 파일 연결을 시작하세요.
         download: "%{fileName} 다운로드"
-        no_permission: "이 파일을 볼 수 있는 권한이 없습니다."
         open: "저장소의 파일 열기"
         open_location: "위치의 파일 열기"
         remove: "파일 링크 제거"
@@ -63,15 +62,21 @@ ko:
           other: "%{count}개 파일 링크를 생성했습니다."
         upload_error:
           default: >
-            파일(%{fileName})을 업로드할 수 없습니다. 최신 버전의 Nextcloud 앱 "OpenProject Integration"이 설치되어 있는지 확인하고 자세한 내용은 관리자에게 문의하세요.
+            파일(%{fileName})을 업로드할 수 없습니다.
           403: >
             시스템 제한으로 인해 파일(%{fileName})을 업로드할 수 없습니다. 자세한 내용은 관리자에게 문의하세요.
           413: >
             파일(%{fileName})이 OpenProject가 %{storageType}에 업로드할 수 있는 크기보다 큽니다. 먼저 %{storageType}에 직접 업로드한 다음 파일을 연결할 수 있습니다.
           507: >
             파일(%{fileName})이 저장소 할당량에서 허용되는 크기보다 큽니다. 이 할당량을 수정하려면 관리자에게 문의하세요.
+          detail:
+            nextcloud: >
+              최신 버전의 Nextcloud 앱 "OpenProject Integration"이 설치되어 있는지 확인하고 자세한 내용은 관리자에게 문의하세요.
         link_uploaded_file_error: >
           최근 업로드된 파일 '%{fileName}'을(를) 작업 패키지 %{workPackageId}에 연결하는 중에 오류가 발생했습니다.
-        not_allowed_tooltip: "이 파일에 액세스하려면 Nextcloud에 로그인하세요"
+        tooltip:
+          not_logged_in: "이 파일에 액세스하려면 Nextcloud에 로그인하세요."
+          view_not_allowed: "이 파일을 볼 수 있는 권한이 없습니다."
+          not_found: "이 파일을 찾을 수 없습니다."
         already_linked_file: "이 파일은 이미 이 작업 패키지에 연결되어 있습니다."
         already_linked_directory: "이 디렉터리는 이미 이 작업 패키지에 연결되어 있습니다."

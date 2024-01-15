@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,32 +46,32 @@ RSpec.describe Project, 'acts_as_journalized' do
 
     it 'notes the changes to name' do
       expect(Journal.first.details[:name])
-        .to match_array [nil, project.name]
+        .to contain_exactly(nil, project.name)
     end
 
     it 'notes the changes to description' do
       expect(Journal.first.details[:description])
-        .to match_array [nil, project.description]
+        .to contain_exactly(nil, project.description)
     end
 
     it 'notes the changes to public flag' do
       expect(Journal.first.details[:public])
-        .to match_array [nil, project.public]
+        .to contain_exactly(nil, project.public)
     end
 
     it 'notes the changes to identifier' do
       expect(Journal.first.details[:identifier])
-        .to match_array [nil, project.identifier]
+        .to contain_exactly(nil, project.identifier)
     end
 
     it 'notes the changes to active flag' do
       expect(Journal.first.details[:active])
-        .to match_array [nil, project.active]
+        .to contain_exactly(nil, project.active)
     end
 
     it 'notes the changes to template flag' do
       expect(Journal.first.details[:templated])
-        .to match_array [nil, project.templated]
+        .to contain_exactly(nil, project.templated)
     end
 
     it 'has the timestamp of the project update time for created_at' do

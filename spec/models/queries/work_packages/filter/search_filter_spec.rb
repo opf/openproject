@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,13 +48,13 @@ RSpec.describe Queries::WorkPackages::Filter::SearchFilter do
       it 'finds in subject' do
         instance.values = ['bogus subject']
         expect(subject)
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
 
       it 'finds in description' do
         instance.values = ['short description']
         expect(subject)
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
 
       it 'finds in comments' do
@@ -63,7 +63,7 @@ RSpec.describe Queries::WorkPackages::Filter::SearchFilter do
 
         instance.values = [journal.notes]
         expect(subject)
-          .to match_array [work_package]
+          .to contain_exactly(work_package)
       end
     end
   end
@@ -76,7 +76,7 @@ RSpec.describe Queries::WorkPackages::Filter::SearchFilter do
     it 'finds in subject' do
       instance.values = ['big cat']
       expect(subject)
-        .to match_array [work_package]
+        .to contain_exactly(work_package)
     end
   end
 
@@ -88,7 +88,7 @@ RSpec.describe Queries::WorkPackages::Filter::SearchFilter do
     it 'does not match a partial result currently' do
       instance.values = ['big cat']
       expect(subject)
-        .to match_array []
+        .to be_empty
     end
   end
 
@@ -114,7 +114,7 @@ RSpec.describe Queries::WorkPackages::Filter::SearchFilter do
 
             instance.values = ['ipsum']
             expect(WorkPackage.joins(instance.joins).where(instance.where))
-              .to match_array [work_package]
+              .to contain_exactly(work_package)
           end
 
           it "finds in attachment file name" do
@@ -122,7 +122,7 @@ RSpec.describe Queries::WorkPackages::Filter::SearchFilter do
 
             instance.values = [filename]
             expect(WorkPackage.joins(instance.joins).where(instance.where))
-              .to match_array [work_package]
+              .to contain_exactly(work_package)
           end
         end
 
@@ -148,7 +148,7 @@ RSpec.describe Queries::WorkPackages::Filter::SearchFilter do
               instance.values = ['plaintext']
 
               expect(WorkPackage.joins(instance.joins).where(instance.where).pluck(:id))
-                .to match_array [work_package.id]
+                .to contain_exactly(work_package.id)
             end
           end
         end
@@ -177,7 +177,7 @@ RSpec.describe Queries::WorkPackages::Filter::SearchFilter do
             instance.valid_values!
 
             expect(instance.values)
-              .to match_array ['none', 'is', 'changed']
+              .to contain_exactly('none', 'is', 'changed')
           end
         end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -135,6 +135,22 @@ RSpec.describe SearchController do
       describe '#results_count' do
         it { expect(assigns(:results_count)).to be_a(Hash) }
         it { expect(assigns(:results_count)['work_packages']).to be(3) }
+      end
+    end
+
+    context 'when searching in all projects with an untransliterable character' do
+      before do
+        work_package_1.update_column(:subject, 'Something 会议 something')
+        get :index, params: { q: '会议', scope: 'all' }
+      end
+
+      it_behaves_like 'successful search'
+
+      it 'returns the result', :aggregate_failures do
+        expect(assigns(:results).count).to be(1)
+        expect(assigns(:results)).to include(work_package_1)
+        expect(assigns(:results_count)).to be_a(Hash)
+        expect(assigns(:results_count)['work_packages']).to be(1)
       end
     end
 

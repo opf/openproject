@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,18 +46,18 @@ module Storages
             @uri = storage.uri
           end
 
-          def call(user:, folder: nil)
+          def call(user:, folder:)
             result = Util.using_user_token(@storage, user) do |token|
-              # Make the Get Request to the necessary endpoints
-              response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-                http.get(uri_path_for(folder) + FIELDS, { 'Authorization' => "Bearer #{token.access_token}" })
-              end
+              response = HTTPX.get(
+                Util.join_uri_path(@uri, children_uri_path_for(folder) + FIELDS),
+                headers: { 'Authorization' => "Bearer #{token.access_token}" }
+              )
 
-              handle_response(response)
+              handle_response(response, :value)
             end
 
             if result.result.empty?
-              empty_response(folder)
+              empty_response(user, folder)
             else
               result.map { |json_files| storage_files(json_files) }
             end
@@ -65,17 +65,17 @@ module Storages
 
           private
 
-          def handle_response(response)
-            json = MultiJson.load(response.body, symbolize_keys: true)
+          def handle_response(response, map_value)
+            json = MultiJson.load(response.body.to_s, symbolize_keys: true)
             error_data = ::Storages::StorageErrorData.new(source: self, payload: json)
 
-            case response
-            when Net::HTTPSuccess
-              ServiceResult.success(result: MultiJson.load(response.body, symbolize_keys: true)[:value])
-            when Net::HTTPNotFound
+            case response.status
+            when 200..299
+              ServiceResult.success(result: json.fetch(map_value))
+            when 404
               ServiceResult.failure(result: :not_found,
                                     errors: ::Storages::StorageError.new(code: :not_found, data: error_data))
-            when Net::HTTPUnauthorized
+            when 401
               ServiceResult.failure(result: :unauthorized,
                                     errors: ::Storages::StorageError.new(code: :unauthorized, data: error_data))
             else
@@ -101,31 +101,35 @@ module Storages
               last_modified_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :lastModifiedDateTime)),
               created_by_name: json_file.dig(:createdBy, :user, :displayName),
               last_modified_by_name: json_file.dig(:lastModifiedBy, :user, :displayName),
-              location: extract_location(json_file[:parentReference], json_file[:name]),
+              location: Util.extract_location(json_file[:parentReference], json_file[:name]),
               permissions: %i[readable writeable]
             )
           end
 
-          def empty_response(folder)
-            ServiceResult.success(
-              result: StorageFiles.new(
-                [],
-                StorageFile.new(
-                  id: Digest::SHA256.hexdigest(folder),
-                  name: folder.split('/').last,
-                  location: folder,
-                  permissions: %i[readable writeable]
-                ),
-                forge_ancestors(path: folder)
+          def empty_response(user, folder)
+            result = Util.using_user_token(@storage, user) do |token|
+              response = HTTPX.get(
+                Util.join_uri_path(@uri, location_uri_path_for(folder) + FIELDS),
+                headers: { 'Authorization' => "Bearer #{token.access_token}" }
               )
-            )
+
+              handle_response(response, :id)
+            end
+
+            result.map { |parent_location_id| empty_storage_files(folder.path, parent_location_id) }
           end
 
-          def extract_location(parent_reference, file_name = '')
-            location = parent_reference[:path].gsub(/.*root:/, '')
-
-            appendix = file_name.blank? ? '' : "/#{file_name}"
-            location.empty? ? "/#{file_name}" : "#{location}#{appendix}"
+          def empty_storage_files(path, parent_id)
+            StorageFiles.new(
+              [],
+              StorageFile.new(
+                id: parent_id,
+                name: path.split('/').last,
+                location: path,
+                permissions: %i[readable writeable]
+              ),
+              forge_ancestors(path:)
+            )
           end
 
           def parent(parent_reference)
@@ -137,7 +141,7 @@ module Storages
               StorageFile.new(
                 id: parent_reference[:id],
                 name:,
-                location: extract_location(parent_reference),
+                location: Util.extract_location(parent_reference),
                 permissions: %i[readable writeable]
               )
             end
@@ -164,10 +168,16 @@ module Storages
                             permissions: %i[readable writeable])
           end
 
-          def uri_path_for(folder)
-            return "/v1.0/drives/#{@storage.drive_id}/root/children" unless folder
+          def children_uri_path_for(folder)
+            return "/v1.0/drives/#{@storage.drive_id}/root/children" if folder.root?
 
-            "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder)}:/children"
+            "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder.path)}:/children"
+          end
+
+          def location_uri_path_for(folder)
+            return "/v1.0/drives/#{@storage.drive_id}/root" if folder.root?
+
+            "/v1.0/drives/#{@storage.drive_id}/root:#{encode_path(folder.path)}"
           end
 
           def encode_path(path)

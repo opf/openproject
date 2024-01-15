@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -31,6 +31,12 @@ cs:
         Opravdu chcete odstranit tento soubor? Tato akce není vratná.
       draggable_hint: |
         Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
+    autocomplete_ng_select:
+      add_tag: "Přidat položku"
+      clear_all: "Vymazat vše"
+      loading: "Načítání..."
+      not_found: "Nenalezeny žádné položky"
+      type_to_search: "Zadejte hledaný text"
     autocomplete_select:
       placeholder:
         multi: "Přidat \"%{name}\""
@@ -301,18 +307,18 @@ cs:
       quarter_label: 'Q%{quarter_number}'
       labels:
         title: 'Konfigurace štítku'
-        bar: 'Bar labels'
+        bar: 'Popisky lišty'
         left: 'Vlevo'
         right: 'Vpravo'
         farRight: 'Dále vpravo'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
+          Vyberte atributy, které chcete zobrazit v příslušných pozicích Ganttova diagramu. Všimněte si, že při najetí kursorem myši budou místo těchto atributů zobrazeny jeho popisky s daty.
       button_activate: 'Zobrazit Ganttův diagram'
       button_deactivate: 'Skrýt Gantt'
       filter:
         noneSelection: "(žádný)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Kliknutím na libovolný zvýrazněný pracovní balíček vytvoříte vztah. Stiskněte ESC pro zrušení.'
       zoom:
         in: "Přiblížit"
         out: "Oddálit"
@@ -323,7 +329,7 @@ cs:
         quarters: "Čtvrtletí"
         years: "Roky"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Vyberte počáteční úroveň přiblížení, která by se měla zobrazit, pokud není autozoom dostupný.
     general_text_no: "ne"
     general_text_yes: "ano"
     general_text_No: "Ne"
@@ -342,13 +348,13 @@ cs:
           learn_about: "Další informace o nových funkcích"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to calendar"
+      title: "Přihlásit kalendář k odběru"
       inital_setup_error_message: "Při načítání dat došlo k chybě."
       description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
@@ -416,7 +422,7 @@ cs:
     label_filename: "Soubor"
     label_filesize: "Velikost"
     label_general: "Obecné"
-    label_global_roles: "Global roles"
+    label_global_roles: "Globální role"
     label_greater_or_equal: ">="
     label_group: 'Skupina'
     label_group_by: "Seskupit podle"
@@ -515,6 +521,7 @@ cs:
     label_watcher_added_successfully: "Sledující úspěšně přidán!"
     label_watcher_deleted_successfully: "Sledující úspěšně odstraněn!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Přestat sledovat"
     label_unwatch_work_package: "Přestat sledovat pracovní balíček"
     label_uploaded_by: "Nahrál"
@@ -530,7 +537,7 @@ cs:
     label_add_attachments: "Připojit soubory"
     label_formattable_attachment_hint: "Připojit a propojit soubory smazáním tohoto pole nebo vložením ze schránky."
     label_remove_file: "Odstranit %{fileName}"
-    label_remove_watcher: "Odstranit pozorovatele %{name}"
+    label_remove_watcher: "Odstranit sledujícího %{name}"
     label_remove_all_files: Odstranit všechny soubory
     label_add_description: "Přidat popis pro %{file}"
     label_upload_notification: "Nahrávám soubory..."
@@ -589,7 +596,7 @@ cs:
       no_unread: "Žádná nepřečtená oznámení"
       reasons:
         mentioned: 'zmíněn'
-        watched: 'pozorovatel'
+        watched: 'sledovatel'
         assigned: 'Řešitel'
         responsible: 'Odpovědný'
         created: 'Vytvořeno'
@@ -606,7 +613,7 @@ cs:
         property_today: 'je dnes'
         property_is: 'is in %{difference_in_days}'
         property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'byl smazán'
+        property_is_deleted: 'Smazáno'
         upsale:
           title: 'Upozornění na datum'
           description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
@@ -645,7 +652,7 @@ cs:
         mentioned: 'Zmíněné'
         watched: 'Sledující'
         date_alert: 'Upozornění na datum'
-        shared: 'Shared'
+        shared: 'Sdílené'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "Nastavení oznámení"
@@ -668,7 +675,7 @@ cs:
             description: 'Dostat upozornění, kdykoli mě někdo kdekoli zmíní'
           assignee: 'Řešitel'
           responsible: 'Odpovědný'
-          shared: 'Shared'
+          shared: 'Sdílené'
           watched: 'Sledující'
           work_package_commented: 'Všechny nové komentáře'
           work_package_created: 'Nový pracovní balíček'
@@ -677,7 +684,7 @@ cs:
           work_package_scheduled: 'Všechny změny data'
         global:
           immediately:
-            title: 'Účast'
+            title: 'Participace'
             description: 'Upozornění pro všechny aktivity v pracovních balíčcích, do kterých jste zapojeni (Řešitel, odpovědný nebo sledující).'
           delayed:
             title: 'Neúčast'
@@ -753,6 +760,7 @@ cs:
           last_day: 'Poslední den'
     text_are_you_sure: "Jste si jisti?"
     text_data_lost: "Všechna zadaná data budou ztracena."
+    text_user_wrote: "%{value} napsal:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Jméno %{group} je již použito. Jména skupin musí být jedinečná."
@@ -784,7 +792,7 @@ cs:
     watchers:
       label_loading: načítám sledující...
       label_error_loading: Při načítání pozorovatelů došlo k chybě
-      label_search_watchers: Hledat pozorovatele
+      label_search_watchers: Hledat sledující
       label_add: Přidat sledující
       label_discard: Zrušit výběr
       typeahead_placeholder: Hledání možných přihlížejících
@@ -827,6 +835,7 @@ cs:
       toggle_description: "Přepnout popis relace"
       update_relation: "Klikněte pro změnu typu vztahu"
       add_follower: "Přidat následující"
+      show_relations: "Show relations"
       add_predecessor: "Přidat předchůdce"
       remove: "Odstranit vztah"
       save: "Uložit vztah"
@@ -962,7 +971,6 @@ cs:
         date: "Datum"
         dueDate: "Datum dokončení"
         duration: "Doba trvání"
-        estimatedTime: "Odhadovaný čas"
         spentTime: "Strávený čas"
         category: "Kategorie"
         percentageDone: "Procento hotovo"
@@ -978,6 +986,7 @@ cs:
         updatedAt: "Aktualizováno"
         versionName: "Verze"
         version: "Verze"
+        remainingTime: "Zbývající práce"
       default_queries:
         latest_activity: "Poslední aktivita"
         created_by_me: "Vytvořeno mnou"
@@ -985,7 +994,7 @@ cs:
         recently_created: "Nedávno vytvořené"
         all_open: "Všechny otevřené"
         summary: "Souhrn"
-        shared_with_users: "Shared with users"
+        shared_with_users: "Sdíleno s uživateli"
       jump_marks:
         pagination: "Přejít na stránku tabulky"
         label_pagination: "Kliknutím sem přeskočíte tabulku pracovních balíčků a přejděte na stránku"
@@ -1023,11 +1032,13 @@ cs:
         is_parent: "Data tohoto pracovního balíčku jsou automaticky odvozena od jeho dětí. Aktivujte 'Manuální plánování' pro ručné nastavení dat."
         is_switched_from_manual_to_automatic: "Data tohoto pracovního balíčku budou možná muset být přepočítána po přepnutí z manuálu na automatické plánování kvůli vztahům s ostatními pracovními balíčky."
       sharing:
-        share: 'Share'
-        title: "Share work package"
+        share: 'Sdílet'
+        title: "Sdílet pracovní balíček"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: 'Konfigurovat tabulku pracovních balíčků'
         summary: "Tabulka s řádky pracovního balíčku a atributy sloupců pracovního balíčku."
@@ -1092,7 +1103,7 @@ cs:
         save_as: "Uložit jako"
         export: "Export"
         visibility_settings: "Nastavení viditelnosti"
-        share_calendar: "Subscribe to calendar"
+        share_calendar: "Přihlásit kalendář k odběru"
         page_settings: "Přejmenovat zobrazení"
         delete: "Odstranit"
       filter: "Filtr"

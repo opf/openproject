@@ -47,7 +47,6 @@ zh-CN:
         empty: >
           当前的工作包没有链接的文件。请用下面操作或在%{storageType}内开始链接文件。
         download: "下载 %{fileName}"
-        no_permission: "您无权查看此文件。"
         open: "在存储上打开文件"
         open_location: "在位置打开文件"
         remove: "移除文件链接"
@@ -63,15 +62,21 @@ zh-CN:
           other: "您成功地创建了 %{count} 个文件链接。"
         upload_error:
           default: >
-            无法上传您的文件 (%{fileName})。 请检查最新版本的 Nextcloud软件 "OpenProject Integration" 是否已安装，并联系您的管理员获取更多信息。
+            您的文件 (%{fileName}) 无法被上传。
           403: >
             由于系统限制，无法上传您的文件 (%{fileName})。请联系您的管理员了解更多信息。
           413: >
             您的文件 (%{fileName}) 超出 OpenProject 可以上传到 %{storageType} 的文件大小。您可以先将其直接上传到 %{storageType}，然后再链接该文件。
           507: >
             您的文件 (%{fileName}) 已超出存储配额允许的范围。请联系您的管理员修改此配额。
+          detail:
+            nextcloud: >
+              请检查是否安装了最新版本的 Nextcloud 应用程序 "OpenProject Integration"，如需更多信息，请联系您的管理员。
         link_uploaded_file_error: >
           在链接最近上传的文件 '%{fileName}' 到工作包 %{workPackageId} 时出现错误。
-        not_allowed_tooltip: "请登录 Nextcloud 访问此文件"
+        tooltip:
+          not_logged_in: "请登录 Nextcloud 访问此文件。"
+          view_not_allowed: "您无权查看此文件。"
+          not_found: "找不到此文件。"
         already_linked_file: "此文件已链接到该工作包。"
         already_linked_directory: "此目录已连接到该工作包。"

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,13 +51,13 @@ module Pages
 
     def expect_type(name)
       page.within(card_element) do
-        expect(page).to have_selector('[data-test-selector="op-wp-single-card--content-type"]', text: name.upcase)
+        expect(page).to have_css('[data-test-selector="op-wp-single-card--content-type"]', text: name.upcase)
       end
     end
 
     def expect_subject(subject)
       page.within(card_element) do
-        expect(page).to have_selector('[data-test-selector="op-wp-single-card--content-subject"]', text: subject)
+        expect(page).to have_css('[data-test-selector="op-wp-single-card--content-subject"]', text: subject)
       end
     end
 

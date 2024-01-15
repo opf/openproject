@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -40,10 +40,10 @@ module OpenProject::Meeting
              bundled: true do
       project_module :meetings do
         permission :view_meetings,
-                   { meetings: %i[index show download_ics history],
+                   { meetings: %i[index show download_ics participants_dialog history],
                      meeting_agendas: %i[history show diff],
                      meeting_minutes: %i[history show diff],
-                     work_package_meetings_tab: %i[index] },
+                     work_package_meetings_tab: %i[index count] },
                    permissible_on: :project
         permission :create_meetings,
                    { meetings: %i[new create copy] },

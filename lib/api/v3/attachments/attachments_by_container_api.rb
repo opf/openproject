@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,7 +51,13 @@ module API
           # Additionally to what would be checked by the contract,
           # we need to restrict permissions in some use cases of the mounts of this endpoint.
           def restrict_permissions(permissions)
-            authorize_in_project(permissions, project: container.project) unless permissions.empty?
+            return if permissions.empty?
+
+            if container.is_a?(WorkPackage)
+              authorize_in_work_package(permissions, work_package: container)
+            else
+              authorize_in_project(permissions, project: container.project)
+            end
           end
         end
 

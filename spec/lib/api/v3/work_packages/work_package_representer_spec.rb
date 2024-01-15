@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -466,8 +466,22 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
 
-        context 'when user is lacks edit permission but has assign_versions' do
+        context 'when user lacks edit permission but has assign_versions' do
           let(:permissions) { all_permissions - [:edit_work_packages] + [:assign_versions] }
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'update' }
+            let(:href) { api_v3_paths.work_package_form(work_package.id) }
+          end
+
+          it_behaves_like 'has an untitled link' do
+            let(:link) { 'updateImmediately' }
+            let(:href) { api_v3_paths.work_package(work_package.id) }
+          end
+        end
+
+        context 'when user lacks edit permission but has change_work_package_status' do
+          let(:permissions) { all_permissions - [:edit_work_packages] + [:change_work_package_status] }
 
           it_behaves_like 'has an untitled link' do
             let(:link) { 'update' }
@@ -606,6 +620,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           let(:link) { 'revisions' }
           let(:href) do
             api_v3_paths.work_package_revisions(work_package.id)
+          end
+        end
+
+        context 'when user lacks the view_changesets permission' do
+          let(:permissions) { all_permissions - [:view_changesets] }
+
+          it_behaves_like 'has no link' do
+            let(:link) { 'revisions' }
           end
         end
       end

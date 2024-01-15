@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,9 +27,11 @@
 #++
 
 require 'spec_helper'
-require_relative './shared_context'
+require_relative 'shared_context'
 
-RSpec.describe 'Team planner working days', js: true, with_ee: %i[team_planner_view] do
+RSpec.describe 'Team planner working days', :js,
+               with_ee: %i[team_planner_view],
+               with_settings: { start_of_week: 1 } do
   include_context 'with team planner full access'
 
   context 'with week days defined' do
@@ -46,37 +48,37 @@ RSpec.describe 'Team planner working days', js: true, with_ee: %i[team_planner_v
       end
 
       # Initially, in the "Work week" view, non working days are hidden
-      expect(page).to have_selector('.fc-day-mon')
-      expect(page).to have_selector('.fc-day-tue')
-      expect(page).to have_selector('.fc-day-wed')
-      expect(page).to have_selector('.fc-day-thu')
-      expect(page).to have_selector('.fc-day-fri')
+      expect(page).to have_css('.fc-day-mon')
+      expect(page).to have_css('.fc-day-tue')
+      expect(page).to have_css('.fc-day-wed')
+      expect(page).to have_css('.fc-day-thu')
+      expect(page).to have_css('.fc-day-fri')
 
-      expect(page).not_to have_selector('.fc-day-sat')
-      expect(page).not_to have_selector('.fc-day-sun')
+      expect(page).to have_no_css('.fc-day-sat')
+      expect(page).to have_no_css('.fc-day-sun')
 
       # In the "1-week" view, non working days are displayed but marked
       team_planner.switch_view_mode '1-week'
 
-      expect(page).to have_selector('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
-      expect(page).to have_selector('.fc-day-sun.fc-non-working-day', minimum: 1)
+      expect(page).to have_css('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
+      expect(page).to have_css('.fc-day-sun.fc-non-working-day', minimum: 1)
 
-      expect(page).not_to have_selector('.fc-day-mon.fc-non-working-day')
-      expect(page).not_to have_selector('.fc-day-tue.fc-non-working-day')
-      expect(page).not_to have_selector('.fc-day-wed.fc-non-working-day')
-      expect(page).not_to have_selector('.fc-day-thu.fc-non-working-day')
-      expect(page).not_to have_selector('.fc-day-fri.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-mon.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-tue.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-wed.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-thu.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-fri.fc-non-working-day')
 
       find('.fc-next-button').click
 
-      expect(page).to have_selector('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
-      expect(page).to have_selector('.fc-day-sun.fc-non-working-day', minimum: 1)
+      expect(page).to have_css('.fc-day-sat.fc-non-working-day', minimum: 1, wait: 10)
+      expect(page).to have_css('.fc-day-sun.fc-non-working-day', minimum: 1)
 
-      expect(page).not_to have_selector('.fc-day-mon.fc-non-working-day')
-      expect(page).not_to have_selector('.fc-day-tue.fc-non-working-day')
-      expect(page).not_to have_selector('.fc-day-wed.fc-non-working-day')
-      expect(page).not_to have_selector('.fc-day-thu.fc-non-working-day')
-      expect(page).not_to have_selector('.fc-day-fri.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-mon.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-tue.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-wed.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-thu.fc-non-working-day')
+      expect(page).to have_no_css('.fc-day-fri.fc-non-working-day')
     end
   end
 end

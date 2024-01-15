@@ -43,22 +43,22 @@
           name: Øvrig
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: Work package editor
         item_1:
-          name: Work Package Commenter
+          name: Work package commenter
         item_2:
-          name: Work Package Viewer
+          name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: Ikke-medlem
         item_1:
-          name: Anonymous
+          name: Anonym
         item_2:
-          name: Member
+          name: Medlem
         item_3:
-          name: Reader
+          name: Leser
         item_4:
-          name: Project admin
+          name: Prosjekt admin
       global_roles:
         item_0:
           name: Staff and projects manager
@@ -130,7 +130,7 @@
         item_6:
           name: Avvik
       welcome:
-        title: Welcome to OpenProject!
+        title: Velkommen til OpenProject!
         text: |
           OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
 
@@ -353,8 +353,6 @@
                   name: Komme i gang
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
-
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
 
                     _Try the following steps:_
 

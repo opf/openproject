@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -35,16 +35,24 @@ RSpec.describe 'robots.txt' do
     visit '/robots.txt'
   end
 
-  it 'disallows global paths and paths from public project' do
-    expect(page).to have_content('Disallow: /activity')
-    expect(page).to have_content('Disallow: /activities')
-    expect(page).to have_content('Disallow: /search')
+  context 'when login_required', with_settings: { login_required: true } do
+    it 'disallows everything' do
+      expect(page).to have_content('Disallow: /')
+    end
+  end
 
-    [project.identifier, project.id].each do |identifier|
-      expect(page).to have_content("Disallow: /projects/#{identifier}/repository")
-      expect(page).to have_content("Disallow: /projects/#{identifier}/work_packages")
-      expect(page).to have_content("Disallow: /projects/#{identifier}/activity")
-      expect(page).to have_content("Disallow: /projects/#{identifier}/search")
+  context 'when not login_required', with_settings: { login_required: false } do
+    it 'disallows global paths and paths from public project' do
+      expect(page).to have_content('Disallow: /activity')
+      expect(page).to have_content('Disallow: /activities')
+      expect(page).to have_content('Disallow: /search')
+
+      [project.identifier, project.id].each do |identifier|
+        expect(page).to have_content("Disallow: /projects/#{identifier}/repository")
+        expect(page).to have_content("Disallow: /projects/#{identifier}/work_packages")
+        expect(page).to have_content("Disallow: /projects/#{identifier}/activity")
+        expect(page).to have_content("Disallow: /projects/#{identifier}/search")
+      end
     end
   end
 end

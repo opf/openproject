@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
 
   # specify which model #find_model_object should look up
   model_object Storages::NextcloudStorage
-  before_action :find_model_object, only: %i[new edit update]
+  before_action :find_model_object, only: %i[new create edit update]
 
   # menu_item is defined in the Redmine::MenuManager::MenuController
   # module, included from ApplicationController.
@@ -60,30 +60,50 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     @storage = ::Storages::Storages::SetNextcloudProviderFieldsAttributesService
                 .new(user: current_user,
                      model: @object,
-                     contract_class: ::Storages::Storages::BaseContract)
+                     contract_class: EmptyContract)
                 .call
                 .result
-    render '/storages/admin/storages/automatically_managed_project_folders/edit'
+
+    respond_to do |format|
+      format.html { render '/storages/admin/storages/automatically_managed_project_folders/edit' }
+      format.turbo_stream { render :edit }
+    end
+  end
+
+  def create
+    service_result = call_update_service
+
+    if service_result.success?
+      flash[:primer_banner] = {
+        message: I18n.t(:'storages.notice_successful_storage_connection'),
+        scheme: :success
+      }
+      redirect_to admin_settings_storages_path
+    else
+      respond_to do |format|
+        format.html { render '/storages/admin/storages/automatically_managed_project_folders/edit' }
+        format.turbo_stream
+      end
+    end
   end
 
   # Renders an edit page (allowing the user to change automatically_managed bool and password).
   # Used by: The StoragesController#edit, when user wants to update application credentials.
   # Called by: Global app/config/routes.rb to serve Web page
   def edit
-    render '/storages/admin/storages/automatically_managed_project_folders/edit'
+    respond_to do |format|
+      format.html { render '/storages/admin/storages/automatically_managed_project_folders/edit' }
+      format.turbo_stream
+    end
   end
 
   # Update is similar to create above
   # See also: create above
   # Called by: Global app/config/routes.rb to serve Web page
   def update
-    service_result = ::Storages::Storages::UpdateService
-                       .new(user: current_user,
-                            model: @storage)
-                       .call(permitted_storage_params_with_defaults)
+    service_result = call_update_service
 
     if service_result.success?
-      flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to edit_admin_settings_storage_path(@storage)
     else
       render '/storages/admin/storages/automatically_managed_project_folders/edit'
@@ -113,11 +133,18 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     @storage = @object
   end
 
+  def call_update_service
+    ::Storages::Storages::UpdateService
+      .new(user: current_user,
+           model: @storage)
+      .call(permitted_storage_params_with_defaults)
+  end
+
   def permitted_storage_params_with_defaults
     permitted_storage_params.tap do |permitted_params|
       # If a checkbox is unchecked when its form is submitted, neither the name nor the value is submitted to the server.
       # See https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox
-      permitted_params.merge!(automatically_managed: false) unless permitted_params.key?('automatically_managed')
+      permitted_params.merge!(automatic_management_enabled: false) unless permitted_params.key?('automatic_management_enabled')
     end
   end
 
@@ -126,6 +153,6 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
   def permitted_storage_params
     params
       .require(:storages_nextcloud_storage)
-      .permit('automatically_managed', 'password')
+      .permit('automatic_management_enabled', 'password')
   end
 end

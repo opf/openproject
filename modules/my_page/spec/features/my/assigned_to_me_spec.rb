@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-RSpec.describe 'Assigned to me embedded query on my page', js: true do
+RSpec.describe 'Assigned to me embedded query on my page', :js do
   let!(:type) { create(:type) }
   let!(:priority) { create(:default_priority) }
   let!(:project) { create(:project, types: [type]) }
@@ -134,10 +134,10 @@ RSpec.describe 'Assigned to me embedded query on my page', js: true do
     assigned_area.expect_to_exist
 
     expect(assigned_area.area)
-      .to have_selector('.subject', text: assigned_work_package.subject)
+      .to have_css('.subject', text: assigned_work_package.subject)
 
     expect(assigned_area.area)
-      .not_to have_selector('.subject', text: assigned_to_other_work_package.subject)
+      .to have_no_css('.subject', text: assigned_to_other_work_package.subject)
 
     embedded_table.click_inline_create
 
@@ -177,16 +177,16 @@ RSpec.describe 'Assigned to me embedded query on my page', js: true do
 
     within assigned_area.area do
       expect(page)
-        .to have_selector('.subject', text: assigned_work_package.subject)
+        .to have_css('.subject', text: assigned_work_package.subject)
       expect(page)
-        .not_to have_selector('.subject', text: assigned_work_package_2.subject)
+        .to have_no_css('.subject', text: assigned_work_package_2.subject)
 
       page.find('.op-pagination--item button', text: '2').click
 
       expect(page)
-        .not_to have_selector('.subject', text: assigned_work_package.subject)
+        .to have_no_css('.subject', text: assigned_work_package.subject)
       expect(page)
-        .to have_selector('.subject', text: assigned_work_package_2.subject)
+        .to have_css('.subject', text: assigned_work_package_2.subject)
     end
 
     assigned_area.resize_to(1, 2)

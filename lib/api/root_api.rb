@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -188,6 +188,40 @@ module API
         permissions = Array.wrap(permission_or_permissions)
         authorized = permissions.any? do |permission|
           user.allowed_in_any_project?(permission)
+        end
+
+        authorize_by_with_raise(authorized, &block)
+      end
+
+      # Checks that the current user has the given permission on any work package or project or raise {API::Errors::Unauthorized}.
+      #
+      # @param permission_or_permissions [String, [String], Hash] the permission name, an array of permissions or a hash
+      #   with controller and action keys. When an array of permissions is given, the user needs to have at least one of
+      #   those permissions, not all.
+      #
+      # @raise [API::Errors::Unauthorized] when permission is not met
+      def authorize_in_any_work_package(permission_or_permissions, user: current_user, in_project: nil, &block)
+        permissions = Array.wrap(permission_or_permissions)
+        authorized = permissions.any? do |permission|
+          user.allowed_in_any_work_package?(permission, in_project:)
+        end
+
+        authorize_by_with_raise(authorized, &block)
+      end
+
+      # Checks that the current user has the given permission on the given work package or raise {API::Errors::Unauthorized}.
+      #
+      # @param permission_or_permissions [String, [String], Hash] the permission name, an array of permissions or a hash
+      #   with controller and action keys. When an array of permissions is given, the user needs to have at least one of
+      #   those permissions, not all.
+      #
+      # @param work_package [Project] the work package the permission needs to be checked on
+      #
+      # @raise [API::Errors::Unauthorized] when permission is not met
+      def authorize_in_work_package(permission_or_permissions, work_package:, user: current_user, &block)
+        permissions = Array.wrap(permission_or_permissions)
+        authorized = permissions.any? do |permission|
+          user.allowed_in_work_package?(permission, work_package)
         end
 
         authorize_by_with_raise(authorized, &block)

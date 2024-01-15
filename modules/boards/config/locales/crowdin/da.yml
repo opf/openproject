@@ -23,17 +23,17 @@ da:
       basic: Grundlæggende
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Start fra bunden med et tomt bord. Tilføj manuelt kort og kolonner til denne tavle.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Grundlæggende kanban stil tavle med kolonner til status som To Do, I gang, Udført.
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        Tavle med automatiserede kolonner baseret på tildelte brugere. Ideel til afsendelse af arbejdspakker.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        Tavle med automatiserede kolonner baseret på versionsattributten. Ideel til planlægning af produktudvikling.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        Board med automatiserede kolonner til underprojekter. Træk arbejdspakker til andre lister opdaterer (under)projektet i overensstemmelse hermed.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        Board med automatiserede kolonner til underelementer. Træk arbejdspakker til andre lister, opdaterer den overordnede i overensstemmelse hermed.
     upsale:
       teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
       upgrade: 'Upgrade now'

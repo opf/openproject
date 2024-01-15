@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,25 +28,32 @@
 
 require 'rack/test'
 
-RSpec.shared_examples_for 'available principals' do |principals|
+RSpec.shared_examples_for 'available principals' do |principals, work_package_scope: false|
   include API::V3::Utilities::PathHelper
 
   current_user do
     create(:user, member_with_roles: { project => role })
   end
+  let(:shared_with_user) do
+    create(:user, member_with_roles: { work_package => assignable_work_package_role })
+  end
   let(:other_user) do
-    create(:user, member_with_roles: { project => assignable_role })
+    create(:user, member_with_roles: { project => assignable_project_role })
   end
   let(:role) { create(:project_role, permissions:) }
-  let(:assignable_role) { create(:project_role, permissions: assignable_permissions) }
+  let(:assignable_project_role) { create(:project_role, permissions: assignable_permissions) }
+  let(:assignable_work_package_role) { create(:work_package_role, permissions: assignable_permissions) }
   let(:project) { create(:project) }
+  let(:work_package) { create(:work_package, project:) }
   let(:group) do
-    create(:group, member_with_roles: { project => assignable_role })
+    create(:group, member_with_roles: { project => assignable_project_role })
   end
   let(:placeholder_user) do
-    create(:placeholder_user, member_with_roles: { project => assignable_role })
+    create(:placeholder_user, member_with_roles: { project => assignable_project_role })
   end
-  let(:permissions) { [:view_work_packages] }
+
+  let(:permissions) { base_permissions }
+
   let(:assignable_permissions) { [:work_package_assigned] }
 
   shared_context "request available #{principals}" do
@@ -61,7 +68,7 @@ RSpec.shared_examples_for 'available principals' do |principals|
     end
 
     describe 'users' do
-      let(:permissions) { %i[view_work_packages work_package_assigned] }
+      let(:permissions) { base_permissions + assignable_permissions }
 
       context 'for a single user' do
         # The current user
@@ -72,14 +79,19 @@ RSpec.shared_examples_for 'available principals' do |principals|
       context 'for multiple users' do
         before do
           other_user
+          shared_with_user
           # and the current user
         end
 
-        it_behaves_like "returns available #{principals}", 2, 2, 'User'
+        if work_package_scope
+          it_behaves_like "returns available #{principals}", 3, 3, 'User'
+        else
+          it_behaves_like "returns available #{principals}", 2, 2, 'User'
+        end
       end
 
       context 'if the user lacks the assignable permission' do
-        let(:permissions) { %i[view_work_packages] }
+        let(:permissions) { base_permissions }
 
         it_behaves_like "returns available #{principals}", 0, 0, 'User'
       end
@@ -104,6 +116,11 @@ RSpec.shared_examples_for 'available principals' do |principals|
 
     before { get href }
 
-    it_behaves_like 'unauthorized access'
+    if work_package_scope
+      it_behaves_like 'not found',
+                      I18n.t('api_v3.errors.not_found.work_package')
+    else
+      it_behaves_like 'unauthorized access'
+    end
   end
 end

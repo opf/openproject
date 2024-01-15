@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,44 +43,47 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     # rubocop:disable Metrics/AbcSize
     def call(user:, group: @group)
-      response = Util.http(@uri).delete(
-        Util.join_uri_path(@uri.path,
-                           "ocs/v1.php/cloud/users",
-                           CGI.escapeURIComponent(user),
-                           "groups?groupid=#{CGI.escapeURIComponent(group)}"),
-        Util.basic_auth_header(@username, @password).merge(
-          'OCS-APIRequest' => 'true'
-        )
-      )
+      response = Util
+                   .httpx
+                   .basic_auth(@username, @password)
+                   .with(headers: { 'OCS-APIRequest' => 'true' })
+                   .delete(
+                     Util.join_uri_path(@uri,
+                                        "ocs/v1.php/cloud/users",
+                                        CGI.escapeURIComponent(user),
+                                        "groups?groupid=#{CGI.escapeURIComponent(group)}")
+                   )
 
-      case response
-      when Net::HTTPSuccess
-        statuscode = Nokogiri::XML(response.body).xpath('/ocs/meta/statuscode').text
+      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+
+      case response.status
+      when 200..299
+        statuscode = Nokogiri::XML(response.body.to_s).xpath('/ocs/meta/statuscode').text
         case statuscode
         when "100"
           ServiceResult.success(message: "User has been removed from group")
         when "101"
-          Util.error(:error, "No group specified", response)
+          Util.error(:error, "No group specified", error_data)
         when "102"
-          Util.error(:error, "Group does not exist", response)
+          Util.error(:error, "Group does not exist", error_data)
         when "103"
-          Util.error(:error, "User does not exist", response)
+          Util.error(:error, "User does not exist", error_data)
         when "104"
-          Util.error(:error, "Insufficient privileges", response)
+          Util.error(:error, "Insufficient privileges", error_data)
         when "105"
           message = Nokogiri::XML(response.body).xpath('/ocs/meta/message').text
-          Util.error(:error, "Failed to remove user #{user} from group #{group}: #{message}", response)
+          Util.error(:error, "Failed to remove user #{user} from group #{group}: #{message}", error_data)
         end
-      when Net::HTTPMethodNotAllowed
-        Util.error(:not_allowed, 'Outbound request method not allowed', response)
-      when Net::HTTPNotFound
-        Util.error(:not_found, 'Outbound request destination not found', response)
-      when Net::HTTPUnauthorized
-        Util.error(:unauthorized, 'Outbound request not authorized', response)
-      when Net::HTTPConflict
-        Util.error(:conflict, Util.error_text_from_response(response), response)
+      when 405
+        Util.error(:not_allowed, 'Outbound request method not allowed', error_data)
+      when 401
+        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
+      when 404
+        Util.error(:not_found, 'Outbound request destination not found', error_data)
+      when 409
+        Util.error(:conflict, Util.error_text_from_response(response), error_data)
       else
-        Util.error(:error, 'Outbound request failed', response)
+        Util.error(:error, 'Outbound request failed', error_data)
       end
     end
     # rubocop:enable Metrics/AbcSize

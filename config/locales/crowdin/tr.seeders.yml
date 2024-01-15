@@ -43,25 +43,25 @@ tr:
           name: Diğer
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: Work package editor
         item_1:
-          name: Work Package Commenter
+          name: Work package commenter
         item_2:
-          name: Work Package Viewer
+          name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: Üye Değil
         item_1:
-          name: Anonymous
+          name: Anonim
         item_2:
-          name: Member
+          name: Üye
         item_3:
-          name: Reader
+          name: Okuyucu
         item_4:
-          name: Project admin
+          name: Proje yöneticisi
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: Personel ve proje yöneticisi
     standard:
       priorities:
         item_0:
@@ -163,11 +163,11 @@ tr:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: Proje planı
             item_1:
               name: Milestones
             item_2:
-              name: Tasks
+              name: Görevler
             item_3:
               name: Takım planlayıcısı
           boards:
@@ -190,7 +190,7 @@ tr:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Hoş geldiniz
               item_1:
                 options:
                   name: Başlarken
@@ -322,13 +322,13 @@ tr:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: Proje planı
             item_1:
               name: Ürün bekleme süresi
             item_2:
               name: Sprint 1
             item_3:
-              name: Tasks
+              name: Görevler
           boards:
             kanban:
               name: Kanban board
@@ -347,14 +347,12 @@ tr:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Hoş geldiniz
               item_1:
                 options:
                   name: Başlarken
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
-
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
 
                     _Try the following steps:_
 
@@ -373,7 +371,7 @@ tr:
                   name: İş paketleri
               item_6:
                 options:
-                  name: Project plan
+                  name: Proje planı
           work_packages:
             item_0:
               subject: New login screen
@@ -392,7 +390,7 @@ tr:
                     item_0:
                       subject: Create wireframes for new landing page
             item_3:
-              subject: Contact form
+              subject: İletişim formu
             item_4:
               subject: Feature carousel
               children:

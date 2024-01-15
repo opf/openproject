@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,6 +38,7 @@ FactoryBot.define do
     trait :with_oauth_client do
       oauth_client { build(:oauth_client) }
     end
+    # rubocop:enable FactoryBot/FactoryAssociationWithStrategy
 
     trait :as_generic do
       provider_type { 'Storages::Storage' }
@@ -62,6 +63,41 @@ FactoryBot.define do
 
     trait :as_not_automatically_managed do
       automatically_managed { false }
+    end
+
+    trait :as_healthy do
+      health_status { 'healthy' }
+      health_reason { nil }
+      health_changed_at { Time.now.utc }
+      health_checked_at { Time.now.utc }
+    end
+
+    trait :as_unhealthy do
+      health_status { 'unhealthy' }
+      health_reason { 'error_code | description' }
+      health_changed_at { Time.now.utc }
+      health_checked_at { Time.now.utc }
+    end
+
+    trait :as_unhealthy_long_reason do
+      health_status { 'unhealthy' }
+      health_reason { 'unauthorized | Outbound request not authorized | #<Storages::StorageErrorData:0x0000ffff646ac570>' }
+      health_changed_at { Time.now.utc }
+      health_checked_at { Time.now.utc }
+    end
+
+    trait :as_pending do
+      health_status { 'pending' }
+      health_reason { nil }
+      health_changed_at { Time.now.utc }
+      health_checked_at { Time.now.utc }
+    end
+  end
+
+  factory :nextcloud_storage_configured, parent: :nextcloud_storage do
+    after(:create) do |storage, _evaluator|
+      create(:oauth_client, integration: storage)
+      create(:oauth_application, integration: storage)
     end
   end
 
@@ -105,10 +141,23 @@ FactoryBot.define do
     end
   end
 
+  factory :nextcloud_storage_with_complete_configuration,
+          parent: :nextcloud_storage,
+          traits: [:as_automatically_managed] do
+    sequence(:host) { |n| "https://host-complete#{n}.example.com" }
+
+    after(:create) do |storage|
+      create(:oauth_client, integration: storage)
+      create(:oauth_application, integration: storage)
+    end
+  end
+
   factory :one_drive_storage,
           parent: :storage,
           class: '::Storages::OneDriveStorage' do
     host { nil }
+    tenant_id { SecureRandom.uuid }
+    drive_id { SecureRandom.uuid }
   end
 
   factory :sharepoint_dev_drive_storage,

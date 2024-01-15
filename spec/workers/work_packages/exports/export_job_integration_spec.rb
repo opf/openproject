@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -74,7 +74,7 @@ RSpec.describe WorkPackages::ExportJob, 'Integration' do
       expect(job_status.status).to eq 'success'
 
       attachment = export.attachments.last
-      expected = "Foo-Bla.-Report-No.-4-2021-with-for-Case-42_Query-report-04-2021-äöü_2023-06-30_23-59.pdf"
+      expected = "Foo_Bla_Report_No._4_2021_with_for_Case_42_Query_report_04_2021__2023-06-30_23-59.pdf"
       expect(attachment.filename).to eq expected
     end
   end

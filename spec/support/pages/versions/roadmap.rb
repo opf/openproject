@@ -63,7 +63,7 @@ module Pages
 
       def expect_filter_not_set(filter_name)
         within '#menu-sidebar' do
-          expect(page).not_to have_checked_field(filter_name)
+          expect(page).to have_no_checked_field(filter_name)
         end
       end
 
@@ -78,7 +78,7 @@ module Pages
       def expect_versions_not_listed(*versions)
         within '#roadmap' do
           versions.each do |version|
-            expect(page).not_to have_content version.name
+            expect(page).to have_no_content version.name
           end
         end
       end

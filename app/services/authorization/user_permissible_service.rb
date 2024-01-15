@@ -28,6 +28,7 @@ module Authorization
 
     def allowed_in_any_project?(permission)
       perms = contextual_permissions(permission, :project)
+      return false unless authorizable_user?
       return true if admin_and_all_granted_to_admin?(perms)
 
       Project.allowed_to(user, perms).exists?
@@ -46,17 +47,20 @@ module Authorization
       end
     end
 
-    def allowed_in_any_entity?(permission, entity_class, in_project: nil)
+    def allowed_in_any_entity?(permission, entity_class, in_project: nil) # rubocop:disable Metrics/PerceivedComplexity
       perms = contextual_permissions(permission, context_name(entity_class))
+      return false unless authorizable_user?
+      return false if in_project && !(in_project.active? || in_project.being_archived?)
       return true if admin_and_all_granted_to_admin?(perms)
 
       # entity_class.allowed_to will also check whether the user has the permission via a membership in the project.
+      # ^-- still a problem in some cases
       allowed_scope = entity_class.allowed_to(user, perms)
 
       if in_project
-        allowed_scope.exists?(project: in_project)
+        allowed_in_single_project?(perms, in_project) || allowed_scope.exists?(project: in_project)
       else
-        allowed_scope.exists?
+        allowed_in_any_project?(perms) || allowed_scope.exists?
       end
     end
 
@@ -84,6 +88,7 @@ module Authorization
 
     def allowed_in_single_entity?(permissions, entity)
       return false if entity.nil?
+      return false if entity.project.nil?
       return false unless entity.project.active? || entity.project.being_archived?
 
       permissions_filtered_for_project = permissions_by_enabled_project_modules(entity.project, permissions)

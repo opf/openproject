@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -31,6 +31,12 @@ si:
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         පේළිගත රූපය හෝ යොමු ඇමුණුමක් කර්තෘ ක්ෂේත්රය මත ඇදගෙන යන්න. ඔබ ඇදගෙන යන අතරතුර සංවෘත සංස්කාරක ක්ෂේත්ර විවෘත කරනු ඇත.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "පැටවීම..."
+      not_found: "No items found"
+      type_to_search: "සෙවීමට ටයිප් කරන්න"
     autocomplete_select:
       placeholder:
         multi: "එකතු කරන්න \"%{name}”"
@@ -297,33 +303,33 @@ si:
           two: "දෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
           three: "තෙවන තෝරා බේරා ගැනීමේ නිර්ණායක"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'ගැන්ට් සටහන'
       quarter_label: 'Q%{quarter_number}'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'ලේබල් වින්යාසය'
+        bar: 'බාර් ලේබල්'
+        left: 'වම'
+        right: 'අයිතිය'
+        farRight: 'ඈත හරි'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'Gantt සටහන පෙන්වන්න'
+      button_deactivate: 'Gantt සටහන සඟවන්න'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(කිසිවක් නැත)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'සම්බන්ධතාවය නිර්මාණය කිරීම සඳහා ඕනෑම උද්දීපනය කළ වැඩ පැකේජයක් මත ක්ලික් කරන්න. අවලංගු කිරීමට මාධ්ය ගැලවීම.'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "විශාලනය"
+        out: "විශාලනය"
+        auto: "වාහන විශාලනය"
+        days: "දින"
+        weeks: "සති"
+        months: "මාස"
+        quarters: "නිල නිවාස"
+        years: "අවුරුදු"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          ස්වයංසූම් ලබා ගත නොහැකි විට පෙන්විය යුතු ආරම්භක විශාලන මට්ටම තෝරන්න.
     general_text_no: "නැත"
     general_text_yes: "ඔව්"
     general_text_No: "නැත"
@@ -342,11 +348,11 @@ si:
           learn_about: "නව විශේෂාංග ගැන වැඩි විස්තර දැනගන්න"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -515,6 +521,7 @@ si:
     label_watcher_added_successfully: "මුරකරු සාර්ථකව එකතු කළා!"
     label_watcher_deleted_successfully: "මුරකරු සාර්ථකව මකා දමන ලදි!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "අසන්න"
     label_unwatch_work_package: "වැඩ පැකේජය අසන්න"
     label_uploaded_by: "විසින් උඩුගත"
@@ -751,6 +758,7 @@ si:
           last_day: 'Last day'
     text_are_you_sure: "ඔබට විශ්වාසද?"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "%{group} නම එක් වරකට වඩා භාවිතා වේ. කණ්ඩායම් නම් අද්විතීය විය යුතුය."
@@ -825,6 +833,7 @@ si:
       toggle_description: "සම්බන්ධතා විස්තරය ටොගල් කරන්න"
       update_relation: "සම්බන්ධතා වර්ගය වෙනස් කිරීමට ක්ලික් කරන්න"
       add_follower: "අනුගාමිකයෙක් එකතු කරන්න"
+      show_relations: "Show relations"
       add_predecessor: "පූර්වගාමියා එකතු කරන්න"
       remove: "සම්බන්ධතාවය ඉවත් කරන්න"
       save: "සම්බන්ධතාවය සුරකින්න"
@@ -960,7 +969,6 @@ si:
         date: "දිනය"
         dueDate: "අවසන් දිනය"
         duration: "කාල සීමාව"
-        estimatedTime: "ඇස්තමේන්තුගත කාලය"
         spentTime: "වැය කළ කාලය"
         category: "ප්රවර්ගය"
         percentageDone: "ප්රතිශතය සිදු"
@@ -976,6 +984,7 @@ si:
         updatedAt: "යාවත්කාලීන කරන ලදි"
         versionName: "අනුවාදය"
         version: "අනුවාදය"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "නවතම ක්රියාකාරකම්"
         created_by_me: "මා විසින් නිර්මාණය කරන ලදී"
@@ -1026,6 +1035,8 @@ si:
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: 'වැඩ පැකේජ වගුව සකසන්න'
         summary: "වැඩ පැකේජයේ පේළි සහ වැඩ පැකේජ ගුණාංගවල තීරු සහිත වගුව."

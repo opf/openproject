@@ -20,10 +20,17 @@ module ::Recaptcha
     # Skip if user has confirmed already
     before_action :skip_if_user_verified
 
+    # Ensure we set the correct configuration for rendering/verifying the captcha
+    around_action :set_captcha_settings
+
     ##
     # Request verification form
     def perform
-      use_content_security_policy_named_append(:recaptcha)
+      if OpenProject::Recaptcha::Configuration.use_hcaptcha?
+        use_content_security_policy_named_append(:hcaptcha)
+      else
+        use_content_security_policy_named_append(:recaptcha)
+      end
     end
 
     def verify
@@ -37,6 +44,16 @@ module ::Recaptcha
 
     private
 
+    def set_captcha_settings(&)
+      if OpenProject::Recaptcha::Configuration.use_hcaptcha?
+        Recaptcha.with_configuration(verify_url: OpenProject::Recaptcha.hcaptcha_verify_url,
+                                     api_server_url: OpenProject::Recaptcha.hcaptcha_api_server_url,
+                                     &)
+      else
+        yield
+      end
+    end
+
     ##
     # Insert that the account was verified
     def save_recaptcha_verification_success!
@@ -49,7 +66,7 @@ module ::Recaptcha
       case recaptcha_settings['recaptcha_type']
       when ::OpenProject::Recaptcha::TYPE_DISABLED
         0
-      when ::OpenProject::Recaptcha::TYPE_V2
+      when ::OpenProject::Recaptcha::TYPE_V2, ::OpenProject::Recaptcha::TYPE_HCAPTCHA
         2
       when ::OpenProject::Recaptcha::TYPE_V3
         3

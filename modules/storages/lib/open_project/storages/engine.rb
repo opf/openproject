@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,8 +46,6 @@ module OpenProject::Storages
 
     initializer 'openproject_storages.feature_decisions' do
       OpenProject::FeatureDecisions.add :storage_file_picking_select_all
-      OpenProject::FeatureDecisions.add :storage_one_drive_integration
-      OpenProject::FeatureDecisions.add :storage_primer_design
     end
 
     initializer 'openproject_storages.event_subscriptions' do
@@ -96,6 +94,7 @@ module OpenProject::Storages
           OpenProject::Notifications.subscribe(event) do |payload|
             if payload[:project_folder_mode] == :automatic
               ::Storages::ManageNextcloudIntegrationEventsJob.debounce
+              ::Storages::ManageNextcloudIntegrationCronJob.ensure_scheduled!
             end
           end
         end
@@ -159,16 +158,12 @@ module OpenProject::Storages
           User.current.allowed_in_project?(:view_file_links, project)
           project.project_storages.each do |project_storage|
             storage = project_storage.storage
-            href = "/api/v3/project_storages/#{project_storage.id}/open"
-            icon = if storage.provider_type_nextcloud?
-                     'nextcloud-circle'
-                   else
-                     'hosting'
-                   end
+            next unless storage.configured?
 
+            icon = storage.provider_type_nextcloud? ? 'nextcloud-circle' : 'hosting'
             menu.push(
               :"storage_#{storage.id}",
-              href,
+              project_storage.open_with_connection_ensured,
               caption: storage.name,
               before: :members,
               icon:,

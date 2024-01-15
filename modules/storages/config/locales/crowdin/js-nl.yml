@@ -47,7 +47,6 @@ nl:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "Downloaden %{fileName}"
-        no_permission: "U heeft geen toestemming om dit bestand te bekijken."
         open: "Open bestand in opslag"
         open_location: "Open bestand op locatie"
         remove: "Bestandslink verwijderen"
@@ -65,15 +64,21 @@ nl:
           other: "Successfully created %{count} file links."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded. Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
+            Your file (%{fileName}) could not be uploaded.
           403: >
             Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
           413: >
             Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
           507: >
             Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
+          detail:
+            nextcloud: >
+              Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
         link_uploaded_file_error: >
           An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
-        not_allowed_tooltip: "Log in op Nextcloud om toegang te krijgen tot dit bestand"
+        tooltip:
+          not_logged_in: "Please log in to Nextcloud to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
         already_linked_file: "Dit bestand is al gekoppeld aan dit werkpakket."
         already_linked_directory: "Deze map is al gekoppeld aan dit werkpakket."

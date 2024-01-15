@@ -31,23 +31,22 @@ ca:
           Un fitxer amb el nom "%{fileName}" ja existeix a la ubicació on estàs intentant carregar-lo. Que vols fer?
         directory_not_writeable: "No tens permís per afegir fitxers dins d'aquesta carpeta."
         dragging_many_files: "La càrrega a %{storageType} només permet un fitxer per càrrega."
-        dragging_folder: "The upload to %{storageType} does not support folders."
+        dragging_folder: "Les carpetes no estan permeses a la càrrega a %{storageType}."
         empty_folder: "Aquesta carpeta està buida."
         empty_folder_location_hint: "Fes clic al botó de sota per carregar fitxers a aquesta ubicació."
         file_not_selectable_location: "Seleccionar un fitxer, no és possible en el procés de tria d'ubicació."
         project_folder_no_access: >
           No tens accés a la capeta de projecte. Si us plau, contacta amb el teu administrador per obtenir accés o puja el fitxer en una altra ubicació.
         managed_project_folder_not_available: >
-          The automatically managed project folder was not yet found. Please wait a bit, reload the page to fetch the newest data, and try again.
+          Les carpetes gestionades automàticament no s'ha trobat encara. Si us plau, espera una mica i recarrega la pàgina per obtenir les dades més recents i prova-ho de nou.
         managed_project_folder_no_access: >
-          You have no access yet to the managed project folder. Please wait a bit and try again.
+          Encara no tens access a la carpeta de projecte gestionada. Si us plau, espera un moment i prova-ho de nou.
         upload_keep_both: "Conserva els dos"
         upload_replace: "Substitueix"
       file_links:
         empty: >
           Actualment no hi ha cap fitxer enllaçat a aquest paquet de treball. Comença a enllaçar fitxers amb l'acció de sota o dins de %{storageType}.
         download: "Descarrega %{fileName}"
-        no_permission: "No tens permisos per veure aquest fitxer."
         open: "Obre el fitxer a l'emmagatzematge"
         open_location: "Obre la ubicació del fitxer"
         remove: "Elimina l'enllaç del fitxer"
@@ -65,15 +64,21 @@ ca:
           other: "%{count} enllaços de fitxer creat correctament."
         upload_error:
           default: >
-            El teu fitxer (%{fileName}) no s'ha pogut carregar. Si us plau, verifica que l'última versió de l'aplicació de Nextcloud "OpenProject Integration" està instal·lada i/o contacta el teu administrador per més informació.
+            El teu fitxer (%{fileName}) no s'ha pogut carregar.
           403: >
             El fitxer (%{fileName}) no s'ha pogut carregar a causa de les restriccions del sistema. Si us plau, contacta el teu administrador per a més informació.
           413: >
             El fitxer (%{fileName}) és més gran del que OpenProject pot carregar a %{storageType}. Pots carregar-lo directament a %{storageType} i després vincular-lo.
           507: >
             El fitxer (%{fileName}) és més gran que la quota d'emmagatzematge permesa. Si us plau, contacta el teu administrador per a modificar aquesta quota.
+          detail:
+            nextcloud: >
+              Si us plau, comprova l'última versió de l'aplicació Nextcloud "OpenProject Integration" estigui instal·lada i contacta el teu administrador per més informació.
         link_uploaded_file_error: >
           S'ha produït un error en enllaçar els fitxers carregats recentment "%{fileName}" al paquet de treball %{workPackageId}.
-        not_allowed_tooltip: "Si us plau, inicia sessió a Nextcloud per accedir a aquest fitxer"
+        tooltip:
+          not_logged_in: "Please log in to Nextcloud to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
         already_linked_file: "Aquest fitxer ja està enllaçat a aquest paquet de treball."
         already_linked_directory: "Aquest directori ja està enllaçat a aquest paquet de treball."

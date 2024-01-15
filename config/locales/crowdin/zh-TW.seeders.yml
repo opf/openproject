@@ -43,25 +43,25 @@ zh-TW:
           name: 其他
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: Work package editor
         item_1:
-          name: Work Package Commenter
+          name: Work package commenter
         item_2:
-          name: Work Package Viewer
+          name: Work package viewer
       project_roles:
         item_0:
-          name: Non member
+          name: 非成員
         item_1:
-          name: Anonymous
+          name: 匿名者
         item_2:
-          name: Member
+          name: 成員
         item_3:
-          name: Reader
+          name: 讀者
         item_4:
-          name: Project admin
+          name: 專案管理員
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: 職員和專案管理員
     standard:
       priorities:
         item_0:
@@ -163,13 +163,13 @@ zh-TW:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: 計畫方案
             item_1:
-              name: Milestones
+              name: 里程碑
             item_2:
-              name: Tasks
+              name: 任務
             item_3:
-              name: Team planner
+              name: 團隊規劃
           boards:
             kanban:
               name: Kanban board
@@ -190,7 +190,7 @@ zh-TW:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: 歡迎
               item_1:
                 options:
                   name: 開始
@@ -215,7 +215,7 @@ zh-TW:
                   name: 工作項目
               item_6:
                 options:
-                  name: Milestones
+                  name: 里程碑
           work_packages:
             item_0:
               subject: Start of project
@@ -322,13 +322,13 @@ zh-TW:
             item_0: Category 1 (to be changed in Project settings)
           queries:
             item_0:
-              name: Project plan
+              name: 計畫方案
             item_1:
               name: 產品待辦事項
             item_2:
               name: Sprint 1
             item_3:
-              name: Tasks
+              name: 任務
           boards:
             kanban:
               name: Kanban board
@@ -347,14 +347,12 @@ zh-TW:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: 歡迎
               item_1:
                 options:
                   name: 開始
                   text: |
                     We are glad you joined! We suggest to try a few things to get started in OpenProject.
-
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true).
 
                     _Try the following steps:_
 
@@ -373,7 +371,7 @@ zh-TW:
                   name: 工作項目
               item_6:
                 options:
-                  name: Project plan
+                  name: 計畫方案
           work_packages:
             item_0:
               subject: New login screen

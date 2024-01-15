@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -90,20 +90,26 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
         end
       end.to_xml
 
-      response = UTIL.http(@uri).propfind(
-        UTIL.join_uri_path(
-          @uri.path,
-          'remote.php/dav/files',
-          CGI.escapeURIComponent(@username),
-          UTIL.escape_path(path)
-        ),
-        body,
-        UTIL.basic_auth_header(@username, @password).merge('Depth' => depth)
-      )
+      response = UTIL
+                   .httpx
+                   .basic_auth(@username, @password)
+                   .with(headers: { "Depth" => depth})
+                   .request(
+                     "PROPFIND",
+                     UTIL.join_uri_path(
+                       @uri,
+                       'remote.php/dav/files',
+                       CGI.escapeURIComponent(@username),
+                       UTIL.escape_path(path)
+                     ),
+                     xml: body,
+                   )
 
-      case response
-      when Net::HTTPSuccess
-        doc = Nokogiri::XML response.body
+      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+
+      case response.status
+      when 200..299
+        doc = Nokogiri::XML(response.body.to_s)
         result = {}
         doc.xpath('/d:multistatus/d:response').each do |resource_section|
           resource = CGI.unescape(resource_section.xpath("d:href").text.strip)
@@ -119,14 +125,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
         end
 
         ServiceResult.success(result:)
-      when Net::HTTPMethodNotAllowed
-        UTIL.error(:not_allowed, 'Outbound request method not allowed', response)
-      when Net::HTTPNotFound
-        UTIL.error(:not_found, 'Outbound request destination not found', response)
-      when Net::HTTPUnauthorized
-        UTIL.error(:unauthorized, 'Outbound request not authorized', response)
+      when 405
+        UTIL.error(:not_allowed, 'Outbound request method not allowed', error_data)
+      when 401
+        UTIL.error(:unauthorized, 'Outbound request not authorized', error_data)
+      when 404
+        UTIL.error(:not_found, 'Outbound request destination not found', error_data)
       else
-        UTIL.error(:error, 'Outbound request failed', response)
+        UTIL.error(:error, 'Outbound request failed', error_data)
       end
     end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,11 +29,8 @@
 class ICalTokenQueryAssignment < ApplicationRecord
   self.table_name = 'ical_token_query_assignments'
 
-  # rubocop:disable Rails/BelongsTo
   belongs_to :ical_token, class_name: 'Token::ICal', optional: true
   belongs_to :query, optional: true
-  # rubocop:enable Rails/BelongsTo
-
   validates :name, presence: true
   validate :unique_name_per_user_and_query
 

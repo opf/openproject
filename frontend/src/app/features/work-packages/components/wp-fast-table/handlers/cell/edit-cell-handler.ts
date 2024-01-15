@@ -35,7 +35,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     super();
   }
 
-  protected processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean {
+  protected processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):void {
     debugLog('Starting editing on cell: ', evt.target);
     evt.preventDefault();
 
@@ -46,7 +46,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
 
     if (!fieldName) {
       debugLog('Click handled by cell not a field? ', evt.target);
-      return true;
+      return;
     }
 
     // Locate the row
@@ -70,7 +70,5 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
         handler.focus(positionOffset);
       })
       .catch(() => target.addClass(readOnlyClassName));
-
-    return false;
   }
 }

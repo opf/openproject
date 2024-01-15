@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -31,6 +31,12 @@ fr:
         Voulez-vous vraiment supprimer ce fichier ? Cette action est irréversible.
       draggable_hint: |
         Faites glisser le champ de l'éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l'éditeur seront ouverts tant que vous continuer à faire glisser.
+    autocomplete_ng_select:
+      add_tag: "Ajouter un élément"
+      clear_all: "Tout réinitialiser"
+      loading: "Chargement…"
+      not_found: "Aucun élément trouvé"
+      type_to_search: "Taper pour rechercher"
     autocomplete_select:
       placeholder:
         multi: "Ajouter «%{name} »"
@@ -342,11 +348,11 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                La version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Comparaison des données de référence pour faciliter le suivi des modifications.</li> <li>Exportation PDF des rapports sur les plans de travail.</li> <li>L'abonnement aux calendriers des projets via une adresse URL (iCalendar).</li> <li>Dossiers de projet avec des modèles de documents pour l'intégration de Nextcloud.</li> <li>Seeding localisé de toutes les données de démarrage.</li> <li>Les modules globaux sont répertoriés sur de nouvelles pages d'index.</li> </ul>
+                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Filtre pour les rôles, les groupes et les partages dans la liste des membres du projet.</li> <li>Possibilité de définir les responsables et les attributaires des lots de travaux partagés.</li> <li>Introduction de nouveaux noms de champs Travail, Travail restant et % d'achèvement pour préparer les rapports d'avancement pour les hiérarchies de lots de travaux.</li> <li>Possibilité de modifier le statut sans avoir le droit de modifier les lots de travaux.</li> <li>Utilisation de dossiers de projet manuels pour les stockages OneDrive/SharePoint.</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -370,7 +376,7 @@ fr:
     label_add_selected_columns: "Ajouter les colonnes sélectionnées"
     label_added_by: "Ajouté par"
     label_added_time_by: "Ajouté par <a href=\"%{authorLink}\">%{author}</a> le %{age}"
-    label_ago: "il y a quelques jours"
+    label_ago: "il y a"
     label_all: "tous"
     label_all_work_packages: "tous les lots de travaux"
     label_and: "et"
@@ -416,7 +422,7 @@ fr:
     label_filename: "Fichier"
     label_filesize: "Taille"
     label_general: "Général"
-    label_global_roles: "Global roles"
+    label_global_roles: "Rôles globaux"
     label_greater_or_equal: ">="
     label_group: 'Groupe'
     label_group_by: "Grouper par"
@@ -515,6 +521,7 @@ fr:
     label_watcher_added_successfully: "Observateur ajouté avec succès !"
     label_watcher_deleted_successfully: "Observateur supprimé avec succès !"
     label_work_package_details_you_are_here: "Vous êtes sur l'onglet %{tab} de %{type} %{subject}."
+    label_work_package_context_menu: "Menu contextuel des lots de travaux"
     label_unwatch: "Ne plus suivre"
     label_unwatch_work_package: "Ne plus suivre le lot de travaux"
     label_uploaded_by: "Téléversé par"
@@ -598,7 +605,7 @@ fr:
         processed: 'traité'
         prioritized: 'priorisé'
         dateAlert: 'Alarmes'
-        shared: 'shared'
+        shared: 'partagé'
       date_alerts:
         milestone_date: 'Date jalon'
         overdue: 'En retard'
@@ -643,7 +650,7 @@ fr:
         mentioned: 'Mentionné'
         watched: 'Observateur'
         date_alert: 'Alarmes'
-        shared: 'Shared'
+        shared: 'Partagé'
       settings:
         change_notification_settings: 'Vous pouvez modifier vos <a target="_blank" href="%{url}">paramètres de notification</a> pour vous assurer de ne jamais manquer une mise à jour importante.'
         title: "Paramètres de notifications"
@@ -666,7 +673,7 @@ fr:
             description: 'Recevoir une notification chaque fois que quelqu''un me mentionne n''importe où'
           assignee: 'Assigné'
           responsible: 'Responsable'
-          shared: 'Shared'
+          shared: 'Partagé'
           watched: 'Observateur'
           work_package_commented: 'Tous les nouveaux commentaires'
           work_package_created: 'Nouveaux lots de travaux'
@@ -679,7 +686,7 @@ fr:
             description: 'Notifications pour toute activité sur les lots de travaux vous concernant (assigné, responsable ou observateur).'
           delayed:
             title: 'Non participants'
-            description: 'Notifications additionnelles lors d''activité sur tous les projects.'
+            description: 'Notifications additionnelles lors d''activités sur tous les projets.'
           date_alerts:
             title: 'Alarmes'
             description: 'Notifications automatiques lorsque des dates importantes approchent pour les lots de travaux ouverts vous concernant (assigné, responsable ou observateur).'
@@ -751,6 +758,7 @@ fr:
           last_day: 'Dernier jour'
     text_are_you_sure: "Êtes-vous sûr ?"
     text_data_lost: "Toutes les données saisies seront perdues."
+    text_user_wrote: "%{value} écrit :"
     types:
       attribute_groups:
         error_duplicate_group_name: "Le nom %{group} est utilisé plus d’une fois. Les noms de groupe doivent être uniques."
@@ -825,6 +833,7 @@ fr:
       toggle_description: "Alterner la description de relation"
       update_relation: "Cliquez pour modifier le type de relation"
       add_follower: "Ajouter un successeur"
+      show_relations: "Afficher les relations"
       add_predecessor: "Ajouter un prédécesseur"
       remove: "Supprimer la relation"
       save: "Enregistrer la relation"
@@ -960,7 +969,6 @@ fr:
         date: "date"
         dueDate: "Date de fin"
         duration: "Durée"
-        estimatedTime: "Durée estimée"
         spentTime: "Temps passé"
         category: "Catégorie"
         percentageDone: "Pourcentage effectué"
@@ -976,6 +984,7 @@ fr:
         updatedAt: "Mis à jour le"
         versionName: "Version"
         version: "Version"
+        remainingTime: "Travail restant"
       default_queries:
         latest_activity: "Dernière activité"
         created_by_me: "Créé par moi"
@@ -983,7 +992,7 @@ fr:
         recently_created: "Créé récemment"
         all_open: "Tous les ouverts"
         summary: "Résumé"
-        shared_with_users: "Shared with users"
+        shared_with_users: "Partagée avec des utilisateurs"
       jump_marks:
         pagination: "Passer à la pagination du tableau"
         label_pagination: "Cliquez ici pour sauter le tableau des lots de travaux et accéder à la pagination"
@@ -1021,11 +1030,13 @@ fr:
         is_parent: "Les dates de ce lot de travaux sont automatiquement déduites de ses enfants. Activez la « Planification manuelle » pour définir les dates."
         is_switched_from_manual_to_automatic: "Les dates de ce lot de travaux peuvent avoir besoin d'être recalculées après avoir passé de la planification manuelle à la planification automatique en raison de relations avec d'autres lots de travaux."
       sharing:
-        share: 'Share'
-        title: "Share work package"
-        selected_count: "%{count} selected"
+        share: 'Partager'
+        title: "Partager le lot de travaux"
+        selected_count: "%{count} sélectionné"
         selection:
-          mixed: "Mixed"
+          mixed: "Mixte"
+        upsale:
+          description: "Partagez les lots de travaux avec des utilisateurs qui ne sont pas membres du projet."
       table:
         configure_button: 'Configurer le tableau du lot de travaux'
         summary: "Tableau avec lignes de lots de travaux et colonnes d’attributs de lots de travaux."

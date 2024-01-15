@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require_relative '../../spec_helper'
 
-RSpec.describe 'Create cost entry without rate permissions', js: true do
+RSpec.describe 'Create cost entry without rate permissions', :js do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:status) { create(:status, is_default: true) }
   shared_let(:priority) { create(:priority, is_default: true) }
@@ -71,13 +71,13 @@ RSpec.describe 'Create cost entry without rate permissions', js: true do
     # Set single value, should update suffix
     select 'A', from: 'cost_entry_cost_type_id'
     fill_in 'cost_entry_units', with: '1'
-    expect(page).to have_selector('#cost_entry_unit_name', text: 'A single')
-    expect(page).not_to have_selector('#cost_entry_costs')
+    expect(page).to have_css('#cost_entry_unit_name', text: 'A single')
+    expect(page).to have_no_css('#cost_entry_costs')
 
     click_on 'Save'
 
     # Expect correct costs
-    expect(page).to have_selector('.op-toast.-success', text: I18n.t(:notice_cost_logged_successfully))
+    expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_cost_logged_successfully))
     entry = CostEntry.last
     expect(entry.cost_type_id).to eq(cost_type.id)
     expect(entry.units).to eq(1.0)

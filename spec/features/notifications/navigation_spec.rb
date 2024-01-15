@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe "Notification center navigation", js: true, with_cuprite: true do
+RSpec.describe "Notification center navigation", :js, :with_cuprite do
   shared_association_default(:project) { create(:project) }
 
   shared_let(:work_package) { create(:work_package, project:) }

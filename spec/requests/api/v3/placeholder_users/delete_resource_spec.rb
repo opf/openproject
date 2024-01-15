@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,6 +75,15 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
   context 'when anonymous user' do
     let(:user) { create(:anonymous) }
 
-    it_behaves_like 'deletion is not allowed'
+    context 'when login_required', with_settings: { login_required: true } do
+      it_behaves_like 'error response',
+                      401,
+                      'Unauthenticated',
+                      I18n.t('api_v3.errors.code_401')
+    end
+
+    context 'when not login_required', with_settings: { login_required: false } do
+      it_behaves_like 'deletion is not allowed'
+    end
   end
 end

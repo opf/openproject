@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -141,7 +141,7 @@ module WorkPackage::PDFExport::Common
   def draw_text_multiline_left(text:, text_style:, max_left:, top:, max_lines:)
     lines = wrap_to_lines(text, max_left - pdf.bounds.left, text_style, max_lines)
     starting_position = top
-    lines.reverse.each do |line|
+    lines.reverse_each do |line|
       starting_position += draw_text_multiline_part(line, text_style, pdf.bounds.left, starting_position)
     end
   end
@@ -149,7 +149,7 @@ module WorkPackage::PDFExport::Common
   def draw_text_multiline_right(text:, text_style:, max_left:, top:, max_lines:)
     lines = wrap_to_lines(text, pdf.bounds.right - max_left, text_style, max_lines)
     starting_position = top
-    lines.reverse.each do |line|
+    lines.reverse_each do |line|
       line_width = measure_text_width(line, text_style)
       line_x = pdf.bounds.right - line_width
       starting_position += draw_text_multiline_part(line, text_style, line_x, starting_position)
@@ -299,7 +299,7 @@ module WorkPackage::PDFExport::Common
 
   def build_pdf_filename(base)
     suffix = "_#{title_datetime}.pdf"
-    "#{truncate(base, length: 255 - suffix.length)}#{suffix}".tr(' ', '-')
+    "#{truncate(sane_filename(base), length: 255 - suffix.length, escape: false)}#{suffix}".tr(' ', '-')
   end
 
   def title_datetime

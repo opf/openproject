@@ -4,7 +4,7 @@
                                        anchor_align: :end,
                                        color: :subtle,
                                        data: { test_selector: 'op-share-wp-bulk-update-role'})) do |menu|
-    menu.with_show_button(data: { 'work-packages--share--bulk-selection-target': 'bulkUpdateRoleLabel' }) do |button|
+    menu.with_show_button(scheme: :invisible, color: :subtle, data: { 'work-packages--share--bulk-selection-target': 'bulkUpdateRoleLabel' }) do |button|
       button.with_trailing_action_icon(icon: "triangle-down")
       'Placeholder'
     end

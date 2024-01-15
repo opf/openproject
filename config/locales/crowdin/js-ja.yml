@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -32,6 +32,12 @@ ja:
       draggable_hint: |
         インライン画像または参照添付ファイルをエディタ領域にドラッグします。
         ドラッグしつづけると閉じられたエディタ領域が開きます。
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "読み込み中..."
+      not_found: "No items found"
+      type_to_search: "検索キーワードを入力"
     autocomplete_select:
       placeholder:
         multi: "\"%{name}\" を追加"
@@ -298,33 +304,33 @@ ja:
           two: "2 番目の並べ替え基準"
           three: "3 番目の並べ替え条件"
     gantt_chart:
-      label: 'Gantt chart'
-      quarter_label: 'Q%{quarter_number}'
+      label: 'ガントチャート'
+      quarter_label: '第%{quarter_number}四半期'
       labels:
-        title: 'Label configuration'
-        bar: 'Bar labels'
-        left: 'Left'
-        right: 'Right'
-        farRight: 'Far right'
+        title: 'ラベル設定'
+        bar: 'バーのラベル'
+        left: '左'
+        right: '右'
+        farRight: '右端'
         description: >
           Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+      button_activate: 'ガントチャートの表示'
+      button_deactivate: 'ガントチャートを隠す'
       filter:
-        noneSelection: "(none)"
+        noneSelection: "(なし)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: '関連を作成するには、強調表示されたワークパッケージをクリックします。キャンセルするにはエスケープキーを押してください。'
       zoom:
-        in: "Zoom in"
-        out: "Zoom out"
-        auto: "Auto zoom"
-        days: "Days"
-        weeks: "Weeks"
-        months: "Months"
-        quarters: "Quarters"
-        years: "Years"
+        in: "拡大"
+        out: "拡大"
+        auto: "自動ズーム"
+        days: "日"
+        weeks: "週"
+        months: "ヶ月"
+        quarters: "四半期ごと"
+        years: " 年"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          オートズームが使用できない場合に表示される初期ズームレベルを選択します。
     general_text_no: "いいえ"
     general_text_yes: "はい"
     general_text_No: "いいえ"
@@ -343,11 +349,11 @@ ja:
           learn_about: "新機能の詳細はこちら"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -516,6 +522,7 @@ ja:
     label_watcher_added_successfully: "ウォッチャーが正常に追加されました ！"
     label_watcher_deleted_successfully: "ウォッチャーが正常に削除されました ！"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "ウォッチしない"
     label_unwatch_work_package: "作業項目のウォッチを削除"
     label_uploaded_by: "アップロードした人"
@@ -751,6 +758,7 @@ ja:
           last_day: 'Last day'
     text_are_you_sure: "よろしいですか？"
     text_data_lost: "All entered data will be lost."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "名前 %{group} が複数回使用されています。グループ名は一意にする必要があります。"
@@ -825,6 +833,7 @@ ja:
       toggle_description: "関係の説明を切り替え"
       update_relation: "クリックして関係のタイプを変更"
       add_follower: "後続を追加"
+      show_relations: "Show relations"
       add_predecessor: "先行を追加"
       remove: "関係を削除"
       save: "関係を保存"
@@ -960,7 +969,6 @@ ja:
         date: "日付"
         dueDate: "終了日"
         duration: "期間"
-        estimatedTime: "予定工数"
         spentTime: "作業時間の記録"
         category: "カテゴリ"
         percentageDone: "完了比率"
@@ -976,6 +984,7 @@ ja:
         updatedAt: "更新日時"
         versionName: "バージョン"
         version: "バージョン"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "最新の活動"
         created_by_me: "私が作成した"
@@ -1021,11 +1030,13 @@ ja:
         is_parent: "このワークパッケージの日付は、その子から自動的に推定されます。日付を設定するには、「手動スケジューリング」を有効にします。"
         is_switched_from_manual_to_automatic: "他のワークパッケージとの関連により、手動スケジューリングから自動スケジューリングに切り替えた後に、このワークパッケージの日付を再計算する必要がある場合があります。"
       sharing:
-        share: 'Share'
+        share: '共有'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: 'ワークパッケージテーブルを設定する'
         summary: "作業項目の行と、作業項目の属性の列から成る表。"

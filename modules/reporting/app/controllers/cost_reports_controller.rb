@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -117,7 +117,7 @@ class CostReportsController < ApplicationController
   def create
     @query.name = params[:query_name].presence || ::I18n.t(:label_default)
     @query.public! if make_query_public?
-    @query.send("#{user_key}=", current_user.id)
+    @query.send(:"#{user_key}=", current_user.id)
     @query.save!
 
     redirect_params = { action: 'show', id: @query.id }
@@ -466,7 +466,7 @@ class CostReportsController < ApplicationController
       rows = params[:groups]['rows']
       columns = params[:groups]['columns']
     end
-    { rows: (rows || []), columns: (columns || []) }
+    { rows: rows || [], columns: columns || [] }
   end
 
   ##

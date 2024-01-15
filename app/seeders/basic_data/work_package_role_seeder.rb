@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,5 +29,6 @@ module BasicData
   class WorkPackageRoleSeeder < BaseRoleSeeder
     self.model_class = WorkPackageRole
     self.seed_data_model_key = 'work_package_roles'
+    self.attribute_names_for_lookups = %i[builtin]
   end
 end

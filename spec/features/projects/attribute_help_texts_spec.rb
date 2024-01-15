@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -68,7 +68,7 @@ RSpec.describe 'Project attribute help texts', :js, :with_cuprite do
         click_link "Overview"
       end
 
-      expect(page).to have_selector("#{test_selector('op-widget-box--header')} .help-text--entry", wait: 10)
+      expect(page).to have_css("#{test_selector('op-widget-box--header')} .help-text--entry", wait: 10)
 
       # Open help text modal
       modal.open!

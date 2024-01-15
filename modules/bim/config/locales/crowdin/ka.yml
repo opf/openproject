@@ -10,18 +10,18 @@ ka:
     label_imported_failed: 'Failed imports of BCF topics'
     label_imported_successfully: 'Successfully imported BCF topics'
     issues: "შენიშვნები"
-    recommended: 'recommended'
+    recommended: 'რეკომენდებულია'
     not_recommended: 'not recommended'
-    no_viewpoints: 'No viewpoints'
+    no_viewpoints: 'ხედის წერტილების გარეშე'
     new_badge: "ახალი"
     exceptions:
       file_invalid: "BCF file invalid"
     x_bcf_issues:
-      zero: 'No BCF issues'
-      one: 'One BCF issue'
+      zero: 'BCF-ის პრობლემების გარეშე'
+      one: '1 BCF პრობლემა'
       other: '%{count} BCF issues'
     bcf_xml:
-      xml_file: 'BCF XML File'
+      xml_file: 'BCF XML ფაილი'
       import_title: 'შემოტანა'
       export: 'გატანა'
       import_update_comment: '(Updated in BCF import)'
@@ -32,10 +32,10 @@ ka:
       type_not_active: "The issue type is not activated for this project."
       import:
         num_issues_found: '%{x_bcf_issues} are contained in the BCF-XML file, their details are listed below.'
-        button_prepare: 'Prepare import'
-        button_perform_import: 'Confirm import'
+        button_prepare: 'შემოტანის მომზადება'
+        button_perform_import: 'შემოტანის დადასტურება'
         button_proceed: 'Proceed with import'
-        button_back_to_list: 'Back to list'
+        button_back_to_list: 'სიასთან დაბრუნება'
         no_permission_to_add_members: 'You do not have sufficient permissions to add them as members to the project.'
         contact_project_admin: 'Contact your project admin to add them as members and start this import again.'
         continue_anyways: 'Do you want to proceed and finish the import anyways?'
@@ -65,7 +65,7 @@ ka:
     format:
       bcf: "BCF-XML"
   attributes:
-    bcf_thumbnail: "BCF snapshot"
+    bcf_thumbnail: "BCF სწრაფი ასლი"
   project_module_bcf: "BCF"
   project_module_bim: "BCF"
   permission_view_linked_issues: "View BCF issues"
@@ -81,7 +81,7 @@ ka:
     attributes:
       bim/ifc_models/ifc_model:
         ifc_attachment: "IFC ფაილი"
-        is_default: "Default model"
+        is_default: "ნაგულისხმევი მოდელი"
         attachments: "IFC ფაილი"
     errors:
       models:
@@ -106,20 +106,20 @@ ka:
         bim/bcf/issue:
           uuid_already_taken: "Can't import this BCF issue as there already is another with the same GUID. Could it be that this BCF issue had already been imported into a different project?"
   ifc_models:
-    label_ifc_models: 'IFC models'
-    label_new_ifc_model: 'New IFC model'
-    label_show_defaults: 'Show defaults'
+    label_ifc_models: 'IFC მოდელები'
+    label_new_ifc_model: 'ახალი IFC მოდელი'
+    label_show_defaults: 'ნაგულისხმევი მნიშვნელობების ჩვენება'
     label_default_ifc_models: 'Default IFC models'
-    label_edit_defaults: 'Edit defaults'
+    label_edit_defaults: 'ნაგულისხმევების ჩასწორება'
     no_defaults_warning:
       title: 'No IFC model was set as default for this project.'
       check_1: 'Check that you have uploaded at least one IFC model.'
       check_2: 'Check that at least one IFC model is set to "Default".'
     no_results: "No IFC models have been uploaded in this project."
     conversion_status:
-      label: 'Processing?'
+      label: 'დამუშავება?'
       pending: 'დარჩენილია'
-      processing: 'Processing'
+      processing: 'დამუშავება'
       completed: 'დასრულებულია'
       error: 'შეცდომა'
     processing_notice:
@@ -128,7 +128,7 @@ ka:
       upload_successful: 'Upload succeeded. It will now get processed and will be ready to use in a couple of minutes.'
     conversion:
       missing_commands: "The following IFC converter commands are missing on this system: %{names}"
-  project_module_ifc_models: "IFC models"
+  project_module_ifc_models: "IFC მოდელები"
   permission_view_ifc_models: "View IFC models"
   permission_manage_ifc_models: "Import and manage IFC models"
   extraction:

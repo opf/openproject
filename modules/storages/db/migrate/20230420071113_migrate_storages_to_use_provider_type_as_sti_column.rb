@@ -1,5 +1,5 @@
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,14 +27,14 @@
 
 class MigrateStoragesToUseProviderTypeAsStiColumn < ActiveRecord::Migration[7.0]
   def up
-    Storages::Storage
-      .where(provider_type: 'nextcloud')
-      .update_all("provider_type = 'Storages::NextcloudStorage'")
+    execute <<~SQL
+      UPDATE "storages" SET provider_type = 'Storages::NextcloudStorage' WHERE "storages"."provider_type" = 'nextcloud'
+    SQL
   end
 
   def down
-    Storages::Storage
-      .where(provider_type: 'Storages::NextcloudStorage')
-      .update_all("provider_type = 'nextcloud'")
+    execute <<~SQL
+      UPDATE "storages" SET provider_type = 'nextcloud' WHERE "storages"."provider_type" = 'Storages::NextcloudStorage'
+    SQL
   end
 end

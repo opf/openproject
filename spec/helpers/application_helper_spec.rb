@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -174,7 +174,8 @@ RSpec.describe ApplicationHelper do
   describe '.authoring_at' do
     it 'escapes html from author name' do
       created = '2023-06-02'
-      author = create(:user, firstname: '<b>Hello</b>', lastname: 'world')
+      author = build(:user, firstname: '<b>Hello</b>', lastname: 'world')
+      author.save! validate: false
       expect(authoring_at(created, author))
         .to eq("Added by <a href=\"/users/#{author.id}\">&lt;b&gt;Hello&lt;/b&gt; world</a> at 2023-06-02")
     end

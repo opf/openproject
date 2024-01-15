@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -221,10 +221,8 @@ default:
   # Configuration of the autologin cookie.
   # autologin_cookie_name: the name of the cookie (default: autologin)
   # autologin_cookie_path: the cookie path (default: /)
-  # autologin_cookie_secure: true sets the cookie secure flag (default: false)
   # autologin_cookie_name:
   # autologin_cookie_path:
-  # autologin_cookie_secure:
 
   # Configuration of the session cookie
   # session_cookie_name: the name of the OpenProject cookie (default: _open_project_session)

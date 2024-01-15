@@ -31,9 +31,8 @@
 require 'spec_helper'
 
 RSpec.describe 'Work package sharing',
-               :js,
-               :with_cuprite,
-               with_flag: { work_package_sharing: true } do
+               :js, :with_cuprite,
+               with_ee: %i[work_package_sharing] do
   shared_let(:view_work_package_role) { create(:view_work_package_role) }
   shared_let(:comment_work_package_role) { create(:comment_work_package_role) }
   shared_let(:edit_work_package_role) { create(:edit_work_package_role) }
@@ -82,7 +81,7 @@ RSpec.describe 'Work package sharing',
       # Clicking on the share button opens a modal which lists all of the users a work package
       # is explicitly shared with.
       # Project members are not listed unless the work package is also shared with them explicitly.
-      click_button 'Share'
+      work_package_page.click_share_button
 
       aggregate_failures "Inviting multiple users or groups at once" do
         share_modal.expect_shared_count_of(1)
@@ -135,7 +134,7 @@ RSpec.describe 'Work package sharing',
       end
 
       share_modal.close
-      click_button 'Share'
+      work_package_page.click_share_button
 
       aggregate_failures "Re-opening the modal after changes performed" do
         # This user preserved
@@ -161,7 +160,7 @@ RSpec.describe 'Work package sharing',
 
     before do
       work_package_page.visit!
-      click_button 'Share'
+      work_package_page.click_share_button
     end
 
     it 'allows adding multiple users and updates the modal correctly' do
@@ -191,12 +190,10 @@ RSpec.describe 'Work package sharing',
     let(:global_manager_user) { create(:user, global_permissions: %i[manage_user create_user]) }
     let(:current_user) { global_manager_user }
 
-    before do
-      work_package_page.visit!
-      click_button 'Share'
-    end
-
     it 'allows creating multiple users at once' do
+      work_package_page.visit!
+      work_package_page.click_share_button
+
       share_modal.expect_open
       share_modal.expect_shared_count_of(1)
 
@@ -234,6 +231,9 @@ RSpec.describe 'Work package sharing',
     end
 
     it 'allows sharing with an existing user and creating a new one at the same time' do
+      work_package_page.visit!
+      work_package_page.click_share_button
+
       share_modal.expect_open
       share_modal.expect_shared_count_of(1)
 
@@ -254,6 +254,31 @@ RSpec.describe 'Work package sharing',
 
       share_modal.expect_shared_with(not_shared_yet_with_user, 'View', position: 1)
       share_modal.expect_shared_with(new_user, 'View', position: 2)
+    end
+
+    context 'and an instance user limit' do
+      before do
+        allow(OpenProject::Enterprise).to receive_messages(
+          user_limit: 10,
+          open_seats_count: 1
+        )
+      end
+
+      it 'shows a warning as soon as you reach the user limit' do
+        work_package_page.visit!
+        work_package_page.click_share_button
+
+        share_modal.expect_open
+        share_modal.expect_shared_count_of(1)
+
+        # Add a non-existing user to the autocompleter
+        share_modal.select_not_existing_user_option "hello@world.de"
+        share_modal.expect_no_user_limit_warning
+
+        # Add another non-existing user that would exceed the user limit
+        share_modal.select_not_existing_user_option "hola@world.de"
+        share_modal.expect_user_limit_warning
+      end
     end
   end
 end

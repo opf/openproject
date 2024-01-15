@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,35 +31,30 @@ module OpenProject::TextFormatting
     class MarkdownFilter < HTML::Pipeline::MarkdownFilter
       # Convert Markdown to HTML using CommonMarker
       def call
-        render_html parse
+        Commonmarker.to_html(text, options: commonmarker_options, plugins: commonmarker_plugins)
+                    .tap(&:rstrip!)
       end
 
       private
 
       ##
-      # Get initial CommonMarker AST for further processing
-      #
-      def parse
-        parse_options = %i[LIBERAL_HTML_TAG STRIKETHROUGH_DOUBLE_TILDE UNSAFE]
-
-        # We need liberal html tags thus parsing and rendering are several steps
-        # Check: We may be able to reuse the ast instead of rendering to html and then parsing with nokogiri again.
-        CommonMarker.render_doc(
-          text,
-          parse_options,
-          commonmark_extensions
-        )
+      # CommonMarker Options
+      # https://github.com/gjtorikian/commonmarker#options
+      def commonmarker_options
+        {
+          parse: { smart: false },
+          extension: commonmark_extensions.index_with(true),
+          render: {
+            unsafe: true,
+            escape: false,
+            github_pre_lang: true,
+            hardbreaks: context[:gfm] != false
+          }
+        }
       end
 
-      ##
-      # Render the transformed AST
-      def render_html(ast)
-        render_options = %i[GITHUB_PRE_LANG UNSAFE]
-        render_options << :HARDBREAKS if context[:gfm] != false
-
-        ast
-          .to_html(render_options, commonmark_extensions)
-          .tap(&:rstrip!)
+      def commonmarker_plugins
+        { syntax_highlighter: nil }
       end
 
       ##

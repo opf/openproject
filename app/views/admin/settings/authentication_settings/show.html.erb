@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -107,7 +107,7 @@ See COPYRIGHT and LICENSE files for more details.
       <legend class="form--fieldset-legend"><%= I18n.t(:session, scope: [:settings]) %></legend>
       <div class="form--field -wide-label"><%= setting_select :autologin,
                  ([[t(:label_disabled), 0]] +
-                  [1, 7, 30, 365].collect do |days|
+                   Settings::Definition[:autologin].allowed.collect do |days|
                     [t('datetime.distance_in_words.x_days', count: days),
                     days.to_s]
                   end),

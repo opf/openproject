@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -33,6 +33,9 @@ rw:
         duration: "Duration"
         notes: "Notes"
         participants: "Participants"
+        participant:
+          one: "1 Participant"
+          other: "%{count} Participants"
         participants_attended: "Attendees"
         participants_invited: "Invitees"
         project: "Project"
@@ -42,7 +45,7 @@ rw:
       meeting_agenda_items:
         title: "Title"
         author: "Responsible"
-        duration_in_minutes: "Duration in minutes"
+        duration_in_minutes: "Duration (min)"
         description: "Notes"
     errors:
       messages:
@@ -97,6 +100,7 @@ rw:
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"
       rescheduled:
+        header: "Meeting %{title} has been rescheduled"
         summary: "Meeting %{title} has been rescheduled by %{actor}"
         body: "The meeting %{title} has been rescheduled by %{actor}."
         old_date_time: "Old date/time"
@@ -107,6 +111,7 @@ rw:
       classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
       structured: 'Dynamic'
       structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
+      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
     copied: "Copied from Meeting #%{id}"
   notice_successful_notification: "Notification sent successfully"
   notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
@@ -133,7 +138,7 @@ rw:
   text_meeting_minutes_for_meeting: 'minutes for the meeting "%{meeting}"'
   text_notificiation_invited: "This mail contains an ics entry for the meeting below:"
   text_meeting_empty_heading: "Your meeting is empty"
-  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration, notes and a person responsible."
+  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
   text_meeting_empty_description_2: "You can also add references to existing work packages. When you do, related notes will automatically be visible in the work package's \"Meetings\" tab."
   label_meeting_empty_action: "Add agenda item"
   label_meeting_actions: "Meeting actions"
@@ -141,13 +146,14 @@ rw:
   label_meeting_delete: "Delete meeting"
   label_meeting_created_by: "Created by"
   label_meeting_last_updated: "Last updated"
-  label_agenda_item_undisclosed_wp: "Undisclosed work package reference #%{id}"
+  label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
   label_agenda_item_deleted_wp: "Deleted work package reference"
   label_agenda_item_actions: "Agenda items actions"
   label_agenda_item_move_to_top: "Move to top"
   label_agenda_item_move_to_bottom: "Move to bottom"
   label_agenda_item_move_up: "Move up"
   label_agenda_item_move_down: "Move down"
+  label_agenda_item_add_notes: "Add notes"
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
   label_meeting_state_open: "Open"
@@ -159,14 +165,16 @@ rw:
   label_meeting_manage_participants: "Manage participants"
   label_meeting_no_participants: "No participants"
   label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_all_participants: "Show all"
   label_meeting_add_participants: "Add participants"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
   text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."
   label_add_work_package_to_meeting_dialog_title: "Add work package to meeting"
   label_add_work_package_to_meeting_dialog_button: "Add to meeting"
-  label_meeting_selection_caption: "It's only possible to add this work package to open, upcoming meetings."
+  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
   text_add_work_package_to_meeting_description: "A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here."
   text_agenda_item_no_notes: "No notes provided"
+  text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."
   text_work_package_has_no_upcoming_meeting_agenda_items: "This work package is not scheduled in an upcoming meeting agenda yet."
   text_work_package_add_to_meeting_hint: "Use the \"Add to meeting\" button to add this work package to an upcoming meeting."
   text_work_package_has_no_past_meeting_agenda_items: "This work package was not mentioned in a past meeting."

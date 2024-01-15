@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-RSpec.describe 'Accountable widget on my page', js: true do
+RSpec.describe 'Accountable widget on my page', :js do
   let!(:type) { create(:type) }
   let!(:priority) { create(:default_priority) }
   let!(:project) { create(:project, types: [type]) }
@@ -82,7 +82,7 @@ RSpec.describe 'Accountable widget on my page', js: true do
     # The page starts with a "wp created widget".
     created_area = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
     expect(created_area.area)
-      .to have_selector('.subject', text: accountable_work_package.subject)
+      .to have_css('.subject', text: accountable_work_package.subject)
 
     # Add widget below existing widgets
     my_page.add_widget(2, 2, :row, "Work packages I am accountable for")
@@ -110,12 +110,12 @@ RSpec.describe 'Accountable widget on my page', js: true do
     accountable_area.expect_to_span(2, 1, 3, 2)
 
     expect(accountable_area.area)
-      .to have_selector('.subject', text: accountable_work_package.subject)
+      .to have_css('.subject', text: accountable_work_package.subject)
 
     expect(accountable_area.area)
-      .not_to have_selector('.subject', text: accountable_by_other_work_package.subject)
+      .to have_no_css('.subject', text: accountable_by_other_work_package.subject)
 
     expect(accountable_area.area)
-      .not_to have_selector('.subject', text: accountable_but_invisible_work_package.subject)
+      .to have_no_css('.subject', text: accountable_but_invisible_work_package.subject)
   end
 end

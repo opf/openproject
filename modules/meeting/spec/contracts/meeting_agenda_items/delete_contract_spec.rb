@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -51,7 +51,7 @@ RSpec.describe MeetingAgendaItems::DeleteContract do
         meeting.update_column(:state, :closed)
       end
 
-      it_behaves_like 'contract is invalid', base: I18n.t(:text_meeting_not_editable_anymore)
+      it_behaves_like 'contract is invalid', base: I18n.t(:text_agenda_item_not_editable_anymore)
     end
   end
 

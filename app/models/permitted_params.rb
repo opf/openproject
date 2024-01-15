@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -238,6 +238,10 @@ class PermittedParams
 
   def type_move
     params.require(:type).permit(*self.class.permitted_attributes[:move_to])
+  end
+
+  def enumerations_move
+    params.require(:enumeration).permit(*self.class.permitted_attributes[:move_to])
   end
 
   def search
@@ -506,6 +510,7 @@ class PermittedParams
           :budget_id,
           :parent_id,
           :priority_id,
+          :remaining_hours,
           :responsible_id,
           :start_date,
           :status_id,

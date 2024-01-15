@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -97,7 +97,7 @@ RSpec.describe RootSeeder,
     include_examples 'it creates records', model: IssuePriority, expected_count: 4
     include_examples 'it creates records', model: Status, expected_count: 4
     include_examples 'it creates records', model: TimeEntryActivity, expected_count: 3
-    include_examples 'it creates records', model: Workflow, expected_count: 182
+    include_examples 'it creates records', model: Workflow, expected_count: 273
   end
 
   describe 'demo data' do

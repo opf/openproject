@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,9 @@ module API
         class VersionSchemaAPI < ::API::OpenProjectAPI
           resources :schema do
             before do
-              authorize_in_any_project(%i[manage_versions view_work_packages])
+              authorize_in_any_work_package(:view_work_packages) do
+                authorize_in_any_project(:manage_versions)
+              end
             end
 
             get &::API::V3::Utilities::Endpoints::Schema.new(model: Version).mount

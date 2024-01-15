@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,28 +34,35 @@ FactoryBot.define do
   end
 
   factory :view_work_package_role, parent: :work_package_role do
-    name { 'Work Package Viewer' }
+    name { 'Work package viewer' }
     builtin { Role::BUILTIN_WORK_PACKAGE_VIEWER }
     permissions do
       %i(view_work_packages
-         export_work_packages)
+         export_work_packages
+         show_github_content)
     end
   end
 
   factory :comment_work_package_role, parent: :work_package_role do
-    name { 'Work Package Commenter' }
+    name { 'Work package commenter' }
     builtin { Role::BUILTIN_WORK_PACKAGE_COMMENTER }
     permissions do
       %i(view_work_packages
          work_package_assigned
+         add_work_package_attachments
          add_work_package_notes
          edit_own_work_package_notes
-         export_work_packages)
+         export_work_packages
+         view_own_time_entries
+         log_own_time
+         edit_own_time_entries
+         show_github_content
+         view_file_links)
     end
   end
 
   factory :edit_work_package_role, parent: :work_package_role do
-    name { |_n| 'Work Package Editor' }
+    name { |_n| 'Work package editor' }
     builtin { Role::BUILTIN_WORK_PACKAGE_EDITOR }
     permissions do
       %i(view_work_packages
@@ -65,7 +72,12 @@ FactoryBot.define do
          edit_own_work_package_notes
          manage_work_package_relations
          copy_work_packages
-         export_work_packages)
+         export_work_packages
+         view_own_time_entries
+         log_own_time
+         edit_own_time_entries
+         show_github_content
+         view_file_links)
     end
   end
 end

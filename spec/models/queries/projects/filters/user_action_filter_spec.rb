@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ require 'spec_helper'
 RSpec.describe Queries::Projects::Filters::UserActionFilter do
   it_behaves_like 'basic query filter' do
     let(:class_key) { :user_action }
-    let(:type) { :list }
+    let(:type) { :list_all }
     let(:model) { Project }
     let(:attribute) { :user_action }
     let(:values) { ['projects/view'] }

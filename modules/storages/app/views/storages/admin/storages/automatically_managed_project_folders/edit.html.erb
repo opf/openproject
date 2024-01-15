@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -29,87 +29,4 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_administration), t("project_module_storages"), @storage.name, t("storages.page_titles.managed_project_folders.title") %>
 
-<% if OpenProject::FeatureDecisions.storage_primer_design_active? %>
-  <%=
-    render(OpTurbo::FrameComponent.new(@storage, context: :automatically_managed_project_folders)) do
-      render(Storages::Admin::Forms::AutomaticallyManagedProjectFoldersFormComponent.new(@storage))
-    end
-  %>
-<% else %>
-  <% local_assigns[:additional_breadcrumb] = [
-    link_to(@storage.name, edit_admin_settings_storage_path(@storage)),
-    t("storages.label_managed_project_folders_breadcrumb")
-  ] %>
-  <%= toolbar title: t("storages.page_titles.managed_project_folders.title"),
-              subtitle: t("storages.page_titles.managed_project_folders.subtitle")
-  %>
-
-  <%= error_messages_for @storage %>
-
-  <%= labelled_tabular_form_for @storage, url: admin_settings_storage_automatically_managed_project_folders_path(@storage),
-                                          method: :patch,
-                                          data: {
-                                            controller: "storages--automatically-managed-project-folders-form",
-                                            'application-target': "dynamic",
-                                            'storages--automatically-managed-project-folders-form-is-automatically-managed-value': @storage.automatically_managed?,
-                                          } do |f| -%>
-    <div class="form--field -required">
-      <%= styled_label_tag :automatically_managed, class: "-bold -flex" do %>
-        <%= t(:"storages.label_managed_project_folders.automatically_managed_folders") %>
-      <% end %>
-
-      <div class="form--field-container -horizontal">
-        <label class="form--field-inline-buttons-container">
-          <%= angular_component_tag 'spot-switch',
-                                    inputs: {
-                                      id: "storages_#{@storage.short_provider_type}_storage_automatically_managed",
-                                      name: "storages_#{@storage.short_provider_type}_storage[automatically_managed]",
-                                      checked: @storage.automatically_managed?,
-                                    },
-                                    data: {
-                                      action: 'change->storages--automatically-managed-project-folders-form#updateDisplay',
-                                    }
-          %>
-        </label>
-      </div>
-    </div>
-
-    <div class="form--field -required"
-        data-storages--automatically-managed-project-folders-form-target="applicationPasswordInput">
-      <label class="form--label -bold"> <%= t(:"storages.label_managed_project_folders.application_password") %> </label>
-      <div class="form--field-container -horizontal">
-        <%= f.text_field :password,
-                        container_class: "-middle",
-                        no_label: true,
-                        value: nil, # IMPORTANT: We don't want to show the password in the form
-                        placeholder: @storage.password.present? ? "●●●●●●●●●●●●●●●●" : nil
-        %>
-      </div>
-      <p class="form--field-instructions -xwide">
-        <%= t(:"storages.instructions.managed_project_folders_application_password") %>
-        <a
-          href="<%= Storages::Peripherals::StorageInteraction::Nextcloud::Util
-                      .join_uri_path(@storage.oauth_application.integration.host, 'settings/admin/openproject') %>"
-          target="_blank"
-          class="spot-link"
-        >
-        <span><%= t("storages.instructions.#{@storage.short_provider_type}.integration") %></span>
-        </a>
-      </p>
-    </div>
-
-    <div class="form--field">
-      <% case action_name %>
-      <% when 'new' %>
-        <%= styled_button_tag t("storages.buttons.done_complete_setup"), class: "-highlight -with-icon icon-checkmark" %>
-      <% else %>
-        <%= styled_button_tag t("storages.buttons.save"), class: "-highlight -with-icon icon-checkmark" %>
-      <% end %>
-
-      <%= link_to edit_admin_settings_storage_path(@storage), class: 'button' do %>
-        <%= spot_icon('cancel') %>
-        <%= content_tag :span, t(:button_cancel) %>
-      <% end %>
-    </div>
-  <% end %>
-<% end %>
+<%= render(Storages::Admin::StorageViewComponent.new(@storage, automatically_managed_project_folders_section_open: true)) %>

@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -83,7 +83,6 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="form--field">
       <%= setting_block("consent_time") do %>
         <span class="form--check-box-field-container -slim">
-          <input type="hidden" name="settings[consent_time]" disabled id="settings_consent_time">
           <%= check_box_tag 'toggle_consent_time',
                             '1',
                             !Setting.consent_time.present?,

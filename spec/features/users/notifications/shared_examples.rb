@@ -1,7 +1,6 @@
 RSpec.shared_examples 'notification settings workflow' do
   describe 'with another project the user can see',
-           with_ee: %i[date_alerts],
-           with_flag: { work_package_sharing: true } do
+           with_ee: %i[date_alerts] do
     shared_let(:project) { create(:project) }
     shared_let(:project_alt) { create(:project) }
     shared_let(:role) { create(:project_role, permissions: %i[view_project]) }
@@ -118,7 +117,7 @@ RSpec.shared_examples 'notification settings workflow' do
       container = page.find('[data-test-selector="notification-setting-inline-create"] ng-select')
       settings_page.search_autocomplete container, query: project.name, results_selector: 'body'
       expect(page).to have_text 'This project is already selected'
-      expect(page).to have_selector('.ng-option-disabled', text: project.name)
+      expect(page).to have_css('.ng-option-disabled', text: project.name)
     end
 
     context 'when overdue alerts are disabled for one project, enabled for another' do

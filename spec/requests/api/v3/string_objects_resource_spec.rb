@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,15 +42,21 @@ RSpec.describe 'API v3 String Objects resource' do
       get path
     end
 
-    it 'return 410 GONE' do
-      expect(subject.status).to be(410)
+    context 'when login_required', with_settings: { login_required: true } do
+      it_behaves_like 'unauthenticated access'
     end
 
-    context 'nil string' do
-      let(:path) { '/api/v3/string_objects?value' }
-
+    context 'when not login_required', with_settings: { login_required: false } do
       it 'return 410 GONE' do
         expect(subject.status).to be(410)
+      end
+
+      context 'nil string' do
+        let(:path) { '/api/v3/string_objects?value' }
+
+        it 'return 410 GONE' do
+          expect(subject.status).to be(410)
+        end
       end
     end
   end

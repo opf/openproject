@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -197,7 +197,6 @@ module OAuthClients
       OAuthClientToken.find_by(user_id: @user, oauth_client_id: @oauth_client.id)
     end
 
-    # rubocop:disable Metrics/AbcSize
     def request_new_token(options = {})
       rack_access_token = rack_oauth_client(options).access_token!(:body)
 
@@ -217,8 +216,6 @@ module OAuthClients
         "#{I18n.t('oauth_client.errors.oauth_returned_standard_error')}: #{e.class}: #{e.message.to_html}"
       )
     end
-
-    # rubocop:enable Metrics/AbcSize
 
     def i18n_rack_oauth2_error_message(rack_oauth2_client_exception)
       i18n_key = "oauth_client.errors.rack_oauth2.#{rack_oauth2_client_exception.message}"

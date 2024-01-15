@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -21,16 +21,12 @@
 #++
 pt:
   plugin_openproject_backlogs:
-    name: "OpenProject Backlogs"
-    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
+    name: "Backlogs OpenProject"
+    description: "Este módulo acrescenta recursos que permitem que as equipes ágeis trabalhem com o OpenProject em projetos Scrum."
   activerecord:
     attributes:
       work_package:
         position: "Posição"
-        remaining_hours: "Horas restantes"
-        remaining_time: "Horas restantes"
-        derived_remaining_hours: "Horas restantes derivadas"
-        derived_remaining_time: "Horas restantes derivadas"
         story_points: "Pontos de história"
         backlogs_work_package_type: "Tipo de backlog"
     errors:
@@ -68,8 +64,8 @@ pt:
     properties: "Propriedades"
     rebuild: "Reconstruir"
     rebuild_positions: "Reconstruir posições"
-    remaining_hours: "Horas restantes"
-    remaining_hours_ideal: "Horas restantes (ideal)"
+    remaining_hours: "Trabalho restante"
+    remaining_hours_ideal: "Trabalho restante (ideal)"
     show_burndown_chart: "Gráfico de Burndown"
     story: "História"
     story_points: "Pontos de História"
@@ -151,7 +147,7 @@ pt:
   rb_label_copy_tasks_none: "Nenhum"
   rb_label_copy_tasks_open: "Aberto"
   rb_label_link_to_original: "Incluir link para a história original"
-  remaining_hours: "horas restantes"
+  remaining_hours: "trabalho restante"
   required_burn_rate_hours: "burn rate necessário (horas)"
   required_burn_rate_points: "burn rate necessário (pontos)"
   todo_work_package_description: "%{summary}: %{url}%{description}"

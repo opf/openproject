@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -47,6 +47,7 @@ ca:
   label_is_project_with_subprojects: "és (inclou subprojectes)"
   label_work_package_attributes: "Atributs del paquet de treball"
   label_less: "<"
+  label_logged_by_reporting: "Registrat per"
   label_money: "Registra valor"
   label_month_reporting: "Mes (Gastat)"
   label_new_report: "Nou informe de costs"
@@ -86,7 +87,7 @@ ca:
   validation_failure_integer: "no és un enter vàlid"
   export:
     cost_reports:
-      title: "Your Cost Reports XLS export"
+      title: "La teva exportació de l'informe de costos XLS"
   reporting:
     group_by:
       selected_columns: "Columnes seleccionades"

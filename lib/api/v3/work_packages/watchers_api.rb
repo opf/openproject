@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -72,7 +72,7 @@ module API
             user_id = representer.represented.user_id.to_i
 
             if current_user.id == user_id
-              authorize_in_project(:view_work_packages, project: @work_package.project)
+              authorize_in_work_package(:view_work_packages, work_package: @work_package)
             else
               authorize_in_project(:add_work_package_watchers, project: @work_package.project)
             end
@@ -96,7 +96,7 @@ module API
 
             delete do
               if current_user.id == params[:user_id]
-                authorize_in_project(:view_work_packages, project: @work_package.project)
+                authorize_in_work_package(:view_work_packages, work_package: @work_package)
               else
                 authorize_in_project(:delete_work_package_watchers, project: @work_package.project)
               end

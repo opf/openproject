@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,22 +29,22 @@
 #++
 #
 module Storages::Admin
-  class NewStorageButtonComponent < ApplicationComponent
+  class NewStorageButtonComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     options scheme: :primary,
-            size: :medium,
-            tag: :a
+            size: :medium
 
-    def button_options
+    def show_button_options
       { scheme:,
         size:,
-        tag:,
-        role: :button,
-        href: Rails.application.routes.url_helpers.new_admin_settings_storage_path,
         aria: { label: I18n.t("storages.label_add_new_storage") } }
     end
 
     def label
       I18n.t("storages.label_storage")
+    end
+
+    def show_ee_icon?(provider_type:)
+      ::Storages::Storage::one_drive_without_ee_token?(provider_type)
     end
   end
 end

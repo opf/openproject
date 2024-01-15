@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -154,7 +154,10 @@ RSpec.describe WorkPackage, '.allowed_to' do
     subject { described_class.allowed_to(user, action) }
 
     it 'returns the authorized work packages' do
-      expect(subject).to contain_exactly(work_package_in_private_project, other_work_package_in_private_project)
+      expect(subject).to contain_exactly(
+        work_package_in_private_project,
+        other_work_package_in_private_project
+      )
     end
 
     context 'when the project is archived' do

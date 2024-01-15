@@ -161,18 +161,6 @@ Again the first request to the server can take some time too. But subsequent req
 
 Changes you make to the code will be picked up automatically. No need to restart the containers.
 
-### Storybook
-
-There is a service to launch the storybook of the SPOT design system in the local development environment. To run it,
-simply use:
-
-```shell
-# Start the worker and let them run continuously
-docker compose up -d storybook
-```
-
-If you used the default overrides you will access the storybook now under `http://localhost:6006`.
-
 ### Volumes
 
 There are volumes for
@@ -443,7 +431,7 @@ Ruby version is updated you may run into an error like the following when
 running `docker compose run --rm backend setup`:
 
 ```
-Your Ruby version is 2.7.6, but your Gemfile specified ~> 3.2.1
+Your Ruby version is 2.7.6, but your Gemfile specified ~> 3.2.2
 ```
 
 This means that the current image is out-dated. You can update it like this:

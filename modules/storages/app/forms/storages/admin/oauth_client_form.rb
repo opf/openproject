@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,32 +29,51 @@
 module Storages::Admin
   class OAuthClientForm < ApplicationForm
     form do |oauth_client_form|
-      oauth_client_form.text_field(name: :client_id,
-                                   label: label_client_id,
-                                   required: true)
-
-      oauth_client_form.text_field(name: :client_secret,
-                                   label: label_client_secret,
-                                   required: true)
+      oauth_client_form.text_field(**@client_id_input_options)
+      oauth_client_form.text_field(**@client_secret_input_options)
     end
 
-    def initialize(storage:)
+    def initialize(storage:, client_id_input_options: {}, client_secret_input_options: {})
       super()
       @storage = storage
+      @client_id_input_options = default_client_id_input_options.merge(client_id_input_options)
+      @client_secret_input_options = default_client_secret_input_options.merge(client_secret_input_options)
     end
 
     private
 
+    def default_client_id_input_options
+      {
+        name: :client_id,
+        label: label_client_id,
+        required: true,
+        input_width: :large
+      }
+    end
+
+    def default_client_secret_input_options
+      {
+        name: :client_secret,
+        label: label_client_secret,
+        required: true,
+        input_width: :large
+      }.merge(provider_default_client_secret_input_options)
+    end
+
+    def provider_default_client_secret_input_options
+      {}.tap do |options_h|
+        if @storage.provider_type_one_drive?
+          options_h[:caption] = I18n.t('storages.instructions.one_drive.oauth_client_secret')
+        end
+      end
+    end
+
     def label_client_id
-      [label_provider_name, I18n.t('storages.label_oauth_client_id')].join(' ')
+      I18n.t("storages.provider_types.#{@storage.short_provider_type}.label_oauth_client_id")
     end
 
     def label_client_secret
-      [label_provider_name, I18n.t('storages.label_oauth_client_secret')].join(' ')
-    end
-
-    def label_provider_name
-      I18n.t("storages.provider_types.#{@storage.short_provider_type}.name")
+      I18n.t("storages.provider_types.#{@storage.short_provider_type}.label_oauth_client_secret")
     end
   end
 end

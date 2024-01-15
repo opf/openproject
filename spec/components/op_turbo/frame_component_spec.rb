@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,6 +45,22 @@ RSpec.describe OpTurbo::FrameComponent, type: :component do
         component = described_class.new(storage)
 
         expect(component.turbo_frame_id).to eq('storages_nextcloud_storage_1')
+      end
+    end
+
+    context 'with `id:` option' do
+      it 'returns the turbo frame id' do
+        component = described_class.new(id: 'test_id')
+
+        expect(component.turbo_frame_id).to eq('test_id')
+      end
+    end
+
+    context 'with `id:` and `context:` option' do
+      it 'returns the turbo frame id' do
+        component = described_class.new(id: 'test_id', context: :general_info)
+
+        expect(component.turbo_frame_id).to eq('general_info_test_id')
       end
     end
   end

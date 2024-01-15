@@ -37,9 +37,9 @@ module CostScopes
   def with_visible_entries_on(scope, user: User.current, project: nil)
     table = arel_table
 
-    view_allowed = Project.allowed_to(user, view_allowed_entries_permission).select(:id)
-    view_own_allowed = Project.allowed_to(user, view_allowed_own_entries_permission).select(:id)
-    visible_scope = scope.where view_or_view_own(table, view_allowed, view_own_allowed, user)
+    visible_scope = scope.where(
+      view_or_view_own(table, view_allowed_entries_permission, view_allowed_own_entries_permission, user)
+    )
 
     if project
       visible_scope.where(project_id: project.id)
@@ -48,14 +48,26 @@ module CostScopes
     end
   end
 
-  def view_or_view_own(table, view_allowed, view_own_allowed, user)
-    table[:project_id]
-      .in(view_allowed.arel)
-      .or(
-        table[:project_id]
-          .in(view_own_allowed.arel)
-          .and(table[:user_id].eq(user.id))
+  def view_or_view_own(table, allowed_permission, allowed_own_permission, user) # rubocop:disable Metrics/AbcSize
+    project_allowed_scope = table[:project_id].in(Project.allowed_to(user, allowed_permission).select(:id).arel)
+
+    # We allow some of the `_own_` permissions on the WorkPackage, but others only on the project,
+    # so we need to figure out the correct scope to use
+    wp_scoped_permission = Authorization.permissions_for(allowed_own_permission).any?(&:work_package?)
+
+    if wp_scoped_permission
+      project_allowed_scope.or(
+        table[:work_package_id]
+        .in(WorkPackage.allowed_to(user, allowed_own_permission).select(:id).arel)
+        .and(table[:user_id].eq(user.id))
       )
+    else
+      project_allowed_scope.or(
+        table[:project_id]
+        .in(Project.allowed_to(user, allowed_own_permission).select(:id).arel)
+        .and(table[:user_id].eq(user.id))
+      )
+    end
   end
 
   def with_visible_rates_on(scope, user: User.current)

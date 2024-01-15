@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -71,18 +71,20 @@ RSpec.shared_examples_for 'roles contract' do
   end
 
   describe '#assignable_permissions' do
-    let(:all_permissions) { %i[perm1 perm2 perm3] }
-    let(:public_permissions) { %i[perm2] }
+    let(:permission1) { instance_double(OpenProject::AccessControl::Permission, name: :perm1, public?: false) }
+    let(:permission2) { instance_double(OpenProject::AccessControl::Permission, name: :perm2, public?: true) }
+    let(:permission3) { instance_double(OpenProject::AccessControl::Permission, name: :perm3, public?: false) }
+
+    let(:all_permissions) { [permission1, permission2, permission3] }
+    let(:public_permissions) { [permission2] }
 
     context 'for a project role' do
       before do
-        allow(OpenProject::AccessControl)
-          .to receive_messages(project_permissions: all_permissions, public_permissions:)
+        allow(OpenProject::AccessControl).to receive_messages(project_permissions: all_permissions, public_permissions:)
       end
 
       it 'is all project permissions' do
-        expect(contract.assignable_permissions)
-          .to eql(all_permissions)
+        expect(contract.assignable_permissions).to match_array(all_permissions - public_permissions)
       end
     end
 
@@ -90,14 +92,11 @@ RSpec.shared_examples_for 'roles contract' do
       let(:role) { work_package_role }
 
       before do
-        allow(OpenProject::AccessControl)
-          .to receive(:work_package_permissions)
-          .and_return(all_permissions)
+        allow(OpenProject::AccessControl).to receive(:work_package_permissions).and_return(all_permissions)
       end
 
       it 'is all work package permissions' do
-        expect(contract.assignable_permissions)
-          .to eql all_permissions
+        expect(contract.assignable_permissions).to match_array(all_permissions - public_permissions)
       end
     end
 
@@ -105,14 +104,11 @@ RSpec.shared_examples_for 'roles contract' do
       let(:role) { global_role }
 
       before do
-        allow(OpenProject::AccessControl)
-          .to receive(:global_permissions)
-          .and_return(all_permissions)
+        allow(OpenProject::AccessControl).to receive(:global_permissions).and_return(all_permissions)
       end
 
       it 'is all the global permissions' do
-        expect(contract.assignable_permissions)
-          .to eql all_permissions
+        expect(contract.assignable_permissions).to match_array(all_permissions - public_permissions)
       end
     end
   end

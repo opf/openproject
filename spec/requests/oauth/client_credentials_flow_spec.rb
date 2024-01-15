@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,20 +43,20 @@ RSpec.describe 'OAuth client credentials flow' do
     body['access_token']
   end
 
-  subject do
+  let(:make_request) do
     # Perform request with it
     headers = { 'HTTP_CONTENT_TYPE' => 'application/json', 'HTTP_AUTHORIZATION' => "Bearer #{access_token}" }
-    response = get '/api/v3', {}, headers
-    expect(response).to be_successful
-
-    JSON.parse(response.body)
+    get '/api/v3', {}, headers
   end
+
+  subject { JSON.parse(make_request.body) }
 
   describe 'when application provides client credentials impersonator' do
     let(:user) { create(:user) }
     let(:user_id) { user.id }
 
     it 'allows client credential flow as the user' do
+      expect(make_request).to be_successful
       expect(subject.dig('_links', 'user', 'href')).to eq("/api/v3/users/#{user.id}")
     end
   end
@@ -64,8 +64,19 @@ RSpec.describe 'OAuth client credentials flow' do
   describe 'when application does not provide client credential impersonator' do
     let(:user_id) { nil }
 
-    it 'allows client credential flow as the anonymous user' do
-      expect(subject.dig('_links', 'user', 'href')).to be_nil
+    before do
+      make_request
+    end
+
+    context 'when login_required', with_settings: { login_required: true } do
+      it_behaves_like 'unauthenticated access'
+    end
+
+    context 'when not login_required', with_settings: { login_required: false } do
+      it 'allows client credential flow as the anonymous user' do
+        expect(make_request).to be_successful
+        expect(subject.dig('_links', 'user', 'href')).to be_nil
+      end
     end
   end
 end

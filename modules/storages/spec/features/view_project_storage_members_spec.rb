@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -53,7 +53,7 @@ RSpec.describe 'Project storage members connection status view' do
     visit project_settings_project_storage_members_path(project, project_storage_id: project_storage.id)
 
     expect(page).to have_title('Sign in | OpenProject')
-    expect(page).not_to have_text('Members connection status')
+    expect(page).to have_no_text('Members connection status')
   end
 
   it 'lists project members connection statuses' do
@@ -72,14 +72,14 @@ RSpec.describe 'Project storage members connection status view' do
 
     aggregate_failures 'Verifying Connection Statuses' do
       [
-        [user, 'Not connected. The user should login to the storage via the Files tab of a work package to connect.'],
+        [user, 'Not connected. The user should login to the storage via the following link.'],
         [admin_user, 'Connected'],
         [connected_user, 'Connected'],
         [connected_no_permissions_user, 'User role has no storages permissions'],
-        [disconnected_user, 'Not connected. The user should login to the storage via the Files tab of a work package to connect.']
+        [disconnected_user, 'Not connected. The user should login to the storage via the following link.']
       ].each do |(principal, status)|
-        expect(page).to have_selector("#member-#{principal.id} .name", text: principal.name)
-        expect(page).to have_selector("#member-#{principal.id} .status", text: status)
+        expect(page).to have_css("#member-#{principal.id} .name", text: principal.name)
+        expect(page).to have_css("#member-#{principal.id} .status", text: status)
       end
     end
   end

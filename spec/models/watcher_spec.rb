@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -205,7 +205,7 @@ RSpec.describe Watcher do
         .to match_array(saved_user)
     end
 
-    it 'will not add the same user when called twice' do
+    it 'does not add the same user when called twice' do
       saved_watchable.add_watcher(saved_user)
       saved_watchable.add_watcher(saved_user)
 
@@ -253,7 +253,7 @@ RSpec.describe Watcher do
       expect(saved_watchable)
         .to be_valid
       expect(saved_watchable.watchers.map(&:user))
-        .to match_array([saved_user])
+        .to contain_exactly(saved_user)
     end
   end
 end

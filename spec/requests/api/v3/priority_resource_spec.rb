@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,10 +61,7 @@ RSpec.describe 'API v3 Priority resource' do
         get get_path
       end
 
-      it_behaves_like 'error response',
-                      403,
-                      'MissingPermission',
-                      I18n.t('api_v3.errors.code_403')
+      it_behaves_like 'forbidden response based on login_required'
     end
   end
 
@@ -96,15 +93,12 @@ RSpec.describe 'API v3 Priority resource' do
       end
     end
 
-    context 'not logged in user' do
+    context 'when not logged in user' do
       before do
         get get_path
       end
 
-      it_behaves_like 'error response',
-                      403,
-                      'MissingPermission',
-                      I18n.t('api_v3.errors.code_403')
+      it_behaves_like 'forbidden response based on login_required'
     end
   end
 end

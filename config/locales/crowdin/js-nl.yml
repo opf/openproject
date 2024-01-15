@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -31,6 +31,12 @@ nl:
         Weet je zeker dat je dit bestand wilt verwijderen? Deze actie is niet omkeerbaar.
       draggable_hint: |
         Sleep op het invoerveld naar in line afbeelding of verwijzing bijlage. Gesloten invoervelden wordt geopend terwijl u blijft slepen.
+    autocomplete_ng_select:
+      add_tag: "Add item"
+      clear_all: "Clear all"
+      loading: "Laden..."
+      not_found: "Geen items gevonden"
+      type_to_search: "Typ om te zoeken"
     autocomplete_select:
       placeholder:
         multi: "Toevoegen \"%{name}\""
@@ -297,22 +303,22 @@ nl:
           two: "Tweede sorteercriteria"
           three: "Derde sorteercriteria"
     gantt_chart:
-      label: 'Gantt chart'
+      label: 'Gantt-grafiek'
       quarter_label: 'Q%{quarter_number}'
       labels:
         title: 'Labelconfiguratie'
-        bar: 'Bar labels'
+        bar: 'Bar etiketten'
         left: 'Links'
         right: 'Rechts'
         farRight: 'Uiterst rechts'
         description: >
-          Select the attributes you want to be shown in the respective positions of the Gantt chart at all times. Note that when hovering over an element, its date labels will be shown instead of these attributes.
-      button_activate: 'Show Gantt chart'
-      button_deactivate: 'Hide Gantt chart'
+          Selecteer de attributen die u te allen tijde wilt laten zien in de respectieve posities van het Gantt-diagram. Merk op dat wanneer de muis over een element beweegt, de datum labels worden getoond in plaats van deze eigenschappen.
+      button_activate: 'Toon Gantt-diagram'
+      button_deactivate: 'Verberg Gantt-diagram'
       filter:
         noneSelection: "(geen)"
       selection_mode:
-        notification: 'Click on any highlighted work package to create the relation. Press escape to cancel.'
+        notification: 'Klik op elk gemarkeerde werkpakket om een relatie te maken. Druk op escape om te annuleren.'
       zoom:
         in: "Inzoomen"
         out: "Uitzoomen"
@@ -323,7 +329,7 @@ nl:
         quarters: "Kwartalen"
         years: "Jaren"
         description: >
-          Select the initial zoom level that should be shown when autozoom is not available.
+          Selecteer het oorspronkelijke zoomniveau dat moet worden weergegeven wanneer autozoom niet beschikbaar is.
     general_text_no: "Nee"
     general_text_yes: "Ja"
     general_text_No: "Nee"
@@ -342,11 +348,11 @@ nl:
           learn_about: "Meer informatie over de nieuwe functies"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_0':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Baseline comparison for easy tracking of changes.</li> <li>PDF export for reports on work plans.</li> <li>Subscribe to project calendars via URL (iCalendar).</li> <li>Project folders with document templates for the Nextcloud integration.</li> <li>Localized seeding of all seed data.</li> <li>Global modules are listed on new index pages.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> <li>Enable manual project folders for OneDrive/SharePoint storages.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -515,6 +521,7 @@ nl:
     label_watcher_added_successfully: "Toezichthouder succesvol toegevoegd!"
     label_watcher_deleted_successfully: "Toezichthouder succesvol verwijderd!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Niet meer volgen"
     label_unwatch_work_package: "Stop met het bekijken van werkpakket"
     label_uploaded_by: "Geüpload door"
@@ -609,7 +616,7 @@ nl:
         property_is_deleted: 'Is verwijderd'
         upsale:
           title: 'Date alerts'
-          description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
+          description: 'Met datummeldingen wordt u op de hoogte gebracht van de start- of einddatum, zodat u nooit een belangrijke deadline mist of vergeet.'
       facets:
         unread: 'Ongelezen'
         unread_title: 'Toon ongelezen'
@@ -751,6 +758,7 @@ nl:
           last_day: 'Laatste dag'
     text_are_you_sure: "Weet u het zeker?"
     text_data_lost: "Alle ingevoerde gegevens zullen verloren gaan."
+    text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
         error_duplicate_group_name: "De groep naam %{group} word meer dan één keer gebruikt. Groep namen moeten uniek zijn."
@@ -825,6 +833,7 @@ nl:
       toggle_description: "Wissel de relatie beschrijving"
       update_relation: "Klik op het type relatie wijzigen"
       add_follower: "Volgeling toevoegen"
+      show_relations: "Show relations"
       add_predecessor: "Toevoegen van de voorganger"
       remove: "Relatie verwijderen"
       save: "Sla relatie op"
@@ -960,7 +969,6 @@ nl:
         date: "Datum"
         dueDate: "Einddatum"
         duration: "Duur"
-        estimatedTime: "Geschatte tijd"
         spentTime: "Bestede tijd"
         category: "Categorie"
         percentageDone: "Procent klaar"
@@ -976,6 +984,7 @@ nl:
         updatedAt: "Bijgewerkt op"
         versionName: "Versie"
         version: "Versie"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Laatste Activiteit"
         created_by_me: "Gemaakt door mijzelf"
@@ -1021,11 +1030,13 @@ nl:
         is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
-        share: 'Share'
+        share: 'Deel'
         title: "Share work package"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: 'Configureer werkpakkettabel'
         summary: "Tabel met rijen van werkpakket en kolommen werk pakket kenmerken."

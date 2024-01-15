@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ RSpec.describe 'Meetings deletion' do
     login_as(user)
   end
 
-  context 'with permission to delete meetings', js: true do
+  context 'with permission to delete meetings', :js do
     let(:permissions) { %i[view_meetings delete_meetings] }
 
     it "can delete own and other's meetings" do
@@ -85,13 +85,13 @@ RSpec.describe 'Meetings deletion' do
 
       click_link meeting.title
       expect(page)
-        .not_to have_link 'Delete'
+        .to have_no_link 'Delete'
 
       visit index_path
 
       click_link other_meeting.title
       expect(page)
-        .not_to have_link 'Delete'
+        .to have_no_link 'Delete'
     end
   end
 end

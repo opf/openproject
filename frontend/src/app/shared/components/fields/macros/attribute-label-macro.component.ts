@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,9 @@ import {
 } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import {
+  HalResourceEditingService,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { DisplayFieldService } from 'core-app/shared/components/fields/display/display-field.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
@@ -47,10 +49,7 @@ import {
 import { capitalize } from 'core-app/shared/helpers/string-helpers';
 import { firstValueFrom } from 'rxjs';
 
-export const attributeLabelMacro = 'macro.macro--attribute-label';
-
 @Component({
-  selector: attributeLabelMacro,
   templateUrl: './attribute-label-macro.html',
   styleUrls: ['./attribute-macro.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,

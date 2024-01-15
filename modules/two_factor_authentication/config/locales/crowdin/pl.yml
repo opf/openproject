@@ -3,7 +3,7 @@ pl:
   plugin_openproject_two_factor_authentication:
     name: "Autoryzacja dwuskładnikowa OpenProject"
     description: >-
-      This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call.
+      Ta wtyczka OpenProject uwierzytelnia Twoich użytkowników przy użyciu uwierzytelniania dwuskładnikowego za pomocą jednorazowego hasła w standardzie TOTP (Google Authenticator) lub wysyłanego na telefon komórkowy użytkownika w wiadomości SMS lub za pośrednictwem połączenia głosowego.
   activerecord:
     attributes:
       two_factor_authentication/device:

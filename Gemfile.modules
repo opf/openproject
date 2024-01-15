@@ -44,6 +44,7 @@ group :opf_plugins do
   gem 'overviews',                             path: 'modules/overviews'
   gem 'budgets',                               path: 'modules/budgets'
   gem 'openproject-team_planner',              path: 'modules/team_planner'
+  gem 'openproject-gantt',                     path: 'modules/gantt'
   gem 'openproject-calendar',                  path: 'modules/calendar'
   gem 'openproject-storages',                  path: 'modules/storages'
 

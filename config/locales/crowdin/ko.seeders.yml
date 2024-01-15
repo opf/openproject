@@ -43,25 +43,25 @@ ko:
           name: 기타
       work_package_roles:
         item_0:
-          name: Work Package Editor
+          name: 작업 패키지 편집자
         item_1:
-          name: Work Package Commenter
+          name: 작업 패키지 코멘터
         item_2:
-          name: Work Package Viewer
+          name: 작업 패키지 뷰어
       project_roles:
         item_0:
-          name: Non member
+          name: 멤버 없음
         item_1:
-          name: Anonymous
+          name: 익명
         item_2:
-          name: Member
+          name: 멤버
         item_3:
-          name: Reader
+          name: 참관자
         item_4:
-          name: Project admin
+          name: 프로젝트 관리자
       global_roles:
         item_0:
-          name: Staff and projects manager
+          name: 스태프 및 프로젝트 관리자
     standard:
       priorities:
         item_0:
@@ -132,21 +132,21 @@ ko:
       welcome:
         title: OpenProject에 오신 것을 환영합니다!
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject는 최고의 오픈 소스 프로젝트 관리 소프트웨어입니다. 기존의 민첩한 프로젝트 관리뿐만 아니라 하이브리드 프로젝트 관리를 지원하고 데이터를 완벽하게 제어할 수 있게 합니다.
 
-          Core features and use cases:
+          핵심 기능 및 사용 사례:
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
-          * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * [프로젝트 포트폴리오 관리](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
+          * [프로젝트 계획 및 스케줄링](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [작업 관리 및 이슈 추적](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [애자일 보드(스크럼 및 Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [요구 사항 관리 및 릴리스 계획](https://www.openproject.org/collaboration-software-features/product-development/)
+          * [시간 및 비용 추적, 예산](https://www.openproject.org/collaboration-software-features/time-tracking/)
+          * [팀 협업 및 문서](https://www.openproject.org/collaboration-software-features/team-collaboration/)
 
-          Welcome to the future of project management.
+          프로젝트 관리의 미래에 오신 것을 환영합니다.
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          관리자용: 이 환영 텍스트는 [여기에서]({{opSetting:base_url}}/admin/settings/general) 변경할 수 있습니다.
       projects:
         demo-project:
           name: 데모 프로젝트
@@ -352,11 +352,9 @@ ko:
                 options:
                   name: 시작하기
                   text: |
-                    가입해주셔서 감사합니다! OpenProject에서 시작하려면 몇 가지를 시도해보시기 바랍니다.
+                    참여해주셔서 반갑습니다! OpenProject에서 시작하려면 몇 가지 작업을 시도해 보는 것이 좋습니다.
 
-                    [가이드 투어]({{opSetting:base_url}}/projects/your-scrum-project/backlogs?start_scrum_onboarding_tour=true)로 가장 중요한 기능을 알아볼 수 있습니다.
-
-                    _다음 단계를 시도해 보세요._
+                    다음 단계를 시도해 보세요._
 
                     1. *프로젝트에 새 멤버 초대*: &rightarrow; 프로젝트 탐색에서 [멤버]({{opSetting:base_url}}/projects/your-scrum-project/members)로 이동합니다.
                     2. *제품 백로그 및 스프린트 백로그 보기*: &rightarrow; 프로젝트 탐색에서 [백로그]({{opSetting:base_url}}/projects/your-scrum-project/backlogs)로 이동합니다.

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -102,7 +102,7 @@ class MeetingsController < ApplicationController
     params[:copied_from_meeting_id] = @meeting.id
     params[:copied_meeting_agenda_text] = @meeting.agenda.text if @meeting.agenda.present?
     @meeting = @meeting.copy(author: User.current)
-    render action: 'new', project_id: @project
+    render action: 'new', project_id: @project, locals: { copy: true }
   end
 
   def destroy
@@ -145,6 +145,10 @@ class MeetingsController < ApplicationController
     end
   end
 
+  def participants_dialog
+    render(Meetings::Sidebar::ParticipantsFormComponent.new(meeting: @meeting), layout: false)
+  end
+
   def update_participants
     @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
     @meeting.save
@@ -152,6 +156,7 @@ class MeetingsController < ApplicationController
     if @meeting.errors.any?
       update_sidebar_participants_form_component_via_turbo_stream
     else
+      update_sidebar_details_component_via_turbo_stream
       update_sidebar_participants_component_via_turbo_stream
     end
 
@@ -171,17 +176,19 @@ class MeetingsController < ApplicationController
   end
 
   def update_details
-    @meeting.update(structured_meeting_params)
+    call = ::Meetings::UpdateService
+      .new(user: current_user, model: @meeting)
+      .call(structured_meeting_params)
 
-    if @meeting.errors.any?
-      update_sidebar_details_form_component_via_turbo_stream
-    else
+    if call.success?
       update_header_component_via_turbo_stream
       update_sidebar_details_component_via_turbo_stream
 
       # the list needs to be updated if the start time has changed
       # in order to update the agenda item time slots
       update_list_via_turbo_stream if @meeting.previous_changes[:start_time].present?
+    else
+      update_sidebar_details_form_component_via_turbo_stream
     end
 
     respond_with_turbo_streams
@@ -311,7 +318,9 @@ class MeetingsController < ApplicationController
 
   def structured_meeting_params
     if params[:structured_meeting].present?
-      params.require(:structured_meeting).permit(:title, :location, :start_time_hour, :duration, :start_date, :state)
+      params
+        .require(:structured_meeting)
+        .permit(:title, :location, :start_time_hour, :duration, :start_date, :state, :lock_version)
     end
   end
 

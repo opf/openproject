@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,7 @@
 
 require_relative '../../spec_helper'
 
-RSpec.describe 'Show viewpoint in model viewer',
-               js: true, with_config: { edition: 'bim' } do
+RSpec.describe 'Show viewpoint in model viewer', :js, with_config: { edition: 'bim' } do
   let(:project) do
     create(:project,
            enabled_module_names: %i[bim work_package_tracking],
@@ -144,7 +143,7 @@ RSpec.describe 'Show viewpoint in model viewer',
       it 'does not show the viewpoint' do
         wp_details.visit!
         bcf_details.expect_viewpoint_count(0)
-        expect(page).not_to have_selector('h3.attributes-group--header-text', text: 'BCF')
+        expect(page).to have_no_css('h3.attributes-group--header-text', text: 'BCF')
       end
     end
   end

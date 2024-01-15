@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,6 +34,7 @@ module WorkPackages
     attribute :subject
     attribute :description
     attribute :status_id,
+              permission: %i[edit_work_packages change_work_package_status],
               writable: ->(*) {
                 # If we did not change into the status,
                 # mark unwritable if status and version is closed
@@ -58,6 +59,10 @@ module WorkPackages
 
     attribute :estimated_hours
     attribute :derived_estimated_hours,
+              writable: false
+
+    attribute :remaining_hours
+    attribute :derived_remaining_hours,
               writable: false
 
     attribute :parent_id,
@@ -194,7 +199,9 @@ module WorkPackages
     end
 
     def assignable_assignees
-      if model.project
+      if model.persisted?
+        Principal.possible_assignee(model)
+      elsif model.project
         Principal.possible_assignee(model.project)
       else
         Principal.none
@@ -449,7 +456,7 @@ module WorkPackages
       workflows = Workflow
                   .from_status(status.id,
                                model.type_id,
-                               users_roles_in_project.map(&:id),
+                               user_roles.map(&:id),
                                user_is_author?,
                                user_was_or_is_assignee?)
 
@@ -464,8 +471,8 @@ module WorkPackages
       model.author == user
     end
 
-    def users_roles_in_project
-      user.roles_for_project(model.project)
+    def user_roles
+      user.roles_for_work_package(model)
     end
 
     # We're in a readonly status and did not move into that status right now.

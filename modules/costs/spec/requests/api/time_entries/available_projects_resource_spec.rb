@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -45,6 +45,7 @@ RSpec.describe 'API v3 time entries available projects resource' do
              roles: [create(:project_role, permissions: [:log_own_time])],
              project: p,
              user: current_user)
+      create(:work_package, project: p, author: current_user)
     end
   end
   let(:project_with_edit_permission) do
@@ -61,6 +62,7 @@ RSpec.describe 'API v3 time entries available projects resource' do
              roles: [create(:project_role, permissions: [:edit_own_time_entries])],
              project: p,
              user: current_user)
+      create(:work_package, project: p, author: current_user)
     end
   end
   let(:project_with_view_permission) do
@@ -85,7 +87,7 @@ RSpec.describe 'API v3 time entries available projects resource' do
 
   subject(:response) { last_response }
 
-  describe 'GET api/v3/memberships/available_projects' do
+  describe 'GET api/v3/time_entries/available_projects' do
     let(:projects) do
       [project_with_log_permission,
        project_with_edit_permission,
@@ -98,6 +100,7 @@ RSpec.describe 'API v3 time entries available projects resource' do
 
     before do
       projects
+
       login_as(current_user)
 
       get path

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -73,7 +73,7 @@ RSpec.describe 'Top menu item for boards', :js, :with_cuprite do
 
       it "does not display the menu item" do
         within '#more-menu', visible: false do
-          expect(page).not_to have_link boards
+          expect(page).to have_no_link boards
         end
       end
     end

@@ -48,11 +48,3 @@ rm -rf "$APP_PATH/frontend/.angular"
 rm -rf /root/.npm
 
 rm -f "$APP_PATH/log/production.log"
-
-cat > "$APP_PATH/config/database.yml" <<CONF
-production:
-  url: <%= ENV.fetch("DATABASE_URL") %>
-  variables:
-    # https://github.com/ankane/the-ultimate-guide-to-ruby-timeouts#postgresql
-    statement_timeout: <%= ENV.fetch("POSTGRES_STATEMENT_TIMEOUT", "90s") %>
-CONF

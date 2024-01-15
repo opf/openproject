@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ import { StorageInformationBox } from 'core-app/shared/components/storages/stora
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { storageLocaleString } from 'core-app/shared/components/storages/functions/storages.functions';
 import {
-  fileLinkViewError,
+  fileLinkStatusError,
   storageAuthorizationError,
   storageConnected,
   storageFailedAuthorization,
@@ -97,6 +97,7 @@ export class StorageInformationService {
       this.text.authorizationFailureHeader(storageType),
       this.text.authorizationFailureContent(storageType),
       {
+        storageId: storage.id,
         storageType: storage._links.type.href,
         authorizationLink: storage._links.authorize,
       },
@@ -120,6 +121,6 @@ export class StorageInformationService {
   }
 
   private hasFileLinkViewErrors(fileLinks:IFileLink[]):boolean {
-    return fileLinks.filter((fileLink) => fileLink._links.permission?.href === fileLinkViewError).length > 0;
+    return fileLinks.filter((fileLink) => fileLink._links.status?.href === fileLinkStatusError).length > 0;
   }
 }

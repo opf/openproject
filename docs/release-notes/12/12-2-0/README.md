@@ -32,7 +32,7 @@ We believe the productivity of users of both platforms will increase significant
 
 Further integration efforts are under way, notably to make it possible to create links to Nextcloud files from directly from OpenProject (it is currently only possible via Nextcloud) and adding complete project folders.
 
-You can find out more [how to use the Nextcloud integration](../../../user-guide/nextcloud-integration/) as well as the [how to setup the Nextcloud integration](../../../system-admin-guide/integrations/nextcloud/) in our documentation.
+You can find out more [how to use the Nextcloud integration](../../../user-guide/file-management/nextcloud-integration/) as well as the [how to setup the Nextcloud integration](../../../system-admin-guide/integrations/nextcloud/) in our documentation.
 
 ## Contextual information and warnings when scheduling work packages
 

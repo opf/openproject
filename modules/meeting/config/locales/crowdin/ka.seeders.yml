@@ -9,10 +9,10 @@ ka:
         demo-project:
           meetings:
             item_0:
-              title: Weekly
+              title: ყოველკვირეული
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: კარგი სიახლეები
             item_1:
               title: Updates from development team
             item_2:

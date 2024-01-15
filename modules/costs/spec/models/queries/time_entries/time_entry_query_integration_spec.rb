@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -38,10 +38,12 @@ RSpec.describe Queries::TimeEntries::TimeEntryQuery, 'integration' do
   context 'when using ongoing filter' do
     let(:project) { create(:project, enabled_module_names: %w[costs]) }
     let(:user) { create(:user, member_with_permissions: { project => %i[log_own_time] }) }
+    let(:work_package) { create(:work_package, project:) }
     let(:other_user) { create(:user, member_with_permissions: { project => %i[log_own_time] }) }
+    let(:other_work_package) { create(:work_package, project:) }
 
-    let!(:user_timer) { create(:time_entry, user:, project:, ongoing: true) }
-    let!(:other_user_timer) { create(:time_entry, user: other_user, project:, ongoing: true) }
+    let!(:user_timer) { create(:time_entry, user:, work_package:, ongoing: true) }
+    let!(:other_user_timer) { create(:time_entry, user: other_user, work_package: other_work_package, ongoing: true) }
 
     describe '#results' do
       subject { instance.results }

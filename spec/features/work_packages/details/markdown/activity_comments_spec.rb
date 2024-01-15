@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'features/work_packages/shared_contexts'
 require 'features/work_packages/details/inplace_editor/shared_examples'
 
-RSpec.describe 'activity comments', js: true do
+RSpec.describe 'activity comments', :js do
   let(:project) { create(:project, public: true) }
   let!(:work_package) do
     create(:work_package,
@@ -42,7 +42,7 @@ RSpec.describe 'activity comments', js: true do
           comment_field.click_and_type_slowly 'this is a comment'
           comment_field.submit_by_enter
 
-          expect(page).not_to have_selector('.user-comment .message', text: 'this is a comment')
+          expect(page).to have_no_css('.user-comment .message', text: 'this is a comment')
         end
 
         it 'submits with click' do
@@ -56,7 +56,7 @@ RSpec.describe 'activity comments', js: true do
           comment_field.click_and_type_slowly 'this is my first comment!1'
           comment_field.submit_by_click
 
-          expect(page).to have_selector('.user-comment > .message', count: 2)
+          expect(page).to have_css('.user-comment > .message', count: 2)
           wp_page.expect_comment text: 'this is my first comment!1'
 
           expect(comment_field.editing?).to be false
@@ -66,7 +66,7 @@ RSpec.describe 'activity comments', js: true do
           comment_field.click_and_type_slowly 'this is my second comment!1'
           comment_field.submit_by_click
 
-          expect(page).to have_selector('.user-comment > .message', count: 3)
+          expect(page).to have_css('.user-comment > .message', count: 3)
           wp_page.expect_comment text: 'this is my second comment!1'
 
           expect(comment_field.editing?).to be false
@@ -77,12 +77,12 @@ RSpec.describe 'activity comments', js: true do
           comment_field.submit_by_click
 
           # Only shows three most recent
-          expect(page).to have_selector('.user-comment > .message', count: 3)
+          expect(page).to have_css('.user-comment > .message', count: 3)
           wp_page.expect_comment text: 'this is my third comment!1'
 
           wp_page.switch_to_tab tab: 'Activity'
           # Now showing all comments
-          expect(page).to have_selector('.user-comment > .message', count: 4, wait: 10)
+          expect(page).to have_css('.user-comment > .message', count: 4, wait: 10)
 
           expect(comment_field.editing?).to be false
           comment_field.activate!
@@ -91,11 +91,11 @@ RSpec.describe 'activity comments', js: true do
           comment_field.click_and_type_slowly 'this is my fifth comment!1'
           comment_field.submit_by_click
 
-          expect(page).to have_selector('.user-comment > .message', count: 4)
+          expect(page).to have_css('.user-comment > .message', count: 4)
           wp_page.expect_comment text: 'this is my fifth comment!1'
 
           # Expect no activity details
-          expect(page).not_to have_selector('.work-package-details-activities-messages li')
+          expect(page).to have_no_css('.work-package-details-activities-messages li')
         end
       end
 
@@ -108,13 +108,13 @@ RSpec.describe 'activity comments', js: true do
           comment_field.cancel_by_escape
           expect(comment_field.editing?).to be true
 
-          expect(page).not_to have_selector('.user-comment .message', text: 'this is a comment')
+          expect(page).to have_no_css('.user-comment .message', text: 'this is a comment')
 
           # Click should cancel the editing
           comment_field.cancel_by_click
           expect(comment_field.editing?).to be false
 
-          expect(page).not_to have_selector('.user-comment .message', text: 'this is a comment')
+          expect(page).to have_no_css('.user-comment .message', text: 'this is a comment')
         end
       end
 
@@ -124,7 +124,7 @@ RSpec.describe 'activity comments', js: true do
 
           it 'can move to the work package by click (Regression #30928)' do
             comment_field.input_element.send_keys("##{wp2.id}")
-            expect(page).to have_selector('.mention-list-item', text: wp2.to_s.strip)
+            expect(page).to have_css('.mention-list-item', text: wp2.to_s.strip)
 
             comment_field.submit_by_click
             page.find('#activity-2 a.issue', text: wp2.id).click
@@ -181,8 +181,8 @@ RSpec.describe 'activity comments', js: true do
 
     describe 'quoting' do
       it 'can quote a previous comment' do
-        expect(page).to have_selector('.user-comment .message',
-                                      text: initial_comment)
+        expect(page).to have_css('.user-comment .message',
+                                 text: initial_comment)
 
         # Hover comment
         quoted = page.find('.user-comment > .message')
@@ -194,7 +194,7 @@ RSpec.describe 'activity comments', js: true do
         expect(comment_field.editing?).to be true
 
         # Add our comment
-        expect(comment_field.input_element).to have_selector('blockquote')
+        expect(comment_field.input_element).to have_css('blockquote')
         quote = comment_field.input_element[:innerHTML]
         expect(quote).to eq '<p class="op-uc-p">Anonymous wrote:</p><blockquote class="op-uc-blockquote"><p class="op-uc-p">the first comment in this WP</p></blockquote>'
 
@@ -227,7 +227,7 @@ RSpec.describe 'activity comments', js: true do
         # Insert a new reference using the autocompleter
         comment_field.input_element.send_keys "Single ##{work_package2.id}"
         expect(page)
-          .to have_selector('.mention-list-item', text: "#{work_package2.type.name} ##{work_package2.id}:")
+          .to have_css('.mention-list-item', text: "#{work_package2.type.name} ##{work_package2.id}:")
 
         find('.mention-list-item', text: "#{work_package2.type.name} ##{work_package2.id}:").click
 
@@ -246,8 +246,8 @@ RSpec.describe 'activity comments', js: true do
         comment_field.submit_by_click
 
         wp_page.expect_comment text: "Single ##{work_package2.id}"
-        expect(page).to have_selector('.user-comment .macro--wp-quickinfo', count: 2)
-        expect(page).to have_selector('.user-comment .work-package--quickinfo.preview-trigger', count: 2)
+        expect(page).to have_css('.user-comment opce-macro-wp-quickinfo', count: 2)
+        expect(page).to have_css('.user-comment .work-package--quickinfo.preview-trigger', count: 2)
       end
     end
 
@@ -293,7 +293,7 @@ RSpec.describe 'activity comments', js: true do
     end
 
     it 'does not show the field' do
-      expect(page).not_to have_selector(selector, visible: true)
+      expect(page).to have_no_selector(selector, visible: true)
     end
   end
 end

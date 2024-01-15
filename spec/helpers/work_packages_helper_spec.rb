@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,7 +44,7 @@ RSpec.describe WorkPackagesHelper do
     describe 'without parameters' do
       it 'returns a link to the work package with type and id as the text if type is set' do
         link_text = Regexp.new("^#{stub_type.name} ##{stub_work_package.id}$")
-        expect(helper.link_to_work_package(stub_work_package)).to have_selector(
+        expect(helper.link_to_work_package(stub_work_package)).to have_css(
           "a[href='#{work_package_path(stub_work_package)}']", text: link_text
         )
       end
@@ -57,14 +57,14 @@ RSpec.describe WorkPackagesHelper do
       it 'prepends an invisible closed information if the work package is closed' do
         stub_work_package.status = closed_status
 
-        expect(helper.link_to_work_package(stub_work_package)).to have_selector('a span.hidden-for-sighted', text: 'closed')
+        expect(helper.link_to_work_package(stub_work_package)).to have_css('a span.hidden-for-sighted', text: 'closed')
       end
 
       it 'omits the invisible closed information if told so even though the work package is closed' do
         stub_work_package.status = closed_status
 
         expect(helper.link_to_work_package(stub_work_package, no_hidden: true))
-          .not_to have_selector('a span.hidden-for-sighted', text: 'closed')
+          .to have_no_css('a span.hidden-for-sighted', text: 'closed')
       end
     end
 
@@ -72,7 +72,7 @@ RSpec.describe WorkPackagesHelper do
       it 'returns a link to the work package with the type, id, and subject as the text' do
         link_text = Regexp.new("^#{stub_type} ##{stub_work_package.id}: #{stub_work_package.subject}$")
         expect(helper.link_to_work_package(stub_work_package,
-                                           all_link: true)).to have_selector(
+                                           all_link: true)).to have_css(
                                              "a[href='#{work_package_path(stub_work_package)}']", text: link_text
                                            )
       end
@@ -96,7 +96,7 @@ RSpec.describe WorkPackagesHelper do
 
     describe 'when omitting the subject' do
       it 'omits the subject' do
-        expect(helper.link_to_work_package(stub_work_package, subject: false)).not_to have_text(stub_work_package.subject)
+        expect(helper.link_to_work_package(stub_work_package, subject: false)).to have_no_text(stub_work_package.subject)
       end
     end
 
@@ -104,8 +104,8 @@ RSpec.describe WorkPackagesHelper do
       it 'omits the type' do
         link_text = Regexp.new("^##{stub_work_package.id}$")
         expect(helper.link_to_work_package(stub_work_package,
-                                           type: false)).to have_selector("a[href='#{work_package_path(stub_work_package)}']",
-                                                                          text: link_text)
+                                           type: false)).to have_css("a[href='#{work_package_path(stub_work_package)}']",
+                                                                     text: link_text)
       end
     end
 
@@ -121,7 +121,7 @@ RSpec.describe WorkPackagesHelper do
       end
 
       it 'does not include the project name if the parameter is missing/false' do
-        expect(helper.link_to_work_package(stub_work_package)).not_to have_text(text)
+        expect(helper.link_to_work_package(stub_work_package)).to have_no_text(text)
       end
     end
 
@@ -129,12 +129,12 @@ RSpec.describe WorkPackagesHelper do
       it 'returns a link with the id as text only' do
         link_text = Regexp.new("^##{stub_work_package.id}$")
         expect(helper.link_to_work_package(stub_work_package,
-                                           id_only: true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']",
-                                                                            text: link_text)
+                                           id_only: true)).to have_css("a[href='#{work_package_path(stub_work_package)}']",
+                                                                       text: link_text)
       end
 
       it 'does not have the subject as text' do
-        expect(helper.link_to_work_package(stub_work_package, id_only: true)).not_to have_text(stub_work_package.subject)
+        expect(helper.link_to_work_package(stub_work_package, id_only: true)).to have_no_text(stub_work_package.subject)
       end
     end
 
@@ -142,7 +142,7 @@ RSpec.describe WorkPackagesHelper do
       it 'returns a link with the subject as text' do
         link_text = Regexp.new("^#{stub_work_package.subject}$")
         expect(helper.link_to_work_package(stub_work_package,
-                                           subject_only: true)).to have_selector(
+                                           subject_only: true)).to have_css(
                                              "a[href='#{work_package_path(stub_work_package)}']", text: link_text
                                            )
       end
@@ -152,8 +152,8 @@ RSpec.describe WorkPackagesHelper do
       it 'returns a link with the status name contained in the text' do
         link_text = Regexp.new("^#{stub_type.name} ##{stub_work_package.id} #{stub_work_package.status}$")
         expect(helper.link_to_work_package(stub_work_package,
-                                           status: true)).to have_selector("a[href='#{work_package_path(stub_work_package)}']",
-                                                                           text: link_text)
+                                           status: true)).to have_css("a[href='#{work_package_path(stub_work_package)}']",
+                                                                      text: link_text)
       end
     end
   end
