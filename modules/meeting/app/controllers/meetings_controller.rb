@@ -28,7 +28,11 @@
 
 class MeetingsController < ApplicationController
   around_action :set_time_zone
-  before_action :find_optional_project, only: %i[index new create]
+  before_action :find_optional_project, only: %i[index new create history]
+  before_action :verify_activities_module_activated, only: %i[history]
+  before_action :set_activity, only: %i[history]
+  before_action :determine_date_range, only: %i[history]
+  before_action :determine_author, only: %i[history]
   before_action :build_meeting, only: %i[new create]
   before_action :find_meeting, except: %i[index new create]
   before_action :convert_params, only: %i[create update update_participants]
@@ -125,7 +129,12 @@ class MeetingsController < ApplicationController
   end
 
   def history
+    @events = @activity.events(from: @date_from.to_datetime, to: @date_to.to_datetime)
+
     render :history
+    # rescue ActiveRecord::RecordNotFound => e
+    #   op_handle_warning "Failed to find all resources in activities: #{e.message}"
+    #   render_404 I18n.t(:error_can_not_find_all_resources)
   end
 
   def cancel_edit
@@ -331,5 +340,36 @@ class MeetingsController < ApplicationController
     else
       'Meeting'
     end
+  end
+
+  def verify_activities_module_activated
+    render_403 if @project && !@project.module_enabled?('activity')
+  end
+
+  def set_activity
+    @activity = Activities::Fetcher.new(User.current,
+                                        project: @project,
+                                        with_subprojects: @with_subprojects,
+                                        author: @author,
+                                        scope: activity_scope)
+  end
+
+  def activity_scope
+    ["meetings", "meeting_agenda_items"]
+  end
+
+  def determine_date_range
+    @days = 31 # Setting.activity_days_default.to_i
+
+    if params[:from]
+      begin; @date_to = params[:from].to_date + 1.day; rescue StandardError; end
+    end
+
+    @date_to ||= User.current.today + 1.day
+    @date_from = @date_to - @days
+  end
+
+  def determine_author
+    @author = params[:user_id].blank? ? nil : User.active.find(params[:user_id])
   end
 end
