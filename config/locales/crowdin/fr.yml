@@ -2507,7 +2507,7 @@ fr:
     default: "-"
   project:
     destroy:
-      confirmation: "Si vous continuez, le projet %{identifiant} sera définitivement supprimé. Pour confirmer cette action, veuillez saisir le nom du projet dans le champ ci-dessous. Cela va :"
+      confirmation: "Si vous continuez, le projet %{identifier} sera définitivement supprimé. Pour confirmer cette action, veuillez saisir le nom du projet dans le champ ci-dessous. Cela va :"
       project_delete_result_1: "Supprimer toutes les données associées."
       project_delete_result_2: "Supprimer tous les dossiers de projet gérés dans les unités de stockage attachées."
       info: "La suppression du projet est une action irréversible."
@@ -3091,7 +3091,7 @@ fr:
       warning_user_limit_reached_admin: >
         L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour que les utilisateurs externes puissent accéder à ce work package.
       warning_no_selected_user: "Veuillez sélectionner les utilisateurs avec lesquels partager ce lot de travaux"
-      warning_locked_user: "Impossible de partager avec %{utilisateur} dont le compte est verrouillé"
+      warning_locked_user: "Impossible de partager avec %{user} dont le compte est verrouillé"
       user_details:
         locked: "Utilisateur verrouillé"
         invited: "Invitation envoyée."
