@@ -1,5 +1,7 @@
 ## Introducing OpenProject GitLab Integration v2.1 GA
 
+<div><a href="https://jb.gg/OpenSourceSupport"><img width="300" src="https://github.com/btey/openproject-gitlab-integration/assets/14983519/bc7b3e7f-163d-4bcf-ab31-9f5982b8d2fc"></a></div>
+
 Based on the OpenProject Github Integration, this plugin offers the same functionalities plus other new features. This is the first version that includes the visualization of the status of the *Pipelines* (by now, it is considered in Beta status). You can test it by activating the Pipelines event in the GitLab webhook. Just keep in mind that not all pipelines will be reflected in OpenProject, only Merge Request type pipelines (for more information see the GitLab issue https://gitlab.com/gitlab-org/gitlab/-/issues/345028). Any feedback about the pipelines feature would be very appreciated, whether it works or if issues arise (you can use this ticket https://github.com/btey/openproject-gitlab-integration/issues/43).
 
 In this version it has also been implemented that **all linked or referenced** Issues appear in the GitLab tab (https://github.com/btey/openproject-gitlab-integration/issues/34). The opportunity has also been taken to redesign how the information is presented so that it is visually easy to read and at the same time can continue to provide all the information, including labels and pipeline status.
@@ -9,7 +11,6 @@ If there are labels related to the Issue or MR, a button with the label icon wil
 <img width="531" src="https://github.com/btey/openproject-gitlab-integration/assets/14983519/00b19597-2b1b-4b93-9a20-155c40efeb3f">
 <br><br>
 <img width="532" src="https://github.com/btey/openproject-gitlab-integration/assets/14983519/98fd20f7-83c2-4003-aca9-f33657e1b4cb">
-
 
 ## Overview
 
