@@ -24,7 +24,7 @@ Alternatively, you can also chose the **Global work package overview** by select
 
 Step 2: You can add existing fields, such as **Work** (earlier called **Estimated time**), **Spent time** and **Remaining work** (earlier called **Remaining hours**) to your work packages list. Also, you can [create additional custom fields](../../system-admin-guide/custom-fields/), e.g. **Scope (h)**, to get an overview of the team capacity. 
 
-Step 3: You can add these fields via the **Insert columns** option via the drop-down menu. 
+Step 3: You can add these fields via the **Insert columns** option on the drop-down menu. 
 
 Step 4: You can add any filters necessary and sort or group the work packages by assignee. 
 
