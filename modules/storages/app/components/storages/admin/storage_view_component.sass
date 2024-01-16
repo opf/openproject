@@ -3,6 +3,8 @@
   grid-template-columns: 3fr 1fr
   grid-template-areas: "item icon-button" "description icon-button"
 
+// A very specific handling for single grid cells in the storage grid, that contain credentials.
+// Those are long strings and must be shown not shortened, but broken down to fit in narrow screens.
 .break-word
   overflow: hidden
   word-wrap: break-word
