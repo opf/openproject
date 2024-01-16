@@ -128,8 +128,8 @@ RSpec.describe 'Admin storages',
       it 'renders a Nextcloud specific multi-step form', :webmock do
         visit admin_settings_storages_path
 
-        within('.PageHeader') { click_button("Storage") }
-        within_test_selector('storages-select-provider-action-menu') { click_link('Nextcloud') }
+        within('.PageHeader') { click_on("Storage") }
+        within_test_selector('storages-select-provider-action-menu') { click_on('Nextcloud') }
 
         expect(page).to have_current_path(select_provider_admin_settings_storages_path(provider: 'nextcloud'))
 
@@ -167,14 +167,14 @@ RSpec.describe 'Admin storages',
         aggregate_failures 'General information' do
           within_test_selector('storage-general-info-form') do
             fill_in 'storages_nextcloud_storage_name', with: 'My Nextcloud', fill_options: { clear: :backspace }
-            click_button 'Save and continue'
+            click_on 'Save and continue'
 
             expect(page).to have_text("Host is not a valid URL.")
 
             mock_server_capabilities_response("https://example.com")
             mock_server_config_check_response("https://example.com")
             fill_in 'storages_nextcloud_storage_host', with: 'https://example.com'
-            click_button 'Save and continue'
+            click_on 'Save and continue'
           end
 
           expect(page).to have_test_selector('label-host_name_configured-status', text: 'Completed')
@@ -196,7 +196,7 @@ RSpec.describe 'Admin storages',
             expect(page).to have_css('#openproject_oauth_application_secret',
                                      value: secret)
 
-            click_link 'Done, continue'
+            click_on 'Done, continue'
           end
         end
 
@@ -208,7 +208,7 @@ RSpec.describe 'Admin storages',
             # With null values, form should render inline errors
             expect(page).to have_css('#oauth_client_client_id', value: '')
             expect(page).to have_css('#oauth_client_client_secret', value: '')
-            click_button 'Save and continue'
+            click_on 'Save and continue'
 
             expect(page).to have_text("Client ID can't be blank.")
             expect(page).to have_text("Client secret can't be blank.")
@@ -216,7 +216,7 @@ RSpec.describe 'Admin storages',
             # Happy path - Submit valid values
             fill_in 'oauth_client_client_id', with: '1234567890'
             fill_in 'oauth_client_client_secret', with: '0987654321'
-            click_button 'Save and continue'
+            click_on 'Save and continue'
           end
 
           expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Completed')
@@ -231,7 +231,7 @@ RSpec.describe 'Admin storages',
             expect(application_password_input.value).to be_empty
 
             # Clicking submit with application password empty should show an error
-            click_button('Done, complete setup')
+            click_on('Done, complete setup')
             expect(page).to have_text("Password can't be blank.")
 
             # Test the error path for an invalid storage password.
@@ -242,7 +242,7 @@ RSpec.describe 'Admin storages',
             expect(automatically_managed_switch).to be_checked
             fill_in 'storages_nextcloud_storage_password', with: "1234567890"
             # Clicking submit with application password empty should show an error
-            click_button('Done, complete setup')
+            click_on('Done, complete setup')
             expect(page).to have_text("Password is not valid.")
 
             # Test the happy path for a valid storage password.
@@ -252,7 +252,7 @@ RSpec.describe 'Admin storages',
             automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             expect(automatically_managed_switch).to be_checked
             fill_in 'storages_nextcloud_storage_password', with: "1234567890"
-            click_button('Done, complete setup')
+            click_on('Done, complete setup')
           end
 
           expect(page).to have_current_path(admin_settings_storages_path)
@@ -268,11 +268,11 @@ RSpec.describe 'Admin storages',
     context 'with OneDrive Storage and enterprise token missing', with_ee: false do
       it 'renders enterprise icon and redirects to upsale', :webmock do
         visit admin_settings_storages_path
-        within('.PageHeader') { click_button("Storage") }
+        within('.PageHeader') { click_on("Storage") }
 
         within_test_selector('storages-select-provider-action-menu') do
           expect(page).to have_css('.octicon-op-enterprise-addons')
-          click_link('OneDrive/SharePoint')
+          click_on('OneDrive/SharePoint')
         end
 
         expect(page).to have_current_path(upsale_admin_settings_storages_path)
@@ -284,8 +284,8 @@ RSpec.describe 'Admin storages',
       it 'renders a One Drive specific multi-step form', :webmock do
         visit admin_settings_storages_path
 
-        within('.PageHeader') { click_button("Storage") }
-        within_test_selector('storages-select-provider-action-menu') { click_link('OneDrive/SharePoint') }
+        within('.PageHeader') { click_on("Storage") }
+        within_test_selector('storages-select-provider-action-menu') { click_on('OneDrive/SharePoint') }
 
         expect(page).to have_current_path(select_provider_admin_settings_storages_path(provider: 'one_drive'))
 
@@ -317,12 +317,12 @@ RSpec.describe 'Admin storages',
           within_test_selector('storage-general-info-form') do
             fill_in 'storages_one_drive_storage_name', with: 'My OneDrive', fill_options: { clear: :backspace }
             fill_in 'storages_one_drive_storage_tenant_id', with: '029d4741-a4be-44c6-a8e4-e4eff7b19f65'
-            click_button 'Save and continue'
+            click_on 'Save and continue'
 
             expect(page).to have_text("Drive can't be blank.")
 
             fill_in 'storages_one_drive_storage_drive_id', with: '1234567890'
-            click_button 'Save and continue'
+            click_on 'Save and continue'
           end
 
           wait_for(page).to have_test_selector('label-host_name_configured-storage_tenant_drive_configured-status',
@@ -339,7 +339,7 @@ RSpec.describe 'Admin storages',
             # With null values, upon submit validation errors are show
             expect(page).to have_css('#oauth_client_client_id', value: '')
             expect(page).to have_css('#oauth_client_client_secret', value: '')
-            click_button 'Save and continue'
+            click_on 'Save and continue'
 
             expect(page).to have_text("Client ID can't be blank.")
             expect(page).to have_text("Client secret can't be blank.")
@@ -348,11 +348,11 @@ RSpec.describe 'Admin storages',
             fill_in 'oauth_client_client_id', with: '1234567890'
             fill_in 'oauth_client_client_secret', with: '0987654321'
             expect(find_test_selector('storage-oauth-client-submit-button')).not_to be_disabled
-            click_button 'Save and continue'
+            click_on 'Save and continue'
 
             expect(page).to have_test_selector('storage-oauth-client-redirect-uri')
 
-            click_button 'Done, complete setup'
+            click_on 'Done, complete setup'
           end
 
           expect(page).to have_current_path(admin_settings_storages_path)
@@ -459,7 +459,7 @@ RSpec.describe 'Admin storages',
           find_test_selector('storage-edit-host-button').click
           within_test_selector('storage-general-info-form') do
             fill_in 'storages_nextcloud_storage_name', with: 'My Nextcloud'
-            click_button 'Save and continue'
+            click_on 'Save and continue'
           end
 
           expect(page).to have_test_selector('storage-new-page-header--title', text: 'My Nextcloud (Nextcloud)')
@@ -470,12 +470,12 @@ RSpec.describe 'Admin storages',
           within_test_selector('storage-general-info-form') do
             fill_in 'storages_nextcloud_storage_name', with: nil
             fill_in 'storages_nextcloud_storage_host', with: nil
-            click_button 'Save and continue'
+            click_on 'Save and continue'
 
             expect(page).to have_text("Name can't be blank.")
             expect(page).to have_text("Host is not a valid URL.")
 
-            click_link 'Cancel'
+            click_on 'Cancel'
           end
         end
 
@@ -497,7 +497,7 @@ RSpec.describe 'Admin storages',
             expect(page).to have_css('#openproject_oauth_application_secret',
                                      value: secret)
 
-            click_link 'Done, continue'
+            click_on 'Done, continue'
           end
         end
 
@@ -510,7 +510,7 @@ RSpec.describe 'Admin storages',
             # With null values, form should render inline errors
             expect(page).to have_css('#oauth_client_client_id', value: '')
             expect(page).to have_css('#oauth_client_client_secret', value: '')
-            click_button 'Save and continue'
+            click_on 'Save and continue'
 
             expect(page).to have_text("Client ID can't be blank.")
             expect(page).to have_text("Client secret can't be blank.")
@@ -519,7 +519,7 @@ RSpec.describe 'Admin storages',
             fill_in 'oauth_client_client_id', with: '1234567890'
             fill_in 'oauth_client_client_secret', with: '0987654321'
             expect(find_test_selector('storage-oauth-client-submit-button')).not_to be_disabled
-            click_button 'Save and continue'
+            click_on 'Save and continue'
           end
 
           expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Completed')
@@ -537,7 +537,7 @@ RSpec.describe 'Admin storages',
             expect(application_password_input.value).to be_empty
 
             # Clicking submit with application password empty should show an error
-            click_button('Done, complete setup')
+            click_on('Done, complete setup')
             expect(page).to have_text("Password can't be blank.")
 
             # Test the error path for an invalid storage password.
@@ -548,7 +548,7 @@ RSpec.describe 'Admin storages',
             expect(automatically_managed_switch).to be_checked
             fill_in 'storages_nextcloud_storage_password', with: "1234567890"
             # Clicking submit with application password empty should show an error
-            click_button('Done, complete setup')
+            click_on('Done, complete setup')
             expect(page).to have_text("Password is not valid.")
 
             # Test the happy path for a valid storage password.
@@ -558,7 +558,7 @@ RSpec.describe 'Admin storages',
             automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             expect(automatically_managed_switch).to be_checked
             fill_in 'storages_nextcloud_storage_password', with: "1234567890"
-            click_button('Done, complete setup')
+            click_on('Done, complete setup')
           end
 
           expect(page).to have_test_selector('label-managed-project-folders-status', text: 'Active')
@@ -596,7 +596,7 @@ RSpec.describe 'Admin storages',
           find_test_selector('storage-edit-host-button').click
           within_test_selector('storage-general-info-form') do
             fill_in 'storages_one_drive_storage_name', with: 'My OneDrive'
-            click_button 'Save and continue'
+            click_on 'Save and continue'
           end
 
           expect(page).to have_test_selector('storage-new-page-header--title', text: 'My OneDrive (OneDrive/SharePoint)')
@@ -607,12 +607,12 @@ RSpec.describe 'Admin storages',
           within_test_selector('storage-general-info-form') do
             fill_in 'storages_one_drive_storage_name', with: nil
             fill_in 'storages_one_drive_storage_drive_id', with: nil
-            click_button 'Save and continue'
+            click_on 'Save and continue'
 
             expect(page).to have_text("Name can't be blank.")
             expect(page).to have_text("Drive can't be blank.")
 
-            click_link 'Cancel'
+            click_on 'Cancel'
           end
         end
 
@@ -625,7 +625,7 @@ RSpec.describe 'Admin storages',
             # With null values, form should render inline errors
             expect(page).to have_css('#oauth_client_client_id', value: '')
             expect(page).to have_css('#oauth_client_client_secret', value: '')
-            click_button 'Save and continue'
+            click_on 'Save and continue'
 
             expect(page).to have_text("Client ID can't be blank.")
             expect(page).to have_text("Client secret can't be blank.")
@@ -633,7 +633,7 @@ RSpec.describe 'Admin storages',
             # Happy path - Submit valid values
             fill_in 'oauth_client_client_id', with: '1234567890'
             fill_in 'oauth_client_client_secret', with: '0987654321'
-            click_button 'Save and continue'
+            click_on 'Save and continue'
           end
 
           aggregate_failures 'Redirect URI' do
