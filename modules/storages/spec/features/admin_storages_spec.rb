@@ -128,6 +128,8 @@ RSpec.describe 'Admin storages',
       it 'renders a Nextcloud specific multi-step form', :webmock do
         visit admin_settings_storages_path
 
+        expect(page).to be_axe_clean.within '#content'
+
         within('.PageHeader') { click_on("Storage") }
         within_test_selector('storages-select-provider-action-menu') { click_on('Nextcloud') }
 
@@ -284,6 +286,8 @@ RSpec.describe 'Admin storages',
       it 'renders a One Drive specific multi-step form', :webmock do
         visit admin_settings_storages_path
 
+        expect(page).to be_axe_clean.within '#content'
+
         within('.PageHeader') { click_on("Storage") }
         within_test_selector('storages-select-provider-action-menu') { click_on('OneDrive/SharePoint') }
 
@@ -424,6 +428,8 @@ RSpec.describe 'Admin storages',
 
       it 'renders an edit view', :webmock do
         visit edit_admin_settings_storage_path(storage)
+
+        expect(page).to be_axe_clean.within '#content'
 
         expect(page).to have_test_selector('storage-new-page-header--title', text: "Cloud Storage (Nextcloud)")
 
@@ -574,6 +580,8 @@ RSpec.describe 'Admin storages',
 
       it 'renders an edit view', :webmock do
         visit edit_admin_settings_storage_path(storage)
+
+        expect(page).to be_axe_clean.within '#content'
 
         expect(page).to have_test_selector('storage-new-page-header--title', text: 'Test Drive (OneDrive/SharePoint)')
 
