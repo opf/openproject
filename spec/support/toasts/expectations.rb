@@ -15,19 +15,18 @@ module Toasts
     def expect_and_dismiss_toaster(message: nil, type: :success)
       expect_toast(type:, message:)
       dismiss_toaster!
-      expect_no_toaster(type:, message:, wait: 0.1)
+      expect_no_toaster(type:, message:)
     end
 
     def dismiss_toaster!
-      sleep 0.1
       page.find('.op-toast--close').click
     end
 
-    def expect_no_toaster(type: :success, message: nil, wait: 10)
+    def expect_no_toaster(type: :success, message: nil)
       if type.nil?
-        expect(page).to have_no_css(".op-toast", wait:)
+        expect(page).to have_no_css(".op-toast")
       else
-        expect(page).to have_no_css(".op-toast.-#{type}", text: message, wait:)
+        expect(page).to have_no_css(".op-toast.-#{type}", text: message)
       end
     end
 
