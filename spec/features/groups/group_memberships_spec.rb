@@ -66,6 +66,24 @@ RSpec.describe 'group memberships through groups page', :js, :with_cuprite do
     expect(members_page).to have_user 'Hannibal Smith', roles: ['Manager']
   end
 
+  context 'when there are only invited users not in the group' do
+    let!(:peter)    { create(:invited_user, firstname: 'Peter', lastname: 'Pan') }
+    let!(:hannibal) { create(:invited_user, firstname: 'Hannibal', lastname: 'Smith') }
+    let(:group_members) { [admin] }
+
+    it 'is possible to add an invited user' do
+      visit "/admin/groups/#{group.id}/edit?tab=users"
+
+      # autocomplete section has been rendered
+      expect(page).to have_text('NEW USER')
+      expect(page).to have_text('Add')
+
+      group_page.add_user! 'Hannibal'
+      expect(page).to have_text 'Successful update'
+      expect(page).to have_text('Hannibal Smith')
+    end
+  end
+
   context 'given a group with members in a project' do
     let(:group_members) { [peter, hannibal] }
     let(:project_members) { { group => [manager] } }
