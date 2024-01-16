@@ -1000,7 +1000,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     ssrf_filter (1.1.2)
-    stackprof (0.2.25)
+    stackprof (0.2.26)
     store_attribute (1.2.0)
       activerecord (>= 6.0)
     stringex (2.8.6)
