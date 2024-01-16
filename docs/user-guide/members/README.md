@@ -63,7 +63,7 @@ You can adjust the project member overview based on following filters:
 - **Status** - allows filtering based on the user status, such as active, invited, locked or registered.
 - **Group** - allows filtering for project members that are part of an existing group (all groups available in your instance will be listed as options), even if the group itself has not been added to the project.
 - **Role** - allows filtering based on all the user roles that have been assigned to users in that specific project. The options of this filters are the same as in the left side menu.
-- **Work package shares** - provides same filters as listed in the left side menu, based on all the roles available for sharing work packages. They include all shares, work, comment, edit.
+- **Work package shares** - provides same filters as listed in the left side menu, based on all the roles available for sharing work packages. They include all shares, view, comment, edit.
 - **Name** - allows searching for a specific user or group by typing in a user or group name.
 
 ## Add members
