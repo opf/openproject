@@ -5,6 +5,7 @@ import { TabInterface } from 'core-app/features/work-packages/components/wp-tabl
 import { WpTableConfigurationColumnsTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/columns-tab.component';
 import { WpTableConfigurationFiltersTab } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/filters-tab.component';
 import { WpTableConfigurationSortByTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/sort-by-tab.component';
+import { WpTableConfigurationTimelinesTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/timelines-tab.component';
 import { WpTableConfigurationHighlightingTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/highlighting-tab.component';
 import { OpBaselineComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline/baseline.component';
 
@@ -40,6 +41,11 @@ export class WpTableConfigurationService {
       id: 'highlighting',
       name: this.I18n.t('js.work_packages.table_configuration.highlighting'),
       componentClass: WpTableConfigurationHighlightingTabComponent,
+    },
+    {
+      id: 'timelines',
+      name: this.I18n.t('js.gantt_chart.label'),
+      componentClass: WpTableConfigurationTimelinesTabComponent,
     },
   ];
 

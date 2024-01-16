@@ -45,10 +45,6 @@ import { of } from 'rxjs';
 import { WorkPackageFoldToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component';
 import { OpProjectIncludeComponent } from 'core-app/shared/components/project-include/project-include.component';
 import { OpBaselineModalComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-modal/baseline-modal.component';
-import { WorkPackageTableConfigurationFactory } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.service.provider';
-import { StateService } from '@uirouter/core';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { WpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.service';
 
 @Component({
   selector: 'wp-view-page',
@@ -61,7 +57,6 @@ import { WpTableConfigurationService } from 'core-app/features/work-packages/com
   providers: [
     /** We need to provide the wpNotification service here to get correct save notifications for WP resources */
     { provide: HalResourceNotificationService, useClass: WorkPackageNotificationService },
-    { provide: WpTableConfigurationService, useFactory: WorkPackageTableConfigurationFactory, deps: [I18nService, StateService] },
     QueryParamListenerService,
   ],
 })
