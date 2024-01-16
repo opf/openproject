@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="v"><%= id_or_empty(sprint) %></div>
   </div>
 
-  <% User.current.allowed_in_project?(:update_sprints, @project) ? editable = "editable" :  editable = "" %>
+  <% editable = User.current.allowed_in_project?(:update_sprints, @project) ? "editable" : "" %>
 
   <div class="show">
     <div class="effective_date date <%= editable %>"
@@ -53,19 +53,19 @@ See COPYRIGHT and LICENSE files for more details.
   <% if User.current.allowed_in_project?(:update_sprints, @project) %>
     <div class="editors permanent">
       <%= angular_component_tag "op-basic-single-date-picker",
-                            inputs: {
-                              value: sprint.effective_date,
-                              inputClassNames: 'effective_date editor',
-                              id: "effective_date_#{sprint.id}",
-                              name: :effective_date
-                            } %>
+                                inputs: {
+                                  value: sprint.effective_date,
+                                  inputClassNames: 'effective_date editor',
+                                  id: "effective_date_#{sprint.id}",
+                                  name: :effective_date
+                                } %>
       <%= angular_component_tag "op-basic-single-date-picker",
-                            inputs: {
-                              value: sprint.start_date,
-                              inputClassNames: 'start_date editor',
-                              id: "start_date_#{sprint.id}",
-                              name: :start_date
-                            } %>
+                                inputs: {
+                                  value: sprint.start_date,
+                                  inputClassNames: 'start_date editor',
+                                  id: "start_date_#{sprint.id}",
+                                  name: :start_date
+                                } %>
       <%= text_field_tag :name,
                          sprint.name,
                          class: 'name editor' %>
@@ -73,6 +73,6 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <div class="meta">
-    <%= render :partial => "shared/model_errors", :object => sprint.errors %>
+    <%= render partial: "shared/model_errors", object: sprint.errors %>
   </div>
 </div>

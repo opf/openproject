@@ -45,7 +45,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                      .httpx
                      .request(
                        "PROPFIND",
-                       Util.join_uri_path(@uri, "remote.php/dav/files", CGI.escapeURIComponent(token.origin_user_id), requested_folder(folder)),
+                       Util.join_uri_path(@uri,
+                                          "remote.php/dav/files",
+                                          CGI.escapeURIComponent(token.origin_user_id),
+                                          requested_folder(folder)),
                        xml: requested_properties,
                        headers: {
                          'Depth' => '1',
@@ -64,12 +67,12 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def handle_response(response)
       error_data = Storages::StorageErrorData.new(source: self, payload: response)
 
-      case response.status
-      when 200..299
+      case response
+      in { status: 200..299 }
         ServiceResult.success(result: response.body)
-      when 404
+      in { status: 404 }
         Util.error(:not_found, 'Outbound request destination not found', error_data)
-      when 401
+      in { status: 401 }
         Util.error(:unauthorized, 'Outbound request not authorized', error_data)
       else
         Util.error(:error, 'Outbound request failed', error_data)

@@ -91,7 +91,7 @@ module WorkPackage::PDFExport::Markdown
     end
 
     def warn(text, element, node)
-      Rails.logger.warn "PDF-Export: #{text}\nGot #{element} at #{node.sourcepos.inspect}\n\n"
+      Rails.logger.warn "PDF-Export: #{text}\nGot #{element} at #{node.source_position.inspect}\n\n"
     end
   end
 

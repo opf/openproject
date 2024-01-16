@@ -6,9 +6,9 @@ sidebar_navigation:
 
 # Install OpenProject with Docker
 
-[Docker](https://www.docker.com/) is a way to distribute self-contained applications easily. We provide a Docker image for the Community edition that you can very easily
+[Docker](https://www.docker.com) is a way to distribute self-contained applications easily. We provide a Docker image for the Community edition that you can very easily
 install and upgrade on your servers. However, contrary to the manual or package-based installation, your machine needs to have the Docker Engine
-installed first, which usually requires a recent operating system. Please see the [Docker Engine installation page](https://docs.docker.com/install) if you don't have Docker installed.
+installed first, which usually requires a recent operating system. Please see the [Docker Engine installation page](https://docs.docker.com/install/) if you don't have Docker installed.
 
 ***
 

@@ -26,7 +26,7 @@ Community support is covered to the best of our ability by the active internatio
 
 | Service hours | Support channels                                             | Support services                                       |
 | ------------- | ------------------------------------------------------------ | ------------------------------------------------------ |
-| Best effort   | - [Bug reports or Feature requests](https://community.openproject.org/projects/openproject/work_packages)<br />- [Community forums](https://community.openproject.org/projects/openproject/forums) | - Documentation and user guides<br />- Tutorial videos |
+| Best effort   | - [Bug reports or Feature requests](https://community.openproject.org/projects/openproject/work_packages)<br>- [Community forums](https://community.openproject.org/projects/openproject/forums) | - Documentation and user guides<br>- Tutorial videos |
 
 ### Basic support (cloud and on-premises)
 
@@ -34,7 +34,7 @@ With Basic support, you already have integrated mail support and can reach our e
 
 | Service hours                                             | Support channels       | Support services                                       |
 | --------------------------------------------------------- | ---------------------- | ------------------------------------------------------ |
-| Mon-Fri, 9:30 - 16:00 CET<br />Mon-Fri, 9:30 am - 4 pm ET | - Basic E-Mail support | - Documentation and user guides<br />- Tutorial videos |
+| Mon-Fri, 9:30 - 16:00 CET<br>Mon-Fri, 9:30 am - 4 pm ET | - Basic E-Mail support | - Documentation and user guides<br>- Tutorial videos |
 
 ### Professional support (cloud and on-premises)
 
@@ -42,7 +42,7 @@ The Professional support covers everything from the Basic support. Furthermore, 
 
 | Service hours                                             | Support channels                                   | Support services                                             |
 | --------------------------------------------------------- | -------------------------------------------------- | ------------------------------------------------------------ |
-| Mon-Fri, 9:30 - 17:00 CET<br />Mon-Fri, 9:30 am - 4 pm ET | - Professional E-Mail support<br />- Phone support | - Documentation and user guides<br />- Tutorial videos<br />- Training material and best practices <br />- Onboarding training |
+| Mon-Fri, 9:30 - 17:00 CET<br>Mon-Fri, 9:30 am - 4 pm ET | - Professional E-Mail support<br>- Phone support | - Documentation and user guides<br>- Tutorial videos<br>- Training material and best practices <br>- Onboarding training |
 
 ### Premium support (on-premises only)
 
@@ -52,7 +52,7 @@ Onboarding training in the Premium support plan includes onboarding for a perfec
 
 | Service hours                                                | Support channels                              | Support services                                             |
 | ------------------------------------------------------------ | --------------------------------------------- | ------------------------------------------------------------ |
-| Mon-Fri, 9:30 - 17:30 CET<br />Mon-Fri, 9:30 am - 5:30 pm ET | - Premium E-Mail support<br />- Phone support | - Documentation and user guides<br />- Tutorial videos<br />- Training material and best practices <br />- Onboarding training<br />- Remote hands <br />- Installation support <br />- Upgrade assistance <br />- Dedicated onboarding manager (3h) |
+| Mon-Fri, 9:30 - 17:30 CET<br>Mon-Fri, 9:30 am - 5:30 pm ET | - Premium E-Mail support<br>- Phone support | - Documentation and user guides<br>- Tutorial videos<br>- Training material and best practices <br>- Onboarding training<br>- Remote hands <br>- Installation support <br>- Upgrade assistance <br>- Dedicated onboarding manager (3h) |
 
 ### Corporate support (on-premises only)
 
@@ -60,7 +60,7 @@ The Corporate support covers everything from the Basic, Professional and Premium
 
 | Service hours                                             | Support channels                                | Support services                                             |
 | --------------------------------------------------------- | ----------------------------------------------- | ------------------------------------------------------------ |
-| Mon-Fri, 9:30 - 18:00 CET<br />Mon-Fri, 9:30 am - 6 pm ET | - Corporate E-Mail support<br />- Phone support | - Documentation and user guides<br />- Tutorial videos<br />- Training material and best practices <br />- Onboarding training<br />- Remote hands <br />- Installation support <br />- Upgrade assistance <br />- Dedicated onboarding manager (3h)<br />- Custom plugin support<br/>- Dedicated support engineer |
+| Mon-Fri, 9:30 - 18:00 CET<br>Mon-Fri, 9:30 am - 6 pm ET | - Corporate E-Mail support<br>- Phone support | - Documentation and user guides<br>- Tutorial videos<br>- Training material and best practices <br>- Onboarding training<br>- Remote hands <br>- Installation support <br>- Upgrade assistance <br>- Dedicated onboarding manager (3h)<br>- Custom plugin support<br/>- Dedicated support engineer |
 
 ## How to receive Enterprise support
 

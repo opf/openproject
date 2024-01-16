@@ -10,9 +10,9 @@ of choice.
 
 While being limited to the work package resource, the same principles apply throughout the API.
 
-## Fetching work packages from community.openproject.com
+## Fetching work packages from community.openproject.org
 
-Because it is readily at hand, we will first fetch a list of work packages from [community.openproject.com](https://community.openproject.com).
+Because it is readily at hand, we will first fetch a list of work packages from [community.openproject.org](https://community.openproject.org).
 
 In its simplest form, fetching work packages looks like this:
 
@@ -239,7 +239,7 @@ Adapting the request we issued against the community installation, the client ca
 ![get all work packages](./get-work-packages-all.png)
 
 This however will return all work packages the authenticated user employing the client is eligible to see, which might potentially be thousands of work packages.
-The server will always limit the amount of work packages actually returned (and will indicate the total amount by the `total` attribute that is part of the `WorkPackageColletion` resource) but using this method to find an individual work packages is laborious.
+The server will always limit the amount of work packages actually returned (and will indicate the total amount by the `total` attribute that is part of the `WorkPackageCollection` resource) but using this method to find an individual work packages is laborious.
 
 That is why the [API supports filters](../filters). The filter that is applied most easily, is the filter for the project. This filter can be applied requesting via a project scoped url:
 

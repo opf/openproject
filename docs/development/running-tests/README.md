@@ -26,9 +26,9 @@ The following types of functional tests are used at OpenProject.
 | ----------------------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Unit tests](#unit-tests)                                   | Test individual components of OpenProject using RSpec. Involves mocking or stubbing dependent components | e.g, Model specs under `spec/models`                         |
 | [Integration tests](#integration-tests)                     | Testing the integration of multiple components, but still in their isolation without testing the entire software stack | controller, requests, service integration specs, e.g., `spec/services/**/*_integration_spec.rb` |
-| [Feature / end-to-end tests](#feature-tests)                | Tests of the entire Rails application stack and all necessary dependent components (routing, controllers, database access, permissions, and responses). Performed in `RSpec` using `Capybara` feature specs.<br />External third-party service requests and responses are recorded for testing (e.g., nextcloud integration) | `spec/features`                                              |
+| [Feature / end-to-end tests](#feature-tests)                | Tests of the entire Rails application stack and all necessary dependent components (routing, controllers, database access, permissions, and responses). Performed in `RSpec` using `Capybara` feature specs.<br>External third-party service requests and responses are recorded for testing (e.g., nextcloud integration) | `spec/features`                                              |
 | [Smoke tests](#smoke-tests)                                 | Automated and manual tests to ensure the main application features and happy paths are working as expected (e.g., packaging or dockerization tests, manual smoke tests by QA) | Docker test workflow under `.github/workflows/docker.yml`    |
-| [Sanity and regression tests](#sanity-and-regression-tests) | Manual testing of affected or relevant components made after changes or bug fixes to the application. Performed by QA. | e.g., testing the critical path of creating work packages after a bug fix has been made in that data model<br />Manual execution of test plan defined by QA |
+| [Sanity and regression tests](#sanity-and-regression-tests) | Manual testing of affected or relevant components made after changes or bug fixes to the application. Performed by QA. | e.g., testing the critical path of creating work packages after a bug fix has been made in that data model<br>Manual execution of test plan defined by QA |
 | [Acceptance tests](#acceptance-tests)                       | Final phase of manual testing where the system is evaluated against predefined requirements to ensure it meets user and stakeholder expectations before deployment. | Manual interactions with customers and stakeholders to identify whether we're building the correct part |
 
 
@@ -235,7 +235,7 @@ Examples for non-functional test cases: software should be compatible with most 
 | [Security tests](#security-tests)                               | Automated or manually crafted test cases for evaluating application security by assuming the role of an attacker, e.g., by providing malicious user input or trying to break the application. | Statical and automated code scanning (CodeQL, Brakeman), defined test cases for verifying security related input as defined in the [secure coding guidelines](../concepts/secure-coding/). |
 | [Installation / upgrade tests](#installation-and-upgrade-tests) | Automated and manual installation tests of OpenProject                                                                                                                                        | Packaged installation build tests for various distributions, Docker installation smoke tests for verifying correct startup and basic operation of the container.                           |
 | [Usability tests](#usability-testing)                           | Evaluating the UX of the application as defined and in comparison to the requirements. Involves QA, Product, Customer.                                                                        | e.g., verifying common use-cases as defined in the requirements in an early development stage (such as a PullPreview deployment), or on a pre-released version of the application.         |
-| [Accessibility tests](#accessibility-tests)                     | Evaluating the accessibility of the application according to [WCAG AA](https://www.w3.org/WAI/WCAG2AA-Conformance) and similar standards                                                      | Performing automated keyboard navigation tests. <br />Manually executing screen readers to ensure application can be used.                                                                 |
+| [Accessibility tests](#accessibility-tests)                     | Evaluating the accessibility of the application according to [WCAG AA](https://www.w3.org/WAI/WCAG2AA-Conformance) and similar standards                                                      | Performing automated keyboard navigation tests. <br>Manually executing screen readers to ensure application can be used.                                                                 |
 
 
 
@@ -283,7 +283,7 @@ Automated or manual security tests for OpenProject are evaluating common weaknes
 - OpenProject uses [Docker Scout](https://www.docker.com/products/docker-scout/) for the Docker images hosted on Docker Hub for automated vulnerability scanning and analysis of the built container, including all dependencies.
 - Follow our [secure coding guidelines](../concepts/secure-coding/) when proposing changes to the application, especially when modifying or adding features to authentication, authorization, 2FA, or sensitive data operations.
 - If possible, automate security tests for common vulnerabilities for input in your development.
-- Train on recent vulnerabilities and checklists such as [OWASP Top Ten](https://owasp.org/www-project-top-ten/) or [OWASP cheat sheets](https://cheatsheetseries.owasp.org/index.html) to stay up-to-date on security testing and extend our security test suite with new information.
+- Train on recent vulnerabilities and checklists such as [OWASP Top Ten](https://owasp.org/www-project-top-ten/) or [OWASP cheat sheets](https://cheatsheetseries.owasp.org) to stay up-to-date on security testing and extend our security test suite with new information.
 
 
 
@@ -840,7 +840,7 @@ OPENPROJECT_CLI_PROXY='http://<your local ip>:4200' ./bin/rails s -b 0.0.0.0 -p 
 ## Legacy LDAP tests
 
 OpenProject supports using LDAP for user authentications.  To test LDAP
-with OpenProject, load the LDAP export from test/fixtures/ldap/test-ldap.ldif
+with OpenProject, load the LDAP export from `test/fixtures/ldap/test-ldap.ldif`
 into a testing LDAP server.  Test that the ldap server can be accessed
 at 127.0.0.1 on port 389.
 

@@ -74,7 +74,7 @@ If you navigate away from the work package in which you have a timer running, yo
 >
 > **Enable time logging** option must be [activated under system settings](../../../system-admin-guide/system-settings/repositories/) in order to log time via a commit message. 
 
-To log time via commit message **Repository** module must be activated and an SVN or Git repository needs to be configured. Once it is configured you can enter the following syntax into a commit message of your client (for example GitHub desktop client or a command line client) to log time: *refs #work package number @amount of hours*. For  example refs #123 @2h will log 2 hours of spent timefor the work package number 123.![openproject_user_guide_log_time_commit_message](openproject_user_guide_log_time_commit_message.png)
+To log time via commit message **Repository** module must be activated and an SVN or Git repository needs to be configured. Once it is configured you can enter the following syntax into a commit message of your client (for example GitHub desktop client or a command line client) to log time: *refs #work package number @amount of hours*. For  example refs #123 @2h will log 2 hours of spent time for the work package number 123.![openproject_user_guide_log_time_commit_message](openproject_user_guide_log_time_commit_message.png)
 
 ## Log time via My Page
 

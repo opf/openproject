@@ -15,6 +15,7 @@ zh-TW:
       choose_location: "Choose location"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
         default: "儲存空間"
       information:
         connection_error: >
@@ -75,7 +76,7 @@ zh-TW:
         link_uploaded_file_error: >
           An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         tooltip:
-          not_logged_in: "Please log in to Nextcloud to access this file."
+          not_logged_in: "Please log in to the storage to access this file."
           view_not_allowed: "You have no permission to see this file."
           not_found: "This file cannot be found."
         already_linked_file: "This file is already linked to this work package."

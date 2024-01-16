@@ -304,7 +304,7 @@ instead of:
 
 ## Headings
 
-- Add only one H1 in each documentation page, by adding # at the beginning of ithe headline (when using Markdown).
+- Add only one H1 in each documentation page, by adding # at the beginning of the headline (when using Markdown).
 
 - Start with an H2 (##)  and respect the order H2 > H3. Never skip the hierarchy level, such as H3 > H2. Do not go lower in the hierarchy than H3 (###).
 

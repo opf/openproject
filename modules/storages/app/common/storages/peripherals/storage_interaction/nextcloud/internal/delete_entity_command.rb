@@ -49,12 +49,12 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
                                               CGI.escapeURIComponent(@username),
                                               UTIL.escape_path(location)))
 
-      case response.status
-      when 200..299
+      case response
+      in { status: 200..299 }
         ServiceResult.success
-      when 404
+      in { status: 404 }
         UTIL.error(:not_found)
-      when 401
+      in { status: 401 }
         UTIL.error(:unauthorized)
       else
         UTIL.error(:error)

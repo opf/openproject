@@ -125,7 +125,7 @@ To create BIM Issues you don't have to configure additional work package types. 
 
 You can switch between different View modes within the OpenProject toolbar. Just open the dropdown menu and select the view which fits best to your situation.
 
- ![Swicht_View_Mode](Swicht_View_Mode.gif)
+ ![Switch View Mode](Swicht_View_Mode.gif)
 
 
 
@@ -233,7 +233,7 @@ If attributes of the imported BCF Issue can't be matched automatically (because 
 
 After a successful matching of the attributes the topics will be displayed in OpenProject. 
 
-![Successfull BCF Import](successfull-bcf-import.png) 
+![Successful BCF Import](successfull-bcf-import.png) 
 
 
 

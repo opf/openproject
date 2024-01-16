@@ -351,7 +351,7 @@ zh-CN:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
+                该版本包含各种新功能和改进：<br> <ul class="%{list_styling_class}"> <li>与手动项目文件夹的 OneDrive/SharePoint 集成。</li><li>在项目成员列表中筛选角色、群组和共享内容。</li> <li>允许为共享工作包指定被指派人和责任人。</li> <li>引入新字段名称“工作”、“剩余工作”和“完成百分比”，以准备工作包层次结构的进度报告。</li> <li>允许在不编辑工作包权限的情况下更改状态。</li></ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"

@@ -7,7 +7,7 @@ keywords: languages
 ---
 # Languages
 
-The Languages page lets you select languages you would like to activate from the list of those that are available. These langauges are then available to individual users via their user settings and as the default language for the instance.
+The Languages page lets you select languages you would like to activate from the list of those that are available. These languages are then available to individual users via their user settings and as the default language for the instance.
 
 ![System Languages](openproject-system-languages.png)
 
