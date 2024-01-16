@@ -66,7 +66,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     {
       component: WorkPackageCreateButtonComponent,
       inputs: {
-        stateName$: of('work-packages.partitioned.list.new'),
+        stateName$: of(this.stateName),
         allowed: ['work_packages.createWorkPackage'],
       },
     },
@@ -122,5 +122,13 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
 
   protected shouldUpdateHtmlTitle():boolean {
     return this.$state.current.name === 'work-packages.partitioned.list';
+  }
+
+  private get stateName() {
+    if (this.$state.current.name?.includes('gantt')) {
+      return 'gantt.partitioned.list.new';
+    }
+
+    return 'work-packages.partitioned.list.new';
   }
 }
