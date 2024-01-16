@@ -83,7 +83,7 @@ Several field names were changed in OpenProject 13.2.
 
 Furthermore, the calculation of **Work** and **Remaining work** has been modified, now featuring a sum value (∑) displayed in the "Work" and "Remaining work" fields. This sum shows the total value of all child elements within the work package, including the work package itself.
 
-Please note that **% Complete** does not yet automatically adjust when the values of **Work** or **Remaining work** are changed. This functionality is planned for future releases.
+Please note that **% Complete** does not adjust automatically when the values of **Work** or **Remaining work** are changed. 
 
 ## Bug fixes and changes
 
