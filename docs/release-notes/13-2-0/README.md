@@ -104,8 +104,12 @@ Please note that **% Complete** does not yet automatically adjust when the value
 
 ### Contributions
 
-A very special thank you goes to to AWS for sponsoring the advanced filters for project members lists. 
+A very special thank you goes to our sponsors for features and improvements of this release:
 
-A big thanks to Community members for reporting bugs and helping us identifying and providing fixes, especially to Arun M and Richard Richter.
+- **AMG** - for the advanced filters for project members lists
+- **Deutsche Bahn** - for the manual project folders for OneDrive/SharePoint integration 
+- **German Federal Ministry of the Interior and Home Affairs (BMI)** - for the improvements to progress reporting
+
+A big thanks to Community members for reporting bugs and helping us identifying and providing fixes, especially to Arun M, Patrick Massé and Richard Richter.
 
 A big thank you to every other dedicated user who has [reported bugs](https://www.openproject.org/docs/development/report-a-bug), supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards) and provided translations on [CrowdIn](https://crowdin.com/projects/opf).
