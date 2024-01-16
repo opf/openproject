@@ -62,7 +62,7 @@ RSpec.describe 'Admin storages',
 
         expect(page).to have_test_selector('storage-name', text: complete_storage.name)
         expect(page).to have_test_selector('storage-name', text: incomplete_storage.name)
-        expect(page).to have_css("button[aria-label='Add new storage']", text: 'Storage')
+        expect(page).to have_selector :button, 'Storage', aria: { label: 'Add new storage' }
 
         within "li#storages_nextcloud_storage_#{complete_storage.id}" do
           expect(page).not_to have_test_selector('label-incomplete')
@@ -107,7 +107,7 @@ RSpec.describe 'Admin storages',
         expect(page).to be_axe_clean.within '#content'
 
         # Show Add storage button
-        expect(page).to have_css("button[aria-label='Add new storage']", text: 'Storage')
+        expect(page).to have_selector :button, 'Storage', aria: { label: 'Add new storage' }
 
         # Show empty storages list
         expect(page).to have_title('File storages')
@@ -166,14 +166,14 @@ RSpec.describe 'Admin storages',
 
         aggregate_failures 'General information' do
           within_test_selector('storage-general-info-form') do
-            fill_in 'storages_nextcloud_storage_name', with: 'My Nextcloud', fill_options: { clear: :backspace }
+            fill_in 'Name', with: 'My Nextcloud', fill_options: { clear: :backspace }
             click_on 'Save and continue'
 
             expect(page).to have_text("Host is not a valid URL.")
 
             mock_server_capabilities_response("https://example.com")
             mock_server_config_check_response("https://example.com")
-            fill_in 'storages_nextcloud_storage_host', with: 'https://example.com'
+            fill_in 'Host', with: 'https://example.com'
             click_on 'Save and continue'
           end
 
@@ -214,8 +214,8 @@ RSpec.describe 'Admin storages',
             expect(page).to have_text("Client secret can't be blank.")
 
             # Happy path - Submit valid values
-            fill_in 'oauth_client_client_id', with: '1234567890'
-            fill_in 'oauth_client_client_secret', with: '0987654321'
+            fill_in 'Nextcloud OAuth Client ID', with: '1234567890'
+            fill_in 'Nextcloud OAuth Client Secret', with: '0987654321'
             click_on 'Save and continue'
           end
 
@@ -240,7 +240,7 @@ RSpec.describe 'Admin storages',
                                                                                      response_code: 401)
             automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             expect(automatically_managed_switch).to be_checked
-            fill_in 'storages_nextcloud_storage_password', with: "1234567890"
+            fill_in 'Application password', with: "1234567890"
             # Clicking submit with application password empty should show an error
             click_on('Done, complete setup')
             expect(page).to have_text("Password is not valid.")
@@ -251,7 +251,7 @@ RSpec.describe 'Admin storages',
             mock_nextcloud_application_credentials_validation('https://example.com', password: "1234567890")
             automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             expect(automatically_managed_switch).to be_checked
-            fill_in 'storages_nextcloud_storage_password', with: "1234567890"
+            fill_in 'Application password', with: "1234567890"
             click_on('Done, complete setup')
           end
 
@@ -315,13 +315,13 @@ RSpec.describe 'Admin storages',
 
         aggregate_failures 'General information' do
           within_test_selector('storage-general-info-form') do
-            fill_in 'storages_one_drive_storage_name', with: 'My OneDrive', fill_options: { clear: :backspace }
-            fill_in 'storages_one_drive_storage_tenant_id', with: '029d4741-a4be-44c6-a8e4-e4eff7b19f65'
+            fill_in 'Name', with: 'My OneDrive', fill_options: { clear: :backspace }
+            fill_in 'Directory (tenant) ID', with: '029d4741-a4be-44c6-a8e4-e4eff7b19f65'
             click_on 'Save and continue'
 
             expect(page).to have_text("Drive can't be blank.")
 
-            fill_in 'storages_one_drive_storage_drive_id', with: '1234567890'
+            fill_in 'Drive ID', with: '1234567890'
             click_on 'Save and continue'
           end
 
@@ -345,8 +345,8 @@ RSpec.describe 'Admin storages',
             expect(page).to have_text("Client secret can't be blank.")
 
             # Happy path - Submit valid values
-            fill_in 'oauth_client_client_id', with: '1234567890'
-            fill_in 'oauth_client_client_secret', with: '0987654321'
+            fill_in 'Azure OAuth Application (client) ID', with: '1234567890'
+            fill_in 'Azure OAuth Client Secret Value', with: '0987654321'
             expect(find_test_selector('storage-oauth-client-submit-button')).not_to be_disabled
             click_on 'Save and continue'
 
@@ -458,7 +458,7 @@ RSpec.describe 'Admin storages',
           # Update a storage - happy path
           find_test_selector('storage-edit-host-button').click
           within_test_selector('storage-general-info-form') do
-            fill_in 'storages_nextcloud_storage_name', with: 'My Nextcloud'
+            fill_in 'Name', with: 'My Nextcloud'
             click_on 'Save and continue'
           end
 
@@ -468,8 +468,8 @@ RSpec.describe 'Admin storages',
           # Update a storage - unhappy path
           find_test_selector('storage-edit-host-button').click
           within_test_selector('storage-general-info-form') do
-            fill_in 'storages_nextcloud_storage_name', with: nil
-            fill_in 'storages_nextcloud_storage_host', with: nil
+            fill_in 'Name', with: nil
+            fill_in 'Host', with: nil
             click_on 'Save and continue'
 
             expect(page).to have_text("Name can't be blank.")
@@ -516,8 +516,8 @@ RSpec.describe 'Admin storages',
             expect(page).to have_text("Client secret can't be blank.")
 
             # Happy path - Submit valid values
-            fill_in 'oauth_client_client_id', with: '1234567890'
-            fill_in 'oauth_client_client_secret', with: '0987654321'
+            fill_in 'Nextcloud OAuth Client ID', with: '1234567890'
+            fill_in 'Nextcloud OAuth Client Secret', with: '0987654321'
             expect(find_test_selector('storage-oauth-client-submit-button')).not_to be_disabled
             click_on 'Save and continue'
           end
@@ -546,7 +546,7 @@ RSpec.describe 'Admin storages',
                                                                             response_code: 401)
             automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             expect(automatically_managed_switch).to be_checked
-            fill_in 'storages_nextcloud_storage_password', with: "1234567890"
+            fill_in 'Application password', with: "1234567890"
             # Clicking submit with application password empty should show an error
             click_on('Done, complete setup')
             expect(page).to have_text("Password is not valid.")
@@ -557,7 +557,7 @@ RSpec.describe 'Admin storages',
             mock_nextcloud_application_credentials_validation(storage.host, password: "1234567890")
             automatically_managed_switch = page.find('[name="storages_nextcloud_storage[automatic_management_enabled]"]')
             expect(automatically_managed_switch).to be_checked
-            fill_in 'storages_nextcloud_storage_password', with: "1234567890"
+            fill_in 'Application password', with: "1234567890"
             click_on('Done, complete setup')
           end
 
@@ -595,7 +595,7 @@ RSpec.describe 'Admin storages',
           # Update a storage - happy path
           find_test_selector('storage-edit-host-button').click
           within_test_selector('storage-general-info-form') do
-            fill_in 'storages_one_drive_storage_name', with: 'My OneDrive'
+            fill_in 'Name', with: 'My OneDrive'
             click_on 'Save and continue'
           end
 
@@ -605,8 +605,8 @@ RSpec.describe 'Admin storages',
           # Update a storage - unhappy path
           find_test_selector('storage-edit-host-button').click
           within_test_selector('storage-general-info-form') do
-            fill_in 'storages_one_drive_storage_name', with: nil
-            fill_in 'storages_one_drive_storage_drive_id', with: nil
+            fill_in 'Name', with: nil
+            fill_in 'Drive ID', with: nil
             click_on 'Save and continue'
 
             expect(page).to have_text("Name can't be blank.")
@@ -631,8 +631,8 @@ RSpec.describe 'Admin storages',
             expect(page).to have_text("Client secret can't be blank.")
 
             # Happy path - Submit valid values
-            fill_in 'oauth_client_client_id', with: '1234567890'
-            fill_in 'oauth_client_client_secret', with: '0987654321'
+            fill_in 'Azure OAuth Application (client) ID', with: '1234567890'
+            fill_in 'Azure OAuth Client Secret Value', with: '0987654321'
             click_on 'Save and continue'
           end
 
