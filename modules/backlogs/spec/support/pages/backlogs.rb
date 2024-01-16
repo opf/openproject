@@ -140,9 +140,8 @@ module Pages
     end
 
     def click_in_backlog_menu(backlog, item_name)
-      within_backlog(backlog) do
-        find('.header .menu-trigger').click
-        find('.header .backlog-menu .item', text: item_name).click
+      within_backlog_menu(backlog) do |menu|
+        menu.find('.item', text: item_name).click
       end
     end
 
@@ -257,6 +256,15 @@ module Pages
 
     def path
       backlogs_project_backlogs_path(project)
+    end
+
+    def within_backlog_menu(backlog, &)
+      within_backlog(backlog) do
+        menu = find('.backlog-menu')
+        menu.click
+
+        yield menu
+      end
     end
 
     private
