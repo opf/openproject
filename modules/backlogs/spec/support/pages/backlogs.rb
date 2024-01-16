@@ -37,9 +37,10 @@ module Pages
       @project = project
     end
 
-    def enter_edit_story_mode(story)
+    def enter_edit_story_mode(story, text: nil)
+      text ||= story.subject
       within_story(story) do
-        find('*', text: story.subject).click
+        find(:css, '.editable', text:).click
       end
     end
 
@@ -52,15 +53,12 @@ module Pages
     def alter_attributes_in_edit_story_mode(story, attributes)
       edit_proc = ->(*) do
         attributes.each do |key, value|
+          field_name = WorkPackage.human_attribute_name(key)
           case key
-          when :subject
-            fill_in 'Subject', with: value
-          when :story_points
-            fill_in 'Story Points', with: value
-          when :status
-            select value, from: 'Status'
-          when :type
-            select value, from: 'Type'
+          when :subject, :story_points
+            fill_in field_name, with: value
+          when :status, :type
+            select value, from: field_name
           else
             raise NotImplementedError
           end
@@ -93,10 +91,10 @@ module Pages
 
     def save_story_from_edit_mode(story)
       save_proc = ->(*) do
-        find('input[name=subject]').native.send_key :return
+        # for some reason, have to send 2 return keys for the select field
+        find_field(disabled: false, match: :first).send_keys(:return, :return)
 
-        expect(page)
-          .to have_no_css('input[name=subject]')
+        expect(page).to have_no_field(WorkPackage.human_attribute_name(:subject))
       end
 
       if story
@@ -104,6 +102,7 @@ module Pages
       else
         save_proc.call
       end
+      wait_for_save_completion
     end
 
     def save_backlog_from_edit_mode(backlog)
@@ -113,6 +112,10 @@ module Pages
         expect(page)
           .to have_css('.start_date.editable')
       end
+    end
+
+    def wait_for_save_completion
+      expect(page).to have_no_css('.ajax-indicator')
     end
 
     def edit_backlog(backlog, attributes)
