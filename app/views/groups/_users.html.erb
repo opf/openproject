@@ -42,12 +42,10 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 
   <div class="grid-content medium-6 -visible-overflow">
-    <% users = User
-      .user
-      .active
-      .not_in_group(@group)
-      .limit(1) %>
-    <% if users.any? %>
+    <% if User.user
+              .not_in_group(@group)
+              .where(status: [User.statuses[:active], User.statuses[:invited]])
+              .exists? %>
       <%= styled_form_tag(members_of_group_path(@group), method: :post) do %>
 
         <fieldset class="form--fieldset">

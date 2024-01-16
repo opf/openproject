@@ -205,7 +205,7 @@ de:
       editable: "Feld darf von den Benutzern selbst bearbeitet werden."
       visible: "Feld für alle Benutzer sichtbar machen (Nicht-Administratoren) in der Projektübersicht und im Projekt-Detail-Widget in der Projektübersicht."
       is_filter: >
-        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
+        Erlaubt das benutzerdefinierte Feld in einem Filter in der Arbeitspaket-Ansicht zu verwenden. Beachten Sie, dass, nur wenn "Für alle Projekte" ausgewählt ist, das benutzerdefinierte Feld in globalen Ansichten angezeigt wird.
     tab:
       no_results_title_text: Zur Zeit existieren keine benutzerdefinierten Felder.
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen
@@ -278,9 +278,9 @@ de:
       no_results_content_text: Mitglied zum Projekt hinzufügen
     invite_by_mail: "Einladung an %{mail} senden"
     send_invite_to: "Einladung senden an"
-    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    no_modify_on_shared: "Sie können die freigegebenen Mitgliedschaften derzeit nicht über die Mitgliederseite ändern oder entfernen. Verwenden Sie stattdessen bitte das Teilen-Fenster."
     columns:
-      shared: "Shared"
+      shared: "Geteilt"
     filters:
       all_shares: 'Alle Freigaben'
     menu:
@@ -2162,9 +2162,9 @@ de:
     other: "%{count} offen"
     zero: "Keine offenen"
   label_x_work_packages:
-    one: "1 work package"
-    other: "%{count} work packages"
-    zero: "No work packages"
+    one: "1 Arbeitspaket"
+    other: "%{count} Arbeitspakete"
+    zero: "Keine Arbeitspakete"
   label_x_projects:
     one: "Ein Projekt"
     other: "%{count} Projekte"
@@ -2424,8 +2424,8 @@ de:
   permission_assign_versions: "Versionen zuweisen"
   permission_browse_repository: "Lesezugriff auf Projektarchiv (in OpenProject und Checkout)"
   permission_change_wiki_parent_page: "Übergeordnete Wiki-Seite ändern"
-  permission_change_work_package_status: "Change work package status"
-  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
+  permission_change_work_package_status: "Arbeitspaket-Status ändern"
+  permission_change_work_package_status_explanation: "Ermöglicht das Ändern des Status ohne Berechtigung Arbeitspakete zu bearbeiten"
   permission_comment_news: "Nachricht kommentieren"
   permission_commit_access: "Lese- und Schreibzugriff auf Projektarchiv (Commit)"
   permission_copy_projects: "Projekte kopieren"
@@ -2487,7 +2487,7 @@ de:
   permission_view_news: "News anzeigen"
   permission_view_members: "Mitglieder ansehen"
   permission_view_reportings: "Statusberichte ansehen"
-  permission_view_shared_work_packages: "View work package shares"
+  permission_view_shared_work_packages: "Arbeitspaket-Freigaben sehen"
   permission_view_time_entries: "Gebuchte Aufwände ansehen"
   permission_view_timelines: "Zeitplan-Reporte anzeigen"
   permission_view_wiki_edits: "Wiki-Versionsgeschichte ansehen"

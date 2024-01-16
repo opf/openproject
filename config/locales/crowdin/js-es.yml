@@ -352,7 +352,7 @@ es:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                El lanzamiento contiene varias funcionalidades y mejoras: <br><ul class="%{list_styling_class}"><li>Filtrar por roles, grupos y comparticiones en la lista de miembros de proyectos.</li> <li>Permitir marcar como usuario asignado o responsable por paquetes de trabajo compartidos.</li> <li>Introducción de los nuevos nombres Trabajo, Trabajo restante y % Completado para preparar reportes de progreso para jerarquías de paquetes de trabajo. </li> <li> Permitir cambios de estado para paquetes de trabajo sin permisos de edición.</li> <li>Activar carpetas manuales de proyecto para almacenamientos OneDrive/SharePoint.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."

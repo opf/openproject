@@ -351,7 +351,7 @@ de:
             standard:
               learn_about_link: https://www.openproject.org/de/blog/openproject-13-2-release/
               new_features_html: >
-                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Filter für Rollen, Gruppen und geteilte Arbeitspakete in der Liste der Projektmitglieder.</li> <li>Geteilte Nutzer können für die Attribute "Zugewiesen an" und "Verantwortlich" ausgewählt werden.</li> <li>Umbenennen von Attributen zu Aufwand und Fortschritt in Arbeit, Verbleibende Arbeit und % vollständig ein, um Fortschrittsberichte für Arbeitspaket-Hierarchien vorzubereiten.</li> <li>Separates Recht, um Statusänderungen in Arbeitspaketen ohne Bearbeitungsrechte zu ermöglichen.</li> <li>Manuelle Projektordner für OneDrive/SharePoint-Speicher.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -520,7 +520,7 @@ de:
     label_watcher_added_successfully: "Beobachter erfolgreich hinzugefügt!"
     label_watcher_deleted_successfully: "Beobachter erfolgreich gelöscht!"
     label_work_package_details_you_are_here: "Sie sind auf dem Reiter %{tab} von %{type} %{subject}."
-    label_work_package_context_menu: "Work package context menu"
+    label_work_package_context_menu: "Arbeitspaket-Kontextmenü"
     label_unwatch: "Nicht mehr beobachten"
     label_unwatch_work_package: "Arbeitspaket nicht mehr beobachten"
     label_uploaded_by: "Hochgeladen von"
@@ -832,7 +832,7 @@ de:
       toggle_description: "Beschreibung der Beziehung ein-/ausklappen"
       update_relation: "Klicken um den Beziehungstyp zu ändern"
       add_follower: "Nachfolger hinzufügen"
-      show_relations: "Show relations"
+      show_relations: "Beziehungen anzeigen"
       add_predecessor: "Vorgänger hinzufügen"
       remove: "Beziehung entfernen"
       save: "Beziehung speichern"
@@ -1035,7 +1035,7 @@ de:
         selection:
           mixed: "Gemischt"
         upsale:
-          description: "Share work packages with users who are not members of the project."
+          description: "Teilen Sie Arbeitspakete mit Benutzern, die nicht Mitglieder des Projekts sind."
       table:
         configure_button: 'Arbeitspaket-Tabelle konfigurieren'
         summary: "Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen dieser Arbeitspakete."
