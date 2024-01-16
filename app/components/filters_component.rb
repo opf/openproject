@@ -40,4 +40,8 @@ class FiltersComponent < ApplicationComponent
      query
       .available_filters
   end
+  
+  def filters_count
+    query.filters.count
+ end
 end

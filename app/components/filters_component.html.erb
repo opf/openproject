@@ -5,13 +5,11 @@
   <div class="op-filters-header">
     <%= render(Primer::Beta::Button.new(      
       scheme: :secondary,
-      mb: 2,
-      mr: 2,
       data: { 'filters-target': 'filterFormToggle',
             'action': 'filters#toggleDisplayFilters',
             'test-selector': 'project-filter-toggle' })) do %>
       <%= t(:label_filter) %>
-      <%= render(Primer::Beta::Counter.new(count: query.filters.count, round: true, hide_if_zero: false, scheme: :default)) %>
+      <%= render(Primer::Beta::Counter.new(count: filters_count, round: true, hide_if_zero: false, scheme: :default)) %>
     <% end %>
     <div class="op-filters-header-actions">
       <% buttons.each do |button| %>
