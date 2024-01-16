@@ -108,7 +108,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     component: WorkPackagesFullViewComponent,
     data: {
       baseRoute: 'work-packages',
-      bodyClasses: 'router--work-packages-full-view',
+      bodyClasses: ['router--work-packages-full-view', 'router--work-packages-base'],
       newRoute: 'work-packages.new',
       menuItem: menuItemClass,
     },
