@@ -12,11 +12,11 @@ Release date: 2023-01-17
 
 We released [OpenProject 13.2.0](https://community.openproject.com/versions/1979).
 
-It brings improvements for the **OneDrive/SharePoint integration**, now also allowing **Manual project folders**. In addition to that, both OneDrive/SharePoint and Nextcloud integrations were improved by **showing deleted files in OpenProject work packages**.
+Among other features, it brings improvements for the **OneDrive/SharePoint integration**, now also allowing **Manual project folders**. In addition to that, both OneDrive/SharePoint and Nextcloud integrations were improved by **showing deleted files in OpenProject work packages**.
 
 We also added the option to **filter the project member list**, allowing project administrators to easily filter through the project member lists based on various roles, groups and shares. Instance administrators can now also allow for users to **change work package status without the rights to edit a work package**. 
 
-Furthermore, it is now **possible to set users with whom a work package has been shared as assignees or responsible**. The **quick content menu** in the Gantt view has now shows work package relations. 
+Furthermore, it is now **possible to set users with whom a work package has been shared as assignee or responsible**. The **quick content menu** in the Gantt view has now offers an additional option to show work package relations.
 
 Finally, **several fields were renamed**: 
 
@@ -46,7 +46,7 @@ In 13.2 we improved the functionality of file storages. Even if a file has been 
 This new feature is available for [both file storage integrations](../../user-guide/file-management). 
 
 ## Filter for roles, groups, and shares in the project members list
-With OpenProject 13.2, users can filter the list of project member based on user roles, groups, and shared work packages. This enables project members to promptly identify others with specific roles or individuals outside the project team who have  gained access through the newly introduced Sharing feature. 
+With OpenProject 13.2, users can filter the list of project member based on user roles, groups, and shared work packages. This enables project members to promptly identify others with specific roles or individuals outside the project team who have gained access through the newly introduced Sharing feature.
 
 ![Project members filter in OpenProject](project-members.png)
 
@@ -54,7 +54,7 @@ Read more about filtering the project members list in our [user guide](../../use
 
 ## Allow assignee and accountable for shared work packages (Enterprise add-on)
 
-In OpenProject 13.1, we introduced the work package sharing feature with external users. In the 13.2 release, these shared users can now be designated as assignees and accountable for the work packages that have been shared with them. This is useful for teams collaborating with external partners who cannot access sensitive project data but still require access to specific tasks within the project.
+In OpenProject 13.1, we introduced the work package sharing feature with external users. In the 13.2 release, these shared users can now be designated as assignee and accountable for the work packages that have been shared with them. This is useful for teams collaborating with external partners who cannot access sensitive project data but still require access to specific tasks within the project.
 
 Learn more about our [Sharing work packages (Enterprise add-on)](../../user-guide/work-packages/share-work-packages/).
 
@@ -68,7 +68,7 @@ Read more about [roles and permissions for users of OpenProject](../../system-ad
 
 Quick context menu in the Gantt view now includes "Show relations" option. It displays all existing relations for the selected work package. 
 
-Please note that these option is only available if you have selected a Gantt view (i.e. not a table or cards view). 
+Please note that this option is only available if you have selected a Gantt view (i.e. not a table or cards view). 
 
 ![Quick context menu in Gantt charts in OpenProject](gantt-relations.png)
 
@@ -77,11 +77,11 @@ Read more about [Gantt charts in OpenProject](../../docs/user-guide/gantt-chart/
 ## New field names and calculation of work and remaining work
 Several field names were changed in OpenProject 13.2.
 
-- **Estimated time** is now called Work
-- **Remaining hours** is now called Remaining work 
-- **Progress (%)** is now called **% Complete**
+- Estimated time is now called **Work**
+- Remaining hours is now called **Remaining work** 
+- Progress (%) is now called **% Complete**
 
-Furthermore, the calculation of **Work** and **Remaining work** has been modified, now featuring a sum value (∑) displayed in the "work" and "remaining work" fields. This sum shows the total value of all child elements within the work package, including the work package itself.
+Furthermore, the calculation of **Work** and **Remaining work** has been modified, now featuring a sum value (∑) displayed in the "Work" and "Remaining work" fields. This sum shows the total value of all child elements within the work package, including the work package itself.
 
 Please note that **% Complete** does not yet automatically adjust when the values of **Work** or **Remaining work** are changed. This functionality is planned for future releases.
 
