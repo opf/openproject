@@ -10,7 +10,7 @@ keywords: time and costs FAQ, time tracking, time logging, booking costs
 
 ## Is there a way to prevent logging hours for Phases (or other work package types)?
 
-It is not possible to prevent time logging on phases or restrict it to certain work package types. You could deactivate the fields "Estimated time" and "Spent time" for type Phase (using the [work package form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on)) but it would still be possible to log time for Phases.
+It is not possible to prevent time logging on phases or restrict it to certain work package types. You could deactivate the fields "Work (earlier called Estimated time" and "Spent time" for type Phase (using the [work package form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on)) but it would still be possible to log time for Phases.
 
 ## Can I log time for another user than myself?
 
@@ -31,6 +31,6 @@ Yes, you can use the "My spent time" widget on My Page and use the filters there
 
 ## Does OpenProject offer resource management?
 
-You can [set up budgets](../../budgets), [set an Estimated time](../../work-packages/edit-work-package/) for a work package and use the [Assignee board](../../agile-boards/#choose-between-board-types) to find out how many work packages are assigned to a person at the moment.
+You can [set up budgets](../../budgets), [set an estimated time in the field **Work**](../../work-packages/edit-work-package/) for a work package and use the [Assignee board](../../agile-boards/#choose-between-board-types) to find out how many work packages are assigned to a person at the moment.
 Additional resource management features will be added within the next years, as shown in the [roadmap for future releases](https://community.openproject.org/projects/openproject/roadmap).
 More information regarding resource management in OpenProject can be found in the [Use Cases](../../../use-cases/resource-management) section.

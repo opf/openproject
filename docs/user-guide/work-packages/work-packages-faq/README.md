@@ -35,7 +35,7 @@ It is possible for a project non-member to add attachments to work packages. For
 
 ### How can I set workload, deadline and duration in a work package?
 
-- Workload: Use the "Estimated time" field
+- Workload: Use the "Work" field (earlier this field was called "Estimated time")
 - Deadline: Use the "Finish date" field
 - Duration: Use the "Duration" field
 
@@ -55,12 +55,12 @@ tracking (in bullet point 5)
 ### How can I track the progress of work packages with children?
 
 OpenProject automatically calculates the progress of work packages with children. 
-It sums up the progress of the children weighted by the Estimated time 
-of each child. OpenProject uses 1 hour as the default value if Estimated time 
+It sums up the progress of the children weighted by the **Work** (earlier called Estimated time)
+of each child. OpenProject uses 1 hour as the default value if **Work** field
 is empty. When adding the progress bar to a work package hierarchy view, 
-please always add the Estimated time column as well so that you can track 
+please always add the **Work** column as well so that you can track 
 the calculation.
-Estimated time manually added to work packages with children is ignored.
+**Work** (Estimated time) manually added to work packages with children is ignored.
 
 ### Can I set multiple parents for one work package?
 
