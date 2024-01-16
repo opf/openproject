@@ -177,7 +177,7 @@ RSpec.shared_examples_for 'nextcloud storage contract', :storage_server_helpers,
 
         context 'when connection fails' do
           before do
-            allow(Net::HTTP).to receive(:start).and_raise(SocketError, 'Failed to open TCP connection (SIMULATED)')
+            allow_any_instance_of(HTTPX::Session).to receive(:get).and_raise(HTTPX::TimeoutError, 'SIMULATED Timeout')
           end
 
           include_examples 'contract is invalid', host: :cannot_be_connected_to

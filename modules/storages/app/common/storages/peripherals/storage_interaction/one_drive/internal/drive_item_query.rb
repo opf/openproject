@@ -32,9 +32,6 @@ module Storages
             private
 
             def make_file_request(drive_item_id, token, select_url_query)
-              # response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-              #   http.get(uri_path_for(drive_item_id) + select_url_query, { 'Authorization' => "Bearer #{token.access_token}" })
-              # end
               response = HTTPX.get(
                 UTIL.join_uri_path(@uri, uri_path_for(drive_item_id) + select_url_query),
                 headers: { 'Authorization' => "Bearer #{token.access_token}" }

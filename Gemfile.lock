@@ -776,6 +776,9 @@ GEM
     pry-byebug (3.10.1)
       byebug (~> 11.0)
       pry (>= 0.13, < 0.15)
+    pry-doc (1.5.0)
+      pry (~> 0.11)
+      yard (~> 0.9.11)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
     pry-rescue (1.5.2)
@@ -1210,6 +1213,7 @@ DEPENDENCIES
   plaintext (~> 0.3.2)
   prawn (~> 2.4)
   pry-byebug (~> 3.10.0)
+  pry-doc
   pry-rails (~> 0.3.6)
   pry-rescue (~> 1.5.2)
   puffing-billy (~> 4.0.0)
