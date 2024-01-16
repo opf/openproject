@@ -205,7 +205,7 @@ Use it to quickly collapse or expand all groups at the same time. Find out [here
 
 ### Display sums in work package table
 
-To display the sums of eligible work package attributes, go to the work package table configuration and click on the tab **Display settings** (see screenshot above). When you tick the box next to **Display sums** the sums of Estimated time and Remaining hours as well as custom fields of the type Integer or Float will be displayed at the bottom of the work package table. 
+To display the sums of eligible work package attributes, go to the work package table configuration and click on the tab **Display settings** (see screenshot above). When you tick the box next to **Display sums** the sums of **Work** (earlier called Estimated time) and **Remaining work** (earlier called Remaining hours) as well as custom fields of the type Integer or Float will be displayed at the bottom of the work package table. 
 If you group the work package table, sums will be shown for each group.
 
 ## Attribute highlighting (Enterprise add-on)

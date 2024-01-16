@@ -390,11 +390,11 @@ en:
               new_features_html: >
                 The release contains various new features and improvements: <br>
                 <ul class="%{list_styling_class}">
+                  <li>OneDrive/SharePoint integration with manual project folders.</li>
                   <li>Filter for roles, groups, and shares in the project members list.</li>
                   <li>Allow assignee and accountable for shared work packages.</li>
                   <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li>
                   <li>Allow status change without work package edit rights.</li>
-                  <li>Enable manual project folders for OneDrive/SharePoint storages.</li>
                 </ul>
 
     ical_sharing_modal:

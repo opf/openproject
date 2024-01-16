@@ -179,7 +179,7 @@ If you want to replicate the widgets shown in the example in the screen-shot abo
 
 - For the "Assignees" graph please choose the widget "work packages overview" and change to "assignees".
 - For the Work packages status graph please select "work package graph", click on the three dots in the upper right corner of the widget, choose "configure view", then choose "status" as axis criteria and "pie chart" as chart type.
-- For the Work package progress graph please select "work package graph", click on the three dots in the upper right corner of the widget, choose "configure view", then choose "progress (%)" as axis criteria and "line" as chart type.
+- For the Work package progress graph please select "work package graph", click on the three dots in the upper right corner of the widget, choose "configure view", then choose "% Complete" as axis criteria and "line" as chart type.
 
 ### Work package overview widget
 
