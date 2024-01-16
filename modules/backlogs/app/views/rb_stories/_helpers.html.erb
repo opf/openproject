@@ -71,5 +71,5 @@ See COPYRIGHT and LICENSE files for more details.
 </select>
 
 <div id="story_template">
-  <%= render partial: 'rb_stories/story', object: template_story %>
+  <%= render partial: 'rb_stories/story', object: template_story, locals: { project: @project, permission: :add_work_packages } %>
 </div>
