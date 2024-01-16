@@ -34,6 +34,7 @@ import { WorkPackageNotificationService } from 'core-app/features/work-packages/
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
+import { WpTableWithGanttConfigurationService } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-with-gantt-configuration.service';
 
 export const WpTableConfigurationModalPrependToken = new InjectionToken<ComponentType<any>>('WpTableConfigurationModalPrependComponent');
 
@@ -66,10 +67,13 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
   public tabPortalHost:TabPortalOutlet;
 
   // Try to load an optional provided configuration service, and fall back to the default one
-  private wpTableConfigurationService:WpTableConfigurationService =
-  this.injector.get(WpTableConfigurationService, new WpTableConfigurationService(this.I18n));
+  private wpTableConfigurationService:WpTableConfigurationService = this.injector.get(
+    WpTableConfigurationService,
+    new WpTableWithGanttConfigurationService(this.I18n),
+  );
 
-  constructor(@Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
+  constructor(
+    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
     @Optional() @Inject(WpTableConfigurationModalPrependToken) public prependModalComponent:ComponentType<any>|null,
     readonly I18n:I18nService,
     readonly injector:Injector,
@@ -83,7 +87,8 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     readonly wpTableColumns:WorkPackageViewColumnsService,
     readonly cdRef:ChangeDetectorRef,
     readonly ConfigurationService:ConfigurationService,
-    readonly elementRef:ElementRef) {
+    readonly elementRef:ElementRef,
+    ) {
     super(locals, cdRef, elementRef);
   }
 
