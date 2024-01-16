@@ -2492,7 +2492,7 @@ fr:
   permission_view_news: "Voir les nouvelles"
   permission_view_members: "Afficher les membres"
   permission_view_reportings: "Voir rapports"
-  permission_view_shared_work_packages: "View work package shares"
+  permission_view_shared_work_packages: "Voir la répartition des lots de travail"
   permission_view_time_entries: "Voir temps passé"
   permission_view_timelines: "Voir les lignes du temps"
   permission_view_wiki_edits: "Voir l'historique du wiki"

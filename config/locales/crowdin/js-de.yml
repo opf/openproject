@@ -520,7 +520,7 @@ de:
     label_watcher_added_successfully: "Beobachter erfolgreich hinzugefügt!"
     label_watcher_deleted_successfully: "Beobachter erfolgreich gelöscht!"
     label_work_package_details_you_are_here: "Sie sind auf dem Reiter %{tab} von %{type} %{subject}."
-    label_work_package_context_menu: "Work package context menu"
+    label_work_package_context_menu: "Arbeitspaket-Kontextmenü"
     label_unwatch: "Nicht mehr beobachten"
     label_unwatch_work_package: "Arbeitspaket nicht mehr beobachten"
     label_uploaded_by: "Hochgeladen von"
@@ -832,7 +832,7 @@ de:
       toggle_description: "Beschreibung der Beziehung ein-/ausklappen"
       update_relation: "Klicken um den Beziehungstyp zu ändern"
       add_follower: "Nachfolger hinzufügen"
-      show_relations: "Show relations"
+      show_relations: "Beziehungen anzeigen"
       add_predecessor: "Vorgänger hinzufügen"
       remove: "Beziehung entfernen"
       save: "Beziehung speichern"
@@ -1035,7 +1035,7 @@ de:
         selection:
           mixed: "Gemischt"
         upsale:
-          description: "Share work packages with users who are not members of the project."
+          description: "Teilen Sie Arbeitspakete mit Benutzern, die nicht Mitglieder des Projekts sind."
       table:
         configure_button: 'Arbeitspaket-Tabelle konfigurieren'
         summary: "Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen dieser Arbeitspakete."
