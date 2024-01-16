@@ -72,7 +72,7 @@ Please note that this option is only available if you have selected a Gantt view
 
 ![Quick context menu in Gantt charts in OpenProject](gantt-relations.png)
 
-Read more about [Gantt charts in OpenProject](../../docs/user-guide/gantt-chart/)
+Read more about [Gantt charts in OpenProject](../../user-guide/gantt-chart/)
 
 ## New field names and calculation of work and remaining work
 Several field names were changed in OpenProject 13.2.
