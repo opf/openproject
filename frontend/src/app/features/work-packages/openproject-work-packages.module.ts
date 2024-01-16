@@ -231,9 +231,6 @@ import {
   WorkPackagesTableConfigMenuComponent,
 } from 'core-app/features/work-packages/components/wp-table/config-menu/config-menu.component';
 import {
-  WorkPackageViewToggleButtonComponent,
-} from 'core-app/features/work-packages/components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component';
-import {
   WorkPackageViewDropdownMenuDirective,
 } from 'core-app/shared/components/op-context-menu/handlers/wp-view-dropdown-menu.directive';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
@@ -647,7 +644,6 @@ import {
     // Card view
     WorkPackageCardViewComponent,
     WorkPackageSingleCardComponent,
-    WorkPackageViewToggleButtonComponent,
 
     // Notifications
     WorkPackageMarkNotificationButtonComponent,
