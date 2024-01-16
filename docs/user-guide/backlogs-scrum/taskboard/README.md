@@ -20,7 +20,7 @@ You will find user stories in the left column, followed by their individual task
 
 ![User-guide-new-task](User-guide-new-task.png)
 
-Here, you can set the fields *Subject*, *Assigned To*, and *Remaining work* (earlier called Remaining Hours. The new task will be created as a child element of the user story in the same row.
+Here, you can set the fields *Subject*, *Assigned To*, and *Remaining work* (earlier called Remaining Hours). The new task will be created as a child element of the user story in the same row.
 
 If a task is updated or completed, it can be moved to the respective column by a team member using drag&drop.
 In the background, the status of the work package will be adjusted accordingly. Clicking on the work package number opens the work package’s detail view.
