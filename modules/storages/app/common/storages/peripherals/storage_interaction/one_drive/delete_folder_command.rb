@@ -46,7 +46,25 @@ module Storages
             Util.using_admin_token(@storage) do |http|
               response = http.delete("/v1.0/drives/#{@storage.drive_id}/items/#{location}")
 
-              ServiceResult.success(result: response.body)
+              data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
+
+              case response.status
+              when 200..299
+                # The service returns a 204 with an empty body
+                ServiceResult.success
+              when 401
+                ServiceResult.failure(result: :unauthorized,
+                                      errors: ::Storages::StorageError.new(code: :unauthorized, data:))
+              when 404
+                ServiceResult.failure(result: :not_found,
+                                      errors: ::Storages::StorageError.new(code: :not_found, data:))
+              when 409
+                ServiceResult.failure(result: :conflict,
+                                      errors: ::Storages::StorageError.new(code: :conflict, data:))
+              else
+                ServiceResult.failure(result: :error,
+                                      errors: ::Storages::StorageError.new(code: :error, data:))
+              end
             end
           end
         end

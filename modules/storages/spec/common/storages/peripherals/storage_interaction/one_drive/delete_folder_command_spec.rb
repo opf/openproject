@@ -54,4 +54,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::DeleteFolder
 
     expect(described_class.call(storage:, location: folder.id)).to be_success
   end
+
+  it 'when the folder is not found, returns a failure', vcr: 'one_drive/delete_folder_not_found' do
+    result = described_class.call(storage:, location: 'NOT_HERE')
+    expect(result).to be_failure
+    expect(result.result).to eq(:not_found)
+  end
 end
