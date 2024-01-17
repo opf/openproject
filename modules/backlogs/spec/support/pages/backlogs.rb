@@ -155,6 +155,7 @@ module Pages
       target_element = find(story_selector(target))
 
       drag_n_drop_element from: moved_element, to: target_element, offset_x: 0, offset_y: before ? -5 : +10
+      wait_for_save_completion
     end
 
     def fold_backlog(backlog)
