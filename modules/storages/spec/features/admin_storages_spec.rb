@@ -429,7 +429,10 @@ RSpec.describe 'Admin storages',
       it 'renders an edit view', :webmock do
         visit edit_admin_settings_storage_path(storage)
 
-        expect(page).to be_axe_clean.within '#content'
+        expect(page).to be_axe_clean
+          .within('#content')
+          # NB: Heading order is pending app wide update. See https://community.openproject.org/projects/openproject/work_packages/48513
+          .skipping('heading-order')
 
         expect(page).to have_test_selector('storage-new-page-header--title', text: "Cloud Storage (Nextcloud)")
 
