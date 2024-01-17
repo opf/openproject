@@ -36,10 +36,11 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: bbda8ad0054d465eec01c23fcab5c6d62c7baa44
-  ref: bbda8ad0054d465eec01c23fcab5c6d62c7baa44
+  revision: 4952148f930a3292051efbadd9ac115d9c721157
+  ref: 4952148f930a3292051efbadd9ac115d9c721157
   specs:
-    md_to_pdf (0.0.22)
+    md_to_pdf (0.0.23)
+      color_conversion (~> 0.1)
       front_matter_parser (~> 1.0)
       json-schema (~> 4.1)
       markly (~> 0.7)
@@ -416,6 +417,7 @@ GEM
     coderay (1.1.3)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
+    color_conversion (0.1.1)
     colored2 (4.0.0)
     commonmarker (1.0.4)
       rb_sys (~> 0.9)
