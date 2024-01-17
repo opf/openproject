@@ -91,8 +91,10 @@ module Pages
 
     def save_story_from_edit_mode(story)
       save_proc = ->(*) do
-        # for some reason, have to send 2 return keys for the select field
-        find_field(disabled: false, match: :first).send_keys(:return, :return)
+        field = find_field(disabled: false, match: :first)
+        keys = [:return]
+        keys << :return if field.tag_name == 'select' # select field needs a second return key sent for some reason
+        field.send_keys(*keys)
 
         expect(page).to have_no_field(WorkPackage.human_attribute_name(:subject))
       end
