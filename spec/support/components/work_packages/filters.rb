@@ -134,6 +134,9 @@ module Components
       end
 
       def wait_for_filters_to_load
+        # Skip waiting if the filters are embedded in a modal.
+        return if respond_to? :modal
+
         sleep 0.5
         # Wait for the filters dropdown to be fully loaded.
         expect(page).to have_css("#{page.test_selector('wp-filter-button')} .badge")
