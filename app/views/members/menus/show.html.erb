@@ -1,0 +1,3 @@
+<%= turbo_frame_tag "members_menu" do %>
+  <%= render OpenProject::Common::SubmenuComponent.new(sidebar_menu_items: @sidebar_menu_items) %>
+<% end %>
