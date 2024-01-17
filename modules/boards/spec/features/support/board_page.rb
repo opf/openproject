@@ -138,7 +138,9 @@ module Pages
       within_list(list_name) do
         expect(page).to have_conditional_selector(present,
                                                   '[data-test-selector="op-wp-single-card--content-subject"]',
-                                                  text: card_title)
+                                                  text: card_title,
+                                                  # Wait only 1 second for non-presence expectation
+                                                  wait: present ? 10 : 1)
       end
     end
 
