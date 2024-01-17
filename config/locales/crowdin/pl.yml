@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -278,6 +278,18 @@ pl:
       no_results_content_text: Dodaj członka projektu
     invite_by_mail: "Wyślij zaproszenie do %{mail}"
     send_invite_to: "Wyślij zaproszenie do"
+    no_modify_on_shared: "Obecnie nie możesz modyfikować ani usuwać współdzielonych członkostw za pośrednictwem strony członka. Zamiast tego użyj okna modalnego udostępniania."
+    columns:
+      shared: "Udostępniono"
+    filters:
+      all_shares: 'Wszystkie udostępnienia'
+    menu:
+      all: 'Wszyscy'
+      invited: 'Zaproszeni'
+      locked: 'Zablokowani'
+      project_roles: 'Role w projekcie'
+      wp_shares: 'Udostępnienia pakietu roboczego'
+      groups: 'Grupy'
   my:
     access_token:
       failed_to_reset_token: "Nie można zresetować tokena dostępu: %{error}"
@@ -400,7 +412,7 @@ pl:
     sharing:
       missing_workflow_waring:
         title: "Brak przepływu pracy udostępniania pakietu roboczego"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        message: "Dla roli „Edytor pakietów roboczych” nie skonfigurowano przepływu pracy. Bez przepływu pracy użytkownik, któremu ją  udostępniono nie może zmienić statusu pakietu roboczego. Przepływy pracy można kopiować. Wybierz typ źródłowy (np. „Zadanie”) i rolę źródłową (np. „Członek”). Następnie wybierz typy docelowe. Na początek możesz wybrać wszystkie typy jako docelowe. Na koniec wybierz rolę  „Edytor pakietów roboczych”  jako cel i naciśnij przycisk „Kopiuj”. Po utworzeniu ustawień domyślnych dostosuj przepływy pracy tak, jak w przypadku każdej innej roli."
         link_message: "Skonfiguruj przepływy pracy w administracji."
     summary:
       reports:
@@ -605,7 +617,9 @@ pl:
         begin_insertion: "Początek wstawiania"
         begin_deletion: "Początek usuwania"
         children: "Elementy składowe"
-        done_ratio: "Postęp (%)"
+        derived_remaining_hours: "Wyprowadzona pozostała praca"
+        derived_remaining_time: "Wyprowadzona pozostała praca"
+        done_ratio: "% ukończono"
         duration: "Czas trwania"
         end_insertion: "Koniec wstawiania"
         end_deletion: "Koniec usuwania"
@@ -619,8 +633,10 @@ pl:
         parent_issue: "Rodzic"
         parent_work_package: "Rodzic"
         priority: "Priorytet"
-        progress: "Postęp (%)"
+        progress: "% ukończono"
         readonly: "Tylko do odczytu"
+        remaining_hours: "Pozostała praca"
+        remaining_time: "Pozostała praca"
         schedule_manually: "Planowanie ręczne"
         spent_hours: "Czas pracy"
         spent_time: "Czas pracy"
@@ -1049,12 +1065,12 @@ pl:
     default_columns: "Domyślne kolumny"
     description: "Opis"
     derived_due_date: "Wyprowadzona data zakończenia"
-    derived_estimated_hours: "Wyprowadzony szacowany czas"
+    derived_estimated_hours: "Wyprowadzona praca"
     derived_start_date: "Wyprowadzona data rozpoczęcia"
     display_sums: "Wyświetl sumy"
     due_date: "Data zakończenia"
-    estimated_hours: "Szacowany czas"
-    estimated_time: "Szacowany czas"
+    estimated_hours: "Praca"
+    estimated_time: "Praca"
     expires_at: "Wygasa"
     firstname: "Imię"
     group: "Grupa"
@@ -1436,7 +1452,7 @@ pl:
   error_pdf_export_too_many_columns: "Wybrano zbyt dużo kolumn do eksportu PDF. Zmniejsz liczbę kolumn."
   error_pdf_failed_to_export: "Nie można było zapisać eksportu PDF: %{error}"
   error_token_authenticity: "Nie można zweryfikować tokenu Cross-Site Request Forgery. Czy podjęto próbę przesłania danych w wielu przeglądarkach lub z wielu kart? Zamknij wszystkie karty i spróbuj ponownie."
-  error_work_package_done_ratios_not_updated: "Nie zaktualizowane wskaźniki wykonania pakietu roboczego."
+  error_work_package_done_ratios_not_updated: "Wartości % ukończenia pakietu roboczego nie zostały zaktualizowane."
   error_work_package_not_found_in_project: "Pakiet roboczy nie został znaleziony lub nie należy do tego projektu"
   error_must_be_project_member: "musi być członkiem projektu"
   error_migrations_are_pending: "Ta instalacja OpenProject oczekuje na migracje baz danych. Prawdopodobnie pominięto uruchomienie migracji przy ostatnim uaktualnieniu. Sprawdź instrukcję uaktualniania, aby prawidłowo uaktualnić tę instalację."
@@ -2116,7 +2132,7 @@ pl:
   label_type_new: "Nowy typ"
   label_type_plural: "Typy"
   label_ui: "Interfejs użytkownika"
-  label_update_work_package_done_ratios: "Zaktualizuj wskaźniki postępu pakietu roboczego"
+  label_update_work_package_done_ratios: "Aktualizuj wartości % ukończenia pakietu roboczego"
   label_updated_time: "Aktualizacja %{value} temu"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Zaktualizowane przez %{author} %{age} temu"
@@ -2201,6 +2217,10 @@ pl:
     one: "1 otwarty"
     other: "Liczba otwartych: %{count}"
     zero: "0 otwarty"
+  label_x_work_packages:
+    one: "1 pakiet roboczy"
+    other: "%{count} pakiety robocze"
+    zero: "Brak pakietów roboczych"
   label_x_projects:
     one: "1 projekt"
     other: "Liczba projektów: %{count}"
@@ -2274,9 +2294,9 @@ pl:
     sharing:
       work_packages:
         allowed_actions: "Możesz %{allowed_actions} ten pakiet roboczy. Może się to zmienić w zależności od Twojej roli w projekcie i uprawnień."
-        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
+        create_account: "Aby uzyskać dostęp do tego pakietu roboczego, musisz utworzyć i aktywować konto w %{instance}. "
         open_work_package: "Otwórz pakiet roboczy"
-        subject: "Work package #%{id} was shared with you"
+        subject: "Udostępniono Ci pakiet roboczy nr %{id}"
         enterprise_text: "Udostępnij pakiety robocze użytkownikom, którzy nie są członkami projektu."
         summary:
           user: "Użytkownik %{user} udostępnił Ci pakiet roboczy z uprawnieniami %{role_rights}"
@@ -2385,7 +2405,7 @@ pl:
   notice_file_not_found: "Strona, do której próbowano uzyskać dostęp nie istnieje lub została usunięta."
   notice_forced_logout: "Będziesz automatycznie wylogowany po %{ttl_time} minutach braku aktywności."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
-  notice_work_package_done_ratios_updated: "Work package done ratios updated."
+  notice_work_package_done_ratios_updated: "Zaktualizowano % ukończenia"
   notice_locking_conflict: "Information has been updated by at least one other user in the meantime."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
@@ -2463,6 +2483,8 @@ pl:
   permission_assign_versions: "Przypisz wersje"
   permission_browse_repository: "Dostęp do repozytorium tylko do odczytu (przegląd i sprawdzenie)"
   permission_change_wiki_parent_page: "Zmiana strony nadrzędnej wiki"
+  permission_change_work_package_status: "Zmień status pakietu roboczego"
+  permission_change_work_package_status_explanation: "Umożliwia zmianę statusu bez uprawnienia Edycja pakietów roboczych"
   permission_comment_news: "Komentowanie Nowości"
   permission_commit_access: "Dostęp odczytu i zapisu do repozytorium (wykonanie)"
   permission_copy_projects: "Kopiowanie projektów"
@@ -2524,7 +2546,7 @@ pl:
   permission_view_news: "Wyświetl aktualności"
   permission_view_members: "Przeglądaj członków"
   permission_view_reportings: "Widok zgłoszeń"
-  permission_view_shared_work_packages: "Wyświetl udostępnione pakiety robocze"
+  permission_view_shared_work_packages: "Wyświetl udostępnienia pakietu roboczego"
   permission_view_time_entries: "Widok czasu pracy"
   permission_view_timelines: "Widok osi czasu"
   permission_view_wiki_edits: "WIdok historii wiki"
@@ -2565,6 +2587,7 @@ pl:
   project_module_news: "Aktualności"
   project_module_repository: "Repozytorium"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Pakiety robocze i wykres Gantta"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2752,10 +2775,10 @@ pl:
   setting_file_max_size_displayed: "Maksymalny rozmiar plików tekstowych wyświetlanych w treści"
   setting_host_name: "Nazwa hosta"
   setting_invitation_expiration_days: "Ważność aktywacyjnej waidomości e-mail wygasa po"
-  setting_work_package_done_ratio: "Oblicz status realizacji pakietu roboczego z"
-  setting_work_package_done_ratio_field: "Użyj pola pakietu roboczego"
-  setting_work_package_done_ratio_status: "Użyj statusu pakietu roboczego"
-  setting_work_package_done_ratio_disabled: "Wyłącz (Ukryj postęp)"
+  setting_work_package_done_ratio: "Oblicz % ukończenia pakietu roboczego za pomocą"
+  setting_work_package_done_ratio_field: "Pole pakietu roboczego"
+  setting_work_package_done_ratio_status: "Status pakietu roboczego"
+  setting_work_package_done_ratio_disabled: "Wyłącz (ukryj pole % ukończenia)"
   setting_work_package_list_default_columns: "Wyświetlane domyślnie"
   setting_work_package_properties: "Właściwości pakietu roboczego"
   setting_work_package_startdate_is_adddate: "Użyj bieżącej daty jako daty początkowej dla nowych pakietów roboczych"
@@ -3195,9 +3218,9 @@ pl:
         unsupported_context: "Podany zasób nie jest obsługiwany jako kontekst."
         context_object_not_found: "Nie można odnaleźć zasobu z podanym kontekstem."
       validation:
-        done_ratio: "Procent wykonania nie może być ustawiony na źródłowych pakietach roboczych, jeśli zostało wywnioskowane ze statusu lub jeśli zostało wyłączone."
+        done_ratio: "% ukończenia nie może być ustawiony na nadrzędnych pakietach roboczych, jeśli został wyprowadzony ze statusu lub wyłączony."
         due_date: "Nie można ustawić daty zakończenia w nadrzędnych pakietach roboczych."
-        estimated_hours: "Nie można ustawić szacunku godzinowego dla źródłowych pakietów roboczych."
+        estimated_hours: "Pracy nie można ustawić na nadrzędnych pakietach roboczych." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Wybrany użytkownik nie może być „%{property}” dla tego pakietu roboczego."
         start_date: "Daty rozpoczęcia nie można ustawić na nadrzędnych pakietach roboczych."
       eprops:
@@ -3318,7 +3341,7 @@ pl:
       oauth_returned_json_error: "OAuth2 zwrócił błąd JSON"
       oauth_returned_http_error: "OAuth2 zwrócił błąd sieciowy"
       oauth_returned_standard_error: "OAuth2 zwrócił błąd wewnętrzny"
-      client_id_blank: "ID can't be blank."
+      client_id_blank: "Identyfikator nie może być pusty."
       wrong_token_type_returned: "OAuth2 zwrócił niewłaściwy typ tokena, oczekując AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 zgłosił błąd. Skontaktuj się z administratorem systemu."
       oauth_client_not_found: "Nie znaleziono klienta OAuth2 w punkcie końcowym 'callback' (redirect_uri)."

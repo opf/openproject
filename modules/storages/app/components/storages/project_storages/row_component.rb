@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -50,8 +50,7 @@ module Storages::ProjectStorages
     end
 
     def button_links
-      links = [delete_link]
-      links.prepend(edit_link) if project_storage.storage.provider_type_nextcloud?
+      links = [edit_link, delete_link]
       links.prepend(members_connection_status_link) if project_storage.project_folder_automatic?
 
       links

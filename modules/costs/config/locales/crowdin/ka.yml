@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -70,7 +70,7 @@ ka:
   caption_default_rate_history_for: "Default rate history for %{user}"
   caption_locked_on: "იბლოკება"
   caption_materials: "საზომი ერთეულები"
-  caption_rate_history: "Rate history"
+  caption_rate_history: "ტარიფის ისტორია"
   caption_rate_history_for: "Rate history for %{user}"
   caption_rate_history_for_project: "Rate history for %{user} in project %{project}"
   caption_save_rate: "ტარიფის შენახვა"
@@ -84,7 +84,7 @@ ka:
   label_cost_plural: "ღირებულებები"
   label_cost_type_plural: "ღირებულების ტიპი"
   label_cost_type_specific: "Cost type #%{id}: %{name}"
-  label_costs_per_page: "Costs per page"
+  label_costs_per_page: "ღირებულებები თითოეული გვერდისთვის"
   label_currency: "ფული"
   label_currency_format: "Format of currency"
   label_current_default_rate: "Current default rate"
@@ -124,7 +124,7 @@ ka:
   permission_edit_own_cost_entries: "Edit own booked unit costs"
   permission_edit_hourly_rates: "Edit hourly rates"
   permission_edit_own_hourly_rate: "Edit own hourly rates"
-  permission_edit_rates: "Edit rates"
+  permission_edit_rates: "ტარიფების ჩასწორება"
   permission_log_costs: "Book unit costs"
   permission_log_own_costs: "Book unit costs for oneself"
   permission_view_cost_entries: "View booked costs"
@@ -133,7 +133,7 @@ ka:
   permission_view_own_cost_entries: "View own booked costs"
   permission_view_own_hourly_rate: "View own hourly rate"
   permission_view_own_time_entries: "View own spent time"
-  project_module_costs: "Time and costs"
+  project_module_costs: "დრო და ღირებულებები"
   text_assign_time_and_cost_entries_to_project: "Assign reported hours and costs to the project"
   text_destroy_cost_entries_question: "%{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
   text_destroy_time_and_cost_entries: "Delete reported hours and costs"

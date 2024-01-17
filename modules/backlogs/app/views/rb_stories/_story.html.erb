@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,24 +27,53 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<li class="model story <%= mark_if_closed(story) %> <%= cycle('odd', 'even', :name => "stories") %>" id="<%= story_html_id_or_empty(story) %>">
+<%
+  project ||= story.project
+  permission ||= :edit_work_packages
+  other_fields_editable = User.current.allowed_in_project?(permission, project)
+  status_field_editable = other_fields_editable || User.current.allowed_in_project?(:change_work_package_status, project)
+%>
+<li class="model story <%= mark_if_closed(story) %> <%= cycle('odd', 'even', name: "stories") %>" id="<%= story_html_id_or_empty(story) %>">
   <div class="id">
     <div class="t"><%= work_package_link_or_empty(story) %></div>
     <div class="v"><%= id_or_empty(story) %></div>
   </div>
-  <div class="story_points editable" fieldname="story_points" fieldorder="4" field_id=<%= story.id %>><%= story_points_or_empty(story) %></div>
-  <div class="status_id editable" fieldtype="select" fieldname="status_id" fieldorder="3" field_id=<%= story.id %>>
+  <div class="story_points editable"
+       fieldname="story_points"
+       fieldlabel="<%= WorkPackage.human_attribute_name(:story_points) %>"
+       fieldeditable="<%= other_fields_editable %>"
+       fieldorder="4"
+       field_id="<%= story.id %>"><%= story_points_or_empty(story) %></div>
+  <div class="status_id editable"
+       fieldtype="select"
+       fieldname="status_id"
+       fieldlabel="<%= WorkPackage.human_attribute_name(:status) %>"
+       fieldeditable="<%= status_field_editable %>"
+       fieldorder="3"
+       field_id="<%= story.id %>">
     <div class="t ellipsis" title="<%= status_label_or_default(story) %>"><%= status_label_or_default(story) %></div>
     <div class="v"><%= status_id_or_default(story) %></div>
   </div>
-  <div class="type_id editable" fieldtype="select" fieldname="type_id" fieldorder="1" field_id=<%= story.id %>>
+  <div class="type_id editable"
+       fieldtype="select"
+       fieldname="type_id"
+       fieldlabel="<%= WorkPackage.human_attribute_name(:type) %>"
+       fieldeditable="<%= other_fields_editable %>"
+       fieldorder="1"
+       field_id="<%= story.id %>">
     <div class="t"><%= type_name_or_empty(story) %>: </div>
     <div class="v"><%= type_id_or_empty(story) %></div>
   </div>
-  <div class="subject editable ellipsis" fieldname="subject" fieldorder="2" title="<%= h story.subject %>" field_id=<%= story.id %>><%=h story.subject %></div>
+  <div class="subject editable ellipsis"
+       fieldname="subject"
+       fieldlabel="<%= WorkPackage.human_attribute_name(:subject) %>"
+       fieldeditable="<%= other_fields_editable %>"
+       fieldorder="2"
+       title="<%= story.subject %>"
+       field_id="<%= story.id %>"><%= story.subject %></div>
   <div class="version_id"><%= story.version_id %></div>
   <div class="higher_item_id"><%= !defined?(higher_item) || higher_item.nil? ? '' : higher_item.id %></div>
   <div class="meta">
-    <%= render(:partial => "shared/model_errors", :object => errors) if defined?(errors) && errors.size > 0 %>
+    <%= render(partial: "shared/model_errors", object: errors) if defined?(errors) && !errors.empty? %>
   </div>
 </li>

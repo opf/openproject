@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -39,11 +39,11 @@ module OpenProject
         end
 
         def svnadmin_command
-          @svnadmin_command ||= (self.class.config[:svnadmin_command] || 'svnadmin')
+          @svnadmin_command ||= self.class.config[:svnadmin_command] || 'svnadmin'
         end
 
         def client_version
-          @client_version ||= (svn_binary_version || [])
+          @client_version ||= svn_binary_version || []
         end
 
         def svn_binary_version
@@ -358,10 +358,10 @@ module OpenProject
         # Builds the full git arguments from the parameters
         # and calls the given block with in, out, err, thread
         # from +Open3#popen3+.
-        def popen3(args, &block)
+        def popen3(args)
           cmd = build_svn_cmd(args)
           super(cmd) do |_stdin, stdout, stderr, wait_thr|
-            block.call(stdout, stderr)
+            yield(stdout, stderr)
 
             process = wait_thr.value
             return process.exitstatus == 0

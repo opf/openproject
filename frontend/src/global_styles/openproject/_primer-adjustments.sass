@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -47,17 +47,6 @@ action-menu
 
 ul.tabnav-tabs
   margin-left: 0
-
-// This fixes the following bug:
-// - https://github.com/primer/view_components/issues/2065
-// - https://community.openproject.org/wp/50782
-// If an icon button triggers a dropdown or dialog, the focus moves to the dropdown/dialog.
-// When we close the dropdown/dialog, the focus moves back to the button and it also triggers
-// displaying the label tooltip. The tooltip also gets stuck open.
-// The solution is to hide the tooltip if the focus was not triggered via a mouse click (:hover)
-// or if it wasn't triggered by the keyboard (:focus-visible).
-button:focus:not(:focus-visible):not(:hover) + tool-tip
-  visibility: hidden
 
 /* Remove margin-left: 2rem from Breadcrumbs */
 #breadcrumb

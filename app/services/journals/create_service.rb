@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -254,9 +254,9 @@ module Journals
     def association_modifications_sql(association, predecessor)
       <<~SQL
         cleanup_predecessor_#{association} AS (
-          #{send("cleanup_predecessor_#{association}", predecessor)}
+          #{send(:"cleanup_predecessor_#{association}", predecessor)}
         ), insert_#{association} AS (
-          #{send("insert_#{association}_sql")}
+          #{send(:"insert_#{association}_sql")}
         )
       SQL
     end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -73,11 +73,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
                          .result
     @last_project_folders = {}
 
-    if @project_storage.storage.present? && @project_storage.storage.provider_type_one_drive?
-      create
-    else
-      render template: '/storages/project_settings/new'
-    end
+    render template: '/storages/project_settings/new'
   end
 
   # Create a new ProjectStorage object.

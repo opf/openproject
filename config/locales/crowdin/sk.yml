@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -281,6 +281,18 @@ sk:
       no_results_content_text: Pridať člena do projektu
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Nepodarilo sa obnoviť prístupový token: %{error}"
@@ -608,7 +620,9 @@ sk:
         begin_insertion: "Začiatok vkladania"
         begin_deletion: "Začiatok odstraňovania"
         children: "Dielčie prvky"
-        done_ratio: "Stav spracovania (%)"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
+        done_ratio: "% Complete"
         duration: "Trvanie"
         end_insertion: "Koniec vkladania"
         end_deletion: "Koniec odstraňovania"
@@ -622,8 +636,10 @@ sk:
         parent_issue: "Nadradený balíček"
         parent_work_package: "Nadradený balíček"
         priority: "Priorita"
-        progress: "Stav spracovania (%)"
+        progress: "% Complete"
         readonly: "Read only"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Manuálne plánovanie"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
@@ -1052,12 +1068,12 @@ sk:
     default_columns: "Predvolené stĺpce"
     description: "Popis"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Derived start date"
     display_sums: "Zobraziť súčty"
     due_date: "Dátum dokončenia"
-    estimated_hours: "Predpokladaný čas"
-    estimated_time: "Predpokladaný čas"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "Platnosť končí"
     firstname: "Krstné meno"
     group: "Skupina"
@@ -1439,7 +1455,7 @@ sk:
   error_pdf_export_too_many_columns: "Vybraných príliš veľa stĺpcov pre export do PDF. Znížte počet stĺpcov."
   error_pdf_failed_to_export: "PDF export nie je možné uložiť: %{error}"
   error_token_authenticity: "Nepodarilo sa overiť Token medzi lokalitami. Ak ste sa pokúsili uložiť údaje na viaceré karty alebo prehliadače, zatvorte ich a opätovne načítajte túto stránku a skúste to znova."
-  error_work_package_done_ratios_not_updated: "Pracovný balíček dokončený, štatistiky neboli prerátané."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Pracovný balíček nebol nájdený alebo nepatrí k tomuto projektu"
   error_must_be_project_member: "musíte byť členom projektu"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -2119,7 +2135,7 @@ sk:
   label_type_new: "Nový typ"
   label_type_plural: "Typy"
   label_ui: "Používateľské rozhranie"
-  label_update_work_package_done_ratios: "Aktualizovať štatistiky pracovných balíčkov"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Aktualizované pred %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Aktualizované používateľom %{author} pred %{age}"
@@ -2204,6 +2220,10 @@ sk:
     one: "1 otvorený"
     other: "%{count} otvorených"
     zero: "0 open"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 projekt"
     other: "%{count} projektov"
@@ -2388,7 +2408,7 @@ sk:
   notice_file_not_found: "Stránka, ktorú se pokúšate zobraziť, neexistuje, alebo bola odstránená."
   notice_forced_logout: "Boli ste automaticky odhlásení po %{ttl_time} minútach nečinnosti."
   notice_internal_server_error: "Vyskytla sa chyba na stránke, ku ktorej ste sa pokúšali pristupovať. Ak sa naďalej vyskytnú problémy, obráťte sa na správcu %{app_title} o pomoc."
-  notice_work_package_done_ratios_updated: "Stav pracovného balíčka bol aktualizovaný."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Informácia bola medzičasom aktualizovaná aspoň jedným iným používateľom."
   notice_locking_conflict_additional_information: "Aktualizácia (-e) pochádza z %{users}."
   notice_locking_conflict_reload_page: "Znova načítajte stránku, prekontrolujte si zmeny a aplikujte svoje aktualizácie."
@@ -2466,6 +2486,8 @@ sk:
   permission_assign_versions: "Assign versions"
   permission_browse_repository: "Prístup do úložiska iba na čítanie (prehliadanie a kontrola)"
   permission_change_wiki_parent_page: "Zmeniť nadradenú wiki stránku"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Komentovanie noviniek"
   permission_commit_access: "Prístup do úložiska čítanie/zápis (commit)"
   permission_copy_projects: "Kopírovať projekty"
@@ -2527,7 +2549,7 @@ sk:
   permission_view_news: "View news"
   permission_view_members: "Zobraziť členov"
   permission_view_reportings: "Zobraziť prehľady"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Zobrazenie stráveného času"
   permission_view_timelines: "Zobrazenie časovej osi"
   permission_view_wiki_edits: "Zobrazenie histórie wiki"
@@ -2568,6 +2590,7 @@ sk:
   project_module_news: "Novinky"
   project_module_repository: "Repozitár"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2757,10 +2780,10 @@ sk:
   setting_file_max_size_displayed: "Maximálna veľkosť textových súborov zobrazených priamo na stránke"
   setting_host_name: "Názov serveru (Host name)"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Vyrátať mieru vypracovania pracovného balíčka pomocou"
-  setting_work_package_done_ratio_field: "Použite pole pracovného balíčka"
-  setting_work_package_done_ratio_status: "Použite stav pracovného balíčka"
-  setting_work_package_done_ratio_disabled: "Vypnúť (Skryť priebeh)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Predvolené zobrazenie"
   setting_work_package_properties: "Vlastnosti pracovného balíčka"
   setting_work_package_startdate_is_adddate: "Použiť aktuálny dátum ako počiatočný dátum pre nové pracovné balíčky"
@@ -3200,9 +3223,9 @@ sk:
         unsupported_context: "Zadaný prostriedok nie je podporovaný ako kontext."
         context_object_not_found: "Pre vložené vstupné podmienky neboli nájdené žiadne prostriedky."
       validation:
-        done_ratio: "Percento ukončenia nemôže by nastavené na rodičovskom pracovnom balíčku, ak sa odvodzuje od stavu bolo deaktivované."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Dátum ukončenia nie je možné nastaviť na rodičovské pracovné balíčky."
-        estimated_hours: "Odhad hodín nie je možné nastaviť na pracovnom balíčku obsahujúcom podriadené pracovné balíčky."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Zvolený používateľ nemôže byť \"%{property}\" v prípade tohto pracovného balíčka."
         start_date: "Dátum \"Od\" nie je možné nastaviť na pracovnom balíčku obsahujúcom podriadené pracovné balíčky."
       eprops:

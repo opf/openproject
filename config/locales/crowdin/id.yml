@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -275,6 +275,18 @@ id:
       no_results_content_text: Add a member to the project
     invite_by_mail: "Kirim undangan ke %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Gagal untuk menset ulang akses token: %{error}"
@@ -598,7 +610,9 @@ id:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "Subelemen"
-        done_ratio: "Progress (%)"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
+        done_ratio: "% Complete"
         duration: "Durasi"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
@@ -612,8 +626,10 @@ id:
         parent_issue: "Induk"
         parent_work_package: "Induk"
         priority: "Prioritas"
-        progress: "Progress (%)"
+        progress: "% Complete"
         readonly: "Baca saja"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Penjadwalan manual"
         spent_hours: "Durasi"
         spent_time: "Durasi"
@@ -1018,12 +1034,12 @@ id:
     default_columns: "Kolom default"
     description: "Deskripsi"
     derived_due_date: "Tanggal selesai turunan"
-    derived_estimated_hours: "Perkiraan waktu turunan"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Tanggal mulai turunan"
     display_sums: "Tampilkan jumlah"
     due_date: "Tanggal selesai"
-    estimated_hours: "Estimasi Waktu"
-    estimated_time: "Estimasi Waktu"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "Berakhir masa berlaku pada"
     firstname: "Nama depan"
     group: "Grup"
@@ -1351,7 +1367,7 @@ id:
   error_pdf_export_too_many_columns: "Kolom yang dipilih utnuk ekspor PDF terlalu banyak. Mohon kurangi jumlah kolom."
   error_pdf_failed_to_export: "Ekspor PDF tidak dapat disimpan: %{error}"
   error_token_authenticity: "Tidak dapat memverifikasi token Pemalsuan Permintaan Lintas Situs. Apakah Anda mencoba mengirimkan data di beberapa browser atau tab? Harap tutup semua tab dan coba lagi."
-  error_work_package_done_ratios_not_updated: "Paket-Penugasan selesai, rasio tidak diupdate."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Paket-Penugasan tidak ditemukan atau tidak termasuk dalam Project ini"
   error_must_be_project_member: "harus sbg Project Member"
   error_migrations_are_pending: "Instalasi OpenProject anda tertunda karena migrasi databse. kemungkinan anda melewatkan migrasi yang ada saat upgrade terakhir. silahkan periksa panduan upgrade untuk meng-upgrade dengan benar."
@@ -2031,7 +2047,7 @@ id:
   label_type_new: "Tipe baru"
   label_type_plural: "Tipe"
   label_ui: "Antarmuka user"
-  label_update_work_package_done_ratios: "Rasio Paket-Penugasan telah diupdate"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Diperbarui %{value} yang lalu"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Diperbarui oleh %{author} %{age} yang lalu"
@@ -2116,6 +2132,10 @@ id:
     one: "1 open"
     other: "%{count} terbuka"
     zero: "0 open"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 project"
     other: "%{count} proyek"
@@ -2298,7 +2318,7 @@ id:
   notice_file_not_found: "Halaman yang Anda akses sudah dihapus atau dipindahkan."
   notice_forced_logout: "Anda secara otomatis telah Logout setelah %{ttl_time} menit tanpa aktivitas."
   notice_internal_server_error: "Error pada halaman yang Anda akses. Jika Anda tetap mengalami masalah hubungi administrator %{app_title} untuk bantuan."
-  notice_work_package_done_ratios_updated: "Paket-Penugasan selesai, rasio telah diupdate."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Informasi telah diperbarui oleh setidaknya satu user lain."
   notice_locking_conflict_additional_information: "Diupdate oleh %{users}."
   notice_locking_conflict_reload_page: "Silahkan reload halaman, tinjau perubahan dan reapply."
@@ -2371,6 +2391,8 @@ id:
   permission_assign_versions: "Tetapkan versi"
   permission_browse_repository: "Read-only access to repository (browse and checkout)"
   permission_change_wiki_parent_page: "Ubah halaman induk Wiki"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Komentar berita"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Copy Project"
@@ -2432,7 +2454,7 @@ id:
   permission_view_news: "View news"
   permission_view_members: "Tampilkan Anggota"
   permission_view_reportings: "Lihat laporan"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Lihat durasi"
   permission_view_timelines: "Lihat Timeline"
   permission_view_wiki_edits: "Lihat Wiki histori"
@@ -2473,6 +2495,7 @@ id:
   project_module_news: "News"
   project_module_repository: "Repositori"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2660,10 +2683,10 @@ id:
   setting_file_max_size_displayed: "Ukuran maks. file teks yang ditampilkan inline"
   setting_host_name: "Nama host"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Hitung Paket-Penugasan dengan Rasio Penyelesaian"
-  setting_work_package_done_ratio_field: "Gunakan isian Paket-Penugasan"
-  setting_work_package_done_ratio_status: "Gunakan status Paket-Penugasan"
-  setting_work_package_done_ratio_disabled: "Nonaktifkan (sembunyikan progress)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Tampilkan secara default"
   setting_work_package_properties: "Properti Paket-Penugasan"
   setting_work_package_startdate_is_adddate: "Gunakan tanggal sekarang untuk start Paket-Penugasan"
@@ -3100,9 +3123,9 @@ id:
         unsupported_context: "The resource given is not supported as context."
         context_object_not_found: "Cannot find the resource given as the context."
       validation:
-        done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Tanggal selesai tidak dapat diatur pada paket pekerjaan induk."
-        estimated_hours: "Estimated hours cannot be set on parent work packages."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Pilihan pengguna tidak diperbolehkan untuk menjadi '%{property}' untuk paket pekerjaan ini."
         start_date: "Start date cannot be set on parent work packages."
       eprops:

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,7 @@ class Widget::Filters::Option < Widget::Filters::Base
       options = args.first || {} # optional configuration for values
       level = options[:level] # nesting_level is optional for values
       name = I18n.t(name) if name.is_a? Symbol
-      name = name.empty? ? I18n.t(:label_none) : name
+      name = I18n.t(:label_none) if name.empty?
       name_prefix = (level && level > 0 ? ((' ' * 2 * level) + '> ') : '')
       if options[:optgroup]
         tag :optgroup, label: I18n.t(:label_sector)

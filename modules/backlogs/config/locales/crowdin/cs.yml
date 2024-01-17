@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -27,10 +27,6 @@ cs:
     attributes:
       work_package:
         position: "Pozice"
-        remaining_hours: "Zbývající hodiny"
-        remaining_time: "Zbývající hodiny"
-        derived_remaining_hours: "Odvozené zbývající hodiny"
-        derived_remaining_time: "Odvozené zbývající hodiny"
         story_points: "Body příběhu"
         backlogs_work_package_type: "Typ nevyřízené položky"
     errors:
@@ -68,8 +64,8 @@ cs:
     properties: "Vlastnosti"
     rebuild: "Znovu vytvořit"
     rebuild_positions: "Znovu sestavit pozice"
-    remaining_hours: "Zbývající hodiny"
-    remaining_hours_ideal: "Zbývající hodiny (ideální)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Spálovací graf"
     story: "Příběh"
     story_points: "Body příběhu"
@@ -151,7 +147,7 @@ cs:
   rb_label_copy_tasks_none: "Žádný"
   rb_label_copy_tasks_open: "Otevřít"
   rb_label_link_to_original: "Zahrnout odkaz na původní příběh"
-  remaining_hours: "zbývající hodiny"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "požadovaná rychlost hoření (v hodinách)"
   required_burn_rate_points: "požadovaná rychlost hoření (body)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

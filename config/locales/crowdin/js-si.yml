@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -348,11 +348,11 @@ si:
           learn_about: "නව විශේෂාංග ගැන වැඩි විස්තර දැනගන්න"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_1':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -521,6 +521,7 @@ si:
     label_watcher_added_successfully: "මුරකරු සාර්ථකව එකතු කළා!"
     label_watcher_deleted_successfully: "මුරකරු සාර්ථකව මකා දමන ලදි!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "අසන්න"
     label_unwatch_work_package: "වැඩ පැකේජය අසන්න"
     label_uploaded_by: "විසින් උඩුගත"
@@ -832,6 +833,7 @@ si:
       toggle_description: "සම්බන්ධතා විස්තරය ටොගල් කරන්න"
       update_relation: "සම්බන්ධතා වර්ගය වෙනස් කිරීමට ක්ලික් කරන්න"
       add_follower: "අනුගාමිකයෙක් එකතු කරන්න"
+      show_relations: "Show relations"
       add_predecessor: "පූර්වගාමියා එකතු කරන්න"
       remove: "සම්බන්ධතාවය ඉවත් කරන්න"
       save: "සම්බන්ධතාවය සුරකින්න"
@@ -967,7 +969,6 @@ si:
         date: "දිනය"
         dueDate: "අවසන් දිනය"
         duration: "කාල සීමාව"
-        estimatedTime: "ඇස්තමේන්තුගත කාලය"
         spentTime: "වැය කළ කාලය"
         category: "ප්රවර්ගය"
         percentageDone: "ප්රතිශතය සිදු"
@@ -983,6 +984,7 @@ si:
         updatedAt: "යාවත්කාලීන කරන ලදි"
         versionName: "අනුවාදය"
         version: "අනුවාදය"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "නවතම ක්රියාකාරකම්"
         created_by_me: "මා විසින් නිර්මාණය කරන ලදී"
@@ -1033,6 +1035,8 @@ si:
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: 'වැඩ පැකේජ වගුව සකසන්න'
         summary: "වැඩ පැකේජයේ පේළි සහ වැඩ පැකේජ ගුණාංගවල තීරු සහිත වගුව."

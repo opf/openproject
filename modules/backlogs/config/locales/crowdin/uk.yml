@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -27,10 +27,6 @@ uk:
     attributes:
       work_package:
         position: "Позиція"
-        remaining_hours: "Залишилися години"
-        remaining_time: "Залишилися години"
-        derived_remaining_hours: "Отриманий залишок годин"
-        derived_remaining_time: "Отриманий залишок годин"
         story_points: "Точки історії"
         backlogs_work_package_type: "Тип Backlog-у"
     errors:
@@ -68,8 +64,8 @@ uk:
     properties: "Властивості"
     rebuild: "Перебудувати"
     rebuild_positions: "Перебудувати позиції"
-    remaining_hours: "Залишилися години"
-    remaining_hours_ideal: "Решта годин (ідеально)"
+    remaining_hours: "Залишок роботи"
+    remaining_hours_ideal: "Залишок роботи (ідеальний)"
     show_burndown_chart: "Графік Burndown"
     story: "Історія"
     story_points: "Точки історії"
@@ -151,7 +147,7 @@ uk:
   rb_label_copy_tasks_none: "Нічого"
   rb_label_copy_tasks_open: "Відкрити"
   rb_label_link_to_original: "Включіть посилання на оригінальну історію"
-  remaining_hours: "залишилися години"
+  remaining_hours: "залишок роботи"
   required_burn_rate_hours: "необхідна швидкість запису (години)"
   required_burn_rate_points: "необхідна швидкість запису (пункти)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

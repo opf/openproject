@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -281,6 +281,18 @@ ro:
       no_results_content_text: Adăugare participant la proiect
     invite_by_mail: "Trimiteți invitația la %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Resetarea tokenului de acces nu a reușit: %{error}"
@@ -607,7 +619,9 @@ ro:
         begin_insertion: "Început de inserare"
         begin_deletion: "Început de ștergere"
         children: "Subelemente"
-        done_ratio: "Progres (%)"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
+        done_ratio: "% Complete"
         duration: "Durată"
         end_insertion: "Sfârșit de inserare"
         end_deletion: "Sfârșit de ștergere"
@@ -621,8 +635,10 @@ ro:
         parent_issue: "Părinte"
         parent_work_package: "Părinte"
         priority: "Prioritate"
-        progress: "Progres (%)"
+        progress: "% Complete"
         readonly: "Doar citire"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Programarea manuală"
         spent_hours: "Timp consumat"
         spent_time: "Timp consumat"
@@ -1043,12 +1059,12 @@ ro:
     default_columns: "Coloane implicite"
     description: "Descriere"
     derived_due_date: "Data finală derivată"
-    derived_estimated_hours: "Timp estimat derivat"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "fără dată început"
     display_sums: "Afişare totaluri"
     due_date: "Data de finalizare"
-    estimated_hours: "Durata estimată"
-    estimated_time: "Durata estimată"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "Expiră la"
     firstname: "Prenume"
     group: "Grup"
@@ -1412,7 +1428,7 @@ ro:
   error_pdf_export_too_many_columns: "Prea multe coloane selectate pentru exportul PDF. Vă rugăm să reduceți numărul de coloane."
   error_pdf_failed_to_export: "Exportul pdf nu poate fi salvat: %{error}"
   error_token_authenticity: "Nu se poate verifica tokenul Cross-Site Request Forgery. Ați încercat să trimiteți datele pe mai multe browsere sau tab-uri? Vă rugăm să închideți toate filele și să încercați din nou."
-  error_work_package_done_ratios_not_updated: "Rația pachetului de lucru nu a fost actualizată."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Pachetul de lucru nu a fost găsit sau nu aparține acestui proiect"
   error_must_be_project_member: "trebuie să fie membru al proiectului"
   error_migrations_are_pending: "Instalarea OpenProject are migrări de baze de date în așteptare. Probabil că nu ați reușit să executați migrările la ultima actualizare. Vă rugăm să consultați ghidul de actualizare pentru a vă actualiza corect instalarea."
@@ -2092,7 +2108,7 @@ ro:
   label_type_new: "Tip nou"
   label_type_plural: "Tipuri"
   label_ui: "Interfaţa cu utilizatorul"
-  label_update_work_package_done_ratios: "Actualizare procente de finalizare pachete de lucru"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Actualizat acum %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Actualizat de către %{author} acum %{age}"
@@ -2177,6 +2193,10 @@ ro:
     one: "unul deschis"
     other: "%{count} deschise"
     zero: "0 deschis"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "un proiect"
     other: "%{count} proiecte"
@@ -2360,7 +2380,7 @@ ro:
   notice_file_not_found: "Pagina pe care doriți să o accesați nu există sau a fost ștearsă."
   notice_forced_logout: "Ați fost deconectat automat după %{ttl_time} minute fără activitate."
   notice_internal_server_error: "A apărut o eroare pe pagina pe care aţi încercat să o accesaţi. Dacă veţi continua să experimentați probleme vă rugăm să contactaţi administratorul %{app_title} pentru asistenţă."
-  notice_work_package_done_ratios_updated: "Rația pachetului de lucru a fost actualizată."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Informaţia a fost actualizată de cel puţin un alt utilizator între timp."
   notice_locking_conflict_additional_information: "Modificările au fost făcute de %{users}."
   notice_locking_conflict_reload_page: "Vă rugăm să reîncărcaţi pagina, examinaţi modificările şi reaplicați actualizările."
@@ -2437,6 +2457,8 @@ ro:
   permission_assign_versions: "Atribuiți versiuni"
   permission_browse_repository: "Acces doar citire la repo (vizualizare și descărcare)"
   permission_change_wiki_parent_page: "Schimbare pagina wiki părinte"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Comentare noutăți"
   permission_commit_access: "Acces de citire/scriere la repo (încărcare)"
   permission_copy_projects: "Copiere proiecte"
@@ -2498,7 +2520,7 @@ ro:
   permission_view_news: "View news"
   permission_view_members: "Vezi membrii"
   permission_view_reportings: "Vizualizare raportări"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Vizualizare timp consumat"
   permission_view_timelines: "Vizualizare linii de timp"
   permission_view_wiki_edits: "Vizualizare istoric wiki"
@@ -2539,6 +2561,7 @@ ro:
   project_module_news: "Noutăţi"
   project_module_repository: "Repo"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2728,10 +2751,10 @@ ro:
   setting_file_max_size_displayed: "Numărul maxim de linii afișat în text"
   setting_host_name: "Numele serverului"
   setting_invitation_expiration_days: "E-mailul de activare expiră după"
-  setting_work_package_done_ratio: "Calculare rație de finalizare pentru pachet de lucru cu"
-  setting_work_package_done_ratio_field: "Utilizare câmp din pachetul de lucru"
-  setting_work_package_done_ratio_status: "Utilizare stare pachet de lucru"
-  setting_work_package_done_ratio_disabled: "Dezactivat (ascunde progresul)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Afișate implicit"
   setting_work_package_properties: "Proprietăți pachet de lucru"
   setting_work_package_startdate_is_adddate: "Folosire data curentă ca dată de început pentru pachetele de lucru noi"
@@ -3170,9 +3193,9 @@ ro:
         unsupported_context: "Resursa furnizată nu este suportată ca și context."
         context_object_not_found: "Resursa furnizată ca și contet nu poate fi identificată."
       validation:
-        done_ratio: "Rația de finalizare nu poate fi setată pe pachetele de lucru părinte atunci când e calculată din stare sau când e dezactivată."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Data de finalizare nu poate fi stabilită pentru pachetele de lucru părinte."
-        estimated_hours: "Efortul estimat nu poate fi setat pe pachetele de lucru părinte."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Utilizatorul selectat nu poate fi '%{property}' pentru acest pachet de lucru."
         start_date: "Nu se poate seta data start pe pachetele de lucru părinte."
       eprops:

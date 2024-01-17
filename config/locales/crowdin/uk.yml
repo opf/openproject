@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -276,6 +276,18 @@ uk:
       no_results_content_text: Додайте учасника до проекту
     invite_by_mail: "Надіслати запрошення на адресу %{mail}"
     send_invite_to: "Надіслати запрошення:"
+    no_modify_on_shared: "Зараз ви не можете змінювати або вилучати спільні членства через сторінку учасника. Використайте натомість модальний спосіб поширення."
+    columns:
+      shared: "Поширені"
+    filters:
+      all_shares: 'Усі поширення'
+    menu:
+      all: 'Усі'
+      invited: 'Запрошені'
+      locked: 'Заблоковані'
+      project_roles: 'Ролі в проєкті'
+      wp_shares: 'Поширення пакета робіт'
+      groups: 'Групи'
   my:
     access_token:
       failed_to_reset_token: "Не вдалося відновити маркер доступу: %{error}"
@@ -603,7 +615,9 @@ uk:
         begin_insertion: "Початок вставки"
         begin_deletion: "Початок видалення"
         children: "Субелементи"
-        done_ratio: "Прогрес (%)"
+        derived_remaining_hours: "Отриманий залишок роботи"
+        derived_remaining_time: "Отриманий залишок роботи"
+        done_ratio: "% завершення"
         duration: "Тривалість"
         end_insertion: "Кінець вставки"
         end_deletion: "Кінець видалення"
@@ -617,8 +631,10 @@ uk:
         parent_issue: "Джерело"
         parent_work_package: "Джерело"
         priority: "Пріоритет"
-        progress: "Прогрес (%)"
+        progress: "% завершення"
         readonly: "Лише читання"
+        remaining_hours: "Залишок роботи"
+        remaining_time: "Залишок роботи"
         schedule_manually: "Ручне планування"
         spent_hours: "Трудовитрати"
         spent_time: "Трудовитрати"
@@ -1047,12 +1063,12 @@ uk:
     default_columns: "Типові колонки"
     description: "Опис"
     derived_due_date: "Отримана дата завершення"
-    derived_estimated_hours: "Отриманий приблизний час"
+    derived_estimated_hours: "Похідна робота"
     derived_start_date: "Отримана дата початку"
     display_sums: "Відображати суми"
     due_date: "Дата закінчення"
-    estimated_hours: "Час (приблизно)"
-    estimated_time: "Час (приблизно)"
+    estimated_hours: "Робота"
+    estimated_time: "Робота"
     expires_at: "Закінчується о"
     firstname: "Ім'я"
     group: "Група"
@@ -1434,7 +1450,7 @@ uk:
   error_pdf_export_too_many_columns: "Для експорту PDF-файлу вибрано занадто багато стовпців. Скоротіть кількість стовпців."
   error_pdf_failed_to_export: "Експорт PDF не вдалося зберегти: %{error}"
   error_token_authenticity: "Неможливо підтвердити маркер підробки для запиту між сайтами. Чи спробували ви надіслати дані для кількох веб-переглядачів або вкладок? Закрийте всі вкладки та повторіть спробу."
-  error_work_package_done_ratios_not_updated: "Пакет робота коефіцієнти не оновлюються."
+  error_work_package_done_ratios_not_updated: "Значення «% завершення» для пакета робіт не оновлено."
   error_work_package_not_found_in_project: "Робочий пакет не був знайдений або не належить до цього проекту"
   error_must_be_project_member: "повинен бути учасником проекту"
   error_migrations_are_pending: "У вашій установці OpenProject міститься міграція бази даних. Можливо, ви пропустили міграції під час останнього оновлення. Перевірте керівництво з оновлення, щоб належним чином оновити інсталяцію."
@@ -2114,7 +2130,7 @@ uk:
   label_type_new: "Новий тип"
   label_type_plural: "Типи"
   label_ui: "Користувацький інтерфейс"
-  label_update_work_package_done_ratios: "Оновити співвідношення виконаних робіт"
+  label_update_work_package_done_ratios: "Оновити значення «% завершення» для пакета робіт"
   label_updated_time: "Оновлений %{value} назад"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Оновлено %{author} %{age} назад"
@@ -2199,6 +2215,10 @@ uk:
     one: "1 відкрита"
     other: "%{count} відкритих"
     zero: "0 відкрито"
+  label_x_work_packages:
+    one: "1 пакет робіт"
+    other: "Пакетів робіт: %{count}"
+    zero: "Немає пакетів робіт"
   label_x_projects:
     one: "1 проект"
     other: "%{count} проектів"
@@ -2272,9 +2292,9 @@ uk:
     sharing:
       work_packages:
         allowed_actions: "Ви можете %{allowed_actions} у цьому пакеті робіт, але це залежить від вашої ролі й дозволів у проєкті."
-        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
+        create_account: "Щоб отримати доступ до цього пакета робіт, вам знадобиться створити й активувати обліковий запис в %{instance}. "
         open_work_package: "Відкрити пакет робіт"
-        subject: "Work package #%{id} was shared with you"
+        subject: "Вам надано доступ до пакета робіт #%{id}"
         enterprise_text: "Діліться пакетами робіт із користувачами, які не належать до учасників проєкту."
         summary:
           user: "%{user} надав(-ла) вам доступ до пакета робіт із такими правами: %{role_rights}"
@@ -2383,7 +2403,7 @@ uk:
   notice_file_not_found: "Сторінка, на яку ви намагаєтеся зайти, не існує або видалена."
   notice_forced_logout: "Ви автоматично вийшли з системи після %{ttl_time} хвилин бездіяльності."
   notice_internal_server_error: "Сталася помилка на сторінці, до якої ви намагалися отримати доступ. Якщо ви продовжуєте відчувати проблеми, зверніться до свого адміністратора %{app_title} за допомогою."
-  notice_work_package_done_ratios_updated: "Оновлено співвідношення виконаних робочих пакетів."
+  notice_work_package_done_ratios_updated: "«% завершення» оновлено"
   notice_locking_conflict: "Інформація була оновлена принаймні один інший користувач в той же час."
   notice_locking_conflict_additional_information: "Оновлення надійшли від %{users}."
   notice_locking_conflict_reload_page: "Будь ласка поновіть сторінку, перевірте зміни та застосувати оновлення."
@@ -2459,6 +2479,8 @@ uk:
   permission_assign_versions: "Призначити версії"
   permission_browse_repository: "Доступ лише на читання з репозиторію (перегляд і перевірка)"
   permission_change_wiki_parent_page: "Змінити батьківську wiki сторінку"
+  permission_change_work_package_status: "Змінити статус пакета робіт"
+  permission_change_work_package_status_explanation: "Дає змогу змінювати статус без дозволу «Редагування пакетів робіт»"
   permission_comment_news: "Коментування новин"
   permission_commit_access: "Доступ для читання/запису до сховища (фіксація)"
   permission_copy_projects: "Копіювати проекти"
@@ -2520,7 +2542,7 @@ uk:
   permission_view_news: "Перегляд новин"
   permission_view_members: "Перегляд учасників"
   permission_view_reportings: "Перегляд звітів"
-  permission_view_shared_work_packages: "Перегляд спільних пакетів робіт"
+  permission_view_shared_work_packages: "Переглянути поширення пакета робіт"
   permission_view_time_entries: "Перегляд трудовитрат"
   permission_view_timelines: "Переглянути часові рамки"
   permission_view_wiki_edits: "Перегляд історії wiki"
@@ -2561,6 +2583,7 @@ uk:
   project_module_news: "Новини"
   project_module_repository: "Репозиторій"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Пакети робіт і Gantt"
   query:
     attribute_and_direction: "%{attribute}%{direction}"
   #possible query parameters (e.g. issue queries),
@@ -2750,10 +2773,10 @@ uk:
   setting_file_max_size_displayed: "Максимальний розмір текстового файлу для відображення"
   setting_host_name: "Ім'я хоста"
   setting_invitation_expiration_days: "Повідомлення про активацію закінчується"
-  setting_work_package_done_ratio: "Розрахувати пакет робота з співвідношення"
-  setting_work_package_done_ratio_field: "Використовуйте поле робочого пакету"
-  setting_work_package_done_ratio_status: "Використовуйте поле робочого пакету"
-  setting_work_package_done_ratio_disabled: "Вимкнути (приховати прогрес)"
+  setting_work_package_done_ratio: "Обчислити значення «% завершення» для пакета робіт за допомогою"
+  setting_work_package_done_ratio_field: "Поле пакета робіт"
+  setting_work_package_done_ratio_status: "Статус пакета робіт"
+  setting_work_package_done_ratio_disabled: "Вимкнути (приховати поле «Відсоток завершення»)"
   setting_work_package_list_default_columns: "Дисплей за замовчуванням"
   setting_work_package_properties: "Властивості робочого пакета"
   setting_work_package_startdate_is_adddate: "Використовувати поточну дату в якості дати початку роботи для нових пакетів"
@@ -3192,9 +3215,9 @@ uk:
         unsupported_context: "Даний ресурс не підтримується як контекст."
         context_object_not_found: "Не можу знайти ресурс з урахуванням контексту."
       validation:
-        done_ratio: "Коефіцієнт завершення не може бути встановлений на базових робочих пакетах, коли він виводиться за статусом або коли його вимкнено."
+        done_ratio: "Значення «% завершення» не можна встановити для батьківських пакетів робіт, коли воно успадковується за статусом або коли його вимкнено."
         due_date: "Дата закінчення не може бути встановлена на початкових робочих пакетах."
-        estimated_hours: "Очікувані години не можна встановити на базових робочих пакетах."
+        estimated_hours: "Значення «Робота» не можна встановити для батьківських пакетів робіт." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Вибраному користувачеві не дозволяється %{property} для цього робочого пакету."
         start_date: "Дата початку не може бути встановлена на базових робочих пакетах."
       eprops:
@@ -3315,7 +3338,7 @@ uk:
       oauth_returned_json_error: "Клієнт OAuth2 повернув помилку JSON"
       oauth_returned_http_error: "Клієнт OAuth2 повернув помилку мережі"
       oauth_returned_standard_error: "Клієнт OAuth2 повернув внутрішню помилку"
-      client_id_blank: "ID can't be blank."
+      client_id_blank: "Поле «ID» не може бути порожнє."
       wrong_token_type_returned: "Клієнт OAuth2 повернув неправильний тип маркеру (очікувався тип AccessToken::Bearer)"
       oauth_issue_contact_admin: "Клієнт OAuth2 повідомив про помилку. Зверніться до системного адміністратора."
       oauth_client_not_found: "Клієнта OAuth2 не знайдено в кінцевій точці 'callback' (redirect_uri)."

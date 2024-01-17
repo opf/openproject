@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,14 +60,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         escaped_username = CGI.escapeURIComponent(@username)
 
         source = Util.join_uri_path(
-          @uri.path,
+          @uri,
           "remote.php/dav/files",
           escaped_username,
           Util.escape_path(input[:source_path])
         )
 
         destination = Util.join_uri_path(
-          @uri.path,
+          @uri,
           "remote.php/dav/files",
           escaped_username,
           Util.escape_path(input[:destination_path])
@@ -79,17 +79,17 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def validate_destination
       ->(urls) do
-        request = Net::HTTP::Head.new(urls[:destination_url])
-        request.initialize_http_header Util.basic_auth_header(@username, @password)
+        response = Util
+                     .httpx
+                     .basic_auth(@username, @password)
+                     .head(urls[:destination_url])
 
-        response = Util.http(@uri).request(request)
-
-        case response
-        when Net::HTTPSuccess
+        case response.status
+        when 200..299
           Util.error(:conflict, 'Destination folder already exists.')
-        when Net::HTTPUnauthorized
+        when 401
           Util.error(:unauthorized, "unauthorized (validate_destination)")
-        when Net::HTTPNotFound
+        when 404
           ServiceResult.success(result: urls)
         else
           Util.error(:unknown, "Unexpected response (validate_destination): #{response.code}", response)
@@ -97,31 +97,31 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       end
     end
 
-    # rubocop:disable Metrics/AbcSize
     def copy_folder
       ->(urls) do
-        headers = Util.basic_auth_header(@username, @password)
-        headers['Destination'] = urls[:destination_url]
-        headers['Depth'] = 'infinity'
+        response = Util
+                     .httpx
+                     .basic_auth(@username, @password)
+                     .request("COPY",
+                              urls[:source_url],
+                              headers: {
+                                'Destination' => urls[:destination_url],
+                                'Depth' => 'infinity'
+                              })
 
-        request = Net::HTTP::Copy.new(urls[:source_url], headers)
-        response = Util.http(@uri).request(request)
-
-        case response
-        when Net::HTTPCreated
+        case response.status
+        when 200..299
           ServiceResult.success(message: 'Folder was successfully copied')
-        when Net::HTTPUnauthorized
+        when 401
           Util.error(:unauthorized, "Unauthorized (copy_folder)")
-        when Net::HTTPNotFound
+        when 404
           Util.error(:not_found, "Project folder not found (copy_folder)")
-        when Net::HTTPConflict
+        when 409
           Util.error(:conflict, Util.error_text_from_response(response))
         else
-          Util.error(:unknown, "Unexpected response (copy_folder): #{response.code}", response)
+          Util.error(:unknown, "Unexpected response (copy_folder): #{response.status}", response)
         end
       end
     end
-
-    # rubocop:enable Metrics/AbcSize
   end
 end

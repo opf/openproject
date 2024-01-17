@@ -8,7 +8,7 @@ class ErrorsController < ActionController::Base
   end
 
   def unacceptable
-    render file: "#{Rails.root}/public/422.html",
+    render file: "#{Rails.public_path.join('422.html')}",
            status: :unacceptable,
            layout: false
   end

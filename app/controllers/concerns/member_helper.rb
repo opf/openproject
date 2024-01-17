@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,10 +75,8 @@ module MemberHelper
     end
   end
 
-  def each_comma_separated(array, &block)
-    array.map do |e|
-      block.call(e)
-    end.flatten
+  def each_comma_separated(array, &)
+    array.map(&).flatten
   end
 
   def transform_array_of_comma_separated_ids(array)

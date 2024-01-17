@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -66,28 +66,28 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     private
 
     def outbound_response(method:, relative_path:, payload:, token:)
-      response = Util.http(@uri).post(
-        Util.join_uri_path(@uri.path, relative_path),
-        payload.to_json,
-        {
-          'Authorization' => "Bearer #{token.access_token}",
-          'Accept' => 'application/json',
-          'Content-Type' => 'application/json'
-        }
-      )
-      case response
-      when Net::HTTPSuccess
+      response = Util
+                   .httpx
+                   .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
+                                    'Accept' => 'application/json',
+                                    'Content-Type' => 'application/json' })
+                   .post(
+                     Util.join_uri_path(@uri, relative_path),
+                     json: payload
+                   )
+      case response.status
+      when 200..299
         # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
         if response.body.present?
           ServiceResult.success(
-            result: JSON.parse(response.body, object_class: OpenStruct) # rubocop:disable Style/OpenStructUse
+            result: JSON.parse(response.body.to_s, object_class: OpenStruct) # rubocop:disable Style/OpenStructUse
           )
         else
           Util.error(:unauthorized, 'Outbound request not authorized!')
         end
-      when Net::HTTPNotFound
+      when 404
         Util.error(:not_found, 'Outbound request destination not found!', response)
-      when Net::HTTPUnauthorized
+      when 401
         Util.error(:unauthorized, 'Outbound request not authorized!', response)
       else
         Util.error(:error, 'Outbound request failed!')

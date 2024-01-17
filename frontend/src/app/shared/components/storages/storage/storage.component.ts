@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,7 @@ import { IPrepareUploadLink, IStorage } from 'core-app/core/state/storages/stora
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import {
-  fileLinkViewError,
+  fileLinkStatusError,
   nextcloud,
   storageConnected,
 } from 'core-app/shared/components/storages/storages-constants.const';
@@ -100,6 +100,9 @@ import {
   IStorageFileUploadResponse,
   StorageUploadService,
 } from 'core-app/shared/components/storages/upload/storage-upload.service';
+import {
+  IHalErrorBase,
+} from 'core-app/features/hal/resources/error-resource';
 
 @Component({
   selector: 'op-storage',
@@ -512,7 +515,7 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
   }
 
   private hasFileLinkViewErrors(fileLinks:IFileLink[]):boolean {
-    return fileLinks.filter((fileLink) => fileLink._links.permission?.href === fileLinkViewError).length > 0;
+    return fileLinks.filter((fileLink) => fileLink._links.status?.href === fileLinkStatusError).length > 0;
   }
 
   private collectionKey():Observable<string> {

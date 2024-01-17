@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -68,7 +68,7 @@ class Activities::BaseActivityProvider
     self.activity_provider_options = {
       type: name.underscore.pluralize,
       activities: [:activity],
-      permission: "view_#{name.underscore.pluralize}".to_sym
+      permission: :"view_#{name.underscore.pluralize}"
     }.merge(options)
   end
 

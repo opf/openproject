@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,14 +37,12 @@ module Settings
       after_first_login_redirect_url: {
         format: :string,
         description: 'URL users logging in for the first time will be redirected to (e.g., a help screen)',
-        default: nil,
-        writable: false
+        default: nil
       },
       after_login_default_redirect_url: {
         description: 'Override URL to which logged in users are redirected instead of the My page',
         format: :string,
-        default: nil,
-        writable: false
+        default: nil
       },
       apiv3_cors_enabled: {
         description: 'Enable CORS headers for APIv3 server responses',
@@ -59,8 +57,7 @@ module Settings
       },
       apiv3_enable_basic_auth: {
         description: 'Enable API token or global basic authentication for APIv3 requests',
-        default: true,
-        writable: false
+        default: true
       },
       apiv3_max_page_size: {
         default: 1000
@@ -92,15 +89,14 @@ module Settings
         writable: false
       },
       attachments_grace_period: {
-        description: 'Time to wait before uploaded files not attached to any container are removed',
-        default: 180,
-        writable: false
+        description: 'Time in minutes to wait before uploaded files not attached to any container are removed',
+        default: 180
       },
       auth_source_sso: {
         description: 'Configuration for Header-based Single Sign-On',
         format: :hash,
         default: nil,
-        writable: false
+        writable: false # config is cached globally so let's make it not writable
       },
       # Configures the authentication capabilities supported by the instance.
       # Currently this is focused on the configuration for basic auth.
@@ -112,8 +108,7 @@ module Settings
       authentication: {
         description: 'Configuration options for global basic auth',
         format: :hash,
-        default: nil,
-        writable: false
+        default: nil
       },
       autofetch_changesets: {
         default: true
@@ -127,13 +122,11 @@ module Settings
       },
       autologin_cookie_name: {
         description: 'Cookie name for autologin cookie',
-        default: 'autologin',
-        writable: false
+        default: 'autologin'
       },
       autologin_cookie_path: {
         description: 'Cookie path for autologin cookie',
-        default: '/',
-        writable: false
+        default: '/'
       },
       available_languages: {
         format: :array,
@@ -142,40 +135,34 @@ module Settings
       },
       avatar_link_expiry_seconds: {
         description: 'Cache duration for avatar image API responses',
-        default: 24.hours.to_i,
-        writable: false
+        default: 24.hours.to_i
       },
       # Allow users with the required permissions to create backups via the web interface or API.
       backup_enabled: {
         description: 'Enable application backups through the UI',
-        default: true,
-        writable: false
+        default: true
       },
       backup_daily_limit: {
         description: 'Maximum number of application backups allowed per day',
-        default: 3,
-        writable: false
+        default: 3
       },
       backup_initial_waiting_period: {
         description: 'Wait time before newly created backup tokens are usable',
         default: 24.hours,
-        format: :integer,
-        writable: false
+        format: :integer
       },
       backup_include_attachments: {
         description: 'Allow inclusion of attachments in application backups',
-        default: true,
-        writable: false
+        default: true
       },
       backup_attachment_size_max_sum_mb: {
         description: 'Maximum limit of attachment size to include into application backups',
-        default: 1024,
-        writable: false
+        default: 1024
       },
       blacklisted_routes: {
         description: 'Blocked routes to prevent access to certain modules or pages',
         default: [],
-        writable: false
+        writable: false # used in initializer
       },
       bcc_recipients: {
         default: true
@@ -206,13 +193,13 @@ module Settings
         description: 'The memcache server host and IP',
         format: :string,
         default: nil,
-        writable: false,
+        writable: false
       },
       cache_redis_url: {
         description: 'URL to the redis cache server',
         format: :string,
         default: nil,
-        writable: false,
+        writable: false
       },
       cache_namespace: {
         format: :string,
@@ -304,8 +291,7 @@ module Settings
       # user configuration
       default_comment_sort_order: {
         description: 'Default sort order for activities',
-        default: 'asc',
-        writable: false
+        default: 'asc'
       },
       default_language: {
         default: 'en',
@@ -345,30 +331,26 @@ module Settings
         description: 'A list of module names to prevent access to in the application',
         default: [],
         allowed: -> { OpenProject::AccessControl.available_project_modules.map(&:to_s) },
-        writable: false
+        writable: false # setting stored in global variable
       },
       disable_password_choice: {
         description: "If enabled a user's password cannot be set to an arbitrary value, but can only be randomized.",
-        default: false,
-        writable: false
+        default: false
       },
       disable_password_login: {
         description: 'Disable internal logins and instead only allow SSO through OmniAuth.',
-        default: false,
-        writable: false
+        default: false
       },
       display_subprojects_work_packages: {
         default: true
       },
       drop_old_sessions_on_logout: {
         description: 'Destroy all sessions for current_user on logout',
-        default: true,
-        writable: false
+        default: true
       },
       drop_old_sessions_on_login: {
         description: 'Destroy all sessions for current_user on login',
-        default: false,
-        writable: false
+        default: false
       },
       edition: {
         format: :string,
@@ -462,21 +444,18 @@ module Settings
       },
       fog_download_url_expires_in: {
         description: 'Expiration time in seconds of created shared presigned URLs',
-        default: 21600, # 6h by default as 6 hours is max in S3 when using IAM roles
-        writable: false
+        default: 21600 # 6h by default as 6 hours is max in S3 when using IAM roles
       },
       # Additional / overridden help links
       force_help_link: {
         description: 'You can set a custom URL for the help button in application header menu.',
         format: :string,
-        default: nil,
-        writable: false
+        default: nil
       },
       force_formatting_help_link: {
         description: 'You can set a custom URL for the help button in the WYSIWYG editor.',
         format: :string,
-        default: nil,
-        writable: false
+        default: nil
       },
       forced_single_page_size: {
         description: 'Forced page size for manually sorted work package views',
@@ -489,48 +468,42 @@ module Settings
       health_checks_authentication_password: {
         description: 'Add an authentication challenge for the /health_check endpoint',
         format: :string,
-        default: nil,
-        writable: false
+        default: nil
       },
       # Maximum number of backed up jobs (that are not yet executed)
       # before health check fails
       health_checks_jobs_queue_count_threshold: {
         description: 'Set threshold of backed up background jobs to fail health check',
         format: :integer,
-        default: 50,
-        writable: false
+        default: 50
       },
       ## Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
       health_checks_jobs_never_ran_minutes_ago: {
         description: 'Set threshold of outstanding background jobs to fail health check',
         format: :integer,
-        default: 5,
-        writable: false
+        default: 5
       },
       ## Maximum number of unprocessed requests in puma's backlog.
       health_checks_backlog_threshold: {
         description: 'Set threshold of outstanding HTTP requests to fail health check',
         format: :integer,
-        default: 20,
-        writable: false
+        default: 20
       },
       # Default gravatar image, set to something other than 404
       # to ensure a default is returned
       gravatar_fallback_image: {
         description: 'Set default gravatar image fallback',
-        default: '404',
-        writable: false
+        default: '404'
       },
       hidden_menu_items: {
         description: 'Hide menu items in the menu sidebar for each main menu (such as Administration and Projects).',
         default: {},
-        writable: false
+        writable: false # cached in global variable
       },
       impressum_link: {
         description: 'Impressum link to be set, hidden by default',
         format: :string,
-        default: nil,
-        writable: false
+        default: nil
       },
       installation_type: {
         default: 'manual',
@@ -542,8 +515,7 @@ module Settings
       },
       internal_password_confirmation: {
         description: 'Require password confirmations for certain administrative actions',
-        default: true,
-        writable: false
+        default: true
       },
       invitation_expiration_days: {
         default: 7
@@ -554,24 +526,20 @@ module Settings
       ldap_force_no_page: {
         description: 'Force LDAP to respond as a single page, in case paged responses do not work with your server.',
         format: :string,
-        default: nil,
-        writable: false
+        default: nil
       },
       ldap_groups_disable_sync_job: {
         description: 'Deactivate regular synchronization job for groups in case scheduled as a separate cronjob',
-        default: false,
-        writable: false
+        default: false
       },
       ldap_users_disable_sync_job: {
         description: 'Deactivate user attributes synchronization from LDAP',
-        default: false,
-        writable: false
+        default: false
       },
       ldap_users_sync_status: {
         description: 'Enable user status (locked/unlocked) synchronization from LDAP',
         format: :boolean,
-        default: false,
-        writable: false
+        default: false
       },
       ldap_tls_options: {
         format: :hash,
@@ -663,24 +631,21 @@ module Settings
       omniauth_direct_login_provider: {
         description: 'Clicking on login sends a login request to the specified OmniAuth provider.',
         format: :string,
-        default: nil,
-        writable: false
+        default: nil
       },
       override_bcrypt_cost_factor: {
         description: "Set a custom BCrypt cost factor for deriving a user's bcrypt hash.",
         format: :string,
         default: nil,
-        writable: false
+        writable: false # this changes a global variable and must therefore not be writable at runtime
       },
       onboarding_video_url: {
         description: 'Onboarding guide instructional video URL',
-        default: 'https://player.vimeo.com/video/163426858?autoplay=1',
-        writable: false
+        default: 'https://player.vimeo.com/video/163426858?autoplay=1'
       },
       onboarding_enabled: {
         description: 'Enable or disable onboarding guided tour for new users',
-        default: true,
-        writable: false
+        default: true
       },
       password_active_rules: {
         default: %w[lowercase uppercase numeric special],
@@ -864,7 +829,6 @@ module Settings
         description: 'Arguments to call sendmail with in case it is configured as outgoing email setup',
         format: :string,
         default: "-i",
-        writable: false
       },
       sendmail_location: {
         description: 'Location of sendmail to call if it is configured as outgoing email setup',
@@ -875,13 +839,11 @@ module Settings
       appsignal_frontend_key: {
         format: :string,
         default: nil,
-        description: 'Appsignal API key for JavaScript error reporting',
-        writable: false
+        description: 'Appsignal API key for JavaScript error reporting'
       },
       session_cookie_name: {
         description: 'Set session cookie name',
-        default: '_open_project_session',
-        writable: false
+        default: '_open_project_session'
       },
       session_ttl_enabled: {
         default: false
@@ -891,12 +853,11 @@ module Settings
       },
       show_community_links: {
         description: 'Enable or disable links to OpenProject community instances',
-        default: true,
-        writable: false
+        default: true
       },
       show_product_version: {
         description: 'Show product version information in the administration section',
-        default: true,
+        default: true
       },
       show_pending_migrations_warning: {
         description: 'Enable or disable warning bar in case of pending migrations',
@@ -905,20 +866,17 @@ module Settings
       },
       show_setting_mismatch_warning: {
         description: 'Show mismatched protocol/hostname warning. In cases where they must differ this can be disabled',
-        default: true,
-        writable: false
+        default: true
       },
       # Render storage information
       show_storage_information: {
         description: 'Show available and taken storage information under administration / info',
-        default: true,
-        writable: false
+        default: true
       },
       show_warning_bars: {
         description: 'Render warning bars (pending migrations, deprecation, unsupported browsers)',
         # Hide warning bars by default in tests as they might overlay other elements
-        default: -> { !Rails.env.test? },
-        writable: false
+        default: -> { !Rails.env.test? }
       },
       smtp_authentication: {
         format: :string,
@@ -1091,8 +1049,7 @@ module Settings
       },
       youtube_channel: {
         description: 'Link to YouTube channel in help menu',
-        default: 'https://www.youtube.com/c/OpenProjectCommunity',
-        writable: false
+        default: 'https://www.youtube.com/c/OpenProjectCommunity'
       }
     }.freeze
 

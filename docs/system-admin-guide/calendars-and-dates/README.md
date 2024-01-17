@@ -76,7 +76,7 @@ To change this setting, navigate to **Date format** inside of the **Calendar and
    If you set **Week starts on**, you must also set the **First week in year contains** or you will probably get inconsistencies in week numbering in calendars and the Gantt chart.
 4. **First week in year contains**: select the day that needs to be contained in the first week of the year. This value is used together with _Week starts on_ to determine the first week of the year. 
    - For European ISO-8601 standard, set **Week starts on** to `Monday` and First week in year to `Thursday`.
-   - For US and Canada, set **Week starts on** to `Sunday` and Day of Year to `6`.
+   - For US and Canada, set **First week in year contains** to `Sunday` and Day of Year to `6`.
    - If you leave both on `Based on user's language`, the information provided by moment.js will be used: For more information, please also see [this document from moment.js](https://momentjscom.readthedocs.io/en/latest/moment/07-customization/16-dow-doy/).
    - For more information on the way the first week of the year is computed according to ISO standards, see [wikipedia](https://en.wikipedia.org/wiki/ISO_week_date#First_week)
 5. Do not forget to **save** your changes.

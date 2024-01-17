@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -33,7 +33,7 @@ cs:
         Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
     autocomplete_ng_select:
       add_tag: "Přidat položku"
-      clear_all: "Clear all"
+      clear_all: "Vymazat vše"
       loading: "Načítání..."
       not_found: "Nenalezeny žádné položky"
       type_to_search: "Zadejte hledaný text"
@@ -348,11 +348,11 @@ cs:
           learn_about: "Další informace o nových funkcích"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_1':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
     ical_sharing_modal:
       title: "Přihlásit kalendář k odběru"
       inital_setup_error_message: "Při načítání dat došlo k chybě."
@@ -521,6 +521,7 @@ cs:
     label_watcher_added_successfully: "Sledující úspěšně přidán!"
     label_watcher_deleted_successfully: "Sledující úspěšně odstraněn!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Přestat sledovat"
     label_unwatch_work_package: "Přestat sledovat pracovní balíček"
     label_uploaded_by: "Nahrál"
@@ -612,7 +613,7 @@ cs:
         property_today: 'je dnes'
         property_is: 'is in %{difference_in_days}'
         property_was: 'was %{difference_in_days} ago'
-        property_is_deleted: 'is deleted'
+        property_is_deleted: 'Smazáno'
         upsale:
           title: 'Upozornění na datum'
           description: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
@@ -759,7 +760,7 @@ cs:
           last_day: 'Poslední den'
     text_are_you_sure: "Jste si jisti?"
     text_data_lost: "Všechna zadaná data budou ztracena."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} napsal:"
     types:
       attribute_groups:
         error_duplicate_group_name: "Jméno %{group} je již použito. Jména skupin musí být jedinečná."
@@ -834,6 +835,7 @@ cs:
       toggle_description: "Přepnout popis relace"
       update_relation: "Klikněte pro změnu typu vztahu"
       add_follower: "Přidat následující"
+      show_relations: "Show relations"
       add_predecessor: "Přidat předchůdce"
       remove: "Odstranit vztah"
       save: "Uložit vztah"
@@ -969,7 +971,6 @@ cs:
         date: "Datum"
         dueDate: "Datum dokončení"
         duration: "Doba trvání"
-        estimatedTime: "Odhadovaný čas"
         spentTime: "Strávený čas"
         category: "Kategorie"
         percentageDone: "Procento hotovo"
@@ -985,6 +986,7 @@ cs:
         updatedAt: "Aktualizováno"
         versionName: "Verze"
         version: "Verze"
+        remainingTime: "Zbývající práce"
       default_queries:
         latest_activity: "Poslední aktivita"
         created_by_me: "Vytvořeno mnou"
@@ -992,7 +994,7 @@ cs:
         recently_created: "Nedávno vytvořené"
         all_open: "Všechny otevřené"
         summary: "Souhrn"
-        shared_with_users: "Shared with users"
+        shared_with_users: "Sdíleno s uživateli"
       jump_marks:
         pagination: "Přejít na stránku tabulky"
         label_pagination: "Kliknutím sem přeskočíte tabulku pracovních balíčků a přejděte na stránku"
@@ -1031,10 +1033,12 @@ cs:
         is_switched_from_manual_to_automatic: "Data tohoto pracovního balíčku budou možná muset být přepočítána po přepnutí z manuálu na automatické plánování kvůli vztahům s ostatními pracovními balíčky."
       sharing:
         share: 'Sdílet'
-        title: "Share work package"
+        title: "Sdílet pracovní balíček"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: 'Konfigurovat tabulku pracovních balíčků'
         summary: "Tabulka s řádky pracovního balíčku a atributy sloupců pracovního balíčku."

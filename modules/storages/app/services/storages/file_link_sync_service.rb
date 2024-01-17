@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,10 +58,10 @@ class Storages::FileLinkSyncService
       .call(storage:, user: @user, file_ids: file_links.map(&:origin_id))
       .map { |file_infos| to_hash(file_infos) }
       .match(
-        on_success: set_file_link_permissions(file_links),
+        on_success: set_file_link_status(file_links),
         on_failure: ->(_) {
           ServiceResult.success(result: file_links.map do |file_link|
-            file_link.origin_permission = :error
+            file_link.origin_status = :error
             file_link
           end)
         }
@@ -72,7 +72,7 @@ class Storages::FileLinkSyncService
     file_infos.index_by { |file_info| file_info.id.to_s }.to_h
   end
 
-  def set_file_link_permissions(file_links)
+  def set_file_link_status(file_links)
     ->(file_infos) do
       resulting_file_links = []
 
@@ -81,18 +81,15 @@ class Storages::FileLinkSyncService
 
         case file_info.status_code
         when 200
-          next if file_info.trashed
-
           update_file_link(file_link, file_info)
 
-          file_link.origin_permission = :view
+          file_link.origin_status = :view_allowed
         when 403
-          file_link.origin_permission = :not_allowed
+          file_link.origin_status = :view_not_allowed
         when 404
-          file_link.destroy
-          next
+          file_link.origin_status = :not_found
         else
-          file_link.origin_permission = :error
+          file_link.origin_status = :error
         end
 
         resulting_file_links << file_link

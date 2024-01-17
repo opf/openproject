@@ -15,6 +15,7 @@ cs:
       choose_location: "Vyberte lokalitu"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
         default: "Úložiště"
       information:
         connection_error: >
@@ -47,7 +48,6 @@ cs:
         empty: >
           V současné době neexistují žádné propojené soubory k tomuto pracovnímu balíčku. Začněte propojovat soubory s akcí níže nebo zevnitř %{storageType}.
         download: "Stáhnout %{fileName}"
-        no_permission: "Nemáte oprávnění k zobrazení tohoto souboru."
         open: "Otevřít soubor v úložišti"
         open_location: "Otevřít soubor v umístění"
         remove: "Odstranit odkaz na soubor"
@@ -59,9 +59,9 @@ cs:
         selection:
           zero: "Vyberte soubory, které chcete propojit"
           one: "Propojit 1 Soubor"
-          few: "Link %{count} files"
-          many: "Link %{count} files"
-          other: "Link %{count} files"
+          few: "Propojit %{count} souborů"
+          many: "Propojit %{count} souborů"
+          other: "Propojit %{count} souborů"
         success_create:
           one: "Odkaz na soubor byl úspěšně vytvořen."
           few: "Successfully created %{count} file links."
@@ -81,6 +81,9 @@ cs:
               Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.
         link_uploaded_file_error: >
           An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
-        not_allowed_tooltip: "Pro přístup k tomuto souboru se přihlaste do Nextcloudu"
+        tooltip:
+          not_logged_in: "Please log in to the storage to access this file."
+          view_not_allowed: "You have no permission to see this file."
+          not_found: "This file cannot be found."
         already_linked_file: "Tento soubor je již propojen s tímto pracovním balíčkem."
         already_linked_directory: "Tento adresář je již propojen s tímto pracovním balíčkem."

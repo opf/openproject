@@ -8,7 +8,7 @@ module Grids::Configuration
             'subprojects',
             'work_packages_calendar',
             'work_packages_overview',
-            'time_entries_project',
+            'time_entries_list',
             'members',
             'news',
             'documents',
