@@ -238,5 +238,19 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
         )
       end
     end
+
+    context 'with network errors' do
+      before do
+        request = HTTPX::Request.new(:get, 'https://my.timeout.org/')
+        allow(HTTPX).to receive(:get).and_return(HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
+      end
+
+      it 'must return an error with wrapped network error response' do
+        error = described_class.call(storage:, user:, folder:)
+        expect(error).to be_failure
+        expect(error.result).to eq(:error)
+        expect(error.error_payload).to be_a(HTTPX::ErrorResponse)
+      end
+    end
   end
 end
