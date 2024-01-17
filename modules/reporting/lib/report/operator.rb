@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -60,7 +60,7 @@ class Report::Operator
     new '>t-', label: :label_less_than_ago do
       include DateRange
       def modify(query, field, value)
-        super query, field, -value.to_i, 0
+        super(query, field, -value.to_i, 0)
       end
     end
 
@@ -82,7 +82,7 @@ class Report::Operator
     new 't+', label: :label_in do
       include DateRange
       def modify(query, field, *values)
-        super query, field, values.first.to_i, values.first.to_i
+        super(query, field, values.first.to_i, values.first.to_i)
       end
     end
 
@@ -101,7 +101,7 @@ class Report::Operator
     new 't-', label: :label_ago do
       include DateRange
       def modify(query, field, *values)
-        super query, field, -values.first.to_i, -values.first.to_i
+        super(query, field, -values.first.to_i, -values.first.to_i)
       end
     end
 
@@ -137,14 +137,14 @@ class Report::Operator
     new '<t+', label: :label_in_less_than do
       include DateRange
       def modify(query, field, value)
-        super query, field, 0, value.to_i
+        super(query, field, 0, value.to_i)
       end
     end
 
     new 't', label: :label_today do
       include DateRange
       def modify(query, field)
-        super query, field, 0, 0
+        super(query, field, 0, 0)
       end
     end
 
@@ -155,14 +155,14 @@ class Report::Operator
     new '<t-', label: :label_more_than_ago do
       include DateRange
       def modify(query, field, value)
-        super query, field, nil, -value.to_i
+        super(query, field, nil, -value.to_i)
       end
     end
 
     new '>t+', label: :label_in_more_than do
       include DateRange
       def modify(query, field, value)
-        super query, field, value.to_i, nil
+        super(query, field, value.to_i, nil)
       end
     end
 

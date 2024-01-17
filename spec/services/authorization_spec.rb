@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -135,6 +135,17 @@ RSpec.describe Authorization do
 
       it 'returns the Permission object wrapped in an array' do
         expect(subject).to eq([OpenProject::AccessControl.permission(:view_work_packages)])
+      end
+    end
+
+    context 'when action is an array of permission names' do
+      let(:action) { %i[view_work_packages edit_work_packages] }
+
+      it 'returns the Permission object wrapped in an array' do
+        expect(subject).to eq([
+                                OpenProject::AccessControl.permission(:view_work_packages),
+                                OpenProject::AccessControl.permission(:edit_work_packages)
+                              ])
       end
     end
 

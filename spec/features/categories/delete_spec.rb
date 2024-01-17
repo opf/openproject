@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/categories/categories_page'
 
-RSpec.describe 'Deletion', js: true, with_cuprite: true do
+RSpec.describe 'Deletion', :js, :with_cuprite do
   let(:current_user) do
     create(:user,
            member_with_permissions: { category.project => %i[manage_categories] })
@@ -52,9 +52,9 @@ RSpec.describe 'Deletion', js: true, with_cuprite: true do
   end
 
   shared_examples_for 'deleted category' do
-    it { expect(page).to have_selector('div.generic-table--no-results-container') }
+    it { expect(page).to have_css('div.generic-table--no-results-container') }
 
-    it { expect(page).not_to have_selector(delete_button) }
+    it { expect(page).to have_no_selector(delete_button) }
   end
 
   describe 'w/o work package' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,7 +33,7 @@ module Pages::StructuredMeeting
     include ::Components::Autocompleter::NgSelectAutocompleteHelpers
 
     def expect_empty
-      expect(page).not_to have_css('[id^="meeting-agenda-items-item-component"]')
+      expect(page).to have_no_css('[id^="meeting-agenda-items-item-component"]')
     end
 
     def add_agenda_item(type: MeetingAgendaItem, &)
@@ -51,14 +51,14 @@ module Pages::StructuredMeeting
     def cancel_add_form
       page.within('#meeting-agenda-items-new-component') do
         click_link I18n.t(:button_cancel)
-        expect(page).not_to have_link I18n.t(:button_cancel)
+        expect(page).to have_no_link I18n.t(:button_cancel)
       end
     end
 
     def cancel_edit_form(item)
       page.within("#meeting-agenda-items-item-component-#{item.id}") do
         click_link I18n.t(:button_cancel)
-        expect(page).not_to have_link I18n.t(:button_cancel)
+        expect(page).to have_no_link I18n.t(:button_cancel)
       end
     end
 
@@ -89,7 +89,7 @@ module Pages::StructuredMeeting
       if item.is_a?(WorkPackage)
         expect(page).to have_css("[id^='meeting-agenda-items-item-component-']", text: item.subject)
       else
-        expect(page).to have_selector("#meeting-agenda-items-item-component-#{item.id}", text: item.work_package.subject)
+        expect(page).to have_css("#meeting-agenda-items-item-component-#{item.id}", text: item.work_package.subject)
       end
     end
 
@@ -98,8 +98,8 @@ module Pages::StructuredMeeting
     end
 
     def expect_undisclosed_agenda_link(item)
-      expect(page).to have_selector("#meeting-agenda-items-item-component-#{item.id}",
-                                    text: I18n.t(:label_agenda_item_undisclosed_wp, id: item.work_package_id))
+      expect(page).to have_css("#meeting-agenda-items-item-component-#{item.id}",
+                               text: I18n.t(:label_agenda_item_undisclosed_wp, id: item.work_package_id))
     end
 
     def expect_no_agenda_item(title:)
@@ -115,7 +115,7 @@ module Pages::StructuredMeeting
       end
 
       page.within('.Overlay') do
-        click_on action # rubocop:disable Capybara/ClickLinkOrButtonStyle
+        click_on action
       end
     end
 

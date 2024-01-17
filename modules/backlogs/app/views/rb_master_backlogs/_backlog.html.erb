@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -27,24 +27,25 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% folded = current_user.backlogs_preference(:versions_default_fold_state) == "closed" %>
+<%
+  folded = current_user.backlogs_preference(:versions_default_fold_state) == "closed"
+  editable = User.current.allowed_in_project?(:edit_work_packages, @project)
+%>
 <div class="backlog" id="backlog_<%= backlog.sprint.id %>">
   <div class="header">
     <% icon = folded ? 'icon-arrow-down1' : 'icon-arrow-up1' %>
     <div class="toggler <%= icon %> icon-small<%= ' closed' if folded %>"> </div>
-    <%= render :partial => "rb_sprints/sprint", :object => backlog.sprint %>
+    <%= render partial: "rb_sprints/sprint", object: backlog.sprint %>
     <div class="velocity"> </div>
     <%= render_backlog_menu backlog %>
   </div>
-  <ul class="stories<%= ' closed' if folded %>">
+  <ul class="stories<%= ' closed' if folded %><%= ' prevent_drag' unless editable %>">
     <% reset_cycle 'stories' %>
     <% backlog.stories.each_with_index do |story, index| %>
-      <% higher_item = index == 0 ? nil :
-                                    backlog.stories[index - 1] %>
+      <% higher_item = index == 0 ? nil : backlog.stories[index - 1] %>
 
-      <%= render :partial => "rb_stories/story",
-                 :locals => { :story => story,
-                              :higher_item => higher_item } %>
+      <%= render partial: "rb_stories/story",
+                 locals: { story:, higher_item: } %>
     <% end %>
   </ul>
 </div>

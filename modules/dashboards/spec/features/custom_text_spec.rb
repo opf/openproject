@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-RSpec.describe 'Project description widget on dashboard', js: true do
+RSpec.describe 'Project description widget on dashboard', :js do
   let!(:type) { create(:type_task, name: 'Task') }
   let!(:project) do
     create(:project, types: [type])
@@ -79,7 +79,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
 
       editor.insert_macro 'Insert create work package button'
 
-      expect(page).to have_selector('.spot-modal')
+      expect(page).to have_css('.spot-modal')
       select 'Task', from: 'selected-type'
       find('.spot-modal--submit-button').click
 
@@ -88,7 +88,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
       dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       within('#content') do
-        expect(page).to have_selector("a[href=\"/projects/#{project.identifier}/work_packages/new?type=#{type.id}\"]")
+        expect(page).to have_css("a[href=\"/projects/#{project.identifier}/work_packages/new?type=#{type.id}\"]")
       end
     end
 
@@ -111,7 +111,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
 
       within custom_text_widget.area do
         expect(page)
-          .to have_selector('.inline-edit--display-field', text: 'My own little text')
+          .to have_css('.inline-edit--display-field', text: 'My own little text')
 
         find('.inplace-editing--container').click
 
@@ -119,7 +119,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
         field.cancel_by_click
 
         expect(page)
-          .to have_selector('.inline-edit--display-field', text: 'My own little text')
+          .to have_css('.inline-edit--display-field', text: 'My own little text')
       end
 
       dashboard_page.expect_no_toaster message: I18n.t('js.notice_successful_update')
@@ -137,7 +137,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
 
       within custom_text_widget.area do
         expect(page).to have_test_selector('op-attachment-list-item', text: 'image.png')
-        expect(page).not_to have_selector('notifications-upload-progress')
+        expect(page).to have_no_css('notifications-upload-progress')
 
         field.save!
       end
@@ -146,7 +146,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
 
       within custom_text_widget.area do
         expect(page)
-          .to have_selector('#content img', count: 1)
+          .to have_css('#content img', count: 1)
 
         expect(page)
           .not_to have_test_selector('op-attachment-list-item', text: 'image.png')
@@ -175,7 +175,7 @@ RSpec.describe 'Project description widget on dashboard', js: true do
           .to have_content(dashboard.widgets.first.options[:text])
 
         expect(page)
-          .not_to have_selector('.inplace-editing--container')
+          .to have_no_css('.inplace-editing--container')
       end
     end
   end

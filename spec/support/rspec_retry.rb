@@ -29,7 +29,17 @@ end
 ##
 # Allow specific code blocks to retry on specific errors
 Retriable.configure do |c|
-  c.intervals = [1, 1, 2]
+  # Setting intervals overrides `tries`, `base_interval`, `max_interval`,
+  # `rand_factor`, and `multiplier` parameters and thus ruins the benefit of
+  # calling `retry_block` with `args: { tries: _ }` argument.
+  #
+  # Prefer setting `base_interval`, `max_interval`, `rand_factor`, and
+  # `multiplier` instead to keep the benefit of `args: { tries: _ }` argument.
+  #
+  # This will generate the following intervals: [0.5, 0.75, 1.125, ~1.7, ~2.5, ~3.8, ...]
+  c.base_interval = 0.5
+  c.multiplier = 1.5
+  c.rand_factor = 0.0
 end
 
 ##
@@ -37,23 +47,23 @@ end
 # failures
 def retry_block(args: {}, screenshot: false, &block)
   if ENV["RSPEC_RETRY_RETRY_COUNT"] == "0"
-    block.call
+    yield
     return
   end
 
   log_errors = Proc.new do |exception, try, elapsed_time, next_interval|
-    max_tries = args[:tries] || (RSpec.current_example.metadata[:retry].to_i + 1)
+    max_tries = args[:tries] || Retriable.config.tries
     exception_source_lines = backtrace_up_to_spec_file(exception)
-    next_try_message = next_interval ? "#{next_interval} seconds until the next try" : "last try"
+    next_try_message = next_interval ? "waiting #{next_interval} seconds until the next try" : "it was the last try"
     # use stderr directly to prevent having StructuredWarnings::StandardWarning
     # messy and useless output
     $stderr.puts <<~MSG # rubocop:disable Style/StderrPuts
-      -- rspec-retry #{try}/#{max_tries}--
+      -- rspec-retry: failed try #{try} of #{max_tries} max --
       #{exception.class}: '#{exception.message}'
       occurred on #{exception_source_lines.first}
       backtrace:
       #{exception_source_lines.map { "  #{_1}" }.join("\n")}
-      #{try} tries in #{elapsed_time} seconds, #{next_try_message}.
+      ran #{try} #{'try'.pluralize(try)} in #{elapsed_time} seconds, #{next_try_message}.
       --
     MSG
 

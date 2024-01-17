@@ -50,17 +50,18 @@ class SharingMailer < ApplicationMailer
   end
 
   def derive_allowed_work_package_actions(role)
-    allowed_actions = case role.builtin
-    when Role::BUILTIN_WORK_PACKAGE_EDITOR
-      [I18n.t('work_package.sharing.permissions.view'),
-       I18n.t('work_package.sharing.permissions.comment'),
-       I18n.t('work_package.sharing.permissions.edit')]
-    when Role::BUILTIN_WORK_PACKAGE_COMMENTER
-      [I18n.t('work_package.sharing.permissions.view'),
-       I18n.t('work_package.sharing.permissions.comment')]
-    when Role::BUILTIN_WORK_PACKAGE_VIEWER
-      [I18n.t('work_package.sharing.permissions.view')]
-    end
+    allowed_actions =
+      case role.builtin
+      when Role::BUILTIN_WORK_PACKAGE_EDITOR
+        [I18n.t('work_package.sharing.permissions.view'),
+         I18n.t('work_package.sharing.permissions.comment'),
+         I18n.t('work_package.sharing.permissions.edit')]
+      when Role::BUILTIN_WORK_PACKAGE_COMMENTER
+        [I18n.t('work_package.sharing.permissions.view'),
+         I18n.t('work_package.sharing.permissions.comment')]
+      when Role::BUILTIN_WORK_PACKAGE_VIEWER
+        [I18n.t('work_package.sharing.permissions.view')]
+      end
 
     allowed_actions.map(&:downcase)
   end

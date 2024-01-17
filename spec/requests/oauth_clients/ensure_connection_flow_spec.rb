@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -125,10 +125,8 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
               .with(
                 headers: {
                   'Accept' => 'application/json',
-                  'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
                   'Authorization' => "Bearer #{oauth_client_token.access_token}",
                   'Ocs-Apirequest' => 'true',
-                  'User-Agent' => 'Ruby'
                 }
               ).to_return(status: 200, body: "", headers: {})
           end

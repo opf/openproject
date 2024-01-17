@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,27 +44,28 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     # rubocop:disable Metrics/AbcSize
     def call(group:)
-      response = Util.http(@uri).get(
-        Util.join_uri_path(@uri.path, "ocs/v1.php/cloud/groups", CGI.escapeURIComponent(group)),
-        Util.basic_auth_header(@username, @password).merge('OCS-APIRequest' => 'true')
-      )
+      response = Util
+                   .httpx
+                   .basic_auth(@username, @password)
+                   .with(headers: {'OCS-APIRequest' => 'true'})
+                   .get(Util.join_uri_path(@uri, "ocs/v1.php/cloud/groups", CGI.escapeURIComponent(group)))
 
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 
-      case response
-      when Net::HTTPSuccess
-        group_users = Nokogiri::XML(response.body)
+      case response.status
+      when 200..299
+        group_users = Nokogiri::XML(response.body.to_s)
                         .xpath('/ocs/data/users/element')
                         .map(&:text)
         ServiceResult.success(result: group_users)
-      when Net::HTTPMethodNotAllowed
+      when 405
         Util.error(:not_allowed, 'Outbound request method not allowed', error_data)
-      when Net::HTTPNotFound
-        Util.error(:not_found, 'Outbound request destination not found', error_data)
-      when Net::HTTPUnauthorized
+      when 401
         Util.error(:unauthorized, 'Outbound request not authorized', error_data)
-      when Net::HTTPConflict
-        Util.error(:conflict, Util.error_text_from_response(response), error_data)
+      when 404
+        Util.error(:not_found, 'Outbound request destination not found', error_data)
+      when 409
+        Util.error(:conflict, error_text_from_response(response), error_data)
       else
         Util.error(:error, 'Outbound request failed', error_data)
       end

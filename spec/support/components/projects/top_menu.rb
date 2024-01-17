@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,7 +37,13 @@ module Components
 
       def toggle
         page.find_by_id('projects-menu').click
-        wait_for_network_idle if using_cuprite?
+        wait_for_network_idle(timeout: 10) if using_cuprite?
+      end
+
+      # Ensures modal registers as #open? before proceeding
+      def toggle!
+        toggle
+        expect_open
       end
 
       def open?
@@ -53,7 +59,7 @@ module Components
       end
 
       def expect_closed
-        expect(page).not_to have_selector(autocompleter_selector)
+        expect(page).to have_no_selector(autocompleter_selector)
       end
 
       def search(query)
@@ -92,15 +98,19 @@ module Components
 
       def expect_no_result(name)
         within search_results do
-          expect(page).not_to have_selector(autocompleter_item_title_selector, text: name)
+          expect(page).to have_no_selector(autocompleter_item_title_selector, text: name)
         end
+      end
+
+      def expect_blankslate
+        expect(page).not_to have_test_selector('op-project-list-modal--no-results', wait: 0)
       end
 
       def expect_item_with_hierarchy_level(hierarchy_level:, item_name:)
         within search_results do
           hierarchy_selector  = hierarchy_level.times.collect { autocompleter_item_selector }.join(' ')
           expect(page)
-            .to have_selector("#{hierarchy_selector} #{autocompleter_item_title_selector}", text: item_name)
+            .to have_css("#{hierarchy_selector} #{autocompleter_item_title_selector}", text: item_name)
         end
       end
 

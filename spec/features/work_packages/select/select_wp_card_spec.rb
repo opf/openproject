@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Select work package card', js: true, selenium: true do
+RSpec.describe 'Select work package card', :js, :selenium do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package_1) { create(:work_package, project:) }
@@ -54,8 +54,8 @@ RSpec.describe 'Select work package card', js: true, selenium: true do
   describe 'opening' do
     it 'the full screen view via double click' do
       wp_card_view.open_full_screen_by_doubleclick(work_package_1)
-      expect(page).to have_selector('.work-packages--details--subject',
-                                    text: work_package_1.subject)
+      expect(page).to have_css('.work-packages--details--subject',
+                               text: work_package_1.subject)
     end
 
     it 'the split screen of the selected WP' do
@@ -65,7 +65,7 @@ RSpec.describe 'Select work package card', js: true, selenium: true do
       split_wp.expect_attributes Subject: work_package_2.subject
 
       find_by_id('work-packages-details-view-button').click
-      expect(page).not_to have_selector('.work-packages--details')
+      expect(page).to have_no_css('.work-packages--details')
     end
   end
 end

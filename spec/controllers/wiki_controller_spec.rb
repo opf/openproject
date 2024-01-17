@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -1034,7 +1034,7 @@ RSpec.describe WikiController do
           get 'show', params: { id: @other_wiki_menu_item.name, project_id: project.id }
 
           expect(response).to be_successful
-          expect(response.body).to have_selector('.main-menu--children a.selected', count: 0)
+          expect(response.body).to have_css('.main-menu--children a.selected', count: 0)
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item"
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected", false
@@ -1073,7 +1073,7 @@ RSpec.describe WikiController do
           get 'show', params: { id: child_page.slug, project_id: project.id }
 
           expect(response).to be_successful
-          expect(response.body).to have_selector('#main-menu a.selected', count: 1)
+          expect(response.body).to have_css('#main-menu a.selected', count: 1)
 
           assert_select "#main-menu a.#{@wiki_menu_item.menu_identifier}-menu-item.selected"
         end

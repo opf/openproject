@@ -114,7 +114,7 @@ RSpec.describe 'Work Package Activity Tab',
                          github_user_link: pull_request_merging_user.github_login)}
         GITHUB_MERGE_COMMENT
 
-        expect(page).to have_selector('.user-comment > .message', text: expected_merge_comment)
+        expect(page).to have_css('.user-comment > .message', text: expected_merge_comment)
       end
     end
   end
@@ -148,7 +148,7 @@ RSpec.describe 'Work Package Activity Tab',
                              github_user_link: pull_request_author.github_login)}
         GITHUB_REFERENCED_COMMENT
 
-        expect(page).to have_selector('.user-comment > .message', text: expected_referenced_comment)
+        expect(page).to have_css('.user-comment > .message', text: expected_referenced_comment)
       end
     end
   end
@@ -182,7 +182,7 @@ RSpec.describe 'Work Package Activity Tab',
                                           github_user_link: pull_request_author.github_login)}
         GITHUB_READY_FOR_REVIEW_COMMENT
 
-        expect(page).to have_selector('.user-comment > .message', text: expected_action_comment)
+        expect(page).to have_css('.user-comment > .message', text: expected_action_comment)
       end
     end
   end

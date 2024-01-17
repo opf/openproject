@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -100,8 +100,42 @@ RSpec.describe 'Administrating memberships via the project settings', :js, :with
       expect(members_page.contents('status', raw: true)).to eq %w(invited active active)
 
       # Cannot sort by group, roles or status
-      expect(page).not_to have_selector('.generic-table--sort-header a', text: 'ROLES')
-      expect(page).not_to have_selector('.generic-table--sort-header a', text: 'GROUP')
+      expect(page).to have_no_css('.generic-table--sort-header a', text: 'ROLES')
+      expect(page).to have_no_css('.generic-table--sort-header a', text: 'GROUP')
+    end
+
+    it 'navigating the menu' do
+      members_page.expect_menu_item 'All', selected: true
+      members_page.expect_menu_item 'Invited'
+      members_page.expect_menu_item 'Locked'
+
+      members_page.expect_menu_item group.name
+      members_page.expect_menu_item 'Manager'
+      members_page.expect_menu_item 'Developer'
+
+      # Viewing invited
+      members_page.click_menu_item 'Invited'
+      expect(members_page).to have_user 'Hannibal Smith'
+      expect(members_page).not_to have_user 'Peter Pan'
+      expect(members_page).not_to have_group group.name
+
+      # Viewing locked
+      members_page.click_menu_item 'Locked'
+      expect(members_page).not_to have_user 'Hannibal Smith'
+      expect(members_page).not_to have_user 'Peter Pan'
+      expect(members_page).not_to have_group group.name
+
+      # Viewing manager role
+      members_page.click_menu_item 'Manager'
+      expect(members_page).to have_user 'Peter Pan'
+      expect(members_page).to have_group group.name
+      expect(members_page).not_to have_user 'Hannibal Smith'
+
+      # Viewing developer role
+      members_page.click_menu_item 'Developer'
+      expect(members_page).to have_user 'Hannibal Smith'
+      expect(members_page).not_to have_user 'Peter Pan'
+      expect(members_page).not_to have_group group.name
     end
   end
 
@@ -109,7 +143,7 @@ RSpec.describe 'Administrating memberships via the project settings', :js, :with
     members_page.add_user! 'A-Team', as: 'Manager'
 
     expect(members_page).to have_added_group('A-Team')
-    expect(page).to have_selector '.op-avatar_group'
+    expect(page).to have_css '.op-avatar_group'
     SeleniumHubWaiter.wait
 
     members_page.remove_group! 'A-Team'
@@ -121,7 +155,7 @@ RSpec.describe 'Administrating memberships via the project settings', :js, :with
     members_page.add_user! 'Hannibal Smith', as: 'Manager'
 
     expect(members_page).to have_added_user 'Hannibal Smith'
-    expect(page).to have_selector '.op-avatar_user'
+    expect(page).to have_css '.op-avatar_user'
 
     SeleniumHubWaiter.wait
     members_page.remove_user! 'Hannibal Smith'
@@ -133,7 +167,7 @@ RSpec.describe 'Administrating memberships via the project settings', :js, :with
     members_page.add_user! developer_placeholder.name, as: developer.name
 
     expect(members_page).to have_added_user developer_placeholder.name
-    expect(page).to have_selector '.op-avatar_placeholder-user'
+    expect(page).to have_css '.op-avatar_placeholder-user'
 
     SeleniumHubWaiter.wait
     members_page.remove_user! developer_placeholder.name

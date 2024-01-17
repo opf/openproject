@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ RSpec.shared_examples 'module specific query view management' do
       query_menu.expect_menu_entry 'My first query'
 
       # Change the filter again
-      filters.add_filter_by 'Progress (%)', 'is', ['25'], 'percentageDone'
+      filters.add_filter_by '% Complete', 'is', ['25'], 'percentageDone'
       filters.expect_filter_count(initial_filter_count + 2)
 
       # Save as another query

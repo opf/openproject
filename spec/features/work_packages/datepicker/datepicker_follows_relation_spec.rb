@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,7 @@
 require 'spec_helper'
 require 'support/edit_fields/edit_field'
 
-RSpec.describe 'Datepicker logic on follow relationships',
-               js: true,
-               with_cuprite: true,
+RSpec.describe 'Datepicker logic on follow relationships', :js, :with_cuprite,
                with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:user) { create(:admin) }
 
@@ -44,7 +42,6 @@ RSpec.describe 'Datepicker logic on follow relationships',
            start_date: Date.parse('2024-02-01'),
            due_date: Date.parse('2024-02-05'))
   end
-
 
   let(:work_packages_page) { Pages::FullWorkPackage.new(follower) }
   let(:datepicker) { date_field.datepicker }

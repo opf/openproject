@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,7 +41,7 @@ RSpec.describe TimeEntryActivities::Scopes::ActiveInProject do
       context 'with the activity being active' do
         it 'includes the activity' do
           expect(subject)
-            .to match_array [activity, other_activity]
+            .to contain_exactly(activity, other_activity)
         end
       end
 
@@ -52,7 +52,7 @@ RSpec.describe TimeEntryActivities::Scopes::ActiveInProject do
 
         it 'excludes the activity' do
           expect(subject)
-            .to match_array([other_activity])
+            .to contain_exactly(other_activity)
         end
       end
     end
@@ -64,7 +64,7 @@ RSpec.describe TimeEntryActivities::Scopes::ActiveInProject do
 
       it 'includes the activity' do
         expect(subject)
-          .to match_array [activity, other_activity]
+          .to contain_exactly(activity, other_activity)
       end
 
       context 'with the activity being inactive' do
@@ -74,7 +74,7 @@ RSpec.describe TimeEntryActivities::Scopes::ActiveInProject do
 
         it 'includes the activity' do
           expect(subject)
-            .to match_array [activity, other_activity]
+            .to contain_exactly(activity, other_activity)
         end
       end
     end
@@ -86,7 +86,7 @@ RSpec.describe TimeEntryActivities::Scopes::ActiveInProject do
 
       it 'includes the activity' do
         expect(subject)
-          .to match_array [activity, other_activity]
+          .to contain_exactly(activity, other_activity)
       end
     end
 
@@ -97,7 +97,7 @@ RSpec.describe TimeEntryActivities::Scopes::ActiveInProject do
 
       it 'excludes the activity' do
         expect(subject)
-          .to match_array [other_activity]
+          .to contain_exactly(other_activity)
       end
 
       context 'with a project configuration configured to true but for a different project' do
@@ -107,7 +107,7 @@ RSpec.describe TimeEntryActivities::Scopes::ActiveInProject do
 
         it 'excludes the activity' do
           expect(subject)
-            .to match_array [other_activity]
+            .to contain_exactly(other_activity)
         end
       end
     end

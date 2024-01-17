@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -52,7 +52,7 @@ class WikiMenuItemsController < ApplicationController
     menu_item = controller.default_menu_item(page)
     return unless menu_item
 
-    "no-menu-item-#{menu_item.menu_identifier}".to_sym
+    :"no-menu-item-#{menu_item.menu_identifier}"
   end
 
   before_action :find_project_by_project_id

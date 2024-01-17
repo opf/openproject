@@ -42,7 +42,7 @@ post:
       description: |-
         Returned if the client does not have sufficient permissions.
 
-        **Required permission:** edit work package, assign version, manage subtasks or move work package
+        **Required permission:** edit work package, assign version, change work package status, manage subtasks or move work package
 
         *Note that you will only receive this error, if you are at least allowed to see the corresponding work package.*
       headers: {}

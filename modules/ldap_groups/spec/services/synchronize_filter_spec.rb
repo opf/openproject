@@ -56,8 +56,8 @@ RSpec.describe LdapGroups::SynchronizeFilterService, with_ee: %i[ldap_groups] do
 
       # Expect two synchronized groups added
       expect(filter_foo_bar.groups.count).to eq 2
-      expect(filter_foo_bar.groups.map(&:dn)).to match_array ['cn=foo,ou=groups,dc=example,dc=com',
-                                                              'cn=bar,ou=groups,dc=example,dc=com']
+      expect(filter_foo_bar.groups.map(&:dn)).to contain_exactly('cn=foo,ou=groups,dc=example,dc=com',
+                                                                 'cn=bar,ou=groups,dc=example,dc=com')
 
       # Expect two actual groups added
       op_foo_group = Group.find_by(lastname: 'foo')

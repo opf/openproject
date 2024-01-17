@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -281,6 +281,18 @@ eu:
       no_results_content_text: Add a member to the project
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -606,7 +618,9 @@ eu:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
-        done_ratio: "Progress (%)"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
+        done_ratio: "% Complete"
         duration: "Iraupena"
         end_insertion: "End of the insertion"
         end_deletion: "End of the deletion"
@@ -620,8 +634,10 @@ eu:
         parent_issue: "Parent"
         parent_work_package: "Parent"
         priority: "Priority"
-        progress: "Progress (%)"
+        progress: "% Complete"
         readonly: "Read only"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Manual scheduling"
         spent_hours: "Spent time"
         spent_time: "Spent time"
@@ -1034,12 +1050,12 @@ eu:
     default_columns: "Default columns"
     description: "Description"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Derived start date"
     display_sums: "Display Sums"
     due_date: "Finish date"
-    estimated_hours: "Estimated time"
-    estimated_time: "Estimated time"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "Expires at"
     firstname: "First name"
     group: "Group"
@@ -1385,7 +1401,7 @@ eu:
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
-  error_work_package_done_ratios_not_updated: "Work package done ratios not updated."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "The work package was not found or does not belong to this project"
   error_must_be_project_member: "must be project member"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -2065,7 +2081,7 @@ eu:
   label_type_new: "New type"
   label_type_plural: "Types"
   label_ui: "User Interface"
-  label_update_work_package_done_ratios: "Update work package done ratios"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Updated %{value} ago"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Updated by %{author} %{age} ago"
@@ -2150,6 +2166,10 @@ eu:
     one: "1 open"
     other: "%{count} open"
     zero: "0 open"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 project"
     other: "%{count} projects"
@@ -2333,7 +2353,7 @@ eu:
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
-  notice_work_package_done_ratios_updated: "Work package done ratios updated."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Information has been updated by at least one other user in the meantime."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
@@ -2409,6 +2429,8 @@ eu:
   permission_assign_versions: "Assign versions"
   permission_browse_repository: "Read-only access to repository (browse and checkout)"
   permission_change_wiki_parent_page: "Change parent wiki page"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Comment news"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Copy projects"
@@ -2470,7 +2492,7 @@ eu:
   permission_view_news: "View news"
   permission_view_members: "View members"
   permission_view_reportings: "View reportings"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "View spent time"
   permission_view_timelines: "View timelines"
   permission_view_wiki_edits: "View wiki history"
@@ -2511,6 +2533,7 @@ eu:
   project_module_news: "News"
   project_module_repository: "Repository"
   project_module_wiki: "Wikia"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2700,10 +2723,10 @@ eu:
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Host name"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Calculate the work package done ratio with"
-  setting_work_package_done_ratio_field: "Use the work package field"
-  setting_work_package_done_ratio_status: "Use the work package status"
-  setting_work_package_done_ratio_disabled: "Disable (hide the progress)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Display by default"
   setting_work_package_properties: "Work package properties"
   setting_work_package_startdate_is_adddate: "Use current date as start date for new work packages"
@@ -3141,9 +3164,9 @@ eu:
         unsupported_context: "The resource given is not supported as context."
         context_object_not_found: "Cannot find the resource given as the context."
       validation:
-        done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Estimated hours cannot be set on parent work packages."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
         start_date: "Start date cannot be set on parent work packages."
       eprops:

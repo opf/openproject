@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -348,11 +348,11 @@ es:
           learn_about: "Más información sobre las nuevas funciones"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_1':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                La versión contiene varias nuevas características y mejoras: <br> <ul class="%{list_styling_class}"> <li>Comparte paquetes de trabajo con usuarios externos y grupos que no son miembros del proyecto (extensión Enterprise).</li> <li>Nuevas reuniones dinámicas con agendas y minutos vinculados a paquetes de trabajo.</li> <li>Enlace paquetes de trabajo con archivos y carpetas en OneDrive/SharePoint.</li> <li>Prueba de accesibilidad y primeras mejoras según WCAG 2. AA, incluido el modo de alto contraste.</li> <li>Integración continua del Sistema de Diseño Primer.</li> </ul>
+                El lanzamiento contiene varias funcionalidades y mejoras: <br><ul class="%{list_styling_class}"><li>Integración de OneDrive/SharePoint con carpetas de proyectos manuales</li> <li>Filtrar por roles, grupos y comparticiones en la lista de miembros de proyectos.</li> <li>Permitir marcar como usuario asignado o responsable por paquetes de trabajo compartidos.</li> <li>Introducción de los nuevos nombres Trabajo, Trabajo restante y % Completado para preparar reportes de progreso para jerarquías de paquetes de trabajo.</li> <li>Permitir cambios de estado para paquetes de trabajo sin permisos de edición.</li> </ul>
     ical_sharing_modal:
       title: "Suscribirse al calendario"
       inital_setup_error_message: "Se ha producido un error al obtener los datos."
@@ -521,6 +521,7 @@ es:
     label_watcher_added_successfully: "¡Observador agregado exitosamente!"
     label_watcher_deleted_successfully: "¡Observador borrado con éxito!"
     label_work_package_details_you_are_here: "Se encuentra en la pestaña %{tab} para %{type}%{subject}."
+    label_work_package_context_menu: "Menú contextual del paquete de trabajo"
     label_unwatch: "Dejar de observar"
     label_unwatch_work_package: "Dejar de observar paquetes de trabajo"
     label_uploaded_by: "Cargado por"
@@ -757,7 +758,7 @@ es:
           last_day: 'Último día'
     text_are_you_sure: "¿Estás seguro?"
     text_data_lost: "Todos los datos introducidos se perderán."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} escribió:"
     types:
       attribute_groups:
         error_duplicate_group_name: "El nombre %{group} se ha usado más de una vez. Los nombres de grupos deben ser únicos."
@@ -832,6 +833,7 @@ es:
       toggle_description: "Activar descripción de la relación"
       update_relation: "Haga clic para cambiar el tipo de relación"
       add_follower: "Añadir seguidor"
+      show_relations: "Mostrar relaciones"
       add_predecessor: "Añadir predecesor"
       remove: "Eliminar la relación"
       save: "Guardar relación"
@@ -967,7 +969,6 @@ es:
         date: "Fecha"
         dueDate: "Fecha de finalización"
         duration: "Duración"
-        estimatedTime: "Tiempo estimado"
         spentTime: "Tiempo invertido"
         category: "Categoría"
         percentageDone: "Porcentaje realizado"
@@ -983,6 +984,7 @@ es:
         updatedAt: "Actualizada el"
         versionName: "Versión"
         version: "Versión"
+        remainingTime: "Trabajo restante"
       default_queries:
         latest_activity: "Actividad reciente"
         created_by_me: "Creado por mí"
@@ -1033,6 +1035,8 @@ es:
         selected_count: "%{count} seleccionados"
         selection:
           mixed: "Mixto"
+        upsale:
+          description: "Compartir paquetes de trabajo con usuarios que no son miembros del proyecto."
       table:
         configure_button: 'Configurar tabla de paquetes de trabajo'
         summary: "Tabla con filas de paquetes de trabajo y columnas con sus atributos."

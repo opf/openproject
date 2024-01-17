@@ -1,6 +1,6 @@
 <%#-- copyright
 OpenProject is an open source project management software.
-Copyright (C) 2012-2023 the OpenProject GmbH
+Copyright (C) 2012-2024 the OpenProject GmbH
 
 This program is free software; you can redistribute it and/or
 modify it under the terms of the GNU General Public License version 3.
@@ -28,35 +28,12 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title t(:label_member_plural) -%>
 
-<div data-controller="members-form"
-    data-application-target="dynamic">
 
-  <%= toolbar title: t(:label_member_plural) do %>
-    <% if authorize_for(:members, :new) %>
-      <li class="toolbar-item">
-        <button id="add-member-button"
-                data-members-form-target="addMemberButton"
-                data-action="members-form#showAddMemberForm"
-                aria-label="<%= I18n.t(:button_add_member) %>"
-                title="<%= I18n.t(:button_add_member) %>"
-                class="button -alt-highlight"
-                <%= params[:show_add_members] ? 'data-trigger-initially="true"' : '' %> >
-          <%= op_icon('button--icon icon-add') %>
-          <span class="button--text"><%= t('activerecord.models.member') %></span>
-        </button>
-      </li>
-    <% end %>
-    <li class="toolbar-item">
-      <button id="filter-member-button"
-              data-members-form-target="filterMemberButton"
-              data-action="members-form#toggleMemberFilter"
-              focus
-              title="<%= I18n.t(:description_filter) %>"
-              class="toggle-member-filter-link button">
-        <%= op_icon('button--icon icon-filter') %>
-      </button>
-    </li>
-  <% end %>
+
+<div data-controller="members-form"
+     data-application-target="dynamic">
+
+  <%= render ::Members::IndexPageHeaderComponent.new(project: @project) %>
 
   <%= error_messages_for 'member' %>
 

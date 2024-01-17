@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -168,7 +168,7 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   end
 
   describe '#writable?' do
-    context 'percentage done' do
+    describe '% Complete' do
       it 'is not writable when inferred by status' do
         allow(Setting).to receive(:work_package_done_ratio).and_return('status')
         expect(subject).not_to be_writable(:done_ratio)
@@ -190,7 +190,7 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       end
     end
 
-    context 'estimated time' do
+    describe 'work' do
       it 'is writable when the work package is a parent' do
         allow(work_package).to receive(:leaf?).and_return(false)
         expect(subject).to be_writable(:estimated_hours)
@@ -202,7 +202,7 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       end
     end
 
-    context 'derived estimated time' do
+    describe 'derived work' do
       it 'is not writable when the work package is a parent' do
         allow(work_package).to receive(:leaf?).and_return(false)
         expect(subject).not_to be_writable(:derived_estimated_time)
@@ -214,21 +214,21 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       end
     end
 
-    context 'start date' do
-      context 'work package is parent' do
+    describe 'start date' do
+      context 'when work package is parent' do
         before do
           allow(work_package)
             .to receive(:leaf?)
             .and_return(false)
         end
 
-        context 'scheduled automatically' do
+        context 'when scheduled automatically' do
           it 'is not writable' do
             expect(subject).not_to be_writable(:start_date)
           end
         end
 
-        context 'scheduled manually' do
+        context 'when scheduled manually' do
           before do
             work_package.schedule_manually = true
           end
@@ -239,7 +239,7 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
         end
       end
 
-      context 'work package is a leaf' do
+      context 'when work package is a leaf' do
         it 'is writable' do
           allow(work_package).to receive(:leaf?).and_return(true)
           expect(subject).to be_writable(:start_date)
@@ -247,21 +247,21 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       end
     end
 
-    context 'due date' do
-      context 'work package is parent' do
+    describe 'due date' do
+      context 'when work package is parent' do
         before do
           allow(work_package)
             .to receive(:leaf?)
             .and_return(false)
         end
 
-        context 'scheduled automatically' do
+        context 'when scheduled automatically' do
           it 'is not writable' do
             expect(subject).not_to be_writable(:due_date)
           end
         end
 
-        context 'scheduled manually' do
+        context 'when scheduled manually' do
           before do
             work_package.schedule_manually = true
           end
@@ -272,7 +272,7 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
         end
       end
 
-      context 'work package is a leaf' do
+      context 'when work package is a leaf' do
         it 'is writable' do
           allow(work_package).to receive(:leaf?).and_return(true)
           expect(subject).to be_writable(:due_date)
@@ -280,7 +280,7 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       end
     end
 
-    context 'date' do
+    describe 'date' do
       # As a date only exists on milestones, which can have no children
       # we do not need to check for differences caused by scheduling modes.
       before do
@@ -298,7 +298,7 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
       end
     end
 
-    context 'priority' do
+    describe 'priority' do
       it 'is writable when the work package is a parent' do
         allow(work_package).to receive(:leaf?).and_return(false)
         expect(subject).to be_writable(:priority)

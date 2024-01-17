@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -99,12 +99,12 @@ RSpec.describe 'Wiki menu items' do
     click_button "Save"
 
     expect(page)
-      .to have_selector('.main-menu--children-menu-header', text: wiki_page.title)
+      .to have_css('.main-menu--children-menu-header', text: wiki_page.title)
 
     find('.main-menu--arrow-left-to-project').click
 
     expect(page)
-      .to have_selector('.main-item-wrapper', text: wiki_page.title)
+      .to have_css('.main-item-wrapper', text: wiki_page.title)
 
     # clicking the menu item leads to the page
     click_link wiki_page.title
@@ -127,10 +127,10 @@ RSpec.describe 'Wiki menu items' do
 
     # the other page is now the main heading
     expect(page)
-      .to have_selector('.main-menu--children-menu-header', text: other_wiki_page.title)
+      .to have_css('.main-menu--children-menu-header', text: other_wiki_page.title)
 
     expect(page)
-      .to have_selector('.wiki-menu--sub-item', text: 'Custom page name')
+      .to have_css('.wiki-menu--sub-item', text: 'Custom page name')
 
     click_link 'Custom page name'
 
@@ -141,7 +141,7 @@ RSpec.describe 'Wiki menu items' do
     find('.main-menu--arrow-left-to-project').click
 
     expect(page)
-      .not_to have_selector('.main-item-wrapper', text: 'Custom page name')
+      .to have_no_css('.main-item-wrapper', text: 'Custom page name')
 
     # deleting the page will remove the menu item
     visit project_wiki_path(project, wiki_page)
@@ -152,7 +152,7 @@ RSpec.describe 'Wiki menu items' do
     end
 
     within '#menu-sidebar' do
-      expect(page).not_to have_content('Custom page name')
+      expect(page).to have_no_content('Custom page name')
     end
 
     # removing the menu item which is also the last wiki menu item
@@ -173,9 +173,9 @@ RSpec.describe 'Wiki menu items' do
     click_button 'Save'
 
     expect(page)
-      .not_to have_selector('.main-menu--children-menu-header', text: other_wiki_page.title)
+      .to have_no_css('.main-menu--children-menu-header', text: other_wiki_page.title)
 
     expect(page)
-      .to have_selector('.main-menu--children-menu-header', text: another_wiki_page.title)
+      .to have_css('.main-menu--children-menu-header', text: another_wiki_page.title)
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -63,12 +63,12 @@ RSpec.describe Queries::WorkPackages::Filter::DurationFilter do
         end
 
         it 'finds zero and none values also including milestones' do
-          expect(subject).to match_array [work_package_zero_duration, work_package_no_duration, work_package_with_milestone]
+          expect(subject).to contain_exactly(work_package_zero_duration, work_package_no_duration, work_package_with_milestone)
         end
       end
 
       it 'does not returns milestone work packages' do
-        expect(subject).to match_array [work_package_with_duration]
+        expect(subject).to contain_exactly(work_package_with_duration)
       end
     end
   end

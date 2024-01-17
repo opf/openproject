@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -86,7 +86,7 @@ module OpenProject
       end
 
       it 'returns no js language as they are duplicates of the rest of the other language' do
-        expect(all_languages).not_to be_any { |l| l.to_s.start_with?('js-') }
+        expect(all_languages).not_to(be_any { |l| l.to_s.start_with?('js-') })
       end
 
       # it is OK if more languages exist

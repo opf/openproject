@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Zen mode', js: true do
+RSpec.describe 'Zen mode', :js do
   let(:dev_role) do
     create(:project_role,
            permissions: %i[view_work_packages

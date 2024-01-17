@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,7 @@
 require 'spec_helper'
 require_relative '../support/pages/taskboard'
 
-RSpec.describe 'Tasks on taskboard',
-               js: true,
+RSpec.describe 'Tasks on taskboard', :js,
                with_cuprite: false do
   let!(:project) do
     create(:project,
@@ -235,8 +234,8 @@ RSpec.describe 'Tasks on taskboard',
 
     # There is a button to the burndown chart
     expect(page)
-      .to have_selector("a[href='#{backlogs_project_sprint_burndown_chart_path(project, sprint)}']",
-                        text: 'Burndown Chart')
+      .to have_css("a[href='#{backlogs_project_sprint_burndown_chart_path(project, sprint)}']",
+                   text: 'Burndown Chart')
 
     # Tasks can get a color per assigned user
     visit my_settings_path

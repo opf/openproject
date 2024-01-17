@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -80,7 +80,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter,
 
     it 'returns the one matching work package' do
       expect(subject)
-        .to match_array [wp_contains]
+        .to contain_exactly(wp_contains)
     end
   end
 
@@ -89,7 +89,7 @@ RSpec.describe Queries::WorkPackages::Filter::CustomFieldFilter,
 
     it 'returns the three non-matching work package' do
       expect(subject)
-        .to match_array [wp_not_contains, wp_empty, wp_nil]
+        .to contain_exactly(wp_not_contains, wp_empty, wp_nil)
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -281,6 +281,18 @@ si:
       no_results_content_text: ව්‍යාපෘතියකට සාමාජිකයෙකු එකතුකරන්න
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "ප්රවේශ ටෝකනය නැවත සකස් කිරීමට අපොහොසත් විය: %{error}"
@@ -606,7 +618,9 @@ si:
         begin_insertion: "ඇතුළත් කිරීම ආරම්භ කරන්න"
         begin_deletion: "මකාදැමීම ආරම්භ කරන්න"
         children: "උප මූලිකාංග"
-        done_ratio: "ප්රගතිය (%)"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
+        done_ratio: "% Complete"
         duration: "කාල සීමාව"
         end_insertion: "ඇතුළත් කිරීමේ අවසානය"
         end_deletion: "මකාදැමීමේ අවසානය"
@@ -620,8 +634,10 @@ si:
         parent_issue: "මාපිය"
         parent_work_package: "මාපිය"
         priority: "ප්රමුඛතාව"
-        progress: "ප්රගතිය (%)"
+        progress: "% Complete"
         readonly: "Read only"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Manual scheduling"
         spent_hours: "වැය කළ කාලය"
         spent_time: "වැය කළ කාලය"
@@ -1034,12 +1050,12 @@ si:
     default_columns: "පෙරනිමි තීරු"
     description: "විස්තරය"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Derived start date"
     display_sums: "සංදර්ශකය"
     due_date: "අවසන් දිනය"
-    estimated_hours: "ඇස්තමේන්තුගත කාලය"
-    estimated_time: "ඇස්තමේන්තුගත කාලය"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "කල් ඉකුත්"
     firstname: "මුල් නම"
     group: "කණ්ඩායම"
@@ -1385,7 +1401,7 @@ si:
   error_pdf_export_too_many_columns: "PDF අපනයනය සඳහා තෝරාගෙන ඇති තීරු බොහොමයක්. කරුණාකර තීරු ගණන අඩු කරන්න."
   error_pdf_failed_to_export: "PDF අපනයනය සුරැකිය නොහැකි විය: %{error}"
   error_token_authenticity: "හරස් අඩවි ඉල්ලීම් ව්යාජ ටෝකනය සත්යාපනය කිරීමට නොහැකි විය. ඔබ බහු බ්රව්සර් හෝ ටැබ් මත දත්ත ඉදිරිපත් කිරීමට උත්සාහ කළාද? කරුණාකර සියලුම ටැබ් වසා නැවත උත්සාහ කරන්න."
-  error_work_package_done_ratios_not_updated: "වැඩ පැකේජය සිදු අනුපාත යාවත්කාලීන කර නැත."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "වැඩ පැකේජය සොයාගත නොහැකි හෝ මෙම ව්යාපෘතියට අයත් නොවේ"
   error_must_be_project_member: "ව්යාපෘති සාමාජිකයෙකු විය යුතුය"
   error_migrations_are_pending: "ඔබගේ OpenProject ස්ථාපනයට දත්ත සමුදායන් ඉරුවාරදය ඇත. ඔබගේ අවසාන උත්ශ්රේණි කිරීම මත ඉරුවාරදය ධාවනය කිරීම ඔබට මග හැරී ඇත. කරුණාකර ඔබගේ ස්ථාපනය නිසි උත්ශ්රේණි කිරීම සඳහා උත්ශ්රේණි කිරීමේ මාර්ගෝපදේශය පරීක්ෂා කරන්න."
@@ -2065,7 +2081,7 @@ si:
   label_type_new: "නව වර්ගය"
   label_type_plural: "වර්ග"
   label_ui: "පරිශීලක අතුරුමුහුණත"
-  label_update_work_package_done_ratios: "යාවත්කාලීන වැඩ පැකේජය සිදු අනුපාත"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "යාවත්කාලීන %{value} පෙර"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "විසින් යාවත්කාලීන කරන ලදි %{author} %{age} පෙර"
@@ -2150,6 +2166,10 @@ si:
     one: "1 විවෘත"
     other: "%{count} විවෘත"
     zero: "0 විවෘත"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 ව්යාපෘතිය"
     other: "%{count} ව්යාපෘති"
@@ -2333,7 +2353,7 @@ si:
   notice_file_not_found: "ඔබ ප්රවේශ වීමට උත්සාහ කළ පිටුව නොපවතී හෝ ඉවත් කර ඇත."
   notice_forced_logout: "ඔබ ස්වයංක්රීයව අක්රිය විනාඩි %{ttl_time} පසු ලොගින් වී ඇත."
   notice_internal_server_error: "ඔබ ප්රවේශ වීමට උත්සාහ කරන පිටුවේ දෝෂයක් සිදුවිය. ඔබ දිගින් දිගටම ගැටළු අත්විඳින්නේ නම් කරුණාකර ඔබගේ %{app_title} පරිපාලක අමතන්න."
-  notice_work_package_done_ratios_updated: "වැඩ පැකේජය සිදු අනුපාත යාවත්කාලීන."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "මේ අතර අවම වශයෙන් එක් පරිශීලකයෙකු විසින් තොරතුරු යාවත්කාලීන කර ඇත."
   notice_locking_conflict_additional_information: "යාවත්කාලීනය (ය) %{users}වෙතින් පැමිණියේය."
   notice_locking_conflict_reload_page: "කරුණාකර පිටුව නැවත පූරණය කරන්න, වෙනස්කම් සමාලෝචනය කර ඔබගේ යාවත්කාලීන කිරීම් නැවත යොදන්න."
@@ -2409,6 +2429,8 @@ si:
   permission_assign_versions: "අනුවාදයන් පැවරීම"
   permission_browse_repository: "ගබඩාවට කියවීමට පමණක් ප්රවේශය (පිරික්සන්න සහ පිරික්සන්න)"
   permission_change_wiki_parent_page: "මව් විකි පිටුව වෙනස් කරන්න"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "අදහස් ප්රවෘත්ති"
   permission_commit_access: "කියවීමට/ගබඩාවට ප්රවේශ වීම (කැප කිරීම)"
   permission_copy_projects: "ව්යාපෘති පිටපත් කරන්න"
@@ -2470,7 +2492,7 @@ si:
   permission_view_news: "View news"
   permission_view_members: "සාමාජිකයන් බලන්න"
   permission_view_reportings: "වාර්තා බලන්න"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "ගත කළ කාලය බලන්න"
   permission_view_timelines: "කාල නියමයන් බලන්න"
   permission_view_wiki_edits: "විකි ඉතිහාසය බලන්න"
@@ -2511,6 +2533,7 @@ si:
   project_module_news: "පුවත්"
   project_module_repository: "ගබඩාව"
   project_module_wiki: "විකි"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2700,10 +2723,10 @@ si:
   setting_file_max_size_displayed: "පේළිගත ප්රදර්ශනය පෙළ ගොනු උපරිම ප්රමාණය"
   setting_host_name: "සත්කාරක නාමය"
   setting_invitation_expiration_days: "සක්රිය කිරීමේ විද්යුත් තැපෑල කල් ඉකුත් වේ"
-  setting_work_package_done_ratio: "වැඩ පැකේජය සමඟ අනුපාතය ගණනය කරන්න"
-  setting_work_package_done_ratio_field: "වැඩ පැකේජ ක්ෂේත්රය භාවිතා කරන්න"
-  setting_work_package_done_ratio_status: "වැඩ පැකේජ තත්ත්වය භාවිතා කරන්න"
-  setting_work_package_done_ratio_disabled: "අක්රීය කරන්න (ප්රගතිය සඟවන්න)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "පෙරනිමියෙන් දර්ශනය"
   setting_work_package_properties: "වැඩ පැකේජය ගුණ"
   setting_work_package_startdate_is_adddate: "නව වැඩ පැකේජ සඳහා ආරම්භක දිනය ලෙස වත්මන් දිනය භාවිතා කරන්න"
@@ -3141,9 +3164,9 @@ si:
         unsupported_context: "ලබා දී ඇති සම්පත සන්දර්භය ලෙස සහාය නොදක්වයි."
         context_object_not_found: "සන්දර්භය ලෙස ලබා දී ඇති සම්පත සොයාගත නොහැක."
       validation:
-        done_ratio: "සිදු කළ අනුපාතය දෙමව්පියන්ගේ වැඩ පැකේජ මත සැකසිය නොහැක, එය තත්ත්වය අනුව අනුමාන කළ විට හෝ එය අක්රීය කළ විට."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "අවසන් දිනය මව් වැඩ පැකේජ මත සැකසිය නොහැක."
-        estimated_hours: "ඇස්තමේන්තුගත පැය මව් වැඩ පැකේජ මත සැකසිය නොහැක."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "තෝරාගත් පරිශීලකයාට මෙම වැඩ පැකේජය සඳහා '%{property}' වීමට අවසර නැත."
         start_date: "ආරම්භක දිනය මව් වැඩ පැකේජ මත සැකසිය නොහැක."
       eprops:

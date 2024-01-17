@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'onboarding tour for new users', js: true do
+RSpec.describe 'onboarding tour for new users', :js do
   let(:user) { create(:admin) }
   let(:project) do
     create(:project, name: 'Demo project', identifier: 'demo-project', public: true,
@@ -66,7 +66,7 @@ RSpec.describe 'onboarding tour for new users', js: true do
     it 'I can start the tour without selecting a language' do
       visit home_path start_home_onboarding_tour: true
       expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-      expect(page).to have_selector '.enjoyhint_next_btn:not(.enjoyhint_hide)'
+      expect(page).to have_css '.enjoyhint_next_btn:not(.enjoyhint_hide)'
     end
 
     context 'the tutorial does not start' do
@@ -103,7 +103,7 @@ RSpec.describe 'onboarding tour for new users', js: true do
 
         # The tutorial appears
         expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).to have_selector '.enjoyhint_next_btn:not(.enjoyhint_hide)'
+        expect(page).to have_css '.enjoyhint_next_btn:not(.enjoyhint_hide)'
       end
     end
 
@@ -127,21 +127,21 @@ RSpec.describe 'onboarding tour for new users', js: true do
       it 'directly after the language selection' do
         # The tutorial appears
         expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).to have_selector '.enjoyhint_next_btn:not(.enjoyhint_hide)'
+        expect(page).to have_css '.enjoyhint_next_btn:not(.enjoyhint_hide)'
       end
 
       it 'and I skip the tutorial' do
         find('.enjoyhint_skip_btn').click
 
         # The tutorial disappears
-        expect(page).not_to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).not_to have_selector '.enjoyhint_next_btn'
+        expect(page).to have_no_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
+        expect(page).to have_no_css '.enjoyhint_next_btn'
 
         page.driver.browser.navigate.refresh
 
         # The tutorial did not start again
-        expect(page).not_to have_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
-        expect(page).not_to have_selector '.enjoyhint_next_btn'
+        expect(page).to have_no_text sanitize_string(I18n.t('js.onboarding.steps.welcome')), normalize_ws: true
+        expect(page).to have_no_css '.enjoyhint_next_btn'
       end
 
       it 'and I continue the tutorial' do

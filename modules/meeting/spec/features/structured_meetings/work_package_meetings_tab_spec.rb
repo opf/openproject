@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -122,8 +122,8 @@ RSpec.describe 'Open the Meetings tab', :js do
           expect(page).to have_content(visible_meeting.title)
           expect(page).to have_content(meeting_agenda_item_of_visible_meeting.notes)
 
-          expect(page).not_to have_content(invisible_meeting.title)
-          expect(page).not_to have_content(meeting_agenda_item_of_invisible_meeting.notes)
+          expect(page).to have_no_content(invisible_meeting.title)
+          expect(page).to have_no_content(meeting_agenda_item_of_invisible_meeting.notes)
         end
       end
     end
@@ -343,8 +343,16 @@ RSpec.describe 'Open the Meetings tab', :js do
 
           meetings_tab.open_add_to_meeting_dialog
 
-          fill_in('meeting_agenda_item_meeting_id', with: ongoing_meeting.title)
-          expect(page).to have_css('.ng-option-marked', text: ongoing_meeting.title)
+          meetings_tab.fill_and_submit_meeting_dialog(
+            ongoing_meeting,
+            'Some notes to be added'
+          )
+
+          meetings_tab.expect_upcoming_counter_to_be(1)
+
+          page.within_test_selector("op-meeting-container-#{ongoing_meeting.id}") do
+            expect(page).to have_content('Some notes to be added')
+          end
         end
 
         it 'does not enable the user to select a past meeting' do
@@ -354,7 +362,7 @@ RSpec.describe 'Open the Meetings tab', :js do
           meetings_tab.open_add_to_meeting_dialog
 
           fill_in('meeting_agenda_item_meeting_id', with: past_meeting.title)
-          expect(page).not_to have_css('.ng-option-marked', text: past_meeting.title)
+          expect(page).to have_no_css('.ng-option-marked', text: past_meeting.title)
         end
 
         it 'does not enable the user to select a closed, upcoming meeting' do
@@ -364,7 +372,7 @@ RSpec.describe 'Open the Meetings tab', :js do
           meetings_tab.open_add_to_meeting_dialog
 
           fill_in('meeting_agenda_item_meeting_id', with: closed_upcoming_meeting.title)
-          expect(page).not_to have_css('.ng-option-marked', text: closed_upcoming_meeting.title)
+          expect(page).to have_no_css('.ng-option-marked', text: closed_upcoming_meeting.title)
         end
 
         it 'requires a meeting to be selected' do

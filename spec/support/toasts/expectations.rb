@@ -2,11 +2,11 @@ module Toasts
   module Expectations
     def expect_toast(message:, type: :success)
       if toast_type == :angular
-        expect(page).to have_selector(".op-toast.-#{type}", text: message, wait: 20)
+        expect(page).to have_css(".op-toast.-#{type}", text: message, wait: 20)
       elsif type == :error
-        expect(page).to have_selector(".errorExplanation", text: message)
+        expect(page).to have_css(".errorExplanation", text: message)
       elsif type == :success
-        expect(page).to have_selector(".op-toast.-success", text: message)
+        expect(page).to have_css(".op-toast.-success", text: message)
       else
         raise NotImplementedError
       end
@@ -24,9 +24,9 @@ module Toasts
 
     def expect_no_toaster(type: :success, message: nil)
       if type.nil?
-        expect(page).not_to have_selector(".op-toast")
+        expect(page).to have_no_css(".op-toast")
       else
-        expect(page).not_to have_selector(".op-toast.-#{type}", text: message)
+        expect(page).to have_no_css(".op-toast.-#{type}", text: message)
       end
     end
 

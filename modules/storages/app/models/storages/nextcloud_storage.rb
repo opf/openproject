@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@
 module Storages
   class NextcloudStorage < Storage
     PROVIDER_FIELDS_DEFAULTS = {
-      automatically_managed: true,
+      automatic_management_enabled: true,
       username: 'OpenProject'
     }.freeze
 
@@ -41,10 +41,30 @@ module Storages
     store_attribute :provider_fields, :group, :string
     store_attribute :provider_fields, :group_folder, :string
 
-    scope :automatically_managed, -> { where("provider_fields->>'automatically_managed' = 'true'") }
+    scope :automatic_management_enabled, -> { where("provider_fields->>'automatically_managed' = 'true'") }
 
     def oauth_configuration
       Peripherals::OAuthConfigurations::NextcloudConfiguration.new(self)
+    end
+
+    def automatically_managed?
+      ActiveSupport::Deprecation.warn(
+        '`#automatically_managed?` is deprecated. Use `#automatic_management_enabled?` instead. ' \
+        'NOTE: The new method name better reflects the actual behavior of the storage. ' \
+        "It's not the storage that is automatically managed, rather the Project (Storage) Folder is. " \
+        "A storage only has this feature enabled or disabled."
+      )
+      super
+    end
+
+    def automatic_management_enabled=(value)
+      self.automatically_managed = value
+    end
+
+    alias automatic_management_enabled automatically_managed
+
+    def automatic_management_enabled?
+      !!automatically_managed
     end
 
     def automatic_management_new_record?

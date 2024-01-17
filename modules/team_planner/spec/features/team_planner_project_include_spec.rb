@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'features/work_packages/project_include/project_include_shared_examples'
 require_relative '../support/pages/team_planner'
 
-RSpec.describe 'Team planner project include', js: true, with_ee: %i[team_planner_view] do
+RSpec.describe 'Team planner project include', :js, with_ee: %i[team_planner_view] do
   shared_let(:enabled_modules) { %w[work_package_tracking team_planner_view] }
   shared_let(:permissions) do
     %w[view_work_packages edit_work_packages add_work_packages

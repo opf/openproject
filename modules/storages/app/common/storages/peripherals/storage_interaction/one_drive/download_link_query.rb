@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,12 +44,16 @@ module Storages
 
           def call(user:, file_link:)
             Util.using_user_token(@storage, user) do |token|
-              response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-                http.get(uri_path_for(file_link.origin_id), { 'Authorization' => "Bearer #{token.access_token}" })
-              end
+              response = HTTPX.get(
+                Util.join_uri_path(
+                  @uri,
+                  uri_path_for(file_link.origin_id)
+                ),
+                headers: { 'Authorization' => "Bearer #{token.access_token}" }
+              )
 
-              if Net::HTTPRedirection === response
-                ServiceResult.success(result: response.header['Location'])
+              if (300..399).include?(response.status)
+                ServiceResult.success(result: response.headers['Location'])
               else
                 handle_errors(response)
               end
@@ -60,13 +64,13 @@ module Storages
 
           def handle_errors(response)
             case response
-            when Net::HTTPNotFound
+            when 404
               ServiceResult.failure(result: :not_found,
                                     errors: ::Storages::StorageError.new(code: :not_found, data: response.body))
-            when Net::HTTPForbidden
+            when 403
               ServiceResult.failure(result: :forbidden,
                                     errors: ::Storages::StorageError.new(code: :forbidden, data: response.body))
-            when Net::HTTPUnauthorized
+            when 401
               ServiceResult.failure(result: :unauthorized,
                                     errors: ::Storages::StorageError.new(code: :unauthorized, data: response.body))
             else

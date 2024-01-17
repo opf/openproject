@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -252,8 +252,7 @@ RSpec.describe 'API v3 Grids resource', content_type: :json do
         expect(subject.status).to eq 422
 
         expect(JSON.parse(subject.body)['_embedded']['errors'].map { |e| e['message'] })
-          .to match_array ["Widgets is outside of the grid.",
-                           "Number of rows must be greater than 0."]
+          .to contain_exactly("Widgets is outside of the grid.", "Number of rows must be greater than 0.")
       end
 
       it 'does not persist the changes to widgets' do
@@ -380,9 +379,8 @@ RSpec.describe 'API v3 Grids resource', content_type: :json do
           .at_path('_type')
 
         expect(JSON.parse(subject.body)['_embedded']['errors'].map { |e| e['message'] })
-          .to match_array ["Widgets is outside of the grid.",
-                           "Number of rows must be greater than 0.",
-                           "Number of columns must be greater than 0."]
+          .to contain_exactly("Widgets is outside of the grid.", "Number of rows must be greater than 0.",
+                              "Number of columns must be greater than 0.")
       end
     end
   end

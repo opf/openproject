@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../../support/pages/my/page'
 
-RSpec.describe 'Custom text widget on my page', js: true do
+RSpec.describe 'Custom text widget on my page', :js do
   let(:permissions) do
     []
   end
@@ -72,13 +72,13 @@ RSpec.describe 'Custom text widget on my page', js: true do
     within custom_text_widget.area do
       find('.inplace-editing--container').click
 
-      expect(page).to have_selector('.op-uc-container_editing', wait: 10)
+      expect(page).to have_css('.op-uc-container_editing', wait: 10)
 
       field.set_value('My own little text')
       field.save!
 
       expect(page)
-        .to have_selector('.inline-edit--display-field', text: 'My own little text')
+        .to have_css('.inline-edit--display-field', text: 'My own little text')
 
       find('.inplace-editing--container').click
 
@@ -86,7 +86,7 @@ RSpec.describe 'Custom text widget on my page', js: true do
       field.cancel_by_click
 
       expect(page)
-        .to have_selector('.inline-edit--display-field', text: 'My own little text')
+        .to have_css('.inline-edit--display-field', text: 'My own little text')
 
       # adding an image
       find('.inplace-editing--container').click
@@ -100,12 +100,12 @@ RSpec.describe 'Custom text widget on my page', js: true do
 
     within custom_text_widget.area do
       expect(page).to have_test_selector('op-attachment-list-item', text: 'image.png')
-      expect(page).not_to have_selector('notifications-upload-progress')
+      expect(page).to have_no_css('notifications-upload-progress')
 
       field.save!
 
       expect(page)
-        .to have_selector('#content img', count: 1)
+        .to have_css('#content img', count: 1)
 
       expect(page)
         .not_to have_test_selector('op-attachment-list-item', text: 'image.png')

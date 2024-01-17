@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -177,8 +177,8 @@ RSpec.describe MeetingsController do
             expect(response).to have_http_status :ok
             expect(response).to render_template :new
             expect(response.body)
-              .to have_selector '#errorExplanation li',
-                                text: "Date #{I18n.t('activerecord.errors.messages.not_an_iso_date')}"
+              .to have_css '#errorExplanation li',
+                           text: "Date #{I18n.t('activerecord.errors.messages.not_an_iso_date')}"
           end
         end
 
@@ -191,8 +191,8 @@ RSpec.describe MeetingsController do
             expect(response).to have_http_status :ok
             expect(response).to render_template :new
             expect(response.body)
-              .to have_selector '#errorExplanation li',
-                                text: "Starting time #{I18n.t('activerecord.errors.messages.invalid_time_format')}"
+              .to have_css '#errorExplanation li',
+                           text: "Starting time #{I18n.t('activerecord.errors.messages.invalid_time_format')}"
           end
         end
       end
@@ -204,8 +204,8 @@ RSpec.describe MeetingsController do
           expect(response).to have_http_status :ok
           expect(response).to render_template :new
           expect(response.body)
-            .to have_selector '#errorExplanation li',
-                              text: "Project #{I18n.t('activerecord.errors.messages.blank')}"
+            .to have_css '#errorExplanation li',
+                         text: "Project #{I18n.t('activerecord.errors.messages.blank')}"
         end
       end
 
@@ -217,8 +217,8 @@ RSpec.describe MeetingsController do
           expect(response).to have_http_status :ok
           expect(response).to render_template :new
           expect(response.body)
-            .to have_selector '#errorExplanation li',
-                              text: "Project #{I18n.t('activerecord.errors.messages.blank')}"
+            .to have_css '#errorExplanation li',
+                         text: "Project #{I18n.t('activerecord.errors.messages.blank')}"
         end
       end
     end

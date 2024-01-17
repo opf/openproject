@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -348,11 +348,11 @@ lv:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_1':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Share work packages with external users and groups that are not member of the project (Enterprise add-on).</li> <li>New dynamic meetings with agendas and minutes linked to work packages.</li> <li>Link work packages with files and folders in OneDrive/SharePoint.</li> <li>Accessibility test and first improvements according to WCAG 2.1 AA, incl. high contrast mode.</li> <li>Continued integration of Primer Design System.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -521,6 +521,7 @@ lv:
     label_watcher_added_successfully: "Watcher successfully added!"
     label_watcher_deleted_successfully: "Watcher successfully deleted!"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
+    label_work_package_context_menu: "Work package context menu"
     label_unwatch: "Pārtraukt sekošanu"
     label_unwatch_work_package: "Unwatch work package"
     label_uploaded_by: "Uploaded by"
@@ -833,6 +834,7 @@ lv:
       toggle_description: "Toggle relation description"
       update_relation: "Click to change the relation type"
       add_follower: "Add follower"
+      show_relations: "Show relations"
       add_predecessor: "Add predecessor"
       remove: "Noņemt saistību"
       save: "Save relation"
@@ -968,7 +970,6 @@ lv:
         date: "Datums"
         dueDate: "Finish date"
         duration: "Duration"
-        estimatedTime: "Darbietilpības novērtējums"
         spentTime: "Pavadīts laiks"
         category: "Sadaļa"
         percentageDone: "Percentage done"
@@ -984,6 +985,7 @@ lv:
         updatedAt: "Labots"
         versionName: "Versija"
         version: "Versija"
+        remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
         created_by_me: "Created by me"
@@ -1034,6 +1036,8 @@ lv:
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
+        upsale:
+          description: "Share work packages with users who are not members of the project."
       table:
         configure_button: 'Configure work package table'
         summary: "Table with rows of work package and columns of work package attributes."

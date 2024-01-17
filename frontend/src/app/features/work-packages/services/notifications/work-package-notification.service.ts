@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -31,20 +31,30 @@ import { IToast } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
 @Injectable()
 export class WorkPackageNotificationService extends HalResourceNotificationService {
-  constructor(readonly injector:Injector,
-    readonly apiV3Service:ApiV3Service) {
+  constructor(
+    readonly injector:Injector,
+    readonly apiV3Service:ApiV3Service,
+  ) {
     super(injector);
   }
 
-  public showSave(resource:WorkPackageResource, isCreate = false) {
-    const message:any = {
+  public showSave(resource:HalResource, isCreate = false) {
+    const message:IToast = {
       message: this.I18n.t(`js.notice_successful_${isCreate ? 'create' : 'update'}`),
+      type: 'success',
     };
 
-    this.addWorkPackageFullscreenLink(message, resource as any);
+    // The WorkPackageNotificationService is injected for the whole wpIsolatedQuerySpace as the notification service.
+    // However, when logging time on a WP, the provided resource is a TimeEntryResource.
+    // Thus, the link in the toast would link to the WP with the ID of the TimeEntryResource (see #50731).
+    // That is why, we check for WorkPackageResources and show the link only for them.
+    if (resource.$halType === 'WorkPackage') {
+      this.addWorkPackageFullscreenLink(message, resource);
+    }
 
     this.ToastService.addSuccess(message);
   }
@@ -66,7 +76,7 @@ export class WorkPackageNotificationService extends HalResourceNotificationServi
     return super.showCustomError(errorResource, resource);
   }
 
-  private addWorkPackageFullscreenLink(message:IToast, resource:WorkPackageResource) {
+  private addWorkPackageFullscreenLink(message:IToast, resource:HalResource) {
     // Don't show the 'Show in full screen' link  if we're there already
     if (!this.$state.includes('work-packages.show')) {
       message.link = {

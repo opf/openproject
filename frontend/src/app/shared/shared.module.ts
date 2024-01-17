@@ -1,6 +1,6 @@
 // -- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -95,6 +95,7 @@ import { OpenprojectContentLoaderModule } from 'core-app/shared/components/op-co
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { OpDatePickerModule } from 'core-app/shared/components/datepicker/datepicker.module';
+import { ShareUpsaleComponent } from 'core-app/features/enterprise/share-upsale/share-upsale.component';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -271,6 +272,8 @@ export function bootstrapModule(injector:Injector):void {
 
     // Old datepickers
     OpMultiDatePickerComponent,
+
+    ShareUpsaleComponent,
   ],
 })
 export class OpSharedModule {

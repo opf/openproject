@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,30 +34,30 @@ module Components
       include RSpec::Matchers
 
       def expect_active
-        expect(page).to have_selector('.wp-table--baseline-th')
+        expect(page).to have_css('.wp-table--baseline-th')
       end
 
       def expect_legends
-        expect(page).to have_selector('.op-baseline-legends')
+        expect(page).to have_css('.op-baseline-legends')
       end
 
       def expect_legend_text(text)
-        expect(page).to have_selector('.op-baseline-legends--filter', text:)
+        expect(page).to have_css('.op-baseline-legends--filter', text:)
       end
 
       def expect_legend_tooltip(text)
-        expect(page).to have_selector('[data-test-selector="baseline-legend-time-offset"]', visible: :all) { |node|
+        expect(page).to have_css('[data-test-selector="baseline-legend-time-offset"]', visible: :all) { |node|
           node['title'] == text
         }
       end
 
       def expect_no_legends
-        expect(page).not_to have_selector('.op-baseline-legends')
+        expect(page).to have_no_css('.op-baseline-legends')
       end
 
       def expect_inactive
-        expect(page).not_to have_selector('.wp-table--baseline-th')
-        expect(page).not_to have_selector('.op-table-baseline--column-cell')
+        expect(page).to have_no_css('.wp-table--baseline-th')
+        expect(page).to have_no_css('.op-table-baseline--column-cell')
       end
 
       def expect_changed(work_package)
@@ -74,13 +74,13 @@ module Components
 
       def expect_unchanged(work_package)
         page.within(row_selector(work_package)) do
-          expect(page).not_to have_selector(".op-table-baseline--column-cell *")
+          expect(page).to have_no_css(".op-table-baseline--column-cell *")
         end
       end
 
       def expect_icon(work_package, icon_type)
         page.within(row_selector(work_package)) do
-          expect(page).to have_selector(".op-table-baseline--icon-#{icon_type}")
+          expect(page).to have_css(".op-table-baseline--icon-#{icon_type}")
         end
       end
 
@@ -88,12 +88,12 @@ module Components
         page.within(row_selector(work_package)) do
           changes.each do |attribute, (old_value, new_value)|
             base_selector = ".op-table-baseline--container.#{attribute}"
-            expect(page).to have_selector("#{base_selector} .op-table-baseline--old-field", text: old_value)
+            expect(page).to have_css("#{base_selector} .op-table-baseline--old-field", text: old_value)
 
             if new_value == ''
-              expect(page).to have_selector("#{base_selector} .op-table-baseline--new-field", text: '', visible: :all)
+              expect(page).to have_css("#{base_selector} .op-table-baseline--new-field", text: '', visible: :all)
             else
-              expect(page).to have_selector("#{base_selector} .op-table-baseline--new-field", text: new_value)
+              expect(page).to have_css("#{base_selector} .op-table-baseline--new-field", text: new_value)
             end
           end
         end
@@ -102,7 +102,7 @@ module Components
       def expect_unchanged_attributes(work_package, *changes)
         page.within(row_selector(work_package)) do
           changes.each do |attribute|
-            expect(page).not_to have_selector(".#{attribute}.op-table-baseline--old-field")
+            expect(page).to have_no_css(".#{attribute}.op-table-baseline--old-field")
           end
         end
       end

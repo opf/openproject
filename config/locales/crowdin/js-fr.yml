@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -348,11 +348,11 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_1':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Partagez des packages de travail avec des utilisateurs et des groupes externes qui ne sont pas membres du projet (module complémentaire Enterprise).</ li> <li>Nouvelles réunions dynamiques avec ordres du jour et compte rendus liés aux lots de travaux.</li> <li>Lier les lots de travaux avec des fichiers et des dossiers dans OneDrive/SharePoint.</li> <li>Test d'accessibilité et premières améliorations selon WCAG 2.1 AA, y compris un mode contraste élevé.</li> <li>Poursuite de l'intégration du Primer Design System.</li> </ul>
+                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Intégration OneDrive/SharePoint avec des dossiers de projets manuels.</li> <li>Filtre pour les rôles, les groupes et les partages dans la liste des membres du projet.</li> <li>Possibilité de définir les responsables et les attributaires des lots de travaux partagés.</li> <li>Introduction de nouveaux noms de champs Travail, Travail restant et % d'achèvement pour préparer les rapports d'avancement pour les hiérarchies de lots de travaux.</li> <li>Possibilité de modifier le statut sans avoir le droit de modifier les lots de travaux.</li> </ul>
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -521,6 +521,7 @@ fr:
     label_watcher_added_successfully: "Observateur ajouté avec succès !"
     label_watcher_deleted_successfully: "Observateur supprimé avec succès !"
     label_work_package_details_you_are_here: "Vous êtes sur l'onglet %{tab} de %{type} %{subject}."
+    label_work_package_context_menu: "Menu contextuel des lots de travaux"
     label_unwatch: "Ne plus suivre"
     label_unwatch_work_package: "Ne plus suivre le lot de travaux"
     label_uploaded_by: "Téléversé par"
@@ -832,6 +833,7 @@ fr:
       toggle_description: "Alterner la description de relation"
       update_relation: "Cliquez pour modifier le type de relation"
       add_follower: "Ajouter un successeur"
+      show_relations: "Afficher les relations"
       add_predecessor: "Ajouter un prédécesseur"
       remove: "Supprimer la relation"
       save: "Enregistrer la relation"
@@ -967,7 +969,6 @@ fr:
         date: "date"
         dueDate: "Date de fin"
         duration: "Durée"
-        estimatedTime: "Durée estimée"
         spentTime: "Temps passé"
         category: "Catégorie"
         percentageDone: "Pourcentage effectué"
@@ -983,6 +984,7 @@ fr:
         updatedAt: "Mis à jour le"
         versionName: "Version"
         version: "Version"
+        remainingTime: "Travail restant"
       default_queries:
         latest_activity: "Dernière activité"
         created_by_me: "Créé par moi"
@@ -1033,6 +1035,8 @@ fr:
         selected_count: "%{count} sélectionné"
         selection:
           mixed: "Mixte"
+        upsale:
+          description: "Partagez les lots de travaux avec des utilisateurs qui ne sont pas membres du projet."
       table:
         configure_button: 'Configurer le tableau du lot de travaux'
         summary: "Tableau avec lignes de lots de travaux et colonnes d’attributs de lots de travaux."

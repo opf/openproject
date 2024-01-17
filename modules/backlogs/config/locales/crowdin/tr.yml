@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -27,10 +27,6 @@ tr:
     attributes:
       work_package:
         position: "Konum"
-        remaining_hours: "Kalan saat"
-        remaining_time: "Kalan saat"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
         story_points: "Hikaye Puanları"
         backlogs_work_package_type: "Bekleme listesi türü"
     errors:
@@ -68,8 +64,8 @@ tr:
     properties: "Özellikleri"
     rebuild: "Yeniden inşa etmek"
     rebuild_positions: "Pozisyonu yeniden inşa et"
-    remaining_hours: "Kalan saat"
-    remaining_hours_ideal: "Kalan saat (ideal)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "Açılış tablosu"
     story: "Hikaye"
     story_points: "Hikaye Puanları"
@@ -151,7 +147,7 @@ tr:
   rb_label_copy_tasks_none: "Hiçbiri"
   rb_label_copy_tasks_open: "Aç"
   rb_label_link_to_original: "Orijinal hikayeye bağlantı ekle"
-  remaining_hours: "kalan saatler"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "gerekli yanma oranı (saat)"
   required_burn_rate_points: "gerekli yanma oranı (puan)"
   todo_work_package_description: "%{summary}:%{url}\n%{description}"

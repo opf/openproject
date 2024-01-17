@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -252,7 +252,7 @@ module Authentication
         mail: info[:email],
         firstname: info[:first_name] || info[:name],
         lastname: info[:last_name],
-        identity_url: identity_url_from_omniauth,
+        identity_url: identity_url_from_omniauth
       }
 
       # Map the admin attribute if provided in an attribute mapping
@@ -284,7 +284,7 @@ module Authentication
     ##
     # Try to provide some context of the auth_hash in case of errors
     def auth_uid
-      hash = (auth_hash || {})
+      hash = auth_hash || {}
       hash.dig(:info, :uid) || hash.dig(:uid) || 'unknown'
     end
   end

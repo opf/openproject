@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -58,6 +58,7 @@ RB.Backlog = (function ($) {
         receive: this.dragChanged,
         remove:  this.dragChanged,
         containment: $('#backlogs_container'),
+        cancel: 'input, textarea, button, select, option, .prevent_drag',
         scroll: true,
         helper: function(event, ui){
           var $clone =  $(ui).clone();

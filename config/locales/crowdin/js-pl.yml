@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -348,11 +348,11 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_1':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Udostępniaj pakiety robocze zewnętrznym użytkownikom i grupom, nie będącym członkami projektu (dodatek wersji Enterprise).</li> <li>Nowe dynamiczne spotkania z planami spotkań i protokołami powiązanymi z pakietami roboczymi.</li> <li>Powiąż pakiety robocze z plikami i folderami w usłudze OneDrive lub SharePoint.</li> <li>Test dostępności i pierwsze ulepszenia zgodne z WCAG 2.1 AA, w tym tryb dużego kontrastu.</li> <li>Kontynuacja integracji Primer Design System.</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Integracja OneDrive/SharePoint z ręcznymi folderami projektów.</li> <li>Filtrowanie ról, grup i udziałów na liście członków projektu.</li> <li>Zezwalanie na przypisywanie i rozliczanie udostępnionych pakietów roboczych. </li> <li>Wprowadzenie nowych nazw pól Praca, Pozostała praca i % ukończenia w celu przygotowania raportów z postępu do hierarchii pakietów roboczych.</li> <li>Zezwalanie na zmianę statusu bez uprawnień do edycji pakietów roboczych.</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -521,6 +521,7 @@ pl:
     label_watcher_added_successfully: "Obserwator dodany pomyślnie!"
     label_watcher_deleted_successfully: "Obserwator usunięty pomyślnie!"
     label_work_package_details_you_are_here: "Jesteś na karcie %{tab}, %{type} %{subject}."
+    label_work_package_context_menu: "Menu kontekstowe pakietu roboczego"
     label_unwatch: "Nie obserwuj"
     label_unwatch_work_package: "Wyłącz obserwowanie zadania"
     label_uploaded_by: "Przesłane przez"
@@ -759,7 +760,7 @@ pl:
           last_day: 'Ostatni dzień'
     text_are_you_sure: "Jesteś pewny?"
     text_data_lost: "Wszystkie wprowadzone dane zostaną utracone."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} napisał(a):"
     types:
       attribute_groups:
         error_duplicate_group_name: "Nazwa  %{group} jest użyta więcej niż raz. Nazwy grup muszą być unikalne."
@@ -834,6 +835,7 @@ pl:
       toggle_description: "Przełącz opis powiązania"
       update_relation: "Kliknij, aby zmienić typ powiązania"
       add_follower: "Dodaj obserwującego"
+      show_relations: "Pokaż relacje"
       add_predecessor: "Dodaj poprzednika"
       remove: "Usuń relację"
       save: "Zapisz relację"
@@ -969,7 +971,6 @@ pl:
         date: "Data"
         dueDate: "Data zakończenia"
         duration: "Czas trwania"
-        estimatedTime: "Szacowany czas"
         spentTime: "Czas pracy"
         category: "Kategoria"
         percentageDone: "Wykonano procent"
@@ -985,6 +986,7 @@ pl:
         updatedAt: "Aktualizacja"
         versionName: "Wersja"
         version: "Wersja"
+        remainingTime: "Pozostała praca"
       default_queries:
         latest_activity: "Ostatnia aktywność"
         created_by_me: "Utworzone przeze mnie"
@@ -1035,6 +1037,8 @@ pl:
         selected_count: "Wybrano %{count}"
         selection:
           mixed: "Mieszane"
+        upsale:
+          description: "Udostępnij pakiety robocze użytkownikom, którzy nie są członkami projektu."
       table:
         configure_button: 'Konfiguruj tabelę pakietów roboczych'
         summary: "Tabela, której wiersze zawierają pakiety pracy, a kolumny ich atrybuty."

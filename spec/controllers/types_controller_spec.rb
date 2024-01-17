@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -217,8 +217,8 @@ RSpec.describe TypesController do
       it { expect(response).to be_successful }
       it { expect(response).to render_template 'edit' }
       it { expect(response).to render_template 'types/form/_settings' }
-      it { expect(response.body).to have_selector "input[@name='type[name]'][@value='My type']" }
-      it { expect(response.body).to have_selector "input[@name='type[is_milestone]'][@value='1'][@checked='checked']" }
+      it { expect(response.body).to have_css "input[@name='type[name]'][@value='My type']" }
+      it { expect(response.body).to have_css "input[@name='type[is_milestone]'][@value='1'][@checked='checked']" }
     end
 
     describe 'GET edit projects' do
@@ -238,7 +238,7 @@ RSpec.describe TypesController do
       it { expect(response).to render_template 'types/form/_projects' }
 
       it {
-        expect(response.body).to have_selector "input[@name='type[project_ids][]'][@value='#{project.id}'][@checked='checked']"
+        expect(response.body).to have_css "input[@name='type[project_ids][]'][@value='#{project.id}'][@checked='checked']"
       }
     end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -65,22 +65,6 @@ RSpec.describe WorkPackages::CreateContract do
       let(:changed_values) { ['story_points'] }
 
       it('is valid') { expect(contract.errors.symbols_for(:story_points)).to be_empty }
-    end
-  end
-
-  describe 'remaining hours' do
-    before do
-      contract.validate
-    end
-
-    context 'when not changed' do
-      it('is valid') { expect(contract.errors.symbols_for(:remaining_hours)).to be_empty }
-    end
-
-    context 'when changed' do
-      let(:changed_values) { ['remaining_hours'] }
-
-      it('is valid') { expect(contract.errors.symbols_for(:remaining_hours)).to be_empty }
     end
   end
 end

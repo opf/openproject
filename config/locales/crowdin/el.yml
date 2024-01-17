@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -277,6 +277,18 @@ el:
       no_results_content_text: Προσθέστε ένα μέλος στο έργο
     invite_by_mail: "Αποστολή πρόσκλησης στο %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Αποτυχία επαναφοράς του token πρόσβασης: %{error}"
@@ -602,7 +614,9 @@ el:
         begin_insertion: "Ξεκινήστε την εισαγωγή"
         begin_deletion: "Ξεκινήστε την διαγραφή"
         children: "Υποστοιχεία"
-        done_ratio: "Πρόοδος (%)"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
+        done_ratio: "% Complete"
         duration: "Διάρκεια"
         end_insertion: "Λήξη της εισαγωγής"
         end_deletion: "Λήξη της διαγραφής"
@@ -616,8 +630,10 @@ el:
         parent_issue: "Γονέας"
         parent_work_package: "Γονέας"
         priority: "Προτεραιότητα"
-        progress: "Πρόοδος (%)"
+        progress: "% Complete"
         readonly: "Read only"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Χειροκίνητος προγραμματισμός"
         spent_hours: "Χρόνος που δαπανήθηκε"
         spent_time: "Χρόνος που δαπανήθηκε"
@@ -1030,12 +1046,12 @@ el:
     default_columns: "Προεπιλεγμένες στήλες"
     description: "Περιγραφή"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Derived start date"
     display_sums: "Εμφάνιση Αθροισμάτων"
     due_date: "Ημερομηνία λήξης"
-    estimated_hours: "Εκτιμώμενος χρόνος"
-    estimated_time: "Εκτιμώμενος χρόνος"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "Λήγει στις"
     firstname: "Όνομα"
     group: "Ομάδα"
@@ -1381,7 +1397,7 @@ el:
   error_pdf_export_too_many_columns: "Επιλέχθηκαν πάρα πολλές στήλες για εξαγωγή σε PDF. Παρακαλούμε μειώστε τον αριθμό των στηλών."
   error_pdf_failed_to_export: "Η εξαγωγή σε PDF δεν ήταν δυνατό να αποθηκευτεί: %{error}"
   error_token_authenticity: "Δεν ήταν δυνατή η επαλήθευση του Cross-Site Request Forgery token. Προσπαθήσατε να υποβάλετε δεδομένα σε πολλαπλούς περιηγητές ή καρτέλες; Παρακαλούμε κλείστε όλες τις καρτέλες και δοκιμάστε ξανά."
-  error_work_package_done_ratios_not_updated: "Η αναλογίες ολοκληρωμένων πακέτων εργασίας δεν έχουν ενημερωθεί."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Το πακέτο εργασίας δεν βρέθηκε ή δεν ανοίκει σε αυτό το έργο"
   error_must_be_project_member: "πρέπει να είναι μέλος έργου"
   error_migrations_are_pending: "Η εγκατάσταση OpenProject σας έχει μεταφορές βάσης δεδομένων που εκκρεμούν. Πιθανότατα δεν τρέξατε τις μεταφορές κατά τη διάρκεια της προηγούμενης αναβάθμιση. Παρακαλούμε ελέγξτε τον οδηγό αναβάθμισης για να αναβαθμίσετε την εγκατάσταση σας σωστά."
@@ -2061,7 +2077,7 @@ el:
   label_type_new: "Νέος τύπος"
   label_type_plural: "Τύποι"
   label_ui: "Διεπαφή Χρήστη"
-  label_update_work_package_done_ratios: "Ενημέρωση αναλογιών ολοκληρωμένων πακέτων εργασίας"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Ενημερώθηκε πριν από %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Ενημερώθηκε από τον %{author} πριν από %{age}"
@@ -2146,6 +2162,10 @@ el:
     one: "1 ανοικτό"
     other: "%{count} ανοικτά"
     zero: "0 ανοικτά"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 έργο"
     other: "%{count} έργα"
@@ -2328,7 +2348,7 @@ el:
   notice_file_not_found: "Η σελίδα που ζητήσατε δεν υπάρχει ή έχει αφαιρεθεί."
   notice_forced_logout: "Αποσυνδεθήκατε αυτόματα μετά από %{ttl_time} λεπτά αδράνειας."
   notice_internal_server_error: "Παρουσιάστηκε ένα σφάλμα στη σελίδα που προσπαθήσατε να ανοίξετε. Αν εξακολουθείτε να αντιμετωπίζετε προβλήματα παρακαλούμε επικοινωνήστε με τον %{app_title} διαχειριστή σας για βοήθεια."
-  notice_work_package_done_ratios_updated: "Η αναλογίες ολοκληρωμένων πακέτων εργασίας ενημερώθηκαν."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Οι πληροφορίες ενημερώθηκαν από τουλάχιστον έναν ακόμα χρήστη στο εν τω μεταξύ."
   notice_locking_conflict_additional_information: "Η ενημέρωση(-εις) προήλθαν από %{users}."
   notice_locking_conflict_reload_page: "Παρακαλούμε ανανεώστε αυτή τη σελίδα, αναθεωρήστε τις αλλαγές και εφαρμόστε ξανά τις αλλαγές."
@@ -2404,6 +2424,8 @@ el:
   permission_assign_versions: "Ανάθεση εκδόσεων"
   permission_browse_repository: "Πρόσβαση ανάγνωσης-μόνο στο αποθετήριο (περιήγηση και ολοκλήρωση παραγγελίας)"
   permission_change_wiki_parent_page: "Αλλαγή σελίδας wiki γονέα"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Σχολιασμός νέων"
   permission_commit_access: "Πρόσβαση ανάγνωσης/εγγραφής στο αποθετήριο (δέσμευση)"
   permission_copy_projects: "Αντιγραφή έργων"
@@ -2465,7 +2487,7 @@ el:
   permission_view_news: "View news"
   permission_view_members: "Εμφάνιση μελών"
   permission_view_reportings: "Εμφάνιση αναφορών"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Προβολή χρόνου που δαπανήθηκε"
   permission_view_timelines: "Προβολή χρονοδιαγραμμάτων"
   permission_view_wiki_edits: "Προβολή ιστορικού wiki"
@@ -2506,6 +2528,7 @@ el:
   project_module_news: "Νέα"
   project_module_repository: "Αποθετήριο"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2695,10 +2718,10 @@ el:
   setting_file_max_size_displayed: "Μέγιστο μέγεθος αρχείων κειμένου που εμφανίζονται inline"
   setting_host_name: "Όνομα εξυπηρετητή"
   setting_invitation_expiration_days: "Το μήνυμα ενεργοποίησης λήγει μετά από"
-  setting_work_package_done_ratio: "Υπολογίστε την αναλογία των ολοκληρωμένων πακέτων εργασίας με"
-  setting_work_package_done_ratio_field: "Χρήση του πεδίου πακέτου εργασίας"
-  setting_work_package_done_ratio_status: "Χρήση της κατάστασης πακέτου εργασίας"
-  setting_work_package_done_ratio_disabled: "Απενεργοποίηση (απόκρυψη της διαδικασίας)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Εμφάνιση από προεπιλογή"
   setting_work_package_properties: "Ιδιότητες πακέτου εργασίας"
   setting_work_package_startdate_is_adddate: "Χρήση σημερινής ημερομηνίας ως ημερομηνία έναρξης για νέα πακέτα εργασίας"
@@ -3135,9 +3158,9 @@ el:
         unsupported_context: "Ο πόρος που δόθηκε δεν υποστηρίζεται ως πλαίσιο αναφοράς."
         context_object_not_found: "Δεν ήταν δυνατή η εύρεση του πόρου που δόθηκε ως πλαίσιο αναφοράς."
       validation:
-        done_ratio: "Η αναλογία ολοκληρωμένων δεν μπορεί να οριστεί σε πακέτα εργασίας-γονείς, όταν καλείται με την κατάσταση ή όταν είναι απενεργοποιημένο."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Η ημερομηνία λήξης δεν μπορεί να οριστεί σε πακέτα εργασίας-γονείς."
-        estimated_hours: "Οι εκτιμώμενες ώρες δεν μπορούν να οριστούν σε πακέτα εργασίας-γονείς."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Ο επιλεγμένος χρήστης δεν επιτρέπεται να είναι '%{property}' για αυτό το πακέτο εργασίας."
         start_date: "Η ημερομηνία έναρξης δεν μπορεί να οριστεί σε πακέτα εργασίας-γονείς."
       eprops:

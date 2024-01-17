@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ module Pages
 
     def expect_no_help_mode
       expect(page)
-        .not_to have_selector('.toolbar-item .icon-add')
+        .to have_no_css('.toolbar-item .icon-add')
     end
 
     def expect_unable_to_add_widget(row_number, column_number, location, name = nil)
@@ -60,7 +60,7 @@ module Pages
           .to have_content(I18n.t('js.grid.add_widget'))
 
         expect(page)
-          .to have_selector('.op-toast.-ee-upsale', text: I18n.t('js.upsale.ee_only'))
+          .to have_css('.op-toast.-ee-upsale', text: I18n.t('js.upsale.ee_only'))
       end
     end
 
@@ -99,7 +99,7 @@ module Pages
       area.hover
 
       expect(area)
-        .not_to have_selector('.grid--widget-add')
+        .to have_no_css('.grid--widget-add')
     end
 
     def expect_specific_widget_unaddable(row_number, column_number, location, name)
@@ -108,7 +108,7 @@ module Pages
           .to have_content(I18n.t('js.grid.add_widget'))
 
         expect(page)
-          .not_to have_selector('[data-test-selector="op-grid--addable-widget"]', text: Regexp.new("^#{name}$"))
+          .to have_no_css('[data-test-selector="op-grid--addable-widget"]', text: Regexp.new("^#{name}$"))
       end
     end
   end

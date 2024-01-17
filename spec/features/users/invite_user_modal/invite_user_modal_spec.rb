@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -115,7 +115,7 @@ RSpec.describe 'Invite user modal', :js, :with_cuprite do
       find('.ng-dropdown-footer button', text: 'Invite', wait: 10).click
 
       modal.run_all_steps
-      expect(page).to have_selector('.ng-value-label', text: principal.name)
+      expect(page).to have_css('.ng-value-label', text: principal.name)
 
       wp_page.save!
       wp_page.expect_and_dismiss_toaster(message: 'Successful creation.')
@@ -182,7 +182,7 @@ RSpec.describe 'Invite user modal', :js, :with_cuprite do
             modal.project_step
             ngselect = modal.open_select_in_step 'op-ium-principal-search', query: principal.mail
             expect(ngselect).to have_text "No users were found"
-            expect(ngselect).not_to have_text "Invite: #{principal.mail}"
+            expect(ngselect).to have_no_text "Invite: #{principal.mail}"
           end
         end
 
@@ -216,7 +216,7 @@ RSpec.describe 'Invite user modal', :js, :with_cuprite do
 
           it 'disables projects for which you do not have rights', with_cuprite: false do
             ngselect = modal.open_select_in_step '.ng-select-container'
-            expect(ngselect).not_to have_text archived_project
+            expect(ngselect).to have_no_text archived_project
           end
         end
       end
@@ -296,7 +296,7 @@ RSpec.describe 'Invite user modal', :js, :with_cuprite do
     it 'cannot add an existing user to the project' do
       assignee_field.activate!
 
-      expect(page).not_to have_selector('.ng-dropdown-footer', text: 'Invite')
+      expect(page).to have_no_css('.ng-dropdown-footer', text: 'Invite')
     end
   end
 end

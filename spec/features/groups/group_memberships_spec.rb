@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -64,6 +64,24 @@ RSpec.describe 'group memberships through groups page', :js, :with_cuprite do
     expect(members_page).to have_group 'A-Team', roles: ['Manager']
     expect(members_page).to have_user 'Peter Pan', roles: ['Manager']
     expect(members_page).to have_user 'Hannibal Smith', roles: ['Manager']
+  end
+
+  context 'when there are only invited users not in the group' do
+    let!(:peter)    { create(:invited_user, firstname: 'Peter', lastname: 'Pan') }
+    let!(:hannibal) { create(:invited_user, firstname: 'Hannibal', lastname: 'Smith') }
+    let(:group_members) { [admin] }
+
+    it 'is possible to add an invited user' do
+      visit "/admin/groups/#{group.id}/edit?tab=users"
+
+      # autocomplete section has been rendered
+      expect(page).to have_text('NEW USER')
+      expect(page).to have_text('Add')
+
+      group_page.add_user! 'Hannibal'
+      expect(page).to have_text 'Successful update'
+      expect(page).to have_text('Hannibal Smith')
+    end
   end
 
   context 'given a group with members in a project' do
@@ -166,8 +184,8 @@ RSpec.describe 'group memberships through groups page', :js, :with_cuprite do
         group_page.open_projects_tab!
 
         target_dropdown = group_page.search_for_project 'project'
-        expect(target_dropdown).to have_selector(".ng-option", text: 'Other project')
-        expect(target_dropdown).not_to have_selector(".ng-option", text: 'Archived project')
+        expect(target_dropdown).to have_css(".ng-option", text: 'Other project')
+        expect(target_dropdown).to have_no_css(".ng-option", text: 'Archived project')
       end
     end
   end

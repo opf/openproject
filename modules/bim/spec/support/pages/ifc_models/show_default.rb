@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,7 @@ module Pages
       end
 
       def finished_loading
-        expect(page).to have_selector('.xeokit-busy-modal', visible: :all, wait: 30)
+        expect(page).to have_css('.xeokit-busy-modal', visible: :all, wait: 30)
       end
 
       def model_viewer_visible(visible)
@@ -78,8 +78,8 @@ module Pages
             expect(page).to have_selector(selector, count: 8)
           end
         else
-          expect(page).not_to have_selector(selector)
-          expect(page).not_to have_selector('[data-test-selector="op-ifc-viewer--toolbar-container"]')
+          expect(page).to have_no_selector(selector)
+          expect(page).to have_no_css('[data-test-selector="op-ifc-viewer--toolbar-container"]')
         end
       end
 
@@ -90,7 +90,7 @@ module Pages
       end
 
       def page_has_a_toolbar
-        expect(page).to have_selector('.toolbar-container')
+        expect(page).to have_css('.toolbar-container')
       end
 
       def page_shows_a_filter_button(visible)
@@ -115,11 +115,11 @@ module Pages
       end
 
       def expect_view_toggle_at(value)
-        expect(page).to have_selector('#bcf-view-toggle-button', text: value)
+        expect(page).to have_css('#bcf-view-toggle-button', text: value)
       end
 
       def has_no_menu_item_with_text?(value)
-        expect(page).not_to have_selector('.menu-item', text: value)
+        expect(page).to have_no_css('.menu-item', text: value)
       end
 
       private

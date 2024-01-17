@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,11 +42,11 @@ module Components
     end
 
     def expect_open
-      expect(page).to have_selector("[data-test-selector='project-include-list']")
+      expect(page).to have_css("[data-test-selector='project-include-list']")
     end
 
     def expect_count(count)
-      expect(page).to have_selector("[data-test-selector='project-include-button'] .badge", text: count)
+      expect(page).to have_css("[data-test-selector='project-include-button'] .badge", text: count)
     end
 
     def toggle_include_all_subprojects
@@ -89,7 +89,7 @@ module Components
     end
 
     def expect_closed
-      expect(page).not_to have_selector("[data-test-selector='project-include-list']")
+      expect(page).to have_no_css("[data-test-selector='project-include-list']")
     end
 
     def click_button(text)
@@ -115,7 +115,7 @@ module Components
     end
 
     def no_loading_indicator
-      expect(page).not_to have_selector("[data-test-selector='op-project-include--loading']")
+      expect(page).to have_no_css("[data-test-selector='op-project-include--loading']")
     end
   end
 end

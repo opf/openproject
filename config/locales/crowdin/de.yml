@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -205,7 +205,7 @@ de:
       editable: "Feld darf von den Benutzern selbst bearbeitet werden."
       visible: "Feld für alle Benutzer sichtbar machen (Nicht-Administratoren) in der Projektübersicht und im Projekt-Detail-Widget in der Projektübersicht."
       is_filter: >
-        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
+        Erlaubt das benutzerdefinierte Feld in einem Filter in der Arbeitspaket-Ansicht zu verwenden. Beachten Sie, dass, nur wenn "Für alle Projekte" ausgewählt ist, das benutzerdefinierte Feld in globalen Ansichten angezeigt wird.
     tab:
       no_results_title_text: Zur Zeit existieren keine benutzerdefinierten Felder.
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen
@@ -278,6 +278,18 @@ de:
       no_results_content_text: Mitglied zum Projekt hinzufügen
     invite_by_mail: "Einladung an %{mail} senden"
     send_invite_to: "Einladung senden an"
+    no_modify_on_shared: "Sie können die freigegebenen Mitgliedschaften derzeit nicht über die Mitgliederseite ändern oder entfernen. Verwenden Sie stattdessen bitte das Teilen-Fenster."
+    columns:
+      shared: "Geteilt"
+    filters:
+      all_shares: 'Alle Freigaben'
+    menu:
+      all: 'Alle'
+      invited: 'Eingeladen'
+      locked: 'Gesperrt'
+      project_roles: 'Projektrollen'
+      wp_shares: 'Arbeitspaket-Freigaben'
+      groups: 'Gruppen'
   my:
     access_token:
       failed_to_reset_token: "Zusatztoken konnte nicht zurückgesetzt werden: %{error}"
@@ -601,7 +613,9 @@ de:
         begin_insertion: "Beginn der Einfügung"
         begin_deletion: "Beginn des Löschvorgangs"
         children: "Kindelemente"
-        done_ratio: "Fortschritt (%)"
+        derived_remaining_hours: "Abgeleitete verbleibender Aufwand"
+        derived_remaining_time: "Abgeleitete verbleibende ArbeitAbgeleitete verbleibender Aufwand"
+        done_ratio: "% abgeschlossen"
         duration: "Dauer"
         end_insertion: "Ende der Einfügung"
         end_deletion: "Ende des Löschvorgangs"
@@ -615,8 +629,10 @@ de:
         parent_issue: "Übergeordnetes Arbeitspaket"
         parent_work_package: "Übergeordnetes Arbeitspaket"
         priority: "Priorität"
-        progress: "Fortschritt (%)"
+        progress: "% abgeschlossen"
         readonly: "Nur Lesezugriff"
+        remaining_hours: "Verbleibender Aufwand"
+        remaining_time: "Verbleibender Aufwand"
         schedule_manually: "Manuelle Planung"
         spent_hours: "Aufgewendete Zeit"
         spent_time: "Aufgewendete Zeit"
@@ -1029,12 +1045,12 @@ de:
     default_columns: "Standard-Spalten"
     description: "Beschreibung"
     derived_due_date: "Aggregierter Endtermin"
-    derived_estimated_hours: "Aggregierter geschätzter Aufwand"
+    derived_estimated_hours: "Abgeleiteter Aufwand"
     derived_start_date: "Aggregierter Starttermin"
     display_sums: "Summen anzeigen"
     due_date: "Endtermin"
-    estimated_hours: "Geschätzter Aufwand"
-    estimated_time: "Geschätzter Aufwand"
+    estimated_hours: "Aufwand"
+    estimated_time: "Aufwand"
     expires_at: "Läuft ab am"
     firstname: "Vorname"
     group: "Gruppe"
@@ -1380,7 +1396,7 @@ de:
   error_pdf_export_too_many_columns: "Zu viele Spalten für PDF-Export ausgewählt. Bitte reduzieren Sie die Anzahl der ausgewählten Spalten."
   error_pdf_failed_to_export: "Der PDF-Export konnte nicht gespeichert werden: %{error}"
   error_token_authenticity: "Das Cross-Site Request Forgery Token konnte nicht verfiziert werden. Wenn Sie versucht haben, Daten auf mehreren Tabs oder Browsern abzuspeichern, schließen sie diese und laden diese Seite erneut um den Vorgang zu wiederholen."
-  error_work_package_done_ratios_not_updated: "Der Arbeitspaket-Fortschritt wurde nicht aktualisiert."
+  error_work_package_done_ratios_not_updated: "Arbeitspaket-Wert für % abgeschlossen nicht aktualisiert."
   error_work_package_not_found_in_project: "Das Arbeitspaket wurde nicht gefunden oder gehört nicht zu diesem Projekt."
   error_must_be_project_member: "muss Mitglied des Projekts sein"
   error_migrations_are_pending: "Ihre OpenProject-Installation hat noch ausstehende Datenbankmigrationen. Sie haben wahrscheinlich die Migration für Ihr letztes Upgrade nicht durchgeführt. Bitte überprüfen Sie die Upgrade-Anleitung, um Ihre Installation korrekt zu aktualisieren."
@@ -2060,7 +2076,7 @@ de:
   label_type_new: "Neuer Typ"
   label_type_plural: "Typen"
   label_ui: "Nutzeroberfläche"
-  label_update_work_package_done_ratios: "Arbeitspaket-Fortschritt aktualisieren"
+  label_update_work_package_done_ratios: "Arbeitspaket-Wert % abgeschlossen aktualisieren"
   label_updated_time: "Vor %{value} aktualisiert"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Von %{author} vor %{age} aktualisiert"
@@ -2145,6 +2161,10 @@ de:
     one: "1 offen"
     other: "%{count} offen"
     zero: "Keine offenen"
+  label_x_work_packages:
+    one: "1 Arbeitspaket"
+    other: "%{count} Arbeitspakete"
+    zero: "Keine Arbeitspakete"
   label_x_projects:
     one: "Ein Projekt"
     other: "%{count} Projekte"
@@ -2328,7 +2348,7 @@ de:
   notice_file_not_found: "Die von Ihnen aufgerufene Seite existiert nicht oder ist verschoben worden."
   notice_forced_logout: "Nach %{ttl_time} Minuten Inaktivität wurden Sie automatisch ausgeloggt."
   notice_internal_server_error: "Auf der von Ihnen aufgerufenen Seite ist ein Fehler aufgetreten. Kontaktieren Sie bitte Ihren %{app_title} Administrator, wenn Sie wiederholt Probleme mit dem Aufrufen der Seite haben."
-  notice_work_package_done_ratios_updated: "Der Arbeitspaket-Fortschritt wurde aktualisiert."
+  notice_work_package_done_ratios_updated: "% vollständig aktualisiert"
   notice_locking_conflict: "Die Informationen wurde zwischenzeitlich von einem anderen Benutzer geändert."
   notice_locking_conflict_additional_information: "Die Änderung(en) wurde(n) durchgeführt von %{users}."
   notice_locking_conflict_reload_page: "Bitte laden Sie die Seite neu, prüfen Sie die Anpassungen und geben Sie Ihre Änderungen noch einmal ein."
@@ -2404,6 +2424,8 @@ de:
   permission_assign_versions: "Versionen zuweisen"
   permission_browse_repository: "Lesezugriff auf Projektarchiv (in OpenProject und Checkout)"
   permission_change_wiki_parent_page: "Übergeordnete Wiki-Seite ändern"
+  permission_change_work_package_status: "Arbeitspaket-Status ändern"
+  permission_change_work_package_status_explanation: "Ermöglicht das Ändern des Status ohne Berechtigung Arbeitspakete zu bearbeiten"
   permission_comment_news: "Nachricht kommentieren"
   permission_commit_access: "Lese- und Schreibzugriff auf Projektarchiv (Commit)"
   permission_copy_projects: "Projekte kopieren"
@@ -2465,7 +2487,7 @@ de:
   permission_view_news: "News anzeigen"
   permission_view_members: "Mitglieder ansehen"
   permission_view_reportings: "Statusberichte ansehen"
-  permission_view_shared_work_packages: "Sehen, mit wem Arbeitspakete geteilt werden"
+  permission_view_shared_work_packages: "Arbeitspaket-Freigaben sehen"
   permission_view_time_entries: "Gebuchte Aufwände ansehen"
   permission_view_timelines: "Zeitplan-Reporte anzeigen"
   permission_view_wiki_edits: "Wiki-Versionsgeschichte ansehen"
@@ -2506,6 +2528,7 @@ de:
   project_module_news: "Neuigkeiten"
   project_module_repository: "Projektarchiv"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Arbeitspakete und Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2695,10 +2718,10 @@ de:
   setting_file_max_size_displayed: "Maximale Größe inline angezeigter Textdateien"
   setting_host_name: "Hostname"
   setting_invitation_expiration_days: "Aktivierungs-Mail läuft ab nach"
-  setting_work_package_done_ratio: "Berechne den Arbeitspaket-Fortschritt mittels"
-  setting_work_package_done_ratio_field: "Arbeitspaket-Feld %-erledigt"
+  setting_work_package_done_ratio: "Arbeitspaket-Wert für % abgeschlossen berechnen mit"
+  setting_work_package_done_ratio_field: "Das Arbeitspaket-Feld"
   setting_work_package_done_ratio_status: "Arbeitspaket-Status"
-  setting_work_package_done_ratio_disabled: "Deaktivieren (Fortschritt verstecken)"
+  setting_work_package_done_ratio_disabled: "Deaktivieren (Verstecke das % abgeschlossen-Feld)"
   setting_work_package_list_default_columns: "Standardmäßig anzeigen"
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
   setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
@@ -3137,7 +3160,7 @@ de:
       validation:
         done_ratio: "Der Fortschritt kann nicht gesetzt werden falls es sich um ein Eltern-Arbeitspaket handelt, er durch den Status definiert wird oder wenn er komplett deaktiviert wurde."
         due_date: "Der Endtermin kann für Eltern-Arbeitspakete nicht gesetzt werden."
-        estimated_hours: "Der geschätzte Aufwand kann für Eltern-Arbeitspakete nicht gesetzt werden."
+        estimated_hours: "Aufwand kann nicht für übergeordnete Arbeitspakete gesetzt werden." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Der gewählte Nutzer darf dem Arbeitspaket nicht als '%{property}' zugewiesen werden."
         start_date: "Das Startdatum kann für Eltern-Arbeitspakete nicht gesetzt werden."
       eprops:

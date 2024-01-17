@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 
-RSpec.describe 'Upload attachment to wiki page', js: true do
+RSpec.describe 'Upload attachment to wiki page', :js do
   let(:user) do
     create(:user,
            member_with_permissions: { project => %i[view_wiki_pages edit_wiki_pages] })
@@ -57,7 +57,7 @@ RSpec.describe 'Upload attachment to wiki page', js: true do
     click_on 'Save'
 
     expect(page).to have_text("Successful creation")
-    expect(page).to have_selector('#content img', count: 1)
+    expect(page).to have_css('#content img', count: 1)
     expect(page).to have_content('Image uploaded the first time')
     attachments_list.expect_attached('image.png')
 
@@ -78,8 +78,8 @@ RSpec.describe 'Upload attachment to wiki page', js: true do
 
     editor.in_editor do |container, _|
       # Expect URL is mapped to the correct URL
-      expect(container).to have_selector('img[src^="/api/v3/attachments/"]', count: 2)
-      expect(container).not_to have_selector('img[src="image.png"]')
+      expect(container).to have_css('img[src^="/api/v3/attachments/"]', count: 2)
+      expect(container).to have_no_css('img[src="image.png"]')
 
       container.find('img[src^="/api/v3/attachments/"]', match: :first).click
     end
@@ -89,18 +89,18 @@ RSpec.describe 'Upload attachment to wiki page', js: true do
     click_on 'Save'
 
     expect(page).to have_text("Successful update")
-    expect(page).to have_selector('#content img', count: 2)
+    expect(page).to have_css('#content img', count: 2)
     # First figcaption is lost by having replaced the markdown
     expect(page).to have_content('Image uploaded the second time')
     attachments_list.expect_attached('image.png', count: 2)
 
     # Both images rendered referring to the api endpoint
-    expect(page).to have_selector('img[src^="/api/v3/attachments/"]', count: 2)
+    expect(page).to have_css('img[src^="/api/v3/attachments/"]', count: 2)
 
     # The first image is resized using width:yypx style
-    expect(page).to have_selector 'figure.op-uc-figure img[style*="width:"]'
+    expect(page).to have_css 'figure.op-uc-figure img[style*="width:"]'
 
-    expect(wiki_page_content).to have_selector '.op-uc-image[src^="/api/v3/attachments"]'
+    expect(wiki_page_content).to have_css '.op-uc-image[src^="/api/v3/attachments"]'
   end
 
   it 'can upload an image to new and existing wiki page via drag & drop on attachments' do

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -98,51 +98,6 @@ RSpec.describe Task do
         task.reload
 
         expect(task.journals.last.attachable_journals.first).to eq attachable_journal
-      end
-    end
-  end
-
-  describe 'copying remaining_hours to estimated_hours and vice versa' do
-    context 'providing only remaining_hours' do
-      before do
-        task.remaining_hours = 3
-
-        task.save!
-      end
-
-      it 'copies to estimated_hours' do
-        expect(task.estimated_hours)
-          .to eql task.remaining_hours
-      end
-    end
-
-    context 'providing only estimated_hours' do
-      before do
-        task.estimated_hours = 3
-
-        task.save!
-      end
-
-      it 'copies to estimated_hours' do
-        expect(task.remaining_hours)
-          .to eql task.estimated_hours
-      end
-    end
-
-    context 'providing estimated_hours and remaining_hours' do
-      before do
-        task.estimated_hours = 3
-        task.remaining_hours = 5
-
-        task.save!
-      end
-
-      it 'leaves the values unchanged' do
-        expect(task.remaining_hours)
-          .to be 5.0
-
-        expect(task.estimated_hours)
-          .to be 3.0
       end
     end
   end

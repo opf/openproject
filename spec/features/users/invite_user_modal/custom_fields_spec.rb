@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -103,7 +103,7 @@ RSpec.describe 'Invite user modal custom fields', :js, :with_cuprite do
       expect(page).to have_text "Multi list can't be blank."
 
       # Does not show the non req field
-      expect(page).not_to have_text non_req_cf.name
+      expect(page).to have_no_text non_req_cf.name
     end
 
     # Fill all fields

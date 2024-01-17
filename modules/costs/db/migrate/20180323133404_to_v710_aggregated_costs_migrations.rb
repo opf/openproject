@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require Rails.root.join("db", "migrate", "migration_utils", "migration_squasher").to_s
+require Rails.root.join("db/migrate/migration_utils/migration_squasher").to_s
 # This migration aggregates the migrations detailed in MIGRATION_FILES
 class ToV710AggregatedCostsMigrations < ActiveRecord::Migration[5.1]
   MIGRATION_FILES = <<-MIGRATIONS
@@ -120,7 +120,7 @@ class ToV710AggregatedCostsMigrations < ActiveRecord::Migration[5.1]
         t.integer :author_id,   null: false
         t.string :subject, null: false
         t.text :description
-        t.date :fixed_date,  null: false
+        t.date :fixed_date, null: false
         t.datetime :created_on
       end
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Todolists in CKEditor', js: true do
+RSpec.describe 'Todolists in CKEditor', :js do
   let(:user) { create(:admin) }
 
   before do
@@ -83,26 +83,26 @@ RSpec.describe 'Todolists in CKEditor', js: true do
       wp_page.expect_and_dismiss_toaster message: 'Successful update.'
 
       within(field.display_element) do
-        expect(page).to have_selector('.op-uc-list--task-checkbox', count: 5)
-        expect(page).to have_selector('.op-uc-list--task-checkbox[checked]', count: 2)
+        expect(page).to have_css('.op-uc-list--task-checkbox', count: 5)
+        expect(page).to have_css('.op-uc-list--task-checkbox[checked]', count: 2)
 
-        expect(page).to have_selector('.op-uc-list--item', text: 'Todo item 1')
-        expect(page).to have_selector('.op-uc-list--item', text: 'Todo item 2')
-        expect(page).to have_selector('.op-uc-list--item', text: 'Todo item 3')
+        expect(page).to have_css('.op-uc-list--item', text: 'Todo item 1')
+        expect(page).to have_css('.op-uc-list--item', text: 'Todo item 2')
+        expect(page).to have_css('.op-uc-list--item', text: 'Todo item 3')
 
-        expect(page).to have_selector('.op-uc-list .op-uc-list .op-uc-list--item', text: 'Nested item 1')
-        expect(page).to have_selector('.op-uc-list .op-uc-list .op-uc-list--item', text: 'Nested item 2')
+        expect(page).to have_css('.op-uc-list .op-uc-list .op-uc-list--item', text: 'Nested item 1')
+        expect(page).to have_css('.op-uc-list .op-uc-list .op-uc-list--item', text: 'Nested item 2')
 
         first_item = page.find('.op-uc-list--item', text: 'Todo item 1')
-        expect(first_item).to have_selector('.op-uc-list--task-checkbox[checked]')
+        expect(first_item).to have_css('.op-uc-list--task-checkbox[checked]')
         first_nested_item = page.find('.op-uc-list .op-uc-list .op-uc-list--item', text: 'Nested item 1')
-        expect(first_nested_item).to have_selector('.op-uc-list--task-checkbox[checked]')
+        expect(first_nested_item).to have_css('.op-uc-list--task-checkbox[checked]')
       end
 
       # Expect still the same when editing again
       field.activate!
       ckeditor.in_editor do |_container, editable|
-        expect(editable).to have_selector('.op-uc-list li', count: 5)
+        expect(editable).to have_css('.op-uc-list li', count: 5)
 
         first_item = editable.all('.op-uc-list li')[0].find('input[type=checkbox]', visible: :all)
         expect(first_item).to be_checked
@@ -122,16 +122,16 @@ RSpec.describe 'Todolists in CKEditor', js: true do
       wp_page.expect_and_dismiss_toaster message: 'Successful update.'
 
       within(field.display_element) do
-        expect(page).to have_selector('.op-uc-list--task-checkbox', count: 5)
-        expect(page).to have_selector('.op-uc-list--task-checkbox[checked]', count: 3)
+        expect(page).to have_css('.op-uc-list--task-checkbox', count: 5)
+        expect(page).to have_css('.op-uc-list--task-checkbox[checked]', count: 3)
 
         first_item = page.find('.op-uc-list--item', text: 'Todo item 1')
-        expect(first_item).to have_selector('.op-uc-list--task-checkbox[checked]')
+        expect(first_item).to have_css('.op-uc-list--task-checkbox[checked]')
         first_nested_item = page.find('.op-uc-list .op-uc-list .op-uc-list--item', text: 'Nested item 1')
-        expect(first_nested_item).to have_selector('.op-uc-list--task-checkbox[checked]')
+        expect(first_nested_item).to have_css('.op-uc-list--task-checkbox[checked]')
 
         last_item = page.find('.op-uc-list .op-uc-list--item', text: 'Todo item 3')
-        expect(last_item).to have_selector('.op-uc-list--task-checkbox[checked]')
+        expect(last_item).to have_css('.op-uc-list--task-checkbox[checked]')
       end
     end
   end
@@ -181,10 +181,10 @@ RSpec.describe 'Todolists in CKEditor', js: true do
       wp_page.save!
       wp_page.expect_and_dismiss_toaster message: 'Successful creation.'
 
-      expect(page).to have_selector('.op-uc-list--task-checkbox', count: 3)
-      expect(page).to have_selector('.op-uc-list--task-checkbox[checked]', count: 1)
+      expect(page).to have_css('.op-uc-list--task-checkbox', count: 3)
+      expect(page).to have_css('.op-uc-list--task-checkbox[checked]', count: 1)
 
-      expect(page).to have_selector('.op-uc-list--item a[href="https://community.openproject.com/"]')
+      expect(page).to have_css('.op-uc-list--item a[href="https://community.openproject.com/"]')
       nested_link = page.find('.op-uc-list--item .op-uc-list--item a[href="https://community.openproject.com/nested"]')
       expect(nested_link.text).to eq 'This is a link'
 
@@ -216,20 +216,20 @@ RSpec.describe 'Todolists in CKEditor', js: true do
       wp_page.expect_and_dismiss_toaster message: 'Successful creation.'
 
       within(field.display_element) do
-        expect(page).to have_selector('.op-uc-list--task-checkbox', count: 2)
-        expect(page).to have_selector('.op-uc-list--task-checkbox[checked]', count: 1)
+        expect(page).to have_css('.op-uc-list--task-checkbox', count: 2)
+        expect(page).to have_css('.op-uc-list--task-checkbox[checked]', count: 1)
 
-        expect(page).to have_selector('.op-uc-list--item', text: 'Todo item 1')
-        expect(page).to have_selector('.op-uc-list--item', text: 'Todo item 2')
+        expect(page).to have_css('.op-uc-list--item', text: 'Todo item 1')
+        expect(page).to have_css('.op-uc-list--item', text: 'Todo item 2')
 
         first_item = page.find('.op-uc-list--item', text: 'Todo item 1')
-        expect(first_item).to have_selector('.op-uc-list--task-checkbox[checked]')
+        expect(first_item).to have_css('.op-uc-list--task-checkbox[checked]')
       end
 
       # Expect still the same when editing again
       field.activate!
       ckeditor.in_editor do |_container, editable|
-        expect(editable).to have_selector('.op-uc-list li', count: 2)
+        expect(editable).to have_css('.op-uc-list li', count: 2)
 
         first_item = editable.all('.op-uc-list li')[0].find('input[type=checkbox]', visible: :all)
         expect(first_item).to be_checked
@@ -245,14 +245,14 @@ RSpec.describe 'Todolists in CKEditor', js: true do
       wp_page.expect_and_dismiss_toaster message: 'Successful update.'
 
       within(field.display_element) do
-        expect(page).to have_selector('.op-uc-list--task-checkbox', count: 2)
-        expect(page).to have_selector('.op-uc-list--task-checkbox[checked]', count: 2)
+        expect(page).to have_css('.op-uc-list--task-checkbox', count: 2)
+        expect(page).to have_css('.op-uc-list--task-checkbox[checked]', count: 2)
 
         first_item = page.find('.op-uc-list--item', text: 'Todo item 1')
-        expect(first_item).to have_selector('.op-uc-list--task-checkbox[checked]')
+        expect(first_item).to have_css('.op-uc-list--task-checkbox[checked]')
 
         last_item = page.find('.op-uc-list .op-uc-list--item', text: 'Todo item 2')
-        expect(last_item).to have_selector('.op-uc-list--task-checkbox[checked]')
+        expect(last_item).to have_css('.op-uc-list--task-checkbox[checked]')
       end
     end
   end

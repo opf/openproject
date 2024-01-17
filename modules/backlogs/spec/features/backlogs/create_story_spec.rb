@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -106,15 +106,15 @@ RSpec.describe 'Backlogs', :js, :with_cuprite do
       menu = find('.backlog-menu')
       menu.click
       click_link 'New Story'
-      fill_in 'subject', with: "The new story"
-      fill_in 'story points', with: "5"
+      fill_in 'Subject', with: "The new story"
+      fill_in 'Story Points', with: "5"
 
       # inactive types should not be selectable
       # but the user can choose from the active types
       expect(page)
-        .not_to have_css('option', text: inactive_story_type.name)
+        .to have_no_css('option', text: inactive_story_type.name)
 
-      select story_type2.name, from: 'type'
+      select story_type2.name, from: 'Type'
 
       # saving the new story
       find(:css, 'input[name=subject]').native.send_key :return
@@ -126,14 +126,14 @@ RSpec.describe 'Backlogs', :js, :with_cuprite do
       # this will ensure that the page refresh is through before we check the order
       menu.click
       click_link 'New Story'
-      fill_in 'subject', with: "Another story"
+      fill_in 'Subject', with: "Another story"
     end
 
     # the order is kept even after a page refresh -> it is persisted in the db
     page.driver.refresh
 
     expect(page)
-      .not_to have_content 'Another story'
+      .to have_no_content 'Another story'
 
     expect(page)
       .to have_css '.story:nth-of-type(1)', text: 'The new story'

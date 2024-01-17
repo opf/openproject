@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -36,7 +36,7 @@ end
 
 require 'bundler/setup' # Set up gems listed in the Gemfile.
 
-env = ENV['RAILS_ENV']
+env = ENV.fetch('RAILS_ENV', nil)
 # Disable deprecation warnings early on (before loading gems), which behaves as RUBYOPT="-w0"
 # to disable the Ruby warnings in production.
 # Set OPENPROJECT_PROD_DEPRECATIONS=true if you want to see them for debugging purposes

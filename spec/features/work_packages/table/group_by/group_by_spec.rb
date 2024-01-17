@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -49,6 +49,6 @@ RSpec.describe 'Work Package group by progress', :js do
 
     # Expect table to be grouped into 1 group
     group_by.expect_number_of_groups 1
-    group_by.expect_grouped_by_value '-', 3
+    group_by.expect_grouped_by_value '0%', 3
   end
 end

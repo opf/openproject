@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -57,6 +57,21 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
             )
           end
         )
+    end
+
+    def join_uri_path(uri, *)
+      # We use `File.join` to ensure single `/` in between every part. This API will break if executed on a
+      # Windows context, as it used `\` as file separators. But we anticipate that OpenProject
+      # Server is not run on a Windows context.
+      # URI::join cannot be used, as it behaves very different for the path parts depending on trailing slashes.
+      File.join(uri.to_s, *)
+    end
+
+    def extract_location(parent_reference, file_name = '')
+      location = parent_reference[:path].gsub(/.*root:/, '')
+
+      appendix = file_name.blank? ? '' : "/#{file_name}"
+      location.empty? ? "/#{file_name}" : "#{location}#{appendix}"
     end
   end
 end

@@ -30,7 +30,8 @@ require 'spec_helper'
 
 RSpec.describe "Notifications sent on shared work packages",
                :js,
-               :with_cuprite do
+               :with_cuprite,
+               with_ee: %i[work_package_sharing] do
   # Notice that the setup in this file here is not following the normal rules as
   # it also tests notification creation.
   let!(:project) { create(:project) }

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,21 +27,26 @@
 #++
 
 module API::V3::FileLinks
-  URN_PERMISSION_VIEW = "#{::API::V3::URN_PREFIX}file-links:permission:View".freeze
-  URN_PERMISSION_NOT_ALLOWED = "#{::API::V3::URN_PREFIX}file-links:permission:NotAllowed".freeze
-  URN_PERMISSION_ERROR = "#{::API::V3::URN_PREFIX}file-links:permission:Error".freeze
+  URN_PERMISSION_VIEW = "#{::API::V3::URN_PREFIX}file-links:permission:ViewAllowed".freeze
+  URN_PERMISSION_NOT_ALLOWED = "#{::API::V3::URN_PREFIX}file-links:permission:ViewNotAllowed".freeze
+  URN_STATUS_NOT_FOUND = "#{::API::V3::URN_PREFIX}file-links:NotFound".freeze
+  URN_STATUS_ERROR = "#{::API::V3::URN_PREFIX}file-links:Error".freeze
 
   PERMISSION_LINKS = {
-    view: {
+    view_allowed: {
       href: URN_PERMISSION_VIEW,
-      title: 'View'
+      title: 'View allowed'
     },
-    not_allowed: {
+    view_not_allowed: {
       href: URN_PERMISSION_NOT_ALLOWED,
-      title: 'Not allowed'
+      title: 'View not allowed'
+    },
+    not_found: {
+      href: URN_STATUS_NOT_FOUND,
+      title: 'Not found'
     },
     error: {
-      href: URN_PERMISSION_ERROR,
+      href: URN_STATUS_ERROR,
       title: 'Error'
     }
   }.freeze
@@ -83,10 +88,10 @@ module API::V3::FileLinks
     end
 
     # Show a permission link only if we have actual permission information for a specific user
-    link :permission, uncacheable: true do
-      next if represented.origin_permission.nil?
+    link :status, uncacheable: true do
+      next if represented.origin_status.nil?
 
-      PERMISSION_LINKS[represented.origin_permission]
+      PERMISSION_LINKS[represented.origin_status]
     end
 
     link :staticOriginOpen do

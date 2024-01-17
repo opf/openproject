@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -202,11 +202,11 @@ RSpec.describe 'Subproject action board', :js, with_ee: %i[board_view] do
       board_page.expect_card subproject1.name, work_package.subject
 
       # No error is to be displayed as erroneous columns are filtered out
-      expect(page).not_to have_css('.op-toast.-error')
+      expect(page).to have_no_css('.op-toast.-error')
       board_page.expect_no_list(subproject2.name)
 
       expect(page)
-        .not_to have_content invisible_work_package.subject
+        .to have_no_content invisible_work_package.subject
     end
   end
 
@@ -236,7 +236,7 @@ RSpec.describe 'Subproject action board', :js, with_ee: %i[board_view] do
 
       board_page.open_and_fill_add_list_modal subproject2.name
 
-      expect(page).not_to have_css('.ng-option', text: subproject2.name)
+      expect(page).to have_no_css('.ng-option', text: subproject2.name)
     end
   end
 end

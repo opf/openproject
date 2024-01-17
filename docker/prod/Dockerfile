@@ -1,6 +1,6 @@
 ARG RUBY_VERSION="3.2.2"
 ARG NODE_VERSION="20.9.0"
-ARG BUNDLER_VERSION="2.4.7"
+ARG BUNDLER_VERSION="2.4.22"
 ARG DEBIAN_FRONTEND=noninteractive
 
 # -------------------------------------
@@ -15,7 +15,7 @@ WORKDIR /app
 
 RUN gem install bundler --version "$BUNDLER_VERSION" --no-document
 
-COPY Gemfile Gemfile.modules Gemfile.lock ./
+COPY Gemfile Gemfile.modules Gemfile.lock .ruby-version ./
 COPY modules ./modules
 RUN bundle install
 
@@ -66,6 +66,11 @@ RUN --mount=type=cache,target=/app/frontend/.angular/cache,uid=1000,gid=1000 \
 # -------------------------------------
 FROM ruby:${RUBY_VERSION}-slim-bullseye as base
 LABEL maintainer="operations@openproject.com"
+
+# Labels for artifacthub.io
+LABEL io.artifacthub.package.readme-url="https://www.openproject.org/docs/installation-and-operations/installation/docker/"
+LABEL org.opencontainers.image.documentation="https://www.openproject.org/docs/"
+LABEL org.opencontainers.image.vendor="OpenProject GmbH"
 
 # SYSTEM
 ENV APP_USER=app
@@ -174,8 +179,7 @@ RUN dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
 RUN ln -s /app/docker/prod/setup/.irbrc /home/$APP_USER/
 RUN ln -s /app/docker/prod/setup/.irbrc /root/
 
-COPY Gemfile ./Gemfile
-COPY Gemfile.* ./
+COPY Gemfile Gemfile.* .ruby-version ./
 COPY modules ./modules
 COPY vendor ./vendor
 # some gemspec files of plugins require files in there, notably OpenProject::Version

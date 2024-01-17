@@ -23,15 +23,14 @@
             class="work-packages--breadcrumb"
           ></wp-breadcrumb>
 
-          <div class="wp-show--header-container">
-            <op-back-button
-              *ngIf="showBackButton()"
-              linkClass="work-packages-back-button"
-              [customBackMethod]="backToList.bind(this)"
-            ></op-back-button>
 
-            <wp-subject class="subject-header"></wp-subject>
-          </div>
+          <op-back-button
+            *ngIf="showBackButton()"
+            linkClass="work-packages-back-button"
+            [customBackMethod]="backToList.bind(this)"
+          ></op-back-button>
+
+          <wp-subject class="subject-header"></wp-subject>
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -33,10 +33,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     prepend InstanceMethods
     extend ClassMethods
 
-    before_validation :backlogs_before_validation, if: -> { backlogs_enabled? }
-
-    register_journal_formatted_fields(:fraction, 'remaining_hours')
-    register_journal_formatted_fields(:fraction, 'derived_remaining_hours')
     register_journal_formatted_fields(:decimal, 'story_points')
     register_journal_formatted_fields(:decimal, 'position')
 
@@ -45,16 +41,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
                                              greater_than_or_equal_to: 0,
                                              less_than: 10_000,
                                              if: -> { backlogs_enabled? }
-
-    validates_numericality_of :remaining_hours, only_integer: false,
-                                                allow_nil: true,
-                                                greater_than_or_equal_to: 0,
-                                                if: -> { backlogs_enabled? }
-
-    validates_numericality_of :derived_remaining_hours, only_integer: false,
-                                                        allow_nil: true,
-                                                        greater_than_or_equal_to: 0,
-                                                        if: -> { backlogs_enabled? }
 
     include OpenProject::Backlogs::List
   end
@@ -129,15 +115,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     def in_backlogs_type?
       backlogs_enabled? && WorkPackage.backlogs_types.include?(type.try(:id))
-    end
-
-    private
-
-    def backlogs_before_validation
-      if type_id == Task.type
-        self.estimated_hours = remaining_hours if estimated_hours.blank? && remaining_hours.present?
-        self.remaining_hours = estimated_hours if remaining_hours.blank? && estimated_hours.present?
-      end
     end
   end
 end

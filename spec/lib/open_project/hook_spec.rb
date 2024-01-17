@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -72,7 +72,7 @@ RSpec.describe OpenProject::Hook do
         test_hook1_class
 
         expect(described_class.hook_listeners(:view_layouts_base_html_head))
-          .to match_array([test_hook1_class])
+          .to contain_exactly(test_hook1_class)
       end
     end
 
@@ -90,7 +90,7 @@ RSpec.describe OpenProject::Hook do
       it 'adds listeners' do
         described_class.add_listener(test_class)
         expect(described_class.hook_listeners(:view_layouts_base_html_head))
-          .to match_array([test_class])
+          .to contain_exactly(test_class)
       end
     end
 
@@ -152,8 +152,8 @@ RSpec.describe OpenProject::Hook do
 
       it 'calls all registered methods' do
         expect(described_class.call_hook(:view_layouts_base_html_head))
-          .to match_array [test_hook1_class.instance.view_layouts_base_html_head(nil),
-                           test_hook2_class.instance.view_layouts_base_html_head(nil)]
+          .to contain_exactly(test_hook1_class.instance.view_layouts_base_html_head(nil),
+                              test_hook2_class.instance.view_layouts_base_html_head(nil))
       end
     end
 
@@ -171,7 +171,7 @@ RSpec.describe OpenProject::Hook do
 
       it 'passes the context through' do
         expect(described_class.call_hook(:view_layouts_base_html_head, **context))
-          .to match_array [context]
+          .to contain_exactly(context)
       end
     end
 
@@ -187,7 +187,7 @@ RSpec.describe OpenProject::Hook do
 
       it 'renders the link' do
         expect(described_class.call_hook(:view_layouts_base_html_head))
-          .to match_array ['<a href="/work_packages">Work packages</a>']
+          .to contain_exactly('<a href="/work_packages">Work packages</a>')
       end
     end
 
@@ -221,7 +221,7 @@ RSpec.describe OpenProject::Hook do
 
       it 'adds to the context' do
         expect(instance.call_hook(:view_layouts_base_html_head, {}))
-          .to match_array [{ project:, controller: instance, request:, hook_caller: instance }]
+          .to contain_exactly({ project:, controller: instance, request:, hook_caller: instance })
       end
     end
   end

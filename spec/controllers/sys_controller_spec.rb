@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -519,7 +519,7 @@ RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
 
     it 'uses cache' do
       allow(Rails.cache).to receive(:fetch).and_call_original
-      expect(Rails.cache).to receive(:fetch).with(cache_key, expires_in: cache_expiry) \
+      expect(Rails.cache).to receive(:fetch).with(cache_key, expires_in: cache_expiry)
         .and_return(Marshal.dump(valid_user.id.to_s))
       controller.send(:cached_user_login, valid_user.login, valid_user_password)
     end
@@ -635,7 +635,7 @@ RSpec.describe SysController, with_settings: { sys_api_enabled: true } do
 
           context 'storage never updated before' do
             it 'updates the storage' do
-              expect(repository.required_storage_bytes).to be == 0
+              expect(repository.required_storage_bytes).to eq 0
               request_storage
 
               expect(response.code).to eq('200')

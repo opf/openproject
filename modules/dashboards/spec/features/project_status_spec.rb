@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,7 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-RSpec.describe 'Project status widget on dashboard', js: true do
+RSpec.describe 'Project status widget on dashboard', :js do
   let!(:project) do
     create(:project,
            status_code: 'on_track',
@@ -120,7 +120,7 @@ RSpec.describe 'Project status widget on dashboard', js: true do
         # The edit field is toggled and the value saved.
         expect(page).to have_content('AT RISK')
         expect(page).to have_selector(field.selector)
-        expect(page).not_to have_selector(field.input_selector)
+        expect(page).to have_no_selector(field.input_selector)
 
         # Unset the project status
         field.activate!
@@ -130,7 +130,7 @@ RSpec.describe 'Project status widget on dashboard', js: true do
         # The edit field is toggled and the value saved.
         expect(page).to have_content('NOT SET')
         expect(page).to have_selector(field.selector)
-        expect(page).not_to have_selector(field.input_selector)
+        expect(page).to have_no_selector(field.input_selector)
 
         # Open explanation field
         field = TextEditorField.new dashboard_page, 'statusExplanation'
@@ -145,7 +145,7 @@ RSpec.describe 'Project status widget on dashboard', js: true do
         # The edit field is toggled and the value saved.
         expect(page).to have_content('A completely new explanation which is super cool.')
         expect(page).to have_selector(field.selector)
-        expect(page).not_to have_selector(field.input_selector)
+        expect(page).to have_no_selector(field.input_selector)
       end
     end
   end

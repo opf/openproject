@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -27,10 +27,6 @@ si:
     attributes:
       work_package:
         position: "තත්ත්වය"
-        remaining_hours: "ඉතිරි පැය"
-        remaining_time: "ඉතිරි පැය"
-        derived_remaining_hours: "Derived remaining hours"
-        derived_remaining_time: "Derived remaining hours"
         story_points: "කතන්දර කරුණු"
         backlogs_work_package_type: "බැක්ලොග් වර්ගය"
     errors:
@@ -68,8 +64,8 @@ si:
     properties: "ගුණාංග"
     rebuild: "නැවත"
     rebuild_positions: "තනතුරු නැවත"
-    remaining_hours: "ඉතිරි පැය"
-    remaining_hours_ideal: "ඉතිරි පැය (කදිම)"
+    remaining_hours: "Remaining work"
+    remaining_hours_ideal: "Remaining work (ideal)"
     show_burndown_chart: "බර්න්ඩවුන් සටහන"
     story: "කතාව"
     story_points: "කතන්දර කරුණු"
@@ -151,7 +147,7 @@ si:
   rb_label_copy_tasks_none: "කිසිවක් නැත"
   rb_label_copy_tasks_open: "විවෘත"
   rb_label_link_to_original: "මුල් කතාවට සබැඳිය ඇතුළත් කරන්න"
-  remaining_hours: "ඉතිරි පැය"
+  remaining_hours: "remaining work"
   required_burn_rate_hours: "අවශ්ය පිළිස්සීම් අනුපාතය (පැය)"
   required_burn_rate_points: "අවශ්ය පිළිස්සීම් අනුපාතය (ලකුණු)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

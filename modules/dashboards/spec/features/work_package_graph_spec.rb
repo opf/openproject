@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -30,8 +30,7 @@ require 'spec_helper'
 
 require_relative '../support/pages/dashboard'
 
-RSpec.describe 'Arbitrary WorkPackage query graph widget dashboard',
-               js: true, with_ee: %i[grid_widget_wp_graph] do
+RSpec.describe 'Arbitrary WorkPackage query graph widget dashboard', :js, with_ee: %i[grid_widget_wp_graph] do
   let!(:type) { create(:type) }
   let!(:other_type) { create(:type) }
   let!(:priority) { create(:default_priority) }
@@ -172,7 +171,7 @@ RSpec.describe 'Arbitrary WorkPackage query graph widget dashboard',
 
       # At this point the add widget modal is open
       expect(page)
-        .not_to have_content("Work packages graph")
+        .to have_no_content("Work packages graph")
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -73,7 +73,7 @@ RSpec.describe WorkPackages::CreateNoteContract do
 
       it 'is invalid' do
         expect(contract.errors.symbols_for(:journal_notes))
-          .to match_array([:error_unauthorized])
+          .to contain_exactly(:error_unauthorized)
       end
     end
   end
@@ -89,7 +89,7 @@ RSpec.describe WorkPackages::CreateNoteContract do
 
     it 'is invalid' do
       expect(contract.errors.symbols_for(:subject))
-        .to match_array([:error_readonly])
+        .to contain_exactly(:error_readonly)
     end
   end
 end
