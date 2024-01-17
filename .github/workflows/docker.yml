@@ -23,7 +23,7 @@ env:
 jobs:
   build:
     if: github.repository == 'opf/openproject'
-    runs-on: ubuntu-latest
+    runs-on: [ self-hosted, aws, ubuntu22, x64, 2XL ]
     strategy:
       matrix:
         include:
