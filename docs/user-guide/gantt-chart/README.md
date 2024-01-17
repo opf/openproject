@@ -80,14 +80,16 @@ To change the duration of a work package in the Gantt chart view, hover over the
 
 You can track dependencies of work packages (e.g. phases, milestones, tasks) in the Gantt chart. This way, you can get an easy overview of what needs to be done in which order, e.g. what tasks need to be completed to achieve a milestone.
 
-To add a dependency, right-click on an element in the Gantt chart.
+To add a dependency, right-click on an element in the Gantt chart, which will open a quick context menu.
 
 In the menu, choose **Add predecessor** or **Add follower**.
 
 Select the item to which you want to create a dependency. The precede and follow relation is marked with a small blue line in the Gantt chart.
 
+The quickest way to remove a relation is to select **Show relations** from the quick context menu and removing the relation in the work package details view.
 
-![dependencies-gantt-chart](dependencies-gantt-chart-1566556144225.gif)
+
+![dependencies-gantt-chart](gantt-chart.gif)
 
 When work packages have a precedes/follows relationship:
 
