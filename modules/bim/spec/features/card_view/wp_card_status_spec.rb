@@ -31,7 +31,7 @@ require_relative '../../support/pages/ifc_models/show_default'
 
 RSpec.describe 'Update status from WP card', :js, :with_cuprite, with_config: { edition: 'bim' } do
   let(:manager_role) do
-    create(:project_role, permissions: %i[view_work_packages edit_work_packages])
+    create(:project_role, permissions: %i[view_work_packages edit_work_packages view_ifc_models view_linked_issues])
   end
   let(:manager) do
     create(:user,
@@ -43,7 +43,7 @@ RSpec.describe 'Update status from WP card', :js, :with_cuprite, with_config: { 
   let(:status2) { create(:status) }
 
   let(:type) { create(:type) }
-  let!(:project) { create(:project, types: [type]) }
+  let!(:project) { create(:project, types: [type], enabled_module_names: %i[bim work_package_tracking]) }
   let!(:work_package) do
     create(:work_package,
            project:,
@@ -67,6 +67,7 @@ RSpec.describe 'Update status from WP card', :js, :with_cuprite, with_config: { 
     login_as(manager)
 
     wp_table.visit!
+    loading_indicator_saveguard
     wp_table.expect_work_package_listed(work_package)
 
     wp_table.switch_view 'Cards'

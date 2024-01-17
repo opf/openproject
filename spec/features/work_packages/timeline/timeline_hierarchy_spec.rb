@@ -28,7 +28,10 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package timeline hierarchies', :js, :selenium do
+RSpec.describe 'Work package timeline hierarchies',
+               :js,
+               :selenium,
+               with_flag: { show_separate_gantt_module: true } do
   let(:user) { create(:admin) }
   let!(:wp_root) do
     create(:work_package,
@@ -42,7 +45,7 @@ RSpec.describe 'Work package timeline hierarchies', :js, :selenium do
            due_date: 5.days.from_now)
   end
   let!(:query) do
-    query              = build(:query, user:, project:)
+    query              = build(:query_with_view_gantt, user:, project:)
     query.column_names = ['subject']
     query.filters.clear
     query.show_hierarchies = true
@@ -51,7 +54,7 @@ RSpec.describe 'Work package timeline hierarchies', :js, :selenium do
     query.save!
     query
   end
-  let(:project) { create(:project) }
+  let(:project) { create(:project, enabled_module_names: %i[work_package_tracking gantt]) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:hierarchy) { Components::WorkPackages::Hierarchies.new }

@@ -53,6 +53,13 @@ module Pages
         finished_loading
       end
 
+      # Visits the BCF module with the specified query.
+      #
+      # @param query [Query] The query object.
+      def visit_query(query)
+        visit "#{path}?query_id=#{query.id}"
+      end
+
       def expect_details_path
         expect(page).to have_current_path /\/bcf\/details/, ignore_query: true
       end

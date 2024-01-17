@@ -34,7 +34,6 @@ RSpec.describe 'Work package navigation', :js, :selenium do
   let(:work_package) { build(:work_package, project:) }
   let(:global_html_title) { Components::HtmlTitle.new }
   let(:project_html_title) { Components::HtmlTitle.new project }
-  let(:wp_display) { Components::WorkPackages::DisplayRepresentation.new }
   let(:wp_title_segment) do
     "#{work_package.type.name}: #{work_package.subject} (##{work_package.id})"
   end
@@ -191,25 +190,6 @@ RSpec.describe 'Work package navigation', :js, :selenium do
 
     full_page = Pages::FullWorkPackage.new work_package, work_package.project
     full_page.ensure_page_loaded
-  end
-
-  it 'moving back from gantt to "All open" (Regression #30921)' do
-    wp_table = Pages::WorkPackagesTable.new project
-    wp_table.visit!
-
-    # Switch to gantt view
-    wp_display.expect_state 'Table'
-    wp_display.switch_to_gantt_layout
-    wp_display.expect_state 'Gantt'
-
-    # Click on All open
-    find('.op-sidemenu--item-action', text: 'All open').click
-
-    if OpenProject::Configuration.bim?
-      wp_display.expect_state 'Cards'
-    else
-      wp_display.expect_state 'Table'
-    end
   end
 
   describe 'moving back to filtered list after change' do

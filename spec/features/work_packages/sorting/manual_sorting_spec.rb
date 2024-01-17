@@ -29,13 +29,13 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-RSpec.describe 'Manual sorting of WP table', :js do
+RSpec.describe 'Manual sorting of WP table', :js, with_flag: { show_separate_gantt_module: true } do
   let(:user) { create(:admin) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   let(:type_task) { create(:type_task) }
   let(:type_bug) { create(:type_bug) }
-  let(:project) { create(:project, types: [type_task, type_bug]) }
+  let(:project) { create(:project, types: [type_task, type_bug], enabled_module_names: %i[work_package_tracking gantt]) }
   let(:work_package1) do
     create(:work_package, subject: 'WP1', project:, type: type_task, created_at: Time.zone.now)
   end
@@ -392,17 +392,28 @@ RSpec.describe 'Manual sorting of WP table', :js do
 
     context 'when view is gantt chart' do
       let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
+      let!(:query_tl) do
+        query = build(:query_with_view_gantt, user:, project:)
+        query.filters.clear
+        query.timeline_visible = true
+        query.name = 'Query with Timeline'
+
+        query.save!
+
+        query
+      end
+
 
       it 'reloads after drop' do
-        wp_timeline.toggle_timeline
+        wp_timeline.visit_query(query_tl)
         wp_timeline.expect_timeline!
         wp_timeline.expect_row_count(4)
 
-        wp_timeline.expect_work_package_order work_package1, work_package2, work_package3, work_package4
+        wp_timeline.expect_work_package_order work_package4, work_package3, work_package2, work_package1
 
         wp_table.drag_and_drop_work_package from: 1, to: 3
-        wp_table.expect_work_package_order work_package1, work_package3, work_package2, work_package4
-        wp_timeline.expect_work_package_order work_package1, work_package3, work_package2, work_package4
+        wp_table.expect_work_package_order work_package4, work_package2, work_package3, work_package1
+        wp_timeline.expect_work_package_order work_package4, work_package2, work_package3, work_package1
       end
     end
   end

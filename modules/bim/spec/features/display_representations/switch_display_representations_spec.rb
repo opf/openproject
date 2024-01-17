@@ -34,7 +34,7 @@ RSpec.describe 'Switching work package view',
                with_ee: %i[conditional_highlighting],
                with_config: { edition: 'bim' } do
   let(:user) { create(:admin) }
-  let(:project) { create(:project) }
+  let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:wp_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:highlighting) { Components::WorkPackages::Highlighting.new }
   let(:cards) { Pages::WorkPackageCards.new(project) }
@@ -63,6 +63,7 @@ RSpec.describe 'Switching work package view',
 
     login_as(user)
     wp_page.visit!
+    loading_indicator_saveguard
     wp_page.expect_work_package_listed wp_1, wp_2
   end
 
@@ -70,58 +71,14 @@ RSpec.describe 'Switching work package view',
     before do
       # Enable card representation
       wp_page.switch_view 'Cards'
+      loading_indicator_saveguard
       cards.expect_work_package_listed wp_1, wp_2
-    end
-
-    it 'can switch the representations and keep the configuration settings' do
-      # Enable highlighting
-      highlighting.switch_entire_row_highlight "Priority"
-      within "wp-single-card[data-work-package-id='#{wp_1.id}']" do
-        expect(page).to have_css(".op-wp-single-card--highlighting.__hl_background_priority_#{priority1.id}")
-      end
-      within "wp-single-card[data-work-package-id='#{wp_2.id}']" do
-        expect(page).to have_css(".op-wp-single-card--highlighting.__hl_background_priority_#{priority2.id}")
-      end
-
-      # Switch back to list representation & Highlighting is kept
-      wp_page.switch_view 'Table'
-      wp_page.expect_work_package_listed wp_1, wp_2
-      expect(page).to have_css("#{wp_page.row_selector(wp_1)}.__hl_background_priority_#{priority1.id}")
-      expect(page).to have_css("#{wp_page.row_selector(wp_2)}.__hl_background_priority_#{priority2.id}")
-
-      # Change attribute
-      highlighting.switch_entire_row_highlight "Status"
-      expect(page).to have_css("#{wp_page.row_selector(wp_1)}.__hl_background_status_#{status.id}")
-      expect(page).to have_css("#{wp_page.row_selector(wp_2)}.__hl_background_status_#{status.id}")
-
-      # Switch back to card representation & Highlighting is kept, too
-      wp_page.switch_view 'Card'
-      within "wp-single-card[data-work-package-id='#{wp_1.id}']" do
-        expect(page).to have_css(".op-wp-single-card--highlighting.__hl_background_status_#{status.id}")
-      end
-      within "wp-single-card[data-work-package-id='#{wp_2.id}']" do
-        expect(page).to have_css(".op-wp-single-card--highlighting.__hl_background_status_#{status.id}")
-      end
     end
 
     it 'saves the representation in the query' do
       # After refresh the WP are still displayed as cards
       page.driver.browser.navigate.refresh
       cards.expect_work_package_listed wp_1, wp_2
-    end
-  end
-
-  context 'when reordering an unsaved query' do
-    it 'retains that order' do
-      wp_page.expect_work_package_order wp_1, wp_2
-
-      wp_page.drag_and_drop_work_package from: 1, to: 0
-
-      wp_page.expect_work_package_order wp_2, wp_1
-
-      wp_page.switch_view 'Cards'
-
-      cards.expect_work_package_order wp_2, wp_1
     end
   end
 end

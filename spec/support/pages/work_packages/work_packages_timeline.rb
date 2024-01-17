@@ -31,8 +31,8 @@ require 'support/pages/work_packages/work_packages_table'
 
 module Pages
   class WorkPackagesTimeline < WorkPackagesTable
-    def toggle_timeline
-      ::Components::WorkPackages::DisplayRepresentation.new.switch_to_gantt_layout
+    def path
+      project ? project_gantt_index_path(project) : gantt_index_path
     end
 
     def timeline_row_selector(wp_id)
@@ -52,11 +52,9 @@ module Pages
     def expect_work_package_listed(*work_packages)
       super(*work_packages)
 
-      if page.has_selector?('#wp-view-toggle-button', text: 'Gantt')
-        within(timeline_container) do
-          work_packages.each do |wp|
-            expect(page).to have_css(".wp-row-#{wp.id}-timeline", visible: true)
-          end
+      within(timeline_container) do
+        work_packages.each do |wp|
+          expect(page).to have_css(".wp-row-#{wp.id}-timeline", visible: true)
         end
       end
     end
@@ -64,11 +62,9 @@ module Pages
     def expect_work_package_not_listed(*work_packages)
       super(*work_packages)
 
-      if page.has_selector?('#wp-view-toggle-button', text: 'Gantt')
-        within(timeline_container) do
-          work_packages.each do |wp|
-            expect(page).to have_no_css(".wp-row-#{wp.id}-timeline", visible: true)
-          end
+      within(timeline_container) do
+        work_packages.each do |wp|
+          expect(page).to have_no_css(".wp-row-#{wp.id}-timeline", visible: true)
         end
       end
     end
@@ -85,10 +81,8 @@ module Pages
 
     def expect_timeline!(open: true)
       if open
-        expect(page).to have_css('#wp-view-toggle-button', text: 'Gantt')
         expect(page).to have_css('.wp-table-timeline--container .wp-timeline-cell')
       else
-        expect(page).to have_no_css('#wp-view-toggle-button', text: 'Gantt')
         expect(page).to have_no_css('.wp-table-timeline--container .wp-timeline-cell', visible: true)
       end
     end

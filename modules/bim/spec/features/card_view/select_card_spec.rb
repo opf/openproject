@@ -31,7 +31,7 @@ require_relative '../../support/pages/ifc_models/show_default'
 
 RSpec.describe 'Selecting cards in the card view (regression #31962)', :js, with_config: { edition: 'bim' } do
   let(:user) { create(:admin) }
-  let(:project) { create(:project) }
+  let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:wp_table) { Pages::IfcModels::ShowDefault.new(project) }
   let(:cards) { Pages::WorkPackageCards.new(project) }
   let!(:work_package1) { create(:work_package, project:) }

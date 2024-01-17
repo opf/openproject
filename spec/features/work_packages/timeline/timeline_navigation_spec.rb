@@ -28,9 +28,12 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package timeline navigation', :js, :selenium do
+RSpec.describe 'Work package timeline navigation',
+               :js,
+               :selenium,
+               with_flag: { show_separate_gantt_module: true } do
   let(:user) { create(:admin) }
-  let(:project) { create(:project) }
+  let(:project) { create(:project, enabled_module_names: %i[work_package_tracking gantt]) }
   let(:query_menu) { Components::WorkPackages::QueryMenu.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
@@ -42,6 +45,19 @@ RSpec.describe 'Work package timeline navigation', :js, :selenium do
            project:,
            start_date: Date.current,
            due_date: Date.current + 5.days)
+  end
+
+  let!(:query_tl) do
+    query = build(:query_with_view_gantt, user:, project:)
+    query.column_names = ['id', 'type', 'subject']
+    query.filters.clear
+    query.add_filter('type_id', '=', [type2.id])
+    query.timeline_visible = true
+    query.name = 'Query with Timeline'
+
+    query.save!
+
+    query
   end
 
   before do
@@ -67,27 +83,12 @@ RSpec.describe 'Work package timeline navigation', :js, :selenium do
     end
 
     let!(:query) do
-      query = build(:query, user:, project:)
+      query = build(:query_with_view_work_packages_table, user:, project:)
       query.column_names = ['id', 'type', 'subject']
       query.filters.clear
       query.timeline_visible = false
       query.add_filter('type_id', '=', [type.id])
       query.name = 'Query without Timeline'
-
-      query.save!
-      create(:view_work_packages_table,
-             query:)
-
-      query
-    end
-
-    let!(:query_tl) do
-      query = build(:query, user:, project:)
-      query.column_names = ['id', 'type', 'subject']
-      query.filters.clear
-      query.add_filter('type_id', '=', [type2.id])
-      query.timeline_visible = true
-      query.name = 'Query with Timeline'
 
       query.save!
       create(:view_work_packages_table,
@@ -104,11 +105,19 @@ RSpec.describe 'Work package timeline navigation', :js, :selenium do
       wp_timeline.expect_work_package_listed work_package2
       wp_timeline.ensure_work_package_not_listed! work_package
 
+      # Navigate to the WP module
+      find('.main-menu--arrow-left-to-project').click
+      find('#main-menu-work-packages-wrapper .main-menu-toggler').click
+
       # Select other query
       query_menu.select query
       wp_timeline.expect_timeline!(open: false)
       wp_timeline.expect_work_package_listed work_package
       wp_timeline.ensure_work_package_not_listed! work_package2
+
+      # Navigate to the Gantt module agin
+      find('.main-menu--arrow-left-to-project').click
+      find('#main-menu-gantt-wrapper .main-menu-toggler').click
 
       # Select first query again
       query_menu.select query_tl
@@ -135,14 +144,10 @@ RSpec.describe 'Work package timeline navigation', :js, :selenium do
   end
 
   it 'can save the open state and zoom of timeline' do
-    wp_timeline.visit!
+    wp_timeline.visit_query query_tl
     wp_timeline.expect_work_package_listed(work_package)
 
-    # Should be initially closed
-    wp_timeline.expect_timeline!(open: false)
-
-    # Enable timeline
-    wp_timeline.toggle_timeline
+    # Should be initially open
     wp_timeline.expect_timeline!(open: true)
 
     # Should have an active element rendered
@@ -197,15 +202,11 @@ RSpec.describe 'Work package timeline navigation', :js, :selenium do
     let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
 
     it 'toggles the hierarchy in both views' do
-      wp_timeline.visit!
+      wp_timeline.visit_query query_tl
       wp_timeline.expect_work_package_listed(work_package)
       wp_timeline.expect_work_package_listed(child_work_package)
 
-      # Should be initially closed
-      wp_timeline.expect_timeline!(open: false)
-
-      # Enable timeline
-      wp_timeline.toggle_timeline
+      # Should be initially opened
       wp_timeline.expect_timeline!(open: true)
 
       # Should have an active element rendered
@@ -266,7 +267,7 @@ RSpec.describe 'Work package timeline navigation', :js, :selenium do
     end
 
     let!(:query) do
-      query = build(:query, user:, project:)
+      query = build(:query_with_view_gantt, user:, project:)
       query.column_names = ['id', 'subject', 'category']
       query.show_hierarchies = false
       query.timeline_visible = true
