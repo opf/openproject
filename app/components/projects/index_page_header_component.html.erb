@@ -70,7 +70,11 @@
           label: t(:button_delete),
           href: projects_query_path(query),
           form_arguments: {
-            method: :delete
+            method: :delete,
+            data: {
+              confirm: t("text_are_you_sure"),
+              turbo: 'false'
+            }
           }
         ) do |item|
           item.with_leading_visual_icon(icon: 'trash')

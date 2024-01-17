@@ -285,11 +285,11 @@ en:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
-    sidemenu:
+    lists:
       all: 'All projects'
       my: 'My projects'
       archived: 'Archived projects'
-      my_private_lists: 'My private project lists'
+      my_private: 'My private project lists'
 
     settings:
       change_identifier: Change identifier

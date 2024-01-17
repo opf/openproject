@@ -251,7 +251,9 @@ module Pages
       end
 
       def delete_query
-        click_more_menu_item('Delete')
+        accept_confirm do
+          click_more_menu_item('Delete')
+        end
       end
 
       private

@@ -44,7 +44,7 @@ class Queries::Projects::Factory
     end
 
     def static_query_all
-      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.sidemenu.all')) do |query|
+      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.lists.all')) do |query|
         query.where('active', '=', OpenProject::Database::DB_VALUE_TRUE)
 
         query.order(lft: :asc)
@@ -52,7 +52,7 @@ class Queries::Projects::Factory
     end
 
     def static_query_my
-      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.sidemenu.my')) do |query|
+      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.lists.my')) do |query|
         query.where('member_of', '=', OpenProject::Database::DB_VALUE_TRUE)
 
         query.order(lft: :asc)
@@ -60,7 +60,7 @@ class Queries::Projects::Factory
     end
 
     def static_query_archived
-      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.sidemenu.archived')) do |query|
+      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.lists.archived')) do |query|
         query.where('active', '=', OpenProject::Database::DB_VALUE_FALSE)
 
         query.order(lft: :asc)
