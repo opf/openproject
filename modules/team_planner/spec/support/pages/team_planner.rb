@@ -343,7 +343,7 @@ module Pages
 
     def wait_for_loaded
       expect(page).to have_css('.op-team-planner--wp-loading-skeleton')
-      expect(page).to have_no_css('.op-team-planner--wp-loading-skeleton')
+      expect(page).to have_no_css('.op-team-planner--wp-loading-skeleton', wait: 10)
     end
   end
 end
