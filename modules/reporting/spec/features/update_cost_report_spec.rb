@@ -51,7 +51,9 @@ RSpec.describe "updating a cost report's cost type", :js do
 
   it 'works' do
     report_page.visit!
+
     report_page.save(as: 'My Query', public: true)
+    report_page.wait_for_page_to_reload
 
     retry_block do
       cost_query = CostQuery.find_by!(name: 'My Query')
@@ -63,9 +65,11 @@ RSpec.describe "updating a cost report's cost type", :js do
     report_page.switch_to_type cost_type.name
     expect(page).to have_field(cost_type.name, checked: true, wait: 10)
 
+    report_page.wait_for_page_to_reload
     click_on "Save"
 
     click_on "My Query"
+
     expect(page).to have_field(cost_type.name, checked: true)
   end
 end
