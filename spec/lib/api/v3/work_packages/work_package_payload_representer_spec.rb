@@ -76,6 +76,16 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
 
         it { is_expected.to be_json_eql(work_package.lock_version.to_json).at_path('lockVersion') }
 
+        context 'with only change_work_package_status permission' do
+          before do
+            mock_permissions_for(user) do |mock|
+              mock.allow_in_project :change_work_package_status, project: work_package.project
+            end
+          end
+
+          it { is_expected.to have_json_path('lockVersion') }
+        end
+
         context 'with a lock version of nil (new work package)' do
           before do
             allow(work_package)

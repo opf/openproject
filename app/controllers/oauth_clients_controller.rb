@@ -118,6 +118,10 @@ class OAuthClientsController < ApplicationController
   end
 
   def set_oauth_errors(service_result)
+    if service_result.errors.is_a?(::Storages::StorageError)
+      service_result.errors = service_result.errors.to_active_model_errors
+    end
+
     flash[:error] = ["#{t(:'oauth_client.errors.oauth_authorization_code_grant_had_errors')}:"]
     service_result.errors.each do |error|
       flash[:error] << "#{t(:'oauth_client.errors.oauth_reported')}: #{error.full_message}"

@@ -73,8 +73,7 @@ RSpec.describe 'API v3 file links resource' do
 
   let(:file_link_happy) { create(:file_link, origin_id: "24", storage: storage_good, container: work_package) }
   let(:file_link_other_user) { create(:file_link, origin_id: '25', storage: storage_good, container: work_package) }
-  let(:file_link_trashed) { create(:file_link, origin_id: '26', storage: storage_good, container: work_package) }
-  let(:file_link_deleted) { create(:file_link, origin_id: '27', storage: storage_good, container: work_package) }
+  let(:file_link_deleted) { create(:file_link, origin_id: '26', storage: storage_good, container: work_package) }
 
   let(:file_link_unauth_happy) { create(:file_link, origin_id: "28", storage: storage_unauth, container: work_package) }
   let(:file_link_error_happy) { create(:file_link, origin_id: "29", storage: storage_error, container: work_package) }
@@ -88,7 +87,6 @@ RSpec.describe 'API v3 file links resource' do
   let(:file_info_s404) { { status: "Not found", statuscode: 404 } }
 
   # Nextcloud response part for valid file
-  let(:trashed) { false } # trashed is included in file_info1_s200 below
   let(:file_info_happy) do
     {
       id: 24,
@@ -101,23 +99,6 @@ RSpec.describe 'API v3 file links resource' do
       size: 12706214,
       owner_id: "admin",
       owner_name: "admin",
-      trashed: false,
-      path: "/Nextcloud Manual.pdf"
-    }
-  end
-  let(:file_info_trashed) do
-    {
-      id: 26,
-      status: "OK",
-      statuscode: 200,
-      name: "Reasons to use Nextcloud Manual.pdf",
-      mtime: 1655311634,
-      ctime: 1655344567,
-      mimetype: "application/pdf",
-      size: 954123,
-      owner_id: "admin",
-      owner_name: "admin",
-      trashed: true,
       path: "/Nextcloud Manual.pdf"
     }
   end
@@ -137,10 +118,9 @@ RSpec.describe 'API v3 file links resource' do
 
     file_link_happy
     file_link_other_user
-    file_link_trashed
     file_link_deleted
 
-    #  FileLinks on host-unauth and host-error that we'll see in the result list with origin_permission=:error
+    #  FileLinks on host-unauth and host-error that we'll see in the result list with origin_status=:error
     file_link_unauth_happy
     file_link_error_happy
     file_link_timeout_happy
@@ -158,8 +138,7 @@ RSpec.describe 'API v3 file links resource' do
           data: {
             '24': file_info_happy,
             '25': file_info_s403,
-            '26': file_info_trashed,
-            '27': file_info_s404
+            '26': file_info_s404
           }
         }
       }.to_json
@@ -190,15 +169,15 @@ RSpec.describe 'API v3 file links resource' do
     end
 
     # total, count, element_type, collection_type = 'Collection'
-    it_behaves_like 'API V3 collection response', 5, 5, 'FileLink', 'Collection' do
+    it_behaves_like 'API V3 collection response', 6, 6, 'FileLink', 'Collection' do
       let(:elements) do
         [
           file_link_timeout_happy,
           file_link_error_happy,
           file_link_unauth_happy,
+          file_link_deleted,
           file_link_other_user,
           file_link_happy
-          # We didn't include file_link_trashed here, as it's not returned by API
         ]
       end
     end
@@ -209,30 +188,26 @@ RSpec.describe 'API v3 file links resource' do
 
       # A "happy" file link should be visible
       happy_file_link = elements.detect { |e| e["originData"]["id"] == "24" }
-      expect(happy_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_VIEW
+      expect(happy_file_link["_links"]["status"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_VIEW
       # Check that we've got an updated mtime
       expect(happy_file_link["originData"]["lastModifiedAt"]).to eql Time.zone.at(1655301234).iso8601(3)
 
       # A file link created by another user is not_allowed
       other_user_file_link = elements.detect { |e| e["originData"]["id"] == "25" }
-      expect(other_user_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_NOT_ALLOWED
-
-      # A trashed FileLink should not be shown in the AP result list, but is not yet deleted
-      trashed_file_link = elements.detect { |e| e["originData"]["id"] == "26" }
-      expect(trashed_file_link).to be_nil
+      expect(other_user_file_link["_links"]["status"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_NOT_ALLOWED
 
       # The deleted_file_link should not even appear in the Database anymore
       deleted_file_link = elements.detect { |e| e["originData"]["id"] == "27" }
       expect(deleted_file_link).to be_nil
       expect(Storages::FileLink.where(origin_id: '27').count).to be 0
 
-      # The FileLink from a Nextcloud with error should have origin_permission=:error
+      # The FileLink from a Nextcloud with error should have origin_status=:error
       error_file_link = elements.detect { |e| e["originData"]["id"] == "29" }
-      expect(error_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_ERROR
+      expect(error_file_link["_links"]["status"]["href"]).to eql API::V3::FileLinks::URN_STATUS_ERROR
 
-      # The FileLink from a Nextcloud with timeout should have origin_permission=:error
+      # The FileLink from a Nextcloud with timeout should have origin_status=:error
       error_file_link = elements.detect { |e| e["originData"]["id"] == "30" }
-      expect(error_file_link["_links"]["permission"]["href"]).to eql API::V3::FileLinks::URN_PERMISSION_ERROR
+      expect(error_file_link["_links"]["status"]["href"]).to eql API::V3::FileLinks::URN_STATUS_ERROR
     end
   end
 end

@@ -40,27 +40,35 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
   protected workPackage:WorkPackageResource;
 
   public handleEvent(view:TableEventComponent, evt:JQuery.TriggeredEvent) {
-    // Avoid the state capture when clicking with modifier
+    evt.stopPropagation();
+
+    // Avoid the state capture when clicking with modifier to allow browser opening in new tab
     if (evt.shiftKey || evt.ctrlKey || evt.metaKey || evt.altKey) {
       return true;
     }
 
     // Locate the details link from event
-    const target = jQuery(evt.target);
-    const element = target.closest(this.SELECTOR);
-    const state = element.data('wpState');
-    const workPackageId = element.data('workPackageId');
+    // debugger;
+    const target = evt.target as HTMLElement;
+    const element = target.closest(this.SELECTOR) as HTMLElement & { dataset:DOMStringMap };
+    const state = element.dataset.wpState;
+    const workPackageId = element.dataset.workPackageId;
+
+    // Normal link processing if there are no state and work package information
+    if (!state || !workPackageId) {
+      return true;
+    }
 
     // Blur the target to avoid focus being kept there
-    target.closest('a').blur();
+    target.closest('a')?.blur();
 
     // The current row is the last selected work package
     // not matter what other rows are (de-)selected below.
     // Thus save that row for the details view button.
     // Locate the row from event
-    const row = target.closest(`.${tableRowClassName}`);
-    const classIdentifier = row.data('classIdentifier');
-    const [index, _] = view.workPackageTable.findRenderedRow(classIdentifier);
+    const row = target.closest(`.${tableRowClassName}`) as HTMLElement & { dataset:DOMStringMap };
+    const classIdentifier = row.dataset.classIdentifier as string;
+    const [index] = view.workPackageTable.findRenderedRow(classIdentifier);
 
     // Update single selection if no modifier present
     this.wpTableSelection.setSelection(workPackageId, index);
@@ -68,7 +76,6 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     view.stateLinkClicked.emit({ workPackageId, requestedState: state });
 
     evt.preventDefault();
-    evt.stopPropagation();
     return false;
   }
 }

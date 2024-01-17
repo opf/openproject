@@ -281,6 +281,9 @@ fr:
       no_results_content_text: Ajouter un membre au projet
     invite_by_mail: "Envoyer une invitation à %{mail}"
     send_invite_to: "Envoyer une invitation à"
+    no_modify_on_shared: "Actuellement, vous ne pouvez pas modifier ou supprimer les adhésions partagées depuis la page des membres. Utilisez plutôt la fenêtre modale de partage."
+    columns:
+      shared: "Partagé"
     filters:
       all_shares: 'Tous les partages'
     menu:
@@ -2163,6 +2166,10 @@ fr:
     one: "1 ouvert"
     other: "%{count} ouverts"
     zero: "0 ouvert"
+  label_x_work_packages:
+    one: "1 lot de travaux"
+    other: "%{count} lots de travaux"
+    zero: "Aucun lot de travaux"
   label_x_projects:
     one: "1 projet"
     other: "%{count} projets"
@@ -2422,8 +2429,8 @@ fr:
   permission_assign_versions: "Assigner les versions"
   permission_browse_repository: "Accès au dépôt en lecture seule (navigation et « checkout »)"
   permission_change_wiki_parent_page: "Changer la page wiki parent"
-  permission_change_work_package_status: "Change work package status"
-  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
+  permission_change_work_package_status: "Modifier le statut du lot de travaux"
+  permission_change_work_package_status_explanation: "Permet de modifier le statut sans avoir le droit de modifier les lots de travaux"
   permission_comment_news: "Commenter les actualités"
   permission_commit_access: "Accès au dépôt en lecture/écriture (« commit »)"
   permission_copy_projects: "Copier des projets"
@@ -2485,7 +2492,7 @@ fr:
   permission_view_news: "Voir les nouvelles"
   permission_view_members: "Afficher les membres"
   permission_view_reportings: "Voir rapports"
-  permission_view_shared_work_packages: "Voir les lots de travaux partagés"
+  permission_view_shared_work_packages: "Voir la répartition des lots de travail"
   permission_view_time_entries: "Voir temps passé"
   permission_view_timelines: "Voir les lignes du temps"
   permission_view_wiki_edits: "Voir l'historique du wiki"
@@ -2500,7 +2507,7 @@ fr:
     default: "-"
   project:
     destroy:
-      confirmation: "Si vous continuez, le projet %{identifiant} sera définitivement supprimé. Pour confirmer cette action, veuillez saisir le nom du projet dans le champ ci-dessous. Cela va :"
+      confirmation: "Si vous continuez, le projet %{identifier} sera définitivement supprimé. Pour confirmer cette action, veuillez saisir le nom du projet dans le champ ci-dessous. Cela va :"
       project_delete_result_1: "Supprimer toutes les données associées."
       project_delete_result_2: "Supprimer tous les dossiers de projet gérés dans les unités de stockage attachées."
       info: "La suppression du projet est une action irréversible."
@@ -3084,7 +3091,7 @@ fr:
       warning_user_limit_reached_admin: >
         L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour que les utilisateurs externes puissent accéder à ce work package.
       warning_no_selected_user: "Veuillez sélectionner les utilisateurs avec lesquels partager ce lot de travaux"
-      warning_locked_user: "Impossible de partager avec %{utilisateur} dont le compte est verrouillé"
+      warning_locked_user: "Impossible de partager avec %{user} dont le compte est verrouillé"
       user_details:
         locked: "Utilisateur verrouillé"
         invited: "Invitation envoyée."

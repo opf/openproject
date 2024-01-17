@@ -20,7 +20,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Slow notification polling \[[#51622](https://community.openproject.com/wp/51622)\]
 - Fixed: Error from rails at openproject configure : Rails couldn't infer whether you are using multiple databases from your database.yml and can't generate the tasks for the non-primary databases. \[[#51625](https://community.openproject.com/wp/51625)\]
 - Fixed: Share modal has two close options \[[#51652](https://community.openproject.com/wp/51652)\]
-- Fixed: Missing translation "<user> wrote:" when quoting in work package activity \[[#51656](https://community.openproject.com/wp/51656)\]
+- Fixed: Missing translation `<user> wrote:` when quoting in work package activity \[[#51656](https://community.openproject.com/wp/51656)\]
 - Fixed: Very slow Project.visible scope for administrators \[[#51659](https://community.openproject.com/wp/51659)\]
 - Fixed: Meeting agenda create Form Buttons overlap on mobile  \[[#51687](https://community.openproject.com/wp/51687)\]
 - Fixed: Time and costs \[[#51700](https://community.openproject.com/wp/51700)\]

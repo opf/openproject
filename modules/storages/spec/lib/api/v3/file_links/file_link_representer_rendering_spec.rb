@@ -38,8 +38,8 @@ RSpec.describe API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
   let(:container) { build_stubbed(:work_package) }
   let(:project) { container.project }
   let(:creator) { build_stubbed(:user, firstname: 'Rey', lastname: 'Palpatine') }
-  let(:origin_permission) { :view }
-  let(:file_link) { build_stubbed(:file_link, storage:, container:, creator:, origin_permission:) }
+  let(:origin_status) { :view_allowed }
+  let(:file_link) { build_stubbed(:file_link, storage:, container:, creator:, origin_status:) }
   let(:user) { build_stubbed(:user) }
   let(:representer) { described_class.new(file_link, current_user: user) }
 
@@ -88,39 +88,49 @@ RSpec.describe API::V3::FileLinks::FileLinkRepresenter, 'rendering' do
       end
     end
 
-    describe 'permission' do
-      context 'with permission granted' do
+    describe 'status' do
+      context 'with permission' do
         it_behaves_like 'has a titled link' do
-          let(:link) { 'permission' }
-          let(:href) { 'urn:openproject-org:api:v3:file-links:permission:View' }
-          let(:title) { 'View' }
+          let(:link) { 'status' }
+          let(:href) { 'urn:openproject-org:api:v3:file-links:permission:ViewAllowed' }
+          let(:title) { 'View allowed' }
         end
       end
 
-      context 'with permission NotAllowed' do
-        let(:origin_permission) { :not_allowed }
+      context 'without permission' do
+        let(:origin_status) { :view_not_allowed }
 
         it_behaves_like 'has a titled link' do
-          let(:link) { 'permission' }
-          let(:href) { 'urn:openproject-org:api:v3:file-links:permission:NotAllowed' }
-          let(:title) { 'Not allowed' }
+          let(:link) { 'status' }
+          let(:href) { 'urn:openproject-org:api:v3:file-links:permission:ViewNotAllowed' }
+          let(:title) { 'View not allowed' }
         end
       end
 
-      context 'with permission not defined (nil)' do
-        let(:origin_permission) { nil }
+      context 'if not found' do
+        let(:origin_status) { :not_found }
+
+        it_behaves_like 'has a titled link' do
+          let(:link) { 'status' }
+          let(:href) { 'urn:openproject-org:api:v3:file-links:NotFound' }
+          let(:title) { 'Not found' }
+        end
+      end
+
+      context 'with status not defined (nil)' do
+        let(:origin_status) { nil }
 
         it_behaves_like 'has no link' do
-          let(:link) { 'permission' }
+          let(:link) { 'status' }
         end
       end
 
-      context 'with permission check had an Error' do
-        let(:origin_permission) { :error }
+      context 'with status check had an error' do
+        let(:origin_status) { :error }
 
         it_behaves_like 'has a titled link' do
-          let(:link) { 'permission' }
-          let(:href) { 'urn:openproject-org:api:v3:file-links:permission:Error' }
+          let(:link) { 'status' }
+          let(:href) { 'urn:openproject-org:api:v3:file-links:Error' }
           let(:title) { 'Error' }
         end
       end

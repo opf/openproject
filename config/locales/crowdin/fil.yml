@@ -281,6 +281,9 @@ fil:
       no_results_content_text: Magdagdag ng myembro sa proyekto
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
     filters:
       all_shares: 'All shares'
     menu:
@@ -2163,6 +2166,10 @@ fil:
     one: "Isa ang bukas"
     other: "%{count} ang bukas"
     zero: "0 open"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "Isang proyekto"
     other: "%{count} mga proyekto"
@@ -2485,7 +2492,7 @@ fil:
   permission_view_news: "View news"
   permission_view_members: "Tingnan ang mga miyembro"
   permission_view_reportings: "Tanawin ang mga ulat"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Tanawin ang ginugol na oras"
   permission_view_timelines: "Tingnan ang mga timeline"
   permission_view_wiki_edits: "Tingnan ang mga kasaysayan ng wiki"

@@ -73,10 +73,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
       )
     end
 
-    def http(uri)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = uri.scheme == 'https'
-      http
+    def httpx
+      HTTPX.plugin(:basic_auth).plugin(:webdav)
     end
 
     def error_text_from_response(response)

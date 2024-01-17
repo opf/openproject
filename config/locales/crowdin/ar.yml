@@ -281,6 +281,9 @@ ar:
       no_results_content_text: أضف عضواً إلى المشروع
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
     filters:
       all_shares: 'All shares'
     menu:
@@ -2271,6 +2274,10 @@ ar:
     one: "1 open"
     other: "%{count} مفتوح"
     zero: "0 open"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 project"
     other: "%{count} مشاريع"
@@ -2601,7 +2608,7 @@ ar:
   permission_view_news: "View news"
   permission_view_members: "عرض الأعضاء"
   permission_view_reportings: "عرض التقارير"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "عرض الوقت المنقضي"
   permission_view_timelines: "عرض الخطوط الزمنية"
   permission_view_wiki_edits: "عرض تاريخ wiki"

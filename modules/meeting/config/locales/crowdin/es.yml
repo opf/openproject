@@ -171,7 +171,7 @@ es:
   text_meeting_not_present_anymore: "Esta reunión ha sido eliminada. Por favor, seleccione otra reunión."
   label_add_work_package_to_meeting_dialog_title: "Añadir paquete de trabajo a la reunión"
   label_add_work_package_to_meeting_dialog_button: "Añadir a la reunión"
-  label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
+  label_meeting_selection_caption: "Solo es posible añadir este paquete de trabajo a reuniones abiertas o futuras."
   text_add_work_package_to_meeting_description: "Un paquete de trabajo puede ser añadido a una o varias reuniones para su discusión."
   text_agenda_item_no_notes: "No se han proporcionado notas"
   text_agenda_item_not_editable_anymore: "Este punto de la agenda ya no es editable."

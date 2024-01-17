@@ -281,15 +281,18 @@ ko:
       no_results_content_text: 프로젝트에 새 멤버 추가
     invite_by_mail: "%{mail}에 초대 보내기"
     send_invite_to: "다음으로 초대장 보내기:"
+    no_modify_on_shared: "현재는 멤버 페이지에서 공유 멤버십을 수정하거나 제거할 수 없습니다. 대신 공유 모달을 사용하세요."
+    columns:
+      shared: "공유됨"
     filters:
-      all_shares: 'All shares'
+      all_shares: '모든 공유'
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: '모두'
+      invited: '초대됨'
+      locked: '잠김'
+      project_roles: '프로젝트 역할'
+      wp_shares: '작업 패키지 공유'
+      groups: '그룹'
   my:
     access_token:
       failed_to_reset_token: "액세스 토큰을 재설정하지 못함: %{error}"
@@ -2135,6 +2138,10 @@ ko:
     one: "1개 열림"
     other: "%{count}개 열림"
     zero: "0개 열림"
+  label_x_work_packages:
+    one: "작업 패키지 1개"
+    other: "작업 패키지 %{count}개"
+    zero: "작업 패키지 없음"
   label_x_projects:
     one: "1개 프로젝트"
     other: "%{count}개 프로젝트"
@@ -2205,9 +2212,9 @@ ko:
     sharing:
       work_packages:
         allowed_actions: "이 작업 패키지를 %{allowed_actions}할 수 있습니다. 이는 프로젝트 역할 및 권한에 따라 변경될 수 있습니다."
-        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
+        create_account: "이 작업 패키지에 액세스하려면 %{instance}에서 계정을 생성하고 활성화해야 합니다."
         open_work_package: "작업 패키지 열기"
-        subject: "Work package #%{id} was shared with you"
+        subject: "작업 패키지 #%{id}이(가) 귀하와 공유되었습니다"
         enterprise_text: "프로젝트 멤버가 아닌 사용자와 작업 패키지를 공유합니다."
         summary:
           user: "%{user} 님이 %{role_rights} 권한으로 작업 패키지를 귀하와 공유했습니다."
@@ -2391,8 +2398,8 @@ ko:
   permission_assign_versions: "버전 할당"
   permission_browse_repository: "리포지토리에 대한 읽기 전용 액세스(찾아보기 및 체크아웃)"
   permission_change_wiki_parent_page: "부모 위키 페이지 변경"
-  permission_change_work_package_status: "Change work package status"
-  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
+  permission_change_work_package_status: "작업 패키지 상태 변경"
+  permission_change_work_package_status_explanation: "작업 패키지 편집 권한 없이 상태 변경을 허용합니다"
   permission_comment_news: "뉴스에 코멘트 달기"
   permission_commit_access: "리포지토리(커밋)에 대한 읽기/쓰기 액세스"
   permission_copy_projects: "프로젝트 복사"
@@ -2454,7 +2461,7 @@ ko:
   permission_view_news: "뉴스 보기"
   permission_view_members: "멤버 보기"
   permission_view_reportings: "보고 보기"
-  permission_view_shared_work_packages: "공유된 작업 패키지 보기"
+  permission_view_shared_work_packages: "작업 패키지 공유 보기"
   permission_view_time_entries: "소요 시간 보기"
   permission_view_timelines: "타임라인 보기"
   permission_view_wiki_edits: "위키 기록 보기"
@@ -3243,7 +3250,7 @@ ko:
       oauth_returned_json_error: "OAuth2가 JSON 오류를 반환했습니다."
       oauth_returned_http_error: "OAuth2가 네트워크 오류를 반환했습니다."
       oauth_returned_standard_error: "OAuth2가 내부 오류를 반환했습니다."
-      client_id_blank: "ID can't be blank."
+      client_id_blank: "ID는 비워둘 수 없습니다."
       wrong_token_type_returned: "OAuth2가 잘못된 유형의 토큰을 반환했습니다. AccessToken::Bearer가 필요합니다."
       oauth_issue_contact_admin: "OAuth2가 오류를 보고했습니다. 시스템 관리자에게 문의하세요."
       oauth_client_not_found: "'callback' 엔드포인트(redirect_uri)에서 OAuth2 클라이언트를 찾을 수 없습니다."

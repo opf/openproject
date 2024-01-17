@@ -280,6 +280,9 @@ ru:
       no_results_content_text: Добавить участника в проект
     invite_by_mail: "Отправить приглашение на %{mail}"
     send_invite_to: "Отправить приглашение"
+    no_modify_on_shared: "В настоящее время вы не можете изменять или удалять общие членства через страницу участников. Используйте вместо этого режим общего доступа."
+    columns:
+      shared: "Общий доступ"
     filters:
       all_shares: 'Все используемое совместно'
     menu:
@@ -2216,6 +2219,10 @@ ru:
     one: "1 открыт"
     other: "%{count} открыто"
     zero: "0 открытых"
+  label_x_work_packages:
+    one: "1 пакет работ"
+    other: "%{count} пакетов работ"
+    zero: "Пакетов работ нет"
   label_x_projects:
     one: "1 проект"
     other: "%{count} проектов"
@@ -2478,8 +2485,8 @@ ru:
   permission_assign_versions: "Назначить версии"
   permission_browse_repository: "Возможность только чтения из репозитория (просмотр и проверка)"
   permission_change_wiki_parent_page: "Смена родительской wiki-страницы"
-  permission_change_work_package_status: "Change work package status"
-  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
+  permission_change_work_package_status: "Изменить статус пакета работ"
+  permission_change_work_package_status_explanation: "Позволяет изменять статус без редактирования разрешения пакетов работ"
   permission_comment_news: "Комментировать новость"
   permission_commit_access: "Возможность чтения/записи в репозиторий (commit)"
   permission_copy_projects: "Копировать проект"
@@ -2541,7 +2548,7 @@ ru:
   permission_view_news: "Просмотр новостей"
   permission_view_members: "Просмотреть участников"
   permission_view_reportings: "Просмотр отчетов"
-  permission_view_shared_work_packages: "Просмотр общих пакетов работ"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Просмотр потраченного времени"
   permission_view_timelines: "Просмотр графиков"
   permission_view_wiki_edits: "Просмотр истории wiki"

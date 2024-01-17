@@ -37,6 +37,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { WorkPackageShareModalComponent } from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
+import { BannersService } from 'core-app/core/enterprise/banners.service';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -47,6 +48,8 @@ import { WorkPackageShareModalComponent } from 'core-app/features/work-packages/
 export class WorkPackageShareButtonComponent extends UntilDestroyedMixin {
   @Input() public workPackage:WorkPackageResource;
 
+  showEnterpriseIcon = this.bannersService.eeShowBanners;
+
   public text = {
     share: this.I18n.t('js.work_packages.sharing.share'),
   };
@@ -55,6 +58,7 @@ export class WorkPackageShareButtonComponent extends UntilDestroyedMixin {
     readonly I18n:I18nService,
     readonly opModalService:OpModalService,
     readonly cdRef:ChangeDetectorRef,
+    readonly bannersService:BannersService,
   ) {
     super();
   }

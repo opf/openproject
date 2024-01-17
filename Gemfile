@@ -28,7 +28,11 @@
 
 source 'https://rubygems.org'
 
-ruby '3.2.2'
+# TODO: Once packager.io and heroku buildpacks support bundler 2.4.22,
+# then we can use the new bundler syntax `ruby file: '.ruby-version'`.
+# https://github.com/heroku/heroku-buildpack-ruby/issues/1408#issuecomment-1841596215
+
+ruby File.read('.ruby-version').strip
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -209,7 +213,7 @@ gem "appsignal", "~> 3.0", require: false
 
 gem 'view_component'
 # Lookbook
-gem 'lookbook', '~> 2.2.0'
+gem 'lookbook', github: 'ViewComponent/lookbook', ref: '473f86d7e343cd78b74cc293a4de06b9b5e7a3e2'
 
 # Require factory_bot for usage with openproject plugins testing
 gem 'factory_bot', '~> 6.4.0', require: false
@@ -217,6 +221,8 @@ gem 'factory_bot', '~> 6.4.0', require: false
 gem 'factory_bot_rails', '~> 6.4.0', require: false
 
 gem 'turbo-rails', "~> 1.1"
+
+gem 'httpx'
 
 group :test do
   gem 'launchy', '~> 2.5.0'
@@ -375,4 +381,4 @@ end
 
 gem "openproject-octicons", '~>19.8.0'
 gem "openproject-octicons_helper", '~>19.8.0'
-gem "openproject-primer_view_components", '~>0.18.1'
+gem "openproject-primer_view_components", '~>0.20.0'

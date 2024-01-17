@@ -61,10 +61,12 @@ module RbMasterBacklogsHelper
   def common_backlog_menu_items_for(backlog)
     items = {}
 
-    items[:new_story] = content_tag(:a,
-                                    I18n.t('backlogs.add_new_story'),
-                                    href: '#',
-                                    class: 'add_new_story')
+    if current_user.allowed_in_project?(:add_work_packages, @project)
+      items[:new_story] = content_tag(:a,
+                                      I18n.t('backlogs.add_new_story'),
+                                      href: '#',
+                                      class: 'add_new_story')
+    end
 
     items[:stories_tasks] = link_to(I18n.t(:label_stories_tasks),
                                     controller: '/rb_queries',

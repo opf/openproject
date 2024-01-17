@@ -15,6 +15,7 @@ ru:
       choose_location: "Выберите местоположение"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
         default: "Хранилище"
       information:
         connection_error: >
@@ -47,7 +48,6 @@ ru:
         empty: >
           В настоящее время нет файлов связанных с этим пакетом работ. Начните привязку файлов с действием ниже или внутри %{storageType}.
         download: "Скачать %{fileName}"
-        no_permission: "У вас недостаточно прав для просмотра этого файла."
         open: "Открыть файл в хранилище"
         open_location: "Открыть файл в расположении"
         remove: "Удалить ссылку на файл"
@@ -81,6 +81,9 @@ ru:
               Пожалуйста, проверьте, что установлена последняя версия приложения Nextcloud "OpenProject Integration", и свяжитесь с вашим администратором для получения дополнительной информации.
         link_uploaded_file_error: >
           Произошла ошибка при привязке недавно загруженного файла '%{fileName}' к пакету работ %{workPackageId}.
-        not_allowed_tooltip: "Войдите в Nextcloud для доступа к этому файлу"
+        tooltip:
+          not_logged_in: "Please log in to the storage to access this file."
+          view_not_allowed: "У вас недостаточно прав для просмотра этого файла."
+          not_found: "Этот файл не найден."
         already_linked_file: "Этот файл уже связан с этим пакетом работ."
         already_linked_directory: "Этот каталог уже связан с этим пакетом работ."

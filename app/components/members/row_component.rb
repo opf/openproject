@@ -31,6 +31,7 @@
 module Members
   class RowComponent < ::RowComponent
     property :principal
+    delegate :project, to: :table
 
     def member
       model
@@ -41,7 +42,7 @@ module Members
     end
 
     def row_css_class
-      "member #{principal_class_name}".strip
+      "member #{principal_class_name} principal-#{principal.id}".strip
     end
 
     def name
@@ -73,11 +74,21 @@ module Members
       end
     end
 
+    def shared
+      count = member.shared_work_packages_count
+      if count > 0
+        link_to I18n.t(:'label_x_work_packages', count:),
+                helpers.project_work_packages_shared_with_path(principal, member.project),
+                target: "_blank"
+      end
+    end
+
     def roles_label
-      label = h member.roles.uniq.sort.collect(&:name).join(', ')
+      project_roles = member.roles.select { |role| role.is_a?(ProjectRole) }.uniq.sort
+      label = h project_roles.collect(&:name).join(', ')
 
       if principal&.admin?
-        label << tag(:br)
+        label << tag(:br) if project_roles.any?
         label << I18n.t(:label_member_all_admin)
       end
 
@@ -95,7 +106,7 @@ module Members
 
     def groups
       if user?
-        principal.groups.map(&:name).join(", ")
+        (principal.groups & project.groups).map(&:name).join(", ")
       end
     end
 
@@ -112,12 +123,21 @@ module Members
     end
 
     def button_links
-      if may_update? && may_delete?
+      if !model.project_role?
+        [share_warning]
+      elsif may_update? && may_delete?
         [edit_link, delete_link].compact
       elsif may_delete?
         [delete_link].compact
       else
         []
+      end
+    end
+
+    def share_warning
+      content_tag(:span,
+                  title: I18n.t('members.no_modify_on_shared')) do
+        helpers.op_icon('icon icon-info1')
       end
     end
 

@@ -15,6 +15,7 @@ lt:
       choose_location: "Parinkite vietą"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
         default: "Saugykla"
       information:
         connection_error: >
@@ -47,7 +48,6 @@ lt:
         empty: >
           Šio metu nėra failų, susietų su šiuo darbo paketu. Pradėkite susieti failus naudodami veiksmą apačioje arba iš %{storageType}.
         download: "Atsisiųsti %{fileName}"
-        no_permission: "Jūs neturite teisės žiūrėti šį failą."
         open: "Atverti failą saugykloje"
         open_location: "Atverti failą vietoje"
         remove: "Pašalinti failo nuorodą"
@@ -81,6 +81,9 @@ lt:
               Prašome patikrinti, kad įdiegta paskutinė Nectcloud aplikacija „OpenProject integration“ ir susisiekti su jūsų administratoriumi, jei reikia daugiau informacijos.
         link_uploaded_file_error: >
           Susiejant neseniai įkeltą failą „%{fileName}“ su darbo paketu %{workPackageId} įvyko klaida.
-        not_allowed_tooltip: "Prašome prisijungti prie Nextcloud, kad pasiektumėte failą"
+        tooltip:
+          not_logged_in: "Please log in to the storage to access this file."
+          view_not_allowed: "Jūs neturite teisių matyti šį failą."
+          not_found: "Nepavyksta rasti šio failo."
         already_linked_file: "Šis failas jau susietas su šiuo darbo paketu."
         already_linked_directory: "Šis aplankas jau susietas su šiuo darbo paketu."

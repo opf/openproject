@@ -58,6 +58,7 @@ RB.Backlog = (function ($) {
         receive: this.dragChanged,
         remove:  this.dragChanged,
         containment: $('#backlogs_container'),
+        cancel: 'input, textarea, button, select, option, .prevent_drag',
         scroll: true,
         helper: function(event, ui){
           var $clone =  $(ui).clone();

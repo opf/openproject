@@ -116,11 +116,11 @@ module Pages
         attributes.each do |key, value|
           case key
           when :subject
-            fill_in 'subject', with: value
+            fill_in 'Subject', with: value
           when :assignee
-            select value, from: 'assigned to'
+            select value, from: 'Assignee'
           when :remaining_hours
-            fill_in 'remaining hours', with: value
+            fill_in 'Remaining work', with: value
           end
         end
 

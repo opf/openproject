@@ -37,6 +37,7 @@ import { WorkPackageViewPageComponent } from 'core-app/features/work-packages/ro
 import { makeSplitViewRoutes } from 'core-app/features/work-packages/routing/split-view-routes.template';
 import { WorkPackageCopyFullViewComponent } from 'core-app/features/work-packages/components/wp-copy/wp-copy-full-view.component';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
+import { ShareUpsaleComponent } from 'core-app/features/enterprise/share-upsale/share-upsale.component';
 
 export const menuItemClass = 'work-packages-menu-item';
 
@@ -107,7 +108,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     component: WorkPackagesFullViewComponent,
     data: {
       baseRoute: 'work-packages',
-      bodyClasses: 'router--work-packages-full-view',
+      bodyClasses: ['router--work-packages-full-view', 'router--work-packages-base'],
       newRoute: 'work-packages.new',
       menuItem: menuItemClass,
     },
@@ -138,7 +139,7 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
       'content-left': { component: WorkPackageListViewComponent },
     },
     data: {
-      bodyClasses: 'router--work-packages-partitioned-split-view',
+      bodyClasses: ['router--work-packages-partitioned-split-view', 'router--work-packages-base'],
       menuItem: menuItemClass,
       partition: '-left-only',
     },
@@ -148,6 +149,11 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
     menuItemClass,
     WorkPackageSplitViewComponent,
   ),
+  {
+    url: '/share_upsale',
+    name: 'work-packages.share_upsale',
+    component: ShareUpsaleComponent,
+  },
   // Avoid lazy-loading the routes for now
   // {
   //   name: 'work-packages.calendar.**',

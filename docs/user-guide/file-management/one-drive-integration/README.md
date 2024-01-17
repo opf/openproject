@@ -85,6 +85,12 @@ The selected file is uploaded to your OneDrive/SharePoint instance and linked to
 
 ![File successfully uploaded to Sharepoint storage](openproject_onedrive_file_uploaded.png)
 
+If a file has been deleted on the OneDrive/SharePoint file storage it will still be displayed under the **Files** tab. However it will not be selectable. If you hover over a deleted file you will see the message indicating that the file could not be found.
+
+![A file has been deleted from the OneDrive/SharePoint file storage](oneproject_onedrive_deleted_file.png)
+
+
+
 ## Download, open folders and remove links
 
 If you wish to unlink any linked file or folder, hover it in the list of linked files and click on the **Unlink** icon.

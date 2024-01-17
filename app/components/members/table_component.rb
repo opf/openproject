@@ -30,9 +30,41 @@
 
 module Members
   class TableComponent < ::TableComponent
-    options :authorize_update, :available_roles, :is_filtered
-    columns :name, :mail, :roles, :groups, :status
+    options :authorize_update, :available_roles, :is_filtered, :project
+    columns :name, :mail, :roles, :groups, :shared, :status
     sortable_columns :name, :mail, :status
+
+    def apply_sort(model)
+      apply_member_scopes super(model)
+    end
+
+    def apply_member_scopes(model)
+      model
+        .with_shared_work_packages_count(only_role_id:)
+        # This additional select is necessary for removing "duplicate" memberships in the members table
+        # In reality, we want to show distinct principals in the members page, but are filtering on the members
+        # table which now has multiplpe entries per user if they are the recipient of multiple shares,
+        # or are a project member on top of that.
+        .where(id: subselected_member_ids(model))
+    end
+
+    def subselected_member_ids(model)
+      Member
+        .where(
+          id: model
+            .reselect('DISTINCT ON (members.user_id) members.id')
+            .reorder('members.user_id, members.entity_type NULLS FIRST')
+        )
+    end
+
+    def only_role_id
+      case params[:shared_role_id]
+      when 'all', nil
+        nil
+      else
+        params[:shared_role_id]
+      end
+    end
 
     def initial_sort
       %i[name asc]
@@ -45,7 +77,15 @@ module Members
     end
 
     def header_options(name)
-      { caption: User.human_attribute_name(name) }
+      caption =
+        case name
+        when :shared
+          I18n.t('members.columns.shared')
+        else
+          User.human_attribute_name(name)
+        end
+
+      { caption: }
     end
 
     ##
