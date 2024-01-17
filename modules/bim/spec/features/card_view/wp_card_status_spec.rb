@@ -27,8 +27,9 @@
 #++
 
 require 'spec_helper'
+require_relative '../../support/pages/ifc_models/show_default'
 
-RSpec.describe 'Update status from WP card', :js, :with_cuprite do
+RSpec.describe 'Update status from WP card', :js, :with_cuprite, with_config: { edition: 'bim' } do
   let(:manager_role) do
     create(:project_role, permissions: %i[view_work_packages edit_work_packages])
   end
@@ -59,9 +60,8 @@ RSpec.describe 'Update status from WP card', :js, :with_cuprite do
            role: manager_role)
   end
 
-  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:wp_table) { Pages::IfcModels::ShowDefault.new(project) }
   let(:wp_card_view) { Pages::WorkPackageCards.new(project) }
-  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
 
   before do
     login_as(manager)
@@ -69,7 +69,7 @@ RSpec.describe 'Update status from WP card', :js, :with_cuprite do
     wp_table.visit!
     wp_table.expect_work_package_listed(work_package)
 
-    display_representation.switch_to_card_layout
+    wp_table.switch_view 'Cards'
   end
 
   it 'can update the status through the button' do

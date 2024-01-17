@@ -27,14 +27,17 @@
 #++
 
 require 'spec_helper'
+require_relative '../../support/pages/ifc_models/show_default'
 
-RSpec.describe 'Switching work package view', :js, with_ee: %i[conditional_highlighting] do
+RSpec.describe 'Switching work package view',
+               :js,
+               with_ee: %i[conditional_highlighting],
+               with_config: { edition: 'bim' } do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
-  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:wp_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:highlighting) { Components::WorkPackages::Highlighting.new }
   let(:cards) { Pages::WorkPackageCards.new(project) }
-  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
 
   let(:priority1) { create(:issue_priority, color: create(:color, hexcode: '#123456')) }
   let(:priority2) { create(:issue_priority, color: create(:color, hexcode: '#332211')) }
@@ -59,14 +62,14 @@ RSpec.describe 'Switching work package view', :js, with_ee: %i[conditional_highl
     allow(EnterpriseToken).to receive(:show_banners?).and_return(false)
 
     login_as(user)
-    wp_table.visit!
-    wp_table.expect_work_package_listed wp_1, wp_2
+    wp_page.visit!
+    wp_page.expect_work_package_listed wp_1, wp_2
   end
 
   context 'switching to card view' do
     before do
       # Enable card representation
-      display_representation.switch_to_card_layout
+      wp_page.switch_view 'Cards'
       cards.expect_work_package_listed wp_1, wp_2
     end
 
@@ -81,18 +84,18 @@ RSpec.describe 'Switching work package view', :js, with_ee: %i[conditional_highl
       end
 
       # Switch back to list representation & Highlighting is kept
-      display_representation.switch_to_list_layout
-      wp_table.expect_work_package_listed wp_1, wp_2
-      expect(page).to have_css("#{wp_table.row_selector(wp_1)}.__hl_background_priority_#{priority1.id}")
-      expect(page).to have_css("#{wp_table.row_selector(wp_2)}.__hl_background_priority_#{priority2.id}")
+      wp_page.switch_view 'Table'
+      wp_page.expect_work_package_listed wp_1, wp_2
+      expect(page).to have_css("#{wp_page.row_selector(wp_1)}.__hl_background_priority_#{priority1.id}")
+      expect(page).to have_css("#{wp_page.row_selector(wp_2)}.__hl_background_priority_#{priority2.id}")
 
       # Change attribute
       highlighting.switch_entire_row_highlight "Status"
-      expect(page).to have_css("#{wp_table.row_selector(wp_1)}.__hl_background_status_#{status.id}")
-      expect(page).to have_css("#{wp_table.row_selector(wp_2)}.__hl_background_status_#{status.id}")
+      expect(page).to have_css("#{wp_page.row_selector(wp_1)}.__hl_background_status_#{status.id}")
+      expect(page).to have_css("#{wp_page.row_selector(wp_2)}.__hl_background_status_#{status.id}")
 
       # Switch back to card representation & Highlighting is kept, too
-      display_representation.switch_to_card_layout
+      wp_page.switch_view 'Card'
       within "wp-single-card[data-work-package-id='#{wp_1.id}']" do
         expect(page).to have_css(".op-wp-single-card--highlighting.__hl_background_status_#{status.id}")
       end
@@ -102,47 +105,21 @@ RSpec.describe 'Switching work package view', :js, with_ee: %i[conditional_highl
     end
 
     it 'saves the representation in the query' do
-      # After refresh the WP are still disaplyed as cards
+      # After refresh the WP are still displayed as cards
       page.driver.browser.navigate.refresh
       cards.expect_work_package_listed wp_1, wp_2
-    end
-  end
-
-  context 'switching to mobile card view' do
-    include_context 'with mobile screen size'
-
-    it 'can switch the representation automatically on mobile after a refresh' do
-      # It shows the elements as cards
-      cards.expect_work_package_listed wp_1, wp_2
-
-      # A single click leads to the full view
-      cards.select_work_package(wp_1)
-      expect(page).to have_css('.work-packages--details--subject',
-                               text: wp_1.subject)
-      page.find('.work-packages-back-button').click
-
-      # The query is however unchanged
-      expect(page).to have_no_css('.editable-toolbar-title--save')
-      url = URI.parse(page.current_url).query
-      expect(url).not_to match(/query_props=.+/)
-
-      # Since the query is unchanged, the WPs will be displayed as list on larger screens again
-      page.driver.browser.manage.window.resize_to(700, 1080)
-      page.driver.browser.navigate.refresh
-      wp_table.expect_work_package_listed wp_1, wp_2
-      wp_table.expect_work_package_order wp_1, wp_2
     end
   end
 
   context 'when reordering an unsaved query' do
     it 'retains that order' do
-      wp_table.expect_work_package_order wp_1, wp_2
+      wp_page.expect_work_package_order wp_1, wp_2
 
-      wp_table.drag_and_drop_work_package from: 1, to: 0
+      wp_page.drag_and_drop_work_package from: 1, to: 0
 
-      wp_table.expect_work_package_order wp_2, wp_1
+      wp_page.expect_work_package_order wp_2, wp_1
 
-      display_representation.switch_to_card_layout
+      wp_page.switch_view 'Cards'
 
       cards.expect_work_package_order wp_2, wp_1
     end

@@ -5,7 +5,6 @@ RSpec.describe 'Work Package table hierarchy and sorting', :js, :with_cuprite do
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
-  let(:representation) { Components::WorkPackages::DisplayRepresentation.new }
   let(:sort_by) { Components::WorkPackages::SortBy.new }
 
   shared_let(:wp_root) do
@@ -68,20 +67,6 @@ RSpec.describe 'Work Package table hierarchy and sorting', :js, :with_cuprite do
 
     wp_child3.reload
     expect(wp_child3.parent).to eq(wp_child2)
-  end
-
-  it 'does not show indentation context in card view' do
-    wp_table.visit!
-    wp_table.expect_work_package_listed(wp_root, wp_child1, wp_child2, wp_child3)
-
-    representation.switch_to_card_layout
-    expect(page).to have_test_selector('op-wp-single-card', count: 4)
-
-    # Expect indent-able for none
-    hierarchy.expect_indent(wp_root, indent: false, outdent: false)
-    hierarchy.expect_indent(wp_child1, indent: false, outdent: false)
-    hierarchy.expect_indent(wp_child2, indent: false, outdent: false)
-    hierarchy.expect_indent(wp_child3, indent: false, outdent: false)
   end
 
   it 'can edit a work package, then indent, and then edit again (Regression #30994)' do

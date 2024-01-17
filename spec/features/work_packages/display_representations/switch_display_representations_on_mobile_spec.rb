@@ -28,44 +28,54 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Select work package card', :js, :selenium do
+RSpec.describe 'Switching work package view on mobile', :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
-  let(:work_package_1) { create(:work_package, project:) }
-  let(:work_package_2) { create(:work_package, project:) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-  let(:wp_card_view) { Pages::WorkPackageCards.new(project) }
+  let(:cards) { Pages::WorkPackageCards.new(project) }
 
-  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
-
-  before do
-    login_as(user)
-
-    work_package_1
-    work_package_2
-
-    wp_table.visit!
-    wp_table.expect_work_package_listed(work_package_1)
-    wp_table.expect_work_package_listed(work_package_2)
-
-    display_representation.switch_to_card_layout
+  let(:wp_1) do
+    create(:work_package,
+           project:,)
+  end
+  let(:wp_2) do
+    create(:work_package,
+           project:,)
   end
 
-  describe 'opening' do
-    it 'the full screen view via double click' do
-      wp_card_view.open_full_screen_by_doubleclick(work_package_1)
+  before do
+    wp_1
+    wp_2
+    allow(EnterpriseToken).to receive(:show_banners?).and_return(false)
+
+    login_as(user)
+    wp_table.visit!
+    wp_table.expect_work_package_listed wp_1, wp_2
+  end
+
+  context 'switching to mobile card view' do
+    include_context 'with mobile screen size'
+
+    it 'can switch the representation automatically on mobile after a refresh' do
+      # It shows the elements as cards
+      cards.expect_work_package_listed wp_1, wp_2
+
+      # A single click leads to the full view
+      cards.select_work_package(wp_1)
       expect(page).to have_css('.work-packages--details--subject',
-                               text: work_package_1.subject)
-    end
+                               text: wp_1.subject)
+      page.find('.work-packages-back-button').click
 
-    it 'the split screen of the selected WP' do
-      wp_card_view.select_work_package(work_package_2)
-      find_by_id('work-packages-details-view-button').click
-      split_wp = Pages::SplitWorkPackage.new(work_package_2)
-      split_wp.expect_attributes Subject: work_package_2.subject
+      # The query is however unchanged
+      expect(page).to have_no_css('.editable-toolbar-title--save')
+      url = URI.parse(page.current_url).query
+      expect(url).not_to match(/query_props=.+/)
 
-      find_by_id('work-packages-details-view-button').click
-      expect(page).to have_no_css('.work-packages--details')
+      # Since the query is unchanged, the WPs will be displayed as list on larger screens again
+      page.driver.browser.manage.window.resize_to(700, 1080)
+      page.driver.browser.navigate.refresh
+      wp_table.expect_work_package_listed wp_1, wp_2
+      wp_table.expect_work_package_order wp_1, wp_2
     end
   end
 end

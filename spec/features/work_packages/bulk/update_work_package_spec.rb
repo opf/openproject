@@ -61,7 +61,6 @@ RSpec.describe 'Bulk update work packages through Rails view', :js, :with_cuprit
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
-  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
   let(:notes) { Components::WysiwygEditor.new }
 
   before do
@@ -206,45 +205,6 @@ RSpec.describe 'Bulk update work packages through Rails view', :js, :with_cuprit
     it 'does not allow to copy' do
       context_menu.open_for work_package
       context_menu.expect_no_options 'Bulk edit'
-    end
-  end
-
-  describe 'accessing the bulk edit from the card view' do
-    before do
-      display_representation.switch_to_card_layout
-      loading_indicator_saveguard
-    end
-
-    context 'with permissions' do
-      let(:current_user) { mover }
-
-      it 'does allow to edit' do
-        context_menu.open_for work_package
-        context_menu.expect_options 'Bulk edit'
-      end
-
-      context 'with a project budget' do
-        let!(:budget) { create(:budget, project:) }
-
-        it 'updates all the work packages' do
-          context_menu.open_for work_package
-          context_menu.choose 'Bulk edit'
-
-          select budget.subject, from: 'work_package_budget_id'
-          click_on 'Submit'
-          expect(work_package.reload.budget_id).to eq(budget.id)
-          expect(work_package2.reload.budget_id).to eq(budget.id)
-        end
-      end
-    end
-
-    context 'without permission' do
-      let(:current_user) { dev }
-
-      it 'does not allow to edit' do
-        context_menu.open_for work_package
-        context_menu.expect_no_options 'Bulk edit'
-      end
     end
   end
 end

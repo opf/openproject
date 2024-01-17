@@ -264,29 +264,6 @@ RSpec.describe 'Work package navigation', :js, :selenium do
     end
   end
 
-  context 'with two work packages with card view' do
-    let!(:work_package) { create(:work_package, project:) }
-    let!(:work_package2) { create(:work_package, project:) }
-    let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
-    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-    let(:cards) { Pages::WorkPackageCards.new(project) }
-
-    it 'can move between card details using info icon (Regression #33451)' do
-      wp_table.visit!
-      wp_table.expect_work_package_listed work_package, work_package2
-      display_representation.switch_to_card_layout
-      cards.expect_work_package_listed work_package, work_package2
-
-      # move to first details
-      split = cards.open_split_view_by_info_icon work_package
-      split.expect_subject
-
-      # move to second details
-      split2 = cards.open_split_view_by_info_icon work_package2
-      split2.expect_subject
-    end
-  end
-
   context 'when visiting a query that will lead to a query validation error' do
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 

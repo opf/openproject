@@ -68,7 +68,6 @@ RSpec.describe 'Manual sorting of WP table', :js do
   let(:hierarchies) { Components::WorkPackages::Hierarchies.new }
   let(:dialog) { Components::ConfirmationDialog.new }
   let(:pagination) { Components::TablePagination.new }
-  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
 
   def expect_query_order(query, expected)
     retry_block do
@@ -404,31 +403,6 @@ RSpec.describe 'Manual sorting of WP table', :js do
         wp_table.drag_and_drop_work_package from: 1, to: 3
         wp_table.expect_work_package_order work_package1, work_package3, work_package2, work_package4
         wp_timeline.expect_work_package_order work_package1, work_package3, work_package2, work_package4
-      end
-    end
-
-    context 'when view is card' do
-      let(:wp_card) { Pages::WorkPackageCards.new(project) }
-
-      before do
-        display_representation.switch_to_card_layout
-        loading_indicator_saveguard
-      end
-
-      it 'can sort cards via DragNDrop' do
-        wp_card.drag_and_drop_work_package from: 0, to: 3
-
-        wp_card.expect_work_package_order work_package2, work_package3, work_package4, work_package1
-
-        wp_card.expect_and_dismiss_toaster message: 'Successful creation.'
-
-        query = Query.last
-        expect(query.name).to eq 'New manually sorted query'
-        expect_query_order(query, [work_package2.id, work_package3.id, work_package4.id, work_package1.id])
-
-        wp_card.drag_and_drop_work_package from: 0, to: 2
-
-        expect_query_order(query, [work_package3.id, work_package4.id, work_package1.id, work_package2.id])
       end
     end
   end

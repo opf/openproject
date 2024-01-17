@@ -7,7 +7,6 @@ RSpec.describe 'Work package table context menu', :js, :with_cuprite do
 
   shared_let(:wp_table) { Pages::WorkPackagesTable.new(work_package.project) }
   shared_let(:menu) { Components::WorkPackages::ContextMenu.new }
-  shared_let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(work_package.project) }
 
   before do
@@ -64,25 +63,6 @@ RSpec.describe 'Work package table context menu', :js, :with_cuprite do
           menu.expect_options 'Open details view', 'Open fullscreen view',
                               'Bulk edit', 'Bulk copy', 'Bulk change of project', 'Bulk delete'
         end
-      end
-    end
-  end
-
-  context 'when in the card view' do
-    it_behaves_like 'provides a single WP context menu' do
-      let(:open_context_menu) do
-        -> {
-          # Go to table
-          wp_table.visit!
-          wp_table.expect_work_package_listed(work_package)
-
-          display_representation.switch_to_card_layout
-          loading_indicator_saveguard
-
-          # Open context menu
-          menu.expect_closed
-          menu.open_for(work_package)
-        }
       end
     end
   end
