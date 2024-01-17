@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -70,7 +70,7 @@ RSpec.describe AdminController do
         let(:visible) { true }
 
         it "shows the plugin in the overview" do
-          expect(response.body).to have_selector('a.menu-block', text: plugin_name.capitalize)
+          expect(response.body).to have_css('a.menu-block', text: plugin_name.capitalize)
         end
       end
 
@@ -79,7 +79,7 @@ RSpec.describe AdminController do
         let(:visible) { false }
 
         it "does not show the plugin in the overview" do
-          expect(response.body).not_to have_selector('a.menu-block', text: plugin_name.capitalize)
+          expect(response.body).to have_no_css('a.menu-block', text: plugin_name.capitalize)
         end
       end
     end
@@ -90,8 +90,10 @@ RSpec.describe AdminController do
 
     context 'with plugins' do
       before do
-        Redmine::Plugin.register :foo do end
-        Redmine::Plugin.register :bar do end
+        Redmine::Plugin.register :foo do
+        end
+        Redmine::Plugin.register :bar do
+        end
       end
 
       it 'renders the plugins' do
@@ -100,8 +102,8 @@ RSpec.describe AdminController do
         expect(response).to be_successful
         expect(response).to render_template 'plugins'
 
-        expect(response.body).to have_selector('td span', text: 'Foo')
-        expect(response.body).to have_selector('td span', text: 'Bar')
+        expect(response.body).to have_css('td span', text: 'Foo')
+        expect(response.body).to have_css('td span', text: 'Bar')
       end
     end
 

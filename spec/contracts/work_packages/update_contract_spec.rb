@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,19 +29,14 @@ require 'spec_helper'
 require 'contracts/work_packages/shared_base_contract'
 
 RSpec.describe WorkPackages::UpdateContract do
-  let(:work_package_project) do
-    create(:project, public: false).tap do |p|
-      allow(Project)
-        .to receive(:find)
-        .with(p.id)
-        .and_return(p)
-    end
-  end
+  shared_let(:persistent_project) { create(:project, public: false) }
+  shared_let(:type) { create(:type) }
+  let(:work_package_project) { persistent_project }
   let(:work_package) do
     build_stubbed(:work_package,
                   project: work_package_project,
                   type:,
-                  status:).tap do |wp|
+                  status:) do |wp|
       wp_scope = double('wp scope')
 
       allow(WorkPackage)
@@ -56,7 +51,6 @@ RSpec.describe WorkPackages::UpdateContract do
     end
   end
   let(:user) { build_stubbed(:user) }
-  let(:type) { create(:type) }
   let(:status) { build_stubbed(:status) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
 
@@ -295,7 +289,7 @@ RSpec.describe WorkPackages::UpdateContract do
   end
 
   describe 'parent_id' do
-    let(:parent) { create(:work_package) }
+    shared_let(:parent) { create(:work_package) }
 
     before do
       work_package.parent_id = parent.id
@@ -437,6 +431,64 @@ RSpec.describe WorkPackages::UpdateContract do
 
           include_examples 'custom_field readonly errors'
         end
+      end
+    end
+  end
+
+  describe 'remaining hours' do
+    context 'when is not a parent' do
+      before do
+        contract.validate
+      end
+
+      context 'when has not changed' do
+        it('is valid') { expect(contract.errors.empty?).to be true }
+      end
+
+      context 'when has changed' do
+        before do
+          work_package.remaining_hours = 10
+        end
+
+        it('is valid') { expect(contract.errors.empty?).to be true }
+      end
+    end
+
+    context 'when is a parent' do
+      let(:work_package) do
+        build_stubbed(:work_package,
+                      project: work_package_project,
+                      children: [build_stubbed(:work_package, project: work_package_project)],
+                      type:,
+                      status:) do |wp|
+          wp_scope = instance_double(ActiveRecord::Relation)
+
+          allow(WorkPackage)
+            .to receive(:visible)
+            .with(user)
+            .and_return(wp_scope)
+
+          allow(wp_scope)
+            .to receive(:exists?) do |id|
+            permissions.include?(:view_work_packages) && id == wp.id
+          end
+        end
+      end
+
+      before do
+        contract.validate
+      end
+
+      context 'when has not changed' do
+        it('is valid') { expect(contract.errors.empty?).to be true }
+      end
+
+      context 'when has changed' do
+        before do
+          work_package.remaining_hours = 10
+        end
+
+        it('is valid') { expect(contract.errors.empty?).to be true }
       end
     end
   end

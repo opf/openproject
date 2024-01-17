@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -132,7 +132,8 @@ class RedmineMailHandler
       when '--verbose'
         self.verbose = true
       when '--version'
-        puts VERSION; exit
+        puts VERSION
+        exit
       when '--project', '--status', '--type', '--category', '--priority'
         issue_attributes[opt.gsub(%r{^--}, '')] = arg.dup
       when '--allow-override'

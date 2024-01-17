@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -278,6 +278,18 @@ nl:
       no_results_content_text: Een lid toevoegen aan het project
     invite_by_mail: "Stuur een uitnodiging naar %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Reset-toegangstoken mislukt: %{error}"
@@ -603,7 +615,9 @@ nl:
         begin_insertion: "Begin van het invoegen"
         begin_deletion: "Begin van de verwijdering"
         children: "Subelementen"
-        done_ratio: "Voortgang (%)"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
+        done_ratio: "% Complete"
         duration: "Tijdsduur"
         end_insertion: "Einde van het invoegen"
         end_deletion: "Einde van de verwijdering"
@@ -617,8 +631,10 @@ nl:
         parent_issue: "Bovenliggend werkpakket"
         parent_work_package: "Bovenliggend werkpakket"
         priority: "Prioriteit"
-        progress: "Voortgang (%)"
+        progress: "% Complete"
         readonly: "Alleen lezen"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Handmatige planning"
         spent_hours: "Bestede tijd"
         spent_time: "Bestede tijd"
@@ -1031,12 +1047,12 @@ nl:
     default_columns: "Standaardkolommen"
     description: "Omschrijving"
     derived_due_date: "Afgeleide einddatum"
-    derived_estimated_hours: "Afgeleide eindtijd"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Afgeleide startdatum"
     display_sums: "Bedragen weergeven"
     due_date: "Einddatum"
-    estimated_hours: "Geschatte tijd"
-    estimated_time: "Geschatte tijd"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "Verloopt op"
     firstname: "Voornaam"
     group: "Groep"
@@ -1382,7 +1398,7 @@ nl:
   error_pdf_export_too_many_columns: "Te veel kolommen geselecteerd voor het exporteren naar PDF. Beperk het aantal kolommen."
   error_pdf_failed_to_export: "De pdf export kan niet worden opgeslagen:%{error}"
   error_token_authenticity: "Niet in staat om de Cross-Site Request Forgery token te valideren. Heeft u geprobeert gegevens op meerdere browsers of tabbladen wilt indienen? Sluit alle tabbladen en probeer het opnieuw."
-  error_work_package_done_ratios_not_updated: "Werkpakket gedaan ratio's niet bijgewerkt."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Het werkpakket werd niet gevonden of maakt geen deel uit van dit project"
   error_must_be_project_member: "moet een project lid zijn"
   error_migrations_are_pending: "Uw OpenProject installatie heeft database migraties in afwachting. U heeft waarschijnlijk de migraties gemist tijdens uw laatste upgrade. Controleer a.u.b. de upgrade gids om uw installatie goed bij te werken."
@@ -2062,7 +2078,7 @@ nl:
   label_type_new: "Nieuw type"
   label_type_plural: "Typen"
   label_ui: "Gebruiksinterface"
-  label_update_work_package_done_ratios: "Werk pakket gedaan ratio's bijwerken"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Bijgewerkt %{value} geleden"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Bijgewerkt door %{author} %{age} geleden"
@@ -2147,6 +2163,10 @@ nl:
     one: "1 open"
     other: "%{count} open"
     zero: "0 open"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 project"
     other: "%{count} projecten"
@@ -2329,7 +2349,7 @@ nl:
   notice_file_not_found: "De pagina die u probeerde te benaderen bestaat niet of is verwijderd."
   notice_forced_logout: "U bent automatisch uitgelogd na %{ttl_time} minuten van inactiviteit."
   notice_internal_server_error: "Er is een fout opgetreden op de pagina die u probeerde te gebruiken. Als u problemen blijft ervaren, neem dan contact op met uw %{app_title} beheerder voor hulp."
-  notice_work_package_done_ratios_updated: "Werkpakket ratio's bijgewerkt."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Informatie is in de tussentijd door ten minste één andere gebruiker bijgewerkt."
   notice_locking_conflict_additional_information: "De update kwam van %{users}."
   notice_locking_conflict_reload_page: "Pagina opnieuw laden, bekijk de wijzigingen en uw wijzigingen opnieuw toepassen."
@@ -2405,6 +2425,8 @@ nl:
   permission_assign_versions: "Versies toewijzen"
   permission_browse_repository: "Alleen-lezen toegang tot opslagplaats (bladeren en uitchecken)"
   permission_change_wiki_parent_page: "Bovenliggende wiki-pagina wijzigen"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Opmerking nieuws"
   permission_commit_access: "Lees/schrijf toegang tot opslagplaats (bevestig)"
   permission_copy_projects: "Kopiëren van projecten"
@@ -2466,7 +2488,7 @@ nl:
   permission_view_news: "View news"
   permission_view_members: "Bekijk leden"
   permission_view_reportings: "Weergave rapporteringen"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Verbruikte tijd weergeven"
   permission_view_timelines: "Weergave tijdlijnen"
   permission_view_wiki_edits: "Wiki weergavegeschiedenis"
@@ -2507,6 +2529,7 @@ nl:
   project_module_news: "Nieuws"
   project_module_repository: "Repository"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2696,10 +2719,10 @@ nl:
   setting_file_max_size_displayed: "Maximale grootte van tekstbestanden inline weergegeven"
   setting_host_name: "Hostnaam"
   setting_invitation_expiration_days: "Activatie e-mail verloopt na"
-  setting_work_package_done_ratio: "Berekenen van de verhouding-gedaan van het werkpakket"
-  setting_work_package_done_ratio_field: "Gebruik het veld werkpakket"
-  setting_work_package_done_ratio_status: "Gebruik de werkpakket status"
-  setting_work_package_done_ratio_disabled: "Uitschakelen (verbergen de vooruitgang)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Standaard worden weergegeven"
   setting_work_package_properties: "Werkpakketeigenschappen"
   setting_work_package_startdate_is_adddate: "Huidige datum als begindatum voor nieuwe werkpakketten gebruiken"
@@ -3136,9 +3159,9 @@ nl:
         unsupported_context: "De gegeven bron wordt niet ondersteund als context."
         context_object_not_found: "Kan de bron niet vind als gegeven context."
       validation:
-        done_ratio: "De vooruitgangsratio kan niet op een ouderwerkpakket worden gezet wanneer die uit de status wordt afgeleid of is uitgeschakeld."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Einddatum kan niet worden ingesteld op bovenliggende werkpakketten."
-        estimated_hours: "Geschatte uren uren kunnen niet op ouderwerkpaketten worden gezet."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "De gekozen gebruiker kan geen '%{property}' zijn voor dit werkpakket."
         start_date: "De startdatum kan niet worden ingesteld op bovenliggende werkpakketten."
       eprops:

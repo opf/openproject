@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -112,7 +112,7 @@ RSpec.describe Status do
     end
 
     context 'with Setting.work_package_done_ratio using the status', with_settings: { work_package_done_ratio: 'status' } do
-      it "updates all of the work package's done_ratios to match their status" do
+      it "updates all of the work package's % Complete values to match their status" do
         described_class.update_work_package_done_ratios
 
         expect(work_package.reload.done_ratio)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Wiki page navigation spec', js: true do
+RSpec.describe 'Wiki page navigation spec', :js do
   shared_let(:admin) { create(:admin) }
   current_user { admin }
 
@@ -51,9 +51,9 @@ RSpec.describe 'Wiki page navigation spec', js: true do
   it 'scrolls to the selected page on load (Regression #36937)' do
     visit project_wiki_path(project, wiki_page_55)
 
-    expect(page).to have_selector('div.wiki-content')
+    expect(page).to have_css('div.wiki-content')
 
-    expect(page).to have_selector('.title-container h2', text: 'Wiki Page No. 55')
+    expect(page).to have_css('.title-container h2', text: 'Wiki Page No. 55')
 
     # Expect scrolled to menu node
     expect_element_in_view page.find('.tree-menu--item.-selected', text: 'Wiki Page No. 55')

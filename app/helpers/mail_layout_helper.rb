@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,10 +61,10 @@ module MailLayoutHelper
 
   def placeholder_cell(number, vertical:)
     style = if vertical
-      "max-width:#{number}; min-width:#{number}; width:#{number}"
-    else
-      "line-height:#{number}; max-width:0; min-width:0; height:#{number}; width:0; font-size:#{number}"
-    end
+              "max-width:#{number}; min-width:#{number}; width:#{number}"
+            else
+              "line-height:#{number}; max-width:0; min-width:0; height:#{number}; width:0; font-size:#{number}"
+            end
 
     content_tag('td', '&nbsp;'.html_safe, style:)
   end

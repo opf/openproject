@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ module Pages
     end
 
     def expect_title(title = 'Unnamed team planner')
-      expect(page).to have_selector('.editable-toolbar-title--input') { |node| node.value == title }
+      expect(page).to have_css('.editable-toolbar-title--input') { |node| node.value == title }
     end
 
     def save_as(name)
@@ -72,7 +72,7 @@ module Pages
     end
 
     def expect_view_mode(text)
-      expect(page).to have_selector('[data-test-selector="op-team-planner--view-select-dropdown"]', text:)
+      expect(page).to have_css('[data-test-selector="op-team-planner--view-select-dropdown"]', text:)
 
       param = {
         'Work week' => :resourceTimelineWorkWeek,
@@ -131,17 +131,17 @@ module Pages
 
     def expect_event(work_package, present: true)
       if present
-        expect(page).to have_selector('.fc-event', text: work_package.subject, wait: 10)
+        expect(page).to have_css('.fc-event', text: work_package.subject, wait: 10)
       else
-        expect(page).not_to have_selector('.fc-event', text: work_package.subject)
+        expect(page).to have_no_css('.fc-event', text: work_package.subject)
       end
     end
 
     def expect_resizable(work_package, resizable: true)
       if resizable
-        expect(page).to have_selector('.fc-event.fc-event-resizable', text: work_package.subject, wait: 10)
+        expect(page).to have_css('.fc-event.fc-event-resizable', text: work_package.subject, wait: 10)
       else
-        expect(page).to have_selector('.fc-event:not(.fc-event-resizable)', text: work_package.subject, wait: 10)
+        expect(page).to have_css('.fc-event:not(.fc-event-resizable)', text: work_package.subject, wait: 10)
       end
     end
 
@@ -157,18 +157,18 @@ module Pages
 
     def expect_delete_buttons_for(*queries)
       queries.each do |query|
-        expect(page).to have_selector "[data-test-selector='team-planner-remove-#{query.id}']"
+        expect(page).to have_css "[data-test-selector='team-planner-remove-#{query.id}']"
       end
     end
 
     def expect_no_delete_buttons_for(*queries)
       queries.each do |query|
-        expect(page).not_to have_selector "[data-test-selector='team-planner-remove-#{query.id}']"
+        expect(page).to have_no_css "[data-test-selector='team-planner-remove-#{query.id}']"
       end
     end
 
     def expect_view_not_rendered(query)
-      expect(page).not_to have_selector 'td', text: query.name
+      expect(page).to have_no_css 'td', text: query.name
     end
 
     def expect_create_button
@@ -179,7 +179,7 @@ module Pages
 
     def expect_no_create_button
       within '.toolbar-items' do
-        expect(page).not_to have_link text: 'Team planner'
+        expect(page).to have_no_link text: 'Team planner'
       end
     end
 
@@ -293,9 +293,9 @@ module Pages
       drag_element_to(dropzone)
 
       if expect_removable
-        expect(page).to have_selector('span', text: I18n.t('js.team_planner.drag_here_to_remove'))
+        expect(page).to have_css('span', text: I18n.t('js.team_planner.drag_here_to_remove'))
       else
-        expect(page).to have_selector('span', text: I18n.t('js.team_planner.cannot_drag_here'))
+        expect(page).to have_css('span', text: I18n.t('js.team_planner.cannot_drag_here'))
       end
 
       drag_release
@@ -322,15 +322,15 @@ module Pages
     end
 
     def expect_wp_not_resizable(work_package)
-      expect(page).to have_selector('.fc-event:not(.fc-event-resizable)', text: work_package.subject)
+      expect(page).to have_css('.fc-event:not(.fc-event-resizable)', text: work_package.subject)
     end
 
     def expect_wp_not_draggable(work_package)
-      expect(page).to have_selector('.fc-event:not(.fc-event-draggable)', text: work_package.subject)
+      expect(page).to have_css('.fc-event:not(.fc-event-draggable)', text: work_package.subject)
     end
 
     def expect_no_menu_item(name)
-      expect(page).not_to have_selector('.op-sidemenu--item-title', text: name)
+      expect(page).to have_no_css('.op-sidemenu--item-title', text: name)
     end
 
     def y_distance(from:, to:)
@@ -342,7 +342,7 @@ module Pages
     end
 
     def wait_for_loaded
-      expect(page).to have_selector('.op-team-planner--wp-loading-skeleton')
+      expect(page).to have_css('.op-team-planner--wp-loading-skeleton')
 
       retry_block do
         raise "Should not be there" if page.has_selector?('.op-team-planner--wp-loading-skeleton')

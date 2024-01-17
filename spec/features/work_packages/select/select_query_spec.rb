@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -67,7 +67,7 @@ RSpec.describe 'Query selection' do
       filters.open
     end
 
-    it 'shows the default (status) filter', js: true do
+    it 'shows the default (status) filter', :js do
       filters.expect_filter_count 1
       filters.expect_filter_by 'Status', 'open', nil
     end
@@ -80,12 +80,12 @@ RSpec.describe 'Query selection' do
       work_packages_page.select_query query
     end
 
-    it 'shows the saved filters', js: true do
+    it 'shows the saved filters', :js do
       filters.open
       filters.expect_filter_by 'Assignee', 'is (OR)', ['me']
-      filters.expect_filter_by 'Progress (%)', '>=', ['10'], 'percentageDone'
+      filters.expect_filter_by 'Percent Complete', '>=', ['10'], 'percentageDone'
 
-      expect(page).to have_selector("#{test_selector('wp-filter-button')} .badge", text: '2')
+      expect(page).to have_css("#{test_selector('wp-filter-button')} .badge", text: '2')
     end
   end
 
@@ -103,7 +103,7 @@ RSpec.describe 'Query selection' do
       work_packages_page.select_query query
     end
 
-    it 'updates the page upon query switching', js: true do
+    it 'updates the page upon query switching', :js do
       wp_page.expect_title query.name, editable: false
 
       find('.op-sidemenu--item-action', text: query2.name).click

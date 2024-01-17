@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Work package table log unit costs', js: true do
+RSpec.describe 'Work package table log unit costs', :js do
   let(:user) { create(:admin) }
   let(:work_package) { create(:work_package) }
 
@@ -26,6 +26,6 @@ RSpec.describe 'Work package table log unit costs', js: true do
 
   it 'renders the log unit costs menu item' do
     menu.choose(I18n.t(:label_log_costs))
-    expect(page).to have_selector('h2', text: I18n.t(:label_log_costs))
+    expect(page).to have_css('h2', text: I18n.t(:label_log_costs))
   end
 end

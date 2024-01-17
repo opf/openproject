@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -281,6 +281,18 @@ fi:
       no_results_content_text: Lisää henkilö tähän projektiin
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "API-salasanan resetointi epäonnistui: %{error}"
@@ -606,7 +618,9 @@ fi:
         begin_insertion: "Lisäyksen alku"
         begin_deletion: "Poistokohdan alku"
         children: "Subelements"
-        done_ratio: "Valmiusaste (%)"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
+        done_ratio: "% Complete"
         duration: "Kesto"
         end_insertion: "Lisäyksen loppu"
         end_deletion: "Poistokohdan loppu"
@@ -620,8 +634,10 @@ fi:
         parent_issue: "Ylätaso"
         parent_work_package: "Ylätaso"
         priority: "Prioriteetti"
-        progress: "Valmiusaste (%)"
+        progress: "% Complete"
         readonly: "Read only"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Manual scheduling"
         spent_hours: "Käytetty aika"
         spent_time: "Käytetty aika"
@@ -1034,12 +1050,12 @@ fi:
     default_columns: "Oletussarakkeet"
     description: "Kuvaus"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Derived start date"
     display_sums: "Näytä summat"
     due_date: "Päättymispäivä"
-    estimated_hours: "Työmääräarvio"
-    estimated_time: "Työmääräarvio"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "Vanhentuu"
     firstname: "Etunimi"
     group: "Ryhmä"
@@ -1385,7 +1401,7 @@ fi:
   error_pdf_export_too_many_columns: "Liikaa sarakkeita valittuina PDF-vientiin. Pienennä sarakkeiden määrää."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
-  error_work_package_done_ratios_not_updated: "Tehtävän valmiusastetta ei päivitetty."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Toimia paketti ei löydy tai ei kuulu tähän projektiin"
   error_must_be_project_member: "on oltava projekti jäsen"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -2065,7 +2081,7 @@ fi:
   label_type_new: "Uusi tyyppi"
   label_type_plural: "Tehtävätyypit"
   label_ui: "Käyttöliittymä"
-  label_update_work_package_done_ratios: "Päivitä tehtävien valmiusasteet"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Päivitetty %{value} sitten"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Päivittänyt %{author} %{age} sitten"
@@ -2150,6 +2166,10 @@ fi:
     one: "1 avoin"
     other: "%{count} avointa"
     zero: "0 open"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 projekti"
     other: "%{count} projektia"
@@ -2333,7 +2353,7 @@ fi:
   notice_file_not_found: "Hakemaasi sivua ei löytynyt tai se on poistettu."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."
   notice_internal_server_error: "Tapahtui virhe. Jos ongelma jatkuu, ota yhteys %{app_title} ylläpitoon."
-  notice_work_package_done_ratios_updated: "Work package done ratios updated."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Vähintään yksi muu käyttäjä on päivitetty tiedot sillä välin."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Ole hyvä ja päivitä sivu, tarkistaa muutokset ja uudelleen päivitykset."
@@ -2409,6 +2429,8 @@ fi:
   permission_assign_versions: "Assign versions"
   permission_browse_repository: "Selaa tietovarastoa"
   permission_change_wiki_parent_page: "Vaihda ylätason wikisivu"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Kommentoi uutisia"
   permission_commit_access: "Tee pääsyoikeus"
   permission_copy_projects: "Kopioi projekteja"
@@ -2470,7 +2492,7 @@ fi:
   permission_view_news: "View news"
   permission_view_members: "Näytä jäsenet"
   permission_view_reportings: "Tarkastele raportointeja"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Näytä käytetty aika"
   permission_view_timelines: "Tarkastele aikajanoja"
   permission_view_wiki_edits: "Näytä wiki historia"
@@ -2511,6 +2533,7 @@ fi:
   project_module_news: "Uutiset"
   project_module_repository: "Tietovarasto"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2700,10 +2723,10 @@ fi:
   setting_file_max_size_displayed: "Max size of text files displayed inline"
   setting_host_name: "Verkko-osoite"
   setting_invitation_expiration_days: "Sähköpostisi vahvistuslinkki vanhentuu"
-  setting_work_package_done_ratio: "Käytä tehtävien edistymistä laskennassa"
-  setting_work_package_done_ratio_field: "Käytä tehtäväkenttää"
-  setting_work_package_done_ratio_status: "Käytä tehtävän tilaa"
-  setting_work_package_done_ratio_disabled: "Ei käytössä (piilota valmiusaste)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Oletuksena näkyvissä"
   setting_work_package_properties: "Tehtävän ominaisuudet"
   setting_work_package_startdate_is_adddate: "Käytä nykyistä päivämäärää uuden tehtävän aloistuspäivänä"
@@ -3141,9 +3164,9 @@ fi:
         unsupported_context: "Resurssi koska ei ole tuettu yhteydessä."
         context_object_not_found: "Cannot find the resource given as the context."
       validation:
-        done_ratio: "Done ratio cannot be set on parent work packages, when it is inferred by status or when it is disabled."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Päättymispäivää ei voida asettaa ylätason tehtäville."
-        estimated_hours: "Arvioitu tuntia ei voi asettaa vanhemman toimia paketti."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "The chosen user is not allowed to be '%{property}' for this work package."
         start_date: "Aloituspäivää ei voi asettaa ylätehtäville."
       eprops:

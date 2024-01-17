@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -95,7 +95,7 @@ RSpec.describe 'Structured meetings CRUD',
       show_page.expect_participant(user, invited: true, attended: false, editable: false)
       show_page.expect_participant(other_user, invited: true, attended: false, editable: false)
       show_page.expect_available_participants(count: 2)
-      expect(page).not_to have_button('Save')
+      expect(page).to have_no_button('Save')
     end
     show_page.close_dialog
 
@@ -110,7 +110,7 @@ RSpec.describe 'Structured meetings CRUD',
       show_page.expect_participant(user, invited: true, attended: false, editable: false)
       show_page.expect_participant(other_user, invited: true, attended: false, editable: false)
       show_page.expect_available_participants(count: 2)
-      expect(page).not_to have_button('Save')
+      expect(page).to have_no_button('Save')
     end
   end
 end

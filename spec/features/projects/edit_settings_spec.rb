@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,8 +44,8 @@ RSpec.describe 'Projects', 'editing settings', :js, :with_cuprite do
   it 'hides the field whose functionality is presented otherwise' do
     visit project_settings_general_path(project.id)
 
-    expect(page).not_to have_text :all, 'Active'
-    expect(page).not_to have_text :all, 'Identifier'
+    expect(page).to have_no_text :all, 'Active'
+    expect(page).to have_no_text :all, 'Identifier'
   end
 
   describe 'identifier edit' do

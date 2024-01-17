@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -37,18 +37,18 @@ module Pages
     end
 
     def expect_work_package_count(count)
-      expect(page).to have_selector('wp-single-card', count:, wait: 20)
+      expect(page).to have_css('wp-single-card', count:, wait: 20)
     end
 
     def expect_work_package_listed(*work_packages)
       work_packages.each do |wp|
-        expect(page).to have_selector("wp-single-card[data-work-package-id='#{wp.id}']", wait: 10)
+        expect(page).to have_css("wp-single-card[data-work-package-id='#{wp.id}']", wait: 10)
       end
     end
 
     def expect_work_package_not_listed(*work_packages)
       work_packages.each do |wp|
-        expect(page).not_to have_selector("wp-single-card[data-work-package-id='#{wp.id}']")
+        expect(page).to have_no_css("wp-single-card[data-work-package-id='#{wp.id}']")
       end
     end
 
@@ -78,7 +78,8 @@ module Pages
       element = card(work_package)
       scroll_to_element(element)
       element.hover
-      element.find('[data-test-selector="op-wp-single-card--details-button"]').click
+      # The offset is needed to ensure that the resizer does not catch the click, instead of the info icon
+      element.find('[data-test-selector="op-wp-single-card--details-button"]').click(x: -5, y: 0)
 
       ::Pages::SplitWorkPackage.new(work_package, project)
     end
@@ -122,12 +123,12 @@ module Pages
 
     def select_all_work_packages
       find('body').send_keys [:control, 'a']
-      expect(page).not_to have_selector '#work-package-context-menu'
+      expect(page).to have_no_css '#work-package-context-menu'
     end
 
     def deselect_all_work_packages
       find('body').send_keys [:control, 'd']
-      expect(page).not_to have_selector '#work-package-context-menu'
+      expect(page).to have_no_css '#work-package-context-menu'
     end
 
     def card(work_package)

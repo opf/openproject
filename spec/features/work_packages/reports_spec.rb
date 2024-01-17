@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'work package reports', js: true do
+RSpec.describe 'work package reports', :js do
   let(:project) { create(:project_with_types, types: [type_a]) }
   let(:user) { create(:user, member_with_permissions: { project => %i(view_work_packages) }) }
 
@@ -64,22 +64,22 @@ RSpec.describe 'work package reports', js: true do
       .to have_content 'ACCOUNTABLE'
 
     expect(page)
-      .to have_selector 'thead th:nth-of-type(2)', text: type_a.statuses.first.name.upcase
+      .to have_css 'thead th:nth-of-type(2)', text: type_a.statuses.first.name.upcase
     expect(page)
-      .to have_selector 'thead th:nth-of-type(3)', text: type_a.statuses.last.name.upcase
+      .to have_css 'thead th:nth-of-type(3)', text: type_a.statuses.last.name.upcase
 
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(1)', text: type_a.name
+      .to have_css 'tbody tr:nth-of-type(1) td:nth-of-type(1)', text: type_a.name
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(2)', text: 1
+      .to have_css 'tbody tr:nth-of-type(1) td:nth-of-type(2)', text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(3)', text: 1
+      .to have_css 'tbody tr:nth-of-type(1) td:nth-of-type(3)', text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(4)', text: 1
+      .to have_css 'tbody tr:nth-of-type(1) td:nth-of-type(4)', text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(5)', text: 1
+      .to have_css 'tbody tr:nth-of-type(1) td:nth-of-type(5)', text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(6)', text: 2
+      .to have_css 'tbody tr:nth-of-type(1) td:nth-of-type(6)', text: 2
 
     # Clicking on the further analyze link will lead to a page focusing on type
     click_link 'Further analyze: Type'
@@ -94,22 +94,22 @@ RSpec.describe 'work package reports', js: true do
       .to have_no_content 'ACCOUNTABLE'
 
     expect(page)
-      .to have_selector 'thead th:nth-of-type(2)', text: type_a.statuses.first.name.upcase
+      .to have_css 'thead th:nth-of-type(2)', text: type_a.statuses.first.name.upcase
     expect(page)
-      .to have_selector 'thead th:nth-of-type(3)', text: type_a.statuses.last.name.upcase
+      .to have_css 'thead th:nth-of-type(3)', text: type_a.statuses.last.name.upcase
 
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(1)', text: type_a.name
+      .to have_css 'tbody tr:nth-of-type(1) td:nth-of-type(1)', text: type_a.name
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(2)', text: 1
+      .to have_css 'tbody tr:nth-of-type(1) td:nth-of-type(2)', text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(3)', text: 1
+      .to have_css 'tbody tr:nth-of-type(1) td:nth-of-type(3)', text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(4)', text: 1
+      .to have_css 'tbody tr:nth-of-type(1) td:nth-of-type(4)', text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(5)', text: 1
+      .to have_css 'tbody tr:nth-of-type(1) td:nth-of-type(5)', text: 1
     expect(page)
-      .to have_selector 'tbody tr:nth-of-type(1) td:nth-of-type(6)', text: 2
+      .to have_css 'tbody tr:nth-of-type(1) td:nth-of-type(6)', text: 2
 
     # Clicking on a number in the table will lead to the wp list filtered by the type
     within 'tbody tr:first-of-type td:nth-of-type(2)' do

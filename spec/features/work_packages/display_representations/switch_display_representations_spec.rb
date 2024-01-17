@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -28,8 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Switching work package view',
-               js: true, with_ee: %i[conditional_highlighting] do
+RSpec.describe 'Switching work package view', :js, with_ee: %i[conditional_highlighting] do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -75,30 +74,30 @@ RSpec.describe 'Switching work package view',
       # Enable highlighting
       highlighting.switch_entire_row_highlight "Priority"
       within "wp-single-card[data-work-package-id='#{wp_1.id}']" do
-        expect(page).to have_selector(".op-wp-single-card--highlighting.__hl_background_priority_#{priority1.id}")
+        expect(page).to have_css(".op-wp-single-card--highlighting.__hl_background_priority_#{priority1.id}")
       end
       within "wp-single-card[data-work-package-id='#{wp_2.id}']" do
-        expect(page).to have_selector(".op-wp-single-card--highlighting.__hl_background_priority_#{priority2.id}")
+        expect(page).to have_css(".op-wp-single-card--highlighting.__hl_background_priority_#{priority2.id}")
       end
 
       # Switch back to list representation & Highlighting is kept
       display_representation.switch_to_list_layout
       wp_table.expect_work_package_listed wp_1, wp_2
-      expect(page).to have_selector("#{wp_table.row_selector(wp_1)}.__hl_background_priority_#{priority1.id}")
-      expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_background_priority_#{priority2.id}")
+      expect(page).to have_css("#{wp_table.row_selector(wp_1)}.__hl_background_priority_#{priority1.id}")
+      expect(page).to have_css("#{wp_table.row_selector(wp_2)}.__hl_background_priority_#{priority2.id}")
 
       # Change attribute
       highlighting.switch_entire_row_highlight "Status"
-      expect(page).to have_selector("#{wp_table.row_selector(wp_1)}.__hl_background_status_#{status.id}")
-      expect(page).to have_selector("#{wp_table.row_selector(wp_2)}.__hl_background_status_#{status.id}")
+      expect(page).to have_css("#{wp_table.row_selector(wp_1)}.__hl_background_status_#{status.id}")
+      expect(page).to have_css("#{wp_table.row_selector(wp_2)}.__hl_background_status_#{status.id}")
 
       # Switch back to card representation & Highlighting is kept, too
       display_representation.switch_to_card_layout
       within "wp-single-card[data-work-package-id='#{wp_1.id}']" do
-        expect(page).to have_selector(".op-wp-single-card--highlighting.__hl_background_status_#{status.id}")
+        expect(page).to have_css(".op-wp-single-card--highlighting.__hl_background_status_#{status.id}")
       end
       within "wp-single-card[data-work-package-id='#{wp_2.id}']" do
-        expect(page).to have_selector(".op-wp-single-card--highlighting.__hl_background_status_#{status.id}")
+        expect(page).to have_css(".op-wp-single-card--highlighting.__hl_background_status_#{status.id}")
       end
     end
 
@@ -118,12 +117,12 @@ RSpec.describe 'Switching work package view',
 
       # A single click leads to the full view
       cards.select_work_package(wp_1)
-      expect(page).to have_selector('.work-packages--details--subject',
-                                    text: wp_1.subject)
+      expect(page).to have_css('.work-packages--details--subject',
+                               text: wp_1.subject)
       page.find('.work-packages-back-button').click
 
       # The query is however unchanged
-      expect(page).not_to have_selector('.editable-toolbar-title--save')
+      expect(page).to have_no_css('.editable-toolbar-title--save')
       url = URI.parse(page.current_url).query
       expect(url).not_to match(/query_props=.+/)
 

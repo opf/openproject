@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -70,7 +70,7 @@ RSpec.describe 'users/index' do
     it "does not show the current number of active and allowed users" do
       render
 
-      expect(subject).not_to have_text("booked active users")
+      expect(subject).to have_no_text("booked active users")
     end
   end
 end

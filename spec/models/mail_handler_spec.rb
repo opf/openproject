@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,18 +29,15 @@
 require 'spec_helper'
 
 RSpec.describe MailHandler do
-  let(:anno_user) { User.anonymous }
-  let(:project) { create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: false) }
-  let(:public_project) { create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: true) }
-  let(:priority_low) { create(:priority_low, is_default: true) }
+  # we need these run first so the anonymous and system users are created and
+  # there is a default work package priority to save any work packages
+  shared_let(:anno_user) { User.anonymous }
+  shared_let(:system_user) { User.system }
+  shared_let(:priority_low) { create(:priority_low, name: 'Low', is_default: true) }
+
+  shared_let(:project) { create(:valid_project, identifier: 'onlinestore', name: 'OnlineStore', public: false) }
 
   before do
-    # we need both of these run first so the anonymous user is created and
-    # there is a default work package priority to save any work packages
-    priority_low
-    anno_user
-    User.system
-
     allow(UserMailer)
       .to receive(:incoming_email_error)
       .and_return instance_double(ActionMailer::MessageDelivery, deliver_later: nil)
@@ -327,9 +324,8 @@ RSpec.describe MailHandler do
   end
 
   shared_context 'with a new work package with attachment' do
-    # The edit_work_packages is currently wrongfully needed as the work package
-    # is created first and only then the attachment is added.
-    let(:permissions) { %i[add_work_packages edit_work_packages] }
+    # The work package is created first and only then the attachment is added.
+    let(:permissions) { %i[add_work_packages add_work_package_attachments] }
     let!(:user) do
       create(:user,
              mail: 'JSmith@somenet.foo',
@@ -345,9 +341,8 @@ RSpec.describe MailHandler do
   end
 
   shared_context 'with a new work package with attachment in apple format' do
-    # The edit_work_packages is currently wrongfully needed as the work package
-    # is created first and only then the attachment is added.
-    let(:permissions) { %i[add_work_packages edit_work_packages] }
+    # The work package is created first and only then the attachment is added.
+    let(:permissions) { %i[add_work_packages add_work_package_attachments] }
     let!(:user) do
       create(:user,
              mail: 'JSmith@somenet.foo',
@@ -874,8 +869,9 @@ RSpec.describe MailHandler do
         end
 
         subject do
+          project.update(public: true)
           submit_email('ticket_from_emission_address.eml',
-                       issue: { project: public_project.identifier },
+                       issue: { project: project.identifier },
                        unknown_user: 'create')
         end
 
@@ -918,7 +914,6 @@ RSpec.describe MailHandler do
       context 'for wp with status case insensitive' do
         let(:type) { project.types.first }
         let!(:status) { create(:status, name: 'Resolved', workflow_for_type: type) }
-        let!(:priority_low) { create(:priority_low, name: 'Low', is_default: true) }
         let!(:version) { create(:version, name: 'alpha', project:) }
 
         # This email contains: 'Project: onlinestore' and 'Status: resolved'

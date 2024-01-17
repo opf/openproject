@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,9 +29,7 @@
 require 'spec_helper'
 require 'support/edit_fields/edit_field'
 
-RSpec.describe 'Datepicker logic on follow relationships',
-               js: true,
-               with_cuprite: true,
+RSpec.describe 'Datepicker logic on follow relationships', :js, :with_cuprite,
                with_settings: { date_format: '%Y-%m-%d' } do
   shared_let(:user) { create(:admin) }
 
@@ -41,10 +39,9 @@ RSpec.describe 'Datepicker logic on follow relationships',
   shared_let(:predecessor) do
     create(:work_package,
            type:, project:,
-           start_date: Date.parse('2023-02-01'),
-           due_date: Date.parse('2023-02-05'))
+           start_date: Date.parse('2024-02-01'),
+           due_date: Date.parse('2024-02-05'))
   end
-
 
   let(:work_packages_page) { Pages::FullWorkPackage.new(follower) }
   let(:datepicker) { date_field.datepicker }
@@ -64,21 +61,21 @@ RSpec.describe 'Datepicker logic on follow relationships',
       datepicker.expect_ignore_non_working_days false
       datepicker.expect_scheduling_mode false
 
-      datepicker.show_date '2023-02-05'
-      datepicker.expect_disabled Date.parse('2023-02-05')
-      datepicker.expect_disabled Date.parse('2023-02-04')
-      datepicker.expect_disabled Date.parse('2023-02-03')
-      datepicker.expect_disabled Date.parse('2023-02-02')
-      datepicker.expect_disabled Date.parse('2023-02-01')
+      datepicker.show_date '2024-02-05'
+      datepicker.expect_disabled Date.parse('2024-02-05')
+      datepicker.expect_disabled Date.parse('2024-02-04')
+      datepicker.expect_disabled Date.parse('2024-02-03')
+      datepicker.expect_disabled Date.parse('2024-02-02')
+      datepicker.expect_disabled Date.parse('2024-02-01')
 
       datepicker.toggle_ignore_non_working_days
       datepicker.expect_ignore_non_working_days true
-      datepicker.show_date '2023-02-05'
-      datepicker.expect_disabled Date.parse('2023-02-05')
-      datepicker.expect_disabled Date.parse('2023-02-04')
-      datepicker.expect_disabled Date.parse('2023-02-03')
-      datepicker.expect_disabled Date.parse('2023-02-02')
-      datepicker.expect_disabled Date.parse('2023-02-01')
+      datepicker.show_date '2024-02-05'
+      datepicker.expect_disabled Date.parse('2024-02-05')
+      datepicker.expect_disabled Date.parse('2024-02-04')
+      datepicker.expect_disabled Date.parse('2024-02-03')
+      datepicker.expect_disabled Date.parse('2024-02-02')
+      datepicker.expect_disabled Date.parse('2024-02-01')
     end
   end
 

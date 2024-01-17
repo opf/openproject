@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -179,6 +179,10 @@ OpenProject::Application.routes.draw do
     delete '/unwatch' => 'watchers#unwatch'
   end
 
+  namespace :projects do
+    resource :menu, only: %[show]
+  end
+
   resources :projects, except: %i[show edit create update] do
     scope module: 'projects' do
       namespace 'settings' do
@@ -292,6 +296,10 @@ OpenProject::Application.routes.draw do
       collection do
         get :autocomplete_for_member
       end
+    end
+
+    namespace :members do
+      resource :menu, only: %[show]
     end
 
     resource :repository, controller: 'repositories', except: [:new] do
@@ -485,6 +493,7 @@ OpenProject::Application.routes.draw do
     get '/new' => 'work_packages#index', on: :collection, as: 'new', state: 'new'
     # We do not want to match the work package export routes
     get '(/*state)' => 'work_packages#show', on: :member, as: '', constraints: { id: /\d+/ }
+    get '/share_upsale' => 'work_packages#index', on: :collection, as: 'share_upsale'
     get '/edit' => 'work_packages#show', on: :member, as: 'edit'
   end
 

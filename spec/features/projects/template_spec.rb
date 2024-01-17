@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -44,13 +44,13 @@ RSpec.describe 'Project templates', :js, :with_cuprite do
       # Make a template
       find('.button', text: 'Set as template').click
 
-      expect(page).to have_selector('.button', text: 'Remove from templates')
+      expect(page).to have_css('.button', text: 'Remove from templates')
       project.reload
       expect(project).to be_templated
 
       # unset template
       find('.button', text: 'Remove from templates').click
-      expect(page).to have_selector('.button', text: 'Set as template')
+      expect(page).to have_css('.button', text: 'Set as template')
 
       project.reload
       expect(project).not_to be_templated
@@ -99,7 +99,7 @@ RSpec.describe 'Project templates', :js, :with_cuprite do
       name_field.set_value 'Foo bar'
 
       expect(page)
-        .not_to have_content('COPY OPTIONS')
+        .to have_no_content('COPY OPTIONS')
 
       template_field.select_option 'My template'
 
@@ -123,7 +123,7 @@ RSpec.describe 'Project templates', :js, :with_cuprite do
       page.find('.op-fieldset--toggle', text: 'COPY OPTIONS').click
 
       # Now shows the send notifications field.
-      expect(page).to have_selector('[data-qa-field-name="sendNotifications"]')
+      expect(page).to have_css('[data-qa-field-name="sendNotifications"]')
 
       # And allows to deselect copying the members.
       uncheck I18n.t(:'projects.copy.members')

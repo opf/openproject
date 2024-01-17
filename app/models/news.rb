@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -61,7 +61,7 @@ class News < ApplicationRecord
   end
 
   def description=(val)
-    super val.presence || ''
+    super(val.presence || '')
   end
 
   # returns latest news for projects visible by user

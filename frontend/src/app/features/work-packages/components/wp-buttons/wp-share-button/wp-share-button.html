@@ -8,4 +8,11 @@
     size="small"
   ></svg>
   <span class="button--text" [textContent]="text.share"></span>
+
+  <svg
+    *ngIf="showEnterpriseIcon"
+    op-enterprise-addons-icon
+    class="button--icon upsale-colored"
+    size="small"
+  ></svg>
 </button>

@@ -1,5 +1,5 @@
 require_relative '../../../spec_helper'
-require_relative './../authentication_controller_shared_examples'
+require_relative '../authentication_controller_shared_examples'
 
 RSpec.describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
   let(:admin) { create(:admin) }

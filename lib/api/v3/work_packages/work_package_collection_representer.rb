@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -75,7 +75,7 @@ module API
           # and set those to be the represented collection.
           # A potential ordering is reapplied to the work package collection in ruby.
 
-          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper \
+          @represented = ::API::V3::WorkPackages::WorkPackageEagerLoadingWrapper
             .wrap(represented, current_user, timestamps:, query:)
         end
 

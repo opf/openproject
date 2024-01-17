@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -348,11 +348,11 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_1':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                Цей випуск містить кілька нових і поліпшених функцій. <br><ul class="%{list_styling_class}"><li>Тепер ви можете надавати доступ до пакетів робіт зовнішнім користувачам і групам, які не належать до учасників проєкту (доповнення версії Enterprise).</li> <li>Стали доступними нові динамічні наради з порядком денним і протоколами, пов’язаними з пакетами ротіб.</li> <li>Ви можете прив’язувати до пакетів робіт файли й папки з OneDrive / SharePoint.</li> <li>Додано можливість перевірки функцій доступності за стандартом WCAG 2.1 AA, включно з режимом високого контрасту.</li> <li>Додано можливість безперервної інтеграції із системою Primer Design System.</li> </ul>
+                Цей випуск містить нові й поліпшені функції. <br> <ul class="%{list_styling_class}"> <li>Налаштуйте інтеграцію з OneDrive і/або SharePoint для роботи з папками проєктів із ручним керуванням.</li> <li>Фільтруйте список учасників проєкту за ролями, групами й поширеннями.</li> <li>Призначайте виконавця й відповідальну особу для спільних пакетів робіт.</li> <li>Використовуйте нові назви полів «Робота», «Залишок роботи» й «% виконання» під час підготовки звітів про перебіг виконання для ієрархій пакетів робіт.</li> <li>Змінюйте статус без довзолу на редагування пакета робіт.</li> <li>.
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -521,6 +521,7 @@ uk:
     label_watcher_added_successfully: "Спостерігач успішно доданий!"
     label_watcher_deleted_successfully: "Спостерігач успішно видалений!"
     label_work_package_details_you_are_here: "Зараз ви на вкладці %{tab} для %{type} %{subject}."
+    label_work_package_context_menu: "Контекстне меню пакета робіт"
     label_unwatch: "Перестати відстежувати"
     label_unwatch_work_package: "Припинити спостерігати за пакетом робіт"
     label_uploaded_by: "Завантажено"
@@ -759,7 +760,7 @@ uk:
           last_day: 'Останній день'
     text_are_you_sure: "Ви впевненені?"
     text_data_lost: "Усі введені дані буде втрачено."
-    text_user_wrote: "%{value} wrote:"
+    text_user_wrote: "%{value} написав(-ла):"
     types:
       attribute_groups:
         error_duplicate_group_name: "The name %{group} використовується більше одного разу. Назви груп повинні бути унікальними."
@@ -834,6 +835,7 @@ uk:
       toggle_description: "Переключити опис відносин"
       update_relation: "Натисніть, щоб змінити тип відносини"
       add_follower: "Додати послідовника"
+      show_relations: "Показати зв’язки"
       add_predecessor: "Додати попередника"
       remove: "Видалити зв'язок"
       save: "Зберегти відношення"
@@ -969,7 +971,6 @@ uk:
         date: "Дата"
         dueDate: "Дата закінчення"
         duration: "Тривалість"
-        estimatedTime: "Час (приблизно)"
         spentTime: "Трудовитрати"
         category: "Категорія"
         percentageDone: "Процент виконання"
@@ -985,6 +986,7 @@ uk:
         updatedAt: "Оновлене"
         versionName: "Версія"
         version: "Версія"
+        remainingTime: "Залишок роботи"
       default_queries:
         latest_activity: "Останні дії"
         created_by_me: "Створений мною"
@@ -1035,6 +1037,8 @@ uk:
         selected_count: "Вибрано: %{count}"
         selection:
           mixed: "Змішані"
+        upsale:
+          description: "Діліться пакетами робіт із користувачами, які не належать до учасників проєкту."
       table:
         configure_button: 'Налаштуйте таблицю робочих пакетів'
         summary: "Таблиця з рядками пакетів робіт і стовпцями атрибутів пакетів робіт."

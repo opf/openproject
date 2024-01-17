@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,20 +32,23 @@ require_module_spec_helper
 RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
   include API::V3::Utilities::PathHelper
   include StorageServerHelpers
+  include UserPermissionsHelper
 
-  let(:permissions) { %i(view_work_packages view_file_links) }
-  let(:project) { create(:project) }
+  shared_let(:permissions) { %i(view_work_packages view_file_links) }
+  shared_let(:project) { create(:project) }
 
-  let(:current_user) do
+  shared_let(:user_with_permissions) do
     create(:user, member_with_permissions: { project => permissions })
   end
-
-  let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:nextcloud_storage, creator: current_user, oauth_application:) }
-  let(:project_storage) { create(:project_storage, project:, storage:) }
+  shared_let(:user_without_project) { create(:user) }
+  shared_let(:admin) { create(:admin) }
+  shared_let(:oauth_application) { create(:oauth_application) }
+  shared_let(:storage) { create(:nextcloud_storage, creator: user_with_permissions, oauth_application:) }
+  shared_let(:project_storage) { create(:project_storage, project:, storage:) }
 
   let(:authorize_url) { 'https://example.com/authorize' }
   let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
+  let(:current_user) { user_with_permissions }
 
   subject(:last_response) do
     get path
@@ -54,7 +57,6 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
   before do
     allow(connection_manager).to receive_messages(get_authorization_uri: authorize_url, authorization_state: :connected)
     allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
-    project_storage
     login_as current_user
   end
 
@@ -79,12 +81,10 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
     let(:path) { api_v3_paths.storages }
     let!(:another_storage) { create(:nextcloud_storage) }
 
-    subject(:last_response) do
-      get path
-    end
+    subject(:last_response) { get path }
 
     context 'as admin' do
-      let(:current_user) { create(:admin) }
+      let(:current_user) { admin }
 
       describe 'gets the storage collection and returns it' do
         subject { last_response.body }
@@ -132,7 +132,7 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
     end
 
     context 'as admin' do
-      let(:current_user) { create(:admin) }
+      let(:current_user) { admin }
 
       describe 'creates a storage and returns it' do
         subject { last_response.body }
@@ -195,14 +195,13 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
     let(:path) { api_v3_paths.storage(storage.id) }
 
     context 'if user belongs to a project using the given storage' do
-      let!(:project_storage) { create(:project_storage, project:, storage:) }
-
       subject { last_response.body }
 
       it_behaves_like 'successful storage response'
 
       context 'if user is missing permission view_file_links' do
-        let(:permissions) { [] }
+        before(:all) { remove_permissions(user_with_permissions, :view_file_links) }
+        after(:all) { add_permissions(user_with_permissions, :view_file_links) }
 
         it_behaves_like 'not found'
       end
@@ -221,7 +220,7 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
     end
 
     context 'as admin' do
-      let(:current_user) { create(:admin) }
+      let(:current_user) { admin }
 
       it_behaves_like 'successful storage response', as_admin: true
 
@@ -292,16 +291,14 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
       end
 
       context 'if user does not belong to a project using the given storage' do
-        let(:current_user) do
-          create(:user)
-        end
+        let(:current_user) { user_without_project }
 
         it_behaves_like 'not found'
       end
     end
 
     context 'as admin' do
-      let(:current_user) { create(:admin) }
+      let(:current_user) { admin }
 
       describe 'patches the storage and returns it' do
         subject { last_response.body }
@@ -379,7 +376,7 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
     end
 
     context 'as admin' do
-      let(:current_user) { create(:admin) }
+      let(:current_user) { admin }
 
       it_behaves_like 'successful no content response'
     end
@@ -394,9 +391,7 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
       end
 
       context 'if user does not belong to a project using the given storage' do
-        let(:current_user) do
-          create(:user)
-        end
+        let(:current_user) { user_without_project }
 
         it_behaves_like 'not found'
 
@@ -419,7 +414,7 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
     end
 
     context 'as admin' do
-      let(:current_user) { create(:admin) }
+      let(:current_user) { admin }
 
       it_behaves_like 'redirect response'
     end
@@ -428,7 +423,8 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
       it_behaves_like 'redirect response'
 
       context 'if user is missing permission view_file_links' do
-        let(:permissions) { [] }
+        before(:all) { remove_permissions(user_with_permissions, :view_file_links) }
+        after(:all) { add_permissions(user_with_permissions, :view_file_links) }
 
         it_behaves_like 'not found'
       end
@@ -462,16 +458,14 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
       end
 
       context 'if user does not belong to a project using the given storage' do
-        let(:current_user) do
-          create(:user)
-        end
+        let(:current_user) { user_without_project }
 
         it_behaves_like 'not found'
       end
     end
 
     context 'as admin' do
-      let(:current_user) { create(:admin) }
+      let(:current_user) { admin }
 
       describe 'creates new oauth client secrets' do
         subject { last_response.body }

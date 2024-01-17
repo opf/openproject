@@ -82,6 +82,6 @@ RSpec.describe 'Configuring the workflow for work package sharing',
                           assignee: false).count).to eq(1)
 
     expect(page)
-      .not_to have_css('.warning-bar--item')
+      .to have_no_css('.warning-bar--item')
   end
 end

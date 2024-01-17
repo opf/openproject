@@ -61,7 +61,7 @@ module TwoFactorAuthentication
     end
 
     def totp
-      @totp ||= ::ROTP::TOTP.new otp_secret, issuer: (Setting.app_title.presence || 'OpenProject')
+      @totp ||= ::ROTP::TOTP.new otp_secret, issuer: Setting.app_title.presence || 'OpenProject'
     end
   end
 end

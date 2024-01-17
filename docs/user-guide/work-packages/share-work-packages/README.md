@@ -20,7 +20,7 @@ To share a work package with a project non-member select the detailed view of a 
 
 A dialogue window will open, showing the list of all users, who this work package has already been shared with. If the work package has not yet been shared, the list will be empty. 
 
-> **Note**: In order to be able to share a work package with non members you need to have been assigned a [global role *create users*](./././system-admin-guide/users-permissions/users/#create-users). If you do not see the option to share a work package, please contact your administrator.
+> **Note**: In order to be able to share a work package with non members you need to have been assigned a [global role *create users*](../../../system-admin-guide/users-permissions/users/#create-users). If you do not see the option to share a work package, please contact your administrator.
 
 ![List of users with access to a work package in OpenProject](openproject_user_guide_shared_with_list.png)
 
@@ -54,13 +54,15 @@ It is possible to add multiple users or groups at the same time.
 
 ![search for a new user to share a work package](openproject_user_guide_shared_search.png)
 
-A user with whom you shared the work package will be added with the role **Work Package Viewer**. However this user is **not** automatically a member of the whole project. A project member will typically have more permissions within the project than viewing a work package.
+A user with whom you shared the work package will be added with the role **Work Package Viewer**. However this user is **not** automatically a member of the whole project. A project member will typically have more permissions within the project than viewing a work package. 
 
 Users with whom you shared the work package will also receive an email notification alerting them that the work package has been shared.
 
 You can always adjust the viewing rights of a user by selecting an option from the dropdown menu next to the user name. 
 
 ![Shared work package roles](openproject_user_guide_shared_with_list_change_role.png)
+
+> **Note:** granting the **edit** rights to the user will allow you to set this user a work package **Assignee** or **Accountable**. 
 
 ## Remove sharing privileges
 

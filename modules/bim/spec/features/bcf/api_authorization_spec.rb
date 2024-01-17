@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -118,7 +118,7 @@ RSpec.describe 'authorization for BCF api', :js, with_config: { edition: 'bim' }
     visit my_account_path
     click_on 'Access token'
 
-    expect(page).to have_selector("#oauth-application-grant-#{app.id}", text: app.name)
+    expect(page).to have_css("#oauth-application-grant-#{app.id}", text: app.name)
     expect(page).to have_css('td', text: app.name)
 
     # While being logged in, the api can be accessed with the session

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -43,7 +43,7 @@ RSpec.describe Projects::SetAttributesService, 'integration', type: :model do
   describe 'with a project name starting with numbers' do
     let(:attributes) { { name: '100 Project A' } }
 
-    it 'will create an identifier including the numbers' do
+    it 'creates an identifier including the numbers' do
       expect(service_result).to be_success
       expect(service_result.result.identifier).to eq '100-project-a'
     end
@@ -56,7 +56,7 @@ RSpec.describe Projects::SetAttributesService, 'integration', type: :model do
     context 'and a new project with no identifier set' do
       let(:project) { Project.new name: 'My new project' }
 
-      it 'will auto-correct the identifier' do
+      it 'auto-corrects the identifier' do
         expect(service_result).to be_success
         expect(service_result.result.identifier).to eq 'my-new-project-1'
       end
@@ -65,7 +65,7 @@ RSpec.describe Projects::SetAttributesService, 'integration', type: :model do
     context 'and a new project with the same identifier set' do
       let(:project) { Project.new name: 'My new project', identifier: 'my-new-project' }
 
-      it 'will result in an error' do
+      it 'results in an error' do
         expect(service_result).not_to be_success
         expect(service_result.result.identifier).to eq 'my-new-project'
 

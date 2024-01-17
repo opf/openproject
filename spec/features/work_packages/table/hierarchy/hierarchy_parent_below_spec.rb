@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Work Package table hierarchy parent below', js: true do
+RSpec.describe 'Work Package table hierarchy parent below', :js do
   let(:user) { create(:admin) }
   let(:type_bug) { create(:type_bug) }
   let(:type_task) { create(:type_task) }
@@ -128,10 +128,10 @@ RSpec.describe 'Work Package table hierarchy parent below', js: true do
       wp_table.expect_work_package_listed(child, child2, parent, grandparent)
 
       # Expect pagination to be correct
-      expect(page).to have_selector('.op-pagination--item_current', text: '3')
+      expect(page).to have_css('.op-pagination--item_current', text: '3')
 
       # Expect count to be correct (one additional parent shown)
-      expect(page).to have_selector('.wp--row', count: 4)
+      expect(page).to have_css('.wp--row', count: 4)
 
       # Double order result from regression
       wp_table.expect_work_package_order(grandparent.id, parent.id, child.id, child2.id)
@@ -155,14 +155,14 @@ RSpec.describe 'Work Package table hierarchy parent below', js: true do
       wp_table.visit!
       wp_table.expect_work_package_listed(child, parent)
 
-      expect(page).to have_selector('.wp-table--hierarchy-indicator-icon')
+      expect(page).to have_css('.wp-table--hierarchy-indicator-icon')
 
       split_page = wp_table.open_split_view(parent)
       split_page.visit_tab!("relations")
       relations.remove_child(child)
       loading_indicator_saveguard
 
-      expect(page).not_to have_selector('.wp-table--hierarchy-indicator-icon')
+      expect(page).to have_no_css('.wp-table--hierarchy-indicator-icon')
     end
   end
 end

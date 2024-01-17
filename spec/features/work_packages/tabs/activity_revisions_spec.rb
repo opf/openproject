@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 require 'support/edit_fields/edit_field'
 
-RSpec.describe 'Activity tab', js: true, with_cuprite: true do
+RSpec.describe 'Activity tab', :js, :with_cuprite do
   let(:project) { create(:project_with_types, public: true) }
 
   let(:creation_time) { 5.days.ago }
@@ -86,17 +86,17 @@ RSpec.describe 'Activity tab', js: true, with_cuprite: true do
         activity = page.find("#activity-#{idx + 1}")
 
         if activity.is_a?(Journal) && activity.id != subject_change_journal.id
-          expect(activity).to have_selector('.user', text: activity.user.name)
-          expect(activity).to have_selector('.user-comment > .message', text: activity.notes, visible: :all)
+          expect(activity).to have_css('.user', text: activity.user.name)
+          expect(activity).to have_css('.user-comment > .message', text: activity.notes, visible: :all)
         elsif activity.is_a?(Changeset)
-          expect(activity).to have_selector('.user', text: User.find(activity.user_id).name)
-          expect(activity).to have_selector('.user-comment > .message', text: activity.notes, visible: :all)
+          expect(activity).to have_css('.user', text: User.find(activity.user_id).name)
+          expect(activity).to have_css('.user-comment > .message', text: activity.notes, visible: :all)
         elsif activity == subject_change_journal
-          expect(activity).to have_selector('.work-package-details-activities-messages .message',
-                                            count: 2)
-          expect(activity).to have_selector('.message',
-                                            text: "Subject changed from #{initial_subject} " \
-                                                  "to #{activity.data.subject}")
+          expect(activity).to have_css('.work-package-details-activities-messages .message',
+                                       count: 2)
+          expect(activity).to have_css('.message',
+                                       text: "Subject changed from #{initial_subject} " \
+                                             "to #{activity.data.subject}")
         end
       end
     end
@@ -111,8 +111,8 @@ RSpec.describe 'Activity tab', js: true, with_cuprite: true do
     context 'with permission' do
       let(:role) do
         create(:project_role, permissions: %i[view_work_packages
-                                      view_changesets
-                                      add_work_package_notes])
+                                              view_changesets
+                                              add_work_package_notes])
       end
       let(:user) do
         create(:user,
@@ -135,20 +135,20 @@ RSpec.describe 'Activity tab', js: true, with_cuprite: true do
       end
 
       it 'can toggle between activities and comments-only' do
-        expect(page).to have_selector('.work-package-details-activities-activity-contents', count: 4)
-        expect(page).to have_selector('.user-comment > .message', text: comment_journal.notes)
+        expect(page).to have_css('.work-package-details-activities-activity-contents', count: 4)
+        expect(page).to have_css('.user-comment > .message', text: comment_journal.notes)
 
         # Show only comments
         find('.activity-comments--toggler').click
 
         # It should remove the middle
-        expect(page).to have_selector('.work-package-details-activities-activity-contents', count: 2)
-        expect(page).to have_selector('.user-comment > .message', text: initial_comment)
-        expect(page).to have_selector('.user-comment > .message', text: comment_journal.notes)
+        expect(page).to have_css('.work-package-details-activities-activity-contents', count: 2)
+        expect(page).to have_css('.user-comment > .message', text: initial_comment)
+        expect(page).to have_css('.user-comment > .message', text: comment_journal.notes)
 
         # Show all again
         find('.activity-comments--toggler').click
-        expect(page).to have_selector('.work-package-details-activities-activity-contents', count: 4)
+        expect(page).to have_css('.work-package-details-activities-activity-contents', count: 4)
       end
 
       it 'can quote a previous comment' do
@@ -162,19 +162,19 @@ RSpec.describe 'Activity tab', js: true, with_cuprite: true do
 
         # Add our comment
         editor = find('.ck-content')
-        expect(editor).to have_selector('blockquote', text: initial_comment)
+        expect(editor).to have_css('blockquote', text: initial_comment)
 
         editor.base.send_keys "\nthis is some remark under a quote"
         field.submit_by_click
 
-        expect(page).to have_selector('.user-comment > .message', count: 3)
-        expect(page).to have_selector('.user-comment > .message blockquote')
+        expect(page).to have_css('.user-comment > .message', count: 3)
+        expect(page).to have_css('.user-comment > .message blockquote')
       end
 
       it 'can reference a changeset (Regression #30415)' do
         work_package_page.visit_tab! 'activity'
         work_package_page.ensure_page_loaded
-        expect(page).to have_selector('.user-comment > .message', text: initial_comment)
+        expect(page).to have_css('.user-comment > .message', text: initial_comment)
 
         comment_field = TextEditorField.new work_package_page,
                                             'comment',
@@ -207,7 +207,7 @@ RSpec.describe 'Activity tab', js: true, with_cuprite: true do
       end
 
       it 'shows the activities, but does not allow commenting' do
-        expect(page).not_to have_selector('.work-packages--activity--add-comment', visible: :visible)
+        expect(page).to have_no_css('.work-packages--activity--add-comment', visible: :visible)
       end
     end
   end

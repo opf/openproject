@@ -30,7 +30,7 @@ RSpec.shared_examples 'principal membership management flows' do
     principal_page.expect_project(project.name)
     principal_page.edit_roles!(member, %w())
 
-    expect(page).to have_selector('.op-toast.-error', text: 'Roles need to be assigned.')
+    expect(page).to have_css('.op-toast.-error', text: 'Roles need to be assigned.')
 
     # Remove the user from the project
     principal_page.remove_from_project!(project.name)
@@ -73,8 +73,8 @@ RSpec.shared_examples 'global user principal membership management flows' do |pe
         principal_page.visit!
         principal_page.open_projects_tab!
 
-        expect(page).not_to have_selector('#membership_project_id option', text: project.name, visible: :all)
-        expect(page).not_to have_selector('#membership_project_id option', text: project2.name, visible: :all)
+        expect(page).to have_no_css('#membership_project_id option', text: project.name, visible: :all)
+        expect(page).to have_no_css('#membership_project_id option', text: project2.name, visible: :all)
       end
 
       it 'does not show the membership' do
@@ -87,10 +87,10 @@ RSpec.shared_examples 'global user principal membership management flows' do |pe
         principal_page.visit!
         principal_page.open_projects_tab!
 
-        expect(page).not_to have_selector('tr.member')
+        expect(page).to have_no_css('tr.member')
         expect(page).to have_text 'There is currently nothing to display.'
-        expect(page).not_to have_text project2.name
-        expect(page).not_to have_text project2.name
+        expect(page).to have_no_text project2.name
+        expect(page).to have_no_text project2.name
       end
     end
   end
@@ -106,10 +106,10 @@ RSpec.shared_examples 'global user principal membership management flows' do |pe
       principal_page.visit!
       principal_page.open_projects_tab!
 
-      expect(page).not_to have_selector('tr.member')
+      expect(page).to have_no_css('tr.member')
       expect(page).to have_text 'There is currently nothing to display.'
-      expect(page).not_to have_text project.name
-      expect(page).not_to have_text project2.name
+      expect(page).to have_no_text project.name
+      expect(page).to have_no_text project2.name
     end
   end
 
@@ -119,7 +119,7 @@ RSpec.shared_examples 'global user principal membership management flows' do |pe
     it 'returns an error' do
       principal_page.visit!
       expect(page).to have_text 'You are not authorized to access this page.'
-      expect(page).not_to have_text principal.name
+      expect(page).to have_no_text principal.name
     end
   end
 end

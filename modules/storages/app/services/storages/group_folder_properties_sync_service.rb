@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -263,7 +263,7 @@ module Storages
     def format_and_log_error(error, context = {})
       error_message = context.merge({ command: error.data.source,
                                       message: error.log_message,
-                                      data: { status: error.data.payload.code, body: error.data.payload.body } })
+                                      data: { status: error.data.payload.status.to_s, body: error.data.payload.body.to_s } })
 
       OpenProject.logger.warn error_message.to_json
     end

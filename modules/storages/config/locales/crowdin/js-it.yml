@@ -15,6 +15,7 @@ it:
       choose_location: "Scegli posizione"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
         default: "Archivio"
       information:
         connection_error: >
@@ -47,7 +48,6 @@ it:
         empty: >
           Correntemente, non esiste alcun file collegato a questo pacchetto di lavoro. Inizia a collegare i file con l'azione seguente o dall'interno di %{storageType}.
         download: "Scarica %{fileName}"
-        no_permission: "Non hai i permessi per accedere al file."
         open: "Apri file su memoria"
         open_location: "Apri file nella posizione"
         remove: "Rimuovi collegamento al file"
@@ -77,6 +77,9 @@ it:
               Verifica che la versione più recente di "Integrazione OpenProject" di Nextcloud App sia installata e contatta il tuo amministratore per ulteriori informazioni.
         link_uploaded_file_error: >
           Si è verificato un errore caricando il file caricato '%{fileName}' al pacchetto di lavoro %{workPackageId}.
-        not_allowed_tooltip: "Accedi a Nextcloud per accedere a questo file"
+        tooltip:
+          not_logged_in: "Please log in to the storage to access this file."
+          view_not_allowed: "Non hai i permessi per accedere al file."
+          not_found: "Impossibile trovare questo file."
         already_linked_file: "Questo file è già collegato a questa macro-attività."
         already_linked_directory: "Questa directory è già collegata a questa macro-attività."

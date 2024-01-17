@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -91,7 +91,7 @@ RSpec.describe Queries::Scopes::Visible do
     context 'with the user having the :view_work_packages permission' do
       it 'returns the queries that are public or that are the user`s' do
         expect(scope)
-          .to match_array([private_user_query, public_query, global_user_query, global_other_user_public_query])
+          .to contain_exactly(private_user_query, public_query, global_user_query, global_other_user_public_query)
       end
     end
 

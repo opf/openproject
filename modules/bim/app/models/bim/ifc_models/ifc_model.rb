@@ -21,11 +21,11 @@ module Bim
       scope :defaults, -> { where(is_default: true) }
 
       %i(ifc xkt).each do |name|
-        define_method "#{name}_attachment" do
+        define_method :"#{name}_attachment" do
           get_attached_type(name)
         end
 
-        define_method "#{name}_attachment=" do |file|
+        define_method :"#{name}_attachment=" do |file|
           if name == :ifc
             # Also delete xkt
             delete_attachment :xkt

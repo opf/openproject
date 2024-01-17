@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -279,6 +279,18 @@ ja:
       no_results_content_text: プロジェクトにメンバーを追加
     invite_by_mail: "招待状を %{mail} に送信する"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "アクセストークンをリセットできませんでした: %{error}"
@@ -601,7 +613,9 @@ ja:
         begin_insertion: "挿入の始まり"
         begin_deletion: "削除の始まり"
         children: "サブ要素"
-        done_ratio: "進行状況 (%)"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
+        done_ratio: "% Complete"
         duration: "期間"
         end_insertion: "挿入の終わり"
         end_deletion: "削除の終わり"
@@ -615,8 +629,10 @@ ja:
         parent_issue: "親項目"
         parent_work_package: "親項目"
         priority: "優先度"
-        progress: "進行状況 (%)"
+        progress: "% Complete"
         readonly: "読み取り専用"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "手動スケジュール"
         spent_hours: "作業時間の記録"
         spent_time: "作業時間の記録"
@@ -1021,12 +1037,12 @@ ja:
     default_columns: "既定の列"
     description: "説明"
     derived_due_date: "派生終了日"
-    derived_estimated_hours: "派生予定工数"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "派生開始日"
     display_sums: "合計を表示"
     due_date: "終了日"
-    estimated_hours: "予定工数"
-    estimated_time: "予定工数"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "有効期限"
     firstname: "名前"
     group: "グループ"
@@ -1354,7 +1370,7 @@ ja:
   error_pdf_export_too_many_columns: "PDF エクスポート用に選択された列が多すぎます。 列の数を減らしてください。"
   error_pdf_failed_to_export: "PDFエクスポートを保存できませんでした： %{error}"
   error_token_authenticity: "クロスサイトリクエスト偽造トークンを確認できません。 複数のブラウザやタブでデータを送信しようとしましたか？ すべてのタブを閉じてもう一度やり直してください。"
-  error_work_package_done_ratios_not_updated: "ワークパッケージの進捗率は更新できません。"
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "ワークパッケージが見つからないか、このプロジェクトに属していません。"
   error_must_be_project_member: "プロジェクトのメンバーである必要があります。"
   error_migrations_are_pending: "OpenProject のインストールはデータベースの移行が保留中です。前回のアップグレード時に移行の実行を行っていない可能性があります。アップグレードガイドを確認して、適切にインストールをアップグレードしてください。"
@@ -2034,7 +2050,7 @@ ja:
   label_type_new: "新しいタイプ"
   label_type_plural: "ワークパッケージのタイプ"
   label_ui: "UI（ユーザインターフェイス）"
-  label_update_work_package_done_ratios: "進捗率の更新"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "%{value}前に更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author}が%{age}前に更新"
@@ -2119,6 +2135,10 @@ ja:
     one: "1件未完了"
     other: "%{count}件未完了"
     zero: "0 オープン"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 プロジェクト"
     other: "%{count} プロジェクト"
@@ -2301,7 +2321,7 @@ ja:
   notice_file_not_found: "アクセスしようとしたページが存在しないか削除されています。"
   notice_forced_logout: "%{ttl_time}分間の非活動のために、自動的にログアウトされました。"
   notice_internal_server_error: "アクセスしようとしたページでエラーが発生しました。継続して問題が発生している場合、%{app_title}の管理者にお問い合わせください。"
-  notice_work_package_done_ratios_updated: "ワークパッケージの進捗率を更新しました。"
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "別のユーザーが同時にデータを更新しています。"
   notice_locking_conflict_additional_information: "ユーザ%{users}により更新されました。"
   notice_locking_conflict_reload_page: "ページをリロードして、変更を確認してから再適用してください。"
@@ -2376,6 +2396,8 @@ ja:
   permission_assign_versions: "バージョンの割り当て"
   permission_browse_repository: "リポジトリに読み取り専用のアクセス (参照およびチェックアウト)"
   permission_change_wiki_parent_page: "親Wikiページの変更"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "ニュースへのコメント"
   permission_commit_access: "リポジトリに読み取り/書き込みアクセス (コミット)"
   permission_copy_projects: "プロジェクトのコピー"
@@ -2437,7 +2459,7 @@ ja:
   permission_view_news: "View news"
   permission_view_members: "メンバーを表示"
   permission_view_reportings: "レポートの閲覧"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "作業時間記録の閲覧"
   permission_view_timelines: "タイムラインの閲覧"
   permission_view_wiki_edits: "Wiki履歴の閲覧"
@@ -2478,6 +2500,7 @@ ja:
   project_module_news: "ニュース"
   project_module_repository: "リポジトリ"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2667,10 +2690,10 @@ ja:
   setting_file_max_size_displayed: "画面表示するテキストファイルの最大サイズ"
   setting_host_name: "ホスト名"
   setting_invitation_expiration_days: "アクティベーションのメールは次で有効期限切れ"
-  setting_work_package_done_ratio: "進捗率の算出方法"
-  setting_work_package_done_ratio_field: "ワークパッケージのフィールドを使用する"
-  setting_work_package_done_ratio_status: "ワークパッケージのステータスを使用する"
-  setting_work_package_done_ratio_disabled: "無効にする（進行状況が非表示）"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "デフォルトで表示する"
   setting_work_package_properties: "項目名"
   setting_work_package_startdate_is_adddate: "今日の日付を新しいワークパッケージの開始日とする"
@@ -3106,9 +3129,9 @@ ja:
         unsupported_context: "指定されたリソースは、コンテキストとしてはサポートされません。"
         context_object_not_found: "コンテキストで指定されたリソースが見つかりません。"
       validation:
-        done_ratio: "完了率はそのステータスにより推定または無効にされている場合、親ワークパッケージにセットすることはできません。"
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "終了日は親作業項目には設定できません。"
-        estimated_hours: "推定時間は、親ワークパッケージに設定できません。"
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "選択されたユーザーは、この作業項目の'%{property}' にすることはできません。"
         start_date: "開始日は、親ワークパッケージに設定できません。"
       eprops:

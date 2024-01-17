@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -47,7 +47,7 @@ module OpenProject::TextFormatting::Matchers
       #     message#1218 -> Link to message with id 1218
       #
       def call
-        send "render_#{matcher.prefix}"
+        send :"render_#{matcher.prefix}"
       end
 
       def valid_prefix?

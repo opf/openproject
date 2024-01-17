@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'support/pages/custom_fields'
 
-RSpec.describe 'types', js: true, with_cuprite: true do
+RSpec.describe 'types', :js, :with_cuprite do
   let(:user) do
     create(:user,
            member_with_permissions: { project => %i(edit_project manage_types add_work_packages view_work_packages) })

@@ -33,9 +33,6 @@ jobs:
             target: slim
           - platform: linux/amd64
             target: all-in-one
-          - platform: linux/ppc64le
-            bim_support: false
-            target: all-in-one
           - platform: linux/arm64/v8
             bim_support: false
             target: all-in-one

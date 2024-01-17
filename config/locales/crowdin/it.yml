@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -278,6 +278,18 @@ it:
       no_results_content_text: Aggiungi un membro al progetto
     invite_by_mail: "Invia invito a %{mail}"
     send_invite_to: "Invia l'invito a"
+    no_modify_on_shared: "Al momento non è possibile modificare o rimuovere le iscrizioni condivise tramite la pagina dei membri. Utilizza invece la modalità di condivisione.\n"
+    columns:
+      shared: "Condivisa"
+    filters:
+      all_shares: 'Tutte le condivisioni'
+    menu:
+      all: 'Tutti'
+      invited: 'Invitato'
+      locked: 'Bloccato'
+      project_roles: 'Ruoli del progetto'
+      wp_shares: 'Condivisioni della macro-attività'
+      groups: 'Gruppi'
   my:
     access_token:
       failed_to_reset_token: "Impossibile reimpostare il token di accesso: %{error}"
@@ -603,7 +615,9 @@ it:
         begin_insertion: "Inizio inserimento"
         begin_deletion: "Inizio cancellazione"
         children: "Sottoelementi"
-        done_ratio: "Avanzamento (%)"
+        derived_remaining_hours: "Lavoro rimanente derivato"
+        derived_remaining_time: "Lavoro rimanente derivato"
+        done_ratio: "% completamento"
         duration: "Durata"
         end_insertion: "Fine inserimento"
         end_deletion: "Fine cancellazione"
@@ -617,8 +631,10 @@ it:
         parent_issue: "Superiore"
         parent_work_package: "Superiore"
         priority: "Priorità"
-        progress: "Avanzamento (%)"
+        progress: "% completamento"
         readonly: "Sola lettura"
+        remaining_hours: "Lavoro rimanente"
+        remaining_time: "Lavoro rimanente"
         schedule_manually: "Programmazione manuale"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
@@ -1031,12 +1047,12 @@ it:
     default_columns: "Colonne predefinite"
     description: "Descrizione"
     derived_due_date: "Data di fine derivata"
-    derived_estimated_hours: "Tempo stimato derivato"
+    derived_estimated_hours: "Lavoro derivato"
     derived_start_date: "Data di inizio derivata"
     display_sums: "Visualizza somme"
     due_date: "Data di fine"
-    estimated_hours: "Tempo stimato"
-    estimated_time: "Tempo stimato"
+    estimated_hours: "Lavoro"
+    estimated_time: "Lavoro"
     expires_at: "Scade il"
     firstname: "Nome"
     group: "Gruppo"
@@ -1382,7 +1398,7 @@ it:
   error_pdf_export_too_many_columns: "Troppe colonne selezionate per l'esportazione in PDF. Ridurre il numero di colonne."
   error_pdf_failed_to_export: "L'esportazione del PDF non può essere salvata: %{error}"
   error_token_authenticity: "Impossibile verificare il token di richiesta. Forse hai provato a inviare i dati da più browser o schede? Chiudi tutte le schede e riprova."
-  error_work_package_done_ratios_not_updated: "Percentuale di completamento della macro-attività non aggiornata."
+  error_work_package_done_ratios_not_updated: "Valori di % completamento della macro-attività non aggiornati."
   error_work_package_not_found_in_project: "La macro-attività non è stata trovata o non appartiene a questo progetto"
   error_must_be_project_member: "deve essere membro del progetto"
   error_migrations_are_pending: "L'installazione di OpenProject ha migrazioni di database in sospeso. Probabilmente non hai effettuato le migrazioni durante l'ultimo aggiornamento. Controlla la documentazione sull'aggiornamento per aggiornare correttamente l'installazione."
@@ -2062,7 +2078,7 @@ it:
   label_type_new: "Nuovo tipo"
   label_type_plural: "Tipi"
   label_ui: "Interfaccia Utente"
-  label_update_work_package_done_ratios: "Aggiorna la percentuale di completamento della macro-attività"
+  label_update_work_package_done_ratios: "Aggiorna valori di % completamento per la macro-attività"
   label_updated_time: "Aggiornato %{value} fa"
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: "Aggiornato da %{author} %{age} fa"
@@ -2147,6 +2163,10 @@ it:
     one: "1 aperto"
     other: "%{count} aperti"
     zero: "0 aperti"
+  label_x_work_packages:
+    one: "1 macro-attività"
+    other: "%{count} macro-attività"
+    zero: "Nessuna macro-attività"
   label_x_projects:
     one: "1 progetto"
     other: "%{count} progetti"
@@ -2218,9 +2238,9 @@ it:
     sharing:
       work_packages:
         allowed_actions: "Puoi %{allowed_actions} questa macro-attività. Questa impostazione può cambiare a seconda del ruolo e delle autorizzazioni del progetto."
-        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
+        create_account: "Per accedere a questa macro-attività è necessario creare e attivare un account su %{instance}"
         open_work_package: "Apri macro-attività"
-        subject: "Work package #%{id} was shared with you"
+        subject: "La macro-attività #%{id} è stata condivisa con te"
         enterprise_text: "Condividi macro-attività con utenti che non sono membri del progetto."
         summary:
           user: "%{user} ha condiviso con te una macro-attività con i diritti %{role_rights}"
@@ -2330,7 +2350,7 @@ it:
   notice_file_not_found: "La pagina alla quale stavi tentando di accedere non esiste o è stata rimossa."
   notice_forced_logout: "Sei stato disconnesso automaticamente dopo %{ttl_time} minuti di inattività."
   notice_internal_server_error: "Si è verificato un errore sulla pagina alla quale hai richiesto di accedere. Se continui ad avere problemi per favore contatta il tuo amministratore %{app_title} per ricevere assistenza."
-  notice_work_package_done_ratios_updated: "Percentuale di completamento della macro-attività aggiornata."
+  notice_work_package_done_ratios_updated: "% completamento aggiornata"
   notice_locking_conflict: "L'informazione è stata aggiornata da almeno un altro utente nel frattempo."
   notice_locking_conflict_additional_information: "L'aggiornamento(i) proviene da %{users}."
   notice_locking_conflict_reload_page: "Si prega di ricaricare la pagina, rivedere le modifiche e riapplicare gli aggiornamenti."
@@ -2406,6 +2426,8 @@ it:
   permission_assign_versions: "Assegna versioni"
   permission_browse_repository: "Accesso in sola lettura all'archivio (consultazione e check-out)"
   permission_change_wiki_parent_page: "Cambiare la pagina padre del wiki"
+  permission_change_work_package_status: "Cambia lo stato della macro-attività"
+  permission_change_work_package_status_explanation: "Consente di cambiare lo stato senza l'autorizzazione Modifica macro-attività"
   permission_comment_news: "Commentare le novità"
   permission_commit_access: "Accesso in lettura/scrittura all'archivio (commit)"
   permission_copy_projects: "Copiare progetti"
@@ -2467,7 +2489,7 @@ it:
   permission_view_news: "Visualizza notizie"
   permission_view_members: "Mostra membri"
   permission_view_reportings: "Visualizzare prospetti"
-  permission_view_shared_work_packages: "Vedi macro-attività condivise"
+  permission_view_shared_work_packages: "Mostra condivisioni della macro-attività"
   permission_view_time_entries: "Visualizza il tempo impiegato"
   permission_view_timelines: "Visualizza le cronologie"
   permission_view_wiki_edits: "Visualizza il registro della wiki"
@@ -2508,6 +2530,7 @@ it:
   project_module_news: "Notizie"
   project_module_repository: "Archivio"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Macro-attività e Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2697,10 +2720,10 @@ it:
   setting_file_max_size_displayed: "Dimensione massima dei file di testo visualizzati inline"
   setting_host_name: "Nome dell'Host"
   setting_invitation_expiration_days: "L'email di attivazione scade dopo"
-  setting_work_package_done_ratio: "Calcola la percentuale di completamento della macro-attività con"
-  setting_work_package_done_ratio_field: "Usa il campo della macro-attività"
-  setting_work_package_done_ratio_status: "Usa lo stato della macro-attività"
-  setting_work_package_done_ratio_disabled: "Disabilita (nascondi l'avanzamento)"
+  setting_work_package_done_ratio: "Calcola la % completamento macro-attività con"
+  setting_work_package_done_ratio_field: "Il campo della macro-attività"
+  setting_work_package_done_ratio_status: "Lo stato della macro-attività"
+  setting_work_package_done_ratio_disabled: "Disabilita (nascondi il campo % completamento)"
   setting_work_package_list_default_columns: "Visualizza come impostazione predefinita"
   setting_work_package_properties: "Proprietà della macro-attività"
   setting_work_package_startdate_is_adddate: "Usa la data corrente come data di inizio per le nuove macro-attività"
@@ -3138,9 +3161,9 @@ it:
         unsupported_context: "La risorsa non è supportata come contesto."
         context_object_not_found: "Impossibile trovare la risorsa indicata come contesto."
       validation:
-        done_ratio: "La percentuale di completamento non può essere impostata sulla macro-attività principale, quando viene dedotta dallo stato o quando è disabilitata."
+        done_ratio: "La % completamento non può essere impostata sulla macro-attività principale, quando viene dedotta dallo stato o quando è disabilitata."
         due_date: "La data di fine non può essere impostata sulla macro-attività principale."
-        estimated_hours: "Le ore stimate non può essere impostate sulla macro-attività principale."
+        estimated_hours: "Il lavoro non può essere impostato sulla macro-attività principale." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "All'utente scelto non è consentito di essere '%{property}' per questa macro-attività."
         start_date: "La data di inizio non può essere impostata sulla macro-attività principale."
       eprops:
@@ -3259,7 +3282,7 @@ it:
       oauth_returned_json_error: "OAuth2 ha restituito un errore JSON"
       oauth_returned_http_error: "OAuth2 ha restituito un errore di rete"
       oauth_returned_standard_error: "OAuth2 ha restituito un errore interno"
-      client_id_blank: "ID can't be blank."
+      client_id_blank: "Il campo ID non può essere vuoto."
       wrong_token_type_returned: "OAuth2 ha restituito un tipo di token sbagliato, aspettandosi AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 ha segnalato un errore. Contatta l'amministratore di sistema."
       oauth_client_not_found: "Client OAuth2 non trovato nell'endpoint 'callback' (redirect_uri)."

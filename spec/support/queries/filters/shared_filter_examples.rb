@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -391,8 +391,8 @@ RSpec.shared_examples_for 'boolean query filter' do |scope: true|
   describe '#allowed_values' do
     it 'is list for a bool' do
       expect(instance.allowed_values)
-        .to match_array [[I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
-                         [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE]]
+        .to contain_exactly([I18n.t(:general_text_yes), OpenProject::Database::DB_VALUE_TRUE],
+                            [I18n.t(:general_text_no), OpenProject::Database::DB_VALUE_FALSE])
     end
   end
 
@@ -554,7 +554,7 @@ RSpec.shared_examples_for 'filter by work package id' do
           .and_return([visible_wp])
 
         expect(instance.value_objects)
-          .to match_array [visible_wp]
+          .to contain_exactly(visible_wp)
       end
     end
 
@@ -583,7 +583,7 @@ RSpec.shared_examples_for 'filter by work package id' do
           instance.valid_values!
 
           expect(instance.values)
-            .to match_array [visible_wp.id.to_s]
+            .to contain_exactly(visible_wp.id.to_s)
         end
       end
 
@@ -603,7 +603,7 @@ RSpec.shared_examples_for 'filter by work package id' do
           instance.valid_values!
 
           expect(instance.values)
-            .to match_array [visible_wp.id.to_s]
+            .to contain_exactly(visible_wp.id.to_s)
         end
       end
     end
@@ -683,7 +683,7 @@ RSpec.shared_examples_for 'operators for relation filters' do
 
     it 'returns the related work packages' do
       expect(WorkPackage.where(instance.where))
-        .to match_array [related_wp]
+        .to contain_exactly(related_wp)
     end
   end
 
@@ -694,7 +694,7 @@ RSpec.shared_examples_for 'operators for relation filters' do
 
     it 'returns the unrelated work packages' do
       expect(WorkPackage.where(instance.where))
-        .to match_array [filter_value_wp, unrelated_wp]
+        .to contain_exactly(filter_value_wp, unrelated_wp)
     end
   end
 end

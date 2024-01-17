@@ -20,7 +20,7 @@ module API
     end
 
     def assemble_spec(file_path)
-      spec = YAML.safe_load File.read(file_path.to_s)
+      spec = YAML.safe_load_file(file_path.to_s)
 
       substitute_refs(spec, path: file_path.parent, root_path: file_path.parent)
     rescue Psych::SyntaxError => e
@@ -57,7 +57,7 @@ module API
     def substitute_refs_in_hash(spec, path:, root_path:, root_spec: spec)
       if spec.size == 1 && spec.keys.first == "$ref"
         ref_path = path.join spec.values.first
-        ref_value = YAML.safe_load File.read(ref_path.to_s)
+        ref_value = YAML.safe_load_file(ref_path.to_s)
 
         resolve_refs ref_value, path: ref_path.parent, root_path:, root_spec:
       else

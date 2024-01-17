@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -211,34 +211,26 @@ RSpec.describe StatusesController do
   end
 
   describe '#update_work_package_done_ratio' do
-    shared_examples_for 'flash' do
-      it { is_expected.to set_flash.to(message) }
-    end
-
     context "with 'work_package_done_ratio' using 'field'" do
-      let(:message) { /not updated/ }
-
       before do
         allow(Setting).to receive(:work_package_done_ratio).and_return 'field'
 
         post :update_work_package_done_ratio
       end
 
-      it_behaves_like 'flash'
+      it { is_expected.to set_flash[:error].to(I18n.t('error_work_package_done_ratios_not_updated')) }
 
       it_behaves_like 'redirect'
     end
 
     context "with 'work_package_done_ratio' using 'status'" do
-      let(:message) { /Work package done ratios updated/ }
-
       before do
         allow(Setting).to receive(:work_package_done_ratio).and_return 'status'
 
         post :update_work_package_done_ratio
       end
 
-      it_behaves_like 'flash'
+      it { is_expected.to set_flash[:notice].to(I18n.t('notice_work_package_done_ratios_updated')) }
 
       it_behaves_like 'redirect'
     end

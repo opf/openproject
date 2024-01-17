@@ -111,7 +111,7 @@ module OpenProject::TwoFactorAuthentication
       ##
       # Select a matching language from the available languages
       def build_localized_message(params)
-        locale_key = (user.language.presence || Setting.default_language)
+        locale_key = user.language.presence || Setting.default_language
 
         # Check if the translation exist or fall back to english
         language =

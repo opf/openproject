@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -278,6 +278,18 @@ ca:
       no_results_content_text: Afegeix un membre al projecte
     invite_by_mail: "Envia invitació a %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Fallada al reiniciar el token d'accés: %{error}"
@@ -602,7 +614,9 @@ ca:
         begin_insertion: "Inici de la inserció"
         begin_deletion: "Inici de la supressió"
         children: "Sub-elements"
-        done_ratio: "Progrés (%)"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
+        done_ratio: "% Complete"
         duration: "Duració"
         end_insertion: "Final de la inserció"
         end_deletion: "Final de la supressió"
@@ -616,8 +630,10 @@ ca:
         parent_issue: "Pare"
         parent_work_package: "Pare"
         priority: "Prioritat"
-        progress: "Progrés (%)"
+        progress: "% Complete"
         readonly: "Només lectura"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Planificació manual"
         spent_hours: "Temps invertit"
         spent_time: "Temps invertit"
@@ -1030,12 +1046,12 @@ ca:
     default_columns: "Columnes predeterminades"
     description: "Descripció"
     derived_due_date: "Data final derivada"
-    derived_estimated_hours: "Temps estimat derivat"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Data d'inici derivada"
     display_sums: "Mostra les sumes"
     due_date: "Data final"
-    estimated_hours: "Temps estimat"
-    estimated_time: "Temps estimat"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "Caduca el"
     firstname: "Nom"
     group: "Grup"
@@ -1381,7 +1397,7 @@ ca:
   error_pdf_export_too_many_columns: "Masses columnes seleccionades per a l'exportació PDF. Si us plau, redueix el nombre de columnes."
   error_pdf_failed_to_export: "No s'ha pogut guardar l'exportació PDF: %{error}"
   error_token_authenticity: "No s'ha pogut verificar el token de \"Cross-Site Request Forgery\". Has provat de sotmetre les dades en múltiples navegadors o pestanyes? Si us plau, tanca totes les pestanyes i prova-ho de nou."
-  error_work_package_done_ratios_not_updated: "Ratios d'execució de paquets de treball no actualitzats."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "El paquet de treball no s'ha trobat o no pertany a aquest projecte"
   error_must_be_project_member: "ha de ser membre del projecte"
   error_migrations_are_pending: "La teva instal·lació d'OpenProject té migracions de base de dades pendents. Probablement no vas fer les migracions en la teva última actualització. Si us plau, comprova la guia d'actualització per actualitzar la teva instal·lació correctament."
@@ -2061,7 +2077,7 @@ ca:
   label_type_new: "Nou tipus"
   label_type_plural: "Classes"
   label_ui: "Interifície d'usuari"
-  label_update_work_package_done_ratios: "Actualitzar el ratio de paquets de treball fets"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Actualitzat fa %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Actualitzat per %{author} fa %{age}"
@@ -2146,6 +2162,10 @@ ca:
     one: "Un obert"
     other: "%{count} oberts"
     zero: "0 oberts"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "Un projecte"
     other: "%{count} projectes"
@@ -2326,7 +2346,7 @@ ca:
   notice_file_not_found: "La pàgina a la que intentes accedir no existeix o s'ha suprimit."
   notice_forced_logout: "S'et ha desconnectant automàticament després %{ttl_time} minuts d'inactivitat."
   notice_internal_server_error: "S'ha produït un error a la pàgina a la qual intentes accedir. Si continues tenint problemes contacte amb el vostre administrador %{app_title} per obtenir ajuda."
-  notice_work_package_done_ratios_updated: "S'han actualitzars els ràtios de paquets de treball fets."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "La informació s'ha actualitzat per almenys un altre usuari mentrestant."
   notice_locking_conflict_additional_information: "Les actualitzacions provenen de %{users}."
   notice_locking_conflict_reload_page: "Si us plau, regarrega la pàgina, revisa els canvis i torna a aplicar les actualitzacions."
@@ -2400,6 +2420,8 @@ ca:
   permission_assign_versions: "Assigna versions"
   permission_browse_repository: "Accés de només lectura al repositori (navegar i checkout)"
   permission_change_wiki_parent_page: "Canviar la pàgina de pare de la wiki"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Comentar noticies"
   permission_commit_access: "Accés de lectura/escriptura al repositori (commit)"
   permission_copy_projects: "Copiar projectes"
@@ -2461,7 +2483,7 @@ ca:
   permission_view_news: "View news"
   permission_view_members: "Veure els membres"
   permission_view_reportings: "Veure els informes"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Visualitzar el temps invertit"
   permission_view_timelines: "Veure els terminis"
   permission_view_wiki_edits: "Visualitza l'historial de la wiki"
@@ -2502,6 +2524,7 @@ ca:
   project_module_news: "Notícies"
   project_module_repository: "Repositori"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2689,10 +2712,10 @@ ca:
   setting_file_max_size_displayed: "Mida màxima dels fitxers de text mostrats en línia"
   setting_host_name: "Nom del servidor"
   setting_invitation_expiration_days: "L'activació de correu electrònic caduca després de"
-  setting_work_package_done_ratio: "Calcular la ratio d'execució del paquet de treball amb"
-  setting_work_package_done_ratio_field: "Utilitzar el camp de paquet de treball"
-  setting_work_package_done_ratio_status: "Utilitzar l'estat de paquet de treball"
-  setting_work_package_done_ratio_disabled: "Deshabilitar (amagar el progrés)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Mostrar per defecte"
   setting_work_package_properties: "Propietats de paquet de treball"
   setting_work_package_startdate_is_adddate: "Utilitzar la data actual com a data d'inici dels paquets de treball nous"
@@ -3130,9 +3153,9 @@ ca:
         unsupported_context: "El recurs proporcionat no s'admet com a context."
         context_object_not_found: "No puc trobar el recurs proporionat com al context."
       validation:
-        done_ratio: "El ràtio de compleció no es pot definir per paquets de treball del pare, quan s'infereix de l'estat o quan està deshabilitat."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "La data de finalització no es pot establir als paquets de treball pare."
-        estimated_hours: "Les hores estimades no es poden definir per paquets de treball del pare."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "L'usuari escollit no pot ser \"%{property}\" per a aquest paquet de treball."
         start_date: "La data d'inici no es pot definir per paquets de treball del pare."
       eprops:

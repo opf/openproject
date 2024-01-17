@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -281,6 +281,18 @@
       no_results_content_text: Legg til et medlem i prosjektet
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Tilgangstoken kunne ikke tilbakestilles: %{error}"
@@ -606,7 +618,9 @@
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
-        done_ratio: "Fremgang (%)"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
+        done_ratio: "% Complete"
         duration: "Varighet"
         end_insertion: "Slutt på innsettingen"
         end_deletion: "Slutt på slettingen"
@@ -620,8 +634,10 @@
         parent_issue: "Overordnet"
         parent_work_package: "Overordnet"
         priority: "Prioritet"
-        progress: "Fremgang (%)"
+        progress: "% Complete"
         readonly: "Read only"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Manuell planlegging"
         spent_hours: "Tid brukt"
         spent_time: "Tid brukt"
@@ -1034,12 +1050,12 @@
     default_columns: "Standardkolonner"
     description: "Beskrivelse"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Derived start date"
     display_sums: "Vis summer"
     due_date: "Sluttdato"
-    estimated_hours: "Tidsestimat"
-    estimated_time: "Tidsestimat"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "Utløper på"
     firstname: "Fornavn"
     group: "Gruppe"
@@ -1385,7 +1401,7 @@
   error_pdf_export_too_many_columns: "Too many columns selected for the PDF export. Please reduce the number of columns."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
-  error_work_package_done_ratios_not_updated: "Gjennomføringsgraden for arbeidspakken er ikke oppdatert."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Arbeidspakken ble ikke funnet eller tilhører ikke dette prosjektet"
   error_must_be_project_member: "må være prosjektmedlem"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -2065,7 +2081,7 @@
   label_type_new: "Ny type"
   label_type_plural: "Typer"
   label_ui: "Brukergrensesnitt"
-  label_update_work_package_done_ratios: "Oppdatèr ferdigstillelsesgrad for arbeidspakke"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "Oppdatert for %{value} siden"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Oppdatert av %{author} for %{age} siden"
@@ -2150,6 +2166,10 @@
     one: "%{count} åpen"
     other: "%{count} åpne"
     zero: "0 open"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "%{count} prosjekt"
     other: "%{count} prosjekter"
@@ -2333,7 +2353,7 @@
   notice_file_not_found: "Siden du forsøker å nå eksisterer ikke eller har blitt fjernet."
   notice_forced_logout: "Du ble automatisk utlogget etter %{ttl_time} minutters inaktivitet."
   notice_internal_server_error: "Det oppstod en feil på siden du forsøkte å nå. Dersom du fortsetter å oppleve problemer, vennligst kontakt din %{app_title}-administrator for bistand."
-  notice_work_package_done_ratios_updated: "Utførelsesgrad for arbeidspakke oppdatert."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Informasjonen har blitt oppdatert av minst en annen bruker i mellomtiden."
   notice_locking_conflict_additional_information: "Oppdateringen(e) ble utført av %{users}."
   notice_locking_conflict_reload_page: "Vennligst oppdater siden, se gjennom endringene og legg til dine oppdateringer på nytt."
@@ -2409,6 +2429,8 @@
   permission_assign_versions: "Assign versions"
   permission_browse_repository: "Read-only access to repository (browse and checkout)"
   permission_change_wiki_parent_page: "Endre overordnet wiki-side"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Kommenter nyheter"
   permission_commit_access: "Read/write access to repository (commit)"
   permission_copy_projects: "Kopier prosjekter"
@@ -2470,7 +2492,7 @@
   permission_view_news: "View news"
   permission_view_members: "View members"
   permission_view_reportings: "Vis rapporteringer"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Vis tidsbruk"
   permission_view_timelines: "Vis tidslinjer"
   permission_view_wiki_edits: "Vis wiki-historikk"
@@ -2511,6 +2533,7 @@
   project_module_news: "Nyheter"
   project_module_repository: "Pakkebrønn"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2700,10 +2723,10 @@
   setting_file_max_size_displayed: "Maks størrelse på tekstfiler som vises inline"
   setting_host_name: "Vertsnavn"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Kalkulèr utførelsesgrad for arbeidspakke med"
-  setting_work_package_done_ratio_field: "Bruk arbeidspakkefeltet"
-  setting_work_package_done_ratio_status: "Bruk arbeidspakkestatus"
-  setting_work_package_done_ratio_disabled: "Deaktiver (skjul forløp)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Vis som standard"
   setting_work_package_properties: "Egenskaper for arbeidspakke"
   setting_work_package_startdate_is_adddate: "Bruk gjeldende dato som startdato for nye arbeidspakker"
@@ -3141,9 +3164,9 @@
         unsupported_context: "Ressursen som er gitt støttes ikke som kontekst."
         context_object_not_found: "Kan ikke finne ressursen som er angitt som kontekst."
       validation:
-        done_ratio: "Ferdiggraden kan ikke angis på overordnede arbeidspakker, de har feil status eller er avslått."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Anslåtte timer kan ikke angis på overordnede arbeidspakker."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Valgt bruker har ikke de nødvendige rettighetene til å være '%{property}' for denne arbeidspakken."
         start_date: "Startdato kan ikke angis på overordnede arbeidspakker."
       eprops:

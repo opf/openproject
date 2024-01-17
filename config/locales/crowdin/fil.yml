@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -281,6 +281,18 @@ fil:
       no_results_content_text: Magdagdag ng myembro sa proyekto
     invite_by_mail: "Send invite to %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
+    filters:
+      all_shares: 'All shares'
+    menu:
+      all: 'All'
+      invited: 'Invited'
+      locked: 'Locked'
+      project_roles: 'Project roles'
+      wp_shares: 'Work package shares'
+      groups: 'Groups'
   my:
     access_token:
       failed_to_reset_token: "Nabigong i-reset ang access token: %{error}"
@@ -606,7 +618,9 @@ fil:
         begin_insertion: "Nagsimula na ang pagpasok"
         begin_deletion: "Nagsimula na ang pagbubura"
         children: "Subelements"
-        done_ratio: "Isinasagawa (%)"
+        derived_remaining_hours: "Derived remaining work"
+        derived_remaining_time: "Derived remaining work"
+        done_ratio: "% Complete"
         duration: "Durasyon"
         end_insertion: "Katapusan na"
         end_deletion: "Katapusan ng pagbubura"
@@ -620,8 +634,10 @@ fil:
         parent_issue: "Magulang"
         parent_work_package: "Magulang"
         priority: "Ang prayoridad"
-        progress: "Isinasagawa (%)"
+        progress: "% Complete"
         readonly: "Read only"
+        remaining_hours: "Remaining work"
+        remaining_time: "Remaining work"
         schedule_manually: "Manual scheduling"
         spent_hours: "Nauubos na oras"
         spent_time: "Nauubos na oras"
@@ -1034,12 +1050,12 @@ fil:
     default_columns: "I-default ang mga hanay"
     description: "Deskripsyon"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived estimated time"
+    derived_estimated_hours: "Derived work"
     derived_start_date: "Derived start date"
     display_sums: "Ipakita ang mga sum"
     due_date: "Finish date"
-    estimated_hours: "Tinantyang oras"
-    estimated_time: "Tinantyang oras"
+    estimated_hours: "Work"
+    estimated_time: "Work"
     expires_at: "Matapos sa"
     firstname: "Unang pangalan"
     group: "Grupo"
@@ -1385,7 +1401,7 @@ fil:
   error_pdf_export_too_many_columns: "Masyadong maraming hanay ang napili para sa PDF export. Mangyaring bawasan ang mga bilang ng hanay."
   error_pdf_failed_to_export: "The PDF export could not be saved: %{error}"
   error_token_authenticity: "Unable to verify Cross-Site Request Forgery token. Did you try to submit data on multiple browsers or tabs? Please close all tabs and try again."
-  error_work_package_done_ratios_not_updated: "Hindi naka-update ang mga work package done ratio."
+  error_work_package_done_ratios_not_updated: "Work package % Complete values not updated."
   error_work_package_not_found_in_project: "Ang work package ay hindi natagpuan o hindi kabilang sa proyektong ito"
   error_must_be_project_member: "dapat ay miyembro ng proyekto"
   error_migrations_are_pending: "Your OpenProject installation has pending database migrations. You have likely missed running the migrations on your last upgrade. Please check the upgrade guide to properly upgrade your installation."
@@ -2065,7 +2081,7 @@ fil:
   label_type_new: "Bagong uri"
   label_type_plural: "Mga uri"
   label_ui: "User Interface"
-  label_update_work_package_done_ratios: "I-update ang mga work package done ratio"
+  label_update_work_package_done_ratios: "Update work package % Complete values"
   label_updated_time: "I-update ang nakalipas na %{value}"
   label_updated_time_at: "%{author}%{age}"
   label_updated_time_by: "Naka-update sa %{author}%{age} na nakalipas"
@@ -2150,6 +2166,10 @@ fil:
     one: "Isa ang bukas"
     other: "%{count} ang bukas"
     zero: "0 open"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "Isang proyekto"
     other: "%{count} mga proyekto"
@@ -2333,7 +2353,7 @@ fil:
   notice_file_not_found: "Ang package na iyong sinusibukan i-access ay hindi umiiral o inalis na."
   notice_forced_logout: "Ikaw ay automatikong naka-log out pagkatapos ng %{ttl_time} ilang minuto ng hindi aktibidad."
   notice_internal_server_error: "Isang error ang naganap sa oahina na gusto mong i-access. Kung nagpatuloy ang mga problema nararansan mo manyaring kontakin ang iyong %{app_title} tagapangasiwa para sa tulong."
-  notice_work_package_done_ratios_updated: "Naka-update ang mga work package done ratio."
+  notice_work_package_done_ratios_updated: "% complete updated"
   notice_locking_conflict: "Ang impormasyon ay naka-update sa kahit hindi baba isa o."
   notice_locking_conflict_additional_information: "Ang mga update nagmula sa %{users}."
   notice_locking_conflict_reload_page: "Mangyaring i-reload ang pahina na ito, repasuhin ang mga pagbabago at muling i-apply ang iyong mga update."
@@ -2409,6 +2429,8 @@ fil:
   permission_assign_versions: "Assign versions"
   permission_browse_repository: "Basahin-lamang nag-access sa respositoryo (browse at checkout)"
   permission_change_wiki_parent_page: "Baguhin ang pahina ng magulang na wiki"
+  permission_change_work_package_status: "Change work package status"
+  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
   permission_comment_news: "Mga komento ng balita"
   permission_commit_access: "Magbasa/magsulat acess sa repositoryo (commit)"
   permission_copy_projects: "Kopyahin ang mga proyekto"
@@ -2470,7 +2492,7 @@ fil:
   permission_view_news: "View news"
   permission_view_members: "Tingnan ang mga miyembro"
   permission_view_reportings: "Tanawin ang mga ulat"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Tanawin ang ginugol na oras"
   permission_view_timelines: "Tingnan ang mga timeline"
   permission_view_wiki_edits: "Tingnan ang mga kasaysayan ng wiki"
@@ -2511,6 +2533,7 @@ fil:
   project_module_news: "Mga balita"
   project_module_repository: "Repositoryo"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2698,10 +2721,10 @@ fil:
   setting_file_max_size_displayed: "Max na laki ng mga tekstong file na ipinapakita inline"
   setting_host_name: "Host name"
   setting_invitation_expiration_days: "Activation email expires after"
-  setting_work_package_done_ratio: "Kalkulahin ang work package done rato sa"
-  setting_work_package_done_ratio_field: "Gamitin ang work package field"
-  setting_work_package_done_ratio_status: "Gamitin ang estado ng work package"
-  setting_work_package_done_ratio_disabled: "Hindi pinaga (itago ang proseso)"
+  setting_work_package_done_ratio: "Calculate work package % Complete with"
+  setting_work_package_done_ratio_field: "The work package field"
+  setting_work_package_done_ratio_status: "The work package status"
+  setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_list_default_columns: "Ipakiita sa pamamagitan ng default"
   setting_work_package_properties: "Ang mga property ng work package"
   setting_work_package_startdate_is_adddate: "Gamitin ang kasulukuyang petsa bilang pagsisimula ng petsa para sa mga bagong work package"
@@ -3139,9 +3162,9 @@ fil:
         unsupported_context: "Ang ibinigay na mapagkukunan ay hindi suportado bilang isang konteksto."
         context_object_not_found: "Hindi mahanap ang ibinigay na mapagkukunan bilang konteksto."
       validation:
-        done_ratio: "Hindi mai-set ang natapos na ratio sa gawain ng mga magulang na package, kapag ito ay inferred sa pamamagitan ng estado o kapag ito ay hindi mapagana."
+        done_ratio: "% Complete cannot be set on parent work packages, when it is inferred by status or when it is disabled."
         due_date: "Finish date cannot be set on parent work packages."
-        estimated_hours: "Itinayang mga oras ay hindi mai-set sa mga package ng gawain ng magulang."
+        estimated_hours: "Work cannot be set on parent work packages." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "Ang piniling gumagamit ay hindi pinahihintulan sa '%{property}' na para sa package ng gawain ng magulang."
         start_date: "Sinimulang petsa ay hindi mai-set sa mga pakete ng gawain ng magulang."
       eprops:

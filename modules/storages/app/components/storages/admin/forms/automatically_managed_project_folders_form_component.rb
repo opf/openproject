@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -58,7 +58,7 @@ module Storages::Admin::Forms
     private
 
     def submit_button_label
-      if storage.automatically_managed?
+      if storage.automatic_management_enabled?
         I18n.t("storages.buttons.done_complete_setup")
       else
         I18n.t("storages.buttons.complete_without_setup")
@@ -67,7 +67,7 @@ module Storages::Admin::Forms
 
     def application_password_display_options
       {}.tap do |options_hash|
-        options_hash[:display] = :none unless storage.automatically_managed?
+        options_hash[:display] = :none unless storage.automatic_management_enabled?
       end
     end
 

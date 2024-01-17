@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -34,7 +34,7 @@ class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackag
   end
 
   def name
-    "relations_of_type_#{type[:sym]}".to_sym
+    :"relations_of_type_#{type[:sym]}"
   end
 
   def sym
@@ -44,7 +44,7 @@ class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackag
 
   def caption
     I18n.t(:'activerecord.attributes.query.relations_of_type_column',
-           type: I18n.t(type[:sym_name]))
+           type: I18n.t(type[:sym_name]).capitalize)
   end
 
   def self.instances(_context = nil)

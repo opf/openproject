@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -145,7 +145,7 @@ RSpec.describe 'users/edit' do
         it 'does not show the auth source selection' do
           render
 
-          expect(rendered).not_to have_selector('#user_auth_source_id')
+          expect(rendered).to have_no_css('#user_auth_source_id')
         end
       end
     end
@@ -171,7 +171,7 @@ RSpec.describe 'users/edit' do
         it 'shows the auth source selection' do
           render
 
-          expect(rendered).to have_selector('#user_ldap_auth_source_id')
+          expect(rendered).to have_css('#user_ldap_auth_source_id')
         end
       end
 
@@ -201,8 +201,8 @@ RSpec.describe 'users/edit' do
           render
 
           within '#password_fields' do
-            expect(rendered).not_to have_text('Password')
-            expect(rendered).not_to have_text('Password confirmation')
+            expect(rendered).to have_no_text('Password')
+            expect(rendered).to have_no_text('Password confirmation')
           end
         end
       end

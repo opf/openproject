@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,7 +48,7 @@ RSpec.describe Projects::DeleteService, type: :model do
           .not_to have_received(:new)
       end
 
-      context 'when the file storages are involved', webmock: true do
+      context 'when the file storages are involved', :webmock do
         it 'removes any remote storages defined for the project' do
           storage = create(:nextcloud_storage)
           project_storage = create(:project_storage, project:, storage:)

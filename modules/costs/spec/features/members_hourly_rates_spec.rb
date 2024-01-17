@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -46,7 +46,7 @@ RSpec.describe 'hourly rates on a member', :js do
   def expect_current_rate_in_members_table(amount)
     view_project_members
 
-    expect(page).to have_selector("#member-#{member.id} .currency", text: amount)
+    expect(page).to have_css("#member-#{member.id} .currency", text: amount)
   end
 
   def add_rate(rate:, date:)

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -32,6 +32,7 @@ RSpec.describe "API::V3::Projects::AvailableAssigneesAPI" do
   include API::V3::Utilities::PathHelper
 
   it_behaves_like 'available principals', :assignees do
-    let(:href) { api_v3_paths.available_assignees(project.id) }
+    let(:base_permissions) { %i[add_work_packages] }
+    let(:href) { api_v3_paths.available_assignees_in_project(project.id) }
   end
 end

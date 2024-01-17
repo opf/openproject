@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -42,7 +42,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSumsSchema do
       allow(WorkPackageCustomField)
         .to receive(:summable) { [cf1, cf2, cf3] }
 
-      expect(subject.available_custom_fields).to match_array [cf1, cf2, cf3]
+      expect(subject.available_custom_fields).to contain_exactly(cf1, cf2, cf3)
     end
   end
 end

@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -31,7 +31,7 @@ module WorkPackages
     include UnchangedProject
 
     attribute :lock_version,
-              permission: %i[edit_work_packages assign_versions manage_subtasks move_work_packages] do
+              permission: %i[edit_work_packages change_work_package_status assign_versions manage_subtasks move_work_packages] do
       if model.lock_version.nil? || model.lock_version_changed?
         errors.add :base, :error_conflict
       end
@@ -52,6 +52,7 @@ module WorkPackages
       with_unchanged_project_id do
         next if @can.allowed?(model, :edit) ||
                 @can.allowed?(model, :assign_version) ||
+                @can.allowed?(model, :change_status) ||
                 @can.allowed?(model, :manage_subtasks) ||
                 @can.allowed?(model, :move)
         next if allowed_journal_addition?

@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -48,10 +48,10 @@ module Storages
 
           def call(user:, folder:)
             result = Util.using_user_token(@storage, user) do |token|
-              # Make the Get Request to the necessary endpoints
-              response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-                http.get(children_uri_path_for(folder) + FIELDS, { 'Authorization' => "Bearer #{token.access_token}" })
-              end
+              response = HTTPX.get(
+                Util.join_uri_path(@uri, children_uri_path_for(folder) + FIELDS),
+                headers: { 'Authorization' => "Bearer #{token.access_token}" }
+              )
 
               handle_response(response, :value)
             end
@@ -66,16 +66,16 @@ module Storages
           private
 
           def handle_response(response, map_value)
-            json = MultiJson.load(response.body, symbolize_keys: true)
+            json = MultiJson.load(response.body.to_s, symbolize_keys: true)
             error_data = ::Storages::StorageErrorData.new(source: self, payload: json)
 
-            case response
-            when Net::HTTPSuccess
-              ServiceResult.success(result: MultiJson.load(response.body, symbolize_keys: true)[map_value])
-            when Net::HTTPNotFound
+            case response.status
+            when 200..299
+              ServiceResult.success(result: json.fetch(map_value))
+            when 404
               ServiceResult.failure(result: :not_found,
                                     errors: ::Storages::StorageError.new(code: :not_found, data: error_data))
-            when Net::HTTPUnauthorized
+            when 401
               ServiceResult.failure(result: :unauthorized,
                                     errors: ::Storages::StorageError.new(code: :unauthorized, data: error_data))
             else
@@ -101,16 +101,17 @@ module Storages
               last_modified_at: Time.zone.parse(json_file.dig(:fileSystemInfo, :lastModifiedDateTime)),
               created_by_name: json_file.dig(:createdBy, :user, :displayName),
               last_modified_by_name: json_file.dig(:lastModifiedBy, :user, :displayName),
-              location: extract_location(json_file[:parentReference], json_file[:name]),
+              location: Util.extract_location(json_file[:parentReference], json_file[:name]),
               permissions: %i[readable writeable]
             )
           end
 
           def empty_response(user, folder)
             result = Util.using_user_token(@storage, user) do |token|
-              response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-                http.get(location_uri_path_for(folder) + FIELDS, { 'Authorization' => "Bearer #{token.access_token}" })
-              end
+              response = HTTPX.get(
+                Util.join_uri_path(@uri, location_uri_path_for(folder) + FIELDS),
+                headers: { 'Authorization' => "Bearer #{token.access_token}" }
+              )
 
               handle_response(response, :id)
             end
@@ -131,13 +132,6 @@ module Storages
             )
           end
 
-          def extract_location(parent_reference, file_name = '')
-            location = parent_reference[:path].gsub(/.*root:/, '')
-
-            appendix = file_name.blank? ? '' : "/#{file_name}"
-            location.empty? ? "/#{file_name}" : "#{location}#{appendix}"
-          end
-
           def parent(parent_reference)
             _, _, name = parent_reference[:path].gsub(/.*root:/, '').rpartition '/'
 
@@ -147,7 +141,7 @@ module Storages
               StorageFile.new(
                 id: parent_reference[:id],
                 name:,
-                location: extract_location(parent_reference),
+                location: Util.extract_location(parent_reference),
                 permissions: %i[readable writeable]
               )
             end

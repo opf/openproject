@@ -15,6 +15,7 @@ zh-CN:
       choose_location: "选择地点"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
         default: "存储"
       information:
         connection_error: >
@@ -47,7 +48,6 @@ zh-CN:
         empty: >
           当前的工作包没有链接的文件。请用下面操作或在%{storageType}内开始链接文件。
         download: "下载 %{fileName}"
-        no_permission: "您无权查看此文件。"
         open: "在存储上打开文件"
         open_location: "在位置打开文件"
         remove: "移除文件链接"
@@ -75,6 +75,9 @@ zh-CN:
               请检查是否安装了最新版本的 Nextcloud 应用程序 "OpenProject Integration"，如需更多信息，请联系您的管理员。
         link_uploaded_file_error: >
           在链接最近上传的文件 '%{fileName}' 到工作包 %{workPackageId} 时出现错误。
-        not_allowed_tooltip: "请登录 Nextcloud 访问此文件"
+        tooltip:
+          not_logged_in: "Please log in to the storage to access this file."
+          view_not_allowed: "您无权查看此文件。"
+          not_found: "找不到此文件。"
         already_linked_file: "此文件已链接到该工作包。"
         already_linked_directory: "此目录已连接到该工作包。"

@@ -1,6 +1,6 @@
 //-- copyright
 // OpenProject is an open source project management software.
-// Copyright (C) 2012-2023 the OpenProject GmbH
+// Copyright (C) 2012-2024 the OpenProject GmbH
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
@@ -156,16 +156,13 @@ RB.Model = (function ($) {
           const field = $(this);
           const fieldId = field.attr('field_id');
           const fieldName = field.attr('fieldname');
+          const fieldLabel = field.attr('fieldlabel');
           const fieldOrder = parseInt(field.attr('fieldorder'), 10);
+          const fieldEditable = field.attr('fieldeditable') || 'true';
           const fieldType = field.attr('fieldtype') || 'input';
-          let fieldLabel = field.attr('fieldlabel');
           let typeId;
           let statusId;
           let input;
-
-          if (!fieldLabel) {
-            fieldLabel = fieldName.replace(/_/ig, " ").replace(/ id$/ig, "");
-          }
 
           if (fieldType === 'select') {
             // Special handling for status_id => they are dependent of type_id
@@ -194,7 +191,7 @@ RB.Model = (function ($) {
             input = $(document.createElement(fieldType));
           }
 
-          input = self.prepareInputFromFactory(input, fieldId, fieldName, fieldOrder, maxTabIndex);
+          input = self.prepareInputFromFactory(input, fieldId, fieldName, fieldOrder, maxTabIndex, fieldEditable);
 
           // Copy the value in the field to the input element
           input.val(fieldType === 'select' ? field.children('.v').first().text() : field.text());
@@ -234,10 +231,13 @@ RB.Model = (function ($) {
       return newInput;
     },
 
-    prepareInputFromFactory: function (input,fieldId,fieldName,fieldOrder, maxTabIndex) {
+    prepareInputFromFactory: function (input, fieldId, fieldName, fieldOrder, maxTabIndex, fieldEditable) {
       input.attr('id', fieldName + '_' + fieldId);
       input.attr('name', fieldName);
       input.attr('tabindex', fieldOrder + maxTabIndex);
+      if (fieldEditable !== 'true') {
+        input.attr('disabled', true);
+      }
       input.addClass(fieldName);
       input.addClass('editor');
       input.removeClass('template');

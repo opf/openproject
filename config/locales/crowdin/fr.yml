@@ -1,6 +1,6 @@
 #-- copyright
 #OpenProject is an open source project management software.
-#Copyright (C) 2012-2023 the OpenProject GmbH
+#Copyright (C) 2012-2024 the OpenProject GmbH
 #This program is free software; you can redistribute it and/or
 #modify it under the terms of the GNU General Public License version 3.
 #OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
@@ -281,6 +281,18 @@ fr:
       no_results_content_text: Ajouter un membre au projet
     invite_by_mail: "Envoyer une invitation à %{mail}"
     send_invite_to: "Envoyer une invitation à"
+    no_modify_on_shared: "Actuellement, vous ne pouvez pas modifier ou supprimer les adhésions partagées depuis la page des membres. Utilisez plutôt la fenêtre modale de partage."
+    columns:
+      shared: "Partagé"
+    filters:
+      all_shares: 'Tous les partages'
+    menu:
+      all: 'Tout'
+      invited: 'Invité'
+      locked: 'Verrouillé'
+      project_roles: 'Rôle du projet'
+      wp_shares: 'Répartition des lots de travail'
+      groups: 'Groupes'
   my:
     access_token:
       failed_to_reset_token: "Impossible de réinitialiser le jeton d’accès : %{error}"
@@ -606,7 +618,9 @@ fr:
         begin_insertion: "Début de l’insertion"
         begin_deletion: "Début de la suppression"
         children: "Sous-éléments"
-        done_ratio: "Progrès (%)"
+        derived_remaining_hours: "Travail restant dérivé"
+        derived_remaining_time: "Travail restant dérivé"
+        done_ratio: "% complet"
         duration: "Durée"
         end_insertion: "Fin de l’insertion"
         end_deletion: "Fin de la suppression"
@@ -620,8 +634,10 @@ fr:
         parent_issue: "Parent"
         parent_work_package: "Parent"
         priority: "Priorité"
-        progress: "Progrès (%)"
+        progress: "% complet"
         readonly: "Lecture seule"
+        remaining_hours: "Travail restant"
+        remaining_time: "Travail restant"
         schedule_manually: "Planification manuelle"
         spent_hours: "Temps passé"
         spent_time: "Temps passé"
@@ -1034,12 +1050,12 @@ fr:
     default_columns: "Colonnes par défaut"
     description: "Description"
     derived_due_date: "Date de fin dérivée"
-    derived_estimated_hours: "Temps estimé dérivé"
+    derived_estimated_hours: "Travail dérivé"
     derived_start_date: "Date de début dérivée"
     display_sums: "Afficher les sommes"
     due_date: "Date de fin"
-    estimated_hours: "Durée estimée"
-    estimated_time: "Durée estimée"
+    estimated_hours: "Travail"
+    estimated_time: "Travail"
     expires_at: "Expire le"
     firstname: "Prénom"
     group: "Groupe"
@@ -1385,7 +1401,7 @@ fr:
   error_pdf_export_too_many_columns: "Trop de colonnes sélectionnées pour l’exportation PDF. Veuillez réduire le nombre de colonnes."
   error_pdf_failed_to_export: "L'export PDF n'a pas pu être enregistré: %{error}"
   error_token_authenticity: "Impossible de vérifier le jeton de Cross-Site Request Forgery. Avez-vous essayé d'envoyer des données sur plusieurs navigateurs ou onglets ? Veuillez fermer tous les onglets et réessayer."
-  error_work_package_done_ratios_not_updated: "Les ratios de Lots de Travaux achevés n'ont pas été mis à jour."
+  error_work_package_done_ratios_not_updated: "Les valeurs % complet du lot de travaux n'ont pas été mises à jour."
   error_work_package_not_found_in_project: "Le Lot de Travaux n'a pas été trouvé ou n'appartient pas à ce projet"
   error_must_be_project_member: "doit être membre du projet"
   error_migrations_are_pending: "Votre installation OpenProject a des migrations de base de données en attente. Vous n'avez probablement pas exécuté les migrations lors de votre dernière mise à jour. Veuillez consulter le guide de mise à jour afin de mettre votre installation correctement à jour."
@@ -2065,7 +2081,7 @@ fr:
   label_type_new: "Nouveau type"
   label_type_plural: "Types"
   label_ui: "Interface de l'utilisateur"
-  label_update_work_package_done_ratios: "Mis à jour du taux d'avancement du Lots de Travaux"
+  label_update_work_package_done_ratios: "Mettre à jour la valeur % complet du lot de travaux"
   label_updated_time: "Mis à jour il y a %{value}"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "Mis à jour par %{author} il y a %{age}"
@@ -2150,6 +2166,10 @@ fr:
     one: "1 ouvert"
     other: "%{count} ouverts"
     zero: "0 ouvert"
+  label_x_work_packages:
+    one: "1 lot de travaux"
+    other: "%{count} lots de travaux"
+    zero: "Aucun lot de travaux"
   label_x_projects:
     one: "1 projet"
     other: "%{count} projets"
@@ -2333,7 +2353,7 @@ fr:
   notice_file_not_found: "La page à laquelle vous essayez d'accéder n'existe pas ou a été supprimée."
   notice_forced_logout: "Vous avez été déconnecté après %{ttl_time} minutes d'inactivité."
   notice_internal_server_error: "Une erreur est survenue sur la page à laquelle vous essayez d'accéder. Si le problème persiste, veuillez contacter votre administrateur %{app_title} pour assistance."
-  notice_work_package_done_ratios_updated: "Taux d'avancement des mise à jour du Lot de Travaux."
+  notice_work_package_done_ratios_updated: "% de mise à jour terminée"
   notice_locking_conflict: "Cette information a été mise a jour par au moin un autre utilisateur pendant la même session"
   notice_locking_conflict_additional_information: "Le(s) mise(s) à jour(s) ont été faite par %{users}."
   notice_locking_conflict_reload_page: "Veuillez rafraîchir la page, vérifier les changements et rélancer la mise à jour."
@@ -2409,6 +2429,8 @@ fr:
   permission_assign_versions: "Assigner les versions"
   permission_browse_repository: "Accès au dépôt en lecture seule (navigation et « checkout »)"
   permission_change_wiki_parent_page: "Changer la page wiki parent"
+  permission_change_work_package_status: "Modifier le statut du lot de travaux"
+  permission_change_work_package_status_explanation: "Permet de modifier le statut sans avoir le droit de modifier les lots de travaux"
   permission_comment_news: "Commenter les actualités"
   permission_commit_access: "Accès au dépôt en lecture/écriture (« commit »)"
   permission_copy_projects: "Copier des projets"
@@ -2470,7 +2492,7 @@ fr:
   permission_view_news: "Voir les nouvelles"
   permission_view_members: "Afficher les membres"
   permission_view_reportings: "Voir rapports"
-  permission_view_shared_work_packages: "Voir les lots de travaux partagés"
+  permission_view_shared_work_packages: "Voir la répartition des lots de travail"
   permission_view_time_entries: "Voir temps passé"
   permission_view_timelines: "Voir les lignes du temps"
   permission_view_wiki_edits: "Voir l'historique du wiki"
@@ -2485,7 +2507,7 @@ fr:
     default: "-"
   project:
     destroy:
-      confirmation: "Si vous continuez, le projet %{identifiant} sera définitivement supprimé. Pour confirmer cette action, veuillez saisir le nom du projet dans le champ ci-dessous. Cela va :"
+      confirmation: "Si vous continuez, le projet %{identifier} sera définitivement supprimé. Pour confirmer cette action, veuillez saisir le nom du projet dans le champ ci-dessous. Cela va :"
       project_delete_result_1: "Supprimer toutes les données associées."
       project_delete_result_2: "Supprimer tous les dossiers de projet gérés dans les unités de stockage attachées."
       info: "La suppression du projet est une action irréversible."
@@ -2511,6 +2533,7 @@ fr:
   project_module_news: "Actualités"
   project_module_repository: "Référentiel"
   project_module_wiki: "Wiki"
+  permission_header_for_project_module_work_package_tracking: "Lots de travaux et Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2700,10 +2723,10 @@ fr:
   setting_file_max_size_displayed: "Taille maximale de l'affichage du fichers texte inline"
   setting_host_name: "Nom d'hôte"
   setting_invitation_expiration_days: "L'émail d’activation expire après"
-  setting_work_package_done_ratio: "Calculer le taux d'avancement du lot de travaux avec"
-  setting_work_package_done_ratio_field: "Utiliser le champ Lot de Travaux"
-  setting_work_package_done_ratio_status: "Utiliser le statut des Lots de Travaux"
-  setting_work_package_done_ratio_disabled: "Désactiver (cacher l'avancement)"
+  setting_work_package_done_ratio: "Calculer le % de réalisation du lot de travaux avec"
+  setting_work_package_done_ratio_field: "Le champ du lot de travaux"
+  setting_work_package_done_ratio_status: "Status du lot de travaux"
+  setting_work_package_done_ratio_disabled: "Désactiver (masquer le champ % complet)"
   setting_work_package_list_default_columns: "Afficher par défaut"
   setting_work_package_properties: "Propriétés du Lot de Travaux"
   setting_work_package_startdate_is_adddate: "Utiliser la date actuelle comme date de début des nouveaux lots de travaux"
@@ -3068,7 +3091,7 @@ fr:
       warning_user_limit_reached_admin: >
         L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour que les utilisateurs externes puissent accéder à ce work package.
       warning_no_selected_user: "Veuillez sélectionner les utilisateurs avec lesquels partager ce lot de travaux"
-      warning_locked_user: "Impossible de partager avec %{utilisateur} dont le compte est verrouillé"
+      warning_locked_user: "Impossible de partager avec %{user} dont le compte est verrouillé"
       user_details:
         locked: "Utilisateur verrouillé"
         invited: "Invitation envoyée."
@@ -3140,9 +3163,9 @@ fr:
         unsupported_context: "La ressource donnée n'est pas prise en charge comme contexte."
         context_object_not_found: "Impossible de trouver la ressource donnée comme contexte."
       validation:
-        done_ratio: "Le taux d'avancement ne peut être défini sur les lots de travaux parents lorsqu'il est déduit en fonction du statut, ou lorsqu'il est désactivé."
+        done_ratio: "Le % complet ne peut pas être défini sur les lots de travaux parents, lorsqu'il est déduit par le statut ou lorsqu'il est désactivé."
         due_date: "La date de fin ne peut pas être définie dans les lots de travaux parents."
-        estimated_hours: "Les heures estimées ne peuvent être définies sur les lots de travaux parents."
+        estimated_hours: "La valeur \"travail\" ne peut pas être définie pour les paquets de travail parents." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "L’utilisateur choisi n'est pas autorisé à être « %{property} » pour ce lot de travaux."
         start_date: "La date de début ne peut pas être définie dans les lots de travaux parents."
       eprops:
@@ -3261,7 +3284,7 @@ fr:
       oauth_returned_json_error: "OAuth2 a renvoyé une erreur JSON"
       oauth_returned_http_error: "OAuth2 a renvoyé une erreur réseau"
       oauth_returned_standard_error: "OAuth2 a renvoyé une erreur interne"
-      client_id_blank: "ID can't be blank."
+      client_id_blank: "L'ID ne peut pas être vide."
       wrong_token_type_returned: "OAuth2 a retourné un mauvais type de jeton, AccessToken::Bearer était attendu"
       oauth_issue_contact_admin: "OAuth2 a signalé une erreur. Veuillez contacter votre administrateur système."
       oauth_client_not_found: "Client OAuth2 introuvable dans le point de terminaison « callback » (redirect_uri)."

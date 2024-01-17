@@ -1,7 +1,6 @@
 require 'spec_helper'
 
-RSpec.describe 'Duration field in the work package table',
-               js: true do
+RSpec.describe 'Duration field in the work package table', :js do
   shared_let(:current_user) { create(:admin) }
   shared_let(:work_package) do
     next_monday = Time.zone.today.beginning_of_week.next_occurring(:monday)

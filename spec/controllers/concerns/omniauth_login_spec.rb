@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 # Concern is included into AccountController and depends on methods available there
-RSpec.describe AccountController,
-               skip_2fa_stage: true do
+RSpec.describe AccountController, :skip_2fa_stage do
   let(:omniauth_strategy) { double('Google Strategy', name: 'google') }
   let(:omniauth_hash) do
     OmniAuth::AuthHash.new(

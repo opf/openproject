@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -55,13 +55,13 @@ RSpec.describe 'Homescreen', 'index', :with_cuprite do
       login_as user
       visit root_url
       expect(page)
-        .to have_selector("a[href=\"#{OpenProject::Application.root_url}/projects/public-project\"]")
+        .to have_css("a[href=\"#{OpenProject::Application.root_url}/projects/public-project\"]")
 
       click_link "a link to the public project"
       expect(page).to have_current_path project_path(project)
     end
 
-    it 'can change the welcome text and still have a valid link', js: true do
+    it 'can change the welcome text and still have a valid link', :js do
       login_as admin
 
       general_settings_page.visit!
@@ -75,7 +75,7 @@ RSpec.describe 'Homescreen', 'index', :with_cuprite do
 
       visit root_url
       expect(page)
-        .to have_selector("a[href=\"#{OpenProject::Application.root_url}/projects/public-project\"]")
+        .to have_css("a[href=\"#{OpenProject::Application.root_url}/projects/public-project\"]")
 
       click_link "a link to the public project"
       expect(page).to have_current_path /#{Regexp.escape(project_path(project))}\/?$/

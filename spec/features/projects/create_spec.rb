@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -41,14 +41,6 @@ RSpec.describe 'Projects', 'creation',
 
   before do
     projects_page.visit!
-  end
-
-  context 'within the button on the global sidebar' do
-    it 'can navigate to the create project page' do
-      projects_page.navigate_to_new_project_page_from_global_sidebar
-
-      expect(page).to have_current_path(new_project_path)
-    end
   end
 
   context 'with the button on the toolbar items' do
@@ -112,8 +104,8 @@ RSpec.describe 'Projects', 'creation',
 
     find('.op-fieldset--toggle', text: 'ADVANCED SETTINGS').click
 
-    expect(page).not_to have_content 'Active'
-    expect(page).not_to have_content 'Identifier'
+    expect(page).to have_no_content 'Active'
+    expect(page).to have_no_content 'Identifier'
   end
 
   context 'with optional and required custom fields' do
@@ -138,7 +130,7 @@ RSpec.describe 'Projects', 'creation',
 
       within('.op-fieldset') do
         expect(page).to have_text 'Optional Foo'
-        expect(page).not_to have_text 'Required Foo'
+        expect(page).to have_no_text 'Required Foo'
       end
     end
   end
