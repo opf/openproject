@@ -15,6 +15,7 @@ tr:
       choose_location: "Konum seç"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
         default: "Depolama"
       information:
         connection_error: >
@@ -77,7 +78,7 @@ tr:
         link_uploaded_file_error: >
           Yakın zamanda yüklenen '%{fileName}' dosyasını %{workPackageId} iş paketine bağlarken bir hata oluştu.
         tooltip:
-          not_logged_in: "Please log in to Nextcloud to access this file."
+          not_logged_in: "Please log in to the storage to access this file."
           view_not_allowed: "You have no permission to see this file."
           not_found: "This file cannot be found."
         already_linked_file: "Bu dosya zaten bu iş paketine bağlı."

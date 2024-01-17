@@ -15,6 +15,7 @@ ca:
       choose_location: "Tria ubicació"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
         default: "Emmagatzematge"
       information:
         connection_error: >
@@ -77,7 +78,7 @@ ca:
         link_uploaded_file_error: >
           S'ha produït un error en enllaçar els fitxers carregats recentment "%{fileName}" al paquet de treball %{workPackageId}.
         tooltip:
-          not_logged_in: "Please log in to Nextcloud to access this file."
+          not_logged_in: "Please log in to the storage to access this file."
           view_not_allowed: "You have no permission to see this file."
           not_found: "This file cannot be found."
         already_linked_file: "Aquest fitxer ja està enllaçat a aquest paquet de treball."

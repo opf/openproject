@@ -2546,7 +2546,7 @@ pl:
   permission_view_news: "Wyświetl aktualności"
   permission_view_members: "Przeglądaj członków"
   permission_view_reportings: "Widok zgłoszeń"
-  permission_view_shared_work_packages: "View work package shares"
+  permission_view_shared_work_packages: "Wyświetl udostępnienia pakietu roboczego"
   permission_view_time_entries: "Widok czasu pracy"
   permission_view_timelines: "Widok osi czasu"
   permission_view_wiki_edits: "WIdok historii wiki"
