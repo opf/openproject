@@ -12,7 +12,7 @@ Release date: 2024-01-17
 
 We released [OpenProject 13.2.0](https://community.openproject.com/versions/1979).
 
-Among other features, it brings improvements for the **OneDrive/SharePoint integration**, now also allowing **Manual project folders**. In addition to that, both OneDrive/SharePoint and Nextcloud integrations were improved by **showing deleted files in OpenProject work packages**.
+Among other features, it brings improvements for the **OneDrive/SharePoint integration**, now also allowing **manual project folders**. In addition to that, both OneDrive/SharePoint and Nextcloud integrations were improved by **showing deleted files in OpenProject work packages**.
 
 We also added the option to **filter the project member list**, allowing project administrators to easily filter through the project member lists based on various roles, groups and shares. Instance administrators can now also allow for users to **change work package status without the rights to edit a work package**. 
 
@@ -27,7 +27,7 @@ Finally, **several fields were renamed**:
 As always, this release contains several bug fixes and we recommend updating to the newest version.
 
 
-## Manual project folders for OneDrive/SharePoint storages (Enterprise Add-On)
+## Manual project folders for OneDrive/SharePoint storages (Enterprise add-on)
 
 With OpenProject 13.2, manual project folders have become available for OneDrive/SharePoint storage, further improving access to essential project files. 
 
