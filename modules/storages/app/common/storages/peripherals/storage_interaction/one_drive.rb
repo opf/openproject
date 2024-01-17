@@ -43,6 +43,14 @@ module Storages
             register(:upload_link, UploadLinkQuery)
           end
         end
+
+        Commands = Dry::Container::Namespace.new('commands') do
+          namespace('one_drive') do
+            register(:create_folder, CreateFolderCommand)
+            register(:delete_folder, DeleteFolderCommand)
+            register(:rename_file, RenameFileCommand)
+          end
+        end
       end
     end
   end
