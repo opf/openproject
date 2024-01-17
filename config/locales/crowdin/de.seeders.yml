@@ -132,13 +132,13 @@ de:
       welcome:
         title: Willkommen bei OpenProject!
         text: |
-          OpenProject ist die führende Open-Source-Projektmanagement-Software. Es unterstützt das klassische und agile sowie das hybride Projektmanagement und gibt Ihnen die volle Kontrolle über Ihre Daten.
+          OpenProject ist die führende Software für Open Source Projektmanagement. Es unterstützt das klassische und agile sowie das hybride Projektmanagement und gibt Ihnen die volle Kontrolle über Ihre Daten.
 
           Kernfunktionen und Anwendungsfälle:
 
           * [Projektportfolio Management](https://www.openproject.org/de/projektmanagement-funktionen/projektportfolio-management/)
-          * * [Projektplanung](https://www.openproject.org/de/projektmanagement-funktionen/projektplanung/)
-          * [Aufgaben-Management und Issue Tracking](https://www.openproject.org/de/projektmanagement-funktionen/aufgabenverwaltung/)
+          * [Projektplanung](https://www.openproject.org/de/projektmanagement-funktionen/projektplanung/)
+          * [Aufgaben-Management und Problemverfolgung](https://www.openproject.org/de/projektmanagement-funktionen/aufgabenverwaltung/)
           * [Agile Boards (Scrum und Kanban)](https://www.openproject.org/de/projektmanagement-funktionen/agiles-projektmanagement/)
           * [Anforderungs-Management und Release-Planung](https://www.openproject.org/de/projektmanagement-funktionen/produktentwicklung/)
           * [Zeit- und Kostenerfassung, Budgets](https://www.openproject.org/de/projektmanagement-funktionen/zeiterfassung/)
@@ -352,20 +352,20 @@ de:
                 options:
                   name: Erste Schritte
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Wir freuen uns, dass Sie dabei sind! Wir schlagen vor, dass Sie den unten aufgeführten ersten Schritten in OpenProject folgen.
 
-                    _Try the following steps:_
+                    _Probieren Sie die folgenden Schritte:_
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
+                    1. *Laden Sie neue Mitglieder zu Ihrem Projekt ein*: &rightarrow; Gehen Sie zu [Mitglieder]({{opSetting:base_url}}/projects/your-scrum-project/members) in der Projektnavigation.
+                    2. *Sehen Sie sich das Product Backlog und Sprint Backlog an*: &rightarrow; Navigieren Sie zu [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in der Projektnavigation.
+                    3. *Betrachten Sie das Taskboard*: &rightarrow; Wechseln Sie zu [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Klicken Sie auf den Pfeil auf der rechten Seiten des Sprints &rightarrow; Wählen Sie [Taskboard](##sprint:scrum_project__version__sprint_1).
+                    4. *Erstellen Sie ein neues Arbeitspaket*: &rightarrow; Gehen Sie zu [Arbeitspakete &rightarrow; Erstellen]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Erstellen und aktualisieren Sie einen Projektplan*: &rightarrow; Gehen Sie zu [Projektplan](##query:scrum_project__query__project_plan) in der Projektnavigation.
+                    6. *Erstellen Sie ein Sprint-Wiki*: &rightarrow; Navigieren Sie zu [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) und öffnen Sie das Sprint-Wiki aus dem rechten Dropdown-Menü des Sprints. Sie können das [Wiki Template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) basierend auf Ihren Anforderungen bearbeiten.
+                    7. *Aktivieren Sie zusätzliche Module*: &rightarrow; Wechseln Sie zu [Projektkonfiguration &rightarrow; Module]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Zusätzlich finden Sie hier unser [Nutzungshandbuch](https://www.openproject.org/de/docs/nutzungshandbuch/).
+                    Lassen Sie uns gerne wissen, wenn Sie Fragen haben oder Unterstützung benötigen. Kontaktieren Sie uns: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Arbeitspakete

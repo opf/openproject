@@ -2461,7 +2461,7 @@ ko:
   permission_view_news: "뉴스 보기"
   permission_view_members: "멤버 보기"
   permission_view_reportings: "보고 보기"
-  permission_view_shared_work_packages: "View work package shares"
+  permission_view_shared_work_packages: "작업 패키지 공유 보기"
   permission_view_time_entries: "소요 시간 보기"
   permission_view_timelines: "타임라인 보기"
   permission_view_wiki_edits: "위키 기록 보기"

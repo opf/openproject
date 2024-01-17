@@ -15,6 +15,7 @@ de:
       choose_location: "Speicherort wählen"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
         default: "Speicher"
       information:
         connection_error: >
@@ -77,7 +78,7 @@ de:
         link_uploaded_file_error: >
           Beim Verknüpfen der kürzlich hochgeladenen Datei '%{fileName}' mit dem Arbeitspaket %{workPackageId} ist ein Fehler aufgetreten.
         tooltip:
-          not_logged_in: "Bitte melden Sie sich bei Nextcloud an, um auf diese Datei zuzugreifen."
+          not_logged_in: "Please log in to the storage to access this file."
           view_not_allowed: "Sie haben keine Berechtigung, diese Datei zu sehen."
           not_found: "Diese Datei ist nicht verfügbar."
         already_linked_file: "Die Datei ist bereits mit diesem Arbeitspaket verknüpft."

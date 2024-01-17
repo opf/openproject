@@ -15,6 +15,7 @@ pl:
       choose_location: "Wybierz lokalizację"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
         default: "Magazyn"
       information:
         connection_error: >
@@ -81,7 +82,7 @@ pl:
         link_uploaded_file_error: >
           Wystąpił błąd podczas łączenia niedawno przesłanego pliku '%{fileName}' z pakietem roboczym %{workPackageId}.
         tooltip:
-          not_logged_in: "Zaloguj się do Nextcloud aby uzyskać dostęp do tego pliku"
+          not_logged_in: "Please log in to the storage to access this file."
           view_not_allowed: "Nie masz uprawnień do wyświetlania tego pliku."
           not_found: "Nie można znaleźć tego pliku."
         already_linked_file: "Ten plik jest już powiązany z tym pakietem roboczym."
