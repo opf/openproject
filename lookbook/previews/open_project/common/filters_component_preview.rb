@@ -13,9 +13,9 @@ module OpenProject
             aria: { label: I18n.t(:label_project_new) },
             data: { 'test-selector': 'project-new-button' }
           ) do |button|
-              button.with_leading_visual_icon(icon: :plus)
-              Project.model_name.human
-            end
+            button.with_leading_visual_icon(icon: :plus)
+            Project.model_name.human
+          end
         end
       end
     end
