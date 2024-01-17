@@ -173,6 +173,13 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
         expect(subject.success).to be_truthy
         expect(subject.result).to be_a OAuthClientToken
       end
+
+      it 'fills in the origin_user_id' do
+        expect { subject }.to change(OAuthClientToken, :count).by(1)
+        last_token = OAuthClientToken.where(access_token: 'yjTDZ...RYvRH').last
+
+        expect(last_token.origin_user_id).to eq('admin')
+      end
     end
 
     context 'with known error' do
