@@ -49,7 +49,7 @@ class ParamsToQueryService
   private
 
   def find_query(query_id)
-    if query_factory_class
+    if query_factory_class && query_id
       query_factory_class.find(query_id)
     elsif query_class.respond_to?(:find) && query_id
       query_class.find(query_id)

@@ -34,7 +34,7 @@ class Queries::Projects::Factory
 
     def static_query(id)
       case id
-      when nil, 'all'
+      when 'all'
         static_query_all
       when 'my'
         static_query_my

@@ -66,14 +66,14 @@ RSpec.describe ParamsToQueryService, 'project query' do
           .to be_a Queries::Projects::ProjectQuery
       end
 
-      it 'applies the active filter' do
-        expect(service_call.filters.map { |f| { field: f.field, operator: f.operator, values: f.values } })
-          .to contain_exactly({ field: :active, operator: "=", values: ["t"] })
+      it 'applies no filter' do
+        expect(service_call.filters)
+          .to be_empty
       end
 
-      it 'sorts by lft asc' do
-        expect(service_call.orders.map { |o| { attribute: o.attribute, direction: o.direction } })
-          .to eql [{ attribute: :lft, direction: :asc }]
+      it 'does not apply sorting' do
+        expect(service_call.orders)
+          .to be_empty
       end
     end
 
@@ -83,19 +83,19 @@ RSpec.describe ParamsToQueryService, 'project query' do
           .to be_a Queries::Projects::ProjectQuery
       end
 
-      it 'sets the expected name' do
+      it 'sets no name' do
         expect(service_call.name)
-          .to eql I18n.t(:'projects.sidemenu.all')
+          .to be_blank
       end
 
-      it 'applies the active filter' do
-        expect(service_call.filters.map { |f| { field: f.field, operator: f.operator, values: f.values } })
-          .to contain_exactly({ field: :active, operator: "=", values: ["t"] })
+      it 'applies no filter' do
+        expect(service_call.filters)
+          .to be_empty
       end
 
-      it 'sorts by lft asc' do
-        expect(service_call.orders.map { |o| { attribute: o.attribute, direction: o.direction } })
-          .to eql [{ attribute: :lft, direction: :asc }]
+      it 'does not apply sorting' do
+        expect(service_call.orders)
+          .to be_empty
       end
     end
   end

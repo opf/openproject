@@ -39,6 +39,7 @@ class ProjectsController < ApplicationController
   include PaginationHelper
   include QueriesHelper
   include ProjectsHelper
+  include Projects::QueryLoading
 
   helper_method :has_managed_project_folders?
 
@@ -47,17 +48,15 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    query = load_query
+    @query = load_query
 
-    unless query.valid?
-      flash[:error] = query.errors.full_messages
-    end
-
-    @projects = load_projects query
-    @orders = set_sorting query
+    @projects = load_projects @query
+    @orders = set_sorting @query
 
     respond_to do |format|
       format.html do
+        flash.now[:error] = @query.errors.full_messages unless @query.valid?
+
         render layout: 'global'
       end
 
@@ -113,10 +112,6 @@ class ProjectsController < ApplicationController
 
   def hide_project_in_layout
     @project = nil
-  end
-
-  def load_query
-    @query = ParamsToQueryService.new(Project, current_user).call(params)
   end
 
   def export_list(mime_type)
