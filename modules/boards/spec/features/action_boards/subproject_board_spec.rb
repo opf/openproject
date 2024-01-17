@@ -155,6 +155,7 @@ RSpec.describe 'Subproject action board', :js, with_ee: %i[board_view] do
 
       # Move item to Child 2 list
       board_page.move_card(0, from: 'Child 1', to: 'Child 2')
+      board_page.wait_for_lists_reload
 
       board_page.expect_card('Child 1', 'Task 1', present: false)
       board_page.expect_card('Child 2', 'Task 1', present: true)
