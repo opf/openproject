@@ -56,6 +56,8 @@ module WorkPackages
               writable: ->(*) {
                 model.leaf? && Setting.work_package_done_ratio == 'field'
               }
+    attribute :derived_done_ratio,
+              writable: false
 
     attribute :estimated_hours
     attribute :derived_estimated_hours,
