@@ -86,6 +86,18 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
 
       expect(last_token.origin_user_id).to eq('87d349ed-44d7-43e1-9a83-5f2406dee5bd')
     end
+
+    context 'when the identification request fails' do
+      before do
+        stub_request(:get, 'https://graph.microsoft.com/v1.0/me')
+          .with(headers: { Authorization: "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsIng1dCI6Ik5HVEZ2ZEstZnl0aEV1Q..." })
+          .to_return(status: 404)
+      end
+
+      it 'raises an error' do
+        expect { subject.code_to_token(code) }.to raise_error(HTTPX::HTTPError)
+      end
+    end
   end
 
   describe '#get_authorization_uri' do
