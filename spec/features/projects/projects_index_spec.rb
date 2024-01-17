@@ -145,17 +145,19 @@ RSpec.describe 'Projects index page',
         )
 
         login_as(user)
-        visit projects_path
+        projects_page.visit!
 
-        expect(page).to have_text(development_project.name)
-        expect(page).to have_text(public_project.name)
-        expect(page).to have_no_text(project.name)
+        projects_page.within_table do
+          expect(page).to have_text(development_project.name)
+          expect(page).to have_text(public_project.name)
+          expect(page).to have_no_text(project.name)
 
-        # They should not see the description, status or custom fields for the project
-        expect(page).to have_no_text(development_project.description)
-        expect(page).to have_no_text(project_status_name(development_project.status_code))
-        expect(page).to have_no_text(development_project.status_explanation)
-        expect(page).to have_no_text(development_project.custom_value_for(custom_field))
+          # They should not see the description, status or custom fields for the project
+          expect(page).to have_no_text(development_project.description)
+          expect(page).to have_no_text(project_status_name(development_project.status_code))
+          expect(page).to have_no_text(development_project.status_explanation)
+          expect(page).to have_no_text(development_project.custom_value_for(custom_field))
+        end
       end
     end
 
@@ -251,6 +253,10 @@ RSpec.describe 'Projects index page',
   context 'when filtering with the global sidebar' do
     let(:current_user) { admin }
 
+    shared_let(:on_track_project) { create(:project, status_code: 'on_track') }
+    shared_let(:off_track_project) { create(:project, status_code: 'off_track') }
+    shared_let(:at_risk_project) { create(:project, status_code: 'at_risk') }
+
     before do
       ProjectRole.non_member
       login_as current_user
@@ -265,7 +271,10 @@ RSpec.describe 'Projects index page',
       it 'shows all active projects (default)' do
         projects_page.expect_projects_listed(project,
                                              public_project,
-                                             development_project)
+                                             development_project,
+                                             on_track_project,
+                                             off_track_project,
+                                             at_risk_project)
 
         projects_page.expect_filters_container_hidden
         projects_page.expect_filter_set 'active'
@@ -285,25 +294,14 @@ RSpec.describe 'Projects index page',
 
       it 'shows all projects I am a member of' do
         projects_page.expect_projects_listed(project)
-        projects_page.expect_projects_not_listed(public_project, development_project)
+        projects_page.expect_projects_not_listed(public_project,
+                                                 development_project,
+                                                 on_track_project,
+                                                 off_track_project,
+                                                 at_risk_project)
 
         projects_page.expect_filters_container_hidden
         projects_page.expect_filter_set 'member_of'
-      end
-    end
-
-    context 'with the "Public projects" filter' do
-      before do
-        projects_page.set_sidebar_filter 'Public projects'
-      end
-
-      it 'shows all public projects' do
-        projects_page.expect_projects_listed(public_project)
-        projects_page.expect_projects_not_listed(project,
-                                                 development_project)
-
-        projects_page.expect_filters_container_hidden
-        projects_page.expect_filter_set 'public'
       end
     end
 
@@ -323,10 +321,67 @@ RSpec.describe 'Projects index page',
         projects_page.expect_projects_listed(archived_project, archived: true)
         projects_page.expect_projects_not_listed(public_project,
                                                  project,
-                                                 development_project)
+                                                 development_project,
+                                                 on_track_project,
+                                                 off_track_project,
+                                                 at_risk_project)
 
         projects_page.expect_filters_container_hidden
         projects_page.expect_filter_set 'active'
+      end
+    end
+
+    context 'with the "On track" filter' do
+      before do
+        projects_page.set_sidebar_filter 'On track'
+      end
+
+      it 'shows all projects having the on_track status' do
+        projects_page.expect_projects_listed(on_track_project)
+        projects_page.expect_projects_not_listed(public_project,
+                                                 project,
+                                                 development_project,
+                                                 off_track_project,
+                                                 at_risk_project)
+
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'project_status_code'
+      end
+    end
+
+    context 'with the "Off track" filter' do
+      before do
+        projects_page.set_sidebar_filter 'Off track'
+      end
+
+      it 'shows all projects having the off_track status' do
+        projects_page.expect_projects_listed(off_track_project)
+        projects_page.expect_projects_not_listed(public_project,
+                                                 project,
+                                                 development_project,
+                                                 on_track_project,
+                                                 at_risk_project)
+
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'project_status_code'
+      end
+    end
+
+    context 'with the "At risk" filter' do
+      before do
+        projects_page.set_sidebar_filter 'At risk'
+      end
+
+      it 'shows all projects having the off_track status' do
+        projects_page.expect_projects_listed(at_risk_project)
+        projects_page.expect_projects_not_listed(public_project,
+                                                 project,
+                                                 development_project,
+                                                 on_track_project,
+                                                 off_track_project)
+
+        projects_page.expect_filters_container_hidden
+        projects_page.expect_filter_set 'project_status_code'
       end
     end
   end

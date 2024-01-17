@@ -56,10 +56,12 @@ RSpec.describe 'Projects global menu item', :js, :with_cuprite do
 
     it 'renders the preset filters' do
       within '#main-menu' do
-        expect(page).to have_link text: I18n.t(:label_all_projects)
-        expect(page).to have_link text: I18n.t(:label_my_projects)
-        expect(page).to have_link text: I18n.t(:label_public_projects)
-        expect(page).to have_link text: I18n.t(:label_archived_projects)
+        expect(page).to have_link text: I18n.t(:'projects.lists.all')
+        expect(page).to have_link text: I18n.t(:'projects.lists.my')
+        expect(page).to have_link text: I18n.t(:'projects.lists.archived')
+        expect(page).to have_link text: I18n.t(:'activerecord.attributes.project.status_codes.on_track')
+        expect(page).to have_link text: I18n.t(:'activerecord.attributes.project.status_codes.off_track')
+        expect(page).to have_link text: I18n.t(:'activerecord.attributes.project.status_codes.at_risk')
       end
     end
   end

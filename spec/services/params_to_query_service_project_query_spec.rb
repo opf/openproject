@@ -56,27 +56,6 @@ RSpec.describe ParamsToQueryService, 'project query' do
       end
     end
 
-    context 'with an empty filters string' do
-      let(:params) do
-        { filters: "" }
-      end
-
-      it 'returns a new query' do
-        expect(service_call)
-          .to be_a Queries::Projects::ProjectQuery
-      end
-
-      it 'applies no filter' do
-        expect(service_call.filters)
-          .to be_empty
-      end
-
-      it 'does not apply sorting' do
-        expect(service_call.orders)
-          .to be_empty
-      end
-    end
-
     context 'when sending neither filters nor orders props' do
       it 'returns a new query' do
         expect(service_call)
@@ -97,95 +76,6 @@ RSpec.describe ParamsToQueryService, 'project query' do
         expect(service_call.orders)
           .to be_empty
       end
-    end
-  end
-
-  context "when providing the 'all' identifier" do
-    let(:params) { { query_id: 'all' } }
-
-    it 'returns a new query' do
-      expect(service_call)
-        .to be_a Queries::Projects::ProjectQuery
-    end
-
-    it 'sets the expected name' do
-      expect(service_call.name)
-        .to eql I18n.t(:'projects.sidemenu.all')
-    end
-
-    it 'applies the active filter' do
-      expect(service_call.filters.map { |f| { field: f.field, operator: f.operator, values: f.values } })
-        .to contain_exactly({ field: :active, operator: "=", values: ["t"] })
-    end
-
-    it 'sorts by lft asc' do
-      expect(service_call.orders.map { |o| { attribute: o.attribute, direction: o.direction } })
-        .to eql [{ attribute: :lft, direction: :asc }]
-    end
-  end
-
-  context "when providing the 'my' identifier" do
-    let(:params) { { query_id: 'my' } }
-
-    it 'returns a new query' do
-      expect(service_call)
-        .to be_a Queries::Projects::ProjectQuery
-    end
-
-    it 'sets the expected name' do
-      expect(service_call.name)
-        .to eql I18n.t(:'projects.sidemenu.my')
-    end
-
-    it 'applies the active filter' do
-      expect(service_call.filters.map { |f| { field: f.field, operator: f.operator, values: f.values } })
-        .to contain_exactly({ field: :member_of, operator: "=", values: ["t"] })
-    end
-
-    it 'sorts by lft asc' do
-      expect(service_call.orders.map { |o| { attribute: o.attribute, direction: o.direction } })
-        .to eql [{ attribute: :lft, direction: :asc }]
-    end
-  end
-
-  context "when providing the 'archived' identifier" do
-    let(:params) { { query_id: 'archived' } }
-
-    it 'returns a new query' do
-      expect(service_call)
-        .to be_a Queries::Projects::ProjectQuery
-    end
-
-    it 'sets the expected name' do
-      expect(service_call.name)
-        .to eql I18n.t(:'projects.sidemenu.archived')
-    end
-
-    it 'applies the active filter' do
-      expect(service_call.filters.map { |f| { field: f.field, operator: f.operator, values: f.values } })
-        .to contain_exactly({ field: :active, operator: "=", values: ["f"] })
-    end
-
-    it 'sorts by lft asc' do
-      expect(service_call.orders.map { |o| { attribute: o.attribute, direction: o.direction } })
-        .to eql [{ attribute: :lft, direction: :asc }]
-    end
-  end
-
-  context 'for a persisted query' do
-    let(:projects_query) { build_stubbed(:project_query) }
-    let(:params) { { query_id: projects_query.id.to_s } }
-
-    before do
-      allow(Queries::Projects::ProjectQuery)
-        .to receive(:find)
-        .with(projects_query.id.to_s)
-        .and_return(projects_query)
-    end
-
-    it 'returns the query' do
-      expect(service_call)
-        .to eq projects_query
     end
   end
 end

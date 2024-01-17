@@ -28,18 +28,15 @@
 
 class ParamsToQueryService
   attr_accessor :user,
-                :query_class,
-                :model
+                :query_class
 
   def initialize(model, user, query_class: nil)
-    self.model = model
+    set_query_class(query_class, model)
     self.user = user
-
-    set_query_class(query_class)
   end
 
   def call(params)
-    query = find_query(params[:query_id])
+    query = new_query
 
     query = apply_filters(query, params)
     apply_order(query, params)
@@ -48,20 +45,12 @@ class ParamsToQueryService
 
   private
 
-  def find_query(query_id)
-    if query_factory_class && query_id
-      query_factory_class.find(query_id)
-    elsif query_class.respond_to?(:find) && query_id
-      query_class.find(query_id)
-    else
-      query_class.new(user:)
-    end
+  def new_query
+    query_class.new(user:)
   end
 
   def apply_filters(query, params)
-    return query if params[:filters].blank?
-
-    query.filters = []
+    return query unless params[:filters]
 
     filters = parse_filters_from_json(params[:filters])
 
@@ -76,8 +65,6 @@ class ParamsToQueryService
 
   def apply_order(query, params)
     return query unless params[:sortBy]
-
-    query.orders = []
 
     sort = parse_sorting_from_json(params[:sortBy])
 
@@ -140,7 +127,7 @@ class ParamsToQueryService
     @conversion_model ||= ::API::Utilities::QueryFiltersNameConverterContext.new(query_class)
   end
 
-  def set_query_class(query_class)
+  def set_query_class(query_class, model)
     self.query_class = if query_class
                          query_class
                        else
@@ -148,12 +135,5 @@ class ParamsToQueryService
 
                          "::Queries::#{model_name.pluralize}::#{model_name.demodulize}Query".constantize
                        end
-  end
-
-  def query_factory_class
-    return nil unless Queries.const_defined?(model.name.pluralize) &&
-      "::Queries::#{model.name.pluralize}".constantize.const_defined?(:Factory)
-
-    "::Queries::#{model.name.pluralize}::Factory".constantize
   end
 end

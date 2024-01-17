@@ -41,7 +41,7 @@ module Pages
       end
 
       def expect_projects_listed(*projects, archived: false)
-        within '#project-table' do
+        within_table do
           projects.each do |project|
             displayed_name = if archived
                                "ARCHIVED #{project.name}"
@@ -55,7 +55,7 @@ module Pages
       end
 
       def expect_projects_not_listed(*projects)
-        within '#project-table' do
+        within_table do
           projects.each do |project|
             case project
             when Project
@@ -254,6 +254,10 @@ module Pages
         accept_confirm do
           click_more_menu_item('Delete')
         end
+      end
+
+      def within_table(&)
+        within '#project-table', &
       end
 
       private

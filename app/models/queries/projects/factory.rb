@@ -40,28 +40,56 @@ class Queries::Projects::Factory
         static_query_my
       when 'archived'
         static_query_archived
+      when 'on_track'
+        static_query_status_on_track
+      when 'off_track'
+        static_query_status_off_track
+      when 'at_risk'
+        static_query_status_at_risk
       end
     end
 
     def static_query_all
-      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.lists.all')) do |query|
+      list_with(:'projects.lists.all') do |query|
         query.where('active', '=', OpenProject::Database::DB_VALUE_TRUE)
-
-        query.order(lft: :asc)
       end
     end
 
     def static_query_my
-      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.lists.my')) do |query|
+      list_with(:'projects.lists.my') do |query|
         query.where('member_of', '=', OpenProject::Database::DB_VALUE_TRUE)
-
-        query.order(lft: :asc)
       end
     end
 
     def static_query_archived
-      Queries::Projects::ProjectQuery.new(name: I18n.t(:'projects.lists.archived')) do |query|
+      list_with(:'projects.lists.archived') do |query|
         query.where('active', '=', OpenProject::Database::DB_VALUE_FALSE)
+      end
+    end
+
+    def static_query_status_on_track
+      list_with(:'activerecord.attributes.project.status_codes.on_track') do |query|
+        query.where('project_status_code', '=', Project.status_codes[:on_track])
+      end
+    end
+
+    def static_query_status_off_track
+      list_with(:'activerecord.attributes.project.status_codes.off_track') do |query|
+        query.where('project_status_code', '=', Project.status_codes[:off_track])
+      end
+    end
+
+    def static_query_status_at_risk
+      list_with(:'activerecord.attributes.project.status_codes.at_risk') do |query|
+        query.where('project_status_code', '=', Project.status_codes[:at_risk])
+      end
+    end
+
+    private
+
+    def list_with(name)
+      Queries::Projects::ProjectQuery.new(name: I18n.t(name)) do |query|
+        yield query
 
         query.order(lft: :asc)
       end

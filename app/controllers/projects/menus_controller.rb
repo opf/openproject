@@ -42,7 +42,9 @@ module Projects
         OpenProject::Menu::MenuGroup.new(header: nil,
                                          children: static_filters),
         OpenProject::Menu::MenuGroup.new(header: I18n.t(:'projects.lists.my_private'),
-                                         children: my_filters)
+                                         children: my_filters),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t(:'activerecord.attributes.project.status_code'),
+                                         children: static_status_filters)
       ]
     end
 
@@ -51,6 +53,14 @@ module Projects
         query_menu_item(::Queries::Projects::Factory.static_query_all, selected: no_query_props_or_all?),
         query_menu_item(::Queries::Projects::Factory.static_query_my, id: 'my'),
         query_menu_item(::Queries::Projects::Factory.static_query_archived, id: 'archived')
+      ]
+    end
+
+    def static_status_filters
+      [
+        query_menu_item(::Queries::Projects::Factory.static_query_status_on_track, id: 'on_track'),
+        query_menu_item(::Queries::Projects::Factory.static_query_status_off_track, id: 'off_track'),
+        query_menu_item(::Queries::Projects::Factory.static_query_status_at_risk, id: 'at_risk')
       ]
     end
 
