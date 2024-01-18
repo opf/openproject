@@ -66,7 +66,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     private
 
     def outbound_response(method:, relative_path:, payload:, token:)
-      response = Util
+      response = OpenProject
                    .httpx
                    .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
                                     'Accept' => 'application/json',

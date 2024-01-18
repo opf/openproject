@@ -29,8 +29,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
   MINIMAL_NEXTCLOUD_VERSION = 22
   AUTHORIZATION_HEADER = "Bearer TESTBEARERTOKEN".freeze
 
-  HTTPX_TIMEOUT_SETTINGS = { timeout: { connect_timeout: 5, read_timeout: 3 } }
-
+  HTTPX_TIMEOUT_SETTINGS = { timeout: { connect_timeout: 5, read_timeout: 3 } }.freeze
 
   def validate_each(contract, attribute, value)
     return if contract.model.changed_attributes.exclude?(attribute)
@@ -46,7 +45,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
 
     response =
       begin
-        HTTPX
+        OpenProject.httpx
           .with(HTTPX_TIMEOUT_SETTINGS)
           .get(uri, headers: { "Ocs-Apirequest" => "true", "Accept" => "application/json" })
       rescue StandardError => e
@@ -78,7 +77,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
     uri = URI.parse(File.join(value, 'index.php/apps/integration_openproject/check-config'))
     response =
       begin
-        HTTPX
+        OpenProject.httpx
           .with(HTTPX_TIMEOUT_SETTINGS)
           .get(uri, headers: { "Authorization" => AUTHORIZATION_HEADER })
       rescue StandardError => e

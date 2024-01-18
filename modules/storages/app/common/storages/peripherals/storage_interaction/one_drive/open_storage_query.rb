@@ -51,7 +51,7 @@ module Storages
           private
 
           def request_drive(token)
-            response = HTTPX.get(
+            response = OpenProject.httpx.get(
               Util.join_uri_path(@uri, drive_uri_path),
               headers: { 'Authorization' => "Bearer #{token.access_token}" }
             )

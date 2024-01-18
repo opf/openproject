@@ -46,7 +46,7 @@ module Storages
             folder, filename = data.slice('parent', 'file_name').values
 
             Util.using_user_token(@storage, user) do |token|
-              response = HTTPX
+              response = OpenProject.httpx
                            .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
                                             'Content-Type' => 'application/json' })
                            .post(
