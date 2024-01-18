@@ -28,7 +28,7 @@
 
 module CustomFieldsHelper
   def custom_fields_tabs
-    [
+    tabs = [
       {
         name: 'WorkPackageCustomField',
         partial: 'custom_fields/tab',
@@ -41,13 +41,13 @@ module CustomFieldsHelper
         path: custom_fields_path(tab: :TimeEntryCustomField),
         label: :label_spent_time
       },
-      # ProjecCustomFields now managed in a different UI
-      # {
-      #   name: 'ProjectCustomField',
-      #   partial: 'custom_fields/tab',
-      #   path: custom_fields_path(tab: :ProjectCustomField),
-      #   label: :label_project_plural
-      # },
+
+      {
+        name: 'ProjectCustomField',
+        partial: 'custom_fields/tab',
+        path: custom_fields_path(tab: :ProjectCustomField),
+        label: :label_project_plural
+      },
       {
         name: 'VersionCustomField',
         partial: 'custom_fields/tab',
@@ -67,6 +67,11 @@ module CustomFieldsHelper
         label: :label_group_plural
       }
     ]
+
+    # ProjecCustomFields now managed in a different UI
+    tabs.delete_if { |tab| tab[:name] == 'ProjectCustomField' && OpenProject::FeatureDecisions.project_attributes_active? }
+
+    tabs
   end
 
   # Return custom field html tag corresponding to its format
