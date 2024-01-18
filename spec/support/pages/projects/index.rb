@@ -243,11 +243,11 @@ module Pages
       def save_query(name)
         click_more_menu_item('Save')
 
-        within '#op-project-list-save-dialog' do
+        within '[data-test-selector="project-query-name"]' do
           fill_in 'Name', with: name
-
-          click_button 'Save'
         end
+
+        click_on 'Save'
       end
 
       def delete_query

@@ -290,6 +290,8 @@ en:
       my: 'My projects'
       archived: 'Archived projects'
       my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
 
     settings:
       change_identifier: Change identifier

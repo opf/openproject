@@ -31,12 +31,13 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render Projects::IndexPageHeaderComponent.new(
   projects: @projects,
   query: @query,
-  current_user:
+  current_user:,
+  state: params[:state]&.to_sym || :show
 ) %>
 
 <%= render(Projects::ProjectsFiltersComponent.new(query: @query)) do |component|
   if current_user.allowed_globally?(:add_project)
-    component.with_button( 
+    component.with_button(
       tag: :a,
       href: new_project_path,
       scheme: :primary,
@@ -51,7 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <div data-controller="project"
-  data-application-target="dynamic">
+     data-application-target="dynamic">
   <%= render Projects::TableComponent.new(
     rows: @projects,
     current_user: current_user,

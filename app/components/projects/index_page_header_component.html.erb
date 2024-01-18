@@ -1,105 +1,136 @@
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-  <% header.with_title(variant: :large, data: { 'test-selector': 'project-query-name'}) { page_title } %>
+  <% if show_state? %>
+    <% header.with_title(variant: :large, data: { 'test-selector': 'project-query-name'}) { page_title } %>
 
-  <% header.with_actions do %>
-    <%= render(
-          Primer::Beta::Button.new(
-            tag: :a,
-            href: activities_path,
-            size: :medium,
-            type: :submit,
-            aria: { label: t(:label_overall_activity) },
-            mr: BUTTON_MARGIN_RIGHT
-          )
-        ) do
+    <% header.with_actions do %>
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              href: activities_path,
+              size: :medium,
+              type: :submit,
+              aria: { label: t(:label_overall_activity) },
+              mr: BUTTON_MARGIN_RIGHT
+            )
+          ) do
           t(:label_overall_activity)
         end
-    %>
+      %>
 
-    <%= render(
-          Primer::Beta::Button.new(
-            tag: :a,
-            href: gantt_portfolio_query_link,
-            size: :medium,
-            disabled: gantt_portfolio_project_ids.empty?,
-            type: :submit,
-            aria: { label: t('projects.index.open_as_gantt') },
-            mr: BUTTON_MARGIN_RIGHT,
-            id: 'projects-index-open-as-gantt',
-            target: '_blank'
-          )
-        ) do |button|
-          button.with_leading_visual_icon(icon: 'op-view-timeline')
-          button.with_trailing_visual_icon(icon: 'link-external')
-          button.with_tooltip(text: gantt_portfolio_title)
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              href: gantt_portfolio_query_link,
+              size: :medium,
+              disabled: gantt_portfolio_project_ids.empty?,
+              type: :submit,
+              aria: { label: t('projects.index.open_as_gantt') },
+              mr: BUTTON_MARGIN_RIGHT,
+              id: 'projects-index-open-as-gantt',
+              target: '_blank'
+            )
+          ) do |button|
+        button.with_leading_visual_icon(icon: 'op-view-timeline')
+        button.with_trailing_visual_icon(icon: 'link-external')
+        button.with_tooltip(text: gantt_portfolio_title)
 
-          t('projects.index.open_as_gantt')
-        end %>
+        t('projects.index.open_as_gantt')
+      end %>
 
-    <%= render(Primer::Alpha::ActionMenu.new) do |menu|
-      menu.with_show_button(icon: 'op-kebab-vertical', 'aria-label': t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' })
+      <%= render(Primer::Alpha::ActionMenu.new) do |menu|
+        menu.with_show_button(icon: 'op-kebab-vertical', 'aria-label': t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' })
 
-      if current_user.logged?
-        menu.with_item(
-          label: t('button_save'),
-          content_arguments: { 'data-show-dialog-id': SAVE_MODAL_ID }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :'op-save')
+        if current_user.logged?
+          menu.with_item(
+            label: t('button_save'),
+            href: projects_path(filters: params[:filters], state: STATE_EDIT)
+          ) do |item|
+            item.with_leading_visual_icon(icon: :'op-save')
+          end
         end
-      end
 
-      if current_user.admin?
-        menu.with_item(
-          label: t('button_configure'),
-          href: admin_settings_projects_path,
-          content_arguments: { target: '_blank' }
-        ) do |item|
-          item.with_leading_visual_icon(icon: :gear)
+        if current_user.admin?
+          menu.with_item(
+            label: t('button_configure'),
+            href: admin_settings_projects_path,
+            content_arguments: { target: '_blank' }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :gear)
+          end
         end
-      end
 
-      menu.with_item(
-        label: t('js.label_export'),
-        content_arguments: { 'data-show-dialog-id': EXPORT_MODAL_ID }
-      ) do |item|
-        item.with_leading_visual_icon(icon: 'op-file-download')
-      end
-
-      if query.persisted?
         menu.with_item(
-          label: t(:button_delete),
-          href: projects_query_path(query),
-          form_arguments: {
-            method: :delete,
-            data: {
-              confirm: t("text_are_you_sure"),
-              turbo: 'false'
+          label: t('js.label_export'),
+          content_arguments: { 'data-show-dialog-id': EXPORT_MODAL_ID }
+        ) do |item|
+          item.with_leading_visual_icon(icon: 'op-file-download')
+        end
+
+        if query.persisted?
+          menu.with_item(
+            label: t(:button_delete),
+            href: projects_query_path(query),
+            form_arguments: {
+              method: :delete,
+              data: {
+                confirm: t("text_are_you_sure"),
+                turbo: 'false'
+              }
             }
-          }
-        ) do |item|
-          item.with_leading_visual_icon(icon: 'trash')
+          ) do |item|
+            item.with_leading_visual_icon(icon: 'trash')
+          end
         end
       end
-    end
-    %>
-  <% end %>
-<% end %>
-
-<%= render(Primer::Alpha::Dialog.new(title: 'Save list', id: SAVE_MODAL_ID)) do |d| %>
-  <% d.with_header(variant: :large) %>
-
-  <%= primer_form_with(url: projects_queries_path) do %>
-
-    <%= hidden_field_tag :filters, params[:filters] %>
-
-    <%= render(Primer::Alpha::Dialog::Body.new) do %>
-      <%= render(Primer::Alpha::TextField.new(name: 'name', label: t(:label_name), required: true, autofocus: true )) %>
+      %>
     <% end %>
+  <% else %>
+    <% header.with_title(font_size: :small, mt: 2, mb: 2, data: { 'test-selector': 'project-query-name'}) do %>
+      <%= primer_form_with(url: projects_queries_path, id: 'project-save-form') do %>
+        <%= hidden_field_tag :filters, params[:filters] %>
 
-    <%= render(Primer::Alpha::Dialog::Footer.new) do %>
-      <%= render(Primer::ButtonComponent.new(type: :submit, scheme: :primary, data: { "close-dialog-id": SAVE_MODAL_ID })) { "Save" } %>
+        <%= render(
+             Primer::Alpha::TextField.new(
+               visually_hide_label: true,
+               autofocus: true,
+               required: true,
+               name: 'name',
+               label: Queries::Projects::ProjectQuery.human_attribute_name(:name),
+               placeholder: t(:'projects.lists.new.placeholder')))
+        %>
+      <% end %>
+
+      <% header.with_actions do %>
+        <%= render(
+             Primer::Beta::Button.new(
+               type: :submit,
+               scheme: :primary,
+               size: :medium,
+               form: 'project-save-form',
+               aria: { label: I18n.t(:button_save) },
+               mr: BUTTON_MARGIN_RIGHT,
+               ml: 1
+               )
+           ) do
+           I18n.t(:button_save)
+         end
+        %>
+
+        <%= render(
+              Primer::Beta::Button.new(
+                tag: :a,
+                href: projects_path(filters: params[:filters]),
+                size: :medium,
+                aria: { label: I18n.t(:button_cancel) }
+              )
+            ) do
+          I18n.t(:button_cancel)
+        end
+        %>
+      <% end %>
     <% end %>
   <% end %>
+
 <% end %>
 
 <%= render(Primer::Alpha::Dialog.new(title: t('js.label_export'),

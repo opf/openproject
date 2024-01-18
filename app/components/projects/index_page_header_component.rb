@@ -29,13 +29,30 @@
 # ++
 
 class Projects::IndexPageHeaderComponent < ApplicationComponent
-  options :projects,
-          :current_user,
-          :query
+  include OpPrimer::ComponentHelpers
+  include Primer::FetchOrFallbackHelper
+
+  attr_accessor :projects,
+                :current_user,
+                :query,
+                :state
 
   BUTTON_MARGIN_RIGHT = 2
   SAVE_MODAL_ID = 'op-project-list-save-dialog'
   EXPORT_MODAL_ID = 'op-project-list-export-dialog'
+
+  STATE_DEFAULT = :show
+  STATE_EDIT = :edit
+  STATE_OPTIONS = [STATE_DEFAULT, STATE_EDIT].freeze
+
+  def initialize(projects:, current_user:, query:, state: :show)
+    super
+
+    self.projects = projects
+    self.current_user = current_user
+    self.query = query
+    self.state = fetch_or_fallback(STATE_OPTIONS, state)
+  end
 
   def gantt_portfolio_query_link
     generator = ::Projects::GanttQueryGeneratorService.new(gantt_portfolio_project_ids)
@@ -63,5 +80,9 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     end
 
     title
+  end
+
+  def show_state?
+    state == :show
   end
 end
