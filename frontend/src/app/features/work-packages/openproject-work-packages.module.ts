@@ -414,6 +414,7 @@ import {
 import {
   WorkPackageShareModalComponent,
 } from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
+import { WorkPackageViewToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component';
 
 @NgModule({
   imports: [
@@ -644,6 +645,7 @@ import {
     // Card view
     WorkPackageCardViewComponent,
     WorkPackageSingleCardComponent,
+    WorkPackageViewToggleButtonComponent,
 
     // Notifications
     WorkPackageMarkNotificationButtonComponent,

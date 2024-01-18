@@ -47,16 +47,11 @@ RSpec.describe 'Work package timeline navigation',
            due_date: Date.current + 5.days)
   end
 
-  let!(:query_tl) do
+  let!(:query) do
     query = build(:query_with_view_gantt, user:, project:)
-    query.column_names = ['id', 'type', 'subject']
-    query.filters.clear
-    query.add_filter('type_id', '=', [type2.id])
     query.timeline_visible = true
-    query.name = 'Query with Timeline'
 
     query.save!
-
     query
   end
 
@@ -93,6 +88,19 @@ RSpec.describe 'Work package timeline navigation',
       query.save!
       create(:view_work_packages_table,
              query:)
+
+      query
+    end
+
+    let!(:query_tl) do
+      query = build(:query_with_view_gantt, user:, project:)
+      query.column_names = ['id', 'type', 'subject']
+      query.filters.clear
+      query.add_filter('type_id', '=', [type2.id])
+      query.timeline_visible = true
+      query.name = 'Query with Timeline'
+
+      query.save!
 
       query
     end
@@ -144,7 +152,7 @@ RSpec.describe 'Work package timeline navigation',
   end
 
   it 'can save the open state and zoom of timeline' do
-    wp_timeline.visit_query query_tl
+    wp_timeline.visit_query query
     wp_timeline.expect_work_package_listed(work_package)
 
     # Should be initially open
@@ -162,7 +170,7 @@ RSpec.describe 'Work package timeline navigation',
     wp_timeline.expect_zoom_at :weeks
 
     # Save the query
-    settings_menu.open_and_save_query 'foobar'
+    settings_menu.open_and_save_query_as 'foobar'
     wp_timeline.expect_title 'foobar'
 
     # Check the query
@@ -201,8 +209,18 @@ RSpec.describe 'Work package timeline navigation',
     end
     let(:hierarchy) { Components::WorkPackages::Hierarchies.new }
 
+    let!(:query) do
+      query = build(:query_with_view_gantt, user:, project:)
+      query.show_hierarchies = true
+      query.timeline_visible = true
+
+      query.save!
+      query
+    end
+
     it 'toggles the hierarchy in both views' do
-      wp_timeline.visit_query query_tl
+      wp_timeline.visit_query query
+      loading_indicator_saveguard
       wp_timeline.expect_work_package_listed(work_package)
       wp_timeline.expect_work_package_listed(child_work_package)
 

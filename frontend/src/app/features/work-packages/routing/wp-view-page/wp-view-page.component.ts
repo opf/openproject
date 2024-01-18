@@ -45,6 +45,7 @@ import { of } from 'rxjs';
 import { WorkPackageFoldToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component';
 import { OpProjectIncludeComponent } from 'core-app/shared/components/project-include/project-include.component';
 import { OpBaselineModalComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-modal/baseline-modal.component';
+import { WorkPackageViewToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component';
 
 @Component({
   selector: 'wp-view-page',
@@ -78,6 +79,11 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     },
     {
       component: WorkPackageFilterButtonComponent,
+    },
+    {
+      component: WorkPackageViewToggleButtonComponent,
+      containerClasses: 'hidden-for-tablet',
+      show: () => !this.configuration.activeFeatureFlags.includes('showSeparateGanttModule'),
     },
     {
       component: WorkPackageFoldToggleButtonComponent,
@@ -120,7 +126,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
   }
 
   private get stateName() {
-    if (this.$state.current.name?.includes('gantt')) {
+    if (this.configuration.activeFeatureFlags.includes('showSeparateGanttModule') && this.$state.current.name?.includes('gantt')) {
       return 'gantt.partitioned.list.new';
     }
 
