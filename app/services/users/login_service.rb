@@ -48,9 +48,9 @@ module Users
         User.current = user
 
         set_autologin_cookie if autologin_requested
-
-        successful_login
       end
+
+      successful_login
     end
 
     private
