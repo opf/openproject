@@ -87,6 +87,35 @@ RSpec.describe Users::LoginService, type: :model do
           expect(session[:what]).to be_nil
           expect(session[:user_id]).to eq input_user.id
         end
+
+        context 'if provider retains oidc session values' do
+          let(:retained_values) { %w[omniauth.oidc_sid] }
+          let(:sso_provider) do
+            {
+              name: 'oidc',
+              retain_from_session: %w[omniauth.oidc_sid]
+            }
+          end
+
+          it 'retains an oidc session token (Regression #52185)' do
+            expect(OpenProject::Hook)
+              .to receive(:call_hook) # rubocop:disable RSpec/MessageSpies
+                    .with(
+                      :user_logged_in,
+                      {
+                        request: {},
+                        user: input_user,
+                        session: hash_including('omniauth.oidc_sid' => '1234', user_id: input_user.id)
+                      }
+                    )
+            session[:omniauth_provider] = 'provider_name'
+            session['omniauth.oidc_sid'] = '1234'
+
+            subject
+
+            expect(session['omniauth.oidc_sid']).to eq '1234'
+          end
+        end
       end
 
       it 'retains present flash values' do
