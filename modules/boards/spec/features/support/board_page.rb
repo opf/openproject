@@ -174,6 +174,13 @@ module Pages
       drag_n_drop_element(from: source, to: target)
     end
 
+    def move_card_by_name(text, from:, to:)
+      source = page.find("#{list_selector(from)} [data-test-selector='op-wp-single-card']", text: text)
+      target = page.find list_selector(to)
+
+      drag_n_drop_element(from: source, to: target)
+    end
+
     def wait_for_lists_reload
       # wait for reload of lists to start and finish
       # Not sure if that's the most reliable way to do it, but there is nothing visible

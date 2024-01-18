@@ -143,7 +143,7 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
     sleep 2
 
     # Move bug to open
-    board_page.move_card(1, from: 'Closed', to: 'Open')
+    board_page.move_card_by_name('Closed bug item', from: 'Closed', to: 'Open')
     board_page.wait_for_lists_reload
 
     board_page.expect_card('Closed', 'Closed bug item', present: false)
