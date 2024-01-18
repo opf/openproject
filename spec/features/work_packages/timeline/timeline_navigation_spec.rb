@@ -103,6 +103,8 @@ RSpec.describe 'Work package timeline navigation',
       query.name = 'Query with Timeline'
 
       query.save!
+      create(:view_gantt,
+             query:)
 
       query
     end
