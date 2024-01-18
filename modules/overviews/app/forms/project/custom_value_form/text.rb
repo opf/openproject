@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::Text < Project::CustomValueForm::Base
+class Project::CustomValueForm::Text < Project::CustomValueForm::Base::Input
   form do |custom_value_form|
     # TODO: rich_text_area not working yet
     # Uncaught DOMException: Failed to execute 'querySelector' on 'Element': '#project_project[new_custom_field_values_attributes][xyz][value]' is not a valid selector.

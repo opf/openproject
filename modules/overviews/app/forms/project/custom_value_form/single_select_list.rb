@@ -26,29 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::SingleSelectList < Project::CustomValueForm::Base
+class Project::CustomValueForm::SingleSelectList < Project::CustomValueForm::Base::Autocomplete::SingleValueInput
   form do |custom_value_form|
     custom_value_form.autocompleter(**base_config) do |list|
       @custom_field_value.custom_field.custom_options.each do |custom_option|
         list.option(
           label: custom_option.value, value: custom_option.id,
-          selected: custom_option.id == @custom_field_value.value&.to_i
+          selected: selected?(custom_option)
         )
       end
     end
   end
 
-  def base_config
-    super.merge(
-      {
-        include_blank: @custom_field.is_required? ? false : '_blank', # autocompleter does not send '_blank' as value when no option is selected
-        autocomplete_options: {
-          multiple: false,
-          decorated: true,
-          inputId: id,
-          inputName: name
-        }
-      }
-    )
+  private
+
+  def decorated
+    true
+  end
+
+  def selected?(custom_option)
+    custom_option.id == @custom_field_value.value&.to_i || custom_option.id == @custom_field.default_value&.to_i
   end
 end

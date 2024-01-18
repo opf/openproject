@@ -720,6 +720,14 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
             end
           end
         end
+
+        describe 'with support for user groups' do
+          # TODO
+        end
+
+        describe 'with support for user placeholders' do
+          # TODO
+        end
       end
 
       describe 'with multi list CF' do
@@ -833,18 +841,4 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
       end
     end
   end
-
-  # TODO: share examples in order to reduce code duplication
-  # shared_examples 'a project custom field' do
-  #   it 'shows the correct value for the project custom field if given' do
-  #     overview_page.visit_page
-
-  #     overview_page.within_async_loaded_sidebar do
-  #       overview_page.within_custom_field_container(custom_field) do
-  #         expect(page).to have_text custom_field.name
-  #         expect(page).to have_text custom_field.formatted_value
-  #       end
-  #     end
-  #   end
-  # end
 end

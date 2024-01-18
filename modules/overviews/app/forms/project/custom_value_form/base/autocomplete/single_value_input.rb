@@ -26,37 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::Base < ApplicationForm
-  def initialize(custom_field:, custom_field_value:, project:)
-    @custom_field = custom_field
-    @custom_field_value = custom_field_value
-    @project = project
+class Project::CustomValueForm::Base::Autocomplete::SingleValueInput < Project::CustomValueForm::Base::Input
+  def base_config
+    super.merge(
+      {
+        autocomplete_options:
+      },
+      invalid: invalid?,
+      validation_message:,
+      wrapper_data_attributes: {
+        'qa-field-name': qa_field_name
+      }
+    )
   end
 
-  def base_config
+  def autocomplete_options
     {
-      name:,
-      id:,
-      scope_name_to_model: false,
-      scope_id_to_model: false,
-      placeholder: @custom_field.name,
-      label: @custom_field.name,
-      value: @custom_field_value.value,
-      required: @custom_field.is_required?,
-      invalid: @custom_field_value.errors.any?,
-      validation_message: @custom_field_value.errors.any? ? @custom_field_value.errors.full_messages&.join(" ") : nil
+      multiple: false,
+      decorated:,
+      inputId: id,
+      inputName: name
     }
   end
 
-  def name
-    if @custom_field_value.new_record?
-      "project[new_custom_field_values_attributes][#{@custom_field_value.custom_field_id}][value]"
-    else
-      "project[custom_field_values_attributes][#{@custom_field_value.id}][value]"
-    end
+  def decorated
+    raise NotImplementedError
   end
 
-  def id
-    name.gsub(/[\[\]]/, "_")
+  def value
+    nil
+  end
+
+  def invalid?
+    @custom_field_value.errors.any?
+  end
+
+  def validation_message
+    @custom_field_value.errors.full_messages.join(', ') if invalid?
   end
 end

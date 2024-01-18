@@ -1,4 +1,4 @@
-<%= render(FormControl.new(input: @input)) do %>
+<%= render(FormControl.new(input: @input, data: @wrapper_data_attributes)) do %>
   <% if decorated_select? %>
     <%= render partial: '/augmented/autocomplete_select_decoration',
                locals: {

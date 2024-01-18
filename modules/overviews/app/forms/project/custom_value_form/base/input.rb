@@ -26,12 +26,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::Int < Project::CustomValueForm::Base::Input
-  form do |custom_value_form|
-    custom_value_form.text_field(**base_config)
+class Project::CustomValueForm::Base::Input < ApplicationForm
+  def initialize(custom_field:, custom_field_value:, project:)
+    @custom_field = custom_field
+    @custom_field_value = custom_field_value
+    @project = project
   end
 
   def base_config
-    super.merge({ type: "number", step: 1 })
+    {
+      name:,
+      id:,
+      scope_name_to_model: false,
+      scope_id_to_model: false,
+      placeholder: @custom_field.name,
+      label: @custom_field.name,
+      value:,
+      required: @custom_field.is_required?,
+      data: {
+        'qa-field-name': qa_field_name
+      }
+    }
+  end
+
+  def name
+    if @custom_field_value.new_record?
+      "project[new_custom_field_values_attributes][#{@custom_field_value.custom_field_id}][value]"
+    else
+      "project[custom_field_values_attributes][#{@custom_field_value.id}][value]"
+    end
+  end
+
+  def id
+    name.gsub(/[\[\]]/, "_")
+  end
+
+  def value
+    @custom_field_value.value || @custom_field.default_value
+  end
+
+  def qa_field_name
+    @custom_field.attribute_name(:kebab_case)
   end
 end

@@ -50,6 +50,35 @@ module Pages
       def toast_type
         :rails
       end
+
+      def visit_page
+        visit path
+      end
+
+      def within_async_loaded_sidebar(&)
+        within '#project-attributes-sidebar' do
+          expect(page).to have_css("[data-qa-selector='project-attributes-sidebar-async-content']")
+          yield
+        end
+      end
+
+      def within_custom_field_section_container(section, &)
+        within("[data-qa-selector='project-custom-field-section-#{section.id}']", &)
+      end
+
+      def within_custom_field_container(custom_field, &)
+        within("[data-qa-selector='project-custom-field-#{custom_field.id}']", &)
+      end
+
+      def open_edit_dialog_for_section(section)
+        within_async_loaded_sidebar do
+          within_custom_field_section_container(section) do
+            page.find("[data-qa-selector='project-custom-field-section-edit-button']").click
+          end
+        end
+
+        expect(page).to have_css("[data-qa-selector='async-dialog-content']", wait: 5)
+      end
     end
   end
 end

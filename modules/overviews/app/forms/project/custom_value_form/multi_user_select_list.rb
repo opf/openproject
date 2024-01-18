@@ -26,46 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::MultiUserSelectList < Project::CustomValueForm::Base
-  def initialize(custom_field:, custom_field_values:, project:)
-    @custom_field = custom_field
-    @custom_field_values = custom_field_values
-    @project = project
-  end
-
+class Project::CustomValueForm::MultiUserSelectList < Project::CustomValueForm::Base::Autocomplete::MultiValueInput
   form do |custom_value_form|
     custom_value_form.autocompleter(**base_config)
   end
 
   private
 
-  def base_config
-    {
-      name:,
-      scope_name_to_model: false,
-      scope_id_to_model: false, # autocompleter does not respect scope_id_to_model = false
-      placeholder: @custom_field.name,
-      label: @custom_field.name,
-      required: @custom_field.is_required?,
-      autocomplete_options: {
-        multiple: true,
-        # decorated: true,
-        inputId: id,
-        placeholder: "Search for users",
-        resource: 'principals',
-        filters: [{ name: 'type', operator: '=', values: ['User'] },
-                  { name: 'member', operator: '=', values: ['1'] }],
-        searchKey: 'any_name_attribute',
-        inputName: name,
-        inputValue: input_value
-      },
-      invalid: invalid?,
-      validation_message:
-    }
+  def decorated
+    false
+  end
+
+  def autocomplete_options
+    super.merge({
+                  placeholder: "Search for users",
+                  resource: 'principals',
+                  filters:,
+                  searchKey: 'any_name_attribute',
+                  inputValue: input_value
+                })
   end
 
   def name
     "project[multi_user_custom_field_values_attributes][#{@custom_field.id}][comma_seperated_values][]"
+  end
+
+  def filters
+    [
+      { name: 'type', operator: '=', values: ['User', 'Group', 'PlaceholderUser'] },
+      { name: 'member', operator: '=', values: [@project.id.to_s] },
+      { name: 'status', operator: '!', values: [User.statuses["locked"].to_s] }
+    ]
   end
 
   def input_value
@@ -78,13 +69,5 @@ class Project::CustomValueForm::MultiUserSelectList < Project::CustomValueForm::
 
     filters = [user_filter, id_filter]
     URI.encode_www_form("filters" => filters.to_json)
-  end
-
-  def invalid?
-    @custom_field_values.any? { |custom_field_value| custom_field_value.errors.any? }
-  end
-
-  def validation_message
-    @custom_field_values.map { |custom_field_value| custom_field_value.errors.full_messages }.join(', ') if invalid?
   end
 end

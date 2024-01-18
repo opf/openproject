@@ -14,7 +14,7 @@
               id: "edit-project-attributes-dialog-#{@project_custom_field_section.id}",
               src: project_attribute_section_dialog_path(project_id: @project.id, section_id: @project_custom_field_section.id),
               size: :medium_portrait,
-              title: "#{t('label_edit')} #{ @project_custom_field_section.name }",
+              title: @project_custom_field_section.name,
               button_icon: :pencil,
               button_attributes: { scheme: :invisible, data: {
                 qa_selector: "project-custom-field-section-edit-button"

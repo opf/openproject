@@ -26,29 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::SingleUserSelectList < Project::CustomValueForm::Base
+class Project::CustomValueForm::SingleUserSelectList < Project::CustomValueForm::Base::Autocomplete::SingleValueInput
   form do |custom_value_form|
     custom_value_form.autocompleter(**base_config)
   end
 
-  def base_config
+  private
+
+  def decorated
+    false
+  end
+
+  def autocomplete_options
     super.merge({
-                  autocomplete_options: {
-                    inputId: id,
-                    placeholder: "Search for a user",
-                    resource: 'principals',
-                    filters: [{ name: 'type', operator: '=', values: ['User'] },
-                              { name: 'member', operator: '=', values: ['1'] }],
-                    searchKey: 'any_name_attribute',
-                    inputName: name,
-                    inputValue: input_value
-                    # focusDirectly: true,
-                    # appendTo: 'body',
-                    # disabled: @disabled
-                  },
-                  invalid: invalid?,
-                  validation_message:
+                  placeholder: "Search for a user",
+                  resource: 'principals',
+                  filters:,
+                  searchKey: 'any_name_attribute',
+                  inputValue: input_value
                 })
+  end
+
+  def filters
+    [
+      { name: 'type', operator: '=', values: ['User', 'Group', 'PlaceholderUser'] },
+      { name: 'member', operator: '=', values: [@project.id.to_s] },
+      { name: 'status', operator: '!', values: [User.statuses["locked"].to_s] }
+    ]
   end
 
   def input_value
@@ -56,18 +60,10 @@ class Project::CustomValueForm::SingleUserSelectList < Project::CustomValueForm:
   end
 
   def input_values_filter
-    user_filter = { "type" => { "operator" => "=", "values" => ["User"] } }
+    user_filter = { "type" => { "operator" => "=", "values" => ['User', 'Group', 'PlaceholderUser'] } }
     id_filter = { "id" => { "operator" => "=", "values" => @custom_field_value.value } }
 
     filters = [user_filter, id_filter]
     URI.encode_www_form("filters" => filters.to_json)
-  end
-
-  def invalid?
-    @custom_field_value.errors.any?
-  end
-
-  def validation_message
-    @custom_field_value.errors.full_messages.join(', ') if invalid?
   end
 end

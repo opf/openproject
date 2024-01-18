@@ -25,50 +25,53 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-class OverviewPage
-  include Rails.application.routes.url_helpers
-  include Capybara::DSL
-  include Capybara::RSpecMatchers
-  include RSpec::Matchers
 
-  def initialize(project)
+class Project::CustomValueForm::Base::Autocomplete::MultiValueInput < Project::CustomValueForm::Base::Input
+  def initialize(custom_field:, custom_field_values:, project:)
+    @custom_field = custom_field
+    @custom_field_values = custom_field_values
     @project = project
   end
 
-  def visit_page
-    visit project_path(@project.id)
+  def base_config
+    super.merge(
+      {
+        autocomplete_options:
+      },
+      invalid: invalid?,
+      validation_message:,
+      wrapper_data_attributes: {
+        'qa-field-name': qa_field_name
+      }
+    )
   end
 
-  def within_async_loaded_sidebar
-    within '#project-attributes-sidebar' do
-      expect(page).to have_css("[data-qa-selector='project-attributes-sidebar-async-content']")
-      yield
-    end
+  def autocomplete_options
+    {
+      multiple: true,
+      decorated:,
+      inputId: id,
+      inputName: name
+    }
   end
 
-  def within_custom_field_section_container(section, &)
-    within("[data-qa-selector='project-custom-field-section-#{section.id}']", &)
+  def decorated
+    raise NotImplementedError
   end
 
-  def within_custom_field_container(custom_field, &)
-    within("[data-qa-selector='project-custom-field-#{custom_field.id}']", &)
+  def name
+    "project[multi_custom_field_values_attributes][#{@custom_field.id}][values]"
   end
 
-  def open_edit_dialog_for_section(section)
-    within_async_loaded_sidebar do
-      within_custom_field_section_container(section) do
-        page.find("[data-qa-selector='project-custom-field-section-edit-button']").click
-      end
-    end
+  def value
+    nil
   end
 
-  def close_edit_dialog_for_section(section)
-    within("modal-dialog#edit-project-attributes-dialog-#{section.id}") do
-      page.find(".close-button").click
-    end
+  def invalid?
+    @custom_field_values.any? { |custom_field_value| custom_field_value.errors.any? }
   end
 
-  def within_edit_dialog_for_section(section, &)
-    within("modal-dialog#edit-project-attributes-dialog-#{section.id}", &)
+  def validation_message
+    @custom_field_values.map { |custom_field_value| custom_field_value.errors.full_messages }.join(', ') if invalid?
   end
 end

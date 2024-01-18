@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::Float < Project::CustomValueForm::Base
+class Project::CustomValueForm::Float < Project::CustomValueForm::Base::Input
   form do |custom_value_form|
     custom_value_form.text_field(**base_config)
   end

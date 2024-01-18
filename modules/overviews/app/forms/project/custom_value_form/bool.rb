@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::Bool < Project::CustomValueForm::Base
+class Project::CustomValueForm::Bool < Project::CustomValueForm::Base::Input
   form do |custom_value_form|
     custom_value_form.check_box(**base_config)
   end
 
   def base_config
     super.merge({
-      value: "1",
-      unchecked_value: "0",
-      checked: @custom_field_value&.typed_value == true
-    })
+                  value: "1",
+                  unchecked_value: "0",
+                  checked: @custom_field_value&.typed_value == true || @custom_field.default_value == true
+                })
   end
 end

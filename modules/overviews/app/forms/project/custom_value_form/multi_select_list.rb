@@ -26,19 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::MultiSelectList < Project::CustomValueForm::Base
-  def initialize(custom_field:, custom_field_values:, project:)
-    @custom_field = custom_field
-    @custom_field_values = custom_field_values
-    @project = project
-  end
-
+class Project::CustomValueForm::MultiSelectList < Project::CustomValueForm::Base::Autocomplete::MultiValueInput
   form do |custom_value_form|
     custom_value_form.autocompleter(**base_config) do |list|
       @custom_field.custom_options.each do |custom_option|
         list.option(
           label: custom_option.value, value: custom_option.id,
-          selected: @custom_field_values.pluck(:value).map { |value| value&.to_i }.include?(custom_option.id)
+          selected: selected?(custom_option)
         )
       end
     end
@@ -46,35 +40,17 @@ class Project::CustomValueForm::MultiSelectList < Project::CustomValueForm::Base
 
   private
 
-  def base_config
-    {
-      name:,
-      scope_name_to_model: false,
-      scope_id_to_model: false, # autocompleter does not respect scope_id_to_model = false
-      placeholder: @custom_field.name,
-      label: @custom_field.name,
-      required: @custom_field.is_required?,
-      include_blank: @custom_field.is_required? ? false : '_blank', # autocompleter does not send '_blank' as value when no option is selected
-      autocomplete_options: {
-        multiple: true,
-        decorated: true,
-        inputId: id,
-        inputName: name
-      },
-      invalid: invalid?,
-      validation_message:
-    }
+  def decorated
+    true
   end
 
-  def name
-    "project[multi_custom_field_values_attributes][#{@custom_field.id}][values]"
-  end
+  def selected?(custom_option)
+    cf_values = @custom_field_values.reject { |custom_field_value| custom_field_value.id.nil? }
 
-  def invalid?
-    @custom_field_values.any? { |custom_field_value| custom_field_value.errors.any? }
-  end
-
-  def validation_message
-    @custom_field_values.map { |custom_field_value| custom_field_value.errors.full_messages }.join(', ') if invalid?
+    if cf_values.any?
+      cf_values.pluck(:value).map { |value| value&.to_i }.include?(custom_option.id)
+    else
+      custom_option.default_value?
+    end
   end
 end

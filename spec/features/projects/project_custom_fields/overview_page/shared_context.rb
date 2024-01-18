@@ -30,8 +30,13 @@ RSpec.shared_context 'with seeded projects, members and project custom fields' d
   let(:project) { create(:project, name: 'Foo project', identifier: 'foo-project') }
   let(:other_project) { create(:project, name: 'Bar project', identifier: 'bar-project') }
 
-  let(:first_version) { create(:version, name: 'Version 1', project:) }
-  let(:second_version) { create(:version, name: 'Version 2', project:) }
+  let!(:first_version) { create(:version, name: 'Version 1', project:) }
+  let!(:second_version) { create(:version, name: 'Version 2', project:) }
+  let!(:third_version) { create(:version, name: 'Version 3', project:) }
+
+  shared_let(:reader_role) do
+    create(:project_role, permissions: %i[view_work_packages])
+  end
 
   let!(:admin) do
     create(:admin)
@@ -41,18 +46,21 @@ RSpec.shared_context 'with seeded projects, members and project custom fields' d
     create(:user,
            firstname: 'Member 1',
            lastname: 'In Project',
-           member_with_permissions: { project => %w[
-             view_work_packages
-           ] })
+           member_with_roles: { project => reader_role })
   end
 
   let!(:another_member_in_project) do
     create(:user,
            firstname: 'Member 2',
            lastname: 'In Project',
-           member_with_permissions: { project => %w[
-             view_work_packages
-           ] })
+           member_with_roles: { project => reader_role })
+  end
+
+  let!(:one_more_member_in_project) do
+    create(:user,
+           firstname: 'Member 3',
+           lastname: 'In Project',
+           member_with_roles: { project => reader_role })
   end
 
   let!(:section_for_input_fields) { create(:project_custom_field_section, name: 'Input fields') }
