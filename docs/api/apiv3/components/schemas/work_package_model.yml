@@ -93,6 +93,7 @@ properties:
   percentageDone:
     type: integer
     description: Amount of total completion for a work package
+    minimum: 0
     maximum: 100
   derivedPercentageDone:
     type: integer
