@@ -111,11 +111,13 @@ RSpec.describe 'updating a budget', :js do
 
       budget_page.edit_unit_costs! material_budget_item.id,
                                    units: 5,
-                                   comment: 'updated num stimpaks'
+                                   comment: 'updated num stimpaks',
+                                   fill_options: { clear: :backspace }
       budget_page.edit_labor_costs! labor_budget_item.id,
                                     hours: 3,
                                     user_name: user.name,
-                                    comment: 'updated treatment duration'
+                                    comment: 'updated treatment duration',
+                                    fill_options: { clear: :backspace }
 
       # Test for updated planned costs (Regression #31247)
       budget_page.expect_planned_costs! type: :material, row: 1, expected: '250.00 EUR'
