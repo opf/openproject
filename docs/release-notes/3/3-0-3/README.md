@@ -52,6 +52,6 @@ variable to configure the session store. See
 if you want to know how to do that exactly.
 
 And here is the full changelog
-[3.0.3](https://community.openproject.com/versions/313)
+[3.0.3](https://community.openproject.org/versions/313)
 
 

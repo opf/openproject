@@ -10,9 +10,9 @@ of choice.
 
 While being limited to the work package resource, the same principles apply throughout the API.
 
-## Fetching work packages from community.openproject.com
+## Fetching work packages from community.openproject.org
 
-Because it is readily at hand, we will first fetch a list of work packages from [community.openproject.com](https://community.openproject.com).
+Because it is readily at hand, we will first fetch a list of work packages from [community.openproject.org](https://community.openproject.org).
 
 In its simplest form, fetching work packages looks like this:
 

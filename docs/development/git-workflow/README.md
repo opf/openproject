@@ -91,7 +91,7 @@ git push origin <your feature branch>
 
 Create a pull request against a branch of of the `opf/openproject` repository, containing a **clear description** of what the pull request attempts to change and/or fix.
 
-If your pull request **does not contain a description** for what it does and what it's intentions are, we will reject it. If you are working on a specific work package from the [list](https://community.openproject.com/projects/openproject/work_packages), please include a link to that work package in the description, so we can track your work.
+If your pull request **does not contain a description** for what it does and what it's intentions are, we will reject it. If you are working on a specific work package from the [list](https://community.openproject.org/projects/openproject/work_packages), please include a link to that work package in the description, so we can track your work.
 
 The core contributor team will then review your pull request according to our [code review guideline](../code-review-guidelines/). Please note that you can add commits after the pull request has been created by pushing to the branch in your fork.
 

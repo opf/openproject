@@ -127,7 +127,7 @@ Administrators can identify their currently deployed version of OpenProject in t
 
 ## Upcoming releases
 
-See the [Roadmap](https://community.openproject.com/projects/openproject/roadmap) for the overview of the upcoming stable releases.
+See the [Roadmap](https://community.openproject.org/projects/openproject/roadmap) for the overview of the upcoming stable releases.
 
 
 
@@ -176,7 +176,7 @@ We recommended to update to a new stable release as soon as possible to have a s
 
 ## Change history
 
-All changes made to the OpenProject software are documented via work packages bundled by the version. The [Roadmap view](https://community.openproject.com/projects/openproject/roadmap) gives a corresponding overview. A release is also summarized in the [release notes](https://www.openproject.org/docs/release-notes).
+All changes made to the OpenProject software are documented via work packages bundled by the version. The [Roadmap view](https://community.openproject.org/projects/openproject/roadmap) gives a corresponding overview. A release is also summarized in the [release notes](https://www.openproject.org/docs/release-notes).
 
 
 

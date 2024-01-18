@@ -49,7 +49,7 @@ Here are resources to get to know OpenProject:
 - Our [English demo video](https://www.youtube.com/watch?v=un6zCm8_FT4) or [German demo video](https://www.youtube.com/watch?v=doVtVArSSvk) to get an overview of Openproject. There are additional videos explaining certain features to be found on our [YouTube channel](https://www.youtube.com/c/OpenProjectCommunity/videos), too.
 - The [Getting started guide](../getting-started) and the [User guide](../user-guide)
 - Our free trial: Click the green button [here](https://www.openproject.org/enterprise-edition) for Enterprise on-premises or go to [start.openproject.com](https://start.openproject.com) for the Enterprise cloud.
-- Our [development roadmap](https://community.openproject.com/projects/openproject/roadmap) (to get to know future features)
+- Our [development roadmap](https://community.openproject.org/projects/openproject/roadmap) (to get to know future features)
 - Our [training and consulting offers](https://www.openproject.org/training-and-consulting)
 
 ### Can I run OpenProject as a single user?
@@ -146,7 +146,7 @@ Please go to [openproject.org/newsletter/](https://www.openproject.org/newslette
 
 ## FAQ regarding features
 
-Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community edition [here](https://www.openproject.org/pricing/#features). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](https://community.openproject.com).
+Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community edition [here](https://www.openproject.org/pricing/#features). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](https://community.openproject.org).
 
 ### Is it possible to use multiple languages in OpenProject?
 
@@ -186,7 +186,7 @@ Yes, you can. Starting with OpenProject 12.4 we implemented date alerts and emai
 ### Does OpenProject offer resource management?
 
 You can [set up budgets](../user-guide/budgets), [set the estimated time in  the **Work** field](../user-guide/work-packages/edit-work-package/) of a work package and use the [Assignee board](../user-guide/agile-boards/#choose-between-board-types) to find out how many work packages are assigned to a person at the moment.
-Additional resource management features will be added within the next years. You can find the roadmap for future releases [here](https://community.openproject.com/projects/openproject/work_packages?query_id=1993).
+Additional resource management features will be added within the next years. You can find the roadmap for future releases [here](https://community.openproject.org/projects/openproject/work_packages?query_id=1993).
 More infomation regarding resource management in OpenProject can be found in the [Use Cases](../use-cases/resource-management) section.
 
 ### Does OpenProject offer portfolio management?

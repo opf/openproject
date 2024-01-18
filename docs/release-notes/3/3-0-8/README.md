@@ -22,7 +22,7 @@ that for this to happen you need to have
 [delayed job running](https://github.com/collectiveidea/delayed_job).
 
 For a complete list of changes to OpenProject, please refer to the
-[version’s packages](https://community.openproject.com/projects/openproject/roadmap).
+[version’s packages](https://community.openproject.org/projects/openproject/roadmap).
 
 However, this is only half of the truth. With the OpenProject 3.0.8
 release we chose to alter our release process. While the changes for the

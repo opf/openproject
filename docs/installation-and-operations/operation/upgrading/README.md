@@ -214,7 +214,7 @@ These following points are some known issues around the update to 8.0. It does n
 ### Upgrades in NPM may result in package inconsistencies
 
 As has been reported from the
-community, [there appear to be issues with NPM leftover packages](https://community.openproject.com/wp/28571) upgrading
+community, [there appear to be issues with NPM leftover packages](https://community.openproject.org/wp/28571) upgrading
 to OpenProject 8.0.0. This is due to the packages applying a delta between your installed version and the
 to-be-installed 8.0. package.
 

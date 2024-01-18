@@ -209,7 +209,7 @@ This hooks into all permission checks (including the deprecated `allowed_to?` me
 
 In the frontend, we have to rely on the API to tell us what actions the user is allowed to do. With [`HAL+JSON resources`](../hal-resources), we can do that by checking for the presence or absence of an action link in responses.
 
-For example, if the user has the permission to create work packages in the OpenProject project on the community, [the collection response of the work packages API](https://community.openproject.com/api/v3/projects/openproject/work_packages?pageSize=0) of it will contain a link `createWorkPackage` that contains the link to the create form API endpoint.
+For example, if the user has the permission to create work packages in the OpenProject project on the community, [the collection response of the work packages API](https://community.openproject.org/api/v3/projects/openproject/work_packages?pageSize=0) of it will contain a link `createWorkPackage` that contains the link to the create form API endpoint.
 
 To check these links, one can use the [`ModelAuthService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/core/model-auth/model-auth.service.ts) that gets initialized with the resources being loaded:
 

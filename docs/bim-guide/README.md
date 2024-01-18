@@ -61,7 +61,7 @@ The BCF Module and the included IFC viewer can be enabled for every single proje
 
 ## Reporting bugs
 
-You found a bug? Please [report it](../development/report-a-bug) to our [OpenProject community](https://community.openproject.com/projects/revit-add-in). Thank you!
+You found a bug? Please [report it](../development/report-a-bug) to our [OpenProject community](https://community.openproject.org/projects/revit-add-in). Thank you!
 
 
 

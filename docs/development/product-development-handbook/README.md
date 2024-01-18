@@ -111,7 +111,7 @@ The specification phase may not be necessary for bug fixes, minor design changes
 | - Entire team (incl. PMs, UX researcher, developers, etc.)  <br/> - Customers <br/> - Community <br/> - Other stackholders | - Feature request in Wish List <br/> - Bugs in Bug backlog |
 
 
-The [OpenProject Wish List](https://community.openproject.com/projects/openproject/work_packages?query_id=180) is used to collect a backlog of potential validation opportunities. Requirements may come from customers, internal usage, support messages, community forums or through other communication channels.
+The [OpenProject Wish List](https://community.openproject.org/projects/openproject/work_packages?query_id=180) is used to collect a backlog of potential validation opportunities. Requirements may come from customers, internal usage, support messages, community forums or through other communication channels.
 
 Requirements should be captured as a **Feature** or **Epic** (for larger features which we can be broken down into smaller features) and focus on describing the customer’s problem rather than jumping ahead to a solution.
 For a guideline on how to report feature requests, refer to the [Feature request guideline](../../development/submit-feature-idea/). Technical maintenance issues and refactorings can be tracked as **Code Maintenance**.
@@ -141,7 +141,7 @@ Oftentimes, the process stops for a time at this phase. This is because the RICE
 Those features judged positively by the PM:
 
 1. PM creates an Opportunity Canvas for requirements with a moderate to high level of uncertainty (> 80%) or for large requirements (effort > 1 week).
-2. PM assigns features to the product backlog (only features with RICE values are allowed in the [product backlog](https://community.openproject.com/projects/openproject/work_packages?query_id=2261)).
+2. PM assigns features to the product backlog (only features with RICE values are allowed in the [product backlog](https://community.openproject.org/projects/openproject/work_packages?query_id=2261)).
 3. For requirements which require an Opportunity Canvas: PM and UX Researcher meet to discuss appropriate research methodology to collect user feedback.
    1. PM and UX Researcher schedule interviews with relevant users.
    2. PM and UX Researcher document interview results in opportunity canvas.
@@ -253,7 +253,7 @@ Changes to the technical documentation, e.g API documentation, are done in paral
 
 The Implementation and Quality Assurance phase can run partly in parallel for those parts of a feature already implemented and  may loop since implemented features may need to be adjusted.
 
-When all features, bugs have been tested successfully, regression testing was performed successfully and no critical errors are reported on community.openproject.com OpenProject environment, new product version is prepared for release.
+When all features, bugs have been tested successfully, regression testing was performed successfully and no critical errors are reported on community.openproject.org OpenProject environment, new product version is prepared for release.
 
 ### 3.2.3 Building phase 4: Acceptance test
 
@@ -278,7 +278,7 @@ If required changes are identified or predefined acceptance criteria is not met,
 
 | Involved                                | Output                                                  |
 |-----------------------------------------|:--------------------------------------------------------|
-| - QA <br/> - Developers  <br/> - DevOps | Release candidate deployed in community.openproject.com |
+| - QA <br/> - Developers  <br/> - DevOps | Release candidate deployed in community.openproject.org |
 
 Developed features are bundled into a version that is released to the public via different channels (package, SaaS, docker, ...). This means that not every feature will receive its own release but rather that a feature's release will happen together with other features as well as bugfixes. This offers the opportunity to add another quality assurance step. At the end of building multiple features, the application in its entirety is tested again and bugs identified can be fixed. This includes bugs that are in the newly developed feature, regressions caused by the feature development as well as bugs originating in former versions.
 
@@ -290,7 +290,7 @@ Developed features are bundled into a version that is released to the public via
   * Tester adjusts status on errors (status: “test failed").
   * Tester adjusts status when no errors are found (status: “closed").
 6. Developer fixes bugs that were not fixed successfully.
-7. DevOps deploys release candidate on community.openproject.com.
+7. DevOps deploys release candidate on community.openproject.org.
 8. DevOps monitors for failures.
 9. QA vets incoming bug reports and checks if they need to be fixed before the release.
 
@@ -377,7 +377,7 @@ For OpenProject, Reach refers to the number of users and customers who will bene
 
 The reach ranges from 0.5 for minimal reach (less than 5% of users) to 10.0 for requirements that impact the vast majority of users (80% or more).
 
-Data sources to estimate this may include queries and user data of an associated feature (e.g. number of users using the “Work packages” module on community.openproject.com to determine the value for a new work package requirement), qualitative customer interviews, customer requests, comments on work packages, surveys, etc..
+Data sources to estimate this may include queries and user data of an associated feature (e.g. number of users using the “Work packages” module on community.openproject.org to determine the value for a new work package requirement), qualitative customer interviews, customer requests, comments on work packages, surveys, etc..
 
 
 

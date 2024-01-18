@@ -13,7 +13,7 @@
 OpenProject 5.0 extends the work package split screen functionality and
 allows users to create work packages from the work package table via the
 work package split screen
-([#17549](https://community.openproject.com/wp/17549)).
+([#17549](https://community.openproject.org/wp/17549)).
 
 Attachments can now be more easily added by using the drag and drop area
 on the work package split screen.
@@ -25,7 +25,7 @@ on the work package split screen.
 The existing work package screen has been replaced by a new responsive
 work package screen, making it possible to quickly switch from the work
 package page to the full screen view
-([#16364](https://community.openproject.com/wp/16364)).
+([#16364](https://community.openproject.org/wp/16364)).
 
 Similar to the work package split screen, the work package full screen
 contains information which can be accessed via different tabs while
@@ -41,12 +41,12 @@ package.
 
   - It is possible to edit and comment in one step in the work package
     split screen
-    ([#20208](https://community.openproject.com/wp/20208)).
+    ([#20208](https://community.openproject.org/wp/20208)).
   - Watcher behavior changed: User receive an email notification when
     they have been added as watchers.
   - Repository revisions are shown in the activity tab on the work
     package split screen
-    ([#15422](https://community.openproject.com/wp/15422)).
+    ([#15422](https://community.openproject.org/wp/15422)).
 
 
 
@@ -70,8 +70,8 @@ within a short time period are aggregated.
 Work package updates by the same user within this time period are shown
 as one activity entry. Email notifications are sent based on these
 aggregated
-activities ([#20694](https://community.openproject.com/wp/20694),
-[#21035](https://community.openproject.com/wp/21035)).
+activities ([#20694](https://community.openproject.org/wp/20694),
+[#21035](https://community.openproject.org/wp/21035)).
 
 
 
@@ -84,7 +84,7 @@ the “OpenProject 5.0 upgrade guide”.
 
 With OpenProject 5.0 the repository functionality has been significantly
 improved
-([#20218](https://community.openproject.com/wp/20218)):
+([#20218](https://community.openproject.org/wp/20218)):
 When deleting a project, the associated repository is deleted
 automatically as well.
 
@@ -130,7 +130,7 @@ are a lot of projects.
 
 The My Account page has been restructured and the settings are spread
 out across different sections
-([#19753](https://community.openproject.com/wp/19753)).
+([#19753](https://community.openproject.org/wp/19753)).
 
 Profile images can be set in my account section (local avatar plugin).
 
@@ -140,7 +140,7 @@ Profile images can be set in my account section (local avatar plugin).
 
 The project and user creation has been simplified and only shows the
 most important information
-([#20884](https://community.openproject.com/wp/20884)).
+([#20884](https://community.openproject.org/wp/20884)).
 
 The create project screen only shows the project name and required
 custom fields.
@@ -158,17 +158,17 @@ have been deprecated and removed with OpenProject 5.0:
   - The field “Homepage” in the project settings has been removed to
     reduce complexity. Instead a custom field or the project description
     can be used to contain the homepage information
-    ([#1928](https://community.openproject.com/wp/1928)).
+    ([#1928](https://community.openproject.org/wp/1928)).
   - The field “Summary” in the project settings has been removed to
     reduce complexity. Instead of the summary the first row of the
     project description is shown on the project list.
   - Project dependencies have been removed from OpenProject since they
     didn’t serve  a significant purpose. Additionally, the “second
     grouping criterion” has been removed from the timelines filters
-    ([#21509](https://community.openproject.com/wp/21509)).
+    ([#21509](https://community.openproject.org/wp/21509)).
   - The column “Set current rate” has been removed from the project
     member table
-    ([#21501](https://community.openproject.com/wp/21501)).
+    ([#21501](https://community.openproject.org/wp/21501)).
     A user’s hourly rate can be set in the user administration.
 
 The **copy** and **duplicate** functionality on the work package
@@ -182,20 +182,20 @@ included in OpenProject 5.0:
 
   - The custom fields have been moved to a separate tab in the project
     settings
-    ([#20841](https://community.openproject.com/wp/20841)).
+    ([#20841](https://community.openproject.org/wp/20841)).
   - Status reports are no longer a separate menu entry in the side menu
     but they have been moved to the timeline
-    toolbar ([#21822](https://community.openproject.com/wp/21822)).
+    toolbar ([#21822](https://community.openproject.org/wp/21822)).
 
 ## Improved design
 
 OpenProject 5.0 includes several design improvements. For example, the
 button styling has been improved
-([#19675](https://community.openproject.com/wp/19675)).
+([#19675](https://community.openproject.org/wp/19675)).
 
 The notification and alert messages for work packages have been
 re-styled
-([#18623](https://community.openproject.com/wp/18623))
+([#18623](https://community.openproject.org/wp/18623))
 and the layout has been improved in many other places as well.
 
 ## Additional functionalities for API v3
@@ -211,7 +211,7 @@ Please note that the API v3 is still a draft.
 
 Rails – the main framework used for OpenProject – has been updated to
 Rails 4.2
-([#20045](https://community.openproject.com/wp/20045)).
+([#20045](https://community.openproject.org/wp/20045)).
 
 This ensures the technical reliability and allows future improvements.
 
