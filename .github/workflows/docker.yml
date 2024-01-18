@@ -10,8 +10,8 @@ on:
       - v*
   workflow_dispatch:
     inputs:
-      version:
-        description: "The version to release. Note that this happens by default on the tag push. Only run this action when something went wrong!"
+      tag:
+        description: "The tag to release. Note that this happens by default on the tag push. Only run this action when something went wrong!"
         required: true
 
 permissions:
@@ -23,7 +23,7 @@ env:
 jobs:
   build:
     if: github.repository == 'opf/openproject'
-    runs-on: ubuntu-latest
+    runs-on: [ self-hosted, aws, ubuntu22, x64, 2XL ]
     strategy:
       matrix:
         include:
@@ -33,17 +33,32 @@ jobs:
             target: slim
           - platform: linux/amd64
             target: all-in-one
+          - platform: linux/ppc64le
+            bim_support: false
+            target: all-in-one
           - platform: linux/arm64/v8
             bim_support: false
             target: all-in-one
     steps:
+      - name: Extract version
+        id: extract_version
+        run: |
+          if [[ ${{ github.event_name }} == 'push' ]]; then
+            TAG_REF=${GITHUB_REF#refs/tags/}
+          elif [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
+            TAG_REF=${{ inputs.tag }}
+          fi
+          
+          VERSION=${TAG_REF#v}
+          echo "Version: $VERSION"
+          echo "::set-output name=version::$VERSION"
       - name: Checkout current release
         if: ${{ github.event_name == 'push' }}
         uses: actions/checkout@v3
       - name: Checkout specific version
         if: ${{ github.event_name != 'push' }}
         with:
-          ref: ${{ inputs.version }}
+          ref: ${{ inputs.tag }}
         uses: actions/checkout@v3
       - name: Prepare docker files
         run: |
@@ -62,6 +77,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
+          tags: |
+            type=semver,pattern={{version}},value=${{ steps.extract_version.outputs.version }}
           images: |
             ${{ env.REGISTRY_IMAGE }}
       - name: Build image
@@ -142,13 +159,17 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           images: ${{ env.REGISTRY_IMAGE }}
+          labels: |
+            io.artifacthub.package.readme-url="https://www.openproject.org/docs/installation-and-operations/installation/docker/"
+            org.opencontainers.image.documentation="https://www.openproject.org/docs/"
+            org.opencontainers.image.vendor="OpenProject GmbH"
           flavor: |
             latest=false
             suffix=${{ steps.set_suffix.outputs.suffix }}
           tags: |
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
+            type=semver,pattern={{version}},value=${{ steps.extract_version.outputs.version }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ steps.extract_version.outputs.version }}
+            type=semver,pattern={{major}},value=${{ steps.extract_version.outputs.version }}
             type=raw,value=dev,priority=200,enable={{is_default_branch}}
       - name: Login to Docker Hub
         uses: docker/login-action@v2
