@@ -29,8 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title(t(:label_project_plural)) -%>
 
 <div data-controller="project"
-     data-application-target="dynamic"
-     data-project-display-filters-value="<%= show_filters_section? %>">
+     data-application-target="dynamic">
   <%= render Projects::IndexPageHeaderComponent.new(
     projects: @projects,
     query: @query,

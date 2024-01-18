@@ -30,17 +30,21 @@
 
 class FiltersComponent < ApplicationComponent
   options :query
-  
+
   renders_many :buttons, lambda { |**system_arguments|
     system_arguments[:ml] ||= 2
     Primer::Beta::Button.new(**system_arguments)
   }
-  
+
+  def show_filters_section?
+    params[:filters].present? && !params.key?(:hide_filters_section)
+  end
+
   def allowed_filters
      query
       .available_filters
   end
-  
+
   def filters_count
     query.filters.count
  end
