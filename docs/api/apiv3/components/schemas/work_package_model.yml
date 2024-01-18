@@ -94,6 +94,12 @@ properties:
     type: integer
     description: Amount of total completion for a work package
     maximum: 100
+  derivedPercentageDone:
+    type: integer
+    description: Amount of total completion for a work package derived from itself and its descendant work packages
+    readOnly: true
+    minimum: 0
+    maximum: 100
   createdAt:
     type: string
     format: date-time
