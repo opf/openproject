@@ -58,6 +58,7 @@ RSpec.describe 'updating a budget', :js do
       budget_page.add_unit_costs! 3, comment: 'Stimpak'
       budget_page.add_labor_costs! 5, user_name: user.name, comment: 'treatment'
 
+      sleep 1 # Wait for the cost fields to be calculated.
       click_on 'Submit'
       expect(budget_page).to have_content('Successful update')
 
@@ -111,13 +112,11 @@ RSpec.describe 'updating a budget', :js do
 
       budget_page.edit_unit_costs! material_budget_item.id,
                                    units: 5,
-                                   comment: 'updated num stimpaks',
-                                   fill_options: { clear: :backspace }
+                                   comment: 'updated num stimpaks'
       budget_page.edit_labor_costs! labor_budget_item.id,
                                     hours: 3,
                                     user_name: user.name,
-                                    comment: 'updated treatment duration',
-                                    fill_options: { clear: :backspace }
+                                    comment: 'updated treatment duration'
 
       # Test for updated planned costs (Regression #31247)
       budget_page.expect_planned_costs! type: :material, row: 1, expected: '250.00 EUR'

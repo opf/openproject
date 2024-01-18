@@ -54,10 +54,12 @@ module Pages
     # Adds planned unit costs with the default cost type.
     #
     # @param type [String] Either 'existing' (default) or 'new'
-    def edit_unit_costs!(id, units: nil, comment: nil, type: :existing, fill_options: {})
+    def edit_unit_costs!(id, units: nil, comment: nil, type: :existing)
       prefix = "#{unit_cost_attr_id(type)}_#{id}"
-      fill_in("#{prefix}_units", with: units, fill_options:) if units.present?
-      fill_in("#{prefix}_comments", with: comment, fill_options:) if comment.present?
+      options = { fill_options: { clear: :backspace } }
+
+      fill_in("#{prefix}_units", with: units, **options) if units.present?
+      fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
     end
 
     def open_edit_planned_costs!(id, type:)
@@ -90,12 +92,13 @@ module Pages
     # Adds planned labor costs with the default cost type.
     #
     # @param type [String] Either 'existing' (default) or 'new'
-    def edit_labor_costs!(id, hours: nil, user_name: nil, comment: nil, type: 'existing', fill_options: {})
+    def edit_labor_costs!(id, hours: nil, user_name: nil, comment: nil, type: 'existing')
       prefix = "#{labor_cost_attr_id(type)}_#{id}"
+      options = { fill_options: { clear: :backspace } }
 
-      fill_in("#{prefix}_hours", with: hours, fill_options:) if hours.present?
+      fill_in("#{prefix}_hours", with: hours, **options) if hours.present?
       select user_name, from: "#{prefix}_user_id" if user_name.present?
-      fill_in("#{prefix}_comments", with: comment, fill_options:) if comment.present?
+      fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
     end
 
     def add_unit_costs_row!
@@ -113,7 +116,7 @@ module Pages
     def expect_planned_costs!(type:, row:, expected:)
       raise "Unknown type: #{type}, allowed: labor, material" unless %i[labor material].include? type.to_sym
 
-      retry_block(args: { tries: 3, base_interval: 1 }) do
+      retry_block(args: { tries: 3, base_interval: 5 }) do
         container = page.all("##{type}_budget_items_fieldset td.currency.budget-table--fields")[row - 1]
         actual = container.text
         raise "Expected planned costs #{expected}, got #{actual}" unless expected == actual
