@@ -48,11 +48,11 @@ module Storages
             # permissions should be an hash with "read" and "write" keys with list remote user ids as values
             # We need a Patch or Post => already exists or don't exists
             # if the collection is empty, the permission will be deleted
-            permission_set = get_permissions(path).result_or do |_error|
-              raise "And it was when, they knew they had fucked up"
+            permission_set = get_permissions(path).result_or do |error|
+              raise error.to_s
             end
 
-            permission_ids = extract_permission_ids(permission_set)
+            permission_ids = extract_permission_ids(permission_set[:value])
 
             permissions.each_key do |permission|
               do_things_with(permission.to_s, permissions[permission], permission_ids[permission], path)
@@ -63,18 +63,7 @@ module Storages
             httpx do |http|
               response = http.get(URI.join(@uri, permissions_path(path)))
 
-              case response.status
-              when 200..299
-                ServiceResult.success(result: response.json(symbolize_keys: true).fetch(:value))
-              when 401
-                ServiceResult.failure(result: :unauthorized)
-              when 403
-                ServiceResult.failure(result: :forbidden)
-              when 404
-                ServiceResult.failure(result: :not_found)
-              else
-                ServiceResult.failure(result: :panic)
-              end
+              handle_response(response)
             end
           end
 
@@ -84,7 +73,6 @@ module Storages
             return delete_permissions(permission_set_id, item_id) if permissions.empty? && permission_set_id
             return create_permissions(role, permissions, item_id) if permissions.any? && permission_set_id.nil?
 
-            # create_permissions(role, permissions, item_id)
             update_permissions(role, permissions, permission_set_id, item_id)
           end
 
@@ -103,12 +91,7 @@ module Storages
                                      recipients: drive_recipients
                                    }.to_json)
 
-              case response.status
-              when 200
-                response.json(symbolize_keys: true)
-              else
-                raise "Panic at the Team"
-              end
+              handle_response(response)
             end
           end
 
@@ -116,11 +99,7 @@ module Storages
             httpx do |http|
               response = http.delete(permission_path(item_id, permission_set_id))
 
-              if response.status == 204
-                ServiceResult.success
-              else
-                ServiceResult.failure
-              end
+              handle_response(response)
             end
           end
 
@@ -129,6 +108,23 @@ module Storages
             read_permission = permission_set.find(-> { {} }) { |hash| hash[:roles].first == 'read' }[:id]
 
             { read: read_permission, write: write_permission }
+          end
+
+          def handle_response(response)
+            case response
+            in { status: 200 }
+              ServiceResult.success(result: response.json(symbolize_keys: true))
+            in { status: 204 }
+              ServiceResult.success
+            in { status: 401 }
+              ServiceResult.failure(result: :unauthorized)
+            in { status: 403 }
+              ServiceResult.failure(result: :forbidden)
+            in { status: 404 }
+              ServiceResult.failure(result: :not_found)
+            else
+              ServiceResult.failure(result: :error)
+            end
           end
 
           def permission_path(item_id, permission_id)
