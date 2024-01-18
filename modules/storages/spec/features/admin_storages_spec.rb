@@ -62,7 +62,7 @@ RSpec.describe 'Admin storages',
 
         expect(page).to have_test_selector('storage-name', text: complete_storage.name)
         expect(page).to have_test_selector('storage-name', text: incomplete_storage.name)
-        expect(page).to have_selector :button, 'Storage', aria: { label: 'Add new storage' }
+        expect(page).to have_button 'Storage', aria: { label: 'Add new storage' }
 
         within "li#storages_nextcloud_storage_#{complete_storage.id}" do
           expect(page).not_to have_test_selector('label-incomplete')
@@ -107,7 +107,7 @@ RSpec.describe 'Admin storages',
         expect(page).to be_axe_clean.within '#content'
 
         # Show Add storage button
-        expect(page).to have_selector :button, 'Storage', aria: { label: 'Add new storage' }
+        expect(page).to have_button 'Storage', aria: { label: 'Add new storage' }
 
         # Show empty storages list
         expect(page).to have_title('File storages')
