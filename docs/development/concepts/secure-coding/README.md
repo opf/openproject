@@ -70,7 +70,7 @@ OpenProject uses industry standard authentication mechanisms that follow the bes
 
 <a id="usage-recommendations"></a>
 
-OpenProject recommends these authenticiation mechanisms:
+OpenProject recommends these authentication mechanisms:
 
 - All connections to and from OpenProject should be secured through TLS/SSL transport encryption. OpenProject assumes connections are secured through TLS/SSL by default in all production systems. Note that OpenProject does not provide TLS/SSL termination itself for Docker-based installations. The customer's IT department needs to configure and maintain the TLS certificates at the load balancer or proxying server before connections reach the application server.
 - For any external connection (Database, LDAP, etc.), OpenProject uses openssl library for the host or container's openssl certificate store. Use your distribution's mechanisms to add verified certificate or certificate chains. For more infomration, see the [Ruby OpenSSL X509 Store documentation](https://ruby-doc.org/stdlib-2.4.0/libdoc/openssl/rdoc/OpenSSL/X509/Store.html).
