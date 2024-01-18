@@ -33,7 +33,8 @@ RSpec.describe 'Work package timeline navigation',
                :selenium,
                with_flag: { show_separate_gantt_module: true } do
   let(:user) { create(:admin) }
-  let(:project) { create(:project, enabled_module_names: %i[work_package_tracking gantt]) }
+  let(:enabled_module_names) { %i[work_package_tracking gantt] }
+  let(:project) { create(:project, enabled_module_names:) }
   let(:query_menu) { Components::WorkPackages::QueryMenu.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
@@ -63,7 +64,7 @@ RSpec.describe 'Work package timeline navigation',
   describe 'with multiple queries' do
     let(:type) { create(:type) }
     let(:type2) { create(:type) }
-    let(:project) { create(:project, types: [type, type2]) }
+    let(:project) { create(:project, enabled_module_names:, types: [type, type2]) }
 
     let!(:work_package) do
       create(:work_package,
