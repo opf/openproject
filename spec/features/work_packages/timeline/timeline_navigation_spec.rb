@@ -37,6 +37,7 @@ RSpec.describe 'Work package timeline navigation',
   let(:project) { create(:project, enabled_module_names:) }
   let(:query_menu) { Components::WorkPackages::QueryMenu.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
   let(:group_by) { Components::WorkPackages::GroupBy.new }
   let(:milestone_type) { create(:type, is_milestone: true) }
@@ -121,8 +122,8 @@ RSpec.describe 'Work package timeline navigation',
       # Select other query
       query_menu.select query
       wp_timeline.expect_timeline!(open: false)
-      wp_timeline.expect_work_package_listed work_package
-      wp_timeline.ensure_work_package_not_listed! work_package2
+      wp_table.expect_work_package_listed work_package
+      wp_table.ensure_work_package_not_listed! work_package2
 
       # Navigate to the Gantt module agin
       find('.main-menu--arrow-left-to-project').click
