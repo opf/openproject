@@ -41,35 +41,34 @@ module Storages
 
           def initialize(storage)
             @storage = storage
-            @uri = storage.uri
           end
 
           def call(path:, permissions:)
-            # permissions should be an hash with "read" and "write" keys with list remote user ids as values
-            # We need a Patch or Post => already exists or don't exists
-            # if the collection is empty, the permission will be deleted
-            permission_set = get_permissions(path).result_or do |error|
+            # This could be broken down into:
+            # 1. Get Permission IDs
+            # 2. Apply Permission Changes
+            # 2.1 Create Permissions
+            # 2.2 Delete Permissions
+            # 2.3 Re-create Permissions
+            current_permissions = get_permissions(path).result_or do |error|
+              # No reason to continue if we can't access the existing permissions
               raise error.to_s
             end
 
-            permission_ids = extract_permission_ids(permission_set[:value])
+            permission_ids = extract_permission_ids(current_permissions[:value])
 
-            permissions.each_key do |permission|
-              do_things_with(permission.to_s, permissions[permission], permission_ids[permission], path)
-            end
-          end
-
-          def get_permissions(path)
-            httpx do |http|
-              response = http.get(URI.join(@uri, permissions_path(path)))
-
-              handle_response(response)
+            permissions.each_pair do |permission, user_ids|
+              apply_permission_changes(permission, user_ids, permission_ids[permission], path)
             end
           end
 
           private
 
-          def do_things_with(role, permissions, permission_set_id, item_id)
+          def get_permissions(path)
+            httpx { |http| handle_response(http.get(permissions_path(path))) }
+          end
+
+          def apply_permission_changes(role, permissions, permission_set_id, item_id)
             return delete_permissions(permission_set_id, item_id) if permissions.empty? && permission_set_id
             return create_permissions(role, permissions, item_id) if permissions.any? && permission_set_id.nil?
 
@@ -96,13 +95,11 @@ module Storages
           end
 
           def delete_permissions(permission_set_id, item_id)
-            httpx do |http|
-              response = http.delete(permission_path(item_id, permission_set_id))
-
-              handle_response(response)
-            end
+            httpx { |http| handle_response(http.delete(permission_path(item_id, permission_set_id))) }
           end
 
+          # This will grab the first write or read permission.
+          # If the folder is setup correctly this should be enough
           def extract_permission_ids(permission_set)
             write_permission = permission_set.find(-> { {} }) { |hash| hash[:roles].first == 'write' }[:id]
             read_permission = permission_set.find(-> { {} }) { |hash| hash[:roles].first == 'read' }[:id]
@@ -143,7 +140,7 @@ module Storages
             Util.using_admin_token(@storage) do |token|
               yield HTTPX
                       .with(
-                        origin: @uri,
+                        origin: @storage.uri,
                         headers: {
                           authorization: "Bearer #{token}",
                           accept: "application/json",
