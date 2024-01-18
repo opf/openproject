@@ -42,6 +42,8 @@ import { RelationResource } from 'core-app/features/hal/resources/relation-resou
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
 import { WorkPackageViewColumnsService } from './wp-view-columns.service';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { ShareResource } from 'core-app/features/hal/resources/share-resource';
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {
@@ -59,11 +61,13 @@ export class WorkPackageViewAdditionalElementsService {
 
   public initialize(query:QueryResource, results:WorkPackageCollectionResource):void {
     const rows = results.elements;
+    const workPackageIds = rows.map((el) => el.id!);
 
     // Add relations to the stack
     Promise.all([
-      this.requireInvolvedRelations(rows.map((el) => el.id!)),
+      this.requireInvolvedRelations(workPackageIds),
       this.requireHierarchyElements(rows),
+      this.requireWorkPackageShares(workPackageIds),
       this.requireSumsSchema(results),
     ]).then((results:string[][]) => {
       this.loadAdditional(_.flatten(results));
@@ -110,7 +114,7 @@ export class WorkPackageViewAdditionalElementsService {
       return Promise.resolve([]);
     }
 
-    const resultIds = rows.map((el:WorkPackageResource) => (el.id as string|number).toString());
+    const resultIds = rows.map((el:WorkPackageResource) => (el.id as string | number).toString());
     const ids = _.flatten(rows.map((el) => el.ancestorIds))
       .filter((id) => !resultIds.includes(id));
 
@@ -140,6 +144,26 @@ export class WorkPackageViewAdditionalElementsService {
         .ensureLoaded(results.sumsSchema.href!)
         .then(() => []);
     }
+
+    return Promise.resolve([]);
+  }
+
+  private requireWorkPackageShares(wpIds:string[]):Promise<string[]> {
+    if (!this.wpTableColumns.hasShareColumn()) { return Promise.resolve([]); }
+
+    const filters = new ApiV3FilterBuilder()
+      .add('entityType', '=', ['WorkPackage'])
+      .add('entityId', '=', wpIds);
+
+    this
+      .apiV3Service
+      .shares
+      .filtered(filters, { pageSize: '-1' })
+      .get()
+      .subscribe(({ elements }) => {
+        const shares = elements as ShareResource[];
+        this.querySpace.workPackageSharesCache.putValue(shares);
+      });
 
     return Promise.resolve([]);
   }

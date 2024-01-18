@@ -89,7 +89,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
    * Returns whether the current set of columns include shares
    */
   public hasShareColumn() {
-    return !!_.find(this.getColumns(), (c) => c.id === 'sharedWithUser');
+    return !!_.find(this.getColumns(), (c) => c.id === 'sharedWithUsers');
   }
 
   /**
