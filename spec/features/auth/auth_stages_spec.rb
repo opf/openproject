@@ -97,7 +97,9 @@ RSpec.describe 'Authentication Stages', :skip_2fa_stage do
         fill_in "user_password_confirmation", with: "hansihansi"
       end
 
-      expect { click_on("Create") }.to raise_error(ActionController::RoutingError, /\/activation\/stage_test/)
+      click_on("Create")
+
+      expect(page).to have_http_status(:missing)
       expect(current_path).to eql "/activation/stage_test"
 
       # after the stage is finished it must redirect to the complete endpoint
@@ -117,7 +119,9 @@ RSpec.describe 'Authentication Stages', :skip_2fa_stage do
       fill_in "last_name", with: "Apfel"
       fill_in "email", with: "a.apfel@openproject.com"
 
-      expect { click_on("Sign In") }.to raise_error(ActionController::RoutingError, /\/activation\/stage_test/)
+      click_on("Sign In")
+
+      expect(page).to have_http_status(:missing)
       expect(current_path).to eql "/activation/stage_test"
 
       # after the stage is finished it must redirect to the complete endpoint
@@ -132,8 +136,9 @@ RSpec.describe 'Authentication Stages', :skip_2fa_stage do
   end
 
   it 'redirects to registered authentication stage before actual login if successful' do
-    expect { login! }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
+    login!
 
+    expect(page).to have_http_status(:missing)
     expect(current_path).to eql "/login/stage_test"
 
     # after the stage is finished it must redirect to the complete endpoint
@@ -147,8 +152,9 @@ RSpec.describe 'Authentication Stages', :skip_2fa_stage do
   end
 
   it 'redirects to the login page and shows an error on verification failure' do
-    expect { login! }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
+    login!
 
+    expect(page).to have_http_status(:missing)
     expect(current_path).to eql "/login/stage_test"
 
     # after the stage is finished it can redirect to the failure endpoint if something went wrong
@@ -163,8 +169,9 @@ RSpec.describe 'Authentication Stages', :skip_2fa_stage do
   end
 
   it 'redirects to the login page and shows an error on authentication stage failure' do
-    expect { login! }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
+    login!
 
+    expect(page).to have_http_status(:missing)
     expect(current_path).to eql "/login/stage_test"
 
     # after the stage is finished it can redirect to the failure endpoint if something went wrong
@@ -179,8 +186,9 @@ RSpec.describe 'Authentication Stages', :skip_2fa_stage do
   end
 
   it 'redirects to the login page and shows an error on returning to the wrong stage' do
-    expect { login! }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
+    login!
 
+    expect(page).to have_http_status(:missing)
     expect(current_path).to eql "/login/stage_test"
 
     visit "/login/foobar/success" # redirect to wrong stage endpoint
@@ -197,15 +205,13 @@ RSpec.describe 'Authentication Stages', :skip_2fa_stage do
   it 'redirects to the referer if there is one' do
     visit "/projects"
 
-    expect do
-      within('#login-form') do
-        fill_in('username', with: user.login)
-        fill_in('password', with: user_password)
-        click_link_or_button I18n.t(:button_login)
-      end
+    within('#login-form') do
+      fill_in('username', with: user.login)
+      fill_in('password', with: user_password)
+      click_link_or_button I18n.t(:button_login)
     end
-      .to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
 
+    expect(page).to have_http_status(:missing)
     expect(current_path).to eql "/login/stage_test"
 
     # after the stage is finished it must redirect to the complete endpoint
@@ -231,12 +237,13 @@ RSpec.describe 'Authentication Stages', :skip_2fa_stage do
     end
 
     it 'redirects to both registered authentication stages before actual login if successful' do
-      expect { login! }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
+      login!
 
+      expect(page).to have_http_status(:missing)
       expect(current_path).to eql "/login/stage_test"
 
-      expect { visit "/login/dummy_step/success" }
-        .to raise_error(ActionController::RoutingError, /\/login\/stage_test_2/)
+      visit "/login/dummy_step/success"
+      expect(page).to have_http_status(:missing)
 
       # after the stage is finished it must redirect to the complete endpoint
       visit "/login/two_step/success"
