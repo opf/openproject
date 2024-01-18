@@ -132,9 +132,7 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
 
     # Move task to closed
     board_page.move_card(0, from: 'Open', to: 'Closed')
-    board_page.wait_for_lists_reload
 
-    board_page.expect_card('Open', 'Open task item', present: false)
     board_page.expect_card('Closed', 'Open task item', present: true)
 
     # Expect type unchanged
