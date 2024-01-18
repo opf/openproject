@@ -85,50 +85,11 @@
       %>
     <% end %>
   <% else %>
-    <% header.with_title(font_size: :small, mt: 2, mb: 2, data: { 'test-selector': 'project-query-name'}) do %>
-      <%= primer_form_with(url: projects_queries_path, id: 'project-save-form') do %>
-        <%= hidden_field_tag :filters, params[:filters] %>
-
-        <%= render(
-             Primer::Alpha::TextField.new(
-               visually_hide_label: true,
-               autofocus: true,
-               required: true,
-               name: 'name',
-               label: Queries::Projects::ProjectQuery.human_attribute_name(:name),
-               placeholder: t(:'projects.lists.new.placeholder')))
-        %>
-      <% end %>
-
-      <% header.with_actions do %>
-        <%= render(
-             Primer::Beta::Button.new(
-               type: :submit,
-               scheme: :primary,
-               size: :medium,
-               form: 'project-save-form',
-               aria: { label: I18n.t(:button_save) },
-               mr: BUTTON_MARGIN_RIGHT,
-               ml: 1
-               )
-           ) do
-           I18n.t(:button_save)
-         end
-        %>
-
-        <%= render(
-              Primer::Beta::Button.new(
-                tag: :a,
-                href: projects_path(filters: params[:filters]),
-                size: :medium,
-                aria: { label: I18n.t(:button_cancel) }
-              )
-            ) do
-          I18n.t(:button_cancel)
-        end
-        %>
-      <% end %>
-    <% end %>
+    <% header.with_title(mt: 2, mb: 2, data: { 'test-selector': 'project-query-name'}) do
+      primer_form_with(url: projects_queries_path, id: 'project-save-form') do |f|
+        render(Queries::Projects::Create.new(f, params:))
+      end
+    end %>
   <% end %>
 
 <% end %>
