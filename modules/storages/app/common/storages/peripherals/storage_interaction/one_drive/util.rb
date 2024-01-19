@@ -59,6 +59,12 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
         )
     end
 
+    def storage_error(response:, code:, source:)
+      data = ::Storages::StorageErrorData.new(source:, payload: response.json(symbolize_keys: true))
+
+      ::Storages::StorageError.new(code:, data:)
+    end
+
     def join_uri_path(uri, *)
       # We use `File.join` to ensure single `/` in between every part. This API will break if executed on a
       # Windows context, as it used `\` as file separators. But we anticipate that OpenProject

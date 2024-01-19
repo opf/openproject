@@ -214,5 +214,30 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
         )
       end
     end
+
+    context 'with network errors' do
+      let(:file_ids) { %w[01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU] }
+
+      before do
+        request = HTTPX::Request.new(:get, 'https://my.timeout.org/')
+        allow(HTTPX).to receive(:get).and_return(HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
+      end
+
+      it 'must return an array of file information when called' do
+        result = subject.call(user:, file_ids:)
+        expect(result).to be_success
+
+        result.match(
+          on_success: ->(file_infos) do
+            expect(file_infos.size).to eq(1)
+            expect(file_infos).to all(be_a(Storages::StorageFileInfo))
+            expect(file_infos[0].id).to eq('01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU')
+            expect(file_infos[0].status).to eq('Timeout happens')
+            expect(file_infos[0].status_code).to eq(500)
+          end,
+          on_failure: ->(error) { fail "Expected success, got #{error}" }
+        )
+      end
+    end
   end
 end

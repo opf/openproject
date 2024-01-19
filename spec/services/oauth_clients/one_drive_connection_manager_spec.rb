@@ -129,12 +129,19 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
           end
         end
 
-        context 'when Unathorized is returned' do
+        context 'when Unauthorized is returned' do
           before do
             stub_request(:get, 'https://graph.microsoft.com/v1.0/me').to_return(status: 401)
           end
 
           context 'with valid refresh token' do
+            before do
+              stub_request(:post, 'https://login.microsoftonline.com/consumers/oauth2/v2.0/token')
+                .to_return(status: 200,
+                           body: { access_token: 'ThereIsNoPeaceOnlyPassion' }.to_json,
+                           headers: { 'Content-Type' => 'application/json' })
+            end
+
             it 'refreshes the access token and returns :connected' do
               expect(authorization_state).to eq :connected
             end
