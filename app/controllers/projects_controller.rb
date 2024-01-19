@@ -48,16 +48,13 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    @query = load_query
-
-    @projects = load_projects @query
-    @orders = set_sorting @query
+    query = load_query
 
     respond_to do |format|
       format.html do
-        flash.now[:error] = @query.errors.full_messages unless @query.valid?
+        flash.now[:error] = query.errors.full_messages unless query.valid?
 
-        render layout: 'global'
+        render layout: 'global', locals: { query:, state: :show }
       end
 
       format.any(*supported_export_formats) do
@@ -127,19 +124,6 @@ class ProjectsController < ApplicationController
     else
       redirect_to job_status_path(job.job_id)
     end
-  end
-
-  def load_projects(query)
-    query
-      .results
-      .with_required_storage
-      .with_latest_activity
-      .includes(:custom_values, :enabled_modules)
-      .paginate(page: page_param, per_page: per_page_param)
-  end
-
-  def set_sorting(query)
-    query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
   end
 
   def supported_export_formats

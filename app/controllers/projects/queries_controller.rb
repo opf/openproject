@@ -33,6 +33,14 @@ class Projects::QueriesController < ApplicationController
   before_action :require_login
   before_action :find_query, only: :destroy
 
+  def new
+    query = load_query
+    query.name = params[:name]
+    render template: '/projects/index',
+           layout: 'global',
+           locals: { query:, state: :edit }
+  end
+
   def create
     call = Queries::Projects::ProjectQueries::CreateService
              .new(user: current_user)
@@ -41,11 +49,9 @@ class Projects::QueriesController < ApplicationController
     if call.success?
       redirect_to projects_path(query_id: call.result.id)
     else
-      # This is a workaround as long as a modal is used.
-      # In the final implementation, errors will be displayed under the text box that replaces the header.
-      flash[:error] = call.errors.full_messages
-
-      redirect_to projects_path
+      render template: '/projects/index',
+             layout: 'global',
+             locals: { query: call.result, state: :edit }
     end
   end
 

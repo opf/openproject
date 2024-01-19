@@ -43,7 +43,7 @@
         if current_user.logged?
           menu.with_item(
             label: t('button_save'),
-            href: projects_path(filters: params[:filters], state: STATE_EDIT)
+            href: new_projects_query_path(filters: params[:filters])
           ) do |item|
             item.with_leading_visual_icon(icon: :'op-save')
           end
@@ -70,6 +70,7 @@
           menu.with_item(
             label: t(:button_delete),
             href: projects_query_path(query),
+            scheme: :danger,
             form_arguments: {
               method: :delete,
               data: {
@@ -84,20 +85,22 @@
       end
       %>
     <% end %>
+
+    <%= render(Primer::Alpha::Dialog.new(title: t('js.label_export'),
+                                         id: EXPORT_MODAL_ID)) do |d|
+      d.with_header(variant: :large)
+      d.with_body do
+        render partial: '/projects/project_export_modal', locals: { query: query }
+      end
+    end %>
   <% else %>
     <% header.with_title(mt: 2, mb: 2, data: { 'test-selector': 'project-query-name'}) do
-      primer_form_with(url: projects_queries_path, id: 'project-save-form') do |f|
+      primer_form_with(model: query,
+                       url: projects_queries_path,
+                       scope: '',
+                       id: 'project-save-form') do |f|
         render(Queries::Projects::Create.new(f, params:))
       end
     end %>
   <% end %>
-
 <% end %>
-
-<%= render(Primer::Alpha::Dialog.new(title: t('js.label_export'),
-                                     id: EXPORT_MODAL_ID)) do |d|
-  d.with_header(variant: :large)
-  d.with_body do
-    render partial: 'project_export_modal', locals: { query: query }
-  end
-end %>

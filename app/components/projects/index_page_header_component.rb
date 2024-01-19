@@ -32,8 +32,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
   include Primer::FetchOrFallbackHelper
 
-  attr_accessor :projects,
-                :current_user,
+  attr_accessor :current_user,
                 :query,
                 :state
 
@@ -45,10 +44,9 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   STATE_EDIT = :edit
   STATE_OPTIONS = [STATE_DEFAULT, STATE_EDIT].freeze
 
-  def initialize(projects:, current_user:, query:, state: :show)
+  def initialize(current_user:, query:, state: :show)
     super
 
-    self.projects = projects
     self.current_user = current_user
     self.query = query
     self.state = fetch_or_fallback(STATE_OPTIONS, state)
@@ -60,7 +58,8 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   end
 
   def gantt_portfolio_project_ids
-    @gantt_portfolio_project_ids ||= projects
+    @gantt_portfolio_project_ids ||= @query
+                                     .results
                                      .where(active: true)
                                      .select(:id)
                                      .uniq

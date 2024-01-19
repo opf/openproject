@@ -29,6 +29,10 @@
 require 'spec_helper'
 
 RSpec.describe 'Project query routes' do
+  it '/projects/queries/new GET routes to projects/queries#new' do
+    expect(get('/projects/queries/new')).to route_to('projects/queries#new')
+  end
+
   it '/projects/queries POST routes to projects/queries#create' do
     expect(post('/projects/queries')).to route_to('projects/queries#create')
   end
