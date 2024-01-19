@@ -71,6 +71,12 @@ module OpenProject::Gantt
            icon: 'view-timeline',
            if: should_render_global_menu_item
 
+      menu :global_menu,
+           :global_gantt_query_select,
+           { controller: '/gantt/gantt', action: 'index', project_id: nil },
+           parent: :gantt,
+           partial: 'gantt/gantt/menu'
+
       menu :project_menu,
            :gantt,
            { controller: '/gantt/gantt', action: 'index' },
