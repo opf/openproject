@@ -28,7 +28,7 @@
 
 class Project::CustomValueForm::SingleVersionSelectList < Project::CustomValueForm::Base::Autocomplete::SingleValueInput
   form do |custom_value_form|
-    custom_value_form.autocompleter(**base_config) do |list|
+    custom_value_form.autocompleter(**input_attributes) do |list|
       @project.versions.each do |version|
         list.option(
           label: version.name, value: version.id,
@@ -40,7 +40,7 @@ class Project::CustomValueForm::SingleVersionSelectList < Project::CustomValueFo
 
   private
 
-  def decorated
+  def decorated?
     true
   end
 

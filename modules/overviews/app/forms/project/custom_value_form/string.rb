@@ -28,6 +28,6 @@
 
 class Project::CustomValueForm::String < Project::CustomValueForm::Base::Input
   form do |custom_value_form|
-    custom_value_form.text_field(**base_config)
+    custom_value_form.text_field(**input_attributes)
   end
 end

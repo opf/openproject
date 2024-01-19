@@ -26,12 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::Base::Autocomplete::SingleValueInput < Project::CustomValueForm::Base::Input
-  def base_config
-    super.merge(
-      {
-        autocomplete_options:
-      },
+class Project::CustomValueForm::Base::Autocomplete::SingleValueInput < ApplicationForm
+  include Project::CustomValueForm::Base::Utils
+
+  def initialize(custom_field:, custom_field_value:, project:)
+    @custom_field = custom_field
+    @custom_field_value = custom_field_value
+    @project = project
+  end
+
+  def input_attributes
+    base_input_attributes.merge(
+      autocomplete_options:,
       invalid: invalid?,
       validation_message:,
       wrapper_data_attributes: {
@@ -43,18 +49,14 @@ class Project::CustomValueForm::Base::Autocomplete::SingleValueInput < Project::
   def autocomplete_options
     {
       multiple: false,
-      decorated:,
+      decorated: decorated?,
       inputId: id,
       inputName: name
     }
   end
 
-  def decorated
+  def decorated?
     raise NotImplementedError
-  end
-
-  def value
-    nil
   end
 
   def invalid?

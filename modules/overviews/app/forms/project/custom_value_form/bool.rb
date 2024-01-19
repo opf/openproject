@@ -28,10 +28,10 @@
 
 class Project::CustomValueForm::Bool < Project::CustomValueForm::Base::Input
   form do |custom_value_form|
-    custom_value_form.check_box(**base_config)
+    custom_value_form.check_box(**input_attributes)
   end
 
-  def base_config
+  def input_attributes
     super.merge({
                   value: "1",
                   unchecked_value: "0",

@@ -27,43 +27,23 @@
 #++
 
 class Project::CustomValueForm::SingleUserSelectList < Project::CustomValueForm::Base::Autocomplete::SingleValueInput
+  include Project::CustomValueForm::Base::Autocomplete::UserQueryUtils
+
   form do |custom_value_form|
-    custom_value_form.autocompleter(**base_config)
+    custom_value_form.autocompleter(**input_attributes)
   end
 
   private
 
-  def decorated
+  def decorated?
     false
   end
 
   def autocomplete_options
-    super.merge({
-                  placeholder: "Search for a user",
-                  resource: 'principals',
-                  filters:,
-                  searchKey: 'any_name_attribute',
-                  inputValue: input_value
-                })
+    super.merge(user_autocomplete_options)
   end
 
-  def filters
-    [
-      { name: 'type', operator: '=', values: ['User', 'Group', 'PlaceholderUser'] },
-      { name: 'member', operator: '=', values: [@project.id.to_s] },
-      { name: 'status', operator: '!', values: [User.statuses["locked"].to_s] }
-    ]
-  end
-
-  def input_value
-    "?#{input_values_filter}"
-  end
-
-  def input_values_filter
-    user_filter = { "type" => { "operator" => "=", "values" => ['User', 'Group', 'PlaceholderUser'] } }
-    id_filter = { "id" => { "operator" => "=", "values" => @custom_field_value.value } }
-
-    filters = [user_filter, id_filter]
-    URI.encode_www_form("filters" => filters.to_json)
+  def init_user_ids
+    [@custom_field_value.value]
   end
 end

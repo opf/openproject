@@ -27,45 +27,24 @@
 #++
 
 class Project::CustomValueForm::Base::Input < ApplicationForm
+  include Project::CustomValueForm::Base::Utils
+
   def initialize(custom_field:, custom_field_value:, project:)
     @custom_field = custom_field
     @custom_field_value = custom_field_value
     @project = project
   end
 
-  def base_config
-    {
-      name:,
-      id:,
-      scope_name_to_model: false,
-      scope_id_to_model: false,
-      placeholder: @custom_field.name,
-      label: @custom_field.name,
-      value:,
-      required: @custom_field.is_required?,
-      data: {
-        'qa-field-name': qa_field_name
+  def input_attributes
+    base_input_attributes.merge(
+      {
+        data: { 'qa-field-name': qa_field_name },
+        value:
       }
-    }
-  end
-
-  def name
-    if @custom_field_value.new_record?
-      "project[new_custom_field_values_attributes][#{@custom_field_value.custom_field_id}][value]"
-    else
-      "project[custom_field_values_attributes][#{@custom_field_value.id}][value]"
-    end
-  end
-
-  def id
-    name.gsub(/[\[\]]/, "_")
+    )
   end
 
   def value
     @custom_field_value.value || @custom_field.default_value
-  end
-
-  def qa_field_name
-    @custom_field.attribute_name(:kebab_case)
   end
 end

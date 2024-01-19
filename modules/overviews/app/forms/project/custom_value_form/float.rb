@@ -28,10 +28,10 @@
 
 class Project::CustomValueForm::Float < Project::CustomValueForm::Base::Input
   form do |custom_value_form|
-    custom_value_form.text_field(**base_config)
+    custom_value_form.text_field(**input_attributes)
   end
 
-  def base_config
+  def input_attributes
     super.merge({ type: "number", step: :any })
   end
 end

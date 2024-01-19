@@ -26,12 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::Date < Project::CustomValueForm::Base::Input
-  form do |custom_value_form|
-    custom_value_form.text_field(**input_attributes)
+module Project::CustomValueForm::Base::Utils
+  def base_input_attributes
+    {
+      name:,
+      id:,
+      scope_name_to_model: false,
+      scope_id_to_model: false,
+      placeholder: @custom_field.name,
+      label: @custom_field.name,
+      required: @custom_field.is_required?
+    }
   end
 
-  def input_attributes
-    super.merge({ type: "date" })
+  def id
+    name.gsub(/[\[\]]/, "_")
+  end
+
+  def name
+    if @custom_field_value.new_record?
+      "project[new_custom_field_values_attributes][#{@custom_field_value.custom_field_id}][value]"
+    else
+      "project[custom_field_values_attributes][#{@custom_field_value.id}][value]"
+    end
+  end
+
+  def qa_field_name
+    @custom_field.attribute_name(:kebab_case)
   end
 end

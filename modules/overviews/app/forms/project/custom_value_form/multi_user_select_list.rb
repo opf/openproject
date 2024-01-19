@@ -27,47 +27,27 @@
 #++
 
 class Project::CustomValueForm::MultiUserSelectList < Project::CustomValueForm::Base::Autocomplete::MultiValueInput
+  include Project::CustomValueForm::Base::Autocomplete::UserQueryUtils
+
   form do |custom_value_form|
-    custom_value_form.autocompleter(**base_config)
+    custom_value_form.autocompleter(**input_attributes)
   end
 
   private
 
-  def decorated
+  def decorated?
     false
   end
 
   def autocomplete_options
-    super.merge({
-                  placeholder: "Search for users",
-                  resource: 'principals',
-                  filters:,
-                  searchKey: 'any_name_attribute',
-                  inputValue: input_value
-                })
+    super.merge(user_autocomplete_options)
+  end
+
+  def init_user_ids
+    @custom_field_values.map(&:value)
   end
 
   def name
     "project[multi_user_custom_field_values_attributes][#{@custom_field.id}][comma_seperated_values][]"
-  end
-
-  def filters
-    [
-      { name: 'type', operator: '=', values: ['User', 'Group', 'PlaceholderUser'] },
-      { name: 'member', operator: '=', values: [@project.id.to_s] },
-      { name: 'status', operator: '!', values: [User.statuses["locked"].to_s] }
-    ]
-  end
-
-  def input_value
-    "?#{input_values_filter}"
-  end
-
-  def input_values_filter
-    user_filter = { "type" => { "operator" => "=", "values" => ["User"] } }
-    id_filter = { "id" => { "operator" => "=", "values" => @custom_field_values.map(&:value) } }
-
-    filters = [user_filter, id_filter]
-    URI.encode_www_form("filters" => filters.to_json)
   end
 end

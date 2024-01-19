@@ -26,12 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::Date < Project::CustomValueForm::Base::Input
-  form do |custom_value_form|
-    custom_value_form.text_field(**input_attributes)
+module Project::CustomValueForm::Base::Autocomplete::UserQueryUtils
+  def user_autocomplete_options
+    {
+      placeholder: I18n.t(:label_user_search),
+      resource:,
+      filters:,
+      searchKey: search_key,
+      inputValue: input_value
+    }
   end
 
-  def input_attributes
-    super.merge({ type: "date" })
+  def resource
+    'principals'
+  end
+
+  def search_key
+    'any_name_attribute'
+  end
+
+  def filters
+    [
+      { name: 'type', operator: '=', values: ['User', 'Group', 'PlaceholderUser'] },
+      { name: 'member', operator: '=', values: [@project.id.to_s] },
+      { name: 'status', operator: '!', values: [User.statuses["locked"].to_s] }
+    ]
+  end
+
+  def input_value
+    "?#{input_values_filter}"
+  end
+
+  def input_values_filter
+    user_filter = { "type" => { "operator" => "=", "values" => ["User"] } }
+    id_filter = { "id" => { "operator" => "=", "values" => init_user_ids } }
+
+    filters = [user_filter, id_filter]
+    URI.encode_www_form("filters" => filters.to_json)
   end
 end
