@@ -1,5 +1,5 @@
 <div class="advanced-filters--filter-value <%= value_visibility %>"
-     data-project-target="filterValueContainer"
+     data-filters-target="filterValueContainer"
      data-filter-name="<%= filter.name %>">
   <% if filter.type == :string %>
       <div>
@@ -7,7 +7,7 @@
                            filter.values.first,
                            class: 'advanced-filters--text-field -slim',
                            data: {
-                             'project-target': 'simpleValue',
+                             'filters-target': 'simpleValue',
                              'filter-name': filter.name
                            } %>
       </div>
@@ -17,7 +17,7 @@
                            filter.values.first,
                            class: 'advanced-filters--text-field -slim',
                            data: {
-                             'project-target': 'simpleValue',
+                             'filters-target': 'simpleValue',
                              'filter-name': filter.name
                            } %>
       </div>
@@ -28,7 +28,7 @@
                              class: 'advanced-filters--text-field -slim',
                              step: 'any',
                              data: {
-                               'project-target': 'simpleValue',
+                               'filters-target': 'simpleValue',
                                'filter-name': filter.name
                              }%>
       </div>
@@ -39,7 +39,7 @@
                              class: 'advanced-filters--text-field -slim',
                              step: 'any',
                              data: {
-                               'project-target': 'simpleValue',
+                               'filters-target': 'simpleValue',
                                'filter-name': filter.name
                              }%>
       </div>

@@ -76,11 +76,11 @@ module Pages
       end
 
       def expect_filters_container_toggled
-        expect(page).to have_css('form.project-filters')
+        expect(page).to have_css('.op-filters-form')
       end
 
       def expect_filters_container_hidden
-        expect(page).to have_css('form.project-filters', visible: :hidden)
+        expect(page).to have_css('.op-filters-form', visible: :hidden)
       end
 
       def expect_filter_set(filter_name)
