@@ -343,8 +343,16 @@ RSpec.describe 'Open the Meetings tab', :js do
 
           meetings_tab.open_add_to_meeting_dialog
 
-          fill_in('meeting_agenda_item_meeting_id', with: ongoing_meeting.title)
-          expect(page).to have_css('.ng-option-marked', text: ongoing_meeting.title)
+          meetings_tab.fill_and_submit_meeting_dialog(
+            ongoing_meeting,
+            'Some notes to be added'
+          )
+
+          meetings_tab.expect_upcoming_counter_to_be(1)
+
+          page.within_test_selector("op-meeting-container-#{ongoing_meeting.id}") do
+            expect(page).to have_content('Some notes to be added')
+          end
         end
 
         it 'does not enable the user to select a past meeting' do

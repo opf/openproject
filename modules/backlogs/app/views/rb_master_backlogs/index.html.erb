@@ -46,23 +46,21 @@ See COPYRIGHT and LICENSE files for more details.
   <%= no_results_box action_url: new_project_version_path(@project),
                      display_action: authorize_for('versions', 'new'),
                      custom_title: t(:backlogs_empty_title),
-                     custom_action_text: t(:backlogs_empty_action_text)
-
-  %>
+                     custom_action_text: t(:backlogs_empty_action_text) %>
 <% end %>
 
 <div id="rb">
   <div id="backlogs_container" class="clearfix">
     <div id="owner_backlogs_container">
-      <%= render :partial => 'backlog', :collection => @owner_backlogs %>
+      <%= render partial: 'backlog', collection: @owner_backlogs %>
     </div>
     <div id="sprint_backlogs_container">
-      <%= render :partial => 'backlog', :collection => @sprint_backlogs %>
+      <%= render partial: 'backlog', collection: @sprint_backlogs %>
     </div>
   </div>
 
   <div id="helpers">
-    <%= render :partial => "rb_stories/helpers" %>
+    <%= render partial: "rb_stories/helpers" %>
     <div id="last_updated"><%= date_string_with_milliseconds(@last_update, 0.001) %></div>
   </div>
 </div>

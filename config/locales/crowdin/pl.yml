@@ -278,15 +278,18 @@ pl:
       no_results_content_text: Dodaj członka projektu
     invite_by_mail: "Wyślij zaproszenie do %{mail}"
     send_invite_to: "Wyślij zaproszenie do"
+    no_modify_on_shared: "Obecnie nie możesz modyfikować ani usuwać współdzielonych członkostw za pośrednictwem strony członka. Zamiast tego użyj okna modalnego udostępniania."
+    columns:
+      shared: "Udostępniono"
     filters:
-      all_shares: 'All shares'
+      all_shares: 'Wszystkie udostępnienia'
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: 'Wszyscy'
+      invited: 'Zaproszeni'
+      locked: 'Zablokowani'
+      project_roles: 'Role w projekcie'
+      wp_shares: 'Udostępnienia pakietu roboczego'
+      groups: 'Grupy'
   my:
     access_token:
       failed_to_reset_token: "Nie można zresetować tokena dostępu: %{error}"
@@ -409,7 +412,7 @@ pl:
     sharing:
       missing_workflow_waring:
         title: "Brak przepływu pracy udostępniania pakietu roboczego"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        message: "Dla roli „Edytor pakietów roboczych” nie skonfigurowano przepływu pracy. Bez przepływu pracy użytkownik, któremu ją  udostępniono nie może zmienić statusu pakietu roboczego. Przepływy pracy można kopiować. Wybierz typ źródłowy (np. „Zadanie”) i rolę źródłową (np. „Członek”). Następnie wybierz typy docelowe. Na początek możesz wybrać wszystkie typy jako docelowe. Na koniec wybierz rolę  „Edytor pakietów roboczych”  jako cel i naciśnij przycisk „Kopiuj”. Po utworzeniu ustawień domyślnych dostosuj przepływy pracy tak, jak w przypadku każdej innej roli."
         link_message: "Skonfiguruj przepływy pracy w administracji."
     summary:
       reports:
@@ -2214,6 +2217,10 @@ pl:
     one: "1 otwarty"
     other: "Liczba otwartych: %{count}"
     zero: "0 otwarty"
+  label_x_work_packages:
+    one: "1 pakiet roboczy"
+    other: "%{count} pakiety robocze"
+    zero: "Brak pakietów roboczych"
   label_x_projects:
     one: "1 projekt"
     other: "Liczba projektów: %{count}"
@@ -2287,9 +2294,9 @@ pl:
     sharing:
       work_packages:
         allowed_actions: "Możesz %{allowed_actions} ten pakiet roboczy. Może się to zmienić w zależności od Twojej roli w projekcie i uprawnień."
-        create_account: "To access this work package, you will need to create and activate an account on %{instance}."
+        create_account: "Aby uzyskać dostęp do tego pakietu roboczego, musisz utworzyć i aktywować konto w %{instance}. "
         open_work_package: "Otwórz pakiet roboczy"
-        subject: "Work package #%{id} was shared with you"
+        subject: "Udostępniono Ci pakiet roboczy nr %{id}"
         enterprise_text: "Udostępnij pakiety robocze użytkownikom, którzy nie są członkami projektu."
         summary:
           user: "Użytkownik %{user} udostępnił Ci pakiet roboczy z uprawnieniami %{role_rights}"
@@ -2398,7 +2405,7 @@ pl:
   notice_file_not_found: "Strona, do której próbowano uzyskać dostęp nie istnieje lub została usunięta."
   notice_forced_logout: "Będziesz automatycznie wylogowany po %{ttl_time} minutach braku aktywności."
   notice_internal_server_error: "An error occurred on the page you were trying to access. If you continue to experience problems please contact your %{app_title} administrator for assistance."
-  notice_work_package_done_ratios_updated: "% complete updated"
+  notice_work_package_done_ratios_updated: "Zaktualizowano % ukończenia"
   notice_locking_conflict: "Information has been updated by at least one other user in the meantime."
   notice_locking_conflict_additional_information: "The update(s) came from %{users}."
   notice_locking_conflict_reload_page: "Please reload the page, review the changes and reapply your updates."
@@ -2476,8 +2483,8 @@ pl:
   permission_assign_versions: "Przypisz wersje"
   permission_browse_repository: "Dostęp do repozytorium tylko do odczytu (przegląd i sprawdzenie)"
   permission_change_wiki_parent_page: "Zmiana strony nadrzędnej wiki"
-  permission_change_work_package_status: "Change work package status"
-  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
+  permission_change_work_package_status: "Zmień status pakietu roboczego"
+  permission_change_work_package_status_explanation: "Umożliwia zmianę statusu bez uprawnienia Edycja pakietów roboczych"
   permission_comment_news: "Komentowanie Nowości"
   permission_commit_access: "Dostęp odczytu i zapisu do repozytorium (wykonanie)"
   permission_copy_projects: "Kopiowanie projektów"
@@ -2539,7 +2546,7 @@ pl:
   permission_view_news: "Wyświetl aktualności"
   permission_view_members: "Przeglądaj członków"
   permission_view_reportings: "Widok zgłoszeń"
-  permission_view_shared_work_packages: "Wyświetl udostępnione pakiety robocze"
+  permission_view_shared_work_packages: "Wyświetl udostępnienia pakietu roboczego"
   permission_view_time_entries: "Widok czasu pracy"
   permission_view_timelines: "Widok osi czasu"
   permission_view_wiki_edits: "WIdok historii wiki"
@@ -3334,7 +3341,7 @@ pl:
       oauth_returned_json_error: "OAuth2 zwrócił błąd JSON"
       oauth_returned_http_error: "OAuth2 zwrócił błąd sieciowy"
       oauth_returned_standard_error: "OAuth2 zwrócił błąd wewnętrzny"
-      client_id_blank: "ID can't be blank."
+      client_id_blank: "Identyfikator nie może być pusty."
       wrong_token_type_returned: "OAuth2 zwrócił niewłaściwy typ tokena, oczekując AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 zgłosił błąd. Skontaktuj się z administratorem systemu."
       oauth_client_not_found: "Nie znaleziono klienta OAuth2 w punkcie końcowym 'callback' (redirect_uri)."

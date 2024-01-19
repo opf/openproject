@@ -281,6 +281,9 @@ th:
       no_results_content_text: เพิ่มสมาชิกไปที่โครงการ
     invite_by_mail: "ส่งคำเชิญไปยัง %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
     filters:
       all_shares: 'All shares'
     menu:
@@ -2136,6 +2139,10 @@ th:
     one: "1 open"
     other: "มี %{count} เปิดอยู่"
     zero: "0 open"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 project"
     other: "%{count} โครงการ"
@@ -2456,7 +2463,7 @@ th:
   permission_view_news: "View news"
   permission_view_members: "View members"
   permission_view_reportings: "ดูรายงาน"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "ดูเวลาที่ใช้"
   permission_view_timelines: "ดูแผนภูมิเวลา"
   permission_view_wiki_edits: "ดูประวัติวิกิ"

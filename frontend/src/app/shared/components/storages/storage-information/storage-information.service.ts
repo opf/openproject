@@ -37,7 +37,7 @@ import { StorageInformationBox } from 'core-app/shared/components/storages/stora
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { storageLocaleString } from 'core-app/shared/components/storages/functions/storages.functions';
 import {
-  fileLinkViewError,
+  fileLinkStatusError,
   storageAuthorizationError,
   storageConnected,
   storageFailedAuthorization,
@@ -121,6 +121,6 @@ export class StorageInformationService {
   }
 
   private hasFileLinkViewErrors(fileLinks:IFileLink[]):boolean {
-    return fileLinks.filter((fileLink) => fileLink._links.permission?.href === fileLinkViewError).length > 0;
+    return fileLinks.filter((fileLink) => fileLink._links.status?.href === fileLinkStatusError).length > 0;
   }
 }

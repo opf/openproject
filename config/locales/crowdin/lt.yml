@@ -278,6 +278,9 @@ lt:
       no_results_content_text: Įtraukti narį į projektą
     invite_by_mail: "Siųsti pakvietimą adresu %{mail}"
     send_invite_to: "Siųsti pakvietimą"
+    no_modify_on_shared: "Jūs šiuo metu negalite keisti ar išimti bendrintų narysčių per nario puslapį. Vietoje to naudokite bendrinimo dialogą."
+    columns:
+      shared: "Bendrinta"
     filters:
       all_shares: 'Visi bendrinimai'
     menu:
@@ -2214,6 +2217,10 @@ lt:
     one: "1 atidarytas"
     other: "%{count} atidaryti (-as, -ų)"
     zero: "0 atvirų"
+  label_x_work_packages:
+    one: "1 darbo paketas"
+    other: "%{count} darbo paketai"
+    zero: "Nėra darbo paketų"
   label_x_projects:
     one: "1 projektas"
     other: "%{count} projektai (-as, -ų)"
@@ -2475,8 +2482,8 @@ lt:
   permission_assign_versions: "Priskirti versijas"
   permission_browse_repository: "Tik skaityti prieiga prie repozitorijos (naršyti ir pasiimti)"
   permission_change_wiki_parent_page: "Pakeisti tėvinį wiki puslapį"
-  permission_change_work_package_status: "Change work package status"
-  permission_change_work_package_status_explanation: "Allows changing status without Edit work packages permission"
+  permission_change_work_package_status: "Keisti darbo paketo būseną"
+  permission_change_work_package_status_explanation: "Leidžia keisti būseną neturint darbo paketo keitimo teisių"
   permission_comment_news: "Komentuoti naujienas"
   permission_commit_access: "Skaitymo/rašymo prieiga į repozitoriją"
   permission_copy_projects: "Kopijuoti projekus"
@@ -2538,7 +2545,7 @@ lt:
   permission_view_news: "Žiūrėti naujienas"
   permission_view_members: "Rodyti narius"
   permission_view_reportings: "Peržiūrėti ataskaitas"
-  permission_view_shared_work_packages: "Žiūrėti bendrinamus darbų paketus"
+  permission_view_shared_work_packages: "Žiūrėti darbo paketo bendrinimus"
   permission_view_time_entries: "Peržiūrėti dirbtą laiką"
   permission_view_timelines: "Peržiūrėti laiko juostas"
   permission_view_wiki_edits: "Peržiūrėti wiki istoriją"

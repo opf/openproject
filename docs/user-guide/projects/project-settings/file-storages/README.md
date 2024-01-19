@@ -41,9 +41,23 @@ In the page that follows, you will be able to select one of the file storages se
 
 > **Note**: OneDrive/SharePoint integration is an Enterprise add-on and can only be used with [Enterprise cloud](../../../../enterprise-guide/enterprise-cloud-guide/) or [Enterprise on-premises](../../../../enterprise-guide/enterprise-on-premises-guide/). An upgrade from the free Community edition is easy and helps support OpenProject.
 
-If you have selected the OneDrive/SharePoint option in the previous step, your OneDrive/SharePoint storage will be added to the project and you can start using it right away.
+If you have selected the OneDrive/SharePoint option in the previous step of storage selection, you will now see the **Project folder** options.
 
-Please refer to the [OneDrive/SharePoint user guide](../../../file-management/one-drive-integration) for further instructions.
+Here you can choose which kind of OneDrive/SharePoint project folder will be the default folder for file uploads for this project when using SharePoint integration.
+
+![Select OndeDrive/SharePoint folder type in OpenProject](onedrive-storage-add-folders.png)
+
+1. **No specific folder**: By default, each user will start at the drive root when they upload a file or select files for linking.
+2. **Existing folder with manually managed permissions**: Once you selected this option, you can designate an existing folder as the project folder for this project using the button **Select folder**. The permissions are however not automatically managed, **instead the folder and its content inherits the permissions as configured in the SharePoint site or drive**. The administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
+
+
+Click on **Add** to add your new OneDrive/SharePoint file storage to this project.
+
+![SharePoint/OneDrive file storage is added to an OpenProject project](sharepoint-storage-set.png)
+
+The SharePoint file storage is now available to all work packages in this project. 
+
+> **Note:** Please refer to the [OneDrive/SharePoint user guide](../../../file-management/one-drive-integration) for further instructions on using the integration at a user level.
 
 ## Add a Nextcloud storage to a project
 

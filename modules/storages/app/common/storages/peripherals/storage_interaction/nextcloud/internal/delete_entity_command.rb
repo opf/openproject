@@ -32,7 +32,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
 
     def initialize(storage)
       @uri = storage.uri
-      @base_path = UTIL.join_uri_path(@uri.path, "remote.php/dav/files", CGI.escapeURIComponent(storage.username))
       @username = storage.username
       @password = storage.password
     end
@@ -42,17 +41,20 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
     end
 
     def call(location:)
-      response = UTIL.http(@uri).delete(
-        UTIL.join_uri_path(@base_path, UTIL.escape_path(location)),
-        UTIL.basic_auth_header(@username, @password)
-      )
+      response = OpenProject
+                   .httpx
+                   .basic_auth(@username, @password)
+                   .delete(UTIL.join_uri_path(@uri,
+                                              "remote.php/dav/files",
+                                              CGI.escapeURIComponent(@username),
+                                              UTIL.escape_path(location)))
 
-      case response
-      when Net::HTTPSuccess
+      case response.status
+      when 200..299
         ServiceResult.success
-      when Net::HTTPNotFound
+      when 404
         UTIL.error(:not_found)
-      when Net::HTTPUnauthorized
+      when 401
         UTIL.error(:unauthorized)
       else
         UTIL.error(:error)

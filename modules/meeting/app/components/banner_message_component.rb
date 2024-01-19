@@ -27,7 +27,13 @@
 #++
 
 class BannerMessageComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-  def initialize(message: nil, full: true, full_when_narrow: false, dismiss_scheme: :hide, icon: false, scheme: :default,
+  def initialize(message: nil,
+                 full: true,
+                 full_when_narrow: false,
+                 dismiss_scheme: :hide,
+                 dismiss_label: I18n.t('button_close'),
+                 icon: false,
+                 scheme: :default,
                  test_selector: "primer-banner-message-component")
     super
 
@@ -35,10 +41,11 @@ class BannerMessageComponent < ApplicationComponent # rubocop:disable OpenProjec
     @full = full
     @full_when_narrow = full_when_narrow
     @dismiss_scheme = dismiss_scheme
+    @dismiss_label = dismiss_label
     @icon = icon
     @scheme = scheme
     @test_selector = test_selector
   end
 
-  attr_reader :message, :full, :full_when_narrow, :dismiss_scheme, :icon, :scheme, :test_selector
+  attr_reader :message, :full, :full_when_narrow, :dismiss_scheme, :dismiss_label, :icon, :scheme, :test_selector
 end

@@ -280,6 +280,9 @@ hu:
       no_results_content_text: Tag hozzáadása a projekthez
     invite_by_mail: "Meghívás küldése %{mail}"
     send_invite_to: "Send invite to"
+    no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
+    columns:
+      shared: "Shared"
     filters:
       all_shares: 'All shares'
     menu:
@@ -2160,6 +2163,10 @@ hu:
     one: "1 nyitott"
     other: "%{count} nyitott"
     zero: "0 nyitott"
+  label_x_work_packages:
+    one: "1 work package"
+    other: "%{count} work packages"
+    zero: "No work packages"
   label_x_projects:
     one: "1 projekt"
     other: "%{count} projekt"
@@ -2481,7 +2488,7 @@ hu:
   permission_view_news: "View news"
   permission_view_members: "Tagok megtekintése"
   permission_view_reportings: "Jelentések megtekintése"
-  permission_view_shared_work_packages: "View shared work packages"
+  permission_view_shared_work_packages: "View work package shares"
   permission_view_time_entries: "Az eltöltött idő megtekintése"
   permission_view_timelines: "Az idővonalak megtekintése"
   permission_view_wiki_edits: "Wiki-előzmények megtekintése"

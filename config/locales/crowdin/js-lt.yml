@@ -348,11 +348,11 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_1':
+          '13_2':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                Šioje laidoje yra kelios naujos savybės ir patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Dalinkitės darbo paketais su išoriniais naudotojais ir grupėmis, kurios nėra projekto nariai (Enterprise priedas).</li> <li>Nauji dinaminiai susitikimai su planais ir protokolu, susietu su darbo paketais.</li> <li>Susiekite darbo paketus su failais, esančiais OneDrive/SharePoint.</li> <li>Prieinamumo testai ir pirmi patobulinimai pagal WCAG 2.1 AA, įskaitant didelio kontrasto režimą.</li> <li>Tęsiama integracija su Primer dizaino sistema.</li> </ul>
+                Šioje laidoje yra keli nauji funkcionalumai ir patobulinimai: <br> <ul class="%{list_styling_class}">  <li>OneDrive/SharePoint integracija su rankiniais projekto aplankais.</li><li>Vaidmenų, grupių ir bendrinimų filtravimas projekto narių sąraše.</li> <li>Leisti paskirtuosius ir atsakingus bendrinamuose darbo paketuose.</li> <li>Pridėti nauji laukų pavadinimai Darbas, Likęs darbas ir % Baigta, pasiruošiant darbo hierarchijos progreso ataskaitoms.</li> <li>Leisti būsenos pakeitimą be darbo paketo keitimo teisių.</li>
     ical_sharing_modal:
       title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
@@ -521,7 +521,7 @@ lt:
     label_watcher_added_successfully: "Stebėtojas sėkmingai pridėtas!"
     label_watcher_deleted_successfully: "Stebėtojas sėkmingai ištrintas!"
     label_work_package_details_you_are_here: "Esate %{type} %{subject} %{tab} skirtuke."
-    label_work_package_context_menu: "Work package context menu"
+    label_work_package_context_menu: "Darbo paketo kontekstinis meniu"
     label_unwatch: "Nestebėti"
     label_unwatch_work_package: "Nebestebėti darbų paketo"
     label_uploaded_by: "Įkėlė"
@@ -835,7 +835,7 @@ lt:
       toggle_description: "Perjungti ryšio aprašymą"
       update_relation: "Paspauskite, jei norite pakeisti ryšio tipą"
       add_follower: "Pridėti pasekėją"
-      show_relations: "Show relations"
+      show_relations: "Rodyti ryšius"
       add_predecessor: "Pridėti pirmtaką"
       remove: "Pašalinti ryšį"
       save: "Įrašyti ryšį"
@@ -1037,6 +1037,8 @@ lt:
         selected_count: "%{count} pažymėta"
         selection:
           mixed: "Mišrus"
+        upsale:
+          description: "Bendrinkite darbo paketus su naudotojais, kurie nėra projekto nariai."
       table:
         configure_button: 'Sukonfigūruokite darbų paketo lentelę'
         summary: "Lentelė su eilutėmis, sudarytomis iš darbų paketų, ir stulpeliais, sudarytais iš darbų paketų atributų."

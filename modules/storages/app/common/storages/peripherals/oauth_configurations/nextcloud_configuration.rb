@@ -37,24 +37,25 @@ module Storages
         def initialize(storage)
           @uri = storage.uri
           @oauth_client = storage.oauth_client.freeze
-          super()
         end
 
         def authorization_state_check(token)
           util = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
 
           authorization_check_wrapper do
-            Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-              http.get(
-                util.join_uri_path(@uri.path, '/ocs/v1.php/cloud/user'),
-                {
-                  'Authorization' => "Bearer #{token}",
-                  'OCS-APIRequest' => 'true',
-                  'Accept' => 'application/json'
-                }
-              )
-            end
+            OpenProject.httpx.get(
+              util.join_uri_path(@uri, '/ocs/v1.php/cloud/user'),
+              headers: {
+                'Authorization' => "Bearer #{token}",
+                'OCS-APIRequest' => 'true',
+                'Accept' => 'application/json'
+              }
+            ).status
           end
+        end
+
+        def extract_origin_user_id(rack_access_token)
+          rack_access_token.raw_attributes[:user_id]
         end
 
         def scope

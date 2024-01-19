@@ -1,6 +1,24 @@
 GIT
+  remote: https://github.com/ViewComponent/lookbook.git
+  revision: 473f86d7e343cd78b74cc293a4de06b9b5e7a3e2
+  ref: 473f86d7e343cd78b74cc293a4de06b9b5e7a3e2
+  specs:
+    lookbook (2.2.0)
+      activemodel
+      css_parser
+      htmlbeautifier (~> 1.3)
+      htmlentities (~> 4.3.4)
+      marcel (~> 1.0)
+      railties (>= 5.0)
+      redcarpet (~> 3.5)
+      rouge (>= 3.26, < 5.0)
+      view_component (>= 2.0)
+      yard (~> 0.9.25)
+      zeitwerk (~> 2.5)
+
+GIT
   remote: https://github.com/citizensadvice/capybara_accessible_selectors
-  revision: 70f7f125c7c662057c407a93c931286b6865f458
+  revision: bbf8916810e7c345f7f9ba77893fccbd87c04264
   branch: main
   specs:
     capybara_accessible_selectors (0.10.0)
@@ -18,10 +36,11 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: bbda8ad0054d465eec01c23fcab5c6d62c7baa44
-  ref: bbda8ad0054d465eec01c23fcab5c6d62c7baa44
+  revision: 4952148f930a3292051efbadd9ac115d9c721157
+  ref: 4952148f930a3292051efbadd9ac115d9c721157
   specs:
-    md_to_pdf (0.0.22)
+    md_to_pdf (0.0.23)
+      color_conversion (~> 0.1)
       front_matter_parser (~> 1.0)
       json-schema (~> 4.1)
       markly (~> 0.7)
@@ -314,7 +333,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.2)
       rbtree3 (~> 0.6)
-    appsignal (3.5.3)
+    appsignal (3.5.4)
       rack
     ast (2.4.2)
     attr_required (1.0.2)
@@ -323,8 +342,8 @@ GEM
     awesome_nested_set (3.6.0)
       activerecord (>= 4.0.0, < 7.2)
     aws-eventstream (1.3.0)
-    aws-partitions (1.877.0)
-    aws-sdk-core (3.190.2)
+    aws-partitions (1.881.0)
+    aws-sdk-core (3.190.3)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.8)
@@ -341,10 +360,10 @@ GEM
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.8.0)
       aws-eventstream (~> 1, >= 1.0.2)
-    axe-core-api (4.8.0)
+    axe-core-api (4.8.1)
       dumb_delegator
       virtus
-    axe-core-rspec (4.8.0)
+    axe-core-rspec (4.8.1)
       axe-core-api
       dumb_delegator
       virtus
@@ -363,7 +382,7 @@ GEM
       smart_properties
     bigdecimal (3.1.5)
     bindata (2.4.15)
-    bootsnap (1.17.0)
+    bootsnap (1.17.1)
       msgpack (~> 1.2)
     brakeman (6.1.1)
       racc
@@ -398,6 +417,7 @@ GEM
     coderay (1.1.3)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
+    color_conversion (0.1.1)
     colored2 (4.0.0)
     commonmarker (1.0.4)
       rb_sys (~> 0.9)
@@ -586,8 +606,11 @@ GEM
     htmlbeautifier (1.4.2)
     htmldiff (0.0.1)
     htmlentities (4.3.4)
+    http-2-next (1.0.3)
     http_parser.rb (0.6.0)
     httpclient (2.8.3)
+    httpx (1.2.1)
+      http-2-next (>= 1.0.3)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
     i18n-js (4.2.3)
@@ -637,7 +660,7 @@ GEM
     language_server-protocol (3.17.0.3)
     launchy (2.5.2)
       addressable (~> 2.8)
-    lefthook (1.5.5)
+    lefthook (1.5.7)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.8.0)
@@ -655,18 +678,6 @@ GEM
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
-    lookbook (2.2.0)
-      activemodel
-      css_parser
-      htmlbeautifier (~> 1.3)
-      htmlentities (~> 4.3.4)
-      marcel (~> 1.0)
-      railties (>= 5.0)
-      redcarpet (~> 3.5)
-      rouge (>= 3.26, < 5.0)
-      view_component (>= 2.0)
-      yard (~> 0.9.25)
-      zeitwerk (~> 2.5)
     mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
@@ -745,7 +756,7 @@ GEM
     parallel (1.24.0)
     parallel_tests (4.4.0)
       parallel
-    parser (3.3.0.2)
+    parser (3.3.0.4)
       ast (~> 2.4.1)
       racc
     pdf-core (0.9.0)
@@ -773,6 +784,9 @@ GEM
     pry-byebug (3.10.1)
       byebug (~> 11.0)
       pry (>= 0.13, < 0.15)
+    pry-doc (1.5.0)
+      pry (~> 0.11)
+      yard (~> 0.9.11)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
     pry-rescue (1.5.2)
@@ -912,11 +926,11 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.12.1)
-    rubocop (1.59.0)
+    rubocop (1.60.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
-      parser (>= 3.2.2.4)
+      parser (>= 3.3.0.2)
       rainbow (>= 2.2.2, < 4.0)
       regexp_parser (>= 1.8, < 3.0)
       rexml (>= 3.2.5, < 4.0)
@@ -982,7 +996,8 @@ GEM
     simpleidn (0.2.1)
       unf (~> 0.1.4)
     smart_properties (1.17.0)
-    spreadsheet (1.3.0)
+    spreadsheet (1.3.1)
+      bigdecimal
       ruby-ole
     spring (4.1.3)
     spring-commands-rspec (1.0.4)
@@ -997,7 +1012,7 @@ GEM
       activesupport (>= 5.2)
       sprockets (>= 3.0.0)
     ssrf_filter (1.1.2)
-    stackprof (0.2.25)
+    stackprof (0.2.26)
     store_attribute (1.2.0)
       activerecord (>= 6.0)
     stringex (2.8.6)
@@ -1145,6 +1160,7 @@ DEPENDENCIES
   grids!
   html-pipeline (~> 2.14.0)
   htmldiff
+  httpx
   i18n-js (~> 4.2.3)
   i18n-tasks (~> 1.0.13)
   json_schemer (~> 2.1.0)
@@ -1155,7 +1171,7 @@ DEPENDENCIES
   letter_opener
   listen (~> 3.8.0)
   lograge (~> 0.14.0)
-  lookbook (~> 2.2.0)
+  lookbook!
   mail (= 2.8.1)
   matrix (~> 0.4.2)
   md_to_pdf!
@@ -1205,6 +1221,7 @@ DEPENDENCIES
   plaintext (~> 0.3.2)
   prawn (~> 2.4)
   pry-byebug (~> 3.10.0)
+  pry-doc
   pry-rails (~> 0.3.6)
   pry-rescue (~> 1.5.2)
   puffing-billy (~> 4.0.0)

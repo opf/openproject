@@ -52,21 +52,19 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     private
 
     def file_info(file_id, token)
-      response = Util.http(@uri).get(
-        Util.join_uri_path(@uri.path, FILE_INFO_PATH, file_id),
-        {
-          'Authorization' => "Bearer #{token.access_token}",
-          'Accept' => 'application/json',
-          'OCS-APIRequest' => 'true'
-        }
-      )
+      response = OpenProject
+                   .httpx
+                   .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
+                                    'Accept' => 'application/json',
+                                    'OCS-APIRequest' => 'true' })
+                   .get(Util.join_uri_path(@uri, FILE_INFO_PATH, file_id))
 
-      case response
-      when Net::HTTPSuccess
+      case response.status
+      when 200..299
         ServiceResult.success(result: response.body)
-      when Net::HTTPNotFound
+      when 404
         Util.error(:not_found, 'Outbound request destination not found!', response)
-      when Net::HTTPUnauthorized
+      when 401
         Util.error(:unauthorized, 'Outbound request not authorized!', response)
       else
         Util.error(:error, 'Outbound request failed!')
@@ -84,7 +82,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def handle_failure
       ->(response_object) do
         case response_object.ocs.data.statuscode
-        when 200
+        when 200..299
           ServiceResult.success(result: response_object)
         when 403
           Util.error(:forbidden, 'Access to storage file forbidden!', response_object)

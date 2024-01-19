@@ -64,6 +64,10 @@ module OpenProject::Backlogs
           edit.controller_actions << 'rb_tasks/update'
           edit.controller_actions << 'rb_impediments/update'
         end
+
+        OpenProject::AccessControl.permission(:change_work_package_status).tap do |edit|
+          edit.controller_actions << 'rb_stories/update'
+        end
       end
 
       project_module :backlogs, dependencies: :work_package_tracking do

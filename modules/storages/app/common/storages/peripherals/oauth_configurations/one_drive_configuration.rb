@@ -41,15 +41,26 @@ module Storages
           @uri = storage.uri
           @oauth_client = storage.oauth_client
           @oauth_uri = URI('https://login.microsoftonline.com/').normalize
-          super()
         end
 
         def authorization_state_check(access_token)
+          util = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
+
           authorization_check_wrapper do
-            Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-              http.get('/v1.0/me', { 'Authorization' => "Bearer #{access_token}", 'Accept' => 'application/json' })
-            end
+            OpenProject.httpx.get(
+              util.join_uri_path(@uri, '/v1.0/me'),
+              headers: { 'Authorization' => "Bearer #{access_token}", 'Accept' => 'application/json' }
+            ).status
           end
+        end
+
+        def extract_origin_user_id(rack_access_token)
+          util = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
+
+          OpenProject.httpx.get(
+            util.join_uri_path(@uri, '/v1.0/me'),
+            headers: { 'Authorization' => "Bearer #{rack_access_token.access_token}", 'Accept' => 'application/json' }
+          ).raise_for_status.json['id']
         end
 
         def scope

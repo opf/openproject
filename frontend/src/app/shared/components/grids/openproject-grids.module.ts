@@ -256,7 +256,7 @@ export function registerWidgets(injector:Injector) {
         },
       },
       {
-        identifier: 'time_entries_project',
+        identifier: 'time_entries_list',
         component: WidgetTimeEntriesProjectComponent,
         title: i18n.t('js.grid.widgets.time_entries_list.title'),
         properties: {

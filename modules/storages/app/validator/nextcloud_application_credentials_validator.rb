@@ -26,6 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 class NextcloudApplicationCredentialsValidator
+  UTIL = Storages::Peripherals::StorageInteraction::Nextcloud::Util
+
   attr_reader :contract, :uri
 
   def initialize(contract)
@@ -36,29 +38,17 @@ class NextcloudApplicationCredentialsValidator
   def call
     return unless contract.model.password_changed?
 
-    case make_http_head_request_from(build_http_head_request)
-    when Net::HTTPSuccess
+    response = OpenProject
+                 .httpx
+                 .basic_auth(contract.username, contract.password)
+                 .head(UTIL.join_uri_path(uri, "remote.php/dav"))
+    case response.status
+    when 200..299
       true
-    when Net::HTTPUnauthorized
+    when 401
       contract.errors.add(:password, :invalid_password)
     else
       contract.errors.add(:password, :unknown_error)
     end
-  end
-
-  private
-
-  def build_http_head_request
-    request = Net::HTTP::Head.new Storages::Peripherals::StorageInteraction::Nextcloud::Util
-      .join_uri_path(uri.path, "remote.php/dav")
-    request.initialize_http_header Storages::Peripherals::StorageInteraction::Nextcloud::Util
-      .basic_auth_header(contract.username, contract.password)
-    request
-  end
-
-  def make_http_head_request_from(request)
-    Storages::Peripherals::StorageInteraction::Nextcloud::Util
-      .http(uri)
-      .request(request)
   end
 end

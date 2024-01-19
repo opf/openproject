@@ -46,11 +46,13 @@ module Storages
             folder, filename = data.slice('parent', 'file_name').values
 
             Util.using_user_token(@storage, user) do |token|
-              response = Net::HTTP.start(@uri.host, @uri.port, use_ssl: true) do |http|
-                http.post(uri_path_for(folder, filename),
-                          payload(filename),
-                          { 'Authorization' => "Bearer #{token.access_token}", 'Content-Type' => 'application/json' })
-              end
+              response = OpenProject.httpx
+                           .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
+                                            'Content-Type' => 'application/json' })
+                           .post(
+                             Util.join_uri_path(@uri, uri_path_for(folder, filename)),
+                             json: payload(filename)
+                           )
 
               handle_response(response)
             end
@@ -59,20 +61,25 @@ module Storages
           private
 
           def payload(filename)
-            { item: { "@microsoft.graph.conflictBehavior" => "rename", name: filename } }.to_json
+            { item: { "@microsoft.graph.conflictBehavior" => "rename", name: filename } }
           end
 
           def handle_response(response)
-            case response
-            when Net::HTTPSuccess
+            error_data = ::Storages::StorageErrorData.new(source: self, payload: response.body)
+
+            case response.status
+            when 200..299
               upload_url = MultiJson.load(response.body, symbolize_keys: true)[:uploadUrl]
               ServiceResult.success(result: ::Storages::UploadLink.new(URI(upload_url), :put))
-            when Net::HTTPNotFound
-              ServiceResult.failure(result: :not_found, errors: ::Storages::StorageError.new(code: :not_found))
-            when Net::HTTPUnauthorized
-              ServiceResult.failure(result: :unauthorized, errors: ::Storages::StorageError.new(code: :unauthorized))
+            when 404
+              ServiceResult.failure(result: :not_found,
+                                    errors: ::Storages::StorageError.new(code: :not_found, data: error_data))
+            when 401
+              ServiceResult.failure(result: :unauthorized,
+                                    errors: ::Storages::StorageError.new(code: :unauthorized, data: error_data))
             else
-              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error))
+              ServiceResult.failure(result: :error,
+                                    errors: ::Storages::StorageError.new(code: :error, data: error_data))
             end
           end
 

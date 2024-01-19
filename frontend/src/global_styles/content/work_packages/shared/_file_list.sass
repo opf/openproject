@@ -31,11 +31,14 @@
     &-action
       text-decoration: none
 
+      &_disabled
+        pointer-events: none
+
       &:not(&_disabled):hover
         .op-file-list--item-title > :not(.spot-icon)
           text-decoration: underline
 
-    &-action_view-not-allowed &-title
+    &-action_faulty-status &-title
       opacity: 0.5
 
     &-title

@@ -15,6 +15,7 @@ uk:
       choose_location: "Виберіть папку"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
         default: "Сховище"
       information:
         connection_error: >
@@ -47,7 +48,6 @@ uk:
         empty: >
           Зараз із цим пакетом робіт не зв’язано жодних файлів. Зв’яжіть їх за допомогою дії нижче або зробіть це в сховищі %{storageType}.
         download: "Завантажити %{fileName}"
-        no_permission: "У вас немає дозволу на перегляд цього файлу."
         open: "Відкрити файл у сховищі"
         open_location: "Відкрити файл у папці"
         remove: "Видалити посилання на файл"
@@ -81,6 +81,9 @@ uk:
               Переконайтеся, що у вас установлено останню версію додатка Nextcloud OpenProject Integration, і зверніться до свого адміністратора, щоб дізнатися більше.
         link_uploaded_file_error: >
           Під час зв’язування нещодавно вивантаженого файлу «%{fileName}» з пакетом робіт %{workPackageId} сталася помилка.
-        not_allowed_tooltip: "Щоб отримати доступ до цього файлу, увійдіть у Nextcloud"
+        tooltip:
+          not_logged_in: "Please log in to the storage to access this file."
+          view_not_allowed: "У вас немає дозволу на перегляд цього файлу."
+          not_found: "Не вдається знайти цей файл."
         already_linked_file: "Цей файл уже прив’язано до цього пакету робіт."
         already_linked_directory: "Цей каталог уже прив’язано до цього пакету робіт."

@@ -25,6 +25,8 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+@import "helpers"
+
 $nm-color-error-background: #fedada
 
 $nm-color-success-border: #35c53f
@@ -246,8 +248,7 @@ $nm-color-success-background: #d8fdd1
     margin: 9px 0
     color: var(--toolbar-title-color)
     font-size: 1.5rem
-    height: 36px
-    line-height: 36px
+    @include toolbar-input-styles
     width: calc(100% + 2px)
 
     &.-error

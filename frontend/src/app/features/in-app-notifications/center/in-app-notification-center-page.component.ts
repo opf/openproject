@@ -75,6 +75,7 @@ export class InAppNotificationCenterPageComponent extends UntilDestroyedMixin im
     },
     {
       component: MarkAllAsReadButtonComponent,
+      containerClasses: 'hidden-for-mobile',
     },
     {
       component: NotificationSettingsButtonComponent,

@@ -73,12 +73,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
       )
     end
 
-    def http(uri)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = uri.scheme == 'https'
-      http
-    end
-
     def error_text_from_response(response)
       Nokogiri::XML(response.body).xpath("//s:message").text
     end
