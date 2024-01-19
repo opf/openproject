@@ -35,6 +35,20 @@ module Storages
         class SetPermissionsCommand
           using ServiceResultRefinements
 
+          PermissionUpdateData = Data.define(:role, :permission_id, :user_ids, :drive_item_id) do
+            def create?
+              user_ids.any? && permission_id.nil?
+            end
+
+            def delete?
+              permission_id && user_ids.empty?
+            end
+
+            def update?
+              permission_id && user_ids.any?
+            end
+          end
+
           def self.call(storage:, path:, permissions:)
             new(storage).call(path:, permissions:)
           end
@@ -59,8 +73,10 @@ module Storages
 
             permission_ids = extract_permission_ids(current_permissions[:value])
 
-            permissions.each_pair do |permission, user_ids|
-              apply_permission_changes(permission, user_ids, permission_ids[permission], path)
+            permissions.each_pair do |role, user_ids|
+              update_data = PermissionUpdateData.new(role:, user_ids:, permission_id: permission_ids[role], drive_item_id: path)
+
+              apply_permission_changes(update_data)
             end
           end
 
@@ -74,25 +90,26 @@ module Storages
             Util.using_admin_token(@storage) { |http| handle_response(http.get(permissions_path(path))) }
           end
 
-          def apply_permission_changes(role, permissions, permission_set_id, item_id)
-            return delete_permissions(permission_set_id, item_id) if permissions.empty? && permission_set_id
-            return create_permissions(role, permissions, item_id) if permissions.any? && permission_set_id.nil?
+          def apply_permission_changes(update_data)
+            return delete_permissions(update_data) if update_data.delete?
+            return create_permissions(update_data) if update_data.create?
 
-            update_permissions(role, permissions, permission_set_id, item_id)
+            update_permissions(update_data)
           end
 
-          def update_permissions(role, permissions, permission_set_id, item_id)
-            delete_permissions(permission_set_id, item_id).on_success { create_permissions(role, permissions, item_id) }
+          def update_permissions(update_data)
+            delete_permissions(update_data).on_success { create_permissions(update_data) }
           end
 
-          def create_permissions(role, permissions, item_id)
-            drive_recipients = permissions.map { |id| { objectId: id } }
+          def create_permissions(update_data)
+            drive_recipients = update_data.user_ids.map { |id| { objectId: id } }
+
             Util.using_admin_token(@storage) do |http|
-              response = http.post(invite_path(item_id),
+              response = http.post(invite_path(update_data.drive_item_id),
                                    body: {
                                      requireSignIn: true,
                                      sendInvitation: false,
-                                     roles: [role],
+                                     roles: [update_data.role],
                                      recipients: drive_recipients
                                    }.to_json)
 
@@ -100,9 +117,9 @@ module Storages
             end
           end
 
-          def delete_permissions(permission_set_id, item_id)
+          def delete_permissions(update_data)
             Util.using_admin_token(@storage) do |http|
-              handle_response(http.delete(permission_path(item_id, permission_set_id)))
+              handle_response(http.delete(permission_path(update_data.drive_item_id, update_data.permission_id)))
             end
           end
 
