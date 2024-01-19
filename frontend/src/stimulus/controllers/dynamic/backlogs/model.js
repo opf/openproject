@@ -304,14 +304,16 @@ RB.Model = (function ($) {
     },
 
     handleClick: function (e) {
-      var field, model, j, editor;
+      const field = $(this);
+      const model = field.parents('.model').first().data('this');
+      const j = model.$;
 
-      field = $(this);
-      model = field.parents('.model').first().data('this');
-      j = model.$;
-
-      if (!j.hasClass('editing') && !j.hasClass('dragging') && !j.hasClass('prevent_edit') && !$(e.target).hasClass('prevent_edit')) {
-        editor = model.edit();
+      if (!j.hasClass('editing')
+          && !j.hasClass('dragging')
+          && !j.hasClass('prevent_edit')
+          && !$(e.target).hasClass('prevent_edit')
+          && e.target.closest('.editable').getAttribute('fieldeditable') !== 'false' ) {
+        const editor = model.edit();
         var input = editor.find('.' + $(e.currentTarget).attr('fieldname') + '.editor');
 
         input.focus();

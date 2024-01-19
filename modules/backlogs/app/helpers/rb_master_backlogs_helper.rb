@@ -92,12 +92,14 @@ module RbMasterBacklogsHelper
   def sprint_backlog_menu_items_for(backlog)
     items = {}
 
-    items[:task_board] = link_to(I18n.t(:label_task_board),
-                                 { controller: '/rb_taskboards',
-                                   action: 'show',
-                                   project_id: @project,
-                                   sprint_id: backlog.sprint },
-                                 class: 'show_task_board')
+    if current_user.allowed_in_project?(:view_taskboards, @project)
+      items[:task_board] = link_to(I18n.t(:label_task_board),
+                                   { controller: '/rb_taskboards',
+                                     action: 'show',
+                                     project_id: @project,
+                                     sprint_id: backlog.sprint },
+                                   class: 'show_task_board')
+    end
 
     if backlog.sprint.has_burndown?
       items[:burndown] = content_tag(:a,

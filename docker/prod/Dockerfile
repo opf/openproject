@@ -67,11 +67,6 @@ RUN --mount=type=cache,target=/app/frontend/.angular/cache,uid=1000,gid=1000 \
 FROM ruby:${RUBY_VERSION}-slim-bullseye as base
 LABEL maintainer="operations@openproject.com"
 
-# Labels for artifacthub.io
-LABEL io.artifacthub.package.readme-url="https://www.openproject.org/docs/installation-and-operations/installation/docker/"
-LABEL org.opencontainers.image.documentation="https://www.openproject.org/docs/"
-LABEL org.opencontainers.image.vendor="OpenProject GmbH"
-
 # SYSTEM
 ENV APP_USER=app
 ENV APP_PATH=/app
