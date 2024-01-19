@@ -43,7 +43,7 @@ module Storages
           util = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
 
           authorization_check_wrapper do
-            HTTPX.get(
+            OpenProject.httpx.get(
               util.join_uri_path(@uri, '/ocs/v1.php/cloud/user'),
               headers: {
                 'Authorization' => "Bearer #{token}",

@@ -43,7 +43,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def call(user:, group: @group)
-      response = Util
+      response = OpenProject
                    .httpx
                    .basic_auth(@username, @password)
                    .with(headers: { 'OCS-APIRequest' => 'true' })

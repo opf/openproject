@@ -73,7 +73,7 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
         oauth_client.access_token!(scope: 'https://graph.microsoft.com/.default')
       end
 
-      yield HTTPX.with(
+      yield OpenProject.httpx.with(
         origin: storage.uri,
         headers: {
           authorization: "Bearer #{token.access_token}", accept: "application/json", 'content-type': 'application/json'

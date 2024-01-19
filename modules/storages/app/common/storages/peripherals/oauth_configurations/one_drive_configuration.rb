@@ -47,7 +47,7 @@ module Storages
           util = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
 
           authorization_check_wrapper do
-            HTTPX.get(
+            OpenProject.httpx.get(
               util.join_uri_path(@uri, '/v1.0/me'),
               headers: { 'Authorization' => "Bearer #{access_token}", 'Accept' => 'application/json' }
             ).status
@@ -57,7 +57,7 @@ module Storages
         def extract_origin_user_id(rack_access_token)
           util = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
 
-          HTTPX.get(
+          OpenProject.httpx.get(
             util.join_uri_path(@uri, '/v1.0/me'),
             headers: { 'Authorization' => "Bearer #{rack_access_token.access_token}", 'Accept' => 'application/json' }
           ).raise_for_status.json['id']
