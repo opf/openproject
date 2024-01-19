@@ -32,7 +32,5 @@ module Storages::Admin
   class StorageRowComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     include OpPrimer::ComponentHelpers
     alias_method :storage, :model
-
-    delegate :url_helpers, to: 'Rails.application.routes'
   end
 end

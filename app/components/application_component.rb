@@ -37,6 +37,8 @@ class ApplicationComponent < ViewComponent::Base
     @options = options
   end
 
+  delegate :url_helpers, to: 'Rails.application.routes'
+
   class << self
     ##
     # Defines options for this cell which can be used within the cell's template.
