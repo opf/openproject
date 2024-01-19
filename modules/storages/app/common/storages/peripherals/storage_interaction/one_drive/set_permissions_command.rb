@@ -58,13 +58,6 @@ module Storages
           end
 
           def call(path:, permissions:)
-            # This could be broken down into:
-            # 1. Get Permission IDs
-            # 2. Apply Permission Changes
-            # 2.1 Create Permissions
-            # 2.2 Delete Permissions
-            # 2.3 Re-create Permissions
-
             item_exists?(path).on_failure { |failed_result| return failed_result }
 
             current_permissions = get_permissions(path)
