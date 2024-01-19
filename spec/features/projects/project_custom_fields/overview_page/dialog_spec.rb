@@ -34,16 +34,34 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
 
   let(:overview_page) { Pages::Projects::Show.new(project) }
 
-  before do
-    login_as admin
-  end
-
   describe 'with enabled project attributes feature', with_flag: { project_attributes: true } do
-    before do
-      overview_page.visit_page
+    describe 'with insufficient permissions' do
+      # TODO: turboframe sidebar request needs to be covered by a controller spec checking for 403
+      # TODO: async dialog content request needs to be covered by a controller spec checking for 403
+      before do
+        login_as member_without_project_edit_permissions
+        overview_page.visit_page
+      end
+
+      it 'does not show the edit buttons' do
+        overview_page.within_async_loaded_sidebar do
+          expect(page).to have_no_css("[data-qa-selector='project-custom-field-section-edit-button']")
+        end
+      end
     end
 
     describe 'with sufficient permissions' do
+      before do
+        login_as member_with_project_edit_permissions
+        overview_page.visit_page
+      end
+
+      it 'shows the edit buttons' do
+        overview_page.within_async_loaded_sidebar do
+          expect(page).to have_css("[data-qa-selector='project-custom-field-section-edit-button']", count: 3)
+        end
+      end
+
       describe 'enables editing of project custom field values via dialog' do
         let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section_for_input_fields) }
 
@@ -147,7 +165,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        describe 'with correct inital values' do
+        describe 'with correct initialization and input behaviour' do
           describe 'with input fields' do
             let(:section) { section_for_input_fields }
             let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }

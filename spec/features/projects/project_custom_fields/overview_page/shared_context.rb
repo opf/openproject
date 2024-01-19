@@ -38,6 +38,10 @@ RSpec.shared_context 'with seeded projects, members and project custom fields' d
     create(:project_role, permissions: %i[view_work_packages])
   end
 
+  shared_let(:edit_role) do
+    create(:project_role, permissions: %i[view_work_packages edit_project])
+  end
+
   let!(:admin) do
     create(:admin)
   end
@@ -61,6 +65,17 @@ RSpec.shared_context 'with seeded projects, members and project custom fields' d
            firstname: 'Member 3',
            lastname: 'In Project',
            member_with_roles: { project => reader_role })
+  end
+
+  let!(:member_with_project_edit_permissions) do
+    create(:user,
+           firstname: 'Member',
+           lastname: 'With Project Edit Permissions',
+           member_with_roles: { project => edit_role })
+  end
+
+  let!(:member_without_project_edit_permissions) do
+    member_in_project
   end
 
   let!(:section_for_input_fields) { create(:project_custom_field_section, name: 'Input fields') }
