@@ -75,6 +75,12 @@ module Components
           end
         end
 
+        def submit
+          within(dialog_css_selector) do
+            page.find("[data-qa-selector='save-project-attributes-button']").click
+          end
+        end
+
         def expect_open
           expect(page).to have_css(dialog_css_selector)
         end

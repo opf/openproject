@@ -35,7 +35,9 @@ module Project::CustomValueForm::Base::Utils
       scope_id_to_model: false,
       placeholder: @custom_field.name,
       label: @custom_field.name,
-      required: @custom_field.is_required?
+      required: @custom_field.is_required?,
+      invalid: invalid?,
+      validation_message:
     }
   end
 

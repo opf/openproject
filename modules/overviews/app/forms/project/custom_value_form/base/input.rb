@@ -47,4 +47,12 @@ class Project::CustomValueForm::Base::Input < ApplicationForm
   def value
     @custom_field_value.value || @custom_field.default_value
   end
+
+  def invalid?
+    @custom_field_value.errors.any?
+  end
+
+  def validation_message
+    @custom_field_value.errors.full_messages.join(', ') if invalid?
+  end
 end

@@ -38,8 +38,6 @@ class Project::CustomValueForm::Base::Autocomplete::MultiValueInput < Applicatio
   def input_attributes
     base_input_attributes.merge(
       autocomplete_options:,
-      invalid: invalid?,
-      validation_message:,
       wrapper_data_attributes: {
         'qa-field-name': qa_field_name
       }

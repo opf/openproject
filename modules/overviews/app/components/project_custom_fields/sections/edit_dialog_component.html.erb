@@ -26,7 +26,13 @@
               )) do
                 t("button_cancel")
               end
-              footer_collection.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do
+              footer_collection.with_component(Primer::ButtonComponent.new(
+                scheme: :primary,
+                type: :submit,
+                data: {
+                  qa_selector: 'save-project-attributes-button'
+                }
+              )) do
                 t("button_save")
               end
             end
