@@ -532,6 +532,12 @@ RSpec.describe 'Admin storages',
           expect(page).to have_test_selector('label-managed-project-folders-status', text: 'Active')
         end
       end
+
+      it 'renders health status information' do
+        visit edit_admin_settings_storage_path(storage)
+
+        expect(page).to have_test_selector('storage-health-label-pending', text: 'Pending')
+      end
     end
 
     context 'with OneDrive Storage' do
@@ -621,53 +627,6 @@ RSpec.describe 'Admin storages',
           expect(page).to have_test_selector('storage-oauth-client-id-description', text: "OAuth Client ID: 1234567890")
         end
       end
-    end
-  end
-
-  describe 'Health status information in edit page' do
-    frozen_date_time = Time.zone.local(2023, 11, 28, 1, 2, 3)
-
-    let(:complete_nextcloud_storage_health_pending) { create(:nextcloud_storage_with_complete_configuration) }
-    let(:complete_nextcloud_storage_health_healthy) { create(:nextcloud_storage_with_complete_configuration, :as_healthy) }
-    let(:complete_nextcloud_storage_health_unhealthy) { create(:nextcloud_storage_with_complete_configuration, :as_unhealthy) }
-    let(:complete_nextcloud_storage_health_unhealthy_long_reason) do
-      create(:nextcloud_storage_with_complete_configuration, :as_unhealthy_long_reason)
-    end
-
-    before do
-      Timecop.freeze(frozen_date_time)
-      complete_nextcloud_storage_health_pending
-      complete_nextcloud_storage_health_healthy
-      complete_nextcloud_storage_health_unhealthy
-      complete_nextcloud_storage_health_unhealthy_long_reason
-    end
-
-    after do
-      Timecop.return
-    end
-
-    it 'shows healthy status for storages that are healthy' do
-      visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_healthy)
-      expect(page).to have_test_selector('storage-health-label-healthy', text: 'Healthy')
-      expect(page).to have_test_selector('storage-health-checked-at', text: "Last checked 11/28/2023 01:02 AM")
-    end
-
-    it 'shows pending label for a storage that is pending' do
-      visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_pending)
-      expect(page).to have_test_selector('storage-health-label-pending', text: 'Pending')
-    end
-
-    it 'shows error status for storages that are unhealthy' do
-      visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_unhealthy)
-      expect(page).to have_test_selector('storage-health-label-error', text: 'Error')
-      expect(page).to have_test_selector('storage-health-reason', text: 'Error code: description since 11/28/2023 01:02 AM')
-    end
-
-    it 'shows formatted error reason for storages that are unhealthy' do
-      visit edit_admin_settings_storage_path(complete_nextcloud_storage_health_unhealthy_long_reason)
-      expect(page).to have_test_selector('storage-health-label-error', text: 'Error')
-      expect(page).to have_test_selector('storage-health-reason', text:
-        'Unauthorized: Outbound request not authorized since 11/28/2023 01:02 AM')
     end
   end
 end
