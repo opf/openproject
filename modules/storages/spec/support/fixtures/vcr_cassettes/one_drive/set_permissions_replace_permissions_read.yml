@@ -1,239 +1,6 @@
 ---
 http_interactions:
 - request:
-    method: get
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PKAJZFBD2RVNRAZKN2OEJNTQYS5/permissions
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IlBBRVpuWmRwMV9rZEtWaE9WRkdDUmlXc1BGYXNfeXdWV25VUWxocGZsME0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1MzI1OTI3LCJuYmYiOjE3MDUzMjU5MjcsImV4cCI6MTcwNTMyOTgyNywiYWlvIjoiRTJWZ1lGaDl5bTBIcThQNmJwRzZLNGRERGV2bkFnQT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiTUM0VnNqWHNEMC1JTkx0ZUlaMWZBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.J5WNRHPgLJhpPPInIOxEeuaMVPiVICpDOSy3dlXz5E9sI2-S_NTGECYfWD3vmNg8OJwTncqwAgY8mHq97UhNe_Pbus5eFsdhD-B2Cqcw7bnZikiFmYn2qf9SI5h_Bw4M7g3YYaEt7HQp9tFcUldCB8ABgiEc3qFuw1t7iI21DNTzLocR7KB8XjTlv5AQNLntRalbyiwOkkRW82Z6yIqnEpunrC33O3mCGEXtPdJVn72qXCmlHtT7ciKtxobMlzq90-33M-hvrS8PFcpamqZtl6i6uc71mmCKS8SqDORU3btn3wGe9lAHSieupzxC3y9Gq43Vv7BLRCwF6yS7goyl7Q
-      Accept:
-      - application/json
-      Content-Type:
-      - application/json
-      User-Agent:
-      - httpx.rb/1.2.0
-      Accept-Encoding:
-      - gzip, deflate
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
-      Content-Type:
-      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
-      Content-Encoding:
-      - gzip
-      Vary:
-      - Accept-Encoding
-      Strict-Transport-Security:
-      - max-age=31536000
-      Request-Id:
-      - 81a0653e-c60f-43a1-9083-df028d8162cf
-      Client-Request-Id:
-      - 81a0653e-c60f-43a1-9083-df028d8162cf
-      X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF0000036B"}}'
-      Link:
-      - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html",
-        <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html"
-      Deprecation:
-      - Fri, 03 Sep 2021 23:59:59 GMT
-      Sunset:
-      - Sun, 01 Oct 2023 23:59:59 GMT
-      Odata-Version:
-      - '4.0'
-      Date:
-      - Mon, 15 Jan 2024 13:43:47 GMT
-      Connection:
-      - close
-    body:
-      encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy'')/items(''01AZJL5PKAJZFBD2RVNRAZKN2OEJNTQYS5'')/permissions","value":[{"id":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","roles":["owner"],"shareId":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","grantedToV2":{"siteGroup":{"displayName":"OpenProject
-        file storage tests Owners","id":"3","loginName":"OpenProject file storage
-        tests Owners"}},"grantedTo":{"user":{"displayName":"OpenProject file storage
-        tests Owners"}},"inheritedFrom":{}},{"id":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["owner"],"shareId":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","grantedToV2":{"user":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"Eric
-        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"},"siteUser":{"displayName":"Eric
-        Schubert","email":"eschubert.op@outlook.com","id":"12","loginName":"i:0#.f|membership|eschubert.op_outlook.com#ext#@finn.onmicrosoft.com"}},"grantedTo":{"user":{"displayName":"Eric
-        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"}},"inheritedFrom":{}},{"id":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","roles":["owner"],"shareId":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","grantedToV2":{"group":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"OpenProject
-        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"},"siteUser":{"displayName":"OpenProject
-        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"6","loginName":"c:0o.c|federateddirectoryclaimprovider|5854b8a6-789b-43a5-b7cd-1f00ad4bd030_o"}},"grantedTo":{"user":{"displayName":"OpenProject
-        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"}},"inheritedFrom":{}}]}'
-  recorded_at: Mon, 15 Jan 2024 13:43:48 GMT
-- request:
-    method: post
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PKAJZFBD2RVNRAZKN2OEJNTQYS5/invite
-    body:
-      encoding: UTF-8
-      string: '{"requireSignIn":true,"sendInvitation":false,"roles":["read"],"recipients":[{"objectId":"84acc1d5-61be-470b-9d79-0d1f105c2c5f"}]}'
-    headers:
-      Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IlBBRVpuWmRwMV9rZEtWaE9WRkdDUmlXc1BGYXNfeXdWV25VUWxocGZsME0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1MzI1OTI3LCJuYmYiOjE3MDUzMjU5MjcsImV4cCI6MTcwNTMyOTgyNywiYWlvIjoiRTJWZ1lGaDl5bTBIcThQNmJwRzZLNGRERGV2bkFnQT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiTUM0VnNqWHNEMC1JTkx0ZUlaMWZBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.J5WNRHPgLJhpPPInIOxEeuaMVPiVICpDOSy3dlXz5E9sI2-S_NTGECYfWD3vmNg8OJwTncqwAgY8mHq97UhNe_Pbus5eFsdhD-B2Cqcw7bnZikiFmYn2qf9SI5h_Bw4M7g3YYaEt7HQp9tFcUldCB8ABgiEc3qFuw1t7iI21DNTzLocR7KB8XjTlv5AQNLntRalbyiwOkkRW82Z6yIqnEpunrC33O3mCGEXtPdJVn72qXCmlHtT7ciKtxobMlzq90-33M-hvrS8PFcpamqZtl6i6uc71mmCKS8SqDORU3btn3wGe9lAHSieupzxC3y9Gq43Vv7BLRCwF6yS7goyl7Q
-      Accept:
-      - application/json
-      Content-Type:
-      - application/json
-      User-Agent:
-      - httpx.rb/1.2.0
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Length:
-      - '129'
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
-      Content-Type:
-      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
-      Content-Encoding:
-      - gzip
-      Location:
-      - https://graph.microsoft.com
-      Vary:
-      - Accept-Encoding
-      Strict-Transport-Security:
-      - max-age=31536000
-      Request-Id:
-      - 9ad034c2-d897-437e-8d22-b4b388c99698
-      Client-Request-Id:
-      - 9ad034c2-d897-437e-8d22-b4b388c99698
-      X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF00000315"}}'
-      Link:
-      - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html",
-        <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html"
-      Deprecation:
-      - Fri, 03 Sep 2021 23:59:59 GMT
-      Sunset:
-      - Sun, 01 Oct 2023 23:59:59 GMT
-      Odata-Version:
-      - '4.0'
-      Date:
-      - Mon, 15 Jan 2024 13:43:48 GMT
-      Connection:
-      - close
-    body:
-      encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#Collection(permission)","value":[{"@odata.type":"#microsoft.graph.permission","id":"aTowIy5mfG1lbWJlcnNoaXB8YXBmb2hsLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["read"],"grantedTo":{"user":{"email":"apfohl.op@outlook.com","id":"84acc1d5-61be-470b-9d79-0d1f105c2c5f","displayName":"Andreas
-        Pfohl"}}}]}'
-  recorded_at: Mon, 15 Jan 2024 13:43:49 GMT
-- request:
-    method: get
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PKAJZFBD2RVNRAZKN2OEJNTQYS5/permissions
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IlBBRVpuWmRwMV9rZEtWaE9WRkdDUmlXc1BGYXNfeXdWV25VUWxocGZsME0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1MzI1OTI3LCJuYmYiOjE3MDUzMjU5MjcsImV4cCI6MTcwNTMyOTgyNywiYWlvIjoiRTJWZ1lGaDl5bTBIcThQNmJwRzZLNGRERGV2bkFnQT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiTUM0VnNqWHNEMC1JTkx0ZUlaMWZBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.J5WNRHPgLJhpPPInIOxEeuaMVPiVICpDOSy3dlXz5E9sI2-S_NTGECYfWD3vmNg8OJwTncqwAgY8mHq97UhNe_Pbus5eFsdhD-B2Cqcw7bnZikiFmYn2qf9SI5h_Bw4M7g3YYaEt7HQp9tFcUldCB8ABgiEc3qFuw1t7iI21DNTzLocR7KB8XjTlv5AQNLntRalbyiwOkkRW82Z6yIqnEpunrC33O3mCGEXtPdJVn72qXCmlHtT7ciKtxobMlzq90-33M-hvrS8PFcpamqZtl6i6uc71mmCKS8SqDORU3btn3wGe9lAHSieupzxC3y9Gq43Vv7BLRCwF6yS7goyl7Q
-      Accept:
-      - application/json
-      Content-Type:
-      - application/json
-      User-Agent:
-      - httpx.rb/1.2.0
-      Accept-Encoding:
-      - gzip, deflate
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
-      Content-Type:
-      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
-      Content-Encoding:
-      - gzip
-      Vary:
-      - Accept-Encoding
-      Strict-Transport-Security:
-      - max-age=31536000
-      Request-Id:
-      - '02842dd4-7717-4cae-95eb-4398354042be'
-      Client-Request-Id:
-      - '02842dd4-7717-4cae-95eb-4398354042be'
-      X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF000002E8"}}'
-      Link:
-      - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html",
-        <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html"
-      Deprecation:
-      - Fri, 03 Sep 2021 23:59:59 GMT
-      Sunset:
-      - Sun, 01 Oct 2023 23:59:59 GMT
-      Odata-Version:
-      - '4.0'
-      Date:
-      - Mon, 15 Jan 2024 13:43:48 GMT
-      Connection:
-      - close
-    body:
-      encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy'')/items(''01AZJL5PKAJZFBD2RVNRAZKN2OEJNTQYS5'')/permissions","value":[{"id":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","roles":["owner"],"shareId":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","grantedToV2":{"siteGroup":{"displayName":"OpenProject
-        file storage tests Owners","id":"3","loginName":"OpenProject file storage
-        tests Owners"}},"grantedTo":{"user":{"displayName":"OpenProject file storage
-        tests Owners"}}},{"id":"aTowIy5mfG1lbWJlcnNoaXB8YXBmb2hsLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["read"],"shareId":"aTowIy5mfG1lbWJlcnNoaXB8YXBmb2hsLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","grantedToV2":{"user":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"Andreas
-        Pfohl","email":"apfohl.op@outlook.com","id":"84acc1d5-61be-470b-9d79-0d1f105c2c5f"},"siteUser":{"displayName":"Andreas
-        Pfohl","email":"apfohl.op@outlook.com","id":"15","loginName":"i:0#.f|membership|apfohl.op_outlook.com#ext#@finn.onmicrosoft.com"}},"grantedTo":{"user":{"displayName":"Andreas
-        Pfohl","email":"apfohl.op@outlook.com","id":"84acc1d5-61be-470b-9d79-0d1f105c2c5f"}}},{"id":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["owner"],"shareId":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","grantedToV2":{"user":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"Eric
-        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"},"siteUser":{"displayName":"Eric
-        Schubert","email":"eschubert.op@outlook.com","id":"12","loginName":"i:0#.f|membership|eschubert.op_outlook.com#ext#@finn.onmicrosoft.com"}},"grantedTo":{"user":{"displayName":"Eric
-        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"}}},{"id":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","roles":["owner"],"shareId":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","grantedToV2":{"group":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"OpenProject
-        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"},"siteUser":{"displayName":"OpenProject
-        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"6","loginName":"c:0o.c|federateddirectoryclaimprovider|5854b8a6-789b-43a5-b7cd-1f00ad4bd030_o"}},"grantedTo":{"user":{"displayName":"OpenProject
-        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"}}}]}'
-  recorded_at: Mon, 15 Jan 2024 13:43:49 GMT
-- request:
-    method: delete
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PKAJZFBD2RVNRAZKN2OEJNTQYS5
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IlBBRVpuWmRwMV9rZEtWaE9WRkdDUmlXc1BGYXNfeXdWV25VUWxocGZsME0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1MzI1OTI3LCJuYmYiOjE3MDUzMjU5MjcsImV4cCI6MTcwNTMyOTgyNywiYWlvIjoiRTJWZ1lGaDl5bTBIcThQNmJwRzZLNGRERGV2bkFnQT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiTUM0VnNqWHNEMC1JTkx0ZUlaMWZBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.J5WNRHPgLJhpPPInIOxEeuaMVPiVICpDOSy3dlXz5E9sI2-S_NTGECYfWD3vmNg8OJwTncqwAgY8mHq97UhNe_Pbus5eFsdhD-B2Cqcw7bnZikiFmYn2qf9SI5h_Bw4M7g3YYaEt7HQp9tFcUldCB8ABgiEc3qFuw1t7iI21DNTzLocR7KB8XjTlv5AQNLntRalbyiwOkkRW82Z6yIqnEpunrC33O3mCGEXtPdJVn72qXCmlHtT7ciKtxobMlzq90-33M-hvrS8PFcpamqZtl6i6uc71mmCKS8SqDORU3btn3wGe9lAHSieupzxC3y9Gq43Vv7BLRCwF6yS7goyl7Q
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
-      User-Agent:
-      - Ruby
-  response:
-    status:
-      code: 204
-      message: No Content
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Strict-Transport-Security:
-      - max-age=31536000
-      Request-Id:
-      - c87258c4-a82a-4da6-846b-b5314782557b
-      Client-Request-Id:
-      - c87258c4-a82a-4da6-846b-b5314782557b
-      X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF0000044D"}}'
-      Date:
-      - Mon, 15 Jan 2024 13:43:49 GMT
-    body:
-      encoding: UTF-8
-      string: ''
-  recorded_at: Mon, 15 Jan 2024 13:43:49 GMT
-- request:
     method: post
     uri: https://login.microsoftonline.com/4d44bf36-9b56-45c0-8807-bbf386dd047f/oauth2/v2.0/token
     body:
@@ -270,24 +37,24 @@ http_interactions:
       P3p:
       - CP="DSP CUR OTPi IND OTRi ONL FIN"
       X-Ms-Request-Id:
-      - 773525ba-d4e9-4c57-8175-0fcd7f005100
+      - 79b1a863-1184-40f5-a190-7615c4241200
       X-Ms-Ests-Server:
-      - 2.1.16986.9 - FRC ProdSlices
+      - 2.1.17097.4 - NEULR1 ProdSlices
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - fpc=AjJsj7446UlIhvyARz722pGkbDoXAQAAAMotN90OAAAA; expires=Wed, 14-Feb-2024
-        13:44:43 GMT; path=/; secure; HttpOnly; SameSite=None
+      - fpc=AsyzMVkjfqFMlOhKsFpbyNikbDoXAQAAAJtVPN0OAAAA; expires=Sun, 18-Feb-2024
+        11:35:56 GMT; path=/; secure; HttpOnly; SameSite=None
       - stsservicecookie=estsfd; path=/; secure; samesite=none; httponly
       - x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly
       Date:
-      - Mon, 15 Jan 2024 13:44:42 GMT
+      - Fri, 19 Jan 2024 11:35:55 GMT
       Content-Length:
       - '1708'
     body:
       encoding: UTF-8
-      string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiJKV1QiLCJub25jZSI6IjZ4b3lvZVB2MnF1a2l2VTJpbjhRUG1la1kxMjhvSktYenlTQU5KNjl5cmciLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1MzI1OTgzLCJuYmYiOjE3MDUzMjU5ODMsImV4cCI6MTcwNTMyOTg4MywiYWlvIjoiRTJWZ1lORC9QbEV2Y2ZQU281N0ZoM05WczZ1U0FRPT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoidWlVMWQtblVWMHlCZFFfTmZ3QlJBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.qdAxsgwIzkD4YzSkUQC4qPlcAATCCjsAq1Ivj2Z-0G3z46T0xK-57ZK5AxhHJYjCPIm06HmIPhOqUimQQJvF_CCzL3x2G6NobscgwOIRZSIjDOfOmEYksatej-5hP43GHfGLoj1Jcx7-TX3tfUYKtAWPjE-1Y3SMDAXzx0u9d3DfcXFCH7Srl_Z7A7dArNp22Zw4ju1NJ45GQh_6al2nBx2j9QmxSncxuFniJKAxAUzbaJ3vuvDDHTGAOwsyp1gASSFipnibtOZfXfHAjzdVl6taLOmOjnlj0I6to9DTdeSHyoi_1A93MLtKNrqQ5gHKrDI1IkWzA1U8cHxU1KPoxg"}'
-  recorded_at: Mon, 15 Jan 2024 13:44:43 GMT
+      string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiJKV1QiLCJub25jZSI6Ii1JY3d6S2J4WHBHeExxNnBSbUFKWFZQQWVrdWRlVHE0TXNoWVV1SXMtTk0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1NjYzODU2LCJuYmYiOjE3MDU2NjM4NTYsImV4cCI6MTcwNTY2Nzc1NiwiYWlvIjoiRTJWZ1lQaXRPYWxNVnpkNDZzeU9QL2svZlhzZkF3QT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiWTZpeGVZUVI5VUNoa0hZVnhDUVNBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.U_qprW0dCgEDzXRLfJVntwLb4B77vyPAnoHSkj6iCpkKd6wOeHHBggkVyKPwJE2yIQSPXNMWz0tBQG80aD1mJvXCnRQYe66M29Ur6FCXBOHzQ_9oiNRJUOS671_geThINQzAFra6GRl_SOS8b0N8ib4ijvfsdY1vibfBWLLn2DHUPle3iNuCQyQaLa5YKcdQA6krAIraJdSrNo4a9T60JFieUgEiuDu-b-MI8MhNgGtSEF7NdJRIokX1dw3ZY8-nRvQ6xG4JuGvGL5BG6pSsCxxF3b-xqs3Gr8givR3kJUGDjWfZbeUfOwx6LveaEGqw57WB-jGoulwrxQQ_n_exfw"}'
+  recorded_at: Fri, 19 Jan 2024 11:35:56 GMT
 - request:
     method: post
     uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/root/children
@@ -296,15 +63,17 @@ http_interactions:
       string: '{"name":"Permission Test Folder","folder":{},"@microsoft.graph.conflictBehavior":"fail"}'
     headers:
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IjZ4b3lvZVB2MnF1a2l2VTJpbjhRUG1la1kxMjhvSktYenlTQU5KNjl5cmciLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1MzI1OTgzLCJuYmYiOjE3MDUzMjU5ODMsImV4cCI6MTcwNTMyOTg4MywiYWlvIjoiRTJWZ1lORC9QbEV2Y2ZQU281N0ZoM05WczZ1U0FRPT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoidWlVMWQtblVWMHlCZFFfTmZ3QlJBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.qdAxsgwIzkD4YzSkUQC4qPlcAATCCjsAq1Ivj2Z-0G3z46T0xK-57ZK5AxhHJYjCPIm06HmIPhOqUimQQJvF_CCzL3x2G6NobscgwOIRZSIjDOfOmEYksatej-5hP43GHfGLoj1Jcx7-TX3tfUYKtAWPjE-1Y3SMDAXzx0u9d3DfcXFCH7Srl_Z7A7dArNp22Zw4ju1NJ45GQh_6al2nBx2j9QmxSncxuFniJKAxAUzbaJ3vuvDDHTGAOwsyp1gASSFipnibtOZfXfHAjzdVl6taLOmOjnlj0I6to9DTdeSHyoi_1A93MLtKNrqQ5gHKrDI1IkWzA1U8cHxU1KPoxg
+      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6Ii1JY3d6S2J4WHBHeExxNnBSbUFKWFZQQWVrdWRlVHE0TXNoWVV1SXMtTk0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1NjYzODU2LCJuYmYiOjE3MDU2NjM4NTYsImV4cCI6MTcwNTY2Nzc1NiwiYWlvIjoiRTJWZ1lQaXRPYWxNVnpkNDZzeU9QL2svZlhzZkF3QT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiWTZpeGVZUVI5VUNoa0hZVnhDUVNBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.U_qprW0dCgEDzXRLfJVntwLb4B77vyPAnoHSkj6iCpkKd6wOeHHBggkVyKPwJE2yIQSPXNMWz0tBQG80aD1mJvXCnRQYe66M29Ur6FCXBOHzQ_9oiNRJUOS671_geThINQzAFra6GRl_SOS8b0N8ib4ijvfsdY1vibfBWLLn2DHUPle3iNuCQyQaLa5YKcdQA6krAIraJdSrNo4a9T60JFieUgEiuDu-b-MI8MhNgGtSEF7NdJRIokX1dw3ZY8-nRvQ6xG4JuGvGL5BG6pSsCxxF3b-xqs3Gr8givR3kJUGDjWfZbeUfOwx6LveaEGqw57WB-jGoulwrxQQ_n_exfw
+      Accept:
+      - application/json
       Content-Type:
       - application/json
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
-      Accept:
-      - "*/*"
       User-Agent:
-      - Ruby
+      - httpx.rb/1.2.1
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Length:
+      - '88'
   response:
     status:
       code: 201
@@ -316,47 +85,102 @@ http_interactions:
       - chunked
       Content-Type:
       - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+      Content-Encoding:
+      - gzip
       Etag:
-      - '"{5A1BC7BB-69FD-4907-8F7E-67370D8D2146},1"'
+      - '"{422F6AFD-1D77-4836-9CD8-7C8DEFABE7C9},1"'
       Location:
-      - https://finn.sharepoint.com/_api/v2.0/drives('b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy')/items('root')/children('01AZJL5PN3Y4NVV7LJA5EY67THG4GY2IKG')
+      - https://finn.sharepoint.com/_api/v2.0/drives('b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy')/items('root')/children('01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J')
       Vary:
       - Accept-Encoding
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - b5e43eb2-69fd-4d1b-9189-2783ccd0d301
+      - dec0473c-66ef-43b7-8ea2-c4f1294863fa
       Client-Request-Id:
-      - b5e43eb2-69fd-4d1b-9189-2783ccd0d301
+      - dec0473c-66ef-43b7-8ea2-c4f1294863fa
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"FR3PEPF00000310"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000003EB"}}'
       Odata-Version:
       - '4.0'
       Date:
-      - Mon, 15 Jan 2024 13:44:43 GMT
+      - Fri, 19 Jan 2024 11:35:56 GMT
+      Connection:
+      - close
     body:
       encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy'')/root/children/$entity","@odata.etag":"\"{5A1BC7BB-69FD-4907-8F7E-67370D8D2146},1\"","createdDateTime":"2024-01-15T13:44:43Z","eTag":"\"{5A1BC7BB-69FD-4907-8F7E-67370D8D2146},1\"","id":"01AZJL5PN3Y4NVV7LJA5EY67THG4GY2IKG","lastModifiedDateTime":"2024-01-15T13:44:43Z","name":"Permission
-        Test Folder","size":0,"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/Manual%20Sharing%20Test/Permission%20Test%20Folder","cTag":"\"c:{5A1BC7BB-69FD-4907-8F7E-67370D8D2146},0\"","commentSettings":{"commentingDisabled":{"isDisabled":false}},"createdBy":{"application":{"displayName":"OpenProject
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy'')/root/children/$entity","@odata.etag":"\"{422F6AFD-1D77-4836-9CD8-7C8DEFABE7C9},1\"","createdDateTime":"2024-01-19T11:35:56Z","eTag":"\"{422F6AFD-1D77-4836-9CD8-7C8DEFABE7C9},1\"","id":"01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J","lastModifiedDateTime":"2024-01-19T11:35:56Z","name":"Permission
+        Test Folder","size":0,"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/Manual%20Sharing%20Test/Permission%20Test%20Folder","cTag":"\"c:{422F6AFD-1D77-4836-9CD8-7C8DEFABE7C9},0\"","commentSettings":{"commentingDisabled":{"isDisabled":false}},"createdBy":{"application":{"displayName":"OpenProject
         Dev App","id":"4262df2b-77bb-49c2-a5df-28355da676d2"},"user":{"displayName":"SharePoint
         App"}},"lastModifiedBy":{"application":{"displayName":"OpenProject Dev App","id":"4262df2b-77bb-49c2-a5df-28355da676d2"},"user":{"displayName":"SharePoint
-        App"}},"parentReference":{"driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy","driveType":"documentLibrary","id":"01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/root:","sharepointIds":{"listId":"f7f90ed1-a285-40e2-8841-e5460d76a332","listItemUniqueId":"a7a7b4ec-acc5-4a83-a405-2cd7418e7467","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50","siteUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests","tenantId":"4d44bf36-9b56-45c0-8807-bbf386dd047f","webId":"7ef259e8-8eed-4645-920a-8b367bb0d8e0"}},"fileSystemInfo":{"createdDateTime":"2024-01-15T13:44:43Z","lastModifiedDateTime":"2024-01-15T13:44:43Z"},"folder":{"childCount":0}}'
-  recorded_at: Mon, 15 Jan 2024 13:44:43 GMT
+        App"}},"parentReference":{"driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy","driveType":"documentLibrary","id":"01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/root:","sharepointIds":{"listId":"f7f90ed1-a285-40e2-8841-e5460d76a332","listItemUniqueId":"a7a7b4ec-acc5-4a83-a405-2cd7418e7467","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50","siteUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests","tenantId":"4d44bf36-9b56-45c0-8807-bbf386dd047f","webId":"7ef259e8-8eed-4645-920a-8b367bb0d8e0"}},"fileSystemInfo":{"createdDateTime":"2024-01-19T11:35:56Z","lastModifiedDateTime":"2024-01-19T11:35:56Z"},"folder":{"childCount":0}}'
+  recorded_at: Fri, 19 Jan 2024 11:35:56 GMT
 - request:
     method: get
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PN3Y4NVV7LJA5EY67THG4GY2IKG/permissions
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IjZ4b3lvZVB2MnF1a2l2VTJpbjhRUG1la1kxMjhvSktYenlTQU5KNjl5cmciLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1MzI1OTgzLCJuYmYiOjE3MDUzMjU5ODMsImV4cCI6MTcwNTMyOTg4MywiYWlvIjoiRTJWZ1lORC9QbEV2Y2ZQU281N0ZoM05WczZ1U0FRPT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoidWlVMWQtblVWMHlCZFFfTmZ3QlJBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.qdAxsgwIzkD4YzSkUQC4qPlcAATCCjsAq1Ivj2Z-0G3z46T0xK-57ZK5AxhHJYjCPIm06HmIPhOqUimQQJvF_CCzL3x2G6NobscgwOIRZSIjDOfOmEYksatej-5hP43GHfGLoj1Jcx7-TX3tfUYKtAWPjE-1Y3SMDAXzx0u9d3DfcXFCH7Srl_Z7A7dArNp22Zw4ju1NJ45GQh_6al2nBx2j9QmxSncxuFniJKAxAUzbaJ3vuvDDHTGAOwsyp1gASSFipnibtOZfXfHAjzdVl6taLOmOjnlj0I6to9DTdeSHyoi_1A93MLtKNrqQ5gHKrDI1IkWzA1U8cHxU1KPoxg
+      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6Ii1JY3d6S2J4WHBHeExxNnBSbUFKWFZQQWVrdWRlVHE0TXNoWVV1SXMtTk0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1NjYzODU2LCJuYmYiOjE3MDU2NjM4NTYsImV4cCI6MTcwNTY2Nzc1NiwiYWlvIjoiRTJWZ1lQaXRPYWxNVnpkNDZzeU9QL2svZlhzZkF3QT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiWTZpeGVZUVI5VUNoa0hZVnhDUVNBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.U_qprW0dCgEDzXRLfJVntwLb4B77vyPAnoHSkj6iCpkKd6wOeHHBggkVyKPwJE2yIQSPXNMWz0tBQG80aD1mJvXCnRQYe66M29Ur6FCXBOHzQ_9oiNRJUOS671_geThINQzAFra6GRl_SOS8b0N8ib4ijvfsdY1vibfBWLLn2DHUPle3iNuCQyQaLa5YKcdQA6krAIraJdSrNo4a9T60JFieUgEiuDu-b-MI8MhNgGtSEF7NdJRIokX1dw3ZY8-nRvQ6xG4JuGvGL5BG6pSsCxxF3b-xqs3Gr8givR3kJUGDjWfZbeUfOwx6LveaEGqw57WB-jGoulwrxQQ_n_exfw
       Accept:
       - application/json
       Content-Type:
       - application/json
       User-Agent:
-      - httpx.rb/1.2.0
+      - httpx.rb/1.2.1
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false;
+        charset=utf-8
+      Content-Encoding:
+      - gzip
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 7af23631-7f9c-4c88-8c6c-a9e0c0312e1e
+      Client-Request-Id:
+      - 7af23631-7f9c-4c88-8c6c-a9e0c0312e1e
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000003B4"}}'
+      Date:
+      - Fri, 19 Jan 2024 11:35:56 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#Collection(driveItem)/$entity","createdBy":{"application":{"id":"4262df2b-77bb-49c2-a5df-28355da676d2","displayName":"OpenProject
+        Dev App"},"user":{"displayName":"SharePoint App"}},"createdDateTime":"2024-01-19T11:35:56Z","eTag":"\"{422F6AFD-1D77-4836-9CD8-7C8DEFABE7C9},1\"","id":"01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J","lastModifiedBy":{"application":{"id":"4262df2b-77bb-49c2-a5df-28355da676d2","displayName":"OpenProject
+        Dev App"},"user":{"displayName":"SharePoint App"}},"lastModifiedDateTime":"2024-01-19T11:35:56Z","name":"Permission
+        Test Folder","parentReference":{"driveType":"documentLibrary","driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy","id":"01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ","name":"Manual
+        Sharing Test","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/root:","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50"},"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/Manual%20Sharing%20Test/Permission%20Test%20Folder","cTag":"\"c:{422F6AFD-1D77-4836-9CD8-7C8DEFABE7C9},0\"","fileSystemInfo":{"createdDateTime":"2024-01-19T11:35:56Z","lastModifiedDateTime":"2024-01-19T11:35:56Z"},"folder":{"childCount":0},"shared":{"scope":"users"},"size":0}'
+  recorded_at: Fri, 19 Jan 2024 11:35:56 GMT
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J/permissions
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6Ii1JY3d6S2J4WHBHeExxNnBSbUFKWFZQQWVrdWRlVHE0TXNoWVV1SXMtTk0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1NjYzODU2LCJuYmYiOjE3MDU2NjM4NTYsImV4cCI6MTcwNTY2Nzc1NiwiYWlvIjoiRTJWZ1lQaXRPYWxNVnpkNDZzeU9QL2svZlhzZkF3QT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiWTZpeGVZUVI5VUNoa0hZVnhDUVNBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.U_qprW0dCgEDzXRLfJVntwLb4B77vyPAnoHSkj6iCpkKd6wOeHHBggkVyKPwJE2yIQSPXNMWz0tBQG80aD1mJvXCnRQYe66M29Ur6FCXBOHzQ_9oiNRJUOS671_geThINQzAFra6GRl_SOS8b0N8ib4ijvfsdY1vibfBWLLn2DHUPle3iNuCQyQaLa5YKcdQA6krAIraJdSrNo4a9T60JFieUgEiuDu-b-MI8MhNgGtSEF7NdJRIokX1dw3ZY8-nRvQ6xG4JuGvGL5BG6pSsCxxF3b-xqs3Gr8givR3kJUGDjWfZbeUfOwx6LveaEGqw57WB-jGoulwrxQQ_n_exfw
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.2.1
       Accept-Encoding:
       - gzip, deflate
   response:
@@ -377,9 +201,435 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - 0d7a26d5-53db-4587-a4d6-d1b6653765b0
+      - 79ba2309-db3b-469e-ae85-bc0063085a9a
       Client-Request-Id:
-      - 0d7a26d5-53db-4587-a4d6-d1b6653765b0
+      - 79ba2309-db3b-469e-ae85-bc0063085a9a
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000004C8"}}'
+      Link:
+      - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html",
+        <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html"
+      Deprecation:
+      - Fri, 03 Sep 2021 23:59:59 GMT
+      Sunset:
+      - Sun, 01 Oct 2023 23:59:59 GMT
+      Odata-Version:
+      - '4.0'
+      Date:
+      - Fri, 19 Jan 2024 11:35:56 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy'')/items(''01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J'')/permissions","value":[{"id":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","roles":["owner"],"shareId":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","grantedToV2":{"siteGroup":{"displayName":"OpenProject
+        file storage tests Owners","id":"3","loginName":"OpenProject file storage
+        tests Owners"}},"grantedTo":{"user":{"displayName":"OpenProject file storage
+        tests Owners"}},"inheritedFrom":{}},{"id":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["owner"],"shareId":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","grantedToV2":{"user":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"Eric
+        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"},"siteUser":{"displayName":"Eric
+        Schubert","email":"eschubert.op@outlook.com","id":"12","loginName":"i:0#.f|membership|eschubert.op_outlook.com#ext#@finn.onmicrosoft.com"}},"grantedTo":{"user":{"displayName":"Eric
+        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"}},"inheritedFrom":{}},{"id":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","roles":["owner"],"shareId":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","grantedToV2":{"group":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"OpenProject
+        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"},"siteUser":{"displayName":"OpenProject
+        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"6","loginName":"c:0o.c|federateddirectoryclaimprovider|5854b8a6-789b-43a5-b7cd-1f00ad4bd030_o"}},"grantedTo":{"user":{"displayName":"OpenProject
+        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"}},"inheritedFrom":{}}]}'
+  recorded_at: Fri, 19 Jan 2024 11:35:56 GMT
+- request:
+    method: post
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J/invite
+    body:
+      encoding: UTF-8
+      string: '{"requireSignIn":true,"sendInvitation":false,"roles":["read"],"recipients":[{"objectId":"84acc1d5-61be-470b-9d79-0d1f105c2c5f"}]}'
+    headers:
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6Ii1JY3d6S2J4WHBHeExxNnBSbUFKWFZQQWVrdWRlVHE0TXNoWVV1SXMtTk0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1NjYzODU2LCJuYmYiOjE3MDU2NjM4NTYsImV4cCI6MTcwNTY2Nzc1NiwiYWlvIjoiRTJWZ1lQaXRPYWxNVnpkNDZzeU9QL2svZlhzZkF3QT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiWTZpeGVZUVI5VUNoa0hZVnhDUVNBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.U_qprW0dCgEDzXRLfJVntwLb4B77vyPAnoHSkj6iCpkKd6wOeHHBggkVyKPwJE2yIQSPXNMWz0tBQG80aD1mJvXCnRQYe66M29Ur6FCXBOHzQ_9oiNRJUOS671_geThINQzAFra6GRl_SOS8b0N8ib4ijvfsdY1vibfBWLLn2DHUPle3iNuCQyQaLa5YKcdQA6krAIraJdSrNo4a9T60JFieUgEiuDu-b-MI8MhNgGtSEF7NdJRIokX1dw3ZY8-nRvQ6xG4JuGvGL5BG6pSsCxxF3b-xqs3Gr8givR3kJUGDjWfZbeUfOwx6LveaEGqw57WB-jGoulwrxQQ_n_exfw
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.2.1
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Length:
+      - '129'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+      Content-Encoding:
+      - gzip
+      Location:
+      - https://graph.microsoft.com
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 3b3a3b32-0d66-4fc8-98cb-7cdcdf5244c0
+      Client-Request-Id:
+      - 3b3a3b32-0d66-4fc8-98cb-7cdcdf5244c0
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000001EE"}}'
+      Link:
+      - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html",
+        <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html"
+      Deprecation:
+      - Fri, 03 Sep 2021 23:59:59 GMT
+      Sunset:
+      - Sun, 01 Oct 2023 23:59:59 GMT
+      Odata-Version:
+      - '4.0'
+      Date:
+      - Fri, 19 Jan 2024 11:35:57 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#Collection(permission)","value":[{"@odata.type":"#microsoft.graph.permission","id":"aTowIy5mfG1lbWJlcnNoaXB8YXBmb2hsLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["read"],"grantedTo":{"user":{"email":"apfohl.op@outlook.com","id":"84acc1d5-61be-470b-9d79-0d1f105c2c5f","displayName":"Andreas
+        Pfohl"}}}]}'
+  recorded_at: Fri, 19 Jan 2024 11:35:57 GMT
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J/permissions
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6Ii1JY3d6S2J4WHBHeExxNnBSbUFKWFZQQWVrdWRlVHE0TXNoWVV1SXMtTk0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1NjYzODU2LCJuYmYiOjE3MDU2NjM4NTYsImV4cCI6MTcwNTY2Nzc1NiwiYWlvIjoiRTJWZ1lQaXRPYWxNVnpkNDZzeU9QL2svZlhzZkF3QT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiWTZpeGVZUVI5VUNoa0hZVnhDUVNBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.U_qprW0dCgEDzXRLfJVntwLb4B77vyPAnoHSkj6iCpkKd6wOeHHBggkVyKPwJE2yIQSPXNMWz0tBQG80aD1mJvXCnRQYe66M29Ur6FCXBOHzQ_9oiNRJUOS671_geThINQzAFra6GRl_SOS8b0N8ib4ijvfsdY1vibfBWLLn2DHUPle3iNuCQyQaLa5YKcdQA6krAIraJdSrNo4a9T60JFieUgEiuDu-b-MI8MhNgGtSEF7NdJRIokX1dw3ZY8-nRvQ6xG4JuGvGL5BG6pSsCxxF3b-xqs3Gr8givR3kJUGDjWfZbeUfOwx6LveaEGqw57WB-jGoulwrxQQ_n_exfw
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.2.1
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 478d8c67-ea27-45d9-b98a-974fcb8a8dbd
+      Client-Request-Id:
+      - 478d8c67-ea27-45d9-b98a-974fcb8a8dbd
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000003B4"}}'
+      Link:
+      - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html",
+        <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html"
+      Deprecation:
+      - Fri, 03 Sep 2021 23:59:59 GMT
+      Sunset:
+      - Sun, 01 Oct 2023 23:59:59 GMT
+      Odata-Version:
+      - '4.0'
+      Date:
+      - Fri, 19 Jan 2024 11:35:57 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy'')/items(''01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J'')/permissions","value":[{"id":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","roles":["owner"],"shareId":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","grantedToV2":{"siteGroup":{"displayName":"OpenProject
+        file storage tests Owners","id":"3","loginName":"OpenProject file storage
+        tests Owners"}},"grantedTo":{"user":{"displayName":"OpenProject file storage
+        tests Owners"}}},{"id":"aTowIy5mfG1lbWJlcnNoaXB8YXBmb2hsLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["read"],"shareId":"aTowIy5mfG1lbWJlcnNoaXB8YXBmb2hsLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","grantedToV2":{"user":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"Andreas
+        Pfohl","email":"apfohl.op@outlook.com","id":"84acc1d5-61be-470b-9d79-0d1f105c2c5f"},"siteUser":{"displayName":"Andreas
+        Pfohl","email":"apfohl.op@outlook.com","id":"15","loginName":"i:0#.f|membership|apfohl.op_outlook.com#ext#@finn.onmicrosoft.com"}},"grantedTo":{"user":{"displayName":"Andreas
+        Pfohl","email":"apfohl.op@outlook.com","id":"84acc1d5-61be-470b-9d79-0d1f105c2c5f"}}},{"id":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["owner"],"shareId":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","grantedToV2":{"user":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"Eric
+        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"},"siteUser":{"displayName":"Eric
+        Schubert","email":"eschubert.op@outlook.com","id":"12","loginName":"i:0#.f|membership|eschubert.op_outlook.com#ext#@finn.onmicrosoft.com"}},"grantedTo":{"user":{"displayName":"Eric
+        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"}}},{"id":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","roles":["owner"],"shareId":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","grantedToV2":{"group":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"OpenProject
+        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"},"siteUser":{"displayName":"OpenProject
+        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"6","loginName":"c:0o.c|federateddirectoryclaimprovider|5854b8a6-789b-43a5-b7cd-1f00ad4bd030_o"}},"grantedTo":{"user":{"displayName":"OpenProject
+        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"}}}]}'
+  recorded_at: Fri, 19 Jan 2024 11:35:58 GMT
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6Ii1JY3d6S2J4WHBHeExxNnBSbUFKWFZQQWVrdWRlVHE0TXNoWVV1SXMtTk0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1NjYzODU2LCJuYmYiOjE3MDU2NjM4NTYsImV4cCI6MTcwNTY2Nzc1NiwiYWlvIjoiRTJWZ1lQaXRPYWxNVnpkNDZzeU9QL2svZlhzZkF3QT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiWTZpeGVZUVI5VUNoa0hZVnhDUVNBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.U_qprW0dCgEDzXRLfJVntwLb4B77vyPAnoHSkj6iCpkKd6wOeHHBggkVyKPwJE2yIQSPXNMWz0tBQG80aD1mJvXCnRQYe66M29Ur6FCXBOHzQ_9oiNRJUOS671_geThINQzAFra6GRl_SOS8b0N8ib4ijvfsdY1vibfBWLLn2DHUPle3iNuCQyQaLa5YKcdQA6krAIraJdSrNo4a9T60JFieUgEiuDu-b-MI8MhNgGtSEF7NdJRIokX1dw3ZY8-nRvQ6xG4JuGvGL5BG6pSsCxxF3b-xqs3Gr8givR3kJUGDjWfZbeUfOwx6LveaEGqw57WB-jGoulwrxQQ_n_exfw
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.2.1
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false;
+        charset=utf-8
+      Content-Encoding:
+      - gzip
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 2b02e5a4-e7b8-4b98-80c4-481495f7f829
+      Client-Request-Id:
+      - 2b02e5a4-e7b8-4b98-80c4-481495f7f829
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000001DD"}}'
+      Date:
+      - Fri, 19 Jan 2024 11:35:58 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#Collection(driveItem)/$entity","createdBy":{"application":{"id":"4262df2b-77bb-49c2-a5df-28355da676d2","displayName":"OpenProject
+        Dev App"},"user":{"displayName":"SharePoint App"}},"createdDateTime":"2024-01-19T11:35:56Z","eTag":"\"{422F6AFD-1D77-4836-9CD8-7C8DEFABE7C9},2\"","id":"01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J","lastModifiedBy":{"application":{"id":"4262df2b-77bb-49c2-a5df-28355da676d2","displayName":"OpenProject
+        Dev App"},"user":{"displayName":"SharePoint App"}},"lastModifiedDateTime":"2024-01-19T11:35:56Z","name":"Permission
+        Test Folder","parentReference":{"driveType":"documentLibrary","driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy","id":"01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ","name":"Manual
+        Sharing Test","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/root:","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50"},"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/Manual%20Sharing%20Test/Permission%20Test%20Folder","cTag":"\"c:{422F6AFD-1D77-4836-9CD8-7C8DEFABE7C9},0\"","fileSystemInfo":{"createdDateTime":"2024-01-19T11:35:56Z","lastModifiedDateTime":"2024-01-19T11:35:56Z"},"folder":{"childCount":0},"shared":{"scope":"users"},"size":0}'
+  recorded_at: Fri, 19 Jan 2024 11:35:58 GMT
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J/permissions
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6Ii1JY3d6S2J4WHBHeExxNnBSbUFKWFZQQWVrdWRlVHE0TXNoWVV1SXMtTk0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1NjYzODU2LCJuYmYiOjE3MDU2NjM4NTYsImV4cCI6MTcwNTY2Nzc1NiwiYWlvIjoiRTJWZ1lQaXRPYWxNVnpkNDZzeU9QL2svZlhzZkF3QT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiWTZpeGVZUVI5VUNoa0hZVnhDUVNBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.U_qprW0dCgEDzXRLfJVntwLb4B77vyPAnoHSkj6iCpkKd6wOeHHBggkVyKPwJE2yIQSPXNMWz0tBQG80aD1mJvXCnRQYe66M29Ur6FCXBOHzQ_9oiNRJUOS671_geThINQzAFra6GRl_SOS8b0N8ib4ijvfsdY1vibfBWLLn2DHUPle3iNuCQyQaLa5YKcdQA6krAIraJdSrNo4a9T60JFieUgEiuDu-b-MI8MhNgGtSEF7NdJRIokX1dw3ZY8-nRvQ6xG4JuGvGL5BG6pSsCxxF3b-xqs3Gr8givR3kJUGDjWfZbeUfOwx6LveaEGqw57WB-jGoulwrxQQ_n_exfw
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.2.1
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - f7b27cae-b5fd-4dc7-9726-0293f9e64012
+      Client-Request-Id:
+      - f7b27cae-b5fd-4dc7-9726-0293f9e64012
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000001E0"}}'
+      Link:
+      - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html",
+        <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html"
+      Deprecation:
+      - Fri, 03 Sep 2021 23:59:59 GMT
+      Sunset:
+      - Sun, 01 Oct 2023 23:59:59 GMT
+      Odata-Version:
+      - '4.0'
+      Date:
+      - Fri, 19 Jan 2024 11:35:58 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy'')/items(''01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J'')/permissions","value":[{"id":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","roles":["owner"],"shareId":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","grantedToV2":{"siteGroup":{"displayName":"OpenProject
+        file storage tests Owners","id":"3","loginName":"OpenProject file storage
+        tests Owners"}},"grantedTo":{"user":{"displayName":"OpenProject file storage
+        tests Owners"}}},{"id":"aTowIy5mfG1lbWJlcnNoaXB8YXBmb2hsLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["read"],"shareId":"aTowIy5mfG1lbWJlcnNoaXB8YXBmb2hsLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","grantedToV2":{"user":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"Andreas
+        Pfohl","email":"apfohl.op@outlook.com","id":"84acc1d5-61be-470b-9d79-0d1f105c2c5f"},"siteUser":{"displayName":"Andreas
+        Pfohl","email":"apfohl.op@outlook.com","id":"15","loginName":"i:0#.f|membership|apfohl.op_outlook.com#ext#@finn.onmicrosoft.com"}},"grantedTo":{"user":{"displayName":"Andreas
+        Pfohl","email":"apfohl.op@outlook.com","id":"84acc1d5-61be-470b-9d79-0d1f105c2c5f"}}},{"id":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["owner"],"shareId":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","grantedToV2":{"user":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"Eric
+        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"},"siteUser":{"displayName":"Eric
+        Schubert","email":"eschubert.op@outlook.com","id":"12","loginName":"i:0#.f|membership|eschubert.op_outlook.com#ext#@finn.onmicrosoft.com"}},"grantedTo":{"user":{"displayName":"Eric
+        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"}}},{"id":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","roles":["owner"],"shareId":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","grantedToV2":{"group":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"OpenProject
+        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"},"siteUser":{"displayName":"OpenProject
+        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"6","loginName":"c:0o.c|federateddirectoryclaimprovider|5854b8a6-789b-43a5-b7cd-1f00ad4bd030_o"}},"grantedTo":{"user":{"displayName":"OpenProject
+        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"}}}]}'
+  recorded_at: Fri, 19 Jan 2024 11:35:58 GMT
+- request:
+    method: delete
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J/permissions/aTowIy5mfG1lbWJlcnNoaXB8YXBmb2hsLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6Ii1JY3d6S2J4WHBHeExxNnBSbUFKWFZQQWVrdWRlVHE0TXNoWVV1SXMtTk0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1NjYzODU2LCJuYmYiOjE3MDU2NjM4NTYsImV4cCI6MTcwNTY2Nzc1NiwiYWlvIjoiRTJWZ1lQaXRPYWxNVnpkNDZzeU9QL2svZlhzZkF3QT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiWTZpeGVZUVI5VUNoa0hZVnhDUVNBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.U_qprW0dCgEDzXRLfJVntwLb4B77vyPAnoHSkj6iCpkKd6wOeHHBggkVyKPwJE2yIQSPXNMWz0tBQG80aD1mJvXCnRQYe66M29Ur6FCXBOHzQ_9oiNRJUOS671_geThINQzAFra6GRl_SOS8b0N8ib4ijvfsdY1vibfBWLLn2DHUPle3iNuCQyQaLa5YKcdQA6krAIraJdSrNo4a9T60JFieUgEiuDu-b-MI8MhNgGtSEF7NdJRIokX1dw3ZY8-nRvQ6xG4JuGvGL5BG6pSsCxxF3b-xqs3Gr8givR3kJUGDjWfZbeUfOwx6LveaEGqw57WB-jGoulwrxQQ_n_exfw
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.2.1
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 204
+      message: No Content
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 294619ed-8129-408c-a56b-911e3ac36a14
+      Client-Request-Id:
+      - 294619ed-8129-408c-a56b-911e3ac36a14
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000003B4"}}'
+      Link:
+      - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html",
+        <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html"
+      Deprecation:
+      - Fri, 03 Sep 2021 23:59:59 GMT
+      Sunset:
+      - Sun, 01 Oct 2023 23:59:59 GMT
+      Date:
+      - Fri, 19 Jan 2024 11:35:58 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Fri, 19 Jan 2024 11:35:59 GMT
+- request:
+    method: post
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J/invite
+    body:
+      encoding: UTF-8
+      string: '{"requireSignIn":true,"sendInvitation":false,"roles":["read"],"recipients":[{"objectId":"d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce"}]}'
+    headers:
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6Ii1JY3d6S2J4WHBHeExxNnBSbUFKWFZQQWVrdWRlVHE0TXNoWVV1SXMtTk0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1NjYzODU2LCJuYmYiOjE3MDU2NjM4NTYsImV4cCI6MTcwNTY2Nzc1NiwiYWlvIjoiRTJWZ1lQaXRPYWxNVnpkNDZzeU9QL2svZlhzZkF3QT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiWTZpeGVZUVI5VUNoa0hZVnhDUVNBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.U_qprW0dCgEDzXRLfJVntwLb4B77vyPAnoHSkj6iCpkKd6wOeHHBggkVyKPwJE2yIQSPXNMWz0tBQG80aD1mJvXCnRQYe66M29Ur6FCXBOHzQ_9oiNRJUOS671_geThINQzAFra6GRl_SOS8b0N8ib4ijvfsdY1vibfBWLLn2DHUPle3iNuCQyQaLa5YKcdQA6krAIraJdSrNo4a9T60JFieUgEiuDu-b-MI8MhNgGtSEF7NdJRIokX1dw3ZY8-nRvQ6xG4JuGvGL5BG6pSsCxxF3b-xqs3Gr8givR3kJUGDjWfZbeUfOwx6LveaEGqw57WB-jGoulwrxQQ_n_exfw
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.2.1
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Length:
+      - '129'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+      Content-Encoding:
+      - gzip
+      Location:
+      - https://graph.microsoft.com
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 30483a36-036e-4fec-8628-ea0814f789a6
+      Client-Request-Id:
+      - 30483a36-036e-4fec-8628-ea0814f789a6
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000001EE"}}'
+      Link:
+      - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html",
+        <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html"
+      Deprecation:
+      - Fri, 03 Sep 2021 23:59:59 GMT
+      Sunset:
+      - Sun, 01 Oct 2023 23:59:59 GMT
+      Odata-Version:
+      - '4.0'
+      Date:
+      - Fri, 19 Jan 2024 11:35:59 GMT
+      Connection:
+      - close
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#Collection(permission)","value":[{"@odata.type":"#microsoft.graph.permission","id":"aTowIy5mfG1lbWJlcnNoaXB8bXJvY2hhLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["read"],"grantedTo":{"user":{"email":"mrocha.op@outlook.com","id":"d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce","displayName":"Marcello
+        Rocha"}}}]}'
+  recorded_at: Fri, 19 Jan 2024 11:35:59 GMT
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J/permissions
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6Ii1JY3d6S2J4WHBHeExxNnBSbUFKWFZQQWVrdWRlVHE0TXNoWVV1SXMtTk0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1NjYzODU2LCJuYmYiOjE3MDU2NjM4NTYsImV4cCI6MTcwNTY2Nzc1NiwiYWlvIjoiRTJWZ1lQaXRPYWxNVnpkNDZzeU9QL2svZlhzZkF3QT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiWTZpeGVZUVI5VUNoa0hZVnhDUVNBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.U_qprW0dCgEDzXRLfJVntwLb4B77vyPAnoHSkj6iCpkKd6wOeHHBggkVyKPwJE2yIQSPXNMWz0tBQG80aD1mJvXCnRQYe66M29Ur6FCXBOHzQ_9oiNRJUOS671_geThINQzAFra6GRl_SOS8b0N8ib4ijvfsdY1vibfBWLLn2DHUPle3iNuCQyQaLa5YKcdQA6krAIraJdSrNo4a9T60JFieUgEiuDu-b-MI8MhNgGtSEF7NdJRIokX1dw3ZY8-nRvQ6xG4JuGvGL5BG6pSsCxxF3b-xqs3Gr8givR3kJUGDjWfZbeUfOwx6LveaEGqw57WB-jGoulwrxQQ_n_exfw
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.2.1
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 7523f67e-c70a-4e01-b467-4a7dab551616
+      Client-Request-Id:
+      - 7523f67e-c70a-4e01-b467-4a7dab551616
       X-Ms-Ags-Diagnostic:
       - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000004CA"}}'
       Link:
@@ -392,387 +642,12 @@ http_interactions:
       Odata-Version:
       - '4.0'
       Date:
-      - Mon, 15 Jan 2024 13:44:43 GMT
+      - Fri, 19 Jan 2024 11:35:59 GMT
       Connection:
       - close
     body:
       encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy'')/items(''01AZJL5PN3Y4NVV7LJA5EY67THG4GY2IKG'')/permissions","value":[{"id":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","roles":["owner"],"shareId":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","grantedToV2":{"siteGroup":{"displayName":"OpenProject
-        file storage tests Owners","id":"3","loginName":"OpenProject file storage
-        tests Owners"}},"grantedTo":{"user":{"displayName":"OpenProject file storage
-        tests Owners"}},"inheritedFrom":{}},{"id":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["owner"],"shareId":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","grantedToV2":{"user":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"Eric
-        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"},"siteUser":{"displayName":"Eric
-        Schubert","email":"eschubert.op@outlook.com","id":"12","loginName":"i:0#.f|membership|eschubert.op_outlook.com#ext#@finn.onmicrosoft.com"}},"grantedTo":{"user":{"displayName":"Eric
-        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"}},"inheritedFrom":{}},{"id":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","roles":["owner"],"shareId":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","grantedToV2":{"group":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"OpenProject
-        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"},"siteUser":{"displayName":"OpenProject
-        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"6","loginName":"c:0o.c|federateddirectoryclaimprovider|5854b8a6-789b-43a5-b7cd-1f00ad4bd030_o"}},"grantedTo":{"user":{"displayName":"OpenProject
-        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"}},"inheritedFrom":{}}]}'
-  recorded_at: Mon, 15 Jan 2024 13:44:43 GMT
-- request:
-    method: post
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PN3Y4NVV7LJA5EY67THG4GY2IKG/invite
-    body:
-      encoding: UTF-8
-      string: '{"requireSignIn":true,"sendInvitation":false,"roles":["read"],"recipients":[{"objectId":"84acc1d5-61be-470b-9d79-0d1f105c2c5f"}]}'
-    headers:
-      Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IjZ4b3lvZVB2MnF1a2l2VTJpbjhRUG1la1kxMjhvSktYenlTQU5KNjl5cmciLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1MzI1OTgzLCJuYmYiOjE3MDUzMjU5ODMsImV4cCI6MTcwNTMyOTg4MywiYWlvIjoiRTJWZ1lORC9QbEV2Y2ZQU281N0ZoM05WczZ1U0FRPT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoidWlVMWQtblVWMHlCZFFfTmZ3QlJBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.qdAxsgwIzkD4YzSkUQC4qPlcAATCCjsAq1Ivj2Z-0G3z46T0xK-57ZK5AxhHJYjCPIm06HmIPhOqUimQQJvF_CCzL3x2G6NobscgwOIRZSIjDOfOmEYksatej-5hP43GHfGLoj1Jcx7-TX3tfUYKtAWPjE-1Y3SMDAXzx0u9d3DfcXFCH7Srl_Z7A7dArNp22Zw4ju1NJ45GQh_6al2nBx2j9QmxSncxuFniJKAxAUzbaJ3vuvDDHTGAOwsyp1gASSFipnibtOZfXfHAjzdVl6taLOmOjnlj0I6to9DTdeSHyoi_1A93MLtKNrqQ5gHKrDI1IkWzA1U8cHxU1KPoxg
-      Accept:
-      - application/json
-      Content-Type:
-      - application/json
-      User-Agent:
-      - httpx.rb/1.2.0
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Length:
-      - '129'
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
-      Content-Type:
-      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
-      Content-Encoding:
-      - gzip
-      Location:
-      - https://graph.microsoft.com
-      Vary:
-      - Accept-Encoding
-      Strict-Transport-Security:
-      - max-age=31536000
-      Request-Id:
-      - e0886e5c-e00f-4e23-b26e-2a26570937b5
-      Client-Request-Id:
-      - e0886e5c-e00f-4e23-b26e-2a26570937b5
-      X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000004C9"}}'
-      Link:
-      - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html",
-        <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html"
-      Deprecation:
-      - Fri, 03 Sep 2021 23:59:59 GMT
-      Sunset:
-      - Sun, 01 Oct 2023 23:59:59 GMT
-      Odata-Version:
-      - '4.0'
-      Date:
-      - Mon, 15 Jan 2024 13:44:44 GMT
-      Connection:
-      - close
-    body:
-      encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#Collection(permission)","value":[{"@odata.type":"#microsoft.graph.permission","id":"aTowIy5mfG1lbWJlcnNoaXB8YXBmb2hsLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["read"],"grantedTo":{"user":{"email":"apfohl.op@outlook.com","id":"84acc1d5-61be-470b-9d79-0d1f105c2c5f","displayName":"Andreas
-        Pfohl"}}}]}'
-  recorded_at: Mon, 15 Jan 2024 13:44:44 GMT
-- request:
-    method: get
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PN3Y4NVV7LJA5EY67THG4GY2IKG/permissions
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IjZ4b3lvZVB2MnF1a2l2VTJpbjhRUG1la1kxMjhvSktYenlTQU5KNjl5cmciLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1MzI1OTgzLCJuYmYiOjE3MDUzMjU5ODMsImV4cCI6MTcwNTMyOTg4MywiYWlvIjoiRTJWZ1lORC9QbEV2Y2ZQU281N0ZoM05WczZ1U0FRPT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoidWlVMWQtblVWMHlCZFFfTmZ3QlJBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.qdAxsgwIzkD4YzSkUQC4qPlcAATCCjsAq1Ivj2Z-0G3z46T0xK-57ZK5AxhHJYjCPIm06HmIPhOqUimQQJvF_CCzL3x2G6NobscgwOIRZSIjDOfOmEYksatej-5hP43GHfGLoj1Jcx7-TX3tfUYKtAWPjE-1Y3SMDAXzx0u9d3DfcXFCH7Srl_Z7A7dArNp22Zw4ju1NJ45GQh_6al2nBx2j9QmxSncxuFniJKAxAUzbaJ3vuvDDHTGAOwsyp1gASSFipnibtOZfXfHAjzdVl6taLOmOjnlj0I6to9DTdeSHyoi_1A93MLtKNrqQ5gHKrDI1IkWzA1U8cHxU1KPoxg
-      Accept:
-      - application/json
-      Content-Type:
-      - application/json
-      User-Agent:
-      - httpx.rb/1.2.0
-      Accept-Encoding:
-      - gzip, deflate
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
-      Content-Type:
-      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
-      Content-Encoding:
-      - gzip
-      Vary:
-      - Accept-Encoding
-      Strict-Transport-Security:
-      - max-age=31536000
-      Request-Id:
-      - eff4c046-7e6d-4aca-afbc-4181fbf9444e
-      Client-Request-Id:
-      - eff4c046-7e6d-4aca-afbc-4181fbf9444e
-      X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000003B3"}}'
-      Link:
-      - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html",
-        <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html"
-      Deprecation:
-      - Fri, 03 Sep 2021 23:59:59 GMT
-      Sunset:
-      - Sun, 01 Oct 2023 23:59:59 GMT
-      Odata-Version:
-      - '4.0'
-      Date:
-      - Mon, 15 Jan 2024 13:44:45 GMT
-      Connection:
-      - close
-    body:
-      encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy'')/items(''01AZJL5PN3Y4NVV7LJA5EY67THG4GY2IKG'')/permissions","value":[{"id":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","roles":["owner"],"shareId":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","grantedToV2":{"siteGroup":{"displayName":"OpenProject
-        file storage tests Owners","id":"3","loginName":"OpenProject file storage
-        tests Owners"}},"grantedTo":{"user":{"displayName":"OpenProject file storage
-        tests Owners"}}},{"id":"aTowIy5mfG1lbWJlcnNoaXB8YXBmb2hsLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["read"],"shareId":"aTowIy5mfG1lbWJlcnNoaXB8YXBmb2hsLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","grantedToV2":{"user":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"Andreas
-        Pfohl","email":"apfohl.op@outlook.com","id":"84acc1d5-61be-470b-9d79-0d1f105c2c5f"},"siteUser":{"displayName":"Andreas
-        Pfohl","email":"apfohl.op@outlook.com","id":"15","loginName":"i:0#.f|membership|apfohl.op_outlook.com#ext#@finn.onmicrosoft.com"}},"grantedTo":{"user":{"displayName":"Andreas
-        Pfohl","email":"apfohl.op@outlook.com","id":"84acc1d5-61be-470b-9d79-0d1f105c2c5f"}}},{"id":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["owner"],"shareId":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","grantedToV2":{"user":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"Eric
-        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"},"siteUser":{"displayName":"Eric
-        Schubert","email":"eschubert.op@outlook.com","id":"12","loginName":"i:0#.f|membership|eschubert.op_outlook.com#ext#@finn.onmicrosoft.com"}},"grantedTo":{"user":{"displayName":"Eric
-        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"}}},{"id":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","roles":["owner"],"shareId":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","grantedToV2":{"group":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"OpenProject
-        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"},"siteUser":{"displayName":"OpenProject
-        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"6","loginName":"c:0o.c|federateddirectoryclaimprovider|5854b8a6-789b-43a5-b7cd-1f00ad4bd030_o"}},"grantedTo":{"user":{"displayName":"OpenProject
-        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"}}}]}'
-  recorded_at: Mon, 15 Jan 2024 13:44:45 GMT
-- request:
-    method: get
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PN3Y4NVV7LJA5EY67THG4GY2IKG/permissions
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IjZ4b3lvZVB2MnF1a2l2VTJpbjhRUG1la1kxMjhvSktYenlTQU5KNjl5cmciLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1MzI1OTgzLCJuYmYiOjE3MDUzMjU5ODMsImV4cCI6MTcwNTMyOTg4MywiYWlvIjoiRTJWZ1lORC9QbEV2Y2ZQU281N0ZoM05WczZ1U0FRPT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoidWlVMWQtblVWMHlCZFFfTmZ3QlJBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.qdAxsgwIzkD4YzSkUQC4qPlcAATCCjsAq1Ivj2Z-0G3z46T0xK-57ZK5AxhHJYjCPIm06HmIPhOqUimQQJvF_CCzL3x2G6NobscgwOIRZSIjDOfOmEYksatej-5hP43GHfGLoj1Jcx7-TX3tfUYKtAWPjE-1Y3SMDAXzx0u9d3DfcXFCH7Srl_Z7A7dArNp22Zw4ju1NJ45GQh_6al2nBx2j9QmxSncxuFniJKAxAUzbaJ3vuvDDHTGAOwsyp1gASSFipnibtOZfXfHAjzdVl6taLOmOjnlj0I6to9DTdeSHyoi_1A93MLtKNrqQ5gHKrDI1IkWzA1U8cHxU1KPoxg
-      Accept:
-      - application/json
-      Content-Type:
-      - application/json
-      User-Agent:
-      - httpx.rb/1.2.0
-      Accept-Encoding:
-      - gzip, deflate
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
-      Content-Type:
-      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
-      Content-Encoding:
-      - gzip
-      Vary:
-      - Accept-Encoding
-      Strict-Transport-Security:
-      - max-age=31536000
-      Request-Id:
-      - 64ea52d7-96fe-42e8-9983-0e36bb3da2a2
-      Client-Request-Id:
-      - 64ea52d7-96fe-42e8-9983-0e36bb3da2a2
-      X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000004C6"}}'
-      Link:
-      - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html",
-        <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html"
-      Deprecation:
-      - Fri, 03 Sep 2021 23:59:59 GMT
-      Sunset:
-      - Sun, 01 Oct 2023 23:59:59 GMT
-      Odata-Version:
-      - '4.0'
-      Date:
-      - Mon, 15 Jan 2024 13:44:44 GMT
-      Connection:
-      - close
-    body:
-      encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy'')/items(''01AZJL5PN3Y4NVV7LJA5EY67THG4GY2IKG'')/permissions","value":[{"id":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","roles":["owner"],"shareId":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","grantedToV2":{"siteGroup":{"displayName":"OpenProject
-        file storage tests Owners","id":"3","loginName":"OpenProject file storage
-        tests Owners"}},"grantedTo":{"user":{"displayName":"OpenProject file storage
-        tests Owners"}}},{"id":"aTowIy5mfG1lbWJlcnNoaXB8YXBmb2hsLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["read"],"shareId":"aTowIy5mfG1lbWJlcnNoaXB8YXBmb2hsLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","grantedToV2":{"user":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"Andreas
-        Pfohl","email":"apfohl.op@outlook.com","id":"84acc1d5-61be-470b-9d79-0d1f105c2c5f"},"siteUser":{"displayName":"Andreas
-        Pfohl","email":"apfohl.op@outlook.com","id":"15","loginName":"i:0#.f|membership|apfohl.op_outlook.com#ext#@finn.onmicrosoft.com"}},"grantedTo":{"user":{"displayName":"Andreas
-        Pfohl","email":"apfohl.op@outlook.com","id":"84acc1d5-61be-470b-9d79-0d1f105c2c5f"}}},{"id":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["owner"],"shareId":"aTowIy5mfG1lbWJlcnNoaXB8ZXNjaHViZXJ0Lm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","grantedToV2":{"user":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"Eric
-        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"},"siteUser":{"displayName":"Eric
-        Schubert","email":"eschubert.op@outlook.com","id":"12","loginName":"i:0#.f|membership|eschubert.op_outlook.com#ext#@finn.onmicrosoft.com"}},"grantedTo":{"user":{"displayName":"Eric
-        Schubert","email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a"}}},{"id":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","roles":["owner"],"shareId":"Yzowby5jfGZlZGVyYXRlZGRpcmVjdG9yeWNsYWltcHJvdmlkZXJ8NTg1NGI4YTYtNzg5Yi00M2E1LWI3Y2QtMWYwMGFkNGJkMDMwX28","grantedToV2":{"group":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"OpenProject
-        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"},"siteUser":{"displayName":"OpenProject
-        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"6","loginName":"c:0o.c|federateddirectoryclaimprovider|5854b8a6-789b-43a5-b7cd-1f00ad4bd030_o"}},"grantedTo":{"user":{"displayName":"OpenProject
-        file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"}}}]}'
-  recorded_at: Mon, 15 Jan 2024 13:44:45 GMT
-- request:
-    method: delete
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PN3Y4NVV7LJA5EY67THG4GY2IKG/permissions/aTowIy5mfG1lbWJlcnNoaXB8YXBmb2hsLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IjZ4b3lvZVB2MnF1a2l2VTJpbjhRUG1la1kxMjhvSktYenlTQU5KNjl5cmciLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1MzI1OTgzLCJuYmYiOjE3MDUzMjU5ODMsImV4cCI6MTcwNTMyOTg4MywiYWlvIjoiRTJWZ1lORC9QbEV2Y2ZQU281N0ZoM05WczZ1U0FRPT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoidWlVMWQtblVWMHlCZFFfTmZ3QlJBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.qdAxsgwIzkD4YzSkUQC4qPlcAATCCjsAq1Ivj2Z-0G3z46T0xK-57ZK5AxhHJYjCPIm06HmIPhOqUimQQJvF_CCzL3x2G6NobscgwOIRZSIjDOfOmEYksatej-5hP43GHfGLoj1Jcx7-TX3tfUYKtAWPjE-1Y3SMDAXzx0u9d3DfcXFCH7Srl_Z7A7dArNp22Zw4ju1NJ45GQh_6al2nBx2j9QmxSncxuFniJKAxAUzbaJ3vuvDDHTGAOwsyp1gASSFipnibtOZfXfHAjzdVl6taLOmOjnlj0I6to9DTdeSHyoi_1A93MLtKNrqQ5gHKrDI1IkWzA1U8cHxU1KPoxg
-      Accept:
-      - application/json
-      Content-Type:
-      - application/json
-      User-Agent:
-      - httpx.rb/1.2.0
-      Accept-Encoding:
-      - gzip, deflate
-  response:
-    status:
-      code: 204
-      message: No Content
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Strict-Transport-Security:
-      - max-age=31536000
-      Request-Id:
-      - de1affc7-720d-4961-b04a-65f606ccfbb8
-      Client-Request-Id:
-      - de1affc7-720d-4961-b04a-65f606ccfbb8
-      X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000001E9"}}'
-      Link:
-      - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html",
-        <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html"
-      Deprecation:
-      - Fri, 03 Sep 2021 23:59:59 GMT
-      Sunset:
-      - Sun, 01 Oct 2023 23:59:59 GMT
-      Date:
-      - Mon, 15 Jan 2024 13:44:45 GMT
-      Connection:
-      - close
-    body:
-      encoding: UTF-8
-      string: ''
-  recorded_at: Mon, 15 Jan 2024 13:44:45 GMT
-- request:
-    method: post
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PN3Y4NVV7LJA5EY67THG4GY2IKG/invite
-    body:
-      encoding: UTF-8
-      string: '{"requireSignIn":true,"sendInvitation":false,"roles":["read"],"recipients":[{"objectId":"d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce"}]}'
-    headers:
-      Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IjZ4b3lvZVB2MnF1a2l2VTJpbjhRUG1la1kxMjhvSktYenlTQU5KNjl5cmciLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1MzI1OTgzLCJuYmYiOjE3MDUzMjU5ODMsImV4cCI6MTcwNTMyOTg4MywiYWlvIjoiRTJWZ1lORC9QbEV2Y2ZQU281N0ZoM05WczZ1U0FRPT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoidWlVMWQtblVWMHlCZFFfTmZ3QlJBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.qdAxsgwIzkD4YzSkUQC4qPlcAATCCjsAq1Ivj2Z-0G3z46T0xK-57ZK5AxhHJYjCPIm06HmIPhOqUimQQJvF_CCzL3x2G6NobscgwOIRZSIjDOfOmEYksatej-5hP43GHfGLoj1Jcx7-TX3tfUYKtAWPjE-1Y3SMDAXzx0u9d3DfcXFCH7Srl_Z7A7dArNp22Zw4ju1NJ45GQh_6al2nBx2j9QmxSncxuFniJKAxAUzbaJ3vuvDDHTGAOwsyp1gASSFipnibtOZfXfHAjzdVl6taLOmOjnlj0I6to9DTdeSHyoi_1A93MLtKNrqQ5gHKrDI1IkWzA1U8cHxU1KPoxg
-      Accept:
-      - application/json
-      Content-Type:
-      - application/json
-      User-Agent:
-      - httpx.rb/1.2.0
-      Accept-Encoding:
-      - gzip, deflate
-      Content-Length:
-      - '129'
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
-      Content-Type:
-      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
-      Content-Encoding:
-      - gzip
-      Location:
-      - https://graph.microsoft.com
-      Vary:
-      - Accept-Encoding
-      Strict-Transport-Security:
-      - max-age=31536000
-      Request-Id:
-      - '019bcb40-66b8-4840-be37-d21e047d8260'
-      Client-Request-Id:
-      - '019bcb40-66b8-4840-be37-d21e047d8260'
-      X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000003EA"}}'
-      Link:
-      - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html",
-        <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html"
-      Deprecation:
-      - Fri, 03 Sep 2021 23:59:59 GMT
-      Sunset:
-      - Sun, 01 Oct 2023 23:59:59 GMT
-      Odata-Version:
-      - '4.0'
-      Date:
-      - Mon, 15 Jan 2024 13:44:45 GMT
-      Connection:
-      - close
-    body:
-      encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#Collection(permission)","value":[{"@odata.type":"#microsoft.graph.permission","id":"aTowIy5mfG1lbWJlcnNoaXB8bXJvY2hhLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["read"],"grantedTo":{"user":{"email":"mrocha.op@outlook.com","id":"d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce","displayName":"Marcello
-        Rocha"}}}]}'
-  recorded_at: Mon, 15 Jan 2024 13:44:46 GMT
-- request:
-    method: get
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PN3Y4NVV7LJA5EY67THG4GY2IKG/permissions
-    body:
-      encoding: US-ASCII
-      string: ''
-    headers:
-      Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IjZ4b3lvZVB2MnF1a2l2VTJpbjhRUG1la1kxMjhvSktYenlTQU5KNjl5cmciLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1MzI1OTgzLCJuYmYiOjE3MDUzMjU5ODMsImV4cCI6MTcwNTMyOTg4MywiYWlvIjoiRTJWZ1lORC9QbEV2Y2ZQU281N0ZoM05WczZ1U0FRPT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoidWlVMWQtblVWMHlCZFFfTmZ3QlJBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.qdAxsgwIzkD4YzSkUQC4qPlcAATCCjsAq1Ivj2Z-0G3z46T0xK-57ZK5AxhHJYjCPIm06HmIPhOqUimQQJvF_CCzL3x2G6NobscgwOIRZSIjDOfOmEYksatej-5hP43GHfGLoj1Jcx7-TX3tfUYKtAWPjE-1Y3SMDAXzx0u9d3DfcXFCH7Srl_Z7A7dArNp22Zw4ju1NJ45GQh_6al2nBx2j9QmxSncxuFniJKAxAUzbaJ3vuvDDHTGAOwsyp1gASSFipnibtOZfXfHAjzdVl6taLOmOjnlj0I6to9DTdeSHyoi_1A93MLtKNrqQ5gHKrDI1IkWzA1U8cHxU1KPoxg
-      Accept:
-      - application/json
-      Content-Type:
-      - application/json
-      User-Agent:
-      - httpx.rb/1.2.0
-      Accept-Encoding:
-      - gzip, deflate
-  response:
-    status:
-      code: 200
-      message: OK
-    headers:
-      Cache-Control:
-      - no-store, no-cache
-      Transfer-Encoding:
-      - chunked
-      Content-Type:
-      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
-      Content-Encoding:
-      - gzip
-      Vary:
-      - Accept-Encoding
-      Strict-Transport-Security:
-      - max-age=31536000
-      Request-Id:
-      - 311f7bdb-d749-4d2b-9e15-f1ad2b2b873c
-      Client-Request-Id:
-      - 311f7bdb-d749-4d2b-9e15-f1ad2b2b873c
-      X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000004C6"}}'
-      Link:
-      - <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html",
-        <https://developer.microsoft-tst.com/en-us/graph/changes?$filterby=v1.0,Removal&from=2021-09-01&to=2021-10-01>;rel="deprecation";type="text/html"
-      Deprecation:
-      - Fri, 03 Sep 2021 23:59:59 GMT
-      Sunset:
-      - Sun, 01 Oct 2023 23:59:59 GMT
-      Odata-Version:
-      - '4.0'
-      Date:
-      - Mon, 15 Jan 2024 13:44:46 GMT
-      Connection:
-      - close
-    body:
-      encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy'')/items(''01AZJL5PN3Y4NVV7LJA5EY67THG4GY2IKG'')/permissions","value":[{"id":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","roles":["owner"],"shareId":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","grantedToV2":{"siteGroup":{"displayName":"OpenProject
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy'')/items(''01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J'')/permissions","value":[{"id":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","roles":["owner"],"shareId":"T3BlblByb2plY3QgZmlsZSBzdG9yYWdlIHRlc3RzIE93bmVycw","grantedToV2":{"siteGroup":{"displayName":"OpenProject
         file storage tests Owners","id":"3","loginName":"OpenProject file storage
         tests Owners"}},"grantedTo":{"user":{"displayName":"OpenProject file storage
         tests Owners"}}},{"id":"aTowIy5mfG1lbWJlcnNoaXB8bXJvY2hhLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","roles":["read"],"shareId":"aTowIy5mfG1lbWJlcnNoaXB8bXJvY2hhLm9wX291dGxvb2suY29tI2V4dCNAZmlubi5vbm1pY3Jvc29mdC5jb20","grantedToV2":{"user":{"@odata.type":"#microsoft.graph.sharePointIdentity","displayName":"Marcello
@@ -785,22 +660,24 @@ http_interactions:
         file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"},"siteUser":{"displayName":"OpenProject
         file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"6","loginName":"c:0o.c|federateddirectoryclaimprovider|5854b8a6-789b-43a5-b7cd-1f00ad4bd030_o"}},"grantedTo":{"user":{"displayName":"OpenProject
         file storage tests Owners","email":"openprojectfilestoragetests@finn.onmicrosoft.com","id":"5854b8a6-789b-43a5-b7cd-1f00ad4bd030"}}}]}'
-  recorded_at: Mon, 15 Jan 2024 13:44:47 GMT
+  recorded_at: Fri, 19 Jan 2024 11:36:00 GMT
 - request:
     method: delete
-    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PN3Y4NVV7LJA5EY67THG4GY2IKG
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy/items/01AZJL5PP5NIXUE5Y5GZEJZWD4RXX2XZ6J
     body:
       encoding: US-ASCII
       string: ''
     headers:
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IjZ4b3lvZVB2MnF1a2l2VTJpbjhRUG1la1kxMjhvSktYenlTQU5KNjl5cmciLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1MzI1OTgzLCJuYmYiOjE3MDUzMjU5ODMsImV4cCI6MTcwNTMyOTg4MywiYWlvIjoiRTJWZ1lORC9QbEV2Y2ZQU281N0ZoM05WczZ1U0FRPT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoidWlVMWQtblVWMHlCZFFfTmZ3QlJBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.qdAxsgwIzkD4YzSkUQC4qPlcAATCCjsAq1Ivj2Z-0G3z46T0xK-57ZK5AxhHJYjCPIm06HmIPhOqUimQQJvF_CCzL3x2G6NobscgwOIRZSIjDOfOmEYksatej-5hP43GHfGLoj1Jcx7-TX3tfUYKtAWPjE-1Y3SMDAXzx0u9d3DfcXFCH7Srl_Z7A7dArNp22Zw4ju1NJ45GQh_6al2nBx2j9QmxSncxuFniJKAxAUzbaJ3vuvDDHTGAOwsyp1gASSFipnibtOZfXfHAjzdVl6taLOmOjnlj0I6to9DTdeSHyoi_1A93MLtKNrqQ5gHKrDI1IkWzA1U8cHxU1KPoxg
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6Ii1JY3d6S2J4WHBHeExxNnBSbUFKWFZQQWVrdWRlVHE0TXNoWVV1SXMtTk0iLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1NjYzODU2LCJuYmYiOjE3MDU2NjM4NTYsImV4cCI6MTcwNTY2Nzc1NiwiYWlvIjoiRTJWZ1lQaXRPYWxNVnpkNDZzeU9QL2svZlhzZkF3QT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiWTZpeGVZUVI5VUNoa0hZVnhDUVNBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.U_qprW0dCgEDzXRLfJVntwLb4B77vyPAnoHSkj6iCpkKd6wOeHHBggkVyKPwJE2yIQSPXNMWz0tBQG80aD1mJvXCnRQYe66M29Ur6FCXBOHzQ_9oiNRJUOS671_geThINQzAFra6GRl_SOS8b0N8ib4ijvfsdY1vibfBWLLn2DHUPle3iNuCQyQaLa5YKcdQA6krAIraJdSrNo4a9T60JFieUgEiuDu-b-MI8MhNgGtSEF7NdJRIokX1dw3ZY8-nRvQ6xG4JuGvGL5BG6pSsCxxF3b-xqs3Gr8givR3kJUGDjWfZbeUfOwx6LveaEGqw57WB-jGoulwrxQQ_n_exfw
       Accept:
-      - "*/*"
+      - application/json
+      Content-Type:
+      - application/json
       User-Agent:
-      - Ruby
+      - httpx.rb/1.2.1
+      Accept-Encoding:
+      - gzip, deflate
   response:
     status:
       code: 204
@@ -811,15 +688,17 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - f161c2a3-df17-4006-ae5f-270a8ac86e15
+      - '09cae280-50e7-4b6e-be2a-177e166a8934'
       Client-Request-Id:
-      - f161c2a3-df17-4006-ae5f-270a8ac86e15
+      - '09cae280-50e7-4b6e-be2a-177e166a8934'
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000001EE"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000001E0"}}'
       Date:
-      - Mon, 15 Jan 2024 13:44:46 GMT
+      - Fri, 19 Jan 2024 11:36:00 GMT
+      Connection:
+      - close
     body:
       encoding: UTF-8
       string: ''
-  recorded_at: Mon, 15 Jan 2024 13:44:47 GMT
+  recorded_at: Fri, 19 Jan 2024 11:36:00 GMT
 recorded_with: VCR 6.2.0

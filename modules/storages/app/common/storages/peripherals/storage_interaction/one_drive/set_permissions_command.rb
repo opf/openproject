@@ -50,10 +50,12 @@ module Storages
             # 2.1 Create Permissions
             # 2.2 Delete Permissions
             # 2.3 Re-create Permissions
-            current_permissions = get_permissions(path).result_or do |error|
-              # No reason to continue if we can't access the existing permissions
-              raise error.to_s
-            end
+
+            item_exists?(path).on_failure { |failed_result| return failed_result }
+
+            current_permissions = get_permissions(path)
+                                    .on_failure { |failed_result| return failed_result }
+                                    .result
 
             permission_ids = extract_permission_ids(current_permissions[:value])
 
@@ -64,8 +66,12 @@ module Storages
 
           private
 
+          def item_exists?(item_id)
+            Util.using_admin_token(@storage) { |http| handle_response(http.get(item_path(item_id))) }
+          end
+
           def get_permissions(path)
-            httpx { |http| handle_response(http.get(permissions_path(path))) }
+            Util.using_admin_token(@storage) { |http| handle_response(http.get(permissions_path(path))) }
           end
 
           def apply_permission_changes(role, permissions, permission_set_id, item_id)
@@ -81,7 +87,7 @@ module Storages
 
           def create_permissions(role, permissions, item_id)
             drive_recipients = permissions.map { |id| { objectId: id } }
-            httpx do |http|
+            Util.using_admin_token(@storage) do |http|
               response = http.post(invite_path(item_id),
                                    body: {
                                      requireSignIn: true,
@@ -95,7 +101,9 @@ module Storages
           end
 
           def delete_permissions(permission_set_id, item_id)
-            httpx { |http| handle_response(http.delete(permission_path(item_id, permission_set_id))) }
+            Util.using_admin_token(@storage) do |http|
+              handle_response(http.delete(permission_path(item_id, permission_set_id)))
+            end
           end
 
           # This will grab the first write or read permission.
@@ -108,19 +116,21 @@ module Storages
           end
 
           def handle_response(response)
+            data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
+
             case response
             in { status: 200 }
               ServiceResult.success(result: response.json(symbolize_keys: true))
             in { status: 204 }
               ServiceResult.success
             in { status: 401 }
-              ServiceResult.failure(result: :unauthorized)
+              ServiceResult.failure(result: :unauthorized, errors: ::Storages::StorageError.new(code: :unauthorized, data:))
             in { status: 403 }
-              ServiceResult.failure(result: :forbidden)
+              ServiceResult.failure(result: :forbidden, errors: ::Storages::StorageError.new(code: :forbidden, data:))
             in { status: 404 }
-              ServiceResult.failure(result: :not_found)
+              ServiceResult.failure(result: :not_found, errors: ::Storages::StorageError.new(code: :not_found, data:))
             else
-              ServiceResult.failure(result: :error)
+              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
             end
           end
 
@@ -129,25 +139,15 @@ module Storages
           end
 
           def permissions_path(item_id)
-            "/v1.0/drives/#{@storage.drive_id}/items/#{item_id}/permissions"
+            "#{item_path(item_id)}/permissions"
           end
 
           def invite_path(item_id)
-            "/v1.0/drives/#{@storage.drive_id}/items/#{item_id}/invite"
+            "#{item_path(item_id)}/invite"
           end
 
-          def httpx
-            Util.using_admin_token(@storage) do |token|
-              yield HTTPX
-                      .with(
-                        origin: @storage.uri,
-                        headers: {
-                          authorization: "Bearer #{token}",
-                          accept: "application/json",
-                          'content-type': 'application/json'
-                        }
-                      )
-            end
+          def item_path(item_id)
+            "/v1.0/drives/#{@storage.drive_id}/items/#{item_id}"
           end
         end
       end

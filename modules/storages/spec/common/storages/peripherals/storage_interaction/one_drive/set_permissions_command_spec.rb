@@ -66,6 +66,15 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
         .call(storage:, location: path)
     end
 
+    context 'when trying to access a non-existing driveItem' do
+      it 'returns a failure', vcr: 'one_drive/set_permissions_not_found_folder' do
+        result = permissions_command.call(path: 'THIS_IS_NOT_THE_FOLDER_YOURE_LOOKING_FOR', permissions: { write: [] })
+
+        expect(result).to be_failure
+        expect(result.result).to eq(:not_found)
+      end
+    end
+
     context 'when a permission set already exists' do
       it 'replaces the write permission grant with the provided list',
          vcr: 'one_drive/set_permissions_replace_permissions_write' do
@@ -142,17 +151,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
   end
 
   def remote_permissions
-    Storages::Peripherals::StorageInteraction::OneDrive::Util.using_admin_token(storage) do |token|
-      HTTPX.with(
-        origin: storage.uri,
-        headers: { authorization: "Bearer #{token}",
-                   accept: "application/json",
-                   'content-type': 'application/json' }
-      )
-           .get("/v1.0/drives/#{storage.drive_id}/items/#{path}/permissions")
-           .raise_for_status
-           .json(symbolize_keys: true)
-           .fetch(:value)
+    Storages::Peripherals::StorageInteraction::OneDrive::Util.using_admin_token(storage) do |http|
+      http.get("/v1.0/drives/#{storage.drive_id}/items/#{path}/permissions")
+          .raise_for_status
+          .json(symbolize_keys: true)
+          .fetch(:value)
     end
   end
 end
