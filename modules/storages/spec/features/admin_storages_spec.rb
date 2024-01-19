@@ -34,7 +34,7 @@ require_module_spec_helper
 RSpec.describe 'Admin storages',
                :js,
                :storage_server_helpers do
-  let(:admin) { create(:admin) }
+  let(:admin) { create(:admin, preferences: { time_zone: 'Etc/UTC' }) }
 
   before { login_as admin }
 
