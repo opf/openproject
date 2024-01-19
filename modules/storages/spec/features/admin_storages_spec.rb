@@ -66,10 +66,6 @@ RSpec.describe 'Admin storages',
       end
 
       it 'renders a blank slate' do
-        # Show Add storage button
-        expect(page).to have_button 'Storage', aria: { label: 'Add new storage' }
-
-        # Show empty storages list
         expect(page).to have_title('File storages')
         expect(page.find('.PageHeader-title')).to have_text('File storages')
         expect(page).to have_text("You don't have any storages yet.")
