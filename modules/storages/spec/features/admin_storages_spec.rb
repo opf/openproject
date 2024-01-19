@@ -34,25 +34,22 @@ require_module_spec_helper
 RSpec.describe 'Admin storages',
                :js,
                :storage_server_helpers do
-  let(:admin) { create(:admin, preferences: { time_zone: 'Etc/UTC' }) }
+  shared_let(:admin) { create(:admin, preferences: { time_zone: 'Etc/UTC' }) }
 
-  before { login_as admin }
+  current_user { admin }
 
   describe 'File storages list' do
     context 'with storages' do
-      let(:complete_storage) { create(:nextcloud_storage_with_local_connection) }
-      let(:incomplete_storage) { create(:nextcloud_storage) }
+      shared_let(:complete_storage) { create(:nextcloud_storage_with_local_connection) }
+      shared_let(:incomplete_storage) { create(:nextcloud_storage) }
+      shared_let(:complete_nextcloud_storage_health_pending) { create(:nextcloud_storage_with_complete_configuration) }
 
-      let(:complete_nextcloud_storage_health_pending) { create(:nextcloud_storage_with_complete_configuration) }
-      let(:complete_nextcloud_storage_health_healthy) { create(:nextcloud_storage_with_complete_configuration, :as_healthy) }
-      let(:complete_nextcloud_storage_health_unhealthy) { create(:nextcloud_storage_with_complete_configuration, :as_unhealthy) }
+      shared_let(:complete_nextcloud_storage_health_healthy) do
+        create(:nextcloud_storage_with_complete_configuration, :as_healthy)
+      end
 
-      before do
-        complete_storage
-        incomplete_storage
-        complete_nextcloud_storage_health_pending
-        complete_nextcloud_storage_health_healthy
-        complete_nextcloud_storage_health_unhealthy
+      shared_let(:complete_nextcloud_storage_health_unhealthy) do
+        create(:nextcloud_storage_with_complete_configuration, :as_unhealthy)
       end
 
       it 'renders a list of storages' do
