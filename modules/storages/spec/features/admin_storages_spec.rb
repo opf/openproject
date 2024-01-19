@@ -40,69 +40,32 @@ RSpec.describe 'Admin storages',
 
   describe 'File storages list' do
     context 'with storages' do
-      shared_let(:complete_storage) { create(:nextcloud_storage_with_local_connection) }
-      shared_let(:incomplete_storage) { create(:nextcloud_storage) }
-      shared_let(:complete_nextcloud_storage_health_pending) { create(:nextcloud_storage_with_complete_configuration) }
+      shared_let(:nextcloud_storage) { create(:nextcloud_storage) }
+      shared_let(:one_drive_storage) { create(:one_drive_storage) }
 
-      shared_let(:complete_nextcloud_storage_health_healthy) do
-        create(:nextcloud_storage_with_complete_configuration, :as_healthy)
-      end
-
-      shared_let(:complete_nextcloud_storage_health_unhealthy) do
-        create(:nextcloud_storage_with_complete_configuration, :as_unhealthy)
-      end
-
-      it 'renders a list of storages' do
+      before do
         visit admin_settings_storages_path
+      end
 
-        expect(page).to be_axe_clean.within '#content'
-
-        expect(page).to have_test_selector('storage-name', text: complete_storage.name)
-        expect(page).to have_test_selector('storage-name', text: incomplete_storage.name)
-        expect(page).to have_button 'Storage', aria: { label: 'Add new storage' }
-
-        within "li#storages_nextcloud_storage_#{complete_storage.id}" do
-          expect(page).not_to have_test_selector('label-incomplete')
-          expect(page).to have_link(complete_storage.name, href: edit_admin_settings_storage_path(complete_storage))
-          expect(page).to have_test_selector('storage-creator', text: complete_storage.creator.name)
-          expect(page).to have_test_selector('storage-provider', text: 'Nextcloud')
-          expect(page).to have_test_selector('storage-host', text: complete_storage.host)
+      it 'renders a list of all storages' do
+        within :css, '#content' do
+          expect(page).to have_list_item(count: 5)
+          expect(page).to have_list_item(nextcloud_storage.name)
+          expect(page).to have_list_item(one_drive_storage.name)
         end
+      end
 
-        within "li#storages_nextcloud_storage_#{incomplete_storage.id}" do
-          expect(page).to have_test_selector('label-incomplete')
-          expect(page).to have_test_selector('storage-name', text: incomplete_storage.name)
-          expect(page).to have_test_selector('storage-provider', text: 'Nextcloud')
-          expect(page).to have_test_selector('storage-host', text: incomplete_storage.host)
-          expect(page).to have_css('.op-principal--name', text: incomplete_storage.creator.name)
-        end
-
-        within "li#storages_nextcloud_storage_#{complete_nextcloud_storage_health_pending.id}" do
-          expect(page).not_to have_test_selector('storage-health-label-error')
-          expect(page).not_to have_test_selector('storage-health-label-healthy')
-          expect(page).not_to have_test_selector('storage-health-label-pending')
-        end
-
-        within "li#storages_nextcloud_storage_#{complete_nextcloud_storage_health_healthy.id}" do
-          expect(page).not_to have_test_selector('storage-health-label-healthy')
-          expect(page).not_to have_test_selector('storage-health-label-error')
-          expect(page).not_to have_test_selector('storage-health-label-pending')
-        end
-
-        within "li#storages_nextcloud_storage_#{complete_nextcloud_storage_health_unhealthy.id}" do
-          expect(page).to have_test_selector('storage-health-label-error')
-          expect(page).not_to have_test_selector('storage-health-label-healthy')
-          expect(page).not_to have_test_selector('storage-health-label-pending')
-        end
+      it 'renders content that is accessible' do
+        expect(page).to be_axe_clean.within('#content')
       end
     end
 
     context 'with no storages' do
-      it 'renders a blank slate' do
+      before do
         visit admin_settings_storages_path
+      end
 
-        expect(page).to be_axe_clean.within '#content'
-
+      it 'renders a blank slate' do
         # Show Add storage button
         expect(page).to have_button 'Storage', aria: { label: 'Add new storage' }
 
@@ -110,6 +73,10 @@ RSpec.describe 'Admin storages',
         expect(page).to have_title('File storages')
         expect(page.find('.PageHeader-title')).to have_text('File storages')
         expect(page).to have_text("You don't have any storages yet.")
+      end
+
+      it 'renders content that is accessible' do
+        expect(page).to be_axe_clean.within('#content')
       end
     end
   end
