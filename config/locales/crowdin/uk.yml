@@ -1839,6 +1839,7 @@ uk:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Файли"
   label_filter_add: "Додати фільтр"
+  label_filter: "Filters"
   label_filter_plural: "Фільтри"
   label_filters_toggle: "Показати / приховати фільтри"
   label_float: "З плаваючою крапкою"

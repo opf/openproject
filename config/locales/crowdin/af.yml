@@ -1790,6 +1790,7 @@ af:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Lêers"
   label_filter_add: "Voeg filter by"
+  label_filter: "Filters"
   label_filter_plural: "Filtreerders"
   label_filters_toggle: "Show/hide filters"
   label_float: "Dryf"

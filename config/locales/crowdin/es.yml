@@ -1787,6 +1787,7 @@ es:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Archivos"
   label_filter_add: "Añadir filtro"
+  label_filter: "Filters"
   label_filter_plural: "Filtros"
   label_filters_toggle: "Mostrar/Ocultar filtros"
   label_float: "Desprender"

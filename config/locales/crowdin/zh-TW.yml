@@ -1763,6 +1763,7 @@ zh-TW:
   label_feeds_access_key_type: "RSS訂閱"
   label_file_plural: "檔案"
   label_filter_add: "新增篩選器"
+  label_filter: "Filters"
   label_filter_plural: "篩選器"
   label_filters_toggle: "顯示/隱藏篩選器"
   label_float: "浮點數"

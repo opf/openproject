@@ -1789,6 +1789,7 @@ sv:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Filer"
   label_filter_add: "Lägg till filter"
+  label_filter: "Filters"
   label_filter_plural: "Filter"
   label_filters_toggle: "Visa/dölj filter"
   label_float: "Flyttal"

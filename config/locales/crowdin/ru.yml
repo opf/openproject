@@ -1843,6 +1843,7 @@ ru:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Файлы"
   label_filter_add: "Добавить фильтр"
+  label_filter: "Filters"
   label_filter_plural: "Фильтры"
   label_filters_toggle: "Показать/скрыть фильтры"
   label_float: "Плавающий"

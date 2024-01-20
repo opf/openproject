@@ -1786,6 +1786,7 @@ el:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Αρχεία"
   label_filter_add: "Προσθήκη φίλτρου"
+  label_filter: "Filters"
   label_filter_plural: "Φίλτρα"
   label_filters_toggle: "Εμφάνιση/απόκρυψη φίλτρων"
   label_float: "Float"

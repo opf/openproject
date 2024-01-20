@@ -1787,6 +1787,7 @@ hu:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Fájlok"
   label_filter_add: "Szűrő hozzáadása"
+  label_filter: "Filters"
   label_filter_plural: "Szűrők"
   label_filters_toggle: "Szűrők mutatása/elrejtése"
   label_float: "Mozgó"

@@ -1841,6 +1841,7 @@ pl:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Pliki"
   label_filter_add: "Dodaj filtr"
+  label_filter: "Filters"
   label_filter_plural: "Filtry"
   label_filters_toggle: "Pokaż/Ukryj filtry"
   label_float: "Liczba rzeczywista"

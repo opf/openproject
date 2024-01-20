@@ -1787,6 +1787,7 @@ nl:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Bestanden"
   label_filter_add: "Filter toevoegen"
+  label_filter: "Filters"
   label_filter_plural: "Filters"
   label_filters_toggle: "Filter tonen/verbergen"
   label_float: "Zwevend"

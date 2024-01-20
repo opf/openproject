@@ -1786,6 +1786,7 @@ ca:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Arxius"
   label_filter_add: "Afegir un filtre"
+  label_filter: "Filters"
   label_filter_plural: "Filtres"
   label_filters_toggle: "Mostra/amaga filtres"
   label_float: "Flotant"

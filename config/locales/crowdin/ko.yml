@@ -1762,6 +1762,7 @@ ko:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "파일"
   label_filter_add: "필터 추가"
+  label_filter: "Filters"
   label_filter_plural: "필터"
   label_filters_toggle: "필터 표시/숨기기"
   label_float: "부동"

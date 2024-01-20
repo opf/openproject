@@ -1817,6 +1817,7 @@ lv:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Faili"
   label_filter_add: "Pievienot filtru"
+  label_filter: "Filters"
   label_filter_plural: "Filtri"
   label_filters_toggle: "Show/hide filters"
   label_float: "Float"

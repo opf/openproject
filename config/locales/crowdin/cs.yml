@@ -1844,6 +1844,7 @@ cs:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Soubory"
   label_filter_add: "Přidat filtr"
+  label_filter: "Filters"
   label_filter_plural: "Filtry"
   label_filters_toggle: "Zobrazit/skrýt filtry"
   label_float: "Desetinné číslo"

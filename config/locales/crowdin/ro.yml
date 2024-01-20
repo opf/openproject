@@ -1817,6 +1817,7 @@ ro:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Fişiere"
   label_filter_add: "Adăugare filtru"
+  label_filter: "Filters"
   label_filter_plural: "Filtre"
   label_filters_toggle: "Arată/ascunde filtre"
   label_float: "Număr real"

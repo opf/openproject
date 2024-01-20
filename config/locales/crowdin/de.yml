@@ -1785,6 +1785,7 @@ de:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Dateien"
   label_filter_add: "Filter hinzufügen"
+  label_filter: "Filters"
   label_filter_plural: "Filter"
   label_filters_toggle: "Filter ein-/ausblenden"
   label_float: "Gleitkommazahl"

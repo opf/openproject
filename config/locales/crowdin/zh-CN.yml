@@ -1759,6 +1759,7 @@ zh-CN:
   label_feeds_access_key_type: "RSS 订阅"
   label_file_plural: "文件"
   label_filter_add: "添加筛选器"
+  label_filter: "Filters"
   label_filter_plural: "筛选器"
   label_filters_toggle: "显示/隐藏筛选器"
   label_float: "浮点数"

@@ -1898,6 +1898,7 @@ ar:
   label_feeds_access_key_type: "اختصاراً لِ:\"Rich Site Summary\" \nReally Simple Syndication\" or\""
   label_file_plural: "الملفّات"
   label_filter_add: "إضافة عامل تصفية"
+  label_filter: "Filters"
   label_filter_plural: "عوامل التصفية"
   label_filters_toggle: "Show/hide filters"
   label_float: "عدد عشري"
