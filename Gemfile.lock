@@ -756,7 +756,7 @@ GEM
     parallel (1.24.0)
     parallel_tests (4.4.0)
       parallel
-    parser (3.3.0.4)
+    parser (3.3.0.5)
       ast (~> 2.4.1)
       racc
     pdf-core (0.9.0)
@@ -1292,7 +1292,7 @@ DEPENDENCIES
   with_advisory_lock (~> 5.0.0)
 
 RUBY VERSION
-   ruby 3.2.2p53
+   ruby 3.2.3p157
 
 BUNDLED WITH
-   2.4.22
+   2.5.5
