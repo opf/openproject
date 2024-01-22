@@ -84,7 +84,7 @@ On top of that, OpenProject adds the following shortcut:
 
 | Shortcut (Windows / Linux) | Shortcut (Mac) | Action                                                       |
 | -------------------------- | -------------- | ------------------------------------------------------------ |
-| CTRL + ENTER               | CMD + ENTER    | **Save changes.** <br />For inline-editable fields, save the field and close it.<br />For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
+| CTRL + ENTER               | CMD + ENTER    | **Save changes.**<br>For inline-editable fields, save the field and close it.<br>For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
 
 ## Macros
 

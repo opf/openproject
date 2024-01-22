@@ -54,7 +54,7 @@ OpenProject will merge the settings from `DATABASE_URL` with manually specified 
 
 | Environment variable                 | Default     | Description                                                  | Documentation                                                |
 | ------------------------------------ | ----------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| DATABASE_URL<br />OPENPROJECT_DB_URL | *none*      | URL style passing of database options                        | https://guides.rubyonrails.org/configuring.html#configuring-a-database |
+| DATABASE_URL<br>OPENPROJECT_DB_URL | *none*      | URL style passing of database options                        | https://guides.rubyonrails.org/configuring.html#configuring-a-database |
 | OPENPROJECT_DB_ENCODING              | unicode     | Encoding of the database                                     | Should be left at unicode unless you really know what you're doing. |
 | OPENPROJECT_DB_POOL                  | *none*      | Connection pool count                                        | https://guides.rubyonrails.org/configuring.html#database-pooling |
 | OPENPROJECT_DB_USERNAME              | *none*      | Database username, if not presented in URL above             | https://guides.rubyonrails.org/configuring.html#configuring-a-database |

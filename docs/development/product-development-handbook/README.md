@@ -259,7 +259,7 @@ When all features, bugs have been tested successfully, regression testing was pe
 
 | Involved                                                  | Output                                                       |
 | --------------------------------------------------------- | :----------------------------------------------------------- |
-| - Product manager<br />- (possibly) External Stakeholders | Accepted feature (acceptenace succeeded) OR<br />Changes necessary (acceptance failed) |
+| - Product manager<br>- (possibly) External Stakeholders | Accepted feature (acceptenace succeeded) OR<br>Changes necessary (acceptance failed) |
 
 1. PM tests features to see if requirements are met, discusses necessary changes with developer (acceptance test) (status: “closed”).
 1. If external stakeholders are involved and depending on any additional agreements between OpenProject and the external stakeholders, an additional presentation or feature presentation is performed as part of the acceptance testing. The result of this test may result in additional iterations of the steps Buidling phase 1 - 3.
