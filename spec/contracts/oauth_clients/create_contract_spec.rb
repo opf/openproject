@@ -78,7 +78,7 @@ RSpec.describe OAuthClients::CreateContract do
       it 'is invalid, includes `ID` in error message' do
         expect(contract).not_to be_valid
 
-        expect(contract.errors[:client_id]).to eq(["ID can't be blank."])
+        expect(contract.errors[:client_id]).to eq(["can't be blank."])
       end
     end
 

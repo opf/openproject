@@ -231,7 +231,7 @@ en:
       editable: "Allow the field to be editable by users themselves."
       visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
       is_filter: >
-        Allow the custom field to be used in a filter in work package views. 
+        Allow the custom field to be used in a filter in work package views.
         Note that only with 'For all projects' selected, the custom field will show up in global views.
 
     tab:
@@ -591,6 +591,8 @@ en:
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Delay"
         from: "Work package"
@@ -3535,7 +3537,6 @@ en:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."
