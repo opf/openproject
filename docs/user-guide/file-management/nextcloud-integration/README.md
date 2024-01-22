@@ -168,7 +168,7 @@ A dialogue will open, allowing you to search for and then select an OpenProject 
 
 #### Create a new work package
 
-You can create a new OpenProject work package directly from Nextcloud file storage. To do that select the file you want to link, choose the **OpenProject** tab and click on **+ Create and link a work package**.
+You can create a new OpenProject work package directly from Nextcloud file storage. To do this, select the file you want to link, choose the **OpenProject** tab and click on **+ Create and link a work package**.
 ![Create a new OpenProject work package from Nextcloud](nc_create_new_wp.png)
 
 A pop-up dialogue will open allowing you to specify the project, work package name and further details. Once you click **Create**, the new work package will be created in the specified project and the file will be linked to it.
