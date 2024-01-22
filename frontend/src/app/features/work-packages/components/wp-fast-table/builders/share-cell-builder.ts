@@ -15,9 +15,13 @@ export class ShareCellbuilder {
     td.classList.add(tdClassName, column.id);
     td.dataset.columnId = column.id;
 
-console.log(this.isolatedQuerySpace.workPackageSharesCache.get(workPackage.id!).getValueOr([]));
+    const relevantShares = this.isolatedQuerySpace.workPackageSharesCache.get(workPackage.id!).getValueOr([]);
 
-    td.innerHTML = `Share ${this.isolatedQuerySpace.workPackageSharesCache.get(workPackage.id!).getValueOr([]).map((share) => share.user.name).join(', ')}`;
+    if (relevantShares.length === 0) {
+      td.innerHTML = '-';
+    } else {
+      td.innerHTML = relevantShares.map((share) => share.principal.name).join(', ');
+    }
 
     return td;
   }

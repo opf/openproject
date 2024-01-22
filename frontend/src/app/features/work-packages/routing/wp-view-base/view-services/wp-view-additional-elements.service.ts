@@ -44,6 +44,8 @@ import { WorkPackageViewHierarchiesService } from './wp-view-hierarchy.service';
 import { WorkPackageViewColumnsService } from './wp-view-columns.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { ShareResource } from 'core-app/features/hal/resources/share-resource';
+import { map } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {
@@ -69,8 +71,8 @@ export class WorkPackageViewAdditionalElementsService {
       this.requireHierarchyElements(rows),
       this.requireWorkPackageShares(workPackageIds),
       this.requireSumsSchema(results),
-    ]).then((results:string[][]) => {
-      this.loadAdditional(_.flatten(results));
+    ]).then((wpResults:string[][]) => {
+      this.loadAdditional(_.flatten(wpResults));
     });
   }
 
@@ -155,21 +157,29 @@ export class WorkPackageViewAdditionalElementsService {
       .add('entityType', '=', ['WorkPackage'])
       .add('entityId', '=', wpIds);
 
-    this
+    const workPackageShareRequest = this
       .apiV3Service
       .shares
       .filtered(filters, { pageSize: '-1' })
       .get()
-      .subscribe(({ elements }) => {
-        const shares = elements as ShareResource[];
+      .pipe(
+          map(({ elements }) => {
+          const shares = elements as ShareResource[];
 
-        const sharedWpIds = _.uniq(shares.map((share) => share.entity.id as string));
+          const sharedWpIds = _.uniq(shares.map((share) => share.entity.id as string));
 
-        sharedWpIds.forEach((wpId) => {
-        this.querySpace.workPackageSharesCache.get(wpId).putValue(shares.filter((share) => share.entity.id === wpId));
-        });
-      });
+          sharedWpIds.forEach((wpId) => {
+            this
+              .querySpace
+              .workPackageSharesCache
+              .get(wpId)
+              .putValue(shares.filter((share) => share.entity.id === wpId));
+          });
 
-    return Promise.resolve([]);
+          return [];
+        }),
+      );
+
+      return firstValueFrom(workPackageShareRequest);
   }
 }
