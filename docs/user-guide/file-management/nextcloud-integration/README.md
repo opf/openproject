@@ -8,7 +8,7 @@ keywords: integration, apps, Nextcloud, user
 
 # Nextcloud integration
 
-You can use [Nextcloud](https://nextcloud.com/) as an integrated file storage in OpenProject.
+You can use [Nextcloud](https://nextcloud.com) as an integrated file storage in OpenProject.
 
 This integration makes it possible for you to:
 

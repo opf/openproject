@@ -15,10 +15,10 @@ This guide describes how to contribute to the OpenProject documentation, includi
 
 This guide aims to help users that are new to Git and Markdown to contribute to the OpenProject documentation. There are a two very helpful tools that makes it extremely easy to contribute to OpenProject:
 
-| Tool               | Purpose of this tool                                         | Website and download                               |
-| ------------------ | ------------------------------------------------------------ |----------------------------------------------------|
-| **Typora**         | Typora is an application that enables you to easily edit markdown files. The markdown file format is used for the OpenProject documentation which allows you to focus on the content instead of the formatting. | [typora.io](https://typora.io/)                    |
-| **GitHub Desktop** | Desktop is an application that enables you to interact with GitHub using a GUI instead of the command line or a web browser. | [desktop.github.com](https://desktop.github.com/) |
+| Tool               | Purpose of this tool                                         | Website and download                             |
+| ------------------ | ------------------------------------------------------------ |--------------------------------------------------|
+| **Typora**         | Typora is an application that enables you to easily edit markdown files. The markdown file format is used for the OpenProject documentation which allows you to focus on the content instead of the formatting. | [typora.io](https://typora.io)                   |
+| **GitHub Desktop** | Desktop is an application that enables you to interact with GitHub using a GUI instead of the command line or a web browser. | [desktop.github.com](https://desktop.github.com) |
 
 ## Step 1: Create user account on GitHub.com
 
@@ -26,7 +26,7 @@ You need an account on GitHub.com to contribute to the OpenProject documentation
 
 ## Step 2: Install Typora
 
-You can download the installer from the [Typora website](https://typora.io/#download). Follow the prompts to complete the installation. In case you need more information there are very detailed [help](https://support.typora.io/) for each supported operating systems [Linux](https://support.typora.io/Typora-on-Linux/), [macOS](https://support.typora.io/Typora-on-macOS/) and [Windows](https://support.typora.io/Typora-on-Windows/). 
+You can download the installer from the [Typora website](https://typora.io). Follow the prompts to complete the installation. In case you need more information there are very detailed [help](https://support.typora.io/) for each supported operating systems [Linux](https://support.typora.io/Typora-on-Linux/), [macOS](https://support.typora.io/Typora-on-macOS/) and [Windows](https://support.typora.io/Typora-on-Windows/). 
 
 ## Step 3: Install GitHub Desktop
 

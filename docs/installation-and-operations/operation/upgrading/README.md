@@ -108,7 +108,7 @@ docker-compose pull
 docker-compose up -d
 ```
 
-Please note that you can override the `TAG` that is used to pull the OpenProject image from the [Docker Hub](https://hub.docker.com/r/openproject/community).
+Please note that you can override the `TAG` that is used to pull the OpenProject image from the [Docker Hub](https://hub.docker.com/r/openproject/community/).
 
 ### All-in-one container
 

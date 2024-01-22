@@ -11,7 +11,7 @@ keywords: Stimulus, Ruby on Rail, Hotwire
 
 In a decision to move OpenProject towards the [Hotwire approach](https://hotwired.dev/), we introduced [Stimulus.js](https://stimulus.hotwired.dev) to replace a collection of dynamically loaded custom JavaScript files used to sprinkle some interactivity.
 
-This guide will outline how to add controllers and the conventions around it. This is _not_ a documentation of stimulus itself. Use their documentation instead: https://stimulus.hotwired.dev/
+This guide will outline how to add controllers and the conventions around it. This is _not_ a documentation of stimulus itself. Use their documentation instead: https://stimulus.hotwired.dev
 
 
 

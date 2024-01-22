@@ -42,7 +42,7 @@ This has been fixed in this release. We now use the environment variable *OPENPR
 
 #### Contributions
 
-Thanks to David Haintz from [SEC Consult Vulnerability Lab](https://www.sec-consult.com/) for identifying and responsibly disclosing the identified issues.
+Thanks to David Haintz from [SEC Consult Vulnerability Lab](https://www.sec-consult.com) for identifying and responsibly disclosing the identified issues.
 
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
