@@ -83,7 +83,7 @@ There are a lot more things we packed into 11.1 to tell you about.
 - Fixed: Line breaks within words in table cells \[[#35644](https://community.openproject.org/wp/35644)\]
 - Fixed: Typo in DPA email \[[#35653](https://community.openproject.org/wp/35653)\]
 - Fixed: Typo in DPA text in OpenProject \[[#35654](https://community.openproject.org/wp/35654)\]
-- Fixed: Cannot set nummerated headings without duplicating nummeration in table of contents \[[#35656](https://community.openproject.org/wp/35656)\]
+- Fixed: Cannot set numerated headings without duplicating numeration in table of contents \[[#35656](https://community.openproject.org/wp/35656)\]
 
 ## Installation and Updates
 

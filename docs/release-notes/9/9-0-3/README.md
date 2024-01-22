@@ -26,7 +26,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Work packages in closed version suggest status editable but then nothing happens [[#30396](https://community.openproject.org/wp/30396)]
 - Fixed: Wrong language is displayed in some date fields [[#30400](https://community.openproject.org/wp/30400)]
 - Fixed: Project Paisy: Connecting functional document fails without error message [[#30404](https://community.openproject.org/wp/30404)]
-- Fixed: Button Release to production not visible for Releasemanager [[#30405](https://community.openproject.org/wp/30405)]
+- Fixed: Button Release to production not visible for Release manager [[#30405](https://community.openproject.org/wp/30405)]
 - Fixed: Text references to SVN revisions don't create links [[#30415](https://community.openproject.org/wp/30415)]
 - Fixed: User with :manage_boards but without :manage_public_queries can create faulty board columns [[#30426](https://community.openproject.org/wp/30426)]
 - Fixed: Tag shown on My page for time tracking comments [[#30432](https://community.openproject.org/wp/30432)]
@@ -41,7 +41,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Gantt chart: Jump when scheduling finish date of work package with only start date [[#30554](https://community.openproject.org/wp/30554)]
 - Fixed: Comma and dot flipped for values in cost report and budgets (German language setting) [[#30574](https://community.openproject.org/wp/30574)]
 - Fixed: Inline-create useless when only add_work_packages_permission present [[#30589](https://community.openproject.org/wp/30589)]
-- Fixed: Cannot close Arbeitspaket [[#30590](https://community.openproject.org/wp/30590)]
+- Fixed: Cannot close work package [[#30590](https://community.openproject.org/wp/30590)]
 - Fixed: "Login" instead of "Login name" used (causes problems with translations) [[#30591](https://community.openproject.org/wp/30591)]
 - Fixed: Board links in sidebar broken [[#30595](https://community.openproject.org/wp/30595)]
 

@@ -23,7 +23,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Datepicker doesn't work on Firefox \[[#34910](https://community.openproject.org/wp/34910)\]
 - Fixed: Highlighting in date picker incorrect \[[#34929](https://community.openproject.org/wp/34929)\]
 - Fixed: Migration to 11.0.0 fails for users having had MySQL \[[#34933](https://community.openproject.org/wp/34933)\]
-- Fixed: Settingpage "API": Page not found  \[[#34938](https://community.openproject.org/wp/34938)\]
+- Fixed: Settings page "API": Page not found  \[[#34938](https://community.openproject.org/wp/34938)\]
 - Fixed: User language is not updating through api \[[#34964](https://community.openproject.org/wp/34964)\]
 - Fixed: Filter on CF string brakes form in split screen. \[[#34987](https://community.openproject.org/wp/34987)\]
 - Fixed: API Settings Page Broken - ActionController::RoutingError (uninitialized constant Settings::ApiController \[[#34994](https://community.openproject.org/wp/34994)\]

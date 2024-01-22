@@ -57,7 +57,7 @@ OpenProject 10.6 will upgrade the card view of work packages. To make clear what
 
 If you are creating an agile boards by assignees, you will get  notified if there are no members in your project. You will also get  notified if you are trying to add another assignee list to your board  even though there is no more member left.
 
-![asssignee-board-notification](asssignee-board-notification.png)
+![Assignee board notification](asssignee-board-notification.png)
 
 ### Various usability improvements and bug fixes
 
@@ -96,7 +96,7 @@ Furthermore, the **styling of the news widget** on the project overview page as 
 - Changed: Extend token structure with attributes company and domain \[[#33129](https://community.openproject.org/wp/33129)\]
 - Changed: Move "log time" icon outside of the hover highlighting \[[#33307](https://community.openproject.org/wp/33307)\]
 - Changed: Allow defining CA path of LDAP connection \[[#33345](https://community.openproject.org/wp/33345)\]
-- Changed: Enable more table features in texteditor \[[#33349](https://community.openproject.org/wp/33349)\]
+- Changed: Enable more table features in text editor \[[#33349](https://community.openproject.org/wp/33349)\]
 - Changed: Enable Projects for outgoing Webhooks \[[#33355](https://community.openproject.org/wp/33355)\]
 - Changed: New Features teaser for 10.6 \[[#33470](https://community.openproject.org/wp/33470)\]
 
@@ -141,7 +141,7 @@ Special thanks for reporting and finding bugs go to
 Marc Vollmer, Ricardo Vigatti, Sébastien VITA, Tino Breddin, Lukas Zeil, Rajesh Vishwakarma, Gio @ Enuan, Harald Holzmann.
 
 - DBI AG for sponsoring the BCF Management.
-- Lindsay Kay for the integration of the 3D Modell viewer, [xeokit](https://xeokit.io/), as well as for improving the camera control in the IFC viewer.
+- Lindsay Kay for the integration of the 3D Model viewer, [xeokit](https://xeokit.io/), as well as for improving the camera control in the IFC viewer.
 - [Georg Dangl](https://blog.dangl.me/categories/BIM) for developing the Revit Integration in OpenProject.
 - All the developers, designers, project managers who have contributed to OpenProject.
 - Every dedicated user who has reported bugs and supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards).

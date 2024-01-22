@@ -63,7 +63,7 @@ With OpenProject 12.0 it is now possible to export the project list with all pro
 
 ## Change of roles and permissions settings
 
-With 12.0 we have added more granular rights for projects, for example the addtional right to configure the project overview page. This way you can even better assign certain permissions to a role in a project.
+With 12.0 we have added more granular rights for projects, for example the additional right to configure the project overview page. This way you can even better assign certain permissions to a role in a project.
 
 ![project permissions](image-20211111095046645.png)
 
@@ -100,7 +100,7 @@ OpenProject 12.0 will deprecate PostgreSQL versions < 13. This will result in a 
 - Changed: Sidebar in Notification center with project filter \[[#38520](https://community.openproject.org/wp/38520)\]
 - Changed: Re-name ordering settings in activity tab to "Oldest first/Newest first" \[[#38549](https://community.openproject.org/wp/38549)\]
 - Changed: Notification main list view \[[#38592](https://community.openproject.org/wp/38592)\]
-- Changed: Migration plan for new notifcation settings and call to action for user to use it \[[#38595](https://community.openproject.org/wp/38595)\]
+- Changed: Migration plan for new notification settings and call to action for user to use it \[[#38595](https://community.openproject.org/wp/38595)\]
 - Changed: new images for renamed ordering settings to "Oldest first/Newest first" \[[#38605](https://community.openproject.org/wp/38605)\]
 - Changed: Empty states in notification center \[[#38610](https://community.openproject.org/wp/38610)\]
 - Changed: Involvement filters in the sidebar of notification center \[[#38642](https://community.openproject.org/wp/38642)\]
@@ -122,7 +122,7 @@ OpenProject 12.0 will deprecate PostgreSQL versions < 13. This will result in a 
 - Changed: Reset email footer \[[#39502](https://community.openproject.org/wp/39502)\]
 - Changed: Send out email informing all users of the changes to the notification \[[#39607](https://community.openproject.org/wp/39607)\]
 - Epic: In-app notifications \[[#26688](https://community.openproject.org/wp/26688)\]
-- Fixed: Use CKEditor5 watchdog feature to prevent crashes from being unnoticabble \[[#32643](https://community.openproject.org/wp/32643)\]
+- Fixed: Use CKEditor5 watchdog feature to prevent crashes from being unnoticeable \[[#32643](https://community.openproject.org/wp/32643)\]
 - Fixed: Issue with check on length of Custom Fields \[[#34042](https://community.openproject.org/wp/34042)\]
 - Fixed: Buttons on form configuration displayed on left instead of right side \[[#34288](https://community.openproject.org/wp/34288)\]
 - Fixed: Spelling mistake in the Guided Tour \[[#34304](https://community.openproject.org/wp/34304)\]
@@ -199,7 +199,7 @@ OpenProject 12.0 will deprecate PostgreSQL versions < 13. This will result in a 
 - Fixed: During Installation in Debian 11 BIM version not selectable \[[#39113](https://community.openproject.org/wp/39113)\]
 - Fixed: Fix GET viewpoint endpoint in BCF API \[[#39144](https://community.openproject.org/wp/39144)\]
 - Fixed: Email content not centred when deleting a project \[[#39188](https://community.openproject.org/wp/39188)\]
-- Fixed: Wrong Russian translate for customfields and menu item \[[#39437](https://community.openproject.org/wp/39437)\]
+- Fixed: Wrong Russian translate for custom fields and menu item \[[#39437](https://community.openproject.org/wp/39437)\]
 - Fixed: Highlighting in project table is broken \[[#39449](https://community.openproject.org/wp/39449)\]
 - Fixed: Wrong error message about missing external authentication source when changing a password \[[#39460](https://community.openproject.org/wp/39460)\]
 - Fixed: Work package create and add forms have only one column even though there is enough space \[[#39543](https://community.openproject.org/wp/39543)\]

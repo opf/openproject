@@ -72,7 +72,7 @@ In supported resources of OpenProject where attachments are allowed, you can add
 
 The image will be automatically uploaded and stored as an attachment. You can adjust the image size in the editor using your mouse.
 
-![resize-imagesshort](resize-imagesshort.gif)
+![Resize Image](resize-imagesshort.gif)
 
 
 

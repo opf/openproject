@@ -34,7 +34,7 @@ When you update to OpenProject 12.2.2 and the migration fails again, it will out
 - Fixed: Graphics bugs on mobile \[[#43555](https://community.openproject.org/wp/43555)\]
 - Fixed: New project selector does not work correctly \[[#43720](https://community.openproject.org/wp/43720)\]
 - Fixed: Error 500 (undefined method `getutc') when opening activities \[[#43771](https://community.openproject.org/wp/43771)\]
-- Fixed: Wiki unacessible if last menu item got lost \[[#43841](https://community.openproject.org/wp/43841)\]
+- Fixed: Wiki accessible if last menu item got lost \[[#43841](https://community.openproject.org/wp/43841)\]
 - Fixed: Unable to set LDAP filter string through rake task ldap:register \[[#43848](https://community.openproject.org/wp/43848)\]
 - Fixed: Upgrade 12.1.4 to 12.2.1 fails: pending database migration \[[#43876](https://community.openproject.org/wp/43876)\]
 - Fixed: System 'read only' field \[[#43893](https://community.openproject.org/wp/43893)\]

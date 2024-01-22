@@ -35,7 +35,7 @@ newest version.
   - Fixed: Toolbar container styling corrected
     \[[#28645](https://community.openproject.org/wp/28645)\]
   - Fixed: Content-Disposition was not set for AWS hosted attachments
-    for non-inlineable images. This resulted in SVGs being displayed
+    for non-inlinable images. This resulted in SVGs being displayed
     inline, which opens an SVG XSS attack vector on the AWS domain (NOT
     on the OpenProject domain). From this version onward, non-image
     files will receive a forced *attachment* content disposition to

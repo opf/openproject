@@ -87,7 +87,7 @@ For more information, please see [#51333](https://community.openproject.org/proj
 - Changed: Upload custom picture for cover page of pdf export \[[#49684](https://community.openproject.org/wp/49684)\]
 - Changed: Meetings tab on work package page  \[[#49951](https://community.openproject.org/wp/49951)\]
 - Changed: PDF export (single work package): Include all attributes and fields according to the work package type form configuration \[[#49977](https://community.openproject.org/wp/49977)\]
-- Changed: Make the seed data in the teaser sections "Welcome to OpenProejct" more robust for user that do not have the correct permissions \[[#50070](https://community.openproject.org/wp/50070)\]
+- Changed: Make the seed data in the teaser sections "Welcome to OpenProject" more robust for user that do not have the correct permissions \[[#50070](https://community.openproject.org/wp/50070)\]
 - Changed: Skip project selection step in onboarding tour \[[#50073](https://community.openproject.org/wp/50073)\]
 - Changed: Activate meeting module and one meeting "weekly" to the seed data \[[#50132](https://community.openproject.org/wp/50132)\]
 - Changed: Update project deletion danger zone to include project folders as a dependent relation \[[#50233](https://community.openproject.org/wp/50233)\]

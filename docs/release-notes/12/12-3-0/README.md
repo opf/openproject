@@ -20,7 +20,7 @@ OpenProject 12.3 also adds [duration](../../../user-guide/work-packages/set-chan
 
 With the introduction of the work week and duration, consequently also the [date picker got improved](../../../user-guide/work-packages/set-change-dates/#working-days). You will now see the duration as well as a switch to consider "Working days only" for your planning. 
 
-Addtionally, this release launches **meaningful tool tips to the most essential actions**, and **when copying a project, all file links attached to work packages will be copied as well**.
+Additionally, this release launches **meaningful tool tips to the most essential actions**, and **when copying a project, all file links attached to work packages will be copied as well**.
 
 As always, this release also contains many more improvements and bug fixes. We recommend updating to the newest version as soon as possible.
 
@@ -92,7 +92,7 @@ The new and additional tool tips in the OpenProject application will make the na
 
 - Fixed: "Group by" options in Cost report are broken [#44265](https://community.openproject.org/wp/44265)
 - Fixed: Files list: inconsistencies in spacing and colours  [#44266](https://community.openproject.org/wp/44266)
-- Fixed: API call for custom_options does not work custom fieleds in time_entries [#44281](https://community.openproject.org/wp/44281)
+- Fixed: API call for custom_options does not work custom fields in time_entries [#44281](https://community.openproject.org/wp/44281)
 - Fixed: Email Reminder:  Daily reminders can only be configured to be delivered at a full hour. [#44300](https://community.openproject.org/wp/44300)
 - Changed: Cleanup placeholders of editable attributes [#40133](https://community.openproject.org/wp/40133)
 - Changed: Updated date picker drop modal (including duration and non-working days) [#41341](https://community.openproject.org/wp/41341)

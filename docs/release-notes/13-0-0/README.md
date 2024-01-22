@@ -30,7 +30,7 @@ The functionality **Show changes since Yesterday** is part of the free of charge
 
 ## Nextcloud project folders with automatically managed permissions
 
-With OpenProject 13.0 the Nexcloud integration has been enhanced with project folders. A new project folder is now set up in Nextcloud for a project, named after the project in OpenProject and automatically granting access to all project members.
+With OpenProject 13.0 the Nextcloud integration has been enhanced with project folders. A new project folder is now set up in Nextcloud for a project, named after the project in OpenProject and automatically granting access to all project members.
 Project folders allow setting up project templates with a pre-defined folder structure, including document templates. Links to files in work packages are copied and updated accordingly.
 
 ![OpenProject Nextcloud integration](openproject-nextcloud-integration.png)
@@ -51,7 +51,7 @@ You can now have all your OpenProject calendars with all important work packages
 
 With 13.0 we have added a new global menu to access all global modules for your projects. This provides a useful and intuitive overview of project information (e.g. for work packages, boards, team planners, or meetings) on a project-overarching level. You can create new elements for these respective modules directly from these global pages and assign them to a project.
 
-![Openproject global modules overview](openproject-global-modules.png)
+![OpenProject global modules overview](openproject-global-modules.png)
 
 ## Time tracking button 
 We added a button that allows you to easily record the time spent on a work package. Pressing the button on the work package will start the timer. Your avatar in the header navigation will show the active time tracking. Clicking the button again will stop the time tracking and you can log the time spent on the work package.

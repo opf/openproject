@@ -17,7 +17,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 #### Bug fixes and changes
 
 - Fixed: User email validation regular expression insufficient \[[#38325](https://community.openproject.org/wp/38325)\]
-- Fixed: Inherited role memberhips are not cleaned up if user is removed from a group via LDAP sync \[[#38614](https://community.openproject.org/wp/38614)\]
+- Fixed: Inherited role memberships are not cleaned up if user is removed from a group via LDAP sync \[[#38614](https://community.openproject.org/wp/38614)\]
 - Fixed: Release notes for 11-3-4 is empty \[[#38678](https://community.openproject.org/wp/38678)\]
 
 #### Contributions

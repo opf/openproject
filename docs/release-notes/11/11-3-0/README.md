@@ -28,7 +28,7 @@ In the header navigation we have introduced a **new button to create a project, 
 A new user invite process has been introduced. A modal window allows **much easier creation of new users, groups or placeholder users**, assigning roles and adding them to a project.
 Add a personal invitation message, e.g. an explanation for the invitation or a bit of information regarding the project, which will be sent to the users to help them get started.
 
-![Intive-user](Intive-user.png)
+![Invite user](Intive-user.png)
 
 The invite process can be started directly from the new "+" create button in the header navigation.
 

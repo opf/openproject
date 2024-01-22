@@ -37,11 +37,11 @@ There may come a point where you will have to make configuration changes to the 
 
 Using a rough estimate we can give the following recommendations based on the number of total users.
 
-| Users | CPU cores | RAM in GB  | web workers | background workers | Diskspace in GB |
-|-------|-----------|------------|-------------|--------------------|-----------------|
-| <=200 | 4         | 4          | 4           | 1                  | 20              |
-| 500   | 8         | 8          | 8           | 2                  | 40              |
-| 1500  | 16        | 16         | 16          | 4                  | 80              |
+| Users | CPU cores | RAM in GB  | web workers | background workers | disk space in GB |
+|-------|-----------|------------|-------------|--------------------|------------------|
+| <=200 | 4         | 4          | 4           | 1                  | 20               |
+| 500   | 8         | 8          | 8           | 2                  | 40               |
+| 1500  | 16        | 16         | 16          | 4                  | 80               |
 
 Mind, even just for 5 users we do recommend the default 4 workers as each page may require
 multiple requests to be made simultaneously. Having less workers will work, but pages may take longer to finish loading.

@@ -19,7 +19,7 @@ As always, the release contains many more improvements and bug fixes and we reco
 
 ## Team planner (Enterprise add-on)
 
-A new team planner module (Enterprise add-on) allows you to visually assign tasks to team members to get an overview of who is working on what. You can display in a weekly or bi-weekly view all work packages assigend to your team.
+A new team planner module (Enterprise add-on) allows you to visually assign tasks to team members to get an overview of who is working on what. You can display in a weekly or bi-weekly view all work packages assigned to your team.
 
 ![openproject-team-planner-view](openproject-team-planner-view.gif)
 
@@ -33,7 +33,7 @@ Also, you can include work packages from multiple projects with the new “Inclu
 
 ## Agile boards for the Community version
 
-We want to give an important feature to the Community version. Now, that we have implemented with the team planner a new Enterprpise feature, we also want to give something to the Community. We decided to release the basic agile boards for the Community. Making it possible to also create agile boards with the free of charge Community version of OpenProject.
+We want to give an important feature to the Community version. Now, that we have implemented with the team planner a new Enterprise feature, we also want to give something to the Community. We decided to release the basic agile boards for the Community. Making it possible to also create agile boards with the free of charge Community version of OpenProject.
 
 These flexible basic agile boards allow you to set up any kind of agile board you need. Freely configure the lists (columns) which should be displayed and add and move cards between these lists. The basic boards do not update the work package attributes when moving cards between the lists.
 
@@ -72,7 +72,7 @@ We added a new “Files” tab in the work package details. This way, you will h
 - Changed: Extend the current project status \[[#34708](https://community.openproject.org/wp/34708)\]
 - Changed: Update and verify all help/docs links from application help menu and start page \[[#35029](https://community.openproject.org/wp/35029)\]
 - Changed: Save different views in calendar module \[[#36322](https://community.openproject.org/wp/36322)\]
-- Changed: Remove custom links to notification settings in email foooter \[[#39133](https://community.openproject.org/wp/39133)\]
+- Changed: Remove custom links to notification settings in email footer \[[#39133](https://community.openproject.org/wp/39133)\]
 - Changed: Drag and drop of work packages in calendar module and team planner module \[[#39486](https://community.openproject.org/wp/39486)\]
 - Changed: Left-side search pane to add existing work packages to team planner \[[#40031](https://community.openproject.org/wp/40031)\]
 - Changed: Seed data for new team planner module \[[#40195](https://community.openproject.org/wp/40195)\]
@@ -156,7 +156,7 @@ We added a new “Files” tab in the work package details. This way, you will h
 - Fixed: Changed calendar styles applied to time entries component \[[#41013](https://community.openproject.org/wp/41013)\]
 - Fixed: Text in "Add existing" pane needs smaller font-size \[[#41068](https://community.openproject.org/wp/41068)\]
 - Fixed: Status description missing from project XLS export \[[#41071](https://community.openproject.org/wp/41071)\]
-- Fixed: Toolbar: Placement and spacing of butons and date need adjusting \[[#41079](https://community.openproject.org/wp/41079)\]
+- Fixed: Toolbar: Placement and spacing of buttons and date need adjusting \[[#41079](https://community.openproject.org/wp/41079)\]
 - Fixed: Inconsistencies and an anomaly with borders on team planner calendar \[[#41081](https://community.openproject.org/wp/41081)\]
 - Fixed: Configure boards modal has empty tab header \[[#41103](https://community.openproject.org/wp/41103)\]
 - Fixed: Drag handle hover area is inconsistent / too sensitive \[[#41108](https://community.openproject.org/wp/41108)\]
@@ -200,7 +200,7 @@ We added a new “Files” tab in the work package details. This way, you will h
 - Fixed: Changing host_name option in "System Settings" leads to exception \[[#41844](https://community.openproject.org/wp/41844)\]
 - Fixed: No hover on button "Add assignee" in Team planner or "Create new work package" in list view \[[#41853](https://community.openproject.org/wp/41853)\]
 - Fixed: Query disappearing from search and not visible \[[#41897](https://community.openproject.org/wp/41897)\]
-- Fixed: booking of additional licences is not poosible \[[#41901](https://community.openproject.org/wp/41901)\]
+- Fixed: booking of additional licences is not possible \[[#41901](https://community.openproject.org/wp/41901)\]
 - Fixed: Team planner - add existing - no indication on no matching result \[[#41925](https://community.openproject.org/wp/41925)\]
 - Fixed: Autofocus for sign in form OpenProject missing \[[#41929](https://community.openproject.org/wp/41929)\]
 - Fixed: Comment numbers are cut off on mobile \[[#41942](https://community.openproject.org/wp/41942)\]
@@ -212,7 +212,7 @@ We added a new “Files” tab in the work package details. This way, you will h
 - Fixed: Different translations strings for "Included projects" and "Projects"    \[[#42063](https://community.openproject.org/wp/42063)\]
 - Fixed: Wrong indention for module "Team planers" in sidebar \[[#42065](https://community.openproject.org/wp/42065)\]
 - Fixed: Indention for projects on root level in "Included projects" selector \[[#42066](https://community.openproject.org/wp/42066)\]
-- Fixed: Tiny shift of checkboxes in the "Inlcude project" selector \[[#42068](https://community.openproject.org/wp/42068)\]
+- Fixed: Tiny shift of checkboxes in the "Include project" selector \[[#42068](https://community.openproject.org/wp/42068)\]
 - Fixed: Search results below include projects modal \[[#42090](https://community.openproject.org/wp/42090)\]
 - Fixed: Include projects - Toggle button is not rounded \[[#42171](https://community.openproject.org/wp/42171)\]
 

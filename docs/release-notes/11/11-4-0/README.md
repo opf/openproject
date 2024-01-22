@@ -24,7 +24,7 @@ OpenProject 11.4.0 adds packaged installation support for Debian 11 "Bullseye".
 - Fixed: Work package exports fail when column "BCF snapshot" active \[[#33448](https://community.openproject.org/wp/33448)\]
 - Fixed: Regression: On touch devices, Select, Info and Erase buttons don't work. \[[#38005](https://community.openproject.org/wp/38005)\]
 - Fixed: Expired enterprise edition locking users out of OpenProject and all enterprise add-ons \[[#38588](https://community.openproject.org/wp/38588)\]
-- Fixed: Unable to export workpackages - undefined method `bcf_thumbnail' \[[#38673](https://community.openproject.org/wp/38673)\]
+- Fixed: Unable to export work packages - undefined method `bcf_thumbnail' \[[#38673](https://community.openproject.org/wp/38673)\]
 - Fixed: Wiki menu item scrolling does not work with two main wiki items \[[#38878](https://community.openproject.org/wp/38878)\]
 - Fixed: Imminent user limit warning shown prematurely \[[#38893](https://community.openproject.org/wp/38893)\]
 - Fixed: Custom S3 compatible upload providers blocked by CSP \[[#38900](https://community.openproject.org/wp/38900)\]

@@ -19,7 +19,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: get 500 error when open wiki page in every project \[[#40500](https://community.openproject.org/wp/40500)\]
 - Fixed: [AppSignal] Performance VersionsController#index \[[#47872](https://community.openproject.org/wp/47872)\]
 - Fixed: File Drag and Drop \[[#49507](https://community.openproject.org/wp/49507)\]
-- Fixed: Improve discoverablility of the "Permissions report"  \[[#50106](https://community.openproject.org/wp/50106)\]
+- Fixed: Improve discoverability of the "Permissions report"  \[[#50106](https://community.openproject.org/wp/50106)\]
 - Fixed: Inconsistent labels for "Global roles" and "Project" in user tab \[[#50108](https://community.openproject.org/wp/50108)\]
 - Fixed: Nextcloud integration Error: The automatically managed project folder was not yet found.  \[[#50117](https://community.openproject.org/wp/50117)\]
 - Fixed: Failed to migrate from 12 to 13 due to `Locale zh is not supported` error \[[#50216](https://community.openproject.org/wp/50216)\]

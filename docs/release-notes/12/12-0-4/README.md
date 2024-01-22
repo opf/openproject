@@ -16,7 +16,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 <!--more-->
 ### CVE-2021-43830
 
-OpenProject versions >= 12.0.0 are vulnerable to a SQL injection in the budgets module. For authenticated users with the "Edit budgets" permission, the request to reassign work packages to another budget unsufficiently sanitizes user input in the reassign_to_id parameter.
+OpenProject versions >= 12.0.0 are vulnerable to a SQL injection in the budgets module. For authenticated users with the "Edit budgets" permission, the request to reassign work packages to another budget insufficiently sanitizes user input in the reassign_to_id parameter.
 
 #### Patches
 

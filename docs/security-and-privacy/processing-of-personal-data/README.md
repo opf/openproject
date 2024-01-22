@@ -170,7 +170,7 @@ Depending on the individual use and permissions of the user the following person
 - Assignment of a work package to a person
 - Change history
 - Person mentioned in a list or project schedule
-- Person mentioned in an attributs or text field
+- Person mentioned in an attribute or text field
 - Person mentioned in a linked file
 - Person mentioned in a linked pull request (i.e. GitHub)
 
@@ -388,7 +388,7 @@ flowchart LR
 
 #### Purpose
 
-* Create a new work package by sending an email to a configured email adress.
+* Create a new work package by sending an email to a configured email address.
 * Adding a comment to an existing work package by answering to an email notification.
 * Sending email notifications about updates in OpenProject (e.g [email reminder](../../system-admin-guide/emails-and-notifications/), meeting updates, project invitation, wiki notifications)
 

@@ -450,7 +450,7 @@ If you have a separate server that is terminating SSL and only forwarding/proxyi
 
 - Finally, to let OpenProject know that it should create links with 'https' when no request is available (for example, when sending emails), you need to set the following setting: `openproject config:set SERVER_PROTOCOL_FORCE_HTTPS="true"` followed by an `openproject configure`. This ensures that OpenProject responds correctly with secure cookies even though it was not configured for https in the server configuration.
 
-Here an example for external SSL/TLS terminaltion with apache (httpd):
+Here an example for external SSL/TLS termination with apache (httpd):
 
 > **Note:** There is [another example](../docker/#1-virtual-host-root) for external SSL/TLS termination for **docker-compose** installations
 

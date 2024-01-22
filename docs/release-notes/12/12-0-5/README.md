@@ -21,7 +21,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Impossible to identify errors when bulk moving / updating project \[[#40265](https://community.openproject.org/wp/40265)\]
 - Fixed: wrong position of "slice edit" - context menu \[[#40282](https://community.openproject.org/wp/40282)\]
 - Fixed: Incorrect label causes screenreader problems \[[#40296](https://community.openproject.org/wp/40296)\]
-- Fixed: Member updated mails cannot be surpressed \[[#40316](https://community.openproject.org/wp/40316)\]
+- Fixed: Member updated mails cannot be suppressed \[[#40316](https://community.openproject.org/wp/40316)\]
 - Fixed: Try to open OpenProject  API: Failed to load API definition. \[[#40352](https://community.openproject.org/wp/40352)\]
 - Fixed: Remote attachments cache isn't cleared \[[#40356](https://community.openproject.org/wp/40356)\]
 - Fixed: Form configuration query can not be edited if invalid \[[#40374](https://community.openproject.org/wp/40374)\]

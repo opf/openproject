@@ -62,7 +62,7 @@ In OpenProject, authentication is an important element to guarantee a data prote
 
 ### Backlogs
 
-Backlogs is a [module](#module) in OpenProject that brings feautres that support the Scrum methodology in OpenProject, such as a product backlog and sprint backlogs, a task board, estimation of story points, a burndown chart and a Scrum wiki. In order to use backlogs in OpenProject, the backlogs module has to be activated in the [project settings](#project-settings) by a project admin. [Read how to work with backlogs in OpenProject](https://www.openproject.org/docs/user-guide/backlogs-scrum).
+Backlogs is a [module](#module) in OpenProject that brings features that support the Scrum methodology in OpenProject, such as a product backlog and sprint backlogs, a task board, estimation of story points, a burndown chart and a Scrum wiki. In order to use backlogs in OpenProject, the backlogs module has to be activated in the [project settings](#project-settings) by a project admin. [Read how to work with backlogs in OpenProject](https://www.openproject.org/docs/user-guide/backlogs-scrum).
 
 ### Baseline comparison
 

@@ -80,7 +80,7 @@ The *Budgets* module will remain unchanged and additionally enables project budg
 
 We have again added many improvements to the WYSIWYG editor, i.e. for wiki pages or the work packages description. For example, you can now adjust the image size in the editor.
 
-![resize-imagesshort](resize-imagesshort.gif)
+![Resize images](resize-imagesshort.gif)
 
 Additionally, it is now possible to add macros to insert project or work packages attributes to the wiki or work package description.
 
@@ -239,7 +239,7 @@ There are lots and lots of new things we packed into 11.0 to tell you about.
 - Fixed: 500er Bug when Drag and Drop position in Gantt chart \[[#34836](https://community.openproject.org/wp/34836)\]
 - Fixed: Error messages in copy project modal (e.g. boards) not localized \[[#34843](https://community.openproject.org/wp/34843)\]
 - Fixed: Work package description containing work package attribute macro not displayed at all \[[#34852](https://community.openproject.org/wp/34852)\]
-- Fixed: Invalid or missing translation for format of project customfield in administration \[[#34863](https://community.openproject.org/wp/34863)\]
+- Fixed: Invalid or missing translation for format of project custom field in administration \[[#34863](https://community.openproject.org/wp/34863)\]
 - Fixed: On mobile the project side menu can get stuck / cut off when scrolling \[[#34868](https://community.openproject.org/wp/34868)\]
 - Fixed: Missing localization for "Subproject" and "Parent-Child" board heading \[[#34870](https://community.openproject.org/wp/34870)\]
 - Changed: Allow PDFs to be inlined \[[#24343](https://community.openproject.org/wp/24343)\]
@@ -300,7 +300,7 @@ There are lots and lots of new things we packed into 11.0 to tell you about.
 - Epic: Switch between automatic and manual scheduling mode \[[#25624](https://community.openproject.org/wp/25624)\]
 - Epic: Time tracking and cost control 2.0 \[[#32125](https://community.openproject.org/wp/32125)\]
 - Epic: Wiki Macro functionality to allow retrieving work package and project attributes \[[#33648](https://community.openproject.org/wp/33648)\]
-- Epic: Basic portfoliomanagement for project list \[[#34167](https://community.openproject.org/wp/34167)\]
+- Epic: Basic portfolio management for project list \[[#34167](https://community.openproject.org/wp/34167)\]
 - Epic: Projekt Templates \[[#34468](https://community.openproject.org/wp/34468)\]
 
 ## Installation and Updates

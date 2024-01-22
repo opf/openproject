@@ -46,7 +46,7 @@ Apart from using OpenProject in the cloud (OpenProject Enterprise cloud) OpenPro
 Here are resources to get to know OpenProject:
 
 - The [overview of our features](https://www.openproject.org/collaboration-software-features)
-- Our [English demo video](https://www.youtube.com/watch?v=un6zCm8_FT4) or [German demo video](https://www.youtube.com/watch?v=doVtVArSSvk) to get an overview of Openproject. There are additional videos explaining certain features to be found on our [YouTube channel](https://www.youtube.com/c/OpenProjectCommunity/videos), too.
+- Our [English demo video](https://www.youtube.com/watch?v=un6zCm8_FT4) or [German demo video](https://www.youtube.com/watch?v=doVtVArSSvk) to get an overview of OpenProject. There are additional videos explaining certain features to be found on our [YouTube channel](https://www.youtube.com/c/OpenProjectCommunity/videos), too.
 - The [Getting started guide](../getting-started) and the [User guide](../user-guide)
 - Our free trial: Click the green button [here](https://www.openproject.org/enterprise-edition) for Enterprise on-premises or go to [start.openproject.com](https://start.openproject.com) for the Enterprise cloud.
 - Our [development roadmap](https://community.openproject.org/projects/openproject/roadmap) (to get to know future features)
@@ -187,7 +187,7 @@ Yes, you can. Starting with OpenProject 12.4 we implemented date alerts and emai
 
 You can [set up budgets](../user-guide/budgets), [set the estimated time in  the **Work** field](../user-guide/work-packages/edit-work-package/) of a work package and use the [Assignee board](../user-guide/agile-boards/#choose-between-board-types) to find out how many work packages are assigned to a person at the moment.
 Additional resource management features will be added within the next years. You can find the roadmap for future releases [here](https://community.openproject.org/projects/openproject/work_packages?query_id=1993).
-More infomation regarding resource management in OpenProject can be found in the [Use Cases](../use-cases/resource-management) section.
+More information regarding resource management in OpenProject can be found in the [Use Cases](../use-cases/resource-management) section.
 
 ### Does OpenProject offer portfolio management?
 

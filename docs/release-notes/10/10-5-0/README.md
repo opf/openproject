@@ -164,7 +164,7 @@ An export function can then be used to distribute the BCFs back to the local app
 - Fixed: Styling and consistency issues in the confirm deletion modal for the EE token \[[#32908](https://community.openproject.org/wp/32908)\]
 - Fixed: Misaligned menu opener in Backlogs plugin \[[#32923](https://community.openproject.org/wp/32923)\]
 - Fixed: Wrong space in members widget after a group \[[#32927](https://community.openproject.org/wp/32927)\]
-- Fixed: Filter for Type does not work in the WIKI makro \[[#32983](https://community.openproject.org/wp/32983)\]
+- Fixed: Filter for Type does not work in the WIKI macro \[[#32983](https://community.openproject.org/wp/32983)\]
 - Fixed: Cannot assign tasks to groups in assignee board \[[#33072](https://community.openproject.org/wp/33072)\]
 - Fixed: Enterprise-Upgrade-Video re-starts multiple times on Boards page \[[#33078](https://community.openproject.org/wp/33078)\]
 - Fixed: Error 503 when trying to activate EE trial \[[#33080](https://community.openproject.org/wp/33080)\]

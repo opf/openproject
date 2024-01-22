@@ -36,7 +36,7 @@ In case of overdue work packages, if a reminder is set to be sent for example ev
 
 Date alerts are an Enterprise add-on and only available in the [Enterprise on-premises and Enterprise cloud](https://www.openproject.org/enterprise-edition) version of OpenProject.
 
-## 2-factor Authetication (2FA) for the community ediiton
+## 2-factor Authentication (2FA) for the community edition
 
 With OpenProject 12.4 users who have OpenProject community edition installed can activate 2-factor authentication. We strongly recommend that you make use of this option and increase your account security. 
 
@@ -66,7 +66,7 @@ It is now possible to choose between a full 1-week view, a 2-week view or only t
 
 ## OpenProject Helm Charts
 
-Starting with OpenProject 12.4 offical [OpenProject Helm charts](../../../installation-and-operations/installation/helm-chart) are available.
+Starting with OpenProject 12.4 official [OpenProject Helm charts](../../../installation-and-operations/installation/helm-chart) are available.
 
 ![openproject helm charts](openproject-helm-charts.jpg)
 

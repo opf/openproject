@@ -26,7 +26,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Messy rendering of webhook show page \[[#45438](https://community.openproject.org/wp/45438)\]
 - Fixed: Spacing issue in date alert dropdown \[[#45443](https://community.openproject.org/wp/45443)\]
 - Fixed: Attributes that span both columns have too much spacing between label and input \[[#45445](https://community.openproject.org/wp/45445)\]
-- Fixed: The finish date slider for a task via the gannt chart is not accurate \[[#45536](https://community.openproject.org/wp/45536)\]
+- Fixed: The finish date slider for a task via the gantt chart is not accurate \[[#45536](https://community.openproject.org/wp/45536)\]
 - Fixed: Date alert creation job timing out \[[#45591](https://community.openproject.org/wp/45591)\]
 - Fixed: New custom field with default value breaks comments \[[#45724](https://community.openproject.org/wp/45724)\]
 

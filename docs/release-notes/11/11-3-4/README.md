@@ -16,5 +16,5 @@ The release contains several bug fixes and we recommend updating to the newest v
 <!--more-->
 #### Bug fixes and changes
 
-This release contains only one fix for Centos 7 and Centos 8 packaged installations that are unable to access the PostgeSQL package source.
+This release contains only one fix for Centos 7 and Centos 8 packaged installations that are unable to access the PostgreSQL package source.
 It does not contain any other fixes

@@ -52,15 +52,15 @@ In both cases the seeder will be run when you (re)launch OpenProject to make sur
 
 OpenProject will merge the settings from `DATABASE_URL` with manually specified environment options. Here are the supported options: 
 
-| Environment variable                 | Default     | Description                                                  | Documentation                                                |
-| ------------------------------------ | ----------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| DATABASE_URL<br>OPENPROJECT_DB_URL | *none*      | URL style passing of database options                        | https://guides.rubyonrails.org/configuring.html#configuring-a-database |
-| OPENPROJECT_DB_ENCODING              | unicode     | Encoding of the database                                     | Should be left at unicode unless you really know what you're doing. |
-| OPENPROJECT_DB_POOL                  | *none*      | Connection pool count                                        | https://guides.rubyonrails.org/configuring.html#database-pooling |
-| OPENPROJECT_DB_USERNAME              | *none*      | Database username, if not presented in URL above             | https://guides.rubyonrails.org/configuring.html#configuring-a-database |
-| OPENPROJECT_DB_PASSWORD              | *none*      | Database password, if not presented in URL above             | https://guides.rubyonrails.org/configuring.html#configuring-a-database |
-| OPENPROJECT_DB_APPLICATION_NAME      | openproject | PostgreSQL application name option                           | https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-CONNECT-APPLICATION-NAME |
-| OPENPROJECT_DB_STATEMENT_TIMEOUT     | 90s         | Default statement timeout before connection statements are terminted | https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-STATEMENT-TIMEOUT |
+| Environment variable               | Default     | Description                                                           | Documentation                                                                            |
+|------------------------------------|-------------|-----------------------------------------------------------------------|------------------------------------------------------------------------------------------|
+| DATABASE_URL<br>OPENPROJECT_DB_URL | *none*      | URL style passing of database options                                 | https://guides.rubyonrails.org/configuring.html#configuring-a-database                   |
+| OPENPROJECT_DB_ENCODING            | unicode     | Encoding of the database                                              | Should be left at unicode unless you really know what you're doing.                      |
+| OPENPROJECT_DB_POOL                | *none*      | Connection pool count                                                 | https://guides.rubyonrails.org/configuring.html#database-pooling                         |
+| OPENPROJECT_DB_USERNAME            | *none*      | Database username, if not presented in URL above                      | https://guides.rubyonrails.org/configuring.html#configuring-a-database                   |
+| OPENPROJECT_DB_PASSWORD            | *none*      | Database password, if not presented in URL above                      | https://guides.rubyonrails.org/configuring.html#configuring-a-database                   |
+| OPENPROJECT_DB_APPLICATION_NAME    | openproject | PostgreSQL application name option                                    | https://www.postgresql.org/docs/13/libpq-connect.html#LIBPQ-CONNECT-APPLICATION-NAME     |
+| OPENPROJECT_DB_STATEMENT_TIMEOUT   | 90s         | Default statement timeout before connection statements are terminated | https://www.postgresql.org/docs/current/runtime-config-client.html#GUC-STATEMENT-TIMEOUT |
 
 
 
@@ -74,7 +74,7 @@ The most import option is the `sslmode` parameter. Set this to the appropriate m
 DATABASE_URL=postgres://user:pass@host:port/dbname?sslmode=require-full&sslcert=/path/to/postgresql.cert
 ```
 
-Alternatively, for better readibility, you can set these parameters with separate environment variables:
+Alternatively, for better readability, you can set these parameters with separate environment variables:
 
 | Environment variable          | Default                      | Description                                                  | PostgreSQL documentation                                     |
 | ----------------------------- | ---------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |

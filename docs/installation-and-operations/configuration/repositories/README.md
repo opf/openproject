@@ -51,13 +51,13 @@ The following is an excerpt of the configuration and contains all required infor
 	#
 	#   Available types for git:
 	#     - :local (Local repositories, registered using a local path)
-	#     - :managed (Managed repositores, available IF :manages path is set below)
+	#     - :managed (Managed repositories, available IF :manages path is set below)
 	#   Available types for subversion:
 	#     - :existing (Existing subversion repositories by URL - local using file:/// or remote
 	#                 using one of the supported URL schemes (e.g., https://, svn+ssh:// )
-	#     - :managed (Managed repositores, available IF :manages path is set below)
+	#     - :managed (Managed repositories, available IF :manages path is set below)
 	#
-	# Examplary configuration (Enables managed Git repositories at the given path)
+	# Exemplary configuration (Enables managed Git repositories at the given path)
 	scm:
 	  git:
 	    manages: /srv/repositories/git

@@ -108,7 +108,7 @@ The specification phase may not be necessary for bug fixes, minor design changes
 
 | Involved                                                                                                                   | Output                                                     |
 |----------------------------------------------------------------------------------------------------------------------------|:-----------------------------------------------------------|
-| - Entire team (incl. PMs, UX researcher, developers, etc.)  <br/> - Customers <br/> - Community <br/> - Other stackholders | - Feature request in Wish List <br/> - Bugs in Bug backlog |
+| - Entire team (incl. PMs, UX researcher, developers, etc.)  <br/> - Customers <br/> - Community <br/> - Other stakeholders | - Feature request in Wish List <br/> - Bugs in Bug backlog |
 
 
 The [OpenProject Wish List](https://community.openproject.org/projects/openproject/work_packages?query_id=180) is used to collect a backlog of potential validation opportunities. Requirements may come from customers, internal usage, support messages, community forums or through other communication channels.
@@ -257,12 +257,12 @@ When all features, bugs have been tested successfully, regression testing was pe
 
 ### 3.2.3 Building phase 4: Acceptance test
 
-| Involved                                                  | Output                                                       |
-| --------------------------------------------------------- | :----------------------------------------------------------- |
-| - Product manager<br>- (possibly) External Stakeholders | Accepted feature (acceptenace succeeded) OR<br>Changes necessary (acceptance failed) |
+| Involved                                                | Output                                                                              |
+|---------------------------------------------------------|:------------------------------------------------------------------------------------|
+| - Product manager<br>- (possibly) External Stakeholders | Accepted feature (acceptance succeeded) OR<br>Changes necessary (acceptance failed) |
 
 1. PM tests features to see if requirements are met, discusses necessary changes with developer (acceptance test) (status: “closed”).
-1. If external stakeholders are involved and depending on any additional agreements between OpenProject and the external stakeholders, an additional presentation or feature presentation is performed as part of the acceptance testing. The result of this test may result in additional iterations of the steps Buidling phase 1 - 3.
+1. If external stakeholders are involved and depending on any additional agreements between OpenProject and the external stakeholders, an additional presentation or feature presentation is performed as part of the acceptance testing. The result of this test may result in additional iterations of the steps Building phase 1 - 3.
 
 If required changes are identified or predefined acceptance criteria is not met, the acceptance test is failed, the respective work packages are returned ot the developers/product team for additional changes or specification work
 

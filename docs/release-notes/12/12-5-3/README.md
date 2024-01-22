@@ -16,12 +16,12 @@ The release contains several bug fixes and we recommend updating to the newest v
 <!--more-->
 #### Bug fixes and changes
 
-- Fixed: Titles of related work packages are unecessarily truncated. Full titles are not accessible. \[[#44828](https://community.openproject.org/wp/44828)\]
+- Fixed: Titles of related work packages are unnecessarily truncated. Full titles are not accessible. \[[#44828](https://community.openproject.org/wp/44828)\]
 - Fixed: Date picker: selected dates in mini calendar don't have a hover (primary dark) \[[#46436](https://community.openproject.org/wp/46436)\]
 - Fixed: Non-working Days/Holidays selection with 12.5 update \[[#47057](https://community.openproject.org/wp/47057)\]
 - Fixed: Project filter values drop down cut off \[[#47072](https://community.openproject.org/wp/47072)\]
 - Fixed: In projects filter selected values keep being suggested  \[[#47074](https://community.openproject.org/wp/47074)\]
-- Fixed: Acitivity page not working correctly \[[#47203](https://community.openproject.org/wp/47203)\]
+- Fixed: Activity page not working correctly \[[#47203](https://community.openproject.org/wp/47203)\]
 - Fixed: XLS export of work package with description cannot be opened by Excel if the description contains a table \[[#47513](https://community.openproject.org/wp/47513)\]
 - Fixed: Cannot archive a project that has archived sub-projects \[[#47599](https://community.openproject.org/wp/47599)\]
 - Fixed: 'TypeError: can't cast Array' during db:migrate \[[#47620](https://community.openproject.org/wp/47620)\]

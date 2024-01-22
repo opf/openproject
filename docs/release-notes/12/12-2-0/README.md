@@ -14,7 +14,7 @@ We have now released [OpenProject 12.2.0](https://community.openproject.org/vers
 
 This new release brings the long-awaited **Nextcloud integration**. No more spending hours searching for the right version of the right file! With OpenProject 12.2, you can easily find your project-related files (stored in Nextcloud) directly from the relevant work packages and always have the correct version at your fingertips. Data sovereignty remains a strong common ground between Nextcloud and OpenProject and this integration strengthens our collaboration while improving the productivity of our users.
 
-Addtionally, this release introduces **improvements to the date picker**, the possibility to **log time for other users** and mark work packages with notifications as read outside of notification center.
+Additionally, this release introduces **improvements to the date picker**, the possibility to **log time for other users** and mark work packages with notifications as read outside of notification center.
 
 As always, this release also contains many more improvements and bug fixes. We recommend updating to the newest version as soon as possible.
 
@@ -98,7 +98,7 @@ For more information, please see the respective installation pages:
 - Changed: Add packaged installation support for Ubuntu 22.04 \[[#42069](https://community.openproject.org/wp/42069)\]
 - Changed: Show banner information in new date picker \[[#42184](https://community.openproject.org/wp/42184)\]
 - Changed: Change date selection logic in new date picker \[[#42185](https://community.openproject.org/wp/42185)\]
-- Changed: Link to digital accessiblity statement from ADDITIONAL RESOURCES \[[#42298](https://community.openproject.org/wp/42298)\]
+- Changed: Link to digital accessibility statement from ADDITIONAL RESOURCES \[[#42298](https://community.openproject.org/wp/42298)\]
 - Changed: New attachments style on the work package creation form \[[#42369](https://community.openproject.org/wp/42369)\]
 - Changed: Enable feature flags by default in the development environment \[[#42414](https://community.openproject.org/wp/42414)\]
 - Changed: Enable feature flag for storages module on pull preview \[[#42628](https://community.openproject.org/wp/42628)\]
@@ -113,7 +113,7 @@ For more information, please see the respective installation pages:
 - Fixed: Quick-add menu not showing on smaller screens \[[#37539](https://community.openproject.org/wp/37539)\]
 - Fixed: Default status is shown multiple times in new board \[[#40858](https://community.openproject.org/wp/40858)\]
 - Fixed: "expected at least one error" - Work package errors in dependent work packages not displayed \[[#40921](https://community.openproject.org/wp/40921)\]
-- Fixed: Openproject docker installation uses port 3000 as the outward-facing port but documentation says 8080 \[[#41287](https://community.openproject.org/wp/41287)\]
+- Fixed: OpenProject docker installation uses port 3000 as the outward-facing port but documentation says 8080 \[[#41287](https://community.openproject.org/wp/41287)\]
 - Fixed: Deleted users are not properly anonymized in tagged messages \[[#41499](https://community.openproject.org/wp/41499)\]
 - Fixed: Cannot inline-create a work package on views that filter by WP ID \[[#41667](https://community.openproject.org/wp/41667)\]
 - Fixed: In team planner and calendar, the sidebar should not use the word "views" \[[#41830](https://community.openproject.org/wp/41830)\]
@@ -142,7 +142,7 @@ For more information, please see the respective installation pages:
 - Fixed: Able to set a follower starting before its predecessor \[[#43223](https://community.openproject.org/wp/43223)\]
 - Fixed: Migration::MigrationUtils::PermissionAdder.add not idempotent \[[#43231](https://community.openproject.org/wp/43231)\]
 - Fixed: imap ssl settings are evaluated as booleans when they are strings \[[#43237](https://community.openproject.org/wp/43237)\]
-- Fixed: Work Package Releation entry not styling type properly \[[#43239](https://community.openproject.org/wp/43239)\]
+- Fixed: Work Package Relation entry not styling type properly \[[#43239](https://community.openproject.org/wp/43239)\]
 - Fixed: Work packages in Gantt chart in light grey hard to see \[[#43240](https://community.openproject.org/wp/43240)\]
 - Fixed: Work package types with colour white are not visible in emails \[[#43247](https://community.openproject.org/wp/43247)\]
 - Fixed: Can not find users with the user creation/invitation form  \[[#43257](https://community.openproject.org/wp/43257)\]

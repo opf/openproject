@@ -84,7 +84,7 @@ When accessing a singular query resource, the response will always contain the s
 - **Basic properties** of the query object itself
   - `id` of the query (if any)
   - `name` of the query set by the saving user
-  - `starred` whether the user favorited this query (special place in sidebar)
+  - `starred` whether the user favorites this query (special place in sidebar)
   - `public` whether the query is shared with other users
   - `createdAt` / `updatedAt` timestamps for the resource
   - `_links.project` to the project it is saved in (if project-scoped)

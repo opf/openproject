@@ -840,7 +840,7 @@ OPENPROJECT_CLI_PROXY='http://<your local ip>:4200' ./bin/rails s -b 0.0.0.0 -p 
 ## Legacy LDAP tests
 
 OpenProject supports using LDAP for user authentications.  To test LDAP
-with OpenProject, load the LDAP export from test/fixtures/ldap/test-ldap.ldif
+with OpenProject, load the LDAP export from `test/fixtures/ldap/test-ldap.ldif`
 into a testing LDAP server.  Test that the ldap server can be accessed
 at 127.0.0.1 on port 389.
 

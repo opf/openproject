@@ -21,7 +21,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Custom project attribute triggers error when selected during project creation \[[#46827](https://community.openproject.org/wp/46827)\]
 - Fixed: Preview of linked WP is cut off in split view when close to the edge \[[#46837](https://community.openproject.org/wp/46837)\]
 - Fixed: Selected date (number) not visible when matches with Today \[[#47145](https://community.openproject.org/wp/47145)\]
-- Fixed: Opening of CKEditor sporadicallly taking 10s+ when trying to comment on work packages \[[#47795](https://community.openproject.org/wp/47795)\]
+- Fixed: Opening of CKEditor sporadically taking 10s+ when trying to comment on work packages \[[#47795](https://community.openproject.org/wp/47795)\]
 - Fixed: Projects tab of group administration should not offer adding to archived projects \[[#48263](https://community.openproject.org/wp/48263)\]
 - Fixed: Grape responds with text/plain 303 redirect to a JSON api \[[#48622](https://community.openproject.org/wp/48622)\]
 - Fixed: Meeting Minutes double submit causes lock version error \[[#49061](https://community.openproject.org/wp/49061)\]

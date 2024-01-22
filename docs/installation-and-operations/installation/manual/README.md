@@ -6,7 +6,7 @@ sidebar_navigation: false
 
 > **IMPORTANT: We strongly recommend to use one of the officially supported [installation methods](../../installation).**
 >
-> **This guide is simply provided as an OLD and OUTDATED reference, and is NOT up to date with relation to the latest OpenProject releases and will be NOT maintained NOR supported. You are on your own and maybe could ask experienced users in the forum in order to use this guide for any integrations taht you would like to solve. We also removed it from the navigation sidebar on the left in order to hide it.**
+> **This guide is simply provided as an OLD and OUTDATED reference, and is NOT up to date with relation to the latest OpenProject releases and will be NOT maintained NOR supported. You are on your own and maybe could ask experienced users in the forum in order to use this guide for any integrations that you would like to solve. We also removed it from the navigation sidebar on the left in order to hide it.**
 
 Please be aware that:
 

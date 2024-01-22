@@ -40,7 +40,7 @@ This only affects those users that have granted OpenProject access to their Next
 - Fixed: Eager loading for API not working in parts leading to degraded performance \[[#49915](https://community.openproject.org/wp/49915)\]
 - Fixed: Docker instance: No svn present in v13? \[[#49930](https://community.openproject.org/wp/49930)\]
 - Fixed: Add in all reported missing translations \[[#49937](https://community.openproject.org/wp/49937)\]
-- Fixed: Accidentaly granting access to Nextcloud project folders that are no members of the project \[[#49956](https://community.openproject.org/wp/49956)\]
+- Fixed: Accidentally granting access to Nextcloud project folders that are no members of the project \[[#49956](https://community.openproject.org/wp/49956)\]
 - Changed: Forbid user to enable misconfigured storages for a project. \[[#49218](https://community.openproject.org/wp/49218)\]
 - Changed: Remove the "show" view for a storage's settings page \[[#49676](https://community.openproject.org/wp/49676)\]
 

@@ -8,12 +8,12 @@ keywords: date picker start finish dates duration change modify update relations
 
 # Set and change dates and duration of work packages
 
-| Feature                                                      | Documentation for                                            |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Set start and finish dates](#set-start-and-finish-dates)    | How to set start and finish dates, and how to change them    |
-| [Working days and duration](#working-days-and-duration)      | How to set duration, and how it affects start and finish dates |
-| [Scheduling mode](#scheduling-mode)                          | Enabling manual scheduling and what it does                  |
-| [Information and warning ban ners](#information-and-warning-banners) | What the different warning and information banners mean      |
+| Feature                                                             | Documentation for                                              |
+|---------------------------------------------------------------------|----------------------------------------------------------------|
+| [Set start and finish dates](#set-start-and-finish-dates)           | How to set start and finish dates, and how to change them      |
+| [Working days and duration](#working-days-and-duration)             | How to set duration, and how it affects start and finish dates |
+| [Scheduling mode](#scheduling-mode)                                 | Enabling manual scheduling and what it does                    |
+| [Information and warning banners](#information-and-warning-banners) | What the different warning and information banners mean        |
 
 ## Set start and finish dates
 
@@ -79,7 +79,7 @@ Work packages with *only* a start date or only a finish date are automatically c
 
 Certain work package types (such as Milestones) can only span one day and thus have only one date field:
 
-![Milestones have datpickers with a single date field](milestone-datepicker.png)
+![Milestones have datepickers with a single date field](milestone-datepicker.png)
 
 
 
