@@ -53,12 +53,8 @@ export class CombinedDateDisplayField extends DateDisplayField {
   private createDateDisplayField(date:'dueDate'|'startDate'):HTMLElement {
     const dateElement = document.createElement('span');
     const dateDisplayField = new DateDisplayField(date, this.context);
-    const text = this.resource[date]
-      ? this.timezoneService.formattedDate(this.resource[date])
-      : this.text.placeholder[date];
-
     dateDisplayField.apply(this.resource, this.schema);
-    dateDisplayField.render(dateElement, text);
+    dateDisplayField.render(dateElement, dateDisplayField.valueString);
 
     return dateElement;
   }

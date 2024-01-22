@@ -141,7 +141,7 @@
     <display-field
       *ngIf="!showAsInlineCard"
       [resource]="workPackage"
-      [displayFieldOptions]="{ writable: false }"
+      [displayFieldOptions]="{ writable: false, dateFormat: 'MMM DD, YYYY' }"
       [displayClass]="combinedDateDisplayField"
       fieldName="dueDate"
       class="op-wp-single-card--content-dates"
