@@ -315,7 +315,7 @@ RSpec.describe 'Admin storages',
             fill_in 'storages_one_drive_storage_tenant_id', with: '029d4741-a4be-44c6-a8e4-e4eff7b19f65'
             click_button 'Save and continue'
 
-            expect(page).to have_text("Drive can't be blank.")
+            expect(page).to have_text("Drive ID can't be blank.")
 
             fill_in 'storages_one_drive_storage_drive_id', with: '1234567890'
             click_button 'Save and continue'
@@ -606,7 +606,7 @@ RSpec.describe 'Admin storages',
             click_button 'Save and continue'
 
             expect(page).to have_text("Name can't be blank.")
-            expect(page).to have_text("Drive can't be blank.")
+            expect(page).to have_text("Drive ID can't be blank.")
 
             click_link 'Cancel'
           end
