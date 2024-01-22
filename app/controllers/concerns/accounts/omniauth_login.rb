@@ -47,12 +47,7 @@ module Accounts::OmniauthLogin
   end
 
   def omniauth_login
-    # Remmember the back_url to redirect to after login
-    # only if we're in a direct login phase, so the user ends up
-    # in the original requested URL after logging in
-    if omniauth_direct_login?
-      params[:back_url] = request.env['omniauth.origin']
-    end
+    params[:back_url] = request.env['omniauth.origin'] if remember_back_url?
 
     # Extract auth info and perform check / login or activate user
     auth_hash = request.env['omniauth.auth']
@@ -76,6 +71,15 @@ module Accounts::OmniauthLogin
     session_info = auth_hash.merge(omniauth: true, timestamp: Time.new)
 
     onthefly_creation_failed(user, session_info)
+  end
+
+  # Avoid remembering the back_url if we're coming from the login page
+  def remember_back_url?
+    provided_back_url = request.env['omniauth.origin']
+    return if provided_back_url.blank?
+
+    account_routes = /\/(login|account)/
+    omniauth_direct_login? || !provided_back_url.match?(account_routes)
   end
 
   def show_error(error)

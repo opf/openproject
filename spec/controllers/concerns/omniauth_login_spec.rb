@@ -304,6 +304,28 @@ RSpec.describe AccountController, :skip_2fa_stage do
           expect(user.last_login_on.utc.to_i).to be >= post_at.utc.to_i
         end
 
+        context 'with a back_url present' do
+          before do
+            request.env['omniauth.origin'] = 'http://test.host/projects'
+            post :omniauth_login, params: { provider: :google }
+          end
+
+          it 'redirects to that url', :aggregate_failures do
+            expect(response).to redirect_to '/projects'
+          end
+        end
+
+        context 'with a back_url from a login path' do
+          before do
+            request.env['omniauth.origin'] = 'http://test.host/login'
+            post :omniauth_login, params: { provider: :google }
+          end
+
+          it 'redirects to that url', :aggregate_failures do
+            expect(response).to redirect_to '/my/page'
+          end
+        end
+
         context 'with a partially blank auth_hash' do
           let(:omniauth_hash) do
             OmniAuth::AuthHash.new(
