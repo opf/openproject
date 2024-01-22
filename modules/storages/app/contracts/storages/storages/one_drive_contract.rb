@@ -33,7 +33,7 @@ module Storages::Storages
     attribute :host
     validates :host, absence: true
     attribute :tenant_id
-    validates :tenant_id, presence: true
+    validates :tenant_id, format: { with: /\A(?:[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}|consumers)\z/i }
     attribute :drive_id
     validates :drive_id, presence: true, allow_nil: true
   end
