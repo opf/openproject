@@ -10,14 +10,14 @@ release_date: 2023-10-23
 
 Release date: 2023-10-23
 
-We released [OpenProject 13.0.7](https://community.openproject.com/versions/1938).
+We released [OpenProject 13.0.7](https://community.openproject.org/versions/1938).
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
 #### Bug fixes and changes
 
-- Fixed: File Drag and Drop \[[#49507](https://community.openproject.com/wp/49507)\]
-- Fixed: Help icon not shown when having a custom help link setting \[[#50666](https://community.openproject.com/wp/50666)\]
+- Fixed: File Drag and Drop \[[#49507](https://community.openproject.org/wp/49507)\]
+- Fixed: Help icon not shown when having a custom help link setting \[[#50666](https://community.openproject.org/wp/50666)\]
 
 #### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.

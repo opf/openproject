@@ -8,7 +8,7 @@ keywords: integration, apps, Nextcloud, user
 
 # Nextcloud integration
 
-You can use [Nextcloud](https://nextcloud.com/) as an integrated file storage in OpenProject.
+You can use [Nextcloud](https://nextcloud.com) as an integrated file storage in OpenProject.
 
 This integration makes it possible for you to:
 
@@ -255,7 +255,7 @@ If you see the words "No Nextcloud connection" in the Files tab in OpenProject, 
 
 In rare occasions, it is possible for the integration to not be able to fetch all the details of all linked files. A simple page refresh should solve the issue. Should the error persist, please contact administrator of your OpenProject and Nextcloud instances.
 
-![OpenProject file fatching error](1_0_03-Fetching_error.png)
+![OpenProject file fetching error](1_0_03-Fetching_error.png)
 
 ### Project notifications are not displayed in Nextcloud
 

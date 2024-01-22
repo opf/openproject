@@ -24,7 +24,7 @@ Step 2: You will get a list of all the projects that exist in your organization.
 
 You can then sort the project list by clicking on a column heading, for example by project status.
 
-![Openproject sort project list by status](sort_by_status.png)
+![OpenProject sort project list by status](sort_by_status.png)
 
 You can add a visual component to the overview by clicking on the **Open as Gantt view** button. 
 
@@ -38,7 +38,7 @@ Step 3: You can also configure this view using the button with the three dots at
 
 You will then be led to the **System settings** of the global Administration. If you scroll down the page, you can select which columns are to be displayed in the project list in the section **Settings for project overview list** (you will need to scroll down the page). Please save your changes via the blue **Save** button, at the bottom of the page.
 
-![OpenProject settings for project overview list](openproject_settings_for_project_overview_list.png)
+![Settings for project overview list](openproject_settings_for_project_overview_list.png)
 
 If you click on **Edit query** you can adjust the project overview when using the Gantt chart option. 
 
@@ -47,13 +47,13 @@ If you click on **Edit query** you can adjust the project overview when using th
 ### Exporting reports
 For creating custom project reports you can use the export function in the work packages view. 
 
-![Openproject reports export](openproject_export.png)
+![Reports export](openproject_export.png)
 
 
 
 You can export the work packages in one of the following formats. 
 
-![Openproject export options](export_options.png)
+![Export options](export_options.png)
 
 To export or print a Gantt chart use the print function (**CTRL+P**) and then save it as PDF. Only information displayed in the main screen area is included. None of the designs or side or top menus are in it. Please see here [how to print a Gantt chart in OpenProject](../../user-guide/gantt-chart/#how-to-print-a-gantt-chart).
 

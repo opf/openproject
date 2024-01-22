@@ -56,4 +56,4 @@ Please see our system admin guide [how to configure repositories in OpenProject]
 
 ## Repository integration
 
-See our Installation and operations guide how to [integrate repositories in Openproject](../../installation-and-operations/configuration/repositories/#repository-integration-in-openproject).
+See our Installation and operations guide how to [integrate repositories in OpenProject](../../installation-and-operations/configuration/repositories/#repository-integration-in-openproject).

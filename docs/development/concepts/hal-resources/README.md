@@ -34,7 +34,7 @@ The JSON response in HAL standard can contain these things:
 
 
 
-The following is an example HAL JSON for a work package as it is retrieved by the API. This response is abbreviated, you can see the full response of [#34250 on our community](https://community.openproject.com/api/v3/work_packages/34250). You will see the three sections: 
+The following is an example HAL JSON for a work package as it is retrieved by the API. This response is abbreviated, you can see the full response of [#34250 on our community](https://community.openproject.org/api/v3/work_packages/34250). You will see the three sections: 
 
 1. Immediate properties within the JSON such as `_type`, `id`, `lockVersion`, `description`. There are more properties like this, they are scalar values of the work package that are not linked to other resources
 

@@ -62,7 +62,7 @@ In OpenProject, authentication is an important element to guarantee a data prote
 
 ### Backlogs
 
-Backlogs is a [module](#module) in OpenProject that brings feautres that support the Scrum methodology in OpenProject, such as a product backlog and sprint backlogs, a task board, estimation of story points, a burndown chart and a Scrum wiki. In order to use backlogs in OpenProject, the backlogs module has to be activated in the [project settings](#project-settings) by a project admin. [Read how to work with backlogs in OpenProject](https://www.openproject.org/docs/user-guide/backlogs-scrum).
+Backlogs is a [module](#module) in OpenProject that brings features that support the Scrum methodology in OpenProject, such as a product backlog and sprint backlogs, a task board, estimation of story points, a burndown chart and a Scrum wiki. In order to use backlogs in OpenProject, the backlogs module has to be activated in the [project settings](#project-settings) by a project admin. [Read how to work with backlogs in OpenProject](https://www.openproject.org/docs/user-guide/backlogs-scrum).
 
 ### Baseline comparison
 
@@ -230,7 +230,7 @@ In OpenProject, News is defined as a [module](#module) that allows the publicati
 
 ### Nextcloud integration
 
-OpenProject offers a Nextcloud integration which allows you to manage files in a secure and easy way, e.g. to link files or folders in Nextcloud or upload files to Nextcloud on work packages. You find the Nextcloud integration in the Files tab of your work package, if you have activated the Nextcloud integration for your instance. Get access to the OpenProject-Nextcloud integration by downloading and activating it in the built-in [Nextcloud app store](https://apps.nextcloud.com/) within your Nextcloud instance. [Read more about the Nextcloud integration of OpenProject](../user-guide/file-management/nextcloud-integration/).
+OpenProject offers a Nextcloud integration which allows you to manage files in a secure and easy way, e.g. to link files or folders in Nextcloud or upload files to Nextcloud on work packages. You find the Nextcloud integration in the Files tab of your work package, if you have activated the Nextcloud integration for your instance. Get access to the OpenProject-Nextcloud integration by downloading and activating it in the built-in [Nextcloud app store](https://apps.nextcloud.com) within your Nextcloud instance. [Read more about the Nextcloud integration of OpenProject](../user-guide/file-management/nextcloud-integration/).
 
 ### Notifications
 

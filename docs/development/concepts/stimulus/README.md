@@ -11,7 +11,7 @@ keywords: Stimulus, Ruby on Rail, Hotwire
 
 In a decision to move OpenProject towards the [Hotwire approach](https://hotwired.dev/), we introduced [Stimulus.js](https://stimulus.hotwired.dev) to replace a collection of dynamically loaded custom JavaScript files used to sprinkle some interactivity.
 
-This guide will outline how to add controllers and the conventions around it. This is _not_ a documentation of stimulus itself. Use their documentation instead: https://stimulus.hotwired.dev/
+This guide will outline how to add controllers and the conventions around it. This is _not_ a documentation of stimulus itself. Use their documentation instead: https://stimulus.hotwired.dev
 
 
 
@@ -52,7 +52,7 @@ You need to take care to prefix all actions, values etc. with the exact same pat
 
 
 
-### Requring a page controller
+### Requiring a page controller
 
 If you have a single controller used in a partial, we have added a helper to use in a partial in order to append a controller to the `#content`tag. This is useful if your template doesn't have a single DOM root. For example, to load the dynamic `project-storage-form` controller and provide a custom value to it:
 

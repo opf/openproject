@@ -12,7 +12,7 @@ OpenProject can be configured via environment variables. These are often helpful
 
 > **NOTE:** This documentation is for OpenProject on-premises Installations only, if you would like to setup similar in your OpenProject cloud instance, please contact us at support@openproject.com
 
-> **NOTE:** Using the configuration file `config/configuration.yml` is depracted and is **NOT** recommended anymore
+> **NOTE:** Using the configuration file `config/configuration.yml` is deprecated and is **NOT** recommended anymore
 
 
 
@@ -292,7 +292,7 @@ When a filter is defined, synchronization happens directly during seeding for en
 
 ## Allowing public access
 
-By default, any request to the OpenProject application needs to be authenticated. If you want to enable public unauthenticated access like we do for https://community.openproject.com, you can set the `login_required` to `false`. If not provided through environment variables, this setting is also accessible in the administrative UI. Please see the [authentication settings guide](../../system-admin-guide/authentication/authentication-settings/#general-authentication-settings) for more details.
+By default, any request to the OpenProject application needs to be authenticated. If you want to enable public unauthenticated access like we do for https://community.openproject.org, you can set the `login_required` to `false`. If not provided through environment variables, this setting is also accessible in the administrative UI. Please see the [authentication settings guide](../../system-admin-guide/authentication/authentication-settings/#general-authentication-settings) for more details.
 
 *default: true*
 
@@ -543,7 +543,7 @@ OPENPROJECT_FOG__DOWNLOAD__URL__EXPIRES__IN="60"
 You can override the default help menu of OpenProject by specifying a `force_help_link` option to
 the configuration. This value is used for the href of the help link, and the default dropdown is removed.
 
-*deafult: nil*
+*default: nil*
 
 ```yaml
 OPENPROJECT_FORCE__HELP__LINK="https://it-support.example.com"
@@ -553,7 +553,7 @@ OPENPROJECT_FORCE__HELP__LINK="https://it-support.example.com"
 
 You can set a impressum link (legal notice) for your OpenProject instance by setting `impressum_link` to an absolute URL.
 
-*deafult: nil*
+*default: nil*
 
 ```yaml
 OPENPROJECT_IMPRESSUM__LINK="https://impressum.example.com"

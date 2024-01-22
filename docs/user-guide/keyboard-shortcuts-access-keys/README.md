@@ -87,6 +87,6 @@ To quickly save changes in a rich text editor (for example a work package descri
 
 | Shortcut (Windows / Linux) | Shortcut (Mac) | Action                                                       |
 | -------------------------- | -------------- | ------------------------------------------------------------ |
-| CTRL + ENTER               | CMD + ENTER    | **Save changes.** <br />For inline-editable fields, save the field and close it.<br />For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
+| CTRL + ENTER               | CMD + ENTER    | **Save changes.**<br>For inline-editable fields, save the field and close it.<br>For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
 
 Please also refer to documentation  on [working in Rich text editor in OpenProject](../wysiwyg).

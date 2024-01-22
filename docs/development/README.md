@@ -10,7 +10,7 @@ We are pleased that you are thinking about contributing to OpenProject! This gui
 
 ## Get in touch
 
-Please get in touch with us using our [development forum](https://community.openproject.com/projects/openproject/forums/7) or send us an email to info@openproject.org.
+Please get in touch with us using our [development forum](https://community.openproject.org/projects/openproject/forums/7) or send us an email to info@openproject.org.
 
 
 
@@ -22,7 +22,7 @@ We eat our own ice cream so we use OpenProject for roadmap planning and team col
 
 - [Wish list](https://community.openproject.org/projects/openproject/work_packages?query_id=180)
 
-- [Bug backlog](https://community.openproject.com/projects/openproject/work_packages?query_id=491)
+- [Bug backlog](https://community.openproject.org/projects/openproject/work_packages?query_id=491)
 
 - [Reporting a bug](report-a-bug)
 

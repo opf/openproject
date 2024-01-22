@@ -41,11 +41,11 @@ In the empty form on the right, you can enter all relevant information for this 
 
 Click the green **Save** button to create the work package.
 
-![split-screen-workpackages](split-screen-workpackages.png)
+![split screen work packages](split-screen-workpackages.png)
 
 The work package will the be displayed in the table view:
 
- ![create-work-package-define-project](create-work-package-define-project-6669224.png)
+ ![create work package define project](create-work-package-define-project-6669224.png)
 
 Another option to create a work package is to do it from the header menu. The [work package types](../../user-guide/projects/project-settings/work-package-types/#work-package-types) that are activated, will be shown and you can select the relevant work package type to be created.
 
@@ -83,7 +83,7 @@ You can also insert a comment at the end of the Activity list.
 
 ![activity-work-packages](activity-work-packages.png)
 
-To notify other people about changes in your work packages activities, you can comment and type an @" infront of the username you want to inform and when you publish your message the person you have tagged will get a notification in OpenProject. The aggregation of changes in the Activity list can be configured in the [system administration](../../system-admin-guide/calendars-and-dates/#date-format).
+To notify other people about changes in your work packages activities, you can comment and type an @" in front of the username you want to inform and when you publish your message the person you have tagged will get a notification in OpenProject. The aggregation of changes in the Activity list can be configured in the [system administration](../../system-admin-guide/calendars-and-dates/#date-format).
 
 To find out more about the work package functionalities, please visit our detailed [user guide for work packages](../../user-guide/work-packages).
 
