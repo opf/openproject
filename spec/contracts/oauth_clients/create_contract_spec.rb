@@ -75,7 +75,7 @@ RSpec.describe OAuthClients::CreateContract do
     context 'with blank client ID' do
       let(:client_id) { '' }
 
-      it 'is invalid, includes `ID` in error message' do
+      it 'is invalid' do
         expect(contract).not_to be_valid
 
         expect(contract.errors[:client_id]).to eq(["can't be blank."])
