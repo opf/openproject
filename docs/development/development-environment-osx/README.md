@@ -126,7 +126,7 @@ $ ruby --version
 ruby 3.2.3 (2024-01-18 revision 52bb2ac0a6) [arm64-darwin23]
 
 $ bundler --version
-Bundler version 2.4.22
+Bundler version 2.5.5
 
 node --version
 v20.9.0
