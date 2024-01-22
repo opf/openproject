@@ -75,14 +75,14 @@ module OpenProject::Reporting
       # menu extensions
       menu :top_menu,
            :cost_reports_global,
-           { controller: '/cost_reports', action: 'index', project_id: nil },
+           { controller: '/cost_reports', action: 'index', project_id: nil, default: 1 },
            caption: :cost_reports_title,
            icon: 'cost-reports',
            if: should_render
 
       menu :global_menu,
            :cost_reports_global,
-           { controller: '/cost_reports', action: 'index', project_id: nil },
+           { controller: '/cost_reports', action: 'index', project_id: nil, default: 1 },
            after: :news,
            caption: :cost_reports_title,
            icon: 'cost-reports',
@@ -90,14 +90,14 @@ module OpenProject::Reporting
 
       menu :global_menu,
            :cost_reports_global_report_menu,
-           { controller: '/cost_reports', action: 'index', project_id: nil },
+           { controller: '/cost_reports', action: 'index', project_id: nil, default: 1 },
            parent: :cost_reports_global,
            partial: 'cost_reports/report_menu',
            if: should_render
 
       menu :project_menu,
            :costs,
-           { controller: '/cost_reports', action: 'index' },
+           { controller: '/cost_reports', action: 'index', default: 1 },
            after: :news,
            caption: :cost_reports_title,
            if: Proc.new { |project| project.module_enabled?(:costs) },
@@ -105,7 +105,7 @@ module OpenProject::Reporting
 
       menu :project_menu,
            :costs_menu,
-           { controller: '/cost_reports', action: 'index' },
+           { controller: '/cost_reports', action: 'index', default: 1 },
            if: Proc.new { |project| project.module_enabled?(:costs) },
            partial: '/cost_reports/report_menu',
            parent: :costs
