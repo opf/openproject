@@ -414,11 +414,9 @@ We encourage you to extend OpenProject yourself by writing a plug-in. Please, re
 
 ## Troubleshooting
 
-You can find the error logs for apache here:
-<pre>/var/log/apache2/error.log</pre>
+You can find the error logs for apache here: `/var/log/apache2/error.log`
 
-The OpenProject logfile can be found here:
-<pre>/home/openproject/openproject/log/production.log</pre>
+The OpenProject logfile can be found here: `/home/openproject/openproject/log/production.log`
 
 If an error occurs, it should be logged there.
 
@@ -441,10 +439,9 @@ If you need to restart the server (for example after a configuration change), do
 
 * **When accessing OpenProject, I get an error page. How do I find out what went wrong?**
 
-  Things can go wrong on different levels. You can find the apache error logs here:
-  <pre>/var/log/apache2/error.log</pre>
-  The OpenProject log can be found here:
-  <pre>/home/openproject/openproject/log/production.log</pre>
+  Things can go wrong on different levels. You can find the apache error logs here: `/var/log/apache2/error.log`
+ 
+  The OpenProject log can be found here: `/home/openproject/openproject/log/production.log`
 
 * **I cannot solve an error, not even with the log files. How do I get help?**
 

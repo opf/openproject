@@ -186,10 +186,10 @@ Apache provides the module `mod_dav_svn` to serve Subversion repositories throug
 
 This method requires some apache modules to be enabled and installed. The following commands are required for Debian / Ubuntu, please adjust accordingly for other distributions:
 
-<pre>
+```shell
   apt-get install subversion libapache2-mod-perl2 libapache2-svn
   a2enmod proxy proxy_http dav dav_svn
-</pre>
+```
 
 ### Permissions
 
@@ -274,10 +274,10 @@ We can exploit git-http-backend to serve Git repositories through HTTP(s) with A
 
 This method additionally requires the `cgi` Apache module to be installed. The following commands are required for Debian / Ubuntu, please adjust accordingly for other distributions:
 
-<pre>
+```shell
   apt-get install git libapache2-mod-perl2
   a2enmod proxy proxy_http cgi
-</pre>
+```
 
 You need to locate the location of the `git-http-backend` CGI wrapper shipping with the Git installation.
 Depending on your installation, it may reside in `/usr/libexec/git-core/git-http-backend`.
