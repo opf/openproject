@@ -215,6 +215,23 @@ RSpec.describe 'Board management spec', :js, with_ee: %i[board_view] do
         expect(queries.first.name).to eq 'Unnamed list'
       end
     end
+
+    it 'allows renaming the board with an error in between (regression #51851)' do
+      board_view
+      board_index.visit!
+
+      board_page = board_index.open_board board_view
+      board_page.expect_query 'List 1', editable: true
+      board_page.expect_editable_board true
+      board_page.expect_editable_list true
+
+      # Leave the toolbar name empty
+      board_page.rename_via_toolbar ''
+      board_page.expect_toast message: "Name #{I18n.t('activerecord.errors.messages.blank')}", type: :error
+
+      # I can immediately enter the correct name
+      board_page.rename_board 'My new name'
+    end
   end
 
   context 'with view boards + work package permission' do

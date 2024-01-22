@@ -218,7 +218,10 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
     this.currentQuery!.name = val;
     this.wpListService
       .save(this.currentQuery)
-      .finally(() => { this.toolbarDisabled = false; });
+      .finally(() => {
+        this.toolbarDisabled = false;
+        this.cdRef.detectChanges();
+      });
   }
 
   updateTitle(query?:QueryResource):void {

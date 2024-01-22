@@ -302,17 +302,21 @@ module Pages
         input.set new_name
         input.send_keys :enter
       else
-        page.within('.toolbar-container') do
-          input = page.find('.editable-toolbar-title--input').click
-          input.set new_name
-          input.send_keys :enter
-        end
+        rename_via_toolbar new_name
       end
 
       expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       page.within('.toolbar-container') do
         expect(page).to have_field('editable-toolbar-title', with: new_name)
+      end
+    end
+
+    def rename_via_toolbar(new_name)
+      page.within('.toolbar-container') do
+        input = page.find('.editable-toolbar-title--input').click
+        input.set new_name
+        input.send_keys :enter
       end
     end
 
