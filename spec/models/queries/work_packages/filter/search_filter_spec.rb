@@ -68,6 +68,19 @@ RSpec.describe Queries::WorkPackages::Filter::SearchFilter do
     end
   end
 
+  describe 'escaping underscores for the filter (Regression #33574)' do
+    subject { WorkPackage.joins(instance.joins).where(instance.where) }
+
+    let!(:work_package) { create(:work_package, description: "Some text c_tree_h more text") }
+    let!(:no_match) { create(:work_package, description: "Some cotreeoh text") }
+
+    it 'finds in description' do
+      instance.values = ['c_tree_h']
+      expect(subject)
+        .to contain_exactly(work_package)
+    end
+  end
+
   describe 'partial (not fuzzy) match of string in subject (#29832)' do
     subject { WorkPackage.joins(instance.joins).where(instance.where) }
 
