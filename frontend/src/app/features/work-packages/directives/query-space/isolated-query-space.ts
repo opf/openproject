@@ -2,6 +2,7 @@ import {
   derive,
   input,
   InputState,
+  multiInput,
   State,
   StatesGroup,
 } from '@openproject/reactivestates';
@@ -64,7 +65,7 @@ export class IsolatedQuerySpace extends StatesGroup {
   additionalRequiredWorkPackages = input<null>();
 
   // Cached shares for work packages
-  workPackageSharesCache = input<ShareResource[]>();
+  workPackageSharesCache = multiInput<ShareResource[]>();
 
   // Input state that emits whenever table services have initialized
   initialized = input<unknown>();

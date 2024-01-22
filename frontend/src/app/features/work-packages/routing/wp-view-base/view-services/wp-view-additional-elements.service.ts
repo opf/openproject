@@ -162,7 +162,12 @@ export class WorkPackageViewAdditionalElementsService {
       .get()
       .subscribe(({ elements }) => {
         const shares = elements as ShareResource[];
-        this.querySpace.workPackageSharesCache.putValue(shares);
+
+        const sharedWpIds = _.uniq(shares.map((share) => share.entity.id as string));
+
+        sharedWpIds.forEach((wpId) => {
+        this.querySpace.workPackageSharesCache.get(wpId).putValue(shares.filter((share) => share.entity.id === wpId));
+        });
       });
 
     return Promise.resolve([]);
