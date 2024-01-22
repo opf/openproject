@@ -33,11 +33,10 @@ RSpec.describe Storages::Admin::NewStorageButtonComponent, type: :component do
   include Rails.application.routes.url_helpers
 
   it 'renders a "New Storage" Action Menu' do
-    with_rendered_component_path(render_inline(described_class.new)) do |_rendered_fragement_path|
-      expect(page).to have_button 'Storage', aria: { label: 'Add new storage' }
+    render_inline(described_class.new)
+    expect(page).to have_button 'Storage', aria: { label: 'Add new storage' }
 
-      expect(page).to have_link 'Nextcloud', href: select_provider_admin_settings_storages_path(provider: 'nextcloud')
-      expect(page).to have_link 'OneDrive/SharePoint', href: select_provider_admin_settings_storages_path(provider: 'one_drive')
-    end
+    expect(page).to have_link 'Nextcloud', href: select_provider_admin_settings_storages_path(provider: 'nextcloud')
+    expect(page).to have_link 'OneDrive/SharePoint', href: select_provider_admin_settings_storages_path(provider: 'one_drive')
   end
 end
