@@ -159,7 +159,7 @@ This linked file will then appear underneath the search bar. Doing so will also 
 
 #### Link multiple files to a work packages
 
-You can also **link mulitple files** to a single OpenProject work package. To do that select the files you want to link, click the *Actions* menu and select the respective option.
+You can also **link mulitple files** to a single OpenProject work package. To do that, select the files you want to link, click the *Actions* menu and select the respective option.
 ![Select multiple files in Nextcloud to link to a single work package in OpenProject](nc_select_multiple_files.png)
 
 A dialogue will open, allowing you to search for and then select an OpenProject work package to add all of the files to. The newly added files will become visible under **Files** tab in the work package. 
