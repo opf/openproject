@@ -1,6 +1,6 @@
 ARG RUBY_VERSION="3.2.3"
 ARG NODE_VERSION="20.9.0"
-ARG BUNDLER_VERSION="2.4.22"
+ARG BUNDLER_VERSION="2.5.5"
 ARG DEBIAN_FRONTEND=noninteractive
 
 # -------------------------------------
