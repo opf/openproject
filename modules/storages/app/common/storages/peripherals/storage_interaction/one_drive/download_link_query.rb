@@ -44,7 +44,7 @@ module Storages
 
           def call(user:, file_link:)
             Util.using_user_token(@storage, user) do |token|
-              response = HTTPX.get(
+              response = OpenProject.httpx.get(
                 Util.join_uri_path(
                   @uri,
                   uri_path_for(file_link.origin_id)

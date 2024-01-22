@@ -29,10 +29,6 @@
 module ProjectsHelper
   include WorkPackagesFilterHelper
 
-  def show_filters_section?
-    params[:filters].present? && !params.key?(:hide_filters_section)
-  end
-
   def no_projects_result_box_params
     if User.current.allowed_globally?(:add_project)
       { action_url: new_project_path, display_action: true }

@@ -1789,6 +1789,7 @@ pt:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Arquivos"
   label_filter_add: "Adicionar filtro"
+  label_filter: "Filters"
   label_filter_plural: "Filtros"
   label_filters_toggle: "Mostrar/ocultar filtros"
   label_float: "Ponto flutuante"

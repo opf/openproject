@@ -28,26 +28,36 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title(t(:label_project_plural)) -%>
 
+<%= render Projects::IndexPageHeaderComponent.new(
+  projects: @projects,
+  query: @query,
+  current_user:
+) %>
+
+<%= render(Projects::ProjectsFiltersComponent.new(query: @query)) do |component|
+  if current_user.allowed_globally?(:add_project)
+    component.with_button( 
+      tag: :a,
+      href: new_project_path,
+      scheme: :primary,
+      size: :medium,
+      aria: { label: I18n.t(:label_project_new) },
+      data: { 'test-selector': 'project-new-button' }) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        Project.model_name.human
+      end
+    end
+  end
+%>
+
 <div data-controller="project"
-     data-application-target="dynamic"
-     data-project-display-filters-value="<%= show_filters_section? %>">
-  <%= render Projects::IndexPageHeaderComponent.new(
-    projects: @projects,
-    query: @query,
-    current_user:
-  ) %>
-
-  <%= render Projects::FiltersComponent.new(
-    query: @query,
-    ) %>
-
+  data-application-target="dynamic">
   <%= render Projects::TableComponent.new(
     rows: @projects,
     current_user: current_user,
     orders: @orders,
     params: params) %>
-
-  <%= render Projects::StorageInformationComponent.new(
-    current_user: current_user
-    ) %>
 </div>
+
+<%= render Projects::StorageInformationComponent.new(
+  current_user: current_user) %>

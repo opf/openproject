@@ -158,6 +158,7 @@ RB.Model = (function ($) {
           const fieldName = field.attr('fieldname');
           const fieldLabel = field.attr('fieldlabel');
           const fieldOrder = parseInt(field.attr('fieldorder'), 10);
+          const fieldEditable = field.attr('fieldeditable') || 'true';
           const fieldType = field.attr('fieldtype') || 'input';
           let typeId;
           let statusId;
@@ -190,7 +191,7 @@ RB.Model = (function ($) {
             input = $(document.createElement(fieldType));
           }
 
-          input = self.prepareInputFromFactory(input, fieldId, fieldName, fieldOrder, maxTabIndex);
+          input = self.prepareInputFromFactory(input, fieldId, fieldName, fieldOrder, maxTabIndex, fieldEditable);
 
           // Copy the value in the field to the input element
           input.val(fieldType === 'select' ? field.children('.v').first().text() : field.text());
@@ -230,10 +231,13 @@ RB.Model = (function ($) {
       return newInput;
     },
 
-    prepareInputFromFactory: function (input,fieldId,fieldName,fieldOrder, maxTabIndex) {
+    prepareInputFromFactory: function (input, fieldId, fieldName, fieldOrder, maxTabIndex, fieldEditable) {
       input.attr('id', fieldName + '_' + fieldId);
       input.attr('name', fieldName);
       input.attr('tabindex', fieldOrder + maxTabIndex);
+      if (fieldEditable !== 'true') {
+        input.attr('disabled', true);
+      }
       input.addClass(fieldName);
       input.addClass('editor');
       input.removeClass('template');
@@ -300,14 +304,16 @@ RB.Model = (function ($) {
     },
 
     handleClick: function (e) {
-      var field, model, j, editor;
+      const field = $(this);
+      const model = field.parents('.model').first().data('this');
+      const j = model.$;
 
-      field = $(this);
-      model = field.parents('.model').first().data('this');
-      j = model.$;
-
-      if (!j.hasClass('editing') && !j.hasClass('dragging') && !j.hasClass('prevent_edit') && !$(e.target).hasClass('prevent_edit')) {
-        editor = model.edit();
+      if (!j.hasClass('editing')
+          && !j.hasClass('dragging')
+          && !j.hasClass('prevent_edit')
+          && !$(e.target).hasClass('prevent_edit')
+          && e.target.closest('.editable').getAttribute('fieldeditable') !== 'false' ) {
+        const editor = model.edit();
         var input = editor.find('.' + $(e.currentTarget).attr('fieldname') + '.editor');
 
         input.focus();

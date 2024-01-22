@@ -41,7 +41,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
     end
 
     def call(location:)
-      response = UTIL
+      response = OpenProject
                    .httpx
                    .basic_auth(@username, @password)
                    .delete(UTIL.join_uri_path(@uri,

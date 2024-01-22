@@ -44,4 +44,11 @@ module OpenProject
   def self.logger
     ::OpenProject::Logging::LogDelegator
   end
+
+  def self.httpx
+    HTTPX
+      .plugin(:persistent)
+      .plugin(:basic_auth)
+      .plugin(:webdav)
+  end
 end

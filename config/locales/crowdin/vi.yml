@@ -1765,6 +1765,7 @@ vi:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Tập tin"
   label_filter_add: "Thêm bộ lọc"
+  label_filter: "Filters"
   label_filter_plural: "Bộ lọc"
   label_filters_toggle: "Hiển thị/ẩn bộ lọc"
   label_float: "Số thực"

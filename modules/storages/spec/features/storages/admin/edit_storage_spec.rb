@@ -273,7 +273,7 @@ RSpec.describe 'Admin Edit File storage',
           click_on 'Save and continue'
 
           expect(page).to have_text("Name can't be blank.")
-          expect(page).to have_text("Drive can't be blank.")
+          expect(page).to have_text("Drive ID can't be blank.")
 
           click_on 'Cancel'
         end

@@ -44,7 +44,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def call(source:, target:)
-      response = Util
+      response = OpenProject
                    .httpx
                    .basic_auth(@username, @password)
                    .request(

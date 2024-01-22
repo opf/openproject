@@ -243,7 +243,7 @@ RSpec.describe 'Admin Create a new file storage',
           fill_in 'Directory (tenant) ID', with: '029d4741-a4be-44c6-a8e4-e4eff7b19f65'
           click_on 'Save and continue'
 
-          expect(page).to have_text("Drive can't be blank.")
+          expect(page).to have_text("Drive ID can't be blank.")
 
           fill_in 'Drive ID', with: '1234567890'
           click_on 'Save and continue'

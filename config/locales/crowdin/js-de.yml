@@ -351,7 +351,7 @@ de:
             standard:
               learn_about_link: https://www.openproject.org/de/blog/openproject-13-2-release/
               new_features_html: >
-                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Filter für Rollen, Gruppen und geteilte Arbeitspakete in der Liste der Projektmitglieder.</li> <li>Geteilte Nutzer können für die Attribute "Zugewiesen an" und "Verantwortlich" ausgewählt werden.</li> <li>Umbenennen von Attributen zu Aufwand und Fortschritt in Arbeit, Verbleibende Arbeit und % vollständig ein, um Fortschrittsberichte für Arbeitspaket-Hierarchien vorzubereiten.</li> <li>Separates Recht, um Statusänderungen in Arbeitspaketen ohne Bearbeitungsrechte zu ermöglichen.</li> <li>Manuelle Projektordner für OneDrive/SharePoint-Speicher.</li> </ul>
+                Das Release enthält zahlreiche neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint Integration mit manuellen Projektordnern.</li> <li>Filter für Rollen, Gruppen und geteilte Arbeitspakete in der Liste der Projektmitglieder.</li> <li>Die Attribute "Zugewiesen an" und "Verantwortlich" können für geteilte Arbeitspakete ausgewählt werden.</li> <li>Einführung neuer Attributnamen "Aufwand", "Verbleibender Aufwand" und "% Abgeschlossen", um Fortschrittsberichte für Arbeitspaket-Hierarchien vorzubereiten.</li> <li>Separate Berechtigung, um Statusänderungen in Arbeitspaketen ohne Bearbeitungsrechte zu ermöglichen.</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."

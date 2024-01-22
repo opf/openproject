@@ -9,7 +9,11 @@
       concat(configuration_check_label_for(:storage_oauth_client_configured))
     end
 
-    grid.with_area(:description, tag: :div, color: :subtle, test_selector: 'storage-oauth-client-id-description') do
+    grid.with_area(:description,
+                   classes: 'wb-break-word',
+                   tag: :div,
+                   color: :subtle,
+                   test_selector: 'storage-oauth-client-id-description') do
       render(Primer::Beta::Text.new) { provider_oauth_client_description }
     end
 

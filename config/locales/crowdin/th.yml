@@ -1763,6 +1763,7 @@ th:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "ไฟล์"
   label_filter_add: "เพิ่มตัวกรอง"
+  label_filter: "Filters"
   label_filter_plural: "ตัวกรอง"
   label_filters_toggle: "Show/hide filters"
   label_float: "ลอย"

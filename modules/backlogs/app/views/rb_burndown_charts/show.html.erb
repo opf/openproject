@@ -32,14 +32,14 @@ See COPYRIGHT and LICENSE files for more details.
 </h2>
 
 <% if @burndown %>
-  <%= render :partial => 'burndown', :locals => {:div => 'burndown_', :burndown => @burndown } %>
+  <%= render partial: 'burndown', locals: { div: 'burndown_', burndown: @burndown } %>
 
-  <div class="burndown_chart autoscroll" id="burndown_<%= @burndown.sprint_id %>" style="width:900px;height:450px;"><div class="loading"><%=t('backlogs.generating_chart')%></div></div>
+  <div class="burndown_chart autoscroll" id="burndown_<%= @burndown.sprint_id %>" style="width:900px;height:450px;"><div class="loading"><%= t('backlogs.generating_chart') %></div></div>
 
   <fieldset class="burndown_control form--fieldset">
       <legend class="form--fieldset-legend"><%= t('backlogs.chart_options') %></legend>
       <%= burndown_series_checkboxes(@burndown) %>
   </fieldset>
 <% else %>
-  <%= t('backlogs.no_burndown_data')%>
+  <%= t('backlogs.no_burndown_data') %>
 <% end %>

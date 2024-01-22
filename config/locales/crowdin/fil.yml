@@ -1790,6 +1790,7 @@ fil:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Mga file"
   label_filter_add: "Magdagdag ng filter"
+  label_filter: "Filters"
   label_filter_plural: "Mga nasala"
   label_filters_toggle: "Ipakita/itago ang mga salaan"
   label_float: "Lumutang"

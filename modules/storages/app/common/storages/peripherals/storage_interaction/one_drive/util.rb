@@ -67,6 +67,20 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
       File.join(uri.to_s, *)
     end
 
+    def using_admin_token(storage)
+      oauth_client = storage.oauth_configuration.basic_rack_oauth_client
+      token = Rails.cache.fetch("storage.#{storage.id}.access_token", expires_in: 50.minutes) do
+        oauth_client.access_token!(scope: 'https://graph.microsoft.com/.default')
+      end
+
+      yield OpenProject.httpx.with(
+        origin: storage.uri,
+        headers: {
+          authorization: "Bearer #{token.access_token}", accept: "application/json", 'content-type': 'application/json'
+        }
+      )
+    end
+
     def extract_location(parent_reference, file_name = '')
       location = parent_reference[:path].gsub(/.*root:/, '')
 

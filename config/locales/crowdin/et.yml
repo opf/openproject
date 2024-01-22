@@ -1790,6 +1790,7 @@ et:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Failid"
   label_filter_add: "Lisa filter"
+  label_filter: "Filters"
   label_filter_plural: "Filtrid"
   label_filters_toggle: "Show/hide filters"
   label_float: "Ujuvkomaarv"

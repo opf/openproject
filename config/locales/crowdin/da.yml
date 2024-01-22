@@ -1788,6 +1788,7 @@ da:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Filer"
   label_filter_add: "Tilføj filter"
+  label_filter: "Filters"
   label_filter_plural: "Filtre"
   label_filters_toggle: "Show/hide filters"
   label_float: "Flyd"

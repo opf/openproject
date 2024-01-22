@@ -45,7 +45,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def call(user:, file_link:)
       result = Util.token(user:, configuration: @configuration) do |token|
         service_result = begin
-          response = Util
+          response = OpenProject
                        .httpx
                        .post(
                          Util.join_uri_path(@uri, '/ocs/v2.php/apps/dav/api/v1/direct'),

@@ -122,7 +122,7 @@ module OAuthClients
           OAuthClientToken.create(
             user: @user,
             oauth_client: @oauth_client,
-            origin_user_id: rack_access_token.raw_attributes[:user_id], # ID of user at OAuth2 Authorization Server
+            origin_user_id: @config.extract_origin_user_id(rack_access_token), # ID of user at OAuth2 Authorization Server
             access_token: rack_access_token.access_token,
             token_type: rack_access_token.token_type, # :bearer
             refresh_token: rack_access_token.refresh_token,

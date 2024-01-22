@@ -352,7 +352,7 @@ pl:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Filtruj role, grupy i udostępnienia na liście członków projektu.</li> <li>Zezwalaj osobie przypisane i odpowiedzialnej na udostępnianie pakietów roboczych.</li> <li>Wprowadź nowe nazwy pól Praca, Pozostała praca i % ukończenia, aby przygotować raporty postępu do hierarchii pakietów roboczych.</li> <li>Zezwalaj na zmianę statusu bez uprawnień do edycji pakietu roboczego.</li> <li>Włącz ręczne foldery projektów dla magazynów OneDrive/SharePoint.</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Integracja OneDrive/SharePoint z ręcznymi folderami projektów.</li> <li>Filtrowanie ról, grup i udziałów na liście członków projektu.</li> <li>Zezwalanie na przypisywanie i rozliczanie udostępnionych pakietów roboczych. </li> <li>Wprowadzenie nowych nazw pól Praca, Pozostała praca i % ukończenia w celu przygotowania raportów z postępu do hierarchii pakietów roboczych.</li> <li>Zezwalanie na zmianę statusu bez uprawnień do edycji pakietów roboczych.</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."

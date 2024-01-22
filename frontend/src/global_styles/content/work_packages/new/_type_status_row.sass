@@ -1,3 +1,5 @@
+@import "helpers"
+
 .wp-new-top-row
   color: var(--content-link-color)
   display: flex
@@ -21,11 +23,11 @@
     .inline-edit--field
       min-width: 125px
 
+// Avoid visual jump by making them the same height as the toolbar inputs
 .work-packages--type-selector,
 .work-packages--status-selector
   .-active
     .ng-select-container
-      height: 36px !important
-      line-height: 36px !important
+      @include toolbar-input-styles
     .ng-select input
       height: initial !important

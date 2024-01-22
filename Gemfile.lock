@@ -1,6 +1,24 @@
 GIT
+  remote: https://github.com/ViewComponent/lookbook.git
+  revision: 473f86d7e343cd78b74cc293a4de06b9b5e7a3e2
+  ref: 473f86d7e343cd78b74cc293a4de06b9b5e7a3e2
+  specs:
+    lookbook (2.2.0)
+      activemodel
+      css_parser
+      htmlbeautifier (~> 1.3)
+      htmlentities (~> 4.3.4)
+      marcel (~> 1.0)
+      railties (>= 5.0)
+      redcarpet (~> 3.5)
+      rouge (>= 3.26, < 5.0)
+      view_component (>= 2.0)
+      yard (~> 0.9.25)
+      zeitwerk (~> 2.5)
+
+GIT
   remote: https://github.com/citizensadvice/capybara_accessible_selectors
-  revision: 70f7f125c7c662057c407a93c931286b6865f458
+  revision: bbf8916810e7c345f7f9ba77893fccbd87c04264
   branch: main
   specs:
     capybara_accessible_selectors (0.10.0)
@@ -18,10 +36,11 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: bbda8ad0054d465eec01c23fcab5c6d62c7baa44
-  ref: bbda8ad0054d465eec01c23fcab5c6d62c7baa44
+  revision: 4952148f930a3292051efbadd9ac115d9c721157
+  ref: 4952148f930a3292051efbadd9ac115d9c721157
   specs:
-    md_to_pdf (0.0.22)
+    md_to_pdf (0.0.23)
+      color_conversion (~> 0.1)
       front_matter_parser (~> 1.0)
       json-schema (~> 4.1)
       markly (~> 0.7)
@@ -314,7 +333,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.2)
       rbtree3 (~> 0.6)
-    appsignal (3.5.3)
+    appsignal (3.5.4)
       rack
     ast (2.4.2)
     attr_required (1.0.2)
@@ -323,8 +342,8 @@ GEM
     awesome_nested_set (3.6.0)
       activerecord (>= 4.0.0, < 7.2)
     aws-eventstream (1.3.0)
-    aws-partitions (1.877.0)
-    aws-sdk-core (3.190.2)
+    aws-partitions (1.881.0)
+    aws-sdk-core (3.190.3)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.8)
@@ -341,10 +360,10 @@ GEM
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.8.0)
       aws-eventstream (~> 1, >= 1.0.2)
-    axe-core-api (4.8.0)
+    axe-core-api (4.8.1)
       dumb_delegator
       virtus
-    axe-core-rspec (4.8.0)
+    axe-core-rspec (4.8.1)
       axe-core-api
       dumb_delegator
       virtus
@@ -398,12 +417,13 @@ GEM
     coderay (1.1.3)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
+    color_conversion (0.1.1)
     colored2 (4.0.0)
     commonmarker (1.0.4)
       rb_sys (~> 0.9)
     compare-xml (0.66)
       nokogiri (~> 1.8)
-    concurrent-ruby (1.2.2)
+    concurrent-ruby (1.2.3)
     connection_pool (2.4.1)
     cookiejar (0.3.3)
     crack (0.4.5)
@@ -640,7 +660,7 @@ GEM
     language_server-protocol (3.17.0.3)
     launchy (2.5.2)
       addressable (~> 2.8)
-    lefthook (1.5.6)
+    lefthook (1.5.7)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.8.0)
@@ -658,18 +678,6 @@ GEM
     loofah (2.22.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
-    lookbook (2.2.0)
-      activemodel
-      css_parser
-      htmlbeautifier (~> 1.3)
-      htmlentities (~> 4.3.4)
-      marcel (~> 1.0)
-      railties (>= 5.0)
-      redcarpet (~> 3.5)
-      rouge (>= 3.26, < 5.0)
-      view_component (>= 2.0)
-      yard (~> 0.9.25)
-      zeitwerk (~> 2.5)
     mail (2.8.1)
       mini_mime (>= 0.1.1)
       net-imap
@@ -688,7 +696,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
-    minitest (5.20.0)
+    minitest (5.21.2)
     msgpack (1.7.2)
     multi_json (1.15.0)
     mustermann (3.0.0)
@@ -776,6 +784,9 @@ GEM
     pry-byebug (3.10.1)
       byebug (~> 11.0)
       pry (>= 0.13, < 0.15)
+    pry-doc (1.5.0)
+      pry (~> 0.11)
+      yard (~> 0.9.11)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
     pry-rescue (1.5.2)
@@ -915,7 +926,7 @@ GEM
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
     rspec-support (3.12.1)
-    rubocop (1.60.0)
+    rubocop (1.60.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
       parallel (~> 1.10)
@@ -975,7 +986,7 @@ GEM
       websocket (~> 1.0)
     semantic (1.6.1)
     shoulda-context (2.0.0)
-    shoulda-matchers (6.0.0)
+    shoulda-matchers (6.1.0)
       activesupport (>= 5.2.0)
     signet (0.18.0)
       addressable (~> 2.8)
@@ -1160,7 +1171,7 @@ DEPENDENCIES
   letter_opener
   listen (~> 3.8.0)
   lograge (~> 0.14.0)
-  lookbook (~> 2.2.0)
+  lookbook!
   mail (= 2.8.1)
   matrix (~> 0.4.2)
   md_to_pdf!
@@ -1210,6 +1221,7 @@ DEPENDENCIES
   plaintext (~> 0.3.2)
   prawn (~> 2.4)
   pry-byebug (~> 3.10.0)
+  pry-doc
   pry-rails (~> 0.3.6)
   pry-rescue (~> 1.5.2)
   puffing-billy (~> 4.0.0)

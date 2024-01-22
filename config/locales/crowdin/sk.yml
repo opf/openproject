@@ -1844,6 +1844,7 @@ sk:
   label_feeds_access_key_type: "RSS kanál"
   label_file_plural: "Súbory"
   label_filter_add: "Pridať filter"
+  label_filter: "Filters"
   label_filter_plural: "Filtre"
   label_filters_toggle: "Zobraziť / skryť filtre"
   label_float: "Plávajúce (float)"

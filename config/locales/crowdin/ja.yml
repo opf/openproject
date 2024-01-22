@@ -1759,6 +1759,7 @@ ja:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "ファイルを添付する"
   label_filter_add: "フィルタを追加"
+  label_filter: "Filters"
   label_filter_plural: "フィルタ"
   label_filters_toggle: "フィルターの表示/非表示"
   label_float: "小数"

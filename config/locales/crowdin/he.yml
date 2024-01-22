@@ -1844,6 +1844,7 @@ he:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "קבצים"
   label_filter_add: "Add filter"
+  label_filter: "Filters"
   label_filter_plural: "מסננים"
   label_filters_toggle: "Show/hide filters"
   label_float: "Float"

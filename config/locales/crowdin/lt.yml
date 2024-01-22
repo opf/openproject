@@ -1841,6 +1841,7 @@ lt:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Failai"
   label_filter_add: "Pridėti filtrą"
+  label_filter: "Filters"
   label_filter_plural: "Filtrai"
   label_filters_toggle: "Rodyti/slėpti filtrus"
   label_float: "Skaičius su kableliu"

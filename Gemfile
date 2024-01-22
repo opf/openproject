@@ -156,7 +156,7 @@ gem 'structured_warnings', '~> 0.4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 13.0.0', require: false
 
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: 'bbda8ad0054d465eec01c23fcab5c6d62c7baa44'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '4952148f930a3292051efbadd9ac115d9c721157'
 gem 'prawn', '~> 2.4'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
@@ -213,7 +213,7 @@ gem "appsignal", "~> 3.0", require: false
 
 gem 'view_component'
 # Lookbook
-gem 'lookbook', '~> 2.2.0'
+gem 'lookbook', github: 'ViewComponent/lookbook', ref: '473f86d7e343cd78b74cc293a4de06b9b5e7a3e2'
 
 # Require factory_bot for usage with openproject plugins testing
 gem 'factory_bot', '~> 6.4.0', require: false
@@ -318,6 +318,7 @@ group :development, :test do
   gem 'pry-byebug', '~> 3.10.0', platforms: [:mri]
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.5.2'
+  gem 'pry-doc'
 
   # ruby linting
   gem 'rubocop', require: false
