@@ -28,16 +28,10 @@
 import { State } from '@openproject/reactivestates';
 import { Injectable } from '@angular/core';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import {
-  firstValueFrom,
-  Observable,
-} from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { States } from 'core-app/core/states/states.service';
-import {
-  ISchemaProxy,
-  SchemaProxy,
-} from 'core-app/features/hal/schemas/schema-proxy';
+import { ISchemaProxy, SchemaProxy } from 'core-app/features/hal/schemas/schema-proxy';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { WorkPackageSchemaProxy } from 'core-app/features/hal/schemas/work-package-schema-proxy';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -71,6 +65,10 @@ export class SchemaCacheService extends StateCacheService<SchemaResource> {
   of(resource:HalResource):ISchemaProxy {
     const schema = this.state(resource).value as SchemaResource;
 
+    return this.proxied(resource, schema);
+  }
+
+  proxied(resource:HalResource, schema:SchemaResource):ISchemaProxy {
     if (resource._type === 'WorkPackage') {
       return WorkPackageSchemaProxy.create(schema, resource);
     }
