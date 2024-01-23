@@ -1,15 +1,11 @@
 import { Injectable } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { ColorsService, colorModes } from 'core-app/shared/components/colors/colors.service';
+import { colorModes, ColorsService } from 'core-app/shared/components/colors/colors.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { IPrincipal } from 'core-app/core/state/principals/principal.model';
 import { PrincipalLike } from './principal-types';
-import {
-  PrincipalType,
-  hrefFromPrincipal,
-  typeFromHref,
-} from './principal-helper';
+import { hrefFromPrincipal, PrincipalType, typeFromHref } from './principal-helper';
 
 export type AvatarSize = 'default'|'medium'|'mini';
 
@@ -33,16 +29,44 @@ export class PrincipalRendererService {
   ) {
   }
 
+  renderAbbreviated(
+    container:HTMLElement,
+    users:(PrincipalLike|IPrincipal)[],
+    maxCount = 2,
+    name:NameOptions = { hide: false, link: false },
+    avatar:AvatarOptions = { hide: false, size: 'medium' },
+  ):void {
+    const wrapper = document.createElement('div');
+    const principals = document.createElement('div');
+    wrapper.classList.add('op-principal-list');
+    principals.classList.add('op-principal-list--principals');
+    wrapper.appendChild(principals);
+    container.appendChild(wrapper);
+
+    const valueForDisplay = _.take(users, maxCount);
+    this.renderMultiple(
+      principals,
+      valueForDisplay,
+      name,
+      avatar,
+      false,
+    );
+
+    if (users.length > maxCount) {
+      const badge = document.createElement('span');
+      badge.classList.add('op-principal-list--badge', 'badge', '-secondary');
+      badge.textContent = users.length.toString();
+      wrapper.appendChild(badge);
+    }
+  }
+
   renderMultiple(
     container:HTMLElement,
-    users:PrincipalLike[]|IPrincipal[],
+    users:(PrincipalLike|IPrincipal)[],
     name:NameOptions = { hide: false, link: false },
     avatar:AvatarOptions = { hide: false, size: 'default' },
     multiLine = false,
   ):void {
-    container.classList.add('op-principal');
-    const list = document.createElement('span');
-
     for (let i = 0; i < users.length; i++) {
       const userElement = document.createElement('span');
       if (multiLine) {
@@ -51,16 +75,15 @@ export class PrincipalRendererService {
 
       this.render(userElement, users[i], name, avatar);
 
-      list.appendChild(userElement);
+      container.appendChild(userElement);
 
       if (!multiLine && i < users.length - 1) {
         const sep = document.createElement('span');
         sep.textContent = ', ';
-        list.appendChild(sep);
+        sep.classList.add('op-principal-list--separator');
+        container.appendChild(sep);
       }
     }
-
-    container.appendChild(list);
   }
 
   render(

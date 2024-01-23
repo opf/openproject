@@ -77,6 +77,10 @@ RSpec.describe 'Work package sharing',
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
   let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
   let(:members_page) { Pages::Members.new project.identifier }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:columns) { Components::WorkPackages::Columns.new }
+  let(:wp_modal) { Components::WorkPackages::TableConfigurationModal.new }
+
 
   current_user { create(:user, firstname: 'Signed in', lastname: 'User') }
 
@@ -285,6 +289,28 @@ RSpec.describe 'Work package sharing',
         expect(members_page).not_to have_user gilfoyle.name
         expect(members_page).not_to have_user comment_user.name
         expect(members_page).not_to have_user view_user.name
+      end
+
+      aggregate_failures 'Showing the shared users in the table' do
+        wp_table.visit!
+
+        wp_modal.open!
+        wp_modal.switch_to 'Columns'
+
+        columns.assume_opened
+        columns.uncheck_all save_changes: false
+        columns.add 'ID', save_changes: false
+        columns.add 'Subject', save_changes: false
+        columns.add 'Shared users', save_changes: false
+        columns.apply
+
+
+        wp_row = wp_table.row(work_package)
+        expect(wp_row).to have_css('.wp-table--cell-td.sharedWithUsers .badge', text: '7')
+        wp_row.find('.wp-table--cell-td.sharedWithUsers .badge').click
+
+        share_modal.expect_title(I18n.t('js.work_packages.sharing.title'))
+        share_modal.expect_shared_count_of(7)
       end
     end
 
