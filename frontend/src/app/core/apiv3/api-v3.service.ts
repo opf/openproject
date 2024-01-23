@@ -104,6 +104,9 @@ export class ApiV3Service {
   // /api/v3/root
   public readonly root = this.apiV3SingularEndpoint<RootResource>('');
 
+  // /api/v3/shares
+  public readonly shares = this.apiV3CollectionEndpoint('shares');
+
   // /api/v3/statuses
   public readonly statuses = this.apiV3CustomEndpoint(ApiV3StatusesPaths);
 
