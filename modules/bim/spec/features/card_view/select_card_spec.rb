@@ -27,13 +27,13 @@
 #++
 
 require 'spec_helper'
+require_relative '../../support/pages/ifc_models/show_default'
 
-RSpec.describe 'Selecting cards in the card view (regression #31962)', :js do
+RSpec.describe 'Selecting cards in the card view (regression #31962)', :js, with_config: { edition: 'bim' } do
   let(:user) { create(:admin) }
-  let(:project) { create(:project) }
-  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
+  let(:wp_table) { Pages::IfcModels::ShowDefault.new(project) }
   let(:cards) { Pages::WorkPackageCards.new(project) }
-  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
   let!(:work_package1) { create(:work_package, project:) }
   let!(:work_package2) { create(:work_package, project:) }
   let!(:work_package3) { create(:work_package, project:) }
@@ -45,7 +45,7 @@ RSpec.describe 'Selecting cards in the card view (regression #31962)', :js do
 
     login_as(user)
     wp_table.visit!
-    display_representation.switch_to_card_layout
+    wp_table.switch_view 'Cards'
     cards.expect_work_package_listed work_package1, work_package2, work_package3
   end
 
@@ -102,6 +102,30 @@ RSpec.describe 'Selecting cards in the card view (regression #31962)', :js do
       cards.expect_work_package_selected work_package1, true
       cards.expect_work_package_selected work_package2, true
       cards.expect_work_package_selected work_package3, false
+    end
+  end
+
+  describe 'opening' do
+    it 'the full screen view via double click' do
+      cards.open_full_screen_by_doubleclick(work_package1)
+      expect(page).to have_css('.work-packages--details--subject',
+                               text: work_package1.subject)
+    end
+
+    it 'the split screen of the selected WP' do
+      cards.open_split_view_by_info_icon(work_package2)
+      split_wp = Pages::SplitWorkPackage.new(work_package2)
+      split_wp.expect_attributes Subject: work_package2.subject
+    end
+
+    it 'can move between card details using info icon (Regression #33451)' do
+      # move to first details
+      split = cards.open_split_view_by_info_icon work_package1
+      split.expect_subject
+
+      # move to second details
+      split2 = cards.open_split_view_by_info_icon work_package2
+      split2.expect_subject
     end
   end
 end

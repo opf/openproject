@@ -8,6 +8,8 @@ import { WpTableConfigurationSortByTabComponent } from 'core-app/features/work-p
 import { WpTableConfigurationTimelinesTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/timelines-tab.component';
 import { WpTableConfigurationHighlightingTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/highlighting-tab.component';
 import { OpBaselineComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline/baseline.component';
+import { StateService } from '@uirouter/angular';
+import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Injectable()
 export class WpTableConfigurationService {
@@ -42,17 +44,26 @@ export class WpTableConfigurationService {
       name: this.I18n.t('js.work_packages.table_configuration.highlighting'),
       componentClass: WpTableConfigurationHighlightingTabComponent,
     },
-    {
-      id: 'timelines',
-      name: this.I18n.t('js.gantt_chart.label'),
-      componentClass: WpTableConfigurationTimelinesTabComponent,
-    },
   ];
 
-  constructor(readonly I18n:I18nService) {
+  constructor(
+    readonly I18n:I18nService,
+    readonly $state:StateService,
+    readonly configurationService:ConfigurationService,
+  ) {
   }
 
   public get tabs() {
-    return this._tabs;
+    if (this.configurationService.activeFeatureFlags.includes('showSeparateGanttModule') && (this.$state.current.name?.includes('work-packages') || this.$state.current.name?.includes('bim'))) {
+      return this._tabs;
+    }
+
+    return this._tabs.concat([
+      {
+        id: 'timelines',
+        name: this.I18n.t('js.gantt_chart.label'),
+        componentClass: WpTableConfigurationTimelinesTabComponent,
+      },
+    ]);
   }
 }

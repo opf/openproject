@@ -37,7 +37,6 @@ import {
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
 import { WorkPackageCreateButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-create-button/wp-create-button.component';
 import { WorkPackageFilterButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
-import { WorkPackageViewToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component';
 import { WorkPackageDetailsViewButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-details-view-button/wp-details-view-button.component';
 import { WorkPackageTimelineButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-timeline-toggle-button/wp-timeline-toggle-button.component';
 import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
@@ -46,6 +45,7 @@ import { of } from 'rxjs';
 import { WorkPackageFoldToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-fold-toggle-button/wp-fold-toggle-button.component';
 import { OpProjectIncludeComponent } from 'core-app/shared/components/project-include/project-include.component';
 import { OpBaselineModalComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline-modal/baseline-modal.component';
+import { WorkPackageViewToggleButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-view-toggle-button/work-package-view-toggle-button.component';
 
 @Component({
   selector: 'wp-view-page',
@@ -66,7 +66,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     {
       component: WorkPackageCreateButtonComponent,
       inputs: {
-        stateName$: of('work-packages.partitioned.list.new'),
+        stateName$: of(this.stateName),
         allowed: ['work_packages.createWorkPackage'],
       },
     },
@@ -83,6 +83,7 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
     {
       component: WorkPackageViewToggleButtonComponent,
       containerClasses: 'hidden-for-tablet',
+      show: () => !this.configuration.activeFeatureFlags.includes('showSeparateGanttModule'),
     },
     {
       component: WorkPackageFoldToggleButtonComponent,
@@ -122,5 +123,13 @@ export class WorkPackageViewPageComponent extends PartitionedQuerySpacePageCompo
 
   protected shouldUpdateHtmlTitle():boolean {
     return this.$state.current.name === 'work-packages.partitioned.list';
+  }
+
+  private get stateName() {
+    if (this.configuration.activeFeatureFlags.includes('showSeparateGanttModule') && this.$state.current.name?.includes('gantt')) {
+      return 'gantt.partitioned.list.new';
+    }
+
+    return 'work-packages.partitioned.list.new';
   }
 }
