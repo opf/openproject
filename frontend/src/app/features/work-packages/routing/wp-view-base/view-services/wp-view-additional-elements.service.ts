@@ -33,7 +33,9 @@ import {
   RelationsStateValue,
   WorkPackageRelationsService,
 } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import {
+  WorkPackageNotificationService,
+} from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
@@ -161,9 +163,9 @@ export class WorkPackageViewAdditionalElementsService {
       .apiV3Service
       .shares
       .filtered(filters, { pageSize: '-1' })
-      .get()
+      .getPaginatedResults()
       .pipe(
-          map(({ elements }) => {
+        map((elements) => {
           const shares = elements as ShareResource[];
 
           const sharedWpIds = _.uniq(shares.map((share) => share.entity.id as string));
