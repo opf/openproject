@@ -35,6 +35,7 @@ import { combine } from '@openproject/reactivestates';
 import { mapTo, take } from 'rxjs/operators';
 import { cloneHalResourceCollection } from 'core-app/features/hal/helpers/hal-resource-builder';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
+import { sharedUserColumn } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 
 @Injectable()
 export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<QueryColumn[]> {
@@ -89,7 +90,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
    * Returns whether the current set of columns include shares
    */
   public hasShareColumn() {
-    return !!_.find(this.getColumns(), (c) => c.id === 'sharedWithUsers');
+    return !!_.find(this.getColumns(), (c) => c.id === sharedUserColumn.id);
   }
 
   /**

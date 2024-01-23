@@ -9,6 +9,7 @@ import {
   internalBaselineColumn,
   internalContextMenuColumn,
   internalSortColumn,
+  sharedUserColumn,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
@@ -97,7 +98,7 @@ export class SingleRowBuilder {
       return this.relationCellBuilder.build(workPackage, column);
     }
 
-    if (column.id === 'sharedWithUsers') {
+    if (column.id === sharedUserColumn.id) {
       return this.shareCellBuilder.build(workPackage, column);
     }
 
