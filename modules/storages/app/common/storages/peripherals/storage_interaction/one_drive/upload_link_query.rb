@@ -73,13 +73,13 @@ module Storages
               ServiceResult.success(result: ::Storages::UploadLink.new(URI(upload_url), :put))
             in { status: 404 }
               ServiceResult.failure(result: :not_found,
-                                    errors: ::Storages::StorageError.new(code: :not_found, data: ))
+                                    errors: ::Storages::StorageError.new(code: :not_found, data:))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
                                     errors: ::Storages::StorageError.new(code: :unauthorized, data:))
             else
               ServiceResult.failure(result: :error,
-                                    errors: ::Storages::StorageError.new(code: :error, data: ))
+                                    errors: ::Storages::StorageError.new(code: :error, data:))
             end
           end
 
