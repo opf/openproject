@@ -33,18 +33,22 @@ class Projects::QueriesController < ApplicationController
   before_action :require_login
   before_action :find_query, only: :destroy
 
+  current_menu_item [:new, :create] do
+    :projects
+  end
+
   def new
-    query = load_query
-    query.name = params[:name]
+    call = load_query(existing: false)
+
     render template: '/projects/index',
            layout: 'global',
-           locals: { query:, state: :edit }
+           locals: { query: call.result, state: :edit }
   end
 
   def create
     call = Queries::Projects::ProjectQueries::CreateService
              .new(user: current_user)
-             .call(load_query.attributes.merge(name: params[:name]))
+             .call(permitted_query_params)
 
     if call.success?
       redirect_to projects_path(query_id: call.result.id)

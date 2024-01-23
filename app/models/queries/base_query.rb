@@ -85,7 +85,7 @@ module Queries::BaseQuery
   def order(hash)
     hash.each do |attribute, direction|
       order = order_for(attribute)
-      order.direction = direction
+      order.direction = direction.to_sym
       orders << order
     end
 

@@ -86,6 +86,19 @@ module Pages
         end
       end
 
+      def expect_current_page_number(number)
+        expect(page)
+          .to have_css('.op-pagination--item_current', text: number)
+      end
+
+      def expect_total_pages(number)
+        expect(page)
+          .to have_css('.op-pagination--item', text: number)
+
+        expect(page)
+          .to have_no_css('.op-pagination--item', text: number + 1)
+      end
+
       def set_sidebar_filter(filter_name)
         within '#main-menu' do
           click_link text: filter_name
@@ -208,7 +221,7 @@ module Pages
 
       def open_filters
         retry_block do
-          page.find('[data-test-selector="project-filter-toggle"]').click
+          page.find('[data-test-selector="filter-component-toggle"]').click
           page.find_field('Add filter', visible: true)
         end
       end

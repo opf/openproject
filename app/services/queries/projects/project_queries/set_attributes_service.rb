@@ -27,13 +27,50 @@
 # ++
 
 class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::SetAttributes
+  private
+
+  def set_attributes(params)
+    set_filters(params.delete(:filters))
+    set_order(params.delete(:orders))
+
+    super
+  end
+
   def set_default_attributes(_params)
     set_default_user
+    set_default_filter
+    set_default_order
   end
 
   def set_default_user
     model.change_by_system do
       model.user = user
     end
+  end
+
+  def set_default_order
+    return if model.orders.any?
+
+    model.order(lft: :asc)
+  end
+
+  def set_default_filter
+    return if model.filters.any?
+
+    model.where('active', '=', OpenProject::Database::DB_VALUE_TRUE)
+  end
+
+  def set_filters(filters)
+    return unless filters
+
+    filters.each do |filter|
+      model.where(filter[:attribute], filter[:operator], filter[:values])
+    end
+  end
+
+  def set_order(orders)
+    return unless orders
+
+    model.order(orders.to_h { |o| [o[:attribute], o[:direction]] })
   end
 end

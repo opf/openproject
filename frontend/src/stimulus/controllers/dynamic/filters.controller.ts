@@ -31,13 +31,6 @@
 
 import { Controller } from '@hotwired/stimulus';
 
-interface Filter {
-  [key:string]:{
-    operator:string;
-    values:string[];
-  };
-}
-
 export default class FiltersController extends Controller {
   static targets = [
     'filterFormToggle',
@@ -196,7 +189,7 @@ export default class FiltersController extends Controller {
 
     const filters = this.parseFilters();
     const orderParam = this.getUrlParameter('sortBy');
-    let queryString = `?filters=${encodeURIComponent(JSON.stringify(filters))}`;
+    let queryString = `?filters=${encodeURIComponent(filters.join('&'))}`;
     if (orderParam) {
       queryString = `${queryString}&sortBy=${encodeURIComponent(orderParam)}`;
     }
@@ -206,7 +199,7 @@ export default class FiltersController extends Controller {
 
   private parseFilters() {
     const advancedFilters = this.filterTargets.filter((filter) => !filter.classList.contains('hidden'));
-    const filters:Filter[] = [];
+    const filters:string[] = [];
 
     advancedFilters.forEach((filter) => {
       const filterName = filter.getAttribute('filter-name');
@@ -214,18 +207,21 @@ export default class FiltersController extends Controller {
       const parsedOperator = this.operatorTargets.find((operator) => operator.getAttribute('data-filter-name') === filterName)?.value;
 
       if (filterName && filterType && parsedOperator) {
-        const parsedValue = this.parseFilterValue(filterName, filterType, parsedOperator);
+        const parsedValue = this.parseFilterValue(filterName, filterType, parsedOperator) as string[]|null;
 
         if (parsedValue) {
-          const currentFilter:Filter = {
-            [filterName]: { operator: parsedOperator, values: parsedValue as string[] },
-          };
-          filters.push(currentFilter);
+          const valuesString = parsedValue.length > 1 ? `[${parsedValue.map((v) => `"${this.replaceAmpersand(v)}"`).join(',')}]` : this.replaceAmpersand(parsedValue[0]);
+
+          filters.push(`${filterName} ${parsedOperator} ${valuesString}`);
         }
       }
     });
 
     return filters;
+  }
+
+  private replaceAmpersand(value:string) {
+    return value && value.length > 0 ? value.replace(/&/g, '\\&') : '';
   }
 
   private readonly operatorsWithoutValues = ['*', '!*', 't', 'w'];

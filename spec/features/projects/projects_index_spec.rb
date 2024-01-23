@@ -305,18 +305,21 @@ RSpec.describe 'Projects index page',
       projects_page.expect_projects_listed(public_project)
       projects_page.expect_projects_not_listed(project,             # Filtered out
                                                development_project) # Present on page 1
-      expect(page).to have_no_text('Next') # Filters kept active, so there is no third page.
+      projects_page.expect_total_pages(2) # Filters kept active, so there is no third page.
 
       # Sorts DESC by name
       click_on 'Ascending sorted by "Name"'
       wait_for_reload
 
-      # On page 2 the same filters should still be intact but the order should be DESC on name
-      projects_page.expect_projects_listed(development_project)
-      projects_page.expect_projects_not_listed(project,        # Filtered out
-                                               public_project) # Present on page 1
+      # Clicking on sorting resets the page to the first one
+      projects_page.expect_current_page_number(1)
 
-      expect(page).to have_no_text('Next') # Filters kept active, so there is no third page.
+      # The same filters should still be intact but the order should be DESC on name
+      projects_page.expect_projects_listed(public_project)
+      projects_page.expect_projects_not_listed(project,        # Filtered out
+                                               development_project) # Present on page 2
+
+      projects_page.expect_total_pages(2) # Filters kept active, so there is no third page.
       expect(page).to have_css('.sort.desc', text: 'NAME')
 
       # Sending the filter form again what implies to compose the request freshly
@@ -328,7 +331,7 @@ RSpec.describe 'Projects index page',
       projects_page.expect_projects_listed(public_project)
       projects_page.expect_projects_not_listed(development_project, # as it is on the second page
                                                project)             # as it filtered out
-      expect(page).to have_text('Next') # as the result set is larger than 1
+      projects_page.expect_total_pages(2) # as the result set is larger than 1
       expect(page).to have_css('.sort.desc', text: 'NAME')
     end
   end

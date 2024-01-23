@@ -80,14 +80,82 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
   context 'with params' do
     let(:params) do
       {
-        name: 'Foobar'
+        name: 'Foobar',
+        filters: [
+          {
+            attribute: 'id',
+            operator: '=',
+            values: %w[1 2 3]
+          },
+          {
+            attribute: 'active',
+            operator: '!',
+            values: ['t']
+          }
+        ],
+        orders: [
+          {
+            attribute: 'id',
+            direction: 'asc'
+          },
+          {
+            attribute: 'name',
+            direction: 'desc'
+          }
+        ]
       }
     end
 
-    it 'assigns the params' do
+    it 'assigns the name param' do
       subject
 
       expect(model_instance.name).to eq 'Foobar'
+    end
+
+    it 'assigns the filter param' do
+      subject
+
+      expect(model_instance.filters)
+        .to(be_all { |f| f.is_a?(Queries::Projects::Filters::ProjectFilter) })
+
+      expect(model_instance.filters.map { |f| [f.name, f.operator, f.values] })
+        .to eql [[:id, '=', %w[1 2 3]], [:active, '!', ['t']]]
+    end
+
+    it 'assigns the orders param' do
+      subject
+
+      expect(model_instance.orders)
+        .to(be_all { |f| f.is_a?(Queries::Orders::Base) })
+
+      expect(model_instance.orders.map { |o| [o.name, o.direction] })
+        .to eql [["id", :asc], ["name", :desc]]
+    end
+  end
+
+  context 'without params' do
+    let(:params) do
+      {}
+    end
+
+    it 'assigns a default orders' do
+      subject
+
+      expect(model_instance.orders)
+        .to(be_all { |f| f.is_a?(Queries::Orders::Base) })
+
+      expect(model_instance.orders.map { |o| [o.name, o.direction] })
+        .to eql [%i[lft asc]]
+    end
+
+    it 'assigns a default filter param' do
+      subject
+
+      expect(model_instance.filters)
+        .to(be_all { |f| f.is_a?(Queries::Projects::Filters::ProjectFilter) })
+
+      expect(model_instance.filters.map { |f| [f.name, f.operator, f.values] })
+        .to eql [[:active, '=', %w[t]]]
     end
   end
 

@@ -27,10 +27,35 @@
 # ++
 module Projects
   module QueryLoading
-    def load_query
-      params[:query_id] ||= 'all'
+    def load_query(existing: true, contract: EmptyContract)
+      query = if existing
+                Queries::Projects::Factory.find(params[:query_id])
+              else
+                Queries::Projects::ProjectQuery.new
+              end
 
-      ParamsToQueryService.new(Project, current_user).call(params)
+      Queries::Projects::ProjectQueries::SetAttributesService
+        .new(user: current_user,
+             model: query,
+             contract_class: contract)
+        .call(permitted_query_params)
+    end
+
+    private
+
+    def permitted_query_params
+      query_params = if params[:query]
+                       params
+                         .require(:query)
+                         .permit(:name)
+                         .to_h
+                     else
+                       {}
+                     end
+
+      query_params.merge!(Queries::ParamsParser.parse(params))
+
+      query_params.with_indifferent_access
     end
   end
 end

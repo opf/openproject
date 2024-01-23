@@ -29,22 +29,8 @@
 class Queries::Projects::Create < ApplicationForm
   include OpenProject::StaticRouting::UrlHelpers
 
-  attr_accessor :params
-
-  def initialize(params:, **options)
-    super(**options)
-
-    self.params = params
-  end
-
   form do |query_form|
     query_form.group(layout: :horizontal) do |group|
-      # TODO: rather then relying on the params, serialize the query filters
-      group.hidden(
-        name: :filters,
-        value: params[:filters]
-      )
-
       group.text_field(
         visually_hide_label: true,
         required: true,
@@ -65,8 +51,8 @@ class Queries::Projects::Create < ApplicationForm
         scheme: :secondary,
         label: I18n.t(:button_cancel),
         tag: :a,
-        # TODO: rather then relying on the params, serialize the query filters
-        href: OpenProject::StaticRouting::StaticUrlHelpers.new.projects_path(filters: params[:filters])
+        data: { 'params-from-query-target': 'anchor' },
+        href: OpenProject::StaticRouting::StaticUrlHelpers.new.projects_path
       )
     end
   end

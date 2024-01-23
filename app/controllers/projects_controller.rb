@@ -48,13 +48,13 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    query = load_query
+    call = load_query(contract: Queries::Projects::ProjectQueries::CreateContract)
 
     respond_to do |format|
       format.html do
-        flash.now[:error] = query.errors.full_messages unless query.valid?
+        flash.now[:error] = call.errors.full_messages unless call.success?
 
-        render layout: 'global', locals: { query:, state: :show }
+        render layout: 'global', locals: { query: call.result, state: :show }
       end
 
       format.any(*supported_export_formats) do

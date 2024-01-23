@@ -43,7 +43,14 @@
         if current_user.logged?
           menu.with_item(
             label: t('button_save'),
-            href: new_projects_query_path(filters: params[:filters])
+            href: new_projects_query_path,
+            content_arguments: {
+            data: {
+              controller: "params-from-query",
+              'application-target': "dynamic",
+              'params-from-query-allowed-value': '["filters"]'
+            }
+          }
           ) do |item|
             item.with_leading_visual_icon(icon: :'op-save')
           end
@@ -94,13 +101,18 @@
       end
     end %>
   <% else %>
-    <% header.with_title(mt: 2, mb: 2, data: { 'test-selector': 'project-query-name'}) do
-      primer_form_with(model: query,
-                       url: projects_queries_path,
-                       scope: '',
-                       id: 'project-save-form') do |f|
-        render(Queries::Projects::Create.new(f, params:))
-      end
-    end %>
+      <% header.with_title(mt: 2, mb: 2, data: { 'test-selector': 'project-query-name'}) do
+        primer_form_with(model: query,
+                         url: projects_queries_path,
+                         scope: 'query',
+                         data: {
+                           controller: "params-from-query",
+                           'application-target': "dynamic",
+                           'params-from-query-allowed-value': '["filters"]'
+                         },
+                         id: 'project-save-form') do |f|
+          render(Queries::Projects::Create.new(f))
+        end
+      end %>
   <% end %>
 <% end %>

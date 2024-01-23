@@ -46,6 +46,8 @@ class Queries::Projects::Factory
         static_query_status_off_track
       when 'at_risk'
         static_query_status_at_risk
+      when nil
+        list_with(:'projects.lists.all')
       end
     end
 
@@ -89,9 +91,7 @@ class Queries::Projects::Factory
 
     def list_with(name)
       Queries::Projects::ProjectQuery.new(name: I18n.t(name)) do |query|
-        yield query
-
-        query.order(lft: :asc)
+        yield query if block_given?
       end
     end
   end
