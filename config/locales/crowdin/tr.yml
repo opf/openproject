@@ -521,6 +521,8 @@ tr:
         row_count: "Satır sayısı"
         column_count: "Sütun sayısı"
         widgets: "Araçlar"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Gecikme"
         from: "İş paketi"
@@ -3281,7 +3283,6 @@ tr:
       oauth_returned_json_error: "OAuth2 bir JSON hatası döndürdü"
       oauth_returned_http_error: "OAuth2 bir ağ hatası döndürdü"
       oauth_returned_standard_error: "OAuth2 bir dahili hata döndürdü"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 yanlış türde bir belirteç döndürdü ve AccessToken::Bearer bekleniyor"
       oauth_issue_contact_admin: "OAuth2 bir hata bildirdi. Lütfen sistem yöneticinize başvurun."
       oauth_client_not_found: "OAuth2 istemcisi 'geri arama' bitiş noktasında bulunamadı (redirect_uri)."

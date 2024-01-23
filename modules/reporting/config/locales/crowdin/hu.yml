@@ -47,7 +47,7 @@ hu:
   label_is_project_with_subprojects: "egyezik (alprojektekkel együtt)"
   label_work_package_attributes: "Munkacsomag attribútumai"
   label_less: "<"
-  label_logged_by_reporting: "Logged by"
+  label_logged_by_reporting: "Naplózta"
   label_money: "Készpénz érték"
   label_month_reporting: "Hónap (eltöltött)"
   label_new_report: "Új költség-jelentés"
@@ -87,7 +87,7 @@ hu:
   validation_failure_integer: "nem érvényes egész szám"
   export:
     cost_reports:
-      title: "Your Cost Reports XLS export"
+      title: "Költségjelentés készítése XLS formában"
   reporting:
     group_by:
       selected_columns: "A kijelölt oszlopok"

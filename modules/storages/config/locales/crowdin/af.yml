@@ -5,6 +5,7 @@ af:
         origin_id: Origin Id
       storages/storage:
         creator: Creator
+        drive: Drive ID
         host: Gasheer
         name: Naam
         provider_type: Provider type

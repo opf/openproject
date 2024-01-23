@@ -5,6 +5,7 @@ ja:
         origin_id: Origin Id
       storages/storage:
         creator: Creator
+        drive: Drive ID
         host: ホスト
         name: 名称
         provider_type: Provider type

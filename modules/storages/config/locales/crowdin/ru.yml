@@ -5,6 +5,7 @@ ru:
         origin_id: ID оригинала
       storages/storage:
         creator: Создатель
+        drive: Drive ID
         host: Хост
         name: Имя
         provider_type: Тип поставщика

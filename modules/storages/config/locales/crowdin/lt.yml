@@ -5,6 +5,7 @@ lt:
         origin_id: Kilmės Id
       storages/storage:
         creator: Kūrėjas
+        drive: Drive ID
         host: Serveris
         name: Vardas
         provider_type: Tiekėjo tipas

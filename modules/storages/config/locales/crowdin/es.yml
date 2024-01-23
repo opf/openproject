@@ -5,6 +5,7 @@ es:
         origin_id: Id. de origen
       storages/storage:
         creator: Autor
+        drive: Drive ID
         host: Host
         name: Nombre
         provider_type: Tipo de proveedor

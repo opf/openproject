@@ -517,6 +517,8 @@ ja:
         row_count: "行数"
         column_count: "列数"
         widgets: "ウィジェット"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "遅延"
         from: "ワーク パッケージ"
@@ -3250,7 +3252,6 @@ ja:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

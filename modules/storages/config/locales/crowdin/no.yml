@@ -5,6 +5,7 @@
         origin_id: Origin Id
       storages/storage:
         creator: Skaper
+        drive: Drive ID
         host: Vert
         name: Navn
         provider_type: Provider type

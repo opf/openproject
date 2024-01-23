@@ -519,6 +519,8 @@ it:
         row_count: "Numero di righe"
         column_count: "Numero di colonne"
         widgets: "Widget"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Ritardo"
         from: "Macro-attività"
@@ -1787,7 +1789,7 @@ it:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "File"
   label_filter_add: "Aggiungi filtro"
-  label_filter: "Filters"
+  label_filter: "Filtri"
   label_filter_plural: "Filtri"
   label_filters_toggle: "Mostra/nascondi filtri"
   label_float: "Virgola mobile"
@@ -3283,7 +3285,6 @@ it:
       oauth_returned_json_error: "OAuth2 ha restituito un errore JSON"
       oauth_returned_http_error: "OAuth2 ha restituito un errore di rete"
       oauth_returned_standard_error: "OAuth2 ha restituito un errore interno"
-      client_id_blank: "Il campo ID non può essere vuoto."
       wrong_token_type_returned: "OAuth2 ha restituito un tipo di token sbagliato, aspettandosi AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 ha segnalato un errore. Contatta l'amministratore di sistema."
       oauth_client_not_found: "Client OAuth2 non trovato nell'endpoint 'callback' (redirect_uri)."

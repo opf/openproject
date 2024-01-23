@@ -5,6 +5,7 @@ zh-CN:
         origin_id: 来源 ID
       storages/storage:
         creator: 创建者
+        drive: Drive ID
         host: 主机
         name: 名称
         provider_type: 提供商类型

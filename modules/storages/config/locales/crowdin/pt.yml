@@ -5,6 +5,7 @@ pt:
         origin_id: Id da origem
       storages/storage:
         creator: Criador
+        drive: Drive ID
         host: Servidor
         name: Nome
         provider_type: Tipo de provedor

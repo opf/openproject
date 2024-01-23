@@ -519,6 +519,8 @@ uk:
         row_count: "Кількість рядків"
         column_count: "Кількість стовпців"
         widgets: "Віджети"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Затримка"
         from: "Пакет робіт"
@@ -3339,7 +3341,6 @@ uk:
       oauth_returned_json_error: "Клієнт OAuth2 повернув помилку JSON"
       oauth_returned_http_error: "Клієнт OAuth2 повернув помилку мережі"
       oauth_returned_standard_error: "Клієнт OAuth2 повернув внутрішню помилку"
-      client_id_blank: "Поле «ID» не може бути порожнє."
       wrong_token_type_returned: "Клієнт OAuth2 повернув неправильний тип маркеру (очікувався тип AccessToken::Bearer)"
       oauth_issue_contact_admin: "Клієнт OAuth2 повідомив про помилку. Зверніться до системного адміністратора."
       oauth_client_not_found: "Клієнта OAuth2 не знайдено в кінцевій точці 'callback' (redirect_uri)."
