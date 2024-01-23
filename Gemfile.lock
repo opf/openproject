@@ -660,7 +660,7 @@ GEM
     language_server-protocol (3.17.0.3)
     launchy (2.5.2)
       addressable (~> 2.8)
-    lefthook (1.5.7)
+    lefthook (1.6.0)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.8.0)
