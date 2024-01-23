@@ -29,6 +29,14 @@
 import { DateDisplayField } from 'core-app/shared/components/fields/display/field-types/date-display-field.module';
 
 export class CombinedDateDisplayField extends DateDisplayField {
+  text = {
+    placeholder: {
+      startDate: this.I18n.t('js.label_no_start_date'),
+      dueDate: this.I18n.t('js.label_no_due_date'),
+      date: this.I18n.t('js.label_no_date'),
+    },
+  };
+
   public render(element:HTMLElement):void {
     if (this.name === 'date') {
       this.renderSingleDate('date', element);
@@ -41,7 +49,7 @@ export class CombinedDateDisplayField extends DateDisplayField {
     }
 
     if (!this.startDate && !this.dueDate) {
-      element.innerHTML = this.placeholder;
+      element.innerHTML = this.customPlaceholder(`${this.text.placeholder.startDate} - ${this.text.placeholder.dueDate}`);
       return;
     }
 
@@ -52,11 +60,12 @@ export class CombinedDateDisplayField extends DateDisplayField {
     return false;
   }
 
-  get placeholder():string {
+  customPlaceholder(fallback:string):string {
     if (typeof this.context.options.placeholder === 'string') {
       return this.context.options.placeholder;
     }
-    return super.placeholder;
+
+    return fallback;
   }
 
   private get startDate():string|null {
@@ -95,7 +104,12 @@ export class CombinedDateDisplayField extends DateDisplayField {
     const dateElement = document.createElement('span');
     const dateDisplayField = new DateDisplayField(date, this.context);
     dateDisplayField.apply(this.resource, this.schema);
-    dateDisplayField.render(dateElement, dateDisplayField.valueString);
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const text = this.resource[date]
+      ? dateDisplayField.valueString
+      : this.customPlaceholder(this.text.placeholder[date]);
+    dateDisplayField.render(dateElement, text);
 
     return dateElement;
   }

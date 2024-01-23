@@ -79,6 +79,7 @@ export class DateDisplayField extends HighlightableDisplayField {
 
   public get valueString() {
     if (this.value) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       return this.timezoneService.formattedDate(this.value, this.context.options.dateFormat);
     }
     return '';
