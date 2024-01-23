@@ -85,6 +85,6 @@ export class IsolatedQuerySpace extends StatesGroup {
     filters: input<QueryFilterInstanceSchemaResource[]>(),
 
     // Display of the WP results
-    displayRepresentation: input<WorkPackageDisplayRepresentationValue | null>(),
+    displayRepresentation: input<WorkPackageDisplayRepresentationValue|null>(),
   };
 }
