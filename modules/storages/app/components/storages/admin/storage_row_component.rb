@@ -29,41 +29,8 @@
 #++
 #
 module Storages::Admin
-  class OAuthClientInfoComponent < ApplicationComponent
+  class StorageRowComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     include OpPrimer::ComponentHelpers
-    include StorageViewInformation
-
-    attr_reader :storage
-    alias_method :oauth_client, :model
-
-    def initialize(oauth_client:, storage:, **options)
-      super(oauth_client, **options)
-      @storage = storage
-    end
-
-    def edit_icon_button_options
-      {
-        icon: oauth_client_configured? ? :sync : :pencil,
-        tag: :a,
-        href: url_helpers.new_admin_settings_storage_oauth_client_path(storage),
-        scheme: :invisible,
-        aria: { label: I18n.t("storages.label_edit_storage_oauth_client") },
-        data: edit_icon_button_data_options,
-        test_selector: 'storage-edit-oauth-client-button'
-      }
-    end
-
-    private
-
-    def edit_icon_button_data_options
-      {}.tap do |data_h|
-        data_h[:confirm] = I18n.t("storages.confirm_replace_oauth_client") if oauth_client_configured?
-        data_h[:turbo_stream] = true
-      end
-    end
-
-    def oauth_client_configured?
-      storage.configuration_checks[:storage_oauth_client_configured]
-    end
+    alias_method :storage, :model
   end
 end

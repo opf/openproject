@@ -27,43 +27,51 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module Storages::Admin
-  class OAuthClientInfoComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include StorageViewInformation
 
-    attr_reader :storage
-    alias_method :oauth_client, :model
+require 'spec_helper'
+require_module_spec_helper
 
-    def initialize(oauth_client:, storage:, **options)
-      super(oauth_client, **options)
-      @storage = storage
+RSpec.describe 'Admin List File storages',
+               :js,
+               :storage_server_helpers do
+  shared_let(:admin) { create(:admin, preferences: { time_zone: 'Etc/UTC' }) }
+
+  current_user { admin }
+
+  context 'with storages' do
+    shared_let(:nextcloud_storage) { create(:nextcloud_storage) }
+    shared_let(:one_drive_storage) { create(:one_drive_storage) }
+
+    before do
+      visit admin_settings_storages_path
     end
 
-    def edit_icon_button_options
-      {
-        icon: oauth_client_configured? ? :sync : :pencil,
-        tag: :a,
-        href: url_helpers.new_admin_settings_storage_oauth_client_path(storage),
-        scheme: :invisible,
-        aria: { label: I18n.t("storages.label_edit_storage_oauth_client") },
-        data: edit_icon_button_data_options,
-        test_selector: 'storage-edit-oauth-client-button'
-      }
-    end
-
-    private
-
-    def edit_icon_button_data_options
-      {}.tap do |data_h|
-        data_h[:confirm] = I18n.t("storages.confirm_replace_oauth_client") if oauth_client_configured?
-        data_h[:turbo_stream] = true
+    it 'renders a list of all storages' do
+      within :css, '#content' do
+        expect(page).to have_list_item(count: 2)
+        expect(page).to have_list_item(nextcloud_storage.name)
+        expect(page).to have_list_item(one_drive_storage.name)
       end
     end
 
-    def oauth_client_configured?
-      storage.configuration_checks[:storage_oauth_client_configured]
+    it 'renders content that is accessible' do
+      expect(page).to be_axe_clean.within('#content')
+    end
+  end
+
+  context 'with no storages' do
+    before do
+      visit admin_settings_storages_path
+    end
+
+    it 'renders a blank slate' do
+      expect(page).to have_title('File storages')
+      expect(page.find('.PageHeader-title')).to have_text('File storages')
+      expect(page).to have_text("You don't have any storages yet.")
+    end
+
+    it 'renders content that is accessible' do
+      expect(page).to be_axe_clean.within('#content')
     end
   end
 end

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,42 +26,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-module Storages::Admin
-  class OAuthClientInfoComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include StorageViewInformation
+require 'spec_helper'
+require_module_spec_helper
 
-    attr_reader :storage
-    alias_method :oauth_client, :model
+RSpec.describe Storages::Admin::StorageListComponent, type: :component do
+  shared_let(:nextcloud_storage) { create(:nextcloud_storage) }
+  shared_let(:one_drive_storage) { create(:one_drive_storage) }
 
-    def initialize(oauth_client:, storage:, **options)
-      super(oauth_client, **options)
-      @storage = storage
+  let(:storages) { [nextcloud_storage, one_drive_storage] }
+
+  subject(:storage_list_component) { described_class.new(storages) }
+
+  before do
+    render_inline(storage_list_component)
+  end
+
+  context 'with storages' do
+    it 'lists all storages' do
+      expect(page).to have_list_item(count: 2)
+      expect(page).to have_list_item(nextcloud_storage.name)
+      expect(page).to have_list_item(one_drive_storage.name)
     end
+  end
 
-    def edit_icon_button_options
-      {
-        icon: oauth_client_configured? ? :sync : :pencil,
-        tag: :a,
-        href: url_helpers.new_admin_settings_storage_oauth_client_path(storage),
-        scheme: :invisible,
-        aria: { label: I18n.t("storages.label_edit_storage_oauth_client") },
-        data: edit_icon_button_data_options,
-        test_selector: 'storage-edit-oauth-client-button'
-      }
-    end
+  context 'with no storages' do
+    let(:storages) { [] }
 
-    private
-
-    def edit_icon_button_data_options
-      {}.tap do |data_h|
-        data_h[:confirm] = I18n.t("storages.confirm_replace_oauth_client") if oauth_client_configured?
-        data_h[:turbo_stream] = true
-      end
-    end
-
-    def oauth_client_configured?
-      storage.configuration_checks[:storage_oauth_client_configured]
+    it 'renders a blank slate' do
+      expect(page).to have_text("You don't have any storages yet.")
     end
   end
 end
