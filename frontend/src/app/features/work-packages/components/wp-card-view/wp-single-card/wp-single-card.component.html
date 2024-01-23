@@ -85,7 +85,13 @@
         *ngIf="showAsInlineCard && showStartDate"
         class="op-wp-single-card--content-inline-date"
       >
-        {{startDate(workPackage)}} -
+         <display-field
+           [resource]="workPackage"
+           [displayFieldOptions]="{ writable: false, dateFormat: 'MMM DD, YYYY', placeholder: '' }"
+           fieldName="startDate"
+           containerType="single-view">
+        </display-field>
+         -
       </span>
 
       <span
@@ -106,7 +112,13 @@
         *ngIf="showAsInlineCard && showEndDate"
         class="op-wp-single-card--content-inline-date"
       >
-        - {{endDate(workPackage)}}
+        -
+        <display-field
+         [resource]="workPackage"
+         [displayFieldOptions]="{ writable: false, dateFormat: 'MMM DD, YYYY', placeholder: '' }"
+         fieldName="dueDate"
+         containerType="single-view">
+        </display-field>
       </span>
     </span>
 
