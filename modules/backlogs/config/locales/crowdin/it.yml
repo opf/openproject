@@ -141,7 +141,7 @@ it:
   points_resolved: "punti risolti"
   points_to_accept: "punti non accettati"
   points_to_resolve: "punti non risolti"
-  project_module_backlogs: "Backlog"
+  project_module_backlogs: "Backlogs"
   rb_label_copy_tasks: "Copia i pacchetti di lavoro"
   rb_label_copy_tasks_all: "Tutti"
   rb_label_copy_tasks_none: "Nessuno"

@@ -28,14 +28,14 @@ hu:
   activerecord:
     attributes:
       meeting:
-        type: "Meeting type"
+        type: "Megbeszélés típusa"
         location: "Helyszín"
         duration: "Időtartam"
         notes: "Jegyzet"
         participants: "Közreműködők"
         participant:
           one: "1 Participant"
-          other: "%{count} Participants"
+          other: "%{count} résztvevő"
         participants_attended: "Résztvevők"
         participants_invited: "Meghívottak"
         project: "Projekt"
@@ -45,14 +45,14 @@ hu:
       meeting_agenda_items:
         title: "Cím"
         author: "Felelős"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "Időtartam (perc)"
         description: "Jegyzet"
     errors:
       messages:
         invalid_time_format: "nem egy érvényes időpont. Előírt formátum: óó:pp"
     models:
-      structured_meeting: "Meeting (dynamic)"
-      meeting_agenda_item: "Agenda item"
+      structured_meeting: "Megbeszélés (dinamikus)"
+      meeting_agenda_item: "Napirendi pont"
       meeting_agenda: "Napirend"
       meeting_minutes: "Jegyzőkönyv"
   activity:
@@ -79,39 +79,39 @@ hu:
   label_meeting_agenda_close: "Napirend lezárása a jegyzőkönyv megkezdéséhez"
   label_meeting_date_time: "Dátum/idő"
   label_meeting_diff: "Eltérés"
-  label_upcoming_meetings: "Upcoming meetings"
-  label_past_meetings: "Past meetings"
-  label_upcoming_meetings_short: "Upcoming"
-  label_past_meetings_short: "Past"
-  label_involvement: "Involvement"
-  label_upcoming_invitations: "Upcoming invitations"
-  label_past_invitations: "Past invitations"
-  label_attendee: "Attendee"
-  label_author: "Creator"
+  label_upcoming_meetings: "Közelgő megbeszélések"
+  label_past_meetings: "Korábbi megbeszélések"
+  label_upcoming_meetings_short: "Közelgő"
+  label_past_meetings_short: "Korábbi"
+  label_involvement: "Bevonás "
+  label_upcoming_invitations: "Közelgő meghívások"
+  label_past_invitations: "Korábbi meghívások"
+  label_attendee: "Résztvevő"
+  label_author: "Készítő"
   label_notify: "Küldés véleményezésre"
   label_icalendar: "iCalendar küldése"
-  label_icalendar_download: "Download iCalendar event"
+  label_icalendar_download: "iCalendar esemény letöltése"
   label_version: "Verzió"
   label_time_zone: "Időzóna"
   label_start_date: "Kezdési dátum"
   meeting:
     email:
-      open_meeting_link: "Open meeting"
+      open_meeting_link: "Nyitott megbeszélés"
       invited:
-        summary: "%{actor} has sent you an invitation for the meeting %{title}"
+        summary: "%{actor} meghívott a következő megbeszélésre: %{title}"
       rescheduled:
         header: "Meeting %{title} has been rescheduled"
-        summary: "Meeting %{title} has been rescheduled by %{actor}"
-        body: "The meeting %{title} has been rescheduled by %{actor}."
-        old_date_time: "Old date/time"
-        new_date_time: "New date/time"
-    label_mail_all_participants: "Send email to all participants"
+        summary: "%{title} elnevezésű megbeszélés átütemezésre került a következő által: %{actor}"
+        body: "%{title} elnevezésű megbeszélés átütemezésre került a következő által: %{actor}"
+        old_date_time: "Régi időpont"
+        new_date_time: "Új időpont"
+    label_mail_all_participants: "Email küldése minden résztvevőnek"
     types:
-      classic: 'Classic'
-      classic_text: 'Organize your meeting in a formattable text agenda and protocol.'
-      structured: 'Dynamic'
-      structured_text: 'Organize your meeting as a list of agenda items, optionally linking them to a work package.'
-      structured_text_copy: 'Copying a meeting will currently not copy the associated meeting agenda items, just the details'
+      classic: 'Szokásos'
+      classic_text: 'Szervezd meg a találkozódat formázott szöveges napirendben és protokollban.'
+      structured: 'Dinamikus'
+      structured_text: 'Szervezd meg a találkozódat napirendi pontokkal, melyeket opcionálisan munkacsomagokhoz rendelhetsz.'
+      structured_text_copy: 'A megbeszélés másolásával jelnleg nem fogja átmásolni a hozzákapcsolt napirendi pontokat, csak a megbeszélés részleteit.'
     copied: "#%{id} megbeszélésből másolva"
   notice_successful_notification: "Értesítés sikeresen kiküldve"
   notice_timezone_missing: Nincs időzóna beállítva, %{zone} a feltételezett. Időzóna beállításához kattintson ide.
@@ -119,10 +119,10 @@ hu:
   permission_edit_meetings: "Megbeszélések szerkesztése"
   permission_delete_meetings: "Megbeszélések törlése"
   permission_view_meetings: "Megbeszélések megtekintése"
-  permission_create_meeting_agendas: "Create meeting agendas"
-  permission_create_meeting_agendas_explanation: "Allows editing the Classic Meeting's agenda content."
+  permission_create_meeting_agendas: "Napirendi pontok létrehozása"
+  permission_create_meeting_agendas_explanation: "Lehetővé teszi a Hagyományos Megbeszélés napirendi tartalmának a szerkesztését."
   permission_manage_agendas: "Napirendek kezelése"
-  permission_manage_agendas_explanation: "Allows managing the Dynamic Meeting's agenda items."
+  permission_manage_agendas_explanation: "Lehetővé teszi a Dinamikus Megbeszélés napirendi tartalmának a kezelését."
   permission_close_meeting_agendas: "Napirendek lezárása"
   permission_send_meeting_agendas_notification: "Napirend véleményezésre küldésének értesítése"
   permission_create_meeting_minutes: "Jegyzőkönyvek kezelése"
@@ -133,11 +133,11 @@ hu:
   text_duration_in_hours: "Hossza (óra)"
   text_in_hours: "órában"
   text_meeting_agenda_for_meeting: 'a "%{meeting}" megbeszélés napirendje'
-  text_meeting_closing_are_you_sure: "Are you sure you want to close the meeting agenda?"
+  text_meeting_closing_are_you_sure: "Biztosan le szeretnéd zárni a megbeszélés napirendjét?"
   text_meeting_agenda_open_are_you_sure: "Ez minden változást felül fog írni. Biztosan folytani akarja?"
   text_meeting_minutes_for_meeting: 'a "%{meeting}" megbeszélés jegyzőkönyve'
   text_notificiation_invited: "Ez a levél alább egy ics bejegyzést tartalmaz a megbeszélésről:"
-  text_meeting_empty_heading: "Your meeting is empty"
+  text_meeting_empty_heading: "A megbeszélésed üres."
   text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
   text_meeting_empty_description_2: "You can also add references to existing work packages. When you do, related notes will automatically be visible in the work package's \"Meetings\" tab."
   label_meeting_empty_action: "Add agenda item"
