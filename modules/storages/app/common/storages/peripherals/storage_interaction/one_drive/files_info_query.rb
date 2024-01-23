@@ -72,10 +72,16 @@ module Storages
             if query_result.success?
               query_result.result
             else
+              status = if query_result.error_payload.instance_of?(HTTPX::ErrorResponse)
+                         query_result.error_payload.error
+                       else
+                         query_result.error_payload.dig(:error, :code)
+                       end
+
               StorageFileInfo.new(
                 id: file_id,
-                status: query_result.error_payload.dig(:error, :code),
-                status_code: Rack::Utils::SYMBOL_TO_STATUS_CODE[query_result.errors.code]
+                status:,
+                status_code: Rack::Utils::SYMBOL_TO_STATUS_CODE[query_result.errors.code] || 500
               )
             end
           end

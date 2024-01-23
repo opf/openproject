@@ -50,7 +50,7 @@ module Storages
                 'OCS-APIRequest' => 'true',
                 'Accept' => 'application/json'
               }
-            ).status
+            )
           end
         end
 

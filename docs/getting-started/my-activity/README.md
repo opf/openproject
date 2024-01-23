@@ -12,7 +12,7 @@ keywords: my activity, personal changes, dashboard
 
 You can open your **My Activity** page by clicking on your user avatar in the upper right corner and then selecting **My Activity** from the dropdown menu.
 
-![OpenProject navigate to My Activity Page](openproject_select_my_actvity.png)
+![Navigate to My Activity Page](openproject_select_my_actvity.png)
 
 You will see two lists by default. 
 
@@ -22,7 +22,7 @@ You will see two lists by default.
 
 >Please note that only activities from projects that have the **Activity** module enabled will be shown.
 
-![Openproject_my_activity_page](openproject_my_activity_overview.png)
+![My activity page](openproject_my_activity_overview.png)
 
 
 

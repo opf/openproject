@@ -85,9 +85,13 @@ class WorkPackages::BulkController < ApplicationController
 
   def setup_edit
     @available_statuses = @projects.map { |p| Workflow.available_statuses(p) }.inject(&:&)
-    @custom_fields = @projects.map(&:all_work_package_custom_fields).inject(&:&)
     @assignables = @responsibles = Principal.possible_assignee(@projects)
     @types = @projects.map(&:types).inject(&:&)
+
+    # Display only the custom fields that are enabled on the projects and on types too.
+    @custom_fields =
+      @projects.map(&:all_work_package_custom_fields).inject(&:&) &
+      WorkPackageCustomField.joins(:types).where(types: @types)
   end
 
   def destroy_work_packages(work_packages)

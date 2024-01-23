@@ -10,7 +10,7 @@ keywords: wiki faq
 
 ### Is it possible to copy a wiki or a wiki page from one project into another project?
 
-Yes, you can do both, you have to export the wiki or the wiki page as a Markdown (or Atom), than copy the Mardown from the text editor. Now you have to create a new wiki in the project you want to copy the old one (or the page). In the section paragraph you have to change into the markdown modus, then paste the text from you have copied. Unforunally pictures cannot be copied this way. You have to add them manually. 
+Yes, you can do both, you have to export the wiki or the wiki page as a Markdown (or Atom), than copy the Markdown from the text editor. Now you have to create a new wiki in the project you want to copy the old one (or the page). In the section paragraph you have to change into the markdown modus, then paste the text from you have copied. Unfortunately pictures cannot be copied this way. You have to add them manually. 
 
 ### Which image formats can be used to include them on a wiki page?
 

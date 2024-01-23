@@ -11,7 +11,12 @@ RSpec.describe 'Bulk update work packages through Rails view', :js, :with_cuprit
            types: [type],
            projects: [project])
   end
-
+  shared_let(:custom_field_removed) do
+    create(:string_wp_custom_field,
+           name: 'Text CF Removed',
+           types: [type],
+           projects: [project])
+  end
   shared_let(:dev_role) do
     create(:project_role,
            permissions: %i[view_work_packages])
@@ -137,64 +142,79 @@ RSpec.describe 'Bulk update work packages through Rails view', :js, :with_cuprit
       end
     end
 
-    context 'when editing custom field of work packages with a readonly status (regression#44673)' do
-      let(:work_package2_status) { create(:status, :readonly) }
+    describe 'custom fields' do
+      context 'when editing custom field of work packages with a readonly status (regression#44673)' do
+        let(:work_package2_status) { create(:status, :readonly) }
 
-      context 'with enterprise', with_ee: %i[readonly_work_packages] do
-        it 'does not update the work packages' do
-          expect(work_package.send(custom_field.attribute_getter)).to be_nil
-          expect(work_package2.send(custom_field.attribute_getter)).to be_nil
+        context 'with enterprise', with_ee: %i[readonly_work_packages] do
+          it 'does not update the work packages' do
+            expect(work_package.send(custom_field.attribute_getter)).to be_nil
+            expect(work_package2.send(custom_field.attribute_getter)).to be_nil
 
-          fill_in custom_field.name, with: 'Custom field text'
-          click_on 'Submit'
+            fill_in custom_field.name, with: 'Custom field text'
+            click_on 'Submit'
 
-          expect(page)
-            .to have_css(
-              '.op-toast.-error',
-              text: I18n.t('work_packages.bulk.x_out_of_y_could_be_saved', total: 2, failing: 1, success: 1)
-            )
+            expect(page)
+              .to have_css(
+                '.op-toast.-error',
+                text: I18n.t('work_packages.bulk.x_out_of_y_could_be_saved', total: 2, failing: 1, success: 1)
+              )
 
-          expect(page)
-            .to have_css(
-              '.op-toast.-error',
-              text: <<~MSG.squish
-                #{work_package2.id}:
-                #{custom_field.name} #{I18n.t('activerecord.errors.messages.error_readonly')}
-                #{I18n.t('activerecord.errors.models.work_package.readonly_status')}
-              MSG
-            )
+            expect(page)
+              .to have_css(
+                '.op-toast.-error',
+                text: <<~MSG.squish
+                  #{work_package2.id}:
+                  #{custom_field.name} #{I18n.t('activerecord.errors.messages.error_readonly')}
+                  #{I18n.t('activerecord.errors.models.work_package.readonly_status')}
+                MSG
+              )
 
-          # Should update 1 work package custom field only
-          work_package.reload
-          work_package2.reload
+            # Should update 1 work package custom field only
+            work_package.reload
+            work_package2.reload
 
-          expect(work_package.send(custom_field.attribute_getter))
-            .to eq('Custom field text')
+            expect(work_package.send(custom_field.attribute_getter))
+              .to eq('Custom field text')
 
-          expect(work_package2.send(custom_field.attribute_getter))
-            .to be_nil
+            expect(work_package2.send(custom_field.attribute_getter))
+              .to be_nil
+          end
+        end
+
+        context 'without enterprise', with_ee: false do
+          it 'ignores the readonly status and updates the work packages' do
+            expect(work_package.send(custom_field.attribute_getter)).to be_nil
+            expect(work_package2.send(custom_field.attribute_getter)).to be_nil
+
+            fill_in custom_field.name, with: 'Custom field text'
+            click_on 'Submit'
+
+            expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_successful_update))
+
+            # Should update 2 work package custom fields
+            work_package.reload
+            work_package2.reload
+
+            expect(work_package.send(custom_field.attribute_getter))
+              .to eq('Custom field text')
+
+            expect(work_package2.send(custom_field.attribute_getter))
+              .to eq('Custom field text')
+          end
         end
       end
 
-      context 'without enterprise', with_ee: false do
-        it 'ignores the readonly status and updates the work packages' do
-          expect(work_package.send(custom_field.attribute_getter)).to be_nil
-          expect(work_package2.send(custom_field.attribute_getter)).to be_nil
+      context 'when custom fields are removed from types' do
+        it 'does not display them on the form' do
+          expect(page).to have_field custom_field_removed.name
 
-          fill_in custom_field.name, with: 'Custom field text'
-          click_on 'Submit'
+          custom_field_removed.types = []
+          custom_field_removed.save!
+          page.refresh
+          wait_for_reload
 
-          expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_successful_update))
-
-          # Should update 2 work package custom fields
-          work_package.reload
-          work_package2.reload
-
-          expect(work_package.send(custom_field.attribute_getter))
-            .to eq('Custom field text')
-
-          expect(work_package2.send(custom_field.attribute_getter))
-            .to eq('Custom field text')
+          expect(page).to have_no_field custom_field_removed.name
         end
       end
     end

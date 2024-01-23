@@ -15,7 +15,7 @@ You need to run this migration on an OpenProject version < 13.0, as the conversi
 
 ## Dependencies
 
-We depend on `pandoc` (https://pandoc.org/) for the conversion of all formattable fields in OpenProject. It provides automated means to migrate between many input and output formats, in our case from Textile to GitHub-flavored Markdown.
+We depend on `pandoc` (https://pandoc.org) for the conversion of all formattable fields in OpenProject. It provides automated means to migrate between many input and output formats, in our case from Textile to GitHub-flavored Markdown.
 
 If you do not have an executable pandoc version of at least version 2.0 in your path, OpenProject will try download an AMD64 static linked binary for pandoc (Currently, this would be version 2.3.2). This version will be made available to OpenProject through `<OpenProject root>/vendor/pandoc` and is only used during that one-time migration step.
 

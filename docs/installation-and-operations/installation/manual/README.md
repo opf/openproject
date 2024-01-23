@@ -6,7 +6,7 @@ sidebar_navigation: false
 
 > **IMPORTANT: We strongly recommend to use one of the officially supported [installation methods](../../installation).**
 >
-> **This guide is simply provided as an OLD and OUTDATED reference, and is NOT up to date with relation to the latest OpenProject releases and will be NOT maintained NOR supported. You are on your own and maybe could ask experienced users in the forum in order to use this guide for any integrations taht you would like to solve. We also removed it from the navigation sidebar on the left in order to hide it.**
+> **This guide is simply provided as an OLD and OUTDATED reference, and is NOT up to date with relation to the latest OpenProject releases and will be NOT maintained NOR supported. You are on your own and maybe could ask experienced users in the forum in order to use this guide for any integrations that you would like to solve. We also removed it from the navigation sidebar on the left in order to hide it.**
 
 Please be aware that:
 
@@ -414,11 +414,9 @@ We encourage you to extend OpenProject yourself by writing a plug-in. Please, re
 
 ## Troubleshooting
 
-You can find the error logs for apache here:
-<pre>/var/log/apache2/error.log</pre>
+You can find the error logs for apache here: `/var/log/apache2/error.log`
 
-The OpenProject logfile can be found here:
-<pre>/home/openproject/openproject/log/production.log</pre>
+The OpenProject logfile can be found here: `/home/openproject/openproject/log/production.log`
 
 If an error occurs, it should be logged there.
 
@@ -441,10 +439,9 @@ If you need to restart the server (for example after a configuration change), do
 
 * **When accessing OpenProject, I get an error page. How do I find out what went wrong?**
 
-  Things can go wrong on different levels. You can find the apache error logs here:
-  <pre>/var/log/apache2/error.log</pre>
-  The OpenProject log can be found here:
-  <pre>/home/openproject/openproject/log/production.log</pre>
+  Things can go wrong on different levels. You can find the apache error logs here: `/var/log/apache2/error.log`
+ 
+  The OpenProject log can be found here: `/home/openproject/openproject/log/production.log`
 
 * **I cannot solve an error, not even with the log files. How do I get help?**
 

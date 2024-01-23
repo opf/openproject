@@ -50,7 +50,6 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
           Util.error(:error, 'Data is invalid', data)
         else
           outbound_response(
-            method: :post,
             relative_path: URI_TOKEN_REQUEST,
             payload: { folder_id: data['parent'] },
             token:
@@ -65,7 +64,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     private
 
-    def outbound_response(method:, relative_path:, payload:, token:)
+    def outbound_response(relative_path:, payload:, token:)
       response = OpenProject
                    .httpx
                    .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
@@ -75,8 +74,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                      Util.join_uri_path(@uri, relative_path),
                      json: payload
                    )
-      case response.status
-      when 200..299
+      case response
+      in { status: 200..299 }
         # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
         if response.body.present?
           ServiceResult.success(
@@ -85,9 +84,9 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         else
           Util.error(:unauthorized, 'Outbound request not authorized!')
         end
-      when 404
+      in { status: 404 }
         Util.error(:not_found, 'Outbound request destination not found!', response)
-      when 401
+      in { status: 401 }
         Util.error(:unauthorized, 'Outbound request not authorized!', response)
       else
         Util.error(:error, 'Outbound request failed!')

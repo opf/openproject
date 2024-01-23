@@ -73,7 +73,7 @@ info:
 
     ```shell
     API_KEY=2519132cdf62dcf5a66fd96394672079f9e9cad1
-    curl -u apikey:$API_KEY https://community.openproject.com/api/v3/users/42
+    curl -u apikey:$API_KEY https://community.openproject.org/api/v3/users/42
     ```
 
     ### OAuth2.0 authentication

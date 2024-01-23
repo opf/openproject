@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Primer Design system
   priority: 998
-description: OpenProject adap Design System
+description: OpenProject adapt Design System
 keywords: Design system, Primer, styles, design, components
 ---
 # Design System and Component Libraries
