@@ -50,7 +50,7 @@ module Storages
             OpenProject.httpx.get(
               util.join_uri_path(@uri, '/v1.0/me'),
               headers: { 'Authorization' => "Bearer #{access_token}", 'Accept' => 'application/json' }
-            ).status
+            )
           end
         end
 

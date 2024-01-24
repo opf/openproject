@@ -45,7 +45,7 @@ In order to understand the different modes of the inline edition functionality, 
 
 The display fields handle showing read-only representation of a resource's attribute. For example, the work package table may contain very different kinds of attributes: A progress bar, bare text fields, formatted date fields and the like.
 
-Since OpenProject can also have dynamic custom fields with varying formats, the frontend cannot know all potential attribute names and their types. Instead, the available attributes of a resource are retrieved from its associated [schema resource](../resource-schemas/). For display fields, the important part of the schema definition for an attribute is its `type` attribute. Take a look at the JSON schema response for projects at the community: [community.openproject.com/api/v3/projects/schema](https://community.openproject.com/api/v3/projects/schema). For the sake of brevity, the following JSON will only show two of the returned attributes: The name and status attribute description:
+Since OpenProject can also have dynamic custom fields with varying formats, the frontend cannot know all potential attribute names and their types. Instead, the available attributes of a resource are retrieved from its associated [schema resource](../resource-schemas/). For display fields, the important part of the schema definition for an attribute is its `type` attribute. Take a look at the JSON schema response for projects at the community: [community.openproject.org/api/v3/projects/schema](https://community.openproject.org/api/v3/projects/schema). For the sake of brevity, the following JSON will only show two of the returned attributes: The name and status attribute description:
 
 ```json5
 {
@@ -291,7 +291,7 @@ While this doesn't take care of any labels or styling, it will already provide e
 
 The work package single view is the boss fight of inline editing. It combines all the previous concepts with the flexibility of work package attributes and type configuration.
 
-The following screenshot is [bug report #34250](https://community.openproject.com/wp/34250), which is a work package of Type `Bug`. The Bug type has a [specific form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) defined. This configuration is as follows:
+The following screenshot is [bug report #34250](https://community.openproject.org/wp/34250), which is a work package of Type `Bug`. The Bug type has a [specific form configuration](../../../system-admin-guide/manage-work-packages/work-package-types/#work-package-form-configuration-enterprise-add-on) defined. This configuration is as follows:
 
 
 
@@ -299,13 +299,13 @@ The following screenshot is [bug report #34250](https://community.openproject.co
 
 The Bug has three attribute groups defined with a set of attributes in it. These attributes correspond to the attribute groups in the `single view`.
 
-If we take a look at the XHR requests on the bug page, we see that a request is being made to the schema `https://community.openproject.com/api/v3/work_packages/schemas/14-1`, which is the work package schema for project ID=14 (openproject on community), and the type ID=1 (Bug type). It contains the attribute definitions of the [work package schema](../resource-schemas/) and the enabled attribute groups with their attribute definitions:
+If we take a look at the XHR requests on the bug page, we see that a request is being made to the schema `https://community.openproject.org/api/v3/work_packages/schemas/14-1`, which is the work package schema for project ID=14 (openproject on community), and the type ID=1 (Bug type). It contains the attribute definitions of the [work package schema](../resource-schemas/) and the enabled attribute groups with their attribute definitions:
 
 ![Attribute groups of type Bug in OpenProject project](schema-attribute-groups.png)
 
 We can see the three groups as defined in the administration are being transmitted to the frontend through the `_attributeGroups` property.
 
-The type defines which type of group is being rendered. The attribute group is the most common, rendering a set of attributes. It is also possible to render an embedded work package table for related work packages such as in the following exemplary [Epic #25624](https://community.openproject.com/wp/25624):
+The type defines which type of group is being rendered. The attribute group is the most common, rendering a set of attributes. It is also possible to render an embedded work package table for related work packages such as in the following exemplary [Epic #25624](https://community.openproject.org/wp/25624):
 
 ![Work package with query group for children](single-view-query-group.png)
 

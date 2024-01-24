@@ -5,6 +5,7 @@ ka:
         origin_id: საწყისის id
       storages/storage:
         creator: შემქმნელი
+        drive: Drive ID
         host: ჰოსტი
         name: სახელი
         provider_type: მომწოდებლის ტიპი

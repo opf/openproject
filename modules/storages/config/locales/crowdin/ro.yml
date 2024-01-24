@@ -5,6 +5,7 @@ ro:
         origin_id: Id de origine
       storages/storage:
         creator: Creator
+        drive: Drive ID
         host: Server gazdă
         name: Nume
         provider_type: Tip flux

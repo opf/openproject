@@ -282,14 +282,14 @@ de:
     columns:
       shared: "Geteilt"
     filters:
-      all_shares: 'Alle Freigaben'
+      all_shares: "Alle Freigaben"
     menu:
-      all: 'Alle'
-      invited: 'Eingeladen'
-      locked: 'Gesperrt'
-      project_roles: 'Projektrollen'
-      wp_shares: 'Arbeitspaket-Freigaben'
-      groups: 'Gruppen'
+      all: "Alle"
+      invited: "Eingeladen"
+      locked: "Gesperrt"
+      project_roles: "Projektrollen"
+      wp_shares: "Arbeitspaket-Freigaben"
+      groups: "Gruppen"
   my:
     access_token:
       failed_to_reset_token: "Zusatztoken konnte nicht zurückgesetzt werden: %{error}"
@@ -517,6 +517,8 @@ de:
         row_count: "Anzahl der Zeilen"
         column_count: "Anzahl der Spalten"
         widgets: "Widgets"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Pufferzeit"
         from: "Arbeitspaket"
@@ -633,6 +635,7 @@ de:
         readonly: "Nur Lesezugriff"
         remaining_hours: "Verbleibender Aufwand"
         remaining_time: "Verbleibender Aufwand"
+        shared_with_users: "Shared users"
         schedule_manually: "Manuelle Planung"
         spent_hours: "Aufgewendete Zeit"
         spent_time: "Aufgewendete Zeit"
@@ -1785,6 +1788,7 @@ de:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Dateien"
   label_filter_add: "Filter hinzufügen"
+  label_filter: "Filter"
   label_filter_plural: "Filter"
   label_filters_toggle: "Filter ein-/ausblenden"
   label_float: "Gleitkommazahl"
@@ -2207,11 +2211,11 @@ de:
     mention:
       subject: "%{user_name} erwähnte Sie in #%{id} - %{subject}"
     notification:
-      center: 'Zur Benachrichtigungszentrale'
-      see_in_center: 'Kommentar in Benachrichtigungszentrale öffnen'
-      settings: 'E-Mail-Einstellungen ändern'
-    salutation: 'Hallo %{user}'
-    salutation_full_name: 'Vollständiger Name'
+      center: "Zur Benachrichtigungszentrale"
+      see_in_center: "Kommentar in Benachrichtigungszentrale öffnen"
+      settings: "E-Mail-Einstellungen ändern"
+    salutation: "Hallo %{user}"
+    salutation_full_name: "Vollständiger Name"
     work_packages:
       created_at: "Erstellt %{timestamp} von %{user} "
       login_to_see_all: "Melden Sie sich an, um alle Benachrichtigungen zu sehen."
@@ -3056,12 +3060,12 @@ de:
         one: "1 Benutzer"
         other: "%{count} Benutzer"
       filter:
-        project_member: 'Projektmitglied'
-        not_project_member: 'Kein Projektmitglied'
-        project_group: 'Projektgruppe'
-        not_project_group: 'Keine Projektgruppe'
-        role: 'Rolle'
-        type: 'Typ'
+        project_member: "Projektmitglied"
+        not_project_member: "Kein Projektmitglied"
+        project_group: "Projektgruppe"
+        not_project_group: "Keine Projektgruppe"
+        role: "Rolle"
+        type: "Typ"
       label_search: "Suche nach einzuladenen Benutzern"
       label_search_placeholder: "Suche nach Benutzer oder E-Mail-Adresse"
       label_toggle_all: "Alle Freigaben umschalten"
@@ -3279,7 +3283,6 @@ de:
       oauth_returned_json_error: "OAuth2 meldet einen JSON-Fehler zurück"
       oauth_returned_http_error: "OAuth2 meldet einen Netzwerkfehler zurück"
       oauth_returned_standard_error: "OAuth2 meldet einen internen Fehler zurück"
-      client_id_blank: "ID darf nicht leer sein."
       wrong_token_type_returned: "OAuth2 hat einen Fehler zurückgemeldet. Es wurde der falsche Tokentyp benutzt. Der richtige Tokentyp ist AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 meldet einen Fehler zurück. Bitte kontaktieren Sie den System-Administrator."
       oauth_client_not_found: "OAuth2-Client nicht im 'callback' Endpunkt gefunden (redirect_uri)."

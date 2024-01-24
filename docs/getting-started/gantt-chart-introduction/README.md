@@ -55,7 +55,7 @@ Click in the at the level of the line of the work package you want to map in the
 
 You can change the duration or move the element in the project plan via drag and drop.
 
-![create projectplan](create-projectplan-1571743591204.gif)
+![create project plan](create-projectplan-1571743591204.gif)
 
 ## Edit a project plan
 
@@ -64,5 +64,5 @@ You can edit a project plan by clicking directly in the table and changing work 
 To change the start and end date or the duration of a work package, click directly in the Gantt chart and change it via drag and drop.
 All changes will also be tracked in the work packages [Activity](../../user-guide/activity).
 
-![edit the projectplan](edit-projectplan.gif)
+![edit the project plan](edit-projectplan.gif)
 

@@ -66,7 +66,7 @@ The **Work packages** global module will show a work packages table from the pro
 
 If you double-click to open one of the work packages in full screen view, the work package will highlight which project it belongs to at the top of the page.
 
-![The project containing the current work package is highligted when opening it from outside the project](openproject_global_modules_work_packages_full_view.png)
+![The project containing the current work package is highlighted when opening it from outside the project](openproject_global_modules_work_packages_full_view.png)
 
 ## Calendars
 

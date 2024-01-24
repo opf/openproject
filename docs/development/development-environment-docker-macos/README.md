@@ -16,7 +16,7 @@ Container operations are slower than they would be in a native Linux environment
 
 As Docker runs in a virtual machine, a shared filesystem is needed and applications such as OpenProject with large number of files may experience performance drawbacks.
 
-[Switching to VirtioFS filesystem implementaion](https://www.docker.com/blog/speed-boost-achievement-unlocked-on-docker-desktop-4-6-for-mac/) can help improve the file system performance. Although Virtio FS is available on [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/), [Orbstack + VirtioFS](https://orbstack.dev/) provides a more consistent experience in performance and resource usage; significantly less than docker desktop + VirtioFS. [According to OrbStack](https://docs.orbstack.dev/architecture#docker), the overall architecture is similar to Docker Desktop but more specialized and lightweight.
+[Switching to VirtioFS filesystem implementation](https://www.docker.com/blog/speed-boost-achievement-unlocked-on-docker-desktop-4-6-for-mac/) can help improve the file system performance. Although Virtio FS is available on [Docker Desktop](https://docs.docker.com/desktop/install/mac-install/), [Orbstack + VirtioFS](https://orbstack.dev/) provides a more consistent experience in performance and resource usage; significantly less than docker desktop + VirtioFS. [According to OrbStack](https://docs.orbstack.dev/architecture#docker), the overall architecture is similar to Docker Desktop but more specialized and lightweight.
 
 The following is a benchmark performed on a _MacBook Pro, 2019 16 GB 2667 MHz DDR4 2.3 GHz 8-Core Intel Core i9_
 

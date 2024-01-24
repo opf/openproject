@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Gantt charts
   priority: 865
 description: Create project timelines with Gantt charts in OpenProject
-keywords: gantt chart, timeline, project plan, gantchart
+keywords: gantt chart, timeline, project plan, ganttchart
 ---
 
 # Gantt charts
@@ -41,7 +41,7 @@ Once you have selected the Gantt chart view, you can use the quick context menu.
 > **Note**: if you use the [work packages view](../work-packages/edit-work-package#update-a-work-package-in-a-work-package-table-view), the options in the quick context menu will differ slightly from the ones in the Gantt chart view.
 
 
-![Quick context menu in OpenProjedt Gantt chart work packages view](gantt-context-menu.png)
+![Quick context menu in OpenProject Gantt chart work packages view](gantt-context-menu.png)
 
 You can use any of the following options. 
 

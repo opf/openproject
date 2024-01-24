@@ -34,7 +34,6 @@ RSpec.describe 'Work package navigation', :js, :selenium do
   let(:work_package) { build(:work_package, project:) }
   let(:global_html_title) { Components::HtmlTitle.new }
   let(:project_html_title) { Components::HtmlTitle.new project }
-  let(:wp_display) { Components::WorkPackages::DisplayRepresentation.new }
   let(:wp_title_segment) do
     "#{work_package.type.name}: #{work_package.subject} (##{work_package.id})"
   end
@@ -193,25 +192,6 @@ RSpec.describe 'Work package navigation', :js, :selenium do
     full_page.ensure_page_loaded
   end
 
-  it 'moving back from gantt to "All open" (Regression #30921)' do
-    wp_table = Pages::WorkPackagesTable.new project
-    wp_table.visit!
-
-    # Switch to gantt view
-    wp_display.expect_state 'Table'
-    wp_display.switch_to_gantt_layout
-    wp_display.expect_state 'Gantt'
-
-    # Click on All open
-    find('.op-sidemenu--item-action', text: 'All open').click
-
-    if OpenProject::Configuration.bim?
-      wp_display.expect_state 'Cards'
-    else
-      wp_display.expect_state 'Table'
-    end
-  end
-
   describe 'moving back to filtered list after change' do
     let!(:work_package) { create(:work_package, project:, subject: 'foo') }
     let!(:query) do
@@ -261,29 +241,6 @@ RSpec.describe 'Work package navigation', :js, :selenium do
       full_view.switch_to_tab(tab: 'FILES')
       expect(page)
         .to have_test_selector('op-files-tab--file-list-item-title', text: 'attachment-first.pdf', wait: 10)
-    end
-  end
-
-  context 'with two work packages with card view' do
-    let!(:work_package) { create(:work_package, project:) }
-    let!(:work_package2) { create(:work_package, project:) }
-    let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
-    let(:wp_table) { Pages::WorkPackagesTable.new(project) }
-    let(:cards) { Pages::WorkPackageCards.new(project) }
-
-    it 'can move between card details using info icon (Regression #33451)' do
-      wp_table.visit!
-      wp_table.expect_work_package_listed work_package, work_package2
-      display_representation.switch_to_card_layout
-      cards.expect_work_package_listed work_package, work_package2
-
-      # move to first details
-      split = cards.open_split_view_by_info_icon work_package
-      split.expect_subject
-
-      # move to second details
-      split2 = cards.open_split_view_by_info_icon work_package2
-      split2.expect_subject
     end
   end
 

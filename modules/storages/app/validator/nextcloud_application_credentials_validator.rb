@@ -35,6 +35,7 @@ class NextcloudApplicationCredentialsValidator
     @uri = URI(contract.host).normalize
   end
 
+  # rubocop:disable Metrics/AbcSize
   def call
     return unless contract.model.password_changed?
 
@@ -42,13 +43,15 @@ class NextcloudApplicationCredentialsValidator
                  .httpx
                  .basic_auth(contract.username, contract.password)
                  .head(UTIL.join_uri_path(uri, "remote.php/dav"))
-    case response.status
-    when 200..299
+    case response
+    in { status: 200..299 }
       true
-    when 401
+    in { status: 401 }
       contract.errors.add(:password, :invalid_password)
     else
       contract.errors.add(:password, :unknown_error)
     end
   end
+
+  # rubocop:enable Metrics/AbcSize
 end

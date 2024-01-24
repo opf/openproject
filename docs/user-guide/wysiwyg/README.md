@@ -72,7 +72,7 @@ In supported resources of OpenProject where attachments are allowed, you can add
 
 The image will be automatically uploaded and stored as an attachment. You can adjust the image size in the editor using your mouse.
 
-![resize-imagesshort](resize-imagesshort.gif)
+![Resize Image](resize-imagesshort.gif)
 
 
 
@@ -84,7 +84,7 @@ On top of that, OpenProject adds the following shortcut:
 
 | Shortcut (Windows / Linux) | Shortcut (Mac) | Action                                                       |
 | -------------------------- | -------------- | ------------------------------------------------------------ |
-| CTRL + ENTER               | CMD + ENTER    | **Save changes.** <br />For inline-editable fields, save the field and close it.<br />For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
+| CTRL + ENTER               | CMD + ENTER    | **Save changes.**<br>For inline-editable fields, save the field and close it.<br>For pages with a full WYSIWYG (meetings, wiki pages), submit the form. |
 
 ## Macros
 

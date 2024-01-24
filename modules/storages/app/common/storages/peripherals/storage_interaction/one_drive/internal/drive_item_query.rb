@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -68,24 +68,21 @@ module Storages
             end
 
             def handle_responses(response)
-              json = MultiJson.load(response.body.to_s, symbolize_keys: true)
-              error_data = ::Storages::StorageErrorData.new(source: self, payload: json)
-
-              case response.status
-              when 200..299
-                ServiceResult.success(result: json)
-              when 404
+              case response
+              in { status: 200..299 }
+                ServiceResult.success(result: response.json(symbolize_keys: true))
+              in { status: 404 }
                 ServiceResult.failure(result: :not_found,
-                                      errors: ::Storages::StorageError.new(code: :not_found, data: error_data))
-              when 403
+                                      errors: UTIL.storage_error(response:, code: :not_found, source: self))
+              in { status: 403 }
                 ServiceResult.failure(result: :forbidden,
-                                      errors: ::Storages::StorageError.new(code: :forbidden, data: error_data))
-              when 401
+                                      errors: UTIL.storage_error(response:, code: :forbidden, source: self))
+              in { status: 401 }
                 ServiceResult.failure(result: :unauthorized,
-                                      errors: ::Storages::StorageError.new(code: :unauthorized, data: error_data))
+                                      errors: UTIL.storage_error(response:, code: :unauthorized, source: self))
               else
-                ServiceResult.failure(result: :error,
-                                      errors: ::Storages::StorageError.new(code: :error, data: error_data))
+                data = ::Storages::StorageErrorData.new(source: self, payload: response)
+                ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
               end
             end
 

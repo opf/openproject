@@ -18,10 +18,10 @@ GIT
 
 GIT
   remote: https://github.com/citizensadvice/capybara_accessible_selectors
-  revision: bbf8916810e7c345f7f9ba77893fccbd87c04264
+  revision: 679abc42cce81b43ed81d31bbe7ad6a96dbe7fef
   branch: main
   specs:
-    capybara_accessible_selectors (0.10.0)
+    capybara_accessible_selectors (0.11.0)
       capybara (~> 3.36)
 
 GIT
@@ -423,7 +423,7 @@ GEM
       rb_sys (~> 0.9)
     compare-xml (0.66)
       nokogiri (~> 1.8)
-    concurrent-ruby (1.2.2)
+    concurrent-ruby (1.2.3)
     connection_pool (2.4.1)
     cookiejar (0.3.3)
     crack (0.4.5)
@@ -660,7 +660,7 @@ GEM
     language_server-protocol (3.17.0.3)
     launchy (2.5.2)
       addressable (~> 2.8)
-    lefthook (1.5.7)
+    lefthook (1.6.0)
     letter_opener (1.8.1)
       launchy (>= 2.2, < 3)
     listen (3.8.0)
@@ -696,7 +696,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
-    minitest (5.20.0)
+    minitest (5.21.2)
     msgpack (1.7.2)
     multi_json (1.15.0)
     mustermann (3.0.0)
@@ -756,7 +756,7 @@ GEM
     parallel (1.24.0)
     parallel_tests (4.4.0)
       parallel
-    parser (3.3.0.4)
+    parser (3.3.0.5)
       ast (~> 2.4.1)
       racc
     pdf-core (0.9.0)
@@ -986,7 +986,7 @@ GEM
       websocket (~> 1.0)
     semantic (1.6.1)
     shoulda-context (2.0.0)
-    shoulda-matchers (6.0.0)
+    shoulda-matchers (6.1.0)
       activesupport (>= 5.2.0)
     signet (0.18.0)
       addressable (~> 2.8)
@@ -1292,7 +1292,7 @@ DEPENDENCIES
   with_advisory_lock (~> 5.0.0)
 
 RUBY VERSION
-   ruby 3.2.2p53
+   ruby 3.2.3p157
 
 BUNDLED WITH
-   2.4.7
+   2.5.5

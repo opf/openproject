@@ -5,6 +5,7 @@ da:
         origin_id: Origin Id
       storages/storage:
         creator: Creator
+        drive: Drive ID
         host: Vært
         name: Navn
         provider_type: Provider type

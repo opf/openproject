@@ -46,7 +46,7 @@ To use your plugin in production you have to add it to your [docker](../../insta
 
 You may have a look at some existing OpenProject plugins to get inspiration. It is possible to add new routes, views, models, … and/or overwrite existing ones.
 
-Feel free to ask for help in our [Development Forum](https://community.openproject.com/projects/openproject/forums/7).
+Feel free to ask for help in our [Development Forum](https://community.openproject.org/projects/openproject/forums/7).
 
 ## Steps to release a plugin
 

@@ -284,14 +284,14 @@ pt:
     columns:
       shared: "Compartilhado"
     filters:
-      all_shares: 'Todos os compartilhamentos'
+      all_shares: "Todos os compartilhamentos"
     menu:
-      all: 'Todos'
-      invited: 'Convites'
-      locked: 'Trancado'
-      project_roles: 'Papel no projeto'
-      wp_shares: 'Compartilhamento de pacote de trabalho'
-      groups: 'Grupos'
+      all: "Todos"
+      invited: "Convites"
+      locked: "Trancado"
+      project_roles: "Papel no projeto"
+      wp_shares: "Compartilhamento de pacote de trabalho"
+      groups: "Grupos"
   my:
     access_token:
       failed_to_reset_token: "Falha ao redefinir o token de acesso: %{error}"
@@ -521,6 +521,8 @@ pt:
         row_count: "Número de linhas"
         column_count: "Número de colunas"
         widgets: "Widgets"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Atraso"
         from: "Pacote de trabalho"
@@ -637,6 +639,7 @@ pt:
         readonly: "Somente leitura"
         remaining_hours: "Trabalho restante"
         remaining_time: "Trabalho restante"
+        shared_with_users: "Shared users"
         schedule_manually: "Planjamento manual"
         spent_hours: "Tempo gasto"
         spent_time: "Tempo gasto"
@@ -1789,6 +1792,7 @@ pt:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Arquivos"
   label_filter_add: "Adicionar filtro"
+  label_filter: "Filters"
   label_filter_plural: "Filtros"
   label_filters_toggle: "Mostrar/ocultar filtros"
   label_float: "Ponto flutuante"
@@ -2211,11 +2215,11 @@ pt:
     mention:
       subject: "%{user_name} mencionou você em #%{id} - %{subject}"
     notification:
-      center: 'Para o centro de notificação'
-      see_in_center: 'Ver comentário no centro de notificações'
-      settings: 'Alterar configurações de e-mail'
-    salutation: 'Olá, %{user}!'
-    salutation_full_name: 'Nome completo'
+      center: "Para o centro de notificação"
+      see_in_center: "Ver comentário no centro de notificações"
+      settings: "Alterar configurações de e-mail"
+    salutation: "Olá, %{user}!"
+    salutation_full_name: "Nome completo"
     work_packages:
       created_at: "Criado em %{timestamp} por %{user}"
       login_to_see_all: "Faça o login para ver todas as notificações."
@@ -3058,12 +3062,12 @@ pt:
         one: "1 usuário"
         other: "%{count} usuários"
       filter:
-        project_member: 'Membro do projeto'
-        not_project_member: 'Nenhum membro do projeto'
-        project_group: 'Grupo do projeto'
-        not_project_group: 'Não é um grupo do projeto'
-        role: 'Papel'
-        type: 'Tipo'
+        project_member: "Membro do projeto"
+        not_project_member: "Nenhum membro do projeto"
+        project_group: "Grupo do projeto"
+        not_project_group: "Não é um grupo do projeto"
+        role: "Papel"
+        type: "Tipo"
       label_search: "Buscar usuários para convidar"
       label_search_placeholder: "Buscar por usuário ou endereço de e-mail"
       label_toggle_all: "Alternar todos os compartilhamentos"
@@ -3281,7 +3285,6 @@ pt:
       oauth_returned_json_error: "OAuth2 retornou um erro JSON"
       oauth_returned_http_error: "OAuth2 retornou um erro de rede"
       oauth_returned_standard_error: "OAuth2 retornou um erro interno"
-      client_id_blank: "O ID não pode estar em branco."
       wrong_token_type_returned: "OAuth2 retornou um tipo errado de token, aguardando AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 comunicou um erro. Entre em contato com o administrador do sistema."
       oauth_client_not_found: "Cliente OAuth2 não encontrado no ponto de extremidade 'callback' (redirect_uri)."

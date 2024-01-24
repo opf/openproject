@@ -285,14 +285,14 @@ cs:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'Vše'
-      invited: 'Pozvané'
-      locked: 'Uzamčeno'
-      project_roles: 'Projektové role'
-      wp_shares: 'Work package shares'
-      groups: 'Skupiny'
+      all: "Vše"
+      invited: "Pozvané"
+      locked: "Uzamčeno"
+      project_roles: "Projektové role"
+      wp_shares: "Work package shares"
+      groups: "Skupiny"
   my:
     access_token:
       failed_to_reset_token: "Nepodařilo se obnovit přístupový token: %{error}"
@@ -524,6 +524,8 @@ cs:
         row_count: "Počet řádků"
         column_count: "Počet sloupců"
         widgets: "Widgety"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Zpoždění"
         from: "Pracovní balíček"
@@ -640,6 +642,7 @@ cs:
         readonly: "Pouze pro čtení"
         remaining_hours: "Zbývající práce"
         remaining_time: "Zbývající práce"
+        shared_with_users: "Shared users"
         schedule_manually: "Manuální plánování"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
@@ -1844,6 +1847,7 @@ cs:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Soubory"
   label_filter_add: "Přidat filtr"
+  label_filter: "Filters"
   label_filter_plural: "Filtry"
   label_filters_toggle: "Zobrazit/skrýt filtry"
   label_float: "Desetinné číslo"
@@ -2266,11 +2270,11 @@ cs:
     mention:
       subject: "%{user_name} vás zmínil v #%{id} - %{subject}"
     notification:
-      center: 'Centrum oznámení'
-      see_in_center: 'Zobrazit komentář v oznamovacím centru'
-      settings: 'Změnit nastavení e-mailu'
-    salutation: 'Ahoj %{user}!'
-    salutation_full_name: 'Jméno a příjmení'
+      center: "Centrum oznámení"
+      see_in_center: "Zobrazit komentář v oznamovacím centru"
+      settings: "Změnit nastavení e-mailu"
+    salutation: "Ahoj %{user}!"
+    salutation_full_name: "Jméno a příjmení"
     work_packages:
       created_at: "Vytvořeno v %{timestamp} uživatelem %{user} "
       login_to_see_all: "Přihlaste se pro zobrazení všech oznámení."
@@ -3120,12 +3124,12 @@ cs:
         one: "1 uživatel"
         other: "%{count} uživatelů"
       filter:
-        project_member: 'Člen projektu'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Typ'
+        project_member: "Člen projektu"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Role"
+        type: "Typ"
       label_search: "Search for users to invite"
       label_search_placeholder: "Hledat podle uživatele nebo e-mailové adresy"
       label_toggle_all: "Toggle all shares"
@@ -3345,7 +3349,6 @@ cs:
       oauth_returned_json_error: "OAuth2 vrátil chybu JSON"
       oauth_returned_http_error: "OAuth2 vrátil chybu sítě"
       oauth_returned_standard_error: "OAuth2 vrátil interní chybu"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 vrátil špatný typ tokenu, očekává se AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 nahlásil chybu. Obraťte se na správce systému."
       oauth_client_not_found: "Klient OAuth2 nebyl nalezen v koncovém bodě 'callback' (redirect_uri)."

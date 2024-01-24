@@ -28,7 +28,11 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Work package timeline labels', :js, :selenium, with_settings: { date_format: '%Y-%m-%d' } do
+RSpec.describe 'Work package timeline labels',
+               :js,
+               :selenium,
+               with_flag: { show_separate_gantt_module: true },
+               with_settings: { date_format: '%Y-%m-%d' } do
   let(:user) { create(:admin) }
   let(:today) { Time.zone.today }
   let(:tomorrow) { Time.zone.tomorrow }
@@ -54,7 +58,7 @@ RSpec.describe 'Work package timeline labels', :js, :selenium, with_settings: { 
   let(:type) { create(:type_bug) }
   let(:milestone_type) { create(:type, is_milestone: true) }
 
-  let(:project) { create(:project, types: [type, milestone_type]) }
+  let(:project) { create(:project, types: [type, milestone_type], enabled_module_names: %i[work_package_tracking gantt]) }
   let(:settings_menu) { Components::WorkPackages::SettingsMenu.new }
   let(:config_modal) { Components::Timelines::ConfigurationModal.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
@@ -70,6 +74,17 @@ RSpec.describe 'Work package timeline labels', :js, :selenium, with_settings: { 
     )
   end
 
+  let!(:query_tl) do
+    query = build(:query_with_view_gantt, user:, project:)
+    query.filters.clear
+    query.timeline_visible = true
+    query.name = 'Query with Timeline'
+
+    query.save!
+
+    query
+  end
+
   def custom_value_for(str)
     custom_field.custom_options.find { |co| co.value == str }.try(:id)
   end
@@ -80,9 +95,8 @@ RSpec.describe 'Work package timeline labels', :js, :selenium, with_settings: { 
     work_package
     login_as(user)
 
-    wp_timeline.visit!
-    wp_timeline.expect_timeline! open: false
-    wp_timeline.toggle_timeline
+    wp_timeline.visit_query(query_tl)
+    wp_timeline.expect_timeline!
   end
 
   it 'shows and allows to configure labels' do
@@ -124,7 +138,7 @@ RSpec.describe 'Work package timeline labels', :js, :selenium, with_settings: { 
                       farRight: milestone_work_package.status.name
 
     # Save the query
-    settings_menu.open_and_save_query 'changed labels'
+    settings_menu.open_and_save_query_as 'changed labels'
     wp_timeline.expect_title 'changed labels'
 
     # Check the query

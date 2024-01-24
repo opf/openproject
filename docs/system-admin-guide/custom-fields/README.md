@@ -63,7 +63,7 @@ To **edit an existing custom field** select the appropriate tab and click on the
 
 To **delete** a custom field, click on the delete icon next to the respective custom field in the list.
 
-![Edit or delete a custom field in OpenProject adminstration](system-admin-edit-delete-custom-field.png)
+![Edit or delete a custom field in OpenProject administration](system-admin-edit-delete-custom-field.png)
 
 
 

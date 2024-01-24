@@ -132,6 +132,11 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     },
     duration: {
       sortable: "#{WorkPackage.table_name}.duration"
+    },
+    shared_with_users: {
+      sortable: false,
+      groupable: false
+
     }
   }
 

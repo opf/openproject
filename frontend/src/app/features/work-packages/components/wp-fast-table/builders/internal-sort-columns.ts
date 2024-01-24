@@ -11,3 +11,7 @@ export const internalContextMenuColumn = {
 export const internalBaselineColumn = {
   id: '__internal-baseline',
 } as QueryColumn;
+
+export const sharedUserColumn = {
+ id: 'sharedWithUsers',
+} as QueryColumn;

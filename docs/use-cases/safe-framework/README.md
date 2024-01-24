@@ -77,7 +77,7 @@ You can also use [project templates](../../user-guide/projects/project-templates
 
 ### Solution Trains
 
-Project portfolios allow you to view, organise, sort and filter through all projects and their hierarchies. Since individual projects represent Agile Release trains, project porfolios  can be used to access information at a **Solution train**-level.
+Project portfolios allow you to view, organise, sort and filter through all projects and their hierarchies. Since individual projects represent Agile Release trains, project portfolios can be used to access information at a **Solution train**-level.
 
 ![All Features and User Stories across all teams](all_features_across_all_teams.png)
 

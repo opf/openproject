@@ -5,6 +5,7 @@ fa:
         origin_id: Origin Id
       storages/storage:
         creator: Creator
+        drive: Drive ID
         host: میزبان
         name: نام
         provider_type: Provider type

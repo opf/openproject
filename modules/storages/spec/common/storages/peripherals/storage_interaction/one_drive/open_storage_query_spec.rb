@@ -89,5 +89,21 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenStorageQ
         )
       end
     end
+
+    context 'with network errors' do
+      before do
+        request = HTTPX::Request.new(:get, 'https://my.timeout.org/')
+        httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
+
+        allow(OpenProject).to receive(:httpx).and_return(httpx_double)
+      end
+
+      it 'must return an error with wrapped network error response' do
+        error = subject.call(user:)
+        expect(error).to be_failure
+        expect(error.result).to eq(:error)
+        expect(error.error_payload).to be_a(HTTPX::ErrorResponse)
+      end
+    end
   end
 end

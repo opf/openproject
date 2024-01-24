@@ -5,6 +5,7 @@ tr:
         origin_id: Kaynak kimliği
       storages/storage:
         creator: Oluşturan
+        drive: Drive ID
         host: Sunucu
         name: İsim
         provider_type: Sağlayıcı türü

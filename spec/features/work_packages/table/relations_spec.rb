@@ -10,7 +10,6 @@ RSpec.describe 'Work Package table relations', :js, with_ee: %i[work_package_que
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:relations) { Components::WorkPackages::Relations.new(relations) }
   let(:columns) { Components::WorkPackages::Columns.new }
-  let(:wp_timeline) { Pages::WorkPackagesTimeline.new(project) }
 
   let!(:wp_from) { create(:work_package, project:, type: type2) }
   let!(:wp_to) { create(:work_package, project:, type:) }
@@ -79,23 +78,6 @@ RSpec.describe 'Work Package table relations', :js, with_ee: %i[work_package_que
       expect(page).to have_css(".__relations-expanded-from-#{wp_from.id}", count: 2)
       related_row = page.first(".__relations-expanded-from-#{wp_from.id}")
       expect(related_row).to have_css('.wp-table--relation-cell-td', text: wp_to.type)
-
-      # Open Timeline
-      # Should be initially closed
-      wp_timeline.expect_timeline!(open: false)
-
-      # Enable timeline
-      wp_timeline.toggle_timeline
-      wp_timeline.expect_timeline!(open: true)
-
-      # 3 WPs + 2 expanded relations
-      wp_timeline.expect_row_count(5)
-
-      # Collapse
-      wp_from_row.find(".#{type_column_follows} .wp-table--relation-indicator").click
-      expect(page).to have_no_css(".__relations-expanded-from-#{wp_from.id}")
-
-      wp_timeline.expect_row_count(3)
     end
   end
 

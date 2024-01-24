@@ -282,14 +282,14 @@ it:
     columns:
       shared: "Condivisa"
     filters:
-      all_shares: 'Tutte le condivisioni'
+      all_shares: "Tutte le condivisioni"
     menu:
-      all: 'Tutti'
-      invited: 'Invitato'
-      locked: 'Bloccato'
-      project_roles: 'Ruoli del progetto'
-      wp_shares: 'Condivisioni della macro-attività'
-      groups: 'Gruppi'
+      all: "Tutti"
+      invited: "Invitato"
+      locked: "Bloccato"
+      project_roles: "Ruoli del progetto"
+      wp_shares: "Condivisioni della macro-attività"
+      groups: "Gruppi"
   my:
     access_token:
       failed_to_reset_token: "Impossibile reimpostare il token di accesso: %{error}"
@@ -519,6 +519,8 @@ it:
         row_count: "Numero di righe"
         column_count: "Numero di colonne"
         widgets: "Widget"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Ritardo"
         from: "Macro-attività"
@@ -635,6 +637,7 @@ it:
         readonly: "Sola lettura"
         remaining_hours: "Lavoro rimanente"
         remaining_time: "Lavoro rimanente"
+        shared_with_users: "Shared users"
         schedule_manually: "Programmazione manuale"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
@@ -1787,6 +1790,7 @@ it:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "File"
   label_filter_add: "Aggiungi filtro"
+  label_filter: "Filtri"
   label_filter_plural: "Filtri"
   label_filters_toggle: "Mostra/nascondi filtri"
   label_float: "Virgola mobile"
@@ -2209,11 +2213,11 @@ it:
     mention:
       subject: "%{user_name} ti ha menzionato nel n.%{id} - %{subject}"
     notification:
-      center: 'Al centro notifiche'
-      see_in_center: 'Vedi commento nel centro notifiche'
-      settings: 'Modifica impostazioni email'
-    salutation: 'Ciao %{user}'
-    salutation_full_name: 'Nome e cognome'
+      center: "Al centro notifiche"
+      see_in_center: "Vedi commento nel centro notifiche"
+      settings: "Modifica impostazioni email"
+    salutation: "Ciao %{user}"
+    salutation_full_name: "Nome e cognome"
     work_packages:
       created_at: "Creato il %{timestamp} da %{user} "
       login_to_see_all: "Accedi per visualizzare tutte le notifiche."
@@ -3059,12 +3063,12 @@ it:
         one: "1 utente"
         other: "%{count} utenti"
       filter:
-        project_member: 'Membro del progetto'
-        not_project_member: 'Non è membro del progetto'
-        project_group: 'Gruppo di progetto'
-        not_project_group: 'Non è gruppo di progetto'
-        role: 'Ruolo'
-        type: 'Tipo'
+        project_member: "Membro del progetto"
+        not_project_member: "Non è membro del progetto"
+        project_group: "Gruppo di progetto"
+        not_project_group: "Non è gruppo di progetto"
+        role: "Ruolo"
+        type: "Tipo"
       label_search: "Cerca gli utenti da invitare"
       label_search_placeholder: "Cerca per utente o indirizzo e-mail"
       label_toggle_all: "Attiva/disattiva tutte le condivisioni"
@@ -3282,7 +3286,6 @@ it:
       oauth_returned_json_error: "OAuth2 ha restituito un errore JSON"
       oauth_returned_http_error: "OAuth2 ha restituito un errore di rete"
       oauth_returned_standard_error: "OAuth2 ha restituito un errore interno"
-      client_id_blank: "Il campo ID non può essere vuoto."
       wrong_token_type_returned: "OAuth2 ha restituito un tipo di token sbagliato, aspettandosi AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 ha segnalato un errore. Contatta l'amministratore di sistema."
       oauth_client_not_found: "Client OAuth2 non trovato nell'endpoint 'callback' (redirect_uri)."

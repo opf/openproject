@@ -285,14 +285,14 @@ ka:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'ყველა გაზიარებული'
+      all_shares: "ყველა გაზიარებული"
     menu:
-      all: 'ყველა'
-      invited: 'მოწვეულია'
-      locked: 'ჩაკეტილია'
-      project_roles: 'პროექტის როლები'
-      wp_shares: 'Work package shares'
-      groups: 'ჯგუფები'
+      all: "ყველა"
+      invited: "მოწვეულია"
+      locked: "ჩაკეტილია"
+      project_roles: "პროექტის როლები"
+      wp_shares: "Work package shares"
+      groups: "ჯგუფები"
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -522,6 +522,8 @@ ka:
         row_count: "მწკრივების რაოდენობა"
         column_count: "Number of columns"
         widgets: "ვიჯეტები"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "დაყოვნება"
         from: "სამუშაო პაკეტი"
@@ -638,6 +640,7 @@ ka:
         readonly: "მხოლოდ წაკითხვისთვის"
         remaining_hours: "დარჩენილი სამუშაო"
         remaining_time: "დარჩენილი სამუშაო"
+        shared_with_users: "Shared users"
         schedule_manually: "Manual scheduling"
         spent_hours: "დახარჯული დრო"
         spent_time: "დახარჯული დრო"
@@ -1790,6 +1793,7 @@ ka:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "ფაილები"
   label_filter_add: "ფილტრის დამატება"
+  label_filter: "Filters"
   label_filter_plural: "ფილტრები"
   label_filters_toggle: "Show/hide filters"
   label_float: "მცურავი"
@@ -2212,11 +2216,11 @@ ka:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'გამარჯობა %{user}'
-    salutation_full_name: 'სრული სახელი'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "გამარჯობა %{user}"
+    salutation_full_name: "სრული სახელი"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -3062,12 +3066,12 @@ ka:
         one: "1 მომხმარებელი"
         other: "%{count} მომხმარებელი"
       filter:
-        project_member: 'პროექტის წევრი'
-        not_project_member: 'Not project member'
-        project_group: 'პროექტის ჯგუფი'
-        not_project_group: 'Not project group'
-        role: 'როლი'
-        type: 'ტიპი'
+        project_member: "პროექტის წევრი"
+        not_project_member: "Not project member"
+        project_group: "პროექტის ჯგუფი"
+        not_project_group: "Not project group"
+        role: "როლი"
+        type: "ტიპი"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3285,7 +3289,6 @@ ka:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

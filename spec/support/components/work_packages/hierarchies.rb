@@ -75,8 +75,8 @@ module Components
         expect(page).to have_css('.wp-table--table-header .icon-no-hierarchy')
       end
 
-      def expect_indent(work_package, indent: true, outdent: true)
-        context_menu.open_for work_package
+      def expect_indent(work_package, indent: true, outdent: true, card_view: false)
+        context_menu.open_for(work_package, card_view:)
 
         if indent
           context_menu.expect_options 'Indent hierarchy'
