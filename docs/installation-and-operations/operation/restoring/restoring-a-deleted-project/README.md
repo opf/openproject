@@ -20,6 +20,9 @@ that only contains the missing data.
 This is then saved to `missing_data.sql` which will be used to import
 the missing data into the current database.
 
+Before performing the next step, edit the `dump.sql` file and change the missing project ID
+to the correct value in the head of the file where it says 'DEFINE MISSING PROJECT ID HERE'.
+
 ```
 cat dump.sql | psql -d openproject_backup
 

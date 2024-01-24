@@ -1,6 +1,33 @@
-set search_path="public";
+SET search_path="public";
+SET client_min_messages TO WARNING;
 
 BEGIN;
+
+CREATE SCHEMA helpers;
+
+CREATE OR REPLACE FUNCTION helpers.missing_project_id()
+RETURNS integer
+AS
+$$
+SELECT 773 -- DEFINE MISSING PROJECT ID HERE
+$$
+LANGUAGE SQL IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION helpers.camel_to_down_case(identifier TEXT)
+RETURNS text
+AS
+$$
+SELECT regexp_replace(lower(regexp_replace(identifier, E'([A-Z])', E'\_\\1','g')), E'^_', '', 'g');
+$$
+LANGUAGE SQL IMMUTABLE STRICT;
+
+CREATE OR REPLACE FUNCTION helpers.pluralize(table_name TEXT)
+RETURNS text
+AS
+$$
+SELECT regexp_replace(lower(regexp_replace(table_name, E'y$', E'ie','g')), E'([^s])$', E'\\1s', 'g');
+$$
+LANGUAGE SQL IMMUTABLE STRICT;
 
 -- remove all the missing_* tables we created during the last try if there are any
 DO
@@ -10,7 +37,7 @@ BEGIN
 FOR table_to_remove IN (
   select table_name
   from information_schema.tables
-  where table_schema = 'public' and table_name like 'missing_%'
+  where table_schema = 'instance_community' and table_name like 'missing_%'
 )
 LOOP
   EXECUTE 'DROP TABLE IF EXISTS ' || table_to_remove || ' CASCADE';
@@ -18,225 +45,125 @@ END LOOP;
 END;
 $$;
 
-CREATE TABLE missing_projects AS (
-  select * from projects where id = 773
-);
+-- restore missing rows in all tables where deleted project was referenced (via project_id)
+DO
+$$
+DECLARE source_table TEXT;
+DECLARE source_column TEXT;
+BEGIN
 
-UPDATE missing_projects SET lft = null, rgt = null;
+EXECUTE 'CREATE TABLE missing_projects AS (select * from projects where id = ' || helpers.missing_project_id() || ');';
 
-CREATE TABLE missing_work_packages AS (
-  select * from work_packages where project_id = 773
-);
+FOR source_table, source_column IN (
+  select table_name, column_name
+  from information_schema.columns
+  where table_schema = 'instance_community' and column_name = 'project_id'
+    and table_name not like '%_journals'
+    and table_name != 'grids'
+    -- apparently grids do not get deleted when a project is which is why we skip them here
+    -- otherwise there will be an 'already exists' error during restoration later
+)
+LOOP
+  EXECUTE 'CREATE TABLE missing_' || source_table || ' AS (' ||
+    'SELECT * from ' || source_table || ' where project_id = ' || helpers.missing_project_id() || ')';
+END LOOP;
+
+END;
+$$;
+
+-- BEGIN: restore rows related to restrored rows above
+--
+-- todo: This could probably be scripted to cover all relevant tables as well.
+--       But for now it's easier to just list them by hand. This is the only
+--       part of this script which may have to be adapted in the future to
+--       account for new tables or relations.
+
 CREATE TABLE missing_attachments AS (
   select * from attachments where container_type = 'WorkPackage' and container_id in (
     select id from missing_work_packages
   )
 );
-CREATE TABLE missing_meetings AS (
-  select * from meetings where project_id = 773
-);
+
 CREATE TABLE missing_meeting_contents AS (
   select * from meeting_contents where meeting_id in (select id from missing_meetings)
 );
-CREATE TABLE missing_documents AS (
-  select * from documents where project_id = 773
-);
-CREATE TABLE missing_forums AS (
-  select * from forums where project_id = 773
-);
+
 CREATE TABLE missing_messages AS (
   select * from messages where forum_id in (select id from missing_forums)
 );
-CREATE TABLE missing_wikis AS (
-  select * from wikis where project_id = 773
-);
+
 CREATE TABLE missing_wiki_pages AS (
   select * from wiki_pages where wiki_id in (select id from missing_wikis)
 );
-CREATE TABLE missing_budgets AS (
-  select * from budgets where project_id = 773
-);
-CREATE TABLE missing_repositories AS (
-  select * from repositories where project_id = 773
-);
+
 CREATE TABLE missing_changesets AS (
   select * from changesets where repository_id in (select id from missing_repositories)
 );
-CREATE TABLE missing_news AS (
-  select * from news where project_id = 773
-);
-CREATE TABLE missing_time_entries AS (
-  select * from time_entries where project_id = 773
-);
--- along projects, work packages and attachments, plus the respective journals,
--- we would technically also have to restore the following:
---   budgets, changesets, news, time entries
-CREATE TABLE missing_journals AS (
-  select * from journals where
-    (journable_id = 773 and journable_type = 'Project') or
-    (journable_id in (select id from missing_work_packages) and journable_type = 'WorkPackage') or
-    (journable_id in (select id from missing_attachments) and journable_type = 'Attachment') or
-    (journable_id in (select id from missing_meetings) and journable_type = 'Meeting') or
-    (journable_id in (select id from missing_meeting_contents) and journable_type = 'MeetingContent') or
-    (journable_id in (select id from missing_documents) and journable_type = 'Document') or
-    (journable_id in (select id from missing_messages) and journable_type = 'Message') or
-    (journable_id in (select id from missing_wiki_pages) and journable_type = 'WikiPage') or
-    (journable_id in (select id from missing_budgets) and journable_type = 'Budget') or
-    (journable_id in (select id from missing_changesets) and journable_type = 'Changeset') or
-    (journable_id in (select id from missing_news) and journable_type = 'News') or
-    (journable_id in (select id from missing_time_entries) and journable_type = 'TimeEntry')
-);
-CREATE TABLE missing_project_journals AS (
-  select * from project_journals where id in (
-    select data_id from missing_journals where journable_type = 'Project'
-  )
-);
-CREATE TABLE missing_work_package_journals AS (
-  select * from work_package_journals where id in (
-    select data_id from missing_journals where journable_type = 'WorkPackage'
-  )
-);
-CREATE TABLE missing_attachment_journals AS (
-  select * from attachment_journals where id in (
-    select data_id from missing_journals where journable_type = 'Attachment'
-  )
-);
-CREATE TABLE missing_meeting_journals AS (
-  select * from meeting_journals where id in (
-    select data_id from missing_journals where journable_type = 'Meeting'
-  )
-);
-CREATE TABLE missing_meeting_content_journals AS (
-  select * from meeting_content_journals where id in (
-    select data_id from missing_journals where journable_type = 'MeetingContent'
-  )
-);
-CREATE TABLE missing_document_journals AS (
-  select * from document_journals where id in (
-    select data_id from missing_journals where journable_type = 'Document'
-  )
-);
-CREATE TABLE missing_message_journals AS (
-  select * from message_journals where id in (
-    select data_id from missing_journals where journable_type = 'Message'
-  )
-);
-CREATE TABLE missing_wiki_page_journals AS (
-  select * from wiki_page_journals where id in (
-    select data_id from missing_journals where journable_type = 'WikiPage'
-  )
-);
-CREATE TABLE missing_budget_journals AS (
-  select * from budget_journals where id in (
-    select data_id from missing_journals where journable_type = 'Budget'
-  )
-);
-CREATE TABLE missing_changeset_journals AS (
-  select * from changeset_journals where id in (
-    select data_id from missing_journals where journable_type = 'Changeset'
-  )
-);
-CREATE TABLE missing_news_journals AS (
-  select * from news_journals where id in (
-    select data_id from missing_journals where journable_type = 'News'
-  )
-);
-CREATE TABLE missing_time_entry_journals AS (
-  select * from time_entry_journals where id in (
-    select data_id from missing_journals where journable_type = 'TimeEntry'
-  )
+
+CREATE TABLE missing_member_roles AS (
+  select * from member_roles where member_id in (select id from missing_members)
 );
 
-CREATE TABLE missing_custom_values AS (
-  select * from custom_values where
-    (customized_type = 'Project' and customized_id = 773) or
-    (customized_type = 'WorkPackage' and customized_id in (select id from missing_work_packages))
-    -- only these are present in the dump, but could also include versions, groups, users, spent time, ...
-    -- in the final version we should just loop over `distinct(customized_type)`
-);
+-- END: restore rows related to restrored rows above
 
-CREATE TABLE missing_enabled_modules AS (
-  select * from enabled_modules where project_id = 773
-);
+-- create missing journals and journal data
+DO
+$$
+DECLARE journable_type_name TEXT;
+DECLARE clauses TEXT;
+DECLARE clause TEXT;
+BEGIN
 
-CREATE TABLE missing_versions AS (
-  select * from versions where project_id = 773
-);
+clauses := '(journable_id = ' || helpers.missing_project_id() || ' and journable_type = ''Project'')';
 
-CREATE TABLE missing_categories AS (
-  select * from categories where project_id = 773
-);
+FOR journable_type_name IN (
+  select distinct(journable_type) from journals where journable_type != 'Project'
+)
+LOOP
+  clause := '(journable_id in (select id from missing_' ||
+    helpers.pluralize(helpers.camel_to_down_case(journable_type_name)) ||
+    ') and journable_type = ''' || journable_type_name ||
+    ''')';
+  clauses := FORMAT('%s or %s', clauses, clause);
+END LOOP;
 
-CREATE TABLE missing_cost_entries AS (
-  select * from cost_entries where project_id = 773
-);
+EXECUTE 'CREATE TABLE missing_journals AS (select * from journals where ' || clauses || ')';
 
-CREATE TABLE missing_cost_queries AS (
-  select * from cost_queries where project_id = 773
-);
+FOR journable_type_name IN (
+  select distinct(journable_type) from journals where journable_type != 'Project'
+)
+LOOP
+  EXECUTE 'CREATE TABLE missing_' || helpers.camel_to_down_case(journable_type_name) || '_journals AS (' ||
+    'select * from ' || helpers.camel_to_down_case(journable_type_name) || '_journals where id in (' ||
+      'select data_id from missing_journals where journable_type = ''' || journable_type_name || '''))';
+END LOOP;
 
-CREATE TABLE missing_custom_actions_projects AS (
-  select * from custom_actions_projects where project_id = 773
-);
+END;
+$$;
 
-CREATE TABLE missing_custom_fields_projects AS (
-  select * from custom_fields_projects where project_id = 773
-);
+-- create missing custom values
+DO
+$$
+DECLARE customized_type_name TEXT;
+DECLARE query TEXT;
+DECLARE clause TEXT;
+BEGIN
 
-CREATE TABLE missing_done_statuses_for_project AS (
-  select * from done_statuses_for_project where project_id = 773
-);
+query := 'SELECT * from custom_values where (customized_type = ''Project'' and customized_id = ' || helpers.missing_project_id() || ')';
 
-CREATE TABLE missing_grids AS (
-  select * from grids where project_id = 773
-);
+FOR customized_type_name IN (select distinct(customized_type) from custom_values where customized_type != 'Project')
+LOOP
+  clause := '(customized_type = ''' || customized_type_name ||
+    ''' and customized_id in (select id from missing_' ||
+    helpers.pluralize(helpers.camel_to_down_case(customized_type_name)) || '))';
+  query := FORMAT('%s or %s', query, clause);
+END LOOP;
 
-CREATE TABLE missing_members AS (
-  select * from members where project_id = 773
-);
+EXECUTE 'CREATE TABLE missing_custom_values AS (' || query || ')';
 
-CREATE TABLE missing_notification_settings as (
-  select * from notification_settings where project_id = 773
-);
+END;
+$$;
 
-CREATE TABLE missing_rates as (
-  select * from rates where project_id = 773
-);
-
-CREATE TABLE missing_projects_types as (
-  select * from projects_types where project_id = 773
-);
-
-CREATE TABLE missing_queries AS (
-  select * from queries where project_id = 773
-);
-
-CREATE TABLE missing_time_entry_activities_projects AS (
-  select * from time_entry_activities_projects where project_id = 773
-);
-
-CREATE TABLE missing_webhooks_projects AS (
-  select * from webhooks_projects where project_id = 773
-);
-
-CREATE TABLE missing_project_storages AS (
-  select * from project_storages where project_id = 773
-);
-
-CREATE TABLE missing_notifications AS (
-  select * from notifications where project_id = 773
-);
-
-CREATE TABLE missing_version_settings AS (
-  select * from version_settings where project_id = 773
-);
-
-CREATE TABLE missing_enumerations AS (
-  select * from enumerations where project_id = 773
-);
-
-CREATE TABLE missing_ifc_models AS (
-  select * from ifc_models where project_id = 773
-);
+DROP SCHEMA helpers CASCADE;
 
 COMMIT;

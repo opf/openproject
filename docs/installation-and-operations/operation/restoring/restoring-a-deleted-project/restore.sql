@@ -1,4 +1,4 @@
-set search_path="public";
+SET search_path="public";
 
 BEGIN;
 
@@ -10,6 +10,8 @@ FOR table_to_copy IN (
   select table_name
   from information_schema.tables
   where table_schema = 'public' and table_name like 'missing_%'
+  order by table_name = 'missing_projects' desc
+  -- order such that project is re-created first to satisfy foreign key constraints
 )
 LOOP
   raise notice 'Restoring % to %', table_to_copy, REPLACE(table_to_copy, 'missing_', '');
