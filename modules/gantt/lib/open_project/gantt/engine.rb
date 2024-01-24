@@ -49,6 +49,8 @@ module OpenProject::Gantt
 
         OpenProject::AccessControl.permission(:view_work_packages).tap do |add|
           add.controller_actions << 'gantt/gantt/index'
+          add.controller_actions << 'gantt/gantt/menu'
+          add.controller_actions << 'gantt/menus/show'
         end
       end
 
@@ -71,6 +73,15 @@ module OpenProject::Gantt
            icon: 'view-timeline',
            if: should_render_global_menu_item
 
+      menu :global_menu,
+           :global_gantt_query_select,
+           { controller: '/gantt/gantt', action: 'index' },
+           parent: :gantt,
+           partial: 'gantt/menus/menu',
+           last: true,
+           caption: :label_gantt_chart,
+           if: should_render_global_menu_item
+
       menu :project_menu,
            :gantt,
            { controller: '/gantt/gantt', action: 'index' },
@@ -86,7 +97,7 @@ module OpenProject::Gantt
            :gantt_query_select,
            { controller: '/gantt/gantt', action: 'index' },
            parent: :gantt,
-           partial: 'gantt/gantt/menu',
+           partial: 'gantt/menus/menu',
            last: true,
            caption: :label_gantt_chart,
            if: ->(project) { should_render_project_menu.call(project) }
