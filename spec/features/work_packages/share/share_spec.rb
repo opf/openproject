@@ -301,7 +301,7 @@ RSpec.describe 'Work package sharing',
         columns.uncheck_all save_changes: false
         columns.add 'ID', save_changes: false
         columns.add 'Subject', save_changes: false
-        columns.add 'Shared users', save_changes: false
+        columns.add 'Shared with', save_changes: false
         columns.apply
 
 
