@@ -285,14 +285,14 @@ ko:
     columns:
       shared: "공유됨"
     filters:
-      all_shares: '모든 공유'
+      all_shares: "모든 공유"
     menu:
-      all: '모두'
-      invited: '초대됨'
-      locked: '잠김'
-      project_roles: '프로젝트 역할'
-      wp_shares: '작업 패키지 공유'
-      groups: '그룹'
+      all: "모두"
+      invited: "초대됨"
+      locked: "잠김"
+      project_roles: "프로젝트 역할"
+      wp_shares: "작업 패키지 공유"
+      groups: "그룹"
   my:
     access_token:
       failed_to_reset_token: "액세스 토큰을 재설정하지 못함: %{error}"
@@ -638,6 +638,7 @@ ko:
         readonly: "읽기 전용"
         remaining_hours: "남은 작업"
         remaining_time: "남은 작업"
+        shared_with_users: "Shared users"
         schedule_manually: "수동 스케줄링"
         spent_hours: "소비한 시간"
         spent_time: "소비한 시간"
@@ -2187,11 +2188,11 @@ ko:
     mention:
       subject: "%{user_name} 님이 #%{id} - %{subject}에서 회원님을 멘션했습니다"
     notification:
-      center: '알림 센터로'
-      see_in_center: '알림 센터의 코멘트 보기'
-      settings: '이메일 설정 변경'
-    salutation: '안녕하세요, %{user} 님'
-    salutation_full_name: '전체 이름'
+      center: "알림 센터로"
+      see_in_center: "알림 센터의 코멘트 보기"
+      settings: "이메일 설정 변경"
+    salutation: "안녕하세요, %{user} 님"
+    salutation_full_name: "전체 이름"
     work_packages:
       created_at: "%{timestamp}, %{user} 님이 생성함 "
       login_to_see_all: "로그인하여 모든 알림을 확인하세요."
@@ -3031,12 +3032,12 @@ ko:
         one: "사용자 1명"
         other: "사용자 %{count}명"
       filter:
-        project_member: '프로젝트 멤버'
-        not_project_member: '프로젝트 멤버 아님'
-        project_group: '프로젝트 그룹'
-        not_project_group: '프로젝트 그룹 없음'
-        role: '역할'
-        type: '타입'
+        project_member: "프로젝트 멤버"
+        not_project_member: "프로젝트 멤버 아님"
+        project_group: "프로젝트 그룹"
+        not_project_group: "프로젝트 그룹 없음"
+        role: "역할"
+        type: "타입"
       label_search: "초대할 사용자 검색"
       label_search_placeholder: "사용자 또는 이메일 주소로 검색"
       label_toggle_all: "모든 공유 토글"

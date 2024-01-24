@@ -285,14 +285,14 @@ cs:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'Vše'
-      invited: 'Pozvané'
-      locked: 'Uzamčeno'
-      project_roles: 'Projektové role'
-      wp_shares: 'Work package shares'
-      groups: 'Skupiny'
+      all: "Vše"
+      invited: "Pozvané"
+      locked: "Uzamčeno"
+      project_roles: "Projektové role"
+      wp_shares: "Work package shares"
+      groups: "Skupiny"
   my:
     access_token:
       failed_to_reset_token: "Nepodařilo se obnovit přístupový token: %{error}"
@@ -642,6 +642,7 @@ cs:
         readonly: "Pouze pro čtení"
         remaining_hours: "Zbývající práce"
         remaining_time: "Zbývající práce"
+        shared_with_users: "Shared users"
         schedule_manually: "Manuální plánování"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
@@ -2269,11 +2270,11 @@ cs:
     mention:
       subject: "%{user_name} vás zmínil v #%{id} - %{subject}"
     notification:
-      center: 'Centrum oznámení'
-      see_in_center: 'Zobrazit komentář v oznamovacím centru'
-      settings: 'Změnit nastavení e-mailu'
-    salutation: 'Ahoj %{user}!'
-    salutation_full_name: 'Jméno a příjmení'
+      center: "Centrum oznámení"
+      see_in_center: "Zobrazit komentář v oznamovacím centru"
+      settings: "Změnit nastavení e-mailu"
+    salutation: "Ahoj %{user}!"
+    salutation_full_name: "Jméno a příjmení"
     work_packages:
       created_at: "Vytvořeno v %{timestamp} uživatelem %{user} "
       login_to_see_all: "Přihlaste se pro zobrazení všech oznámení."
@@ -3123,12 +3124,12 @@ cs:
         one: "1 uživatel"
         other: "%{count} uživatelů"
       filter:
-        project_member: 'Člen projektu'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Typ'
+        project_member: "Člen projektu"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Role"
+        type: "Typ"
       label_search: "Search for users to invite"
       label_search_placeholder: "Hledat podle uživatele nebo e-mailové adresy"
       label_toggle_all: "Toggle all shares"

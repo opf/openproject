@@ -282,14 +282,14 @@ nl:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Reset-toegangstoken mislukt: %{error}"
@@ -637,6 +637,7 @@ nl:
         readonly: "Alleen lezen"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared users"
         schedule_manually: "Handmatige planning"
         spent_hours: "Bestede tijd"
         spent_time: "Bestede tijd"
@@ -2212,11 +2213,11 @@ nl:
     mention:
       subject: "%{user_name} heeft je genoemd in #%{id} - %{subject}"
     notification:
-      center: 'Naar meldingscentrum'
-      see_in_center: 'Bekijk commentaar in notificatie center'
-      settings: 'E-mailinstellingen wijzigen'
-    salutation: 'Hallo %{user}'
-    salutation_full_name: 'Full name'
+      center: "Naar meldingscentrum"
+      see_in_center: "Bekijk commentaar in notificatie center"
+      settings: "E-mailinstellingen wijzigen"
+    salutation: "Hallo %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Aangemaakt op %{timestamp} door %{user} "
       login_to_see_all: "Log in om alle meldingen te zien."
@@ -3060,12 +3061,12 @@ nl:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Rol'
-        type: 'Type'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Rol"
+        type: "Type"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"

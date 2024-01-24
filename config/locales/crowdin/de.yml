@@ -282,14 +282,14 @@ de:
     columns:
       shared: "Geteilt"
     filters:
-      all_shares: 'Alle Freigaben'
+      all_shares: "Alle Freigaben"
     menu:
-      all: 'Alle'
-      invited: 'Eingeladen'
-      locked: 'Gesperrt'
-      project_roles: 'Projektrollen'
-      wp_shares: 'Arbeitspaket-Freigaben'
-      groups: 'Gruppen'
+      all: "Alle"
+      invited: "Eingeladen"
+      locked: "Gesperrt"
+      project_roles: "Projektrollen"
+      wp_shares: "Arbeitspaket-Freigaben"
+      groups: "Gruppen"
   my:
     access_token:
       failed_to_reset_token: "Zusatztoken konnte nicht zurückgesetzt werden: %{error}"
@@ -635,6 +635,7 @@ de:
         readonly: "Nur Lesezugriff"
         remaining_hours: "Verbleibender Aufwand"
         remaining_time: "Verbleibender Aufwand"
+        shared_with_users: "Shared users"
         schedule_manually: "Manuelle Planung"
         spent_hours: "Aufgewendete Zeit"
         spent_time: "Aufgewendete Zeit"
@@ -2210,11 +2211,11 @@ de:
     mention:
       subject: "%{user_name} erwähnte Sie in #%{id} - %{subject}"
     notification:
-      center: 'Zur Benachrichtigungszentrale'
-      see_in_center: 'Kommentar in Benachrichtigungszentrale öffnen'
-      settings: 'E-Mail-Einstellungen ändern'
-    salutation: 'Hallo %{user}'
-    salutation_full_name: 'Vollständiger Name'
+      center: "Zur Benachrichtigungszentrale"
+      see_in_center: "Kommentar in Benachrichtigungszentrale öffnen"
+      settings: "E-Mail-Einstellungen ändern"
+    salutation: "Hallo %{user}"
+    salutation_full_name: "Vollständiger Name"
     work_packages:
       created_at: "Erstellt %{timestamp} von %{user} "
       login_to_see_all: "Melden Sie sich an, um alle Benachrichtigungen zu sehen."
@@ -3059,12 +3060,12 @@ de:
         one: "1 Benutzer"
         other: "%{count} Benutzer"
       filter:
-        project_member: 'Projektmitglied'
-        not_project_member: 'Kein Projektmitglied'
-        project_group: 'Projektgruppe'
-        not_project_group: 'Keine Projektgruppe'
-        role: 'Rolle'
-        type: 'Typ'
+        project_member: "Projektmitglied"
+        not_project_member: "Kein Projektmitglied"
+        project_group: "Projektgruppe"
+        not_project_group: "Keine Projektgruppe"
+        role: "Rolle"
+        type: "Typ"
       label_search: "Suche nach einzuladenen Benutzern"
       label_search_placeholder: "Suche nach Benutzer oder E-Mail-Adresse"
       label_toggle_all: "Alle Freigaben umschalten"

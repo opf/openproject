@@ -284,14 +284,14 @@ pt:
     columns:
       shared: "Compartilhado"
     filters:
-      all_shares: 'Todos os compartilhamentos'
+      all_shares: "Todos os compartilhamentos"
     menu:
-      all: 'Todos'
-      invited: 'Convites'
-      locked: 'Trancado'
-      project_roles: 'Papel no projeto'
-      wp_shares: 'Compartilhamento de pacote de trabalho'
-      groups: 'Grupos'
+      all: "Todos"
+      invited: "Convites"
+      locked: "Trancado"
+      project_roles: "Papel no projeto"
+      wp_shares: "Compartilhamento de pacote de trabalho"
+      groups: "Grupos"
   my:
     access_token:
       failed_to_reset_token: "Falha ao redefinir o token de acesso: %{error}"
@@ -639,6 +639,7 @@ pt:
         readonly: "Somente leitura"
         remaining_hours: "Trabalho restante"
         remaining_time: "Trabalho restante"
+        shared_with_users: "Shared users"
         schedule_manually: "Planjamento manual"
         spent_hours: "Tempo gasto"
         spent_time: "Tempo gasto"
@@ -2214,11 +2215,11 @@ pt:
     mention:
       subject: "%{user_name} mencionou você em #%{id} - %{subject}"
     notification:
-      center: 'Para o centro de notificação'
-      see_in_center: 'Ver comentário no centro de notificações'
-      settings: 'Alterar configurações de e-mail'
-    salutation: 'Olá, %{user}!'
-    salutation_full_name: 'Nome completo'
+      center: "Para o centro de notificação"
+      see_in_center: "Ver comentário no centro de notificações"
+      settings: "Alterar configurações de e-mail"
+    salutation: "Olá, %{user}!"
+    salutation_full_name: "Nome completo"
     work_packages:
       created_at: "Criado em %{timestamp} por %{user}"
       login_to_see_all: "Faça o login para ver todas as notificações."
@@ -3061,12 +3062,12 @@ pt:
         one: "1 usuário"
         other: "%{count} usuários"
       filter:
-        project_member: 'Membro do projeto'
-        not_project_member: 'Nenhum membro do projeto'
-        project_group: 'Grupo do projeto'
-        not_project_group: 'Não é um grupo do projeto'
-        role: 'Papel'
-        type: 'Tipo'
+        project_member: "Membro do projeto"
+        not_project_member: "Nenhum membro do projeto"
+        project_group: "Grupo do projeto"
+        not_project_group: "Não é um grupo do projeto"
+        role: "Papel"
+        type: "Tipo"
       label_search: "Buscar usuários para convidar"
       label_search_placeholder: "Buscar por usuário ou endereço de e-mail"
       label_toggle_all: "Alternar todos os compartilhamentos"

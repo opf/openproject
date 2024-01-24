@@ -282,14 +282,14 @@ zh-CN:
     columns:
       shared: "共享"
     filters:
-      all_shares: '全部共享'
+      all_shares: "全部共享"
     menu:
-      all: '全部'
-      invited: '已邀请'
-      locked: '已锁定'
-      project_roles: '项目角色'
-      wp_shares: '工作包共享'
-      groups: '组'
+      all: "全部"
+      invited: "已邀请"
+      locked: "已锁定"
+      project_roles: "项目角色"
+      wp_shares: "工作包共享"
+      groups: "组"
   my:
     access_token:
       failed_to_reset_token: "无法重置访问令牌: %{error}"
@@ -518,7 +518,7 @@ zh-CN:
         column_count: "列数"
         widgets: "小部件"
       oauth_client:
-        client: "Client ID"
+        client: "客户端 ID"
       relation:
         delay: "延迟"
         from: "工作包"
@@ -635,6 +635,7 @@ zh-CN:
         readonly: "只读"
         remaining_hours: "剩余工作"
         remaining_time: "剩余工作"
+        shared_with_users: "Shared users"
         schedule_manually: "手动计划"
         spent_hours: "已耗工时"
         spent_time: "已耗工时"
@@ -1761,7 +1762,7 @@ zh-CN:
   label_feeds_access_key_type: "RSS 订阅"
   label_file_plural: "文件"
   label_filter_add: "添加筛选器"
-  label_filter: "Filters"
+  label_filter: "筛选器"
   label_filter_plural: "筛选器"
   label_filters_toggle: "显示/隐藏筛选器"
   label_float: "浮点数"
@@ -2184,11 +2185,11 @@ zh-CN:
     mention:
       subject: "%{user_name} 在 #%{id} - %{subject} 中提及了您"
     notification:
-      center: '前往通知中心'
-      see_in_center: '在通知中心查看评论'
-      settings: '更改电子邮件设置'
-    salutation: '%{user}，您好！'
-    salutation_full_name: '全名'
+      center: "前往通知中心"
+      see_in_center: "在通知中心查看评论"
+      settings: "更改电子邮件设置"
+    salutation: "%{user}，您好！"
+    salutation_full_name: "全名"
     work_packages:
       created_at: "由 %{user} 于 %{timestamp} 创建"
       login_to_see_all: "登录以查看所有通知。"
@@ -3024,12 +3025,12 @@ zh-CN:
         one: "1 个用户"
         other: "%{count} 个用户"
       filter:
-        project_member: '项目成员'
-        not_project_member: '非项目成员'
-        project_group: '项目组'
-        not_project_group: '非项目组'
-        role: '角色'
-        type: '类型'
+        project_member: "项目成员"
+        not_project_member: "非项目成员"
+        project_group: "项目组"
+        not_project_group: "非项目组"
+        role: "角色"
+        type: "类型"
       label_search: "搜索要邀请的用户"
       label_search_placeholder: "按用户名或电子邮件地址搜索"
       label_toggle_all: "切换所有共享"

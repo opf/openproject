@@ -285,14 +285,14 @@ ar:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -644,6 +644,7 @@ ar:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared users"
         schedule_manually: "Manual scheduling"
         spent_hours: "الوقت المستهلك"
         spent_time: "الوقت المستهلك"
@@ -2323,11 +2324,11 @@ ar:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -3183,12 +3184,12 @@ ar:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'الدور'
-        type: 'النّوع'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "الدور"
+        type: "النّوع"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"

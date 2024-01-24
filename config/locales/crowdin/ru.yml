@@ -284,14 +284,14 @@ ru:
     columns:
       shared: "Общий доступ"
     filters:
-      all_shares: 'Все используемое совместно'
+      all_shares: "Все используемое совместно"
     menu:
-      all: 'Все'
-      invited: 'Приглашённые'
-      locked: 'Заблокировано'
-      project_roles: 'Роли проекта'
-      wp_shares: 'Пакеты работ используемые совместно'
-      groups: 'Группы'
+      all: "Все"
+      invited: "Приглашённые"
+      locked: "Заблокировано"
+      project_roles: "Роли проекта"
+      wp_shares: "Пакеты работ используемые совместно"
+      groups: "Группы"
   my:
     access_token:
       failed_to_reset_token: "Не удалось сбросить маркер доступа: %{error}"
@@ -641,6 +641,7 @@ ru:
         readonly: "Только для чтения"
         remaining_hours: "Оставшаяся работа"
         remaining_time: "Оставшаяся работа"
+        shared_with_users: "Shared users"
         schedule_manually: "Ручное планирование"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"
@@ -2268,11 +2269,11 @@ ru:
     mention:
       subject: "%{user_name} упомянул вас в #%{id} - %{subject}"
     notification:
-      center: 'В центр уведомлений'
-      see_in_center: 'Смотрите комментарий в центре уведомлений'
-      settings: 'Изменить настройки электронной почты'
-    salutation: 'Здравствуйте, %{user}'
-    salutation_full_name: 'Полное имя'
+      center: "В центр уведомлений"
+      see_in_center: "Смотрите комментарий в центре уведомлений"
+      settings: "Изменить настройки электронной почты"
+    salutation: "Здравствуйте, %{user}"
+    salutation_full_name: "Полное имя"
     work_packages:
       created_at: "Создано %{timestamp} пользователем %{user} "
       login_to_see_all: "Войдите, чтобы увидеть все уведомления."
@@ -3120,12 +3121,12 @@ ru:
         one: "1 пользователь"
         other: "%{count} пользователей"
       filter:
-        project_member: 'Участник проекта'
-        not_project_member: 'Не участник проекта'
-        project_group: 'Группа проекта'
-        not_project_group: 'Не группа проекта'
-        role: 'Роль'
-        type: 'Тип'
+        project_member: "Участник проекта"
+        not_project_member: "Не участник проекта"
+        project_group: "Группа проекта"
+        not_project_group: "Не группа проекта"
+        role: "Роль"
+        type: "Тип"
       label_search: "Искать пользователей для приглашения"
       label_search_placeholder: "Поиск по пользователю или адресу электронной почты"
       label_toggle_all: "Переключить все общие ресурсы"

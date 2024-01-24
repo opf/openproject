@@ -280,14 +280,14 @@ uk:
     columns:
       shared: "Поширені"
     filters:
-      all_shares: 'Усі поширення'
+      all_shares: "Усі поширення"
     menu:
-      all: 'Усі'
-      invited: 'Запрошені'
-      locked: 'Заблоковані'
-      project_roles: 'Ролі в проєкті'
-      wp_shares: 'Поширення пакета робіт'
-      groups: 'Групи'
+      all: "Усі"
+      invited: "Запрошені"
+      locked: "Заблоковані"
+      project_roles: "Ролі в проєкті"
+      wp_shares: "Поширення пакета робіт"
+      groups: "Групи"
   my:
     access_token:
       failed_to_reset_token: "Не вдалося відновити маркер доступу: %{error}"
@@ -637,6 +637,7 @@ uk:
         readonly: "Лише читання"
         remaining_hours: "Залишок роботи"
         remaining_time: "Залишок роботи"
+        shared_with_users: "Shared users"
         schedule_manually: "Ручне планування"
         spent_hours: "Трудовитрати"
         spent_time: "Трудовитрати"
@@ -2264,11 +2265,11 @@ uk:
     mention:
       subject: "Користувач %{user_name} згадав вас у #%{id} – %{subject}"
     notification:
-      center: 'Центр сповіщень'
-      see_in_center: 'Переглянути коментарі у центрі сповіщень'
-      settings: 'Змінити налаштування електронної пошти'
-    salutation: 'Добрий день, %{user}!'
-    salutation_full_name: 'Повне ім’я'
+      center: "Центр сповіщень"
+      see_in_center: "Переглянути коментарі у центрі сповіщень"
+      settings: "Змінити налаштування електронної пошти"
+    salutation: "Добрий день, %{user}!"
+    salutation_full_name: "Повне ім’я"
     work_packages:
       created_at: "Створено о %{timestamp} користувачем %{user} "
       login_to_see_all: "Увійдіть, щоб переглянути всі сповіщення."
@@ -3116,12 +3117,12 @@ uk:
         one: "1 користувач"
         other: "Користувачів: %{count}"
       filter:
-        project_member: 'Учасник проєкту'
-        not_project_member: 'Не учасник проєкту'
-        project_group: 'Група проєкту'
-        not_project_group: 'Не група проєкту'
-        role: 'роль'
-        type: 'Тип'
+        project_member: "Учасник проєкту"
+        not_project_member: "Не учасник проєкту"
+        project_group: "Група проєкту"
+        not_project_group: "Не група проєкту"
+        role: "роль"
+        type: "Тип"
       label_search: "Шукати й запрошувати користувачів"
       label_search_placeholder: "Пошук за користувачем або електронною адресою"
       label_toggle_all: "Перемкнути всі спільні ресурси"

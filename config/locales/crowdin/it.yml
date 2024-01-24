@@ -282,14 +282,14 @@ it:
     columns:
       shared: "Condivisa"
     filters:
-      all_shares: 'Tutte le condivisioni'
+      all_shares: "Tutte le condivisioni"
     menu:
-      all: 'Tutti'
-      invited: 'Invitato'
-      locked: 'Bloccato'
-      project_roles: 'Ruoli del progetto'
-      wp_shares: 'Condivisioni della macro-attività'
-      groups: 'Gruppi'
+      all: "Tutti"
+      invited: "Invitato"
+      locked: "Bloccato"
+      project_roles: "Ruoli del progetto"
+      wp_shares: "Condivisioni della macro-attività"
+      groups: "Gruppi"
   my:
     access_token:
       failed_to_reset_token: "Impossibile reimpostare il token di accesso: %{error}"
@@ -637,6 +637,7 @@ it:
         readonly: "Sola lettura"
         remaining_hours: "Lavoro rimanente"
         remaining_time: "Lavoro rimanente"
+        shared_with_users: "Shared users"
         schedule_manually: "Programmazione manuale"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
@@ -2212,11 +2213,11 @@ it:
     mention:
       subject: "%{user_name} ti ha menzionato nel n.%{id} - %{subject}"
     notification:
-      center: 'Al centro notifiche'
-      see_in_center: 'Vedi commento nel centro notifiche'
-      settings: 'Modifica impostazioni email'
-    salutation: 'Ciao %{user}'
-    salutation_full_name: 'Nome e cognome'
+      center: "Al centro notifiche"
+      see_in_center: "Vedi commento nel centro notifiche"
+      settings: "Modifica impostazioni email"
+    salutation: "Ciao %{user}"
+    salutation_full_name: "Nome e cognome"
     work_packages:
       created_at: "Creato il %{timestamp} da %{user} "
       login_to_see_all: "Accedi per visualizzare tutte le notifiche."
@@ -3062,12 +3063,12 @@ it:
         one: "1 utente"
         other: "%{count} utenti"
       filter:
-        project_member: 'Membro del progetto'
-        not_project_member: 'Non è membro del progetto'
-        project_group: 'Gruppo di progetto'
-        not_project_group: 'Non è gruppo di progetto'
-        role: 'Ruolo'
-        type: 'Tipo'
+        project_member: "Membro del progetto"
+        not_project_member: "Non è membro del progetto"
+        project_group: "Gruppo di progetto"
+        not_project_group: "Non è gruppo di progetto"
+        role: "Ruolo"
+        type: "Tipo"
       label_search: "Cerca gli utenti da invitare"
       label_search_placeholder: "Cerca per utente o indirizzo e-mail"
       label_toggle_all: "Attiva/disattiva tutte le condivisioni"

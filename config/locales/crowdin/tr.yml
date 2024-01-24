@@ -285,14 +285,14 @@ tr:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Erişim anahtarı sıfırlaması başarısız oldu: %{error}"
@@ -639,6 +639,7 @@ tr:
         readonly: "Salt okunur"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared users"
         schedule_manually: "Manuel zamanlamayı etkinleştir"
         spent_hours: "Harcanan zaman"
         spent_time: "Harcanan zaman"
@@ -2214,11 +2215,11 @@ tr:
     mention:
       subject: "%{user_name}, #%{id} - %{subject} içinde sizden bahsetti"
     notification:
-      center: 'bildirim merkezi'
-      see_in_center: 'Bildirim merkezinde yorumu görün'
-      settings: 'E-posta ayarlarını değiştir'
-    salutation: 'Merhaba %{user}'
-    salutation_full_name: 'Full name'
+      center: "bildirim merkezi"
+      see_in_center: "Bildirim merkezinde yorumu görün"
+      settings: "E-posta ayarlarını değiştir"
+    salutation: "Merhaba %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "%{timestamp} tarihinde %{user} tarafından oluşturuldu"
       login_to_see_all: "Tüm bildirimleri görmek için giriş yapın."
@@ -3060,12 +3061,12 @@ tr:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Rol'
-        type: 'Tür'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Rol"
+        type: "Tür"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"

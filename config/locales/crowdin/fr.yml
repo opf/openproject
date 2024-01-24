@@ -285,14 +285,14 @@ fr:
     columns:
       shared: "Partagé"
     filters:
-      all_shares: 'Tous les partages'
+      all_shares: "Tous les partages"
     menu:
-      all: 'Tout'
-      invited: 'Invité'
-      locked: 'Verrouillé'
-      project_roles: 'Rôle du projet'
-      wp_shares: 'Répartition des lots de travail'
-      groups: 'Groupes'
+      all: "Tout"
+      invited: "Invité"
+      locked: "Verrouillé"
+      project_roles: "Rôle du projet"
+      wp_shares: "Répartition des lots de travail"
+      groups: "Groupes"
   my:
     access_token:
       failed_to_reset_token: "Impossible de réinitialiser le jeton d’accès : %{error}"
@@ -640,6 +640,7 @@ fr:
         readonly: "Lecture seule"
         remaining_hours: "Travail restant"
         remaining_time: "Travail restant"
+        shared_with_users: "Shared users"
         schedule_manually: "Planification manuelle"
         spent_hours: "Temps passé"
         spent_time: "Temps passé"
@@ -2215,11 +2216,11 @@ fr:
     mention:
       subject: "%{user_name} vous a mentionné dans #%{id} - %{subject}"
     notification:
-      center: 'Vers le centre de notifications'
-      see_in_center: 'Voir le commentaire dans le centre de notifications'
-      settings: 'Modifier les paramètres d''e-mail'
-    salutation: 'Bonjour %{user}'
-    salutation_full_name: 'Nom complet'
+      center: "Vers le centre de notifications"
+      see_in_center: "Voir le commentaire dans le centre de notifications"
+      settings: "Modifier les paramètres d'e-mail"
+    salutation: "Bonjour %{user}"
+    salutation_full_name: "Nom complet"
     work_packages:
       created_at: "Créé le %{timestamp} par %{user} "
       login_to_see_all: "Connectez-vous pour voir toutes les notifications."
@@ -3064,12 +3065,12 @@ fr:
         one: "1 utilisateur"
         other: "%{count} utilisateurs"
       filter:
-        project_member: 'Membre du projet'
-        not_project_member: 'Non membre du projet'
-        project_group: 'Groupe de projet'
-        not_project_group: 'Non groupe du projet'
-        role: 'Rôle'
-        type: 'Type'
+        project_member: "Membre du projet"
+        not_project_member: "Non membre du projet"
+        project_group: "Groupe de projet"
+        not_project_group: "Non groupe du projet"
+        role: "Rôle"
+        type: "Type"
       label_search: "Rechercher des utilisateurs à inviter"
       label_search_placeholder: "Rechercher par nom ou par adresse mail..."
       label_toggle_all: "Activer/désactiver tous les partages"

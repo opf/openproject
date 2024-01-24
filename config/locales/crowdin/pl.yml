@@ -282,14 +282,14 @@ pl:
     columns:
       shared: "Udostępniono"
     filters:
-      all_shares: 'Wszystkie udostępnienia'
+      all_shares: "Wszystkie udostępnienia"
     menu:
-      all: 'Wszyscy'
-      invited: 'Zaproszeni'
-      locked: 'Zablokowani'
-      project_roles: 'Role w projekcie'
-      wp_shares: 'Udostępnienia pakietu roboczego'
-      groups: 'Grupy'
+      all: "Wszyscy"
+      invited: "Zaproszeni"
+      locked: "Zablokowani"
+      project_roles: "Role w projekcie"
+      wp_shares: "Udostępnienia pakietu roboczego"
+      groups: "Grupy"
   my:
     access_token:
       failed_to_reset_token: "Nie można zresetować tokena dostępu: %{error}"
@@ -639,6 +639,7 @@ pl:
         readonly: "Tylko do odczytu"
         remaining_hours: "Pozostała praca"
         remaining_time: "Pozostała praca"
+        shared_with_users: "Shared users"
         schedule_manually: "Planowanie ręczne"
         spent_hours: "Czas pracy"
         spent_time: "Czas pracy"
@@ -2266,11 +2267,11 @@ pl:
     mention:
       subject: "%{user_name} wspomniał o tobie w #%{id} - %{subject}"
     notification:
-      center: 'Do centrum powiadomień'
-      see_in_center: 'Zobacz komentarz w centrum powiadomień'
-      settings: 'Zmień ustawienia poczty elektronicznej'
-    salutation: 'Witaj %{user}'
-    salutation_full_name: 'Imię i nazwisko'
+      center: "Do centrum powiadomień"
+      see_in_center: "Zobacz komentarz w centrum powiadomień"
+      settings: "Zmień ustawienia poczty elektronicznej"
+    salutation: "Witaj %{user}"
+    salutation_full_name: "Imię i nazwisko"
     work_packages:
       created_at: "Utworzono %{timestamp}, autor %{user} "
       login_to_see_all: "Zaloguj się, aby zobaczyć wszystkie powiadomienia."
@@ -3119,12 +3120,12 @@ pl:
         one: "1 użytkownik"
         other: "%{count} użytkowników"
       filter:
-        project_member: 'Członek projektu'
-        not_project_member: 'Nie jest członkiem projektu'
-        project_group: 'Grupa projektu'
-        not_project_group: 'Nie jest grupą projektu'
-        role: 'Rola'
-        type: 'Typ'
+        project_member: "Członek projektu"
+        not_project_member: "Nie jest członkiem projektu"
+        project_group: "Grupa projektu"
+        not_project_group: "Nie jest grupą projektu"
+        role: "Rola"
+        type: "Typ"
       label_search: "Wyszukaj użytkowników do zaproszenia"
       label_search_placeholder: "Wyszukaj użytkownika lub adres e-mail"
       label_toggle_all: "Przełącz wszystkie udostępnienia"

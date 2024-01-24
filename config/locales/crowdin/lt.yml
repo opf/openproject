@@ -282,14 +282,14 @@ lt:
     columns:
       shared: "Bendrinta"
     filters:
-      all_shares: 'Visi bendrinimai'
+      all_shares: "Visi bendrinimai"
     menu:
-      all: 'Visi'
-      invited: 'Pakviesti'
-      locked: 'Užrakinti'
-      project_roles: 'Projekto vaidmenys'
-      wp_shares: 'Darbo paketų bendrinimai'
-      groups: 'Grupės'
+      all: "Visi"
+      invited: "Pakviesti"
+      locked: "Užrakinti"
+      project_roles: "Projekto vaidmenys"
+      wp_shares: "Darbo paketų bendrinimai"
+      groups: "Grupės"
   my:
     access_token:
       failed_to_reset_token: "Atpažinimo rakto nepavyko nustatyti iš naujo: %{error}"
@@ -522,7 +522,7 @@ lt:
         column_count: "Stulpelių skaičius"
         widgets: "Valdikliai"
       oauth_client:
-        client: "Client ID"
+        client: "Kliento ID"
       relation:
         delay: "Vėlavimas"
         from: "Darbų paketas"
@@ -639,6 +639,7 @@ lt:
         readonly: "Tik skaitymui"
         remaining_hours: "Liko darbo"
         remaining_time: "Liko darbo"
+        shared_with_users: "Shared users"
         schedule_manually: "Rankinis laiko parinkimas"
         spent_hours: "Praleista laiko"
         spent_time: "Praleista laiko"
@@ -1843,7 +1844,7 @@ lt:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Failai"
   label_filter_add: "Pridėti filtrą"
-  label_filter: "Filters"
+  label_filter: "Filtrai"
   label_filter_plural: "Filtrai"
   label_filters_toggle: "Rodyti/slėpti filtrus"
   label_float: "Skaičius su kableliu"
@@ -2266,11 +2267,11 @@ lt:
     mention:
       subject: "%{user_name} paminėjo jus #%{id} - %{subject}"
     notification:
-      center: 'Į pranešimų centrą'
-      see_in_center: 'Žiūrėkite komentarą pranešimų centre'
-      settings: 'Keisti e-pašto nustatymus'
-    salutation: 'Sveiki, %{user}'
-    salutation_full_name: 'Pilnas vardas'
+      center: "Į pranešimų centrą"
+      see_in_center: "Žiūrėkite komentarą pranešimų centre"
+      settings: "Keisti e-pašto nustatymus"
+    salutation: "Sveiki, %{user}"
+    salutation_full_name: "Pilnas vardas"
     work_packages:
       created_at: "Sukūrė %{user} %{timestamp} "
       login_to_see_all: "Prisijunkite, norėdami pamatyti visus pranešimus."
@@ -3117,12 +3118,12 @@ lt:
         one: "1 naudotojas"
         other: "%{count} naudotojai"
       filter:
-        project_member: 'Projekto nariai'
-        not_project_member: 'Ne projekto nariai'
-        project_group: 'Projekto grupė'
-        not_project_group: 'Ne projekto grupė'
-        role: 'Vaidmuo'
-        type: 'Tipas'
+        project_member: "Projekto nariai"
+        not_project_member: "Ne projekto nariai"
+        project_group: "Projekto grupė"
+        not_project_group: "Ne projekto grupė"
+        role: "Vaidmuo"
+        type: "Tipas"
       label_search: "Ieškoti naudotojų pakvietimui"
       label_search_placeholder: "Ieškoti pagal naudotoją arba e-pašto adresą"
       label_toggle_all: "Perjungti visus bendrinimus"

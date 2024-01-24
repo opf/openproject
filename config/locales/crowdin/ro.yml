@@ -285,14 +285,14 @@ ro:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Resetarea tokenului de acces nu a reușit: %{error}"
@@ -641,6 +641,7 @@ ro:
         readonly: "Doar citire"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared users"
         schedule_manually: "Programarea manuală"
         spent_hours: "Timp consumat"
         spent_time: "Timp consumat"
@@ -2242,11 +2243,11 @@ ro:
     mention:
       subject: "%{user_name} te-a menționat în #%{id} - %{subject}"
     notification:
-      center: 'Centrul de notificare'
-      see_in_center: 'Vezi comentariul în centrul de notificări'
-      settings: 'Modificare setări e-mail'
-    salutation: 'Salut %{user}'
-    salutation_full_name: 'Full name'
+      center: "Centrul de notificare"
+      see_in_center: "Vezi comentariul în centrul de notificări"
+      settings: "Modificare setări e-mail"
+    salutation: "Salut %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Creat la %{timestamp} de %{user} "
       login_to_see_all: "Autentifică-te pentru a vedea toate notificările."
@@ -3094,12 +3095,12 @@ ro:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Rol'
-        type: 'Tip'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Rol"
+        type: "Tip"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"

@@ -284,14 +284,14 @@ hu:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Hozzáférési token helyreállítása sikertelen: %{error}"
@@ -637,6 +637,7 @@ hu:
         readonly: "Olvasható"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared users"
         schedule_manually: "Kézi ütemezés\n"
         spent_hours: "Eltöltött idő"
         spent_time: "Eltöltött idő"
@@ -2213,10 +2214,10 @@ hu:
       subject: "%{user_name} megemlített téged itt: #%{id} - %{subject}"
     notification:
       center: "Az értesítési központba\n"
-      see_in_center: 'Lásd a megjegyzést az értesítési központban'
+      see_in_center: "Lásd a megjegyzést az értesítési központban"
       settings: "E-mail beállítások módosítása\n"
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "%{timestamp} időpontban %{user} létrehozta"
       login_to_see_all: "Jelentkezzen be az összes értesítés megtekintéséhez.\n"
@@ -3061,12 +3062,12 @@ hu:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Szerepkör'
-        type: 'Típus'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Szerepkör"
+        type: "Típus"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
