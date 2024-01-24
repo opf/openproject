@@ -175,6 +175,11 @@ en:
     members_no_results: No members to display.
     no_results: No storages set up yet.
     notice_successful_storage_connection: Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it.
+    oauth_grant_nudge_modal:
+      body: You have successfully added a storage to this project. Would you like to login in the storage and authenticate your user to start using the storage?
+      cancel_button_label: I will do it later
+      confirm_button_label: 'Yes'
+      title: Storage added
     open_project_storage_modal:
       success:
         a: Integration setup completed

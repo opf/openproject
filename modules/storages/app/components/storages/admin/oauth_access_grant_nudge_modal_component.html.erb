@@ -1,0 +1,38 @@
+<%=
+  render(
+    Primer::Alpha::Dialog.new(
+      id: dialog_id,
+      title:,
+      data: {
+        'application-target': 'dynamic',
+        controller: 'storages--oauth-access-grant-nudge-modal'
+      }
+    )
+  ) do |dialog|
+    dialog.with_body(id: dialog_body_id) { body_text }
+
+    dialog.with_footer(show_divider: false) do
+      concat(
+        render(
+          Primer::Beta::Button.new(
+            scheme: :default,
+            size: :medium,
+            aria: { label: cancel_button_text },
+            data: { 'close-dialog-id': dialog_id }
+          )
+        ) { cancel_button_text }
+      )
+
+      concat(
+        render(
+          Primer::Beta::Button.new(
+            scheme: :primary,
+            tag: :a,
+            href: confirm_button_url,
+            aria: { label: confirm_button_text }
+          )
+        ) { confirm_button_text }
+      )
+    end
+  end
+%>
