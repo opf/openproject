@@ -95,6 +95,7 @@ RSpec.describe 'Work package sharing',
       # Clicking on the share button opens a modal which lists all of the users a work package
       # is explicitly shared with.
       # Project members are not listed unless the work package is also shared with them explicitly.
+      work_package_page.expect_share_button_count(6)
       work_package_page.click_share_button
 
       aggregate_failures "Initial shares list" do
@@ -226,6 +227,7 @@ RSpec.describe 'Work package sharing',
       end
 
       share_modal.close
+      work_package_page.expect_share_button_count(7)
       work_package_page.click_share_button
 
       aggregate_failures "Re-opening the modal after changes performed" do
