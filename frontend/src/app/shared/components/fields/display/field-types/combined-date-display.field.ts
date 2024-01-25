@@ -44,7 +44,7 @@ export class CombinedDateDisplayField extends DateDisplayField {
     }
 
     if (this.startDate && (this.startDate === this.dueDate)) {
-      this.renderSingleDate('startDate', element);
+      this.renderSingleDate('dueDate', element);
       return;
     }
 
