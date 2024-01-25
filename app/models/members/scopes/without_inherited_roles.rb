@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,36 +24,15 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module API
-  module V3
-    module Shares
-      class SharesAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::UrlPropsParsingHelper
+module Members::Scopes
+  module WithoutInheritedRoles
+    extend ActiveSupport::Concern
 
-        resources :shares do
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: Member,
-                      scope: -> do
-                        Member
-                        .visible(User.current)
-                        .without_inherited_roles
-                        .of_any_entity
-                        .includes(ShareRepresenter.to_eager_load)
-                      end,
-                      api_name: 'Share')
-                 .mount
-
-          route_param :id, type: Integer, desc: 'Share ID' do
-            after_validation do
-              @member = Member.where.not(entity: nil).visible(User.current).find(params[:id])
-            end
-
-            get &::API::V3::Utilities::Endpoints::Show.new(model: Member,
-                                                           api_name: 'Share').mount
-          end
-        end
+    class_methods do
+      def without_inherited_roles
+        joins(:member_roles).where(member_roles: { inherited_from: nil })
       end
     end
   end
