@@ -21,7 +21,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Custom field label cut off in project details widget [[#31144](https://community.openproject.org/wp/31144)]
 - Fixed: Attachments not showing until new attachment is uploaded [[#31148](https://community.openproject.org/wp/31148)]
 - Fixed: WP disappears when dragging work package in board [[#31157](https://community.openproject.org/wp/31157)]
-- Fixed: Announcements: missing localisation, wrong date and missing formatting options [[#31159](https://community.openproject.org/wp/31159)]
+- Fixed: Announcements: missing localization, wrong date and missing formatting options [[#31159](https://community.openproject.org/wp/31159)]
 - Fixed: Action board: Adding a list will reset the manual left/right order of lists. [[#31161](https://community.openproject.org/wp/31161)]
 - Fixed: Installed 10.0.0 incorrect security badge [[#31178](https://community.openproject.org/wp/31178)]
 - Fixed: Translation missing on instance dashboard page [[#31180](https://community.openproject.org/wp/31180)]

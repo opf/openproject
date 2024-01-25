@@ -91,7 +91,7 @@ The new and additional tool tips in the OpenProject application will make the na
 - Fixed: Backup failed: pg_dump: password authentication failed for user "openproject" [#44251](https://community.openproject.org/wp/44251)
 
 - Fixed: "Group by" options in Cost report are broken [#44265](https://community.openproject.org/wp/44265)
-- Fixed: Files list: inconsistencies in spacing and colours  [#44266](https://community.openproject.org/wp/44266)
+- Fixed: Files list: inconsistencies in spacing and colors [#44266](https://community.openproject.org/wp/44266)
 - Fixed: API call for custom_options does not work custom fields in time_entries [#44281](https://community.openproject.org/wp/44281)
 - Fixed: Email Reminder:  Daily reminders can only be configured to be delivered at a full hour. [#44300](https://community.openproject.org/wp/44300)
 - Changed: Cleanup placeholders of editable attributes [#40133](https://community.openproject.org/wp/40133)

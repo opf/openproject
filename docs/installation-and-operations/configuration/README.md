@@ -196,7 +196,7 @@ OpenProject allows you to create and maintain an LDAP connection with optional s
 
 **Note:** These variables are applied whenever `db:seed` rake task is being executed. This happens on every packaged `configure` call or when the seeder container job is being run, so be aware that these changes might happen repeatedly.
 
-The connection can be set with the following options. Please note that "EXAMPLE" stands for an arbitrary name (expressable in ENV keys)  which will become the name of the connection. In this case, "example" and "examplefilter" for the synchronized filter.
+The connection can be set with the following options. Please note that "EXAMPLE" stands for an arbitrary name (expressible in ENV keys)  which will become the name of the connection. In this case, "example" and "examplefilter" for the synchronized filter.
 
 The name of the LDAP connection is derived from the ENV key behind `SEED_LDAP_`, so you need to take care to use only valid characters. If you need to place an underscore, use a double underscore to encode it e.g., `my__ldap`.
 
@@ -624,7 +624,7 @@ Remote git repositories will be checked out here.
 note: to be verified, maybe option was removed, not in environement variables list
 ```
 
-## apiv3 enable basic auth
+## APIv3 enable basic auth
 
 You can control basic auth access to the APIv3 with the following configuration option:
 

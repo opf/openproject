@@ -89,7 +89,7 @@ After creating a meeting, you can set up a **meeting agenda**.
 
 ## Create or edit meeting minutes
 
-The **meeting minutes** are automatically created when closing the agenda in the details view of the meeting and selecting the [**Close**](#create-or-edit-the-meeting-agenda) option.
+The **meeting minutes** are automatically created when closing the agenda in the details view of the meeting and selecting the [Close](#create-or-edit-the-meeting-agenda) option.
 
 The agenda is closed and copied to the meeting minutes page as a basis. You can start editing the minutes now. The same way as in the [wiki](../../wiki) pages, you can format the text, link minutes to work packages, documents and include [work package lists or other macros](../../wysiwyg/#embedding-of-work-package-attributes-and-project-attributes).
 

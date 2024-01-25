@@ -217,7 +217,7 @@ As OpenProject may handle and distribute sensitive user data, attack vectors suc
   - Whitelist for uploads can be provided by MIME type, rejecting any non-matching files
   - OpenProject currently does not provide a built-in virus scanner. However, using [webhooks](https://www.openproject.org/docs/system-admin-guide/api-and-webhooks/#webhooks) and the [attachments API](https://www.openproject.org/docs/api/endpoints/attachments/), users can plug existing virus scanning tools and scrub any uploaded files.
 - *Malware in software*:
-  - OpenProject uses statical code analysis on every change provided to the application as well as code scanners on the artefacts generated from the source code (such as Snyk vulnerability scanner for Docker images).
+  - OpenProject uses statical code analysis on every change provided to the application as well as code scanners on the artifacts generated from the source code (such as Snyk vulnerability scanner for Docker images).
   - We recommend users to perform their own 
 
 
@@ -251,7 +251,7 @@ Inconsiderate use of error handling, logging, and monitoring mechanisms of a web
 - Exception handlers catch all StandardErrors whenever your controller inherits from ApplicationController
 - Exception responses are disconnected from the actual errors and provide user-friendly messages without error details
 - Database transaction wrapping for any actions is wrapped in the [BaseContracted services](https://github.com/opf/openproject/blob/dev/app/services/base_services/base_contracted.rb#L54). Transactions are automatically rolled back in [Rails when exceptions occur](https://api.rubyonrails.org/v5.0.1/classes/ActiveRecord/Transactions/ClassMethods.html).
-- OpenProject uses a LogRage formatter for flexible, yet easily parseable formats
+- OpenProject uses a LogRage formatter for flexible, yet easily parsable formats
 
 
 
@@ -296,7 +296,7 @@ https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_
 
 ## Packaging and containerization
 
-Packaging and containerization are critical artefacts in the delivery pipeline of OpenProject. They encapsulate the application and its environment, ensuring consistent operation across different systems and infrastructures. These artefacts need to provide a secure and stable default for maintaining and upgrading OpenProject.
+Packaging and containerization are critical artifacts in the delivery pipeline of OpenProject. They encapsulate the application and its environment, ensuring consistent operation across different systems and infrastructures. These artifacts need to provide a secure and stable default for maintaining and upgrading OpenProject.
 
 Properly managed packaging and containerization pipelines ensure smooth installations, upgrades, and scaling, enhancing the deployment process and - as a result - the overall user experience. This section highlights risks connected to improper containerization or packaging as well as our main objectives and  best practices to provide a secure, efficient, and reliable software delivery process.
 

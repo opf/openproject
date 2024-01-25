@@ -15,7 +15,7 @@ The quickest way to get started developing OpenProject is to use the docker setu
 
 And nothing else!
 
-## Quickstart
+## Quick start
 
 To get right into it and just start the application you can just do the following:
 

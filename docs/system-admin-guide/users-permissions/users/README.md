@@ -142,7 +142,7 @@ To create a new password for a user (e.g. if he/she lost it) navigate to the **A
 
 In order to see and work in a project, a user has to be a member of a project and needs to be added with a certain role to this project.
 
-On the **Projects** tab, select the new project from the drop-down list, choose the [**roles**](../roles-permissions) for this project and click the blue **Add** button.
+On the **Projects** tab, select the new project from the drop-down list, choose the [roles](../roles-permissions) for this project and click the blue **Add** button.
 
 ![Sysadmin add project](Sys-admin-add-project1.gif)
 
