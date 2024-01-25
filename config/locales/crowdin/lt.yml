@@ -639,7 +639,7 @@ lt:
         readonly: "Tik skaitymui"
         remaining_hours: "Liko darbo"
         remaining_time: "Liko darbo"
-        shared_with_users: "Shared users"
+        shared_with_users: "Bendrinama su naudotojais"
         schedule_manually: "Rankinis laiko parinkimas"
         spent_hours: "Praleista laiko"
         spent_time: "Praleista laiko"
