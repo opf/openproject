@@ -231,7 +231,7 @@ en:
       editable: "Allow the field to be editable by users themselves."
       visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
       is_filter: >
-        Allow the custom field to be used in a filter in work package views. 
+        Allow the custom field to be used in a filter in work package views.
         Note that only with 'For all projects' selected, the custom field will show up in global views.
 
     tab:
@@ -656,6 +656,7 @@ en:
         color: "Color"
       user:
         admin: "Administrator"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "Current password"
