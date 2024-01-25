@@ -37,7 +37,7 @@ BEGIN
 FOR table_to_remove IN (
   select table_name
   from information_schema.tables
-  where table_schema = 'instance_community' and table_name like 'missing_%'
+  where table_schema = 'public' and table_name like 'missing_%'
 )
 LOOP
   EXECUTE 'DROP TABLE IF EXISTS ' || table_to_remove || ' CASCADE';
@@ -57,7 +57,7 @@ EXECUTE 'CREATE TABLE missing_projects AS (select * from projects where id = ' |
 FOR source_table, source_column IN (
   select table_name, column_name
   from information_schema.columns
-  where table_schema = 'instance_community' and column_name = 'project_id'
+  where table_schema = 'public' and column_name = 'project_id'
     and table_name not like '%_journals'
     and table_name != 'grids'
     -- apparently grids do not get deleted when a project is which is why we skip them here
