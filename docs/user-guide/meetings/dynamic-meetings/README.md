@@ -99,7 +99,7 @@ The durations of each agenda item are automatically summed up. If that sum excee
 There are two ways to add a work package to a meeting agenda. 
 
 - **From the Meetings module**: using the **+ Add** button [add a work package agenda item](#create-or-edit-the-meeting-agenda) or
-- **From a particular work package**: using the **+ Add to meeting** button on the [**Meetings** tab](../../work-packages/add-work-packages-to-meetings)
+- **From a particular work package**: using the **+ Add to meeting** button on the [Meetings tab](../../work-packages/add-work-packages-to-meetings)
 
 You can add a work package to both upcoming or past meetings as long as the work package is marked **open**. 
 

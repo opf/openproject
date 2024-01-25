@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Gantt charts
   priority: 865
 description: Create project timelines with Gantt charts in OpenProject
-keywords: gantt chart, timeline, project plan, ganttchart
+keywords: gantt chart, timeline, project plan
 ---
 
 # Gantt charts
@@ -72,7 +72,7 @@ To **change the order of an item** in the Gantt chart, click the **drag and drop
 
 To change the duration of a work package in the Gantt chart view, hover over the work package in the Gantt chart and use the little arrows on its ends to adjust the start date or finish date. This will shorten or prolong its duration. To move a work package on the time line just click on it and drag and drop it to the desired point of time. This will change its start and finish date.
 
-> **Note**: The Gantt chart will highlight non-working days with a darker background colour when you are zoomed in to a level that shows individual days. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the "Working days only" switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](../work-packages/set-change-dates/#working-days-and-duration).
+> **Note**: The Gantt chart will highlight non-working days with a darker background color when you are zoomed in to a level that shows individual days. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the "Working days only" switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](../work-packages/set-change-dates/#working-days-and-duration).
 >
 > Work packages can also expand and retract in width depending on how many non-working days are spanned (for example, a 3-day task starting on Thursday and ending on Monday will spread across 5 calendar days;  dragging that same work package so that it starts on a Tuesday and ends on a Thursday means that it will spread across 3 calendar days. In both cases, the duration remains 3 days.
 

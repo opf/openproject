@@ -133,7 +133,7 @@ See the [Roadmap](https://community.openproject.org/projects/openproject/roadmap
 
 ## Versioning
 
-OpenProject follows [Semantic Versioning](https://semver.org/). Therefore, the version is a composition of three digits in the format of e.g. 0.1.1 and can be summarised as followed:
+OpenProject follows [Semantic Versioning](https://semver.org/). Therefore, the version is a composition of three digits in the format of e.g. 0.1.1 and can be summarized as followed:
 
 - MAJOR version when you make incompatible API changes,
 - MINOR version when you add functionality in a backwards-compatible manner, and

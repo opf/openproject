@@ -167,7 +167,7 @@ At the end of this step, you should have a copy of the Application client ID as 
 
 Now, head over to OpenProject > Administration > OpenID providers. Click on "New OpenID provider", select the Azure type, enter the client ID and client Secret.
 
-By default, OpenProject will use the Microsoft Graph API endpoint to perform userinfo requests.
+By default, OpenProject will use the Microsoft Graph API endpoint to perform user info requests.
 For that, you will need to enter the correct tenant identifier for your Azure instance.
 To find the correct value for your instance, [please see this guide](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri).
 

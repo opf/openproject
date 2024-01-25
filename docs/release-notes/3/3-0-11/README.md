@@ -28,7 +28,7 @@ the story points in the work package page
 With the integration of the repository-authentication plugin into
 OpenProject
 ([#14783](https://community.openproject.org/work_packages/14783 "Port whole functionality of openproject-repository_authentication into the core (closed)")),
-it is now once again possible to manage authentication and authorisation
+it is now once again possible to manage authentication and authorization
 of SVN repositories with OpenProject. The same will be allowed for Git
 repositories with OpenProject 4.0
 ([#3708](https://community.openproject.org/work_packages/3708 "Release OpenProject 4.0 (closed)")).

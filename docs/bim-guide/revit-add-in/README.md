@@ -133,7 +133,7 @@ To work with BIM Issues, please open our AddIn and navigate to our BCF Module.
 
 
 
-Within this module all existing work packages are displayed. Within this demo project no work package exist yet. To create a new one, click on the "add new workpackage"-Button.  
+Within this module all existing work packages are displayed. Within this demo project no work package exist yet. To create a new one, click on the "add new work package"-Button.  
 
 ![OpenProject BIM - Create BCF](OpenProject_BIM_Create_BCF.png)
 

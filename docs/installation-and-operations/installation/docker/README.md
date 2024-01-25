@@ -35,7 +35,7 @@ OpenProject's docker setup can be launched in two ways:
 
 1. Multiple containers (recommended), each with a single process inside, using a Compose file. Allows to easily choose which services you want to run, and simplifies scaling and monitoring aspects.
 
-2. One container with all the processes inside. Easy but not recommended for production. This is the legacy behaviour.
+2. One container with all the processes inside. Easy but not recommended for production. This is the legacy behavior.
 
 ## One container per process (recommended)
 

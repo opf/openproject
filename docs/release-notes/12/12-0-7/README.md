@@ -20,7 +20,7 @@ There is now a separate setting for the max API size that will be used for these
 
 ### Russian expletive translations
 
-OpenProject relis on community translations for some languages that we cannot provide translations for ourselves. It was brought to our attention that the Russian translations partially contain expletive languages. Thanks to community contributors Sergey and Christina, these translations were fixed on crowdin and could now be included into the release.
+OpenProject relies on community translations for some languages that we cannot provide translations for ourselves. It was brought to our attention that the Russian translations partially contain expletive languages. Thanks to community contributors Sergey and Christina, these translations were fixed on crowdin and could now be included into the release.
 
 We need your help to improve and extend translations of OpenProject into your native language. To get more information, please see our [Translating OpenProject guide](../../../development/translate-openproject/) and our [project on crowdin.com](https://crowdin.com/project/openproject), where you can provide and help approve translations from your browser. If you wish to become a proofreader for your language, please reach out to [info@openproject.com](mailto:info@openproject.com)
 
