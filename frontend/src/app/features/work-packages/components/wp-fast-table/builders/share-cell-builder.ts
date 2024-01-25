@@ -45,8 +45,8 @@ export class ShareCellbuilder {
         );
 
       td.setAttribute('title', this.I18n.t('js.work_packages.sharing.show_all_users'));
-      td.addEventListener('click', this.showShareModal.bind(this, workPackage));
     }
+    td.addEventListener('click', this.showShareModal.bind(this, workPackage));
 
     return td;
   }
