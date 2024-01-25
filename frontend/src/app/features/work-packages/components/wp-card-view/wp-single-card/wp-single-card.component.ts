@@ -7,20 +7,29 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import {
-  StateService,
-  UIRouterGlobals,
-} from '@uirouter/core';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import { WorkPackageCardViewService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
+  uiStateLinkClass,
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import {
+  Highlighting,
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
+import { StateService, UIRouterGlobals } from '@uirouter/core';
+import {
+  WorkPackageViewSelectionService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import {
+  WorkPackageCardViewService,
+} from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { CardHighlightingMode } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const';
+import {
+  CardHighlightingMode,
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting-mode.const';
 import { CardViewOrientation } from 'core-app/features/work-packages/components/wp-card-view/wp-card-view.component';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
+import {
+  WorkPackageViewFocusService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -30,9 +39,10 @@ import { combineLatest } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
+import { getBaselineState } from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
 import {
-  getBaselineState,
-} from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
+  CombinedDateDisplayField,
+} from 'core-app/shared/components/fields/display/field-types/combined-date-display.field';
 
 @Component({
   selector: 'wp-single-card',
@@ -99,16 +109,7 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
 
   public tooltipPosition = SpotDropAlignmentOption.BottomLeft;
 
-  private dateTimeFormatYear = new Intl.DateTimeFormat(this.I18n.locale, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-
-  private dateTimeFormat = new Intl.DateTimeFormat(this.I18n.locale, {
-    month: 'short',
-    day: 'numeric',
-  });
+  combinedDateDisplayField = CombinedDateDisplayField;
 
   constructor(
     readonly pathHelper:PathHelperService,
@@ -204,50 +205,6 @@ export class WorkPackageSingleCardComponent extends UntilDestroyedMixin implemen
   // eslint-disable-next-line class-methods-use-this
   public wpProjectName(wp:WorkPackageResource):string {
     return wp.project?.name;
-  }
-
-  public wpDates(wp:WorkPackageResource):string {
-    const { startDate, dueDate } = wp;
-
-    if (startDate && dueDate) {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore see https://github.com/microsoft/TypeScript/issues/46905
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-      return String(this.dateTimeFormatYear.formatRange(new Date(startDate), new Date(dueDate)));
-    }
-
-    if (!startDate && dueDate) {
-      return `– ${this.dateTimeFormatYear.format(new Date(dueDate))}`;
-    }
-
-    if (startDate && !dueDate) {
-      return `${this.dateTimeFormatYear.format(new Date(startDate))} –`;
-    }
-
-    return '';
-  }
-
-  startDate(wp:WorkPackageResource):string {
-    const { startDate } = wp;
-    if (!startDate) {
-      return '';
-    }
-
-    return this.dateTimeFormat.format(new Date(startDate));
-  }
-
-  endDate(wp:WorkPackageResource):string {
-    const { dueDate } = wp;
-    if (!dueDate) {
-      return '';
-    }
-
-    return this.dateTimeFormat.format(new Date(dueDate));
-  }
-
-  wpOverDueHighlighting(wp:WorkPackageResource):string {
-    const diff = this.timezoneService.daysFromToday(wp.dueDate);
-    return Highlighting.overdueDate(diff);
   }
 
   public fullWorkPackageLink(wp:WorkPackageResource):string {
