@@ -49,9 +49,6 @@ Rails.application.configure do
   # loading is working properly before deploying your code.
   config.eager_load = ENV['CI'].present? || ENV['EAGER_LOAD'].present?
 
-  # This setting is false by default, but we define it explicitly
-  config.allow_concurrency = false
-
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
   config.public_file_server.headers = { 'Cache-Control' => 'public, max-age=3600' }
