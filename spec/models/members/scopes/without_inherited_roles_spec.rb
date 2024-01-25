@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,37 +24,40 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module API
-  module V3
-    module Shares
-      class SharesAPI < ::API::OpenProjectAPI
-        helpers ::API::Utilities::UrlPropsParsingHelper
+require 'spec_helper'
 
-        resources :shares do
-          get &::API::V3::Utilities::Endpoints::Index
-                 .new(model: Member,
-                      scope: -> do
-                        Member
-                        .visible(User.current)
-                        .without_inherited_roles
-                        .of_any_entity
-                        .includes(ShareRepresenter.to_eager_load)
-                      end,
-                      api_name: 'Share')
-                 .mount
+RSpec.describe Members::Scopes::WithoutInheritedRoles do
+  let(:project) { create(:project) }
+  let(:role) { create(:project_role) }
+  let(:user) { create(:user) }
 
-          route_param :id, type: Integer, desc: 'Share ID' do
-            after_validation do
-              @member = Member.where.not(entity: nil).visible(User.current).find(params[:id])
-            end
+  let(:view_role) { create(:view_work_package_role) }
 
-            get &::API::V3::Utilities::Endpoints::Show.new(model: Member,
-                                                           api_name: 'Share').mount
-          end
-        end
-      end
+  let!(:work_package_member) do
+    create(:member,
+           project:,
+           roles: [view_role],
+           entity: create(:work_package, project:),
+           principal: user)
+  end
+
+  let!(:work_package_inherited_member) do
+    build(:member,
+          project:,
+          entity: create(:work_package, project:),
+          principal: user) do |member|
+      member.member_roles.build(role: view_role, inherited_from: work_package_member.member_roles.first.id)
+      member.save
+    end
+  end
+
+  describe '.without_inherited_roles' do
+    subject { Member.without_inherited_roles }
+
+    it 'returns all that are not inherited' do
+      expect(subject).to contain_exactly(work_package_member)
     end
   end
 end
