@@ -408,8 +408,8 @@ de:
     sharing:
       missing_workflow_waring:
         title: "Der Workflow für das Teilen von Arbeitspaketen fehlt"
-        message: "Es ist kein Arbeitsablauf (Workflow) für die Rolle ‚Arbeitspaket-Editor‘ konfiguriert. Ohne einen Arbeitsablauf kann der gemeinsam mit dem Benutzer den Status des Arbeitspakets nicht ändern. Arbeitsabläufe können kopiert werden. Wählen Sie einen Quelltyp (z. B. ‚Task‘) und eine Quell-Rolle (z. B. 'Member'). Wählen Sie dann die Zieltypen aus, um alle Typen als Ziele auszuwählen und schließlich die Rolle ‚Arbeitspaket-Editor‘ als Ziel aus und drücken Sie ‚Kopieren‘. Nachdem Sie die Standardeinstellungen erstellt haben, können Sie die Arbeitsabläufe so einstellen, wie Sie es für jede andere Rolle tun."
-        link_message: "Konfigurieren Sie die Arbeitsabläufe in der Administration."
+        message: "Es ist kein Workflow für die Rolle ‚Work package editor‘ konfiguriert. Nur mit einem solchen Workflow können Benutzer, mit denen ein Arbeitspaket geteilt wurde, den Status des Arbeitspakets ändern. Workflows lassen sich einfach kopieren. Wählen Sie dazu einen Quell-Typ (z. B. ‚Task‘) und eine Quell-Rolle (z. B. 'Member') aus. Wählen Sie dann die Ziel-Typen aus. Als ersten Schritt können Sie alle Typen als Ziel-Typen auswählen. Danach wählen Sie die Ziel-Rolle ‚Work package editor‘ aus und drücken Sie auf den Knopf ‚Kopieren‘. Nachdem Sie hiermit eine Grundlage geschaffen haben, können Sie danach diese Workflows weiter anpassen, ganz genau wie Sie es für jede andere Rolle bereits getan haben."
+        link_message: "Konfigurieren Sie die Workflows in der Administration."
     summary:
       reports:
         category:
