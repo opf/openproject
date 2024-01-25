@@ -11,6 +11,24 @@ module ::Gantt
 
     menu_item :gantt
     def index
+      # If there are no query_props given, redirect to the default query
+      if params[:query_props].nil? && params[:query_id].nil?
+        if @project.present?
+          return redirect_to(
+            project_gantt_index_path(
+              @project,
+              query_props: ::Gantt::DefaultQueryGeneratorService.new(with_project_context: true).call
+            )
+          )
+        else
+          return redirect_to(
+            gantt_index_path(
+              query_props: ::Gantt::DefaultQueryGeneratorService.new(with_project_context: false).call
+            )
+          )
+        end
+      end
+
       respond_to do |format|
         format.html do
           render :index,

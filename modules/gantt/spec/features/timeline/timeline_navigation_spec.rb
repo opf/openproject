@@ -155,6 +155,35 @@ RSpec.describe 'Work package timeline navigation',
     end
   end
 
+  describe 'with the default query' do
+    let(:closed_status) { create(:closed_status, name: 'Closed') }
+    let(:project) { create(:project, types: [milestone_type], enabled_module_names:) }
+
+    let!(:wp_milestone) do
+      create(:work_package,
+             project:,
+             type: milestone_type)
+    end
+    let!(:wp_closed) do
+      create(:work_package,
+             project:,
+             status: closed_status)
+    end
+
+    it 'shows the timeline open initially' do
+      wp_timeline.visit!
+      loading_indicator_saveguard
+
+      # The timeline is open per default
+      wp_timeline.expect_timeline!(open: true)
+
+      # Further, there is an active filter on open work packages
+      wp_timeline.expect_work_package_listed(wp_milestone)
+      wp_timeline.expect_work_package_listed(work_package)
+      wp_timeline.expect_work_package_not_listed(wp_closed)
+    end
+  end
+
   it 'can save the open state and zoom of timeline' do
     wp_timeline.visit_query query
     wp_timeline.expect_work_package_listed(work_package)

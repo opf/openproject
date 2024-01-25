@@ -1,3 +1,7 @@
 # English strings go here
 en:
   project_module_gantt: "Gantt"
+  queries:
+    all_open: 'All open'
+    timeline: 'Timeline'
+    milestones: 'Milestones'

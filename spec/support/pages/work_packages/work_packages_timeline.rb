@@ -60,8 +60,6 @@ module Pages
     end
 
     def expect_work_package_not_listed(*work_packages)
-      super(*work_packages)
-
       within(timeline_container) do
         work_packages.each do |wp|
           expect(page).to have_no_css(".wp-row-#{wp.id}-timeline", visible: true)

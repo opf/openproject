@@ -25,25 +25,21 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 # ++
-module ::Gantt
+module Gantt
   class MenusController < ApplicationController
     before_action :find_optional_project
 
     def show
-      @sidebar_menu_items = first_level_menu_items + nested_menu_items
+      @sidebar_menu_items = menu_items
       render layout: nil
     end
 
     private
 
-    def first_level_menu_items
-      []
-    end
-
-    def nested_menu_items
+    def menu_items
       [
         OpenProject::Menu::MenuGroup.new(header: I18n.t('js.label_starred_queries'), children: starred_queries),
-        OpenProject::Menu::MenuGroup.new(header: I18n.t('js.label_default_queries'), children: []),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t('js.label_default_queries'), children: default_queries),
         OpenProject::Menu::MenuGroup.new(header: I18n.t('js.label_global_queries'), children: global_queries),
         OpenProject::Menu::MenuGroup.new(header: I18n.t('js.label_custom_queries'), children: custom_queries)
       ]
@@ -54,6 +50,20 @@ module ::Gantt
         .where('starred' => 't')
         .pluck(:id, :name)
         .map { |id, name| menu_item(:query_id, id, name) }
+    end
+
+    def default_queries
+      query_generator = Gantt::DefaultQueryGeneratorService.new(with_project_context: @project.present?)
+      queries = []
+      Gantt::DefaultQueryGeneratorService::QUERY_OPTIONS.each do |query_key|
+        queries << menu_item(
+          :query_props,
+          query_generator.call(query_key:),
+          Gantt::DefaultQueryGeneratorService::QUERY_MAPPINGS[query_key]
+        )
+      end
+
+      queries
     end
 
     def global_queries
@@ -85,24 +95,22 @@ module ::Gantt
       base_query
     end
 
-    def menu_item(filter_key, id, name)
+    def menu_item(filter_key, filter_val, name)
       OpenProject::Menu::MenuItem.new(title: name,
-                                      href: gantt_path(filter_key, id),
-                                      selected: selected?(filter_key, id))
+                                      href: gantt_path(filter_key, filter_val),
+                                      selected: selected?(filter_key, filter_val))
     end
 
     def selected?(filter_key, value)
-      return false if active_filter_count > 1
-
       params[filter_key] == value.to_s
     end
 
-    def active_filter_count
-      @active_filter_count ||= params[:filters].present? ? params[:filters].count : 0
-    end
-
     def gantt_path(filter_key, id)
-      @project.present? ? project_gantt_index_path(@project, filter_key => id) : gantt_index_path(filter_key => id)
+      if @project.present?
+        project_gantt_index_path(@project, params.permit(filter_key).merge!(filter_key => id))
+      else
+        gantt_index_path(params.permit(filter_key).merge!(filter_key => id))
+      end
     end
   end
 end
