@@ -32,13 +32,18 @@ import * as Turbo from '@hotwired/turbo';
 import { Controller } from '@hotwired/stimulus';
 import { Drake } from 'dragula';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { dropRight, get } from 'lodash';
+
+interface TargetConfig {
+  container:Element;
+  allowedDragType:string|null;
+  targetId:string|null;
+}
 
 export default class extends Controller {
   drake:Drake|undefined;
-  targetConfigs:Object[];
+  targetConfigs:TargetConfig[];
 
-  containerTargets:Element[]
+  containerTargets:Element[];
 
   connect() {
     this.initDrake();
@@ -48,20 +53,22 @@ export default class extends Controller {
     this.setContainerTargetsAndConfigs();
 
     // reinit drake if it already exists
-    if(this.drake){
+    if (this.drake) {
       this.drake.destroy();
     }
 
-    this.drake = dragula(this.containerTargets,
+    this.drake = dragula(
+      this.containerTargets,
       {
         moves: (_el, _source, handle, _sibling) => !!handle?.classList.contains('octicon-grabber'),
-        accepts: (el?: Element | null, target?: Element | null, source?: Element | null, sibling?: Element | null) => this.accepts(el!, target!, source!, sibling!),
-        revertOnSpill: true // enable reverting of elements if they are dropped outside of a valid target
+        accepts: (el:Element, target:Element, source:Element, sibling:Element) => this.accepts(el, target, source, sibling),
+        revertOnSpill: true, // enable reverting of elements if they are dropped outside of a valid target
       },
     )
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    .on('drag', this.drag.bind(this))
-    .on('drop', this.drop.bind(this));
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      .on('drag', this.drag.bind(this))
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      .on('drop', this.drop.bind(this));
 
     // Setup autoscroll
     void window.OpenProject.getPluginContext().then((pluginContext) => {
@@ -87,31 +94,27 @@ export default class extends Controller {
     }
   }
 
-  setContainerTargetsAndConfigs(): void {
+  setContainerTargetsAndConfigs():void {
     const rawTargets = Array.from(
-      this.element.querySelectorAll('[data-is-drag-and-drop-target="true"]')
-    ) as Element[];
+      this.element.querySelectorAll('[data-is-drag-and-drop-target="true"]'),
+    );
     this.targetConfigs = [];
-    let processedTargets: Element[] = [];
+    let processedTargets:Element[] = [];
 
-    rawTargets.forEach((target: Element) => {
-      let targetConfig: {
-        container: Element,
-        allowedDragType: string|null,
-        targetId: string|null
-      } = {
+    rawTargets.forEach((target:Element) => {
+      const targetConfig:TargetConfig = {
         container: target,
         allowedDragType: target.getAttribute('data-target-allowed-drag-type'),
-        targetId: target.getAttribute('data-target-id')
+        targetId: target.getAttribute('data-target-id'),
       };
 
       // if the target has a container accessor, use that as the container instead of the element itself
       // we need this e.g. in Primer's boderbox component as we cannot add required data attributes to the ul element there
       const containerAccessor = target.getAttribute('data-target-container-accessor');
 
-      if(containerAccessor){
-        target = target.querySelector(containerAccessor) as Element
-        targetConfig.container = target
+      if (containerAccessor) {
+        target = target.querySelector(containerAccessor) as Element;
+        targetConfig.container = target;
       }
 
       // we need to save the targetConfigs separately as we need to pass the pure container elements to drake
@@ -125,8 +128,8 @@ export default class extends Controller {
   }
 
   accepts(el:Element, target:Element, _source:Element|null, _sibling:Element|null) {
-    const targetConfig: any = this.targetConfigs.find((config: any) => config.container == target);
-    const acceptedDragType = targetConfig?.allowedDragType as string | undefined;
+    const targetConfig = this.targetConfigs.find((config) => config.container === target);
+    const acceptedDragType = targetConfig?.allowedDragType as string|undefined;
 
     const draggableType = el.getAttribute('data-draggable-type');
 
@@ -138,34 +141,34 @@ export default class extends Controller {
     return true;
   }
 
-  drag(el:Element, _source:Element|null) {
+  drag(_:Element, _source:Element|null) {
     // discover new target containers if they have been added to the DOM via Turbo streams
     this.reInitDrakeContainers();
   }
 
-  async drop(el:Element, target:Element, _source:Element|null, sibling:Element|null) {
+  async drop(el:Element, target:Element, _source:Element|null, _sibling:Element|null) {
     const dropUrl = el.getAttribute('data-drop-url');
 
     let targetPosition = Array.from(target.children).indexOf(el);
-    if(target.children.length > 0 && target.children[0].getAttribute('data-empty-list-item') == 'true'){
+    if (target.children.length > 0 && target.children[0].getAttribute('data-empty-list-item') === 'true') {
       // if the target container is empty, a list item showing an empty message might be shown
       // this should not be counted as a list item
       // thus we need to subtract 1 from the target position
-      targetPosition--;
+      targetPosition -= 1;
     }
 
-    const targetConfig: any = this.targetConfigs.find((config: any) => config.container == target);
-    const targetId = targetConfig?.targetId as string | undefined;
+    const targetConfig = this.targetConfigs.find((config) => config.container === target);
+    const targetId = targetConfig?.targetId as string|undefined;
 
     const data = new FormData();
 
     data.append('position', (targetPosition + 1).toString());
 
-    if(targetId){
+    if (targetId) {
       data.append('target_id', targetId.toString());
     }
 
-    if(dropUrl){
+    if (dropUrl) {
       const response = await fetch(dropUrl, {
         method: 'PUT',
         body: data,
@@ -183,7 +186,7 @@ export default class extends Controller {
         Turbo.renderStreamMessage(text);
         // reinit drake containers as the DOM will be updated by Turbo streams
         // otherwise the DOM references in the Drake instance will be outdated
-        setTimeout(()=> this.reInitDrakeContainers(), 100);
+        setTimeout(() => this.reInitDrakeContainers(), 100);
       }
     }
 
