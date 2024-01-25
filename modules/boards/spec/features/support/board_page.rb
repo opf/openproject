@@ -366,6 +366,7 @@ module Pages
       open_add_list_modal
       sleep(0.1)
       page.find('.spot-modal .new-list--action-select input').set(name)
+      expect(page).to have_no_css('.ng-spinner-loader')
     end
 
     def open_add_list_modal
