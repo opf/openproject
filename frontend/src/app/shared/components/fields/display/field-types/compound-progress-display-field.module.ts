@@ -1,0 +1,97 @@
+// -- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) 2012-2024 the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
+import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
+
+export class CompoundProgressDisplayField extends DisplayField {
+  private derivedText = this.I18n.t('js.label_value_derived_from_children');
+
+  public render(element:HTMLElement, displayText:string):void {
+    element.classList.add('split-time-field');
+    element.setAttribute('title', displayText);
+
+    this.renderActual(element, displayText);
+    this.renderSeparator(element);
+    this.renderDerived(element, this.derivedValueString);
+  }
+
+  private renderActual(element:HTMLElement, displayText:string):void {
+    const span = document.createElement('span');
+
+    span.textContent = displayText;
+    span.title = this.valueString;
+    span.classList.add('-actual-value');
+
+    element.appendChild(span);
+  }
+
+  private renderDerived(element:HTMLElement, displayText:string):void {
+    const link = document.createElement('a');
+
+    link.textContent = `Σ ${displayText}`;
+    link.title = `${displayText} ${this.derivedText}`;
+    link.classList.add('-derived-value', uiStateLinkClass);
+
+    element.appendChild(link);
+  }
+
+  public renderSeparator(element:HTMLElement):void {
+    const span = document.createElement('span');
+
+    span.textContent = '·';
+    span.classList.add('-separator');
+    span.ariaHidden = 'true';
+
+    element.appendChild(span);
+  }
+
+  public get value():number {
+    return this.resource[this.name] as number || 0;
+  }
+
+  public get valueString() {
+    return this.formatAsPercentage(this.value);
+  }
+
+  private get derivedPropertyName():string {
+    return `derived${_.upperFirst(this.name)}`;
+  }
+
+  private get derivedValue() {
+    return this.resource[this.derivedPropertyName] as number;
+  }
+
+  private get derivedValueString():string {
+    return this.formatAsPercentage(this.derivedValue);
+  }
+
+  private formatAsPercentage(value:number) {
+    return `${value}%`;
+  }
+}

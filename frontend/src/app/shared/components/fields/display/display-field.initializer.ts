@@ -28,6 +28,7 @@
 
 import { BooleanDisplayField } from 'core-app/shared/components/fields/display/field-types/boolean-display-field.module';
 import { CombinedDateDisplayField } from 'core-app/shared/components/fields/display/field-types/combined-date-display.field';
+import { CompoundProgressDisplayField } from 'core-app/shared/components/fields/display/field-types/compound-progress-display-field.module';
 import { DateDisplayField } from 'core-app/shared/components/fields/display/field-types/date-display-field.module';
 import { DateTimeDisplayField } from 'core-app/shared/components/fields/display/field-types/datetime-display-field.module';
 import { DaysDurationDisplayField } from 'core-app/shared/components/fields/display/field-types/days-duration-display-field.module';
@@ -41,7 +42,6 @@ import { IntegerDisplayField } from 'core-app/shared/components/fields/display/f
 import { LinkedWorkPackageDisplayField } from 'core-app/shared/components/fields/display/field-types/linked-work-package-display-field.module';
 import { MultipleUserFieldModule } from 'core-app/shared/components/fields/display/field-types/multiple-user-display-field.module';
 import { PlainFormattableDisplayField } from 'core-app/shared/components/fields/display/field-types/plain-formattable-display-field.module';
-import { ProgressDisplayField } from 'core-app/shared/components/fields/display/field-types/progress-display-field.module';
 import { ProjectStatusDisplayField } from 'core-app/shared/components/fields/display/field-types/project-status-display-field.module';
 import { ResourceDisplayField } from 'core-app/shared/components/fields/display/field-types/resource-display-field.module';
 import { ResourcesDisplayField } from 'core-app/shared/components/fields/display/field-types/resources-display-field.module';
@@ -80,7 +80,7 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
       .addFieldType(DateDisplayField, 'date', ['Date'])
       .addFieldType(DateTimeDisplayField, 'datetime', ['DateTime'])
       .addFieldType(BooleanDisplayField, 'boolean', ['Boolean'])
-      .addFieldType(ProgressDisplayField, 'progress', ['percentageDone'])
+      .addFieldType(CompoundProgressDisplayField, 'progress', ['percentageDone'])
       .addFieldType(LinkedWorkPackageDisplayField, 'work_package', ['WorkPackage'])
       .addFieldType(IdDisplayField, 'id', ['id'])
       .addFieldType(UserDisplayField, 'user', ['User']);
