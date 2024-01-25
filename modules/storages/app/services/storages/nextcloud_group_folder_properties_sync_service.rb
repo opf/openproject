@@ -29,7 +29,7 @@
 #++
 
 module Storages
-  class GroupFolderPropertiesSyncService
+  class NextcloudGroupFolderPropertiesSyncService
     using Peripherals::ServiceResultRefinements
 
     PERMISSIONS_MAP = {

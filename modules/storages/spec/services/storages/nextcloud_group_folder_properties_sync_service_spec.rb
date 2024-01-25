@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::GroupFolderPropertiesSyncService, :webmock do
+RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
   let(:group_users_response_body) do
     <<~XML
       <?xml version="1.0"?>

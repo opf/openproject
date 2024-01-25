@@ -41,8 +41,6 @@ module Storages
     store_attribute :provider_fields, :group, :string
     store_attribute :provider_fields, :group_folder, :string
 
-    scope :automatic_management_enabled, -> { where("provider_fields->>'automatically_managed' = 'true'") }
-
     def oauth_configuration
       Peripherals::OAuthConfigurations::NextcloudConfiguration.new(self)
     end
@@ -62,10 +60,6 @@ module Storages
     end
 
     alias automatic_management_enabled automatically_managed
-
-    def automatic_management_enabled?
-      !!automatically_managed
-    end
 
     def automatic_management_new_record?
       if provider_fields_changed?

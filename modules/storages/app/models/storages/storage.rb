@@ -52,6 +52,8 @@ module Storages
 
     self.inheritance_column = :provider_type
 
+    store_attribute :provider_fields, :automatically_managed, :boolean
+
     has_many :file_links, class_name: 'Storages::FileLink'
     belongs_to :creator, class_name: 'User'
     has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
@@ -77,6 +79,8 @@ module Storages
     scope :not_enabled_for_project, ->(project) do
       where.not(id: project.project_storages.pluck(:storage_id))
     end
+
+    scope :automatic_management_enabled, -> { where("provider_fields->>'automatically_managed' = 'true'") }
 
     enum health_status: {
       pending: 'pending',
@@ -129,6 +133,10 @@ module Storages
                health_checked_at: Time.now.utc,
                health_reason: nil)
       end
+    end
+
+    def automatic_management_enabled?
+      !!automatically_managed
     end
 
     def configured?
