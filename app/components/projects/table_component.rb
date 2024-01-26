@@ -38,9 +38,6 @@ module Projects
       super(rows: [], **options)
     end
 
-    # TODO: consider moving this out of the component again.
-    # It was moved inside so that rendering the table only requires having a query
-    # making it easier to render the component from different controllers
     def before_render
       @model = projects(query)
       super

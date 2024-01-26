@@ -40,7 +40,7 @@
       <%= render(Primer::Alpha::ActionMenu.new) do |menu|
         menu.with_show_button(icon: 'op-kebab-vertical', 'aria-label': t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' })
 
-        if current_user.logged?
+        if current_user.logged? && query_saveable?
           menu.with_item(
             label: t('button_save'),
             href: new_projects_query_path,

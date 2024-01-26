@@ -34,7 +34,8 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
 
   attr_accessor :current_user,
                 :query,
-                :state
+                :state,
+                :params
 
   BUTTON_MARGIN_RIGHT = 2
   SAVE_MODAL_ID = 'op-project-list-save-dialog'
@@ -44,12 +45,13 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   STATE_EDIT = :edit
   STATE_OPTIONS = [STATE_DEFAULT, STATE_EDIT].freeze
 
-  def initialize(current_user:, query:, state: :show)
+  def initialize(current_user:, query:, params:, state: :show)
     super
 
     self.current_user = current_user
     self.query = query
     self.state = fetch_or_fallback(STATE_OPTIONS, state)
+    self.params = params
   end
 
   def gantt_portfolio_query_link
@@ -68,6 +70,10 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
 
   def page_title
     query.name || t(:label_project_plural)
+  end
+
+  def query_saveable?
+    query.name.blank?
   end
 
   def gantt_portfolio_title

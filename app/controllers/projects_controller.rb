@@ -48,7 +48,7 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    call = load_query(contract: Queries::Projects::ProjectQueries::CreateContract)
+    call = load_query(existing: params[:filters].blank?)
 
     respond_to do |format|
       format.html do
