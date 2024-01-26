@@ -285,7 +285,7 @@ group :test do
 end
 
 group :ldap do
-  gem 'net-ldap', '~> 0.18.0'
+  gem 'net-ldap', '~> 0.19.0'
 end
 
 group :development do
