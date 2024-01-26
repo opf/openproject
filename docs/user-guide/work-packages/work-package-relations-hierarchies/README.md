@@ -94,7 +94,7 @@ Open a work package and select the tab *Relations*. Click on *+ Create new child
 
 Insert the name of the new work package and save the newly created work package by pressing *Enter*. You can make changes to the work package by clicking on the work package ID.
 
-![create workpackage children](image-20200129144540902.png)
+![create work package children](image-20200129144540902.png)
 
 For more information on the work package creation take a look at the guideline on [creating a work package](../create-work-package).
 

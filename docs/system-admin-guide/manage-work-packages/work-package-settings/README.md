@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Settings
   priority: 999
 description: Work package settings in OpenProject.
-keywords: work package settings, workpackage configuration
+keywords: work package settings, work package configuration
 ---
 # Work package settings
 

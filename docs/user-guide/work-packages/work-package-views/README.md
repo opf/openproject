@@ -2,7 +2,7 @@
 sidebar_navigation:
   title: Work packages views
   priority: 999
-description: Different ways of organising and viewing work packages, including table, split screen, board and Gantt.
+description: Different ways of organizing and viewing work packages, including table, split screen, board and Gantt.
 keywords: work packages views
 ---
 

@@ -6,6 +6,10 @@ sidebar_navigation:
 
 # Restoring an OpenProject backup
 
+This document describes how to restore a complete backup of OpenProject.
+
+Please look [here](./restoring-a-deleted-project/README.md) if you want to restore a deleted project from a backup.
+
 ## Package-based installation (DEB/RPM)
 
 Assuming you have a backup of all the OpenProject files at hand (see the [Backing up](../backing-up) guide), here is how you would restore your OpenProject installation from that backup.
@@ -73,7 +77,7 @@ sudo openproject config:get DATABASE_URL
 #=> e.g.: postgres://<dbusername>:<dbpassword>@<dbhost>:<dbport>/<dbname>
 ```
 
-Then, to restore the PostgreSQL dump please use the `pg_restore` command utility. **WARNING:** The command `--clean --if-exists` is used and it will drop objects in the database and you will lose all changes in this database! Double-check that the database URL above is the database you want to restore to. 
+Then, to restore the PostgreSQL dump please use the `pg_restore` command utility. **WARNING:** The command `--clean --if-exists` is used and it will drop objects in the database and you will lose all changes in this database! Double-check that the database URL above is the database you want to restore to.
 
 This is necessary since the backups of OpenProject does not clean statements to remove existing options and will lead to duplicate index errors when trying to restore to an existing database. The alternative is to drop/recreate the database manually (see below), if you have the permissions to do so.
 
@@ -129,7 +133,7 @@ If you are using docker-compose this is what you do after you started everything
 
 1. Stop the OpenProject container using `docker-compose stop web worker`.
 2. Drop the existing, seeded database using `docker exec -it compose_db_1 psql -U postgres -c 'drop database openproject;'`
-3. If your database doesn't have an openproject user yet, create it with this command: `docker exec -it compose_db_1 psql -U postgres -c 'create user openproject;'` 
+3. If your database doesn't have an openproject user yet, create it with this command: `docker exec -it compose_db_1 psql -U postgres -c 'create user openproject;'`
 4. Recreate the database using `docker exec -it compose_db_1 psql -U postgres -c 'create database openproject owner openproject;'`
 5. Copy the dump onto the container: `docker cp openproject.sql compose_db_1:/`
 6. Source the dump with psql on the container: `docker exec -it compose_db_1 psql -U postgres` followed first by `\c openproject` and then by `\i openproject.sql`. You can leave this console by entering `\q` once it's done.
@@ -207,7 +211,7 @@ but then you use `pg_restore` instead to restore it.
 # 1. copy .pgdump file into container
 docker cp postgresql-dump-20211119210038.pgdump postgres:/
 
-# 2. delete existing database created in step 2) above 
+# 2. delete existing database created in step 2) above
 docker exec -it postgres dropdb -U postgres openproject
 
 # 3. import the dump

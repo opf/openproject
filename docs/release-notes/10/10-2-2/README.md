@@ -32,7 +32,7 @@ The release contains several bug fixes and fixes server security issues. We thus
 #### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
-In this release, we would especially like to thank Bartosz Nowicki for responsibly disclosing a severe data leakage \([#31855](https://community.openproject.org/wp/31855)\). Behaviour like this helps improving the security for everybody, so thanks a lot Bartosz. And Thanh Nguyen Nguyen of [Fortiguard Labs](https://fortiguard.com/) has once again responsibly disclosed a security issue to us ([#31817](https://community.openproject.org/wp/31817)). Thank you, Nguyen.  
+In this release, we would especially like to thank Bartosz Nowicki for responsibly disclosing a severe data leakage \([#31855](https://community.openproject.org/wp/31855)\). Behavior like this helps improving the security for everybody, so thanks a lot Bartosz. And Thanh Nguyen Nguyen of [Fortiguard Labs](https://fortiguard.com/) has once again responsibly disclosed a security issue to us ([#31817](https://community.openproject.org/wp/31817)). Thank you, Nguyen.  
 
 We'd also like to thank users for reporting bugs:
 
