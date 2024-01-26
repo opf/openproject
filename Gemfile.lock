@@ -343,7 +343,7 @@ GEM
       activerecord (>= 4.0.0, < 7.2)
     aws-eventstream (1.3.0)
     aws-partitions (1.883.0)
-    aws-sdk-core (3.191.0)
+    aws-sdk-core (3.190.3)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.651.0)
       aws-sigv4 (~> 1.8)
@@ -704,7 +704,7 @@ GEM
       mustermann (>= 1.0.0)
     net-http (0.4.1)
       uri
-    net-imap (0.4.9)
+    net-imap (0.4.9.1)
       date
       net-protocol
     net-ldap (0.18.0)
@@ -712,7 +712,7 @@ GEM
       net-protocol
     net-protocol (0.2.2)
       timeout
-    net-smtp (0.4.0)
+    net-smtp (0.4.0.1)
       net-protocol
     nio4r (2.7.0)
     nokogiri (1.16.0)
