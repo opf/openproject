@@ -34,8 +34,8 @@ class Queries::Projects::Factory
 
     def static_query(id)
       case id
-      when 'all'
-        static_query_all
+      when 'active'
+        static_query_active
       when 'my'
         static_query_my
       when 'archived'
@@ -47,12 +47,12 @@ class Queries::Projects::Factory
       when 'at_risk'
         static_query_status_at_risk
       when nil
-        list_with(:'projects.lists.all')
+        list_with(:'projects.lists.active')
       end
     end
 
-    def static_query_all
-      list_with(:'projects.lists.all') do |query|
+    def static_query_active
+      list_with(:'projects.lists.active') do |query|
         query.where('active', '=', OpenProject::Database::DB_VALUE_TRUE)
       end
     end

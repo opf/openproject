@@ -75,9 +75,9 @@ RSpec.describe 'Persisted lists on projects index page',
       projects_page.visit!
     end
 
-    describe 'with the "All projects" filter' do
+    describe 'with the "Active projects" filter' do
       before do
-        projects_page.set_sidebar_filter 'All projects'
+        projects_page.set_sidebar_filter 'Active projects'
       end
 
       it 'shows all active projects (default)' do
@@ -220,7 +220,7 @@ RSpec.describe 'Persisted lists on projects index page',
       projects_page.expect_sidebar_filter('My saved query', selected: false)
 
       # Opening the default filter again to reset the values
-      projects_page.set_sidebar_filter('All projects')
+      projects_page.set_sidebar_filter('Active projects')
 
       projects_page.expect_projects_listed(project, public_project, development_project)
 
