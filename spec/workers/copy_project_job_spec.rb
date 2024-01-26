@@ -29,9 +29,6 @@
 require 'spec_helper'
 
 RSpec.describe CopyProjectJob, type: :model do
-  let(:project) { create(:project, public: false) }
-  let(:user) { create(:user) }
-  let(:role) { create(:project_role, permissions: [:copy_projects]) }
   let(:params) { { name: 'Copy', identifier: 'copy' } }
   let(:maildouble) { double('Mail::Message', deliver: true) }
 
@@ -191,18 +188,22 @@ RSpec.describe CopyProjectJob, type: :model do
     end
   end
 
-  shared_context 'copy project' do
-    before do
-      described_class.new.tap do |job|
-        job.perform user_id: user.id,
-                    source_project_id: project_to_copy.id,
-                    target_project_params: params,
-                    associations_to_copy: [:members]
+  describe 'perform' do
+    let(:project) { create(:project, public: false) }
+    let(:user) { create(:user) }
+    let(:role) { create(:project_role, permissions: [:copy_projects]) }
+
+    shared_context 'copy project' do
+      before do
+        described_class.new.tap do |job|
+          job.perform user_id: user.id,
+                      source_project_id: project_to_copy.id,
+                      target_project_params: params,
+                      associations_to_copy: [:members]
+        end
       end
     end
-  end
 
-  describe 'perform' do
     before do
       login_as(user)
       expect(User).to receive(:current=).with(user).at_least(:once)
