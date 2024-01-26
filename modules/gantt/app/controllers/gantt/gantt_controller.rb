@@ -17,14 +17,12 @@ module ::Gantt
           return redirect_to(
             project_gantt_index_path(
               @project,
-              query_props: ::Gantt::DefaultQueryGeneratorService.new(with_project_context: true).call
+              ::Gantt::DefaultQueryGeneratorService.new(with_project_context: true).call
             )
           )
         else
           return redirect_to(
-            gantt_index_path(
-              query_props: ::Gantt::DefaultQueryGeneratorService.new(with_project_context: false).call
-            )
+            gantt_index_path(Gantt::DefaultQueryGeneratorService.new(with_project_context: false).call)
           )
         end
       end

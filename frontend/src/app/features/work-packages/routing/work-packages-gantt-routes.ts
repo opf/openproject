@@ -39,7 +39,7 @@ export const WORK_PACKAGES_GANTT_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'gantt',
     parent: 'optional_project',
-    url: '/gantt?query_id&query_props&start_onboarding_tour',
+    url: '/gantt?query_id&query_props&name&start_onboarding_tour',
     redirectTo: 'gantt.partitioned.list',
     views: {
       '!$default': { component: WorkPackagesBaseComponent },
@@ -54,6 +54,7 @@ export const WORK_PACKAGES_GANTT_ROUTES:Ng2StateDeclaration[] = [
       query_props: { type: 'opQueryString' },
       // Optional initial tour param
       start_onboarding_tour: { type: 'query', squash: true, value: undefined },
+      name: { type: 'string', dynamic: true },
     },
   },
   {

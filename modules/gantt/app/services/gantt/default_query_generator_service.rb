@@ -30,9 +30,9 @@ module ::Gantt
   class DefaultQueryGeneratorService
     DEFAULT_QUERY = :all_open
     QUERY_MAPPINGS = {
-      DEFAULT_QUERY => I18n.t('queries.all_open'),
-      :timeline => I18n.t('queries.timeline'),
-      :milestones => I18n.t('queries.milestones')
+      DEFAULT_QUERY => I18n.t('js.queries.all_open'),
+      :timeline => I18n.t('js.queries.timeline'),
+      :milestones => I18n.t('js.queries.milestones')
     }.freeze
     QUERY_OPTIONS = QUERY_MAPPINGS.keys
 
@@ -66,7 +66,7 @@ module ::Gantt
         return
       end
 
-      params.to_json
+      { query_props: params.to_json, name: query_key }
     end
 
     class << self

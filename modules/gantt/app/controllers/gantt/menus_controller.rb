@@ -49,7 +49,7 @@ module Gantt
       base_query
         .where('starred' => 't')
         .pluck(:id, :name)
-        .map { |id, name| menu_item(:query_id, id, name) }
+        .map { |id, name| menu_item({ query_id: id }, name) }
     end
 
     def default_queries
@@ -57,7 +57,6 @@ module Gantt
       queries = []
       Gantt::DefaultQueryGeneratorService::QUERY_OPTIONS.each do |query_key|
         queries << menu_item(
-          :query_props,
           query_generator.call(query_key:),
           Gantt::DefaultQueryGeneratorService::QUERY_MAPPINGS[query_key]
         )
@@ -71,7 +70,7 @@ module Gantt
         .where('starred' => 'f')
         .where('public' => 't')
         .pluck(:id, :name)
-        .map { |id, name| menu_item(:query_id, id, name) }
+        .map { |id, name| menu_item({ query_id: id }, name) }
     end
 
     def custom_queries
@@ -79,7 +78,7 @@ module Gantt
         .where('starred' => 'f')
         .where('public' => 'f')
         .pluck(:id, :name)
-        .map { |id, name| menu_item(:query_id, id, name) }
+        .map { |id, name| menu_item({ query_id: id }, name) }
     end
 
     def base_query
@@ -95,21 +94,27 @@ module Gantt
       base_query
     end
 
-    def menu_item(filter_key, filter_val, name)
+    def menu_item(query_params, name)
       OpenProject::Menu::MenuItem.new(title: name,
-                                      href: gantt_path(filter_key, filter_val),
-                                      selected: selected?(filter_key, filter_val))
+                                      href: gantt_path(query_params),
+                                      selected: selected?(query_params))
     end
 
-    def selected?(filter_key, value)
-      params[filter_key] == value.to_s
+    def selected?(query_params)
+      query_params.each_key do |filter_key|
+        if params[filter_key] != query_params[filter_key].to_s
+          return false
+        end
+      end
+
+      true
     end
 
-    def gantt_path(filter_key, id)
+    def gantt_path(query_params)
       if @project.present?
-        project_gantt_index_path(@project, params.permit(filter_key).merge!(filter_key => id))
+        project_gantt_index_path(@project, params.permit(query_params.keys).merge!(query_params))
       else
-        gantt_index_path(params.permit(filter_key).merge!(filter_key => id))
+        gantt_index_path(params.permit(query_params.keys).merge!(query_params))
       end
     end
   end
