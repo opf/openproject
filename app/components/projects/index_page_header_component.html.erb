@@ -93,13 +93,6 @@
       %>
     <% end %>
 
-    <%= render(Primer::Alpha::Dialog.new(title: t('js.label_export'),
-                                         id: EXPORT_MODAL_ID)) do |d|
-      d.with_header(variant: :large)
-      d.with_body do
-        render partial: '/projects/project_export_modal', locals: { query: query }
-      end
-    end %>
   <% else %>
       <% header.with_title(mt: 2, mb: 2, data: { 'test-selector': 'project-query-name'}) do
         primer_form_with(model: query,
@@ -115,4 +108,14 @@
         end
       end %>
   <% end %>
+<% end %>
+
+<% if show_state? %>
+  <%= render(Primer::Alpha::Dialog.new(title: t('js.label_export'),
+                                       id: EXPORT_MODAL_ID)) do |d|
+    d.with_header(variant: :large)
+    d.with_body do
+      render partial: '/projects/project_export_modal', locals: { query: query }
+    end
+  end %>
 <% end %>

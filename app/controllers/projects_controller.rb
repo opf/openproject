@@ -58,7 +58,7 @@ class ProjectsController < ApplicationController
       end
 
       format.any(*supported_export_formats) do
-        export_list(request.format.symbol)
+        export_list(call.result, request.format.symbol)
       end
     end
   end
@@ -111,12 +111,12 @@ class ProjectsController < ApplicationController
     @project = nil
   end
 
-  def export_list(mime_type)
+  def export_list(query, mime_type)
     job = Projects::ExportJob.perform_later(
       export: Projects::Export.create,
       user: current_user,
       mime_type:,
-      query: @query.to_hash
+      query: query.to_hash
     )
 
     if request.headers['Accept']&.include?('application/json')
