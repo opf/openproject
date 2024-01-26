@@ -425,7 +425,7 @@ GEM
       nokogiri (~> 1.8)
     concurrent-ruby (1.2.3)
     connection_pool (2.4.1)
-    cookiejar (0.3.3)
+    cookiejar (0.3.4)
     crack (0.4.5)
       rexml
     crass (1.0.6)
@@ -511,7 +511,7 @@ GEM
       tzinfo
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
-    excon (0.108.0)
+    excon (0.109.0)
     factory_bot (6.4.5)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.4.3)
@@ -535,7 +535,7 @@ GEM
       fog-core (~> 2.1)
       fog-json (~> 1.1)
       fog-xml (~> 0.1)
-    fog-core (2.3.0)
+    fog-core (2.4.0)
       builder
       excon (~> 0.71)
       formatador (>= 0.2, < 2.0)
