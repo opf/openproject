@@ -632,10 +632,10 @@ GEM
     ice_cube (0.16.4)
     ice_nine (0.11.2)
     interception (0.5)
-    io-console (0.7.1)
-    irb (1.11.0)
+    io-console (0.7.2)
+    irb (1.11.1)
       rdoc
-      reline (>= 0.3.8)
+      reline (>= 0.4.2)
     iso8601 (0.13.0)
     jmespath (1.6.2)
     json (2.7.1)
@@ -888,7 +888,7 @@ GEM
     redis-client (0.19.1)
       connection_pool
     regexp_parser (2.9.0)
-    reline (0.4.1)
+    reline (0.4.2)
       io-console (~> 0.5)
     representable (3.2.0)
       declarative (< 0.1.0)
