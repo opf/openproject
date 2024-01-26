@@ -317,7 +317,7 @@ group :development, :test do
 
   gem 'pry-byebug', '~> 3.10.0', platforms: [:mri]
   gem 'pry-rails', '~> 0.3.6'
-  gem 'pry-rescue', '~> 1.5.2'
+  gem 'pry-rescue', '~> 1.6.0'
   gem 'pry-doc'
 
   # ruby linting

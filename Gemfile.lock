@@ -792,7 +792,7 @@ GEM
       yard (~> 0.9.11)
     pry-rails (0.3.9)
       pry (>= 0.10.4)
-    pry-rescue (1.5.2)
+    pry-rescue (1.6.0)
       interception (>= 0.5)
       pry (>= 0.12.0)
     psych (5.1.2)
@@ -1229,7 +1229,7 @@ DEPENDENCIES
   pry-byebug (~> 3.10.0)
   pry-doc
   pry-rails (~> 0.3.6)
-  pry-rescue (~> 1.5.2)
+  pry-rescue (~> 1.6.0)
   puffing-billy (~> 4.0.0)
   puma (~> 6.4)
   puma-plugin-statsd (~> 2.0)
