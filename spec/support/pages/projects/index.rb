@@ -177,6 +177,16 @@ module Pages
         end
       end
 
+      def remove_filter(name)
+        page.find("li[filter-name='#{name}'] .filter_rem").click
+      end
+
+      def apply_filters
+        within('.advanced-filters--filters') do
+          click_on 'Apply'
+        end
+      end
+
       def set_toggle_filter(values)
         should_active = values.first == 'yes'
         is_active = page.has_selector? '[data-test-selector="spot-switch-handle"][data-qa-active]'
@@ -266,6 +276,20 @@ module Pages
       def delete_query
         accept_confirm do
           click_more_menu_item('Delete')
+        end
+      end
+
+      def sort_by(column_name)
+        find('.generic-table--sort-header a', text: column_name.upcase).click
+      end
+
+      def set_page_size(size)
+        find('.op-pagination--options .op-pagination--item', text: size).click
+      end
+
+      def got_to_page(page_number)
+        within '.op-pagination--pages' do
+          find('.op-pagination--item-link', text: page_number).click
         end
       end
 

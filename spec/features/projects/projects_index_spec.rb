@@ -285,7 +285,7 @@ RSpec.describe 'Projects index page',
       wait_for_reload
 
       # Sorts ASC by name
-      click_on 'Sort by "Name"'
+      projects_page.sort_by('Name')
       wait_for_reload
 
       # Results should be filtered and ordered ASC by name
@@ -295,9 +295,9 @@ RSpec.describe 'Projects index page',
       expect(page).to have_text('Next') # as the result set is larger than 1
 
       # Changing the page size to 5 and back to 1 should not change the filters (which we test later on the second page)
-      find('.op-pagination--options .op-pagination--item', text: '5').click # click page size '5'
+      projects_page.set_page_size(5)
       wait_for_reload
-      find('.op-pagination--options .op-pagination--item', text: '1').click # return back to page size '1'
+      projects_page.set_page_size(1)
       wait_for_reload
       click_on '2' # Go to pagination page 2
 
@@ -308,7 +308,7 @@ RSpec.describe 'Projects index page',
       projects_page.expect_total_pages(2) # Filters kept active, so there is no third page.
 
       # Sorts DESC by name
-      click_on 'Ascending sorted by "Name"'
+      projects_page.sort_by('Name')
       wait_for_reload
 
       # Clicking on sorting resets the page to the first one

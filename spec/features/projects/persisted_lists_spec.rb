@@ -61,6 +61,16 @@ RSpec.describe 'Persisted lists on projects index page',
   end
 
   let(:projects_page) { Pages::Projects::Index.new }
+  let(:my_projects_list) do
+    create(:project_query, name: 'My projects list', user:) do |query|
+      query.where('member_of', '=', OpenProject::Database::DB_VALUE_TRUE)
+
+      query.save!
+    end
+  end
+  let(:another_users_projects_list) do
+    create(:project_query, name: 'Admin projects list', user: admin)
+  end
 
   describe 'static lists in the sidebar' do
     let(:current_user) { admin }
@@ -199,20 +209,27 @@ RSpec.describe 'Persisted lists on projects index page',
   end
 
   describe 'persisting queries' do
-    current_user { admin }
+    current_user { user }
 
-    let!(:member) { create(:member, principal: admin, project:, roles: [developer]) }
+    let!(:project_member) { create(:member, principal: user, project:, roles: [developer]) }
+    let!(:development_project_member) { create(:member, principal: user, project: development_project, roles: [developer]) }
 
     it 'allows saving, loading and deleting persisted filters' do
       projects_page.visit!
+
+      # The default filter is active
+      projects_page.expect_title('Active projects')
 
       # Adding some filters
       projects_page.open_filters
       projects_page.filter_by_membership('yes')
 
+      # By applying another filter, the title is changed as it does not longer match the default filter
+      projects_page.expect_title('Projects')
+
       # The filters are applied
-      projects_page.expect_projects_listed(project)
-      projects_page.expect_projects_not_listed(public_project, development_project)
+      projects_page.expect_projects_listed(project, development_project)
+      projects_page.expect_projects_not_listed(public_project)
 
       # Saving the query will lead to it being displayed in the sidebar
       projects_page.save_query('My saved query')
@@ -229,14 +246,113 @@ RSpec.describe 'Persisted lists on projects index page',
 
       projects_page.expect_title('My saved query')
 
-      projects_page.expect_projects_listed(project)
-      projects_page.expect_projects_not_listed(public_project, development_project)
+      projects_page.expect_projects_listed(project, development_project)
+      projects_page.expect_projects_not_listed(public_project)
 
       # The query can be deleted
       projects_page.delete_query
 
       # It will then also be removed from the sidebar
       projects_page.expect_no_sidebar_filter('My saved query')
+      # And the default filter will be active again
+      projects_page.expect_title('Active projects')
+      projects_page.expect_projects_listed(project, public_project, development_project)
+    end
+  end
+
+  describe 'persisted filters' do
+    current_user { user }
+
+    let(:another_project) do
+      create(:project,
+             name: 'Another project',
+             identifier: 'another-project')
+    end
+
+    let!(:project_member) { create(:member, principal: user, project:, roles: [developer]) }
+    let!(:development_project_member) { create(:member, principal: user, project: development_project, roles: [developer]) }
+    let!(:another_project_member) { create(:member, principal: user, project: another_project, roles: [developer]) }
+
+    before do
+      another_users_projects_list
+      my_projects_list
+
+      allow(Setting).to receive(:per_page_options_array).and_return([1, 2])
+    end
+
+    it 'keep the query active when applying orders and page changes' do
+      projects_page.visit!
+
+      # The user can select the list but cannot see another user's list
+      projects_page.set_sidebar_filter(my_projects_list.name)
+      projects_page.expect_no_sidebar_filter(another_users_projects_list.name)
+
+      # Sorts ASC by name
+      projects_page.sort_by('Name')
+
+      # Results should be filtered and ordered ASC by name and the user is still on the first page
+      projects_page.expect_title(my_projects_list.name)
+      projects_page.expect_projects_listed(another_project)
+      projects_page.expect_projects_not_listed(development_project, # Because it is on the second page
+                                               project,             # Because it is on the third page
+                                               public_project)      # Because it is filtered out
+      projects_page.expect_current_page_number(1)
+
+      projects_page.got_to_page(2)
+
+      # The title is kept
+      projects_page.expect_title(my_projects_list.name)
+      # The filters are still active
+      projects_page.expect_projects_listed(development_project)
+      projects_page.expect_projects_not_listed(another_project,     # Because it is on the first page
+                                               project,             # Because it is on the third page
+                                               public_project)      # Because it is filtered out
+
+      # Sorts DESC by name
+      projects_page.sort_by('Name')
+
+      # The title is kept
+      projects_page.expect_title(my_projects_list.name)
+      # The filters are still active but the page is reset so that the user is on the first page again
+      projects_page.expect_current_page_number(1)
+      projects_page.expect_projects_listed(project)
+      projects_page.expect_projects_not_listed(development_project, # Because it is on the second page
+                                               another_project,     # Because it is on the third page
+                                               public_project)      # Because it is filtered out
+
+      # Move to the third page
+      projects_page.got_to_page(3)
+
+      projects_page.expect_projects_listed(another_project)
+      projects_page.expect_projects_not_listed(development_project, # Because it is on the second page
+                                               project,             # Because it is on the first page
+                                               public_project)      # Because it is filtered out
+
+      # Changing the page size
+      projects_page.set_page_size(2)
+
+      # The filters and order are kept and the user is on the first page
+      projects_page.expect_current_page_number(1)
+      projects_page.expect_projects_listed(project,
+                                           development_project) # Because of the increased page size, it is now displayed
+      projects_page.expect_projects_not_listed(another_project,    # Because it is on the second page
+                                               public_project)     # Because it is filtered out
+
+      projects_page.got_to_page(2)
+
+      # But if filters are applied, the sort order is kept, the title is lost and the page number is reset
+      projects_page.open_filters
+      projects_page.remove_filter('member_of')
+      projects_page.filter_by_active('yes')
+
+      # Using the default filter again
+      projects_page.expect_title('Projects')
+      projects_page.expect_current_page_number(1)
+
+      projects_page.expect_projects_listed(project,
+                                           public_project) # Because it is now in the filter set
+      projects_page.expect_projects_not_listed(another_project, # Because it is on the second page
+                                               development_project) # Because it is on the second page
     end
   end
 end
