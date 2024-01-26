@@ -143,8 +143,9 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
         'amet', ', consetetur sadipscing elitr.', ' ', '@OpenProject Admin',
         'Image Caption',
         'Foo',
+        '1', export_time_formatted, project.name,
         'LongText', 'foo',
-        '1', export_time_formatted, project.name
+        '2', export_time_formatted, project.name
       ].join(' ')
       expect(result).to eq(expected_result)
       expect(result).not_to include('DisabledCustomField')
