@@ -11,6 +11,20 @@ The following files will be used in the examples.
 
 There is also a script ([restore.sh](./restore.sh)) that shows how to use everything together.
 
+## 0. Prerequisites
+
+* you have a Backup of your OpenProject installation with the missing data still present
+* you have restored the database dump of this backup into a new, separate database called `openproject_backup`
+  * Created, for instance, via
+    * `psql -c 'create database openproject_backup'`
+    * `pg_restore -d openproject_backup openproject.pgdump`
+* your present OpenProject database is called `openproject`
+
+It does not matter where the actual Postgres server is running.
+In all the following examples we simply use `psql -d openproject_backup` and `psql -d openproject` respectively. Where `openproject_backup` and `openproject` are the names of the databases within Postgres.
+
+In your case you may have to provide more options (e.g. the user or host) to connect to the respective database.
+
 ## 1. Dump project data from backup
 
 First we copy the data from the backup, that was deleted later.
