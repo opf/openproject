@@ -210,7 +210,7 @@ export default class FiltersController extends Controller {
         const parsedValue = this.parseFilterValue(filterName, filterType, parsedOperator) as string[]|null;
 
         if (parsedValue) {
-          const valuesString = parsedValue.length > 1 ? `[${parsedValue.map((v) => `"${this.replaceAmpersand(v)}"`).join(',')}]` : this.replaceAmpersand(parsedValue[0]);
+          const valuesString = parsedValue.length > 1 ? `[${parsedValue.map((v) => `"${this.replaceDoubleQuotes(v)}"`).join(',')}]` : `"${this.replaceDoubleQuotes(parsedValue[0])}"`;
 
           filters.push(`${filterName} ${parsedOperator} ${valuesString}`);
         }
@@ -220,8 +220,8 @@ export default class FiltersController extends Controller {
     return filters;
   }
 
-  private replaceAmpersand(value:string) {
-    return value && value.length > 0 ? value.replace(/&/g, '\\&') : '';
+  private replaceDoubleQuotes(value:string) {
+    return value && value.length > 0 ? value.replace(/"/g, '\\"') : '';
   }
 
   private readonly operatorsWithoutValues = ['*', '!*', 't', 'w'];

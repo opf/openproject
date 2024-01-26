@@ -84,16 +84,18 @@ RSpec.describe Queries::ParamsParser, type: :model do
       end
     end
 
-    context 'with a single filter with a single value with , and & (escaped)' do
+    context 'with a single filter with a single value with , and &' do
       let(:params) do
         {
-          filters: 'active = something, or another thing \& something else'
+          filters: 'active = something, or another thing & something else'
         }
       end
 
       it 'returns the parsed filter' do
+        # This returns invalid filters but they will then be marked as invalid
         expect(subject[:filters])
-          .to contain_exactly({ attribute: 'active', operator: '=', values: ["something, or another thing & something else"] })
+          .to contain_exactly({ attribute: 'active', operator: '=', values: ["something, or another thing "] },
+                              { attribute: 'something', operator: 'else', values: [''] })
       end
     end
 
@@ -110,7 +112,20 @@ RSpec.describe Queries::ParamsParser, type: :model do
       end
     end
 
-    context 'with a single filter with a no value' do
+    context 'with a single filter with a single value with \' (escaped)' do
+      let(:params) do
+        {
+          filters: "active = 'something, or another thing \\' something else'"
+        }
+      end
+
+      it 'returns the parsed filter' do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: 'active', operator: '=', values: ["something, or another thing ' something else"] })
+      end
+    end
+
+    context 'with a single filter with no value' do
       let(:params) do
         {
           filters: 'cf_512 !* '
@@ -119,7 +134,87 @@ RSpec.describe Queries::ParamsParser, type: :model do
 
       it 'returns the parsed filter' do
         expect(subject[:filters])
-          .to contain_exactly({ attribute: 'cf_512', operator: '!*', values: [""] })
+          .to contain_exactly({ attribute: 'cf_512', operator: '!*', values: [''] })
+      end
+    end
+
+    context 'with multiple filters with the first having no value' do
+      let(:params) do
+        {
+          filters: "active !* & id = \"1\""
+        }
+      end
+
+      it 'returns the parsed filter' do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: 'active', operator: '!*', values: [] },
+                              { attribute: 'id', operator: '=', values: ["1"] })
+      end
+    end
+
+    context 'with multiple filters with ampersand as a filter value' do
+      let(:params) do
+        {
+          filters: "active = \"t\" & name_and_identifier ~ \"abc & def\""
+        }
+      end
+
+      it 'returns the parsed filter' do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: 'active', operator: '=', values: ["t"] },
+                              { attribute: 'name_and_identifier', operator: '~', values: ["abc & def"] })
+      end
+    end
+
+    context 'with a corrupt filter only having a key' do
+      let(:params) do
+        {
+          filters: "active"
+        }
+      end
+
+      it 'returns the parsed filter' do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: 'active', operator: '', values: [""] })
+      end
+    end
+
+    context 'with a corrupt filter having opening braces but no closing ones' do
+      let(:params) do
+        {
+          filters: "active = [\"t\", \"f\""
+        }
+      end
+
+      it 'returns the parsed filter' do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: 'active', operator: '=', values: %w[t f] })
+      end
+    end
+
+    context 'with a corrupt filter having opening double quotes but no closing ones' do
+      let(:params) do
+        {
+          filters: 'active = "t'
+        }
+      end
+
+      it 'returns the parsed filter' do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: 'active', operator: '=', values: %w[t] })
+      end
+    end
+
+    context 'with a corrupt filter having opening single quotes but no closing ones' do
+      let(:params) do
+        {
+          filters: "active = 't"
+        }
+      end
+
+      it 'returns the parsed filter' do
+        expect(subject[:filters])
+          .to contain_exactly({ attribute: 'active', operator: '=', values: %w[t] })
       end
     end
 

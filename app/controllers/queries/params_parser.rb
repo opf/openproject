@@ -40,33 +40,7 @@ module Queries
       private
 
       def parse_filters_from_params(params)
-        filters = params[:filters].split(/(?<!\\)&/)
-
-        filters.map do |filter|
-          filter_parts = filter.split
-
-          {
-            attribute: filter_parts[0],
-            operator: filter_parts[1],
-            values: parse_filter_value(filter_parts[2..].join(' '))
-          }
-        end
-      end
-
-      def parse_filter_value(values)
-        if values.start_with?("[") && values.end_with?("]")
-          values[1..-2].scan(/['"](.*?)['"]/).flatten.map { |v| escape_filter_value(v) }
-        else
-          [escape_filter_value(values.gsub('\&', '&'))]
-        end
-      end
-
-      def escape_filter_value(value)
-        if value.start_with?('"') && value.end_with?('"')
-          value[1..-2].gsub('\&', '&').gsub('\"', '"')
-        else
-          value.gsub('\&', '&')
-        end
+        FilterParser.new(params[:filters]).parse
       end
 
       def parse_orders_from_params(params)
@@ -75,6 +49,93 @@ module Queries
             .map { |k, v| { attribute: k, direction: v } }
       rescue JSON::ParserError
         [{ attribute: 'invalid', direction: 'asc' }]
+      end
+    end
+
+    class FilterParser
+      def initialize(string)
+        @buffer = StringScanner.new(string)
+      end
+
+      def parse
+        filters = []
+
+        while !@buffer.eos?
+          filters << parse_filter
+        end
+
+        filters
+      end
+
+      private
+
+      def parse_filter
+        consume_ampersand
+
+        {
+          attribute: parse_name,
+          operator: parse_operator,
+          values: parse_values
+        }
+      end
+
+      def consume_ampersand
+        case @buffer.peek(1)
+        when '&', /\s/
+          @buffer.getch
+          consume_ampersand
+        end
+      end
+
+      def parse_name
+        @buffer.scan_until(/\s|\z/).strip
+      end
+
+      def parse_operator
+        @buffer.scan_until(/\s|\z/).strip
+      end
+
+      def parse_values
+        case @buffer.peek(1)
+        when '"'
+          parse_doublequoted_value
+        when "'"
+          parse_singlequoted_value
+        when '['
+          parse_array_value
+        when '&'
+          []
+        else
+          parse_unguarded_value
+        end
+      end
+
+      def parse_doublequoted_value
+        @buffer.getch
+        [@buffer.scan_until(/(?<!\\)"|\z/).delete_suffix('"').delete("\\")]
+      end
+
+      def parse_singlequoted_value
+        @buffer.getch
+        [@buffer.scan_until(/(?<!\\)'|\z/).delete_suffix("'").delete("\\")]
+      end
+
+      def parse_unguarded_value
+        value = @buffer
+                  .scan_until(/&|\z/)
+                  .delete_suffix('&')
+
+        [value]
+      end
+
+      def parse_array_value
+        @buffer
+          .scan_until(/]|\z/)
+          .delete_suffix(']')
+          .delete_prefix('[')
+          .scan(/(?:'([^']*)')|(?:"([^"]*)")/)
+          .flatten
+          .compact
       end
     end
   end
