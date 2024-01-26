@@ -59,9 +59,6 @@ FOR source_table, source_column IN (
   from information_schema.columns
   where table_schema = 'public' and column_name = 'project_id'
     and table_name not like '%_journals'
-    and table_name != 'grids'
-    -- apparently grids do not get deleted when a project is which is why we skip them here
-    -- otherwise there will be an 'already exists' error during restoration later
 )
 LOOP
   EXECUTE 'CREATE TABLE missing_' || source_table || ' AS (' ||
