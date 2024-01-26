@@ -944,8 +944,8 @@ GEM
       parser (>= 3.2.1.0)
     rubocop-capybara (2.20.0)
       rubocop (~> 1.41)
-    rubocop-factory_bot (2.25.0)
-      rubocop (~> 1.33)
+    rubocop-factory_bot (2.25.1)
+      rubocop (~> 1.41)
     rubocop-inflector (0.2.1)
       activesupport
       rubocop
