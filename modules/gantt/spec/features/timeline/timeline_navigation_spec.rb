@@ -132,7 +132,7 @@ RSpec.describe 'Work package timeline navigation',
       find('#main-menu-gantt-wrapper .main-menu-toggler').click
 
       # Select first query again
-      query_menu.select query_tl
+      query_menu.click_item query_tl.name
 
       wp_timeline.expect_timeline!(open: true)
       wp_timeline.expect_work_package_listed work_package2

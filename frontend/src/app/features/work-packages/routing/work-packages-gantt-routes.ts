@@ -35,6 +35,8 @@ import { makeSplitViewRoutes } from 'core-app/features/work-packages/routing/spl
 
 export const menuItemClass = 'gantt-menu-item';
 
+export const sidemenuId = 'gantt_menu';
+
 export const WORK_PACKAGES_GANTT_ROUTES:Ng2StateDeclaration[] = [
   {
     name: 'gantt',
@@ -47,6 +49,8 @@ export const WORK_PACKAGES_GANTT_ROUTES:Ng2StateDeclaration[] = [
     data: {
       bodyClasses: 'router--work-packages-base',
       menuItem: menuItemClass,
+      sidemenuId,
+      hardReloadOnBaseRoute: true,
     },
     params: {
       query_id: { type: 'query', dynamic: true },
@@ -64,6 +68,8 @@ export const WORK_PACKAGES_GANTT_ROUTES:Ng2StateDeclaration[] = [
     data: {
       // This has to be empty to avoid inheriting the parent bodyClasses
       bodyClasses: '',
+      sidemenuId,
+      hardReloadOnBaseRoute: true,
     },
   },
   {
@@ -77,6 +83,8 @@ export const WORK_PACKAGES_GANTT_ROUTES:Ng2StateDeclaration[] = [
       bodyClasses: 'router--work-packages-partitioned-split-view',
       menuItem: menuItemClass,
       partition: '-left-only',
+      sidemenuId,
+      hardReloadOnBaseRoute: true,
     },
   },
   ...makeSplitViewRoutes(
