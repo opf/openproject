@@ -13,14 +13,14 @@ vi:
         item_2:
           name: Cao
         item_3:
-          name: Critical
+          name: Nghiêm trọng
       statuses:
         item_0:
           name: Mới
         item_1:
           name: Đang xử lý
         item_2:
-          name: Resolved
+          name: Đã giải quyết
         item_3:
           name: Đã đóng
       time_entry_activities:
@@ -40,19 +40,19 @@ vi:
         item_3:
           name: Vấn đề
         item_4:
-          name: Remark
+          name: Lưu ý
         item_5:
-          name: Request
+          name: Yêu cầu
         item_6:
-          name: Clash
+          name: Xung đột
       global_queries:
         item_0:
-          name: 'Embedded table: Children'
+          name: 'Bảng nhúng: cấp dưới'
       type_configuration:
         item_0:
           form_configuration:
             item_0:
-              group_name: Children
+              group_name: Cấp dưới
       groups:
         item_0:
           name: Architects
