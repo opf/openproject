@@ -159,7 +159,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
 
       this.showToolbarSaveButton = !!params.query_props;
       this.setPartition(toState);
-      this.wpTableFilters.clear('wat');
+      // this.wpTableFilters.clear('wat');
 
       this
         .board$
