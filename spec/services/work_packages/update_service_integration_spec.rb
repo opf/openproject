@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,7 +30,7 @@
 
 require 'spec_helper'
 
-RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
+RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
   let(:user) do
     create(:user, member_with_roles: { project => role })
   end
@@ -106,7 +108,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
   describe 'updating subject' do
     let(:attributes) { { subject: 'New subject' } }
 
-    it 'works' do
+    it 'updates the subject' do
       expect(subject)
         .to be_success
 
@@ -413,34 +415,29 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
         .to be_success
 
       # receives the provided start/finish date
-      expect(work_package.start_date)
-        .to eql(attributes[:start_date])
-      expect(work_package.due_date)
-        .to eql(attributes[:due_date])
+      expect(work_package)
+        .to have_attributes(start_date: attributes[:start_date],
+                            due_date: attributes[:due_date])
 
       # receives the min/max of the children's start/finish date
       [parent_work_package,
        grandparent_work_package].each do |wp|
         wp.reload
-
-        expect(wp.start_date)
-          .to eql(attributes[:start_date])
-        expect(wp.due_date)
-          .to eql(sibling2_work_package.due_date)
+        expect(wp)
+          .to have_attributes(start_date: attributes[:start_date],
+                              due_date: sibling2_work_package.due_date)
       end
 
       # sibling dates are unchanged
       sibling1_work_package.reload
-      expect(sibling1_work_package.start_date)
-        .to eql(sibling1_attributes[:start_date])
-      expect(sibling1_work_package.due_date)
-        .to eql(sibling1_attributes[:due_date])
+      expect(sibling1_work_package)
+        .to have_attributes(start_date: sibling1_attributes[:start_date],
+                            due_date: sibling1_attributes[:due_date])
 
       sibling2_work_package.reload
-      expect(sibling2_work_package.start_date)
-        .to eql(sibling2_attributes[:start_date])
-      expect(sibling2_work_package.due_date)
-        .to eql(sibling2_attributes[:due_date])
+      expect(sibling2_work_package)
+        .to have_attributes(start_date: sibling2_attributes[:start_date],
+                            due_date: sibling2_attributes[:due_date])
 
       expect(subject.all_results)
         .to contain_exactly(work_package, parent_work_package, grandparent_work_package)
