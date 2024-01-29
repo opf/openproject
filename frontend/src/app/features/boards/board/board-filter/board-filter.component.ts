@@ -1,14 +1,17 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import { Board } from 'core-app/features/boards/board/board';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
+import {
+  WorkPackageStatesInitializationService,
+} from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
-import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+import {
+  WorkPackageViewFiltersService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { StateService } from '@uirouter/core';
-import { debounceTime, skip, take } from 'rxjs/operators';
+import { debounceTime, filter, map, skip, take } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { Observable } from 'rxjs';
 import { BoardFiltersService } from 'core-app/features/boards/board/board-filter/board-filters.service';
@@ -59,14 +62,15 @@ export class BoardFilterComponent extends UntilDestroyedMixin implements AfterVi
 
   private updateChecksumOnFilterChanges() {
     this.wpTableFilters
-      .live$()
+      .updates$()
       .pipe(
         this.untilDestroyed(),
         skip(1),
         debounceTime(250),
+        map(() => this.wpTableFilters.current),
+        filter((filters) => filters.length > 0),
       )
-      .subscribe(() => {
-        const filters:QueryFilterInstanceResource[] = this.wpTableFilters.current;
+      .subscribe((filters) => {
         const filterHash = this.urlParamsHelper.buildV3GetFilters(filters);
         const query_props = JSON.stringify(filterHash);
 

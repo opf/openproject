@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Injector,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector } from '@angular/core';
 import {
   DynamicComponentDefinition,
   ToolbarButtonComponentDefinition,
@@ -11,35 +6,32 @@ import {
 } from 'core-app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component';
 import { StateService, TransitionService } from '@uirouter/core';
 import { BoardFilterComponent } from 'core-app/features/boards/board/board-filter/board-filter.component';
-import { Board } from 'core-app/features/boards/board/board';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { BoardService } from 'core-app/features/boards/board/board.service';
 import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
-import { WorkPackageFilterButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
-import { ZenModeButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
-import { BoardsMenuButtonComponent } from 'core-app/features/boards/board/toolbar-menu/boards-menu-button.component';
-import { RequestSwitchmap } from 'core-app/shared/helpers/rxjs/request-switchmap';
-import { componentDestroyed } from '@w11k/ngx-componentdestroyed';
 import {
-  catchError,
-  finalize,
-  take,
-  tap,
-} from 'rxjs/operators';
+  WorkPackageFilterButtonComponent,
+} from 'core-app/features/work-packages/components/wp-buttons/wp-filter-button/wp-filter-button.component';
+import {
+  ZenModeButtonComponent,
+} from 'core-app/features/work-packages/components/wp-buttons/zen-mode-toggle-button/zen-mode-toggle-button.component';
+import { BoardsMenuButtonComponent } from 'core-app/features/boards/board/toolbar-menu/boards-menu-button.component';
+import { catchError, finalize, take } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { Ng2StateDeclaration } from '@uirouter/angular';
 import { BoardFiltersService } from 'core-app/features/boards/board/board-filter/board-filters.service';
-import { CardViewHandlerRegistry } from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
+import {
+  CardViewHandlerRegistry,
+} from 'core-app/features/work-packages/components/wp-card-view/event-handler/card-view-handler-registry';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
+import { EMPTY } from 'rxjs';
 import {
-  EMPTY,
-  Observable,
-  of,
-} from 'rxjs';
+  WorkPackageViewFiltersService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 
 export function boardCardViewHandlerFactory(injector:Injector) {
   return new CardViewHandlerRegistry(injector);
@@ -152,6 +144,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
     readonly boardFilters:BoardFiltersService,
     readonly Boards:BoardService,
     readonly titleService:OpTitleService,
+    readonly wpTableFilters:WorkPackageViewFiltersService,
   ) {
     super();
   }
@@ -166,6 +159,7 @@ export class BoardPartitionedPageComponent extends UntilDestroyedMixin {
 
       this.showToolbarSaveButton = !!params.query_props;
       this.setPartition(toState);
+      this.wpTableFilters.clear('wat');
 
       this
         .board$
