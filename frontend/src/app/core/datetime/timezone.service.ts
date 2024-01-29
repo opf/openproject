@@ -37,13 +37,7 @@ export class TimezoneService {
   constructor(
     readonly configurationService:ConfigurationService,
     readonly I18n:I18nService,
-  ) {
-    this.setupLocale();
-  }
-
-  public setupLocale():void {
-    moment.locale(I18n.locale);
-  }
+  ) { }
 
   /**
    * Returns the user's configured timezone or guesses it through moment
