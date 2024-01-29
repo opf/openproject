@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Restoring a deleted project
+  priority: 8
+keywords: deleted project, restore, restoring
+---
+
 # Restoring a deleted project
 
 Sometimes it may happen that you delete a project on accident.
@@ -37,7 +44,7 @@ the missing data into the current database.
 Before performing the next step, edit the `dump.sql` file and change the missing project ID
 to the correct value in the head of the file where it says 'DEFINE MISSING PROJECT ID HERE'.
 
-```
+```shell
 cat dump.sql | psql -d openproject_backup
 
 pg_dump -d openproject_backup -t 'missing_*' -f missing_data.sql
@@ -47,7 +54,7 @@ pg_dump -d openproject_backup -t 'missing_*' -f missing_data.sql
 
 Now that we have the missing data, we can restore it in the current database.
 
-```
+```shell
 cat missing_data.sql | psql -d openproject
 cat restore.sql | psql -d openproject
 ```
@@ -68,7 +75,7 @@ and rebuild the hierarchy.
 
 To do this, start an OpenProject console (e.g. `sudo openproject run console`) and execute the following.
 
-```
+```ruby
 p = Project.find_by(name: "Restored project")
 
 p.update_column :lft, nil

@@ -8,7 +8,7 @@ sidebar_navigation:
 
 This document describes how to restore a complete backup of OpenProject.
 
-Please look [here](./restoring-a-deleted-project/README.md) if you want to restore a deleted project from a backup.
+Please look [here](./restoring-a-deleted-project/) if you want to restore a deleted project from a backup.
 
 ## Package-based installation (DEB/RPM)
 
