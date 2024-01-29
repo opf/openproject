@@ -1,11 +1,18 @@
 import { Injector } from '@angular/core';
-import { HighlightingTransformer } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/highlighting-transformer';
-import { DragAndDropTransformer } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/drag-and-drop-transformer';
 import {
-  WorkPackageViewEventHandler, WorkPackageViewOutputs,
+  HighlightingTransformer,
+} from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/highlighting-transformer';
+import {
+  DragAndDropTransformer,
+} from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/drag-and-drop-transformer';
+import {
+  WorkPackageViewEventHandler,
   WorkPackageViewHandlerRegistry,
+  WorkPackageViewOutputs,
 } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
-import { GroupFoldTransformer } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/group-fold-transformer';
+import {
+  GroupFoldTransformer,
+} from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/group-fold-transformer';
 import { WorkPackageTable } from '../wp-fast-table';
 import { EditCellHandler } from './cell/edit-cell-handler';
 import { RelationsCellHandler } from './cell/relations-cell-handler';
@@ -23,6 +30,9 @@ import { RelationsTransformer } from './state/relations-transformer';
 import { RowsTransformer } from './state/rows-transformer';
 import { SelectionTransformer } from './state/selection-transformer';
 import { TimelineTransformer } from './state/timeline-transformer';
+import {
+  SharingTransformer,
+} from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/sharing-transformer';
 
 type StateTransformers = {
   // noinspection JSUnusedLocalSymbols
@@ -68,6 +78,7 @@ export class TableHandlerRegistry extends WorkPackageViewHandlerRegistry<TableEv
     TimelineTransformer,
     HierarchyTransformer,
     RelationsTransformer,
+    SharingTransformer,
     HighlightingTransformer,
     DragAndDropTransformer,
   ];
