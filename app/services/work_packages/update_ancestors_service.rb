@@ -117,7 +117,7 @@ class WorkPackages::UpdateAncestorsService
     return if WorkPackage.use_status_for_done_ratio? && ancestor.status && ancestor.status.default_done_ratio
 
     # done ratio = weighted average ratio of leaves
-    ancestor.done_ratio = (aggregate_done_ratio(ancestor, loader) || 0).round
+    ancestor.derived_done_ratio = (aggregate_done_ratio(ancestor, loader) || 0).round
   end
 
   # Sets the ignore_non_working_days to true if any descendant has its value set to true.

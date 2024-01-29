@@ -68,14 +68,15 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       shared_let(:child) { create(:work_package, parent:, status: open_status) }
 
       shared_examples 'updates % complete of ancestors' do
-        it 'considers the work package as 100 % complete and sets the % complete value of the ancestors accordingly' do
+        it 'considers the work package as 100 % complete and sets the ' \
+           'derived % complete value of the ancestors accordingly' do
           expect do
             updated_attributes = child.changes.keys.map(&:to_sym)
             described_class.new(user:, work_package: child)
               .call(updated_attributes)
             parent.reload
           end
-            .to change(parent, :done_ratio).from(0).to(100)
+            .to change(parent, :derived_done_ratio).from(0).to(100)
         end
       end
 
@@ -112,8 +113,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           .to contain_exactly(parent)
         end
 
-        it 'has the expected aggregate done ratio' do
-          expect(subject.dependent_results.first.result.done_ratio)
+        it 'has the expected derived done ratio' do
+          expect(subject.dependent_results.first.result.derived_done_ratio)
           .to eq aggregate_done_ratio
         end
 
@@ -140,7 +141,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       subject do
         # In the call we only use estimated_hours (instead of also adding
         # done_ratio) in order to test that changes in estimated hours
-        # trigger a recalculation of done_ration, because estimated hours
+        # trigger a recalculation of done_ratio, because estimated hours
         # act as weights in this calculation.
         described_class
           .new(user:,
@@ -340,22 +341,22 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           .to contain_exactly(parent, grandparent)
       end
 
-      it 'updates the done_ratio, derived_estimated_hours, and derived_remaining_hours of the former parent' do
+      it 'updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the former parent' do
         expect do
           subject
           parent.reload
         end
-          .to change(parent, :done_ratio).to(sibling_done_ratio)
+          .to change(parent, :derived_done_ratio).to(sibling_done_ratio)
           .and change(parent, :derived_estimated_hours).to(parent_estimated_hours + sibling_estimated_hours)
           .and change(parent, :derived_remaining_hours).to(sibling_remaining_hours)
       end
 
-      it 'updates the done_ratio, derived_estimated_hours, and derived_remaining_hours of the former grandparent' do
+      it 'updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the former grandparent' do
         expect do
           subject
           grandparent.reload
         end
-          .to change(grandparent, :done_ratio).to(sibling_done_ratio)
+          .to change(grandparent, :derived_done_ratio).to(sibling_done_ratio)
           .and change(grandparent, :derived_estimated_hours).to(parent_estimated_hours + sibling_estimated_hours)
           .and change(grandparent, :derived_remaining_hours).to(sibling_remaining_hours)
       end
@@ -400,22 +401,23 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             .to contain_exactly(parent, grandparent)
         end
 
-        it 'updates the done_ratio, derived_estimated_hours, and derived_remaining_hours of the new parent' do
+        it 'updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the new parent' do
           expect do
             subject
             parent.reload
           end
-            .to change(parent, :done_ratio).to(done_ratio)
+            .to change(parent, :derived_done_ratio).to(done_ratio)
             .and change(parent, :derived_estimated_hours).to(parent_estimated_hours + estimated_hours)
             .and change(parent, :derived_remaining_hours).to(parent_remaining_hours + remaining_hours)
         end
 
-        it 'updates the done_ratio, derived_estimated_hours, and derived_remaining_hours of the new grandparent' do
+        it 'updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours ' \
+           'of the new grandparent' do
           expect do
             subject
             grandparent.reload
           end
-            .to change(grandparent, :done_ratio).to(done_ratio)
+            .to change(grandparent, :derived_done_ratio).to(done_ratio)
             .and change(grandparent, :derived_estimated_hours).to(parent_estimated_hours + estimated_hours)
             .and change(grandparent, :derived_remaining_hours).to(parent_remaining_hours + remaining_hours)
         end
@@ -462,7 +464,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       shared_let(:grandparent) do
         create(:work_package,
                subject: 'common grandparent',
-               done_ratio: done_ratio / 2, # two children having [done_ratio, 0]
+               derived_done_ratio: done_ratio / 2, # two children having [done_ratio, 0]
                derived_estimated_hours: estimated_hours,
                derived_remaining_hours: remaining_hours)
       end
@@ -470,7 +472,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
         create(:work_package,
                subject: 'old parent',
                parent: grandparent,
-               done_ratio:,
+               derived_done_ratio: done_ratio,
                derived_estimated_hours: estimated_hours,
                derived_remaining_hours: remaining_hours)
       end
@@ -521,32 +523,33 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           .to contain_exactly(new_parent, grandparent, old_parent)
       end
 
-      it 'updates the done_ratio, derived_estimated_hours, and derived_remaining_hours of the former parent to 0' do
+      it 'updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours ' \
+         'of the former parent to 0' do
         expect do
           subject
           old_parent.reload
         end
-          .to change(old_parent, :done_ratio).to(0)
+          .to change(old_parent, :derived_done_ratio).to(0)
           .and change(old_parent, :derived_estimated_hours).to(nil)
           .and change(old_parent, :derived_remaining_hours).to(nil)
       end
 
-      it 'updates the done_ratio, derived_estimated_hours, and derived_remaining_hours of the new parent' do
+      it 'updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the new parent' do
         expect do
           subject
           new_parent.reload
         end
-          .to change(new_parent, :done_ratio).to(new_done_ratio)
+          .to change(new_parent, :derived_done_ratio).to(new_done_ratio)
           .and change(new_parent, :derived_estimated_hours).to(new_estimated_hours)
           .and change(new_parent, :derived_remaining_hours).to(new_remaining_hours)
       end
 
-      it 'updates the done_ratio, derived_estimated_hours, and derived_remaining_hours of the grandparent' do
+      it 'updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the grandparent' do
         expect do
           subject
           grandparent.reload
         end
-          .to change(grandparent, :done_ratio).to(new_done_ratio / 2) # two children having [new_done_ratio, 0] now
+          .to change(grandparent, :derived_done_ratio).to(new_done_ratio / 2) # two children having [new_done_ratio, 0] now
           .and change(grandparent, :derived_estimated_hours).to(new_estimated_hours)
           .and change(grandparent, :derived_remaining_hours).to(new_remaining_hours)
       end

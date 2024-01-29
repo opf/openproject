@@ -495,7 +495,7 @@ RSpec.describe WorkPackages::UpdateService, 'integration tests', type: :model do
        grandparent_work_package].each do |wp|
         wp.reload
 
-        expect(wp.done_ratio)
+        expect(wp.derived_done_ratio)
           .to eql(calculated_ratio.to_i)
       end
 
