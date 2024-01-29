@@ -355,7 +355,7 @@ export class WorkPackagesListService {
         .then((loaded) => this.conditionallyLoadForm(loaded));
     }
 
-    if (!currentForm || query.$links.update.href !== currentForm.href) {
+    if (!currentForm || query.$links.update?.href !== currentForm.href) {
       return this.loadForm(query);
     }
 
