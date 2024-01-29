@@ -38,7 +38,6 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
                 :params
 
   BUTTON_MARGIN_RIGHT = 2
-  SAVE_MODAL_ID = 'op-project-list-save-dialog'
   EXPORT_MODAL_ID = 'op-project-list-export-dialog'
 
   STATE_DEFAULT = :show
