@@ -34,24 +34,9 @@
 
 $input-elements: input, 'input.form--text-field', select, 'select.form--select', '.form--field-affix', 'a.button'
 
-// These values are based on the new Primer::OpenProject::PageHeader implementation
-$toolbar-height: 195px
-$toolbar-height--mobile: 180px
-
 .generic-table--flex-container
   display: flex
   flex-direction: column
-  // Calculate table size by subtracting the space above
-  max-height: calc(100vh - #{var(--header-height)} - #{$toolbar-height})
-
-  @media screen and (max-width: $breakpoint-sm)
-    max-height: calc(100vh - #{var(--header-height)} - #{$toolbar-height--mobile})
-
-  .generic-table--container
-    display: contents
-
-  .generic-table
-    position: relative
 
 .generic-table--container
   position:     relative
