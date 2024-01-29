@@ -435,7 +435,8 @@ GEM
       capybara (~> 3.0)
       ferrum (~> 0.14.0)
     daemons (1.4.1)
-    dalli (3.2.6)
+    dalli (3.2.7)
+      base64
     date (3.3.4)
     date_validator (0.12.0)
       activemodel (>= 3)
