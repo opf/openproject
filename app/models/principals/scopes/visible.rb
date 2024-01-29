@@ -36,14 +36,13 @@ module Principals::Scopes
 
     class_methods do
       def visible(user = ::User.current)
-        RequestStore[:"principal_default_scope_#{user.id}"] ||=
-          if user.allowed_in_any_project?(:manage_members) ||
-            user.allowed_globally?(:manage_user) ||
-            user.allowed_in_any_project?(:share_work_packages)
-            all
-          else
-            in_visible_project_or_me(user)
-          end
+        if user.allowed_in_any_project?(:manage_members) ||
+          user.allowed_globally?(:manage_user) ||
+          user.allowed_in_any_project?(:share_work_packages)
+          all
+        else
+          in_visible_project_or_me(user)
+        end
       end
     end
   end
