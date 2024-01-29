@@ -31,6 +31,9 @@ $project-table--child-indentation: 1.1em
 $project-table--icon-distance: 5px
 $project-table--description-indention: 9px
 
+$toolbar-height: 80px
+$toolbar-height--mobile: 100px
+
 @mixin calc-indentation-name($indentation)
   // This does not work for big font-sizes
   padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} - #{$project-table--icon-distance})
@@ -134,3 +137,14 @@ body.controller-projects.action-index
     padding-left: 1em
   li
     list-style-type: none
+
+.project-list-container
+  display: flex
+  flex-direction: column
+  max-height: calc(100vh - #{$toolbar-height})
+
+.project-list
+  display: flex
+  flex-grow: 1
+  overflow: scroll
+
