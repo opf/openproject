@@ -258,7 +258,7 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.39.0'
+  gem 'capybara', '~> 3.40.0'
   gem 'capybara_accessible_selectors', git: 'https://github.com/citizensadvice/capybara_accessible_selectors', branch: 'main'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.15.0'
