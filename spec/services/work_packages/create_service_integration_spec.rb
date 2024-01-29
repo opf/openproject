@@ -80,6 +80,43 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
     login_as(user)
   end
 
+  context 'when the only type of the project is a milestone' do
+    let(:default_type) do
+      create(:type_milestone)
+    end
+    let(:project) { create(:project, types: [default_type]) }
+
+
+    describe 'call without date attributes' do
+      let(:attributes) do
+        { subject: 'blubs', project: }
+      end
+
+      it 'creates the default type without errors' do
+        expect(service_result).to be_success
+        expect(service_result.errors).to be_empty
+      end
+    end
+
+    describe 'call with a parent non-milestone with dates' do
+      let(:parent) do
+        create(:work_package,
+               project:,
+               start_date: '2024-01-01',
+               due_date: '2024-01-10',
+               type: create(:type))
+      end
+      let(:attributes) do
+        { subject: 'blubs', project:, parent: }
+      end
+
+      it 'creates the default type without errors' do
+        expect(service_result).to be_success
+        expect(service_result.errors).to be_empty
+      end
+    end
+  end
+
   describe '#call' do
     let(:attributes) do
       { subject: 'blubs',
