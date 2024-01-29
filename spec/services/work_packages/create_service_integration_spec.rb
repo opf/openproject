@@ -34,11 +34,7 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
   end
   let(:role) do
     create(:project_role,
-           permissions:)
-  end
-
-  let(:permissions) do
-    %i(view_work_packages add_work_packages manage_subtasks)
+           permissions: %i[view_work_packages add_work_packages manage_subtasks])
   end
 
   let(:type) do
@@ -51,6 +47,7 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
   let(:project) { create(:project, types: [type, default_type]) }
   let(:parent) do
     create(:work_package,
+           subject: 'parent',
            project:,
            type:)
   end
@@ -202,6 +199,31 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
 
         expect(users_attachment.reload.container)
           .to eql result.result
+      end
+    end
+
+    describe 'with a child creation with both dates and work' do
+      let(:start_date) { Date.current }
+      let(:due_date) { start_date + 3.days }
+      let(:attributes) do
+        {
+          subject: 'child',
+          project:,
+          parent:,
+          estimated_hours: 5,
+          start_date:,
+          due_date:
+        }
+      end
+
+      it 'correctly updates the parent values' do
+        expect(service_result)
+          .to be_success
+
+        parent.reload
+        expect(parent.derived_estimated_hours).to eq(5)
+        expect(parent.start_date).to eq(start_date)
+        expect(parent.due_date).to eq(due_date)
       end
     end
   end
