@@ -47,7 +47,11 @@ class FiltersComponent < ApplicationComponent
       active_filter = query.find_active_filter(filter.name)
       filter_active = active_filter.present?
 
-      yield(filter_active ? active_filter : filter, filter_active)
+      if filter_active
+        yield active_filter, filter_active
+      else
+        yield filter, filter_active
+      end
     end
   end
 
