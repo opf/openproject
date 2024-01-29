@@ -584,6 +584,8 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
         ([workPackages, projectAssignables]) => {
           const events = this.mapToCalendarEvents(workPackages.elements, projectAssignables);
 
+          this.workPackagesCalendar.warnOnTooManyResults(workPackages);
+
           this.removeExternalEvents();
 
           successCallback(events);
