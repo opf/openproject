@@ -71,8 +71,8 @@ module Projects::CustomFields
 
     # TBD: transform inputs called below to primer form dsl instead of form classes?
     # TODOS:
-    # - list inputs cannot be resetted currently (worked before refactoring though)
     # - initial values for user inputs are not displayed
+    # - allow/disallow-non-open version setting is not yet respected in the version selector
 
     def single_value_custom_field_input(builder, custom_field, custom_value)
       form_args = { custom_field:, custom_value:, project: @project }

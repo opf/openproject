@@ -37,7 +37,7 @@ module ::Overviews
       @section = find_project_custom_field_section
 
       # TODO: transform to contract/service-based approach with permission checks
-      @project.update_custom_field_values_of_section(@section, project_attribute_params)
+      @project.update_custom_field_values_of_section(@section, permitted_params.project)
 
       has_errors = @project.errors.any?
 
@@ -61,12 +61,6 @@ module ::Overviews
 
     def check_project_attributes_feature_enabled
       render_404 unless OpenProject::FeatureDecisions.project_attributes_active?
-    end
-
-    def project_attribute_params
-      params.require(:project).permit(
-        custom_field_values: {}
-      )
     end
 
     def active_project_custom_fields_grouped_by_section
@@ -109,42 +103,5 @@ module ::Overviews
         )
       )
     end
-
-    # resetting list values not working after refactoring, leave old code here for reference
-    #
-    # def unused_multi_values(section)
-    #   custom_field_values = []
-
-    #   transaction_custom_field_values(section, :multi_custom_field_values_attributes) do |custom_field_id, attributes|
-    #     custom_field_values.concat(detect_unused_multi_values(custom_field_id, attributes))
-    #   end
-
-    #   transaction_custom_field_values(section, :multi_user_custom_field_values_attributes) do |custom_field_id, attributes|
-    #     custom_field_values.concat(detect_unused_user_multi_values(custom_field_id, attributes))
-    #   end
-
-    #   custom_field_values
-    # end
-
-    # def detect_unused_multi_values(custom_field_id, attributes)
-    #   existing_values_to_keep = attributes[:values] || []
-    #   unused_multi_values_to_be_deleted(custom_field_id, existing_values_to_keep)
-    # end
-
-    # def detect_unused_user_multi_values(custom_field_id, attributes)
-    #   existing_values_to_keep = attributes[:comma_seperated_values][0]&.split(',') || []
-    #   unused_multi_values_to_be_deleted(custom_field_id, existing_values_to_keep)
-    # end
-
-    # def unused_multi_values_to_be_deleted(custom_field_id, existing_values_to_keep)
-    #   @project.custom_values
-    #     .where(custom_field_id: custom_field_id.to_i)
-    #     .where.not(value: existing_values_to_keep)
-    #     .to_a
-    # end
-
-    # def delete_unused_multi_values(custom_values_to_be_deleted)
-    #   custom_values_to_be_deleted.each(&:destroy!)
-    # end
   end
 end

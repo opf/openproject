@@ -28,6 +28,11 @@
 
 class Projects::CustomFields::Inputs::SingleSelectList < Projects::CustomFields::Inputs::Base::Autocomplete::SingleValueInput
   form do |custom_value_form|
+    # autocompleter does not set key with blank value if nothing is selected or input is cleared
+    # in order to let acts_as_customizable handle the clearing of the value, we need to set the value to blank via a hidden field
+    # which sends blank if autocompleter is cleared
+    custom_value_form.hidden(**input_attributes.merge(value: ""))
+
     custom_value_form.autocompleter(**input_attributes) do |list|
       @custom_value.custom_field.custom_options.each do |custom_option|
         list.option(
