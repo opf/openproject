@@ -46,13 +46,11 @@ class AddDerivedDoneRatioToWorkPackages < ActiveRecord::Migration[7.0]
 
   def migrate_to_derived_done_ratio
     non_leaf_work_packages
-      .where.not(done_ratio: nil)
       .update_all("derived_done_ratio = done_ratio, done_ratio = 0")
   end
 
   def rollback_from_derived_done_ratio
     non_leaf_work_packages
-      .where.not(derived_done_ratio: nil)
       .update_all("done_ratio = derived_done_ratio")
   end
 
