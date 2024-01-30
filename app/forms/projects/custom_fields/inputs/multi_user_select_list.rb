@@ -26,31 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::MultiSelectList < Project::CustomValueForm::Base::Autocomplete::MultiValueInput
+class Projects::CustomFields::Inputs::MultiUserSelectList < Projects::CustomFields::Inputs::Base::Autocomplete::MultiValueInput
+  include Projects::CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
+
   form do |custom_value_form|
-    custom_value_form.autocompleter(**input_attributes) do |list|
-      @custom_field.custom_options.each do |custom_option|
-        list.option(
-          label: custom_option.value, value: custom_option.id,
-          selected: selected?(custom_option)
-        )
-      end
-    end
+    # TODO: use user_autocompleter as seen on sharing form instead
+    custom_value_form.autocompleter(**input_attributes)
   end
 
   private
 
   def decorated?
-    true
+    false
   end
 
-  def selected?(custom_option)
-    cf_values = @custom_field_values.reject { |custom_field_value| custom_field_value.id.nil? }
+  def autocomplete_options
+    super.merge(user_autocomplete_options)
+  end
 
-    if cf_values.any?
-      cf_values.pluck(:value).map { |value| value&.to_i }.include?(custom_option.id)
-    else
-      custom_option.default_value?
-    end
+  def init_user_ids
+    @custom_values.map(&:value)
   end
 end

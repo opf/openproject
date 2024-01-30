@@ -26,42 +26,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::Base::Autocomplete::SingleValueInput < ApplicationForm
-  include Project::CustomValueForm::Base::Utils
-
-  def initialize(custom_field:, custom_field_value:, project:)
-    @custom_field = custom_field
-    @custom_field_value = custom_field_value
-    @project = project
-  end
-
-  def input_attributes
-    base_input_attributes.merge(
-      autocomplete_options:,
-      wrapper_data_attributes: {
-        'qa-field-name': qa_field_name
-      }
-    )
-  end
-
-  def autocomplete_options
+module Projects::CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
+  def user_autocomplete_options
     {
-      multiple: false,
-      decorated: decorated?,
-      inputId: id,
-      inputName: name
+      placeholder: I18n.t(:label_user_search),
+      resource:,
+      filters:,
+      searchKey: search_key,
+      inputValue: input_value
     }
   end
 
-  def decorated?
-    raise NotImplementedError
+  def resource
+    'principals'
   end
 
-  def invalid?
-    @custom_field_value.errors.any?
+  def search_key
+    'any_name_attribute'
   end
 
-  def validation_message
-    @custom_field_value.errors.full_messages.join(', ') if invalid?
+  def filters
+    [
+      { name: 'type', operator: '=', values: ['User', 'Group', 'PlaceholderUser'] },
+      { name: 'member', operator: '=', values: [@project.id.to_s] },
+      { name: 'status', operator: '!', values: [User.statuses["locked"].to_s] }
+    ]
+  end
+
+  def input_value
+    "?#{input_values_filter}"
+  end
+
+  def input_values_filter
+    # TODO: not working yet
+    user_filter = { "type" => { "operator" => "=", "values" => ["User"] } }
+    id_filter = { "id" => { "operator" => "=", "values" => init_user_ids } }
+
+    filters = [user_filter, id_filter]
+    URI.encode_www_form("filters" => filters.to_json)
   end
 end

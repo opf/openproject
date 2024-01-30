@@ -26,34 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Project::CustomValueForm::Base::Utils
-  def base_input_attributes
-    {
-      name:,
-      id:,
-      scope_name_to_model: false,
-      scope_id_to_model: false,
-      placeholder: @custom_field.name,
-      label: @custom_field.name,
-      required: @custom_field.is_required?,
-      invalid: invalid?,
-      validation_message:
-    }
-  end
-
-  def id
-    name.gsub(/[\[\]]/, "_")
-  end
-
-  def name
-    if @custom_field_value.new_record?
-      "project[new_custom_field_values_attributes][#{@custom_field_value.custom_field_id}][value]"
-    else
-      "project[custom_field_values_attributes][#{@custom_field_value.id}][value]"
+class Projects::CustomFields::Inputs::SingleVersionSelectList < Projects::CustomFields::Inputs::Base::Autocomplete::SingleValueInput
+  form do |custom_value_form|
+    custom_value_form.autocompleter(**input_attributes) do |list|
+      @project.versions.each do |version|
+        list.option(
+          label: version.name, value: version.id,
+          selected: selected?(version)
+        )
+      end
     end
   end
 
-  def qa_field_name
-    @custom_field.attribute_name(:kebab_case)
+  private
+
+  def decorated?
+    true
+  end
+
+  def selected?(version)
+    version.id == @custom_value.value&.to_i
   end
 end

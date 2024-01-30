@@ -34,77 +34,11 @@ module ProjectCustomFields
       include OpPrimer::ComponentHelpers
 
       def initialize(project:,
-                     project_custom_field_section:,
-                     active_project_custom_fields_of_section:,
-                     project_custom_field_values:)
+                     project_custom_field_section:)
         super
 
         @project = project
         @project_custom_field_section = project_custom_field_section
-        @active_project_custom_fields_of_section = active_project_custom_fields_of_section
-        @project_custom_field_values = project_custom_field_values
-      end
-
-      private
-
-      def project_custom_field_values_for(project_custom_field_id)
-        values = @project_custom_field_values.select { |pcfv| pcfv.custom_field_id == project_custom_field_id }
-
-        if values.empty?
-          [CustomValue.new(
-            custom_field_id: project_custom_field_id,
-            customized_id: @project.id,
-            customized_type: "Project"
-          )]
-        else
-          values
-        end
-      end
-
-      def render_custom_field_value_input(form, custom_field, custom_field_values)
-        if custom_field.multi_value?
-          render_multi_value_custom_field_input(form, custom_field, custom_field_values)
-        else
-          render_single_value_custom_field_input(form, custom_field, custom_field_values.first)
-        end
-      end
-
-      def render_single_value_custom_field_input(form, custom_field, custom_field_value)
-        form_args = { custom_field:, custom_field_value:, project: @project }
-
-        case custom_field.field_format
-        when "string"
-          render(Project::CustomValueForm::String.new(form, **form_args))
-        when "text"
-          render(Project::CustomValueForm::Text.new(form, **form_args))
-        when "int"
-          render(Project::CustomValueForm::Int.new(form, **form_args))
-        when "float"
-          render(Project::CustomValueForm::Float.new(form, **form_args))
-        when "list"
-          render(Project::CustomValueForm::SingleSelectList.new(form, **form_args))
-        when "date"
-          render(Project::CustomValueForm::Date.new(form, **form_args))
-        when "bool"
-          render(Project::CustomValueForm::Bool.new(form, **form_args))
-        when "user"
-          render(Project::CustomValueForm::SingleUserSelectList.new(form, **form_args))
-        when "version"
-          render(Project::CustomValueForm::SingleVersionSelectList.new(form, **form_args))
-        end
-      end
-
-      def render_multi_value_custom_field_input(form, custom_field, custom_field_values)
-        form_args = { custom_field:, custom_field_values:, project: @project }
-
-        case custom_field.field_format
-        when "list"
-          render(Project::CustomValueForm::MultiSelectList.new(form, **form_args))
-        when "user"
-          render(Project::CustomValueForm::MultiUserSelectList.new(form, **form_args))
-        when "version"
-          render(Project::CustomValueForm::MultiVersionSelectList.new(form, **form_args))
-        end
       end
     end
   end

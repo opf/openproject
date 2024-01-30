@@ -26,12 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::Int < Project::CustomValueForm::Base::Input
+class Projects::CustomFields::Inputs::SingleUserSelectList < Projects::CustomFields::Inputs::Base::Autocomplete::SingleValueInput
+  include Projects::CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
+
   form do |custom_value_form|
-    custom_value_form.text_field(**input_attributes)
+    # TODO: use user_autocompleter as seen on sharing form instead
+    custom_value_form.autocompleter(**input_attributes)
   end
 
-  def input_attributes
-    super.merge({ type: "number", step: 1 })
+  private
+
+  def decorated?
+    false
+  end
+
+  def autocomplete_options
+    super.merge(user_autocomplete_options)
+  end
+
+  def init_user_ids
+    [@custom_value.value]
   end
 end

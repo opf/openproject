@@ -26,33 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::Base::Input < ApplicationForm
-  include Project::CustomValueForm::Base::Utils
-
-  def initialize(custom_field:, custom_field_value:, project:)
-    @custom_field = custom_field
-    @custom_field_value = custom_field_value
-    @project = project
+class Projects::CustomFields::Inputs::Date < Projects::CustomFields::Inputs::Base::Input
+  form do |custom_value_form|
+    custom_value_form.text_field(**input_attributes)
   end
 
   def input_attributes
-    base_input_attributes.merge(
-      {
-        data: { 'qa-field-name': qa_field_name },
-        value:
-      }
-    )
-  end
-
-  def value
-    @custom_field_value.value || @custom_field.default_value
-  end
-
-  def invalid?
-    @custom_field_value.errors.any?
-  end
-
-  def validation_message
-    @custom_field_value.errors.full_messages.join(', ') if invalid?
+    super.merge({ type: "date" })
   end
 end

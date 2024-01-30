@@ -26,28 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::MultiUserSelectList < Project::CustomValueForm::Base::Autocomplete::MultiValueInput
-  include Project::CustomValueForm::Base::Autocomplete::UserQueryUtils
+class Projects::CustomFields::Inputs::Base::Input < ApplicationForm
+  include Projects::CustomFields::Inputs::Base::Utils
 
-  form do |custom_value_form|
-    custom_value_form.autocompleter(**input_attributes)
+  def initialize(custom_field:, custom_value:, project:)
+    @custom_field = custom_field
+    @custom_value = custom_value
+    @project = project
   end
 
-  private
-
-  def decorated?
-    false
+  def input_attributes
+    base_input_attributes.merge(
+      {
+        data: { 'qa-field-name': qa_field_name },
+        value:
+      }
+    )
   end
 
-  def autocomplete_options
-    super.merge(user_autocomplete_options)
+  def invalid?
+    @custom_value.errors.any?
   end
 
-  def init_user_ids
-    @custom_field_values.map(&:value)
-  end
-
-  def name
-    "project[multi_user_custom_field_values_attributes][#{@custom_field.id}][comma_seperated_values][]"
+  def validation_message
+    @custom_value.errors.full_messages.join(', ') if invalid?
   end
 end

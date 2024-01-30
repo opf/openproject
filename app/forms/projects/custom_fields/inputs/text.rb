@@ -26,42 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Project::CustomValueForm::Base::Autocomplete::UserQueryUtils
-  def user_autocomplete_options
-    {
-      placeholder: I18n.t(:label_user_search),
-      resource:,
-      filters:,
-      searchKey: search_key,
-      inputValue: input_value
-    }
-  end
-
-  def resource
-    'principals'
-  end
-
-  def search_key
-    'any_name_attribute'
-  end
-
-  def filters
-    [
-      { name: 'type', operator: '=', values: ['User', 'Group', 'PlaceholderUser'] },
-      { name: 'member', operator: '=', values: [@project.id.to_s] },
-      { name: 'status', operator: '!', values: [User.statuses["locked"].to_s] }
-    ]
-  end
-
-  def input_value
-    "?#{input_values_filter}"
-  end
-
-  def input_values_filter
-    user_filter = { "type" => { "operator" => "=", "values" => ["User"] } }
-    id_filter = { "id" => { "operator" => "=", "values" => init_user_ids } }
-
-    filters = [user_filter, id_filter]
-    URI.encode_www_form("filters" => filters.to_json)
+class Projects::CustomFields::Inputs::Text < Projects::CustomFields::Inputs::Base::Input
+  form do |custom_value_form|
+    # TODO: rich_text_area not working yet
+    # Uncaught DOMException: Failed to execute 'querySelector' on 'Element': '#project_project[new_custom_field_values_attributes][xyz][value]' is not a valid selector.
+    # --> rich_text_area is not using the configured id, which is not scoped to model via base_config
+    # --> ids with '[' ']' are not valid selectors
+    # using simple text area for now
+    custom_value_form.text_area(**input_attributes)
   end
 end

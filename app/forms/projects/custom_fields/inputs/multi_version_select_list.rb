@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::MultiVersionSelectList < Project::CustomValueForm::Base::Autocomplete::MultiValueInput
+class Projects::CustomFields::Inputs::MultiVersionSelectList < Projects::CustomFields::Inputs::Base::Autocomplete::MultiValueInput
   form do |custom_value_form|
     custom_value_form.autocompleter(**input_attributes) do |list|
       @project.versions.each do |version|
@@ -45,6 +45,6 @@ class Project::CustomValueForm::MultiVersionSelectList < Project::CustomValueFor
   end
 
   def selected?(version)
-    @custom_field_values.pluck(:value).map { |value| value&.to_i }.include?(version.id)
+    @custom_values.pluck(:value).map { |value| value&.to_i }.include?(version.id)
   end
 end

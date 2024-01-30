@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::SingleVersionSelectList < Project::CustomValueForm::Base::Autocomplete::SingleValueInput
+class Projects::CustomFields::Inputs::MultiSelectList < Projects::CustomFields::Inputs::Base::Autocomplete::MultiValueInput
   form do |custom_value_form|
     custom_value_form.autocompleter(**input_attributes) do |list|
-      @project.versions.each do |version|
+      @custom_field.custom_options.each do |custom_option|
         list.option(
-          label: version.name, value: version.id,
-          selected: selected?(version)
+          label: custom_option.value, value: custom_option.id,
+          selected: selected?(custom_option)
         )
       end
     end
@@ -44,7 +44,13 @@ class Project::CustomValueForm::SingleVersionSelectList < Project::CustomValueFo
     true
   end
 
-  def selected?(version)
-    version.id == @custom_field_value.value&.to_i
+  def selected?(custom_option)
+    cf_values = @custom_values.reject { |custom_value| custom_value.id.nil? }
+
+    if cf_values.any?
+      cf_values.pluck(:value).map { |value| value&.to_i }.include?(custom_option.id)
+    else
+      custom_option.default_value?
+    end
   end
 end

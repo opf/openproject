@@ -26,8 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::String < Project::CustomValueForm::Base::Input
-  form do |custom_value_form|
-    custom_value_form.text_field(**input_attributes)
+module Projects::CustomFields::Inputs::Base::Utils
+  def base_input_attributes
+    {
+      id:,
+      scope_name_to_model: false, # TODO: get rid of this, should work with scope_name_to_model: true
+      name:,
+      label:,
+      value:,
+      required: required?,
+      invalid: invalid?,
+      validation_message:
+    }
+  end
+
+  def id
+    "custom_field_#{@custom_field.id}"
+  end
+
+  def name
+    # TODO: get rid of this, should work with scope_name_to_model: true
+    "project[custom_field_values][#{@custom_field.id}]"
+  end
+
+  def label
+    @custom_field.name
+  end
+
+  def value
+    @custom_value
+  end
+
+  def required?
+    @custom_field.is_required?
+  end
+
+  def qa_field_name
+    @custom_field.attribute_name(:kebab_case)
   end
 end

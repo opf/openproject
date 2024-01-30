@@ -26,25 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::SingleSelectList < Project::CustomValueForm::Base::Autocomplete::SingleValueInput
+class Projects::CustomFields::Inputs::Float < Projects::CustomFields::Inputs::Base::Input
   form do |custom_value_form|
-    custom_value_form.autocompleter(**input_attributes) do |list|
-      @custom_field_value.custom_field.custom_options.each do |custom_option|
-        list.option(
-          label: custom_option.value, value: custom_option.id,
-          selected: selected?(custom_option)
-        )
-      end
-    end
+    custom_value_form.text_field(**input_attributes)
   end
 
-  private
-
-  def decorated?
-    true
-  end
-
-  def selected?(custom_option)
-    custom_option.id == @custom_field_value.value&.to_i || custom_option.id == @custom_field.default_value&.to_i
+  def input_attributes
+    super.merge({ type: "number", step: :any })
   end
 end

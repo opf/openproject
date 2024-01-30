@@ -33,6 +33,7 @@ class Project < ApplicationRecord
   include Projects::Activity
   include Projects::Hierarchy
   include Projects::AncestorsFromRoot
+  include Projects::ActsAsCustomizablePatches
   include ::Scopes::Scoped
 
   # Maximum length for project identifiers
@@ -40,8 +41,6 @@ class Project < ApplicationRecord
 
   # reserved identifiers
   RESERVED_IDENTIFIERS = %w(new menu).freeze
-
-  # belongs_to :project_type ---> mimic `work_package -> type -> custom_fields` structure ?
 
   has_many :members, -> {
     # TODO: check whether this should
@@ -89,7 +88,9 @@ class Project < ApplicationRecord
   has_many :project_storages, dependent: :destroy, class_name: 'Storages::ProjectStorage'
   has_many :storages, through: :project_storages
 
-  acts_as_customizable
+  acts_as_customizable # partially overridden via Projects::ActsAsCustomizablePatches in order to support sections and
+  # project-leval activation of custom fields
+
   acts_as_searchable columns: %W(#{table_name}.name #{table_name}.identifier #{table_name}.description),
                      date_column: "#{table_name}.created_at",
                      project_key: 'id',

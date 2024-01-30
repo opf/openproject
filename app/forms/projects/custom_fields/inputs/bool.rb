@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::Bool < Project::CustomValueForm::Base::Input
+class Projects::CustomFields::Inputs::Bool < Projects::CustomFields::Inputs::Base::Input
   form do |custom_value_form|
     custom_value_form.check_box(**input_attributes)
   end

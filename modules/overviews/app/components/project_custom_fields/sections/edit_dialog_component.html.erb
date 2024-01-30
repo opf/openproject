@@ -9,12 +9,8 @@
       ) do |f|
         component_collection do |collection|
           collection.with_component(Primer::Alpha::Dialog::Body.new(style: "max-height: 500px;")) do
-            flex_layout(my: 3) do |flex|
-              @active_project_custom_fields_of_section.each do |project_custom_field|
-                flex.with_row(mb: 2, classes: 'op-project-custom-field-input-container', data: { qa_selector: "project-custom-field-input-container-#{project_custom_field.id}" }) do
-                  render_custom_field_value_input(f, project_custom_field, project_custom_field_values_for(project_custom_field.id))
-                end
-              end
+            f.fields_for(:custom_field_values) do |f|
+              render(Projects::CustomFields::Form.new(f, project: @project, custom_field_section: @project_custom_field_section))
             end
           end
           collection.with_component(Primer::Alpha::Dialog::Footer.new) do

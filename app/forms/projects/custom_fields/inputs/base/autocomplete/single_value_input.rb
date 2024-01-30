@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::Base::Autocomplete::MultiValueInput < ApplicationForm
-  include Project::CustomValueForm::Base::Utils
+class Projects::CustomFields::Inputs::Base::Autocomplete::SingleValueInput < ApplicationForm
+  include Projects::CustomFields::Inputs::Base::Utils
 
-  def initialize(custom_field:, custom_field_values:, project:)
+  def initialize(custom_field:, custom_value:, project:)
     @custom_field = custom_field
-    @custom_field_values = custom_field_values
+    @custom_value = custom_value
     @project = project
   end
 
@@ -46,7 +46,7 @@ class Project::CustomValueForm::Base::Autocomplete::MultiValueInput < Applicatio
 
   def autocomplete_options
     {
-      multiple: true,
+      multiple: false,
       decorated: decorated?,
       inputId: id,
       inputName: name
@@ -57,15 +57,11 @@ class Project::CustomValueForm::Base::Autocomplete::MultiValueInput < Applicatio
     raise NotImplementedError
   end
 
-  def name
-    "project[multi_custom_field_values_attributes][#{@custom_field.id}][values]"
-  end
-
   def invalid?
-    @custom_field_values.any? { |custom_field_value| custom_field_value.errors.any? }
+    @custom_value.errors.any?
   end
 
   def validation_message
-    @custom_field_values.map { |custom_field_value| custom_field_value.errors.full_messages }.join(', ') if invalid?
+    @custom_value.errors.full_messages.join(', ') if invalid?
   end
 end

@@ -26,12 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Project::CustomValueForm::Date < Project::CustomValueForm::Base::Input
+class Projects::CustomFields::Inputs::String < Projects::CustomFields::Inputs::Base::Input
   form do |custom_value_form|
     custom_value_form.text_field(**input_attributes)
-  end
-
-  def input_attributes
-    super.merge({ type: "date" })
   end
 end
