@@ -59,7 +59,17 @@ class Activities::ItemComponent < ViewComponent::Base
     rendered_details.present?
   end
 
-  def rendered_details
+  # details.each_with_object(results) do |(key, values), res|
+  #   if key.match? /agenda_items_\d+/
+  #     id, attribute = key.gsub("agenda_items_","").split("_")
+  #     res[:agenda_items][id.to_i][attribute] = values
+  #   else
+  #     res[key] = values
+  #   end
+  # end
+
+  def rendered_details # separate logic here for meeting_agenda_items
+    binding.pry
     filter_details.filter_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
   end
 

@@ -46,12 +46,10 @@ module Meeting::Journalized
     register_journal_formatted_fields(:datetime, 'start_time')
     register_journal_formatted_fields(:plaintext, 'location')
 
-    register_journal_formatted_fields(:meeting_agenda_item, /agenda_items_\d+/)
-
-    # register_journal_formatted_fields(:plaintext, /agenda_items_\d+_title/)
-    # register_journal_formatted_fields(:agenda_items_position, /agenda_items_\d+_position/)
-    # register_journal_formatted_fields(:plaintext, /agenda_items_\d+_notes/)
-    # register_journal_formatted_fields(:decimal, /agenda_items_\d+_duration_in_minutes/)
+    register_journal_formatted_fields(:plaintext, /agenda_items_\d+_title/)
+    register_journal_formatted_fields(:agenda_item_position, /agenda_items_\d+_position/)
+    register_journal_formatted_fields(:plaintext, /agenda_items_\d+_notes/)
+    register_journal_formatted_fields(:decimal, /agenda_items_\d+_duration_in_minutes/)
 
     def touch_and_save_journals
       update_column(:updated_at, Time.current)
