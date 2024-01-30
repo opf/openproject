@@ -42,6 +42,22 @@ module Acts::Journalized
         get_association_changes(original, changed, *)
       end
 
+      def association_changes_multiple_attributes(original, changed, association, association_name, key, values)
+        list = {}
+        values.each do |value|
+          # binding.pry
+          list.store(value, get_association_changes(original, changed, association, association_name, key, value))
+        end
+        transformed = {}
+        list.each do |key, value|
+          value.each do |agenda_item, data|
+            transformed[agenda_item] ||= {}
+            transformed[agenda_item][key] = data
+          end
+        end
+        transformed
+      end
+
       private
 
       def normalize_newlines(data)
@@ -64,6 +80,7 @@ module Acts::Journalized
       end
 
       def get_association_changes(original, changed, association, association_name, key, value)
+        # binding.pry
         if original.nil?
           changed.send(association).each_with_object({}) do |associated_journal, h|
             changed_attribute = "#{association_name}_#{associated_journal.send(key)}"
