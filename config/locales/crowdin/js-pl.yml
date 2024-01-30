@@ -1034,6 +1034,7 @@ pl:
       sharing:
         share: 'Udostępnij'
         title: "Udostępnij pakiet roboczy"
+        show_all_users: "Show all shared users"
         selected_count: "Wybrano %{count}"
         selection:
           mixed: "Mieszane"

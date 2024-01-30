@@ -1032,6 +1032,7 @@ it:
       sharing:
         share: 'Condividi'
         title: "Condividi macro-attività"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} selezionati"
         selection:
           mixed: "Misto"

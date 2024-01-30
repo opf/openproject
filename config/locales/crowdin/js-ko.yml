@@ -1031,6 +1031,7 @@ ko:
       sharing:
         share: '공유하기'
         title: "작업 패키지 공유"
+        show_all_users: "Show all shared users"
         selected_count: "%{count}개 선택됨"
         selection:
           mixed: "혼합"

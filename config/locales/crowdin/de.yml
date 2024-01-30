@@ -635,7 +635,7 @@ de:
         readonly: "Nur Lesezugriff"
         remaining_hours: "Verbleibender Aufwand"
         remaining_time: "Verbleibender Aufwand"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Manuelle Planung"
         spent_hours: "Aufgewendete Zeit"
         spent_time: "Aufgewendete Zeit"
@@ -3082,7 +3082,7 @@ de:
       text_empty_search_description: "Es gibt keine Benutzer mit den aktuellen Filterkriterien."
       text_empty_search_header: "Keine passenden Ergebnisse gefunden."
       text_empty_state_description: "Das Arbeitspaket wurde mit niemandem geteilt."
-      text_empty_state_header: "Keine geteilten Mitglieder."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte kontaktieren Sie einen Administrator, um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können."
       text_user_limit_reached_admins: 'Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte <a href="%{upgrade_url}">aktualisieren Sie Ihr Abonnement</a> um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.'
       warning_user_limit_reached: >

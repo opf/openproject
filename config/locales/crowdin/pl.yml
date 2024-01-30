@@ -639,7 +639,7 @@ pl:
         readonly: "Tylko do odczytu"
         remaining_hours: "Pozostała praca"
         remaining_time: "Pozostała praca"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Planowanie ręczne"
         spent_hours: "Czas pracy"
         spent_time: "Czas pracy"
@@ -3142,7 +3142,7 @@ pl:
       text_empty_search_description: "Brak użytkowników spełniających bieżące kryteria filtrowania."
       text_empty_search_header: "Nie mogliśmy znaleźć żadnych pasujących wyników."
       text_empty_state_description: "Pakiet roboczy nie został jeszcze nikomu udostępniony."
-      text_empty_state_header: "Brak członków, którym go udostępniono."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby zapewnić użytkownikom zewnętrznym dostęp do tego pakietu roboczego, skontaktuj się z administratorem w celu zwiększenia limitu liczby użytkowników."
       text_user_limit_reached_admins: 'Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby móc dodać więcej użytkowników, <a href="%{upgrade_url}">przejdź na wyższy plan</a>.'
       warning_user_limit_reached: >

@@ -641,7 +641,7 @@ ru:
         readonly: "Только для чтения"
         remaining_hours: "Оставшиеся часы"
         remaining_time: "Оставшиеся часы"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Ручное планирование"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"
@@ -3143,7 +3143,7 @@ ru:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "Пакет работ еще не передан никому."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, свяжитесь с администратором, чтобы увеличить лимит пользователей, чтобы убедиться, что внешние пользователи имеют доступ к этому пакету работ."
       text_user_limit_reached_admins: 'Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}"> обновите свой тарифный план </a>, чтобы иметь возможность добавлять больше пользователей.'
       warning_user_limit_reached: >
