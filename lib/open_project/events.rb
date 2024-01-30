@@ -66,6 +66,9 @@ module OpenProject
     PROJECT_STORAGE_UPDATED = "project_storage_updated".freeze
     PROJECT_STORAGE_DESTROYED = "project_storage_destroyed".freeze
 
+    STORAGE_TURNED_UNHEALTHY = "storage_turned_unhealthy".freeze
+    STORAGE_TURNED_HEALTHY = "storage_turned_unhealthy".freeze
+
     ROLE_UPDATED = "role_updated".freeze
     ROLE_DESTROYED = "role_destroyed".freeze
 
