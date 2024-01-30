@@ -40,6 +40,7 @@ module Components
 
       def open
         SeleniumHubWaiter.wait
+        expect_loaded
         retry_block do
           # Run in retry block because filters do nothing if not yet loaded
           filter_button.click
@@ -101,7 +102,6 @@ module Components
       end
 
       def add_filter(name)
-        wait_for_filters_to_load
         select_autocomplete page.find('.advanced-filters--add-filter-value'),
                             query: name,
                             results_selector: '.ng-dropdown-panel-items'
@@ -131,20 +131,6 @@ module Components
         set_value(id, value, operator) unless value.nil?
 
         close_autocompleter(id)
-      end
-
-      def wait_for_filters_to_load
-        # Skip waiting if the filters are embedded in a modal.
-        return if respond_to? :modal
-
-        sleep 0.5
-        # Wait for the filters dropdown to be fully loaded.
-        # The .badge is hidden in mobile views, but
-        # we can still use the expectation on the hidden element.
-        expect(page).to have_css(
-          "#{page.test_selector('wp-filter-button')} .badge",
-          visible: :all
-        )
       end
 
       def expect_missing_filter(name)
