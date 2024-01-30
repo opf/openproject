@@ -37,8 +37,11 @@ export class CompoundProgressDisplayField extends DisplayField {
     element.setAttribute('title', displayText);
 
     this.renderActual(element, displayText);
-    this.renderSeparator(element);
-    this.renderDerived(element, this.derivedValueString);
+
+    if (this.hasChildren()) {
+      this.renderSeparator(element);
+      this.renderDerived(element, this.derivedValueString);
+    }
   }
 
   private renderActual(element:HTMLElement, displayText:string):void {
@@ -93,5 +96,9 @@ export class CompoundProgressDisplayField extends DisplayField {
 
   private formatAsPercentage(value:number) {
     return `${value}%`;
+  }
+
+  private hasChildren() {
+    return !!this.resource.children;
   }
 }
