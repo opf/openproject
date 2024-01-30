@@ -55,17 +55,14 @@ RSpec.describe "updating a cost report's cost type", :js do
     report_page.save(as: 'My Query', public: true)
     report_page.wait_for_page_to_reload
 
-    retry_block do
-      cost_query = CostQuery.find_by!(name: 'My Query')
-      raise "Expected path change" unless page.has_current_path?("/projects/#{project.identifier}/cost_reports/#{cost_query.id}")
+    cost_query = CostQuery.find_by!(name: 'My Query')
+    expect(page).to have_current_path("/projects/#{project.identifier}/cost_reports/#{cost_query.id}")
 
-      expect(page).to have_field('Labor', checked: true)
-    end
+    expect(page).to have_field('Labor', checked: true)
 
     report_page.switch_to_type cost_type.name
     expect(page).to have_field(cost_type.name, checked: true, wait: 10)
 
-    report_page.wait_for_page_to_reload
     click_on "Save"
 
     click_on "My Query"
