@@ -139,7 +139,12 @@ module Components
 
         sleep 0.5
         # Wait for the filters dropdown to be fully loaded.
-        expect(page).to have_css("#{page.test_selector('wp-filter-button')} .badge")
+        # The .badge is hidden in mobile views, but
+        # we can still use the expectation on the hidden element.
+        expect(page).to have_css(
+          "#{page.test_selector('wp-filter-button')} .badge",
+          visible: :all
+        )
       end
 
       def expect_missing_filter(name)
