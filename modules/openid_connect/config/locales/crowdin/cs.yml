@@ -1,7 +1,7 @@
 cs:
   plugin_openproject_openid_connect:
     name: "OpenProject OpenID Connect"
-    description: "Adds OmniAuth OpenID Connect strategy providers to Openproject."
+    description: "Přidá poskytovatele strategie OmniAuth OpenID připojení do Openproject."
   logout_warning: >
     Byli jste odhlášeni. Obsah formuláře může být ztracen. Prosím, [přihlaste se].
   activemodel:
@@ -10,9 +10,9 @@ cs:
         name: Jméno
         display_name: Zobrazovaný název
         identifier: Identifikátor
-        secret: Secret
+        secret: Tajný klíč
         scope: Rozsah
-        limit_self_registration: Limit self registration
+        limit_self_registration: Omezit vlastní registraci
   openid_connect:
     menu_title: Poskytovatelé OpenID
     providers:
@@ -29,4 +29,5 @@ cs:
       azure_tenant_html: >
         Set the tenant of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">our user guide on Azure OpenID connect</a>.
       limit_self_registration: >
-        If enabled users can only register using this provider if the self registration setting allows for it.
+
+

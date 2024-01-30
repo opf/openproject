@@ -9,21 +9,21 @@ cs:
         demo-project:
           meetings:
             item_0:
-              title: Weekly
+              title: Týdenní
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: Dobré zprávy
             item_1:
-              title: Updates from development team
+              title: Novinky od vývojářského týmu
             item_2:
-              title: Updates from product team
+              title: Novinky od produktového týmu
             item_3:
-              title: Updates from marketing team
+              title: Novinky od marketingového týmu
             item_4:
-              title: Updates from sales team
+              title: Novinky od obchodního týmu
             item_5:
-              title: Review of quarterly goals
+              title: Vyhodnocení čtvrtletních cílů
             item_6:
-              title: Core values feedback
+              title: Zpětná vazba základních hodnot
             item_7:
-              title: General topics
+              title: Obecná témata
