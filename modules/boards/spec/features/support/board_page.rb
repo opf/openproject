@@ -136,11 +136,13 @@ module Pages
     # Expect the given titled card in the list name to be present (expect=true) or not (expect=false)
     def expect_card(list_name, card_title, present: true)
       within_list(list_name) do
+        # Wait for the card loading to finish
+        expect(page).to have_no_selector(".loading-indicator--background")
         expect(page).to have_conditional_selector(present,
                                                   '[data-test-selector="op-wp-single-card--content-subject"]',
                                                   text: card_title,
-                                                  # Wait only 1 second for non-presence expectation
-                                                  wait: present ? 10 : 1)
+                                                  # Wait only 3 seconds for non-presence expectation
+                                                  wait: present ? 10 : 0)
       end
     end
 
