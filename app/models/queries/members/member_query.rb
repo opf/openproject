@@ -26,7 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Members::MemberQuery < Queries::BaseQuery
+class Queries::Members::MemberQuery
+  include Queries::BaseQuery
+  include Queries::UnpersistedQuery
+
   def self.model
     Member
   end

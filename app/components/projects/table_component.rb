@@ -32,6 +32,16 @@ module Projects
   class TableComponent < ::TableComponent
     options :params # We read collapsed state from params
     options :current_user # adds this option to those of the base class
+    options :query
+
+    def initialize(**options)
+      super(rows: [], **options)
+    end
+
+    def before_render
+      @model = projects(query)
+      super
+    end
 
     def initial_sort
       %i[lft asc]
@@ -59,7 +69,7 @@ module Projects
     def initialize_sorted_model
       helpers.sort_clear
 
-      orders = options[:orders]
+      orders = query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
       helpers.sort_init orders
       helpers.sort_update orders.map(&:first)
     end
@@ -135,6 +145,15 @@ module Projects
         fields
           .index_by { |cf| cf.column_name.to_sym }
       end
+    end
+
+    def projects(query)
+      query
+        .results
+        .with_required_storage
+        .with_latest_activity
+        .includes(:custom_values, :enabled_modules)
+        .paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
     end
   end
 end

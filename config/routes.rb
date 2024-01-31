@@ -180,7 +180,8 @@ OpenProject::Application.routes.draw do
   end
 
   namespace :projects do
-    resource :menu, only: %[show]
+    resource :menu, only: %i[show]
+    resources :queries, only: %i[new create destroy]
   end
 
   resources :projects, except: %i[show edit create update] do

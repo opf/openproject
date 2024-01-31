@@ -27,11 +27,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<ul class="op-export-options">
+<ul class="op-export-options"
+    data-controller="params-from-query"
+    data-application-target="dynamic"
+    data-params-from-query-all-anchors-value="true"
+    data-params-from-query-allowed-value='["query_id", "filters", "sortBy"]'>
   <% supported_export_formats.each do |key| %>
     <li class="op-export-options--option">
-      <% filter_params = safe_query_params ['filters', 'sortBy'] %>
-      <%= link_to url_for(action: 'index', format: key, **filter_params),
+      <%= link_to url_for(action: 'index', format: key),
                   class: 'op-export-options--option-link' do %>
         <%= op_icon("icon-big icon-export-#{key}") %>
         <span class="op-export-options--option-label"><%= t("export.format.#{key}") %></span>

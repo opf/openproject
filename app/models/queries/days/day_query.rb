@@ -26,7 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Days::DayQuery < Queries::BaseQuery
+class Queries::Days::DayQuery
+  include Queries::BaseQuery
+  include Queries::UnpersistedQuery
+
   def self.model
     Day
   end
