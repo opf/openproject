@@ -48,17 +48,17 @@ module Storages
 
               data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
 
-              case response.status
-              when 200..299
+              case response
+              in { status: 200..299 }
                 # The service returns a 204 with an empty body
                 ServiceResult.success
-              when 401
+              in { status: 401 }
                 ServiceResult.failure(result: :unauthorized,
                                       errors: ::Storages::StorageError.new(code: :unauthorized, data:))
-              when 404
+              in { status: 404 }
                 ServiceResult.failure(result: :not_found,
                                       errors: ::Storages::StorageError.new(code: :not_found, data:))
-              when 409
+              in { status: 409 }
                 ServiceResult.failure(result: :conflict,
                                       errors: ::Storages::StorageError.new(code: :conflict, data:))
               else

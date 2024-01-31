@@ -46,9 +46,9 @@ module Storages
     def call
       return unless @storage.automatic_management_enabled?
 
-      rfm = remote_folders_map.on_failure { |failed_result| return failed_result }.result
+      existing_remote_folders = remote_folders_map.on_failure { |failed_result| return failed_result }.result
 
-      ensure_folders_exist(rfm).on_success { hide_inactive_folders(rfm) }
+      ensure_folders_exist(existing_remote_folders).on_success { hide_inactive_folders(existing_remote_folders) }
       apply_permission_to_folders
     end
 
