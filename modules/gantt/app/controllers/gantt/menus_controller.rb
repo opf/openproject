@@ -53,7 +53,7 @@ module Gantt
     end
 
     def default_queries
-      query_generator = Gantt::DefaultQueryGeneratorService.new(with_project_context: @project.present?)
+      query_generator = Gantt::DefaultQueryGeneratorService.new(with_project: @project)
       queries = []
       Gantt::DefaultQueryGeneratorService::QUERY_OPTIONS.each do |query_key|
         queries << menu_item(

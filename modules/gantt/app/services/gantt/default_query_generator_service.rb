@@ -48,20 +48,20 @@ module ::Gantt
         t: 'start_date:asc'
       }.to_json.freeze
 
-    attr_reader :with_project_context
+    attr_reader :project
 
-    def initialize(with_project_context:)
-      @with_project_context = with_project_context
+    def initialize(with_project:)
+      @project = with_project
     end
 
     def call(query_key: DEFAULT_QUERY)
       case query_key
       when DEFAULT_QUERY
-        params = self.class.all_open_query(@with_project_context)
+        params = self.class.all_open_query(@project)
       when :timeline
-        params = self.class.timeline_query(@with_project_context)
+        params = self.class.timeline_query(@project)
       when :milestones
-        params = self.class.milestones_query(@with_project_context)
+        params = self.class.milestones_query(@project)
       else
         return
       end
@@ -70,44 +70,45 @@ module ::Gantt
     end
 
     class << self
-      def all_open_query(with_project_context)
-        default_with_filter = add_columns(with_project_context)
+      def all_open_query(project)
+        default_with_filter = add_columns(project)
 
         default_with_filter['f'] = [{ 'n' => 'status', 'o' => 'o', 'v' => [] }]
 
         default_with_filter
       end
 
-      def timeline_query(with_project_context)
-        default_with_filter = add_columns(with_project_context)
+      def timeline_query(project)
+        default_with_filter = add_columns(project)
 
-        milestones = milestone_ids
-        phase = ::Type.where(name: 'Phase').pluck(:id).map(&:to_s)
-
-        type_filter_values = milestones.concat(phase)
-        if type_filter_values.any?
-          default_with_filter['f'] = [{ 'n' => 'type', 'o' => '=', 'v' => type_filter_values }]
-        end
-
-        default_with_filter
-      end
-
-      def milestones_query(with_project_context)
-        default_with_filter = add_columns(with_project_context)
-
-        milestones = milestone_ids
-        if milestone_ids.any?
-          default_with_filter['f'] = [{ 'n' => 'type', 'o' => '=', 'v' => milestones }]
-        end
+        type_filter_values = milestone_ids(project).concat(phase_ids(project))
+        default_with_filter['f'] = if type_filter_values.any?
+                                     [{ 'n' => 'type', 'o' => '=', 'v' => type_filter_values }]
+                                   else
+                                     []
+                                   end
 
         default_with_filter
       end
 
-      def add_columns(with_project_context)
+      def milestones_query(project)
+        default_with_filter = add_columns(project)
+
+        milestones = milestone_ids(project)
+        default_with_filter['f'] = if milestones.any?
+                                     [{ 'n' => 'type', 'o' => '=', 'v' => milestones }]
+                                   else
+                                     []
+                                   end
+
+        default_with_filter
+      end
+
+      def add_columns(project)
         default_with_filter = JSON
                                 .parse(Gantt::DefaultQueryGeneratorService::DEFAULT_PARAMS)
 
-        default_with_filter['c'] = if with_project_context
+        default_with_filter['c'] = if project.present?
                                      Gantt::DefaultQueryGeneratorService::PROJECT_DEFAULT_COLUMNS
                                    else
                                      Gantt::DefaultQueryGeneratorService::GLOBAL_DEFAULT_COLUMNS
@@ -116,8 +117,20 @@ module ::Gantt
         default_with_filter
       end
 
-      def milestone_ids
-        ::Type.milestone.pluck(:id).map(&:to_s)
+      def milestone_ids(project)
+        if project.present?
+          ::Type.milestone.enabled_in(project.id).pluck(:id).map(&:to_s)
+        else
+          ::Type.milestone.pluck(:id).map(&:to_s)
+        end
+      end
+
+      def phase_ids(project)
+        if project.present?
+          ::Type.enabled_in(project.id).where(name: 'Phase').pluck(:id).map(&:to_s)
+        else
+          ::Type.where(name: 'Phase').pluck(:id).map(&:to_s)
+        end
       end
     end
   end
