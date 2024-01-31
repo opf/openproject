@@ -55,16 +55,17 @@ module ::Gantt
     end
 
     def call(query_key: DEFAULT_QUERY)
-      case query_key
-      when DEFAULT_QUERY
-        params = self.class.all_open_query(@project)
-      when :timeline
-        params = self.class.timeline_query(@project)
-      when :milestones
-        params = self.class.milestones_query(@project)
-      else
-        return
-      end
+      params =
+        case query_key
+        when DEFAULT_QUERY
+          self.class.all_open_query(@project)
+        when :timeline
+          self.class.timeline_query(@project)
+        when :milestones
+          self.class.milestones_query(@project)
+        end
+
+      return if params.nil?
 
       { query_props: params.to_json, name: query_key }
     end
@@ -82,12 +83,9 @@ module ::Gantt
         default_with_filter = add_columns(project)
 
         type_filter_values = milestone_ids(project).concat(phase_ids(project))
-        default_with_filter['f'] = if type_filter_values.any?
-                                     [{ 'n' => 'type', 'o' => '=', 'v' => type_filter_values }]
-                                   else
-                                     []
-                                   end
+        return if type_filter_values.empty?
 
+        default_with_filter['f'] = [{ 'n' => 'type', 'o' => '=', 'v' => type_filter_values }]
         default_with_filter
       end
 
@@ -95,24 +93,21 @@ module ::Gantt
         default_with_filter = add_columns(project)
 
         milestones = milestone_ids(project)
-        default_with_filter['f'] = if milestones.any?
-                                     [{ 'n' => 'type', 'o' => '=', 'v' => milestones }]
-                                   else
-                                     []
-                                   end
+        return if milestones.empty?
 
+        default_with_filter['f'] = [{ 'n' => 'type', 'o' => '=', 'v' => milestones }]
         default_with_filter
       end
 
       def add_columns(project)
         default_with_filter = JSON
-                                .parse(Gantt::DefaultQueryGeneratorService::DEFAULT_PARAMS)
+          .parse(Gantt::DefaultQueryGeneratorService::DEFAULT_PARAMS)
 
         default_with_filter['c'] = if project.present?
-                                     Gantt::DefaultQueryGeneratorService::PROJECT_DEFAULT_COLUMNS
-                                   else
-                                     Gantt::DefaultQueryGeneratorService::GLOBAL_DEFAULT_COLUMNS
-                                   end
+          Gantt::DefaultQueryGeneratorService::PROJECT_DEFAULT_COLUMNS
+        else
+          Gantt::DefaultQueryGeneratorService::GLOBAL_DEFAULT_COLUMNS
+        end
 
         default_with_filter
       end
