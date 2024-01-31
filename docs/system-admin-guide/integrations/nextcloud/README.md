@@ -40,9 +40,6 @@ OpenProject makes significant efforts to ensure that the integration works with 
     Docker image](https://hub.docker.com/_/nextcloud). There you can see which version is currently the stable one. 
   - If you installed Nextcloud via Docker then we advise you to pin it to a `stable` tag.
 
-
-We recommend using the latest stable versions of both Nextcloud and OpenProject to be able to use the latest features. 
-
 ## Set up the integration
 
 > **Important**: You need to have administrator privileges in both your Nextcloud and OpenProject instances to set up this integration.
