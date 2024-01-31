@@ -36,8 +36,9 @@ module Storages
 
     before_action :find_admins, only: %i[notify_unhealthy notify_healthy]
 
-    def notify_unhealthy(storage)
+    def notify_unhealthy(storage, reason)
       @storage = storage
+      @reason = reason
       subject = "Storage turned unhealthy!"
       send_mail_to_admins(storage, subject)
     end
@@ -52,7 +53,7 @@ module Storages
 
     def find_admins
       @admins = User.where(admin: true)
-                    .where.not(email: [nil, ''])
+                    .where.not(mail: [nil, ''])
     end
 
     def send_mail_to_admins(storage, subject)

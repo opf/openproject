@@ -43,10 +43,10 @@ module Storages
           result = service_for(storage).call(storage)
           result.match(
             on_success: ->(_) do
-              storage.mark_as_healthy
+              OpenProject::Notifications.send(OpenProject::Events::STORAGE_TURNED_HEALTHY, storage:)
             end,
             on_failure: ->(errors) do
-              storage.mark_as_unhealthy(reason: errors.to_s)
+              OpenProject::Notifications.send(OpenProject::Events::STORAGE_TURNED_UNHEALTHY, storage:, reason: errors.to_s)
             end
           )
         end

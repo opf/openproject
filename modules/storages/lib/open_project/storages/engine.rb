@@ -105,14 +105,14 @@ module OpenProject::Storages
 
         OpenProject::Notifications.subscribe(
           ::OpenProject::Events::STORAGE_TURNED_UNHEALTHY
-        ) do |storage|
-          # send mail to admins
+        ) do |payload|
+          Storages::Health::HealthService.new(storage: payload[:storage]).unhealthy(reason: payload[:reason])
         end
 
         OpenProject::Notifications.subscribe(
           ::OpenProject::Events::STORAGE_TURNED_HEALTHY
-        ) do |storage|
-          # send mail to admins
+        ) do |payload|
+          Storages::Health::HealthService.new(storage: payload[:storage]).healthy
         end
       end
     end
