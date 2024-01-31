@@ -4,10 +4,10 @@
     class="hidden-for-sighted">
   </label>
 
-  <draggable-autocompleter [options]="availableColumnsOptions"
-                           [selected]="selectedColumns"
-                           (onChange)="updateSelected($event)">
-  </draggable-autocompleter>
+  <opce-draggable-autocompleter [options]="availableColumnsOptions"
+                                [selected]="selectedColumns"
+                                (onChange)="updateSelected($event)">
+  </opce-draggable-autocompleter>
 
   <p class="form--inline-instructions" [textContent]="text.columnsHelp"></p>
 </div>

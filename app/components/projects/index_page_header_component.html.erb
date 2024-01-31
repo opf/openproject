@@ -49,6 +49,14 @@
           item.with_leading_visual_icon(icon: 'sign-out')
         end
 
+        # TODO: I18n
+        menu.with_item(
+          label: 'Configure view',
+          content_arguments: { 'data-show-dialog-id': Projects::ConfigureViewModalComponent::MODAL_ID }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :gear)
+        end
+
         if query.persisted?
           menu.with_item(
             label: t(:button_delete),
@@ -87,6 +95,7 @@
 <% end %>
 
 <% if show_state? %>
+  <%# TODO: move into a component %>
   <%= render(Primer::Alpha::Dialog.new(title: t('js.label_export'),
                                        id: EXPORT_MODAL_ID)) do |d|
     d.with_header(variant: :large)
@@ -94,4 +103,6 @@
       render partial: '/projects/project_export_modal'
     end
   end %>
+
+  <%= render(Projects::ConfigureViewModalComponent.new) %>
 <% end %>

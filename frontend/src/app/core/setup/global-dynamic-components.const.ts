@@ -183,6 +183,10 @@ import {
   TimerAccountMenuComponent,
   timerAccountSelector,
 } from 'core-app/shared/components/time_entries/timer/timer-account-menu.component';
+import {
+  DraggableAutocompleteComponent,
+  opDraggableAutocompleteSelector,
+} from 'core-app/shared/components/autocompleter/draggable-autocomplete/draggable-autocomplete.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: appBaseSelector, cls: ApplicationBaseComponent },
@@ -243,4 +247,6 @@ export const globalDynamicComponents:OptionalBootstrapDefinition[] = [
   { selector: remoteFieldUpdaterSelector, cls: RemoteFieldUpdaterComponent },
 
   { selector: timerAccountSelector, cls: TimerAccountMenuComponent },
+
+  { selector: opDraggableAutocompleteSelector, cls: DraggableAutocompleteComponent },
 ];

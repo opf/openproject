@@ -7,25 +7,28 @@ import {
   OnInit,
   Output,
   ViewChild,
-} from '@angular/core';
+  ElementRef } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { DragulaService, Group } from 'ng2-dragula';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { merge } from 'rxjs';
 import { setBodyCursor } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
 import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 import { AlternativeSearchService } from 'core-app/shared/components/work-packages/alternative-search.service';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { merge } from 'rxjs';
 
 export interface DraggableOption {
   name:string;
   id:string;
 }
 
+export const opDraggableAutocompleteSelector = 'opce-draggable-autocompleter';
+
 @Component({
-  selector: 'draggable-autocompleter',
+  selector: 'opce-draggable-autocompleter',
   templateUrl: './draggable-autocomplete.component.html',
   styleUrls: ['./draggable-autocomplete.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,6 +61,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
 
   constructor(
     readonly I18n:I18nService,
+    readonly elementRef:ElementRef,
     readonly dragula:DragulaService,
     readonly alternativeSearchService:AlternativeSearchService,
   ) {
@@ -65,6 +69,8 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   }
 
   ngOnInit():void {
+    populateInputsFromDataset(this);
+
     this.updateAvailableOptions();
 
     // Setup groups
