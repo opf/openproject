@@ -141,7 +141,7 @@ module Pages
         expect(page).to have_conditional_selector(present,
                                                   '[data-test-selector="op-wp-single-card--content-subject"]',
                                                   text: card_title,
-                                                  # Wait only 3 seconds for non-presence expectation
+                                                  # Don't wait on non-presence expectation
                                                   wait: present ? 10 : 0)
       end
     end

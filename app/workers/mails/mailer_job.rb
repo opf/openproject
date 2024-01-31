@@ -40,7 +40,7 @@
 class Mails::MailerJob < ApplicationJob
   queue_as { ActionMailer::Base.deliver_later_queue_name }
 
-  # Retry mailing jobs three times with exponential backoff
+  # Retry mailing jobs three times with polinomial backoff
   retry_on StandardError, wait: :polynomially_longer, attempts: 3
 
   # If exception is handled in mail handler
