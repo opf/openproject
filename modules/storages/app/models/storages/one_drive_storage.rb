@@ -30,6 +30,11 @@
 
 module Storages
   class OneDriveStorage < Storage
+    PROVIDER_FIELDS_DEFAULTS = {
+      automatic_management_enabled: true
+    }.freeze
+
+    store_attribute :provider_fields, :automatic_management_enabled, :boolean
     store_attribute :provider_fields, :tenant_id, :string
     store_attribute :provider_fields, :drive_id, :string
 
@@ -53,6 +58,14 @@ module Storages
 
     def connect_src
       %w[https://*.sharepoint.com https://*.up.1drv.com]
+    end
+
+    def automatic_management_unspecified?
+      automatic_management_enabled.nil?
+    end
+
+    def provider_fields_defaults
+      PROVIDER_FIELDS_DEFAULTS
     end
   end
 end

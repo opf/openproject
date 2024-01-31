@@ -30,7 +30,7 @@
 # when creating a new storage for the first time. These attributes are only for building the view and are not enforced
 # by the model.
 module Storages::Storages
-  class SetNextcloudProviderFieldsAttributesService < ::BaseServices::SetAttributes
+  class SetProviderFieldsAttributesService < ::BaseServices::SetAttributes
     def set_default_provider_fields(_params)
       if storage.automatic_management_unspecified?
         storage.automatic_management_enabled = storage.provider_fields_defaults[:automatic_management_enabled]

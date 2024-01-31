@@ -190,6 +190,11 @@ en:
         subtitle: Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
         subtitle_short: Let OpenProject create folders per project automatically.
         title: Automatically managed project folders
+        one_drive_information: >
+          To enable automatically managed project folders in OneDrive/SharePoint, additional configuration is needed on
+          the drive that is used for this file storage. If OpenProject manages the permissions of this drive, it will
+          most likely be unusable for other use cases in SharePoint. For more information and guidance please refer to
+          the %{drive_id_link_text}.
       project_settings:
         delete: Delete file storage
         edit: Edit the file storage to this project

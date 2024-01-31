@@ -57,7 +57,7 @@ class Storages::Admin::AutomaticallyManagedProjectFoldersController < Applicatio
     # Set default parameters using a "service".
     # See also: storages/services/storages/storages/set_attributes_services.rb
     # That service inherits from ::BaseServices::SetAttributes
-    @storage = ::Storages::Storages::SetNextcloudProviderFieldsAttributesService
+    @storage = ::Storages::Storages::SetProviderFieldsAttributesService
                 .new(user: current_user,
                      model: @object,
                      contract_class: EmptyContract)

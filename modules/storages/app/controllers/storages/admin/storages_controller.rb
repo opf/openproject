@@ -85,7 +85,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
   def select_provider
     @object = Storages::Storage.new(provider_type: @provider_type)
-    service_result = ::Storages::Storages::SetAttributesService
+    service_result = ::Storages::Storages::SetProviderFieldsAttributesService
                        .new(user: current_user,
                             model: @object,
                             contract_class: EmptyContract)
@@ -230,7 +230,14 @@ class Storages::Admin::StoragesController < ApplicationController
   def permitted_storage_params(model_parameter_name = storage_provider_parameter_name)
     params
       .require(model_parameter_name)
-      .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret', 'tenant_id', 'drive_id')
+      .permit('name',
+              'provider_type',
+              'host',
+              'oauth_client_id',
+              'oauth_client_secret',
+              'tenant_id',
+              'drive_id',
+              'automatic_management_enabled')
   end
 
   def storage_provider_parameter_name
