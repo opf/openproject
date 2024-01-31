@@ -29,19 +29,19 @@ OpenProject offers close integration with Nextcloud to allow users to:
 
 ## Required system versions
 
-OpenProject goes through big efforts to ensure the integration works with all the latest stable versions. We strongly
-recommend updating all systems continuously to the current stable version so that you can enjoy the latest new features
-and get fixes for eventual bugs as quick as possible.
+OpenProject makes significant efforts to ensure that the integration works with all the latest stable versions.  We strongly recommend continuously updating all systems to the current stable version. This ensures access to the latest features and prompt fixes for any potential bugs.
 
-- OpenProject [latest release](https://www.openproject.org/docs/release-notes/)
-- The [OpenProject Integration](https://apps.nextcloud.com/apps/integration_openproject) Nextcloud app in the latest version from the Nextcloud App Store
-- Nextcloud version in the latest `stable` version. If you run Nextcloud in the community edition be careful to not 
-  blindly follow the update hints in the administration area of a Nextcloud instance, as they nudge you to use the
-  `latest` version, which might not be latest `stable` version. We recommend to check the [tags of Nextcloud's official
-  Docker image](https://hub.docker.com/_/nextcloud). There you can see which version is currently the stable 
-  version. And if you installed Nextcloud via Docker then you probably should pin it to a `stable` tag.
+- OpenProject [latest release](https://www.openproject.org/docs/release-notes/).
+- The latest version of the [OpenProject Integration Nextcloud app](https://apps.nextcloud.com/apps/integration_openproject)  from the Nextcloud App Store.
+- Nextcloud version in the latest `stable` version. 
+  - If you run Nextcloud in the community edition be careful to not 
+    blindly follow the update hints in the administration area of a Nextcloud instance, as they nudge you to use the
+    `latest` version, which might not be the latest `stable` version. We recommend to check the [tags of Nextcloud's official
+    Docker image](https://hub.docker.com/_/nextcloud). There you can see which version is currently the stable one. 
+  - If you installed Nextcloud via Docker then we advice you to pin it to a `stable` tag.
 
-We recommend using the latest versions of both Nextcloud and OpenProject to be able to use the latest features. 
+
+We recommend using the latest stable versions of both Nextcloud and OpenProject to be able to use the latest features. 
 
 ## Set up the integration
 
@@ -329,7 +329,7 @@ The integration OpenProject with Nextcloud makes use of authorized HTTP requests
   ```json
   {"user_id":"","authorization_header":foo}
   ```
-  
+
   If not, first verify that the app **OpenProject Integration** is installed.  
 
   If that is the case verify that the mod_rewrite is activated on the Nextcloud server.  
