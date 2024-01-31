@@ -4,7 +4,7 @@ We are pleased that you are thinking about contributing to OpenProject! This gui
 
 ## Get in touch
 
-Please get in touch with us using our [develompment forum](https://community.openproject.com/projects/openproject/boards/7) or send us an email to info@openproject.com.
+Please get in touch with us using our [develompment forum](https://community.openproject.org/projects/openproject/boards/7) or send us an email to info@openproject.com.
 
 ## Issue tracking and coordination
 
@@ -63,7 +63,7 @@ git push origin <your feature branch>
 
 If your pull request **does not contain a description** for what it does and what it's intentions are,
 we will reject it.
-If you are working on a specific work package from the [list](https://community.openproject.com/projects/openproject/work_packages),
+If you are working on a specific work package from the [list](https://community.openproject.org/projects/openproject/work_packages),
 you may include a link to that work package in the description, so we can track your work.
 
 The core contributor team will then review your pull request according to our [code review guideline](https://www.openproject.org/open-source/development-free-project-management-software/code-review-guideliness/).
