@@ -24,8 +24,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::OpenProjectStorageModalComponent::Body < ViewComponent::Base
-  def initialize(state)
+class Storages::OpenProjectStorageModalComponent::Body < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+  options success_subtitle_notice: :redirect
+
+  def initialize(state, **options)
     @state = state
+    super(nil, **options)
+  end
+
+  private
+
+  def success_subtitle
+    I18n.t("storages.open_project_storage_modal.success.subtitle_#{success_subtitle_notice}")
   end
 end
