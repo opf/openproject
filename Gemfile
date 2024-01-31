@@ -258,12 +258,12 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 3.39.0'
+  gem 'capybara', '~> 3.40.0'
   gem 'capybara_accessible_selectors', git: 'https://github.com/citizensadvice/capybara_accessible_selectors', branch: 'main'
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.15.0'
   gem 'selenium-devtools'
-  gem 'selenium-webdriver', '~> 4.16.0'
+  gem 'selenium-webdriver', '~> 4.17.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -285,7 +285,7 @@ group :test do
 end
 
 group :ldap do
-  gem 'net-ldap', '~> 0.18.0'
+  gem 'net-ldap', '~> 0.19.0'
 end
 
 group :development do
@@ -317,7 +317,7 @@ group :development, :test do
 
   gem 'pry-byebug', '~> 3.10.0', platforms: [:mri]
   gem 'pry-rails', '~> 0.3.6'
-  gem 'pry-rescue', '~> 1.5.2'
+  gem 'pry-rescue', '~> 1.6.0'
   gem 'pry-doc'
 
   # ruby linting
@@ -365,7 +365,7 @@ platforms :mri, :mingw, :x64_mingw do
 
   # Have application level locks on the database to have a mutex shared between workers/hosts.
   # We e.g. employ this to safeguard the creation of journals.
-  gem 'with_advisory_lock', '~> 5.0.0'
+  gem 'with_advisory_lock', '~> 5.1.0'
 end
 
 # Load Gemfile.modules explicitly to allow dependabot to work
