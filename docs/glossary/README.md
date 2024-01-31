@@ -110,7 +110,7 @@ A custom action in OpenProject is defined as customizable buttons which trigger 
 
 - [Watch a short video how custom actions work](https://www.openproject.org/docs/system-admin-guide/manage-work-packages/custom-actions/#automated-workflows-with-custom-actions-enterprise-add-on)
 - [Read this guide on how to create custom actions](https://www.openproject.org/docs/system-admin-guide/manage-work-packages/custom-actions/#create-custom-actions)
-- [Read this blog article on how to create an intelligent workflow with custom action - explained with an example](https://www.openproject.org/blog/customise-workflows/)
+- [Read this blog article on how to create an intelligent workflow with custom action - explained with an example](https://www.openproject.org/blog/customize-workflows/)
 
 ### Custom field
 

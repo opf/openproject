@@ -639,7 +639,7 @@ zh-TW:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "手動排程"
         spent_hours: "耗時"
         spent_time: "耗時"
@@ -3057,7 +3057,7 @@ zh-TW:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

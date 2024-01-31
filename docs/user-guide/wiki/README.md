@@ -35,7 +35,7 @@ Simply type in your text in the input field, highlight a text and select the for
 
 ![openproject_user_guide_wiki](openproject_user_guide_wiki.png)
 
-### Linebreaks
+### Line breaks
 
 Instead of creating a new paragraph with Enter, you can also press SHIFT+Enter to create a line break without creating a new paragraph.
 

@@ -637,7 +637,7 @@ it:
         readonly: "Sola lettura"
         remaining_hours: "Lavoro rimanente"
         remaining_time: "Lavoro rimanente"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Programmazione manuale"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
@@ -3085,7 +3085,7 @@ it:
       text_empty_search_description: "Non ci sono utenti con i criteri di filtro attuali."
       text_empty_search_header: "Non siamo riusciti a trovare alcun risultato corrispondente."
       text_empty_state_description: "La macro-attività non è stata ancora condivisa con nessuno."
-      text_empty_state_header: "Nessun membro in condivisione."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "L'aggiunta di ulteriori utenti supererà il limite attuale. Contatta un amministratore per aumentare il limite di utenti e garantire che gli utenti esterni possano accedere a questa  macro-attività."
       text_user_limit_reached_admins: 'L''aggiunta di ulteriori utenti supererà il limite attuale. <a href="%{upgrade_url}">Aggiorna il tuo piano</a> per aggiungere più utenti.'
       warning_user_limit_reached: >

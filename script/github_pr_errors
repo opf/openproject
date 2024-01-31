@@ -7,6 +7,7 @@ Bundler.setup(:default, :development)
 require 'colored2'
 require 'json'
 require 'optparse'
+require 'base64'
 require 'pathname'
 require 'pry'
 require 'yaml'

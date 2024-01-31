@@ -639,7 +639,7 @@ pt:
         readonly: "Somente leitura"
         remaining_hours: "Trabalho restante"
         remaining_time: "Trabalho restante"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Planjamento manual"
         spent_hours: "Tempo gasto"
         spent_time: "Tempo gasto"
@@ -3084,7 +3084,7 @@ pt:
       text_empty_search_description: "Não há usuários com o critério de filtro atual."
       text_empty_search_header: "Não encontramos nenhum resultado correspondente."
       text_empty_state_description: "O pacote de trabalho ainda não foi compartilhado com ninguém."
-      text_empty_state_header: "Não há membros compartilhados."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "A adição de usuários adicionais fará com que o limite atual seja excedido. Entre em contato com um administrador para aumentar o limite de usuários e garantir que usuários externos possam acessar este pacote de trabalho."
       text_user_limit_reached_admins: 'A adição de usuários adicionais excederá o limite atual. <a href="%{upgrade_url}">Atualize o seu plano</a> para poder adicionar mais usuários.'
       warning_user_limit_reached: >

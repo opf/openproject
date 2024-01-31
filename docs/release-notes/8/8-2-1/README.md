@@ -27,14 +27,14 @@ newest version.
     \[[#29026](https://community.openproject.org/wp/29026)\]
   - Fixed: Incorrect spacings on WP full view (mobile)
     \[[#29154](https://community.openproject.org/wp/29154)\]
-  - Fixed: Mobile notifications hidden by topbar
+  - Fixed: Mobile notifications hidden by top bar
     \[[#29171](https://community.openproject.org/wp/29171)\]
   - Fixed: Missing colors for status selector and type indicator in
     Chrome pdf export
     \[[#29175](https://community.openproject.org/wp/29175)\]
   - Fixed: Unnecessary truncation on work package page (split screen)
     \[[#29191](https://community.openproject.org/wp/29191)\]
-  - Fixed: Cost reports: broken scrolling behaviour
+  - Fixed: Cost reports: broken scrolling behavior
     \[[#29204](https://community.openproject.org/wp/29204)\]
   - Fixed: Title of default views changes after visiting a work package
     full view \[[#29211](https://community.openproject.org/wp/29211)\]

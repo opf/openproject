@@ -226,7 +226,7 @@ RSpec.describe 'date inplace editor', :js, :selenium, with_settings: { date_form
 
     start_date.save!
     start_date.expect_inactive!
-    start_date.expect_state_text "#{Time.zone.today.strftime('%Y-%m-%d')} - #{Time.zone.today.strftime('%Y-%m-%d')}"
+    start_date.expect_state_text Time.zone.today.strftime('%Y-%m-%d')
   end
 
   it 'can set a negative duration which gets transformed (Regression #44219)' do

@@ -26,19 +26,19 @@ Additionally you can:
 
 It is also possible to automatically create dedicated [project folders](../../projects/project-settings/file-storages/#project-folders), which makes documentation structure clearer and makes navigation more intuitive. 
 
-> **Important note**: To be able to use Nextcloud as a file storage in your project, the administrator of your instance should first have completed the [Nextcloud integration setup](../../../system-admin-guide/integrations/nextcloud). Then a project administrator can activate Nextcloud in the  [**File storages**](../../projects/project-settings/file-storages/) for a project.
+> **Important note**: To be able to use Nextcloud as a file storage in your project, the administrator of your instance should first have completed the [Nextcloud integration setup](../../../system-admin-guide/integrations/nextcloud). Then a project administrator can activate Nextcloud in the [File storages](../../projects/project-settings/file-storages/) for a project.
 
 
-| Topic                                                        | Description                                                  |
-| ------------------------------------------------------------ | :----------------------------------------------------------- |
+| Topic                                                                                               | Description                                                                               |
+|-----------------------------------------------------------------------------------------------------|:------------------------------------------------------------------------------------------|
 | [Connect your OpenProject and Nextcloud accounts](#connect-your-openproject-and-nextcloud-accounts) | How to connect your Nextcloud and OpenProject accounts to be able to use this integration |
-| [Link files and folders to work packages](#link-files-and-folders-to-work-packages) | How to link files and folders to work packages and view and download linked files |
-| [Unlink files and folders](#remove-links)                    | How to remove the link between a work package and a Nextcloud file or folder |
-| [Nextcloud dashboard](#nextcloud-dashboard)                  | How to keep an eye on your OpenProject notifications         |
-| [Navigation and search in Nextcloud](#navigation-and-search-in-nextcloud) | How to search OpenProject work packages via the universal search bar |
-| [Work package link preview in Nextcloud](#work-package-link-preview-in-nextcloud) | How to use the smart picker and see previews of work packages in text fields |
-| [Permissions and access control](#permissions-and-access-control) | Who has access to linked files and who doesn't               |
-| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting) | Common errors and how to troubleshoot them                   |
+| [Link files and folders to work packages](#link-files-and-folders-to-work-packages)                 | How to link files and folders to work packages and view and download linked files         |
+| [Unlink files and folders](#remove-links)                                                           | How to remove the link between a work package and a Nextcloud file or folder              |
+| [Nextcloud dashboard](#nextcloud-dashboard)                                                         | How to keep an eye on your OpenProject notifications                                      |
+| [Navigation and search in Nextcloud](#navigation-and-search-in-nextcloud)                           | How to search OpenProject work packages via the universal search bar                      |
+| [Work package link preview in Nextcloud](#work-package-link-preview-in-nextcloud)                   | How to use the smart picker and see previews of work packages in text fields              |
+| [Permissions and access control](#permissions-and-access-control)                                   | Who has access to linked files and who doesn't                                            |
+| [Possible errors and troubleshooting](#possible-errors-and-troubleshooting)                         | Common errors and how to troubleshoot them                                                |
 
 ## Connect your OpenProject and Nextcloud accounts
 
@@ -159,7 +159,7 @@ This linked file will then appear underneath the search bar. Doing so will also 
 
 #### Link multiple files to a work packages
 
-You can also **link mulitple files** to a single OpenProject work package. To do that, select the files you want to link, click the *Actions* menu and select the respective option.
+You can also **link multiple files** to a single OpenProject work package. To do that, select the files you want to link, click the *Actions* menu and select the respective option.
 ![Select multiple files in Nextcloud to link to a single work package in OpenProject](nc_select_multiple_files.png)
 
 A dialogue will open, allowing you to search for and then select an OpenProject work package to add all of the files to. The newly added files will become visible under the **Files** tab in the work package. 

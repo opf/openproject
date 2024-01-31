@@ -1031,6 +1031,7 @@ de:
       sharing:
         share: 'Teilen'
         title: "Arbeitspaket teilen"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} ausgewählt"
         selection:
           mixed: "Gemischt"

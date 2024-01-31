@@ -22,7 +22,7 @@
 cs:
   plugin_costs:
     name: "Čas a náklady"
-    description: "This module adds features for planning and tracking costs of projects."
+    description: "Tento modul přidává funkce pro plánování a sledování projektů."
   activerecord:
     attributes:
       cost_entry:

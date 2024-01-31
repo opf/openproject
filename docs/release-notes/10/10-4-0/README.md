@@ -168,7 +168,7 @@ You can slice 3D objects in all dimensions to get a view on the exact thing you 
 - Fixed: Update links on application start page and in help menu \[[#32202](https://community.openproject.org/wp/32202)\]
 - Fixed: Missing indication if field is mandatory for time tracking \[[#32204](https://community.openproject.org/wp/32204)\]
 - Fixed: Work package Save button should be blue (not alternative color in the theme settings) as all other save buttons in the application \[[#32205](https://community.openproject.org/wp/32205)\]
-- Fixed: Moving time entries between dates leads to confusing behaviour \[[#32206](https://community.openproject.org/wp/32206)\]
+- Fixed: Moving time entries between dates leads to confusing behavior \[[#32206](https://community.openproject.org/wp/32206)\]
 - Fixed: Wrong query displayed after going to full screen view  \[[#32216](https://community.openproject.org/wp/32216)\]
 - Fixed: Unnecessary dots displayed in subject column \[[#32218](https://community.openproject.org/wp/32218)\]
 - Fixed: Project sorting not working anymore \[[#32220](https://community.openproject.org/wp/32220)\]

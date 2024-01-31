@@ -93,9 +93,9 @@ As an inherited change is always commented ("Updated automatically by...") they 
 The "Position" attribute is provided by the Backlogs plugin and shows the position of a work package in the backlog.
 If you create e.g. a Feature and assign it to a sprint, the position of the feature in the sprint is shown in the "Position" attribute on the work package table.
 
-### Can I restore a deleted workpackage?
+### Can I restore a deleted work  package?
 
-There is no easy way to restore a deleted workpackage. Generally, you have the option to create and restore your own backups. 
+There is no easy way to restore a deleted work package. Generally, you have the option to create and restore your own backups. 
 
 ## Filters and queries
 

@@ -635,7 +635,7 @@ zh-CN:
         readonly: "只读"
         remaining_hours: "剩余工作"
         remaining_time: "剩余工作"
-        shared_with_users: "共享的用户"
+        shared_with_users: "Shared with"
         schedule_manually: "手动计划"
         spent_hours: "已耗工时"
         spent_time: "已耗工时"
@@ -3047,7 +3047,7 @@ zh-CN:
       text_empty_search_description: "没有符合当前过滤条件的用户。"
       text_empty_search_header: "我们找不到任何匹配的结果。"
       text_empty_state_description: "工作包尚未共享给任何人。"
-      text_empty_state_header: "没有共享的成员。"
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此工作包。"
       text_user_limit_reached_admins: '添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>以添加更多用户。'
       warning_user_limit_reached: >

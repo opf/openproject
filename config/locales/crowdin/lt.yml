@@ -639,7 +639,7 @@ lt:
         readonly: "Tik skaitymui"
         remaining_hours: "Liko darbo"
         remaining_time: "Liko darbo"
-        shared_with_users: "Bendrinama su naudotojais"
+        shared_with_users: "Dalinamasi su"
         schedule_manually: "Rankinis laiko parinkimas"
         spent_hours: "Praleista laiko"
         spent_time: "Praleista laiko"
@@ -3140,7 +3140,7 @@ lt:
       text_empty_search_description: "Nėra naudotojų su dabartiniu filtro kriterijumi."
       text_empty_search_header: "Mes neradome jokių atitinkančių rezultatų."
       text_empty_state_description: "Darbo paketas dar nėra su niekuo bendrinamas."
-      text_empty_state_header: "Nėra bendrinamų narių."
+      text_empty_state_header: "Nesidalinama"
       text_user_limit_reached: "Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome susisiekti su administratoriumi ir padidinti naudotojų apribojimą, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo."
       text_user_limit_reached_admins: 'Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad galėtumėte pridėti daugiau naudotojų.'
       warning_user_limit_reached: >

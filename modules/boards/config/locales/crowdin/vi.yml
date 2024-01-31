@@ -9,31 +9,31 @@ vi:
   boards:
     label_board: "Bảng"
     label_boards: "Bảng"
-    label_create_new_board: "Create new board"
+    label_create_new_board: "Tạo bảng mới"
     label_board_type: "Kiểu bảng"
     board_types:
-      free: Basic
-      action: "Action board (%{attribute})"
+      free: Cơ bản
+      action: "Bảng đang chạy (%{attribute})"
     board_type_attributes:
       assignee: Người được giao
       status: Trạng thái
       version: Phiên bản
       subproject: Dự án con
-      subtasks: Parent-child
-      basic: Basic
+      subtasks: Cha-con
+      basic: Cơ bản
     board_type_descriptions:
       basic: >
-        Start from scratch with a blank board. Manually add cards and columns to this board.
+        Bắt đầu với một bảng trống. Thêm thẻ và cột theo cách thủ công vào bảng này.
       status: >
-        Basic kanban style board with columns for status such as To Do, In Progress, Done.
+        Bảng kiểu Kanban cơ bản với các cột cho trạng thái như Cần làm, Đang tiến hành, Đã xong.
       assignee: >
-        Board with automated columns based on assigned users. Ideal for dispatching work packages.
+        Bảng với các cột tự động dựa trên người được gán. Lý tưởng cho việc gửi các công việc.
       version: >
-        Board with automated columns based on the version attribute. Ideal for planning product development.
+        Bảng có các cột tự động dựa trên thuộc tính phiên bản. Lý tưởng cho việc lập kế hoạch phát triển sản phẩm.
       subproject: >
-        Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+        Bảng có các cột tự động cho các dự án con. Kéo các gói công việc vào danh sách khác sẽ cập nhật dự án (con) tương ứng.
       subtasks: >
-        Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+        Bảng có các cột tự động dành cho các thành phần phụ. Kéo các công việc vào danh sách khác sẽ cập nhật công việc gốc tương ứng.
     upsale:
-      teaser_text: 'Would you like to automate your workflows with Boards? Advanced boards are an Enterprise add-on. Please upgrade to a paid plan.'
+      teaser_text: 'Bạn có muốn tự động hóa quy trình công việc của mình với Bảng không? Bảng nâng cao là một tiện ích bổ sung dành cho Doanh nghiệp. Vui lòng nâng cấp lên gói trả phí.'
       upgrade: 'Nâng cấp ngay'
