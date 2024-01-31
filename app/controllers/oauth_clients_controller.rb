@@ -56,7 +56,7 @@ class OAuthClientsController < ApplicationController
     if service_result.success?
       # Redirect the user to the page that initially wanted to access the OAuth2 resource.
       # "state" is a nonce that identifies a cookie which holds that page's URL.
-      redirect_to @redirect_uri
+      redirect_to @redirect_uri, @redirect_uri_params
     else
       # We got a list of errors from ::OAuthClients::ConnectionManager
       set_oauth_errors(service_result)
@@ -154,7 +154,8 @@ class OAuthClientsController < ApplicationController
                        .call
 
     if service_result.success?
-      @redirect_uri = service_result.result
+      @redirect_uri = service_result.result[:redirect_uri]
+      @redirect_uri_params = service_result.result[:redirect_uri_params]
     else
       # To protect against CSRF we cancel this request. There was either no
       # state parameter given, or there was no corresponding cookie present.

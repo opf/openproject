@@ -30,12 +30,10 @@
 #
 module Storages::Admin
   class OAuthAccessGrantNudgeModalComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-    options title: I18n.t('storages.oauth_grant_nudge_modal.title'),
-            body_text: I18n.t('storages.oauth_grant_nudge_modal.body'),
-            dialog_id: 'storages--oauth-grant-nudge-modal-component',
+    options dialog_id: 'storages--oauth-grant-nudge-modal-component',
             dialog_body_id: 'storages--oauth-grant-nudge-modal-body-component',
-            cancel_button_text: I18n.t('storages.oauth_grant_nudge_modal.cancel_button_label'),
-            confirm_button_text: I18n.t('storages.oauth_grant_nudge_modal.confirm_button_label')
+            confirm_button_text: I18n.t('storages.oauth_grant_nudge_modal.confirm_button_label'),
+            state: :waiting
 
     attr_reader :project_storage
 
@@ -45,6 +43,33 @@ module Storages::Admin
     end
 
     private
+
+    def title
+      return unless waiting?
+
+      I18n.t('storages.oauth_grant_nudge_modal.title')
+    end
+
+    def cancel_button_text
+      if waiting?
+        I18n.t('storages.oauth_grant_nudge_modal.cancel_button_label')
+      else
+        I18n.t('button_close')
+      end
+    end
+
+    def body_text
+      case options[:state].to_sym
+      when :waiting
+        I18n.t('storages.oauth_grant_nudge_modal.body')
+      when :success
+        concat(render(Storages::OpenProjectStorageModalComponent::Body.new(:success, success_subtitle_notice: :ready)))
+      end
+    end
+
+    def waiting?
+      options[:state] == :waiting
+    end
 
     def confirm_button_url
       url_helpers.oauth_access_grant_project_settings_project_storage_path(

@@ -23,16 +23,18 @@
         ) { cancel_button_text }
       )
 
-      concat(
-        render(
-          Primer::Beta::Button.new(
-            scheme: :primary,
-            tag: :a,
-            href: confirm_button_url,
-            aria: { label: confirm_button_text }
-          )
-        ) { confirm_button_text }
-      )
+      if waiting?
+        concat(
+          render(
+            Primer::Beta::Button.new(
+              scheme: :primary,
+              tag: :a,
+              href: confirm_button_url,
+              aria: { label: confirm_button_text }
+            )
+          ) { confirm_button_text }
+        )
+      end
     end
   end
 %>
