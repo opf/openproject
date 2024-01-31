@@ -58,6 +58,10 @@ module Components
         '#query-title-filter'
       end
 
+      def click_item(name)
+        page.find(autocompleter_item_selector, text: name).click
+      end
+
       def expect_menu_entry(name)
         expect(page).to have_selector(autocompleter_item_selector, text: name)
       end
