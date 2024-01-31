@@ -26,35 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Members::CreateService < BaseServices::Create
-  include Members::Concerns::NotificationSender
+require 'spec_helper'
+require 'services/base_services/behaves_like_create_service'
 
-  around_call :post_process
+RSpec.describe Members::CreateService, 'integration', type: :model do
+  let(:user1) { create(:admin) }
+  let(:user2) { create(:user) }
+  let(:group) { create(:group, members: [user1, user2]) }
+  let(:instance) { described_class.new(user: user1) }
 
-  def post_process
-    service_call = yield
+  subject { instance.call(params) }
 
-    return unless service_call.success?
+  describe 'with a global membership' do
+    let(:global_role) { create(:global_role) }
+    let(:params) do
+      {
+        principal: group,
+        project_id: nil,
+        role_ids: [global_role.id]
+      }
+    end
 
-    member = service_call.result
+    it 'inherits the membership to all users', :aggregate_failures do
+      expect { subject }.to change(MemberRole, :count).by(3)
+      expect(subject).to be_success
 
-    add_group_memberships(member)
-    send_notification(member)
-  end
-
-  protected
-
-  def add_group_memberships(member)
-    return unless member.principal.is_a?(Group)
-
-    project_ids = member.project_id.nil? ? nil : [member.project_id]
-
-    Groups::CreateInheritedRolesService
-      .new(member.principal, current_user: user, contract_class: EmptyContract)
-      .call(user_ids: member.principal.user_ids, send_notifications: false, project_ids:)
-  end
-
-  def event_type
-    OpenProject::Events::MEMBER_CREATED
+      group.users.each do |user|
+        members = Member.where(user_id: user1.id, project_id: nil)
+        expect(members.count).to eq 1
+        expect(members.first.roles).to eq [global_role]
+      end
+    end
   end
 end
