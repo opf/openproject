@@ -10,13 +10,13 @@ keywords: Nextcloud file storage integration
 
 # Nextcloud integration setup
 
-| Topic                      | Description                                                  |
-| ----------------------------------- | :----------------------------------------------------------- |
-| [Minimum requirements](#minimum-requirements)            | Minimum version requirements to enable the integration       |
-| [Set up the integration](#set-up-the-integration)      | Connect your Nextcloud and OpenProject instances as an administrator |
-| [Reset OAuth values](#reset-oauth-values)             | Create and manage work package types.                        |
-| [Delete a Nextcloud file storage](#delete-a-nextcloud-file-storage) | Create and manage work package status.                       |
-| [Using the integration](#using-the-integration) | Create and manage workflows for work packages in OpenProject. |
+| Topic                                                               | Description                                                          |
+|---------------------------------------------------------------------|:---------------------------------------------------------------------|
+| [Required system versions](#required-system-versions)               | Version requirements to enable the integration                       |
+| [Set up the integration](#set-up-the-integration)                   | Connect your Nextcloud and OpenProject instances as an administrator |
+| [Reset OAuth values](#reset-oauth-values)                           | Create and manage work package types.                                |
+| [Delete a Nextcloud file storage](#delete-a-nextcloud-file-storage) | Create and manage work package status.                               |
+| [Using the integration](#using-the-integration)                     | Create and manage workflows for work packages in OpenProject.        |
 
 OpenProject offers close integration with Nextcloud to allow users to:
 
@@ -27,15 +27,18 @@ OpenProject offers close integration with Nextcloud to allow users to:
 
 > Note: This guide only covers the integration setup. Please go to our [Nextcloud integration user guide](../../../user-guide/file-management/nextcloud-integration/) to learn more about how to work with the Nextcloud integration.
 
-## Minimum requirements
+## Required system versions
 
-Please note these minimum version requirements for the integration to work with a minimal feature set:
+OpenProject makes significant efforts to ensure that the integration works with all the latest stable versions.  We strongly recommend continuously updating all systems to the current stable version. This ensures access to the latest features and prompt fixes for any potential bugs.
 
-- OpenProject version 12.2 (or above)
-- Nextcloud version 22 (or above)
-- The [OpenProject Integration](https://apps.nextcloud.com/apps/integration_openproject) app, version 2.0.0 (or above)
-
-We recommend using the latest versions of both Nextcloud and OpenProject to be able to use the latest features. 
+- OpenProject [latest release](https://www.openproject.org/docs/release-notes/).
+- The latest version of the [OpenProject Integration Nextcloud app](https://apps.nextcloud.com/apps/integration_openproject)  from the Nextcloud App Store.
+- Nextcloud version in the latest `stable` version. 
+  - If you run Nextcloud in the community edition be careful to not 
+    blindly follow the update hints in the administration area of a Nextcloud instance, as they nudge you to use the
+    `latest` version, which might not be the latest `stable` version. We recommend to check the [tags of Nextcloud's official
+    Docker image](https://hub.docker.com/_/nextcloud). There you can see which version is currently the stable one. 
+  - If you installed Nextcloud via Docker then we advise you to pin it to a `stable` tag.
 
 ## Set up the integration
 
@@ -323,7 +326,7 @@ The integration OpenProject with Nextcloud makes use of authorized HTTP requests
   ```json
   {"user_id":"","authorization_header":foo}
   ```
-  
+
   If not, first verify that the app **OpenProject Integration** is installed.  
 
   If that is the case verify that the mod_rewrite is activated on the Nextcloud server.  
