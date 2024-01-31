@@ -159,6 +159,69 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
     end
   end
 
+  context 'with the query already having order and with order params' do
+    let(:model_instance) do
+      Queries::Projects::ProjectQuery.new.tap do |query|
+        query.order(lft: :asc)
+      end
+    end
+
+    let(:params) do
+      {
+        orders: [
+          {
+            attribute: 'id',
+            direction: 'asc'
+          },
+          {
+            attribute: 'name',
+            direction: 'desc'
+          }
+        ]
+      }
+    end
+
+    it 'assigns the orders param' do
+      subject
+
+      expect(model_instance.orders)
+        .to(be_all { |f| f.is_a?(Queries::Orders::Base) })
+
+      expect(model_instance.orders.map { |o| [o.name, o.direction] })
+        .to eql [["id", :asc], ["name", :desc]]
+    end
+  end
+
+  context 'with the query already having filters and with filter params' do
+    let(:model_instance) do
+      Queries::Projects::ProjectQuery.new.tap do |query|
+        query.where("active", '=', ['t'])
+      end
+    end
+
+    let(:params) do
+      {
+        filters: [
+          {
+            attribute: 'id',
+            operator: '=',
+            values: %w[1 2 3]
+          }
+        ]
+      }
+    end
+
+    it 'assigns the filter param' do
+      subject
+
+      expect(model_instance.filters)
+        .to(be_all { |f| f.is_a?(Queries::Projects::Filters::ProjectFilter) })
+
+      expect(model_instance.filters.map { |f| [f.name, f.operator, f.values] })
+        .to eql [[:id, '=', %w[1 2 3]]]
+    end
+  end
+
   context 'with an invalid contract' do
     let(:contract_valid) { false }
 

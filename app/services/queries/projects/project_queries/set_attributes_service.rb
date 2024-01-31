@@ -63,6 +63,7 @@ class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::Se
   def set_filters(filters)
     return unless filters
 
+    model.filters.clear
     filters.each do |filter|
       model.where(filter[:attribute], filter[:operator], filter[:values])
     end
@@ -71,6 +72,7 @@ class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::Se
   def set_order(orders)
     return unless orders
 
+    model.orders.clear
     model.order(orders.to_h { |o| [o[:attribute], o[:direction]] })
   end
 end
