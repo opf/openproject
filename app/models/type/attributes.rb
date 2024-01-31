@@ -35,6 +35,7 @@ module Type::Attributes
                 derived_start_date
                 derived_due_date
                 derived_estimated_time
+                derived_remaining_time
                 ignore_non_working_days
                 duration
                 description
@@ -80,6 +81,7 @@ module Type::Attributes
 
       OpenProject::Cache.fetch('all_work_package_form_attributes',
                                *wp_cf_cache_parts,
+                               EXCLUDED.length,
                                merge_date) do
         calculate_all_work_package_form_attributes(merge_date)
       end
