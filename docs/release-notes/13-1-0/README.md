@@ -70,7 +70,7 @@ Support for packaged installations on Centos7 and SUSE Enterprise Linux 12 have 
 
 Users still required to run on these systems should consider upgrading to a supported version, or use our docker-based installation methods.
 
-For more information, please see [#51333](https://community.openproject.org/projects/openproject/work_packages/51533/activity) and our [installation guides](https://www.openproject.org/docs/installation-and-operations/installation/).
+For more information, please see [#51333](https://community.openproject.org/projects/openproject/work_packages/51533/activity) and our [installation guides](../../installation-and-operations/installation/).
 
 
 
@@ -154,4 +154,4 @@ A big thanks to Community members for reporting bugs and helping us identifying 
 
 Jeff Tseung, Richard Richter, Daniel Elkeles, Jörg Mollowitz, Christina Vechkanova, Sven Kunze, Jeff Li, Mario Haustein, Mario Zeppin.
 
-A big thank you to every other dedicated user who has [reported bugs](https://www.openproject.org/docs/development/report-a-bug), supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards) and provided translations on [CrowdIn](https://crowdin.com/projects/opf).
+A big thank you to every other dedicated user who has [reported bugs](../../development/report-a-bug), supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards) and provided translations on [CrowdIn](https://crowdin.com/projects/opf).
