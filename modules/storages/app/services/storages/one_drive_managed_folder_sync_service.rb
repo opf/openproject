@@ -33,7 +33,7 @@ module Storages
     using Peripherals::ServiceResultRefinements
 
     DISALLOWED_CHARS = /[\\<>+?:"|\/]/
-    OPG_PERMISSIONS = %i[read_files write_files create_files delete_files share_files].freeze
+    OP_PERMISSIONS = %i[read_files write_files create_files delete_files share_files].freeze
 
     def self.call(storage)
       new(storage).call
@@ -92,11 +92,11 @@ module Storages
     end
 
     def add_user_to_permission_list(permissions, token, project)
-      opg_user_permissions = token.user.all_permissions_for(project)
+      op_user_permissions = token.user.all_permissions_for(project)
 
-      if opg_user_permissions.member?(:write_files)
+      if op_user_permissions.member?(:write_files)
         permissions[:write] << token.origin_user_id
-      elsif opg_user_permissions.member?(:read_files)
+      elsif op_user_permissions.member?(:read_files)
         permissions[:read] << token.origin_user_id
       end
     end
@@ -163,7 +163,7 @@ module Storages
     def project_tokens(project_storage)
       project_tokens = client_tokens_scope.where.not(id: admin_client_tokens_scope).order(:id)
 
-      if project_storage.project.public? && ProjectRole.non_member.permissions.intersect?(OPG_PERMISSIONS)
+      if project_storage.project.public? && ProjectRole.non_member.permissions.intersect?(OP_PERMISSIONS)
         project_tokens
       else
         project_tokens.where(user: project_storage.project.users)
