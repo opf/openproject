@@ -157,8 +157,9 @@ module Capabilities::Scopes
       end
 
       def principal_sql
-        RequestStore[:capabilities_principal_sql] ||=
+        RequestStore.fetch(:capabilities_principal_sql) do
           Principal.visible.not_builtin.not_locked.to_sql
+        end
       end
     end
   end

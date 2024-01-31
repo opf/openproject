@@ -71,7 +71,7 @@ gem 'typed_dag', '~> 2.0.2', require: false
 gem 'addressable', '~> 2.8.0'
 
 # Remove whitespace from model input
-gem "auto_strip_attributes", "~> 2.5"
+gem 'auto_strip_attributes', '~> 2.5'
 
 # Provide timezone info for TZInfo used by AR
 gem 'tzinfo-data', '~> 1.2023.1'
@@ -163,7 +163,7 @@ gem 'matrix', '~> 0.4.2'
 
 gem 'meta-tags', '~> 2.20.0'
 
-gem "paper_trail", "~> 15.1.0"
+gem 'paper_trail', '~> 15.1.0'
 
 group :production do
   # we use dalli as standard memcache client
@@ -180,7 +180,7 @@ gem 'sprockets-rails', '~> 3.4.2'
 
 gem 'puma', '~> 6.4'
 gem 'puma-plugin-statsd', '~> 2.0'
-gem 'rack-timeout', '~> 0.6.3', require: "rack/timeout/base"
+gem 'rack-timeout', '~> 0.6.3', require: 'rack/timeout/base'
 
 gem 'nokogiri', '~> 1.16.0'
 
@@ -203,13 +203,13 @@ gem 'mini_magick', '~> 4.12.0', require: false
 gem 'validate_url'
 
 # Storages support code
-gem "dry-container"
+gem 'dry-container'
 
 # ActiveRecord extension which adds typecasting to store accessors
-gem "store_attribute", "~> 1.0"
+gem 'store_attribute', '~> 1.0'
 
 # Appsignal integration
-gem "appsignal", "~> 3.0", require: false
+gem 'appsignal', '~> 3.0', require: false
 
 gem 'view_component'
 # Lookbook
@@ -220,7 +220,7 @@ gem 'factory_bot', '~> 6.4.0', require: false
 # require factory_bot_rails for convenience in core development
 gem 'factory_bot_rails', '~> 6.4.0', require: false
 
-gem 'turbo-rails', "~> 1.1"
+gem 'turbo-rails', '~> 1.1'
 
 gem 'httpx'
 
@@ -232,11 +232,11 @@ group :test do
   # Test prof provides factories from code
   # and other niceties
   gem 'test-prof', '~> 1.3.0'
-  gem 'turbo_tests', github: "crohr/turbo_tests", ref: "fix/runtime-info"
+  gem 'turbo_tests', github: 'crohr/turbo_tests', ref: 'fix/runtime-info'
 
   gem 'rack_session_access'
   gem 'rspec', '~> 3.12.0'
-  # also add to development group, so "spec" rake task gets loaded
+  # also add to development group, so 'spec' rake task gets loaded
   gem 'rspec-rails', '~> 6.1.0', group: :development
 
   # Retry failures within the same environment
@@ -328,8 +328,8 @@ group :development, :test do
   gem 'rubocop-rspec', require: false
 
   # erb linting
-  gem "erb_lint", require: false
-  gem "erblint-github", require: false
+  gem 'erb_lint', require: false
+  gem 'erblint-github', require: false
 
   # Brakeman scanner
   gem 'brakeman', '~> 6.1.0'
@@ -380,6 +380,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", '~>19.8.0'
-gem "openproject-octicons_helper", '~>19.8.0'
-gem "openproject-primer_view_components", '~>0.20.0'
+gem 'openproject-octicons', '~>19.8.0'
+gem 'openproject-octicons_helper', '~>19.8.0'
+gem 'openproject-primer_view_components', '~>0.20.0'
