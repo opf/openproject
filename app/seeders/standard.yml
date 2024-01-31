@@ -263,6 +263,7 @@ projects:
     modules:
       - work_package_tracking
       - news
+      - gantt
       - wiki
       - board_view
       - team_planner_view
@@ -544,6 +545,7 @@ projects:
       - news
       - wiki
       - work_package_tracking
+      - gantt
       - board_view
     news:
       - t_title: Welcome to your Scrum demo project

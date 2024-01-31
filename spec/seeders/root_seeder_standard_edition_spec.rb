@@ -33,7 +33,8 @@ require_relative 'root_seeder_shared_examples'
 
 RSpec.describe RootSeeder,
                'standard edition',
-               with_config: { edition: 'standard' } do
+               with_config: { edition: 'standard' },
+               with_flag: { show_separate_gantt_module: true } do
   include RootSeederTestHelpers
 
   shared_examples 'creates standard demo data' do
@@ -47,6 +48,7 @@ RSpec.describe RootSeeder,
 
     it 'creates the demo data' do
       expect(Project.count).to eq 2
+      expect(EnabledModule.count).to eq 13
       expect(WorkPackage.count).to eq 36
       expect(Wiki.count).to eq 2
       expect(Query.having_views.count).to eq 8

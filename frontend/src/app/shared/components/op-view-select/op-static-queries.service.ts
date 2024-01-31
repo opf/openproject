@@ -91,6 +91,11 @@ export class StaticQueriesService {
       if (matched) {
         return matched.title;
       }
+
+      if (this.$state.params.name) {
+        const nameKey = this.$state.params.name as string;
+        return this.I18n.t(`js.queries.${nameKey}`);
+      }
     }
 
     // Try to detect the all open filter

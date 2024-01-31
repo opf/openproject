@@ -640,7 +640,7 @@ fr:
         readonly: "Lecture seule"
         remaining_hours: "Travail restant"
         remaining_time: "Travail restant"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Planification manuelle"
         spent_hours: "Temps passé"
         spent_time: "Temps passé"
@@ -3087,7 +3087,7 @@ fr:
       text_empty_search_description: "Aucun utilisateur ne répond aux critères de filtrage actuels."
       text_empty_search_header: "Aucun résultat correspondant n'a été trouvé."
       text_empty_state_description: "Le lot de travaux n'a pas encore été partagé avec personne."
-      text_empty_state_header: "Partagé avec aucun membre"
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à ce lot de travaux."
       text_user_limit_reached_admins: 'L''ajout d''utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour pouvoir ajouter d''autres utilisateurs.'
       warning_user_limit_reached: >

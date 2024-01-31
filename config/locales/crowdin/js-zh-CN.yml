@@ -1030,6 +1030,7 @@ zh-CN:
       sharing:
         share: '共享'
         title: "共享工作包"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} 已选择"
         selection:
           mixed: "混合"

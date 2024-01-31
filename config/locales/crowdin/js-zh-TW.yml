@@ -1030,6 +1030,7 @@ zh-TW:
       sharing:
         share: '分享'
         title: "Share work package"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

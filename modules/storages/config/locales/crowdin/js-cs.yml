@@ -64,9 +64,9 @@ cs:
           other: "Propojit %{count} souborů"
         success_create:
           one: "Odkaz na soubor byl úspěšně vytvořen."
-          few: "Successfully created %{count} file links."
-          many: "Successfully created %{count} file links."
-          other: "Successfully created %{count} file links."
+          few: "Odkazů na soubor byl úspěšně vytvořen."
+          many: "Odkazů na soubor byl úspěšně vytvořen."
+          other: "Odkazů na soubor byl úspěšně vytvořen."
         upload_error:
           default: >
             Your file (%{fileName}) could not be uploaded.
@@ -82,8 +82,8 @@ cs:
         link_uploaded_file_error: >
           An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         tooltip:
-          not_logged_in: "Please log in to the storage to access this file."
-          view_not_allowed: "You have no permission to see this file."
-          not_found: "This file cannot be found."
+          not_logged_in: "Pro přístup k tomuto souboru se přihlaste do úložiště."
+          view_not_allowed: "Nemáte oprávnění k zobrazení tohoto souboru."
+          not_found: "Tento soubor nebyl nalezen."
         already_linked_file: "Tento soubor je již propojen s tímto pracovním balíčkem."
         already_linked_directory: "Tento adresář je již propojen s tímto pracovním balíčkem."

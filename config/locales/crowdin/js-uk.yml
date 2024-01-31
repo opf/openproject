@@ -1034,6 +1034,7 @@ uk:
       sharing:
         share: 'Поширити'
         title: "Надати доступ до пакета робіт"
+        show_all_users: "Show all shared users"
         selected_count: "Вибрано: %{count}"
         selection:
           mixed: "Змішані"

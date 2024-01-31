@@ -1,3 +1,10 @@
+---
+sidebar_navigation:
+  title: Restoring a deleted project
+  priority: 8
+keywords: deleted project, restore, restoring
+---
+
 # Restoring a deleted project
 
 Sometimes it may happen that you delete a project on accident.
@@ -11,6 +18,20 @@ The following files will be used in the examples.
 
 There is also a script ([restore.sh](./restore.sh)) that shows how to use everything together.
 
+## 0. Prerequisites
+
+* you have a Backup of your OpenProject installation with the missing data still present
+* you have restored the database dump of this backup into a new, separate database called `openproject_backup`
+  * Created, for instance, via
+    * `psql -c 'create database openproject_backup'`
+    * `pg_restore -d openproject_backup openproject.pgdump`
+* your present OpenProject database is called `openproject`
+
+It does not matter where the actual Postgres server is running.
+In all the following examples we simply use `psql -d openproject_backup` and `psql -d openproject` respectively. Where `openproject_backup` and `openproject` are the names of the databases within Postgres.
+
+In your case you may have to provide more options (e.g. the user or host) to connect to the respective database.
+
 ## 1. Dump project data from backup
 
 First we copy the data from the backup, that was deleted later.
@@ -23,7 +44,7 @@ the missing data into the current database.
 Before performing the next step, edit the `dump.sql` file and change the missing project ID
 to the correct value in the head of the file where it says 'DEFINE MISSING PROJECT ID HERE'.
 
-```
+```shell
 cat dump.sql | psql -d openproject_backup
 
 pg_dump -d openproject_backup -t 'missing_*' -f missing_data.sql
@@ -33,7 +54,7 @@ pg_dump -d openproject_backup -t 'missing_*' -f missing_data.sql
 
 Now that we have the missing data, we can restore it in the current database.
 
-```
+```shell
 cat missing_data.sql | psql -d openproject
 cat restore.sql | psql -d openproject
 ```
@@ -54,7 +75,7 @@ and rebuild the hierarchy.
 
 To do this, start an OpenProject console (e.g. `sudo openproject run console`) and execute the following.
 
-```
+```ruby
 p = Project.find_by(name: "Restored project")
 
 p.update_column :lft, nil

@@ -236,8 +236,8 @@ RSpec.describe 'layouts/base' do
     context 'with the user being anonymous' do
       let(:current_user) { anonymous }
 
-      it 'has no current_user metatag' do
-        expect(rendered).to have_no_css('meta[name=current_user]', visible: false)
+      it 'has a current_user metatag' do
+        expect(rendered).to have_css('meta[name=current_user]', visible: false)
       end
     end
   end

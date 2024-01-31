@@ -637,7 +637,7 @@ uk:
         readonly: "Лише читання"
         remaining_hours: "Залишок роботи"
         remaining_time: "Залишок роботи"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Ручне планування"
         spent_hours: "Трудовитрати"
         spent_time: "Трудовитрати"
@@ -3139,7 +3139,7 @@ uk:
       text_empty_search_description: "Користувачів за поточними умовами фільтра не знайдено"
       text_empty_search_header: "Результатів за запитом не знайдено."
       text_empty_state_description: "Доступ до цього пакета робіт ще нікому не надано."
-      text_empty_state_header: "Немає учасників із доступом."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Додавання користувачів призведе до перевищення поточного ліміту. Зверніться до адміністратора, щоб збільшити ліміт користувачів і таким чином забезпечити доступ до цього пакета робіт зовнішнім користувачам."
       text_user_limit_reached_admins: 'Додавання користувачів призведе до перевищення поточного ліміту. <a href="%{upgrade_url}">Підвищте рівень свого плану</a>, щоб додати користувачів.'
       warning_user_limit_reached: >
