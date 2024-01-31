@@ -12,7 +12,7 @@ keywords: Nextcloud file storage integration
 
 | Topic                                                               | Description                                                          |
 |---------------------------------------------------------------------|:---------------------------------------------------------------------|
-| [Required system versions](#minimum-requirements)                   | Version requirements to enable the integration                       |
+| [Required system versions](#required-system-versions)               | Version requirements to enable the integration                       |
 | [Set up the integration](#set-up-the-integration)                   | Connect your Nextcloud and OpenProject instances as an administrator |
 | [Reset OAuth values](#reset-oauth-values)                           | Create and manage work package types.                                |
 | [Delete a Nextcloud file storage](#delete-a-nextcloud-file-storage) | Create and manage work package status.                               |
