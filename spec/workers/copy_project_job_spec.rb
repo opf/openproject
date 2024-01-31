@@ -29,9 +29,6 @@
 require 'spec_helper'
 
 RSpec.describe CopyProjectJob, type: :model do
-  let(:project) { create(:project, public: false) }
-  let(:user) { create(:user) }
-  let(:role) { create(:project_role, permissions: [:copy_projects]) }
   let(:params) { { name: 'Copy', identifier: 'copy' } }
   let(:maildouble) { double('Mail::Message', deliver: true) }
 
@@ -191,18 +188,60 @@ RSpec.describe CopyProjectJob, type: :model do
     end
   end
 
-  shared_context 'copy project' do
+  context 'when project has work package hierarchies with derived values' do
+    shared_let(:source_project) { create(:project, name: 'Source project') }
+
+    before_all do
+      set_factory_default(:project, source_project)
+      set_factory_default(:project_with_types, source_project)
+    end
+
+    let(:admin) { create(:admin) }
+    let(:params) { { name: 'Copy', identifier: 'copy' } }
+
+    let_work_packages(<<~TABLE)
+      hierarchy   | work | start date | end date
+      parent      |   1h | 2024-01-23 | 2024-01-26
+        child     |   3h | 2024-01-23 | 2024-01-26
+    TABLE
+
     before do
-      described_class.new.tap do |job|
-        job.perform user_id: user.id,
-                    source_project_id: project_to_copy.id,
-                    target_project_params: params,
-                    associations_to_copy: [:members]
-      end
+      WorkPackages::UpdateAncestorsService
+        .new(user: admin, work_package: child)
+        .call(%i[estimated_hours remaining_hours ignore_non_working_days])
+    end
+
+    it 'copies the project without any errord (Bug #52384)' do
+      allow(OpenProject.logger).to receive(:error)
+
+      copy_job = described_class.new
+      copy_job.perform user_id: admin.id,
+                       source_project_id: source_project.id,
+                       target_project_params: params,
+                       associations_to_copy: [:work_packages]
+
+      expect(copy_job.job_status.status).to eq 'success'
+      expect(copy_job.errors).to be_empty
+      expect(OpenProject.logger).not_to have_received(:error)
     end
   end
 
   describe 'perform' do
+    let(:project) { create(:project, public: false) }
+    let(:user) { create(:user) }
+    let(:role) { create(:project_role, permissions: [:copy_projects]) }
+
+    shared_context 'copy project' do
+      before do
+        described_class.new.tap do |job|
+          job.perform user_id: user.id,
+                      source_project_id: project_to_copy.id,
+                      target_project_params: params,
+                      associations_to_copy: [:members]
+        end
+      end
+    end
+
     before do
       login_as(user)
       expect(User).to receive(:current=).with(user).at_least(:once)

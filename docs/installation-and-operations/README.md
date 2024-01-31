@@ -19,7 +19,7 @@ This page summarizes the options for getting OpenProject, some hosted and some o
 
 * **Univention App Center** - Download the free Community edition as a pre-installed virtual environment and upgrade to the Enterprise edition with Enterprise add-ons and support. See the [documentation](installation/univention/) for details.
 
-All editions can be enhanced by adding **[the BIM module](../bim-guide/)**, including features for construction project management, i.e. 3D model viewer, BCF management. See how to [switch to that edition](bim-edition/) in the documentation or how to start a [BIM Enterprise cloud edition](https://start.openproject.com/trial/bim).
+All editions can be enhanced by adding [the BIM module](../bim-guide/), including features for construction project management, i.e. 3D model viewer, BCF management. See how to [switch to that edition](bim-edition/) in the documentation or how to start a [BIM Enterprise cloud edition](https://start.openproject.com/trial/bim).
 
 Compare the features of these versions [on the website](https://www.openproject.org/pricing/#features). 
 

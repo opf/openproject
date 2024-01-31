@@ -56,7 +56,7 @@ RSpec.describe 'Team planner create new work package', :js, with_ee: %i[team_pla
       split_create.expect_and_dismiss_toaster(message: I18n.t('js.notice_successful_create'))
 
       split_create.expect_attributes(
-        combinedDate: "#{start_of_week.strftime('%m/%d/%Y')} - #{start_of_week.strftime('%m/%d/%Y')}",
+        combinedDate: start_of_week.strftime('%m/%d/%Y'),
         assignee: user.name
       )
 

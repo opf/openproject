@@ -22,7 +22,7 @@ This integration can be added for example for Google Chrome as [Toggl Track exte
 
 On the cogwheel of the Toggl Track extension you reach the **Settings**, from there chose **Integrations**.
 
-For OpenProject domains that are located on openproject.com, which is the case for most of the Enterprise cloud instances, you are able to chose **Openproject - openproject.com** from the list of default integrations.
+For OpenProject domains that are located on openproject.com, which is the case for most of the Enterprise cloud instances, you are able to chose **OpenProject - openproject.com** from the list of default integrations.
 
 For any other OpenProject Domains you need to exactly add the **Fully Qualified Domain Name** (including subdomain) to the **Custom URLs for Integration** and chose **OpenProject**. For example: community.openproject.org (wildcards are not supported by Toggl Track at the moment of writing)
 
@@ -34,7 +34,7 @@ For any other OpenProject Domains you need to exactly add the **Fully Qualified 
 
 If this add-in is installed and the **Integration URL** is configured, a **Start/Stop Timer button** is displayed on the work package details view, which can be used to record times from OpenProject into Toggl:
 
-![toggl-button-openproject-workpackage-detail-view](toggl-button-openproject-workpackage-detail-view.png)
+![toggl button openproject work package detail view](toggl-button-openproject-workpackage-detail-view.png)
 
 
 

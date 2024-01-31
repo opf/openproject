@@ -985,7 +985,7 @@ ru:
         updatedAt: "Обновлено"
         versionName: "Этап"
         version: "Этап"
-        remainingTime: "Оставшаяся работа"
+        remainingTime: "Оставшиеся часы"
       default_queries:
         latest_activity: "Последние действия"
         created_by_me: "Создано мной"

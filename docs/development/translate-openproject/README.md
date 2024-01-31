@@ -18,7 +18,7 @@ In order to translate OpenProject, we use [CrowdIn](https://crowdin.com/projects
 We highly appreciate the help of anyone who wants to translate OpenProject to additional languages.
 In order to provide translations not only for the OpenProject core but also for the plugins, we created several translation projects on CrowdIn:
 
-* <a href="https://crowdin.com/project/openproject" target="_blank">Translate OpenProject</a>
+* [Translate OpenProject](https://crowdin.com/project/openproject)
 
 To help us translate OpenProject, please follow the links above and follow the instructions below.
 

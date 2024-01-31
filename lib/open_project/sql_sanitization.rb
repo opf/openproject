@@ -44,5 +44,11 @@ module OpenProject
     def self.sanitize(sql, *args)
       sanitize_sql_array [sql, *args]
     end
+
+    ##
+    # Quoted, escaped input for LIKE/ILIKE statements
+    def self.quoted_sanitized_sql_like(input)
+      connection.quote_string ActiveRecord::Base.sanitize_sql_like(input)
+    end
   end
 end

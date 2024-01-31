@@ -47,7 +47,7 @@ In the upper section, you have to specify the connection details of your LDAP se
 
   - **Verify SSL certificate**: By default, for STARTTLS and LDAPS, SSL certificate trust chains will be verified during connection. As many LDAP servers in our experience use self-signed certificates, checking this option without providing the SSL certificate will fail. However, we recommend you enable this checkbox for any LDAP connections used in production.
 
-  - **LDAP server SSL certificate**: If the LDAP server's certificate is not trusted on the system that the OpenProject server runs on, you have the option to specifiy one or multiple PEM-encoded X509 certificates. This certificate might be the LDAP server's own certificate, or an intermediate or root CA that you trust for the sake of this connection.
+  - **LDAP server SSL certificate**: If the LDAP server's certificate is not trusted on the system that the OpenProject server runs on, you have the option to specify one or multiple PEM-encoded X509 certificates. This certificate might be the LDAP server's own certificate, or an intermediate or root CA that you trust for the sake of this connection.
 
 
 #### LDAP system user credentials

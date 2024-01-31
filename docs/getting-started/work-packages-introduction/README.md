@@ -29,9 +29,9 @@ A work package in OpenProject can basically be everything you need to keep track
 
 To get started, create a new work package in your project, [open the project](../projects/#open-an-existing-project) with the project drop-down menu, navigate to the **module work packages** in the project menu.
 
-Within the work packages module, click the green + Create button to create a new work package. In the drop down menu, choose which type of work package you want to create, e.g. a task or a milestone. To create a new work package, you can also select the blue printed + Create a new workpackage writing.
+Within the work packages module, click the green + Create button to create a new work package. In the drop down menu, choose which type of work package you want to create, e.g. a task or a milestone. To create a new work package, you can also select the blue printed + Create a new work package writing.
 
-![create-a-new-workpackage](create-a-new-workpackage.png)
+![create a new work package](create-a-new-workpackage.png)
 
 A split screen view is opened with the new work package form on the right and the table listing already existing work packages on the left.
 
@@ -41,11 +41,11 @@ In the empty form on the right, you can enter all relevant information for this 
 
 Click the green **Save** button to create the work package.
 
-![split-screen-workpackages](split-screen-workpackages.png)
+![split screen work packages](split-screen-workpackages.png)
 
 The work package will the be displayed in the table view:
 
- ![create-work-package-define-project](create-work-package-define-project-6669224.png)
+ ![create work package define project](create-work-package-define-project-6669224.png)
 
 Another option to create a work package is to do it from the header menu. The [work package types](../../user-guide/projects/project-settings/work-package-types/#work-package-types) that are activated, will be shown and you can select the relevant work package type to be created.
 
@@ -83,7 +83,7 @@ You can also insert a comment at the end of the Activity list.
 
 ![activity-work-packages](activity-work-packages.png)
 
-To notify other people about changes in your work packages activities, you can comment and type an @" infront of the username you want to inform and when you publish your message the person you have tagged will get a notification in OpenProject. The aggregation of changes in the Activity list can be configured in the [system administration](../../system-admin-guide/calendars-and-dates/#date-format).
+To notify other people about changes in your work packages activities, you can comment and type an @" in front of the username you want to inform and when you publish your message the person you have tagged will get a notification in OpenProject. The aggregation of changes in the Activity list can be configured in the [system administration](../../system-admin-guide/calendars-and-dates/#date-format).
 
 To find out more about the work package functionalities, please visit our detailed [user guide for work packages](../../user-guide/work-packages).
 

@@ -42,7 +42,7 @@ On the left you will have the following options:
 
 **Archived projects**  will list all archived projects of which were a member or have the right to see.
 
->**Note:** You can also access the **Projects** global module by opening the [**Select a project** dropdown menu](https://www.openproject.org/docs/user-guide/projects/#projects-list ) and by clicking the **Projects list** button, or by clicking on the **Modules** button in the header next to the search bar and the selecting **Projects** in the menu that appears.
+>**Note:** You can also access the **Projects** global module by opening the [Select a project dropdown menu](https://www.openproject.org/docs/user-guide/projects/#projects-list ) and by clicking the **Projects list** button, or by clicking on the **Modules** button in the header next to the search bar and the selecting **Projects** in the menu that appears.
 
 ## Activity
 
@@ -60,13 +60,13 @@ You can adjust the view by using the filters on the left menu and clicking the *
 
 ## Work packages
 
-The **Work packages** global module will show a work packages table from the projects of which you are a member or have the right to view, including public projects. You can select your **Favorite** and **Default** work package filters in the left side menu. Please note that if a view is marked as favorite it will be shown in the **Favourite** section, whether it is also saved as public or private or not.
+The **Work packages** global module will show a work packages table from the projects of which you are a member or have the right to view, including public projects. You can select your **Favorite** and **Default** work package filters in the left side menu. Please note that if a view is marked as favorite it will be shown in the **Favorite** section, whether it is also saved as public or private or not.
 
 ![The Work packages global module](openproject_global_modules_work_packages.png)
 
 If you double-click to open one of the work packages in full screen view, the work package will highlight which project it belongs to at the top of the page.
 
-![The project containing the current work package is highligted when opening it from outside the project](openproject_global_modules_work_packages_full_view.png)
+![The project containing the current work package is highlighted when opening it from outside the project](openproject_global_modules_work_packages_full_view.png)
 
 ## Calendars
 

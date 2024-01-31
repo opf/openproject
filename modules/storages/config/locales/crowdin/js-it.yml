@@ -78,7 +78,7 @@ it:
         link_uploaded_file_error: >
           Si è verificato un errore caricando il file caricato '%{fileName}' al pacchetto di lavoro %{workPackageId}.
         tooltip:
-          not_logged_in: "Please log in to the storage to access this file."
+          not_logged_in: "Effettua il login nella memoria per accedere a questo file."
           view_not_allowed: "Non hai i permessi per accedere al file."
           not_found: "Impossibile trovare questo file."
         already_linked_file: "Questo file è già collegato a questa macro-attività."

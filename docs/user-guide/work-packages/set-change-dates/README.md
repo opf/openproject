@@ -8,12 +8,12 @@ keywords: date picker start finish dates duration change modify update relations
 
 # Set and change dates and duration of work packages
 
-| Feature                                                      | Documentation for                                            |
-| ------------------------------------------------------------ | ------------------------------------------------------------ |
-| [Set start and finish dates](#set-start-and-finish-dates)    | How to set start and finish dates, and how to change them    |
-| [Working days and duration](#working-days-and-duration)      | How to set duration, and how it affects start and finish dates |
-| [Scheduling mode](#scheduling-mode)                          | Enabling manual scheduling and what it does                  |
-| [Information and warning ban ners](#information-and-warning-banners) | What the different warning and information banners mean      |
+| Feature                                                             | Documentation for                                              |
+|---------------------------------------------------------------------|----------------------------------------------------------------|
+| [Set start and finish dates](#set-start-and-finish-dates)           | How to set start and finish dates, and how to change them      |
+| [Working days and duration](#working-days-and-duration)             | How to set duration, and how it affects start and finish dates |
+| [Scheduling mode](#scheduling-mode)                                 | Enabling manual scheduling and what it does                    |
+| [Information and warning banners](#information-and-warning-banners) | What the different warning and information banners mean        |
 
 ## Set start and finish dates
 
@@ -46,7 +46,7 @@ You can also click on the **Today** link below the start and finish date fields 
 
 A more intuitive way to select start and end dates is to simply click on two different dates in the mini calendars below. Two calendar months are displayed for better visibility.
 
-Start by clicking on a start date. This will enter the selected date as the start date, mark it with a dark color on the mini calendar below and move the focus to the finish date field. Hovering on different finish dates will give you a preview of the date range for the work package if you click this second date. Once you have decided on a finish date, click on it. This will enter the finish date in the date field and mark that date with another dark color. The dates in between will be highlighted with a lighter colour.
+Start by clicking on a start date. This will enter the selected date as the start date, mark it with a dark color on the mini calendar below and move the focus to the finish date field. Hovering on different finish dates will give you a preview of the date range for the work package if you click this second date. Once you have decided on a finish date, click on it. This will enter the finish date in the date field and mark that date with another dark color. The dates in between will be highlighted with a lighter color.
 
 To confirm the selected dates, click on the **Save** button. The green message on top of the work package indicates a successful update.
 
@@ -79,7 +79,7 @@ Work packages with *only* a start date or only a finish date are automatically c
 
 Certain work package types (such as Milestones) can only span one day and thus have only one date field:
 
-![Milestones have datpickers with a single date field](milestone-datepicker.png)
+![Milestones have datepickers with a single date field](milestone-datepicker.png)
 
 
 
@@ -95,7 +95,7 @@ Starting with OpenProject 12.3, it is possible to manually input a duration for 
 
 ![The "Working days only" switch on the datepicker](working-days-only-switch.png)
 
-The **Working days only** switch is on by default, and the date picker skips over the weekend (or the days defined as non-working days) when scheduling work packages and deriving duration. In this mode, non-working days are marked with a darker colour and are not clickable. Work packages cannot start or finish on non-working days, and these days do not count towards the calculation of duration.
+The **Working days only** switch is on by default, and the date picker skips over the weekend (or the days defined as non-working days) when scheduling work packages and deriving duration. In this mode, non-working days are marked with a darker color and are not clickable. Work packages cannot start or finish on non-working days, and these days do not count towards the calculation of duration.
 
 Switching **Working days only** off will turn the previously disabled non-working days into regular working days, and make them available for scheduling. The duration will now take these days into account.
 

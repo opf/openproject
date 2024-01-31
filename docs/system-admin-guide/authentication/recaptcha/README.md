@@ -18,4 +18,4 @@ You can configure the following options:
 3. Insert the **secret key**.
 4. Press the blue **Apply** button to save your changes.
 
-![Sys-admin-authentication-recaptcha](Sys-admin-authentication-recaptcha.png)
+![Sysadmin authentication reCAPTCHA](Sys-admin-authentication-recaptcha.png)

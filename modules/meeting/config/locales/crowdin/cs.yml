@@ -22,22 +22,22 @@
 #English strings go here for Rails i18n
 cs:
   plugin_openproject_meeting:
-    name: "OpenProject Meeting"
+    name: "OpenProject Schůzka"
     description: >-
-      This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
+      Tento modul přidává funkce pro podporu projektových schůzek na OpenProject. Schůze mohou být naplánovány na výběr pozvaných z téhož projektu, kteří se zasedání zúčastní. Program může být vytvořen a odeslán pozváním. Po zasedání mohou být vybráni účastníci a na základě programu mohou být vytvořeny zápisy. Konečně, zápis může být odeslán všem účastníkům a pozváním.
   activerecord:
     attributes:
       meeting:
-        type: "Meeting type"
+        type: "Typ schůzky"
         location: "Místo"
         duration: "Doba trvání"
         notes: "Poznámky"
         participants: "Účastníci"
         participant:
           one: "1 Účastník"
-          few: "%{count} Participants"
-          many: "%{count} Participants"
-          other: "%{count} Participants"
+          few: "%{count} Účastníků"
+          many: "%{count} Účastníků"
+          other: "%{count} Účastníků"
         participants_attended: "Účastníci"
         participants_invited: "Pozvaní"
         project: "Projekt"
@@ -53,8 +53,8 @@ cs:
       messages:
         invalid_time_format: "není platný čas. Požadovaný formát: HH:MM"
     models:
-      structured_meeting: "Meeting (dynamic)"
-      meeting_agenda_item: "Agenda item"
+      structured_meeting: ""
+      meeting_agenda_item: "Pořad jednání"
       meeting_agenda: "Agenda"
       meeting_minutes: "Zápis"
   activity:
@@ -102,7 +102,7 @@ cs:
       invited:
         summary: "%{actor} has sent you an invitation for the meeting %{title}"
       rescheduled:
-        header: "Meeting %{title} has been rescheduled"
+        header: "Schůzka %{title} byla přeplánována"
         summary: "Meeting %{title} has been rescheduled by %{actor}"
         body: "The meeting %{title} has been rescheduled by %{actor}."
         old_date_time: "Staré datum/čas"
@@ -121,7 +121,7 @@ cs:
   permission_edit_meetings: "Upravit schůzku"
   permission_delete_meetings: "Odstranit schůzky"
   permission_view_meetings: "Zobrazit schůzky"
-  permission_create_meeting_agendas: "Create meeting agendas"
+  permission_create_meeting_agendas: "Vytvořit agendy schůzek"
   permission_create_meeting_agendas_explanation: "Allows editing the Classic Meeting's agenda content."
   permission_manage_agendas: "Správa zápisů"
   permission_manage_agendas_explanation: "Allows managing the Dynamic Meeting's agenda items."
@@ -142,7 +142,7 @@ cs:
   text_meeting_empty_heading: "Vaše schůzka je prázdná"
   text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
   text_meeting_empty_description_2: "You can also add references to existing work packages. When you do, related notes will automatically be visible in the work package's \"Meetings\" tab."
-  label_meeting_empty_action: "Add agenda item"
+  label_meeting_empty_action: "Přidat položku programu"
   label_meeting_actions: "Meeting actions"
   label_meeting_edit_title: "Upravit název schůzky"
   label_meeting_delete: "Smazat schůzku"
@@ -166,17 +166,17 @@ cs:
   text_meeting_closed_description: "This meeting is closed. You cannot add/remove agenda items anymore."
   label_meeting_manage_participants: "Spravovat účastníky"
   label_meeting_no_participants: "Nikdo tu není"
-  label_meeting_show_hide_participants: "Show/hide %{count} more"
+  label_meeting_show_hide_participants: "Zobrazit/skrýt %{count} dalších"
   label_meeting_show_all_participants: "Zobrazit vše"
   label_meeting_add_participants: "Přidat účastníky"
   text_meeting_not_editable_anymore: "This meeting is not editable anymore."
-  text_meeting_not_present_anymore: "This meeting was deleted. Please select another meeting."
+  text_meeting_not_present_anymore: "Tato schůzka byla odstraněna. Vyberte prosím jinou schůzku."
   label_add_work_package_to_meeting_dialog_title: "Přidat pracovní balíček k schůzce"
   label_add_work_package_to_meeting_dialog_button: "Přidat do schůzky"
   label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
-  text_add_work_package_to_meeting_description: "A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here."
+  text_add_work_package_to_meeting_description: "Pracovní balíček může být přidán na jedno nebo více jednání k diskusi."
   text_agenda_item_no_notes: "Nebyly poskytnuty žádné poznámky"
-  text_agenda_item_not_editable_anymore: "This agenda item is not editable anymore."
+  text_agenda_item_not_editable_anymore: "Tento bod pořadu jednání již není upravitelný."
   text_work_package_has_no_upcoming_meeting_agenda_items: "This work package is not scheduled in an upcoming meeting agenda yet."
   text_work_package_add_to_meeting_hint: "Use the \"Add to meeting\" button to add this work package to an upcoming meeting."
   text_work_package_has_no_past_meeting_agenda_items: "This work package was not mentioned in a past meeting."

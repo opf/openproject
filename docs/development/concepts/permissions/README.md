@@ -94,14 +94,14 @@ However, for most end points, this does not need to be and should not be done on
 
 When a set of records is to be returned, e.g. for an index action, it is best to limit the returned result set to the records the user is allowed to see. To avoid having to apply the permission check after the records have been fetched and instantiated, which is costly, it is best to limit the records in the sql right away. As there are a couple of different scenarios for fetching records, there are a couple of matching scopes defined:
 
-| Scenario | Scope | Example |
-|--------- | ------| ------- |
-| All projects a user is allowed a permission in | `Project.allowed_to(user, permission)` | `Project.allowed_to(User.current, :view_work_packages)` |
-| All work packges a user is allowed a permission in | `WorkPackage.allowed_to(user, permission)` | `WorkPackage.allowed_to(User.current, :view_work_packages)` |
-| All users granted a permission in a project | `Authorization.users(permission, project: project)` | `Authorization.users(:view_work_packages, project: project)` |
-| All roles a user has in a project | `Authorization.roles(user, project)` | `Authorization.roles(User.current, project)` |
-| All roles a user has for a specific resource | `Authorization.roles(user, entity)` | `Authorization.roles(User.current, work_package)` |
-| All roles a user has globally | `Authorization.roles(user)` | `Authorization.roles(User.current)` |
+| Scenario                                            | Scope                                               | Example                                                      |
+|-----------------------------------------------------|-----------------------------------------------------|--------------------------------------------------------------|
+| All projects a user is allowed a permission in      | `Project.allowed_to(user, permission)`              | `Project.allowed_to(User.current, :view_work_packages)`      |
+| All work packages a user is allowed a permission in | `WorkPackage.allowed_to(user, permission)`          | `WorkPackage.allowed_to(User.current, :view_work_packages)`  |
+| All users granted a permission in a project         | `Authorization.users(permission, project: project)` | `Authorization.users(:view_work_packages, project: project)` |
+| All roles a user has in a project                   | `Authorization.roles(user, project)`                | `Authorization.roles(User.current, project)`                 |
+| All roles a user has for a specific resource        | `Authorization.roles(user, entity)`                 | `Authorization.roles(User.current, work_package)`            |
+| All roles a user has globally                       | `Authorization.roles(user)`                         | `Authorization.roles(User.current)`                          |
 
 Most of the time, a developer will not witness those queries as they are the embedded deeply within the existing scopes. E.g. the `visible` scopes defined for most AR models.
 
@@ -209,7 +209,7 @@ This hooks into all permission checks (including the deprecated `allowed_to?` me
 
 In the frontend, we have to rely on the API to tell us what actions the user is allowed to do. With [`HAL+JSON resources`](../hal-resources), we can do that by checking for the presence or absence of an action link in responses.
 
-For example, if the user has the permission to create work packages in the OpenProject project on the community, [the collection response of the work packages API](https://community.openproject.com/api/v3/projects/openproject/work_packages?pageSize=0) of it will contain a link `createWorkPackage` that contains the link to the create form API endpoint.
+For example, if the user has the permission to create work packages in the OpenProject project on the community, [the collection response of the work packages API](https://community.openproject.org/api/v3/projects/openproject/work_packages?pageSize=0) of it will contain a link `createWorkPackage` that contains the link to the create form API endpoint.
 
 To check these links, one can use the [`ModelAuthService`](https://github.com/opf/openproject/tree/dev/frontend/src/app/core/model-auth/model-auth.service.ts) that gets initialized with the resources being loaded:
 

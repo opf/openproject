@@ -2,7 +2,7 @@
 cs:
   plugin_openproject_calendar:
     name: "OpenProject kalendář"
-    description: "Provides calendar views."
+    description: "Poskytuje zobrazení kalendáře."
   label_calendar: "Kalendář"
   label_calendar_plural: "Kalendáře"
   label_new_calendar: "Nový kalendář"

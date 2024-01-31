@@ -9,7 +9,7 @@ keywords: safe, scaled agile, release train, program increment, ART backlog, roa
 
 # Implementing Scaled Agile Framework (SAFe) in OpenProject
 
-OpenProject is a powerful project management tool that can adapt to a number of different frameworks and methodologies. Larger organisations who choose to implement the **Scaled Agile Framework (SAFe)** methodology can leverage the wide range of features and customisability that OpenProject offers to define, plan organise to deliver value to their end customers.
+OpenProject is a powerful project management tool that can adapt to a number of different frameworks and methodologies. Larger organizations who choose to implement the **Scaled Agile Framework (SAFe)** methodology can leverage the wide range of features and customizability that OpenProject offers to define, plan organize to deliver value to their end customers.
 
 This guide contains the following sections:
 
@@ -19,8 +19,8 @@ This guide contains the following sections:
 | [Setting up Agile Release Trains](#setting-up-agile-release-trains) | Configuring projects and using project templates to create and administer Agile Release Trains |
 | [Using versions to set Program Increments](#using-versions-to-set-program-increments) | Using versions in OpenProject to define Program Increments (PIs) and Iterations |
 | [Working with epics, features and stories](#working-with-epics-features-and-stories) | Configuring and using work packages for Epics, Capabilities, Enablers, Features and User Stories |
-| [Organising work using table view, Gantt view](#organising-work-using-table-view-gantt-view) | Using table and Gantt views to visualise, sort, filter and group work packages and save custom views at all levels (agile team, Agile Release Train or Solution Train) |
-| [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) | Organising work and facilitating planning using Backlogs, Kanban boards and Team planner  |
+| [Organizing work using table view, Gantt view](#organizing-work-using-table-view-gantt-view) | Using table and Gantt views to visualize, sort, filter and group work packages and save custom views at all levels (agile team, Agile Release Train or Solution Train) |
+| [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) | Organizing work and facilitating planning using Backlogs, Kanban boards and Team planner  |
 
 
 
@@ -65,7 +65,7 @@ A project consists of a number of different elements:
 
 Different [members groups](../../system-admin-guide/users-permissions/groups/) can also be created at an instance level and entire groups added to projects as members.
 
-To learn how to use the Work packages module to configure epics, features and user stories, see: [Organising work using table view, Gantt view](#organising-work-using-table-view-gantt-view)
+To learn how to use the Work packages module to configure epics, features and user stories, see: [Organizing work using table view, Gantt view](#organizing-work-using-table-view-gantt-view)
 
 > **Demo:** View an [overview of an ART set up as a project](https://safe.openproject.com/projects/art-2-design/work_packages?query_id=58).
 
@@ -73,17 +73,17 @@ To learn how to use the Work packages module to configure epics, features and us
 
 You can also use [project templates](../../user-guide/projects/project-templates/) and to make it easier to create news ARTs with the same structure, set of enabled modules, project structure or work package templates. Once a new ART is created using a template, it can then be modified in any way.
 
-**Agile teams** *within* an Agile Release Train (ART) can either be organised as sub-projects of an ART or simply as saved custom views in a Team planner or Assignee-based Kanban board. To learn more, read [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) below.
+**Agile teams** *within* an Agile Release Train (ART) can either be organized as sub-projects of an ART or simply as saved custom views in a Team planner or Assignee-based Kanban board. To learn more, read [Backlogs, Kanban and Team planner](#backlogs-kanban-and-team-planner) below.
 
 ### Solution Trains
 
-Project portfolios allow you to view, organise, sort and filter through all projects and their hierarchies. Since individual projects represent Agile Release trains, project porfolios  can be used to access information at a **Solution train**-level.
+Project portfolios allow you to view, organize, sort and filter through all projects and their hierarchies. Since individual projects represent Agile Release trains, project portfolios can be used to access information at a **Solution train**-level.
 
 ![All Features and User Stories across all teams](all_features_across_all_teams.png)
 
 > In a near future release, OpenProject will have dedicated project portfolio features. [View mockups.](https://www.figma.com/file/YCCMdJWkrtP9YSmf49Od0i/Project-lists?type=design&node-id=470%3A13037&mode=design&t=g1EZesuy0Jj0VZFD-1)
 > 
-> For the moment, **[global modules](../../user-guide/home/global-modules/)** give you an overview of content from all projects, including the ability to view and filter though a **project list**, and view, sort and filter **work packages at a global level**.
+> For the moment, [global modules](../../user-guide/home/global-modules/) give you an overview of content from all projects, including the ability to view and filter though a **project list**, and view, sort and filter **work packages at a global level**.
 
 > **Demo:** [Solution train (project list)](https://safe.openproject.com/projects)
 > 
@@ -177,7 +177,7 @@ Progress can be viewed at a team label, at an ART-level or at a solution train l
 > **Demo:** [Progress overview at a PI level](https://safe.openproject.com/projects/safe-demo/work_packages?query_id=78)
 
 
-## Organising work using table view, Gantt view
+## Organizing work using table view, Gantt view
 
 OpenProject is a powerful tool that allows you to view work packages in a variety of different ways.
 
@@ -187,17 +187,17 @@ The work package table view lets you view and edit work packages of all types (E
 
 ![Work package table view](work_package_table_view.png)
 
-These tables are highly customisable and can be [configured](../../user-guide/work-packages/work-package-table-configuration/) to show precisely the information you need. Tables can also be **sorted** (for example by id, name, start dates, project, assignee, priority), **grouped** and **filtered** to create highly precise views. They can also show nested parent-children relations in **hierarchy view**.
+These tables are highly customizable and can be [configured](../../user-guide/work-packages/work-package-table-configuration/) to show precisely the information you need. Tables can also be **sorted** (for example by id, name, start dates, project, assignee, priority), **grouped** and **filtered** to create highly precise views. They can also show nested parent-children relations in **hierarchy view**.
 
 > **Demo**: [A table view of all epics, features and stories in an ART](https://safe.openproject.com/projects/art-0-test-release-train/work_packages?query_id=29)
 
 Configured tables can be saved as private (for you only) or public views (for all project members) to easily access them later and share them with other team members.
 
-Additionally, the [**Baseline** **comparison**](../../user-guide/work-packages/baseline-comparison/) feature allow lets you visualise changes to a table (in relation to the filter criteria) over a period of time, affording you yet another way to monitor progress and changes within your ART or agile team.
+Additionally, the [Baseline comparison](../../user-guide/work-packages/baseline-comparison/) feature allow lets you visualize changes to a table (in relation to the filter criteria) over a period of time, affording you yet another way to monitor progress and changes within your ART or agile team.
 
 ### Gantt view
 
-The **[Gantt chart](../../user-guide/gantt-chart/)** module allows you to quickly visualise planning at any level (Solution, ART or agile team) in a calendar view that also displays [work package relations](../../user-guide/work-packages/work-package-relations-hierarchies/). Like table view, it can be filtered to create custom views that can be saved.
+The [Gantt chart](../../user-guide/gantt-chart/) module allows you to quickly visualize planning at any level (Solution, ART or agile team) in a calendar view that also displays [work package relations](../../user-guide/work-packages/work-package-relations-hierarchies/). Like table view, it can be filtered to create custom views that can be saved.
 
 ![Gantt view of one sprint in one ART](Gantt_view.png)
 
@@ -210,7 +210,7 @@ The **Backlog** and **Kanban** are key tools in a scaled agile environment, not 
 
 ### Backlog
 
-The [**Backlog module**](../../user-guide/backlogs-scrum/work-with-backlogs/) displays all versions available to a particular project or ART in a two-column format. For each version (representing a Product increment, Iteration or a Feature or Story backlog), the module displays:
+The [Backlog module](../../user-guide/backlogs-scrum/work-with-backlogs/) displays all versions available to a particular project or ART in a two-column format. For each version (representing a Product increment, Iteration or a Feature or Story backlog), the module displays:
 
 - Version name
 - Start and end dates
@@ -218,17 +218,17 @@ The [**Backlog module**](../../user-guide/backlogs-scrum/work-with-backlogs/) di
 
 It also displays the *id*, *name*, *status* and *story points* for each work package contained in a version.
 
-![Backlock view of one ART](Backlogs.png)
+![Backlog view of one ART](Backlogs.png)
 
-We recommend organising all relevant sprints on the left column and the backlog on the right column. Any epic, feature, story, enabler or capability can easier be dragged and dropped between versions or to and from the backlog.
+We recommend organizing all relevant sprints on the left column and the backlog on the right column. Any epic, feature, story, enabler or capability can easier be dragged and dropped between versions or to and from the backlog.
 
 > **Demo**: [Backlog of an ART showing planned Sprints and a feature backlog](https://safe.openproject.com/projects/art-0-test-release-train/backlogs)
 
 ### Kanban
 
-[**Kanban boards**](../../user-guide/agile-boards/) allow you to clearly visualise work items in a number of different ways. In OpenProject, dynamic boards can easily be created for a number of different fields.
+[Kanban boards](../../user-guide/agile-boards/) allow you to clearly visualize work items in a number of different ways. In OpenProject, dynamic boards can easily be created for a number of different fields.
 
-![Kanban board of one ART organised by status](Kanban_status.png)
+![Kanban board of one ART organized by status](Kanban_status.png)
 
 For each ART, we recommend creating these dynamic Kanban boards:
 
@@ -242,7 +242,7 @@ OpenProject boards are powerful and can be filtered for more control over what i
 
 ### Team planner
 
-The [**Team planner module**](../../user-guide/team-planner/) allows you to visualise work packages assigned to particular team members in a week or two-week calendar view. It is a powerful tool to monitor work at a day-to-day level.
+The [Team planner module](../../user-guide/team-planner/) allows you to visualize work packages assigned to particular team members in a week or two-week calendar view. It is a powerful tool to monitor work at a day-to-day level.
 
 ![Team planner view configured for one agile team](teamPlanner.png)
 
@@ -254,6 +254,6 @@ At a Solution train level, it also allows you to view the work of members across
 
 ## Here for you
 
-OpenProject is a powerful and highly-configurable tool that can be customised to fit the needs of your particular scaled agile implementation. Beyond the basics covered in this guide, OpenProject has many additional features and modules (such as [budgets](https://www.openproject.org/docs/user-guide/budgets/), [time and cost tracking](https://www.openproject.org/docs/user-guide/time-and-costs/), [wiki](https://www.openproject.org/docs/user-guide/wiki/), [meetings](https://www.openproject.org/docs/user-guide/meetings/) and [file storage integrations](https://www.openproject.org/docs/development/file-storage-integration/)) that further enable your agile teams to work efficiently and deliver value.
+OpenProject is a powerful and highly-configurable tool that can be customized to fit the needs of your particular scaled agile implementation. Beyond the basics covered in this guide, OpenProject has many additional features and modules (such as [budgets](https://www.openproject.org/docs/user-guide/budgets/), [time and cost tracking](https://www.openproject.org/docs/user-guide/time-and-costs/), [wiki](https://www.openproject.org/docs/user-guide/wiki/), [meetings](https://www.openproject.org/docs/user-guide/meetings/) and [file storage integrations](https://www.openproject.org/docs/development/file-storage-integration/)) that further enable your agile teams to work efficiently and deliver value.
 
 If you have questions about how to [use](../../getting-started/) and [configure](../../system-admin-guide/) OpenProject to work for you, please [get in touch](https://www.openproject.org/contact/) or [start a free trial](https://start.openproject.com/) to see for yourself. 

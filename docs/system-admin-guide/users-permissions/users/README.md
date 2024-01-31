@@ -142,19 +142,19 @@ To create a new password for a user (e.g. if he/she lost it) navigate to the **A
 
 In order to see and work in a project, a user has to be a member of a project and needs to be added with a certain role to this project.
 
-On the **Projects** tab, select the new project from the drop-down list, choose the [**roles**](../roles-permissions) for this project and click the blue **Add** button.
+On the **Projects** tab, select the new project from the drop-down list, choose the [roles](../roles-permissions) for this project and click the blue **Add** button.
 
-![Sys-admin-add-project](Sys-admin-add-project1.gif)
+![Sysadmin add project](Sys-admin-add-project1.gif)
 
 ### Add users to groups
 
 On the **Groups** tab you can see the groups the user belongs to. If a group is shown, click the group name link. 
 
-![open-projet-user-groups](system_guide_user_groups.png)
+![User groups](system_guide_user_groups.png)
 
 If no groups are shown (i.e. the user does not belong to any group, yet), click the **Manage groups** link to [edit groups](../groups).
 
-![manage-groups](system_guide_manage_groups.png)
+![Manage Groups](system_guide_manage_groups.png)
 
 **Please note**: The **Groups** tab is only shown if at least one user group exists in OpenProject.
 
@@ -164,7 +164,7 @@ In order to add a global role to a user, at least one global role needs to be [c
 
 On the **Global roles** tab, select or de-select the global role(s) for this user. Click the **Add** button.
 
-![Openproject-user-add-global-roles](openproject_system_guide_add_global_roles.png)
+![Add global roles](openproject_system_guide_add_global_roles.png)
 
 ### Notification settings
 

@@ -58,8 +58,8 @@ Currently, the Queries endpoint and object is highly specific to work packages, 
 
 Queries are regular APIv3 grape endpoints that can be accessed through the `/api/v3/queries` namespace. In general, they can be maintained in two ways:
 
-1. By accessing a previously saved query by their ID such as `/api/v3/queries/2453` ([Example JSON response](https://community.openproject.com/api/v3/queries/2453) on community)
-2. By setting dynamic GET parameters on a saved or `default` query such as `/api/v3/queries/default?columns[]=id` ([Example JSON response](https://community.openproject.com/api/v3/queries/default?columns[]=id) on community)
+1. By accessing a previously saved query by their ID such as `/api/v3/queries/2453` ([Example JSON response](https://community.openproject.org/api/v3/queries/2453) on community)
+2. By setting dynamic GET parameters on a saved or `default` query such as `/api/v3/queries/default?columns[]=id` ([Example JSON response](https://community.openproject.org/api/v3/queries/default?columns[]=id) on community)
 
 The default query `/api/v3/queries/default`  and `/api/v3/:project_id/queries/default` contains a default set of configuration (back-end and front-end) global and for the given project, respectively. They can only be modified administrators through some global settings.
 
@@ -84,7 +84,7 @@ When accessing a singular query resource, the response will always contain the s
 - **Basic properties** of the query object itself
   - `id` of the query (if any)
   - `name` of the query set by the saving user
-  - `starred` whether the user favorited this query (special place in sidebar)
+  - `starred` whether the user favorites this query (special place in sidebar)
   - `public` whether the query is shared with other users
   - `createdAt` / `updatedAt` timestamps for the resource
   - `_links.project` to the project it is saved in (if project-scoped)
@@ -111,7 +111,7 @@ These filters are also saved within the queries. Read the [APIv3 filters documen
 
 ### Exemplary query response
 
-Due to the public nature of the OpenProject community, you can check out the following exemplary query response in HAL+JSON: [community.openproject.com/api/v3/queries/2453](https://community.openproject.com/api/v3/queries/2453)
+Due to the public nature of the OpenProject community, you can check out the following exemplary query response in HAL+JSON: [community.openproject.org/api/v3/queries/2453](https://community.openproject.org/api/v3/queries/2453)
 
 It returns a saved query for the OpenProject 11.0 release, with a type filter `type is not [Idea, Phase, Release]` , a version filter `version = 11.0.0` and a "show all subprojects" filter with `subProject = all` . It is sorted by `type ascending`.
 
@@ -175,6 +175,6 @@ In practice, you will likely not only access the query resource itself, but rath
 
 The `WorkPackagesListService` can also update and save existing queries passed to it. This flow will often happen in the [`PartitionedQuerySpaceComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.ts), which is the basis for the modules showing work packages as a table or grid such as the [`WorkPackageViewPageComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/work-packages/routing/wp-view-page/wp-view-page.component.ts) or the [`IfcViewerPageComponent`](https://github.com/opf/openproject/blob/dev/frontend/src/app/features/bim/ifc_models/pages/viewer/ifc-viewer-page.component.ts).
 
-`PartitionedQuerySpaceComponent` instances will be instantiated by the router and listen to URL params to load the corresponding query object. The most prominent example of such a page is the work packages module such as [community.openproject.com/work_packages](https://community.openproject.com/work_packages).
+`PartitionedQuerySpaceComponent` instances will be instantiated by the router and listen to URL params to load the corresponding query object. The most prominent example of such a page is the work packages module such as [community.openproject.org/work_packages](https://community.openproject.org/work_packages).
 
 The partitioning comes from showing a work package table (or cards view) on one side, and a details view of a single work package on another side, splitting the page in two. The width of the split areas can be customized by the user through a drag-handle.

@@ -21,7 +21,7 @@
 #++
 cs:
   plugin_openproject_backlogs:
-    name: "OpenProject Backlogs"
+    name: "OpenProject Backlogy"
     description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
@@ -64,8 +64,8 @@ cs:
     properties: "Vlastnosti"
     rebuild: "Znovu vytvořit"
     rebuild_positions: "Znovu sestavit pozice"
-    remaining_hours: "Remaining work"
-    remaining_hours_ideal: "Remaining work (ideal)"
+    remaining_hours: "Zbývající práce"
+    remaining_hours_ideal: "Zbývající hodiny (ideální)"
     show_burndown_chart: "Spálovací graf"
     story: "Příběh"
     story_points: "Body příběhu"
@@ -147,7 +147,7 @@ cs:
   rb_label_copy_tasks_none: "Žádný"
   rb_label_copy_tasks_open: "Otevřít"
   rb_label_link_to_original: "Zahrnout odkaz na původní příběh"
-  remaining_hours: "remaining work"
+  remaining_hours: "Zbývající práce"
   required_burn_rate_hours: "požadovaná rychlost hoření (v hodinách)"
   required_burn_rate_points: "požadovaná rychlost hoření (body)"
   todo_work_package_description: "%{summary}: %{url}\n%{description}"

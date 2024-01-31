@@ -13,7 +13,7 @@ This document provides secure coding development guidelines for developers worki
 
 By following these guidelines, developers can contribute to OpenProject while ensuring the security of OpenProject and reduce the risk of vulnerabilities being released into production.
 
-The following guidelines are a starting point for developers interesting in contributing in OpenProject to ensure they are developing secure code. We recommend to refer to the [OWASP cheat sheets](https://cheatsheetseries.owasp.org/) as well as the [OWASP Top Ten](https://owasp.org/www-project-top-ten/) for the most recent and detailed guidelines. The following sections are heavily inspired and cross-referencing the well-known recommendations from the the OWASP, each section providing links for further references to generic, Rails-centered as well as OpenProject-specific information when available.
+The following guidelines are a starting point for developers interesting in contributing in OpenProject to ensure they are developing secure code. We recommend to refer to the [OWASP cheat sheets](https://cheatsheetseries.owasp.org) as well as the [OWASP Top Ten](https://owasp.org/www-project-top-ten/) for the most recent and detailed guidelines. The following sections are heavily inspired and cross-referencing the well-known recommendations from the the OWASP, each section providing links for further references to generic, Rails-centered as well as OpenProject-specific information when available.
 
 By adhering to these secure coding development guidelines, contributors to OpenProject can help to significantly reduce the risk of adding potentially unsecure code. Regardless of these guidelines, be mindful when reviewing pull requests of features touching any of these guidelines, keep security in mind whenever you write new code for OpenProject to ensure we deliver a secure and trustworthy software.
 
@@ -45,7 +45,7 @@ Implement strong authentication mechanisms for any sensitive credentials to be u
 **Guidelines**
 
 - Ensure uniqueness and case-insensitivity of user logins.
-- Use crytographic hashes for password or credentials storage
+- Use cryptographic hashes for password or credentials storage
 - Allow administrators to enforce strong password policies  with a combination of characters, numbers, and special symbols. Implement password expiration and account lockout mechanisms.
 - Implement mechanisms to protect against brute force attacks, such as account lockouts, rate limiting, or increasing delays after multiple failed login attempts.
 - Use strong password controls and validations
@@ -70,13 +70,13 @@ OpenProject uses industry standard authentication mechanisms that follow the bes
 
 <a id="usage-recommendations"></a>
 
-OpenProject recommends these authenticiation mechanisms:
+OpenProject recommends these authentication mechanisms:
 
 - All connections to and from OpenProject should be secured through TLS/SSL transport encryption. OpenProject assumes connections are secured through TLS/SSL by default in all production systems. Note that OpenProject does not provide TLS/SSL termination itself for Docker-based installations. The customer's IT department needs to configure and maintain the TLS certificates at the load balancer or proxying server before connections reach the application server.
-- For any external connection (Database, LDAP, etc.), OpenProject uses openssl library for the host or container's openssl certificate store. Use your distribution's mechanisms to add verified certificate or certificate chains. For more infomration, see the [Ruby OpenSSL X509 Store documentation](https://ruby-doc.org/stdlib-2.4.0/libdoc/openssl/rdoc/OpenSSL/X509/Store.html).
+- For any external connection (Database, LDAP, etc.), OpenProject uses openssl library for the host or container's openssl certificate store. Use your distribution's mechanisms to add verified certificate or certificate chains. For more information, see the [Ruby OpenSSL X509 Store documentation](https://ruby-doc.org/stdlib-2.4.0/libdoc/openssl/rdoc/OpenSSL/X509/Store.html).
 
 - For smaller to medium organizations with no centralized authentication mechanism, use the internal username / password authentication mechanism for secure storing of your user's credentials using BCrypt salted cryptographic hash function.
-- For organizations with a centralized and accessible LDAP server, [OpenProject provides LDAP userbind authentication](https://www.openproject.org/docs/system-admin-guide/authentication/ldap-authentication/) to foward the authentication request to your LDAP server. Use TLS or LDAPS encrypted connections to the LDAP server to ensure transport level security. Optionally, synchronize roles and permissions using the [LDAP Group sync functionality](https://www.openproject.org/docs/system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/).
+- For organizations with a centralized and accessible LDAP server, [OpenProject provides LDAP userbind authentication](https://www.openproject.org/docs/system-admin-guide/authentication/ldap-authentication/) to forward the authentication request to your LDAP server. Use TLS or LDAPS encrypted connections to the LDAP server to ensure transport level security. Optionally, synchronize roles and permissions using the [LDAP Group sync functionality](https://www.openproject.org/docs/system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/).
 - If your organization operates a central authentication services, it is very likely it supports one of the standard remote authentication mechanisms for single sign-on, such as [OpenID connect](https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/),  [SAML](https://www.openproject.org/docs/system-admin-guide/authentication/saml/), or [Kerberos](https://www.openproject.org/docs/system-admin-guide/authentication/kerberos/). Use these mechanisms to ensure a standardized and secure authentication of users without requiring the storage of any credentials at OpenProject while providing a high level of usability due to centralized logins.
 
 
@@ -117,13 +117,13 @@ As OpenProject is a web application, the web session is the central mechanism of
 
 **Guidelines**
 
-- Use Rails' built-in secure session cookies for maintaing the users' session. It incorporates best-practices to ensure strong session tokens, tamper resistance, and proper expiration.
+- Use Rails' built-in secure session cookies for maintaining the users' session. It incorporates best-practices to ensure strong session tokens, tamper resistance, and proper expiration.
 - Ensure session cookies are marked `secure` and `httponly`, as well as providing the appropriate `SameSite` and expiry flags according to the instance's configuration.
 - Provide a secure logout mechanism that invalidates the session and clears session cookies. Ensure that users are logged out after a period of inactivity.
 - Implement session fixation protection mechanisms to prevent attackers from fixing a user's session to a known value.
 - Prevent storing sensitive unencrypted session information on the client device
 - Allow users to terminate sessions themselves, as well as allow instances to prevent simultaneous session logins by terminating other sessions.
-- Implement strong Cross-site scriptiong (XSS) protections as listed further down below, as the target of XSS attacks is often exploitation of the user's session credential.
+- Implement strong Cross-site scripting (XSS) protections as listed further down below, as the target of XSS attacks is often exploitation of the user's session credential.
 
 **References**
 
@@ -137,15 +137,15 @@ At its core, permissions in OpenProject are the central key to determine who can
 
 **Risks and Impact**
 
-- *Unauthorized access*: Users gaining or exploting access to sensitive resources or functionalities they are not supposed to have access to. Potential consequences in data breaches, unauthorized actions, and potential exposure of confidential information.
-- *Over-Privileged Users*:  Users receiving more permissions than necessary for their role, leading to potential misuse of privileges. Potential consequencse are unauthorized data modifications, data leaks, or abuse of system capabilities.
+- *Unauthorized access*: Users gaining or exploiting access to sensitive resources or functionalities they are not supposed to have access to. Potential consequences in data breaches, unauthorized actions, and potential exposure of confidential information.
+- *Over-Privileged Users*:  Users receiving more permissions than necessary for their role, leading to potential misuse of privileges. Potential consequences are unauthorized data modifications, data leaks, or abuse of system capabilities.
 
 
 
 **Guidelines**
 
 - Allow flexible assignment of permissions for individual projects and objects, following the *Least Privilege* rule.
-- Implement controlls and authorization checks with a *Deny by default* or *Fallback deny* rule, preventing authorization flows to miss certain steps and allowing user requests to fall through the authorization checks.
+- Implement controls and authorization checks with a *Deny by default* or *Fallback deny* rule, preventing authorization flows to miss certain steps and allowing user requests to fall through the authorization checks.
 - Validate the permissions of a user on every request, regardless of the origin of it.
 - Enforce proper authorization controls to ensure that users only access their own data.
 - Provide extensive tests for permission checks, making assertions of all available cases and using visibility testing for asserting that certain actors _cannot_ access data or perform actions. 
@@ -178,7 +178,7 @@ OpenProject is a form-driven application, meaning that users input a lot of data
 
 **Guidelines**
 
-- Understand and use the [Rails framework's mechansims](https://guides.rubyonrails.org/security.html#injection) to prevent injection and CSRF attacks
+- Understand and use the [Rails framework's mechanisms](https://guides.rubyonrails.org/security.html#injection) to prevent injection and CSRF attacks
 - Understand and use the Rails framework to use its built-in security measures such as proper encoding of HTML output, CSRF tokens in all state-changing requests, and automatic escaping of user input in ActiveRecord SQL queries.
 - Implement a strict [content security policy](https://cheatsheetseries.owasp.org/cheatsheets/Content_Security_Policy_Cheat_Sheet.html) to mitigate common XSS, CSRF and similar cross-site attack vectors. OpenProject uses the [secure_headers gem](https://github.com/github/secure_headers) to define its CSP.
 - Learn about the [different types of XSS](https://owasp.org/www-community/Types_of_Cross-Site_Scripting#stored-xss-aka-persistent-or-type-i) and their impacts: Reflected XSS, Stored XSS, Dom-based XSS and server vs client side XSS
@@ -199,13 +199,13 @@ https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
 
 ## Virus and Malware protection
 
-As OpenProject may handle and distribute sensitive user data, attack vectors such as malicious user input as specified in the previous section pose a threat to the integrity, confidentiality, and availaibility of data. In the following, we will evaluate different risks and guidelines on the protection against viruses and other malware during operation of an OpenProject instance.
+As OpenProject may handle and distribute sensitive user data, attack vectors such as malicious user input as specified in the previous section pose a threat to the integrity, confidentiality, and availability of data. In the following, we will evaluate different risks and guidelines on the protection against viruses and other malware during operation of an OpenProject instance.
 
 
 
 **Risks and impacts**
 
-- *Viruses and malware uploads*: Whenever users are able to upload files to a system, potentially malicous files could be provided and distributed through OpenProject by users with the appropriate upload permission. 
+- *Viruses and malware uploads*: Whenever users are able to upload files to a system, potentially malicious files could be provided and distributed through OpenProject by users with the appropriate upload permission. 
 - *Malware in software*: OpenProject carefully selects and updates third-party dependencies. Please see the following section on [external dependencies](#external-dependencies) for more information on the best practices of external dependencies.
 
 
@@ -214,10 +214,10 @@ As OpenProject may handle and distribute sensitive user data, attack vectors suc
 
 - Virus and malware uploads
   - OpenProject provides users with fine-grained access to control which user groups are allowed to upload files
-  - Whitelist for uploads can be provided by MIME type, rejecting any nonmatching files
+  - Whitelist for uploads can be provided by MIME type, rejecting any non-matching files
   - OpenProject currently does not provide a built-in virus scanner. However, using [webhooks](https://www.openproject.org/docs/system-admin-guide/api-and-webhooks/#webhooks) and the [attachments API](https://www.openproject.org/docs/api/endpoints/attachments/), users can plug existing virus scanning tools and scrub any uploaded files.
 - *Malware in software*:
-  - OpenProject uses statical code analysis on every change provided to the application as well as code scanners on the artefacts generated from the source code (such as Snyk vulnerability scanner for Docker images).
+  - OpenProject uses statical code analysis on every change provided to the application as well as code scanners on the artifacts generated from the source code (such as Snyk vulnerability scanner for Docker images).
   - We recommend users to perform their own 
 
 
@@ -251,7 +251,7 @@ Inconsiderate use of error handling, logging, and monitoring mechanisms of a web
 - Exception handlers catch all StandardErrors whenever your controller inherits from ApplicationController
 - Exception responses are disconnected from the actual errors and provide user-friendly messages without error details
 - Database transaction wrapping for any actions is wrapped in the [BaseContracted services](https://github.com/opf/openproject/blob/dev/app/services/base_services/base_contracted.rb#L54). Transactions are automatically rolled back in [Rails when exceptions occur](https://api.rubyonrails.org/v5.0.1/classes/ActiveRecord/Transactions/ClassMethods.html).
-- OpenProject uses a LogRage formatter for flexible, yet easily parseable formats
+- OpenProject uses a LogRage formatter for flexible, yet easily parsable formats
 
 
 
@@ -280,7 +280,7 @@ OpenProject includes a number of external dependencies both in Ruby as well as i
 **Guidelines**
 
 - *Automate Updates*: Use and maintain automated tools such as Dependabot and workflows that check for dependency updates regularly, and run tests when updates are available. Before updating the dependencies, review its changelog or release notes to understand changes and potential impacts on your application.
-- *Manual update checking:* For pinned versions, use `npm outdated`, `bundle outdated` or `npm-check-updates `to ensure you staay on top of new versions and see if breaking changes ocurred.
+- *Manual update checking:* For pinned versions, use `npm outdated`, `bundle outdated` or `npm-check-updates `to ensure you stay on top of new versions and see if breaking changes occurred.
 - *Lockfile integrity*: Use `package-lock.json` and `Gemfile.lock` to pin exact version for a released version of OpenProject, ensuring that all environments use the same versions.
 - *Stay Informed*: Subscribe to mailing lists, newsletters, or vulnerability databases to receive timely information on crucial updates or security patches so that updates can be performed as fast as possible.
 - *Vet new dependencies*: Before adding a new gem or package, research its maintenance history, last update, known vulnerabilities, and community reviews. Check if it's actively maintained, and evaluate all the alternatives.
@@ -296,7 +296,7 @@ https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_
 
 ## Packaging and containerization
 
-Packaging and containerization are critical artefacts in the delivery pipeline of OpenProject. They encapsulate the application and its environment, ensuring consistent operation across different systems and infrastructures. These artefacts need to provide a secure and stable default for maintaining and upgrading OpenProject.
+Packaging and containerization are critical artifacts in the delivery pipeline of OpenProject. They encapsulate the application and its environment, ensuring consistent operation across different systems and infrastructures. These artifacts need to provide a secure and stable default for maintaining and upgrading OpenProject.
 
 Properly managed packaging and containerization pipelines ensure smooth installations, upgrades, and scaling, enhancing the deployment process and - as a result - the overall user experience. This section highlights risks connected to improper containerization or packaging as well as our main objectives and  best practices to provide a secure, efficient, and reliable software delivery process.
 

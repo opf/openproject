@@ -12,7 +12,7 @@ OpenProject can be configured via environment variables. These are often helpful
 
 > **NOTE:** This documentation is for OpenProject on-premises Installations only, if you would like to setup similar in your OpenProject cloud instance, please contact us at support@openproject.com
 
-> **NOTE:** Using the configuration file `config/configuration.yml` is depracted and is **NOT** recommended anymore
+> **NOTE:** Using the configuration file `config/configuration.yml` is deprecated and is **NOT** recommended anymore
 
 
 
@@ -196,7 +196,7 @@ OpenProject allows you to create and maintain an LDAP connection with optional s
 
 **Note:** These variables are applied whenever `db:seed` rake task is being executed. This happens on every packaged `configure` call or when the seeder container job is being run, so be aware that these changes might happen repeatedly.
 
-The connection can be set with the following options. Please note that "EXAMPLE" stands for an arbitrary name (expressable in ENV keys)  which will become the name of the connection. In this case, "example" and "examplefilter" for the synchronized filter.
+The connection can be set with the following options. Please note that "EXAMPLE" stands for an arbitrary name (expressible in ENV keys)  which will become the name of the connection. In this case, "example" and "examplefilter" for the synchronized filter.
 
 The name of the LDAP connection is derived from the ENV key behind `SEED_LDAP_`, so you need to take care to use only valid characters. If you need to place an underscore, use a double underscore to encode it e.g., `my__ldap`.
 
@@ -292,7 +292,7 @@ When a filter is defined, synchronization happens directly during seeding for en
 
 ## Allowing public access
 
-By default, any request to the OpenProject application needs to be authenticated. If you want to enable public unauthenticated access like we do for https://community.openproject.com, you can set the `login_required` to `false`. If not provided through environment variables, this setting is also accessible in the administrative UI. Please see the [authentication settings guide](../../system-admin-guide/authentication/authentication-settings/#general-authentication-settings) for more details.
+By default, any request to the OpenProject application needs to be authenticated. If you want to enable public unauthenticated access like we do for https://community.openproject.org, you can set the `login_required` to `false`. If not provided through environment variables, this setting is also accessible in the administrative UI. Please see the [authentication settings guide](../../system-admin-guide/authentication/authentication-settings/#general-authentication-settings) for more details.
 
 *default: true*
 
@@ -543,7 +543,7 @@ OPENPROJECT_FOG__DOWNLOAD__URL__EXPIRES__IN="60"
 You can override the default help menu of OpenProject by specifying a `force_help_link` option to
 the configuration. This value is used for the href of the help link, and the default dropdown is removed.
 
-*deafult: nil*
+*default: nil*
 
 ```yaml
 OPENPROJECT_FORCE__HELP__LINK="https://it-support.example.com"
@@ -553,7 +553,7 @@ OPENPROJECT_FORCE__HELP__LINK="https://it-support.example.com"
 
 You can set a impressum link (legal notice) for your OpenProject instance by setting `impressum_link` to an absolute URL.
 
-*deafult: nil*
+*default: nil*
 
 ```yaml
 OPENPROJECT_IMPRESSUM__LINK="https://impressum.example.com"
@@ -624,7 +624,7 @@ Remote git repositories will be checked out here.
 note: to be verified, maybe option was removed, not in environement variables list
 ```
 
-## apiv3 enable basic auth
+## APIv3 enable basic auth
 
 You can control basic auth access to the APIv3 with the following configuration option:
 

@@ -45,7 +45,7 @@ Then, navigate to the BCF module in the project navigation.
 
 To create new BIM Issues, you have to open the Model - Viewer first and create the view you want to save within the BIM Issue (e.g. zoom, [rotate](../ifc-viewer/#how-to-rotate-the-building-model), [slice](../ifc-viewer/#how-to-slice-the-building-model), [select](../ifc-viewer/#how-to-select-elements), [hide](../ifc-viewer/#show-or-hide-models-or-elements-via-model-tree), … ). 
 
-Click on the **+ Create new work package** and select the type of workpackage you want. 
+Click on the **+ Create new work package** and select the type of work package you want. 
 
 ![Create a new BIM Issue](create-a-new-BIM-issue.png)
 
@@ -76,7 +76,7 @@ Open the **BCF-Module** to see the building model.
 
 Make sure the "Model Viewer & Maps" - View or "Model Viewer & Table" - View is selected within the **OpenProject-Toolbar**.
 
-![Model and workpackage view](model_maps_view.png)
+![Model and work package view](model_maps_view.png)
 
 
 
@@ -125,7 +125,7 @@ To create BIM Issues you don't have to configure additional work package types. 
 
 You can switch between different View modes within the OpenProject toolbar. Just open the dropdown menu and select the view which fits best to your situation.
 
- ![Swicht_View_Mode](Swicht_View_Mode.gif)
+ ![Switch View Mode](Swicht_View_Mode.gif)
 
 
 
@@ -187,9 +187,9 @@ You are able to filter BIM Issues by using the filter button in the **OpenProjec
 
 
 
-## BIM issues in workpackage module
+## BIM issues in work package module
 
-BIM Issues are also listed in the workpackage module. This supports you to manage your building project in the best way and get an overview of all issues. To separate work packages and BIM Issues we created a new filter which enables you to filter BIM Issues.
+BIM Issues are also listed in the work package module. This supports you to manage your building project in the best way and get an overview of all issues. To separate work packages and BIM Issues we created a new filter which enables you to filter BIM Issues.
 
 ![BIM Issues and work packages](bim-issues-and-work-packages.png)
 
@@ -233,7 +233,7 @@ If attributes of the imported BCF Issue can't be matched automatically (because 
 
 After a successful matching of the attributes the topics will be displayed in OpenProject. 
 
-![Successfull BCF Import](successfull-bcf-import.png) 
+![Successful BCF Import](successfull-bcf-import.png) 
 
 
 

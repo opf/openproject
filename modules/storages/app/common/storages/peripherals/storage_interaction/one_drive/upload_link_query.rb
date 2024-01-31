@@ -65,13 +65,13 @@ module Storages
           end
 
           def handle_response(response)
-            case response.status
-            when 200..299
+            case response
+            in { status: 200..299 }
               upload_url = MultiJson.load(response.body, symbolize_keys: true)[:uploadUrl]
               ServiceResult.success(result: ::Storages::UploadLink.new(URI(upload_url), :put))
-            when 404
+            in { status: 404 }
               ServiceResult.failure(result: :not_found, errors: ::Storages::StorageError.new(code: :not_found))
-            when 401
+            in { status: 401 }
               ServiceResult.failure(result: :unauthorized, errors: ::Storages::StorageError.new(code: :unauthorized))
             else
               ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error))

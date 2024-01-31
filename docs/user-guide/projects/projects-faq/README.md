@@ -34,7 +34,7 @@ In OpenProject, you can work agilely according to Scrum ([backlogs](../../backlo
 Versions serve a double function: On the one hand, you can use them to plan your product releases, and on the other hand, you can use them to map the product backlog(s) and sprints required for Scrum.
 As soon as you have created at least one version in a project, the module "[Roadmap](../../roadmap)" is displayed on the left side in your project, which you can use to get an overview of the versions (intended primarily for releases).
 The [Backlogs module](../../backlogs-scrum) uses versions to map the product backlog or sprints. By using the backlog, however, some special rules occur: For example, tasks must be assigned to the same version as the associated (parent) work packages. 
-If you do not work according to Scrum we would recommend to deactivate the Backlogs module and use the [Boards module](../../agile-boards) instead. If you have activated the boards module you can create a version board. You can find an example [here](https://community.openproject.com/projects/openproject/boards/2077).
+If you do not work according to Scrum we would recommend to deactivate the Backlogs module and use the [Boards module](../../agile-boards) instead. If you have activated the boards module you can create a version board. You can find an example [here](https://community.openproject.org/projects/openproject/boards/2077).
 
 ## Can I assign work packages in subprojects to versions of the parent project?
 

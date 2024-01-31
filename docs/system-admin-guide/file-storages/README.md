@@ -3,7 +3,7 @@ sidebar_navigation:
   title: File storages
   priority: 830
 description: File storages in OpenProject.
-keywords: file storages, nextcloud setup, nextcloud integration, onedrive setup, sharepoint setup, onedrive, sharepoint
+keywords: file storages, Nextcloud setup, Nextcloud integration, OneDrive setup, Sharepoint setup, OneDrive, Sharepoint
 ---
 
 # File storages

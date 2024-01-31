@@ -8,9 +8,9 @@ This guide serves as a foundation on how to prepare your work for and perform co
 
 ### Coding style
 
-We try to adhere to the [Ruby community styleguide](https://github.com/bbatsov/ruby-style-guide) as well as the [AirBnB JavaScript style guide](https://github.com/airbnb/javascript) with [some extensions for Angular](../style-guide/frontend/). Rules we want to follow are expressed as either Rubocop definitions or eslint rules. Follow your linter to adhere to them.
+We try to adhere to the [Ruby community style guide](https://github.com/bbatsov/ruby-style-guide) as well as the [AirBnB JavaScript style guide](https://github.com/airbnb/javascript) with [some extensions for Angular](../style-guide/frontend/). Rules we want to follow are expressed as either Rubocop definitions or eslint rules. Follow your linter to adhere to them.
 
-Due to the age of our codebase, a lot of our code might not yet adhere to these styleguides, but we want all new code to adhere to it. You do not have to improve existing code when making changes, but we encourage it. If you do, please do all improvements in a separate commit from the actual change, so the improvements do not hide your actual code changes in a diff.
+Due to the age of our codebase, a lot of our code might not yet adhere to these style guides, but we want all new code to adhere to it. You do not have to improve existing code when making changes, but we encourage it. If you do, please do all improvements in a separate commit from the actual change, so the improvements do not hide your actual code changes in a diff.
 
 Before committing, please run your new code through [Rubocop](https://github.com/bbatsov/rubocop). It detects deviations from a lot of things in the style guide and things that are bad practice in general. You obviously do not have to fix issues with existing code. There is a [list of editor plugins](https://docs.rubocop.org/rubocop/1.31/integration_with_other_tools.html#editor-integration) in the Rubocop docs. You can also use `bin/dirty-rubocop` to test them. Pull requests are being linted automatically through a GitHub action.
 
@@ -18,7 +18,7 @@ The same is true for eslint. Your editor will likely have support for eslint che
 
 **Lefthook**
 
-For automatically linting your files on commiting them, please have a look at [Lefthook](https://github.com/evilmartians/lefthook). You can install these rules by using `bundle exec lefthook install`.
+For automatically linting your files on committing them, please have a look at [Lefthook](https://github.com/evilmartians/lefthook). You can install these rules by using `bundle exec lefthook install`.
 
 
 
@@ -65,7 +65,7 @@ Every developer and reviewer should read the Rails Security Guide as well as the
 ### Changelog
 
 - All changes made to the OpenProject software are managed and documented via work packages in the [OpenProject project](https://community.openproject.org/projects/openproject/).
-- The [Roadmap view](https://community.openproject.com/projects/openproject/roadmap) gives a corresponding overview.
+- The [Roadmap view](https://community.openproject.org/projects/openproject/roadmap) gives a corresponding overview.
 - For any nontrivial or pure maintenance changes (Gem bumps etc.), please ensure you have a corresponding ticket you link to in the form of `OP##<Work package ID> `or `https://community.openproject.org/work_packages/ID` in your pull request.
 - To prevent inconsistencies and avoid redundant work there is no additional change log in the source code. Releases will contain a changelog of the publicly visible tickets in the GitHub releases pages, as well as [on our release notes](../../release-notes/).
 
@@ -98,7 +98,7 @@ You've found a pull request you want to review. Here is how to do it:
 
 Reviewing code from your colleagues has higher priority than picking up more work. When you start your day, or in between working on other topics, please check the above link if there is any review requested.
 
-If a review is left untouched, feel free to request a review from a group or link the pull request in question in the devs element channel.
+If a review is left untouched, feel free to request a review from a group or link the pull request in question in the developers element channel.
 
 
 
@@ -122,7 +122,7 @@ Try to think of edge cases when testing or evaluating the code, double check the
 
 ### Language
 
-Keep in mind that we're all trying to do the correct thing. Be kind and honest to one another, especially since our reviews are public for everyeone to see.
+Keep in mind that we're all trying to do the correct thing. Be kind and honest to one another, especially since our reviews are public for everyone to see.
 
 - Prefer questions instead of demands
 - When in doubt, ask for a meeting to clarify things before assuming someone made a mistake.
@@ -189,8 +189,8 @@ The only exception to this rule are single commit pull requests, which can be ap
 
 ## Citations
 
-[scientopia.org/blogs/goodmath/2011/07/06/things-everyone-should-do-code-review/](https://blog.csdn.net/zhangmike/article/details/30198411)
+[Things everyone should do: code review](https://blog.csdn.net/zhangmike/article/details/30198411)
 
-[beust.com/weblog/2006/06/22/why-code-reviews-are-good-for-you/](https://beust.com/weblog/2006/06/22/why-code-reviews-are-good-for-you/)
+[Why code reviews are good for you](https://beust.com/weblog/2006/06/22/why-code-reviews-are-good-for-you/)
 
-[www-archive.mozilla.org/hacking/code-review-faq](https://www-archive.mozilla.org/hacking/code-review-faq)
+[Code review FAQ](https://www-archive.mozilla.org/hacking/code-review-faq)

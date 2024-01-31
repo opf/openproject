@@ -10,7 +10,7 @@ release_date: 2022-10-04
 
 Release date: 2022-10-04
 
-We released [OpenProject 12.2.5](https://community.openproject.com/versions/1602).
+We released [OpenProject 12.2.5](https://community.openproject.org/versions/1602).
 The release contains several bug fixes and we recommend updating to the newest version.
 
 <!--more-->
@@ -28,5 +28,5 @@ To aid in the discovery of these users, you can use the following rake task to p
 
 Please note that these affected users are not automatically removed in this patch release, due to the system not knowing if are expected to be members.
 
-- Fixed: User from synchronized group not removed in OpenProject group after removed in LDAP \[[#41256](https://community.openproject.com/wp/41256)\]
-- Fixed: When adding users to a group, existing users are shown in the autocompleter \[[#43892](https://community.openproject.com/wp/43892)\]
+- Fixed: User from synchronized group not removed in OpenProject group after removed in LDAP \[[#41256](https://community.openproject.org/wp/41256)\]
+- Fixed: When adding users to a group, existing users are shown in the autocompleter \[[#43892](https://community.openproject.org/wp/43892)\]
