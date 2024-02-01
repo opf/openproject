@@ -47,8 +47,7 @@ class CustomFields::Inputs::Base::Autocomplete::SingleValueInput < ApplicationFo
   def autocomplete_options
     {
       multiple: false,
-      decorated: decorated?,
-      inputId: id
+      decorated: decorated?
     }
   end
 

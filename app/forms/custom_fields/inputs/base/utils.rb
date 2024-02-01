@@ -29,7 +29,6 @@
 module CustomFields::Inputs::Base::Utils
   def base_input_attributes
     {
-      id:,
       name:,
       label:,
       value:,
@@ -37,10 +36,6 @@ module CustomFields::Inputs::Base::Utils
       invalid: invalid?,
       validation_message:
     }
-  end
-
-  def id
-    "custom_field_#{@custom_field.id}"
   end
 
   def name

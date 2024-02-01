@@ -35,7 +35,7 @@ class CustomFields::Inputs::Bool < CustomFields::Inputs::Base::Input
     super.merge({
                   value: "1",
                   unchecked_value: "0",
-                  checked: @custom_field_value&.typed_value == true || @custom_field.default_value == true
+                  checked: @custom_value&.typed_value == true
                 })
   end
 end

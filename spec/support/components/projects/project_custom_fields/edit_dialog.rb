@@ -96,7 +96,9 @@ module Components
         ###
 
         def input_containers
-          page.all('.op-project-custom-field-input-container')
+          within '.Overlay-body > .FormControl-spacingWrapper' do
+            page.all('.FormControl-spacingWrapper')
+          end
         end
 
         def within_custom_field_input_container(custom_field, &)
