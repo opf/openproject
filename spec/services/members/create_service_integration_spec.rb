@@ -52,7 +52,7 @@ RSpec.describe Members::CreateService, 'integration', type: :model do
       expect(subject).to be_success
 
       group.users.each do |user|
-        members = Member.where(user_id: user1.id, project_id: nil)
+        members = Member.where(user_id: user.id, project_id: nil)
         expect(members.count).to eq 1
         expect(members.first.roles).to eq [global_role]
       end
