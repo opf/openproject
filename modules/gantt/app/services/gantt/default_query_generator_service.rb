@@ -122,7 +122,11 @@ module ::Gantt
 
       def phase_ids(project)
         if project.present?
-          ::Type.enabled_in(project.id).where(name: 'Phase').pluck(:id).map(&:to_s)
+          ::Type
+            .enabled_in(project.id)
+            .where(name: I18n.t('seeds.standard.types.item_2.name', default: 'Phase'))
+            .pluck(:id)
+            .map(&:to_s)
         else
           ::Type.where(name: 'Phase').pluck(:id).map(&:to_s)
         end
