@@ -131,7 +131,7 @@ RSpec.shared_context 'with seeded projects, members and project custom fields' d
     field = create(:text_project_custom_field, projects: [project], name: 'Text field',
                                                project_custom_field_section: section_for_input_fields)
 
-    create(:custom_value, customized: project, custom_field: field, value: "Lorem\nipsum")
+    create(:custom_value, customized: project, custom_field: field, value: "Lorem\n\nipsum")
 
     field
   end

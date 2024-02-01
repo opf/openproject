@@ -33,6 +33,6 @@ class CustomFields::Inputs::Text < CustomFields::Inputs::Base::Input
     # --> rich_text_area is not using the configured id, which is not scoped to model via base_config
     # --> ids with '[' ']' are not valid selectors
     # using simple text area for now
-    custom_value_form.text_area(**input_attributes)
+    custom_value_form.rich_text_area(**input_attributes)
   end
 end

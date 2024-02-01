@@ -245,6 +245,37 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
               end
             end
 
+            shared_examples 'a rich text custom field input' do
+              it 'shows the correct value if given' do
+                overview_page.open_edit_dialog_for_section(section)
+
+                dialog.within_async_content(close_after_yield: true) do
+                  field.expect_value(expected_initial_value)
+                end
+              end
+
+              it 'shows a blank input if no value or default value is given' do
+                custom_field.custom_values.destroy_all
+
+                overview_page.open_edit_dialog_for_section(section)
+
+                dialog.within_async_content(close_after_yield: true) do
+                  field.expect_value(expected_blank_value)
+                end
+              end
+
+              it 'shows the default value if no value is given' do
+                custom_field.custom_values.destroy_all
+                custom_field.update!(default_value:)
+
+                overview_page.open_edit_dialog_for_section(section)
+
+                dialog.within_async_content(close_after_yield: true) do
+                  field.expect_value(default_value)
+                end
+              end
+            end
+
             describe 'with boolean CF' do
               let(:custom_field) { boolean_project_custom_field }
               let(:default_value) { false }
@@ -292,11 +323,12 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
 
             describe 'with text CF' do
               let(:custom_field) { text_project_custom_field }
+              let(:field) { FormFields::Primerized::EditorFormField.new(custom_field) }
               let(:default_value) { 'Default value' }
               let(:expected_blank_value) { '' }
-              let(:expected_initial_value) { "Lorem\nipsum" }
+              let(:expected_initial_value) { "Lorem\nipsum" } # TBD: why is the second newline missing?
 
-              it_behaves_like 'a custom field input'
+              it_behaves_like 'a rich text custom field input'
             end
           end
 
