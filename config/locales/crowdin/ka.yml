@@ -587,6 +587,7 @@ ka:
         color: "ფერი"
       user:
         admin: "ადმინისტრატორი"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP მიერთება"
         identity_url: "იდენტიფიკაციის URL"
         current_password: "Current password"

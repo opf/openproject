@@ -589,6 +589,7 @@ he:
         color: "צבע"
       user:
         admin: "מנהל מערכת"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "Current password"

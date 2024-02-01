@@ -587,6 +587,7 @@ fil:
         color: "Kulay"
       user:
         admin: "Tagapangasiwa"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "Kasulukuyang password"

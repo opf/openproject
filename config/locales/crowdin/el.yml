@@ -583,6 +583,7 @@ el:
         color: "Χρώμα"
       user:
         admin: "Διαχειριστής"
+        auth_source: "Authentication source"
         ldap_auth_source: "Σύνδεση LDAP"
         identity_url: "Identity URL"
         current_password: "Τρέχων κωδικός πρόσβασης"

@@ -585,6 +585,7 @@ hi:
         color: "रंग"
       user:
         admin: "व्यवस्थापक"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "Current password"

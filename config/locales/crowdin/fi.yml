@@ -587,6 +587,7 @@ fi:
         color: "Väri"
       user:
         admin: "Järjestelmänvalvoja"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "Nykyinen salasana"

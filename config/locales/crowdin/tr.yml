@@ -586,6 +586,7 @@ tr:
         color: "Renk"
       user:
         admin: "Yönetici"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP bağlantısı"
         identity_url: "Identity URL"
         current_password: "Mevcut parola"

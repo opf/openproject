@@ -582,6 +582,7 @@ zh-CN:
         color: "颜色"
       user:
         admin: "管理员"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP 连接"
         identity_url: "身份网址"
         current_password: "当前密码："

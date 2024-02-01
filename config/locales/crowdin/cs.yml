@@ -589,6 +589,7 @@ cs:
         color: "Barva"
       user:
         admin: "Administrátor"
+        auth_source: "Authentication source"
         ldap_auth_source: "Připojení LDAP"
         identity_url: "Identity URL"
         current_password: "Aktuální přístupové heslo"

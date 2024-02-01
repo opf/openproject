@@ -586,6 +586,7 @@ lt:
         color: "Spalva"
       user:
         admin: "Administratorius"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP jungtis"
         identity_url: "Identiteto URL"
         current_password: "Dabartinis slaptažodis"

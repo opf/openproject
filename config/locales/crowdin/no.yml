@@ -587,6 +587,7 @@
         color: "Farge"
       user:
         admin: "Administrator"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP-tilkobling"
         identity_url: "Identity URL"
         current_password: "Nåværende passord"

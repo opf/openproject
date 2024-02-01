@@ -582,6 +582,7 @@ ja:
         color: "色"
       user:
         admin: "管理者"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP 接続"
         identity_url: "Identity URL"
         current_password: "現在のパスワード"

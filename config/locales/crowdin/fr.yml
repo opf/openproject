@@ -587,6 +587,7 @@ fr:
         color: "Couleur"
       user:
         admin: "Administrateur"
+        auth_source: "Authentication source"
         ldap_auth_source: "Connexion LDAP"
         identity_url: "URL d'identité"
         current_password: "Mot de passe actuel"

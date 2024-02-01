@@ -584,6 +584,7 @@ hu:
         color: "Szín"
       user:
         admin: "Adminisztrátor"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP csatlakozás"
         identity_url: "Identity URL"
         current_password: "Jelenlegi jelszó"

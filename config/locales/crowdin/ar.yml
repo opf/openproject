@@ -591,6 +591,7 @@ ar:
         color: "اللون"
       user:
         admin: "مدير النظام"
+        auth_source: "Authentication source"
         ldap_auth_source: "اتصال LDAP"
         identity_url: "Identity URL"
         current_password: "كلمة السر الحالية"

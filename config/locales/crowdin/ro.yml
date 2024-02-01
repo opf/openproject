@@ -588,6 +588,7 @@ ro:
         color: "Culoare"
       user:
         admin: "Administrator"
+        auth_source: "Authentication source"
         ldap_auth_source: "Conexiune LDAP"
         identity_url: "Identity URL"
         current_password: "Parola curentă"
