@@ -1024,6 +1024,8 @@ en:
               invalid_on_create: "is not a valid status for new users."
             ldap_auth_source:
               error_not_found: "not found"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Please choose at least one user or group."
           role_blank: "need to be assigned."
