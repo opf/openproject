@@ -50,8 +50,8 @@ class ::Query::Results
 
   def sorted_work_packages_matching_the_filters_today
     sorted_work_packages
-      .visible
       .merge(filtered_work_packages.merge(filter_merges))
+      .visible
   end
 
   # For filtering on historic data, this returns the work packages
