@@ -26,36 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::CustomFields::Inputs::MultiSelectList < Projects::CustomFields::Inputs::Base::Autocomplete::MultiValueInput
-  form do |custom_value_form|
-    # autocompleter does not set key with blank value if nothing is selected or input is cleared
-    # in order to let acts_as_customizable handle the clearing of the value, we need to set the value to blank via a hidden field
-    # which sends blank if autocompleter is cleared
-    custom_value_form.hidden(**input_attributes.merge(name: "#{input_attributes[:name]}[]", value:))
+class CustomFields::Inputs::Base::Input < ApplicationForm
+  include CustomFields::Inputs::Base::Utils
 
-    custom_value_form.autocompleter(**input_attributes) do |list|
-      @custom_field.custom_options.each do |custom_option|
-        list.option(
-          label: custom_option.value, value: custom_option.id,
-          selected: selected?(custom_option)
-        )
-      end
-    end
+  def initialize(custom_field:, custom_value:, object:)
+    @custom_field = custom_field
+    @custom_value = custom_value
+    @object = object
   end
 
-  private
-
-  def decorated?
-    true
+  def input_attributes
+    base_input_attributes.merge(
+      {
+        data: { 'qa-field-name': qa_field_name },
+        value:
+      }
+    )
   end
 
-  def selected?(custom_option)
-    cf_values = @custom_values.reject { |custom_value| custom_value.id.nil? }
+  def invalid?
+    @custom_value.errors.any?
+  end
 
-    if cf_values.any?
-      cf_values.pluck(:value).map { |value| value&.to_i }.include?(custom_option.id)
-    else
-      custom_option.default_value?
-    end
+  def validation_message
+    @custom_value.errors.full_messages.join(', ') if invalid?
   end
 end

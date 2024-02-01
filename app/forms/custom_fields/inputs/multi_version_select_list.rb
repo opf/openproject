@@ -26,29 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::CustomFields::Inputs::Base::Input < ApplicationForm
-  include Projects::CustomFields::Inputs::Base::Utils
+class CustomFields::Inputs::MultiVersionSelectList < CustomFields::Inputs::Base::Autocomplete::MultiValueInput
+  form do |custom_value_form|
+    # autocompleter does not set key with blank value if nothing is selected or input is cleared
+    # in order to let acts_as_customizable handle the clearing of the value, we need to set the value to blank via a hidden field
+    # which sends blank if autocompleter is cleared
+    custom_value_form.hidden(**input_attributes.merge(name: "#{input_attributes[:name]}[]", value:))
 
-  def initialize(custom_field:, custom_value:, project:)
-    @custom_field = custom_field
-    @custom_value = custom_value
-    @project = project
+    custom_value_form.autocompleter(**input_attributes) do |list|
+      @object.versions.each do |version|
+        list.option(
+          label: version.name, value: version.id,
+          selected: selected?(version)
+        )
+      end
+    end
   end
 
-  def input_attributes
-    base_input_attributes.merge(
-      {
-        data: { 'qa-field-name': qa_field_name },
-        value:
-      }
-    )
+  private
+
+  def decorated?
+    true
   end
 
-  def invalid?
-    @custom_value.errors.any?
-  end
-
-  def validation_message
-    @custom_value.errors.full_messages.join(', ') if invalid?
+  def selected?(version)
+    @custom_values.pluck(:value).map { |value| value&.to_i }.include?(version.id)
   end
 end

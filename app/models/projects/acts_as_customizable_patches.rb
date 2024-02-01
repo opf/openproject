@@ -45,6 +45,21 @@ module Projects::ActsAsCustomizablePatches
         .where(id: active_custom_field_ids_of_project)
     end
 
+    def available_custom_fields_by_section(section)
+      available_custom_fields
+        .where(custom_field_section_id: section.id)
+    end
+
+    def sorted_available_custom_fields
+      available_custom_fields
+        .sort_by { |pcf| [pcf.project_custom_field_section.position, pcf.position_in_custom_field_section] }
+    end
+
+    def sorted_available_custom_fields_by_section(section)
+      available_custom_fields_by_section(section)
+        .sort_by(&:position_in_custom_field_section)
+    end
+
     def custom_field_section_ids
       # we need to check if a project custom field belongs to a specific section when validating
       # we need a mapping of custom_field_id => custom_field_section_id as we don't want to

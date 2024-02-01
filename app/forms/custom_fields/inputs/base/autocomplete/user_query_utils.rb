@@ -26,14 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
+module CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
   def user_autocomplete_options
     {
       placeholder: I18n.t(:label_user_search),
       resource:,
+      # url: ::API::V3::Utilities::PathHelper::ApiV3Path.users,
       filters:,
       searchKey: search_key,
-      inputValue: input_value
+      inputValue: input_value,
+      focusDirectly: false
     }
   end
 
@@ -48,18 +50,18 @@ module Projects::CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
   def filters
     [
       { name: 'type', operator: '=', values: ['User', 'Group', 'PlaceholderUser'] },
-      { name: 'member', operator: '=', values: [@project.id.to_s] },
-      { name: 'status', operator: '!', values: [User.statuses["locked"].to_s] }
+      { name: 'member', operator: '=', values: [@object.id.to_s] },
+      { name: 'status', operator: '!', values: [Principal.statuses["locked"].to_s] }
     ]
   end
 
   def input_value
-    "?#{input_values_filter}"
+    "?#{input_values_filter}" unless init_user_ids.empty?
   end
 
   def input_values_filter
-    # TODO: not working yet
-    user_filter = { "type" => { "operator" => "=", "values" => ["User"] } }
+    # TODO: not working yet, would work with resource "users" and simple ids, but then the options cannot be loaded
+    user_filter = { "type" => { "operator" => "=", "values" => ["User", "Group", "PlaceholderUser"] } }
     id_filter = { "id" => { "operator" => "=", "values" => init_user_ids } }
 
     filters = [user_filter, id_filter]

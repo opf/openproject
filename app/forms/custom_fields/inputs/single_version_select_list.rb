@@ -26,42 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects::CustomFields::Inputs::Base::Utils
-  def base_input_attributes
-    {
-      id:,
-      scope_name_to_model: false, # TODO: get rid of this, should work with scope_name_to_model: true
-      name:,
-      label:,
-      value:,
-      required: required?,
-      invalid: invalid?,
-      validation_message:
-    }
+class CustomFields::Inputs::SingleVersionSelectList < CustomFields::Inputs::Base::Autocomplete::SingleValueInput
+  form do |custom_value_form|
+    # autocompleter does not set key with blank value if nothing is selected or input is cleared
+    # in order to let acts_as_customizable handle the clearing of the value, we need to set the value to blank via a hidden field
+    # which sends blank if autocompleter is cleared
+    custom_value_form.hidden(**input_attributes.merge(value: ""))
+
+    custom_value_form.autocompleter(**input_attributes) do |list|
+      # TODO: allow-non-open version setting is not yet respected!
+      @object.versions.each do |version|
+        list.option(
+          label: version.name, value: version.id,
+          selected: selected?(version)
+        )
+      end
+    end
   end
 
-  def id
-    "custom_field_#{@custom_field.id}"
+  private
+
+  def decorated?
+    true
   end
 
-  def name
-    # TODO: get rid of this, should work with scope_name_to_model: true
-    "project[custom_field_values][#{@custom_field.id}]"
-  end
-
-  def label
-    @custom_field.name
-  end
-
-  def value
-    @custom_value
-  end
-
-  def required?
-    @custom_field.is_required?
-  end
-
-  def qa_field_name
-    @custom_field.attribute_name(:kebab_case)
+  def selected?(version)
+    version.id == @custom_value.value&.to_i
   end
 end

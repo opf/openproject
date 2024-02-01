@@ -26,12 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::CustomFields::Inputs::Int < Projects::CustomFields::Inputs::Base::Input
+class CustomFields::Inputs::MultiSelectList < CustomFields::Inputs::Base::Autocomplete::MultiValueInput
   form do |custom_value_form|
-    custom_value_form.text_field(**input_attributes)
+    # autocompleter does not set key with blank value if nothing is selected or input is cleared
+    # in order to let acts_as_customizable handle the clearing of the value, we need to set the value to blank via a hidden field
+    # which sends blank if autocompleter is cleared
+    custom_value_form.hidden(**input_attributes.merge(name: "#{input_attributes[:name]}[]", value:))
+
+    custom_value_form.autocompleter(**input_attributes) do |list|
+      @custom_field.custom_options.each do |custom_option|
+        list.option(
+          label: custom_option.value, value: custom_option.id,
+          selected: selected?(custom_option)
+        )
+      end
+    end
   end
 
-  def input_attributes
-    super.merge({ type: "number", step: 1 })
+  private
+
+  def decorated?
+    true
+  end
+
+  def selected?(custom_option)
+    cf_values = @custom_values.reject { |custom_value| custom_value.id.nil? }
+
+    if cf_values.any?
+      cf_values.pluck(:value).map { |value| value&.to_i }.include?(custom_option.id)
+    else
+      custom_option.default_value?
+    end
   end
 end

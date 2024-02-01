@@ -26,13 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::CustomFields::Inputs::Text < Projects::CustomFields::Inputs::Base::Input
+class CustomFields::Inputs::SingleUserSelectList < CustomFields::Inputs::Base::Autocomplete::SingleValueInput
+  include CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
+
   form do |custom_value_form|
-    # TODO: rich_text_area not working yet
-    # Uncaught DOMException: Failed to execute 'querySelector' on 'Element': '#project_project[new_custom_field_values_attributes][xyz][value]' is not a valid selector.
-    # --> rich_text_area is not using the configured id, which is not scoped to model via base_config
-    # --> ids with '[' ']' are not valid selectors
-    # using simple text area for now
-    custom_value_form.text_area(**input_attributes)
+    # TODO: use user_autocompleter as seen on sharing form instead
+    custom_value_form.autocompleter(**input_attributes)
+  end
+
+  private
+
+  def decorated?
+    false
+  end
+
+  def autocomplete_options
+    super.merge(user_autocomplete_options)
+  end
+
+  def init_user_ids
+    @custom_value.value.present? ? [@custom_value.value] : []
   end
 end

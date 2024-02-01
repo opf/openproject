@@ -26,25 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::CustomFields::Inputs::MultiUserSelectList < Projects::CustomFields::Inputs::Base::Autocomplete::MultiValueInput
-  include Projects::CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
-
+class CustomFields::Inputs::Bool < CustomFields::Inputs::Base::Input
   form do |custom_value_form|
-    # TODO: use user_autocompleter as seen on sharing form instead
-    custom_value_form.autocompleter(**input_attributes)
+    custom_value_form.check_box(**input_attributes)
   end
 
-  private
-
-  def decorated?
-    false
-  end
-
-  def autocomplete_options
-    super.merge(user_autocomplete_options)
-  end
-
-  def init_user_ids
-    @custom_values.map(&:value)
+  def input_attributes
+    super.merge({
+                  value: "1",
+                  unchecked_value: "0",
+                  checked: @custom_field_value&.typed_value == true || @custom_field.default_value == true
+                })
   end
 end

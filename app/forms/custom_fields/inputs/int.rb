@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::CustomFields::Inputs::Float < Projects::CustomFields::Inputs::Base::Input
+class CustomFields::Inputs::Int < CustomFields::Inputs::Base::Input
   form do |custom_value_form|
     custom_value_form.text_field(**input_attributes)
   end
 
   def input_attributes
-    super.merge({ type: "number", step: :any })
+    super.merge({ type: "number", step: 1 })
   end
 end

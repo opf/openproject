@@ -26,25 +26,42 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::CustomFields::Inputs::SingleUserSelectList < Projects::CustomFields::Inputs::Base::Autocomplete::SingleValueInput
-  include Projects::CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
+class CustomFields::Inputs::Base::Autocomplete::MultiValueInput < ApplicationForm
+  include CustomFields::Inputs::Base::Utils
 
-  form do |custom_value_form|
-    # TODO: use user_autocompleter as seen on sharing form instead
-    custom_value_form.autocompleter(**input_attributes)
+  def initialize(custom_field:, custom_values:, object:)
+    @custom_field = custom_field
+    @custom_values = custom_values
+    @object = object
   end
 
-  private
-
-  def decorated?
-    false
+  def input_attributes
+    base_input_attributes.merge(
+      autocomplete_options:,
+      wrapper_data_attributes: {
+        'qa-field-name': qa_field_name
+      }
+    )
   end
 
   def autocomplete_options
-    super.merge(user_autocomplete_options)
+    {
+      multiple: true,
+      decorated: decorated?,
+      inputId: id,
+      inputName: name
+    }
   end
 
-  def init_user_ids
-    [@custom_value.value]
+  def decorated?
+    raise NotImplementedError
+  end
+
+  def invalid?
+    @custom_values.any? { |custom_value| custom_value.errors.any? }
+  end
+
+  def validation_message
+    @custom_values.map { |custom_value| custom_value.errors.full_messages }.join(', ') if invalid?
   end
 end

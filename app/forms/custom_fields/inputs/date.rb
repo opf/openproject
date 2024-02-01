@@ -26,16 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::CustomFields::Inputs::Bool < Projects::CustomFields::Inputs::Base::Input
+class CustomFields::Inputs::Date < CustomFields::Inputs::Base::Input
   form do |custom_value_form|
-    custom_value_form.check_box(**input_attributes)
+    custom_value_form.text_field(**input_attributes)
   end
 
   def input_attributes
-    super.merge({
-                  value: "1",
-                  unchecked_value: "0",
-                  checked: @custom_field_value&.typed_value == true || @custom_field.default_value == true
-                })
+    super.merge({ type: "date" })
   end
 end

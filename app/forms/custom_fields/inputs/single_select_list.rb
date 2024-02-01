@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::CustomFields::Inputs::SingleVersionSelectList < Projects::CustomFields::Inputs::Base::Autocomplete::SingleValueInput
+class CustomFields::Inputs::SingleSelectList < CustomFields::Inputs::Base::Autocomplete::SingleValueInput
   form do |custom_value_form|
     # autocompleter does not set key with blank value if nothing is selected or input is cleared
     # in order to let acts_as_customizable handle the clearing of the value, we need to set the value to blank via a hidden field
@@ -34,11 +34,10 @@ class Projects::CustomFields::Inputs::SingleVersionSelectList < Projects::Custom
     custom_value_form.hidden(**input_attributes.merge(value: ""))
 
     custom_value_form.autocompleter(**input_attributes) do |list|
-      # TODO: allow-non-open version setting is not yet respected!
-      @project.versions.each do |version|
+      @custom_value.custom_field.custom_options.each do |custom_option|
         list.option(
-          label: version.name, value: version.id,
-          selected: selected?(version)
+          label: custom_option.value, value: custom_option.id,
+          selected: selected?(custom_option)
         )
       end
     end
@@ -50,7 +49,7 @@ class Projects::CustomFields::Inputs::SingleVersionSelectList < Projects::Custom
     true
   end
 
-  def selected?(version)
-    version.id == @custom_value.value&.to_i
+  def selected?(custom_option)
+    custom_option.id == @custom_value.value&.to_i || custom_option.id == @custom_field.default_value&.to_i
   end
 end

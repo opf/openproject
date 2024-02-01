@@ -26,30 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::CustomFields::Inputs::SingleSelectList < Projects::CustomFields::Inputs::Base::Autocomplete::SingleValueInput
+class CustomFields::Inputs::Float < CustomFields::Inputs::Base::Input
   form do |custom_value_form|
-    # autocompleter does not set key with blank value if nothing is selected or input is cleared
-    # in order to let acts_as_customizable handle the clearing of the value, we need to set the value to blank via a hidden field
-    # which sends blank if autocompleter is cleared
-    custom_value_form.hidden(**input_attributes.merge(value: ""))
-
-    custom_value_form.autocompleter(**input_attributes) do |list|
-      @custom_value.custom_field.custom_options.each do |custom_option|
-        list.option(
-          label: custom_option.value, value: custom_option.id,
-          selected: selected?(custom_option)
-        )
-      end
-    end
+    custom_value_form.text_field(**input_attributes)
   end
 
-  private
-
-  def decorated?
-    true
-  end
-
-  def selected?(custom_option)
-    custom_option.id == @custom_value.value&.to_i || custom_option.id == @custom_field.default_value&.to_i
+  def input_attributes
+    super.merge({ type: "number", step: :any })
   end
 end

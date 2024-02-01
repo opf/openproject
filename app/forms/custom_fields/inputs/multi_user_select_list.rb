@@ -26,42 +26,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::CustomFields::Inputs::Base::Autocomplete::MultiValueInput < ApplicationForm
-  include Projects::CustomFields::Inputs::Base::Utils
+class CustomFields::Inputs::MultiUserSelectList < CustomFields::Inputs::Base::Autocomplete::MultiValueInput
+  include CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
 
-  def initialize(custom_field:, custom_values:, project:)
-    @custom_field = custom_field
-    @custom_values = custom_values
-    @project = project
+  form do |custom_value_form|
+    # TODO: use user_autocompleter as seen on sharing form instead
+    custom_value_form.autocompleter(**input_attributes)
   end
 
-  def input_attributes
-    base_input_attributes.merge(
-      autocomplete_options:,
-      wrapper_data_attributes: {
-        'qa-field-name': qa_field_name
-      }
-    )
+  private
+
+  def decorated?
+    false
   end
 
   def autocomplete_options
-    {
-      multiple: true,
-      decorated: decorated?,
-      inputId: id,
-      inputName: name
-    }
+    super.merge(user_autocomplete_options)
   end
 
-  def decorated?
-    raise NotImplementedError
-  end
-
-  def invalid?
-    @custom_values.any? { |custom_value| custom_value.errors.any? }
-  end
-
-  def validation_message
-    @custom_values.map { |custom_value| custom_value.errors.full_messages }.join(', ') if invalid?
+  def init_user_ids
+    @custom_values.map(&:value)
   end
 end

@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::CustomFields::Inputs::Base::Autocomplete::SingleValueInput < ApplicationForm
-  include Projects::CustomFields::Inputs::Base::Utils
+class CustomFields::Inputs::Base::Autocomplete::SingleValueInput < ApplicationForm
+  include CustomFields::Inputs::Base::Utils
 
-  def initialize(custom_field:, custom_value:, project:)
+  def initialize(custom_field:, custom_value:, object:)
     @custom_field = custom_field
     @custom_value = custom_value
-    @project = project
+    @object = object
   end
 
   def input_attributes

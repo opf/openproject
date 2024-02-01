@@ -35,37 +35,37 @@ module Projects::CustomFields
       end
     end
 
-    def initialize(project:, custom_field_section: nil)
+    def initialize(project:, custom_field_section: nil, custom_field: nil)
       super()
       @project = project
       @custom_field_section = custom_field_section
+      @custom_field = custom_field
+
+      if @custom_field_section.present? && @custom_field.present?
+        raise ArgumentError,
+              "Either custom_field_section or custom_field must be specified, but not both"
+      end
     end
 
     private
 
     def sorted_custom_fields
-      # TODO: move to service/model
       return @custom_fields if @custom_fields.present?
 
-      @custom_fields ||= @project.available_custom_fields
-
-      if @custom_field_section.present?
-        @custom_fields = @custom_fields
-          .where(custom_field_section_id: @custom_field_section.id)
-      end
-
-      @custom_fields = @custom_fields.sort_by do |pcf|
-        [pcf.project_custom_field_section.position, pcf.position_in_custom_field_section]
-      end
+      @custom_fields = if @custom_field.present?
+                         [@custom_field]
+                       elsif @custom_field_section.present?
+                         @project.sorted_available_custom_fields_by_section(@custom_field_section)
+                       else
+                         @project.sorted_available_custom_fields
+                       end
     end
 
     def custom_field_input(builder, custom_field)
       if custom_field.multi_value?
-        custom_values = @project.custom_values_for_custom_field(id: custom_field.id)
-        multi_value_custom_field_input(builder, custom_field, custom_values)
+        multi_value_custom_field_input(builder, custom_field)
       else
-        custom_value = @project.custom_value_for(custom_field.id)
-        single_value_custom_field_input(builder, custom_field, custom_value)
+        single_value_custom_field_input(builder, custom_field)
       end
     end
 
@@ -73,42 +73,45 @@ module Projects::CustomFields
     # TODOS:
     # - initial values for user inputs are not displayed
     # - allow/disallow-non-open version setting is not yet respected in the version selector
+    # - rich text editor is not yet supported
 
-    def single_value_custom_field_input(builder, custom_field, custom_value)
-      form_args = { custom_field:, custom_value:, project: @project }
+    def single_value_custom_field_input(builder, custom_field)
+      custom_value = @project.custom_value_for(custom_field.id)
+      form_args = { custom_field:, custom_value:, object: @project }
 
       case custom_field.field_format
       when "string"
-        Projects::CustomFields::Inputs::String.new(builder, **form_args)
+        CustomFields::Inputs::String.new(builder, **form_args)
       when "text"
-        Projects::CustomFields::Inputs::Text.new(builder, **form_args)
+        CustomFields::Inputs::Text.new(builder, **form_args)
       when "int"
-        Projects::CustomFields::Inputs::Int.new(builder, **form_args)
+        CustomFields::Inputs::Int.new(builder, **form_args)
       when "float"
-        Projects::CustomFields::Inputs::Float.new(builder, **form_args)
+        CustomFields::Inputs::Float.new(builder, **form_args)
       when "list"
-        Projects::CustomFields::Inputs::SingleSelectList.new(builder, **form_args)
+        CustomFields::Inputs::SingleSelectList.new(builder, **form_args)
       when "date"
-        Projects::CustomFields::Inputs::Date.new(builder, **form_args)
+        CustomFields::Inputs::Date.new(builder, **form_args)
       when "bool"
-        Projects::CustomFields::Inputs::Bool.new(builder, **form_args)
+        CustomFields::Inputs::Bool.new(builder, **form_args)
       when "user"
-        Projects::CustomFields::Inputs::SingleUserSelectList.new(builder, **form_args)
+        CustomFields::Inputs::SingleUserSelectList.new(builder, **form_args)
       when "version"
-        Projects::CustomFields::Inputs::SingleVersionSelectList.new(builder, **form_args)
+        CustomFields::Inputs::SingleVersionSelectList.new(builder, **form_args)
       end
     end
 
-    def multi_value_custom_field_input(builder, custom_field, custom_values)
-      form_args = { custom_field:, custom_values:, project: @project }
+    def multi_value_custom_field_input(builder, custom_field)
+      custom_values = @project.custom_values_for_custom_field(id: custom_field.id)
+      form_args = { custom_field:, custom_values:, object: @project }
 
       case custom_field.field_format
       when "list"
-        Projects::CustomFields::Inputs::MultiSelectList.new(builder, **form_args)
+        CustomFields::Inputs::MultiSelectList.new(builder, **form_args)
       when "user"
-        Projects::CustomFields::Inputs::MultiUserSelectList.new(builder, **form_args)
+        CustomFields::Inputs::MultiUserSelectList.new(builder, **form_args)
       when "version"
-        Projects::CustomFields::Inputs::MultiVersionSelectList.new(builder, **form_args)
+        CustomFields::Inputs::MultiVersionSelectList.new(builder, **form_args)
       end
     end
   end

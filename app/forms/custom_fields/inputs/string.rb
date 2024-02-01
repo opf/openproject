@@ -26,30 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::CustomFields::Inputs::MultiVersionSelectList < Projects::CustomFields::Inputs::Base::Autocomplete::MultiValueInput
+class CustomFields::Inputs::String < CustomFields::Inputs::Base::Input
   form do |custom_value_form|
-    # autocompleter does not set key with blank value if nothing is selected or input is cleared
-    # in order to let acts_as_customizable handle the clearing of the value, we need to set the value to blank via a hidden field
-    # which sends blank if autocompleter is cleared
-    custom_value_form.hidden(**input_attributes.merge(name: "#{input_attributes[:name]}[]", value:))
-
-    custom_value_form.autocompleter(**input_attributes) do |list|
-      @project.versions.each do |version|
-        list.option(
-          label: version.name, value: version.id,
-          selected: selected?(version)
-        )
-      end
-    end
-  end
-
-  private
-
-  def decorated?
-    true
-  end
-
-  def selected?(version)
-    @custom_values.pluck(:value).map { |value| value&.to_i }.include?(version.id)
+    custom_value_form.text_field(**input_attributes)
   end
 end
