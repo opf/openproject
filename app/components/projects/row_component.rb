@@ -174,6 +174,85 @@ module Projects
       end
     end
 
+    def more_menu_items
+      @more_menu_items ||= [more_menu_subproject_item,
+                            more_menu_settings_item,
+                            more_menu_activity_item,
+                            more_menu_archive_item,
+                            more_menu_unarchive_item,
+                            more_menu_copy_item,
+                            more_menu_delete_item].compact
+    end
+
+    def more_menu_subproject_item
+      if User.current.allowed_in_project?(:add_subprojects, project)
+        [t(:label_subproject_new),
+         new_project_path(parent_id: project.id),
+         { class: 'icon-context icon-add',
+           title: t(:label_subproject_new) }]
+      end
+    end
+
+    def more_menu_settings_item
+      if User.current.allowed_in_project?({ controller: '/projects/settings/general', action: 'show', project_id: project.id },
+                                          project)
+        [t(:label_project_settings),
+         project_settings_general_path(project),
+         { class: 'icon-context icon-settings',
+           title: t(:label_project_settings) }]
+      end
+    end
+
+    def more_menu_activity_item
+      if User.current.allowed_in_project?(:view_project_activity, project)
+        [
+          t(:label_project_activity),
+          project_activity_index_path(project, event_types: ['project_attributes']),
+          { class: 'icon-context icon-checkmark',
+            title: t(:label_project_activity) }
+        ]
+      end
+    end
+
+    def more_menu_archive_item
+      if User.current.allowed_in_project?(:archive_project, project) && project.active?
+        [t(:button_archive),
+         project_archive_path(project, status: params[:status]),
+         { data: { confirm: t('project.archive.are_you_sure', name: project.name) },
+           method: :post,
+           class: 'icon-context icon-locked',
+           title: t(:button_archive) }]
+      end
+    end
+
+    def more_menu_unarchive_item
+      if User.current.admin? && project.archived? && (project.parent.nil? || project.parent.active?)
+        [t(:button_unarchive),
+         project_archive_path(project, status: params[:status]),
+         { method: :delete,
+           class: 'icon-context icon-unlocked',
+           title: t(:button_unarchive) }]
+      end
+    end
+
+    def more_menu_copy_item
+      if User.current.allowed_in_project?(:copy_projects, project) && !project.archived?
+        [t(:button_copy),
+         copy_project_path(project),
+         { class: 'icon-context icon-copy',
+           title: t(:button_copy) }]
+      end
+    end
+
+    def more_menu_delete_item
+      if User.current.admin
+        [t(:button_delete),
+         confirm_destroy_project_path(project),
+         { class: 'icon-context icon-delete',
+           title: t(:button_delete) }]
+      end
+    end
+
     def user_can_view_project?
       User.current.allowed_in_project?(:view_project, project)
     end

@@ -62,7 +62,7 @@ module Projects
     def rows
       @rows ||= begin
         projects_enumerator = ->(model) { to_enum(:projects_with_levels_order_sensitive, model).to_a } # rubocop:disable Lint/ToEnumArguments
-        helpers.instance_exec(model, &projects_enumerator)
+        instance_exec(model, &projects_enumerator)
       end
     end
 
@@ -79,13 +79,13 @@ module Projects
     end
 
     def deactivate_class_on_lft_sort
-      if helpers.sorted_by_lft?
+      if sorted_by_lft?
         'spot-link_inactive'
       end
     end
 
     def href_only_when_not_sort_lft
-      unless helpers.sorted_by_lft?
+      unless sorted_by_lft?
         projects_path(sortBy: JSON::dump([['lft', 'asc']]))
       end
     end
@@ -155,6 +155,32 @@ module Projects
         .with_latest_activity
         .includes(:custom_values, :enabled_modules)
         .paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
+    end
+
+    def projects_with_levels_order_sensitive(projects, &)
+      if sorted_by_lft?
+        Project.project_tree(projects, &)
+      else
+        projects_with_level(projects, &)
+      end
+    end
+
+    def projects_with_level(projects, &)
+      ancestors = []
+
+      projects.each do |project|
+        while !ancestors.empty? && !project.is_descendant_of?(ancestors.last)
+          ancestors.pop
+        end
+
+        yield project, ancestors.count
+
+        ancestors << project
+      end
+    end
+
+    def sorted_by_lft?
+      query.orders.first.attribute == :lft
     end
   end
 end
