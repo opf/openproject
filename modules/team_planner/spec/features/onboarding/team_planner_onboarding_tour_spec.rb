@@ -32,7 +32,6 @@ require_relative '../../support/onboarding/onboarding_steps'
 RSpec.describe 'team planner onboarding tour',
                :js,
                with_cuprite: false,
-               skip: 'will only work when the tour is adapted to the new Gantt module',
                with_ee: %i[team_planner_view],
                # We decrease the notification polling interval because some portions
                # of the JS code rely on something triggering the Angular change detection.
@@ -45,7 +44,7 @@ RSpec.describe 'team planner onboarding tour',
            name: 'Demo project',
            identifier: 'demo-project',
            public: true,
-           enabled_module_names: %w[work_package_tracking wiki team_planner_view])
+           enabled_module_names: %w[work_package_tracking gantt wiki team_planner_view])
   end
 
   let(:user) do
