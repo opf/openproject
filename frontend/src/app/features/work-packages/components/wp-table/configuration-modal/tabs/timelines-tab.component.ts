@@ -1,4 +1,8 @@
-import { Component, Injector } from '@angular/core';
+import {
+  Component,
+  Injector,
+  OnInit,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
@@ -6,11 +10,12 @@ import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/r
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { zoomLevelOrder } from 'core-app/features/work-packages/components/wp-table/timeline/wp-timeline';
 import { TimelineLabels, TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
+import { StateService } from '@uirouter/angular';
 
 @Component({
   templateUrl: './timelines-tab.component.html',
 })
-export class WpTableConfigurationTimelinesTabComponent implements TabComponent {
+export class WpTableConfigurationTimelinesTabComponent implements TabComponent, OnInit {
   public timelineVisible = false;
 
   public availableAttributes:{ id:string, name:string }[];
@@ -50,10 +55,13 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent {
     },
   };
 
-  constructor(readonly injector:Injector,
+  constructor(
+    readonly injector:Injector,
     readonly I18n:I18nService,
     readonly wpTableTimeline:WorkPackageViewTimelineService,
-    readonly wpTableColumns:WorkPackageViewColumnsService) {
+    readonly wpTableColumns:WorkPackageViewColumnsService,
+    readonly $state:StateService,
+  ) {
   }
 
   public onSave() {
@@ -90,5 +98,9 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent {
       .sort((a:QueryColumn, b:QueryColumn) => a.name.localeCompare(b.name));
 
     this.availableAttributes = [{ id: '', name: this.text.labels.none }].concat(availableColumns);
+  }
+
+  timelineToggleDisabled():boolean {
+    return !!this.$state.current.name?.includes('gantt');
   }
 }
