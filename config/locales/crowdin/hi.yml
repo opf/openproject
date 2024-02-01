@@ -254,6 +254,13 @@ hi:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -1618,7 +1625,6 @@ hi:
   label_age: "Age"
   label_ago: "दिन पहले"
   label_all: "सभी"
-  label_all_projects: "All projects"
   label_all_time: "हमेशा"
   label_all_words: "सभी शब्दों"
   label_all_open_wps: "सभी खुले"
@@ -1635,7 +1641,6 @@ hi:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "लागू की गई स्थिति"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "आरोही"
   label_assigned_to_me_work_packages: "मेरे लिए असाइन किए गए कार्य पैकेज"
   label_associated_revisions: "संबद्ध पुनरावलोकन"
@@ -1904,7 +1909,6 @@ hi:
   label_my_account: "My account"
   label_my_activity: "My activity"
   label_my_account_data: "My account data"
-  label_my_projects: "My projects"
   label_my_queries: "My custom queries"
   label_name: "नाम"
   label_never: "Never"

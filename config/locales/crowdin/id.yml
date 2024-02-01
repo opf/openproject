@@ -248,6 +248,13 @@ id:
       open_as_gantt_title_admin: "Anda dapat memodifikasi pengaturan tampilan (seperti jenis paket pekerjaan yang dipilih) di administrasi di bawah pengaturan proyek."
       no_results_title_text: Tidak ada proyek saat ini
       no_results_content_text: Buat proyek baru
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Ubah pengenal
       activities:
@@ -1586,7 +1593,6 @@ id:
   label_age: "Usia"
   label_ago: "hari yang lalu"
   label_all: "semua"
-  label_all_projects: "Semua proyek"
   label_all_time: "Sepanjang waktu"
   label_all_words: "Semua kata"
   label_all_open_wps: "Semua terbuka"
@@ -1603,7 +1609,6 @@ id:
   label_ical_access_key_revoke: "Menarik kembali"
   label_applied_status: "Status berjalan"
   label_archive_project: "Proyek arsip"
-  label_archived_projects: "Archived projects"
   label_ascending: "Askending"
   label_assigned_to_me_work_packages: "Paket-Penugasan yang saya kerjakan"
   label_associated_revisions: "Revisi terkait"
@@ -1872,7 +1877,6 @@ id:
   label_my_account: "Akun saya"
   label_my_activity: "Aktivitas saya"
   label_my_account_data: "Data akun saya"
-  label_my_projects: "Project saya"
   label_my_queries: "Query kustom saya"
   label_name: "Nama"
   label_never: "Never"

@@ -254,6 +254,13 @@ th:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: ขณะนี้ยังไม่มีโครงการใดๆ
       no_results_content_text: สร้างโครงการใหม่
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: เปลี่ยน ตัวระบุ
       activities:
@@ -1593,7 +1600,6 @@ th:
   label_age: "ระยะเวลา"
   label_ago: "วันที่ผ่านมา"
   label_all: "ทั้งหมด"
-  label_all_projects: "All projects"
   label_all_time: "ตลอดเวลา"
   label_all_words: "ทุกคำ"
   label_all_open_wps: "All open"
@@ -1610,7 +1616,6 @@ th:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "ใช้สถานะ"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "จากน้อยไปมาก"
   label_assigned_to_me_work_packages: "ชุดภารกิจที่ฉันได้รับมอบหมาย"
   label_associated_revisions: "การปรับปรุงที่เกี่ยวข้อง"
@@ -1879,7 +1884,6 @@ th:
   label_my_account: "บัญชีของฉัน"
   label_my_activity: "My activity"
   label_my_account_data: "ข้อมูลบัญชีของฉัน"
-  label_my_projects: "โครงการของฉัน"
   label_my_queries: "แบบสอบถามแบบกำหนดเองของฉัน"
   label_name: "ชื่อ"
   label_never: "Never"

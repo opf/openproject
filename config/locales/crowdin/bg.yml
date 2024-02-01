@@ -254,6 +254,13 @@ bg:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: В момента няма проекти
       no_results_content_text: Създаване на нов проект
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -1620,7 +1627,6 @@ bg:
   label_age: "Възраст"
   label_ago: "преди"
   label_all: "всички"
-  label_all_projects: "All projects"
   label_all_time: "всички времена"
   label_all_words: "Всички думи"
   label_all_open_wps: "Всичко отворено"
@@ -1637,7 +1643,6 @@ bg:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Приложен статус"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "Възходящо"
   label_assigned_to_me_work_packages: "Работни пакети, възложени на мен"
   label_associated_revisions: "Асоциирани ревизии"
@@ -1906,7 +1911,6 @@ bg:
   label_my_account: "Моят профил"
   label_my_activity: "My activity"
   label_my_account_data: "Данни за моят акаунт"
-  label_my_projects: "Моите проекти"
   label_my_queries: "Моите потребителски заявки"
   label_name: "Име"
   label_never: "Никога"

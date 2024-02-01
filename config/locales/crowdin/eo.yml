@@ -254,6 +254,13 @@ eo:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Nun estas neniu projekto.
       no_results_content_text: Krei nova projekton
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -1620,7 +1627,6 @@ eo:
   label_age: "Aĝo"
   label_ago: "tagoj antaŭe"
   label_all: "ĉiuj"
-  label_all_projects: "All projects"
   label_all_time: "ĉiam"
   label_all_words: "Ĉiuj vortoj"
   label_all_open_wps: "Ĉio malfermita"
@@ -1637,7 +1643,6 @@ eo:
   label_ical_access_key_revoke: "Eksvalidigi"
   label_applied_status: "Aplikita stato"
   label_archive_project: "Aktivi projekton"
-  label_archived_projects: "Archived projects"
   label_ascending: "Kreskante"
   label_assigned_to_me_work_packages: "Laborpakaĵoj asignitaj al mi"
   label_associated_revisions: "Ligitaj revizioj"
@@ -1906,7 +1911,6 @@ eo:
   label_my_account: "Mia konto"
   label_my_activity: "My activity"
   label_my_account_data: "Mia konta datumaro"
-  label_my_projects: "Miaj projektoj"
   label_my_queries: "Miaj propraj informpetoj"
   label_name: "Nomo"
   label_never: "Neniam"

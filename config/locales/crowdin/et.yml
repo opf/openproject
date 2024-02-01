@@ -254,6 +254,13 @@ et:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -1620,7 +1627,6 @@ et:
   label_age: "Vanus"
   label_ago: "päeva tagasi"
   label_all: "kõik"
-  label_all_projects: "All projects"
   label_all_time: "kogu aeg"
   label_all_words: "Kõik sõnad"
   label_all_open_wps: "All open"
@@ -1637,7 +1643,6 @@ et:
   label_ical_access_key_revoke: "Võta tagasi"
   label_applied_status: "Rakendatud olek"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "Kasvav"
   label_assigned_to_me_work_packages: "Minu teemad"
   label_associated_revisions: "Seotud muudatused"
@@ -1906,7 +1911,6 @@ et:
   label_my_account: "Oma konto"
   label_my_activity: "My activity"
   label_my_account_data: "Oma konto andmed"
-  label_my_projects: "Minu projektid"
   label_my_queries: "Mu omaloodud päringud"
   label_name: "Nimi"
   label_never: "Mitte kunagi"

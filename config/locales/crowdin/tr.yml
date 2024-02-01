@@ -254,6 +254,13 @@ tr:
       open_as_gantt_title_admin: "Proje ayarları altında yönetimde görünüm ayarlarını (seçilen iş paketi türleri gibi) değiştirebilirsiniz."
       no_results_title_text: Şu anda hiç proje bulunmamakta
       no_results_content_text: Yeni bir proje oluşturun
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Dil Tanımlayıcı değiştir
       activities:
@@ -1619,7 +1626,6 @@ tr:
   label_age: "Yaş"
   label_ago: "gün önce"
   label_all: "tüm"
-  label_all_projects: "Tüm projeler"
   label_all_time: "her zaman"
   label_all_words: "Bütün kelimeler"
   label_all_open_wps: "Tüm açık"
@@ -1636,7 +1642,6 @@ tr:
   label_ical_access_key_revoke: "İptal etmek"
   label_applied_status: "Uygulanan statü"
   label_archive_project: "Projeyi arşivle"
-  label_archived_projects: "Archived projects"
   label_ascending: "Azalan"
   label_assigned_to_me_work_packages: "Bana atanan iş paketleri"
   label_associated_revisions: "İlişkili sürümler"
@@ -1905,7 +1910,6 @@ tr:
   label_my_account: "Hesabım"
   label_my_activity: "My activity"
   label_my_account_data: "Hesap verilerim"
-  label_my_projects: "Projelerim"
   label_my_queries: "Özel sorgularım"
   label_name: "İsim"
   label_never: "Hiçbir zaman"

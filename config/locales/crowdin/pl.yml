@@ -251,6 +251,13 @@ pl:
       open_as_gantt_title_admin: "Możesz modyfikować ustawienia widoku (takie jak wybrane typy pakietów roboczych) w obszarze administracji w ustawieniach projektu."
       no_results_title_text: Nie ma jeszcze żadnego projektu
       no_results_content_text: Utwórz nowy projekt
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Identyfikator zmiany
       activities:
@@ -1671,7 +1678,6 @@ pl:
   label_age: "Wiek"
   label_ago: "dni temu"
   label_all: "wszystkie"
-  label_all_projects: "Wszystkie projekty"
   label_all_time: "cały czas"
   label_all_words: "Wszystkie słowa"
   label_all_open_wps: "Wszystkie otwarte"
@@ -1688,7 +1694,6 @@ pl:
   label_ical_access_key_revoke: "Unieważnij"
   label_applied_status: "Nadaj status"
   label_archive_project: "Archiwum projektów"
-  label_archived_projects: "Zarchiwizowane projekty"
   label_ascending: "Rosnąco"
   label_assigned_to_me_work_packages: "Zadania przypisane do mnie"
   label_associated_revisions: "Powiązane rewizje"
@@ -1957,7 +1962,6 @@ pl:
   label_my_account: "Moje konto"
   label_my_activity: "Moja aktywność"
   label_my_account_data: "Moje dane konta"
-  label_my_projects: "Moje projekty"
   label_my_queries: "Moje zapytania niestandardowe"
   label_name: "Nazwa"
   label_never: "Nigdy"

@@ -254,6 +254,13 @@ cs:
       open_as_gantt_title_admin: "Nastavení zobrazení (například vybrané typy pracovních balíčků) můžete změnit v administraci pod nastavením projektu."
       no_results_title_text: V současné době nejsou žádné projekty
       no_results_content_text: Vytvořit nový projekt
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Změnit identifikátor
       activities:
@@ -1674,7 +1681,6 @@ cs:
   label_age: "Věk"
   label_ago: "dnů před"
   label_all: "vše"
-  label_all_projects: "Všechny projekty"
   label_all_time: "celkový čas"
   label_all_words: "Všechna slova"
   label_all_open_wps: "Všechny otevřené"
@@ -1691,7 +1697,6 @@ cs:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Přiřazený stav"
   label_archive_project: "Archivovat projekt"
-  label_archived_projects: "Archivované projekty"
   label_ascending: "Vzestupně"
   label_assigned_to_me_work_packages: "Pracovní balíčky přidělené mně"
   label_associated_revisions: "Související revize"
@@ -1960,7 +1965,6 @@ cs:
   label_my_account: "Můj účet"
   label_my_activity: "Moje aktivita"
   label_my_account_data: "Data mého účtu"
-  label_my_projects: "Moje projekty"
   label_my_queries: "Moje vlastní dotazy"
   label_name: "Název"
   label_never: "Nikdy"

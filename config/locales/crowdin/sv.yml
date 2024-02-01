@@ -254,6 +254,13 @@ sv:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Det finns för närvarande inga projekt
       no_results_content_text: Skapa ett nytt projekt
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -1619,7 +1626,6 @@ sv:
   label_age: "Ålder"
   label_ago: "dagar sedan"
   label_all: "alla"
-  label_all_projects: "Alla projekt"
   label_all_time: "all tid"
   label_all_words: "Alla ord"
   label_all_open_wps: "Alla öppna"
@@ -1636,7 +1642,6 @@ sv:
   label_ical_access_key_revoke: "Återkalla"
   label_applied_status: "Tillämpad status"
   label_archive_project: "Arkivera projekt"
-  label_archived_projects: "Archived projects"
   label_ascending: "Stigande"
   label_assigned_to_me_work_packages: "Arbetspaket som tilldelats till mig"
   label_associated_revisions: "Kopplade revideringar"
@@ -1905,7 +1910,6 @@ sv:
   label_my_account: "Mitt konto"
   label_my_activity: "Min aktivitet"
   label_my_account_data: "Min kontoinformation"
-  label_my_projects: "Mina projekt"
   label_my_queries: "Min anpassade frågor"
   label_name: "Namn"
   label_never: "Aldrig"

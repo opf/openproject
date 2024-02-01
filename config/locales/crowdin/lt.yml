@@ -251,6 +251,13 @@ lt:
       open_as_gantt_title_admin: "Galite pakeisti vaizdo parametrus (tokius kaip pasirinkti darbo užduočių tipai) administravimo dalyje prie projekto nustatymų."
       no_results_title_text: Nėra jokių projektų
       no_results_content_text: Sukurti naują projektą
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Pokyčio identifikatorius
       activities:
@@ -1671,7 +1678,6 @@ lt:
   label_age: "Amžius"
   label_ago: "dienų prieš"
   label_all: "visi"
-  label_all_projects: "Visi projektai"
   label_all_time: "visas laikas"
   label_all_words: "Visi žodžiai"
   label_all_open_wps: "Visi atviri"
@@ -1688,7 +1694,6 @@ lt:
   label_ical_access_key_revoke: "Atšaukti"
   label_applied_status: "Taikomoji būsena"
   label_archive_project: "Archyvuoti projektą"
-  label_archived_projects: "Archyvuoti projektai"
   label_ascending: "Didėjančia tvarka"
   label_assigned_to_me_work_packages: "Man priskirti darbų paketai"
   label_associated_revisions: "Susijusios revizijos"
@@ -1957,7 +1962,6 @@ lt:
   label_my_account: "Mano paskyra"
   label_my_activity: "Mano veikla"
   label_my_account_data: "Mano paskyros duomenys"
-  label_my_projects: "Mano projektai"
   label_my_queries: "Mano sukurtos užklausos"
   label_name: "Vardas"
   label_never: "Niekada"

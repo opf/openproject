@@ -254,6 +254,13 @@ ar:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: لا يوجد حالياً مشاريع
       no_results_content_text: إنشاء مشروع جديد
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -1728,7 +1735,6 @@ ar:
   label_age: "العمر"
   label_ago: "أيام مضت"
   label_all: "الكل"
-  label_all_projects: "All projects"
   label_all_time: "كل الوقت"
   label_all_words: "كافة الكلمات"
   label_all_open_wps: "All open"
@@ -1745,7 +1751,6 @@ ar:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "الحالة المطبقة"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "ترتيب تصاعدي"
   label_assigned_to_me_work_packages: "مجموعات العمل الموكلة لي"
   label_associated_revisions: "التعديلات المرتبطة بها"
@@ -2014,7 +2019,6 @@ ar:
   label_my_account: "حسابي"
   label_my_activity: "My activity"
   label_my_account_data: "بيانات حسابي"
-  label_my_projects: "مشاريعي"
   label_my_queries: "استعلاماتي المخصصة"
   label_name: "الاسم"
   label_never: "أبداً"

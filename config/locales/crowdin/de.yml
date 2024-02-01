@@ -251,6 +251,13 @@ de:
       open_as_gantt_title_admin: "Sie können die Einstellungen der erzeugten Ansicht (wie zum Beispiel die ausgewählten Arbeitspakettypen) in der Administration unter den Projekteinstellungen ändern."
       no_results_title_text: Es gibt aktuell keine Projekte
       no_results_content_text: Neues Projekt erstellen
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Kennung ändern
       activities:
@@ -1615,7 +1622,6 @@ de:
   label_age: "Geändert vor"
   label_ago: "vor (Tage)"
   label_all: "alle"
-  label_all_projects: "Alle Projekte"
   label_all_time: "gesamter Zeitraum"
   label_all_words: "Alle Wörter"
   label_all_open_wps: "Alle offenen"
@@ -1632,7 +1638,6 @@ de:
   label_ical_access_key_revoke: "Widerrufen"
   label_applied_status: "Zugewiesener Status"
   label_archive_project: "Projekt archivieren"
-  label_archived_projects: "Archivierte Projekte"
   label_ascending: "Aufsteigend"
   label_assigned_to_me_work_packages: "Mir zugewiesene Arbeitspakete"
   label_associated_revisions: "Zugehörige Revisionen"
@@ -1901,7 +1906,6 @@ de:
   label_my_account: "Mein Konto"
   label_my_activity: "Meine Aktivität"
   label_my_account_data: "Meine Kontodaten"
-  label_my_projects: "Meine Projekte"
   label_my_queries: "Meine Berichte"
   label_name: "Name"
   label_never: "Nie"

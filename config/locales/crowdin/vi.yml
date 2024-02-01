@@ -256,6 +256,13 @@ vi:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Không có dự án nào
       no_results_content_text: Tạo một dự án mới
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Thay đổi định danh
       activities:
@@ -1595,7 +1602,6 @@ vi:
   label_age: "Tuổi"
   label_ago: "vài ngày trước"
   label_all: "tất cả"
-  label_all_projects: "Tất cả các dự án"
   label_all_time: "tất cả thời gian"
   label_all_words: "Tất cả các từ"
   label_all_open_wps: "Mở tất cả"
@@ -1612,7 +1618,6 @@ vi:
   label_ical_access_key_revoke: "Thu hồi"
   label_applied_status: "Tình trạng áp dụng"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "Tăng dần"
   label_assigned_to_me_work_packages: "Work package được chỉ định cho tôi"
   label_associated_revisions: "Các phiên bản kết hợp"
@@ -1881,7 +1886,6 @@ vi:
   label_my_account: "Tài khoản của tôi"
   label_my_activity: "My activity"
   label_my_account_data: "Dữ liệu tài khoản của tôi"
-  label_my_projects: "Dự án của tôi"
   label_my_queries: "Các truy vấn tùy biến của tôi"
   label_name: "Tên"
   label_never: "Không bao giờ"

@@ -254,6 +254,13 @@ ka:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -1620,7 +1627,6 @@ ka:
   label_age: "ასაკი"
   label_ago: "დღის წინ"
   label_all: "ყველა"
-  label_all_projects: "ყველა პროექტი"
   label_all_time: "სრული დრო"
   label_all_words: "ყველა სიტყვა"
   label_all_open_wps: "ყველა ღია"
@@ -1637,7 +1643,6 @@ ka:
   label_ical_access_key_revoke: "გაუქმება"
   label_applied_status: "გადატარებულია სტატუსი"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "ზრდადობით"
   label_assigned_to_me_work_packages: "Work packages assigned to me"
   label_associated_revisions: "Associated revisions"
@@ -1906,7 +1911,6 @@ ka:
   label_my_account: "ჩემი ანგარიში"
   label_my_activity: "ჩემი აქტივობა"
   label_my_account_data: "My account data"
-  label_my_projects: "ჩემი პროექტები"
   label_my_queries: "My custom queries"
   label_name: "სახელი"
   label_never: "არასოდეს"

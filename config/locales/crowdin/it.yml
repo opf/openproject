@@ -251,6 +251,13 @@ it:
       open_as_gantt_title_admin: "È possibile modificare le impostazioni di visualizzazione (come i tipi di macro-attività selezionati) nell'amministrazione nelle impostazioni del progetto."
       no_results_title_text: Al momento non esistono progetti
       no_results_content_text: Crea un nuovo progetto
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Cambia identificatore
       activities:
@@ -1617,7 +1624,6 @@ it:
   label_age: "Età"
   label_ago: "giorni fa"
   label_all: "tutti"
-  label_all_projects: "Tutti i progetti"
   label_all_time: "tutto il tempo"
   label_all_words: "Tutte le parole"
   label_all_open_wps: "Apri tutto"
@@ -1634,7 +1640,6 @@ it:
   label_ical_access_key_revoke: "Revoca"
   label_applied_status: "Stato applicato"
   label_archive_project: "Archivia progetto"
-  label_archived_projects: "Progetti archiviati"
   label_ascending: "Crescente"
   label_assigned_to_me_work_packages: "Macro-attività assegnate a me"
   label_associated_revisions: "Revisioni associate"
@@ -1903,7 +1908,6 @@ it:
   label_my_account: "Il mio account"
   label_my_activity: "La mia attività"
   label_my_account_data: "I miei dati dell'account"
-  label_my_projects: "I miei progetti"
   label_my_queries: "Le mie query personalizzate"
   label_name: "Nome"
   label_never: "Mai"

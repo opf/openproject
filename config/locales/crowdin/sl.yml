@@ -253,6 +253,13 @@ sl:
       open_as_gantt_title_admin: "Spreminjanje nastavitev pogleda (na primer izbrane vrste delovnih paketov) je možno v skrbništvu pod nastavitvami projekta."
       no_results_title_text: Trenutno ni projektov
       no_results_content_text: Kreiraj nov projekt
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Zamenjaj identifikator
       activities:
@@ -1671,7 +1678,6 @@ sl:
   label_age: "Starost"
   label_ago: "pred dnevi"
   label_all: "vsi"
-  label_all_projects: "Vsi projekti"
   label_all_time: "Ves čas"
   label_all_words: "Vse besede"
   label_all_open_wps: "Vse odprto"
@@ -1688,7 +1694,6 @@ sl:
   label_ical_access_key_revoke: "Prekliči"
   label_applied_status: "Uveljavljeno stanje"
   label_archive_project: "Arhivirani projekti"
-  label_archived_projects: "Archived projects"
   label_ascending: "Naraščajoče"
   label_assigned_to_me_work_packages: "Delovni paketi, ki so mi bili dodeljeni"
   label_associated_revisions: "Povezane revizije"
@@ -1957,7 +1962,6 @@ sl:
   label_my_account: "Moj račun"
   label_my_activity: "My activity"
   label_my_account_data: "Podatki mojega računa"
-  label_my_projects: "Moji projekti"
   label_my_queries: "Moje poizvedbe po meri"
   label_name: "Ime"
   label_never: "Nikoli"

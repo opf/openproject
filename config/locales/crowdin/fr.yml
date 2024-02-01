@@ -254,6 +254,13 @@ fr:
       open_as_gantt_title_admin: "Vous pouvez modifier les paramètres d'affichage (comme les types de lots de travaux sélectionnés) dans l'administration dans les paramètres du projet."
       no_results_title_text: Aucun projet pour le moment
       no_results_content_text: Créer un nouveau projet
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Changer l'identifiant
       activities:
@@ -1620,7 +1627,6 @@ fr:
   label_age: "Âge"
   label_ago: "il y a"
   label_all: "tous"
-  label_all_projects: "Tous les projets"
   label_all_time: "tout le temps"
   label_all_words: "Tous les mots"
   label_all_open_wps: "Tous les ouverts"
@@ -1637,7 +1643,6 @@ fr:
   label_ical_access_key_revoke: "Révoquer"
   label_applied_status: "Statut appliqué"
   label_archive_project: "Archiver le projet"
-  label_archived_projects: "Projets archivés"
   label_ascending: "Croissant"
   label_assigned_to_me_work_packages: "Lots de Travaux m'étant assignés"
   label_associated_revisions: "Révisions associées"
@@ -1906,7 +1911,6 @@ fr:
   label_my_account: "Mon compte"
   label_my_activity: "Mon activité"
   label_my_account_data: "Info sur mon compte"
-  label_my_projects: "Mes projets"
   label_my_queries: "Mes requêtes personnalisées"
   label_name: "Nom"
   label_never: "Jamais"

@@ -251,6 +251,13 @@ zh-CN:
       open_as_gantt_title_admin: "您可以在“项目设置”下的“管理”中修改视图设置（如选择的工作包类型）。"
       no_results_title_text: 目前没有项目。
       no_results_content_text: 创建一个新的项目
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: 更改标识符
       activities:
@@ -1589,7 +1596,6 @@ zh-CN:
   label_age: "年龄"
   label_ago: "天前"
   label_all: "所有"
-  label_all_projects: "所有项目"
   label_all_time: "所有的时间"
   label_all_words: "所有的词"
   label_all_open_wps: "全部打开"
@@ -1606,7 +1612,6 @@ zh-CN:
   label_ical_access_key_revoke: "撤消"
   label_applied_status: "应用的状态"
   label_archive_project: "归档项目"
-  label_archived_projects: "归档项目"
   label_ascending: "升序"
   label_assigned_to_me_work_packages: "分配给我的工作包"
   label_associated_revisions: "关联的修订版本"
@@ -1875,7 +1880,6 @@ zh-CN:
   label_my_account: "我的账户"
   label_my_activity: "我的活动"
   label_my_account_data: "我的账户数据"
-  label_my_projects: "我的项目"
   label_my_queries: "我的自定义查询"
   label_name: "名称"
   label_never: "永不"

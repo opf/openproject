@@ -251,6 +251,13 @@ nl:
       open_as_gantt_title_admin: "Je kunt de weergave-instellingen (zoals geselecteerde soorten werkpakketten) wijzigen in de administratie onder projectinstellingen."
       no_results_title_text: Er zijn momenteel geen projecten
       no_results_content_text: Maak een nieuw project
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -1617,7 +1624,6 @@ nl:
   label_age: "Leeftijd"
   label_ago: "dagen geleden"
   label_all: "alle"
-  label_all_projects: "Alle projecten"
   label_all_time: "aller tijden"
   label_all_words: "Alle woorden"
   label_all_open_wps: "Alles open"
@@ -1634,7 +1640,6 @@ nl:
   label_ical_access_key_revoke: "Intrekken"
   label_applied_status: "Toegepaste status"
   label_archive_project: "Project archiveren"
-  label_archived_projects: "Gearchiveerde projecten"
   label_ascending: "Oplopend"
   label_assigned_to_me_work_packages: "Werkpakketten toegewezen aan mij"
   label_associated_revisions: "Bijbehorende revisies"
@@ -1903,7 +1908,6 @@ nl:
   label_my_account: "Mijn gegevens"
   label_my_activity: "Mijn activiteit"
   label_my_account_data: "Mijn accountgegevens"
-  label_my_projects: "Mijn projecten"
   label_my_queries: "Mijn aangepaste query 's"
   label_name: "Naam"
   label_never: "Nooit"

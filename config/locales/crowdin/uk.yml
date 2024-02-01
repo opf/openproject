@@ -249,6 +249,13 @@ uk:
       open_as_gantt_title_admin: "Ви можете змінити налаштування подання (наприклад, вибрані типи пакетів робіт) у меню адміністрування в налаштуваннях проєкту."
       no_results_title_text: Наразі немає проектів
       no_results_content_text: Створіть новий проект
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Ідентифікатор змін
       activities:
@@ -1669,7 +1676,6 @@ uk:
   label_age: "Вік"
   label_ago: "днів тому"
   label_all: "всі"
-  label_all_projects: "Усі проєкти"
   label_all_time: "весь час"
   label_all_words: "Всі слова"
   label_all_open_wps: "Всі відкрити"
@@ -1686,7 +1692,6 @@ uk:
   label_ical_access_key_revoke: "Скасувати"
   label_applied_status: "Застосовний статус"
   label_archive_project: "Архівний проект"
-  label_archived_projects: "Заархівовані проєкти"
   label_ascending: "За зростанням"
   label_assigned_to_me_work_packages: "Робочі пакети призначені мені"
   label_associated_revisions: "Пов'язані редакції"
@@ -1955,7 +1960,6 @@ uk:
   label_my_account: "Мій обліковий запис"
   label_my_activity: "Мої дії"
   label_my_account_data: "Мої дані облікового запису"
-  label_my_projects: "Мої проекти"
   label_my_queries: "Мої збережені запити"
   label_name: "Ім’я"
   label_never: "Ніколи"

@@ -253,6 +253,13 @@ ru:
       open_as_gantt_title_admin: "Вы можете изменить настройки вида (такие как выбранные типы пакетов работ) в администрировании в настройках проекта."
       no_results_title_text: На данный момент проектов нет
       no_results_content_text: Создать новый проект
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Идентификатор изменений
       activities:
@@ -1673,7 +1680,6 @@ ru:
   label_age: "Возраст"
   label_ago: "дней назад"
   label_all: "все"
-  label_all_projects: "Все проекты"
   label_all_time: "все время"
   label_all_words: "Все слова"
   label_all_open_wps: "Все открытые"
@@ -1690,7 +1696,6 @@ ru:
   label_ical_access_key_revoke: "Отозвать"
   label_applied_status: "Прикладной статус"
   label_archive_project: "Архивировать проект"
-  label_archived_projects: "Архивные проекты"
   label_ascending: "По возрастанию"
   label_assigned_to_me_work_packages: "Переданные мне пакеты работ"
   label_associated_revisions: "Связанные изменения"
@@ -1959,7 +1964,6 @@ ru:
   label_my_account: "Моя учетная запись"
   label_my_activity: "Моя активность"
   label_my_account_data: "Данные моей учетной записи"
-  label_my_projects: "Мои проекты"
   label_my_queries: "Мои пользовательские запросы"
   label_name: "Имя"
   label_never: "Никогда"

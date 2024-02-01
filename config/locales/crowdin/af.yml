@@ -254,6 +254,13 @@ af:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -1620,7 +1627,6 @@ af:
   label_age: "Ouderdom"
   label_ago: "dae gelede"
   label_all: "alle"
-  label_all_projects: "All projects"
   label_all_time: "alle tye"
   label_all_words: "Alle woorde"
   label_all_open_wps: "All open"
@@ -1637,7 +1643,6 @@ af:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Toegepaste status"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "Stygende"
   label_assigned_to_me_work_packages: "Werkspakkette aan my toegeken"
   label_associated_revisions: "Gepaardgaande hersienings"
@@ -1906,7 +1911,6 @@ af:
   label_my_account: "My rekening"
   label_my_activity: "My activity"
   label_my_account_data: "My rekeningdata"
-  label_my_projects: "My projekte"
   label_my_queries: "My pasgemaakte navrae"
   label_name: "Naam"
   label_never: "Never"

@@ -251,6 +251,13 @@ ca:
       open_as_gantt_title_admin: "Pots modificar les configuracions de vista (com els estils de paquets de treball seleccionats) en l'administració dins de la configuració del projecte."
       no_results_title_text: Actualment no hi ha projectes
       no_results_content_text: Crear un nou projecte
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Canvia l'identificador
       activities:
@@ -1616,7 +1623,6 @@ ca:
   label_age: "Edat"
   label_ago: "dies abans"
   label_all: "tot"
-  label_all_projects: "Tots els projectes"
   label_all_time: "tot el temps"
   label_all_words: "Totes les paraules"
   label_all_open_wps: "Tots els oberts"
@@ -1633,7 +1639,6 @@ ca:
   label_ical_access_key_revoke: "Revoca"
   label_applied_status: "Estat aplicat"
   label_archive_project: "Arxiva el projecte"
-  label_archived_projects: "Archived projects"
   label_ascending: "Ascendent"
   label_assigned_to_me_work_packages: "Paquets de treball assignats a mi"
   label_associated_revisions: "Revisions associades"
@@ -1902,7 +1907,6 @@ ca:
   label_my_account: "El meu compte"
   label_my_activity: "La meva activitat"
   label_my_account_data: "Dades del meu compte"
-  label_my_projects: "Els meus projectes"
   label_my_queries: "Les meves consultes personalitzades"
   label_name: "Nom"
   label_never: "Mai"

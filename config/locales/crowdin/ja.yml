@@ -252,6 +252,13 @@ ja:
       open_as_gantt_title_admin: "プロジェクト設定で、表示設定 (選択したワークパッケージの種類など) を変更できます。"
       no_results_title_text: 現在、プロジェクトはありません
       no_results_content_text: プロジェクトを新規作成
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: 識別子の変更
       activities:
@@ -1589,7 +1596,6 @@ ja:
   label_age: "経過"
   label_ago: "○日前"
   label_all: "全て"
-  label_all_projects: "すべてのプロジェクト"
   label_all_time: "全期間"
   label_all_words: "全ての単語"
   label_all_open_wps: "全ての未完了"
@@ -1606,7 +1612,6 @@ ja:
   label_ical_access_key_revoke: "取り消し"
   label_applied_status: "適用されるステータス"
   label_archive_project: "プロジェクトをアーカイブ"
-  label_archived_projects: "Archived projects"
   label_ascending: "昇順"
   label_assigned_to_me_work_packages: "担当しているワークパッケージ"
   label_associated_revisions: "関連するリビジョン"
@@ -1875,7 +1880,6 @@ ja:
   label_my_account: "個人設定"
   label_my_activity: "My activity"
   label_my_account_data: "アカウントのデータ"
-  label_my_projects: "参加しているプロジェクト"
   label_my_queries: "個人のクエリ"
   label_name: "名称"
   label_never: "なし"

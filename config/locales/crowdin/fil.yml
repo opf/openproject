@@ -254,6 +254,13 @@ fil:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Sa kasalukuyan ay walang mga proyekto
       no_results_content_text: Gumawa ng bagong proyekto
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -1620,7 +1627,6 @@ fil:
   label_age: "Edad"
   label_ago: "ang mga araw nakalipas"
   label_all: "lahat"
-  label_all_projects: "All projects"
   label_all_time: "sa lahat ng oras"
   label_all_words: "Lahat ng mga salita"
   label_all_open_wps: "All open"
@@ -1637,7 +1643,6 @@ fil:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Estadong nilapat"
   label_archive_project: "I-archive ang proyekto"
-  label_archived_projects: "Archived projects"
   label_ascending: "Pataas"
   label_assigned_to_me_work_packages: "Ang work package ay nakatakaga sa akin"
   label_associated_revisions: "Nauugnay ng mga rebisyon"
@@ -1906,7 +1911,6 @@ fil:
   label_my_account: "Ang aking akwant"
   label_my_activity: "My activity"
   label_my_account_data: "Ang data ng aking akwant"
-  label_my_projects: "Ang mga aking proyekto"
   label_my_queries: "Ang mga aking custom query"
   label_name: "Pangalan"
   label_never: "Hindi kailanman"

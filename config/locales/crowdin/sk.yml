@@ -254,6 +254,13 @@ sk:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: V súčasnosti neexistujú žiadne projekty
       no_results_content_text: Vytvoriť nový projekt
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -1674,7 +1681,6 @@ sk:
   label_age: "Vek"
   label_ago: "dní späť"
   label_all: "Všetky"
-  label_all_projects: "All projects"
   label_all_time: "všetok čas"
   label_all_words: "Všetky slová"
   label_all_open_wps: "Všetky otvorené"
@@ -1691,7 +1697,6 @@ sk:
   label_ical_access_key_revoke: "Odvolať"
   label_applied_status: "Aplikovaný stav"
   label_archive_project: "Archivovať projekt"
-  label_archived_projects: "Archived projects"
   label_ascending: "Vzostupne"
   label_assigned_to_me_work_packages: "Mne priradené pracovné balíčky"
   label_associated_revisions: "Súvisiace revízie"
@@ -1960,7 +1965,6 @@ sk:
   label_my_account: "Môj účet"
   label_my_activity: "My activity"
   label_my_account_data: "Moje prihlasovacie parametre"
-  label_my_projects: "Moje projekty"
   label_my_queries: "Moje vlastné dopyty"
   label_name: "Názov"
   label_never: "Nikdy"

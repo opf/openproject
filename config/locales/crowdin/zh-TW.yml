@@ -254,6 +254,13 @@ zh-TW:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: 目前沒有專案
       no_results_content_text: 建立新專案
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -1593,7 +1600,6 @@ zh-TW:
   label_age: "年齡"
   label_ago: "天前"
   label_all: "所有"
-  label_all_projects: "所有專案"
   label_all_time: "所有的時間"
   label_all_words: "所以的詞"
   label_all_open_wps: "全部打開"
@@ -1610,7 +1616,6 @@ zh-TW:
   label_ical_access_key_revoke: "撤銷"
   label_applied_status: "套用的狀態"
   label_archive_project: "專案歸檔"
-  label_archived_projects: "Archived projects"
   label_ascending: "昇冪"
   label_assigned_to_me_work_packages: "分配給我的工作項目"
   label_associated_revisions: "關聯的修訂"
@@ -1879,7 +1884,6 @@ zh-TW:
   label_my_account: "我的帳號"
   label_my_activity: "My activity"
   label_my_account_data: "我的帳號資料"
-  label_my_projects: "我的專案"
   label_my_queries: "我的自訂查詢"
   label_name: "名稱"
   label_never: "永不"

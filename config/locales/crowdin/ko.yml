@@ -254,6 +254,13 @@ ko:
       open_as_gantt_title_admin: "프로젝트 설정의 관리에서 보기 설정(예: 선택한 작업 패키지 유형)을 수정할 수 있습니다."
       no_results_title_text: 프로젝트가 없습니다.
       no_results_content_text: 새 프로젝트 생성
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: 식별자 변경
       activities:
@@ -1592,7 +1599,6 @@ ko:
   label_age: "기간"
   label_ago: "일 전"
   label_all: "모두"
-  label_all_projects: "모든 프로젝트"
   label_all_time: "모든 시간"
   label_all_words: "모든 단어"
   label_all_open_wps: "모두 열림"
@@ -1609,7 +1615,6 @@ ko:
   label_ical_access_key_revoke: "취소"
   label_applied_status: "적용된 상태"
   label_archive_project: "프로젝트 아카이브하기"
-  label_archived_projects: "보관된 프로젝트"
   label_ascending: "오름차순"
   label_assigned_to_me_work_packages: "내게 할당된 작업 패키지"
   label_associated_revisions: "연결된 수정"
@@ -1878,7 +1883,6 @@ ko:
   label_my_account: "내 계정"
   label_my_activity: "내 활동"
   label_my_account_data: "내 계정 데이터"
-  label_my_projects: "내 프로젝트"
   label_my_queries: "내 사용자 지정 쿼리"
   label_name: "이름"
   label_never: "사용 안 함"
