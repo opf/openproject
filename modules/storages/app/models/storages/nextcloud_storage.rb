@@ -45,22 +45,6 @@ module Storages
       Peripherals::OAuthConfigurations::NextcloudConfiguration.new(self)
     end
 
-    def automatically_managed?
-      ActiveSupport::Deprecation.warn(
-        '`#automatically_managed?` is deprecated. Use `#automatic_management_enabled?` instead. ' \
-        'NOTE: The new method name better reflects the actual behavior of the storage. ' \
-        "It's not the storage that is automatically managed, rather the Project (Storage) Folder is. " \
-        "A storage only has this feature enabled or disabled."
-      )
-      super
-    end
-
-    def automatic_management_enabled=(value)
-      self.automatically_managed = value
-    end
-
-    alias automatic_management_enabled automatically_managed
-
     def automatic_management_new_record?
       if provider_fields_changed?
         previous_configuration = provider_fields_change.first

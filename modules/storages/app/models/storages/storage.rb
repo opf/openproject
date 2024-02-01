@@ -135,9 +135,29 @@ module Storages
       end
     end
 
+    def automatically_managed?
+      ActiveSupport::Deprecation.warn(
+        '`#automatically_managed?` is deprecated. Use `#automatic_management_enabled?` instead. ' \
+        'NOTE: The new method name better reflects the actual behavior of the storage. ' \
+        "It's not the storage that is automatically managed, rather the Project (Storage) Folder is. " \
+        "A storage only has this feature enabled or disabled."
+      )
+      super
+    end
+
     def automatic_management_enabled?
       !!automatically_managed
     end
+
+    def automatic_management_unspecified?
+      automatically_managed.nil?
+    end
+
+    def automatic_management_enabled=(value)
+      self.automatically_managed = value
+    end
+
+    alias automatic_management_enabled automatically_managed
 
     def configured?
       configuration_checks.values.all?
