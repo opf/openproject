@@ -82,7 +82,7 @@ module ::Gantt
       def timeline_query(project)
         default_with_filter = add_columns(project)
 
-        type_filter_values = milestone_ids(project).concat(phase_ids(project))
+        type_filter_values = milestone_ids(project).concat(phase_ids(project)).uniq
         return if type_filter_values.empty?
 
         default_with_filter['f'] = [{ 'n' => 'type', 'o' => '=', 'v' => type_filter_values }]
