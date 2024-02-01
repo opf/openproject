@@ -29,8 +29,7 @@
 require 'spec_helper'
 
 RSpec.describe "PATCH /api/v3/queries/:id",
-               with_ee: %i[baseline_comparison],
-               with_flag: { show_separate_gantt_module: true } do
+               with_ee: %i[baseline_comparison] do
   shared_let(:user) { create(:admin) }
   shared_let(:status) { create(:status) }
   shared_let(:project) { create(:project) }

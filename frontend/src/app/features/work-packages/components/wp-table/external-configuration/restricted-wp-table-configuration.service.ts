@@ -5,7 +5,6 @@ import { WpTableConfigurationService } from 'core-app/features/work-packages/com
 import { QueryConfigurationLocals } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.component';
 import { OpQueryConfigurationLocalsToken } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-query-configuration.constants';
 import { StateService } from '@uirouter/angular';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Injectable()
 export class RestrictedWpTableConfigurationService extends WpTableConfigurationService {
@@ -13,9 +12,8 @@ export class RestrictedWpTableConfigurationService extends WpTableConfigurationS
     @Inject(OpQueryConfigurationLocalsToken) readonly locals:QueryConfigurationLocals,
     readonly I18n:I18nService,
     readonly $state:StateService,
-    readonly configurationService:ConfigurationService,
   ) {
-    super(I18n, $state, configurationService);
+    super(I18n, $state);
   }
 
   public get tabs():TabInterface[] {

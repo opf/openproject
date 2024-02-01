@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
-RSpec.describe 'Manual sorting of WP table', :js, with_flag: { show_separate_gantt_module: true } do
+RSpec.describe 'Manual sorting of WP table', :js do
   let(:user) { create(:admin) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 

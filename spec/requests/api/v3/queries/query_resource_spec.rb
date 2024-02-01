@@ -30,8 +30,7 @@ require 'spec_helper'
 require 'rack/test'
 
 RSpec.describe 'API v3 Query resource',
-               content_type: :json,
-               with_flag: { show_separate_gantt_module: true } do
+               content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 

@@ -35,7 +35,6 @@ import { StateService } from '@uirouter/core';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { IOpSidemenuItem } from 'core-app/shared/components/sidemenu/sidemenu.component';
 import { ViewType } from 'core-app/shared/components/op-view-select/op-view-select.component';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 
 interface IStaticQuery extends IOpSidemenuItem {
@@ -52,7 +51,6 @@ export class StaticQueriesService {
     private readonly CurrentProject:CurrentProjectService,
     private readonly PathHelper:PathHelperService,
     private readonly CurrentUser:CurrentUserService,
-    private readonly configurationService:ConfigurationService,
     private readonly bannersService:BannersService,
   ) {
     this.staticQueries = this.buildQueries();
@@ -170,15 +168,6 @@ export class StaticQueriesService {
           query_props: '{"c":["id","subject","bcfThumbnail","type","status","assignee","createdAt"],"t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
         },
         view: 'Bim',
-      },
-      {
-        title: this.text.gantt,
-        uiSref: 'gantt',
-        uiParams: {
-          query_id: '',
-          query_props: '{"c":["id","type","subject","status","startDate","dueDate","duration"],"tv":true,"tzl":"auto","tll":"{\\"left\\":\\"startDate\\",\\"right\\":\\"dueDate\\",\\"farRight\\":\\"subject\\"}","hi":true,"g":"","t":"startDate:asc","f":[{"n":"status","o":"o","v":[]}]}',
-        },
-        view: this.configurationService.activeFeatureFlags.includes('showSeparateGanttModule') ? 'Gantt' : 'WorkPackagesTable',
       },
     ];
 
