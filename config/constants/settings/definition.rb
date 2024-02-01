@@ -298,7 +298,7 @@ module Settings
         allowed: -> { Redmine::I18n.all_languages }
       },
       default_projects_modules: {
-        default: %w[calendar board_view work_package_tracking news costs wiki],
+        default: %w[calendar board_view work_package_tracking gantt news costs wiki],
         allowed: -> { OpenProject::AccessControl.available_project_modules.map(&:to_s) }
       },
       default_projects_public: {
