@@ -1,4 +1,4 @@
-OpenProject::Application.routes.draw do
+Rails.application.routes.draw do
   namespace 'ldap_groups' do
     resources :synchronized_filters,
               param: :ldap_filter_id,

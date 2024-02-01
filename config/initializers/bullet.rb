@@ -27,7 +27,7 @@
 #++
 
 if defined?(Bullet) && Rails.env.development?
-  OpenProject::Application.configure do
+  Rails.application.configure do
     config.after_initialize do
       Bullet.enable = true
       # Bullet.alert = true

@@ -34,18 +34,19 @@ module Pages
   module BudgetForm
     ##
     # Adds planned unit costs with the default cost type.
-    def add_unit_costs!(num_units, comment: nil)
-      edit_unit_costs! unit_rows, units: num_units, comment:, type: 'new'
+    def add_unit_costs!(num_units, comment: nil, expected_costs: nil)
+      edit_unit_costs! unit_rows, units: num_units, comment:, expected_costs:, type: 'new'
       add_unit_costs_row!
     end
 
     ##
     # Adds planned labor costs with the default cost type.
-    def add_labor_costs!(num_hours, user_name:, comment: nil)
+    def add_labor_costs!(num_hours, user_name:, comment: nil, expected_costs: nil)
       edit_labor_costs!(labor_rows,
                         hours: num_hours,
                         user_name:,
                         comment:,
+                        expected_costs:,
                         type: 'new')
       add_labor_costs_row!
     end
@@ -54,11 +55,13 @@ module Pages
     # Adds planned unit costs with the default cost type.
     #
     # @param type [String] Either 'existing' (default) or 'new'
-    def edit_unit_costs!(id, units: nil, comment: nil, type: :existing)
+    def edit_unit_costs!(id, units: nil, comment: nil, expected_costs: nil, type: :existing)
       prefix = "#{unit_cost_attr_id(type)}_#{id}"
+      options = { fill_options: { clear: :backspace } }
 
-      fill_in "#{prefix}_units", with: units if units.present?
-      fill_in "#{prefix}_comments", with: comment if comment.present?
+      fill_in("#{prefix}_units", with: units, **options) if units.present?
+      fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
+      expect(page).to have_css("##{prefix}_costs", text: expected_costs) if expected_costs.present?
     end
 
     def open_edit_planned_costs!(id, type:)
@@ -91,12 +94,15 @@ module Pages
     # Adds planned labor costs with the default cost type.
     #
     # @param type [String] Either 'existing' (default) or 'new'
-    def edit_labor_costs!(id, hours: nil, user_name: nil, comment: nil, type: 'existing')
+    def edit_labor_costs!(id, hours: nil, user_name: nil, comment: nil, expected_costs: nil, type: 'existing')
       prefix = "#{labor_cost_attr_id(type)}_#{id}"
+      options = { fill_options: { clear: :backspace } }
 
-      fill_in "#{prefix}_hours", with: hours if hours.present?
+      fill_in("#{prefix}_hours", with: hours, **options) if hours.present?
       select user_name, from: "#{prefix}_user_id" if user_name.present?
-      fill_in "#{prefix}_comments", with: comment if comment.present?
+      fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
+
+      expect(page).to have_css("##{prefix}_costs", text: expected_costs) if expected_costs.present?
     end
 
     def add_unit_costs_row!
@@ -114,7 +120,7 @@ module Pages
     def expect_planned_costs!(type:, row:, expected:)
       raise "Unknown type: #{type}, allowed: labor, material" unless %i[labor material].include? type.to_sym
 
-      retry_block do
+      retry_block(args: { tries: 3, base_interval: 5 }) do
         container = page.all("##{type}_budget_items_fieldset td.currency.budget-table--fields")[row - 1]
         actual = container.text
         raise "Expected planned costs #{expected}, got #{actual}" unless expected == actual

@@ -35,7 +35,7 @@ class CostQuery < ApplicationRecord
   belongs_to :project
 
   before_save :serialize
-  serialize :serialized, Hash
+  serialize :serialized, type: Hash
 
   def_delegators :result, :real_costs
 

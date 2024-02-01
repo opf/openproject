@@ -1,4 +1,4 @@
-OpenProject::Application.routes.draw do
+Rails.application.routes.draw do
   scope 'projects/:project_id', as: 'project' do
     resources :gantt, controller: 'gantt/gantt', only: [:index] do
       collection do

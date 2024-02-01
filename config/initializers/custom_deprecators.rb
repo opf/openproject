@@ -26,21 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Costs::Patches::ProjectsControllerPatch
-  def self.included(base) # :nodoc:
-    base.send(:include, InstanceMethods)
+require_relative '../../lib/open_project/deprecation'
 
-    base.class_eval do
-      before_action :own_total_hours, only: [:show]
-    end
-  end
-
-  module InstanceMethods
-    def own_total_hours
-      if User.current.allowed_in_any_work_package?(:view_own_time_entries, in_project: @project)
-        cond = @project.project_condition(Setting.display_subprojects_work_packages?)
-        @total_hours = TimeEntry.not_ongoing.visible.includes(:project).where(cond).sum(:hours).to_f
-      end
-    end
-  end
+Rails.application.configure do
+  # Register our custom deprecator to automatically take logging options
+  # from the rails deprecators.
+  deprecators[:open_project] = OpenProject::Deprecation.deprecator
 end

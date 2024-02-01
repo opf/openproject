@@ -28,7 +28,7 @@
 
 class CustomAction < ApplicationRecord
   validates :name, length: { maximum: 255, minimum: 1 }
-  serialize :actions, CustomActions::Actions::Serializer
+  serialize :actions, coder: CustomActions::Actions::Serializer
   has_and_belongs_to_many :status_conditions, class_name: 'Status'
   has_and_belongs_to_many :role_conditions, class_name: 'Role'
   has_and_belongs_to_many :type_conditions, class_name: 'Type'

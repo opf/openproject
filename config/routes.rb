@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
+Rails.application.routes.draw do
   root to: 'homescreen#index', as: 'home'
   rails_relative_url_root = OpenProject::Configuration['rails_relative_url_root'] || ''
 
@@ -354,7 +354,7 @@ OpenProject::Application.routes.draw do
 
   scope 'admin' do
     resource :announcements, only: %i[edit update]
-    constraints(Enterprise) do
+    constraints(Constraints::Enterprise) do
       resource :enterprise, only: %i[show create destroy]
       scope controller: 'enterprises' do
         post 'enterprise/save_trial_key' => 'enterprises#save_trial_key'
