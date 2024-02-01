@@ -354,7 +354,7 @@ Rails.application.routes.draw do
 
   scope 'admin' do
     resource :announcements, only: %i[edit update]
-    constraints(Enterprise) do
+    constraints(Constraints::Enterprise) do
       resource :enterprise, only: %i[show create destroy]
       scope controller: 'enterprises' do
         post 'enterprise/save_trial_key' => 'enterprises#save_trial_key'

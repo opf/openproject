@@ -113,10 +113,6 @@ module OpenProject
     # http://stackoverflow.com/questions/4590229
     config.middleware.use Rack::TempfileReaper
 
-    # Custom directories with classes and modules you want to be autoloadable.
-    config.paths.add Rails.root.join('lib').to_s, eager_load: true
-    config.paths.add Rails.root.join('lib/constraints').to_s, eager_load: true
-
     # Add lookbook preview paths when enabled
     if OpenProject::Configuration.lookbook_enabled?
       config.paths.add Primer::ViewComponents::Engine.root.join('app/components').to_s, eager_load: true
