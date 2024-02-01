@@ -82,7 +82,7 @@ module WorkPackages
     end
 
     def user_allowed_to_change_parent
-      return if model.parent_id.nil?
+      return if model.parent_id.nil? || model.parent.nil?
       return unless model.parent_id_changed?
 
       unless model.parent.visible?
