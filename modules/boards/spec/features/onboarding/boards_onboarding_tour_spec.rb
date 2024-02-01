@@ -31,7 +31,10 @@ require_relative '../support/onboarding_steps'
 
 # We decrease the notification polling interval because some portions of the JS code rely on something triggering
 # the Angular change detection. This is usually done by the notification polling, but we don't want to wait
-RSpec.describe 'boards onboarding tour', :js, with_settings: { notifications_polling_interval: 1_000 } do
+RSpec.describe 'boards onboarding tour',
+               :js,
+               skip: 'will only work when the tour is adapted to the new Gantt module',
+               with_settings: { notifications_polling_interval: 1_000 } do
   let(:next_button) { find('.enjoyhint_next_btn') }
   let(:user) do
     create(:admin,

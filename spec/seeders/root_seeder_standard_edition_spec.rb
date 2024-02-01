@@ -33,8 +33,7 @@ require_relative 'root_seeder_shared_examples'
 
 RSpec.describe RootSeeder,
                'standard edition',
-               with_config: { edition: 'standard' },
-               with_flag: { show_separate_gantt_module: true } do
+               with_config: { edition: 'standard' } do
   include RootSeederTestHelpers
 
   shared_examples 'creates standard demo data' do

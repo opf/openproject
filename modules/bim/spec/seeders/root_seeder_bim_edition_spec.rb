@@ -33,8 +33,7 @@ RSpec::Matchers.define_negated_matcher :not_start_with, :start_with
 
 RSpec.describe RootSeeder,
                'BIM edition',
-               with_config: { edition: 'bim' },
-               with_flag: { show_separate_gantt_module: true } do
+               with_config: { edition: 'bim' } do
   include RootSeederTestHelpers
 
   shared_examples 'creates BIM demo data' do
