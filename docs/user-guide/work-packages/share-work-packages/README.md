@@ -64,6 +64,10 @@ You can always adjust the viewing rights of a user by selecting an option from t
 
 > **Note:** granting the **edit** rights to the user will allow you to set this user a work package **Assignee** or **Accountable**. 
 
+Once a work package has been shared, you will see the number shared users in the **Share** button.
+
+![Number of shared users shown in the toolbar Share button in an OpenProject work package](openproject_user_guide_share_button_wp_numbers.png)
+
 ## Remove sharing privileges
 
 You can also remove the user from the list by clicking on **Remove** next to the user name. Please note that this will not remove a user entirely, but only revoke the viewing and/or editing rights for the work package. User account will remain intact. If you need to [delete a user](../../../system-admin-guide/users-permissions/users/#delete-users), please do that in system administration or contact your administrator.
@@ -72,11 +76,13 @@ You can also remove the user from the list by clicking on **Remove** next to the
 
 For an overview of all work packages that have been shared with other users or groups, navigate to the [global modules](../../home/global-modules/), select the module **Work Packages** and choose the filter **Shared with users** from the list of default work package filters on the left side. 
 
+The default view will include the **Shared with** column, which lists all users and/or groups that a particular work package was shared with. If there are more than two users and/or groups, two of them will be listed and the overall number will be indicated in the badge. Clicking on that number will show the details.
+
 If you want to see all shared work packages within a specific project, navigate to that project first and then select the same filter. You can also [adjust this filter](../work-package-table-configuration/#filter-work-packages) and save it under your private work package filters.
 
 You (with the correct permissions) can always change or remove sharing options. 
 
-![Filter for work packages shared with other users in OpenProject](openproject_user_guide_shared_with_users_filter.png)
+![Filter for work packages shared with other users in OpenProject](openproject_user_guide_shared_with_users_filter_new.png)
 
 ## Configuration
 
