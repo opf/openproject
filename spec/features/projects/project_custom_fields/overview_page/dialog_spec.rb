@@ -751,7 +751,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
 
                 overview_page.open_edit_dialog_for_section(section)
 
-                dialog.submit(wait_until_done: true)
+                dialog.submit
 
                 field.expect_error(I18n.t('activerecord.errors.messages.blank'))
               end
@@ -873,7 +873,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
 
             describe 'with text CF' do
               let(:custom_field) { text_project_custom_field }
-              let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+              let(:field) { FormFields::Primerized::EditorFormField.new(custom_field) }
 
               it_behaves_like 'a custom field input'
 
@@ -882,7 +882,9 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
 
                 overview_page.open_edit_dialog_for_section(section)
 
-                field.fill_in(with: 'Foo')
+                field.set_value('Foooo')
+
+                page.save_screenshot('screenshot.png')
 
                 dialog.submit
 
@@ -894,7 +896,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
 
                 overview_page.open_edit_dialog_for_section(section)
 
-                field.fill_in(with: 'Fo')
+                field.set_value('Fo')
 
                 dialog.submit
 

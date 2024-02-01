@@ -13,8 +13,9 @@ module FormFields
         @editor = ::Components::WysiwygEditor.new(selector)
       end
 
-      def expect_visible
-        !!editor.container
+      def field_container
+        augmented_textarea = page.find("[data-textarea-selector='\"#project_custom_field_values_#{property.id}\"']")
+        augmented_textarea.first(:xpath, ".//..")
       end
 
       ##
@@ -26,6 +27,18 @@ module FormFields
 
       def input_element
         editor.editor_element
+      end
+
+      # expectations
+
+      def expect_visible
+        !!editor.container
+      end
+
+      def expect_error(string = nil)
+        sleep 2 # quick fix for stale element error
+        expect(field_container).to have_css('.FormControl-inlineValidation')
+        expect(field_container).to have_content(string) if string
       end
     end
   end
