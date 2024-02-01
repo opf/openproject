@@ -62,7 +62,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
     request
     JSON.parse last_response.body
   end
-  let(:subjects) { work_packages.pluck("subject") }
+  let(:subjects) { work_packages.pluck("id") }
 
   def work_packages
     result["_embedded"]["elements"]
@@ -82,7 +82,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
           with_settings: { cross_project_work_package_relations: false } do
     describe "relation candidates for wp1 (in hierarchy)" do
       it "returns an empty list" do
-        expect(subjects).to contain_exactly("WP 1.2.1")
+        expect(subjects).to contain_exactly(wp1_2_1.id)
       end
     end
 
@@ -90,7 +90,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
       let(:href) { "/api/v3/work_packages/#{wp2.id}/available_relation_candidates?query=WP" }
 
       it "returns WP 2.1 and 2.2" do
-        expect(subjects).to contain_exactly("WP 2.1", "WP 2.2")
+        expect(subjects).to contain_exactly(wp2_1.id, wp2_2.id)
       end
     end
 
@@ -98,7 +98,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
       let(:href) { "/api/v3/work_packages/#{wp2.id}/available_relation_candidates?query=wp" }
 
       it "returns WP 2.1 and 2.2" do
-        expect(subjects).to contain_exactly("WP 2.1", "WP 2.2")
+        expect(subjects).to contain_exactly(wp2_1.id, wp2_2.id)
       end
     end
 
@@ -106,7 +106,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
       let(:href) { "/api/v3/work_packages/#{wp2_2.id}/available_relation_candidates?query=WP" }
 
       it "returns just WP 2, not WP 2.1" do
-        expect(subjects).to contain_exactly("WP 2")
+        expect(subjects).to contain_exactly(wp2.id)
       end
     end
   end
@@ -117,7 +117,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
       let(:href) { "/api/v3/work_packages/#{wp1.id}/available_relation_candidates?query=WP" }
 
       it "returns WP 2 and all WP 2.x as well at the grandchild WP 1.2.1" do
-        expect(subjects).to contain_exactly("WP 2", "WP 2.1", "WP 2.2", "WP 1.2.1")
+        expect(subjects).to contain_exactly(wp2.id, wp2_1.id, wp2_2.id, wp1_2_1.id)
       end
     end
 
@@ -130,7 +130,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
       end
 
       it "returns WP 2 and all WP 2.x sorted by updated_at DESC" do
-        expect(subjects).to match ["WP 2.1", "WP 1.2.1", "WP 2", "WP 2.2"]
+        expect(subjects).to match [wp2_1.id, wp1_2_1.id, wp2.id, wp2_2.id]
       end
     end
 
@@ -138,7 +138,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
       let(:href) { "/api/v3/work_packages/#{wp2.id}/available_relation_candidates?query=WP&type=follows" }
 
       it "returns WP 2.1 and 2.2, WP 1 and all WP 1.x" do
-        expect(subjects).to contain_exactly("WP 1", "WP 1.1", "WP 1.2", "WP 1.2.1", "WP 2.1", "WP 2.2")
+        expect(subjects).to contain_exactly(wp1.id, wp1_1.id, wp1_2.id, wp1_2_1.id, wp2_1.id, wp2_2.id)
       end
 
       describe 'with an already existing relationship from the work package' do
@@ -151,7 +151,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
         end
         context 'for a follows relationship' do
           it 'does not contain the work packages already related in the opposite direction nor the parent' do
-            expect(subjects).to contain_exactly("WP 1.2", "WP 1.2.1", "WP 2.1")
+            expect(subjects).to contain_exactly(wp1_2.id, wp1_2_1.id, wp2_1.id)
           end
         end
 
@@ -159,7 +159,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
           let(:href) { "/api/v3/work_packages/#{wp2.id}/available_relation_candidates?query=WP&type=precedes" }
 
           it 'does not contain the work packages already related but the parent' do
-            expect(subjects).to contain_exactly("WP 1", "WP 1.2", "WP 1.2.1", "WP 2.1")
+            expect(subjects).to contain_exactly(wp1.id, wp1_2.id, wp1_2_1.id, wp2_1.id)
           end
         end
 
@@ -167,7 +167,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
           let(:href) { "/api/v3/work_packages/#{wp2.id}/available_relation_candidates?query=WP&type=parent" }
 
           it 'does not contain the work packages already related but the parent' do
-            expect(subjects).to contain_exactly("WP 1", "WP 1.2", "WP 1.2.1", "WP 2.1")
+            expect(subjects).to contain_exactly(wp1.id, wp1_2.id, wp1_2_1.id, wp2_1.id)
           end
         end
 
@@ -175,7 +175,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
           let(:href) { "/api/v3/work_packages/#{wp2.id}/available_relation_candidates?query=WP&type=child" }
 
           it 'does not contain the work packages already related nor the parent' do
-            expect(subjects).to contain_exactly("WP 1.2", "WP 1.2.1", "WP 2.1")
+            expect(subjects).to contain_exactly(wp1_2.id, wp1_2_1.id, wp2_1.id)
           end
         end
 
@@ -183,7 +183,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
           let(:href) { "/api/v3/work_packages/#{wp2.id}/available_relation_candidates?query=WP&type=relates" }
 
           it 'does not contain the work packages already related but the parent' do
-            expect(subjects).to contain_exactly("WP 1", "WP 1.2", "WP 1.2.1", "WP 2.1")
+            expect(subjects).to contain_exactly(wp1.id, wp1_2.id, wp1_2_1.id, wp2_1.id)
           end
         end
       end
@@ -197,10 +197,17 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
       end
 
       it 'does not return work packages from that project' do
-        # TODO: Remove and fix before merge
-        pending "Temporary disable"
-        expect(subjects).to contain_exactly("WP 2.1", "WP 2.2")
+        expect(subjects).to contain_exactly(wp2_1.id, wp2_2.id)
       end
+    end
+  end
+
+  context 'when the user is not an admin and has access to just one project' do
+    let(:user) { create(:user, member_with_permissions: { project2 => %i[view_work_packages edit_work_packages] }) }
+    let(:href) { "/api/v3/work_packages/#{wp2.id}/available_relation_candidates?query=WP" }
+
+    it 'only includes work packages from the first project' do
+      expect(subjects).to contain_exactly(wp2_1.id, wp2_2.id)
     end
   end
 end
