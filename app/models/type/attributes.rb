@@ -36,6 +36,7 @@ module Type::Attributes
                 derived_due_date
                 derived_estimated_time
                 derived_remaining_time
+                derived_percentage_done
                 ignore_non_working_days
                 duration
                 description
