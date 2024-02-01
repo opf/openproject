@@ -43,6 +43,8 @@ module WorkPackages
 
     validate :can_move_to_milestone
 
+    validate :user_allowed_to_change_parent
+
     default_attribute_permission :edit_work_packages
     attribute_permission :project_id, :move_work_packages
 
@@ -76,6 +78,15 @@ module WorkPackages
 
       if model.children.any?
         errors.add :type, :cannot_be_milestone_due_to_children
+      end
+    end
+
+    def user_allowed_to_change_parent
+      return if model.parent_id.nil?
+      return unless model.parent_id_changed?
+
+      unless model.parent.visible?
+        errors.add :parent_id, :error_unauthorized
       end
     end
   end
