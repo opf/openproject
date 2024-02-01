@@ -81,7 +81,7 @@ RSpec.describe API::V3::WorkPackages::AvailableRelationCandidatesAPI do
   context "without cross project relations",
           with_settings: { cross_project_work_package_relations: false } do
     describe "relation candidates for wp1 (in hierarchy)" do
-      it "returns an empty list" do
+      it "returns WP 1.2.1" do
         expect(subjects).to contain_exactly(wp1_2_1.id)
       end
     end
