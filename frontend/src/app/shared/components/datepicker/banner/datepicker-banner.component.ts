@@ -110,7 +110,7 @@ export class OpDatePickerBannerComponent {
         };
 
         const href = this.state.href(
-          'work-packages.partitioned.list',
+          'gantt.partitioned.list',
           {
             query_id: null,
             projects: null,
