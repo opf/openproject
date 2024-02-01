@@ -596,6 +596,7 @@ eo:
         color: "Koloro"
       user:
         admin: "Administranto"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "Nuna pasvorto"

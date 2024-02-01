@@ -597,6 +597,7 @@ vi:
         color: "Màu sắc"
       user:
         admin: "Người Quản lý"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "Mật khẩu hiện tại"

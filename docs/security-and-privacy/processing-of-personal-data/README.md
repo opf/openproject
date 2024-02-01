@@ -630,7 +630,7 @@ flowchart LR
 
 * All data the user has permissions to.
 
-> **Note**: Please see the [API documentation](https://www.openproject.org/docs/api) for further information about all API endpoints.
+> **Note**: Please see the [API documentation](../../api/) for further information about all API endpoints.
 
 #### Security measure
 

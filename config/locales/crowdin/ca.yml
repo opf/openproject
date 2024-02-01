@@ -592,6 +592,7 @@ ca:
         color: "Color"
       user:
         admin: "Administrador"
+        auth_source: "Authentication source"
         ldap_auth_source: "Connexió LDAP"
         identity_url: "Identity URL"
         current_password: "Contrassenya actual"

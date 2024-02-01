@@ -595,6 +595,7 @@ sl:
         color: "Barva"
       user:
         admin: "Aministrator"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP povezava"
         identity_url: "Identity URL"
         current_password: "Trenutno geslo"

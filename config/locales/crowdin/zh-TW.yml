@@ -595,6 +595,7 @@ zh-TW:
         color: "顏色"
       user:
         admin: "管理員"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP 連線"
         identity_url: "Identity URL"
         current_password: "目前的密碼"

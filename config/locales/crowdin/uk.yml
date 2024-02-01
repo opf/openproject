@@ -593,6 +593,7 @@ uk:
         color: "Колір"
       user:
         admin: "Адміністратор"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP-підключення"
         identity_url: "URL-адреса сутності"
         current_password: "Поточний пароль"

@@ -593,6 +593,7 @@ es:
         color: "Color"
       user:
         admin: "Administrador"
+        auth_source: "Authentication source"
         ldap_auth_source: "Conexión LDAP"
         identity_url: "URL de identidad"
         current_password: "Contraseña actual"

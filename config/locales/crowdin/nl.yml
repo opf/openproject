@@ -593,6 +593,7 @@ nl:
         color: "Kleur"
       user:
         admin: "Beheerder"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP verbinding"
         identity_url: "Identiteit URL"
         current_password: "Huidig wachtwoord"

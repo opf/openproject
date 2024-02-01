@@ -597,6 +597,7 @@ ru:
         color: "Цвет"
       user:
         admin: "Администратор"
+        auth_source: "Authentication source"
         ldap_auth_source: "Подключение к LDAP"
         identity_url: "URL идентификации"
         current_password: "Текущий пароль"

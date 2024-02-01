@@ -588,6 +588,7 @@ id:
         color: "Warna"
       user:
         admin: "Administrator"
+        auth_source: "Authentication source"
         ldap_auth_source: "koneksi LDAP"
         identity_url: "Identity URL"
         current_password: "Current password"

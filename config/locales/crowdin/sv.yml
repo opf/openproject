@@ -595,6 +595,7 @@ sv:
         color: "Färg"
       user:
         admin: "Administratör"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP-anslutning"
         identity_url: "Identity URL"
         current_password: "Nuvarande lösenord"

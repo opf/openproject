@@ -142,7 +142,7 @@ module OpenProject
               label: 'homescreen.links.shortcuts'
             },
             forums: {
-              href: 'https://community.openproject.com/projects/openproject/forums',
+              href: 'https://community.openproject.org/projects/openproject/forums',
               label: 'homescreen.links.forums'
             },
             enterprise_support_as_community: {
