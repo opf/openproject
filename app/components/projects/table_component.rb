@@ -106,7 +106,7 @@ module Projects
     def headers
       all_columns
         .select do |name, options|
-        options[:builtin] || Setting.enabled_projects_columns.include?(name.to_s)
+        query.columns.include?(name.to_s)
       end
     end
 

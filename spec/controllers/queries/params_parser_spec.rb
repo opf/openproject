@@ -256,5 +256,18 @@ RSpec.describe Queries::ParamsParser, type: :model do
           .to eql [{ attribute: 'invalid', direction: 'asc' }]
       end
     end
+
+    context 'with multiple columns' do
+      let(:params) do
+        {
+          columns: "name cf_1 project_status"
+        }
+      end
+
+      it 'returns an invalid sort order' do
+        expect(subject[:columns])
+          .to eql %w[name cf_1 project_status]
+      end
+    end
   end
 end

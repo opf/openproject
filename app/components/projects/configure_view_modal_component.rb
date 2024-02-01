@@ -30,4 +30,17 @@
 
 class Projects::ConfigureViewModalComponent < ApplicationComponent
   MODAL_ID = 'op-project-list-configure-dialog'
+  COLUMN_HTML_NAME = 'columns'
+
+  def all_columns
+    @all_columns ||= Projects::TableComponent
+                       .new(current_user: User.current)
+                       .all_columns
+                       .filter { |c| !c.last[:builtin] }
+                       .map { |c| { id: c.first, name: c.last[:caption] } }
+  end
+
+  def selected_columns
+    @selected_columns ||= [{ id: 'name', name: 'Name' }]
+  end
 end

@@ -222,6 +222,26 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
     end
   end
 
+  context 'with the query already having columns and with column params' do
+    let(:model_instance) do
+      Queries::Projects::ProjectQuery.new.tap do |query|
+        query.columns = %w[id name]
+      end
+    end
+
+    let(:params) do
+      {
+        columns: %w[project_status created_at]
+      }
+    end
+
+    it 'assigns the columns param' do
+      subject
+      expect(model_instance.columns)
+        .to eql %w[project_status created_at]
+    end
+  end
+
   context 'with an invalid contract' do
     let(:contract_valid) { false }
 

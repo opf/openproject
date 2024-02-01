@@ -40,6 +40,8 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   /** Should we focus the autocompleter ? */
   @Input() autofocus = true;
 
+  @Input() name = '';
+
   /** Order list of selected items */
   @Input('selected') _selected:DraggableOption[] = [];
 
@@ -142,6 +144,10 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
     this.updateAvailableOptions();
 
     this.onChange.emit(this.selected);
+  }
+
+  get hidden_value() {
+    return this.selected.map((item) => item.id).join(' ');
   }
 
   opened() {

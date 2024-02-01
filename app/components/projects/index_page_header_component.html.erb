@@ -49,9 +49,8 @@
           item.with_leading_visual_icon(icon: 'sign-out')
         end
 
-        # TODO: I18n
         menu.with_item(
-          label: 'Configure view',
+          label: t(:'queries.configure_view'),
           content_arguments: { 'data-show-dialog-id': Projects::ConfigureViewModalComponent::MODAL_ID }
         ) do |item|
           item.with_leading_visual_icon(icon: :gear)

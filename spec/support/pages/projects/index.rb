@@ -31,6 +31,8 @@ require 'support/pages/page'
 module Pages
   module Projects
     class Index < ::Pages::Page
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+
       def path
         "/projects"
       end
@@ -239,6 +241,32 @@ module Pages
         end
       end
 
+      def set_columns(*columns)
+        click_more_menu_item(I18n.t(:'queries.configure_view'))
+
+        # Assumption: there is always one item selected, the 'Name' column
+        # That column can currently not be removed.
+        # Serves as a safeguard
+        page.find('.op-draggable-autocomplete--item', text: 'Name')
+
+        protected_columns = Regexp.new("^(?!#{(columns + ['Name']).join('$|')}$).*$")
+
+        while (item = page.all('.op-draggable-autocomplete--item', text: protected_columns)[0])
+          puts item
+          item.click
+        end
+
+        remaining_columns = page.all('.op-draggable-autocomplete--item').map(&:text)
+
+        (columns - remaining_columns).each do |column|
+          select_autocomplete find('.op-draggable-autocomplete--input'),
+                              results_selector: '.ng-dropdown-panel-items',
+                              query: column
+        end
+
+        click_on 'Apply'
+      end
+
       def click_more_menu_item(item)
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
 
@@ -300,18 +328,18 @@ module Pages
         within '#project-table', &
       end
 
-      private
-
-      def boolean_filter?(filter)
-        %w[active member_of public templated].include?(filter.to_s)
-      end
-
       def within_row(project)
         row = page.find('#project-table tr', text: project.name)
 
         within row do
           yield row
         end
+      end
+
+      private
+
+      def boolean_filter?(filter)
+        %w[active member_of public templated].include?(filter.to_s)
       end
     end
   end

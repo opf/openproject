@@ -1,10 +1,10 @@
-<%# TODO: I18n %>
-<%= render(Primer::Alpha::Dialog.new(title: 'Configure view',
+<%= render(Primer::Alpha::Dialog.new(title: t(:'queries.configure_view'),
                                      id: MODAL_ID)) do |d| %>
   <% d.with_header(variant: :large) %>
 
   <%= primer_form_with(
     url: projects_path,
+    method: :get,
     data: {
       controller: "params-from-query",
       'application-target': "dynamic",
@@ -13,14 +13,14 @@
     <%= render(Primer::Alpha::Dialog::Body.new) do %>
       <%= helpers.angular_component_tag 'opce-draggable-autocompleter',
                                         inputs: {
-                                          options: [{ id: 'id', name: 'id' }, { id: 'name', name: 'name' }],
-                                          autofocus: false,
-                                          selected: [{ id: 'id', name: 'id' }]
+                                          options: all_columns,
+                                          selected: selected_columns,
+                                          name: COLUMN_HTML_NAME
                                         }%>
     <% end %>
     <%= render(Primer::Alpha::Dialog::Footer.new(show_divider: true)) do %>
       <%= render(Primer::ButtonComponent.new(data: { "close-dialog-id": MODAL_ID })) { I18n.t(:button_cancel) } %>
-      <%= render(Primer::ButtonComponent.new(scheme: :primary)) { I18n.t(:button_apply) } %>
+      <%= render(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) { I18n.t(:button_apply) } %>
     <% end %>
   <% end %>
 <% end %>
