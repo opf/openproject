@@ -251,6 +251,13 @@ lt:
       open_as_gantt_title_admin: "Galite pakeisti vaizdo parametrus (tokius kaip pasirinkti darbo užduočių tipai) administravimo dalyje prie projekto nustatymų."
       no_results_title_text: Nėra jokių projektų
       no_results_content_text: Sukurti naują projektą
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Pokyčio identifikatorius
       activities:
@@ -282,14 +289,14 @@ lt:
     columns:
       shared: "Bendrinta"
     filters:
-      all_shares: 'Visi bendrinimai'
+      all_shares: "Visi bendrinimai"
     menu:
-      all: 'Visi'
-      invited: 'Pakviesti'
-      locked: 'Užrakinti'
-      project_roles: 'Projekto vaidmenys'
-      wp_shares: 'Darbo paketų bendrinimai'
-      groups: 'Grupės'
+      all: "Visi"
+      invited: "Pakviesti"
+      locked: "Užrakinti"
+      project_roles: "Projekto vaidmenys"
+      wp_shares: "Darbo paketų bendrinimai"
+      groups: "Grupės"
   my:
     access_token:
       failed_to_reset_token: "Atpažinimo rakto nepavyko nustatyti iš naujo: %{error}"
@@ -521,6 +528,8 @@ lt:
         row_count: "Eilučių skaičius"
         column_count: "Stulpelių skaičius"
         widgets: "Valdikliai"
+      oauth_client:
+        client: "Kliento ID"
       relation:
         delay: "Vėlavimas"
         from: "Darbų paketas"
@@ -638,6 +647,7 @@ lt:
         readonly: "Tik skaitymui"
         remaining_hours: "Liko darbo"
         remaining_time: "Liko darbo"
+        shared_with_users: "Dalinamasi su"
         schedule_manually: "Rankinis laiko parinkimas"
         spent_hours: "Praleista laiko"
         spent_time: "Praleista laiko"
@@ -1669,7 +1679,6 @@ lt:
   label_age: "Amžius"
   label_ago: "dienų prieš"
   label_all: "visi"
-  label_all_projects: "Visi projektai"
   label_all_time: "visas laikas"
   label_all_words: "Visi žodžiai"
   label_all_open_wps: "Visi atviri"
@@ -1686,7 +1695,6 @@ lt:
   label_ical_access_key_revoke: "Atšaukti"
   label_applied_status: "Taikomoji būsena"
   label_archive_project: "Archyvuoti projektą"
-  label_archived_projects: "Archyvuoti projektai"
   label_ascending: "Didėjančia tvarka"
   label_assigned_to_me_work_packages: "Man priskirti darbų paketai"
   label_associated_revisions: "Susijusios revizijos"
@@ -1842,6 +1850,7 @@ lt:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Failai"
   label_filter_add: "Pridėti filtrą"
+  label_filter: "Filtrai"
   label_filter_plural: "Filtrai"
   label_filters_toggle: "Rodyti/slėpti filtrus"
   label_float: "Skaičius su kableliu"
@@ -1954,7 +1963,6 @@ lt:
   label_my_account: "Mano paskyra"
   label_my_activity: "Mano veikla"
   label_my_account_data: "Mano paskyros duomenys"
-  label_my_projects: "Mano projektai"
   label_my_queries: "Mano sukurtos užklausos"
   label_name: "Vardas"
   label_never: "Niekada"
@@ -2264,11 +2272,11 @@ lt:
     mention:
       subject: "%{user_name} paminėjo jus #%{id} - %{subject}"
     notification:
-      center: 'Į pranešimų centrą'
-      see_in_center: 'Žiūrėkite komentarą pranešimų centre'
-      settings: 'Keisti e-pašto nustatymus'
-    salutation: 'Sveiki, %{user}'
-    salutation_full_name: 'Pilnas vardas'
+      center: "Į pranešimų centrą"
+      see_in_center: "Žiūrėkite komentarą pranešimų centre"
+      settings: "Keisti e-pašto nustatymus"
+    salutation: "Sveiki, %{user}"
+    salutation_full_name: "Pilnas vardas"
     work_packages:
       created_at: "Sukūrė %{user} %{timestamp} "
       login_to_see_all: "Prisijunkite, norėdami pamatyti visus pranešimus."
@@ -3115,12 +3123,12 @@ lt:
         one: "1 naudotojas"
         other: "%{count} naudotojai"
       filter:
-        project_member: 'Projekto nariai'
-        not_project_member: 'Ne projekto nariai'
-        project_group: 'Projekto grupė'
-        not_project_group: 'Ne projekto grupė'
-        role: 'Vaidmuo'
-        type: 'Tipas'
+        project_member: "Projekto nariai"
+        not_project_member: "Ne projekto nariai"
+        project_group: "Projekto grupė"
+        not_project_group: "Ne projekto grupė"
+        role: "Vaidmuo"
+        type: "Tipas"
       label_search: "Ieškoti naudotojų pakvietimui"
       label_search_placeholder: "Ieškoti pagal naudotoją arba e-pašto adresą"
       label_toggle_all: "Perjungti visus bendrinimus"
@@ -3137,7 +3145,7 @@ lt:
       text_empty_search_description: "Nėra naudotojų su dabartiniu filtro kriterijumi."
       text_empty_search_header: "Mes neradome jokių atitinkančių rezultatų."
       text_empty_state_description: "Darbo paketas dar nėra su niekuo bendrinamas."
-      text_empty_state_header: "Nėra bendrinamų narių."
+      text_empty_state_header: "Nesidalinama"
       text_user_limit_reached: "Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome susisiekti su administratoriumi ir padidinti naudotojų apribojimą, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo."
       text_user_limit_reached_admins: 'Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad galėtumėte pridėti daugiau naudotojų.'
       warning_user_limit_reached: >
@@ -3340,7 +3348,6 @@ lt:
       oauth_returned_json_error: "OAuth2 grąžino JSON klaidą"
       oauth_returned_http_error: "OAuth2 grąžino tinklo klaidą"
       oauth_returned_standard_error: "OAuth2 grąžino vidinę klaidą"
-      client_id_blank: "ID negali būti tuščias."
       wrong_token_type_returned: "OAuth2 grąžino netinkamą žetono tipą, tikėtasi AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 grąžino klaidą. Prašome susisiekti su jūsų sistemos administratoriumi."
       oauth_client_not_found: "OAuth2 klientas nerastas „callback“ taške (redirect_uri)."

@@ -35,6 +35,8 @@ VCR.configure do |config|
   config.before_record do |i|
     i.response.body.force_encoding('UTF-8')
   end
+
+  config.default_cassette_options = { record: ENV.fetch('VCR_RECORD_MODE', :once).to_sym }
 end
 
 VCR.turn_off!

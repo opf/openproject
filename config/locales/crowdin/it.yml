@@ -67,11 +67,11 @@ it:
       upgrade_to_ee: "Aggiorna a Enterprise edition"
       add_token: "Carica un token di assistenza per Enterprise edition"
       delete_token_modal:
-        text: "Vuoi davvero rimuovere il token Enterprise Edition attualmente utilizzato?"
+        text: "Vuoi davvero rimuovere il token Enterprise edition attualmente utilizzato?"
         title: "Elimina token"
       replace_token: "Sostituisci il token di assistenza attuale"
       order: "Ordina l'edizione Enterprise on-premises"
-      paste: "Incolla il tuo token di assistenza per Enterprise Edition"
+      paste: "Incolla il tuo token di assistenza per Enterprise edition"
       required_for_feature: "Questa aggiunta è disponibile solo con un token di assistenza Enterprise Edition attivo."
       enterprise_link: "Per ulteriori informazioni, clicca qui."
       start_trial: "Inizia la prova gratuita"
@@ -251,6 +251,13 @@ it:
       open_as_gantt_title_admin: "È possibile modificare le impostazioni di visualizzazione (come i tipi di macro-attività selezionati) nell'amministrazione nelle impostazioni del progetto."
       no_results_title_text: Al momento non esistono progetti
       no_results_content_text: Crea un nuovo progetto
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Cambia identificatore
       activities:
@@ -282,14 +289,14 @@ it:
     columns:
       shared: "Condivisa"
     filters:
-      all_shares: 'Tutte le condivisioni'
+      all_shares: "Tutte le condivisioni"
     menu:
-      all: 'Tutti'
-      invited: 'Invitato'
-      locked: 'Bloccato'
-      project_roles: 'Ruoli del progetto'
-      wp_shares: 'Condivisioni della macro-attività'
-      groups: 'Gruppi'
+      all: "Tutti"
+      invited: "Invitato"
+      locked: "Bloccato"
+      project_roles: "Ruoli del progetto"
+      wp_shares: "Condivisioni della macro-attività"
+      groups: "Gruppi"
   my:
     access_token:
       failed_to_reset_token: "Impossibile reimpostare il token di accesso: %{error}"
@@ -519,6 +526,8 @@ it:
         row_count: "Numero di righe"
         column_count: "Numero di colonne"
         widgets: "Widget"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Ritardo"
         from: "Macro-attività"
@@ -636,6 +645,7 @@ it:
         readonly: "Sola lettura"
         remaining_hours: "Lavoro rimanente"
         remaining_time: "Lavoro rimanente"
+        shared_with_users: "Shared with"
         schedule_manually: "Programmazione manuale"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
@@ -666,7 +676,7 @@ it:
         confirmation: "non coincide con %{attribute}."
         could_not_be_copied: "%{dependency} non può essere (completamente) copiato."
         does_not_exist: "non esiste."
-        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise edition"
         error_unauthorized: "potrebbe non essere accessibile."
         error_readonly: "è in sola lettura, pertanto non è stato possibile modificarlo."
         error_conflict: "L'informazione è stata aggiornata da almeno un altro utente nel frattempo."
@@ -1390,7 +1400,7 @@ it:
   error_cookie_missing: "Il cookie di OpenProject è mancante. Prego, verifica che i cookie siano attivati, questa applicazione non funziona correttamente senza."
   error_custom_option_not_found: "L'opzione non esiste."
   error_enterprise_activation_user_limit: "Il tuo account potrebbe non essere attivo (raggiunto il limite utente). Si prega di contattare l'amministratore per ottenere l'accesso."
-  error_enterprise_token_invalid_domain: "L'Enterprise Edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
+  error_enterprise_token_invalid_domain: "L'Enterprise edition non è attiva. Il dominio del token Enterprise (%{actual}) non corrisponde al nome host del sistema (%{expected})."
   error_failed_to_delete_entry: "Cancellazione voce non riuscita."
   error_in_dependent: "Errore nel tentativo di modificare l'oggetto dipendente: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Errore nel tentativo di creare un oggetto dipendente: %{dependent_class} - %{related_subject}: %{error}"
@@ -1485,10 +1495,10 @@ it:
     blocks:
       community: "Comunità di OpenProject"
       upsale:
-        title: "Aggiorna ad Enterprise Edition"
+        title: "Aggiorna ad Enterprise edition"
         more_info: "Altre informazioni"
     links:
-      upgrade_enterprise_edition: "Aggiorna ad Enterprise Edition"
+      upgrade_enterprise_edition: "Aggiorna ad Enterprise edition"
       postgres_migration: "Migrazione dell'installazione su PostgreSQL"
       user_guides: "Guide utente"
       faq: "FAQ"
@@ -1615,7 +1625,6 @@ it:
   label_age: "Età"
   label_ago: "giorni fa"
   label_all: "tutti"
-  label_all_projects: "Tutti i progetti"
   label_all_time: "tutto il tempo"
   label_all_words: "Tutte le parole"
   label_all_open_wps: "Apri tutto"
@@ -1632,7 +1641,6 @@ it:
   label_ical_access_key_revoke: "Revoca"
   label_applied_status: "Stato applicato"
   label_archive_project: "Archivia progetto"
-  label_archived_projects: "Progetti archiviati"
   label_ascending: "Crescente"
   label_assigned_to_me_work_packages: "Macro-attività assegnate a me"
   label_associated_revisions: "Revisioni associate"
@@ -1766,7 +1774,7 @@ it:
   label_enumerations: "Enumerazioni"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} utenti attivi riservati"
-  label_enterprise_edition: "Enterprise Edition"
+  label_enterprise_edition: "Enterprise edition"
   label_enterprise_support: "Supporto per Imprese"
   label_enterprise_addon: "Componente aggiuntivo Enterprise"
   label_environment: "Ambiente"
@@ -1788,6 +1796,7 @@ it:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "File"
   label_filter_add: "Aggiungi filtro"
+  label_filter: "Filtri"
   label_filter_plural: "Filtri"
   label_filters_toggle: "Mostra/nascondi filtri"
   label_float: "Virgola mobile"
@@ -1900,7 +1909,6 @@ it:
   label_my_account: "Il mio account"
   label_my_activity: "La mia attività"
   label_my_account_data: "I miei dati dell'account"
-  label_my_projects: "I miei progetti"
   label_my_queries: "Le mie query personalizzate"
   label_name: "Nome"
   label_never: "Mai"
@@ -2210,11 +2218,11 @@ it:
     mention:
       subject: "%{user_name} ti ha menzionato nel n.%{id} - %{subject}"
     notification:
-      center: 'Al centro notifiche'
-      see_in_center: 'Vedi commento nel centro notifiche'
-      settings: 'Modifica impostazioni email'
-    salutation: 'Ciao %{user}'
-    salutation_full_name: 'Nome e cognome'
+      center: "Al centro notifiche"
+      see_in_center: "Vedi commento nel centro notifiche"
+      settings: "Modifica impostazioni email"
+    salutation: "Ciao %{user}"
+    salutation_full_name: "Nome e cognome"
     work_packages:
       created_at: "Creato il %{timestamp} da %{user} "
       login_to_see_all: "Accedi per visualizzare tutte le notifiche."
@@ -3060,12 +3068,12 @@ it:
         one: "1 utente"
         other: "%{count} utenti"
       filter:
-        project_member: 'Membro del progetto'
-        not_project_member: 'Non è membro del progetto'
-        project_group: 'Gruppo di progetto'
-        not_project_group: 'Non è gruppo di progetto'
-        role: 'Ruolo'
-        type: 'Tipo'
+        project_member: "Membro del progetto"
+        not_project_member: "Non è membro del progetto"
+        project_group: "Gruppo di progetto"
+        not_project_group: "Non è gruppo di progetto"
+        role: "Ruolo"
+        type: "Tipo"
       label_search: "Cerca gli utenti da invitare"
       label_search_placeholder: "Cerca per utente o indirizzo e-mail"
       label_toggle_all: "Attiva/disattiva tutte le condivisioni"
@@ -3082,7 +3090,7 @@ it:
       text_empty_search_description: "Non ci sono utenti con i criteri di filtro attuali."
       text_empty_search_header: "Non siamo riusciti a trovare alcun risultato corrispondente."
       text_empty_state_description: "La macro-attività non è stata ancora condivisa con nessuno."
-      text_empty_state_header: "Nessun membro in condivisione."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "L'aggiunta di ulteriori utenti supererà il limite attuale. Contatta un amministratore per aumentare il limite di utenti e garantire che gli utenti esterni possano accedere a questa  macro-attività."
       text_user_limit_reached_admins: 'L''aggiunta di ulteriori utenti supererà il limite attuale. <a href="%{upgrade_url}">Aggiorna il tuo piano</a> per aggiungere più utenti.'
       warning_user_limit_reached: >
@@ -3283,7 +3291,6 @@ it:
       oauth_returned_json_error: "OAuth2 ha restituito un errore JSON"
       oauth_returned_http_error: "OAuth2 ha restituito un errore di rete"
       oauth_returned_standard_error: "OAuth2 ha restituito un errore interno"
-      client_id_blank: "Il campo ID non può essere vuoto."
       wrong_token_type_returned: "OAuth2 ha restituito un tipo di token sbagliato, aspettandosi AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 ha segnalato un errore. Contatta l'amministratore di sistema."
       oauth_client_not_found: "Client OAuth2 non trovato nell'endpoint 'callback' (redirect_uri)."

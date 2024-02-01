@@ -79,12 +79,7 @@ RSpec.describe 'Switching types in work package table', :js do
       text_field.set_value 'Foobar'
       text_field.save!
 
-      wp_table.expect_toast(
-        message: 'Successful update. Click here to open this work package in fullscreen view.'
-      )
-      # safegurards
-      wp_table.dismiss_toaster!
-      wp_table.expect_no_toaster(
+      wp_table.expect_and_dismiss_toaster(
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
 
@@ -92,13 +87,7 @@ RSpec.describe 'Switching types in work package table', :js do
       type_field.activate!
       type_field.set_value type_bug.name
 
-      wp_table.expect_toast(
-        type: :error,
-        message: "#{cf_req_text.name} can't be blank."
-      )
-      # safegurards
-      wp_table.dismiss_toaster!
-      wp_table.expect_no_toaster(
+      wp_table.expect_and_dismiss_toaster(
         type: :error,
         message: "#{cf_req_text.name} can't be blank."
       )
@@ -108,12 +97,7 @@ RSpec.describe 'Switching types in work package table', :js do
       req_text_field.set_value 'Required'
       req_text_field.save!
 
-      wp_table.expect_toast(
-        message: 'Successful update. Click here to open this work package in fullscreen view.'
-      )
-      # safegurards
-      wp_table.dismiss_toaster!
-      wp_table.expect_no_toaster(
+      wp_table.expect_and_dismiss_toaster(
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
 
@@ -122,12 +106,7 @@ RSpec.describe 'Switching types in work package table', :js do
       type_field.activate!
       type_field.set_value type_task.name
 
-      wp_table.expect_toast(
-        message: 'Successful update. Click here to open this work package in fullscreen view.'
-      )
-      # safegurards
-      wp_table.dismiss_toaster!
-      wp_table.expect_no_toaster(
+      wp_table.expect_and_dismiss_toaster(
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
 
@@ -140,13 +119,7 @@ RSpec.describe 'Switching types in work package table', :js do
       type_field.activate!
       type_field.set_value type_bug.name
 
-      wp_table.expect_toast(
-        type: :error,
-        message: "#{cf_req_text.name} can't be blank."
-      )
-      # safegurards
-      wp_table.dismiss_toaster!
-      wp_table.expect_no_toaster(
+      wp_table.expect_and_dismiss_toaster(
         type: :error,
         message: "#{cf_req_text.name} can't be blank."
       )
@@ -159,12 +132,7 @@ RSpec.describe 'Switching types in work package table', :js do
       type_field.openSelectField
       type_field.set_value type_task.name
 
-      wp_table.expect_toast(
-        message: 'Successful update. Click here to open this work package in fullscreen view.'
-      )
-      # safegurards
-      wp_table.dismiss_toaster!
-      wp_table.expect_no_toaster(
+      wp_table.expect_and_dismiss_toaster(
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
     end
@@ -182,13 +150,7 @@ RSpec.describe 'Switching types in work package table', :js do
         type_field.activate!
         type_field.set_value type_bug.name
 
-        wp_table.expect_toast(
-          type: :error,
-          message: "#{cf_req_text.name} can't be blank."
-        )
-        # safegurards
-        wp_table.dismiss_toaster!
-        wp_table.expect_no_toaster(
+        wp_table.expect_and_dismiss_toaster(
           type: :error,
           message: "#{cf_req_text.name} can't be blank."
         )
@@ -204,12 +166,7 @@ RSpec.describe 'Switching types in work package table', :js do
         # Set the value now
         req_text_field.update 'foobar'
 
-        wp_table.expect_toast(
-          message: 'Successful update. Click here to open this work package in fullscreen view.'
-        )
-        # safegurards
-        wp_table.dismiss_toaster!
-        wp_table.expect_no_toaster(
+        wp_table.expect_and_dismiss_toaster(
           message: 'Successful update. Click here to open this work package in fullscreen view.'
         )
 
@@ -257,10 +214,7 @@ RSpec.describe 'Switching types in work package table', :js do
       type_field.expect_state_text type_task.name.upcase
       type_field.update type_bug.name
 
-      # safegurards
-      wp_page.expect_toast message: 'Successful update.'
-      wp_page.dismiss_toaster!
-      wp_page.expect_no_toaster message: 'Successful update.'
+      wp_page.expect_and_dismiss_toaster message: 'Successful update.'
 
       type_field.expect_state_text type_bug.name.upcase
 

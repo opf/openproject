@@ -3,7 +3,7 @@ require_relative '../../lib_static/open_project/appsignal'
 
 if OpenProject::Appsignal.enabled?
   require 'appsignal'
-  OpenProject::Application.configure do |app|
+  Rails.application.configure do |app|
     config = {
       active: true,
       name: ENV.fetch('APPSIGNAL_NAME'),

@@ -35,8 +35,7 @@ module API
         resources :memberships do
           get &::API::V3::Utilities::Endpoints::Index
                  .new(model: Member,
-                      # TODO: For now we exclude entity specific memberships in the API until we have updated the
-                      # frontend and representers to show those properly
+                      # excluding entity memberships. Those can be requested via the Shares API
                       scope: -> { Member.where(entity: nil).includes(MembershipRepresenter.to_eager_load) },
                       api_name: 'Membership')
                  .mount

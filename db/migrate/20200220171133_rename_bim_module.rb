@@ -27,6 +27,11 @@
 #++
 
 class RenameBimModule < ActiveRecord::Migration[6.0]
+  # Note: rails 7.1 breaks the class' ancestor chain, when a class with an enum definition
+  # without a database field is being referenced.
+  # Re-defining the Project class without the enum to avoid the issue.
+  class Project < ApplicationRecord; end
+
   def up
     projects_with_bcf = EnabledModule.where(name: 'bcf').pluck(:project_id)
     # Delete all bcf to avoid duplicates

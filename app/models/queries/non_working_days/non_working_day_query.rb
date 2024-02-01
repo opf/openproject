@@ -26,7 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::NonWorkingDays::NonWorkingDayQuery < Queries::BaseQuery
+class Queries::NonWorkingDays::NonWorkingDayQuery
+  include Queries::BaseQuery
+  include Queries::UnpersistedQuery
+
   def self.model
     NonWorkingDay
   end

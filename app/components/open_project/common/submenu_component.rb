@@ -39,6 +39,16 @@ module OpenProject
       def render?
         @sidebar_menu_items.present?
       end
+
+      def top_level_sidebar_menu_items
+        @sidebar_menu_items
+          .filter { |menu_item| menu_item.header.nil? }
+      end
+
+      def nested_sidebar_menu_items
+        @sidebar_menu_items
+          .filter { |menu_item| menu_item.header.present? && menu_item.children.any? }
+      end
     end
   end
 end

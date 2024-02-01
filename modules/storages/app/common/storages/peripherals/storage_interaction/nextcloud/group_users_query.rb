@@ -44,7 +44,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     # rubocop:disable Metrics/AbcSize
     def call(group:)
-      response = Util
+      response = OpenProject
                    .httpx
                    .basic_auth(@username, @password)
                    .with(headers: { 'OCS-APIRequest' => 'true' })

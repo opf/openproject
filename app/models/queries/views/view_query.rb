@@ -26,7 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Views::ViewQuery < Queries::BaseQuery
+class Queries::Views::ViewQuery
+  include Queries::BaseQuery
+  include Queries::UnpersistedQuery
+
   def default_scope
     super.where(query_id: Query.visible(User.current))
   end

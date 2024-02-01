@@ -254,6 +254,13 @@ zh-TW:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: 目前沒有專案
       no_results_content_text: 建立新專案
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -285,14 +292,14 @@ zh-TW:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "無法重置訪問憑證: %{error}"
@@ -521,6 +528,8 @@ zh-TW:
         row_count: "列數"
         column_count: "欄數："
         widgets: "小工具"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "延時"
         from: "工作項目"
@@ -638,6 +647,7 @@ zh-TW:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "手動排程"
         spent_hours: "耗時"
         spent_time: "耗時"
@@ -1591,7 +1601,6 @@ zh-TW:
   label_age: "年齡"
   label_ago: "天前"
   label_all: "所有"
-  label_all_projects: "所有專案"
   label_all_time: "所有的時間"
   label_all_words: "所以的詞"
   label_all_open_wps: "全部打開"
@@ -1608,7 +1617,6 @@ zh-TW:
   label_ical_access_key_revoke: "撤銷"
   label_applied_status: "套用的狀態"
   label_archive_project: "專案歸檔"
-  label_archived_projects: "Archived projects"
   label_ascending: "昇冪"
   label_assigned_to_me_work_packages: "分配給我的工作項目"
   label_associated_revisions: "關聯的修訂"
@@ -1764,6 +1772,7 @@ zh-TW:
   label_feeds_access_key_type: "RSS訂閱"
   label_file_plural: "檔案"
   label_filter_add: "新增篩選器"
+  label_filter: "Filters"
   label_filter_plural: "篩選器"
   label_filters_toggle: "顯示/隱藏篩選器"
   label_float: "浮點數"
@@ -1876,7 +1885,6 @@ zh-TW:
   label_my_account: "我的帳號"
   label_my_activity: "My activity"
   label_my_account_data: "我的帳號資料"
-  label_my_projects: "我的專案"
   label_my_queries: "我的自訂查詢"
   label_name: "名稱"
   label_never: "永不"
@@ -2186,11 +2194,11 @@ zh-TW:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: '顯示通知中心'
-      see_in_center: 'See comment in notification center'
-      settings: '更改電子郵件設定'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "顯示通知中心"
+      see_in_center: "See comment in notification center"
+      settings: "更改電子郵件設定"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "登入以查看所有通知"
@@ -3032,12 +3040,12 @@ zh-TW:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: '角色'
-        type: '類型'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "角色"
+        type: "類型"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3054,7 +3062,7 @@ zh-TW:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3254,7 +3262,6 @@ zh-TW:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

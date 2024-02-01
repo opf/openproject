@@ -38,7 +38,7 @@ session_options = {
   path: relative_url_root
 }
 
-OpenProject::Application.config.session_store :active_record_store, **session_options
+Rails.application.config.session_store :active_record_store, **session_options
 
 Rails.application.reloader.to_prepare do
   ##

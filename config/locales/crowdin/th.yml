@@ -254,6 +254,13 @@ th:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: ขณะนี้ยังไม่มีโครงการใดๆ
       no_results_content_text: สร้างโครงการใหม่
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: เปลี่ยน ตัวระบุ
       activities:
@@ -285,14 +292,14 @@ th:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -521,6 +528,8 @@ th:
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "ล่าช้า"
         from: "ชุดภารกิจ"
@@ -638,6 +647,7 @@ th:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Manual scheduling"
         spent_hours: "เวลาที่ใช้"
         spent_time: "เวลาที่ใช้"
@@ -1591,7 +1601,6 @@ th:
   label_age: "ระยะเวลา"
   label_ago: "วันที่ผ่านมา"
   label_all: "ทั้งหมด"
-  label_all_projects: "All projects"
   label_all_time: "ตลอดเวลา"
   label_all_words: "ทุกคำ"
   label_all_open_wps: "All open"
@@ -1608,7 +1617,6 @@ th:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "ใช้สถานะ"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "จากน้อยไปมาก"
   label_assigned_to_me_work_packages: "ชุดภารกิจที่ฉันได้รับมอบหมาย"
   label_associated_revisions: "การปรับปรุงที่เกี่ยวข้อง"
@@ -1764,6 +1772,7 @@ th:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "ไฟล์"
   label_filter_add: "เพิ่มตัวกรอง"
+  label_filter: "Filters"
   label_filter_plural: "ตัวกรอง"
   label_filters_toggle: "Show/hide filters"
   label_float: "ลอย"
@@ -1876,7 +1885,6 @@ th:
   label_my_account: "บัญชีของฉัน"
   label_my_activity: "My activity"
   label_my_account_data: "ข้อมูลบัญชีของฉัน"
-  label_my_projects: "โครงการของฉัน"
   label_my_queries: "แบบสอบถามแบบกำหนดเองของฉัน"
   label_name: "ชื่อ"
   label_never: "Never"
@@ -2186,11 +2194,11 @@ th:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -3033,12 +3041,12 @@ th:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'บทบาท'
-        type: 'ประเภท'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "บทบาท"
+        type: "ประเภท"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3055,7 +3063,7 @@ th:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3255,7 +3263,6 @@ th:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

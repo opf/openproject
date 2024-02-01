@@ -50,7 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= t(:project_module_storages) %>
   <% end %>
 
-  <% header.with_actions do %>
+  <% header.with_actions(test_selector: 'page-header-actions') do %>
     <%=
       primer_form_with(
         model: @storage,

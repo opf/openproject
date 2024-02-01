@@ -248,6 +248,13 @@ id:
       open_as_gantt_title_admin: "Anda dapat memodifikasi pengaturan tampilan (seperti jenis paket pekerjaan yang dipilih) di administrasi di bawah pengaturan proyek."
       no_results_title_text: Tidak ada proyek saat ini
       no_results_content_text: Buat proyek baru
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Ubah pengenal
       activities:
@@ -279,14 +286,14 @@ id:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Gagal untuk menset ulang akses token: %{error}"
@@ -514,6 +521,8 @@ id:
         row_count: "Jumlah baris"
         column_count: "Jumlah kolom"
         widgets: "Widget"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Jeda"
         from: "Paket-Penugasan"
@@ -631,6 +640,7 @@ id:
         readonly: "Baca saja"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Penjadwalan manual"
         spent_hours: "Durasi"
         spent_time: "Durasi"
@@ -1584,7 +1594,6 @@ id:
   label_age: "Usia"
   label_ago: "hari yang lalu"
   label_all: "semua"
-  label_all_projects: "Semua proyek"
   label_all_time: "Sepanjang waktu"
   label_all_words: "Semua kata"
   label_all_open_wps: "Semua terbuka"
@@ -1601,7 +1610,6 @@ id:
   label_ical_access_key_revoke: "Menarik kembali"
   label_applied_status: "Status berjalan"
   label_archive_project: "Proyek arsip"
-  label_archived_projects: "Archived projects"
   label_ascending: "Askending"
   label_assigned_to_me_work_packages: "Paket-Penugasan yang saya kerjakan"
   label_associated_revisions: "Revisi terkait"
@@ -1757,7 +1765,8 @@ id:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "File"
   label_filter_add: "Tambah Filter"
-  label_filter_plural: "Penyaring"
+  label_filter: "Filters"
+  label_filter_plural: "Filter"
   label_filters_toggle: "Tampilkan/Sembunyikan penyaringan"
   label_float: "Float"
   label_folder: "Folder"
@@ -1869,7 +1878,6 @@ id:
   label_my_account: "Akun saya"
   label_my_activity: "Aktivitas saya"
   label_my_account_data: "Data akun saya"
-  label_my_projects: "Project saya"
   label_my_queries: "Query kustom saya"
   label_name: "Nama"
   label_never: "Never"
@@ -2179,11 +2187,11 @@ id:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -3022,12 +3030,12 @@ id:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Tipe'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Role"
+        type: "Tipe"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3044,7 +3052,7 @@ id:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3244,7 +3252,6 @@ id:
       oauth_returned_json_error: "OAuth2 mengembalikan kesalahan JSON"
       oauth_returned_http_error: "OAuth2 mengembalikan kesalahan jaringan"
       oauth_returned_standard_error: "OAuth2 mengembalikan kesalahan internal"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 mengembalikan jenis token yang salah, mengharapkan AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 melaporkan kesalahan. Silakan hubungi administrator sistem Anda."
       oauth_client_not_found: "Klien OAuth2 tidak ditemukan di titik akhir 'panggilan balik' (redirect_uri)."

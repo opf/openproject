@@ -90,7 +90,6 @@ RSpec.describe 'baseline rendering',
 
   shared_let(:version_a) { create(:version, project:, name: 'Version A') }
   shared_let(:version_b) { create(:version, project:, name: 'Version B') }
-  shared_let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
 
   shared_let(:wp_bug) do
     create(:work_package,
@@ -369,21 +368,6 @@ RSpec.describe 'baseline rendering',
       wp_table.visit_query(query)
 
       baseline.expect_icon wp_milestone_date_changed, 'changed'
-
-      # show icons on work package single card
-      display_representation.switch_to_card_layout
-      within "wp-single-card[data-work-package-id='#{wp_bug_was_task.id}']" do
-        expect(page).to have_css(".op-table-baseline--icon-removed")
-      end
-      within "wp-single-card[data-work-package-id='#{wp_task_was_bug.id}']" do
-        expect(page).to have_css(".op-table-baseline--icon-added")
-      end
-      within "wp-single-card[data-work-package-id='#{wp_task_changed.id}']" do
-        expect(page).to have_css(".op-table-baseline--icon-changed")
-      end
-      within "wp-single-card[data-work-package-id='#{wp_task.id}']" do
-        expect(page).to have_no_css(".op-wp-single-card--content-baseline")
-      end
     end
 
     shared_examples_for 'selecting a builtin view' do

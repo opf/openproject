@@ -50,6 +50,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::UploadLinkQu
       body: { item: { "@microsoft.graph.conflictBehavior" => "rename", name: query_payload['file_name'] } }
     ).to_return(
       status: 200,
+      headers: { 'Content-Type' => 'application/json' },
       body: { uploadUrl: "https://sn3302.up.1drv.com/up/fe6987415ace7X4e1eF866337",
               expirationDateTime: "2015-01-29T09:21:55.523Z" }.to_json
     )

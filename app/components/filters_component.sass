@@ -1,0 +1,52 @@
+.op-filters
+  &-form
+    display: none
+    &.-expanded
+      display: block
+    .advanced-filters--filter-value
+      // visibility based on operator type
+      &.hidden
+        visibility: hidden
+        height: 55px
+
+      // visibility for list value selectors
+      .multi-select
+        display: none
+      .single-select
+        display: block
+      &.multi-value
+        .multi-select
+          display: block
+        .single-select
+          display: none
+
+      // visibility for datetime_past value selectors
+      &.between-dates
+        >.on-date,
+        >.days
+          display: none
+      &.on-date
+        >.between-dates,
+        >.days
+          display: none
+      &.days
+        >.on-date,
+        >.between-dates
+          display: none
+
+      // Special input field styles
+      &.between-dates
+        input[type="text"]
+          display: inline-block
+          max-width: 6rem
+
+    .advanced-filters--controls
+      margin-top: 1rem
+
+  &-header
+    display: flex
+    justify-content: space-between
+    margin-bottom: 1rem
+    
+    &-actions
+      display: flex

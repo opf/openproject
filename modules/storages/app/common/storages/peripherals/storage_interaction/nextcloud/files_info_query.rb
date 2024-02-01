@@ -60,7 +60,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     private
 
     def files_info(file_ids, token)
-      response = Util
+      response = OpenProject
                    .httpx
                    .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
                                     'Accept' => 'application/json',

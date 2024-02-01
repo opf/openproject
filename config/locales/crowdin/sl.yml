@@ -253,6 +253,13 @@ sl:
       open_as_gantt_title_admin: "Spreminjanje nastavitev pogleda (na primer izbrane vrste delovnih paketov) je možno v skrbništvu pod nastavitvami projekta."
       no_results_title_text: Trenutno ni projektov
       no_results_content_text: Kreiraj nov projekt
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Zamenjaj identifikator
       activities:
@@ -284,14 +291,14 @@ sl:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Neuspešna poenostavitev \"dostopnega simbola\": %{error}"
@@ -521,6 +528,8 @@ sl:
         row_count: "Število vrstic"
         column_count: "Število stolpcev"
         widgets: "Gradniki"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "zamuda"
         from: "Zahtevek"
@@ -638,6 +647,7 @@ sl:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Ročno razvrščanje."
         spent_hours: "Porabljen čas"
         spent_time: "Porabljen čas"
@@ -1282,8 +1292,8 @@ sl:
       - "avgust"
       - "september"
       - "oktober"
-      - "november"
-      - "december"
+      - "November"
+      - "December"
     order:
       - :leto
       - :mesec
@@ -1669,7 +1679,6 @@ sl:
   label_age: "Starost"
   label_ago: "pred dnevi"
   label_all: "vsi"
-  label_all_projects: "Vsi projekti"
   label_all_time: "Ves čas"
   label_all_words: "Vse besede"
   label_all_open_wps: "Vse odprto"
@@ -1686,7 +1695,6 @@ sl:
   label_ical_access_key_revoke: "Prekliči"
   label_applied_status: "Uveljavljeno stanje"
   label_archive_project: "Arhivirani projekti"
-  label_archived_projects: "Archived projects"
   label_ascending: "Naraščajoče"
   label_assigned_to_me_work_packages: "Delovni paketi, ki so mi bili dodeljeni"
   label_associated_revisions: "Povezane revizije"
@@ -1842,6 +1850,7 @@ sl:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Datoteke"
   label_filter_add: "Dodaj filter"
+  label_filter: "Filters"
   label_filter_plural: "Filtri"
   label_filters_toggle: "Prikaži/skrij filter"
   label_float: "Lebdeti"
@@ -1954,7 +1963,6 @@ sl:
   label_my_account: "Moj račun"
   label_my_activity: "My activity"
   label_my_account_data: "Podatki mojega računa"
-  label_my_projects: "Moji projekti"
   label_my_queries: "Moje poizvedbe po meri"
   label_name: "Ime"
   label_never: "Nikoli"
@@ -2264,11 +2272,11 @@ sl:
     mention:
       subject: "%{user_name} vas je omenil v #%{id} - %{subject}"
     notification:
-      center: 'V središče za obvestila'
-      see_in_center: 'Preglej komentar v središču za obvestila'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "V središče za obvestila"
+      see_in_center: "Preglej komentar v središču za obvestila"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -3119,12 +3127,12 @@ sl:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Vloga'
-        type: 'Vrsta'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Vloga"
+        type: "Vrsta"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3141,7 +3149,7 @@ sl:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3345,7 +3353,6 @@ sl:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

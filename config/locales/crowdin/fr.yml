@@ -254,6 +254,13 @@ fr:
       open_as_gantt_title_admin: "Vous pouvez modifier les paramètres d'affichage (comme les types de lots de travaux sélectionnés) dans l'administration dans les paramètres du projet."
       no_results_title_text: Aucun projet pour le moment
       no_results_content_text: Créer un nouveau projet
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Changer l'identifiant
       activities:
@@ -285,14 +292,14 @@ fr:
     columns:
       shared: "Partagé"
     filters:
-      all_shares: 'Tous les partages'
+      all_shares: "Tous les partages"
     menu:
-      all: 'Tout'
-      invited: 'Invité'
-      locked: 'Verrouillé'
-      project_roles: 'Rôle du projet'
-      wp_shares: 'Répartition des lots de travail'
-      groups: 'Groupes'
+      all: "Tout"
+      invited: "Invité"
+      locked: "Verrouillé"
+      project_roles: "Rôle du projet"
+      wp_shares: "Répartition des lots de travail"
+      groups: "Groupes"
   my:
     access_token:
       failed_to_reset_token: "Impossible de réinitialiser le jeton d’accès : %{error}"
@@ -522,6 +529,8 @@ fr:
         row_count: "Nombre de lignes"
         column_count: "Nombre de colonnes"
         widgets: "Widgets"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Délai"
         from: "Lot de travaux"
@@ -639,6 +648,7 @@ fr:
         readonly: "Lecture seule"
         remaining_hours: "Travail restant"
         remaining_time: "Travail restant"
+        shared_with_users: "Shared with"
         schedule_manually: "Planification manuelle"
         spent_hours: "Temps passé"
         spent_time: "Temps passé"
@@ -1618,7 +1628,6 @@ fr:
   label_age: "Âge"
   label_ago: "il y a"
   label_all: "tous"
-  label_all_projects: "Tous les projets"
   label_all_time: "tout le temps"
   label_all_words: "Tous les mots"
   label_all_open_wps: "Tous les ouverts"
@@ -1635,7 +1644,6 @@ fr:
   label_ical_access_key_revoke: "Révoquer"
   label_applied_status: "Statut appliqué"
   label_archive_project: "Archiver le projet"
-  label_archived_projects: "Projets archivés"
   label_ascending: "Croissant"
   label_assigned_to_me_work_packages: "Lots de Travaux m'étant assignés"
   label_associated_revisions: "Révisions associées"
@@ -1791,6 +1799,7 @@ fr:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Fichiers"
   label_filter_add: "Ajouter le filtre"
+  label_filter: "Filters"
   label_filter_plural: "Filtres"
   label_filters_toggle: "Afficher/masquer les filtres"
   label_float: "Flottant"
@@ -1903,7 +1912,6 @@ fr:
   label_my_account: "Mon compte"
   label_my_activity: "Mon activité"
   label_my_account_data: "Info sur mon compte"
-  label_my_projects: "Mes projets"
   label_my_queries: "Mes requêtes personnalisées"
   label_name: "Nom"
   label_never: "Jamais"
@@ -2213,11 +2221,11 @@ fr:
     mention:
       subject: "%{user_name} vous a mentionné dans #%{id} - %{subject}"
     notification:
-      center: 'Vers le centre de notifications'
-      see_in_center: 'Voir le commentaire dans le centre de notifications'
-      settings: 'Modifier les paramètres d''e-mail'
-    salutation: 'Bonjour %{user}'
-    salutation_full_name: 'Nom complet'
+      center: "Vers le centre de notifications"
+      see_in_center: "Voir le commentaire dans le centre de notifications"
+      settings: "Modifier les paramètres d'e-mail"
+    salutation: "Bonjour %{user}"
+    salutation_full_name: "Nom complet"
     work_packages:
       created_at: "Créé le %{timestamp} par %{user} "
       login_to_see_all: "Connectez-vous pour voir toutes les notifications."
@@ -3062,12 +3070,12 @@ fr:
         one: "1 utilisateur"
         other: "%{count} utilisateurs"
       filter:
-        project_member: 'Membre du projet'
-        not_project_member: 'Non membre du projet'
-        project_group: 'Groupe de projet'
-        not_project_group: 'Non groupe du projet'
-        role: 'Rôle'
-        type: 'Type'
+        project_member: "Membre du projet"
+        not_project_member: "Non membre du projet"
+        project_group: "Groupe de projet"
+        not_project_group: "Non groupe du projet"
+        role: "Rôle"
+        type: "Type"
       label_search: "Rechercher des utilisateurs à inviter"
       label_search_placeholder: "Rechercher par nom ou par adresse mail..."
       label_toggle_all: "Activer/désactiver tous les partages"
@@ -3084,7 +3092,7 @@ fr:
       text_empty_search_description: "Aucun utilisateur ne répond aux critères de filtrage actuels."
       text_empty_search_header: "Aucun résultat correspondant n'a été trouvé."
       text_empty_state_description: "Le lot de travaux n'a pas encore été partagé avec personne."
-      text_empty_state_header: "Partagé avec aucun membre"
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à ce lot de travaux."
       text_user_limit_reached_admins: 'L''ajout d''utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour pouvoir ajouter d''autres utilisateurs.'
       warning_user_limit_reached: >
@@ -3285,7 +3293,6 @@ fr:
       oauth_returned_json_error: "OAuth2 a renvoyé une erreur JSON"
       oauth_returned_http_error: "OAuth2 a renvoyé une erreur réseau"
       oauth_returned_standard_error: "OAuth2 a renvoyé une erreur interne"
-      client_id_blank: "L'ID ne peut pas être vide."
       wrong_token_type_returned: "OAuth2 a retourné un mauvais type de jeton, AccessToken::Bearer était attendu"
       oauth_issue_contact_admin: "OAuth2 a signalé une erreur. Veuillez contacter votre administrateur système."
       oauth_client_not_found: "Client OAuth2 introuvable dans le point de terminaison « callback » (redirect_uri)."

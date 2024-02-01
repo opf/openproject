@@ -254,6 +254,13 @@ sv:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Det finns för närvarande inga projekt
       no_results_content_text: Skapa ett nytt projekt
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -285,14 +292,14 @@ sv:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Misslyckades med att återställa åtkomst-token: %{error}"
@@ -521,6 +528,8 @@ sv:
         row_count: "Antal rader"
         column_count: "Antal kolumner"
         widgets: "Widgets"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Fördröjning"
         from: "Arbetspaket"
@@ -638,6 +647,7 @@ sv:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Manual scheduling"
         spent_hours: "Förbrukad tid"
         spent_time: "Förbrukad tid"
@@ -1617,7 +1627,6 @@ sv:
   label_age: "Ålder"
   label_ago: "dagar sedan"
   label_all: "alla"
-  label_all_projects: "Alla projekt"
   label_all_time: "all tid"
   label_all_words: "Alla ord"
   label_all_open_wps: "Alla öppna"
@@ -1634,7 +1643,6 @@ sv:
   label_ical_access_key_revoke: "Återkalla"
   label_applied_status: "Tillämpad status"
   label_archive_project: "Arkivera projekt"
-  label_archived_projects: "Archived projects"
   label_ascending: "Stigande"
   label_assigned_to_me_work_packages: "Arbetspaket som tilldelats till mig"
   label_associated_revisions: "Kopplade revideringar"
@@ -1790,6 +1798,7 @@ sv:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Filer"
   label_filter_add: "Lägg till filter"
+  label_filter: "Filters"
   label_filter_plural: "Filter"
   label_filters_toggle: "Visa/dölj filter"
   label_float: "Flyttal"
@@ -1902,7 +1911,6 @@ sv:
   label_my_account: "Mitt konto"
   label_my_activity: "Min aktivitet"
   label_my_account_data: "Min kontoinformation"
-  label_my_projects: "Mina projekt"
   label_my_queries: "Min anpassade frågor"
   label_name: "Namn"
   label_never: "Aldrig"
@@ -2212,11 +2220,11 @@ sv:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hej %{user}'
-    salutation_full_name: 'Full name'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hej %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Logga in för att se alla notifikationer. "
@@ -3059,12 +3067,12 @@ sv:
         one: "1 användare"
         other: "%{count} användare"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Roll'
-        type: 'Typ'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Roll"
+        type: "Typ"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3081,7 +3089,7 @@ sv:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3282,7 +3290,6 @@ sv:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

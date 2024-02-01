@@ -33,7 +33,7 @@ class WebhookJob < ApplicationJob
   # in case of timeouts
   retry_on Timeout::Error,
            Faraday::TimeoutError,
-           wait: :exponentially_longer,
+           wait: :polynomially_longer,
            attempts: 3
 
   def perform(webhook_id, event_name)

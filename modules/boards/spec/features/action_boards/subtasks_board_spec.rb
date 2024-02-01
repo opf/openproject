@@ -135,6 +135,7 @@ RSpec.describe 'Subtasks action board', :js, with_ee: %i[board_view] do
 
       # Move item to Child 2 list
       board_page.move_card(0, from: 'Parent WP', to: 'Other WP')
+      board_page.wait_for_lists_reload
 
       board_page.expect_card('Parent WP', 'Second child', present: false)
       board_page.expect_card('Other WP', 'Second child', present: true)

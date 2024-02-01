@@ -33,8 +33,8 @@ class MakeUserPreferencesJson < ActiveRecord::Migration[6.1]
 
   class UserPreferenceWithOthers < ::UserPreference
     self.table_name = 'user_preferences'
-    serialize :others, Hash
-    serialize :settings, ::Serializers::IndifferentHashSerializer
+    serialize :others, type: Hash
+    serialize :settings, coder: ::Serializers::IndifferentHashSerializer
   end
 
   def up

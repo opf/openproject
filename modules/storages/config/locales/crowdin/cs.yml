@@ -5,6 +5,7 @@ cs:
         origin_id: Origin ID
       storages/storage:
         creator: Autor
+        drive: ID disku
         host: Hostitel
         name: Název
         provider_type: Typ poskytovatele

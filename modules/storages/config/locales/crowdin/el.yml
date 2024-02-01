@@ -5,6 +5,7 @@ el:
         origin_id: Origin Id
       storages/storage:
         creator: Δημιουργός
+        drive: Drive ID
         host: Διακομιστής
         name: Όνομα
         provider_type: Τύπος παρόχου

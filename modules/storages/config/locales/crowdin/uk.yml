@@ -5,6 +5,7 @@ uk:
         origin_id: Код джерела
       storages/storage:
         creator: Автор
+        drive: Drive ID
         host: Хост
         name: Назва
         provider_type: Тип постачальника

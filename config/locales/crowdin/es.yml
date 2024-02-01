@@ -251,6 +251,13 @@ es:
       open_as_gantt_title_admin: "Puede modificar los ajustes de visualización (como los tipos de paquetes de trabajo seleccionados) en el apartado de administración de la configuración del proyecto."
       no_results_title_text: No hay proyectos por el momento
       no_results_content_text: Crear un nuevo proyecto
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Cambiar identificador
       activities:
@@ -282,14 +289,14 @@ es:
     columns:
       shared: "Compartido"
     filters:
-      all_shares: 'Todos los compartidos'
+      all_shares: "Todos los compartidos"
     menu:
-      all: 'Todos'
-      invited: 'Invitado'
-      locked: 'Bloqueado'
-      project_roles: 'Roles de proyecto'
-      wp_shares: 'Comparticiones de paquete de trabajo'
-      groups: 'Grupos'
+      all: "Todos"
+      invited: "Invitado"
+      locked: "Bloqueado"
+      project_roles: "Roles de proyecto"
+      wp_shares: "Comparticiones de paquete de trabajo"
+      groups: "Grupos"
   my:
     access_token:
       failed_to_reset_token: "No se pudo restablecer el token de acceso: %{error}"
@@ -519,6 +526,8 @@ es:
         row_count: "Número de filas"
         column_count: "Número de columnas"
         widgets: "Widgets"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Retraso"
         from: "Paquete de trabajo"
@@ -636,6 +645,7 @@ es:
         readonly: "Solo lectura"
         remaining_hours: "Trabajo restante"
         remaining_time: "Trabajo restante"
+        shared_with_users: "Shared with"
         schedule_manually: "Programación manual"
         spent_hours: "Tiempo invertido"
         spent_time: "Tiempo invertido"
@@ -1615,7 +1625,6 @@ es:
   label_age: "Edad"
   label_ago: "días antes"
   label_all: "todos"
-  label_all_projects: "Todos los proyectos"
   label_all_time: "todo el tiempo"
   label_all_words: "Todas las palabras"
   label_all_open_wps: "Todo abierto"
@@ -1632,7 +1641,6 @@ es:
   label_ical_access_key_revoke: "Revocar"
   label_applied_status: "Estado aplicado"
   label_archive_project: "Archivar proyecto"
-  label_archived_projects: "Proyectos archivados"
   label_ascending: "Ascendente"
   label_assigned_to_me_work_packages: "Paquetes de trabajo asignados a mí"
   label_associated_revisions: "Revisiones asociadas"
@@ -1788,6 +1796,7 @@ es:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Archivos"
   label_filter_add: "Añadir filtro"
+  label_filter: "Filters"
   label_filter_plural: "Filtros"
   label_filters_toggle: "Mostrar/Ocultar filtros"
   label_float: "Desprender"
@@ -1900,7 +1909,6 @@ es:
   label_my_account: "Mi cuenta"
   label_my_activity: "Mi actividad"
   label_my_account_data: "Mis datos de cuenta"
-  label_my_projects: "Mis proyectos"
   label_my_queries: "Mis consultas personalizadas"
   label_name: "Nombre"
   label_never: "Nunca"
@@ -2210,11 +2218,11 @@ es:
     mention:
       subject: "%{user_name} le mencionó en %{id}: %{subject}"
     notification:
-      center: 'Al centro de notificaciones'
-      see_in_center: 'Ver comentario en el centro de notificaciones'
-      settings: 'Cambiar configuración de correo electrónico'
-    salutation: 'Hola %{user}'
-    salutation_full_name: 'Nombre completo'
+      center: "Al centro de notificaciones"
+      see_in_center: "Ver comentario en el centro de notificaciones"
+      settings: "Cambiar configuración de correo electrónico"
+    salutation: "Hola %{user}"
+    salutation_full_name: "Nombre completo"
     work_packages:
       created_at: "Creado a las %{timestamp} por %{user} "
       login_to_see_all: "Inicie sesión para ver todas las notificaciones."
@@ -3058,12 +3066,12 @@ es:
         one: "1 usuario"
         other: "%{count} usuarios"
       filter:
-        project_member: 'Miembro del proyecto'
-        not_project_member: 'No miembro del proyecto'
-        project_group: 'Grupo del proyecto'
-        not_project_group: 'No grupo del proyecto'
-        role: 'Perfil'
-        type: 'Tipo'
+        project_member: "Miembro del proyecto"
+        not_project_member: "No miembro del proyecto"
+        project_group: "Grupo del proyecto"
+        not_project_group: "No grupo del proyecto"
+        role: "Perfil"
+        type: "Tipo"
       label_search: "Buscar usuarios para invitar"
       label_search_placeholder: "Buscar por usuario o dirección de correo electrónico"
       label_toggle_all: "Activar todas las comparticiones"
@@ -3080,7 +3088,7 @@ es:
       text_empty_search_description: "No hay usuarios con los criterios de filtro actuales."
       text_empty_search_header: "No pudimos encontrar ningún resultado coincidente."
       text_empty_state_description: "El paquete de trabajo aún no ha sido compartido con nadie."
-      text_empty_state_header: "No hay miembros compartidos."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Añadir usuarios adicionales excederá el límite actual. Póngase en contacto con un administrador para aumentar el límite de usuario para asegurar que los usuarios externos puedan acceder a este paquete de trabajo."
       text_user_limit_reached_admins: 'Añadir usuarios adicionales excederá el límite actual. Por favor, <a href="%{upgrade_url}">actualice su plan</a> para poder añadir más usuarios.'
       warning_user_limit_reached: >
@@ -3281,7 +3289,6 @@ es:
       oauth_returned_json_error: "Hay un error de JSON en el OAuth2 "
       oauth_returned_http_error: "Hay un error de red en el OAuth2 "
       oauth_returned_standard_error: "Hay un error interno en el OAuth2 "
-      client_id_blank: "El ID no puede estar en blanco."
       wrong_token_type_returned: "Tipo de token incorrecto en el OAuth2, se espera un AccessToken::Bearer"
       oauth_issue_contact_admin: "Hay un error en el OAuth2. Por favor, consulte con el administrador del sistema."
       oauth_client_not_found: "Cliente del OAuth2 no encontrado en el punto final 'callback' (redirect_uri)."

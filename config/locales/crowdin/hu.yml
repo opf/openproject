@@ -253,6 +253,13 @@ hu:
       open_as_gantt_title_admin: "A nézetbeállításokat (például a kiválasztott munkacsomag típusokat) módosíthatja az adminisztrációban a projektbeállítások alatt.\n"
       no_results_title_text: Jelenleg nincsenek projektek
       no_results_content_text: Új projekt létrehozása
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Azonosító megváltoztatása
       activities:
@@ -284,14 +291,14 @@ hu:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Hozzáférési token helyreállítása sikertelen: %{error}"
@@ -519,6 +526,8 @@ hu:
         row_count: "Sorok száma"
         column_count: "Oszlopok száma"
         widgets: "Kisalkalmazások"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Késés"
         from: "Feladatcsoport"
@@ -636,6 +645,7 @@ hu:
         readonly: "Olvasható"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Kézi ütemezés\n"
         spent_hours: "Eltöltött idő"
         spent_time: "Eltöltött idő"
@@ -1615,7 +1625,6 @@ hu:
   label_age: "Életkor"
   label_ago: "nappal ezelőtt"
   label_all: "mind"
-  label_all_projects: "Minden projekt"
   label_all_time: "minden alkalommal"
   label_all_words: "Minden szó"
   label_all_open_wps: "Nyitottak"
@@ -1632,7 +1641,6 @@ hu:
   label_ical_access_key_revoke: "Visszavonás"
   label_applied_status: "Alkalmazott státusz"
   label_archive_project: "Projekt archiválása"
-  label_archived_projects: "Archived projects"
   label_ascending: "Növekvő"
   label_assigned_to_me_work_packages: "Magamhoz rendelt feladatcsoportok"
   label_associated_revisions: "Kapcsolódó módosítások"
@@ -1788,6 +1796,7 @@ hu:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Fájlok"
   label_filter_add: "Szűrő hozzáadása"
+  label_filter: "Filters"
   label_filter_plural: "Szűrők"
   label_filters_toggle: "Szűrők mutatása/elrejtése"
   label_float: "Mozgó"
@@ -1900,7 +1909,6 @@ hu:
   label_my_account: "Saját fiókom"
   label_my_activity: "My activity"
   label_my_account_data: "Az én fiók adataim"
-  label_my_projects: "Az én projektjeim"
   label_my_queries: "Az én egyéni lekérdezéseim"
   label_name: "Név"
   label_never: "Soha"
@@ -2211,10 +2219,10 @@ hu:
       subject: "%{user_name} megemlített téged itt: #%{id} - %{subject}"
     notification:
       center: "Az értesítési központba\n"
-      see_in_center: 'Lásd a megjegyzést az értesítési központban'
+      see_in_center: "Lásd a megjegyzést az értesítési központban"
       settings: "E-mail beállítások módosítása\n"
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "%{timestamp} időpontban %{user} létrehozta"
       login_to_see_all: "Jelentkezzen be az összes értesítés megtekintéséhez.\n"
@@ -3059,12 +3067,12 @@ hu:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Szerepkör'
-        type: 'Típus'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Szerepkör"
+        type: "Típus"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3081,7 +3089,7 @@ hu:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3282,7 +3290,6 @@ hu:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

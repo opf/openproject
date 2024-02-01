@@ -254,6 +254,13 @@ tr:
       open_as_gantt_title_admin: "Proje ayarları altında yönetimde görünüm ayarlarını (seçilen iş paketi türleri gibi) değiştirebilirsiniz."
       no_results_title_text: Şu anda hiç proje bulunmamakta
       no_results_content_text: Yeni bir proje oluşturun
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Dil Tanımlayıcı değiştir
       activities:
@@ -285,14 +292,14 @@ tr:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Erişim anahtarı sıfırlaması başarısız oldu: %{error}"
@@ -521,6 +528,8 @@ tr:
         row_count: "Satır sayısı"
         column_count: "Sütun sayısı"
         widgets: "Araçlar"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Gecikme"
         from: "İş paketi"
@@ -638,6 +647,7 @@ tr:
         readonly: "Salt okunur"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Manuel zamanlamayı etkinleştir"
         spent_hours: "Harcanan zaman"
         spent_time: "Harcanan zaman"
@@ -1039,7 +1049,7 @@ tr:
     base: "Genel Hata:"
     blocks_ids: "Engellenen iş paketlerinin ID'leri"
     category: "Kategori"
-    comment: "Yorumlar"
+    comment: "Yorum"
     comments: "Yorum"
     content: "İçerik"
     color: "Renk"
@@ -1617,7 +1627,6 @@ tr:
   label_age: "Yaş"
   label_ago: "gün önce"
   label_all: "tüm"
-  label_all_projects: "Tüm projeler"
   label_all_time: "her zaman"
   label_all_words: "Bütün kelimeler"
   label_all_open_wps: "Tüm açık"
@@ -1634,7 +1643,6 @@ tr:
   label_ical_access_key_revoke: "İptal etmek"
   label_applied_status: "Uygulanan statü"
   label_archive_project: "Projeyi arşivle"
-  label_archived_projects: "Archived projects"
   label_ascending: "Azalan"
   label_assigned_to_me_work_packages: "Bana atanan iş paketleri"
   label_associated_revisions: "İlişkili sürümler"
@@ -1790,6 +1798,7 @@ tr:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Dosyalar"
   label_filter_add: "Filtre ekle"
+  label_filter: "Filters"
   label_filter_plural: "Filtreler"
   label_filters_toggle: "Filtreleri göster / gizle"
   label_float: "Ondalık"
@@ -1902,7 +1911,6 @@ tr:
   label_my_account: "Hesabım"
   label_my_activity: "My activity"
   label_my_account_data: "Hesap verilerim"
-  label_my_projects: "Projelerim"
   label_my_queries: "Özel sorgularım"
   label_name: "İsim"
   label_never: "Hiçbir zaman"
@@ -2212,11 +2220,11 @@ tr:
     mention:
       subject: "%{user_name}, #%{id} - %{subject} içinde sizden bahsetti"
     notification:
-      center: 'bildirim merkezi'
-      see_in_center: 'Bildirim merkezinde yorumu görün'
-      settings: 'E-posta ayarlarını değiştir'
-    salutation: 'Merhaba %{user}'
-    salutation_full_name: 'Full name'
+      center: "bildirim merkezi"
+      see_in_center: "Bildirim merkezinde yorumu görün"
+      settings: "E-posta ayarlarını değiştir"
+    salutation: "Merhaba %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "%{timestamp} tarihinde %{user} tarafından oluşturuldu"
       login_to_see_all: "Tüm bildirimleri görmek için giriş yapın."
@@ -3058,12 +3066,12 @@ tr:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Rol'
-        type: 'Tür'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Rol"
+        type: "Tür"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3080,7 +3088,7 @@ tr:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3281,7 +3289,6 @@ tr:
       oauth_returned_json_error: "OAuth2 bir JSON hatası döndürdü"
       oauth_returned_http_error: "OAuth2 bir ağ hatası döndürdü"
       oauth_returned_standard_error: "OAuth2 bir dahili hata döndürdü"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 yanlış türde bir belirteç döndürdü ve AccessToken::Bearer bekleniyor"
       oauth_issue_contact_admin: "OAuth2 bir hata bildirdi. Lütfen sistem yöneticinize başvurun."
       oauth_client_not_found: "OAuth2 istemcisi 'geri arama' bitiş noktasında bulunamadı (redirect_uri)."

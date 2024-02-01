@@ -45,7 +45,6 @@ RSpec.describe 'Copy work packages through Rails view', :js, :with_cuprite do
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
-  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
   let(:notes) { Components::WysiwygEditor.new }
 
   before do
@@ -287,33 +286,6 @@ RSpec.describe 'Copy work packages through Rails view', :js, :with_cuprite do
       # This test makes sure the copy to clipboard logic is working,
       # regardless of the browser permissions.
       expect(page).to have_content("/wp/#{work_package.id}")
-    end
-  end
-
-  describe 'accessing the bulk copy from the card view' do
-    before do
-      display_representation.switch_to_card_layout
-      loading_indicator_saveguard
-      # Select all work packages
-      find('body').send_keys [:control, 'a']
-    end
-
-    context 'with permissions' do
-      let(:current_user) { mover }
-
-      it 'does allow to copy' do
-        context_menu.open_for work_package
-        context_menu.expect_options 'Bulk copy'
-      end
-    end
-
-    context 'without permission' do
-      let(:current_user) { dev }
-
-      it 'does not allow to copy' do
-        context_menu.open_for work_package
-        context_menu.expect_no_options 'Bulk copy'
-      end
     end
   end
 

@@ -614,7 +614,7 @@ JJ Abrams</textarea>
       end
 
       context 'with a label specified as symbol' do
-        let(:text) { :name }
+        let(:text) { :label_name }
 
         before do
           options[:label] = text
@@ -626,10 +626,16 @@ JJ Abrams</textarea>
       end
 
       context 'without ActiveModel and specified label' do
+        # This is a hypotethical resource that does not have an existing translation
+        # key, therefore stubbing the translation is allowed.
+        before do
+          allow(I18n).to receive(:t).with(:name, scope: 'user').and_return('Name')
+        end
+
         let(:resource) { OpenStruct.new name: 'Deadpool' }
 
         it 'falls back to the I18n name' do
-          expected_label_like(I18n.t(:name))
+          expected_label_like(I18n.t(:name, scope: 'user'))
         end
       end
 
@@ -669,7 +675,7 @@ JJ Abrams</textarea>
       end
 
       context 'when required, with a label specified as symbol' do
-        let(:text) { :name }
+        let(:text) { :label_name }
 
         before do
           options[:label] = text
@@ -677,7 +683,7 @@ JJ Abrams</textarea>
         end
 
         it 'uses the label' do
-          expected_form_label_like(I18n.t(:name), 'form--label')
+          expected_form_label_like(I18n.t(:label_name), 'form--label')
         end
       end
     end

@@ -55,8 +55,8 @@ RSpec.describe 'updating a budget', :js do
       budget_page.visit!
       click_on 'Update'
 
-      budget_page.add_unit_costs! 3, comment: 'Stimpak'
-      budget_page.add_labor_costs! 5, user_name: user.name, comment: 'treatment'
+      budget_page.add_unit_costs! 3, comment: 'Stimpak', expected_costs: '150.00 EUR'
+      budget_page.add_labor_costs! 5, user_name: user.name, comment: 'treatment', expected_costs: '125.00 EUR'
 
       click_on 'Submit'
       expect(budget_page).to have_content('Successful update')

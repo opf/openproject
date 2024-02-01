@@ -251,6 +251,13 @@ ca:
       open_as_gantt_title_admin: "Pots modificar les configuracions de vista (com els estils de paquets de treball seleccionats) en l'administració dins de la configuració del projecte."
       no_results_title_text: Actualment no hi ha projectes
       no_results_content_text: Crear un nou projecte
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Canvia l'identificador
       activities:
@@ -282,14 +289,14 @@ ca:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Fallada al reiniciar el token d'accés: %{error}"
@@ -518,6 +525,8 @@ ca:
         row_count: "Nombre de files"
         column_count: "Nombre de columnes"
         widgets: "Widgets"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Retard"
         from: "Paquet de treball"
@@ -635,6 +644,7 @@ ca:
         readonly: "Només lectura"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Planificació manual"
         spent_hours: "Temps invertit"
         spent_time: "Temps invertit"
@@ -1614,7 +1624,6 @@ ca:
   label_age: "Edat"
   label_ago: "dies abans"
   label_all: "tot"
-  label_all_projects: "Tots els projectes"
   label_all_time: "tot el temps"
   label_all_words: "Totes les paraules"
   label_all_open_wps: "Tots els oberts"
@@ -1631,7 +1640,6 @@ ca:
   label_ical_access_key_revoke: "Revoca"
   label_applied_status: "Estat aplicat"
   label_archive_project: "Arxiva el projecte"
-  label_archived_projects: "Archived projects"
   label_ascending: "Ascendent"
   label_assigned_to_me_work_packages: "Paquets de treball assignats a mi"
   label_associated_revisions: "Revisions associades"
@@ -1787,6 +1795,7 @@ ca:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Arxius"
   label_filter_add: "Afegir un filtre"
+  label_filter: "Filters"
   label_filter_plural: "Filtres"
   label_filters_toggle: "Mostra/amaga filtres"
   label_float: "Flotant"
@@ -1899,7 +1908,6 @@ ca:
   label_my_account: "El meu compte"
   label_my_activity: "La meva activitat"
   label_my_account_data: "Dades del meu compte"
-  label_my_projects: "Els meus projectes"
   label_my_queries: "Les meves consultes personalitzades"
   label_name: "Nom"
   label_never: "Mai"
@@ -2209,11 +2217,11 @@ ca:
     mention:
       subject: "%{user_name} t'ha mencionat a %{id} - %{subject}"
     notification:
-      center: 'Anar al Centre de notificacions'
-      see_in_center: 'Veure el comentari en el centre de notificacions'
-      settings: 'Canvia la configuració dels correus electrònics'
-    salutation: 'Hola %{user}'
-    salutation_full_name: 'Full name'
+      center: "Anar al Centre de notificacions"
+      see_in_center: "Veure el comentari en el centre de notificacions"
+      settings: "Canvia la configuració dels correus electrònics"
+    salutation: "Hola %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Creat a les %{timestamp} per %{user}"
       login_to_see_all: "Inicia sessió per veure totes les notificacions."
@@ -3052,12 +3060,12 @@ ca:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Rol'
-        type: 'Tipus'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Rol"
+        type: "Tipus"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3074,7 +3082,7 @@ ca:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3275,7 +3283,6 @@ ca:
       oauth_returned_json_error: "L'OAuth2 retorna un error JSON"
       oauth_returned_http_error: "L'OAuth2 retorna un error de xarxa"
       oauth_returned_standard_error: "L'OAuth2 retorna un error intern"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "L'OAuth2 ha retornat una classe de token invàlida, s'espera un AccessToken::Bearer"
       oauth_issue_contact_admin: "L'OAuth2 reporta un error. Si us plau, contacta amb l'administrador del sistema."
       oauth_client_not_found: "No s'ha trobat el client OAuth2 en la \"callback\" al \"endpoint\" (redirect_uri)."

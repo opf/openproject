@@ -5,6 +5,7 @@ ko:
         origin_id: 원본 ID
       storages/storage:
         creator: 생성자
+        drive: Drive ID
         host: 호스트
         name: 이름
         provider_type: 공급자 유형

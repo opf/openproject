@@ -250,6 +250,13 @@ el:
       open_as_gantt_title_admin: "Μπορείτε να τροποποιήσετε τις ρυθμίσεις προβολής (όπως επιλεγμένοι τύποι πακέτων εργασίας) στη διαχείριση κάτω από τις ρυθμίσεις του έργου."
       no_results_title_text: Προς το παρόν δεν υπάρχουν έργα
       no_results_content_text: Δημιουργία νέου έργου
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Αλλαγή αναγνωριστικού
       activities:
@@ -281,14 +288,14 @@ el:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Αποτυχία επαναφοράς του token πρόσβασης: %{error}"
@@ -518,6 +525,8 @@ el:
         row_count: "Πλήθος γραμμών"
         column_count: "Πλήθος στηλών"
         widgets: "Γραφικά στοιχεία"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Καθυστέρηση"
         from: "Εργασία"
@@ -635,6 +644,7 @@ el:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Χειροκίνητος προγραμματισμός"
         spent_hours: "Χρόνος που δαπανήθηκε"
         spent_time: "Χρόνος που δαπανήθηκε"
@@ -1614,7 +1624,6 @@ el:
   label_age: "Ηλικία"
   label_ago: "ημέρες πριν"
   label_all: "όλα"
-  label_all_projects: "Όλα τα έργα"
   label_all_time: "πάντα"
   label_all_words: "Όλες οι λέξεις"
   label_all_open_wps: "Όλα τα ανοιχτά"
@@ -1631,7 +1640,6 @@ el:
   label_ical_access_key_revoke: "Ανάκληση"
   label_applied_status: "Εφαρμόστηκε η κατάσταση"
   label_archive_project: "Αρχειοθέτηση έργου"
-  label_archived_projects: "Archived projects"
   label_ascending: "Αύξουσα"
   label_assigned_to_me_work_packages: "Πακέτα εργασίας που έχουν ανατεθεί σε μένα"
   label_associated_revisions: "Σχετικές αναθεωρήσεις"
@@ -1787,6 +1795,7 @@ el:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Αρχεία"
   label_filter_add: "Προσθήκη φίλτρου"
+  label_filter: "Filters"
   label_filter_plural: "Φίλτρα"
   label_filters_toggle: "Εμφάνιση/απόκρυψη φίλτρων"
   label_float: "Float"
@@ -1899,7 +1908,6 @@ el:
   label_my_account: "Ο λογαριασμός μου"
   label_my_activity: "My activity"
   label_my_account_data: "Τα δεδομένα του λογαριασμού μου"
-  label_my_projects: "Τα έργα μου"
   label_my_queries: "Οι προσαρμοσμένες αναζητήσεις μου"
   label_name: "Όνομα"
   label_never: "Ποτέ"
@@ -2209,11 +2217,11 @@ el:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -3057,12 +3065,12 @@ el:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Ρόλος'
-        type: 'Τύπος'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Ρόλος"
+        type: "Τύπος"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3079,7 +3087,7 @@ el:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3280,7 +3288,6 @@ el:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

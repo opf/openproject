@@ -253,6 +253,13 @@ ru:
       open_as_gantt_title_admin: "Вы можете изменить настройки вида (такие как выбранные типы пакетов работ) в администрировании в настройках проекта."
       no_results_title_text: На данный момент проектов нет
       no_results_content_text: Создать новый проект
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Идентификатор изменений
       activities:
@@ -284,14 +291,14 @@ ru:
     columns:
       shared: "Общий доступ"
     filters:
-      all_shares: 'Все используемое совместно'
+      all_shares: "Все используемое совместно"
     menu:
-      all: 'Все'
-      invited: 'Приглашённые'
-      locked: 'Заблокировано'
-      project_roles: 'Роли проекта'
-      wp_shares: 'Пакеты работ используемые совместно'
-      groups: 'Группы'
+      all: "Все"
+      invited: "Приглашённые"
+      locked: "Заблокировано"
+      project_roles: "Роли проекта"
+      wp_shares: "Пакеты работ используемые совместно"
+      groups: "Группы"
   my:
     access_token:
       failed_to_reset_token: "Не удалось сбросить маркер доступа: %{error}"
@@ -523,6 +530,8 @@ ru:
         row_count: "Количество строк"
         column_count: "Количество столбцов"
         widgets: "Виджеты"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Задержка"
         from: "Пакет работ"
@@ -640,6 +649,7 @@ ru:
         readonly: "Только для чтения"
         remaining_hours: "Оставшиеся часы"
         remaining_time: "Оставшиеся часы"
+        shared_with_users: "Shared with"
         schedule_manually: "Ручное планирование"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"
@@ -1671,7 +1681,6 @@ ru:
   label_age: "Возраст"
   label_ago: "дней назад"
   label_all: "все"
-  label_all_projects: "Все проекты"
   label_all_time: "все время"
   label_all_words: "Все слова"
   label_all_open_wps: "Все открытые"
@@ -1688,7 +1697,6 @@ ru:
   label_ical_access_key_revoke: "Отозвать"
   label_applied_status: "Прикладной статус"
   label_archive_project: "Архивировать проект"
-  label_archived_projects: "Архивные проекты"
   label_ascending: "По возрастанию"
   label_assigned_to_me_work_packages: "Переданные мне пакеты работ"
   label_associated_revisions: "Связанные изменения"
@@ -1844,6 +1852,7 @@ ru:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Файлы"
   label_filter_add: "Добавить фильтр"
+  label_filter: "Filters"
   label_filter_plural: "Фильтры"
   label_filters_toggle: "Показать/скрыть фильтры"
   label_float: "Плавающий"
@@ -1956,7 +1965,6 @@ ru:
   label_my_account: "Моя учетная запись"
   label_my_activity: "Моя активность"
   label_my_account_data: "Данные моей учетной записи"
-  label_my_projects: "Мои проекты"
   label_my_queries: "Мои пользовательские запросы"
   label_name: "Имя"
   label_never: "Никогда"
@@ -2266,11 +2274,11 @@ ru:
     mention:
       subject: "%{user_name} упомянул вас в #%{id} - %{subject}"
     notification:
-      center: 'В центр уведомлений'
-      see_in_center: 'Смотрите комментарий в центре уведомлений'
-      settings: 'Изменить настройки электронной почты'
-    salutation: 'Здравствуйте, %{user}'
-    salutation_full_name: 'Полное имя'
+      center: "В центр уведомлений"
+      see_in_center: "Смотрите комментарий в центре уведомлений"
+      settings: "Изменить настройки электронной почты"
+    salutation: "Здравствуйте, %{user}"
+    salutation_full_name: "Полное имя"
     work_packages:
       created_at: "Создано %{timestamp} пользователем %{user} "
       login_to_see_all: "Войдите, чтобы увидеть все уведомления."
@@ -3118,12 +3126,12 @@ ru:
         one: "1 пользователь"
         other: "%{count} пользователей"
       filter:
-        project_member: 'Участник проекта'
-        not_project_member: 'Не участник проекта'
-        project_group: 'Группа проекта'
-        not_project_group: 'Не группа проекта'
-        role: 'Роль'
-        type: 'Тип'
+        project_member: "Участник проекта"
+        not_project_member: "Не участник проекта"
+        project_group: "Группа проекта"
+        not_project_group: "Не группа проекта"
+        role: "Роль"
+        type: "Тип"
       label_search: "Искать пользователей для приглашения"
       label_search_placeholder: "Поиск по пользователю или адресу электронной почты"
       label_toggle_all: "Переключить все общие ресурсы"
@@ -3140,7 +3148,7 @@ ru:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "Пакет работ еще не передан никому."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, свяжитесь с администратором, чтобы увеличить лимит пользователей, чтобы убедиться, что внешние пользователи имеют доступ к этому пакету работ."
       text_user_limit_reached_admins: 'Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}"> обновите свой тарифный план </a>, чтобы иметь возможность добавлять больше пользователей.'
       warning_user_limit_reached: >
@@ -3343,7 +3351,6 @@ ru:
       oauth_returned_json_error: "OAuth2 вернул ошибку JSON"
       oauth_returned_http_error: "OAuth2 вернул ошибку сети"
       oauth_returned_standard_error: "OAuth2 вернул внутреннюю ошибку"
-      client_id_blank: "ID не может быть пустым."
       wrong_token_type_returned: "OAuth2 вернул неверный тип токена, ожидая AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 сообщил об ошибке. Обратитесь к системному администратору."
       oauth_client_not_found: "OAuth2 'state' не найден в конечной точке 'callback' (redirect_uri)."

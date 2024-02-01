@@ -5,6 +5,7 @@ zh-TW:
         origin_id: 來源 ID
       storages/storage:
         creator: 建立者
+        drive: Drive ID
         host: 主機
         name: 名稱
         provider_type: 提供者類型

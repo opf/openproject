@@ -1,4 +1,4 @@
-OpenProject::Application.configure do
+Rails.application.configure do
   next unless OpenProject::Configuration.lookbook_enabled?
 
   require 'factory_bot'

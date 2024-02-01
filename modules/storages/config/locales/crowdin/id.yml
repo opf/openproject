@@ -5,6 +5,7 @@ id:
         origin_id: Identifikasi Asli
       storages/storage:
         creator: Pembuat
+        drive: Drive ID
         host: Host
         name: Nama
         provider_type: Tipe penyedia

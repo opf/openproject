@@ -80,7 +80,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         end
       end.to_xml
 
-      response = Util
+      response = OpenProject
                    .httpx
                    .basic_auth(@username, @password)
                    .request(

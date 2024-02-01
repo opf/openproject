@@ -156,11 +156,14 @@ RSpec.describe 'Subproject action board', :js, with_ee: %i[board_view] do
       # Move item to Child 2 list
       board_page.move_card(0, from: 'Child 1', to: 'Child 2')
 
+      # TODO: The board reloading is flickering after the move_card action.
+      # It needs to be fixed.
+
       board_page.expect_card('Child 1', 'Task 1', present: false)
       board_page.expect_card('Child 2', 'Task 1', present: true)
 
       # Expect work package to be saved in query second
-      retry_block do
+      retry_block(args: { tries: 3, base_interval: 5 }) do
         raise "first should be empty" if first.reload.ordered_work_packages.any?
         raise "second should have one item" if second.reload.ordered_work_packages.count != 1
       end

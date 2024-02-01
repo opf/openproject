@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
+Rails.application.routes.draw do
   resources :projects, only: %i[] do
     resources :meetings, only: %i[index new create]
   end

@@ -1032,6 +1032,7 @@ fr:
       sharing:
         share: 'Partager'
         title: "Partager le lot de travaux"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} sélectionné"
         selection:
           mixed: "Mixte"
@@ -1265,7 +1266,7 @@ fr:
         all: 'Tous les projets'
         selected: 'Uniquement la sélection'
       search_placeholder: 'Rechercher un projet...'
-      include_subprojects: 'Inclure tous les sous-projets'
+      include_subprojects: 'inclure tous les sous-projets'
       tooltip:
         include_all_selected: 'Projet déjà inclus puisque Include tous les sous-projets sont activés.'
         current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'

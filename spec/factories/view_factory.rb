@@ -41,4 +41,8 @@ FactoryBot.define do
   factory :view_gantt, parent: :view do
     type { 'gantt' }
   end
+
+  factory :view_bim, parent: :view do
+    type { 'bim' }
+  end
 end

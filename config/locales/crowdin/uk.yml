@@ -249,6 +249,13 @@ uk:
       open_as_gantt_title_admin: "Ви можете змінити налаштування подання (наприклад, вибрані типи пакетів робіт) у меню адміністрування в налаштуваннях проєкту."
       no_results_title_text: Наразі немає проектів
       no_results_content_text: Створіть новий проект
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Ідентифікатор змін
       activities:
@@ -280,14 +287,14 @@ uk:
     columns:
       shared: "Поширені"
     filters:
-      all_shares: 'Усі поширення'
+      all_shares: "Усі поширення"
     menu:
-      all: 'Усі'
-      invited: 'Запрошені'
-      locked: 'Заблоковані'
-      project_roles: 'Ролі в проєкті'
-      wp_shares: 'Поширення пакета робіт'
-      groups: 'Групи'
+      all: "Усі"
+      invited: "Запрошені"
+      locked: "Заблоковані"
+      project_roles: "Ролі в проєкті"
+      wp_shares: "Поширення пакета робіт"
+      groups: "Групи"
   my:
     access_token:
       failed_to_reset_token: "Не вдалося відновити маркер доступу: %{error}"
@@ -519,6 +526,8 @@ uk:
         row_count: "Кількість рядків"
         column_count: "Кількість стовпців"
         widgets: "Віджети"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Затримка"
         from: "Пакет робіт"
@@ -636,6 +645,7 @@ uk:
         readonly: "Лише читання"
         remaining_hours: "Залишок роботи"
         remaining_time: "Залишок роботи"
+        shared_with_users: "Shared with"
         schedule_manually: "Ручне планування"
         spent_hours: "Трудовитрати"
         spent_time: "Трудовитрати"
@@ -1667,7 +1677,6 @@ uk:
   label_age: "Вік"
   label_ago: "днів тому"
   label_all: "всі"
-  label_all_projects: "Усі проєкти"
   label_all_time: "весь час"
   label_all_words: "Всі слова"
   label_all_open_wps: "Всі відкрити"
@@ -1684,7 +1693,6 @@ uk:
   label_ical_access_key_revoke: "Скасувати"
   label_applied_status: "Застосовний статус"
   label_archive_project: "Архівний проект"
-  label_archived_projects: "Заархівовані проєкти"
   label_ascending: "За зростанням"
   label_assigned_to_me_work_packages: "Робочі пакети призначені мені"
   label_associated_revisions: "Пов'язані редакції"
@@ -1840,6 +1848,7 @@ uk:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Файли"
   label_filter_add: "Додати фільтр"
+  label_filter: "Filters"
   label_filter_plural: "Фільтри"
   label_filters_toggle: "Показати / приховати фільтри"
   label_float: "З плаваючою крапкою"
@@ -1877,7 +1886,7 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: "Інструкції із встановлення"
+  label_installation_guides: "Інструкції зі встановлення"
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
@@ -1952,7 +1961,6 @@ uk:
   label_my_account: "Мій обліковий запис"
   label_my_activity: "Мої дії"
   label_my_account_data: "Мої дані облікового запису"
-  label_my_projects: "Мої проекти"
   label_my_queries: "Мої збережені запити"
   label_name: "Ім’я"
   label_never: "Ніколи"
@@ -2262,11 +2270,11 @@ uk:
     mention:
       subject: "Користувач %{user_name} згадав вас у #%{id} – %{subject}"
     notification:
-      center: 'Центр сповіщень'
-      see_in_center: 'Переглянути коментарі у центрі сповіщень'
-      settings: 'Змінити налаштування електронної пошти'
-    salutation: 'Добрий день, %{user}!'
-    salutation_full_name: 'Повне ім’я'
+      center: "Центр сповіщень"
+      see_in_center: "Переглянути коментарі у центрі сповіщень"
+      settings: "Змінити налаштування електронної пошти"
+    salutation: "Добрий день, %{user}!"
+    salutation_full_name: "Повне ім’я"
     work_packages:
       created_at: "Створено о %{timestamp} користувачем %{user} "
       login_to_see_all: "Увійдіть, щоб переглянути всі сповіщення."
@@ -3114,12 +3122,12 @@ uk:
         one: "1 користувач"
         other: "Користувачів: %{count}"
       filter:
-        project_member: 'Учасник проєкту'
-        not_project_member: 'Не учасник проєкту'
-        project_group: 'Група проєкту'
-        not_project_group: 'Не група проєкту'
-        role: 'роль'
-        type: 'Тип'
+        project_member: "Учасник проєкту"
+        not_project_member: "Не учасник проєкту"
+        project_group: "Група проєкту"
+        not_project_group: "Не група проєкту"
+        role: "роль"
+        type: "Тип"
       label_search: "Шукати й запрошувати користувачів"
       label_search_placeholder: "Пошук за користувачем або електронною адресою"
       label_toggle_all: "Перемкнути всі спільні ресурси"
@@ -3136,7 +3144,7 @@ uk:
       text_empty_search_description: "Користувачів за поточними умовами фільтра не знайдено"
       text_empty_search_header: "Результатів за запитом не знайдено."
       text_empty_state_description: "Доступ до цього пакета робіт ще нікому не надано."
-      text_empty_state_header: "Немає учасників із доступом."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Додавання користувачів призведе до перевищення поточного ліміту. Зверніться до адміністратора, щоб збільшити ліміт користувачів і таким чином забезпечити доступ до цього пакета робіт зовнішнім користувачам."
       text_user_limit_reached_admins: 'Додавання користувачів призведе до перевищення поточного ліміту. <a href="%{upgrade_url}">Підвищте рівень свого плану</a>, щоб додати користувачів.'
       warning_user_limit_reached: >
@@ -3339,7 +3347,6 @@ uk:
       oauth_returned_json_error: "Клієнт OAuth2 повернув помилку JSON"
       oauth_returned_http_error: "Клієнт OAuth2 повернув помилку мережі"
       oauth_returned_standard_error: "Клієнт OAuth2 повернув внутрішню помилку"
-      client_id_blank: "Поле «ID» не може бути порожнє."
       wrong_token_type_returned: "Клієнт OAuth2 повернув неправильний тип маркеру (очікувався тип AccessToken::Bearer)"
       oauth_issue_contact_admin: "Клієнт OAuth2 повідомив про помилку. Зверніться до системного адміністратора."
       oauth_client_not_found: "Клієнта OAuth2 не знайдено в кінцевій точці 'callback' (redirect_uri)."

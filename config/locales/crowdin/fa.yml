@@ -254,6 +254,13 @@ fa:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: تغییر شناسه
       activities:
@@ -285,14 +292,14 @@ fa:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "عدم موفقیت در تنظیم مجدد رمز دسترسی: %{error}"
@@ -522,6 +529,8 @@ fa:
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "تأخیر"
         from: "بسته کاری"
@@ -639,6 +648,7 @@ fa:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "زمان‌بندی دستی"
         spent_hours: "زمان صرف شده"
         spent_time: "زمان صرف شده"
@@ -1618,7 +1628,6 @@ fa:
   label_age: "Age"
   label_ago: "days ago"
   label_all: "all"
-  label_all_projects: "همه پروژه‌ها"
   label_all_time: "all time"
   label_all_words: "All words"
   label_all_open_wps: "All open"
@@ -1635,7 +1644,6 @@ fa:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Applied status"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "Ascending"
   label_assigned_to_me_work_packages: "Work packages assigned to me"
   label_associated_revisions: "Associated revisions"
@@ -1791,6 +1799,7 @@ fa:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Files"
   label_filter_add: "Add filter"
+  label_filter: "Filters"
   label_filter_plural: "فیلترها"
   label_filters_toggle: "نمایش/پنهان کردن فیلتر"
   label_float: "Float"
@@ -1903,7 +1912,6 @@ fa:
   label_my_account: "My account"
   label_my_activity: "My activity"
   label_my_account_data: "My account data"
-  label_my_projects: "پروژه‌های من"
   label_my_queries: "My custom queries"
   label_name: "نام"
   label_never: "Never"
@@ -2213,11 +2221,11 @@ fa:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -3063,12 +3071,12 @@ fa:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'نوع'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Role"
+        type: "نوع"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3085,7 +3093,7 @@ fa:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3286,7 +3294,6 @@ fa:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

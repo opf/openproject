@@ -46,6 +46,8 @@ RSpec.describe Projects::EnabledModulesContract do
     end
 
     allow(OpenProject::AccessControl).to receive(:modules).and_return(ac_modules)
+    allow(I18n).to receive(:t).with("project_module_a_module").and_return("A Module")
+    allow(I18n).to receive(:t).with("project_module_b_module").and_return("B Module")
   end
 
   describe '#valid?' do

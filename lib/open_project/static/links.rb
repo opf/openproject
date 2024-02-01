@@ -191,7 +191,7 @@ module OpenProject
             },
             api_docs: {
               href: 'https://www.openproject.org/docs/api/',
-              label: :label_api_documentation
+              label: :label_api_doc
             },
             text_formatting: {
               href: 'https://www.openproject.org/docs/user-guide/wysiwyg/',

@@ -52,6 +52,7 @@ import { QueryFormResource } from 'core-app/features/hal/resources/query-form-re
 import { WorkPackageStatesInitializationService } from './wp-states-initialization.service';
 import { WorkPackagesListInvalidQueryService } from './wp-list-invalid-query.service';
 import { WorkPackagesQueryViewService } from 'core-app/features/work-packages/components/wp-list/wp-query-view.service';
+import { TurboElement } from 'core-typings/turbo';
 
 export interface QueryDefinition {
   queryParams:{ query_id?:string|null, query_props?:string|null };
@@ -255,6 +256,7 @@ export class WorkPackagesListService {
         // Reload the query, and then reload the menu
         this.reloadQuery(createdQuery).subscribe(() => {
           this.states.changes.queries.next(createdQuery.id);
+          this.reloadSidemenu(createdQuery.id);
         });
 
         return createdQuery;
@@ -280,14 +282,21 @@ export class WorkPackagesListService {
       .then(() => {
         this.toastService.addSuccess(this.I18n.t('js.notice_successful_delete'));
 
-        let id;
-        if (query.project) {
-          id = query.project.href!.split('/').pop();
+        if (this.$state.$current.data.hardReloadOnBaseRoute) {
+          const url = new URL(window.location.href);
+          url.search = '';
+          window.location.href = url.href;
+        } else {
+          let projectId;
+          if (query.project) {
+            projectId = query.project.href!.split('/').pop();
+          }
+
+          void this.loadDefaultQuery(projectId);
+
+          this.states.changes.queries.next(query.id!);
+          this.reloadSidemenu(null);
         }
-
-        this.loadDefaultQuery(id);
-
-        this.states.changes.queries.next(query.id!);
       });
 
     return promise;
@@ -311,6 +320,7 @@ export class WorkPackagesListService {
 
         this.$state.go('.', { query_id: query!.id, query_props: null }, { reload: true });
         this.states.changes.queries.next(query!.id!);
+        this.reloadSidemenu(query.id);
       })
       .catch((error:ErrorResource) => {
         this.toastService.addError(error.message);
@@ -338,6 +348,7 @@ export class WorkPackagesListService {
       this.toastService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
       this.states.changes.queries.next(query.id!);
+      this.reloadSidemenu(query.id);
     });
 
     return promise;
@@ -422,5 +433,25 @@ export class WorkPackagesListService {
             mapTo(createdQuery),
           )),
       );
+  }
+
+  private reloadSidemenu(selectedQueryId:string|null):void {
+    const menuIdentifier:string|undefined = this.$state.current.data.sidemenuId;
+
+    if (menuIdentifier) {
+      const menu = (document.getElementById(menuIdentifier) as HTMLElement&TurboElement);
+      const currentSrc = menu.getAttribute('src');
+
+      if (currentSrc && menu) {
+        const frameUrl = new URL(currentSrc);
+
+        // Override the frame src to enforce a reload
+        if (selectedQueryId) {
+          frameUrl.search = `?query_id=${selectedQueryId}`;
+        }
+
+        menu.setAttribute('src', frameUrl.href);
+      }
+    }
   }
 }

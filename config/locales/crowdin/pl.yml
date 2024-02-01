@@ -251,6 +251,13 @@ pl:
       open_as_gantt_title_admin: "Możesz modyfikować ustawienia widoku (takie jak wybrane typy pakietów roboczych) w obszarze administracji w ustawieniach projektu."
       no_results_title_text: Nie ma jeszcze żadnego projektu
       no_results_content_text: Utwórz nowy projekt
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Identyfikator zmiany
       activities:
@@ -282,14 +289,14 @@ pl:
     columns:
       shared: "Udostępniono"
     filters:
-      all_shares: 'Wszystkie udostępnienia'
+      all_shares: "Wszystkie udostępnienia"
     menu:
-      all: 'Wszyscy'
-      invited: 'Zaproszeni'
-      locked: 'Zablokowani'
-      project_roles: 'Role w projekcie'
-      wp_shares: 'Udostępnienia pakietu roboczego'
-      groups: 'Grupy'
+      all: "Wszyscy"
+      invited: "Zaproszeni"
+      locked: "Zablokowani"
+      project_roles: "Role w projekcie"
+      wp_shares: "Udostępnienia pakietu roboczego"
+      groups: "Grupy"
   my:
     access_token:
       failed_to_reset_token: "Nie można zresetować tokena dostępu: %{error}"
@@ -521,6 +528,8 @@ pl:
         row_count: "Liczba wierszy"
         column_count: "Liczba kolumn"
         widgets: "Widżety"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Opóźnienie"
         from: "Zadanie"
@@ -638,6 +647,7 @@ pl:
         readonly: "Tylko do odczytu"
         remaining_hours: "Pozostała praca"
         remaining_time: "Pozostała praca"
+        shared_with_users: "Shared with"
         schedule_manually: "Planowanie ręczne"
         spent_hours: "Czas pracy"
         spent_time: "Czas pracy"
@@ -668,7 +678,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         error_conflict: "Information has been updated by at least one other user in the meantime."
@@ -1669,7 +1679,6 @@ pl:
   label_age: "Wiek"
   label_ago: "dni temu"
   label_all: "wszystkie"
-  label_all_projects: "Wszystkie projekty"
   label_all_time: "cały czas"
   label_all_words: "Wszystkie słowa"
   label_all_open_wps: "Wszystkie otwarte"
@@ -1686,7 +1695,6 @@ pl:
   label_ical_access_key_revoke: "Unieważnij"
   label_applied_status: "Nadaj status"
   label_archive_project: "Archiwum projektów"
-  label_archived_projects: "Zarchiwizowane projekty"
   label_ascending: "Rosnąco"
   label_assigned_to_me_work_packages: "Zadania przypisane do mnie"
   label_associated_revisions: "Powiązane rewizje"
@@ -1842,6 +1850,7 @@ pl:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Pliki"
   label_filter_add: "Dodaj filtr"
+  label_filter: "Filters"
   label_filter_plural: "Filtry"
   label_filters_toggle: "Pokaż/Ukryj filtry"
   label_float: "Liczba rzeczywista"
@@ -1954,7 +1963,6 @@ pl:
   label_my_account: "Moje konto"
   label_my_activity: "Moja aktywność"
   label_my_account_data: "Moje dane konta"
-  label_my_projects: "Moje projekty"
   label_my_queries: "Moje zapytania niestandardowe"
   label_name: "Nazwa"
   label_never: "Nigdy"
@@ -2264,11 +2272,11 @@ pl:
     mention:
       subject: "%{user_name} wspomniał o tobie w #%{id} - %{subject}"
     notification:
-      center: 'Do centrum powiadomień'
-      see_in_center: 'Zobacz komentarz w centrum powiadomień'
-      settings: 'Zmień ustawienia poczty elektronicznej'
-    salutation: 'Witaj %{user}'
-    salutation_full_name: 'Imię i nazwisko'
+      center: "Do centrum powiadomień"
+      see_in_center: "Zobacz komentarz w centrum powiadomień"
+      settings: "Zmień ustawienia poczty elektronicznej"
+    salutation: "Witaj %{user}"
+    salutation_full_name: "Imię i nazwisko"
     work_packages:
       created_at: "Utworzono %{timestamp}, autor %{user} "
       login_to_see_all: "Zaloguj się, aby zobaczyć wszystkie powiadomienia."
@@ -2947,7 +2955,7 @@ pl:
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
   text_journal_attachment_added: "%{label} %{value} dodano jako załącznik"
-  text_journal_attachment_deleted: "%{label} %{old} usunięto jako załącznik"
+  text_journal_attachment_deleted: "%{label} %{value} usunięto jako załącznik"
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
@@ -3117,12 +3125,12 @@ pl:
         one: "1 użytkownik"
         other: "%{count} użytkowników"
       filter:
-        project_member: 'Członek projektu'
-        not_project_member: 'Nie jest członkiem projektu'
-        project_group: 'Grupa projektu'
-        not_project_group: 'Nie jest grupą projektu'
-        role: 'Rola'
-        type: 'Typ'
+        project_member: "Członek projektu"
+        not_project_member: "Nie jest członkiem projektu"
+        project_group: "Grupa projektu"
+        not_project_group: "Nie jest grupą projektu"
+        role: "Rola"
+        type: "Typ"
       label_search: "Wyszukaj użytkowników do zaproszenia"
       label_search_placeholder: "Wyszukaj użytkownika lub adres e-mail"
       label_toggle_all: "Przełącz wszystkie udostępnienia"
@@ -3139,7 +3147,7 @@ pl:
       text_empty_search_description: "Brak użytkowników spełniających bieżące kryteria filtrowania."
       text_empty_search_header: "Nie mogliśmy znaleźć żadnych pasujących wyników."
       text_empty_state_description: "Pakiet roboczy nie został jeszcze nikomu udostępniony."
-      text_empty_state_header: "Brak członków, którym go udostępniono."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby zapewnić użytkownikom zewnętrznym dostęp do tego pakietu roboczego, skontaktuj się z administratorem w celu zwiększenia limitu liczby użytkowników."
       text_user_limit_reached_admins: 'Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby móc dodać więcej użytkowników, <a href="%{upgrade_url}">przejdź na wyższy plan</a>.'
       warning_user_limit_reached: >
@@ -3174,7 +3182,7 @@ pl:
         non_working: "%{day} jest teraz dniem nieroboczym"
       dates:
         working: "%{day} jest teraz roboczym"
-        non_working: "%{date} jest teraz wolnym od pracy"
+        non_working: "%{day} jest teraz wolnym od pracy"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:
@@ -3342,7 +3350,6 @@ pl:
       oauth_returned_json_error: "OAuth2 zwrócił błąd JSON"
       oauth_returned_http_error: "OAuth2 zwrócił błąd sieciowy"
       oauth_returned_standard_error: "OAuth2 zwrócił błąd wewnętrzny"
-      client_id_blank: "Identyfikator nie może być pusty."
       wrong_token_type_returned: "OAuth2 zwrócił niewłaściwy typ tokena, oczekując AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 zgłosił błąd. Skontaktuj się z administratorem systemu."
       oauth_client_not_found: "Nie znaleziono klienta OAuth2 w punkcie końcowym 'callback' (redirect_uri)."
