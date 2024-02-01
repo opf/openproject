@@ -30,7 +30,6 @@ module CustomFields::Inputs::Base::Utils
   def base_input_attributes
     {
       id:,
-      scope_name_to_model: false, # TODO: get rid of this, should work with scope_name_to_model: true
       name:,
       label:,
       value:,
@@ -45,8 +44,7 @@ module CustomFields::Inputs::Base::Utils
   end
 
   def name
-    # TODO: get rid of this, should work with scope_name_to_model: true
-    "#{@object.class.name.downcase}[custom_field_values][#{@custom_field.id}]"
+    @custom_field.id.to_s
   end
 
   def label

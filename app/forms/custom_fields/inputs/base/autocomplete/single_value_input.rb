@@ -48,8 +48,7 @@ class CustomFields::Inputs::Base::Autocomplete::SingleValueInput < ApplicationFo
     {
       multiple: false,
       decorated: decorated?,
-      inputId: id,
-      inputName: name
+      inputId: id
     }
   end
 

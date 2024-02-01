@@ -9,9 +9,7 @@
       ) do |f|
         component_collection do |collection|
           collection.with_component(Primer::Alpha::Dialog::Body.new(my: 3, style: "max-height: 500px;")) do
-            f.fields_for(:custom_field_values) do |f|
-              render(Projects::CustomFields::Form.new(f, project: @project, custom_field_section: @project_custom_field_section))
-            end
+            render(Projects::CustomFields::Form.new(f, project: @project, custom_field_section: @project_custom_field_section))
           end
           collection.with_component(Primer::Alpha::Dialog::Footer.new) do
             component_collection do |footer_collection|

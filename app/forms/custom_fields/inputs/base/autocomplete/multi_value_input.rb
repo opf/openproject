@@ -48,8 +48,7 @@ class CustomFields::Inputs::Base::Autocomplete::MultiValueInput < ApplicationFor
     {
       multiple: true,
       decorated: decorated?,
-      inputId: id,
-      inputName: name
+      inputId: id
     }
   end
 
