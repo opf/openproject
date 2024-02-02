@@ -30,21 +30,23 @@
 
 module Storages
   class HealthStatusMailerJob < ApplicationJob
-    def perform(storage)
+    def perform(admins:, storage:)
       if storage.health_healthy?
         return
       end
 
-      Storages::StoragesMailer.notify_unhealthy(storage).deliver_now
+      admins.each do |admin|
+        Storages::StoragesMailer.notify_unhealthy(admin, storage).deliver_now
+      end
 
-      schedule
+      HealthStatusMailerJob.schedule(admins:, storage:)
     end
 
     class << self
-      def schedule
+      def schedule(admins:, storage:)
         next_run_time = Date.tomorrow.beginning_of_day + 2.hours
 
-        HealthStatusMailerJob.set(wait_until: next_run_time).perform_later
+        HealthStatusMailerJob.set(wait_until: next_run_time).perform_later(admins: admins.records, storage:)
       end
     end
   end

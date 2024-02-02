@@ -650,4 +650,8 @@ Rails.application.routes.draw do
   if OpenProject::Configuration.lookbook_enabled?
     mount Lookbook::Engine, at: "/lookbook"
   end
+
+  if Rails.env.development?
+    mount LetterOpenerWeb::Engine, at: "/letter_opener"
+  end
 end

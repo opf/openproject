@@ -27,6 +27,34 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<p><%= link_to(@storage.name, storage_url(@storage)) %> (<%= @storage.provider_type %>)</p>
+<table>
+  <tr>
+    <%= placeholder_cell('20px', vertical: false) %>
+  </tr>
+</table>
 
-<%= format_text @storage.health_reason %>
+<table <%= placeholder_table_styles(width: '100%', style: 'width:100%;max-width:700px') %>>
+  <tr>
+    <%= placeholder_cell('12px', vertical: true) %>
+    <td>
+      <%
+        summary = I18n.t("mail.storages.health.unhealthy.summary", storage_name: @storage.name)
+      %>
+
+      <%= render partial: 'mailer/mailer_header',
+                 locals: {
+                   user: @admin,
+                   summary:,
+                   button_href: @url,
+                   button_text: I18n.t(:'mail.storages.health.see_storage_settings'),
+                 } %>
+
+      <table>
+        <tr>
+          <%= placeholder_cell('40px', vertical: false) %>
+        </tr>
+      </table>
+    </td>
+    <%= placeholder_cell('12px', vertical: true) %>
+  </tr>
+</table>

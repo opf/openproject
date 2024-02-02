@@ -34,32 +34,21 @@ module Storages
 
     helper_method :message_url
 
-    before_action :find_admins, only: %i[notify_unhealthy notify_healthy]
-
-    def notify_unhealthy(storage, reason)
+    def notify_unhealthy(admin, storage)
+      @admin = admin
       @storage = storage
-      @reason = reason
+      @reason = storage.health_reason
+      @url = edit_admin_settings_storage_url(storage)
       subject = "Storage turned unhealthy!"
-      send_mail_to_admins(storage, subject)
+      mail(to: admin.mail, subject:)
     end
 
-    def notify_healthy(storage)
+    def notify_healthy(admin, storage)
+      @admin = admin
       @storage = storage
+      @url = edit_admin_settings_storage_url(storage)
       subject = "Storage is back healthy!"
-      send_mail_to_admins(storage, subject)
-    end
-
-    private
-
-    def find_admins
-      @admins = User.where(admin: true)
-                    .where.not(mail: [nil, ''])
-    end
-
-    def send_mail_to_admins(storage, subject)
-      @admins.each do |admin|
-        mail(to: admin.mail, subject:)
-      end
+      mail(to: admin.mail, subject:)
     end
   end
 end

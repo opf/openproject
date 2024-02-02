@@ -109,6 +109,7 @@ Rails.application.configure do
 
   # Send mails to browser window
   config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.delivery_method = File.exist?('/.dockerenv') ? :letter_opener_web : :letter_opener
 
   # Set email preview locations to rspec
   config.action_mailer.preview_paths << Rails.root.join('spec/mailers/previews')

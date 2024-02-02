@@ -10,21 +10,30 @@ module Storages
 
         @storage.mark_as_healthy
 
-        ::Storages::StoragesMailer.notify_healthy(@storage).deliver_now if was_unhealthy
+        admin_users.each do |admin|
+          ::Storages::StoragesMailer.notify_healthy(admin, @storage).deliver_now if was_unhealthy
+        end
       end
 
       def unhealthy(reason:)
         @storage.mark_as_unhealthy(reason:)
 
-        ::Storages::StoragesMailer.notify_unhealthy(@storage, reason).deliver_now
+        admin_users.each do |admin|
+          ::Storages::StoragesMailer.notify_unhealthy(admin, @storage).deliver_now
+        end
 
-        schedule_mail_job unless mail_job_exists?
+        schedule_mail_job(@storage) unless mail_job_exists?
       end
 
       private
 
-      def schedule_mail_job
-        ::Storages::HealthStatusMailerJob.schedule
+      def admin_users
+        User.where(admin: true)
+            .where.not(mail: [nil, ''])
+      end
+
+      def schedule_mail_job(storage)
+        ::Storages::HealthStatusMailerJob.schedule(admins: admin_users, storage:)
       end
 
       def mail_job_exists?

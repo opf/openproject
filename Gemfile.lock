@@ -665,6 +665,11 @@ GEM
     lefthook (1.6.4)
     letter_opener (1.9.0)
       launchy (>= 2.2, < 3)
+    letter_opener_web (2.0.0)
+      actionmailer (>= 5.2)
+      letter_opener (~> 1.7)
+      railties (>= 5.2)
+      rexml
     listen (3.8.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -1198,6 +1203,7 @@ DEPENDENCIES
   launchy (~> 2.5.0)
   lefthook
   letter_opener
+  letter_opener_web
   listen (~> 3.8.0)
   lograge (~> 0.14.0)
   lookbook (~> 2.2.1)
