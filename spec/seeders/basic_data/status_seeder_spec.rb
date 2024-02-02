@@ -28,10 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe BasicData::StatusSeeder do
-  include_context 'with basic seed data'
+  include_context "with basic seed data"
 
   subject(:seeder) { described_class.new(seed_data) }
 
@@ -41,7 +41,7 @@ RSpec.describe BasicData::StatusSeeder do
     seeder.seed!
   end
 
-  context 'with some statuses defined' do
+  context "with some statuses defined" do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
         statuses:
@@ -54,48 +54,61 @@ RSpec.describe BasicData::StatusSeeder do
         - reference: :status_in_progress
           name: In progress
           color_name: grape-5
+          default_done_ratio: 50
           position: 2
         - reference: :status_closed
           name: Closed
           color_name: gray-3
+          default_done_ratio: 100
           is_closed: true
           position: 3
       SEEDING_DATA_YAML
     end
 
-    it 'creates the corresponding statuses with the given attributes' do
+    it "creates the corresponding statuses with the given attributes" do
       expect(Status.count).to eq(3)
-      expect(Status.find_by(name: 'New')).to have_attributes(
+      expect(Status.find_by(name: "New")).to have_attributes(
         is_closed: false,
         is_default: true,
         position: 1
       )
-      expect(Status.find_by(name: 'Closed')).to have_attributes(
+      expect(Status.find_by(name: "In progress")).to have_attributes(
+        default_done_ratio: 50,
+        position: 2
+      )
+      expect(Status.find_by(name: "Closed")).to have_attributes(
         is_closed: true,
         is_default: false,
+        default_done_ratio: 100,
         position: 3
       )
     end
 
-    it 'sets is_closed and is_default to false if not specified' do
-      expect(Status.find_by(name: 'In progress')).to have_attributes(
+    it "sets is_closed and is_default to false if not specified" do
+      expect(Status.find_by(name: "In progress")).to have_attributes(
         is_closed: false,
         is_default: false
       )
     end
 
-    it 'looks color_id up from its name' do
-      expect(Status.find_by(name: 'New')).to have_attributes(
-        color_id: Color.find_by(name: 'cyan-7').id
+    it "sets default_done_ratio to 0 if not specified" do
+      expect(Status.find_by(name: "New")).to have_attributes(
+        default_done_ratio: 0
       )
     end
 
-    it 'references the status in the seed data' do
+    it "looks color_id up from its name" do
+      expect(Status.find_by(name: "New")).to have_attributes(
+        color_id: Color.find_by(name: "cyan-7").id
+      )
+    end
+
+    it "references the status in the seed data" do
       created_status = Status.last
       expect(seed_data.find_reference(:status_closed)).to eq(created_status)
     end
 
-    context 'when seeding a second time' do
+    context "when seeding a second time" do
       subject(:second_seeder) { described_class.new(second_seed_data) }
 
       let(:second_seed_data) { basic_seed_data.merge(Source::SeedData.new(data_hash)) }
@@ -104,7 +117,7 @@ RSpec.describe BasicData::StatusSeeder do
         second_seeder.seed!
       end
 
-      it 'registers existing matching statuses as references in the seed data' do
+      it "registers existing matching statuses as references in the seed data" do
         # using the first seed data as the expected value
         expect(second_seed_data.find_reference(:status_closed))
           .to eq(seed_data.find_reference(:status_closed))
@@ -116,14 +129,14 @@ RSpec.describe BasicData::StatusSeeder do
     end
   end
 
-  context 'without statuses defined' do
+  context "without statuses defined" do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
         nothing here: ''
       SEEDING_DATA_YAML
     end
 
-    it 'creates no statuses' do
+    it "creates no statuses" do
       expect(Status.count).to eq(0)
     end
   end
