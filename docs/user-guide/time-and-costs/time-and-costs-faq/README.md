@@ -31,7 +31,7 @@ Yes, you can use the "My spent time" widget on My Page and use the filters there
 
 ## Can I log time in a different unit than hours, e.g. in days?
 
-No, it is not (yet) possible to log time in days or any other units than hours. However, you can use decimal places, like 0.25 hours.
+No, it is not (yet) possible to log time in days or any other units besides hours. However, you can use decimal places, like 0.25 hours.
 
 ## Does OpenProject offer resource management?
 
