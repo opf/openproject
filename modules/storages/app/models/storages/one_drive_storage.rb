@@ -34,7 +34,6 @@ module Storages
       automatic_management_enabled: true
     }.freeze
 
-    store_attribute :provider_fields, :automatic_management_enabled, :boolean
     store_attribute :provider_fields, :tenant_id, :string
     store_attribute :provider_fields, :drive_id, :string
 
