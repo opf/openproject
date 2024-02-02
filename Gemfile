@@ -282,6 +282,7 @@ group :test do
   gem 'shoulda-matchers', '~> 6.0', require: nil
 
   gem 'parallel_tests', '~> 4.0'
+  gem 'parallel_split_test', '~> 0.10'
 end
 
 group :ldap do

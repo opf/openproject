@@ -769,6 +769,9 @@ GEM
       activerecord (>= 6.1)
       request_store (~> 1.4)
     parallel (1.24.0)
+    parallel_split_test (0.10.0)
+      parallel (>= 0.5.13)
+      rspec-core (>= 3.9.0)
     parallel_tests (4.4.0)
       parallel
     parser (3.3.0.5)
@@ -1239,6 +1242,7 @@ DEPENDENCIES
   overviews!
   ox
   paper_trail (~> 15.1.0)
+  parallel_split_test (~> 0.10)
   parallel_tests (~> 4.0)
   pdf-inspector (~> 1.2)
   pg (~> 1.5.0)
