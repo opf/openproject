@@ -89,7 +89,7 @@ namespace :backup do
       hash = ActiveRecord::Base.connection_db_config.configuration_hash
 
       {
-        **hash.slice(:host, :port, :database, :password, :sslkey, :sslcert, :sslca),
+        **hash.slice(:host, :port, :database, :password),
         user: hash[:user] || hash[:username],
       }
     end
