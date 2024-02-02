@@ -17,7 +17,7 @@
       <%= render(Primer::Beta::Octicon.new(:"check-circle", size: :medium, color: :success)) %>
     <% end %>
     <% flex.with_row do %>
-      <%= render(Primer::Beta::Heading.new(tag: :h2, text_align: :center)) { I18n.t('storages.open_project_storage_modal.success.title') } %>
+      <%= render(Primer::Beta::Heading.new(tag: :h2, text_align: :center)) { success_title } %>
     <% end %>
     <% flex.with_row do %>
       <%= render(Primer::Beta::Text.new(text_align: :center, color: :muted)) { success_subtitle } %>

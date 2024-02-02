@@ -60,7 +60,9 @@ module Storages::Admin
 
     def body_text
       if authorized?
-        concat(render(Storages::OpenProjectStorageModalComponent::Body.new(:success, success_subtitle_notice: :ready)))
+        success_title = I18n.t('storages.oauth_grant_nudge_modal.access_granted')
+        success_subtitle = I18n.t('storages.oauth_grant_nudge_modal.storage_ready', storage: project_storage.storage.name)
+        concat(render(Storages::OpenProjectStorageModalComponent::Body.new(:success, success_subtitle:, success_title:)))
       else
         I18n.t('storages.oauth_grant_nudge_modal.body')
       end
