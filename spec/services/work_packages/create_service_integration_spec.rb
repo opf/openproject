@@ -153,7 +153,7 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
 
       # parent updated
       parent.reload
-      expect(parent.done_ratio)
+      expect(parent.derived_done_ratio)
         .to eql attributes[:done_ratio]
       expect(parent.start_date)
         .to eql attributes[:start_date]

@@ -26,17 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { HierarchyQueryLinkHelperService } from 'core-app/shared/components/fields/display/field-types/hierarchy-query-link-helper.service';
 
-export class EstimatedTimeDisplayField extends DisplayField {
-  @InjectField() timezoneService:TimezoneService;
-
+export class CompoundProgressDisplayField extends DisplayField {
   @InjectField() PathHelper:PathHelperService;
 
   @InjectField() apiV3Service:ApiV3Service;
@@ -45,75 +42,33 @@ export class EstimatedTimeDisplayField extends DisplayField {
 
   private derivedText = this.I18n.t('js.label_value_derived_from_children');
 
-  public get valueString():string {
-    return this.timezoneService.formattedDuration(this.value as string);
-  }
-
-  /**
-   * Duration fields may have an additional derived value
-   */
-  public get derivedPropertyName():string {
-    return `derived${this.name.charAt(0).toUpperCase()}${this.name.slice(1)}`;
-  }
-
-  public get derivedValue():string|null {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    return this.resource[this.derivedPropertyName] as string|null;
-  }
-
-  public get derivedValueString():string {
-    const value = this.derivedValue;
-
-    if (value) {
-      return this.timezoneService.formattedDuration(value);
-    }
-    return this.placeholder;
-  }
-
   public render(element:HTMLElement, displayText:string):void {
-    if (this.isEmpty()) {
-      element.textContent = this.placeholder;
-      return;
-    }
-
     element.classList.add('split-time-field');
+    element.setAttribute('title', displayText);
+
     this.renderActual(element, displayText);
 
-    const derived = this.derivedValue;
-    if (derived && derived !== this.value && this.timezoneService.toHours(derived) !== 0) {
+    if (this.hasChildren()) {
       this.renderSeparator(element);
       this.renderDerived(element, this.derivedValueString);
     }
   }
 
-  public renderActual(element:HTMLElement, displayText:string):void {
+  private renderActual(element:HTMLElement, displayText:string):void {
     const span = document.createElement('span');
 
-    if (this.value) {
-      span.textContent = displayText;
-      span.title = this.valueString;
-    } else {
-      span.textContent = this.texts.placeholder;
-      span.title = this.texts.placeholder;
-    }
+    span.textContent = displayText;
+    span.title = this.valueString;
     span.classList.add('-actual-value');
 
     element.appendChild(span);
   }
 
-  public renderSeparator(element:HTMLElement) {
-    const span = document.createElement('span');
-    span.classList.add('-separator');
-    span.textContent = '·';
-    span.ariaHidden = 'true';
-    element.appendChild(span);
-  }
-
-  public renderDerived(element:HTMLElement, displayText:string):void {
+  private renderDerived(element:HTMLElement, displayText:string):void {
     const link = document.createElement('a');
 
     link.textContent = `Σ ${displayText}`;
-    link.title = `${this.derivedValueString} ${this.derivedText}`;
+    link.title = `${displayText} ${this.derivedText}`;
     link.classList.add('-derived-value', uiStateLinkClass);
 
     this.hierarchyQueryLinkHelper.addHref(link, this.resource);
@@ -121,15 +76,41 @@ export class EstimatedTimeDisplayField extends DisplayField {
     element.appendChild(link);
   }
 
-  public get title():string|null {
-    return null; // we want to render separate titles ourselves
+  public renderSeparator(element:HTMLElement):void {
+    const span = document.createElement('span');
+
+    span.textContent = '·';
+    span.classList.add('-separator');
+    span.ariaHidden = 'true';
+
+    element.appendChild(span);
   }
 
-  public isEmpty():boolean {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    const { value } = this;
-    const derived = this.derivedValue;
+  public get value():number {
+    return this.resource[this.name] as number || 0;
+  }
 
-    return !value && !derived;
+  public get valueString() {
+    return this.formatAsPercentage(this.value);
+  }
+
+  private get derivedPropertyName():string {
+    return `derived${_.upperFirst(this.name)}`;
+  }
+
+  private get derivedValue() {
+    return this.resource[this.derivedPropertyName] as number;
+  }
+
+  private get derivedValueString():string {
+    return this.formatAsPercentage(this.derivedValue);
+  }
+
+  private formatAsPercentage(value:number) {
+    return `${value}%`;
+  }
+
+  private hasChildren() {
+    return !!this.resource.children;
   }
 }
