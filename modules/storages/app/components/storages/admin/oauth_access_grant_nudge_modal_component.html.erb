@@ -23,7 +23,7 @@
         ) { cancel_button_text }
       )
 
-      if waiting?
+      unless authorized?
         concat(
           render(
             Primer::Beta::Button.new(

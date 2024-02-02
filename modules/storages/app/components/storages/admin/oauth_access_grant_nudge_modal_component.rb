@@ -33,7 +33,7 @@ module Storages::Admin
     options dialog_id: 'storages--oauth-grant-nudge-modal-component',
             dialog_body_id: 'storages--oauth-grant-nudge-modal-body-component',
             confirm_button_text: I18n.t('storages.oauth_grant_nudge_modal.confirm_button_label'),
-            state: :waiting
+            authorized: false
 
     attr_reader :project_storage
 
@@ -45,30 +45,29 @@ module Storages::Admin
     private
 
     def title
-      return unless waiting?
+      return if authorized?
 
       I18n.t('storages.oauth_grant_nudge_modal.title')
     end
 
     def cancel_button_text
-      if waiting?
-        I18n.t('storages.oauth_grant_nudge_modal.cancel_button_label')
-      else
+      if authorized?
         I18n.t('button_close')
+      else
+        I18n.t('storages.oauth_grant_nudge_modal.cancel_button_label')
       end
     end
 
     def body_text
-      case options[:state].to_sym
-      when :waiting
-        I18n.t('storages.oauth_grant_nudge_modal.body')
-      when :success
+      if authorized?
         concat(render(Storages::OpenProjectStorageModalComponent::Body.new(:success, success_subtitle_notice: :ready)))
+      else
+        I18n.t('storages.oauth_grant_nudge_modal.body')
       end
     end
 
-    def waiting?
-      options[:state] == :waiting
+    def authorized?
+      authorized.present?
     end
 
     def confirm_button_url

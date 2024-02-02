@@ -106,10 +106,10 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
       nonce = SecureRandom.uuid
       cookies["oauth_state_#{nonce}"] = {
         value: { href: project_settings_project_storages_url(project_id: @project_storage.project_id),
-                 storageId: @project_storage.storage_id,
-                 href_params: oauth_access_grant_nudge_modal(:success) }.to_json,
+                 storageId: @project_storage.storage_id }.to_json,
         expires: 1.hour
       }
+      session[:oauth_callback_flash_modal] = oauth_access_grant_nudge_modal(authorized: true).dig(:flash, :modal)
       redirect_to(connection_manager.get_authorization_uri(state: nonce))
     end
   end
@@ -207,18 +207,18 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
   def redirect_to_project_storages_path_with_nudge_modal
     redirect_to(
       project_settings_project_storages_path,
-      oauth_access_grant_nudge_modal(:waiting)
+      oauth_access_grant_nudge_modal
     )
   end
 
-  def oauth_access_grant_nudge_modal(state)
+  def oauth_access_grant_nudge_modal(authorized: false)
     {
       flash: {
         modal: {
           type: 'Storages::Admin::OAuthAccessGrantNudgeModalComponent',
           parameters: {
             project_storage_id: @project_storage.id,
-            state:
+            authorized:
           }
         }
       }

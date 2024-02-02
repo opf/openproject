@@ -26,6 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+require "rack/oauth2"
+require "uri/http"
+
 module OAuthClients
   class RedirectUriFromStateService
     def initialize(state:, cookies:)
@@ -34,13 +37,10 @@ module OAuthClients
     end
 
     def call
-      return ServiceResult.failure if @state.blank?
-
-      redirect_uri = oauth_state_cookie[:href]
-      redirect_uri_params = oauth_state_cookie.fetch(:href_params, {})
+      redirect_uri = oauth_state_cookie
 
       if redirect_uri.present? && ::API::V3::Utilities::PathHelper::ApiV3Path::same_origin?(redirect_uri)
-        ServiceResult.success(result: { redirect_uri:, redirect_uri_params: })
+        ServiceResult.success(result: redirect_uri)
       else
         ServiceResult.failure
       end
@@ -49,13 +49,13 @@ module OAuthClients
     private
 
     def oauth_state_cookie
-      @oauth_state_cookie ||= load_oauth_state_cookie
-    end
+      return nil if @state.blank?
 
-    def load_oauth_state_cookie
-      return if (cookie = @cookies["oauth_state_#{@state}"]).blank?
+      state_cookie = @cookies["oauth_state_#{@state}"]
+      return nil if state_cookie.blank?
 
-      MultiJson.load(cookie, symbolize_keys: true)
+      state_value = MultiJson.load(@cookies["oauth_state_#{@state}"], symbolize_keys: true)
+      state_value[:href]
     end
   end
 end
