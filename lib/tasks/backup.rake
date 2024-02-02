@@ -38,22 +38,22 @@ namespace :backup do
 
       config = database_configuration
 
-      with_config_file(config) do |config_file|
-        pg_dump_call = ['pg_dump',
-                        '--clean',
-                        "--file=#{args[:path_to_backup]}",
-                        '--format=custom',
-                        '--no-owner']
-        pg_dump_call << "--host=#{config[:host]}" if config[:host]
-        pg_dump_call << "--port=#{config[:port]}" if config[:port]
-        pg_dump_call << "--username=#{config[:user]}" if config[:user]
-        pg_dump_call << config[:database].to_s
+      pg_dump_call = ['pg_dump',
+                      '--clean',
+                      "--file=#{args[:path_to_backup]}",
+                      '--format=custom',
+                      '--no-owner']
+      pg_dump_call << "--host=#{config[:host]}" if config[:host]
+      pg_dump_call << "--port=#{config[:port]}" if config[:port]
+      pg_dump_call << "--username=#{config[:user]}" if config[:user]
+      pg_dump_call << config[:database].to_s
 
-        if config[:password]
+      if config[:password]
+        with_config_file(config) do |config_file|
           Kernel.system({ 'PGPASSFILE' => config_file }, *pg_dump_call)
-        else
-          Kernel.system(*pg_dump_call)
         end
+      else
+        Kernel.system(*pg_dump_call)
       end
     end
 
@@ -64,22 +64,22 @@ namespace :backup do
 
       config = database_configuration
 
-      with_config_file(config) do |config_file|
-        pg_restore_call = ['pg_restore',
-                           '--clean',
-                           '--no-owner',
-                           '--single-transaction',
-                           "--dbname=#{config[:database]}"]
-        pg_restore_call << "--host=#{config[:host]}" if config[:host]
-        pg_restore_call << "--port=#{config[:port]}" if config[:port]
-        pg_restore_call << "--username=#{config[:user]}" if config[:user]
-        pg_restore_call << args[:path_to_backup].to_s
+      pg_restore_call = ['pg_restore',
+                         '--clean',
+                         '--no-owner',
+                         '--single-transaction',
+                         "--dbname=#{config[:database]}"]
+      pg_restore_call << "--host=#{config[:host]}" if config[:host]
+      pg_restore_call << "--port=#{config[:port]}" if config[:port]
+      pg_restore_call << "--username=#{config[:user]}" if config[:user]
+      pg_restore_call << args[:path_to_backup].to_s
 
-        if config[:password]
+      if config[:password]
+        with_config_file(config) do |config_file|
           Kernel.system({ 'PGPASSFILE' => config_file }, *pg_restore_call)
-        else
-          Kernel.system(*pg_restore_call)
         end
+      else
+        Kernel.system(*pg_restore_call)
       end
     end
 
