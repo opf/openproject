@@ -102,18 +102,6 @@ namespace :backup do
       end
     end
 
-    def sql_dump_tempfile(config)
-      t =  "[client]\n"
-      t << "password=\"#{config[:password]}\"\n"
-      t << "user=\"#{config[:user]}\"\n"
-      t << "host=\"#{config[:host] || '127.0.0.1'}\"\n"
-      t << "port=\"#{config[:port]}\"\n" if config[:port]
-      t << "ssl-key=\"#{config[:sslkey]}\"\n" if config[:sslkey]
-      t << "ssl-cert=\"#{config[:sslcert]}\"\n" if config[:sslcert]
-      t << "ssl-ca=\"#{config[:sslca]}\"\n" if config[:sslca]
-      t
-    end
-
     def default_db_filename
       filename = "openproject-#{Rails.env}-db-#{date_string}.backup"
       Rails.root.join('backup', sanitize_filename(filename))
