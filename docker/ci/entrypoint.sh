@@ -5,6 +5,7 @@ export PATH="/usr/lib/postgresql/$PGVERSION/bin:$PATH"
 export JOBS="${CI_JOBS:=$(nproc)}"
 # for parallel rspec
 export PARALLEL_TEST_PROCESSORS=$JOBS
+export PARALLEL_SPLIT_TEST_PROCESSES=$JOBS
 export PARALLEL_TEST_FIRST_IS_1=true
 export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 # export NODE_OPTIONS="--max-old-space-size=8192"
@@ -131,7 +132,7 @@ run_units() {
 run_features() {
 	shopt -s extglob
 	reset_dbs
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_features.log spec/features modules/**/spec/features"
+	execute "time bundle exec parallel_split_test spec/features modules/**/spec/features"
 	cleanup
 }
 
