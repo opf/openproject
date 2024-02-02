@@ -310,10 +310,10 @@ RSpec.describe Project do
       end
     end
 
-    describe '#desendants' do
+    describe '#descendants' do
       it 'returns the descendants of the work package' do
         expect(root_project.descendants)
-          .to eq [parent_project, child_project1, child_project2]
+          .to contain_exactly(parent_project, child_project1, child_project2)
       end
 
       it 'returns empty array if there are no descendants' do
@@ -325,7 +325,7 @@ RSpec.describe Project do
     describe '#children' do
       it 'returns the children of the work package' do
         expect(parent_project.children)
-          .to eq [child_project1, child_project2]
+          .to contain_exactly(child_project1, child_project2)
       end
 
       it 'returns empty array if there are no descendants' do

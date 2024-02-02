@@ -254,6 +254,13 @@ zh-TW:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: 目前沒有專案
       no_results_content_text: 建立新專案
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -326,6 +333,8 @@ zh-TW:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: 這個使用者目前不是任何專案的成員
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -588,6 +597,7 @@ zh-TW:
         color: "顏色"
       user:
         admin: "管理員"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP 連線"
         identity_url: "Identity URL"
         current_password: "目前的密碼"
@@ -943,6 +953,8 @@ zh-TW:
               invalid_on_create: "不是新用戶的有效狀態"
             ldap_auth_source:
               error_not_found: "未找到"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "請至少選擇一個使用者或群組。"
           role_blank: "需要被指定"
@@ -1408,6 +1420,7 @@ zh-TW:
     message: 訊息已編輯
     news: 新知
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "專案已編輯"
     reply: 已回覆
     time_entry: "已編輯時間日誌"
@@ -1550,6 +1563,7 @@ zh-TW:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "發送此操作的通知"
     work_packages:
@@ -1593,12 +1607,12 @@ zh-TW:
   label_age: "年齡"
   label_ago: "天前"
   label_all: "所有"
-  label_all_projects: "所有專案"
   label_all_time: "所有的時間"
   label_all_words: "所以的詞"
   label_all_open_wps: "全部打開"
   label_always_visible: "總是顯示"
   label_announcement: "公告"
+  label_angular: "AngularJS"
   label_api_access_key: "API金鑰"
   label_api_access_key_created_on: "API金鑰在 %{value} 以前被建立"
   label_api_access_key_type: "API"
@@ -1610,7 +1624,6 @@ zh-TW:
   label_ical_access_key_revoke: "撤銷"
   label_applied_status: "套用的狀態"
   label_archive_project: "專案歸檔"
-  label_archived_projects: "Archived projects"
   label_ascending: "昇冪"
   label_assigned_to_me_work_packages: "分配給我的工作項目"
   label_associated_revisions: "關聯的修訂"
@@ -1630,8 +1643,9 @@ zh-TW:
   label_available_project_work_package_categories: "可用的工作項目類別"
   label_available_project_work_package_types: "可用的工作包類型"
   label_available_projects: "Available projects"
-  label_api_documentation: "API文件"
+  label_api_doc: "API documentation"
   label_backup: "備份"
+  label_backup_code: "Backup code"
   label_between: "介於"
   label_blocked_by: "標示禁止者"
   label_blocks: "區塊"
@@ -1641,6 +1655,7 @@ zh-TW:
   label_forum_plural: "論壇"
   label_forum_sticky: "附著"
   label_boolean: "布林值"
+  label_board_plural: "Boards"
   label_branch: "分支"
   label_browse: "瀏覽"
   label_bulk_edit_selected_work_packages: "整批編輯選取的工作項目"
@@ -1667,6 +1682,7 @@ zh-TW:
   label_check_uncheck_all_in_column: "選取/取消選取 全部"
   label_check_uncheck_all_in_row: "選取/取消選取 全部"
   label_child_element: "子項目"
+  label_choices: "Choices"
   label_chronological_order: "由舊排列至新"
   label_close_versions: "關閉已完成的版本"
   label_closed_work_packages: "已關閉"
@@ -1698,6 +1714,7 @@ zh-TW:
   label_custom_field_plural: "自訂欄位"
   label_custom_field_default_type: "空類型"
   label_custom_style: "設計"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL 版本"
   label_date: "日期"
   label_date_and_time: "日期和時間"
@@ -1754,6 +1771,8 @@ zh-TW:
   label_example: "範例"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "匯入"
   label_export_to: "也可匯出成"
   label_expanded_click_to_collapse: "已擴大。按一下可折疊"
@@ -1793,6 +1812,7 @@ zh-TW:
   label_home: "Home"
   label_subject_or_id: "主旨或 id"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "法律聲明"
   label_in: "在"
   label_in_less_than: "少於"
@@ -1809,6 +1829,7 @@ zh-TW:
   label_internal: "內部"
   label_introduction_video: "簡介影片"
   label_invite_user: "邀請使用者"
+  label_share: "Share"
   label_show_hide: "顯示/隱藏"
   label_show_all_registered_users: "顯示所有註冊使用者"
   label_journal: "日誌"
@@ -1879,7 +1900,7 @@ zh-TW:
   label_my_account: "我的帳號"
   label_my_activity: "My activity"
   label_my_account_data: "我的帳號資料"
-  label_my_projects: "我的專案"
+  label_my_avatar: "My avatar"
   label_my_queries: "我的自訂查詢"
   label_name: "名稱"
   label_never: "永不"
@@ -2015,6 +2036,7 @@ zh-TW:
   label_search: "搜尋"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "發送測試電子郵件"
+  label_session: "Session"
   label_setting_plural: "設定"
   label_system_settings: "系統設置"
   label_show_completed_versions: "顯示已完成的版本"
@@ -2044,11 +2066,13 @@ zh-TW:
   label_system_storage: "儲存空間資訊"
   label_table_of_contents: "目錄"
   label_tag: "標記"
+  label_team_planner: "Team Planner"
   label_text: "長文字"
   label_this_month: "本月"
   label_this_week: "本週"
   label_this_year: "今年"
   label_time_entry_plural: "耗時"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "標題"
   label_projects_menu: "專案"
   label_today: "今天"
@@ -2801,6 +2825,7 @@ zh-TW:
     plain: "純文字"
   status_active: "啟用"
   status_archived: "已封存"
+  status_blocked: "blocked"
   status_invited: 已邀請
   status_locked: 已鎖定
   status_registered: 已註冊

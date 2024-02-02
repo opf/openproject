@@ -59,7 +59,10 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
           .to eq(I18n.t(:text_journal_file_link_deleted,
                         label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
                         old: "<strike><i>#{file_link.origin_name}</i></strike>",
-                        storage: I18n.t('storages.unknown_storage')))
+                        storage: I18n.t(
+                          'unknown_storage',
+                          scope: 'my_account.access_tokens.storages'
+                        )))
       end
     end
 

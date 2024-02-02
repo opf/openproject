@@ -254,6 +254,13 @@ bg:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: В момента няма проекти
       no_results_content_text: Създаване на нов проект
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -326,6 +333,8 @@ bg:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Този потребител в момента не е член на проекта.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -589,6 +598,7 @@ bg:
         color: "Цвят"
       user:
         admin: "Администратор"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "Текуща парола"
@@ -944,6 +954,8 @@ bg:
             status:
               invalid_on_create: "is not a valid status for new users."
             ldap_auth_source:
+              error_not_found: "not found"
+            auth_source:
               error_not_found: "not found"
         member:
           principal_blank: "Моля изберете поне един потребител или група."
@@ -1435,6 +1447,7 @@ bg:
     message: Съобщението е редактирано
     news: Новини
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Проекта е редактиран"
     reply: Отговорено
     time_entry: "Редактирани записи по време"
@@ -1577,6 +1590,7 @@ bg:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1620,12 +1634,12 @@ bg:
   label_age: "Възраст"
   label_ago: "преди"
   label_all: "всички"
-  label_all_projects: "All projects"
   label_all_time: "всички времена"
   label_all_words: "Всички думи"
   label_all_open_wps: "Всичко отворено"
   label_always_visible: "Винаги се показват"
   label_announcement: "Известие"
+  label_angular: "AngularJS"
   label_api_access_key: "API ключ за достъп"
   label_api_access_key_created_on: "API ключ за достъп е създаден преди %{value}"
   label_api_access_key_type: "API"
@@ -1637,7 +1651,6 @@ bg:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Приложен статус"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "Възходящо"
   label_assigned_to_me_work_packages: "Работни пакети, възложени на мен"
   label_associated_revisions: "Асоциирани ревизии"
@@ -1657,8 +1670,9 @@ bg:
   label_available_project_work_package_categories: "Налични категории работни пакети"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "API документация"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "между"
   label_blocked_by: "блокирано от"
   label_blocks: "блокировки"
@@ -1668,6 +1682,7 @@ bg:
   label_forum_plural: "Форуми"
   label_forum_sticky: "Лепкава"
   label_boolean: "Булев"
+  label_board_plural: "Boards"
   label_branch: "Клон"
   label_browse: "Преглед"
   label_bulk_edit_selected_work_packages: "Групово редактиране на избраните работни пакети"
@@ -1694,6 +1709,7 @@ bg:
   label_check_uncheck_all_in_column: "Проверете/махнете отметката на всички в колона"
   label_check_uncheck_all_in_row: "Проверете/махнете отметката на всички в реда"
   label_child_element: "Елемент наследник"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Затвори завършени версии"
   label_closed_work_packages: "затворен"
@@ -1725,6 +1741,7 @@ bg:
   label_custom_field_plural: "допълнителни полета"
   label_custom_field_default_type: "Празен тип"
   label_custom_style: "Дизайн"
+  label_dashboard: "Dashboard"
   label_database_version: "Версия на PostgreSQL"
   label_date: "Дата"
   label_date_and_time: "Дата и час"
@@ -1781,6 +1798,8 @@ bg:
   label_example: "Пример"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Also available in:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1820,6 +1839,7 @@ bg:
   label_home: "Начална страница"
   label_subject_or_id: "Тема или №"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Legal notice"
   label_in: "в"
   label_in_less_than: "в по-малко от"
@@ -1836,6 +1856,7 @@ bg:
   label_internal: "Вътрешен"
   label_introduction_video: "Introduction video"
   label_invite_user: "Покани потребител"
+  label_share: "Share"
   label_show_hide: "Покажи/Скрий"
   label_show_all_registered_users: "Показване на всички регистрирани потребители"
   label_journal: "Дневник"
@@ -1906,7 +1927,7 @@ bg:
   label_my_account: "Моят профил"
   label_my_activity: "My activity"
   label_my_account_data: "Данни за моят акаунт"
-  label_my_projects: "Моите проекти"
+  label_my_avatar: "My avatar"
   label_my_queries: "Моите потребителски заявки"
   label_name: "Име"
   label_never: "Никога"
@@ -2042,6 +2063,7 @@ bg:
   label_search: "Търсене"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Изпрати пробен имейл"
+  label_session: "Session"
   label_setting_plural: "Настройки"
   label_system_settings: "Системни настройки"
   label_show_completed_versions: "Покажи завършени версии"
@@ -2071,11 +2093,13 @@ bg:
   label_system_storage: "Информация за хранилището"
   label_table_of_contents: "Table of contents"
   label_tag: "Етикет"
+  label_team_planner: "Team Planner"
   label_text: "Дълъг текст"
   label_this_month: "този месец"
   label_this_week: "тази седмица"
   label_this_year: "тази година"
   label_time_entry_plural: "Отработено време"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Заглавие"
   label_projects_menu: "Проекти"
   label_today: "днес"
@@ -2831,6 +2855,7 @@ bg:
     plain: "Plain text"
   status_active: "active"
   status_archived: "archived"
+  status_blocked: "blocked"
   status_invited: invited
   status_locked: locked
   status_registered: registered

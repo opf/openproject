@@ -254,6 +254,13 @@
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Det er for tiden ingen prosjekter
       no_results_content_text: Opprett nytt prosjekt
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -326,6 +333,8 @@
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Denne brukeren er for øyeblikket ikke medlem av et prosjekt.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -589,6 +598,7 @@
         color: "Farge"
       user:
         admin: "Administrator"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP-tilkobling"
         identity_url: "Identity URL"
         current_password: "Nåværende passord"
@@ -944,6 +954,8 @@
             status:
               invalid_on_create: "is not a valid status for new users."
             ldap_auth_source:
+              error_not_found: "not found"
+            auth_source:
               error_not_found: "not found"
         member:
           principal_blank: "Velg minst én bruker eller gruppe."
@@ -1435,6 +1447,7 @@
     message: Meldingen ble redigert
     news: Nyheter
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Prosjektet er redigert"
     reply: Besvart
     time_entry: "Tidsrapporten er redigert"
@@ -1577,6 +1590,7 @@
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1620,12 +1634,12 @@
   label_age: "Alder"
   label_ago: "dager siden"
   label_all: "alle"
-  label_all_projects: "All projects"
   label_all_time: "alle tidspunkt"
   label_all_words: "Alle ord"
   label_all_open_wps: "Alle åpne"
   label_always_visible: "Vises alltid"
   label_announcement: "Kunngjøring"
+  label_angular: "AngularJS"
   label_api_access_key: "API adgangsnøkkel"
   label_api_access_key_created_on: "API adgangsnøkkel ble opprettet for %{value} siden"
   label_api_access_key_type: "API"
@@ -1637,7 +1651,6 @@
   label_ical_access_key_revoke: "Tilbakekall"
   label_applied_status: "Tildelt status"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "Stigende"
   label_assigned_to_me_work_packages: "Arbeidspakker tildelt meg"
   label_associated_revisions: "Tilknyttede revisjoner"
@@ -1657,8 +1670,9 @@
   label_available_project_work_package_categories: "Available work package categories"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "API dokumentasjon"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "mellom"
   label_blocked_by: "blokkert av"
   label_blocks: "blokkeringer"
@@ -1668,6 +1682,7 @@
   label_forum_plural: "Forum"
   label_forum_sticky: "Sticky"
   label_boolean: "Boolsk"
+  label_board_plural: "Boards"
   label_branch: "Gren"
   label_browse: "Bla gjennom"
   label_bulk_edit_selected_work_packages: "Masseredigering av valgte arbeidspakker"
@@ -1694,6 +1709,7 @@
   label_check_uncheck_all_in_column: "Sjekk/Avmerk alle i kolonnen"
   label_check_uncheck_all_in_row: "Sjekk/Avmerk alle på rad"
   label_child_element: "Underordnet element"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Lukk fullførte versjoner"
   label_closed_work_packages: "lukket"
@@ -1725,6 +1741,7 @@
   label_custom_field_plural: "Egendefinerte felter"
   label_custom_field_default_type: "Tom type"
   label_custom_style: "Design"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Dato"
   label_date_and_time: "Dato og tid"
@@ -1781,6 +1798,8 @@
   label_example: "Eksempel"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Importer"
   label_export_to: "Også tilgjengelig i:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1820,6 +1839,7 @@
   label_home: "Hjem"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Juridisk merknad"
   label_in: "i"
   label_in_less_than: "i mindre enn"
@@ -1836,6 +1856,7 @@
   label_internal: "Intern"
   label_introduction_video: "Introduksjonsvideo"
   label_invite_user: "Inviter bruker"
+  label_share: "Share"
   label_show_hide: "Vis/Skjul"
   label_show_all_registered_users: "Vis alle registrerte brukere"
   label_journal: "Journal"
@@ -1906,7 +1927,7 @@
   label_my_account: "Min konto"
   label_my_activity: "My activity"
   label_my_account_data: "Min kontoinformasjon"
-  label_my_projects: "Mine prosjekter"
+  label_my_avatar: "My avatar"
   label_my_queries: "Minne egendefinerte spørringer"
   label_name: "Navn"
   label_never: "Aldri"
@@ -2042,6 +2063,7 @@
   label_search: "Søk"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send en testmail"
+  label_session: "Session"
   label_setting_plural: "Innstillinger"
   label_system_settings: "Systeminnstillinger"
   label_show_completed_versions: "Vis fullførte versjoner"
@@ -2071,11 +2093,13 @@
   label_system_storage: "Storage information"
   label_table_of_contents: "Table of contents"
   label_tag: "Etikett"
+  label_team_planner: "Team Planner"
   label_text: "Lang tekst"
   label_this_month: "denne måneden"
   label_this_week: "denne uken"
   label_this_year: "dette året"
   label_time_entry_plural: "Tid brukt"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Tittel"
   label_projects_menu: "Prosjekter"
   label_today: "i dag"
@@ -2831,6 +2855,7 @@
     plain: "Plain text"
   status_active: "aktiv"
   status_archived: "archived"
+  status_blocked: "blocked"
   status_invited: invitert
   status_locked: låst
   status_registered: registrert

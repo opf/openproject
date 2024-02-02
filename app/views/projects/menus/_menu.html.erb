@@ -1,5 +1,5 @@
 <%= turbo_frame_tag "projects_sidemenu",
-                    src: projects_menu_path(params.permit(:filters)),
+                    src: projects_menu_path(params.permit(:filters, :query_id)),
                     target: '_top',
                     data: { turbo: false },
                     loading: :lazy %>

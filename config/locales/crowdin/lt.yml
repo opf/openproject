@@ -251,6 +251,13 @@ lt:
       open_as_gantt_title_admin: "Galite pakeisti vaizdo parametrus (tokius kaip pasirinkti darbo užduočių tipai) administravimo dalyje prie projekto nustatymų."
       no_results_title_text: Nėra jokių projektų
       no_results_content_text: Sukurti naują projektą
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Pokyčio identifikatorius
       activities:
@@ -323,6 +330,8 @@ lt:
       no_results_title_text: Šis naudotojas nėra jokios grupės narys.
     memberships:
       no_results_title_text: Šis naudotojas šiuo metu nėra projekto narys.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       Jums neleidžiama ištrinti statytinio naudotojo. Jūs neturite teisių valdyti projektų narių visuose projektuose, kuriuose šis statytinis naudotojas yra narys.
@@ -588,6 +597,7 @@ lt:
         color: "Spalva"
       user:
         admin: "Administratorius"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP jungtis"
         identity_url: "Identiteto URL"
         current_password: "Dabartinis slaptažodis"
@@ -946,6 +956,8 @@ lt:
               invalid_on_create: "yra netinkama naujų naudotojų būsena."
             ldap_auth_source:
               error_not_found: "nerasta"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Prašome pasirinkti bent vieną naudotoją ar grupę."
           role_blank: "turi būti priskirtas."
@@ -1486,6 +1498,7 @@ lt:
     message: Žinutė redaguota
     news: Naujienos
     project_attributes: "Projekto atributai pakeisti"
+    project: "Project edited"
     projects: "Projektas redaguotas"
     reply: Atsakė
     time_entry: "Laiko įrašai redaguoti"
@@ -1628,6 +1641,7 @@ lt:
         revoke_token: "Ar tikrai norite išimti šį žetoną? Jums vėl reikės prisijungti prie %{storage}"
         removed: "Failų saugykla sėkmingai pašalinta"
         failed: "Įvyko klaida ir žetono išimti nepavyko. Prašome pabandyti dar kartą vėliau."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Siųsti pranešimus apie šį veiksmą"
     work_packages:
@@ -1671,12 +1685,12 @@ lt:
   label_age: "Amžius"
   label_ago: "dienų prieš"
   label_all: "visi"
-  label_all_projects: "Visi projektai"
   label_all_time: "visas laikas"
   label_all_words: "Visi žodžiai"
   label_all_open_wps: "Visi atviri"
   label_always_visible: "Visada rodomas"
   label_announcement: "Skelbimas"
+  label_angular: "AngularJS"
   label_api_access_key: "API prieigos raktas"
   label_api_access_key_created_on: "API prieigos raktas sukurtas prieš %{value}"
   label_api_access_key_type: "API"
@@ -1688,7 +1702,6 @@ lt:
   label_ical_access_key_revoke: "Atšaukti"
   label_applied_status: "Taikomoji būsena"
   label_archive_project: "Archyvuoti projektą"
-  label_archived_projects: "Archyvuoti projektai"
   label_ascending: "Didėjančia tvarka"
   label_assigned_to_me_work_packages: "Man priskirti darbų paketai"
   label_associated_revisions: "Susijusios revizijos"
@@ -1708,8 +1721,9 @@ lt:
   label_available_project_work_package_categories: "Galimos darbų paketo kategorijos"
   label_available_project_work_package_types: "Galimi darbo paketų tipai"
   label_available_projects: "Galimi projektai"
-  label_api_documentation: "API dokumentacija"
+  label_api_doc: "API documentation"
   label_backup: "Atsarginė kopija"
+  label_backup_code: "Backup code"
   label_between: "tarp"
   label_blocked_by: "blokuojamas"
   label_blocks: "blokai"
@@ -1719,6 +1733,7 @@ lt:
   label_forum_plural: "Forumai"
   label_forum_sticky: "Lipnus"
   label_boolean: "Būlio loginis"
+  label_board_plural: "Boards"
   label_branch: "Šaka"
   label_browse: "Naršyti"
   label_bulk_edit_selected_work_packages: "Masiškai redaguoti pasirinktus darbų paketus"
@@ -1745,6 +1760,7 @@ lt:
   label_check_uncheck_all_in_column: "Žymėti/atžymėti visus stulpelyje"
   label_check_uncheck_all_in_row: "Žymėti/atžymėti visus eilutėje"
   label_child_element: "Vaiko elementas"
+  label_choices: "Choices"
   label_chronological_order: "Seniausias pirmas"
   label_close_versions: "Uždaryti užbaigtas versijas"
   label_closed_work_packages: "uždarytas"
@@ -1776,6 +1792,7 @@ lt:
   label_custom_field_plural: "Pritaikyti laukai"
   label_custom_field_default_type: "Tuščias tipas"
   label_custom_style: "Išvaizda"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL versija"
   label_date: "Data"
   label_date_and_time: "Data ir laikas"
@@ -1832,6 +1849,8 @@ lt:
   label_example: "Pavyzdys"
   label_experimental: "Eksperimentinis"
   label_i_am_member: "Aš esu narys"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Importuoti"
   label_export_to: "Taip pat galima rasti:"
   label_expanded_click_to_collapse: "Išplėsta. Spauskite, kad sutrauktumėte"
@@ -1871,6 +1890,7 @@ lt:
   label_home: "Namai"
   label_subject_or_id: "Tema arba ID"
   label_calendar_subscriptions: "Kalendoriaus prenumeratos"
+  label_identifier: "Identifier"
   label_impressum: "Teisinė informacija"
   label_in: " "
   label_in_less_than: "mažiau nei"
@@ -1887,6 +1907,7 @@ lt:
   label_internal: "Vidinis"
   label_introduction_video: "Įvado video"
   label_invite_user: "Pakviesti vartotoją"
+  label_share: "Share"
   label_show_hide: "Rodyti/slėpti"
   label_show_all_registered_users: "Rodyti visus registruotus vartotojus"
   label_journal: "Žurnalas"
@@ -1957,7 +1978,7 @@ lt:
   label_my_account: "Mano paskyra"
   label_my_activity: "Mano veikla"
   label_my_account_data: "Mano paskyros duomenys"
-  label_my_projects: "Mano projektai"
+  label_my_avatar: "My avatar"
   label_my_queries: "Mano sukurtos užklausos"
   label_name: "Vardas"
   label_never: "Niekada"
@@ -2093,6 +2114,7 @@ lt:
   label_search: "Paieška"
   label_send_information: "Siųsti naujus prisijungimo duomenis naudotojui"
   label_send_test_email: "Siųsti bandomąjį el. laišką"
+  label_session: "Session"
   label_setting_plural: "Nustatymai"
   label_system_settings: "Sistemos nustatymai"
   label_show_completed_versions: "Rodyti užbaigtas versijas"
@@ -2122,11 +2144,13 @@ lt:
   label_system_storage: "Talpyklos informacija"
   label_table_of_contents: "Turinys"
   label_tag: "Žymė"
+  label_team_planner: "Team Planner"
   label_text: "Ilgas tekstas"
   label_this_month: "šis mėnuo"
   label_this_week: "ši savaitė"
   label_this_year: "šiemet"
   label_time_entry_plural: "Praleista laiko"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Pavadinimas"
   label_projects_menu: "Projektai"
   label_today: "šiandien"
@@ -2882,6 +2906,7 @@ lt:
     plain: "Paprastas tekstas"
   status_active: "aktyvus"
   status_archived: "suarchyvuotas"
+  status_blocked: "blocked"
   status_invited: pakviestas
   status_locked: užrakintas
   status_registered: registruotas

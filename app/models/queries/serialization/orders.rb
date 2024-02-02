@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,23 +24,32 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Costs::Patches::ProjectsControllerPatch
-  def self.included(base) # :nodoc:
-    base.send(:include, InstanceMethods)
+class Queries::Serialization::Orders
+  include Queries::Orders::AvailableOrders
 
-    base.class_eval do
-      before_action :own_total_hours, only: [:show]
-    end
-  end
+  def load(serialized_orders)
+    return [] if serialized_orders.nil?
 
-  module InstanceMethods
-    def own_total_hours
-      if User.current.allowed_in_any_work_package?(:view_own_time_entries, in_project: @project)
-        cond = @project.project_condition(Setting.display_subprojects_work_packages?)
-        @total_hours = TimeEntry.not_ongoing.visible.includes(:project).where(cond).sum(:hours).to_f
+    serialized_orders.map do |o|
+      order_for(o["attribute"].to_sym).tap do |order|
+        order.direction = o["direction"].to_sym
       end
     end
   end
+
+  def dump(orders)
+    orders.map { |o| { attribute: o.attribute, direction: o.direction } }
+  end
+
+  def orders_register
+    ::Queries::Register.orders[klass]
+  end
+
+  def initialize(klass)
+    @klass = klass
+  end
+
+  attr_reader :klass
 end

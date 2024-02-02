@@ -40,6 +40,7 @@ module Components
 
       def open
         SeleniumHubWaiter.wait
+        expect_loaded
         retry_block do
           # Run in retry block because filters do nothing if not yet loaded
           filter_button.click
@@ -97,7 +98,7 @@ module Components
 
       def expect_loaded
         SeleniumHubWaiter.wait
-        expect(filter_button).to have_css('.badge', wait: 2)
+        expect(filter_button).to have_css('.badge', wait: 2, visible: :all)
       end
 
       def add_filter(name)

@@ -254,6 +254,13 @@ fr:
       open_as_gantt_title_admin: "Vous pouvez modifier les paramètres d'affichage (comme les types de lots de travaux sélectionnés) dans l'administration dans les paramètres du projet."
       no_results_title_text: Aucun projet pour le moment
       no_results_content_text: Créer un nouveau projet
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Changer l'identifiant
       activities:
@@ -326,6 +333,8 @@ fr:
       no_results_title_text: Cet utilisateur n'est actuellement membre d'aucun groupe.
     memberships:
       no_results_title_text: Cet utilisateur n'est membre d'aucun projet pour le moment.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       Vous n'avez pas le droit de supprimer l'utilisateur fictif. Vous n'avez pas le droit de gérer les membres de tous les projets dont l'utilisateur fictif est membre.
@@ -589,6 +598,7 @@ fr:
         color: "Couleur"
       user:
         admin: "Administrateur"
+        auth_source: "Authentication source"
         ldap_auth_source: "Connexion LDAP"
         identity_url: "URL d'identité"
         current_password: "Mot de passe actuel"
@@ -945,6 +955,8 @@ fr:
               invalid_on_create: "n’est pas un statut valide pour les nouveaux utilisateurs."
             ldap_auth_source:
               error_not_found: "introuvable"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Veuillez choisir au moins un utilisateur ou un groupe."
           role_blank: "doit être assigné."
@@ -1435,6 +1447,7 @@ fr:
     message: Message édité
     news: Actualités
     project_attributes: "Attributs du projet modifiés"
+    project: "Project edited"
     projects: "Projet édité"
     reply: Y a-t-il eu une réponse
     time_entry: "Journal horaire édité"
@@ -1577,6 +1590,7 @@ fr:
         revoke_token: "Voulez-vous vraiment supprimer ce jeton ? Vous devrez vous reconnecter sur %{storage}"
         removed: "Jeton de stockage de fichiers supprimé avec succès"
         failed: "Une erreur s'est produite et le jeton n'a pas pu être supprimé. Veuillez réessayer plus tard."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Envoyer des notifications pour cette action"
     work_packages:
@@ -1620,12 +1634,12 @@ fr:
   label_age: "Âge"
   label_ago: "il y a"
   label_all: "tous"
-  label_all_projects: "Tous les projets"
   label_all_time: "tout le temps"
   label_all_words: "Tous les mots"
   label_all_open_wps: "Tous les ouverts"
   label_always_visible: "Toujours affiché"
   label_announcement: "Annonce ou avis. "
+  label_angular: "AngularJS"
   label_api_access_key: "Clé d'accès API"
   label_api_access_key_created_on: "Clé d'accès API créé il y a %{value}"
   label_api_access_key_type: "API"
@@ -1637,7 +1651,6 @@ fr:
   label_ical_access_key_revoke: "Révoquer"
   label_applied_status: "Statut appliqué"
   label_archive_project: "Archiver le projet"
-  label_archived_projects: "Projets archivés"
   label_ascending: "Croissant"
   label_assigned_to_me_work_packages: "Lots de Travaux m'étant assignés"
   label_associated_revisions: "Révisions associées"
@@ -1657,8 +1670,9 @@ fr:
   label_available_project_work_package_categories: "Catégories de lots de travaux disponibles"
   label_available_project_work_package_types: "Types de paquet de travail disponible"
   label_available_projects: "Projets disponibles"
-  label_api_documentation: "Documentation de l'API"
+  label_api_doc: "API documentation"
   label_backup: "Sauvegarde"
+  label_backup_code: "Backup code"
   label_between: "entre"
   label_blocked_by: "bloqué par"
   label_blocks: "bloque"
@@ -1668,6 +1682,7 @@ fr:
   label_forum_plural: "Forums"
   label_forum_sticky: "Epinglé"
   label_boolean: "Booléen"
+  label_board_plural: "Boards"
   label_branch: "Branche"
   label_browse: "Parcourir"
   label_bulk_edit_selected_work_packages: "Edition en masse des Lots de Travaux selectionnés"
@@ -1694,6 +1709,7 @@ fr:
   label_check_uncheck_all_in_column: "Cocher/Décocher tout dans la colonne"
   label_check_uncheck_all_in_row: "Cocher/Décocher tout dans la ligne"
   label_child_element: "Élément enfant"
+  label_choices: "Choices"
   label_chronological_order: "Le plus ancien en premier"
   label_close_versions: "Fermer les versions complètes"
   label_closed_work_packages: "clôturé"
@@ -1725,6 +1741,7 @@ fr:
   label_custom_field_plural: "Champs personnalisés"
   label_custom_field_default_type: "Type défaut"
   label_custom_style: "Apparence"
+  label_dashboard: "Dashboard"
   label_database_version: "Version de PostgreSQL"
   label_date: "Date"
   label_date_and_time: "Date et heure"
@@ -1781,6 +1798,8 @@ fr:
   label_example: "Exemple"
   label_experimental: "Expérimental"
   label_i_am_member: "Je suis membre"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Importer"
   label_export_to: "Aussi disponible en :"
   label_expanded_click_to_collapse: "Déplié. Cliquez pour replier"
@@ -1820,6 +1839,7 @@ fr:
   label_home: "Accueil"
   label_subject_or_id: "Objet ou ID"
   label_calendar_subscriptions: "Abonnements au calendrier"
+  label_identifier: "Identifier"
   label_impressum: "Mentions légales"
   label_in: "dans"
   label_in_less_than: "dans moins de"
@@ -1836,6 +1856,7 @@ fr:
   label_internal: "Interne"
   label_introduction_video: "Vidéo de présentation"
   label_invite_user: "Inviter utilisateur"
+  label_share: "Share"
   label_show_hide: "Afficher/masquer"
   label_show_all_registered_users: "Afficher tous les utilisateurs enregistrés"
   label_journal: "Journal"
@@ -1906,7 +1927,7 @@ fr:
   label_my_account: "Mon compte"
   label_my_activity: "Mon activité"
   label_my_account_data: "Info sur mon compte"
-  label_my_projects: "Mes projets"
+  label_my_avatar: "My avatar"
   label_my_queries: "Mes requêtes personnalisées"
   label_name: "Nom"
   label_never: "Jamais"
@@ -2042,6 +2063,7 @@ fr:
   label_search: "Recherche"
   label_send_information: "Envoyer de nouveaux identifiants à l'utilisateur"
   label_send_test_email: "Envoyer un courriel de test"
+  label_session: "Session"
   label_setting_plural: "Paramètres"
   label_system_settings: "Paramètres système"
   label_show_completed_versions: "Afficher les versions terminées"
@@ -2071,11 +2093,13 @@ fr:
   label_system_storage: "Informations de stockage"
   label_table_of_contents: "Table des matières"
   label_tag: "Étiquette"
+  label_team_planner: "Team Planner"
   label_text: "Long texte"
   label_this_month: "ce mois"
   label_this_week: "cette semaine"
   label_this_year: "cette année"
   label_time_entry_plural: "Temps passé"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Titre"
   label_projects_menu: "Projets"
   label_today: "aujourd'hui"
@@ -2831,6 +2855,7 @@ fr:
     plain: "Texte brut"
   status_active: "actif"
   status_archived: "archivé"
+  status_blocked: "blocked"
   status_invited: invité
   status_locked: verrouillé
   status_registered: enregistré

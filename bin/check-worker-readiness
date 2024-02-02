@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if ps aux | grep 'rake jobs:work' | grep -v grep; then
+  echo "background worker running"
+  exit 0
+fi
+  echo "background worker not running"
+  exit 1
+fi

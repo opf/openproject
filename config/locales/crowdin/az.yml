@@ -254,6 +254,13 @@ az:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -326,6 +333,8 @@ az:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -589,6 +598,7 @@ az:
         color: "Color"
       user:
         admin: "Administrator"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "Current password"
@@ -944,6 +954,8 @@ az:
             status:
               invalid_on_create: "is not a valid status for new users."
             ldap_auth_source:
+              error_not_found: "not found"
+            auth_source:
               error_not_found: "not found"
         member:
           principal_blank: "Please choose at least one user or group."
@@ -1435,6 +1447,7 @@ az:
     message: Message edited
     news: News
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Project edited"
     reply: Replied
     time_entry: "Timelog edited"
@@ -1577,6 +1590,7 @@ az:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1620,12 +1634,12 @@ az:
   label_age: "Age"
   label_ago: "days ago"
   label_all: "all"
-  label_all_projects: "All projects"
   label_all_time: "all time"
   label_all_words: "All words"
   label_all_open_wps: "All open"
   label_always_visible: "Always displayed"
   label_announcement: "Announcement"
+  label_angular: "AngularJS"
   label_api_access_key: "API access key"
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_api_access_key_type: "API"
@@ -1637,7 +1651,6 @@ az:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Applied status"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "Ascending"
   label_assigned_to_me_work_packages: "Work packages assigned to me"
   label_associated_revisions: "Associated revisions"
@@ -1657,8 +1670,9 @@ az:
   label_available_project_work_package_categories: "Available work package categories"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "API documentation"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "between"
   label_blocked_by: "blocked by"
   label_blocks: "blocks"
@@ -1668,6 +1682,7 @@ az:
   label_forum_plural: "Forums"
   label_forum_sticky: "Sticky"
   label_boolean: "Boolean"
+  label_board_plural: "Boards"
   label_branch: "Branch"
   label_browse: "Browse"
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
@@ -1694,6 +1709,7 @@ az:
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Child element"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
@@ -1725,6 +1741,7 @@ az:
   label_custom_field_plural: "Özəl sahələr"
   label_custom_field_default_type: "Empty type"
   label_custom_style: "Design"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Date"
   label_date_and_time: "Date and time"
@@ -1781,6 +1798,8 @@ az:
   label_example: "Example"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Also available in:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1820,6 +1839,7 @@ az:
   label_home: "Home"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Legal notice"
   label_in: "in"
   label_in_less_than: "in less than"
@@ -1836,6 +1856,7 @@ az:
   label_internal: "Internal"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
+  label_share: "Share"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1906,7 +1927,7 @@ az:
   label_my_account: "My account"
   label_my_activity: "My activity"
   label_my_account_data: "My account data"
-  label_my_projects: "My projects"
+  label_my_avatar: "My avatar"
   label_my_queries: "My custom queries"
   label_name: "Name"
   label_never: "Never"
@@ -2042,6 +2063,7 @@ az:
   label_search: "Search"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
+  label_session: "Session"
   label_setting_plural: "Settings"
   label_system_settings: "System settings"
   label_show_completed_versions: "Show completed versions"
@@ -2071,11 +2093,13 @@ az:
   label_system_storage: "Storage information"
   label_table_of_contents: "Table of contents"
   label_tag: "Tag"
+  label_team_planner: "Team Planner"
   label_text: "Long text"
   label_this_month: "this month"
   label_this_week: "this week"
   label_this_year: "this year"
   label_time_entry_plural: "Spent time"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Title"
   label_projects_menu: "Projects"
   label_today: "today"
@@ -2831,6 +2855,7 @@ az:
     plain: "Plain text"
   status_active: "active"
   status_archived: "archived"
+  status_blocked: "blocked"
   status_invited: invited
   status_locked: locked
   status_registered: registered

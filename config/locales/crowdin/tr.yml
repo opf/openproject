@@ -254,6 +254,13 @@ tr:
       open_as_gantt_title_admin: "Proje ayarları altında yönetimde görünüm ayarlarını (seçilen iş paketi türleri gibi) değiştirebilirsiniz."
       no_results_title_text: Şu anda hiç proje bulunmamakta
       no_results_content_text: Yeni bir proje oluşturun
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Dil Tanımlayıcı değiştir
       activities:
@@ -326,6 +333,8 @@ tr:
       no_results_title_text: Bu kullanıcı şu anda hiçbir gruba üye değil.
     memberships:
       no_results_title_text: Bu kullanıcı şuan için bir proje üyesi değil.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       Yer tutucu kullanıcıyı silme izniniz yok. Yer tutucu kullanıcının üyesi olduğu tüm projeler için üyeleri yönetme hakkınız yoktur.
@@ -588,6 +597,7 @@ tr:
         color: "Renk"
       user:
         admin: "Yönetici"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP bağlantısı"
         identity_url: "Identity URL"
         current_password: "Mevcut parola"
@@ -944,6 +954,8 @@ tr:
               invalid_on_create: "yeni kullanıcılar için geçerli bir durum değil."
             ldap_auth_source:
               error_not_found: "bulunamadı"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Lütfen en az bir kullanıcı veya grup seçin."
           role_blank: "atanması gerek."
@@ -1434,6 +1446,7 @@ tr:
     message: Mesaj düzenlendi
     news: Haberler
     project_attributes: "Proje öznitelikleri düzenlendi"
+    project: "Project edited"
     projects: "Proje düzenlendi"
     reply: Yanıtlandı
     time_entry: "Timelog düzenlendi"
@@ -1576,6 +1589,7 @@ tr:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Bu işlem için bildirim gönder"
     work_packages:
@@ -1619,12 +1633,12 @@ tr:
   label_age: "Yaş"
   label_ago: "gün önce"
   label_all: "tüm"
-  label_all_projects: "Tüm projeler"
   label_all_time: "her zaman"
   label_all_words: "Bütün kelimeler"
   label_all_open_wps: "Tüm açık"
   label_always_visible: "Her zaman görüntüle"
   label_announcement: "Duyuru"
+  label_angular: "AngularJS"
   label_api_access_key: "API erişim anahtarı"
   label_api_access_key_created_on: "API erişim anahtarı %{value} önce oluşturuldu"
   label_api_access_key_type: "API"
@@ -1636,7 +1650,6 @@ tr:
   label_ical_access_key_revoke: "İptal etmek"
   label_applied_status: "Uygulanan statü"
   label_archive_project: "Projeyi arşivle"
-  label_archived_projects: "Archived projects"
   label_ascending: "Azalan"
   label_assigned_to_me_work_packages: "Bana atanan iş paketleri"
   label_associated_revisions: "İlişkili sürümler"
@@ -1656,8 +1669,9 @@ tr:
   label_available_project_work_package_categories: "Uygun iş paketi kategorileri"
   label_available_project_work_package_types: "Uygun iş paketi tipleri"
   label_available_projects: "Available projects"
-  label_api_documentation: "API belgelendirmesi"
+  label_api_doc: "API documentation"
   label_backup: "Destek olmak"
+  label_backup_code: "Backup code"
   label_between: "arasında"
   label_blocked_by: "bağlı"
   label_blocks: "engeller"
@@ -1667,6 +1681,7 @@ tr:
   label_forum_plural: "Forumlar"
   label_forum_sticky: "Sabit"
   label_boolean: "Mantıksal"
+  label_board_plural: "Boards"
   label_branch: "Dal"
   label_browse: "Gözat"
   label_bulk_edit_selected_work_packages: "Seçilen çalışma paketlerini toplu halde düzenle"
@@ -1693,6 +1708,7 @@ tr:
   label_check_uncheck_all_in_column: "Sütunundaki tümü işaretle / işaretini kaldır"
   label_check_uncheck_all_in_row: "Sıralı tümü işaretle / işaretini kaldır"
   label_child_element: "Alt eleman"
+  label_choices: "Choices"
   label_chronological_order: "Önce en eski"
   label_close_versions: "Tamamlanmış sürümleri kapat"
   label_closed_work_packages: "kapalı"
@@ -1724,6 +1740,7 @@ tr:
   label_custom_field_plural: "Özel alanlar"
   label_custom_field_default_type: "Boş tür"
   label_custom_style: "Tasarım"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL sürümü"
   label_date: "Tarih"
   label_date_and_time: "Tarih ve zaman"
@@ -1780,6 +1797,8 @@ tr:
   label_example: "Örnek"
   label_experimental: "Deneysel"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "İçeri Aktar"
   label_export_to: "Ayrıca şu adreste bulunabilir:"
   label_expanded_click_to_collapse: "Genişletilmiş. Daraltmak için tıklayın"
@@ -1819,6 +1838,7 @@ tr:
   label_home: "Ana sayfa"
   label_subject_or_id: "Konu ya da ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Yasal uyarı"
   label_in: "şurada"
   label_in_less_than: "daha azdır"
@@ -1835,6 +1855,7 @@ tr:
   label_internal: "Dahili"
   label_introduction_video: "Tanıtım videosu"
   label_invite_user: "Kullanıcı davet et"
+  label_share: "Share"
   label_show_hide: "Göster/gizle"
   label_show_all_registered_users: "Tüm kayıtlı kullanıcıları göster"
   label_journal: "Günlük"
@@ -1905,7 +1926,7 @@ tr:
   label_my_account: "Hesabım"
   label_my_activity: "My activity"
   label_my_account_data: "Hesap verilerim"
-  label_my_projects: "Projelerim"
+  label_my_avatar: "My avatar"
   label_my_queries: "Özel sorgularım"
   label_name: "İsim"
   label_never: "Hiçbir zaman"
@@ -2041,6 +2062,7 @@ tr:
   label_search: "Ara"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Deneme e-postası gönder"
+  label_session: "Session"
   label_setting_plural: "Ayarlar"
   label_system_settings: "Sistem ayarları"
   label_show_completed_versions: "Tamamlanmış sürümleri göster"
@@ -2070,11 +2092,13 @@ tr:
   label_system_storage: "Depolama bilgisi"
   label_table_of_contents: "İçindekiler"
   label_tag: "Etiket"
+  label_team_planner: "Team Planner"
   label_text: "Uzun metin"
   label_this_month: "bu ay"
   label_this_week: "bu hafta"
   label_this_year: "bu yıl"
   label_time_entry_plural: "Harcanan zaman"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Başlık"
   label_projects_menu: "Projeler"
   label_today: "bugün"
@@ -2827,6 +2851,7 @@ tr:
     plain: "Düz yazı"
   status_active: "etkin"
   status_archived: "arşivlendi"
+  status_blocked: "blocked"
   status_invited: davet
   status_locked: kilitli
   status_registered: kayıtlı

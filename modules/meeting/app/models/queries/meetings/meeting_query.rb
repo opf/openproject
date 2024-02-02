@@ -27,7 +27,10 @@
 #++
 
 module Queries::Meetings
-  class MeetingQuery < ::Queries::BaseQuery
+  class MeetingQuery
+    include ::Queries::BaseQuery
+    include ::Queries::UnpersistedQuery
+
     def self.model
       Meeting
     end

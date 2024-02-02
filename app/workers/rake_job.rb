@@ -53,7 +53,7 @@ module RakeJob
   ##
   # Load tasks if there are none. This should only be run once in an environment
   def load_tasks!
-    OpenProject::Application.load_rake_tasks unless tasks_loaded?
+    Rails.application.load_rake_tasks unless tasks_loaded?
   end
 
   ##

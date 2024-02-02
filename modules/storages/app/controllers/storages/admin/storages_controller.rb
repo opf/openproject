@@ -43,7 +43,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
   before_action :find_model_object,
-                only: %i[show show_oauth_application destroy edit edit_host confirm_destroy update replace_oauth_application]
+                only: %i[show_oauth_application destroy edit edit_host confirm_destroy update replace_oauth_application]
   before_action :ensure_valid_provider_type_selected, only: %i[select_provider]
   before_action :require_ee_token_for_one_drive, only: %i[select_provider]
 

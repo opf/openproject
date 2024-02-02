@@ -29,7 +29,7 @@
 class UserPreference < ApplicationRecord
   belongs_to :user
   delegate :notification_settings, to: :user
-  serialize :settings, ::Serializers::IndifferentHashSerializer
+  serialize :settings, coder: ::Serializers::IndifferentHashSerializer
 
   validates :user,
             presence: true

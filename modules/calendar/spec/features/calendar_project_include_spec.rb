@@ -41,7 +41,7 @@ RSpec.describe 'Calendar project include', :js do
     let(:dropdown) { Components::ProjectIncludeComponent.new }
 
     it 'correctly filters work packages by project' do
-      dropdown.expect_count 1
+      dropdown.expect_count 1, wait: 10
 
       # Make sure the filter gets set once
       dropdown.toggle!

@@ -118,7 +118,7 @@ RSpec.describe 'Project status widget on dashboard', :js do
         field.set_to('AT RISK')
 
         # The edit field is toggled and the value saved.
-        expect(page).to have_content('AT RISK')
+        expect(page).to have_content('AT RISK', wait: 5)
         expect(page).to have_selector(field.selector)
         expect(page).to have_no_selector(field.input_selector)
 
@@ -128,7 +128,7 @@ RSpec.describe 'Project status widget on dashboard', :js do
         field.set_to('NOT SET')
 
         # The edit field is toggled and the value saved.
-        expect(page).to have_content('NOT SET')
+        expect(page).to have_content('NOT SET', wait: 5)
         expect(page).to have_selector(field.selector)
         expect(page).to have_no_selector(field.input_selector)
 

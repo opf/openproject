@@ -256,6 +256,13 @@ vi:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Không có dự án nào
       no_results_content_text: Tạo một dự án mới
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Thay đổi định danh
       activities:
@@ -328,6 +335,8 @@ vi:
       no_results_title_text: Người dùng này hiện tại chưa là thành viên của bất kỳ nhóm nào
     memberships:
       no_results_title_text: Người dùng này không phải là thành viên của dự án.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -590,6 +599,7 @@ vi:
         color: "Màu sắc"
       user:
         admin: "Người Quản lý"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "Mật khẩu hiện tại"
@@ -945,6 +955,8 @@ vi:
               invalid_on_create: "is not a valid status for new users."
             ldap_auth_source:
               error_not_found: "không tìm thấy"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Vui lòng chọn ít nhất một người dùng hoặc nhóm."
           role_blank: "cần được chỉ định."
@@ -1410,6 +1422,7 @@ vi:
     message: Đã chỉnh sửa tin nhắn
     news: Tin tức
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Đã chỉnh sửa dự án"
     reply: Đã phản hồi
     time_entry: "Đã chỉnh sửa Timelog"
@@ -1552,6 +1565,7 @@ vi:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1595,12 +1609,12 @@ vi:
   label_age: "Tuổi"
   label_ago: "vài ngày trước"
   label_all: "tất cả"
-  label_all_projects: "Tất cả các dự án"
   label_all_time: "tất cả thời gian"
   label_all_words: "Tất cả các từ"
   label_all_open_wps: "Mở tất cả"
   label_always_visible: "Luôn luôn hiển thị"
   label_announcement: "Thông báo"
+  label_angular: "AngularJS"
   label_api_access_key: "Khoá truy cập API"
   label_api_access_key_created_on: "Khoá truy cập API đựơc tạo cách đây %{value}"
   label_api_access_key_type: "API"
@@ -1612,7 +1626,6 @@ vi:
   label_ical_access_key_revoke: "Thu hồi"
   label_applied_status: "Tình trạng áp dụng"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "Tăng dần"
   label_assigned_to_me_work_packages: "Work package được chỉ định cho tôi"
   label_associated_revisions: "Các phiên bản kết hợp"
@@ -1632,8 +1645,9 @@ vi:
   label_available_project_work_package_categories: "Available work package categories"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "Tài liệu API"
+  label_api_doc: "API documentation"
   label_backup: "Sao lưu"
+  label_backup_code: "Backup code"
   label_between: "giữa"
   label_blocked_by: "bị chặn bởi"
   label_blocks: "các khối"
@@ -1643,6 +1657,7 @@ vi:
   label_forum_plural: "Diễn đàn"
   label_forum_sticky: "Chú ý"
   label_boolean: "Boolean"
+  label_board_plural: "Boards"
   label_branch: "Nhánh"
   label_browse: "Duyệt"
   label_bulk_edit_selected_work_packages: "Chỉnh sửa các work package đã chọn"
@@ -1669,6 +1684,7 @@ vi:
   label_check_uncheck_all_in_column: "Chọn/Bỏ chọn tất cả trong cột"
   label_check_uncheck_all_in_row: "Chọn/Bỏ chọn tất cả trong hàng"
   label_child_element: "Phần tử con"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Đóng các phiên bản đã hoàn thành"
   label_closed_work_packages: "đã đóng"
@@ -1700,6 +1716,7 @@ vi:
   label_custom_field_plural: "Tùy chỉnh mục"
   label_custom_field_default_type: "Kiểu rỗng"
   label_custom_style: "Thiết kế"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Ngày"
   label_date_and_time: "Ngày và giờ"
@@ -1756,6 +1773,8 @@ vi:
   label_example: "Ví dụ"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Nhập"
   label_export_to: "Cũng có sẵn tại:"
   label_expanded_click_to_collapse: "Mở rộng. Bấm vào để thu gọn"
@@ -1795,6 +1814,7 @@ vi:
   label_home: "Trang chủ"
   label_subject_or_id: "Chủ đề hoặc Mã"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Thông báo pháp lý"
   label_in: "trong"
   label_in_less_than: "ít hơn"
@@ -1811,6 +1831,7 @@ vi:
   label_internal: "Nội bộ"
   label_introduction_video: "Giới thiệu video"
   label_invite_user: "Invite user"
+  label_share: "Share"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1881,7 +1902,7 @@ vi:
   label_my_account: "Tài khoản của tôi"
   label_my_activity: "My activity"
   label_my_account_data: "Dữ liệu tài khoản của tôi"
-  label_my_projects: "Dự án của tôi"
+  label_my_avatar: "My avatar"
   label_my_queries: "Các truy vấn tùy biến của tôi"
   label_name: "Tên"
   label_never: "Không bao giờ"
@@ -2017,6 +2038,7 @@ vi:
   label_search: "Tìm kiếm"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Gửi email thử nghiệm"
+  label_session: "Session"
   label_setting_plural: "Cài đặt"
   label_system_settings: "Cài đặt hệ thống"
   label_show_completed_versions: "Xem phiên bản đã hoàn thành"
@@ -2046,11 +2068,13 @@ vi:
   label_system_storage: "Storage information"
   label_table_of_contents: "Mục lục"
   label_tag: "Từ khóa"
+  label_team_planner: "Team Planner"
   label_text: "Văn bản dài"
   label_this_month: "tháng này"
   label_this_week: "tuần này"
   label_this_year: "năm này"
   label_time_entry_plural: "Thời gian"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Tiêu đề"
   label_projects_menu: "Các dự án"
   label_today: "hôm nay"
@@ -2804,6 +2828,7 @@ vi:
     plain: "Văn bản thuần"
   status_active: "hoạt động"
   status_archived: "archived"
+  status_blocked: "blocked"
   status_invited: invited
   status_locked: locked
   status_registered: registered

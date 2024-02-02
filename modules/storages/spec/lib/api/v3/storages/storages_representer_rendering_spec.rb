@@ -260,7 +260,9 @@ RSpec.describe API::V3::Storages::StorageRepresenter, 'rendering' do
 
       context 'when automatic project folder management is not configured' do
         let(:storage) do
-          build(:nextcloud_storage, provider_fields: {}, oauth_application:, oauth_client: oauth_client_credentials)
+          build(:nextcloud_storage,
+                provider_fields: { automatically_managed: false },
+                oauth_application:, oauth_client: oauth_client_credentials)
         end
 
         it 'hasApplicationPassword is false' do

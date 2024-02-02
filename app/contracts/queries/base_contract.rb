@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'model_contract'
-
 module Queries
   class BaseContract < ::ModelContract
     attribute :name

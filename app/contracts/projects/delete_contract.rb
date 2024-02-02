@@ -26,8 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'model_contract'
-
 module Projects
   class DeleteContract < ::DeleteContract
     delete_permission :admin

@@ -251,6 +251,13 @@ ca:
       open_as_gantt_title_admin: "Pots modificar les configuracions de vista (com els estils de paquets de treball seleccionats) en l'administració dins de la configuració del projecte."
       no_results_title_text: Actualment no hi ha projectes
       no_results_content_text: Crear un nou projecte
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Canvia l'identificador
       activities:
@@ -323,6 +330,8 @@ ca:
       no_results_title_text: Aquest usuari no és actualment membre de cap grup.
     memberships:
       no_results_title_text: Aquest usuari no és actualment membre de cap projecte.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       No pots eliminar un usuari de marcador de posició. No tens permís per administrar membres per tots els projectes dels quals l'usuari de marcador de posició és membre.
@@ -585,6 +594,7 @@ ca:
         color: "Color"
       user:
         admin: "Administrador"
+        auth_source: "Authentication source"
         ldap_auth_source: "Connexió LDAP"
         identity_url: "Identity URL"
         current_password: "Contrassenya actual"
@@ -941,6 +951,8 @@ ca:
               invalid_on_create: "no és un valor vàlid per a nous usuaris."
             ldap_auth_source:
               error_not_found: "no trobat"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Trieu com a mínim un usuari o grup."
           role_blank: "s'ha d'assignar."
@@ -1431,6 +1443,7 @@ ca:
     message: Missatge editat
     news: Notícies
     project_attributes: "Atributs del projecte editats"
+    project: "Project edited"
     projects: "Projecte editat"
     reply: Respost
     time_entry: "Registre horari editat"
@@ -1573,6 +1586,7 @@ ca:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Envia una notificació per aquesta acció"
     work_packages:
@@ -1616,12 +1630,12 @@ ca:
   label_age: "Edat"
   label_ago: "dies abans"
   label_all: "tot"
-  label_all_projects: "Tots els projectes"
   label_all_time: "tot el temps"
   label_all_words: "Totes les paraules"
   label_all_open_wps: "Tots els oberts"
   label_always_visible: "Sempre es mostren"
   label_announcement: "Avisos"
+  label_angular: "AngularJS"
   label_api_access_key: "Clau d'accés API"
   label_api_access_key_created_on: "Clau d'accés API creada fa %{value}"
   label_api_access_key_type: "API"
@@ -1633,7 +1647,6 @@ ca:
   label_ical_access_key_revoke: "Revoca"
   label_applied_status: "Estat aplicat"
   label_archive_project: "Arxiva el projecte"
-  label_archived_projects: "Archived projects"
   label_ascending: "Ascendent"
   label_assigned_to_me_work_packages: "Paquets de treball assignats a mi"
   label_associated_revisions: "Revisions associades"
@@ -1653,8 +1666,9 @@ ca:
   label_available_project_work_package_categories: "Categories de paquet de treball disponibles"
   label_available_project_work_package_types: "Classes de paquet de treball disponibles"
   label_available_projects: "Available projects"
-  label_api_documentation: "Documentació d'API"
+  label_api_doc: "API documentation"
   label_backup: "Còpia de seguretat"
+  label_backup_code: "Backup code"
   label_between: "entre"
   label_blocked_by: "bloquejats per"
   label_blocks: "blocs"
@@ -1664,6 +1678,7 @@ ca:
   label_forum_plural: "Fòrums"
   label_forum_sticky: "Fixa't"
   label_boolean: "Booleà"
+  label_board_plural: "Boards"
   label_branch: "Branca"
   label_browse: "Navegar"
   label_bulk_edit_selected_work_packages: "Edició massiva de paquets de treball"
@@ -1690,6 +1705,7 @@ ca:
   label_check_uncheck_all_in_column: "Marca/desmarca tot a la columna"
   label_check_uncheck_all_in_row: "Marca/desmarca tot a la fila"
   label_child_element: "Element fill"
+  label_choices: "Choices"
   label_chronological_order: "Més antic primer"
   label_close_versions: "Tancar versions completades"
   label_closed_work_packages: "tancat"
@@ -1721,6 +1737,7 @@ ca:
   label_custom_field_plural: "Camps personalitzats"
   label_custom_field_default_type: "Tipus buit"
   label_custom_style: "Disseny"
+  label_dashboard: "Dashboard"
   label_database_version: "Versió PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data i hora"
@@ -1777,6 +1794,8 @@ ca:
   label_example: "Exemple"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Importació"
   label_export_to: "També disponible en:"
   label_expanded_click_to_collapse: "Desplegat. Fes clic per col·lapsar"
@@ -1816,6 +1835,7 @@ ca:
   label_home: "Inici"
   label_subject_or_id: "Subjecte o ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Avís legal"
   label_in: "en"
   label_in_less_than: "en menys de"
@@ -1832,6 +1852,7 @@ ca:
   label_internal: "Intern"
   label_introduction_video: "Vídeo de presentació"
   label_invite_user: "Invitar usuari"
+  label_share: "Share"
   label_show_hide: "Mostrae/ocultar"
   label_show_all_registered_users: "Mostra tots els usuaris registrats"
   label_journal: "Diari"
@@ -1902,7 +1923,7 @@ ca:
   label_my_account: "El meu compte"
   label_my_activity: "La meva activitat"
   label_my_account_data: "Dades del meu compte"
-  label_my_projects: "Els meus projectes"
+  label_my_avatar: "My avatar"
   label_my_queries: "Les meves consultes personalitzades"
   label_name: "Nom"
   label_never: "Mai"
@@ -2038,6 +2059,7 @@ ca:
   label_search: "Cercar"
   label_send_information: "Envia noves credencials a l'usuari"
   label_send_test_email: "Enviar correu electrònic de prova"
+  label_session: "Session"
   label_setting_plural: "Configuració"
   label_system_settings: "Configuració del Sistema"
   label_show_completed_versions: "Mostra les versions acabades"
@@ -2067,11 +2089,13 @@ ca:
   label_system_storage: "Informació d'emmagatzematge"
   label_table_of_contents: "Taula de continguts"
   label_tag: "Etiqueta"
+  label_team_planner: "Team Planner"
   label_text: "Text llarg"
   label_this_month: "aquest més"
   label_this_week: "aquesta setmana"
   label_this_year: "aquest any"
   label_time_entry_plural: "Temps utilitzat"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Títol"
   label_projects_menu: "Projectes"
   label_today: "avui"
@@ -2820,6 +2844,7 @@ ca:
     plain: "Text sense format"
   status_active: "actiu"
   status_archived: "arxivat"
+  status_blocked: "blocked"
   status_invited: convidat
   status_locked: bloquejat
   status_registered: registrat

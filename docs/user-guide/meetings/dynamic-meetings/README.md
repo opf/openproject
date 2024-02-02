@@ -31,7 +31,7 @@ Introduced in OpenProject 13.1, dynamic meetings offer easier meeting management
 
 By selecting **Meetings** in the project menu on the left, you get an overview of all the meetings within a specific project sorted by date. By clicking on a meeting name you can view further details of the meeting.
 
-To get an overview of the meetings across multiple projects, you can select **Meetings** in the [global modules menu](https://www.openproject.org/docs/user-guide/home/global-modules/).
+To get an overview of the meetings across multiple projects, you can select **Meetings** in the [global modules menu](../../../user-guide/home/global-modules/).
 
 ![Select meetings module from openproject global modules ](openproject_userguide_meetings_module_select.png)
 

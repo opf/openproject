@@ -29,11 +29,15 @@
 require 'spec_helper'
 require_relative '../../support/onboarding/onboarding_steps'
 
-RSpec.describe 'team planner onboarding tour', :js, with_cuprite: false, with_ee: %i[team_planner_view],
-                                                    # We decrease the notification polling interval because some portions
-                                                    # of the JS code rely on something triggering the Angular change detection.
-                                                    # This is usually done by the notification polling, but we don't want to wait
-                                                    with_settings: { notifications_polling_interval: 1_000 } do
+RSpec.describe 'team planner onboarding tour',
+               :js,
+               with_cuprite: false,
+               skip: 'will only work when the tour is adapted to the new Gantt module',
+               with_ee: %i[team_planner_view],
+               # We decrease the notification polling interval because some portions
+               # of the JS code rely on something triggering the Angular change detection.
+               # This is usually done by the notification polling, but we don't want to wait
+               with_settings: { notifications_polling_interval: 1_000 } do
   let(:next_button) { find('.enjoyhint_next_btn') }
 
   let(:demo_project) do

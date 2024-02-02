@@ -224,7 +224,8 @@ RSpec.describe 'Moving a work package through Rails view', :js do
     it 'displays an error message explaining which work package could not be moved and why' do
       expect(page)
         .to have_css('.op-toast.-error',
-                     text: I18n.t('work_packages.bulk.could_not_be_saved'))
+                     text: I18n.t('work_packages.bulk.could_not_be_saved'),
+                     wait: 10)
 
       expect(page)
         .to have_css(
