@@ -109,7 +109,7 @@ module Storages
       Peripherals::Registry.resolve("commands.one_drive.set_permissions")
                            .call(storage: @storage, path:, permissions:)
                            .result_or do |error|
-        format_and_log_error(error, folder: project_folder_id.project_folder_id)
+        format_and_log_error(error, folder: path)
       end
     end
 
