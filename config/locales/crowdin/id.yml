@@ -327,6 +327,8 @@ id:
       no_results_title_text: Pengguna ini saat ini bukan anggota di grup mana pun.
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       Anda tidak diizinkan untuk menghapus pengguna placeholder. Anda tidak memiliki hak untuk mengelola anggota untuk semua proyek yang menjadi anggota pengguna placeholder.
@@ -944,6 +946,8 @@ id:
               invalid_on_create: "bukan status yang valid untuk user baru."
             ldap_auth_source:
               error_not_found: "tidak ditemukan"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Silakan pilih setidaknya satu user atau grup."
           role_blank: "need to be assigned."
@@ -1409,6 +1413,7 @@ id:
     message: Pesan telah diedit
     news: News
     project_attributes: "Atribut proyek diubah"
+    project: "Project edited"
     projects: "Project edited"
     reply: Telah direspon
     time_entry: "Timelog telah diedit"
@@ -1551,6 +1556,7 @@ id:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Kirim pemberitahuan untuk tindakan ini"
     work_packages:
@@ -1599,6 +1605,7 @@ id:
   label_all_open_wps: "Semua terbuka"
   label_always_visible: "Always displayed"
   label_announcement: "Announcement"
+  label_angular: "AngularJS"
   label_api_access_key: "API access key"
   label_api_access_key_created_on: "API access key dibuat %{value} yg lalu"
   label_api_access_key_type: "API"
@@ -1629,8 +1636,9 @@ id:
   label_available_project_work_package_categories: "Available work package categories"
   label_available_project_work_package_types: "Jenis paket pekerjaan yang tersedia"
   label_available_projects: "Available projects"
-  label_api_documentation: "API documentation"
+  label_api_doc: "API documentation"
   label_backup: "Cadangan"
+  label_backup_code: "Backup code"
   label_between: "antara"
   label_blocked_by: "diblokir oleh"
   label_blocks: "blok"
@@ -1640,6 +1648,7 @@ id:
   label_forum_plural: "Forum"
   label_forum_sticky: "Sticky"
   label_boolean: "Boolean"
+  label_board_plural: "Boards"
   label_branch: "Branch"
   label_browse: "Browse"
   label_bulk_edit_selected_work_packages: "Edit masal Paket-Penugasan yang dipilih"
@@ -1666,6 +1675,7 @@ id:
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Sub-elemen"
+  label_choices: "Choices"
   label_chronological_order: "Terlama dulu"
   label_close_versions: "Tutup versi yang sudah komplit"
   label_closed_work_packages: "berakhir"
@@ -1697,6 +1707,7 @@ id:
   label_custom_field_plural: "Isian kustom"
   label_custom_field_default_type: "Tipe kosong"
   label_custom_style: "Rancangan"
+  label_dashboard: "Dashboard"
   label_database_version: "Versi PostgreSQL"
   label_date: "Tanggal"
   label_date_and_time: "Tanggal dan waktu"
@@ -1753,6 +1764,8 @@ id:
   label_example: "Contoh"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Impor"
   label_export_to: "Juga tersedia dalam:"
   label_expanded_click_to_collapse: "Diperluas. Klik untuk menciutkan"
@@ -1792,6 +1805,7 @@ id:
   label_home: "Home"
   label_subject_or_id: "Subyek atau ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Pernyataan hukum"
   label_in: "dalam"
   label_in_less_than: "kurang dari"
@@ -1808,6 +1822,7 @@ id:
   label_internal: "Internal"
   label_introduction_video: "Video pengantar"
   label_invite_user: "Invite user"
+  label_share: "Share"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Menampilkan semua pengguna teregistrasi"
   label_journal: "Journal"
@@ -1878,6 +1893,7 @@ id:
   label_my_account: "Akun saya"
   label_my_activity: "Aktivitas saya"
   label_my_account_data: "Data akun saya"
+  label_my_avatar: "My avatar"
   label_my_queries: "Query kustom saya"
   label_name: "Nama"
   label_never: "Never"
@@ -2013,6 +2029,7 @@ id:
   label_search: "Cari"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Kirim test email"
+  label_session: "Session"
   label_setting_plural: "Pengaturan"
   label_system_settings: "System settings"
   label_show_completed_versions: "Tampilkan versi lengkap"
@@ -2042,11 +2059,13 @@ id:
   label_system_storage: "Informasi storage"
   label_table_of_contents: "Daftar isi"
   label_tag: "Tag"
+  label_team_planner: "Team Planner"
   label_text: "Teks panjang"
   label_this_month: "bulan ini"
   label_this_week: "minggu ini"
   label_this_year: "tahun ini"
   label_time_entry_plural: "Durasi"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Judul"
   label_projects_menu: "Project"
   label_today: "hari ini"
@@ -2796,6 +2815,7 @@ id:
     plain: "Plain text"
   status_active: "aktif"
   status_archived: "diarsipkan"
+  status_blocked: "blocked"
   status_invited: invited
   status_locked: terkunci
   status_registered: telah terdaftar

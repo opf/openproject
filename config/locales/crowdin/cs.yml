@@ -333,6 +333,8 @@ cs:
       no_results_title_text: Tento uživatel není v současné době členem žádné skupiny.
     memberships:
       no_results_title_text: Tento uživatel není v současné době členem projektu.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       Nemáte oprávnění odstranit zástupného uživatele. Nemáte právo spravovat členy pro všechny projekty, jejichž členem je zástupný uživatel.
@@ -957,6 +959,8 @@ cs:
               invalid_on_create: "není platný stav pro nové uživatele."
             ldap_auth_source:
               error_not_found: "nenalezeno"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Zvolte alespoň jednoho uživatele nebo skupinu."
           role_blank: "musí být přiřazen."
@@ -1497,6 +1501,7 @@ cs:
     message: Zpráva upravena
     news: Novinky
     project_attributes: "Atributy projektu upraveny"
+    project: "Project edited"
     projects: "Projekt upraven"
     reply: Zodpovězeno
     time_entry: "Časový záznam změněn"
@@ -1639,6 +1644,7 @@ cs:
         revoke_token: "Opravdu chcete odstranit tento token? Budete se muset znovu přihlásit na %{storage}"
         removed: "Token Úložiště souborů byl úspěšně odstraněn"
         failed: "Došlo k chybě a token nemohl být odstraněn. Opakujte akci později."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Odeslat oznámení pro tuto akci"
     work_packages:
@@ -1687,6 +1693,7 @@ cs:
   label_all_open_wps: "Všechny otevřené"
   label_always_visible: "Vždy zobrazovat"
   label_announcement: "Oznámení"
+  label_angular: "AngularJS"
   label_api_access_key: "Přístupový klíč pro API"
   label_api_access_key_created_on: "API přístupový klíč vytvořen před %{value}"
   label_api_access_key_type: "API"
@@ -1717,8 +1724,9 @@ cs:
   label_available_project_work_package_categories: "Dostupné kategorie pracovních balíčků"
   label_available_project_work_package_types: "Dostupné kategorie pracovních balíčků"
   label_available_projects: "Dostupné projekty"
-  label_api_documentation: "API dokumentace"
+  label_api_doc: "API documentation"
   label_backup: "Záloha"
+  label_backup_code: "Backup code"
   label_between: "mezi"
   label_blocked_by: "zablokoval"
   label_blocks: "bloky"
@@ -1728,6 +1736,7 @@ cs:
   label_forum_plural: "Fóra"
   label_forum_sticky: "Přilepit"
   label_boolean: "Logická hodnota"
+  label_board_plural: "Boards"
   label_branch: "Větev"
   label_browse: "Procházet"
   label_bulk_edit_selected_work_packages: "Hromadná úprava vybraných pracovních balíčků"
@@ -1754,6 +1763,7 @@ cs:
   label_check_uncheck_all_in_column: "Zaškrtnout/Odznačit vše ve sloupci"
   label_check_uncheck_all_in_row: "Zaškrtnout/Odznačit vše v řádku"
   label_child_element: "Podřazený prvek"
+  label_choices: "Choices"
   label_chronological_order: "Od nejstarších"
   label_close_versions: "Zavřít dokončené verze"
   label_closed_work_packages: "uzavřeno"
@@ -1785,6 +1795,7 @@ cs:
   label_custom_field_plural: "Vlastní pole"
   label_custom_field_default_type: "Prázdný typ"
   label_custom_style: "Design"
+  label_dashboard: "Dashboard"
   label_database_version: "Verze PostgreSQL"
   label_date: "Datum"
   label_date_and_time: "Datum a čas"
@@ -1841,6 +1852,8 @@ cs:
   label_example: "Příklad"
   label_experimental: "Experimentální"
   label_i_am_member: "Jsem členem"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Importovat"
   label_export_to: "K dispozici:"
   label_expanded_click_to_collapse: "Rozbaleno. Klepnutím sbalte"
@@ -1880,6 +1893,7 @@ cs:
   label_home: "Domů"
   label_subject_or_id: "Předmět nebo ID"
   label_calendar_subscriptions: "Předplatné kalendáře"
+  label_identifier: "Identifier"
   label_impressum: "Právní oznámení"
   label_in: "v"
   label_in_less_than: "za méně než"
@@ -1896,6 +1910,7 @@ cs:
   label_internal: "Interní"
   label_introduction_video: "Seznamovací video"
   label_invite_user: "Pozvat uživatele"
+  label_share: "Share"
   label_show_hide: "Zobrazit/skrýt"
   label_show_all_registered_users: "Zobrazit registrované uživatele"
   label_journal: "Deník"
@@ -1966,6 +1981,7 @@ cs:
   label_my_account: "Můj účet"
   label_my_activity: "Moje aktivita"
   label_my_account_data: "Data mého účtu"
+  label_my_avatar: "My avatar"
   label_my_queries: "Moje vlastní dotazy"
   label_name: "Název"
   label_never: "Nikdy"
@@ -2101,6 +2117,7 @@ cs:
   label_search: "Vyhledávání"
   label_send_information: "Poslat nové přihlašovací údaje uživateli"
   label_send_test_email: "Odeslat testovací email"
+  label_session: "Session"
   label_setting_plural: "Nastavení"
   label_system_settings: "Nastavení systému"
   label_show_completed_versions: "Zobrazit dokončené verze"
@@ -2130,11 +2147,13 @@ cs:
   label_system_storage: "Informace o úložišti"
   label_table_of_contents: "Obsah"
   label_tag: "Štítek"
+  label_team_planner: "Team Planner"
   label_text: "Dlouhý text"
   label_this_month: "tento měsíc"
   label_this_week: "tento týden"
   label_this_year: "tento rok"
   label_time_entry_plural: "Strávený čas"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Název"
   label_projects_menu: "Projekty"
   label_today: "dnes"
@@ -2893,6 +2912,7 @@ cs:
     plain: "Obyčejný text"
   status_active: "aktivní"
   status_archived: "archivováno"
+  status_blocked: "blocked"
   status_invited: pozván
   status_locked: uzamčeno
   status_registered: registrován

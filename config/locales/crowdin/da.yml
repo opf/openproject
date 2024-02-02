@@ -331,6 +331,8 @@ da:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -951,6 +953,8 @@ da:
               invalid_on_create: "is not a valid status for new users."
             ldap_auth_source:
               error_not_found: "not found"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Vælg venligst mindst én bruger eller gruppe."
           role_blank: "need to be assigned."
@@ -1441,6 +1445,7 @@ da:
     message: Meddelelse er redigeret
     news: Nyheder
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Projekt er redigeret"
     reply: Besvaret
     time_entry: "Tidsregistreringer ændret"
@@ -1583,6 +1588,7 @@ da:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1631,6 +1637,7 @@ da:
   label_all_open_wps: "All open"
   label_always_visible: "Always displayed"
   label_announcement: "Announcement"
+  label_angular: "AngularJS"
   label_api_access_key: "API adgangsnøgle"
   label_api_access_key_created_on: "API adgangsnøgle oprettet for %{value} siden"
   label_api_access_key_type: "API"
@@ -1661,8 +1668,9 @@ da:
   label_available_project_work_package_categories: "Tilgængelige arbejdspakkekategorier"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "API-dokumentation"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "mellem"
   label_blocked_by: "spærret af"
   label_blocks: "spærringer"
@@ -1672,6 +1680,7 @@ da:
   label_forum_plural: "Fora"
   label_forum_sticky: "Fremhævet"
   label_boolean: "Boolsk"
+  label_board_plural: "Boards"
   label_branch: "Gren"
   label_browse: "Browse"
   label_bulk_edit_selected_work_packages: "Rediger valgte arbejdspakker samlet"
@@ -1698,6 +1707,7 @@ da:
   label_check_uncheck_all_in_column: "Markér/Afmarkér alle i kolonnen"
   label_check_uncheck_all_in_row: "Markér/Afmarkér alle i rækken"
   label_child_element: "Underelement"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Luk afsluttede versioner"
   label_closed_work_packages: "lukket"
@@ -1729,6 +1739,7 @@ da:
   label_custom_field_plural: "Selvvalgte felter"
   label_custom_field_default_type: "Tom typebetegnelse"
   label_custom_style: "Design"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Dato"
   label_date_and_time: "Date and time"
@@ -1785,6 +1796,8 @@ da:
   label_example: "Eksempel"
   label_experimental: "Eksperimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Også til rådighed i:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1824,6 +1837,7 @@ da:
   label_home: "Hjem"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Legal notice"
   label_in: "i"
   label_in_less_than: "på mindre end"
@@ -1840,6 +1854,7 @@ da:
   label_internal: "Intern"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invitér bruger"
+  label_share: "Share"
   label_show_hide: "Vis/Skjul"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1910,6 +1925,7 @@ da:
   label_my_account: "Min konto"
   label_my_activity: "My activity"
   label_my_account_data: "Mine kontodata"
+  label_my_avatar: "My avatar"
   label_my_queries: "Mine selvvalgte forespørgsler"
   label_name: "Navn"
   label_never: "Aldrig"
@@ -2045,6 +2061,7 @@ da:
   label_search: "Søg"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send en e-mailtest"
+  label_session: "Session"
   label_setting_plural: "Indstillinger"
   label_system_settings: "System settings"
   label_show_completed_versions: "Vis færdige versioner"
@@ -2074,11 +2091,13 @@ da:
   label_system_storage: "Lagringsoplysninger"
   label_table_of_contents: "Indholdsfortegnelse"
   label_tag: "Etiket"
+  label_team_planner: "Team Planner"
   label_text: "Lang tekst"
   label_this_month: "denne måned"
   label_this_week: "denne uge"
   label_this_year: "dette år"
   label_time_entry_plural: "Anvendt tid"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Titel"
   label_projects_menu: "Projekter"
   label_today: "i dag"
@@ -2832,6 +2851,7 @@ da:
     plain: "Plain text"
   status_active: "aktiv"
   status_archived: "archived"
+  status_blocked: "blocked"
   status_invited: inviteret
   status_locked: Spærret
   status_registered: registreret

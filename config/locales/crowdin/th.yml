@@ -333,6 +333,8 @@ th:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       คุณไม่ได้รับอนุญาตให้ลบผู้ใช้ตัวยึดตำแหน่ง คุณไม่มีสิทธิ์จัดการสมาชิกสำหรับโครงการทั้งหมดที่ผู้ใช้ตัวแทนเป็นสมาชิกอยู่
@@ -951,6 +953,8 @@ th:
               invalid_on_create: "ไม่ใช่สถานะที่ถูกต้องสำหรับผู้ใช้ใหม่"
             ldap_auth_source:
               error_not_found: "not found"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "โปรดเลือกอย่างน้อยหนึ่งผู้ใช้หรือหนึ่งกลุ่ม"
           role_blank: "need to be assigned."
@@ -1416,6 +1420,7 @@ th:
     message: ข้อความได้รับการแก้ไขแล้ว
     news: ข่าวสาร
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "โครงการได้รับการแก้ไขแล้ว"
     reply: ตอบกลับ
     time_entry: "บันทึกเวลาได้รับการแก้ไขแล้ว"
@@ -1558,6 +1563,7 @@ th:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1606,6 +1612,7 @@ th:
   label_all_open_wps: "All open"
   label_always_visible: "Always displayed"
   label_announcement: "Announcement"
+  label_angular: "AngularJS"
   label_api_access_key: "คีย์การเข้าถึง API"
   label_api_access_key_created_on: "คีย์การเข้าถึง API ซึ่งสร้างเมื่อ %{value} ที่ผ่านมา"
   label_api_access_key_type: "API"
@@ -1636,8 +1643,9 @@ th:
   label_available_project_work_package_categories: "Available work package categories"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "API documentation"
+  label_api_doc: "API documentation"
   label_backup: "สำรอง"
+  label_backup_code: "Backup code"
   label_between: "between"
   label_blocked_by: "ถูกบล็อคโดย"
   label_blocks: "บล็อก"
@@ -1647,6 +1655,7 @@ th:
   label_forum_plural: "กระทู้"
   label_forum_sticky: "ปักหมุด"
   label_boolean: "ถูกหรือผิด"
+  label_board_plural: "Boards"
   label_branch: "สาขา"
   label_browse: "เรียกดู"
   label_bulk_edit_selected_work_packages: "แก้ไขชุดภารกิจที่เลือกพร้อมกัน"
@@ -1673,6 +1682,7 @@ th:
   label_check_uncheck_all_in_column: "เลือก/ไม่เลือก ทั้งหมดในคอลัมน์"
   label_check_uncheck_all_in_row: "เลือก/ไม่เลือก ทั้งหมดในแถว"
   label_child_element: "Child element"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "ปิดเวอร์ชั่นที่เสร็จแล้ว"
   label_closed_work_packages: "ปิด"
@@ -1704,6 +1714,7 @@ th:
   label_custom_field_plural: "ฟิลด์ที่กำหนดเอง"
   label_custom_field_default_type: "ชนิดว่าง"
   label_custom_style: "การออกแบบ"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "วันที่"
   label_date_and_time: "Date and time"
@@ -1760,6 +1771,8 @@ th:
   label_example: "ตัวอย่าง"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "ยังสามารถพบใน:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1799,6 +1812,7 @@ th:
   label_home: "หน้าหลัก"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Legal notice"
   label_in: "ใน"
   label_in_less_than: "ในไม่เกิน"
@@ -1815,6 +1829,7 @@ th:
   label_internal: "ภายใน"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
+  label_share: "Share"
   label_show_hide: "แสดง/ซ่อน"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "บันทึก"
@@ -1885,6 +1900,7 @@ th:
   label_my_account: "บัญชีของฉัน"
   label_my_activity: "My activity"
   label_my_account_data: "ข้อมูลบัญชีของฉัน"
+  label_my_avatar: "My avatar"
   label_my_queries: "แบบสอบถามแบบกำหนดเองของฉัน"
   label_name: "ชื่อ"
   label_never: "Never"
@@ -2020,6 +2036,7 @@ th:
   label_search: "ค้นหา"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "ส่งอีเมลทดสอบ"
+  label_session: "Session"
   label_setting_plural: "การตั้งค่า"
   label_system_settings: "System settings"
   label_show_completed_versions: "แสดงเวอร์ชันที่เสร็จสมบูรณ์"
@@ -2049,11 +2066,13 @@ th:
   label_system_storage: "Storage information"
   label_table_of_contents: "Table of contents"
   label_tag: "แท็ก"
+  label_team_planner: "Team Planner"
   label_text: "ข้อความแบบยาว"
   label_this_month: "เดือนนี้"
   label_this_week: "สัปดาห์นี้"
   label_this_year: "ปีนี้"
   label_time_entry_plural: "เวลาที่ใช้"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "ชื่อเรื่อง"
   label_projects_menu: "โครงการ"
   label_today: "วันนี้"
@@ -2807,6 +2826,7 @@ th:
     plain: "Plain text"
   status_active: "ใช้งานอยู่"
   status_archived: "archived"
+  status_blocked: "blocked"
   status_invited: invited
   status_locked: ล็อก
   status_registered: ลงทะเบียน

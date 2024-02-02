@@ -333,6 +333,8 @@ hr:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Korisnik trenutno nije član projekta.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -955,6 +957,8 @@ hr:
               invalid_on_create: "is not a valid status for new users."
             ldap_auth_source:
               error_not_found: "nije pronađeno"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Molim vas odaberite najamnje jednog korisnika ili grupu."
           role_blank: "need to be assigned."
@@ -1470,6 +1474,7 @@ hr:
     message: Poruka uređena
     news: Vijesti
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Projekt je uređivan"
     reply: Je odgovorio
     time_entry: "Timelog uređen"
@@ -1612,6 +1617,7 @@ hr:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1660,6 +1666,7 @@ hr:
   label_all_open_wps: "Svi otvoreni"
   label_always_visible: "Uvijek se prikazuje"
   label_announcement: "Obavijest"
+  label_angular: "AngularJS"
   label_api_access_key: "API pristupni ključ"
   label_api_access_key_created_on: "API pristupni ključ kreiran %{value} prije"
   label_api_access_key_type: "API"
@@ -1690,8 +1697,9 @@ hr:
   label_available_project_work_package_categories: "Dostupne kategorije radnih paketa"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "API dokumentacija"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "između"
   label_blocked_by: "blokirano od"
   label_blocks: "zabrane pristupa"
@@ -1701,6 +1709,7 @@ hr:
   label_forum_plural: "Forumi"
   label_forum_sticky: "Zaljepljeno"
   label_boolean: "Boolean"
+  label_board_plural: "Boards"
   label_branch: "Grana"
   label_browse: "Pregledaj"
   label_bulk_edit_selected_work_packages: "Višestruko uređivanje odabranih radnih paketa"
@@ -1727,6 +1736,7 @@ hr:
   label_check_uncheck_all_in_column: "Označi/Odznači sve u stupcu"
   label_check_uncheck_all_in_row: "Označi/Odznači sve u retku"
   label_child_element: "Podređeni element"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Blizu finalne verzije"
   label_closed_work_packages: "zaključen"
@@ -1758,6 +1768,7 @@ hr:
   label_custom_field_plural: "Prilagođena polja"
   label_custom_field_default_type: "Prazan tip"
   label_custom_style: "Dizajn"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Datum"
   label_date_and_time: "Datum i vrijeme"
@@ -1814,6 +1825,8 @@ hr:
   label_example: "Primjer"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Također dostupan kao:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1853,6 +1866,7 @@ hr:
   label_home: "Početna"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Legal notice"
   label_in: "u"
   label_in_less_than: "u manje od"
@@ -1869,6 +1883,7 @@ hr:
   label_internal: "Unutarnji"
   label_introduction_video: "Introduction video"
   label_invite_user: "Pozovi korisnika"
+  label_share: "Share"
   label_show_hide: "Pokaži/Sakrij"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1939,6 +1954,7 @@ hr:
   label_my_account: "Moj korisnički račun"
   label_my_activity: "My activity"
   label_my_account_data: "Moji korisnički podaci"
+  label_my_avatar: "My avatar"
   label_my_queries: "Moji prilagođeni upiti"
   label_name: "Naziv"
   label_never: "Nikad"
@@ -2074,6 +2090,7 @@ hr:
   label_search: "Pretraživanje"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Pošalji probni e-mail"
+  label_session: "Session"
   label_setting_plural: "Postavke"
   label_system_settings: "Postavke sustava"
   label_show_completed_versions: "Prikažite završene verzije"
@@ -2103,11 +2120,13 @@ hr:
   label_system_storage: "Informacije o podatkovnom sustavu"
   label_table_of_contents: "Table of contents"
   label_tag: "Tag"
+  label_team_planner: "Team Planner"
   label_text: "Dugi tekst"
   label_this_month: "ovaj mjesec"
   label_this_week: "ovog tjedna"
   label_this_year: "ove godine"
   label_time_entry_plural: "Utrošeno vrijeme"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Naziv"
   label_projects_menu: "Projekti"
   label_today: "danas"
@@ -2865,6 +2884,7 @@ hr:
     plain: "Plain text"
   status_active: "aktivno"
   status_archived: "arhivirano"
+  status_blocked: "blocked"
   status_invited: pozvani
   status_locked: zaključano
   status_registered: registriran

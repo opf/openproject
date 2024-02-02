@@ -333,6 +333,8 @@ he:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -957,6 +959,8 @@ he:
               invalid_on_create: "is not a valid status for new users."
             ldap_auth_source:
               error_not_found: "not found"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "נא לבחור לפחות משתמש אחד או קבוצה."
           role_blank: "need to be assigned."
@@ -1497,6 +1501,7 @@ he:
     message: ההודעה נערכה
     news: חדשות
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "הפרויקט נערך"
     reply: הושב
     time_entry: "רישום הזמן נערך"
@@ -1639,6 +1644,7 @@ he:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1687,6 +1693,7 @@ he:
   label_all_open_wps: "All open"
   label_always_visible: "Always displayed"
   label_announcement: "Announcement"
+  label_angular: "AngularJS"
   label_api_access_key: "מפתח גישה API"
   label_api_access_key_created_on: "API מקשים שנוצרה לפני %{value}"
   label_api_access_key_type: "API"
@@ -1717,8 +1724,9 @@ he:
   label_available_project_work_package_categories: "Available work package categories"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "API documentation"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "between"
   label_blocked_by: "חסום על ידי"
   label_blocks: "בלוקים"
@@ -1728,6 +1736,7 @@ he:
   label_forum_plural: "פורומים"
   label_forum_sticky: "נעוץ"
   label_boolean: "בוליאני"
+  label_board_plural: "Boards"
   label_branch: "ענף"
   label_browse: "עיון"
   label_bulk_edit_selected_work_packages: "חבילות עבודה עריכה בצובר שנבחרו"
@@ -1754,6 +1763,7 @@ he:
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Child element"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "סגור גרסאות שהושלמו"
   label_closed_work_packages: "סגור"
@@ -1785,6 +1795,7 @@ he:
   label_custom_field_plural: "שדות מותאמים אישית"
   label_custom_field_default_type: "סוג ריק"
   label_custom_style: "עיצוב"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "תאריך"
   label_date_and_time: "Date and time"
@@ -1841,6 +1852,8 @@ he:
   label_example: "דוגמה"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Also available in:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1880,6 +1893,7 @@ he:
   label_home: "דף הבית"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Legal notice"
   label_in: "ב"
   label_in_less_than: "in less than"
@@ -1896,6 +1910,7 @@ he:
   label_internal: "פנימי"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
+  label_share: "Share"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1966,6 +1981,7 @@ he:
   label_my_account: "החשבון שלי"
   label_my_activity: "My activity"
   label_my_account_data: "My account data"
+  label_my_avatar: "My avatar"
   label_my_queries: "My custom queries"
   label_name: "שם"
   label_never: "אף פעם"
@@ -2101,6 +2117,7 @@ he:
   label_search: "חיפוש"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
+  label_session: "Session"
   label_setting_plural: "הגדרות"
   label_system_settings: "System settings"
   label_show_completed_versions: "Show completed versions"
@@ -2130,11 +2147,13 @@ he:
   label_system_storage: "Storage information"
   label_table_of_contents: "Table of contents"
   label_tag: "Tag"
+  label_team_planner: "Team Planner"
   label_text: "Long text"
   label_this_month: "החודש"
   label_this_week: "השבוע"
   label_this_year: "this year"
   label_time_entry_plural: "זמן שבוזבז"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "כותרת"
   label_projects_menu: "פרויקטים"
   label_today: "today"
@@ -2894,6 +2913,7 @@ he:
     plain: "Plain text"
   status_active: "פעיל"
   status_archived: "archived"
+  status_blocked: "blocked"
   status_invited: הוזמנו
   status_locked: locked
   status_registered: registered

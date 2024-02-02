@@ -331,6 +331,8 @@ ja:
       no_results_title_text: このユーザーは現在どのグループのメンバーでもありません。
     memberships:
       no_results_title_text: このユーザは現在プロジェクトのメンバーではありません。
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -947,6 +949,8 @@ ja:
               invalid_on_create: "新規ユーザーの有効なステータスではありません。"
             ldap_auth_source:
               error_not_found: "存在しません"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "一つ以上のユーザまたはグループを選択してください。"
           role_blank: "を割り当てる必要があります。"
@@ -1412,6 +1416,7 @@ ja:
     message: メッセージが編集されました。
     news: ニュース
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "プロジェクトが編集されました。"
     reply: 返信済み
     time_entry: "時系列ログが編集されました。"
@@ -1554,6 +1559,7 @@ ja:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1602,6 +1608,7 @@ ja:
   label_all_open_wps: "全ての未完了"
   label_always_visible: "常に表示"
   label_announcement: "お知らせ"
+  label_angular: "AngularJS"
   label_api_access_key: "APIアクセスキー"
   label_api_access_key_created_on: "APIアクセスキーが%{value}前に作成されました"
   label_api_access_key_type: "API"
@@ -1632,8 +1639,9 @@ ja:
   label_available_project_work_package_categories: "有効なワークパッケージのカテゴリ"
   label_available_project_work_package_types: "利用可能なワークパッケージのタイプ"
   label_available_projects: "Available projects"
-  label_api_documentation: "APIドキュメント"
+  label_api_doc: "API documentation"
   label_backup: "バックアップ"
+  label_backup_code: "Backup code"
   label_between: "次の範囲内"
   label_blocked_by: "ブロックされている"
   label_blocks: "ブロックしている"
@@ -1643,6 +1651,7 @@ ja:
   label_forum_plural: "フォーラム"
   label_forum_sticky: "固定する"
   label_boolean: "ブール型"
+  label_board_plural: "Boards"
   label_branch: "分岐"
   label_browse: "閲覧"
   label_bulk_edit_selected_work_packages: "選択したワークパッケージを一括編集"
@@ -1669,6 +1678,7 @@ ja:
   label_check_uncheck_all_in_column: "すべての欄をチェック/チェックを外す"
   label_check_uncheck_all_in_row: "すべての行をチェック/チェックを外す"
   label_child_element: "子要素"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "完了したバージョンを終了にする"
   label_closed_work_packages: "完了"
@@ -1700,6 +1710,7 @@ ja:
   label_custom_field_plural: "カスタムフィールド"
   label_custom_field_default_type: "空の種類"
   label_custom_style: "デザイン"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL バージョン"
   label_date: "日付"
   label_date_and_time: "日付と時刻"
@@ -1756,6 +1767,8 @@ ja:
   label_example: "例"
   label_experimental: "実験的"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "インポート"
   label_export_to: "こちらもアクセス可能："
   label_expanded_click_to_collapse: "拡大しました。クリックすると閉じます"
@@ -1795,6 +1808,7 @@ ja:
   label_home: "ホーム"
   label_subject_or_id: "タイトルまたはID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "法的情報"
   label_in: "今日から○日後"
   label_in_less_than: "今日から○日後以前"
@@ -1811,6 +1825,7 @@ ja:
   label_internal: "社内"
   label_introduction_video: "紹介ビデオ"
   label_invite_user: "ユーザを招待"
+  label_share: "Share"
   label_show_hide: "表示/非表示"
   label_show_all_registered_users: "すべての登録ユーザーを表示"
   label_journal: "履歴記述"
@@ -1881,6 +1896,7 @@ ja:
   label_my_account: "個人設定"
   label_my_activity: "My activity"
   label_my_account_data: "アカウントのデータ"
+  label_my_avatar: "My avatar"
   label_my_queries: "個人のクエリ"
   label_name: "名称"
   label_never: "なし"
@@ -2016,6 +2032,7 @@ ja:
   label_search: "検索"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "テスト電子メールを送信"
+  label_session: "Session"
   label_setting_plural: "設定"
   label_system_settings: "システム設定"
   label_show_completed_versions: "終了したバージョンを表示"
@@ -2045,11 +2062,13 @@ ja:
   label_system_storage: "ストレージ情報"
   label_table_of_contents: "目次"
   label_tag: "タグ"
+  label_team_planner: "Team Planner"
   label_text: "長文"
   label_this_month: "今月"
   label_this_week: "今週"
   label_this_year: "今年"
   label_time_entry_plural: "作業時間の記録"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "タイトル"
   label_projects_menu: "プロジェクト"
   label_today: "今日"
@@ -2803,6 +2822,7 @@ ja:
     plain: "プレーンテキスト"
   status_active: "アクティブ"
   status_archived: "アーカイブ済"
+  status_blocked: "blocked"
   status_invited: 招待済み
   status_locked: ロック済み
   status_registered: 登録済み

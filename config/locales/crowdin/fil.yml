@@ -333,6 +333,8 @@ fil:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Ang user na ito ay kasalukuyang hindi myembro ng proyekto.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -953,6 +955,8 @@ fil:
               invalid_on_create: "ay hindi isang balidong estado para sa mga bagong gumagamit."
             ldap_auth_source:
               error_not_found: "hindi nakita"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Mangayring pumili na kahit isang gumagamit o grupo."
           role_blank: "need to be assigned."
@@ -1443,6 +1447,7 @@ fil:
     message: Naka-edit ang mensahe
     news: Mga balita
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Naka-edit ang proyekto"
     reply: Sumagot
     time_entry: "Naka-edit ang timelog"
@@ -1585,6 +1590,7 @@ fil:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1633,6 +1639,7 @@ fil:
   label_all_open_wps: "All open"
   label_always_visible: "Palaging ipinapakita"
   label_announcement: "Anunsyo"
+  label_angular: "AngularJS"
   label_api_access_key: "API access key"
   label_api_access_key_created_on: "API access key ay nilikha %{value} ng nakalipas"
   label_api_access_key_type: "API"
@@ -1663,8 +1670,9 @@ fil:
   label_available_project_work_package_categories: "Ang mga kategorya ng magagamit na work package"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "API dokumentasyon"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "sa pagitan ng"
   label_blocked_by: "hinarangan ni"
   label_blocks: "mga hinarang"
@@ -1674,6 +1682,7 @@ fil:
   label_forum_plural: "Mga forum"
   label_forum_sticky: "Malagkit"
   label_boolean: "Boolean"
+  label_board_plural: "Boards"
   label_branch: "Sangay"
   label_browse: "Browse"
   label_bulk_edit_selected_work_packages: "Ang bulk edit ng mga napiling work package"
@@ -1700,6 +1709,7 @@ fil:
   label_check_uncheck_all_in_column: "I-check/I-ncheck ang lahat sa hanay"
   label_check_uncheck_all_in_row: "I-check/I-uncheck ang lahat sa hilera"
   label_child_element: "Elementong bata"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Isara ang nakompletong bersyon"
   label_closed_work_packages: "isinara"
@@ -1731,6 +1741,7 @@ fil:
   label_custom_field_plural: "Mga pasadyang patlang"
   label_custom_field_default_type: "Uri ng walang laman"
   label_custom_style: "Disenyo"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Petsa"
   label_date_and_time: "Petsa at oras"
@@ -1787,6 +1798,8 @@ fil:
   label_example: "Halimbawa"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Magagamit rin sa:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1826,6 +1839,7 @@ fil:
   label_home: "Tahanan"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Legal notice"
   label_in: "sa"
   label_in_less_than: "mas mababa kaysa"
@@ -1842,6 +1856,7 @@ fil:
   label_internal: "Panloob"
   label_introduction_video: "Introduction video"
   label_invite_user: "Imbitahan ang user"
+  label_share: "Share"
   label_show_hide: "Ipakita/itago"
   label_show_all_registered_users: "Ipakita lahay ang mga nakarehistrong gumagamit"
   label_journal: "Talaarawan"
@@ -1912,6 +1927,7 @@ fil:
   label_my_account: "Ang aking akwant"
   label_my_activity: "My activity"
   label_my_account_data: "Ang data ng aking akwant"
+  label_my_avatar: "My avatar"
   label_my_queries: "Ang mga aking custom query"
   label_name: "Pangalan"
   label_never: "Hindi kailanman"
@@ -2047,6 +2063,7 @@ fil:
   label_search: "Hanapin"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Magpadala ng test email"
+  label_session: "Session"
   label_setting_plural: "Mga setting"
   label_system_settings: "Mga setting ng system"
   label_show_completed_versions: "Ipakita ang mga kompletong bersyon"
@@ -2076,11 +2093,13 @@ fil:
   label_system_storage: "Impormasyon ng storage"
   label_table_of_contents: "Table of contents"
   label_tag: "Tag"
+  label_team_planner: "Team Planner"
   label_text: "Mahaba na teksto"
   label_this_month: "ngayong buwan"
   label_this_week: "ngayong semana"
   label_this_year: "ngayong taon"
   label_time_entry_plural: "Nauubos na oras"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Pamagat"
   label_projects_menu: "Mga proyekto"
   label_today: "ngayon"
@@ -2834,6 +2853,7 @@ fil:
     plain: "Plain text"
   status_active: "aktibo"
   status_archived: "naka-archive"
+  status_blocked: "blocked"
   status_invited: imbitado
   status_locked: nakakandado
   status_registered: narehistro

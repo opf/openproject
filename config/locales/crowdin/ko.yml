@@ -333,6 +333,8 @@ ko:
       no_results_title_text: 이 사용자는 현재 어떤 그룹의 멤버도 아닙니다.
     memberships:
       no_results_title_text: 이 사용자는 프로젝트의 멤버가 아닙니다.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       플레이스홀더 사용자를 삭제할 수 없습니다. 플레이스홀더 사용자가 멤버로 들어가 있는 모든 프로젝트의 구성원을 관리할 권한이 없습니다.
@@ -950,6 +952,8 @@ ko:
               invalid_on_create: "은(는) 새 사용자에 대해 유효한 상태가 아닙니다."
             ldap_auth_source:
               error_not_found: "찾을 수 없음"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "하나 이상의 사용자 또는 그룹을 선택 하십시오."
           role_blank: "할당해야 합니다."
@@ -1415,6 +1419,7 @@ ko:
     message: 메시지 편집됨
     news: 뉴스
     project_attributes: "프로젝트 특성 편집됨"
+    project: "Project edited"
     projects: "프로젝트 편집됨"
     reply: 회신함
     time_entry: "시간 로그 편집됨"
@@ -1557,6 +1562,7 @@ ko:
         revoke_token: "이 토큰을 제거하시겠습니까? %{storage}에서 다시 로그인해야 합니다."
         removed: "파일 저장소 토큰이 제거되었습니다."
         failed: "오류가 발생하여 토큰을 제거할 수 없습니다. 나중에 다시 시도하세요."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "이 작업에 대한 알림 보내기"
     work_packages:
@@ -1605,6 +1611,7 @@ ko:
   label_all_open_wps: "모두 열림"
   label_always_visible: "항상 표시"
   label_announcement: "공지 사항"
+  label_angular: "AngularJS"
   label_api_access_key: "API 액세스 키"
   label_api_access_key_created_on: "API 액세스 키가 %{value} 전에 생성되었습니다."
   label_api_access_key_type: "API"
@@ -1635,8 +1642,9 @@ ko:
   label_available_project_work_package_categories: "사용 가능한 작업 패키지 카테고리"
   label_available_project_work_package_types: "사용 가능한 작업 패키지 유형"
   label_available_projects: "사용 가능한 프로젝트"
-  label_api_documentation: "API 설명서"
+  label_api_doc: "API documentation"
   label_backup: "백업"
+  label_backup_code: "Backup code"
   label_between: "사이에"
   label_blocked_by: "차단한 사용자"
   label_blocks: "블록"
@@ -1646,6 +1654,7 @@ ko:
   label_forum_plural: "포럼"
   label_forum_sticky: "스티커형"
   label_boolean: "부울"
+  label_board_plural: "Boards"
   label_branch: "브랜치"
   label_browse: "찾아보기"
   label_bulk_edit_selected_work_packages: "선택된 작업 패키지 일괄 편집"
@@ -1672,6 +1681,7 @@ ko:
   label_check_uncheck_all_in_column: "칼럼에서 확인/최소"
   label_check_uncheck_all_in_row: "모든 행에서 확인/취소"
   label_child_element: "자식 요소"
+  label_choices: "Choices"
   label_chronological_order: "오래된순"
   label_close_versions: "완료된 버전 닫기"
   label_closed_work_packages: "닫음"
@@ -1703,6 +1713,7 @@ ko:
   label_custom_field_plural: "사용자 정의 필드"
   label_custom_field_default_type: "빈 유형"
   label_custom_style: "디자인"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL 버전"
   label_date: "날짜"
   label_date_and_time: "날짜 및 시간"
@@ -1759,6 +1770,8 @@ ko:
   label_example: "예"
   label_experimental: "실험"
   label_i_am_member: "멤버입니다"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "가져오기"
   label_export_to: "다음에서도 사용 가능:"
   label_expanded_click_to_collapse: "확장되었습니다. 축소하려면 클릭하세요."
@@ -1798,6 +1811,7 @@ ko:
   label_home: "홈"
   label_subject_or_id: "제목 또는 ID"
   label_calendar_subscriptions: "캘린더 구독"
+  label_identifier: "Identifier"
   label_impressum: "법적 고지"
   label_in: "-"
   label_in_less_than: "보다 작음"
@@ -1814,6 +1828,7 @@ ko:
   label_internal: "내부"
   label_introduction_video: "소개 동영상"
   label_invite_user: "사용자 초대"
+  label_share: "Share"
   label_show_hide: "표시/숨기기"
   label_show_all_registered_users: "등록된 사용자 모두 표시"
   label_journal: "기록일지"
@@ -1884,6 +1899,7 @@ ko:
   label_my_account: "내 계정"
   label_my_activity: "내 활동"
   label_my_account_data: "내 계정 데이터"
+  label_my_avatar: "My avatar"
   label_my_queries: "내 사용자 지정 쿼리"
   label_name: "이름"
   label_never: "사용 안 함"
@@ -2019,6 +2035,7 @@ ko:
   label_search: "검색"
   label_send_information: "사용자에게 새 자격 증명 보내기"
   label_send_test_email: "테스트 이메일 보내기"
+  label_session: "Session"
   label_setting_plural: "설정"
   label_system_settings: "시스템 설정"
   label_show_completed_versions: "완료된 버전 표시"
@@ -2048,11 +2065,13 @@ ko:
   label_system_storage: "저장 공간 정보"
   label_table_of_contents: "목차"
   label_tag: "태그"
+  label_team_planner: "Team Planner"
   label_text: "긴 텍스트"
   label_this_month: "이번 달"
   label_this_week: "이번 주"
   label_this_year: "올해"
   label_time_entry_plural: "소비한 시간"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "제목"
   label_projects_menu: "프로젝트"
   label_today: "오늘"
@@ -2803,6 +2822,7 @@ ko:
     plain: "일반 텍스트"
   status_active: "활성"
   status_archived: "보관됨"
+  status_blocked: "blocked"
   status_invited: 초대됨
   status_locked: 잠김
   status_registered: 등록됨

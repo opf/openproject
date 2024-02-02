@@ -328,6 +328,8 @@ uk:
       no_results_title_text: Цей користувач зараз не належить до жодної групи.
     memberships:
       no_results_title_text: Цей користувач наразі не є учасником проекту.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       Ви не можете видалити прототип користувача. У вас немає права керувати учасниками для всіх проєктів, до яких належить прототип користувача.
@@ -952,6 +954,8 @@ uk:
               invalid_on_create: "не є дійсним статусом для нових користувачів."
             ldap_auth_source:
               error_not_found: "не знайдено"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Виберіть принаймні одного користувача або групу."
           role_blank: "повинні бути призначені."
@@ -1492,6 +1496,7 @@ uk:
     message: Повідомлення відредаговано
     news: Новини
     project_attributes: "Атрибути проєкту змінено"
+    project: "Project edited"
     projects: "Проєкт змінено"
     reply: Відповіли
     time_entry: "Timelog відредаговано"
@@ -1634,6 +1639,7 @@ uk:
         revoke_token: "Справді вилучити цей маркер? Вам знадобиться знову ввійти в %{storage}"
         removed: "Маркер файлового сховища вилучено"
         failed: "Сталася помилка, і не вдалося вилучити маркет. Повторіть спробу пізніше."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Надсилати сповіщення щодо цієї дії"
     work_packages:
@@ -1682,6 +1688,7 @@ uk:
   label_all_open_wps: "Всі відкрити"
   label_always_visible: "Завжди відображається"
   label_announcement: "Оголошення"
+  label_angular: "AngularJS"
   label_api_access_key: "Ключ доступу до API"
   label_api_access_key_created_on: "Ключ доступу до API створено %{value} тому"
   label_api_access_key_type: "API"
@@ -1712,8 +1719,9 @@ uk:
   label_available_project_work_package_categories: "Доступні категорії робочих пакетів"
   label_available_project_work_package_types: "Доступні типи пакетів робіт"
   label_available_projects: "Доступні проєкти"
-  label_api_documentation: "Документація API"
+  label_api_doc: "API documentation"
   label_backup: "Резервна копія"
+  label_backup_code: "Backup code"
   label_between: "між ними"
   label_blocked_by: "заблоковано"
   label_blocks: "блоки"
@@ -1723,6 +1731,7 @@ uk:
   label_forum_plural: "Форуми"
   label_forum_sticky: "Приліплена"
   label_boolean: "Логічний тип"
+  label_board_plural: "Boards"
   label_branch: "Гілка"
   label_browse: "Огляд"
   label_bulk_edit_selected_work_packages: "Масове редагування вибраних робочих пакетів"
@@ -1749,6 +1758,7 @@ uk:
   label_check_uncheck_all_in_column: "Позначте/зніміть всі прапорці в колонці"
   label_check_uncheck_all_in_row: "Позначте/зніміть всі прапорці в рядку"
   label_child_element: "Дочірній елемент"
+  label_choices: "Choices"
   label_chronological_order: "Спочатку старіші"
   label_close_versions: "Закрити завершені версії"
   label_closed_work_packages: "зачинено"
@@ -1780,6 +1790,7 @@ uk:
   label_custom_field_plural: "Індивідуальні поля"
   label_custom_field_default_type: "Порожній тип"
   label_custom_style: "Дизайн"
+  label_dashboard: "Dashboard"
   label_database_version: "Версія PostgreSQL"
   label_date: "Дата"
   label_date_and_time: "Дата і час"
@@ -1836,6 +1847,8 @@ uk:
   label_example: "Приклад"
   label_experimental: "Експериментальне"
   label_i_am_member: "Я учасник"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Імпортувати"
   label_export_to: "Також вам доступні:"
   label_expanded_click_to_collapse: "Розширено. Натисніть, щоб згорнути"
@@ -1875,6 +1888,7 @@ uk:
   label_home: "Додому"
   label_subject_or_id: "Тема або ідентифікатор"
   label_calendar_subscriptions: "Підписки на календарі"
+  label_identifier: "Identifier"
   label_impressum: "Правове повідомлення"
   label_in: "в"
   label_in_less_than: "менш ніж"
@@ -1891,6 +1905,7 @@ uk:
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
   label_invite_user: "Запросити користувача"
+  label_share: "Share"
   label_show_hide: "Показати сховати"
   label_show_all_registered_users: "Усі зареєстровані користувачі"
   label_journal: "Журнал"
@@ -1961,6 +1976,7 @@ uk:
   label_my_account: "Мій обліковий запис"
   label_my_activity: "Мої дії"
   label_my_account_data: "Мої дані облікового запису"
+  label_my_avatar: "My avatar"
   label_my_queries: "Мої збережені запити"
   label_name: "Ім’я"
   label_never: "Ніколи"
@@ -2096,6 +2112,7 @@ uk:
   label_search: "Пошук"
   label_send_information: "Надіслати нові облікові дані користувачу"
   label_send_test_email: "Послати email для перевірки"
+  label_session: "Session"
   label_setting_plural: "Налаштування"
   label_system_settings: "Параметри системи"
   label_show_completed_versions: "Показати завершені версії"
@@ -2125,11 +2142,13 @@ uk:
   label_system_storage: "Інформація про зберігання"
   label_table_of_contents: "Зміст"
   label_tag: "Мітка"
+  label_team_planner: "Team Planner"
   label_text: "Довгий текст"
   label_this_month: "цього місяця"
   label_this_week: "цього тижня"
   label_this_year: "цей рік"
   label_time_entry_plural: "Трудовитрати"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Назва"
   label_projects_menu: "Проекти"
   label_today: "сьогодні"
@@ -2886,6 +2905,7 @@ uk:
     plain: "Простий текст"
   status_active: "активний"
   status_archived: "в архіві"
+  status_blocked: "blocked"
   status_invited: запрошені
   status_locked: Заблоковано
   status_registered: Зареєстровано
