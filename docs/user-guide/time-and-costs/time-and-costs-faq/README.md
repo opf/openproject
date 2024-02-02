@@ -29,6 +29,10 @@ Unfortunately this is not possible at the moment. There's already a feature requ
 
 Yes, you can use the "My spent time" widget on My Page and use the filters there.
 
+## Can I log time in a different unit than hours, e.g. in days?
+
+No, it is not (yet) possible to log time in days or any other units than hours. However, you can use decimal places, like 0.25 hours.
+
 ## Does OpenProject offer resource management?
 
 You can [set up budgets](../../budgets), [set an estimated time in the field **Work**](../../work-packages/edit-work-package/) for a work package and use the [Assignee board](../../agile-boards/#choose-between-board-types) to find out how many work packages are assigned to a person at the moment.
