@@ -92,7 +92,7 @@ module Projects
 
     def all_columns
       @all_columns ||= [
-        [:hierarchy, { builtin: true }],
+        hierarchy_column,
         [:name, { builtin: true, caption: Project.human_attribute_name(:name) }],
         [:project_status, { caption: Project.human_attribute_name(:status) }],
         [:status_explanation, { caption: Project.human_attribute_name(:status_explanation) }],
@@ -104,10 +104,16 @@ module Projects
     end
 
     def headers
-      all_columns
-        .select do |name, options|
-        query.columns.include?(name.to_s)
+      headers = query
+        .columns
+        .map do |name|
+        all_columns.detect { |column| column.first.to_s == name }
       end
+
+      index = headers.index { |column| column.first == :name }
+      headers.insert(index, hierarchy_column)
+
+      headers
     end
 
     def sortable_column?(_column)
@@ -132,6 +138,10 @@ module Projects
       project_custom_fields.values.map do |custom_field|
         [custom_field.column_name.to_sym, { caption: custom_field.name, custom_field: true }]
       end
+    end
+
+    def hierarchy_column
+      [:hierarchy, { builtin: true }]
     end
 
     def project_custom_fields

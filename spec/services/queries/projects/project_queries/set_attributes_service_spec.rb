@@ -157,6 +157,13 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
       expect(model_instance.filters.map { |f| [f.name, f.operator, f.values] })
         .to eql [[:active, '=', %w[t]]]
     end
+
+    it 'assigns default columns' do
+      subject
+
+      expect(model_instance.columns)
+        .to eql Setting.enabled_projects_columns
+    end
   end
 
   context 'with the query already having order and with order params' do

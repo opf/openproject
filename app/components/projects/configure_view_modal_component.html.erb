@@ -1,6 +1,6 @@
 <%= render(Primer::Alpha::Dialog.new(title: t(:'queries.configure_view'),
                                      id: MODAL_ID)) do |d| %>
-  <% d.with_header(variant: :large) %>
+  <% d.with_header(variant: :large, mb: 3) %>
 
   <%= primer_form_with(
     url: projects_path,

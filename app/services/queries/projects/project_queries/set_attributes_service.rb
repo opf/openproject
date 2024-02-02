@@ -40,6 +40,7 @@ class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::Se
     set_default_user
     set_default_filter
     set_default_order
+    set_default_columns
   end
 
   def set_default_user
@@ -58,6 +59,12 @@ class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::Se
     return if model.filters.any?
 
     model.where('active', '=', OpenProject::Database::DB_VALUE_TRUE)
+  end
+
+  def set_default_columns
+    return if model.columns.any?
+
+    model.columns = Setting.enabled_projects_columns
   end
 
   def set_filters(filters)
