@@ -95,11 +95,11 @@ namespace :backup do
     end
 
     def with_config_file(config, &blk)
-      file = Tempfile.new('op_pg_config')
-      file.write "*:*:*:*:#{config[:password]}"
-      file.close
-      blk.yield file.path
-      file.unlink
+      Tempfile.open('op_pg_config') do |file|
+        file.write "*:*:*:*:#{config[:password]}"
+        file.close
+        blk.yield file.path
+      end
     end
 
     def sql_dump_tempfile(config)
