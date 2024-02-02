@@ -8,13 +8,13 @@ http_interactions:
       string: ''
     headers:
       Authorization:
-      - Bearer <ACCESS_TOKEN>
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.1
       Accept:
       - "*/*"
-      User-Agent:
-      - Ruby
+      Accept-Encoding:
+      - gzip, deflate
   response:
     status:
       code: 404
@@ -25,21 +25,23 @@ http_interactions:
       Transfer-Encoding:
       - chunked
       Content-Type:
-      - application/json
+      - application/json; charset=utf-8
+      Content-Encoding:
+      - gzip
       Vary:
       - Accept-Encoding
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - 0e00ab2f-367b-4aca-bcc1-bd6c6d70a14a
+      - e58d868c-e0f2-4814-9810-6389725dc10b
       Client-Request-Id:
-      - 0e00ab2f-367b-4aca-bcc1-bd6c6d70a14a
+      - e58d868c-e0f2-4814-9810-6389725dc10b
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF00000362"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF000002DA"}}'
       Date:
-      - Wed, 18 Oct 2023 11:28:17 GMT
+      - Tue, 30 Jan 2024 11:55:26 GMT
     body:
       encoding: UTF-8
-      string: '{"error":{"code":"itemNotFound","message":"Item not found","innerError":{"date":"2023-10-18T11:28:17","request-id":"0e00ab2f-367b-4aca-bcc1-bd6c6d70a14a","client-request-id":"0e00ab2f-367b-4aca-bcc1-bd6c6d70a14a"}}}'
-  recorded_at: Wed, 18 Oct 2023 11:28:17 GMT
+      string: '{"error":{"code":"itemNotFound","message":"Item not found"}}'
+  recorded_at: Tue, 30 Jan 2024 11:55:26 GMT
 recorded_with: VCR 6.2.0

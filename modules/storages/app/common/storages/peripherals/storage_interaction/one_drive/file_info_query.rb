@@ -48,7 +48,7 @@ module Storages
               return ServiceResult.failure(
                 result: :error,
                 errors: ::Storages::StorageError.new(code: :error,
-                                                     data: StorageErrorData.new(source: self),
+                                                     data: StorageErrorData.new(source: self.class),
                                                      log_message: 'File ID can not be nil')
               )
             end
@@ -66,8 +66,8 @@ module Storages
                 status_code: 200,
                 id: json[:id],
                 name: json[:name],
-                last_modified_at: DateTime.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
-                created_at: DateTime.parse(json.dig(:fileSystemInfo, :createdDateTime)),
+                last_modified_at: Time.zone.parse(json.dig(:fileSystemInfo, :lastModifiedDateTime)),
+                created_at: Time.zone.parse(json.dig(:fileSystemInfo, :createdDateTime)),
                 mime_type: Util.mime_type(json),
                 size: json[:size],
                 owner_name: json.dig(:createdBy, :user, :displayName),

@@ -8,13 +8,13 @@ http_interactions:
       string: ''
     headers:
       Authorization:
-      - Bearer <ACCESS_TOKEN>
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.1
       Accept:
       - "*/*"
-      User-Agent:
-      - Ruby
+      Accept-Encoding:
+      - gzip, deflate
   response:
     status:
       code: 200
@@ -26,22 +26,24 @@ http_interactions:
       - chunked
       Content-Type:
       - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+      Content-Encoding:
+      - gzip
       Vary:
       - Accept-Encoding
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - 94c777a5-8135-4696-89d6-1031a4e41132
+      - 277c4026-bda0-461a-81e0-7237b9fa69c2
       Client-Request-Id:
-      - 94c777a5-8135-4696-89d6-1031a4e41132
+      - 277c4026-bda0-461a-81e0-7237b9fa69c2
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000001E0"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF0000045E"}}'
       Odata-Version:
       - '4.0'
       Date:
-      - Wed, 18 Oct 2023 11:33:27 GMT
+      - Tue, 30 Jan 2024 11:55:54 GMT
     body:
       encoding: UTF-8
       string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(webUrl)/$entity","webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR"}'
-  recorded_at: Wed, 18 Oct 2023 11:33:27 GMT
+  recorded_at: Tue, 30 Jan 2024 11:55:54 GMT
 recorded_with: VCR 6.2.0

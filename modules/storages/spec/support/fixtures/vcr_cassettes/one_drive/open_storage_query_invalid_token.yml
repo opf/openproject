@@ -8,13 +8,13 @@ http_interactions:
       string: ''
     headers:
       Authorization:
-      - Bearer 1234567890-1
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.1
       Accept:
       - "*/*"
-      User-Agent:
-      - Ruby
+      Accept-Encoding:
+      - gzip, deflate
   response:
     status:
       code: 401
@@ -24,24 +24,28 @@ http_interactions:
       - chunked
       Content-Type:
       - application/json
+      Content-Encoding:
+      - gzip
       Vary:
       - Accept-Encoding
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - dc3446a9-9239-4e75-a70e-4db0f73167dd
+      - bffd6278-3953-412d-afd7-dff03382cbfd
       Client-Request-Id:
-      - dc3446a9-9239-4e75-a70e-4db0f73167dd
+      - bffd6278-3953-412d-afd7-dff03382cbfd
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"FR3PEPF00000165"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF000002E8"}}'
       Www-Authenticate:
       - Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize",
         client_id="00000003-0000-0000-c000-000000000000"
       Date:
-      - Wed, 18 Oct 2023 11:33:26 GMT
+      - Tue, 30 Jan 2024 11:55:53 GMT
     body:
       encoding: UTF-8
-      string: '{"error":{"code":"InvalidAuthenticationToken","message":"CompactToken
-        parsing failed with error code: 80049217","innerError":{"date":"2023-10-18T11:33:27","request-id":"dc3446a9-9239-4e75-a70e-4db0f73167dd","client-request-id":"dc3446a9-9239-4e75-a70e-4db0f73167dd"}}}'
-  recorded_at: Wed, 18 Oct 2023 11:33:27 GMT
+      string: '{"error":{"code":"InvalidAuthenticationToken","message":"IDX14100:
+        JWT is not well formed, there are no dots (.).\nThe token needs to be in JWS
+        or JWE Compact Serialization Format. (JWS): ''EncodedHeader.EndcodedPayload.EncodedSignature''.
+        (JWE): ''EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag''.","innerError":{"date":"2024-01-30T11:55:54","request-id":"bffd6278-3953-412d-afd7-dff03382cbfd","client-request-id":"bffd6278-3953-412d-afd7-dff03382cbfd"}}}'
+  recorded_at: Tue, 30 Jan 2024 11:55:54 GMT
 recorded_with: VCR 6.2.0

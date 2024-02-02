@@ -53,7 +53,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
           result = subject.call(user:, file_id: nil)
 
           expect(result).to be_failure
-          expect(result.error_source).to be_a(described_class)
+          expect(result.error_source).to eq(described_class)
           expect(result.result).to eq(:error)
         end
       end

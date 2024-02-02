@@ -40,7 +40,7 @@ module Storages
         transaction: false
       ) do
         ::Storages::NextcloudStorage.automatic_management_enabled.includes(:oauth_client).find_each do |storage|
-          result = GroupFolderPropertiesSyncService.call(storage)
+          result = NextcloudGroupFolderPropertiesSyncService.call(storage)
           result.match(
             on_success: ->(_) do
               storage.mark_as_healthy
