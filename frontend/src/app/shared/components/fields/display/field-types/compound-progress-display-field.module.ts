@@ -72,7 +72,6 @@ export class CompoundProgressDisplayField extends DisplayField {
     link.classList.add('-derived-value', uiStateLinkClass);
 
     this.hierarchyQueryLinkHelper.addHref(link, this.resource);
-    // this.addURLToViewWorkPackageChildren(link);
 
     element.appendChild(link);
   }
