@@ -27,14 +27,14 @@
 #++
 
 require 'tempfile'
-require 'fileutils'
+require 'pathname'
 
 namespace :backup do
   namespace :database do
     desc 'Creates a database dump which can be used as a backup.'
     task :create, [:path_to_backup] => [:environment] do |_task, args|
       args.with_defaults(path_to_backup: default_db_filename)
-      FileUtils.mkdir_p(Pathname.new(args[:path_to_backup]).dirname)
+      Pathname(args[:path_to_backup]).dirname.mkpath
 
       config = database_configuration
 
