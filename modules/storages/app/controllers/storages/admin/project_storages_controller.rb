@@ -192,7 +192,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
 
   def redirect_to_project_storages_path_with_oauth_access_grant_confirmation
     if storage_oauth_access_granted?
-      redirect_to project_storages_path
+      redirect_to project_settings_project_storages_path
     else
       redirect_to_project_storages_path_with_nudge_modal
     end
