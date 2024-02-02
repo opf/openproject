@@ -33,6 +33,8 @@ module Storages
     module StorageInteraction
       module OneDrive
         class CreateFolderCommand
+          using ServiceResultRefinements
+
           def self.call(storage:, folder_path:)
             new(storage).call(folder_path:)
           end
@@ -42,12 +44,39 @@ module Storages
             @uri = storage.uri
           end
 
-          # NOTE: This is currently creating a folder only on the root folder
           def call(folder_path:)
-            Util.using_admin_token(@storage) do |http|
-              response = http.post("/v1.0/drives/#{@storage.drive_id}/root/children", body: payload(folder_path))
+            folder_paths = folder_path.split('/')
 
-              handle_response(response)
+            Util.using_admin_token(@storage) do |http|
+              folder_paths.each_with_index.with_object([]) do |(folder_name, index), results|
+                response = http.post(uri_for(index, results), body: payload(folder_name))
+                result = handle_response(response)
+
+                results[index] = result.success? ? result : get_folder_info(folder_name, index, results)
+              end.last
+            end
+          end
+
+          def uri_for(index, previous_results)
+            return "#{base_uri}/root/children" if index.zero?
+
+            previous_result = previous_results[index - 1]
+            item_id = previous_result.match(on_success: ->(result) { result.id },
+                                            on_failure: ->(errors) { errors.data.id })
+
+            "#{base_uri}/items/#{item_id}/children"
+          end
+
+          def get_folder_info(folder_name, index, results)
+            Util.using_admin_token(@storage) do |http|
+              uri = uri_for(index, results)
+
+              response = http.get(uri).raise_for_status
+              item = response.json(symbolize_keys: true)[:value].find { |drive_item| drive_item[:name] == folder_name }
+
+              ServiceResult.failure(result: :already_exists,
+                                    errors: ::Storages::StorageError
+                                      .new(code: :conflict, data: file_info_for(item)))
             end
           end
 
@@ -97,6 +126,8 @@ module Storages
               '@microsoft.graph.conflictBehavior' => "fail"
             }.to_json
           end
+
+          def base_uri = "/v1.0/drives/#{@storage.drive_id}"
         end
       end
     end
