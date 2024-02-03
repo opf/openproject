@@ -630,6 +630,7 @@ si:
         begin_insertion: "ඇතුළත් කිරීම ආරම්භ කරන්න"
         begin_deletion: "මකාදැමීම ආරම්භ කරන්න"
         children: "උප මූලිකාංග"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"

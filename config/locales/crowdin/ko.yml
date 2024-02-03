@@ -628,6 +628,7 @@ ko:
         begin_insertion: "삽입 시작"
         begin_deletion: "삭제 시작"
         children: "하위 요소"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "파생된 남은 작업"
         derived_remaining_time: "파생된 남은 작업"
         done_ratio: "완료 %"

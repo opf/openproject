@@ -627,6 +627,7 @@ nl:
         begin_insertion: "Begin van het invoegen"
         begin_deletion: "Begin van de verwijdering"
         children: "Subelementen"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"

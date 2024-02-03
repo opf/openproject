@@ -631,6 +631,7 @@ ro:
         begin_insertion: "Început de inserare"
         begin_deletion: "Început de ștergere"
         children: "Subelemente"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"

@@ -629,6 +629,7 @@ tr:
         begin_insertion: "Eklemeye başlama"
         begin_deletion: "Silme işleminin başlangıcı"
         children: "Alt öğeler"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"

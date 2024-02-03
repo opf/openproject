@@ -629,6 +629,7 @@ pt:
         begin_insertion: "Início da inserção"
         begin_deletion: "Início da exclusão"
         children: "Subelementos"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Trabalho restante derivado"
         derived_remaining_time: "Trabalho restante derivado"
         done_ratio: "% de conclusão"

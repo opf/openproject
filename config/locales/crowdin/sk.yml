@@ -632,6 +632,7 @@ sk:
         begin_insertion: "Začiatok vkladania"
         begin_deletion: "Začiatok odstraňovania"
         children: "Dielčie prvky"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"

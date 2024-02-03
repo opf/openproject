@@ -626,6 +626,7 @@ ca:
         begin_insertion: "Inici de la inserció"
         begin_deletion: "Inici de la supressió"
         children: "Sub-elements"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"

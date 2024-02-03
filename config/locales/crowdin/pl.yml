@@ -629,6 +629,7 @@ pl:
         begin_insertion: "Początek wstawiania"
         begin_deletion: "Początek usuwania"
         children: "Elementy składowe"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Wyprowadzona pozostała praca"
         derived_remaining_time: "Wyprowadzona pozostała praca"
         done_ratio: "% ukończono"

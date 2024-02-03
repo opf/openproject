@@ -629,6 +629,7 @@ sv:
         begin_insertion: "Början av införandet"
         begin_deletion: "Början av raderingen"
         children: "Underelement"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"

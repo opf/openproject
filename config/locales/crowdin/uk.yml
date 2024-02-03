@@ -627,6 +627,7 @@ uk:
         begin_insertion: "Початок вставки"
         begin_deletion: "Початок видалення"
         children: "Субелементи"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Отриманий залишок роботи"
         derived_remaining_time: "Отриманий залишок роботи"
         done_ratio: "% завершення"

@@ -629,6 +629,7 @@ zh-TW:
         begin_insertion: "開始插入"
         begin_deletion: "開始刪除"
         children: "子項"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"

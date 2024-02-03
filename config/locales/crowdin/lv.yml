@@ -631,6 +631,7 @@ lv:
         begin_insertion: "Ievietošanas sākums"
         begin_deletion: "Dzēšanas sākums"
         children: "Subelements"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"

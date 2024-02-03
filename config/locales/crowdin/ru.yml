@@ -631,6 +631,7 @@ ru:
         begin_insertion: "Начало вставки"
         begin_deletion: "Начало удаления"
         children: "Вложенные элементы"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Запланированное время"
         derived_remaining_time: "Запланированное время"
         done_ratio: "% Завершено"

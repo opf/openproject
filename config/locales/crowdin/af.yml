@@ -630,6 +630,7 @@ af:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"

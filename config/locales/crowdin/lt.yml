@@ -252,12 +252,12 @@ lt:
       no_results_title_text: Nėra jokių projektų
       no_results_content_text: Sukurti naują projektą
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: 'Aktyvūs projektai'
+      my: 'Mano projektai'
+      archived: 'Archyvuoti projektai'
+      my_private: 'Mano privatūs projektų sąrašai'
       new:
-        placeholder: 'New project list'
+        placeholder: 'Naujas projektų sąrašas'
     settings:
       change_identifier: Pokyčio identifikatorius
       activities:
@@ -331,7 +331,7 @@ lt:
     memberships:
       no_results_title_text: Šis naudotojas šiuo metu nėra projekto narys.
   page:
-    text: 'Text'
+    text: 'Tekstas'
   placeholder_users:
     right_to_manage_members_missing: >
       Jums neleidžiama ištrinti statytinio naudotojo. Jūs neturite teisių valdyti projektų narių visuose projektuose, kuriuose šis statytinis naudotojas yra narys.
@@ -629,6 +629,7 @@ lt:
         begin_insertion: "Įterpimo pradžioje"
         begin_deletion: "Ištrynimo pradžioje"
         children: "Subelementai"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Išvestas likęs darbas"
         derived_remaining_time: "Išvestas likęs darbas"
         done_ratio: "% baigta"
@@ -957,7 +958,7 @@ lt:
             ldap_auth_source:
               error_not_found: "nerasta"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "nerasta"
         member:
           principal_blank: "Prašome pasirinkti bent vieną naudotoją ar grupę."
           role_blank: "turi būti priskirtas."
@@ -1498,7 +1499,7 @@ lt:
     message: Žinutė redaguota
     news: Naujienos
     project_attributes: "Projekto atributai pakeisti"
-    project: "Project edited"
+    project: "Projektas redaguotas"
     projects: "Projektas redaguotas"
     reply: Atsakė
     time_entry: "Laiko įrašai redaguoti"
@@ -1641,7 +1642,7 @@ lt:
         revoke_token: "Ar tikrai norite išimti šį žetoną? Jums vėl reikės prisijungti prie %{storage}"
         removed: "Failų saugykla sėkmingai pašalinta"
         failed: "Įvyko klaida ir žetono išimti nepavyko. Prašome pabandyti dar kartą vėliau."
-        unknown_storage: "Unknown storage"
+        unknown_storage: "Nežinoma saugykla"
   notifications:
     send_notifications: "Siųsti pranešimus apie šį veiksmą"
     work_packages:
@@ -1721,9 +1722,9 @@ lt:
   label_available_project_work_package_categories: "Galimos darbų paketo kategorijos"
   label_available_project_work_package_types: "Galimi darbo paketų tipai"
   label_available_projects: "Galimi projektai"
-  label_api_doc: "API documentation"
+  label_api_doc: "API dokumentacija"
   label_backup: "Atsarginė kopija"
-  label_backup_code: "Backup code"
+  label_backup_code: "Atsarginis kodas"
   label_between: "tarp"
   label_blocked_by: "blokuojamas"
   label_blocks: "blokai"
@@ -1733,7 +1734,7 @@ lt:
   label_forum_plural: "Forumai"
   label_forum_sticky: "Lipnus"
   label_boolean: "Būlio loginis"
-  label_board_plural: "Boards"
+  label_board_plural: "Lentos"
   label_branch: "Šaka"
   label_browse: "Naršyti"
   label_bulk_edit_selected_work_packages: "Masiškai redaguoti pasirinktus darbų paketus"

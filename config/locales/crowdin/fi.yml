@@ -630,6 +630,7 @@ fi:
         begin_insertion: "Lisäyksen alku"
         begin_deletion: "Poistokohdan alku"
         children: "Subelements"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"

@@ -630,6 +630,7 @@ eo:
         begin_insertion: "Komenco de enmeto"
         begin_deletion: "Komenco de forigo"
         children: "Subelementoj"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"

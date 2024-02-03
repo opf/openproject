@@ -630,6 +630,7 @@ fr:
         begin_insertion: "Début de l’insertion"
         begin_deletion: "Début de la suppression"
         children: "Sous-éléments"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Travail restant dérivé"
         derived_remaining_time: "Travail restant dérivé"
         done_ratio: "% complet"

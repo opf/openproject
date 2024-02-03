@@ -626,6 +626,7 @@ el:
         begin_insertion: "Ξεκινήστε την εισαγωγή"
         begin_deletion: "Ξεκινήστε την διαγραφή"
         children: "Υποστοιχεία"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"

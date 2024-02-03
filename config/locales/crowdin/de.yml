@@ -625,6 +625,7 @@ de:
         begin_insertion: "Beginn der Einfügung"
         begin_deletion: "Beginn des Löschvorgangs"
         children: "Kindelemente"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Abgeleitete verbleibender Aufwand"
         derived_remaining_time: "Abgeleitete verbleibende ArbeitAbgeleitete verbleibender Aufwand"
         done_ratio: "% abgeschlossen"

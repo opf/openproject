@@ -625,6 +625,7 @@ ja:
         begin_insertion: "挿入の始まり"
         begin_deletion: "削除の始まり"
         children: "サブ要素"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"

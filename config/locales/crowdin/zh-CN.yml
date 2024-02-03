@@ -625,6 +625,7 @@ zh-CN:
         begin_insertion: "开始插入"
         begin_deletion: "开始删除"
         children: "子元素"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "派生的剩余工作"
         derived_remaining_time: "派生的剩余工作"
         done_ratio: "% 完成"

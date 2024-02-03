@@ -632,6 +632,7 @@ cs:
         begin_insertion: "Začátek vložení"
         begin_deletion: "Začátek odstranění"
         children: "Dílčí prvky"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Odvozené zbývající práce"
         derived_remaining_time: "Odvozené zbývající práce"
         done_ratio: "% Dokončeno"
