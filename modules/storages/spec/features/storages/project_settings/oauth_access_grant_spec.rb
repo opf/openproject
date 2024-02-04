@@ -58,18 +58,6 @@ RSpec.describe 'OAuth Access Grant Nudge upon adding a storage to a project',
   let(:redirect_uri) do
     "#{CGI.escape(OpenProject::Application.root_url)}/oauth_clients/#{storage.oauth_client.client_id}/callback"
   end
-  let(:oauth_grant_uri) do
-    URI::HTTPS.build({
-                       host: storage.host,
-                       path: '/index.php/apps/oauth2/authorize',
-                       query: CGI::escape({
-                         client_id: storage.oauth_client.client_id,
-                         response_type: 'code',
-                         redirect_uri:,
-                         state: nonce
-                       }.to_query)
-                     })
-  end
 
   before do
     allow(SecureRandom).to receive(:uuid).and_call_original.ordered
