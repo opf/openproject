@@ -6,7 +6,8 @@
       data: {
         'application-target': 'dynamic',
         controller: 'storages--oauth-access-grant-nudge-modal'
-      }
+      },
+      test_selector: 'oauth-access-grant-nudge-modal'
     )
   ) do |dialog|
     dialog.with_body(id: dialog_body_id) { body_text }
