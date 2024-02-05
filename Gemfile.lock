@@ -36,10 +36,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: 4952148f930a3292051efbadd9ac115d9c721157
-  ref: 4952148f930a3292051efbadd9ac115d9c721157
+  revision: 04d22bfa73fbeb549fb1f215a6b9a81cfe820814
+  ref: 04d22bfa73fbeb549fb1f215a6b9a81cfe820814
   specs:
-    md_to_pdf (0.0.23)
+    md_to_pdf (0.0.24)
       color_conversion (~> 0.1)
       front_matter_parser (~> 1.0)
       json-schema (~> 4.1)
