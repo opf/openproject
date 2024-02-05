@@ -16,6 +16,7 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { merge } from 'rxjs';
 import { setBodyCursor } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
+import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
 
 export interface DraggableOption {
   name:string;
@@ -136,6 +137,38 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   opened() {
     repositionDropdownBugfix(this.ngSelectComponent);
   }
+
+  public specialSearchStrings = {
+    done_ratio: this.I18n.t('js.work_packages.properties.done_ratio'),
+    done_ratio_alternative: this.I18n.t('js.work_packages.properties.done_ratio_alternative'),
+    work: this.I18n.t('js.work_packages.properties.work'),
+    work_alternative: this.I18n.t('js.work_packages.properties.work_alternative'),
+    remaining_work: this.I18n.t('js.work_packages.properties.remaining_work'),
+    remaining_work_alternative: this.I18n.t('js.work_packages.properties.remaining_work_alternative'),
+  };
+
+  searchFunction = (term:string, currentItem:QueryFilterResource):boolean => {
+    const alternativeNames:{ [index:string]:string } = {
+      [this.specialSearchStrings.done_ratio_alternative]: this.specialSearchStrings.done_ratio,
+      [this.specialSearchStrings.work_alternative]: this.specialSearchStrings.work,
+      [this.specialSearchStrings.remaining_work_alternative]: this.specialSearchStrings.remaining_work,
+    };
+
+    const lowercaseSearchTerm = term.toLowerCase();
+    const lowercaseCurrentItemName = currentItem.name.toLowerCase();
+
+    const alternativeMatch = Object
+      .keys(alternativeNames)
+      .some((alternativeName) => {
+        return alternativeName.toLowerCase().indexOf(lowercaseSearchTerm) > -1
+          && currentItem.name === alternativeNames[alternativeName];
+      });
+
+    return (
+      lowercaseCurrentItemName.indexOf(lowercaseSearchTerm) > -1
+      || alternativeMatch
+    );
+  };
 
   private updateAvailableOptions() {
     this.availableOptions = this.options
