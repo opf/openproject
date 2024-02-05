@@ -2,6 +2,7 @@ module ::Overviews
   class OverviewsController < ::Grids::BaseInProjectController
     include OpTurbo::ComponentStream
 
+    before_action :authorize
     before_action :jump_to_project_menu_item
     before_action :check_project_attributes_feature_enabled,
                   only: %i[attributes_sidebar attribute_section_dialog update_attributes]
@@ -9,7 +10,6 @@ module ::Overviews
     menu_item :overview
 
     def attributes_sidebar
-      # TODO: check permissions
       render(
         ProjectCustomFields::SidebarComponent.new(
           project: @project,
@@ -21,7 +21,6 @@ module ::Overviews
     end
 
     def attribute_section_dialog
-      # TODO: check permissions
       @section = find_project_custom_field_section
 
       render(

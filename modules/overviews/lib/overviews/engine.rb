@@ -48,23 +48,27 @@ module Overviews
           .controller_actions
           .push(
             'overviews/overviews/show',
-            'overviews/overviews/attributes_sidebar',
+            'overviews/overviews/attributes_sidebar'
+          )
+
+        OpenProject::AccessControl.permission(:edit_project)
+          .controller_actions
+          .push(
             'overviews/overviews/attribute_section_dialog',
             'overviews/overviews/update_attributes'
           )
 
         OpenProject::AccessControl.permission(:view_work_packages)
-        .controller_actions
-        .push('overviews/overviews/show')
+          .controller_actions
+          .push('overviews/overviews/show')
 
         OpenProject::AccessControl.map do |ac_map|
           ac_map.project_module nil do |map|
             map.permission :manage_overview,
                            { 'overviews/overviews':
                               [
-                                'show', 'attributes_sidebar', 'attribute_section_dialog', 'update_attributes'
-                              ]
-                           },
+                                'show'
+                              ] },
                            permissible_on: :project,
                            require: :member
           end
