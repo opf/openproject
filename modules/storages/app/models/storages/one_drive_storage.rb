@@ -59,10 +59,6 @@ module Storages
       %w[https://*.sharepoint.com https://*.up.1drv.com]
     end
 
-    def automatic_management_unspecified?
-      automatic_management_enabled.nil?
-    end
-
     def provider_fields_defaults
       PROVIDER_FIELDS_DEFAULTS
     end
