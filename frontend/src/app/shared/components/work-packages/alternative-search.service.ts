@@ -9,7 +9,7 @@ export class AlternativeSearchService {
     readonly I18n:I18nService,
   ) { }
 
-  public specialSearchStrings = {
+  private specialSearchStrings = {
     done_ratio: this.I18n.t('js.work_packages.properties.done_ratio'),
     done_ratio_alternative: this.I18n.t('js.work_packages.properties.done_ratio_alternative'),
     work: this.I18n.t('js.work_packages.properties.work'),
@@ -18,21 +18,21 @@ export class AlternativeSearchService {
     remaining_work_alternative: this.I18n.t('js.work_packages.properties.remaining_work_alternative'),
   };
 
-  public searchFunction = (term:string, currentItem:QueryFilterResource):boolean => {
-    const alternativeNames:{ [index:string]:string } = {
-      [this.specialSearchStrings.done_ratio_alternative]: this.specialSearchStrings.done_ratio,
-      [this.specialSearchStrings.work_alternative]: this.specialSearchStrings.work,
-      [this.specialSearchStrings.remaining_work_alternative]: this.specialSearchStrings.remaining_work,
-    };
+  private alternativeNames:{ [index:string]:string } = {
+    [this.specialSearchStrings.done_ratio_alternative]: this.specialSearchStrings.done_ratio,
+    [this.specialSearchStrings.work_alternative]: this.specialSearchStrings.work,
+    [this.specialSearchStrings.remaining_work_alternative]: this.specialSearchStrings.remaining_work,
+  };
 
+  public searchFunction = (term:string, currentItem:QueryFilterResource):boolean => {
     const lowercaseSearchTerm = term.toLowerCase();
     const lowercaseCurrentItemName = currentItem.name.toLowerCase();
 
     const alternativeMatch = Object
-      .keys(alternativeNames)
+      .keys(this.alternativeNames)
       .some((alternativeName) => {
         return alternativeName.toLowerCase().indexOf(lowercaseSearchTerm) > -1
-          && currentItem.name === alternativeNames[alternativeName];
+          && currentItem.name === this.alternativeNames[alternativeName];
       });
 
     return (
