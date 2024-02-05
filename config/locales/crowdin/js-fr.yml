@@ -1062,7 +1062,7 @@ fr:
           none: "Pas de surlignement"
           inline: 'Attribut(s) en surbrillance'
           inline_all: 'Tous les attributs'
-          entire_row_by: 'Ligne entière par'
+          entire_row_by: 'Ligne entière selon'
           status: 'Statut'
           priority: 'Priorité'
           type: 'Type'

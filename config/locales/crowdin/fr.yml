@@ -298,7 +298,7 @@ fr:
       invited: "Invité"
       locked: "Verrouillé"
       project_roles: "Rôle du projet"
-      wp_shares: "Répartition des lots de travail"
+      wp_shares: "Répartition des lots de travaux"
       groups: "Groupes"
   my:
     access_token:
@@ -2521,7 +2521,7 @@ fr:
   permission_view_news: "Voir les nouvelles"
   permission_view_members: "Afficher les membres"
   permission_view_reportings: "Voir rapports"
-  permission_view_shared_work_packages: "Voir la répartition des lots de travail"
+  permission_view_shared_work_packages: "Voir la répartition des lots de travaux"
   permission_view_time_entries: "Voir temps passé"
   permission_view_timelines: "Voir les lignes du temps"
   permission_view_wiki_edits: "Voir l'historique du wiki"
@@ -3103,7 +3103,7 @@ fr:
       permissions:
         comment: "Commentaire"
         comment_description: "Peut voir et commenter ce lot de travaux."
-        denied: "Vous n'avez pas l'autorisation de partager des lots de travail."
+        denied: "Vous n'avez pas l'autorisation de partager des lots de travaux. "
         edit: "Éditer"
         edit_description: "Peut voir, commenter et modifier ce lot de travaux."
         view: "Afficher"
