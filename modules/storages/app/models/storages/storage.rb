@@ -185,6 +185,10 @@ module Storages
       raise Errors::SubclassResponsibility
     end
 
+    def provider_fields_defaults
+      raise Errors::SubclassResponsibility
+    end
+
     def short_provider_type
       @short_provider_type ||= self.class.shorten_provider_type(provider_type)
     end

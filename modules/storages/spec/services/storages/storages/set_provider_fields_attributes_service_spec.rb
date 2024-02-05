@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Storages::SetNextcloudProviderFieldsAttributesService, type: :model do
+RSpec.describe Storages::Storages::SetProviderFieldsAttributesService, type: :model do
   let(:current_user) { build_stubbed(:admin) }
   let(:storage) { build(:nextcloud_storage, :as_automatically_managed) }
   let(:contract_class) { stub_valid_contract(Storages::Storages::BaseContract) }
