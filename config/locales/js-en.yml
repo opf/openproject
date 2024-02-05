@@ -1044,7 +1044,7 @@ en:
         description: "Description"
         date: "Date"
         done_ratio: "% Complete"
-        done_ratio_alternative: "progress"
+        done_ratio_alternative: "Progress"
         dueDate: "Finish date"
         duration: "Duration"
         spentTime: "Spent time"
