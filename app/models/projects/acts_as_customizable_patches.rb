@@ -29,6 +29,8 @@
 module Projects::ActsAsCustomizablePatches
   extend ActiveSupport::Concern
 
+  attr_accessor :touched_custom_field_section_id
+
   included do
     def active_custom_field_ids_of_project
       @active_custom_field_ids_of_project ||= ProjectCustomFieldProjectMapping
@@ -85,18 +87,11 @@ module Projects::ActsAsCustomizablePatches
     end
 
     def of_touched_custom_field_section?(custom_value)
-      if @touched_section_id.present?
-        custom_field_section_ids[custom_value.custom_field_id] == @touched_section_id
+      if touched_custom_field_section_id.present?
+        custom_field_section_ids[custom_value.custom_field_id] == touched_custom_field_section_id
       else
         true # validate all custom values if no specific section was marked as touched via `update_custom_field_values_of_section`
       end
-    end
-
-    def update_custom_field_values_of_section(section, params)
-      # we need to set the touched section id to validate only the custom values of the touched section
-      @touched_section_id = section.id
-
-      update(params)
     end
   end
 end

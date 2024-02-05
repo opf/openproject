@@ -34,20 +34,26 @@ module ::Overviews
     end
 
     def update_attributes
-      @section = find_project_custom_field_section
+      section = find_project_custom_field_section
 
-      # TODO: transform to contract/service-based approach with permission checks
-      @project.update_custom_field_values_of_section(@section, permitted_params.project)
+      service_call = ::Projects::UpdateService
+                      .new(
+                        user: current_user,
+                        model: @project
+                      )
+                      .call(
+                        permitted_params.project.merge(
+                          touched_custom_field_section_id: section.id
+                        )
+                      )
 
-      has_errors = @project.errors.any?
-
-      if has_errors
-        handle_errors
-      else
+      if service_call.success?
         update_sidebar_component
+      else
+        handle_errors(service_call.result, section)
       end
 
-      respond_to_with_turbo_streams(status: has_errors ? :unprocessable_entity : :ok)
+      respond_to_with_turbo_streams(status: service_call.success? ? :ok : :unprocessable_entity)
     end
 
     def jump_to_project_menu_item
@@ -85,11 +91,11 @@ module ::Overviews
       ProjectCustomFieldSection.find(params[:section_id])
     end
 
-    def handle_errors
+    def handle_errors(project_with_errors, section)
       update_via_turbo_stream(
         component: ProjectCustomFields::Sections::EditDialogComponent.new(
-          project: @project,
-          project_custom_field_section: @section
+          project: project_with_errors,
+          project_custom_field_section: section
         )
       )
     end

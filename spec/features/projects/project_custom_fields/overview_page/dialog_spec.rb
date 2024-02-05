@@ -884,8 +884,6 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
 
                 field.set_value('Foooo')
 
-                page.save_screenshot('screenshot.png')
-
                 dialog.submit
 
                 field.expect_error(I18n.t('activerecord.errors.messages.too_long', count: 3))
