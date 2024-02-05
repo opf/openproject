@@ -33,7 +33,6 @@ require_relative '../support/onboarding_steps'
 # the Angular change detection. This is usually done by the notification polling, but we don't want to wait
 RSpec.describe 'boards onboarding tour',
                :js,
-               skip: 'will only work when the tour is adapted to the new Gantt module',
                with_settings: { notifications_polling_interval: 1_000 } do
   let(:next_button) { find('.enjoyhint_next_btn') }
   let(:user) do
@@ -57,7 +56,7 @@ RSpec.describe 'boards onboarding tour',
            name: 'Demo project',
            identifier: 'demo-project',
            public: true,
-           enabled_module_names: %w[work_package_tracking wiki board_view])
+           enabled_module_names: %w[work_package_tracking gantt wiki board_view])
   end
   let!(:wp_1) { create(:work_package, project: demo_project) }
 

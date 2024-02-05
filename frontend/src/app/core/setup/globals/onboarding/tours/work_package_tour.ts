@@ -39,30 +39,15 @@ export function wpOnboardingTourSteps():OnboardingStep[] {
         });
       }),
       onNext() {
-        jQuery('#wp-view-toggle-button').click();
-      },
-    },
-    {
-      'next #wp-view-toggle-button': I18n.t('js.onboarding.steps.wp.timeline_button'),
-      showSkip: false,
-      nextButton: { text: I18n.t('js.onboarding.buttons.next') },
-      bottom: '-64',
-      onNext() {
-        jQuery('#wp-view-context-menu .icon-view-timeline')[0].click();
-      },
-    },
-    {
-      'next .work-packages-tabletimeline--timeline-side': I18n.t('js.onboarding.steps.wp.timeline'),
-      showSkip: false,
-      nextButton: { text: I18n.t('js.onboarding.buttons.next') },
-      containerClass: '-dark -hidden-arrow',
-    },
-    {
-      'next .main-menu--arrow-left-to-project': I18n.t('js.onboarding.steps.sidebar_arrow'),
-      showSkip: false,
-      nextButton: { text: I18n.t('js.onboarding.buttons.next') },
-      onNext() {
         jQuery('.main-menu--arrow-left-to-project')[0].click();
+      },
+    },
+    {
+      'next #main-menu-gantt': I18n.t('js.onboarding.steps.wp.gantt_menu'),
+      showSkip: false,
+      nextButton: { text: I18n.t('js.onboarding.buttons.next') },
+      onNext() {
+        jQuery('#main-menu-gantt')[0].click();
       },
     },
   ];

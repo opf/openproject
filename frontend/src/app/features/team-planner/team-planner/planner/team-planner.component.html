@@ -11,6 +11,7 @@
       [ngClass]="{'-active': (showAddExistingPane | async)}"
       [title]="text.add_existing_title"
       data-test-selector="op-team-planner--add-existing-toggle"
+      data-tour-selector="op-team-planner--add-existing-toggle"
       (click)="toggleAddExistingPane()">
       <op-icon icon-classes="icon-add button--icon"></op-icon>
       <span
@@ -44,6 +45,7 @@
   <div
     class="op-team-planner--calendar-pane"
     data-test-selector="op-team-planner--calendar-pane"
+    data-tour-selector="op-team-planner--calendar-pane"
   >
     <ng-container
       *ngIf="(calendarOptions$ | async) as calendarOptions"
@@ -149,6 +151,7 @@
           class="spot-link"
           (click)="showAssigneeAddRow()"
           data-test-selector="tp-assignee-add-button"
+          data-tour-selector="tp-assignee-add-button"
         >
           <span class="spot-icon spot-icon_user-plus"></span>
           <span [textContent]="text.add_assignee"></span>

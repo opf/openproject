@@ -32,7 +32,7 @@ export function detectOnboardingTour():void {
       currentTourPart = '';
       sessionStorage.setItem(onboardingTourStorageKey, 'readyToStart');
 
-      // Start automatically when modal is closed by backdrop click
+      // Start automatically when modal is closed by backdrop click or cancel button
       waitForElement('.spot-modal-overlay_active', 'body', () => {
         const elementsByClassName = document.getElementsByClassName('spot-modal-overlay_active');
         Array.from(elementsByClassName).forEach((modalOverlay) => {
@@ -41,6 +41,11 @@ export function detectOnboardingTour():void {
               tourCancelled = true;
               void triggerTour('homescreen');
             }
+          });
+
+          jQuery('[data-tour-selector="modal-close-button"]')[0].addEventListener('click', () => {
+            tourCancelled = true;
+            void triggerTour('homescreen');
           });
         });
       });
@@ -62,6 +67,11 @@ export function detectOnboardingTour():void {
 
     // ------------------------------- Tutorial WP page -------------------------------
     if (url.searchParams.get('start_onboarding_tour')) {
+      void triggerTour('workPackages', ProjectName.demo);
+    }
+
+    // ------------------------------- Tutorial Main part (starting from the Gantt module) -------------------------------
+    if (currentTourPart === 'wpTourFinished') {
       void triggerTour('main', ProjectName.demo);
     }
   }

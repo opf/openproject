@@ -1,5 +1,5 @@
 export const onboardingTourStorageKey = 'openProject-onboardingTour';
-export type OnboardingTourNames = 'prepareBacklogs'|'backlogs'|'taskboard'|'homescreen'|'main';
+export type OnboardingTourNames = 'prepareBacklogs'|'backlogs'|'taskboard'|'homescreen'|'workPackages'|'main';
 
 export enum ProjectName {
   demo = 'demo',
@@ -42,9 +42,4 @@ export function waitForElement(
     childList: true,
     subtree: true,
   });
-}
-
-export function preventClickHandler(e:any) {
-  e.preventDefault();
-  e.stopPropagation();
 }
