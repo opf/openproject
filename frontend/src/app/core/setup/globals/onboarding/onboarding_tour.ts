@@ -9,6 +9,7 @@ import { boardTourSteps } from 'core-app/core/setup/globals/onboarding/tours/boa
 import { menuTourSteps } from 'core-app/core/setup/globals/onboarding/tours/menu_tour';
 import { homescreenOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/tours/homescreen_tour';
 import { teamPlannerTourSteps } from 'core-app/core/setup/globals/onboarding/tours/team_planners_tour';
+import { ganttOnboardingTourSteps } from 'core-app/core/setup/globals/onboarding/tours/gantt_tour';
 
 require('core-vendor/enjoyhint');
 
@@ -59,6 +60,14 @@ function moduleVisible(name:string):boolean {
   return document.getElementsByClassName(`${name}-menu-item`).length > 0;
 }
 
+function workPackageTour() {
+  initializeTour('wpTourFinished');
+  waitForElement('.work-package--results-tbody', '#content', () => {
+    const steps:OnboardingStep[] = wpOnboardingTourSteps();
+
+    startTour(steps);
+  });
+}
 function mainTour(project:ProjectName = ProjectName.demo) {
   initializeTour('mainTourFinished');
 
@@ -67,7 +76,7 @@ function mainTour(project:ProjectName = ProjectName.demo) {
   const eeTokenAvailable = !jQuery('body').hasClass('ee-banners-visible');
 
   waitForElement('.work-package--results-tbody', '#content', () => {
-    let steps:OnboardingStep[] = wpOnboardingTourSteps();
+    let steps:OnboardingStep[] = ganttOnboardingTourSteps();
 
     // Check for EE edition
     if (eeTokenAvailable) {
@@ -96,6 +105,9 @@ export function start(name:OnboardingTourNames, project?:ProjectName):void {
     case 'homescreen':
       initializeTour('startProjectTour');
       startTour(homescreenOnboardingTourSteps());
+      break;
+    case 'workPackages':
+      workPackageTour();
       break;
     case 'main':
       mainTour(project);

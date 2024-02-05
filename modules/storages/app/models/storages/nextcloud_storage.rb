@@ -54,10 +54,6 @@ module Storages
       end
     end
 
-    def automatic_management_unspecified?
-      automatically_managed.nil?
-    end
-
     def configuration_checks
       {
         storage_oauth_client_configured: oauth_client.present?,
