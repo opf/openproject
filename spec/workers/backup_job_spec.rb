@@ -191,7 +191,7 @@ RSpec.describe BackupJob, type: :model do
       }
     }
   ) do
-    let(:dummy_path) { "/tmp/op_uploaded_files/1639754082-3468-0002-0911/file.ext" }
+    let(:dummy_path) { "#{LocalFileUploader.cache_dir}/1639754082-3468-0002-0911/file.ext" }
 
     before do
       FileUtils.mkdir_p Pathname(dummy_path).parent.to_s
