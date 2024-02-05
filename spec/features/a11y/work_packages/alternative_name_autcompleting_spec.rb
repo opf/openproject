@@ -39,6 +39,7 @@ RSpec.describe "Alternative name autocompleting",
 
   let(:work_packages_page) { Pages::WorkPackagesTable.new(project) }
   let(:filters)            { Components::WorkPackages::Filters.new }
+  let(:columns)            { Components::WorkPackages::Columns.new }
 
   before { login_as(user) }
 
@@ -52,13 +53,32 @@ RSpec.describe "Alternative name autocompleting",
       # Exact alternative match
       filters.expect_alternative_available_filter('Progress', '% Complete')
       # Partial alternative match
-      filters.expect_alternative_available_filter('rog', '% Complete')
+      filters.expect_alternative_available_filter('ime', 'Work')
       # Exact "real" match
       filters.expect_alternative_available_filter('% Complete', '% Complete')
       # Partial "real" match
-      filters.expect_alternative_available_filter('Comp', '% Complete')
+      filters.expect_alternative_available_filter('ork', 'Work')
       # Indifferent to casing
-      filters.expect_alternative_available_filter('comp', '% Complete')
+      filters.expect_alternative_available_filter('% comp', '% Complete')
+    end
+  end
+
+  describe 'Work package view configuration form' do
+    it 'allows discovering attributes by alternative names' do
+      work_packages_page.visit!
+      work_packages_page.expect_work_package_listed(work_package)
+
+      columns.open_modal
+      # Exact alternative match
+      columns.expect_alternative_available_column('Progress', '% Complete')
+      # Partial alternative match
+      columns.expect_alternative_available_column('ime', 'Work')
+      # Exact "real" match
+      columns.expect_alternative_available_column('% Complete', '% Complete')
+      # Partial "real" match
+      columns.expect_alternative_available_column('hours', 'Remaining work')
+      # Indifferent to casing
+      columns.expect_alternative_available_column('% comp', '% Complete')
     end
   end
 end
