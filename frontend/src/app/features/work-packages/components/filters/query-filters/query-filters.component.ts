@@ -49,6 +49,7 @@ import { QueryFilterResource } from 'core-app/features/hal/resources/query-filte
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { combineLatestWith } from 'rxjs';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
+import { AlternativeSearchService } from 'core-app/shared/components/work-packages/alternative-search.service';
 
 const ADD_FILTER_SELECT_INDEX = -1;
 
@@ -89,20 +90,12 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     baseline_warning: this.I18n.t('js.work_packages.filters.baseline_warning'),
   };
 
-  public specialSearchStrings = {
-    done_ratio: this.I18n.t('js.work_packages.properties.done_ratio'),
-    done_ratio_alternative: this.I18n.t('js.work_packages.properties.done_ratio_alternative'),
-    work: this.I18n.t('js.work_packages.properties.work'),
-    work_alternative: this.I18n.t('js.work_packages.properties.work_alternative'),
-    remaining_work: this.I18n.t('js.work_packages.properties.remaining_work'),
-    remaining_work_alternative: this.I18n.t('js.work_packages.properties.remaining_work_alternative'),
-  };
-
   constructor(
     readonly wpTableFilters:WorkPackageViewFiltersService,
     readonly wpTableBaseline:WorkPackageViewBaselineService,
     readonly wpFiltersService:WorkPackageFiltersService,
     readonly I18n:I18nService,
+    readonly alternativeSearchService:AlternativeSearchService,
     readonly cdRef:ChangeDetectorRef,
   ) {
     super();
@@ -198,25 +191,6 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
   }
 
   searchFunction = (term:string, currentItem:QueryFilterResource):boolean => {
-    const alternativeNames:{ [index:string]:string } = {
-      [this.specialSearchStrings.done_ratio_alternative]: this.specialSearchStrings.done_ratio,
-      [this.specialSearchStrings.work_alternative]: this.specialSearchStrings.work,
-      [this.specialSearchStrings.remaining_work_alternative]: this.specialSearchStrings.remaining_work,
-    };
-
-    const lowercaseSearchTerm = term.toLowerCase();
-    const lowercaseCurrentItemName = currentItem.name.toLowerCase();
-
-    const alternativeMatch = Object
-      .keys(alternativeNames)
-      .some((alternativeName) => {
-        return alternativeName.toLowerCase().indexOf(lowercaseSearchTerm) > -1
-               && currentItem.name === alternativeNames[alternativeName];
-      });
-
-    return (
-      lowercaseCurrentItemName.indexOf(lowercaseSearchTerm) > -1
-      || alternativeMatch
-    );
+    return this.alternativeSearchService.searchFunction(term, currentItem);
   };
 }
