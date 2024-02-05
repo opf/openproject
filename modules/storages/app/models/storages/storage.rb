@@ -82,6 +82,10 @@ module Storages
 
     scope :automatic_management_enabled, -> { where("provider_fields->>'automatically_managed' = 'true'") }
 
+    # The enum type detection fails in the multitenancy context for unknown
+    # reasons. So we declare it explicitly here. @TODO remove once fixed properly
+    attribute :health_status, :string
+
     enum health_status: {
       pending: 'pending',
       healthy: 'healthy',
