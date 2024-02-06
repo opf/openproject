@@ -2754,7 +2754,7 @@ fr:
   setting_invitation_expiration_days: "L'émail d’activation expire après"
   setting_work_package_done_ratio: "Calculer le % de réalisation du lot de travaux avec"
   setting_work_package_done_ratio_field: "Le champ du lot de travaux"
-  setting_work_package_done_ratio_status: "Status du lot de travaux"
+  setting_work_package_done_ratio_status: "Le statut du lot de travaux"
   setting_work_package_done_ratio_disabled: "Désactiver (masquer le champ % complet)"
   setting_work_package_list_default_columns: "Afficher par défaut"
   setting_work_package_properties: "Propriétés du Lot de Travaux"

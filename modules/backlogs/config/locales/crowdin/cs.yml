@@ -22,7 +22,7 @@
 cs:
   plugin_openproject_backlogs:
     name: "OpenProject Backlogy"
-    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
+    description: "Tento modul přidává funkce umožňující agilním týmům pracovat s OpenProject v Scrum projektech."
   activerecord:
     attributes:
       work_package:

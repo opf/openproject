@@ -6,7 +6,7 @@ cs:
     attributes:
       webhooks/webhook:
         url: "Payload URL\n"
-        secret: 'Signature secret'
+        secret: 'Tajný podpis'
         events: 'Události'
         projects: 'Povolené projekty'
       webhooks/log:

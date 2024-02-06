@@ -583,7 +583,7 @@ ko:
           full_view: '<b>작업 패키지 세부 정보</b> 보기는 설명, 상태, 우선 순위, 활동, 종속성 및 코멘트 등 지정된 작업 패키지와 관련된 모든 관련 정보를 제공합니다.'
           back_button: '왼쪽 상단 모서리에 있는 뒤로 화살표를 사용하여 종료하고 작업 패키지 목록으로 돌아갑니다.'
           create_button: '<b>+ 만들기</b> 버튼은 프로젝트에 새로운 작업 패키지를 추가합니다.'
-          timeline_button: '<b>Gantt 차트</b> 보기를 활성화하여 프로젝트의 타임라인을 만들 수 있습니다.'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: '여기에서 <b>프로젝트 계획을 편집</b>하고 작업, 마일스톤, 단계 등 새로운 작업 패키지를 만들고 <b>종속성을 추가</b>할 수도 있습니다. 모든 팀원이 언제든지 최신 계획을 보고 업데이트할 수 있습니다.'
         team_planner:
           overview: '팀 플래너를 사용하면 시각적으로 팀원에게 작업을 할당하고 누가 어떤 작업을 하는지에 대한 개요를 확인할 수 있습니다.'

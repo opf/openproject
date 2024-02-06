@@ -519,8 +519,8 @@ cs:
     label_watch_work_package: "Sledovat pracovní balíček"
     label_watcher_added_successfully: "Sledující úspěšně přidán!"
     label_watcher_deleted_successfully: "Sledující úspěšně odstraněn!"
-    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
-    label_work_package_context_menu: "Work package context menu"
+    label_work_package_details_you_are_here: "Jste na kartě %{tab} pro %{type} %{subject}."
+    label_work_package_context_menu: "Kontextové menu pracovního balíčku"
     label_unwatch: "Přestat sledovat"
     label_unwatch_work_package: "Přestat sledovat pracovní balíček"
     label_uploaded_by: "Nahrál"
@@ -582,7 +582,7 @@ cs:
           full_view: 'Zobrazení <b>podrobností pracovního balíčku</b> poskytuje všechny relevantní informace týkající se daného pracovního balíčku, jako je popis, stav, priorita, činnosti, závislosti a komentáře.'
           back_button: 'Použijte šipku zpět v levém horním rohu pro ukončení a návrat do seznamu pracovních balíčků.'
           create_button: 'Tlačítko <b>Vytvořit</b> přidá do vašeho projektu nový pracovní balíček.'
-          timeline_button: 'Můžete aktivovat <b>Gantt graf</b> pro vytvoření časové osy pro váš projekt.'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: 'Zde můžete upravit váš projektový plán. Vytvářet nové fáze, milníky a přidat závislosti. Všichni členové týmu mohou kdykoliv zobrazit a aktualizovat aktuální plán.'
         team_planner:
           overview: 'Plánovač týmu vám umožní vizuálně přiřadit úkoly členům týmu a získat přehled o tom, kdo na čem pracuje.'
@@ -638,7 +638,7 @@ cs:
         empty_state:
           no_notification: "Vypadá to, že jste všechno dohnali..."
           no_notification_with_current_project_filter: "Vypadá to, že nemáte žadné nové oznámení pro vybraný projekt."
-          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_with_current_filter: "Vypadá to, že tady nic není %{filter} filtr."
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
           message: 'Máte nová oznámení.'
@@ -690,12 +690,12 @@ cs:
             description: 'Další oznámení pro činnosti ve všech projektech.'
           date_alerts:
             title: 'Upozornění na datum'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Automatická oznámení, pokud se blíží důležitá data pro otevřené pracovní balíčky, které jste zapojeni (přiřazený, zodpovědný nebo sledovaný).'
             teaser_text: 'S upozorněním na datum budete upozorněni na blížící se datum zahájení nebo ukončení, abyste nikdy nezmeškali nebo nezapomněli na důležitou lhůtu.'
           overdue: Po termínu
         project_specific:
           title: "Nastavení upozornění pro konkrétní projekt\n"
-          description: 'These project-specific settings override default settings above.'
+          description: 'Toto specifické nastavení projektu přepíše výchozí nastavení výše.'
           add: 'Přidat nastavení pro projekt'
           already_selected: 'Tento projekt je již vybrán'
           remove: 'Odstranit nastavení projektu'
@@ -1033,7 +1033,7 @@ cs:
       sharing:
         share: 'Sdílet'
         title: "Sdílet pracovní balíček"
-        show_all_users: "Show all shared users"
+        show_all_users: "Zobrazit všechny sdílené uživatele"
         selected_count: "%{count} vybráno"
         selection:
           mixed: "Smíšená"
