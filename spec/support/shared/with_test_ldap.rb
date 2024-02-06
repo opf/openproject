@@ -45,7 +45,7 @@ RSpec.shared_context 'with temporary LDAP' do
   # Ldap has:
   # three users aa729, bb459, cc414
   # two groups foo (aa729), bar(aa729, bb459, cc414)
-  let(:ldap_auth_source) do
+  let!(:ldap_auth_source) do
     create(:ldap_auth_source,
            port: ParallelHelper.port_for_ldap.to_s,
            account: 'uid=admin,ou=system',
@@ -56,7 +56,8 @@ RSpec.shared_context 'with temporary LDAP' do
            attr_login: 'uid',
            attr_firstname: 'givenName',
            attr_lastname: 'sn',
-           attr_mail: 'mail')
+           attr_mail: 'mail',
+           attr_admin: 'isAdmin')
   end
 
   let(:onthefly_register) { false }
