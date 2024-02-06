@@ -708,7 +708,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
-    minitest (5.21.2)
+    minitest (5.22.0)
     msgpack (1.7.2)
     multi_json (1.15.0)
     mustermann (3.0.0)
