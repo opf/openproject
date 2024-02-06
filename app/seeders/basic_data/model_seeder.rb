@@ -46,6 +46,12 @@ module BasicData
       end
     end
 
+    def mapped_models_data
+      models_data.each_with_object({}) do |model_data, models|
+        models[model_data['reference']] = model_attributes(model_data)
+      end
+    end
+
     def models_data
       Array(seed_data.lookup(seed_data_model_key))
     end
