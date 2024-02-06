@@ -149,7 +149,7 @@ cs:
       plain: "žádný"
       simple_tls: "LDAPS"
       start_tls: "STARTTLS"
-      plain_description: "Opens an unencrypted connection to the LDAP server. Not recommended for production."
+      plain_description: "Otevře nešifrované připojení k LDAP serveru. Není doporučeno pro produkci."
       simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
       start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
       section_more_info_link_html: >
@@ -299,8 +299,8 @@ cs:
       notice_reset_token: "Byl vygenerován nový %{type} token. Váš přístupový token je:"
       token_value_warning: "Poznámka: Toto je jedinkrát, kdy uvidíte tento token, ujistěte se, že jste si hozkopírovali."
       no_results_title_text: V současné době nejsou k dispozici žádné přístupové tokeny.
-      notice_api_token_revoked: "The API token has been deleted. To create a new token please use the link in the API section."
-      notice_rss_token_revoked: "The RSS token has been deleted. To create a new token please use the link in the RSS section."
+      notice_api_token_revoked: "Token API byl odstraněn. Pro vytvoření nového tokenu použijte odkaz v sekci API."
+      notice_rss_token_revoked: "Token API byl odstraněn. Pro vytvoření nového tokenu použijte odkaz v sekci API."
       notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
   news:
     index:
@@ -308,11 +308,11 @@ cs:
       no_results_content_text: Přidat příspěvek
   users:
     autologins:
-      prompt: "Stay logged in for %{num_days}"
+      prompt: "Zůstaňte přihlášeni po %{num_days}"
     sessions:
       remembered_devices: "Zapamatovaná zařízení"
-      remembered_devices_caption: "A list of all devices that logged into this account using the 'Stay logged in' option."
-      session_name: "%{browser_name} %{browser_version} on %{os_name}"
+      remembered_devices_caption: "Seznam všech zařízení, která se k tomuto účtu přihlásila, pomocí možnosti 'Zůstaňte přihlášeni'."
+      session_name: "%{browser_name} %{browser_version} na %{os_name}"
       browser: "Prohlížeč"
       device: "Zařízení / OS"
       unknown_browser: "neznámý prohlížeč"
@@ -389,7 +389,7 @@ cs:
   wiki:
     page_not_editable_index: Požadovaná stránka ještě neexistuje. Byli jste přesměrováni na index všech wiki stránek.
     no_results_title_text: V současné době neexistují žádné Wiki stránky.
-    print_hint: This will print the content of this wiki page without any navigation bars.
+    print_hint: Toto vytiskne obsah této wiki stránky bez navigačního panelu.
     index:
       no_results_content_text: Přidat novou wiki stránku
   work_flows:
@@ -414,9 +414,9 @@ cs:
       unsupported_for_multiple_projects: "Hromadný přesun/kopírování není podporováno pro pracovní balíčky z více projektů"
     sharing:
       missing_workflow_waring:
-        title: "Workflow missing for work package sharing"
+        title: "Pro sdílení pracovního balíčku chybí pracovní postup"
         message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
-        link_message: "Configure the workflows in the administration."
+        link_message: "Konfigurace pracovních postupů v administraci."
     summary:
       reports:
         category:
@@ -459,7 +459,7 @@ cs:
     error_self_registration_disabled: >
       Registrace uživatele je v tomto systému zakázána. Pro vytvoření účtu se prosím obraťte na správce systému.
     error_self_registration_limited_provider: >
-      User registration is limited for the Single sign-on provider '%{name}'. Please ask an administrator to activate the account for you or change the self registration limit for this provider.
+      Registrace uživatele je omezena pro jediného poskytovatele přihlášení '%{name}'. Požádejte správce, aby vám účet aktivoval, nebo změňte limit registrace pro tohoto poskytovatele.
     login_with_auth_provider: "nebo se přihlaste pomocí stávajícího účtu"
     signup_with_auth_provider: "nebo se zaregistrujte pomocí"
     auth_source_login: Přihlaste se prosím jako <em>%{login}</em> pro aktivaci vašeho účtu.
@@ -499,7 +499,7 @@ cs:
       custom_action:
         actions: "Akce"
       custom_field:
-        allow_non_open_versions: "Allow non-open versions"
+        allow_non_open_versions: "Povolit neotevřené verze"
         default_value: "Výchozí hodnota"
         editable: "Upravitelné"
         field_format: "Formát"
@@ -589,7 +589,7 @@ cs:
         color: "Barva"
       user:
         admin: "Administrátor"
-        auth_source: "Authentication source"
+        auth_source: "Zdroj ověřování"
         ldap_auth_source: "Připojení LDAP"
         identity_url: "Identity URL"
         current_password: "Aktuální přístupové heslo"
@@ -735,7 +735,7 @@ cs:
             global: "Globální"
           query:
             filters:
-              minimum: "need to include at least one filter for principal, context or id with the '=' operator."
+              minimum: "musí obsahovat alespoň jeden filtr pro hlavní, kontext nebo id operátora „=“."
         custom_field:
           at_least_one_custom_option: "Alespoň jedna možnost musí být k dispozici."
         custom_actions:
@@ -875,7 +875,7 @@ cs:
               not_allowed_to_view: "není povoleno zobrazit tento zdroj."
               locked: "je uzamčen."
         wiki_page:
-          error_conflict: "The wiki page has been updated by someone else while you were editing it."
+          error_conflict: "Wiki stránka byla aktualizována někým jiným, zatímco jste ji upravovali."
           attributes:
             slug:
               undeducible: "nelze odvodit z názvu '%{title}'."
@@ -1021,7 +1021,7 @@ cs:
       created_on: "vytvořeno dne %{datetime}"
       created_on_time_entry: "čas zaznamenán na %{datetime}"
       updated_by_on: "Aktualizováno uživatelem %{user} dne %{datetime}"
-      updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
+      updated_by_on_time_entry: "zaznamenaný čas aktualizován %{user} na %{datetime}"
       updated_on: "aktualizováno dne %{datetime}"
       updated_on_time_entry: "zaznamenaný čas aktualizován na %{datetime}"
       parent_without_of: "Podprojekt"
@@ -1419,7 +1419,7 @@ cs:
   ee:
     upsale:
       form_configuration:
-        description: "Customize the form configuration with these additional add-ons:"
+        description: "Přizpůsobte si konfiguraci formuláře s těmito doplňky:"
         add_groups: "Přidat nové skupiny atributů"
         rename_groups: "Přejmenovat skupiny atributů"
       project_filters:
@@ -1607,16 +1607,16 @@ cs:
         title: "API"
         text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
         static_token_name: "API Token"
-        disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        disabled_text: "API tokeny nejsou administrátorem povoleny. Pro použití této funkce kontaktujte svého správce."
       ical:
         title: "iCalendar"
         text_hint: 'iCalendar tokens allow users to <a href="%{path}" target="_blank">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients.'
-        disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
+        disabled_text: "iCalendar odběr není administrátorem povolen. Pro použití této funkce kontaktujte svého správce."
         empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
       oauth:
         title: "OAuth"
         text_hint: "OAuth tokeny umožňují aplikacím třetích stran spojení s touto instancí OpenProjekt."
-        empty_text_hint: "There is no third-party application access configured and active for you. Please contact your administrator to activate this feature."
+        empty_text_hint: "Pro vás není nastaven a aktivní přístup třetí strany. Pro aktivaci této funkce kontaktujte svého správce."
       rss:
         title: "RSS"
         text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
@@ -1624,7 +1624,7 @@ cs:
         disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
       storages:
         title: "Úložiště souborů"
-        text_hint: "File Storage tokens connect this OpenProject instance with an external File Storage."
+        text_hint: "Tokeny úložiště souborů připojují tuto OpenProject instanci s externím úložištěm souborů."
         empty_text_hint: "K vašemu účtu není připojen žádný přístup k úložišti."
         revoke_token: "Opravdu chcete odstranit tento token? Budete se muset znovu přihlásit na %{storage}"
         removed: "Token Úložiště souborů byl úspěšně odstraněn"
@@ -1682,7 +1682,7 @@ cs:
   label_api_access_key_created_on: "API přístupový klíč vytvořen před %{value}"
   label_api_access_key_type: "API"
   label_ical_access_key_type: "iCalendar"
-  label_ical_access_key_description: 'iCalendar token "%{token_name}" for "%{calendar_name}" in "%{project_name}"'
+  label_ical_access_key_description: 'token iCalendar "%{token_name}" pro "%{calendar_name}" v "%{project_name}"'
   label_ical_access_key_not_present: "toket iCalendar není přítomen."
   label_ical_access_key_generation_hint: "Automaticky vygenerováno při odebírání kalendáře."
   label_ical_access_key_latest: "poslední"
@@ -1914,9 +1914,9 @@ cs:
   label_logged_as: "Přihlášen jako"
   label_login: "Přihlásit se"
   label_custom_logo: "Vlastní logo"
-  label_custom_export_logo: "Custom export logo"
-  label_custom_export_cover: "Custom export cover background"
-  label_custom_export_cover_overlay: "Custom export cover background overlay"
+  label_custom_export_logo: "Vlastní logo exportu"
+  label_custom_export_cover: "Vlastní exportní obal pozadí"
+  label_custom_export_cover_overlay: "Překrytí obalu vlastního exportu"
   label_custom_export_cover_text_color: "Barva textu"
   label_custom_pdf_export_settings: "Vlastní nastavení exportu PDF"
   label_custom_favicon: "Vlastní favicon"
@@ -2297,7 +2297,7 @@ cs:
       updated_at: "Aktualizováno v %{timestamp} uživatelem %{user}"
     sharing:
       work_packages:
-        allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
+        allowed_actions: "Můžete %{allowed_actions} tento pracovní balíček. To se může změnit v závislosti na roli a oprávnění vašeho projektu."
         create_account: "Pro přístup k tomuto pracovnímu balíčku musíte vytvořit a aktivovat účet na %{instance}."
         open_work_package: "Otevřít pracovní balíček"
         subject: "Pracovní balíček #%{id} byl s vámi sdílen"
@@ -2730,7 +2730,7 @@ cs:
     Pokud je stránka dokumentace povolena, můžete získat interaktivní pohled na dokumentaci APIv3 pod <a href="%{link}" target="_blank">%{link}</a>.
   setting_attachment_whitelist: "Seznam povolených povolených příloh"
   setting_email_delivery_method: "Způsob zasílání emailu"
-  setting_emails_salutation: "Address user in emails with"
+  setting_emails_salutation: "Oslovujte  uživatele v e-mailech s"
   setting_sendmail_location: "Umístění spustitelného souboru sendmail"
   setting_smtp_enable_starttls_auto: "Automaticky použít STARTTLS, pokud je dostupné"
   setting_smtp_ssl: "Použít připojení SSL"
@@ -2850,7 +2850,7 @@ cs:
       first_week_of_year_text_html: >
         Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
     experimental:
-      save_confirmation: Caution! Risk of data loss! Only activate experimental features if you do not mind breaking your OpenProject installation and losing all of its data.
+      save_confirmation: Pozor! Riziko ztráty dat! Aktivujte experimentální funkce, pokud vám nevadí rozbít instalaci OpenProject a ztratit všechna data.
       warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
       feature_flags: Značky funkcí
     general: "Obecné"
@@ -2913,7 +2913,7 @@ cs:
   text_custom_field_hint_activate_per_project_and_type: >
     Vlastní pole je třeba aktivovat podle typu pracovního balíčku a podle projektu.
   text_wp_status_read_only_html: >
-    The Enterprise edition will add these additional add-ons for work packages' statuses fields: <br> <ul> <li><b>Allow to mark work packages to read-only for specific statuses</b></li> </ul>
+    vydání Enterprise přidá tyto další doplňky pro pole statusů pracovních balíčků: <br> <ul> <li><b>Povolit označit pracovní balíčky pouze pro čtení pro konkrétní stavy</b></li> </ul>
   text_project_custom_field_html: >
     Enterprise edice přidá tyto další doplňky do vlastních polí projektů: <br> <ul> <li><b>Přidá vlastní pole pro projekty do seznamu projektů a vytvoří tak projektové portfolio</b></li> </ul>
   text_custom_logo_instructions: >
@@ -2959,8 +2959,8 @@ cs:
   text_journal_deleted: "%{label} smazán (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label} smazán (%{link})"
-  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
-  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
+  text_journal_file_link_added: "%{label} odkaz na %{value} (%{storage}) přidán"
+  text_journal_file_link_deleted: "%{label} odkaz na %{value} (%{storage}) přidán"
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} nastaven na %{value}"
   text_journal_set_with_diff: "%{label} nastaven (%{link})"
@@ -3165,9 +3165,9 @@ cs:
         additional_privileges_project_or_group: "Může mít dodatečná oprávnění (jako člen skupiny)"
   working_days:
     info: >
-      Days that are not selected are skipped when scheduling work packages (and not included in the day count). These can be overriden at a work-package level.
+      Nevybrané dny jsou při plánování pracovních balíčků přeskočeny (a nejsou zahrnuty ve denním počtu). Ty mohou být přepsány na úrovni pracovního balíčku.
     instance_wide_info: >
-      Dates added to the list below are considered non-working and skipped when scheduling work packages.
+      Data přidaná do níže uvedeného seznamu jsou považována za nefunkční a při plánování pracovních balíčků přeskočena.
     change_button: "Změnit pracovní dny"
     warning: >
       Změna, které dny v týdnu jsou považovány za pracovní dny nebo za nepracovní dny, může ovlivnit začátek a ukončení všech pracovních balíčků ve všech projektech v tomto případě. <br/> Vezměte prosím na vědomí, že změny jsou aplikovány až po kliknutí na tlačítko změn.
@@ -3194,7 +3194,7 @@ cs:
       code_429: "Příliš mnoho dotazů, zkuste to znovu později"
       code_500: "Došlo k vnitřní chybě."
       code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
-      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
+      code_500_missing_enterprise_token: "Požadavek nelze zpracovat kvůli neplatnému nebo chybějícímu tokenu Enterprise."
       not_found:
         work_package: "Pracovní balíček, který hledáte, nebyl nalezen nebo byl odstraněn."
       expected:

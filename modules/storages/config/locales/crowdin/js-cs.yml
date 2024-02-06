@@ -19,7 +19,7 @@ cs:
         default: "Úložiště"
       information:
         connection_error: >
-          Some %{storageType} settings are not working. Please contact your %{storageType} administrator.
+          Některá nastavení %{storageType} nefungují. Obraťte se na správce %{storageType}.
         live_data_error: "Chyba při načítání detailů souboru"
         live_data_error_description: >
           Some %{storageType} data could not be fetched. Please try to reload this page or contact your %{storageType} administrator.
@@ -29,7 +29,7 @@ cs:
       files:
         already_existing_header: "Tento soubor už existuje"
         already_existing_body: >
-          A file with the name "%{fileName}" already exists in the location where you are trying to upload this file. What would you like to do?
+          Soubor s názvem "%{fileName}" již existuje v místě, kde se pokoušíte nahrát tento soubor. Co chcete udělat?
         directory_not_writeable: "Nemáte oprávnění přidávat soubory do této složky."
         dragging_many_files: "The upload to %{storageType} supports only one file at once."
         dragging_folder: "The upload to %{storageType} does not support folders."
@@ -69,13 +69,13 @@ cs:
           other: "Odkazů na soubor byl úspěšně vytvořen."
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded.
+            Váš soubor (%{fileName}) nelze nahrát.
           403: >
-            Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
+            Váš soubor (%{fileName}) nelze nahrát kvůli systémovým omezením. Pro více informací kontaktujte svého správce.
           413: >
-            Your file (%{fileName}) is bigger than what OpenProject can upload to %{storageType}. You can upload it directly to %{storageType} first and then link the file.
+            Váš soubor (%{fileName}) je větší než to, co může OpenProject nahrát do %{storageType}. Nejprve jej můžete nahrát přímo do %{storageType} a poté propojit soubor.
           507: >
-            Your file (%{fileName}) is bigger than the storage quota allows. Contact your administrator to modify this quota.
+            Váš soubor (%{fileName}) je větší než kvóta na úložiště. Obraťte se na správce pro úpravu této kvóty.
           detail:
             nextcloud: >
               Please check that the latest version of the Nextcloud App "OpenProject Integration" is installed and contact your administrator for more information.

@@ -94,8 +94,8 @@ cs:
             item_0:
               title: Vítejte ve vašem demo projektu
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Jsme rádi, že jste se připojili.
+                V tomto modulu můžete sdělit zprávy o projektu členům vašeho týmu.
               description: Aktuální novinky
           categories:
             item_0: Kategorie 1 (bude změněno v nastavení projektu)
@@ -156,8 +156,8 @@ cs:
             item_0:
               title: Vítejte ve vašem demo projektu
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Jsme rádi, že jste se připojili.
+                V tomto modulu můžete sdělit zprávy o projektu členům vašeho týmu.
               description: Aktuální novinky
           categories:
             item_0: Kategorie 1 (bude změněno v nastavení projektu)
@@ -666,10 +666,10 @@ cs:
                 *   ...
             item_14:
               subject: Správa majetku
-              description: Enjoy your building :)
+              description: Užijte si svou budovu :)
         demo-bcf-management-project:
           name: "(Demo) řízení BCF"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Všechny úkoly probíhají podle harmonogramu. Zúčastněné osoby znají své úkoly. Systém je kompletně nastaven.
           description: This is a short summary of the goals of this demo BCF management project.
           ifc_models:
             item_0:

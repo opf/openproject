@@ -60,7 +60,7 @@ cs:
         nextcloud: Povolit OpenProject přístup k Nextcloud datům pomocí OAuth.
         one_drive: Povolit OpenProject přístup k Azure datům pomocí OAuth pro připojení OneDrive/Sharepoint.
       redirect_uri_incomplete:
-        one_drive: Complete the setup with the correct URI redirection.
+        one_drive: Dokončete nastavení správným přesměrováním URI.
     confirm_replace_oauth_application: Jste si jisti? Všichni uživatelé se budou muset znovu autorizovat proti OpenProject.
     confirm_replace_oauth_client: Jste si jisti? Všichni uživatelé budou muset znovu autorizovat proti úložišti.
     delete_warning:
@@ -71,7 +71,7 @@ cs:
       project_storage_delete_result_2: In case this storage has an automatically managed project folder, this and its files will be deleted forever.
       storage: 'Are you sure you want to delete %{file_storage}? To confirm this action please introduce the storage name in the field below, this will:'
       storage_delete_result_1: Remove all storage setups for all projects using this storage.
-      storage_delete_result_2: Remove all links from work packages of all projects to files and folders of that storage.
+      storage_delete_result_2: Odstraňte všechny odkazy z pracovních balíčků všech projektů do souborů a složek tohoto úložiště.
       storage_delete_result_3: In case this storage has automatically managed project folders, those and their contained files will be deleted forever.
     error_invalid_provider_type: Vyberte prosím platného poskytovatele úložiště.
     file_storage_view:
@@ -123,7 +123,7 @@ cs:
         oauth_client_redirect_uri: Prosím zkopírujte tuto hodnotu do nového webového URI přesměrování pod přesměrováním URI.
         oauth_client_secret: In case there is no application client secret under Client credentials, please create a new one.
         oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
-        provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
+        provider_configuration: Před instalací se ujistěte, že máte oprávnění k administraci v %{application_link_text} nebo se obraťte na správce Microsoftu. Na portálu musíte také zaregistrovat Azure aplikaci nebo použít existující aplikaci pro autentizaci.
         tenant_id: Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
         tenant_id_placeholder: Jméno nebo UUID
       setting_up_additional_storages: Pro nastavení dalších úložišť souborů navštivte prosím
@@ -152,7 +152,7 @@ cs:
       application_password: Heslo aplikace
       automatically_managed_folders: Automaticky spravované složky
     label_name: 'Název:'
-    label_new_file_storage: New %{provider} storage
+    label_new_file_storage: Nové %{provider} úložiště
     label_new_storage: Nové úložiště
     label_no_selected_folder: Žádná vybraná složka
     label_no_specific_folder: Žádná specifická složka
@@ -169,24 +169,24 @@ cs:
     member_connection_status:
       connected: Připojeno
       connected_no_permissions: Uživatelská role nemá oprávnění k ukládání
-      not_connected: Not connected. The user should login to the storage via the following %{link}.
+      not_connected: Není připojeno. Uživatel by se měl přihlásit do úložiště přes následující %{link}.
     members_no_results: Žádní členové k zobrazení.
     no_results: Zatím nejsou nastaveny žádné úložiště.
-    notice_successful_storage_connection: Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it.
+    notice_successful_storage_connection: Úložiště bylo úspěšně připojeno! Nezapomeňte aktivovat modul a konkrétní úložiště v nastavení projektu pro každý požadovaný projekt.
     open_project_storage_modal:
       success:
         a: Nastavení integrace dokončeno
         b: Nyní jste přesměrováváni
       waiting:
-        a: We are setting up your permissions on the project folder.
+        a: Nastavujeme vaše oprávnění do složky projektu.
         b: Prosím vydržte, chvilku to může chvíli trvat...
     page_titles:
       file_storages:
         delete: Odstranit úložiště souborů
-        subtitle: Add an external file storage in order to upload, link and manage files in work packages.
+        subtitle: Přidejte externí úložiště souborů pro nahrávání, propojení a správu souborů v pracovních balíčcích.
       managed_project_folders:
         subtitle: Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
-        subtitle_short: Let OpenProject create folders per project automatically.
+        subtitle_short: Nechat OpenProject vytvářet složky pro každý projekt automaticky.
         title: Automaticky spravované projektové složky
       project_settings:
         delete: Odstranit úložiště souborů
@@ -195,7 +195,7 @@ cs:
         members_connection_status: Stav připojení členů
         new: Přidat úložiště souborů k tomuto projektu
       project_storage_members:
-        subtitle: Check the connection status for the storage %{storage_name_link} of all project members.
+        subtitle: Zkontrolujte stav připojení úložiště %{storage_name_link} všech členů projektu.
         title: Members connection status
     provider_types:
       label: Typ poskytovatele
