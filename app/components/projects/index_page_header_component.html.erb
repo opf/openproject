@@ -17,26 +17,6 @@
         end
       %>
 
-      <%= render(
-            Primer::Beta::Button.new(
-              tag: :a,
-              href: gantt_portfolio_query_link,
-              size: :medium,
-              disabled: gantt_portfolio_project_ids.empty?,
-              type: :submit,
-              aria: { label: t('projects.index.open_as_gantt') },
-              mr: BUTTON_MARGIN_RIGHT,
-              id: 'projects-index-open-as-gantt',
-              target: '_blank'
-            )
-          ) do |button|
-        button.with_leading_visual_icon(icon: 'op-view-timeline')
-        button.with_trailing_visual_icon(icon: 'link-external')
-        button.with_tooltip(text: gantt_portfolio_title)
-
-        t('projects.index.open_as_gantt')
-      end %>
-
       <%= render(Primer::Alpha::ActionMenu.new) do |menu|
         menu.with_show_button(icon: 'op-kebab-vertical', 'aria-label': t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' })
 
@@ -72,7 +52,21 @@
         ) do |item|
           item.with_leading_visual_icon(icon: 'op-file-download')
         end
-
+        
+        if !gantt_portfolio_project_ids.empty?
+          menu.with_item(
+            tag: :a,
+            label: t('projects.index.open_as_gantt'),
+            href: gantt_portfolio_query_link,
+            id: 'projects-index-open-as-gantt',
+            content_arguments: { target: '_blank' }
+          ) do |item|
+            item.with_leading_visual_icon(icon: 'op-view-timeline')
+            item.with_trailing_visual_icon(icon: 'link-external')
+            item.with_tooltip(text: gantt_portfolio_title)
+          end
+        end
+        
         if query.persisted?
           menu.with_item(
             label: t(:button_delete),
