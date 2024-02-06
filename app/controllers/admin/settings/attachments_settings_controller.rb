@@ -34,6 +34,18 @@ module Admin::Settings
       t(:'attributes.attachments')
     end
 
+    def av_form
+      selected = params.dig(:settings, :antivirus_scan_mode)&.to_sym || :disabled
+
+      respond_to do |format|
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.replace(:attachments_av_subform,
+                                                    partial: "admin/settings/attachments_settings/av_form",
+                                                    locals: { selected: })
+        end
+      end
+    end
+
     private
 
     def settings_params

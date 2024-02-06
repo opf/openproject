@@ -422,6 +422,8 @@ Rails.application.routes.draw do
         patch tab[:name], controller: tab[:controller], action: :update, as: "update_#{tab[:name]}"
       end
 
+      get 'attachments/av_form', controller: '/admin/settings/attachments_settings', action: 'av_form'
+
       resource :authentication, controller: '/admin/settings/authentication_settings', only: %i[show update]
       resource :incoming_mails, controller: '/admin/settings/incoming_mails_settings', only: %i[show update]
       resource :aggregation, controller: '/admin/settings/aggregation_settings', only: %i[show update]
