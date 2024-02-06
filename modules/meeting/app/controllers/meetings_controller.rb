@@ -130,11 +130,12 @@ class MeetingsController < ApplicationController
 
   def history
     @events = @activity.events(from: @date_from.to_datetime, to: @date_to.to_datetime)
+    separate_events_for_history
 
     render :history
-    # rescue ActiveRecord::RecordNotFound => e
-    #   op_handle_warning "Failed to find all resources in activities: #{e.message}"
-    #   render_404 I18n.t(:error_can_not_find_all_resources)
+  rescue ActiveRecord::RecordNotFound => e
+    op_handle_warning "Failed to find all resources in activities: #{e.message}"
+    render_404 I18n.t(:error_can_not_find_all_resources)
   end
 
   def cancel_edit
@@ -371,5 +372,39 @@ class MeetingsController < ApplicationController
 
   def determine_author
     @author = params[:user_id].blank? ? nil : User.active.find(params[:user_id])
+  end
+
+  def separate_events_for_history
+    events_dup = @events.clone
+
+    @events.each do |event|
+      match = false
+      event.journal.details.keys.each do |key|
+        if key.match? /agenda_items_\d+/
+          match = true
+        end
+      end
+
+      if match == true
+        results = { agenda_items: Hash.new { |h, k| h[k] = {} } }
+
+        event.journal.details.each_with_object(results) do |(key, values), res|
+          if key.match? /agenda_items_\d+/
+            id, attribute = key.gsub("agenda_items_","").split("_")
+            res[:agenda_items][id.to_i][attribute] = values
+          else
+            res[key] = values
+          end
+        end
+
+        results[:agenda_items].each do |item_data|
+          copy = event.clone
+          copy.meeting_agenda_item_data = item_data
+          events_dup << copy
+        end
+      end
+    end
+
+    @events = events_dup
   end
 end

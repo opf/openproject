@@ -59,18 +59,12 @@ class Activities::ItemComponent < ViewComponent::Base
     rendered_details.present?
   end
 
-  # details.each_with_object(results) do |(key, values), res|
-  #   if key.match? /agenda_items_\d+/
-  #     id, attribute = key.gsub("agenda_items_","").split("_")
-  #     res[:agenda_items][id.to_i][attribute] = values
-  #   else
-  #     res[key] = values
-  #   end
-  # end
-
   def rendered_details # separate logic here for meeting_agenda_items
-    binding.pry
-    filter_details.filter_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
+    if @event.meeting_agenda_item_data.nil?
+      filter_details.filter_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
+    else
+      agenda_items_details
+    end
   end
 
   def comment
@@ -106,6 +100,7 @@ class Activities::ItemComponent < ViewComponent::Base
   end
 
   def filter_details
+    # need to also filter agenda_items details here
     details = @event.journal.details
 
     details.delete(:user_id) if details[:logged_by_id] == details[:user_id]
@@ -119,5 +114,9 @@ class Activities::ItemComponent < ViewComponent::Base
 
   def delete_detail(details, field)
     details.delete(field) if details[field] && details[field].first.nil?
+  end
+
+  def agenda_items_details()
+    # handle agenda items details here using meeting_agenda_item_data
   end
 end
