@@ -40,10 +40,6 @@ class Storages::ProjectStorage < ApplicationRecord
   # There should be only one ProjectStorage per project and storage.
   validates :project, uniqueness: { scope: :storage }
 
-  # The enum type detection fails in the multitenancy context for unknown
-  # reasons. So we declare it explicitly here. @TODO remove once fixed properly
-  attribute :project_folder_mode, :string
-
   enum project_folder_mode: {
     inactive: 'inactive',
     manual: 'manual',
