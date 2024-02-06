@@ -21,15 +21,15 @@ class RemoveEnums < ActiveRecord::Migration[7.1]
                          name: 'delayed_job_statuses_status_check')
 
     execute <<~SQL.squish
-      DROP TYPE public.delayed_job_status RESTRICT;
-      DROP TYPE public.project_folder_modes RESTRICT;
-      DROP TYPE public.storage_health_statuses RESTRICT;
+      DROP TYPE delayed_job_status RESTRICT;
+      DROP TYPE project_folder_modes RESTRICT;
+      DROP TYPE storage_health_statuses RESTRICT;
     SQL
   end
 
   def down
     execute <<~SQL.squish
-      CREATE TYPE public.delayed_job_status AS ENUM (
+      CREATE TYPE delayed_job_status AS ENUM (
           'in_queue',
           'error',
           'in_process',
@@ -38,13 +38,13 @@ class RemoveEnums < ActiveRecord::Migration[7.1]
           'cancelled'
       );
 
-      CREATE TYPE public.project_folder_modes AS ENUM (
+      CREATE TYPE project_folder_modes AS ENUM (
           'inactive',
           'manual',
           'automatic'
       );
 
-      CREATE TYPE public.storage_health_statuses AS ENUM (
+      CREATE TYPE storage_health_statuses AS ENUM (
           'pending',
           'healthy',
           'unhealthy'
