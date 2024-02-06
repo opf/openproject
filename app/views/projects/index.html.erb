@@ -28,15 +28,19 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title(t(:label_project_plural)) -%>
 
-<%= render Projects::IndexPageHeaderComponent.new(
-  projects: @projects,
-  query: @query,
-  current_user:
-) %>
+<%= render(
+      Projects::IndexPageHeaderComponent.new(
+        query:,
+        current_user:,
+        state:,
+        params:
+      )
+    )
+%>
 
-<%= render(Projects::ProjectsFiltersComponent.new(query: @query)) do |component|
+<%= render(Projects::ProjectsFiltersComponent.new(query:)) do |component|
   if current_user.allowed_globally?(:add_project)
-    component.with_button( 
+    component.with_button(
       tag: :a,
       href: new_project_path,
       scheme: :primary,
@@ -51,12 +55,11 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 
 <div data-controller="project"
-  data-application-target="dynamic">
+     data-application-target="dynamic">
   <%= render Projects::TableComponent.new(
-    rows: @projects,
+    query:,
     current_user: current_user,
-    orders: @orders,
-    params: params) %>
+    params:) %>
 </div>
 
 <%= render Projects::StorageInformationComponent.new(

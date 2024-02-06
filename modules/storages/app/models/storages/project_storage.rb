@@ -40,6 +40,10 @@ class Storages::ProjectStorage < ApplicationRecord
   # There should be only one ProjectStorage per project and storage.
   validates :project, uniqueness: { scope: :storage }
 
+  # The enum type detection fails in the multitenancy context for unknown
+  # reasons. So we declare it explicitly here. @TODO remove once fixed properly
+  attribute :project_folder_mode, :string
+
   enum project_folder_mode: {
     inactive: 'inactive',
     manual: 'manual',
@@ -55,7 +59,7 @@ class Storages::ProjectStorage < ApplicationRecord
   end
 
   def automatic_management_possible?
-    storage.present? && storage.provider_type_nextcloud? && storage.automatic_management_enabled?
+    storage.present? && storage.automatic_management_enabled?
   end
 
   def project_folder_path
@@ -71,9 +75,7 @@ class Storages::ProjectStorage < ApplicationRecord
   end
 
   def open(user)
-    if project_folder_inactive? ||
-       (project_folder_automatic? && !user.allowed_in_project?(:read_files, project)) ||
-       project_folder_id.blank?
+    if project_folder_not_accessible?(user)
       Storages::Peripherals::Registry
         .resolve("queries.#{storage.short_provider_type}.open_storage")
         .call(storage:, user:)
@@ -102,6 +104,12 @@ class Storages::ProjectStorage < ApplicationRecord
   end
 
   private
+
+  def project_folder_not_accessible?(user)
+    project_folder_inactive? ||
+      (project_folder_automatic? && !user.allowed_in_project?(:read_files, project)) ||
+      project_folder_id.blank?
+  end
 
   def escape_path(path)
     ::Storages::Peripherals::StorageInteraction::Nextcloud::Util.escape_path(path)

@@ -26,7 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Users::UserQuery < Queries::BaseQuery
+class Queries::Users::UserQuery
+  include Queries::BaseQuery
+  include Queries::UnpersistedQuery
+
   def self.model
     User
   end

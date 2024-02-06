@@ -34,7 +34,7 @@ module Type::AttributeGroups
     after_save :unset_attribute_groups_objects
     after_destroy :remove_attribute_groups_queries
 
-    serialize :attribute_groups, Array
+    serialize :attribute_groups, type: Array
     attr_accessor :attribute_groups_objects
 
     # Mapping from AR attribute name to a default group

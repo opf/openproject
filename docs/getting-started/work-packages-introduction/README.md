@@ -29,9 +29,9 @@ A work package in OpenProject can basically be everything you need to keep track
 
 To get started, create a new work package in your project, [open the project](../projects/#open-an-existing-project) with the project drop-down menu, navigate to the **module work packages** in the project menu.
 
-Within the work packages module, click the green + Create button to create a new work package. In the drop down menu, choose which type of work package you want to create, e.g. a task or a milestone. To create a new work package, you can also select the blue printed + Create a new workpackage writing.
+Within the work packages module, click the green + Create button to create a new work package. In the drop down menu, choose which type of work package you want to create, e.g. a task or a milestone. To create a new work package, you can also select the blue printed + Create a new work package writing.
 
-![create-a-new-workpackage](create-a-new-workpackage.png)
+![create a new work package](create-a-new-workpackage.png)
 
 A split screen view is opened with the new work package form on the right and the table listing already existing work packages on the left.
 

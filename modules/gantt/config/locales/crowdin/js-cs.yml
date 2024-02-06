@@ -1,0 +1,6 @@
+cs:
+  js:
+    queries:
+      all_open: 'Vše otevřené'
+      timeline: 'Časová osa'
+      milestones: 'Milníky'

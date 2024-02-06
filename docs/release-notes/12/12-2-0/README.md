@@ -144,7 +144,7 @@ For more information, please see the respective installation pages:
 - Fixed: imap ssl settings are evaluated as booleans when they are strings \[[#43237](https://community.openproject.org/wp/43237)\]
 - Fixed: Work Package Relation entry not styling type properly \[[#43239](https://community.openproject.org/wp/43239)\]
 - Fixed: Work packages in Gantt chart in light grey hard to see \[[#43240](https://community.openproject.org/wp/43240)\]
-- Fixed: Work package types with colour white are not visible in emails \[[#43247](https://community.openproject.org/wp/43247)\]
+- Fixed: Work package types with color white are not visible in emails \[[#43247](https://community.openproject.org/wp/43247)\]
 - Fixed: Can not find users with the user creation/invitation form  \[[#43257](https://community.openproject.org/wp/43257)\]
 - Fixed: The list style in the "Nextcloud" section is not correct \[[#43259](https://community.openproject.org/wp/43259)\]
 - Fixed: Remove hover effect on files list when there is a connection error to Nextcloud \[[#43260](https://community.openproject.org/wp/43260)\]

@@ -253,6 +253,13 @@ hu:
       open_as_gantt_title_admin: "A nézetbeállításokat (például a kiválasztott munkacsomag típusokat) módosíthatja az adminisztrációban a projektbeállítások alatt.\n"
       no_results_title_text: Jelenleg nincsenek projektek
       no_results_content_text: Új projekt létrehozása
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Azonosító megváltoztatása
       activities:
@@ -325,6 +332,8 @@ hu:
       no_results_title_text: A falhasználó egyik csoportnak se a tagja
     memberships:
       no_results_title_text: Ez a felhasználó jelenleg nem tagja egy projektnek sem.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       Nem törölheti a teszt felhasználót. Nincs joga a tagok kezeléséhez minden olyan projektben, amelynek a teszt felhasználó tagja.
@@ -586,6 +595,7 @@ hu:
         color: "Szín"
       user:
         admin: "Adminisztrátor"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP csatlakozás"
         identity_url: "Identity URL"
         current_password: "Jelenlegi jelszó"
@@ -617,6 +627,7 @@ hu:
         begin_insertion: "Beillesztés kezdete"
         begin_deletion: "Törlés kezdete"
         children: "Alelemek"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
@@ -637,7 +648,7 @@ hu:
         readonly: "Olvasható"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Kézi ütemezés\n"
         spent_hours: "Eltöltött idő"
         spent_time: "Eltöltött idő"
@@ -942,6 +953,8 @@ hu:
               invalid_on_create: "ez nem egy érvényes állapot, az új felhasználó számára."
             ldap_auth_source:
               error_not_found: "nem található"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Kérem, válasszon legalább egy felhasználót vagy csoportot."
           role_blank: "Hozzá kell rendelve lennie"
@@ -1432,6 +1445,7 @@ hu:
     message: Üzenet szerkesztve
     news: Hírek
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Projekt szerkesztve"
     reply: Válaszolt
     time_entry: "Az időnapló szerkesztve"
@@ -1574,6 +1588,7 @@ hu:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Értesítések küldése ehhez a művelethez\n"
     work_packages:
@@ -1617,12 +1632,12 @@ hu:
   label_age: "Életkor"
   label_ago: "nappal ezelőtt"
   label_all: "mind"
-  label_all_projects: "Minden projekt"
   label_all_time: "minden alkalommal"
   label_all_words: "Minden szó"
   label_all_open_wps: "Nyitottak"
   label_always_visible: "Mindig látható"
   label_announcement: "Hirdetmény"
+  label_angular: "AngularJS"
   label_api_access_key: "API-hozzáférés kulcs"
   label_api_access_key_created_on: "APIhozzáférési kulcs készítette: %{value} ezelőtt"
   label_api_access_key_type: "API"
@@ -1634,7 +1649,6 @@ hu:
   label_ical_access_key_revoke: "Visszavonás"
   label_applied_status: "Alkalmazott státusz"
   label_archive_project: "Projekt archiválása"
-  label_archived_projects: "Archived projects"
   label_ascending: "Növekvő"
   label_assigned_to_me_work_packages: "Magamhoz rendelt feladatcsoportok"
   label_associated_revisions: "Kapcsolódó módosítások"
@@ -1654,8 +1668,9 @@ hu:
   label_available_project_work_package_categories: "Rendelkezésre álló munkacsomag kategóriák"
   label_available_project_work_package_types: "Rendelkezésre álló munkacsomag típusok"
   label_available_projects: "Available projects"
-  label_api_documentation: "API dokumentáció"
+  label_api_doc: "API documentation"
   label_backup: "Biztonsági mentés"
+  label_backup_code: "Backup code"
   label_between: "között"
   label_blocked_by: "Blokkolta"
   label_blocks: "blokkolja"
@@ -1665,6 +1680,7 @@ hu:
   label_forum_plural: "Fórumok"
   label_forum_sticky: "Kiemelt"
   label_boolean: "Logikai"
+  label_board_plural: "Boards"
   label_branch: "Branch"
   label_browse: "böngész"
   label_bulk_edit_selected_work_packages: "A kiválasztott feladatcsoportok tömeges szerkesztése"
@@ -1691,6 +1707,7 @@ hu:
   label_check_uncheck_all_in_column: "Megjelöl/Jelölést töröl minden oszlopban"
   label_check_uncheck_all_in_row: "Megjelöl/Jelölést töröl minden sorban"
   label_child_element: "Gyermek alkotó"
+  label_choices: "Choices"
   label_chronological_order: "Régiek elől"
   label_close_versions: "Lezárja a befejezett változatokat"
   label_closed_work_packages: "lezárt"
@@ -1722,6 +1739,7 @@ hu:
   label_custom_field_plural: "Választható mezők"
   label_custom_field_default_type: "Üres típus"
   label_custom_style: "Kinézet"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL verzió"
   label_date: "dátum"
   label_date_and_time: "Dátum és idő"
@@ -1778,6 +1796,8 @@ hu:
   label_example: "Példa"
   label_experimental: "Kísérleti"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Importálás"
   label_export_to: "Is elérhető:"
   label_expanded_click_to_collapse: "Kinyitva. Kattintson az összecsukáshoz"
@@ -1817,6 +1837,7 @@ hu:
   label_home: "Home"
   label_subject_or_id: "Tárgy, vagy azonosító"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Jogi nyilatkozat"
   label_in: "in"
   label_in_less_than: "kevesebb, mint"
@@ -1833,6 +1854,7 @@ hu:
   label_internal: "Belső"
   label_introduction_video: "Bemutató videó"
   label_invite_user: "Felhasználó meghívása"
+  label_share: "Share"
   label_show_hide: "Megjelenítés/Elrejtés"
   label_show_all_registered_users: "Minden regisztrált felhasználó megjelenítése"
   label_journal: "Hírközlés"
@@ -1903,7 +1925,7 @@ hu:
   label_my_account: "Saját fiókom"
   label_my_activity: "My activity"
   label_my_account_data: "Az én fiók adataim"
-  label_my_projects: "Az én projektjeim"
+  label_my_avatar: "My avatar"
   label_my_queries: "Az én egyéni lekérdezéseim"
   label_name: "Név"
   label_never: "Soha"
@@ -2039,6 +2061,7 @@ hu:
   label_search: "Keresés"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Teszt levél küldése"
+  label_session: "Session"
   label_setting_plural: "Beállítások"
   label_system_settings: "Rendszerbeállítások"
   label_show_completed_versions: "Befejezett verziók megjelenítése"
@@ -2068,11 +2091,13 @@ hu:
   label_system_storage: "Tároló információ"
   label_table_of_contents: "Tartalomjegyzék"
   label_tag: "Cimke"
+  label_team_planner: "Team Planner"
   label_text: "Hosszú szöveg"
   label_this_month: "Ebben a hónapban"
   label_this_week: "ezen a héten"
   label_this_year: "Ebben az évben"
   label_time_entry_plural: "Eltöltött idő"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Cím"
   label_projects_menu: "Projektek"
   label_today: "Ma"
@@ -2827,6 +2852,7 @@ hu:
     plain: "Egyszerű szöveg"
   status_active: "aktív"
   status_archived: "archivált"
+  status_blocked: "blocked"
   status_invited: meghívott
   status_locked: zárolt
   status_registered: regisztrált
@@ -3084,7 +3110,7 @@ hu:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

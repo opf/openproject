@@ -26,7 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Storages::ProjectStorages::ProjectStoragesQuery < Queries::BaseQuery
+class Queries::Storages::ProjectStorages::ProjectStoragesQuery
+  include Queries::BaseQuery
+  include Queries::UnpersistedQuery
+
   def self.model
     @model ||= ::Storages::ProjectStorage
   end

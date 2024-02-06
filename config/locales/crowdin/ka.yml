@@ -254,6 +254,13 @@ ka:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -326,6 +333,8 @@ ka:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -589,6 +598,7 @@ ka:
         color: "ფერი"
       user:
         admin: "ადმინისტრატორი"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP მიერთება"
         identity_url: "იდენტიფიკაციის URL"
         current_password: "Current password"
@@ -620,6 +630,7 @@ ka:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "ქვეელემენტები"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "დასრულებული %"
@@ -640,7 +651,7 @@ ka:
         readonly: "მხოლოდ წაკითხვისთვის"
         remaining_hours: "დარჩენილი სამუშაო"
         remaining_time: "დარჩენილი სამუშაო"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Manual scheduling"
         spent_hours: "დახარჯული დრო"
         spent_time: "დახარჯული დრო"
@@ -945,6 +956,8 @@ ka:
               invalid_on_create: "is not a valid status for new users."
             ldap_auth_source:
               error_not_found: "ვერ მოიძებნა"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Please choose at least one user or group."
           role_blank: "need to be assigned."
@@ -1435,6 +1448,7 @@ ka:
     message: შეტყობინება ჩასწორდა
     news: სიახლეები
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "პროექტი ჩასწორდა"
     reply: ნაპასუხებია
     time_entry: "დროის ჟურნალი ჩასწორდა"
@@ -1577,6 +1591,7 @@ ka:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1620,12 +1635,12 @@ ka:
   label_age: "ასაკი"
   label_ago: "დღის წინ"
   label_all: "ყველა"
-  label_all_projects: "ყველა პროექტი"
   label_all_time: "სრული დრო"
   label_all_words: "ყველა სიტყვა"
   label_all_open_wps: "ყველა ღია"
   label_always_visible: "Always displayed"
   label_announcement: "მნიშვნელოვანი ინფორმაცია"
+  label_angular: "AngularJS"
   label_api_access_key: "API-ის წვდომის გასაღები"
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_api_access_key_type: "API"
@@ -1637,7 +1652,6 @@ ka:
   label_ical_access_key_revoke: "გაუქმება"
   label_applied_status: "გადატარებულია სტატუსი"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "ზრდადობით"
   label_assigned_to_me_work_packages: "Work packages assigned to me"
   label_associated_revisions: "Associated revisions"
@@ -1657,8 +1671,9 @@ ka:
   label_available_project_work_package_categories: "Available work package categories"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "API documentation"
+  label_api_doc: "API documentation"
   label_backup: "მარქაფი"
+  label_backup_code: "Backup code"
   label_between: "მითითებულ დროის შუალედში"
   label_blocked_by: "დაბლოკილია"
   label_blocks: "ბლოკავს"
@@ -1668,6 +1683,7 @@ ka:
   label_forum_plural: "ფორუმები"
   label_forum_sticky: "მიმაგრებული"
   label_boolean: "ლოგიკური მნიშვნელობა"
+  label_board_plural: "Boards"
   label_branch: "ბრენჩი"
   label_browse: "დათვალიერება"
   label_bulk_edit_selected_work_packages: "Bulk edit selected work packages"
@@ -1694,6 +1710,7 @@ ka:
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "შვილი ელემენტი"
+  label_choices: "Choices"
   label_chronological_order: "ჯერ უძველესი"
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "დახურულია"
@@ -1725,6 +1742,7 @@ ka:
   label_custom_field_plural: "მორგებადი ველები"
   label_custom_field_default_type: "ცარიელი ტიპი"
   label_custom_style: "დიზაინი"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "თარიღი"
   label_date_and_time: "დრო და თარიღი"
@@ -1781,6 +1799,8 @@ ka:
   label_example: "მაგალითი"
   label_experimental: "ექსპერიმენტული"
   label_i_am_member: "წევრი ვარ"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "შემოტანა"
   label_export_to: "Also available in:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1820,6 +1840,7 @@ ka:
   label_home: "მთავარი"
   label_subject_or_id: "სათაური ან ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "იურიდიული გაფრთხილება"
   label_in: "სად"
   label_in_less_than: "ნაკლებია, ვიდრე"
@@ -1836,6 +1857,7 @@ ka:
   label_internal: "შიდა"
   label_introduction_video: "Introduction video"
   label_invite_user: "მომხმარებლის მოწვევა"
+  label_share: "Share"
   label_show_hide: "ჩვენება/დამალვა"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "ჟურნალი"
@@ -1906,7 +1928,7 @@ ka:
   label_my_account: "ჩემი ანგარიში"
   label_my_activity: "ჩემი აქტივობა"
   label_my_account_data: "My account data"
-  label_my_projects: "ჩემი პროექტები"
+  label_my_avatar: "My avatar"
   label_my_queries: "My custom queries"
   label_name: "სახელი"
   label_never: "არასოდეს"
@@ -2042,6 +2064,7 @@ ka:
   label_search: "ძებნა"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
+  label_session: "Session"
   label_setting_plural: "მორგება"
   label_system_settings: "System settings"
   label_show_completed_versions: "Show completed versions"
@@ -2071,11 +2094,13 @@ ka:
   label_system_storage: "Storage information"
   label_table_of_contents: "Table of contents"
   label_tag: "ჭდე"
+  label_team_planner: "Team Planner"
   label_text: "გრძელი ტექსტი"
   label_this_month: "ეს თვე"
   label_this_week: "ამ კვირაში "
   label_this_year: "ამ წელში"
   label_time_entry_plural: "დახარჯული დრო"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "სათაური"
   label_projects_menu: "პროექტები"
   label_today: "დღეს"
@@ -2831,6 +2856,7 @@ ka:
     plain: "უბრალო ტექსტი"
   status_active: "აქტიური"
   status_archived: "დაარქივებულია"
+  status_blocked: "blocked"
   status_invited: მოწვეულია
   status_locked: დაბლოკილია
   status_registered: რეგისტრირებული
@@ -3088,7 +3114,7 @@ ka:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

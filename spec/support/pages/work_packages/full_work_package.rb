@@ -50,6 +50,12 @@ module Pages
       end
     end
 
+    def expect_share_button_count(count)
+      page.within_test_selector('op-wp-share-button') do
+        expect(page).to have_css('.badge', text: count, wait: 10)
+      end
+    end
+
     private
 
     def container

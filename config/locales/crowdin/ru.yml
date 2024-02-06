@@ -253,6 +253,13 @@ ru:
       open_as_gantt_title_admin: "Вы можете изменить настройки вида (такие как выбранные типы пакетов работ) в администрировании в настройках проекта."
       no_results_title_text: На данный момент проектов нет
       no_results_content_text: Создать новый проект
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Идентификатор изменений
       activities:
@@ -325,6 +332,8 @@ ru:
       no_results_title_text: Этот пользователь в настоящее время не является членом какой-либо группы.
     memberships:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       Вы не можете удалить пользователя-заполнителя. Вы не имеете права управлять участниками проектов, в которых состоит заполнитель.
@@ -590,6 +599,7 @@ ru:
         color: "Цвет"
       user:
         admin: "Администратор"
+        auth_source: "Authentication source"
         ldap_auth_source: "Подключение к LDAP"
         identity_url: "URL идентификации"
         current_password: "Текущий пароль"
@@ -621,6 +631,7 @@ ru:
         begin_insertion: "Начало вставки"
         begin_deletion: "Начало удаления"
         children: "Вложенные элементы"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Запланированное время"
         derived_remaining_time: "Запланированное время"
         done_ratio: "% Завершено"
@@ -641,7 +652,7 @@ ru:
         readonly: "Только для чтения"
         remaining_hours: "Оставшиеся часы"
         remaining_time: "Оставшиеся часы"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Ручное планирование"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"
@@ -948,6 +959,8 @@ ru:
               invalid_on_create: "не является допустимым статусом для новых пользователей."
             ldap_auth_source:
               error_not_found: "не найдено"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Пожалуйста, выберите по крайней мере одного пользователя или группу."
           role_blank: "требуется назначить."
@@ -1488,6 +1501,7 @@ ru:
     message: Сообщение отредактировано
     news: Новости
     project_attributes: "Атрибуты проекта изменены"
+    project: "Project edited"
     projects: "Проект отредактирован"
     reply: Отвечено
     time_entry: "Время подключения отредактировано"
@@ -1630,6 +1644,7 @@ ru:
         revoke_token: "Вы действительно хотите удалить этот токен?  Вам нужно будет снова войти в систему на %{storage}"
         removed: "Токен хранилища файлов успешно удален"
         failed: "Произошла ошибка, и токен не удалось удалить.  Пожалуйста, повторите попытку позже."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Отправить уведомления для этого действия"
     work_packages:
@@ -1673,12 +1688,12 @@ ru:
   label_age: "Возраст"
   label_ago: "дней назад"
   label_all: "все"
-  label_all_projects: "Все проекты"
   label_all_time: "все время"
   label_all_words: "Все слова"
   label_all_open_wps: "Все открытые"
   label_always_visible: "Всегда отображается"
   label_announcement: "Объявление"
+  label_angular: "AngularJS"
   label_api_access_key: "Ключ доступа к API"
   label_api_access_key_created_on: "Ключ доступа к API, созданный %{value} назад"
   label_api_access_key_type: "API"
@@ -1690,7 +1705,6 @@ ru:
   label_ical_access_key_revoke: "Отозвать"
   label_applied_status: "Прикладной статус"
   label_archive_project: "Архивировать проект"
-  label_archived_projects: "Архивные проекты"
   label_ascending: "По возрастанию"
   label_assigned_to_me_work_packages: "Переданные мне пакеты работ"
   label_associated_revisions: "Связанные изменения"
@@ -1710,8 +1724,9 @@ ru:
   label_available_project_work_package_categories: "Доступные категории рабочих пакетов"
   label_available_project_work_package_types: "Доступные типы пакетов работ"
   label_available_projects: "Доступные проекты"
-  label_api_documentation: "Документация по API"
+  label_api_doc: "API documentation"
   label_backup: "Резервное копирование"
+  label_backup_code: "Backup code"
   label_between: "между"
   label_blocked_by: "заблокировано"
   label_blocks: "блоки"
@@ -1721,6 +1736,7 @@ ru:
   label_forum_plural: "Форумы"
   label_forum_sticky: "Прикреплено"
   label_boolean: "Логическое значение"
+  label_board_plural: "Boards"
   label_branch: "Ветка"
   label_browse: "Обзор"
   label_bulk_edit_selected_work_packages: "Массовое изменение выбранных пакетов работ"
@@ -1747,6 +1763,7 @@ ru:
   label_check_uncheck_all_in_column: "Поставить/снять все флажки в столбце"
   label_check_uncheck_all_in_row: "Поставить/снять все флажки в строке"
   label_child_element: "Дочерний элемент"
+  label_choices: "Choices"
   label_chronological_order: "Самый старый в начале"
   label_close_versions: "Закрыть завершённые этапы"
   label_closed_work_packages: "закрыт"
@@ -1778,6 +1795,7 @@ ru:
   label_custom_field_plural: "Пользовательские поля"
   label_custom_field_default_type: "Пустой тип"
   label_custom_style: "Дизайн"
+  label_dashboard: "Dashboard"
   label_database_version: "Версия PostgreSQL"
   label_date: "Дата"
   label_date_and_time: "Дата и время"
@@ -1834,6 +1852,8 @@ ru:
   label_example: "Пример"
   label_experimental: "Экспериментально"
   label_i_am_member: "Я участник"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Импорт"
   label_export_to: "Скачать как:"
   label_expanded_click_to_collapse: "Развернуто. Кликните для сворачивания"
@@ -1873,6 +1893,7 @@ ru:
   label_home: "Главная"
   label_subject_or_id: "Тема или ID"
   label_calendar_subscriptions: "Подписки на календарь"
+  label_identifier: "Identifier"
   label_impressum: "Правовое уведомление"
   label_in: "в"
   label_in_less_than: "менее чем"
@@ -1889,6 +1910,7 @@ ru:
   label_internal: "Внутренние"
   label_introduction_video: "Вводное видео"
   label_invite_user: "Пригласить пользователя"
+  label_share: "Share"
   label_show_hide: "Показать/скрыть"
   label_show_all_registered_users: "Показать всех зарегистрированных пользователей"
   label_journal: "Журнал"
@@ -1959,7 +1981,7 @@ ru:
   label_my_account: "Моя учетная запись"
   label_my_activity: "Моя активность"
   label_my_account_data: "Данные моей учетной записи"
-  label_my_projects: "Мои проекты"
+  label_my_avatar: "My avatar"
   label_my_queries: "Мои пользовательские запросы"
   label_name: "Имя"
   label_never: "Никогда"
@@ -2095,6 +2117,7 @@ ru:
   label_search: "Поиск"
   label_send_information: "Отправить новые учетные данные пользователю"
   label_send_test_email: "Отправить тестовое сообщение"
+  label_session: "Session"
   label_setting_plural: "Настройки"
   label_system_settings: "Настройки системы"
   label_show_completed_versions: "Показать завершённые этапы"
@@ -2124,11 +2147,13 @@ ru:
   label_system_storage: "Информация хранилища"
   label_table_of_contents: "Содержание"
   label_tag: "Тег"
+  label_team_planner: "Team Planner"
   label_text: "Длинный текст"
   label_this_month: "в этом месяце"
   label_this_week: "на этой неделе"
   label_this_year: "в этом году"
   label_time_entry_plural: "Затраченное время"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Заголовок"
   label_projects_menu: "Проекты"
   label_today: "Сегодня"
@@ -2885,6 +2910,7 @@ ru:
     plain: "Обычный текст"
   status_active: "активно"
   status_archived: "в архиве"
+  status_blocked: "blocked"
   status_invited: приглашено
   status_locked: заблокировано
   status_registered: Зарегистрирован
@@ -3143,7 +3169,7 @@ ru:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "Пакет работ еще не передан никому."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, свяжитесь с администратором, чтобы увеличить лимит пользователей, чтобы убедиться, что внешние пользователи имеют доступ к этому пакету работ."
       text_user_limit_reached_admins: 'Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}"> обновите свой тарифный план </a>, чтобы иметь возможность добавлять больше пользователей.'
       warning_user_limit_reached: >

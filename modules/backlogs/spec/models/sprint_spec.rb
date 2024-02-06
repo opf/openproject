@@ -260,4 +260,27 @@ RSpec.describe Sprint do
       end
     end
   end
+
+  describe '#wiki_page' do
+    let(:wiki) { create :wiki, project: }
+    let(:wiki_page) { WikiPage.where(wiki:, title: sprint.wiki_page).first }
+    let(:user) { create :user }
+
+    before do
+      sprint.project = project
+      sprint.save!
+    end
+
+    subject do
+      login_as user
+
+      sprint.wiki_page
+    end
+
+    it 'creates a new wiki page if none is present' do
+      expect { subject }.not_to raise_error
+
+      expect(wiki_page.text).to start_with("h1. #{sprint.name}")
+    end
+  end
 end

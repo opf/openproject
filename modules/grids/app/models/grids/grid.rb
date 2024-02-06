@@ -30,7 +30,7 @@ module Grids
   class Grid < ApplicationRecord
     self.table_name = :grids
 
-    serialize :options, Hash
+    serialize :options, type: Hash
 
     has_many :widgets,
              class_name: 'Widget',

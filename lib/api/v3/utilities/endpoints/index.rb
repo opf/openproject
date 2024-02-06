@@ -117,7 +117,7 @@ module API
           end
 
           def calculate_groups(query)
-            return unless query.group_by
+            return unless query.respond_to?(:group_by) && query.group_by
 
             query.group_values.map do |group, count|
               ::API::Decorators::AggregationGroup.new(group, count, query:, current_user: User.current)

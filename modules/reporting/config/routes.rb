@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
+Rails.application.routes.draw do
   scope 'projects/:project_id' do
     resources :cost_reports, except: :create do
       collection do

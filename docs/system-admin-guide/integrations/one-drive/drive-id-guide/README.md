@@ -63,7 +63,7 @@ found [here](https://developer.microsoft.com/en-us/graph/graph-explorer).
 
 - Click on the `Sign in` button in the top right corner.
 - Log in with your Microsoft account.
-  - Make sure to select the correct organisation to log in, as the graph explorer will try to specifically log into the
+  - Make sure to select the correct organization to log in, as the graph explorer will try to specifically log into the
     associated tenant.
   - After a successful login, the resolved tenant will be displayed for a sanity check.
 - Fetch the hostname of the tenant (e.g. `example.sharepoint.com`)

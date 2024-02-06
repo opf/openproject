@@ -45,8 +45,8 @@ module Components
       expect(page).to have_css("[data-test-selector='project-include-list']")
     end
 
-    def expect_count(count)
-      expect(page).to have_css("[data-test-selector='project-include-button'] .badge", text: count)
+    def expect_count(count, wait: 5)
+      expect(page).to have_css("[data-test-selector='project-include-button'] .badge", text: count, wait:)
     end
 
     def toggle_include_all_subprojects

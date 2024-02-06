@@ -253,6 +253,13 @@ sl:
       open_as_gantt_title_admin: "Spreminjanje nastavitev pogleda (na primer izbrane vrste delovnih paketov) je možno v skrbništvu pod nastavitvami projekta."
       no_results_title_text: Trenutno ni projektov
       no_results_content_text: Kreiraj nov projekt
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Zamenjaj identifikator
       activities:
@@ -325,6 +332,8 @@ sl:
       no_results_title_text: Ta uporabnik trenutno ni član v nobeni skupini.
     memberships:
       no_results_title_text: Ta uporabnik trenutno ni član projekta.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -588,6 +597,7 @@ sl:
         color: "Barva"
       user:
         admin: "Aministrator"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP povezava"
         identity_url: "Identity URL"
         current_password: "Trenutno geslo"
@@ -619,6 +629,7 @@ sl:
         begin_insertion: "Začetek vstavitve"
         begin_deletion: "Začetek izbrisa"
         children: "Podelementi"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
@@ -639,7 +650,7 @@ sl:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Ročno razvrščanje."
         spent_hours: "Porabljen čas"
         spent_time: "Porabljen čas"
@@ -946,6 +957,8 @@ sl:
               invalid_on_create: "za nove uporabnike ni veljaven status."
             ldap_auth_source:
               error_not_found: "Ni najdeno"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Prosimo izberite vsaj eno osebo ali kategorijo."
           role_blank: "treba dodeliti"
@@ -1486,6 +1499,7 @@ sl:
     message: Sporočilo urejeno
     news: Novice
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Projekt urejen"
     reply: Odgovori
     time_entry: "Časovnik urejen"
@@ -1628,6 +1642,7 @@ sl:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1671,12 +1686,12 @@ sl:
   label_age: "Starost"
   label_ago: "pred dnevi"
   label_all: "vsi"
-  label_all_projects: "Vsi projekti"
   label_all_time: "Ves čas"
   label_all_words: "Vse besede"
   label_all_open_wps: "Vse odprto"
   label_always_visible: "Stalno prikazano"
   label_announcement: "Objava"
+  label_angular: "AngularJS"
   label_api_access_key: "API dostopni ključ"
   label_api_access_key_created_on: "Atom dostopni ključ narejen %{value} nazaj"
   label_api_access_key_type: "API"
@@ -1688,7 +1703,6 @@ sl:
   label_ical_access_key_revoke: "Prekliči"
   label_applied_status: "Uveljavljeno stanje"
   label_archive_project: "Arhivirani projekti"
-  label_archived_projects: "Archived projects"
   label_ascending: "Naraščajoče"
   label_assigned_to_me_work_packages: "Delovni paketi, ki so mi bili dodeljeni"
   label_associated_revisions: "Povezane revizije"
@@ -1708,8 +1722,9 @@ sl:
   label_available_project_work_package_categories: "Razpoložljive kategorije delovnih paketov"
   label_available_project_work_package_types: "Razpoložljive vrste delovnih paketov"
   label_available_projects: "Available projects"
-  label_api_documentation: "API dokumentacija"
+  label_api_doc: "API documentation"
   label_backup: "Varnostna kopija"
+  label_backup_code: "Backup code"
   label_between: "med"
   label_blocked_by: "blokirano od"
   label_blocks: "Bloki"
@@ -1719,6 +1734,7 @@ sl:
   label_forum_plural: "Forumi"
   label_forum_sticky: "Lepljivo"
   label_boolean: "Logika"
+  label_board_plural: "Boards"
   label_branch: "Podružnica"
   label_browse: "Brskanje"
   label_bulk_edit_selected_work_packages: "Skupno urejanje izbranih delovnih paketov"
@@ -1745,6 +1761,7 @@ sl:
   label_check_uncheck_all_in_column: "Označite / počistite vse v stolpcu"
   label_check_uncheck_all_in_row: "Potrdite / počistite vse vrstice"
   label_child_element: "Podrejeni elementi"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Zapri dokončane različice"
   label_closed_work_packages: "Zaprto"
@@ -1776,6 +1793,7 @@ sl:
   label_custom_field_plural: "Polja po meri"
   label_custom_field_default_type: "Prazen tip"
   label_custom_style: "Oblika"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL verzija"
   label_date: "Datum"
   label_date_and_time: "Datum in ura"
@@ -1832,6 +1850,8 @@ sl:
   label_example: "Primer"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Uvozi"
   label_export_to: "Na razpolago tudi v:"
   label_expanded_click_to_collapse: "Razširjeno. Kliknite, če želite strniti"
@@ -1871,6 +1891,7 @@ sl:
   label_home: "Domov"
   label_subject_or_id: "Predmet ali ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Pravno obvestilo"
   label_in: "v"
   label_in_less_than: "v manj kot"
@@ -1887,6 +1908,7 @@ sl:
   label_internal: "Notranji"
   label_introduction_video: "Predstavitveni video"
   label_invite_user: "Povabi uporabnika"
+  label_share: "Share"
   label_show_hide: "Pokaži / skrij"
   label_show_all_registered_users: "Prikaži vse registrirane uporabnike"
   label_journal: "Dnevnik"
@@ -1957,7 +1979,7 @@ sl:
   label_my_account: "Moj račun"
   label_my_activity: "My activity"
   label_my_account_data: "Podatki mojega računa"
-  label_my_projects: "Moji projekti"
+  label_my_avatar: "My avatar"
   label_my_queries: "Moje poizvedbe po meri"
   label_name: "Ime"
   label_never: "Nikoli"
@@ -2093,6 +2115,7 @@ sl:
   label_search: "Išči"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Pošlji testni mail"
+  label_session: "Session"
   label_setting_plural: "Nastavitve"
   label_system_settings: "Sistemske nastavitve"
   label_show_completed_versions: "Prikaži zaključene različice"
@@ -2122,11 +2145,13 @@ sl:
   label_system_storage: "Podatki o shranjevanju"
   label_table_of_contents: "Kazalo vsebine"
   label_tag: "Oznaka"
+  label_team_planner: "Team Planner"
   label_text: "Dolgo besedilo"
   label_this_month: "Ta mesec"
   label_this_week: "ta teden"
   label_this_year: "to leto"
   label_time_entry_plural: "Porabljen čas"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Naslov"
   label_projects_menu: "Projekti"
   label_today: "Danes"
@@ -2885,6 +2910,7 @@ sl:
     plain: "Golo besedilo"
   status_active: "aktiven"
   status_archived: "Arhiviran"
+  status_blocked: "blocked"
   status_invited: Povabljen
   status_locked: zaklenjeno
   status_registered: registriran
@@ -3144,7 +3170,7 @@ sl:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

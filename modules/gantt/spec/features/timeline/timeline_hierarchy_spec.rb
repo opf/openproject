@@ -30,8 +30,7 @@ require 'spec_helper'
 
 RSpec.describe 'Work package timeline hierarchies',
                :js,
-               :selenium,
-               with_flag: { show_separate_gantt_module: true } do
+               :selenium do
   let(:user) { create(:admin) }
   let!(:wp_root) do
     create(:work_package,

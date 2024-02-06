@@ -254,6 +254,13 @@ sv:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Det finns för närvarande inga projekt
       no_results_content_text: Skapa ett nytt projekt
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -326,6 +333,8 @@ sv:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Denna användare är för närvarande inte medlem i något projekt.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -588,6 +597,7 @@ sv:
         color: "Färg"
       user:
         admin: "Administratör"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP-anslutning"
         identity_url: "Identity URL"
         current_password: "Nuvarande lösenord"
@@ -619,6 +629,7 @@ sv:
         begin_insertion: "Början av införandet"
         begin_deletion: "Början av raderingen"
         children: "Underelement"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
@@ -639,7 +650,7 @@ sv:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Manual scheduling"
         spent_hours: "Förbrukad tid"
         spent_time: "Förbrukad tid"
@@ -944,6 +955,8 @@ sv:
               invalid_on_create: "är inte en giltig status för nya användare."
             ldap_auth_source:
               error_not_found: "hittades inte"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Välj minst en användare eller grupp."
           role_blank: "måste tilldelas."
@@ -1434,6 +1447,7 @@ sv:
     message: Meddelande redigerades
     news: Nyheter
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Projektet redigerades"
     reply: Svarade
     time_entry: "Tidrapport redigerades"
@@ -1576,6 +1590,7 @@ sv:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1619,12 +1634,12 @@ sv:
   label_age: "Ålder"
   label_ago: "dagar sedan"
   label_all: "alla"
-  label_all_projects: "Alla projekt"
   label_all_time: "all tid"
   label_all_words: "Alla ord"
   label_all_open_wps: "Alla öppna"
   label_always_visible: "Visas alltid"
   label_announcement: "Meddelande"
+  label_angular: "AngularJS"
   label_api_access_key: "API åtkomstnyckel"
   label_api_access_key_created_on: "API åtkomstnyckel skapade %{value} sedan"
   label_api_access_key_type: "API"
@@ -1636,7 +1651,6 @@ sv:
   label_ical_access_key_revoke: "Återkalla"
   label_applied_status: "Tillämpad status"
   label_archive_project: "Arkivera projekt"
-  label_archived_projects: "Archived projects"
   label_ascending: "Stigande"
   label_assigned_to_me_work_packages: "Arbetspaket som tilldelats till mig"
   label_associated_revisions: "Kopplade revideringar"
@@ -1656,8 +1670,9 @@ sv:
   label_available_project_work_package_categories: "Tillgängliga arbetspaketkategorier"
   label_available_project_work_package_types: "Tillgängliga typer för arbetspaket"
   label_available_projects: "Available projects"
-  label_api_documentation: "API-dokumentation"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "mellan"
   label_blocked_by: "blockeras av"
   label_blocks: "blockerar"
@@ -1667,6 +1682,7 @@ sv:
   label_forum_plural: "Forum"
   label_forum_sticky: "Klistrad"
   label_boolean: "Booleskt värde"
+  label_board_plural: "Boards"
   label_branch: "Gren"
   label_browse: "Bläddra"
   label_bulk_edit_selected_work_packages: "Redigera markerade arbetspaket i bulk"
@@ -1693,6 +1709,7 @@ sv:
   label_check_uncheck_all_in_column: "Markera/avmarkera alla i kolumnen"
   label_check_uncheck_all_in_row: "Markera/avmarkera allt på raden"
   label_child_element: "Underordnade element"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Stäng slutförda versioner"
   label_closed_work_packages: "stängt"
@@ -1724,6 +1741,7 @@ sv:
   label_custom_field_plural: "Anpassade fält"
   label_custom_field_default_type: "Tom typ"
   label_custom_style: "Design"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Datum"
   label_date_and_time: "Datum och tid"
@@ -1780,6 +1798,8 @@ sv:
   label_example: "Exempel"
   label_experimental: "Experimentell"
   label_i_am_member: "Jag är medlem"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Importera"
   label_export_to: "Finns även som:"
   label_expanded_click_to_collapse: "Expanderat. Klicka för att dölja"
@@ -1819,6 +1839,7 @@ sv:
   label_home: "Hem"
   label_subject_or_id: "Ämne eller ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Villkor"
   label_in: "i"
   label_in_less_than: "i mindre än"
@@ -1835,6 +1856,7 @@ sv:
   label_internal: "Intern"
   label_introduction_video: "Introduktionsvideo"
   label_invite_user: "Bjud in användare"
+  label_share: "Share"
   label_show_hide: "Visa/Dölj"
   label_show_all_registered_users: "Visa alla registrerade användare"
   label_journal: "Journal"
@@ -1905,7 +1927,7 @@ sv:
   label_my_account: "Mitt konto"
   label_my_activity: "Min aktivitet"
   label_my_account_data: "Min kontoinformation"
-  label_my_projects: "Mina projekt"
+  label_my_avatar: "My avatar"
   label_my_queries: "Min anpassade frågor"
   label_name: "Namn"
   label_never: "Aldrig"
@@ -2041,6 +2063,7 @@ sv:
   label_search: "Sök"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Skicka test E-post"
+  label_session: "Session"
   label_setting_plural: "Inställningar"
   label_system_settings: "Systeminställningar"
   label_show_completed_versions: "Visa slutförda versioner"
@@ -2070,11 +2093,13 @@ sv:
   label_system_storage: "Lagringsinformation"
   label_table_of_contents: "Innehållsförteckning"
   label_tag: "Etikett"
+  label_team_planner: "Team Planner"
   label_text: "Lång text"
   label_this_month: "denna månad"
   label_this_week: "denna vecka"
   label_this_year: "i år"
   label_time_entry_plural: "Förbrukad tid"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Titel"
   label_projects_menu: "Projekt"
   label_today: "idag"
@@ -2828,6 +2853,7 @@ sv:
     plain: "Oformaterad text"
   status_active: "aktiv"
   status_archived: "arkiverad"
+  status_blocked: "blocked"
   status_invited: inbjuden
   status_locked: låst
   status_registered: Registrerad
@@ -3084,7 +3110,7 @@ sv:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

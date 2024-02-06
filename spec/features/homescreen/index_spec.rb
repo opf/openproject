@@ -55,7 +55,7 @@ RSpec.describe 'Homescreen', 'index', :with_cuprite do
       login_as user
       visit root_url
       expect(page)
-        .to have_css("a[href=\"#{OpenProject::Application.root_url}/projects/public-project\"]")
+        .to have_css("a[href=\"#{Rails.application.root_url}/projects/public-project\"]")
 
       click_link "a link to the public project"
       expect(page).to have_current_path project_path(project)
@@ -75,7 +75,7 @@ RSpec.describe 'Homescreen', 'index', :with_cuprite do
 
       visit root_url
       expect(page)
-        .to have_css("a[href=\"#{OpenProject::Application.root_url}/projects/public-project\"]")
+        .to have_css("a[href=\"#{Rails.application.root_url}/projects/public-project\"]")
 
       click_link "a link to the public project"
       expect(page).to have_current_path /#{Regexp.escape(project_path(project))}\/?$/

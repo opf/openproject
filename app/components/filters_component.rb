@@ -40,12 +40,27 @@ class FiltersComponent < ApplicationComponent
     params[:filters].present? && !params.key?(:hide_filters_section)
   end
 
+  # Returns filters, active and inactive.
+  # In case a filter is active, the active one will be preferred over the inactive one.
+  def each_filter
+    allowed_filters.map do |filter|
+      active_filter = query.find_active_filter(filter.name)
+      filter_active = active_filter.present?
+
+      if filter_active
+        yield active_filter, filter_active
+      else
+        yield filter, filter_active
+      end
+    end
+  end
+
   def allowed_filters
-     query
-      .available_filters
+    query
+     .available_filters
   end
 
   def filters_count
     query.filters.count
- end
+  end
 end

@@ -28,7 +28,7 @@ To read how to do this, please see [reporting a bug in OpenProject](../../../dev
 #### Bug fixes and changes
 
 - Fixed: "openproject configure" reports errors \[[#42349](https://community.openproject.org/wp/42349)\]
-- Fixed: Scheduled LDAP User Synchronisation doesn't work \[[#42351](https://community.openproject.org/wp/42351)\]
+- Fixed: Scheduled LDAP User Synchronization doesn't work \[[#42351](https://community.openproject.org/wp/42351)\]
 - Fixed: [Packager] configure fails when sendmail was configured for emails \[[#42352](https://community.openproject.org/wp/42352)\]
 
 #### Contributions

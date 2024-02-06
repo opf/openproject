@@ -192,7 +192,7 @@ class ToV710AggregatedMigrations < ActiveRecord::Migration[5.1]
   end
 
   def schema_migrations_table_name
-    ActiveRecord::SchemaMigration.table_name
+    ActiveRecord::Base.connection.schema_migration.table_name
   end
 
   def quoted_schema_migrations_table_name

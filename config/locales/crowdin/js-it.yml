@@ -583,7 +583,7 @@ it:
           full_view: 'La visualizzazione dei <b>dettagli delle macro-attività</b> fornisce tutte le informazioni rilevanti relative a un determinato pacchetto di lavoro, come descrizione, stato, priorità, attività, dipendenze e commenti.'
           back_button: 'Utilizza la freccia di ritorno nell''angolo in alto a sinistra per uscire e tornare all''elenco delle macro-attività.'
           create_button: 'Il pulsante <b>+ Crea</b> aggiungerà una nuova macro-attività al tuo progetto.'
-          timeline_button: 'Puoi attivare la vista <b>Diagramma di Gantt</b> per creare una linea del tempo per il tuo progetto.'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: 'Qui puoi <b>modificare il tuo piano di progetto</b>, creare nuove macro-attività, come attività, pietre miliari, fasi e altro, nonché <b>aggiungere dipendenze</b>. Tutti i membri del team possono visualizzare e aggiornare il piano più recente in qualsiasi momento.'
         team_planner:
           overview: 'Il pianificatore di team consente di assegnare visivamente compiti ai membri del team e ottenere una panoramica di chi sta lavorando su cosa.'
@@ -1032,6 +1032,7 @@ it:
       sharing:
         share: 'Condividi'
         title: "Condividi macro-attività"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} selezionati"
         selection:
           mixed: "Misto"

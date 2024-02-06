@@ -20,7 +20,7 @@ This version restores support for OpenProject packages on centos 7. A PostgreSQL
 #### Bug fixes and changes
 
 - Fixed: Removal of the new SPOT buttons because of consistency \[[#42251](https://community.openproject.org/wp/42251)\]
-- Fixed: Falsche Projektzuordnung im Teamplaner \[[#42271](https://community.openproject.org/wp/42271)\]
+- Fixed: Incorrect project assignment in the team planner \[[#42271](https://community.openproject.org/wp/42271)\]
 - Fixed: Create form crashes when inviting placeholder user into "assigned to" or "responsible" \[[#42348](https://community.openproject.org/wp/42348)\]
 - Fixed: openproject configure fails Ubuntu 20.04 \[[#42375](https://community.openproject.org/wp/42375)\]
 - Fixed: Project clone with global basic auth not working \[[#42377](https://community.openproject.org/wp/42377)\]

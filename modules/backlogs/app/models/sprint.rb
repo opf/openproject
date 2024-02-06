@@ -158,7 +158,7 @@ class Sprint < Version
 
   private
 
-  def create_wiki_page(page_title)
+  def create_wiki_page(page_title, author: User.current)
     template = project.wiki.find_page(Setting.plugin_openproject_backlogs['wiki_template'])
     page_text = if template
                   "h1. #{name}\n\n#{template.text}"
@@ -166,8 +166,7 @@ class Sprint < Version
                   "h1. #{name}"
                 end
 
-    page = project.wiki.pages.build(title: page_title)
-    page.build_content(text: page_text)
+    page = project.wiki.pages.build(title: page_title, text: page_text, author:)
     page.save!
   end
 end

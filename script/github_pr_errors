@@ -7,11 +7,11 @@ Bundler.setup(:default, :development)
 require 'colored2'
 require 'json'
 require 'optparse'
+require 'base64'
 require 'pathname'
 require 'pry'
 require 'yaml'
-require 'faraday'
-require 'faraday/follow_redirects'
+require 'httpx'
 
 GITHUB_API_OPENPROJECT_PREFIX = 'https://api.github.com/repos/opf/openproject'.freeze
 GITHUB_HTML_OPENPROJECT_PREFIX = 'https://github.com/opf/openproject'.freeze
@@ -146,35 +146,33 @@ def current_branch_name
   @current_branch_name ||= `git rev-parse --abbrev-ref HEAD`.strip
 end
 
-def get_http(path)
-  url =
-    if path.start_with?('http')
-      path
-    else
-      "#{GITHUB_API_OPENPROJECT_PREFIX}/#{path}"
-    end
+def github_url(path)
+  if path.start_with?('http')
+    path
+  else
+    "#{GITHUB_API_OPENPROJECT_PREFIX}/#{path}"
+  end
+end
 
+def http
+  HTTPX
+    .plugin(:follow_redirects)
+    .plugin(:basic_auth)
+    .basic_auth(ENV.fetch('GITHUB_USERNAME'), ENV.fetch('GITHUB_TOKEN'))
+end
+
+def get_http(path)
+  url = github_url(path)
   say_verbose("HTTP GET #{url}")
 
-  conn = Faraday.new do |faraday|
-    faraday.response :follow_redirects # use Faraday::FollowRedirects::Middleware
-    faraday.response :raise_error # raise Faraday::Error on status code 4xx or 5xx
-  end
-
-  response = conn.get(
-    url,
-    nil,
-    {
-      'Authorization' => "Basic #{Base64::strict_encode64("#{ENV.fetch('GITHUB_USERNAME')}:#{ENV.fetch('GITHUB_TOKEN')}")}"
-    }
-  )
+  response = http.get(url)
 
   say_verbose("HTTP Response #{response.status}")
-
-  response.body
-rescue Faraday::Error => e
+  response.raise_for_status
+  response.to_s
+rescue HTTPX::HTTPError => e
   warn error_details(e)
-  exit(1)
+  exit 1
 rescue StandardError => e
   warn "Failed to perform API request GET #{url}: #{e}"
   exit 1
@@ -182,11 +180,10 @@ end
 
 def error_details(error)
   response = error.response
-  response_body = JSON.parse(response[:body])
+  response_body = response.json
 
   parts = []
-  parts << "Failed to perform API request #{response[:request][:method].upcase} #{response[:request][:url]}: " \
-           "#{error}"
+  parts << "Failed to perform API request GET #{response.uri}: #{error}"
   parts << "  #{response_body['message']}"
   parts << "  See #{response_body['documentation_url']}"
   parts += error.backtrace.map { "    #{_1}" }

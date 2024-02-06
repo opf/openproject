@@ -25,7 +25,7 @@ Please notice that no headers and no credentials need to be provided. Because th
 ## Authentication
 
 In a default OpenProject installation however, credentials are necessary to even access the instance, so this guide will assume this
-default behaviour to apply further on. Only in very limited use cases should an unauthenticated access ever be allowed.
+default behavior to apply further on. Only in very limited use cases should an unauthenticated access ever be allowed.
 
 Without authentication, a client will be informed of the missing credentials as demonstrated below when issuing a  request
 identical to the one above against a locally run installation:

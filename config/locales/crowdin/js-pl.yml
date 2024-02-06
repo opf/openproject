@@ -583,7 +583,7 @@ pl:
           full_view: 'W widoku <b>szczegółów pakietu roboczego</b> znajdziesz wszystkie istotne informacje dotyczące danego pakietu roboczego, takie jak opis, stan i priorytet, aktywność, zależności oraz komentarze.'
           back_button: 'Użyj strzałki powrotu w lewym górnym rogu, aby wyjść i powrócić do listy pakietów roboczych.'
           create_button: 'Przycisk <b>+ Utwórz</b> doda nowy pakiet roboczy do twojego projektu.'
-          timeline_button: 'Aby utworzyć oś czasu dla twojego projektu, możesz uaktywnić widok <b>wykresu Gantta</b>.'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: 'Tutaj możesz <b>edytować plan projektu.</b>, tworzyć nowe pakiety robocze, takie jak zadania robocze, kamienie milowe i inne oraz <b>dodawać  zależności</b>. Wszyscy członkowie zespołu mogą w każdej chwili wyświetlić i zaktualizować najnowszy plan.'
         team_planner:
           overview: 'Planista zespołu umożliwia wizualne przypisywanie zadań członkom zespołu i uzyskanie informacji o tym, kto nad czym pracuje.'
@@ -1034,6 +1034,7 @@ pl:
       sharing:
         share: 'Udostępnij'
         title: "Udostępnij pakiet roboczy"
+        show_all_users: "Show all shared users"
         selected_count: "Wybrano %{count}"
         selection:
           mixed: "Mieszane"

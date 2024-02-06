@@ -52,6 +52,8 @@ module TableHelpers
         Duration.new(header:, attribute: :remaining_hours)
       when /derived remaining work/i
         Duration.new(header:, attribute: :derived_remaining_hours)
+      when /end date/i
+        Generic.new(header:, attribute: :due_date)
       when /subject/
         Subject.new(header:)
       when /hierarchy/

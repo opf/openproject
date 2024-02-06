@@ -35,18 +35,12 @@ module Storages
         class SetPermissionsCommand
           using ServiceResultRefinements
 
-          PermissionUpdateData = Data.define(:role, :permission_id, :user_ids, :drive_item_id) do
-            def create?
-              user_ids.any? && permission_id.nil?
-            end
+          PermissionUpdateData = Data.define(:role, :permission_ids, :user_ids, :drive_item_id) do
+            def create? = permission_ids.empty? && user_ids.any?
 
-            def delete?
-              permission_id && user_ids.empty?
-            end
+            def delete? = permission_ids.any? && user_ids.empty?
 
-            def update?
-              permission_id && user_ids.any?
-            end
+            def update? = permission_ids.any? && user_ids.any?
           end
 
           def self.call(storage:, path:, permissions:)
@@ -67,10 +61,12 @@ module Storages
             permission_ids = extract_permission_ids(current_permissions[:value])
 
             permissions.each_pair do |role, user_ids|
-              update_data = PermissionUpdateData.new(role:, user_ids:, permission_id: permission_ids[role], drive_item_id: path)
-
-              apply_permission_changes(update_data)
+              apply_permission_changes(
+                PermissionUpdateData.new(role:, user_ids:, permission_ids: permission_ids[role], drive_item_id: path)
+              )
             end
+
+            ServiceResult.success
           end
 
           private
@@ -87,11 +83,12 @@ module Storages
             return delete_permissions(update_data) if update_data.delete?
             return create_permissions(update_data) if update_data.create?
 
-            update_permissions(update_data)
+            update_permissions(update_data) if update_data.update?
           end
 
           def update_permissions(update_data)
-            delete_permissions(update_data).on_success { create_permissions(update_data) }
+            delete_permissions(update_data)
+            create_permissions(update_data)
           end
 
           def create_permissions(update_data)
@@ -106,23 +103,31 @@ module Storages
                                      recipients: drive_recipients
                                    }.to_json)
 
-              handle_response(response)
+              handle_response(response).result_or { |error| log_error(error) }
             end
           end
 
           def delete_permissions(update_data)
             Util.using_admin_token(@storage) do |http|
-              handle_response(http.delete(permission_path(update_data.drive_item_id, update_data.permission_id)))
+              update_data.permission_ids.each do |permission_id|
+                handle_response(
+                  http.delete(permission_path(update_data.drive_item_id, permission_id))
+                ).result_or { |error| log_error(error) }
+              end
             end
           end
 
-          # This will grab the first write or read permission.
-          # If the folder is setup correctly this should be enough
           def extract_permission_ids(permission_set)
-            write_permission = permission_set.find(-> { {} }) { |hash| hash[:roles].first == 'write' }[:id]
-            read_permission = permission_set.find(-> { {} }) { |hash| hash[:roles].first == 'read' }[:id]
+            filter = ->(role, permission) do
+              next unless permission[:roles].member?(role)
 
-            { read: read_permission, write: write_permission }
+              permission[:id]
+            end.curry
+
+            write_permissions = permission_set.filter_map(&filter.call('write'))
+            read_permissions = permission_set.filter_map(&filter.call('read'))
+
+            { read: read_permissions, write: write_permissions }
           end
 
           def handle_response(response)
@@ -132,7 +137,9 @@ module Storages
             in { status: 200 }
               ServiceResult.success(result: response.json(symbolize_keys: true))
             in { status: 204 }
-              ServiceResult.success
+              ServiceResult.success(result: response)
+            in { status: 400 }
+              ServiceResult.failure(result: :bad_request, errors: ::Storages::StorageError.new(code: :bad_request, data:))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized, errors: ::Storages::StorageError.new(code: :unauthorized, data:))
             in { status: 403 }
@@ -158,6 +165,13 @@ module Storages
 
           def item_path(item_id)
             "/v1.0/drives/#{@storage.drive_id}/items/#{item_id}"
+          end
+
+          def log_error(error)
+            OpenProject.logger.warn({ command: error.data.source,
+                                      message: error.log_message,
+                                      data: { status: error.data.payload.status,
+                                              body: error.data.payload.body.to_s } })
           end
         end
       end

@@ -156,7 +156,6 @@ class Project < ApplicationRecord
 
   friendly_id :identifier, use: :finders
 
-  include ::Scopes::Scoped
   scopes :allowed_to,
          :visible
 

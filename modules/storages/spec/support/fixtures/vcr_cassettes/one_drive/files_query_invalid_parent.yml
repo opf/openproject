@@ -8,13 +8,13 @@ http_interactions:
       string: ''
     headers:
       Authorization:
-      - Bearer <ACCESS_TOKEN>
-      Accept-Encoding:
-      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      - Bearer <BEARER TOKEN>
+      User-Agent:
+      - httpx.rb/1.2.1
       Accept:
       - "*/*"
-      User-Agent:
-      - Ruby
+      Accept-Encoding:
+      - gzip, deflate
   response:
     status:
       code: 404
@@ -25,22 +25,25 @@ http_interactions:
       Transfer-Encoding:
       - chunked
       Content-Type:
-      - application/json
+      - application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false;
+        charset=utf-8
+      Content-Encoding:
+      - gzip
       Vary:
       - Accept-Encoding
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - 11be5934-563c-4a16-a8b3-441a36997cca
+      - 04e3feca-4420-4d24-840e-a8ae5503f840
       Client-Request-Id:
-      - 11be5934-563c-4a16-a8b3-441a36997cca
+      - 04e3feca-4420-4d24-840e-a8ae5503f840
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"West Europe","Slice":"E","Ring":"5","ScaleUnit":"003","RoleInstance":"AM1PEPF000105CE"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF000002DF"}}'
       Date:
-      - Mon, 09 Oct 2023 15:56:29 GMT
+      - Tue, 30 Jan 2024 11:55:59 GMT
     body:
       encoding: UTF-8
       string: '{"error":{"code":"itemNotFound","message":"The resource could not be
-        found.","innerError":{"date":"2023-10-09T15:56:30","request-id":"11be5934-563c-4a16-a8b3-441a36997cca","client-request-id":"11be5934-563c-4a16-a8b3-441a36997cca"}}}'
-  recorded_at: Mon, 09 Oct 2023 15:56:30 GMT
+        found."}}'
+  recorded_at: Tue, 30 Jan 2024 11:56:00 GMT
 recorded_with: VCR 6.2.0

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -36,7 +38,27 @@ VCR.configure do |config|
     i.response.body.force_encoding('UTF-8')
   end
 
-  config.default_cassette_options = { record: ENV.fetch('VCR_RECORD_MODE', :once).to_sym }
+  config.filter_sensitive_data '<BASIC_AUTH>' do |interaction|
+    header = interaction.request.headers['Authorization'].first.split
+
+    header.last if header.first == 'Basic'
+  end
+
+  config.filter_sensitive_data '<BEARER TOKEN>' do |interaction|
+    header = interaction.request.headers['Authorization'].first.split
+
+    header.last if header.first == 'Bearer'
+  end
+
+  config.filter_sensitive_data '<ACCESS_TOKEN>' do |interaction|
+    header_value = interaction.response.headers['Content-Type']&.first
+
+    if header_value&.include?('application/json')
+      MultiJson.load(interaction.response.body)['access_token']
+    end
+  end
+
+  config.default_cassette_options = { record: ENV.fetch('VCR_RECORD_MODE', :once).to_sym, drop_unused_requests: true }
 end
 
 VCR.turn_off!

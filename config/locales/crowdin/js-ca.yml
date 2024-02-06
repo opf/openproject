@@ -583,7 +583,7 @@ ca:
           full_view: 'La vista dels <b>detalls dels paquets de treball</b> proveeixen tota la informació rellevant que pertany al paquet de treball, com ara la descripció, l''estat, la prioritat, activitats, dependències i comentaris.'
           back_button: 'Utilitza la fletxa de retorn a la cantonada superior esquerra per sortir i tornar a la llista de paquets de treball.'
           create_button: 'El botó <b>+ Crear</b> afegirà un nou paquet de treball al teu projecte.'
-          timeline_button: 'Pots activar el <b>diagrama de Gantt</b> per a crear una línia de temps al teu projecte.'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: 'Aquí pots <b>editar el teu pla de projecte</b>, crear nous paquets de treball com tasques, fites, fases i més. També pots afegir <b>dependències</b>. Tots els membres poden veure i actualitzar l''últim pla en qualsevol moment.'
         team_planner:
           overview: 'El planificador d''equips et permet visualment assignar tasques a membres de l''equip i obtenir una visió general de qui està treballant en què.'
@@ -1032,6 +1032,7 @@ ca:
       sharing:
         share: 'Compartir'
         title: "Share work package"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

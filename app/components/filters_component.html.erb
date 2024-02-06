@@ -1,13 +1,13 @@
 <div data-controller="filters"
      data-application-target="dynamic"
      data-filters-display-filters-value="<%= show_filters_section? %>">
-  
+
   <div class="op-filters-header">
-    <%= render(Primer::Beta::Button.new(      
+    <%= render(Primer::Beta::Button.new(
       scheme: :secondary,
       data: { 'filters-target': 'filterFormToggle',
             'action': 'filters#toggleDisplayFilters',
-            'test-selector': 'project-filter-toggle' })) do %>
+            'test-selector': 'filter-component-toggle' })) do %>
       <%= t(:label_filter) %>
       <%= render(Primer::Beta::Counter.new(count: filters_count, round: true, hide_if_zero: false, scheme: :default)) %>
     <% end %>
@@ -31,8 +31,7 @@
         data-action="filters#toggleDisplayFilters"></a>
       <legend><%= t(:label_filter_plural) %></legend>
       <ul class="advanced-filters--filters">
-        <% allowed_filters.each do |filter| %>
-          <% filter_active = query.find_active_filter(filter.name).present? %>
+        <% each_filter do |filter, filter_active| %>
           <% filter_boolean = filter.is_a?(Queries::Filters::Shared::BooleanFilter) %>
 
           <li class="advanced-filters--filter <%= filter_active ? '' : 'hidden' %>"

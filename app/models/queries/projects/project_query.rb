@@ -26,8 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Projects::ProjectQuery < Queries::BaseQuery
+class Queries::Projects::ProjectQuery < ApplicationRecord
+  include Queries::BaseQuery
   include Queries::Serialization::Hash
+
+  belongs_to :user
+
+  serialize :filters, coder: Queries::Serialization::Filters.new(self)
+  serialize :orders, coder: Queries::Serialization::Orders.new(self)
 
   def self.model
     Project

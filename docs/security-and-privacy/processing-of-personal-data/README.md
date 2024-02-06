@@ -197,7 +197,7 @@ The data listed above is generated upon entering the application. When actually 
 
 Logfiles are automatically removed based on a first-in-first-out mechanism. This is done to limit the disk space which ensures the server's operation and at the same time serves as a means to erase the log entries once they have served their purpose of supporting operations. By default the retention period is determined by the size of the logfile. Once the logfile reaches its storage limit, the oldest entries are removed. 
 
-As such, the log entries are not kept for a fixed period of time. If there are a lot of requests, old entries are removed faster then if there are less requests. Administrators of an OpenProject installation might decide to configure a different behaviour that factors in the age of the log entries.
+As such, the log entries are not kept for a fixed period of time. If there are a lot of requests, old entries are removed faster then if there are less requests. Administrators of an OpenProject installation might decide to configure a different behavior that factors in the age of the log entries.
 
 #### Technical documentation
 
@@ -630,7 +630,7 @@ flowchart LR
 
 * All data the user has permissions to.
 
-> **Note**: Please see the [API documentation](https://www.openproject.org/docs/api) for further information about all API endpoints.
+> **Note**: Please see the [API documentation](../../api/) for further information about all API endpoints.
 
 #### Security measure
 

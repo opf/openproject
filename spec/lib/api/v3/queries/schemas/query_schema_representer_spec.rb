@@ -357,7 +357,11 @@ RSpec.describe API::V3::Queries::Schemas::QuerySchemaRepresenter do
              Queries::WorkPackages::Columns::PropertyColumn.new(:bogus2),
              Queries::WorkPackages::Columns::PropertyColumn.new(:bogus3),
              Queries::WorkPackages::Columns::RelationToTypeColumn.new(type),
-             Queries::WorkPackages::Columns::RelationOfTypeColumn.new(name: :label_relates_to, sym: :relation1)]
+             Queries::WorkPackages::Columns::RelationOfTypeColumn.new(
+               name: :label_relates_to,
+               sym: :relation1,
+               sym_name: :label_relates_to
+             )]
           end
           let(:available_values_method) { :displayable_columns }
 

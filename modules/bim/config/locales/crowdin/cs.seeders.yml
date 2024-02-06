@@ -89,13 +89,13 @@ cs:
         demo-construction-project:
           name: "(Demo) Stavební projekt"
           status_explanation: Všechny úkoly a dílčí projekty probíhají podle harmonogramu. Zúčastněné osoby znají své úkoly. Systém je kompletně nastaven.
-          description: This is a short summary of the goals of this demo construction project.
+          description: Toto je krátké shrnutí cílů tohoto demo stavebního projektu.
           news:
             item_0:
               title: Vítejte ve vašem demo projektu
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Jsme rádi, že jste se připojili.
+                V tomto modulu můžete sdělit zprávy o projektu členům vašeho týmu.
               description: Aktuální novinky
           categories:
             item_0: Kategorie 1 (bude změněno v nastavení projektu)
@@ -110,7 +110,7 @@ cs:
               name: Týmový plánovač
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: Jednoduchý drag'n drop workflow
           project-overview:
             widgets:
               item_0:
@@ -150,14 +150,14 @@ cs:
                   name: Milníky
         demo-planning-constructing-project:
           name: "(Demo) Plánování a výstavba"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          status_explanation: Všechny úkoly probíhají podle harmonogramu. Zúčastněné osoby znají své úkoly. Systém je kompletně nastaven.
+          description: Toto je krátké shrnutí cílů tohoto demo plánování a budování projektu.
           news:
             item_0:
               title: Vítejte ve vašem demo projektu
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Jsme rádi, že jste se připojili.
+                V tomto modulu můžete sdělit zprávy o projektu členům vašeho týmu.
               description: Aktuální novinky
           categories:
             item_0: Kategorie 1 (bude změněno v nastavení projektu)
@@ -304,10 +304,10 @@ cs:
                   subject: Design freeze
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_5:
-              subject: Construction phase
+              subject: Fáze výstavby
               children:
                 item_0:
-                  subject: Start constructing
+                  subject: Začít stavět
                   description: |-
                     ## Goal
 
@@ -405,7 +405,7 @@ cs:
         demo-bim-project:
           name: "(Demo) BIM projekt"
           status_explanation: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BIM project.
+          description: Toto je krátké shrnutí cílů tohoto demo BIM projektu.
           news:
             item_0:
               title: Vítejte ve vašem demo projektu
@@ -554,7 +554,7 @@ cs:
                     *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
                     *   ...
                 item_1:
-                  subject: Modelling the BIM model
+                  subject: Modelování modelu BIM
                   description: |-
                     # Goal
 
@@ -666,10 +666,10 @@ cs:
                 *   ...
             item_14:
               subject: Správa majetku
-              description: Enjoy your building :)
+              description: Užijte si svou budovu :)
         demo-bcf-management-project:
           name: "(Demo) řízení BCF"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
+          status_explanation: Všechny úkoly probíhají podle harmonogramu. Zúčastněné osoby znají své úkoly. Systém je kompletně nastaven.
           description: This is a short summary of the goals of this demo BCF management project.
           ifc_models:
             item_0:

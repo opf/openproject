@@ -84,47 +84,6 @@ RSpec.describe ProjectsController do
         expect(response).to render_template 'index'
       end
     end
-
-    context 'as admin' do
-      let(:user) { build(:admin) }
-
-      it_behaves_like 'successful index'
-
-      it "shows all active projects" do
-        expect(assigns[:projects])
-          .to contain_exactly(project_a, project_b, project_c)
-      end
-    end
-
-    context 'as anonymous user' do
-      let(:user) { User.anonymous }
-
-      context 'when login_required', with_settings: { login_required: true } do
-        it 'redirects to login' do
-          expect(response).to redirect_to signin_path(back_url: projects_url)
-        end
-      end
-
-      context 'when not login_required', with_settings: { login_required: false } do
-        it_behaves_like 'successful index'
-
-        it "shows only (active) public projects" do
-          expect(assigns[:projects])
-            .to contain_exactly(project_c)
-        end
-      end
-    end
-
-    context 'as user' do
-      let(:user) { create(:user, member_with_permissions: { project_b => %i[view_work_packages edit_work_packages] }) }
-
-      it_behaves_like 'successful index'
-
-      it "shows (active) public projects and those in which the user is member of" do
-        expect(assigns[:projects])
-          .to contain_exactly(project_b, project_c)
-      end
-    end
   end
 
   describe '#destroy' do

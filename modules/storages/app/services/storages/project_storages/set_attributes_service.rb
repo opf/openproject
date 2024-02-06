@@ -36,7 +36,7 @@ module Storages::ProjectStorages
       project_storage.creator ||= user
 
       project_storage.project_folder_mode ||=
-        if storage.present? && storage.provider_type_nextcloud? && storage.automatic_management_enabled?
+        if storage.present? && storage.automatic_management_enabled?
           "automatic"
         else
           "inactive"

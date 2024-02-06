@@ -77,6 +77,10 @@ RSpec.describe 'Work package sharing',
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
   let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
   let(:members_page) { Pages::Members.new project.identifier }
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:columns) { Components::WorkPackages::Columns.new }
+  let(:wp_modal) { Components::WorkPackages::TableConfigurationModal.new }
+
 
   current_user { create(:user, firstname: 'Signed in', lastname: 'User') }
 
@@ -95,6 +99,7 @@ RSpec.describe 'Work package sharing',
       # Clicking on the share button opens a modal which lists all of the users a work package
       # is explicitly shared with.
       # Project members are not listed unless the work package is also shared with them explicitly.
+      work_package_page.expect_share_button_count(6)
       work_package_page.click_share_button
 
       aggregate_failures "Initial shares list" do
@@ -226,6 +231,7 @@ RSpec.describe 'Work package sharing',
       end
 
       share_modal.close
+      work_package_page.expect_share_button_count(7)
       work_package_page.click_share_button
 
       aggregate_failures "Re-opening the modal after changes performed" do
@@ -283,6 +289,28 @@ RSpec.describe 'Work package sharing',
         expect(members_page).not_to have_user gilfoyle.name
         expect(members_page).not_to have_user comment_user.name
         expect(members_page).not_to have_user view_user.name
+      end
+
+      aggregate_failures 'Showing the shared users in the table' do
+        wp_table.visit!
+
+        wp_modal.open!
+        wp_modal.switch_to 'Columns'
+
+        columns.assume_opened
+        columns.uncheck_all save_changes: false
+        columns.add 'ID', save_changes: false
+        columns.add 'Subject', save_changes: false
+        columns.add 'Shared with', save_changes: false
+        columns.apply
+
+
+        wp_row = wp_table.row(work_package)
+        expect(wp_row).to have_css('.wp-table--cell-td.sharedWithUsers .badge', text: '7')
+        wp_row.find('.wp-table--cell-td.sharedWithUsers .badge').click
+
+        share_modal.expect_title(I18n.t('js.work_packages.sharing.title'))
+        share_modal.expect_shared_count_of(7)
       end
     end
 

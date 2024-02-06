@@ -10,7 +10,7 @@ cs:
     error_captcha: "Váš účet nemohl být ověřen. Kontaktujte prosím administrátora."
     settings:
       website_key: 'Klíč webové stránky'
-      response_limit: 'Response limit for HCaptcha'
+      response_limit: 'Limit odpovědi pro HCaptcha'
       response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
       website_key_text: 'Zadejte webový klíč vytvořený v reCAPTCHA admin konzoli pro tuto doménu.'
       secret_key: 'Secret Key'

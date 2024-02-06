@@ -2,6 +2,7 @@
      [attr.data-query-name]="listName"
      class="op-board-list loading-indicator--location"
      data-test-selector="op-board-list"
+     data-tour-selector="op-board-list"
      [ngClass]="{ '-action-list': board.isAction }">
   <ng-container *ngIf="query">
 
@@ -39,6 +40,7 @@
         <button [title]="text.addCard"
                 *ngIf="showAddButton"
                 data-test-selector="op-board-list--card-dropdown-add-button"
+                data-tour-selector="op-board-list--card-dropdown-add-button"
                 class="op-board-list--add-button op-board-list--card-dropdown-button button"
                 op-addCardDropdown>
           <op-icon icon-classes="icon-small icon-add"></op-icon>

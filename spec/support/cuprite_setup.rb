@@ -66,6 +66,9 @@ def register_better_cuprite(language, name: :"better_cuprite_#{language}")
   Capybara.register_driver(name) do |app|
     options = {
       process_timeout: 20,
+      timeout: 10,
+      # In case the timeout is not enough, this option can be activated:
+      # pending_connection_errors: false,
       inspector: true,
       headless: headless_mode?,
       window_size: [1920, 1080]

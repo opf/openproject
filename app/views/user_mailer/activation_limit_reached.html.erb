@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <p>
     <% mail_link = "<a href=\"mailto:#{@email}\">#{@email}</a>" %>
-    <% host = OpenProject::Application.root_url %>
+    <% host = Rails.application.root_url %>
     <% host_link = "<a href=\"#{host}\">#{Setting.app_title}</a>" %>
     <%= t("mail_user_activation_limit_reached.message", email: mail_link, host: host_link).html_safe %>
 </p>

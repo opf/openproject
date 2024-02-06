@@ -582,7 +582,7 @@ de:
           full_view: 'Die <b>Arbeitspaketdetails</b> Ansicht enthält alle relevanten Informationen zu einem bestimmten Arbeitspaket wie Beschreibung, Status, Priorität, Aktivitäten, Abhängigkeiten und Kommentare.'
           back_button: 'Benutzen Sie den Pfeil in der linken oberen Ecke, um zur Arbeitspaketliste zurückzukehren.'
           create_button: 'Mit dem <b>+ Anlegen</b> Knopf erstellen Sie weitere Arbeitspakete für Ihr Projekt.'
-          timeline_button: 'Sie können ein <b>Gantt Diagramm</b> aktivieren um Projektpläne zu erstellen.'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: 'Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jederzeit die aktuelle Planung und kann diese bei Bedarf aktualisieren.'
         team_planner:
           overview: 'Mit dem Teamplaner können Sie den Teammitgliedern Aufgaben visuell zuweisen und sich einen Überblick verschaffen, wer an welchen Aufgaben arbeitet.'
@@ -1031,6 +1031,7 @@ de:
       sharing:
         share: 'Teilen'
         title: "Arbeitspaket teilen"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} ausgewählt"
         selection:
           mixed: "Gemischt"

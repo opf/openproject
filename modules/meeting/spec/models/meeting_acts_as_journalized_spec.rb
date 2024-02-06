@@ -78,7 +78,7 @@ RSpec.describe Meeting do
 
       it 'has the updated_at of the meeting as the lower bound for validity_period and no upper bound' do
         expect(meeting.last_journal.validity_period)
-          .to eql(meeting.reload.updated_at...Float::INFINITY)
+          .to eql(meeting.reload.updated_at...)
       end
     end
 

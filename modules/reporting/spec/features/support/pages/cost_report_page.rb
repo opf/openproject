@@ -87,6 +87,11 @@ module Pages
       end
     end
 
+    def wait_for_page_to_reload
+      show_loading_indicator
+      show_loading_indicator(present: false)
+    end
+
     def path
       cost_reports_path(project)
     end

@@ -693,6 +693,26 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       end
     end
 
+    describe 'derivedPercentageDone' do
+      it_behaves_like 'has basic schema properties' do
+        let(:path) { 'derivedPercentageDone' }
+        let(:type) { 'Integer' }
+        let(:name) { I18n.t('activerecord.attributes.work_package.derived_done_ratio') }
+        let(:required) { false }
+        let(:writable) { false }
+      end
+
+      context 'as disabled' do
+        before do
+          allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
+        end
+
+        it 'is hidden' do
+          expect(subject).not_to have_json_path('derivedPercentageDone')
+        end
+      end
+    end
+
     describe 'readonly' do
       context 'with the enterprise add-on enabled', with_ee: %i[readonly_work_packages] do
         it_behaves_like 'has basic schema properties' do

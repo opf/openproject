@@ -1,69 +1,121 @@
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-  <% header.with_title(variant: :large) { t(:label_project_plural) } %>
+  <% if show_state? %>
+    <% header.with_title(variant: :large, data: { 'test-selector': 'project-query-name'}) { page_title } %>
 
-  <% header.with_actions do %>
-    <%= render(
-          Primer::Beta::Button.new(
-            tag: :a,
-            href: activities_path,
-            size: :medium,
-            type: :submit,
-            aria: { label: t(:label_overall_activity) },
-            mr: BUTTON_MARGIN_RIGHT
-          )
-        ) do
+    <% header.with_actions do %>
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              href: activities_path,
+              size: :medium,
+              type: :submit,
+              aria: { label: t(:label_overall_activity) },
+              mr: BUTTON_MARGIN_RIGHT
+            )
+          ) do
           t(:label_overall_activity)
         end
-    %>
+      %>
 
-    <%= render(
-          Primer::Beta::Button.new(
-            tag: :a,
-            href: gantt_portfolio_query_link,
-            size: :medium,
-            disabled: gantt_portfolio_project_ids.empty?,
-            type: :submit,
-            aria: { label: t('projects.index.open_as_gantt') },
-            mr: BUTTON_MARGIN_RIGHT,
-            id: 'projects-index-open-as-gantt',
-            target: '_blank'
-          )
-        ) do |button|
-          button.with_leading_visual_icon(icon: 'op-view-timeline')
-          button.with_trailing_visual_icon(icon: 'link-external')
-          button.with_tooltip(text: gantt_portfolio_title)
+      <%= render(
+            Primer::Beta::Button.new(
+              tag: :a,
+              href: gantt_portfolio_query_link,
+              size: :medium,
+              disabled: gantt_portfolio_project_ids.empty?,
+              type: :submit,
+              aria: { label: t('projects.index.open_as_gantt') },
+              mr: BUTTON_MARGIN_RIGHT,
+              id: 'projects-index-open-as-gantt',
+              target: '_blank'
+            )
+          ) do |button|
+        button.with_leading_visual_icon(icon: 'op-view-timeline')
+        button.with_trailing_visual_icon(icon: 'link-external')
+        button.with_tooltip(text: gantt_portfolio_title)
 
-          t('projects.index.open_as_gantt')
-        end %>
+        t('projects.index.open_as_gantt')
+      end %>
 
-    <%= render(Primer::Alpha::ActionMenu.new) do |menu|
-      menu.with_show_button(icon: 'op-kebab-vertical', 'aria-label': t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' })
+      <%= render(Primer::Alpha::ActionMenu.new) do |menu|
+        menu.with_show_button(icon: 'op-kebab-vertical', 'aria-label': t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' })
 
-      if current_user.admin?
+        if current_user.logged? && query_saveable?
+          menu.with_item(
+            label: t('button_save'),
+            href: new_projects_query_path,
+            content_arguments: {
+            data: {
+              controller: "params-from-query",
+              'application-target': "dynamic",
+              'params-from-query-allowed-value': '["filters"]'
+            }
+          }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :'op-save')
+          end
+        end
+
+        if current_user.admin?
+          menu.with_item(
+            label: t('button_configure'),
+            href: admin_settings_projects_path,
+            content_arguments: { target: '_blank' }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :gear)
+          end
+        end
+
         menu.with_item(
-          label: t('button_configure'),
-          href: admin_settings_projects_path,
-          content_arguments: { target: '_blank' }
+          label: t('js.label_export'),
+          content_arguments: { 'data-show-dialog-id': EXPORT_MODAL_ID }
         ) do |item|
-          item.with_leading_visual_icon(icon: :gear)
+          item.with_leading_visual_icon(icon: 'op-file-download')
+        end
+
+        if query.persisted?
+          menu.with_item(
+            label: t(:button_delete),
+            href: projects_query_path(query),
+            scheme: :danger,
+            form_arguments: {
+              method: :delete,
+              data: {
+                confirm: t("text_are_you_sure"),
+                turbo: 'false'
+              }
+            }
+          ) do |item|
+            item.with_leading_visual_icon(icon: 'trash')
+          end
         end
       end
+      %>
+    <% end %>
 
-      menu.with_item(
-        label: t('js.label_export'),
-        content_arguments: { 'data-show-dialog-id': 'project-export-dialog' }
-      ) do |item|
-        item.with_leading_visual_icon(icon: 'op-file-download')
-      end
-    end
-    %>
+  <% else %>
+      <% header.with_title(mt: 2, mb: 2, data: { 'test-selector': 'project-query-name'}) do
+        primer_form_with(model: query,
+                         url: projects_queries_path,
+                         scope: 'query',
+                         data: {
+                           controller: "params-from-query",
+                           'application-target': "dynamic",
+                           'params-from-query-allowed-value': '["filters"]'
+                         },
+                         id: 'project-save-form') do |f|
+          render(Queries::Projects::Create.new(f))
+        end
+      end %>
   <% end %>
 <% end %>
 
-<%= render(Primer::Alpha::Dialog.new(title: t('js.label_export'),
-                                     id: 'project-export-dialog')) do |d|
-  d.with_header(variant: :large)
-  d.with_body do
-    render partial: 'project_export_modal', locals: { query: query }
-  end
-end %>
+<% if show_state? %>
+  <%= render(Primer::Alpha::Dialog.new(title: t('js.label_export'),
+                                       id: EXPORT_MODAL_ID)) do |d|
+    d.with_header(variant: :large)
+    d.with_body do
+      render partial: '/projects/project_export_modal'
+    end
+  end %>
+<% end %>

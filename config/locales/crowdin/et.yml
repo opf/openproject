@@ -254,6 +254,13 @@ et:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -326,6 +333,8 @@ et:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -589,6 +598,7 @@ et:
         color: "Värv"
       user:
         admin: "Administraator"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "Praegune parool"
@@ -620,6 +630,7 @@ et:
         begin_insertion: "Sisestamise algus"
         begin_deletion: "Kustutamise algus"
         children: "Alamelemendid"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
@@ -640,7 +651,7 @@ et:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Manual scheduling"
         spent_hours: "Kulutatud aeg"
         spent_time: "Kulutatud aeg"
@@ -944,6 +955,8 @@ et:
             status:
               invalid_on_create: "is not a valid status for new users."
             ldap_auth_source:
+              error_not_found: "not found"
+            auth_source:
               error_not_found: "not found"
         member:
           principal_blank: "Vali vähemalt üks kasutaja või grupp."
@@ -1435,6 +1448,7 @@ et:
     message: Sõnum on muudetud
     news: Uudised
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Projekti on muudetud"
     reply: Vastatud
     time_entry: "Ajalogi on muudetud"
@@ -1577,6 +1591,7 @@ et:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1620,12 +1635,12 @@ et:
   label_age: "Vanus"
   label_ago: "päeva tagasi"
   label_all: "kõik"
-  label_all_projects: "All projects"
   label_all_time: "kogu aeg"
   label_all_words: "Kõik sõnad"
   label_all_open_wps: "All open"
   label_always_visible: "Always displayed"
   label_announcement: "Announcement"
+  label_angular: "AngularJS"
   label_api_access_key: "API ligipääsutunnus"
   label_api_access_key_created_on: "API ligipääsutunnus on loodud %{value} tagasi"
   label_api_access_key_type: "API"
@@ -1637,7 +1652,6 @@ et:
   label_ical_access_key_revoke: "Võta tagasi"
   label_applied_status: "Rakendatud olek"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "Kasvav"
   label_assigned_to_me_work_packages: "Minu teemad"
   label_associated_revisions: "Seotud muudatused"
@@ -1657,8 +1671,9 @@ et:
   label_available_project_work_package_categories: "Available work package categories"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "API documentation"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "between"
   label_blocked_by: "blokeeritud"
   label_blocks: "blokeerib"
@@ -1668,6 +1683,7 @@ et:
   label_forum_plural: "Foorumid"
   label_forum_sticky: "Külgejääv"
   label_boolean: "Tõeväärtus"
+  label_board_plural: "Boards"
   label_branch: "Haru"
   label_browse: "Sirvi"
   label_bulk_edit_selected_work_packages: "Muuda valitud teemasid korraga"
@@ -1694,6 +1710,7 @@ et:
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Child element"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Sule lõpetatud versioonid"
   label_closed_work_packages: "suletud"
@@ -1725,6 +1742,7 @@ et:
   label_custom_field_plural: "Lisaväljad"
   label_custom_field_default_type: "Määramata tüüp"
   label_custom_style: "Kavandamine"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Kuupäev"
   label_date_and_time: "Kuupäev ja kellaaeg"
@@ -1781,6 +1799,8 @@ et:
   label_example: "Näide"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Saadaval ka:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1820,6 +1840,7 @@ et:
   label_home: "Avaleht"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Legal notice"
   label_in: "sisaldub hulgas"
   label_in_less_than: "on väiksem kui"
@@ -1836,6 +1857,7 @@ et:
   label_internal: "Sisemine"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
+  label_share: "Share"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1906,7 +1928,7 @@ et:
   label_my_account: "Oma konto"
   label_my_activity: "My activity"
   label_my_account_data: "Oma konto andmed"
-  label_my_projects: "Minu projektid"
+  label_my_avatar: "My avatar"
   label_my_queries: "Mu omaloodud päringud"
   label_name: "Nimi"
   label_never: "Mitte kunagi"
@@ -2042,6 +2064,7 @@ et:
   label_search: "Otsi"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Saada kontrollkiri"
+  label_session: "Session"
   label_setting_plural: "Seaded"
   label_system_settings: "Süsteemiseaded"
   label_show_completed_versions: "Näita lõpetatud versioone"
@@ -2071,11 +2094,13 @@ et:
   label_system_storage: "Storage information"
   label_table_of_contents: "Table of contents"
   label_tag: "Silt"
+  label_team_planner: "Team Planner"
   label_text: "Pikk tekst"
   label_this_month: "sel kuul"
   label_this_week: "sel nädalal"
   label_this_year: "sel aastal"
   label_time_entry_plural: "Kulutatud aeg"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Pealkiri"
   label_projects_menu: "Projektid"
   label_today: "täna"
@@ -2831,6 +2856,7 @@ et:
     plain: "Plain text"
   status_active: "aktiivne"
   status_archived: "archived"
+  status_blocked: "blocked"
   status_invited: ktsutud
   status_locked: lukustatud
   status_registered: registreeritud
@@ -3088,7 +3114,7 @@ et:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

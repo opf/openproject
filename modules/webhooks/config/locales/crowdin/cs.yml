@@ -1,12 +1,12 @@
 cs:
   plugin_openproject_webhooks:
     name: "OpenProject Webhooks"
-    description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
+    description: ""
   activerecord:
     attributes:
       webhooks/webhook:
         url: "Payload URL\n"
-        secret: 'Signature secret'
+        secret: 'Tajný podpis'
         events: 'Události'
         projects: 'Povolené projekty'
       webhooks/log:

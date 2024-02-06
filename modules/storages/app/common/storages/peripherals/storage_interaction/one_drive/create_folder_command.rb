@@ -2,7 +2,7 @@
 
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -54,19 +54,19 @@ module Storages
           private
 
           def handle_response(response)
-            data = ::Storages::StorageErrorData.new(source: self, payload: response.body)
+            data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
 
-            case response.status
-            when 200..299
+            case response
+            in { status: 200..299 }
               ServiceResult.success(result: file_info_for(MultiJson.load(response.body, symbolize_keys: true)),
                                     message: 'Folder was successfully created.')
-            when 404
+            in { status: 404 }
               ServiceResult.failure(result: :not_found,
                                     errors: ::Storages::StorageError.new(code: :not_found, data:))
-            when 401
+            in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
                                     errors: ::Storages::StorageError.new(code: :unauthorized, data:))
-            when 409
+            in { status: 409 }
               ServiceResult.failure(result: :already_exists,
                                     errors: ::Storages::StorageError.new(code: :conflict, data:))
             else

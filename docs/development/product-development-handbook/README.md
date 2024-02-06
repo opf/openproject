@@ -340,7 +340,7 @@ The metrics defined in the Opportunity Canvas are referenced to evaluate this.
 
 The entire team documents possible improvements for the next release.
 
-## 4. Artefacts
+## 4. Artifacts
 
 ### 4.1 Version/Release
 

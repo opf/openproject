@@ -253,6 +253,13 @@ pt:
       open_as_gantt_title_admin: "Você pode modificar as configurações de exibição (tais como tipos de pacotes de trabalho selecionados) em administração, nas configurações de projeto."
       no_results_title_text: Atualmente, não existem projetos
       no_results_content_text: Criar um novo projeto
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Mudar identificador
       activities:
@@ -325,6 +332,8 @@ pt:
       no_results_title_text: No momento, este usuário não é membro de nenhum grupo.
     memberships:
       no_results_title_text: Atualmente, este usuário não é um membro de um projeto.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       Você não pode excluir o usuário do espaço reservado. Você não possui direito de gerenciar membros para todos os projetos que o usuário do espaço reserva é membro.
@@ -588,6 +597,7 @@ pt:
         color: "Cor"
       user:
         admin: "Administrador"
+        auth_source: "Authentication source"
         ldap_auth_source: "Conexão LDAP"
         identity_url: "URL de identidade"
         current_password: "Senha Atual"
@@ -619,6 +629,7 @@ pt:
         begin_insertion: "Início da inserção"
         begin_deletion: "Início da exclusão"
         children: "Subelementos"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Trabalho restante derivado"
         derived_remaining_time: "Trabalho restante derivado"
         done_ratio: "% de conclusão"
@@ -639,7 +650,7 @@ pt:
         readonly: "Somente leitura"
         remaining_hours: "Trabalho restante"
         remaining_time: "Trabalho restante"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Planjamento manual"
         spent_hours: "Tempo gasto"
         spent_time: "Tempo gasto"
@@ -944,6 +955,8 @@ pt:
               invalid_on_create: "não é um estado válido para novos usuários."
             ldap_auth_source:
               error_not_found: "não encontrado"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Por favor, escolha ao menos um usuário ou grupo."
           role_blank: "precisa ser atribuído."
@@ -1434,6 +1447,7 @@ pt:
     message: Mensagem editada
     news: Notícias
     project_attributes: "Atributos do projeto editado"
+    project: "Project edited"
     projects: "Projeto editado"
     reply: Respondida
     time_entry: "Registro de tempo editado"
@@ -1576,6 +1590,7 @@ pt:
         revoke_token: "Você realmente deseja remover este token? Você precisará fazer login novamente no %{storage}"
         removed: "Token de armazenamento de arquivo removido com sucesso"
         failed: "Ocorreu um erro e o token não pôde ser removido. Tente novamente mais tarde."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Enviar notificações para está ação "
     work_packages:
@@ -1619,12 +1634,12 @@ pt:
   label_age: "Idade"
   label_ago: "dias atrás"
   label_all: "todos"
-  label_all_projects: "Todos os projetos"
   label_all_time: "todos os tempos"
   label_all_words: "Todas as palavras"
   label_all_open_wps: "Tudo aberto"
   label_always_visible: "Sempre exibido"
   label_announcement: "Anúncio"
+  label_angular: "AngularJS"
   label_api_access_key: "Chave de acesso a API"
   label_api_access_key_created_on: "Chave de acesso a API criada %{value} atrás"
   label_api_access_key_type: "API"
@@ -1636,7 +1651,6 @@ pt:
   label_ical_access_key_revoke: "Revogar"
   label_applied_status: "Situação aplicada"
   label_archive_project: "Arquivar projeto"
-  label_archived_projects: "Projetos arquivados"
   label_ascending: "Ascendente"
   label_assigned_to_me_work_packages: "Pacotes de trabalho atribuídos a mim"
   label_associated_revisions: "Revisões associadas"
@@ -1656,8 +1670,9 @@ pt:
   label_available_project_work_package_categories: "Categorias de pacote de trabalho disponíveis"
   label_available_project_work_package_types: "Tipos de pacote de trabalho disponíveis"
   label_available_projects: "Projetos disponíveis"
-  label_api_documentation: "Documentação da API"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "entre"
   label_blocked_by: "Bloqueado por"
   label_blocks: "bloqueios"
@@ -1667,6 +1682,7 @@ pt:
   label_forum_plural: "Fóruns"
   label_forum_sticky: "Afixado"
   label_boolean: "Boleano"
+  label_board_plural: "Boards"
   label_branch: "Ramo"
   label_browse: "Explorar"
   label_bulk_edit_selected_work_packages: "Editar em lote os pacotes de trabalho selecionados"
@@ -1693,6 +1709,7 @@ pt:
   label_check_uncheck_all_in_column: "Marcar/Desmarcar todos na coluna"
   label_check_uncheck_all_in_row: "Marcar/Desmarcar todos na linha"
   label_child_element: "Elemento filho"
+  label_choices: "Choices"
   label_chronological_order: "Mais antigo primeiro"
   label_close_versions: "Fechar versões concluídas"
   label_closed_work_packages: "fechado"
@@ -1724,6 +1741,7 @@ pt:
   label_custom_field_plural: "Campos personalizados"
   label_custom_field_default_type: "Tipo vazio"
   label_custom_style: "Design"
+  label_dashboard: "Dashboard"
   label_database_version: "Versão do PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data e hora"
@@ -1780,6 +1798,8 @@ pt:
   label_example: "Exemplo"
   label_experimental: "Experimental"
   label_i_am_member: "Sou membro"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Importar"
   label_export_to: "Também disponível em:"
   label_expanded_click_to_collapse: "Expandido. Clique para recolher"
@@ -1819,6 +1839,7 @@ pt:
   label_home: "Início"
   label_subject_or_id: "Assunto ou ID"
   label_calendar_subscriptions: "Assinaturas do calendários"
+  label_identifier: "Identifier"
   label_impressum: "Aviso legal"
   label_in: "em"
   label_in_less_than: "em menos de"
@@ -1835,6 +1856,7 @@ pt:
   label_internal: "Interno"
   label_introduction_video: "Vídeo de introdução"
   label_invite_user: "Convidar usuário"
+  label_share: "Share"
   label_show_hide: "Mostrar/ocultar"
   label_show_all_registered_users: "Mostrar todos usuários registrados"
   label_journal: "Diário"
@@ -1905,7 +1927,7 @@ pt:
   label_my_account: "Minha conta"
   label_my_activity: "Minha atividade"
   label_my_account_data: "Dados da minha conta"
-  label_my_projects: "Meus projetos"
+  label_my_avatar: "My avatar"
   label_my_queries: "Minhas consultas personalizadas"
   label_name: "Nome"
   label_never: "Nunca"
@@ -2041,6 +2063,7 @@ pt:
   label_search: "Pesquisar"
   label_send_information: "Enviar novas credenciais ao usuário"
   label_send_test_email: "Enviar um e-mail de teste"
+  label_session: "Session"
   label_setting_plural: "Configurações"
   label_system_settings: "Configurações do sistema"
   label_show_completed_versions: "Mostrar versões concluídas"
@@ -2070,11 +2093,13 @@ pt:
   label_system_storage: "Informações de armazenamento"
   label_table_of_contents: "Tabela de conteúdos"
   label_tag: "Marcação"
+  label_team_planner: "Team Planner"
   label_text: "Texto longo"
   label_this_month: "este mês"
   label_this_week: "esta semana"
   label_this_year: "este ano"
   label_time_entry_plural: "Tempo gasto"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Título"
   label_projects_menu: "Projetos"
   label_today: "hoje"
@@ -2828,6 +2853,7 @@ pt:
     plain: "Texto simples"
   status_active: "ativo"
   status_archived: "arquivado"
+  status_blocked: "blocked"
   status_invited: convidado
   status_locked: bloqueado
   status_registered: registrado
@@ -3084,7 +3110,7 @@ pt:
       text_empty_search_description: "Não há usuários com o critério de filtro atual."
       text_empty_search_header: "Não encontramos nenhum resultado correspondente."
       text_empty_state_description: "O pacote de trabalho ainda não foi compartilhado com ninguém."
-      text_empty_state_header: "Não há membros compartilhados."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "A adição de usuários adicionais fará com que o limite atual seja excedido. Entre em contato com um administrador para aumentar o limite de usuários e garantir que usuários externos possam acessar este pacote de trabalho."
       text_user_limit_reached_admins: 'A adição de usuários adicionais excederá o limite atual. <a href="%{upgrade_url}">Atualize o seu plano</a> para poder adicionar mais usuários.'
       warning_user_limit_reached: >

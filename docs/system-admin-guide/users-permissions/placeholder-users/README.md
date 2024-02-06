@@ -66,7 +66,7 @@ You can change a placeholder user's name and add it to a project if you click on
 On the **General** tab you can change the placeholder user's name.
 
 In order to be assigned to work packages and participate in a project, a placeholder user has to be a member of a project and needs to be added with a certain role to this project.
-On the **Projects** tab, select a project from the drop-down list, choose the [**role(s)**](../roles-permissions) for the placeholder user in this project and click the blue **Add** button.
+On the **Projects** tab, select a project from the drop-down list, choose the [role(s)](../roles-permissions) for the placeholder user in this project and click the blue **Add** button.
 
 ![add-placeholder-user-to-project](openproject-system-guide-ph-user-new-project.png)
 
