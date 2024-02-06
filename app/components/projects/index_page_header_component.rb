@@ -55,7 +55,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
 
   def gantt_portfolio_query_link
     generator = ::Projects::GanttQueryGeneratorService.new(gantt_portfolio_project_ids)
-    work_packages_path query_props: generator.call
+    gantt_index_path query_props: generator.call
   end
 
   def gantt_portfolio_project_ids
