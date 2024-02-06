@@ -33,8 +33,12 @@ class Project < ApplicationRecord
   include Projects::Activity
   include Projects::Hierarchy
   include Projects::AncestorsFromRoot
-  include Projects::ActsAsCustomizablePatches
+
   include ::Scopes::Scoped
+
+  if OpenProject::FeatureDecisions.project_attributes_active?
+    include Projects::ActsAsCustomizablePatches
+  end
 
   # Maximum length for project identifiers
   IDENTIFIER_MAX_LENGTH = 100
