@@ -29,7 +29,10 @@
 module Projects::ActsAsCustomizablePatches
   extend ActiveSupport::Concern
 
-  attr_accessor :touched_custom_field_section_id
+  attr_accessor :limit_custom_fields_validation_to_section_id
+
+  # attr_accessor :limit_custom_fields_validation_to_field_id
+  # not needed for now, but might be relevant if we want to have edit dialogs just for one custom field
 
   included do
     def active_custom_field_ids_of_project
@@ -45,6 +48,11 @@ module Projects::ActsAsCustomizablePatches
       @available_custom_fields ||= ProjectCustomField
         .includes(:project_custom_field_section)
         .where(id: active_custom_field_ids_of_project)
+    end
+
+    def available_project_custom_fields_grouped_by_section
+      sorted_available_custom_fields
+        .group_by(&:custom_field_section_id)
     end
 
     def available_custom_fields_by_section(section)
@@ -75,22 +83,22 @@ module Projects::ActsAsCustomizablePatches
 
     def validate_custom_values
       # overrides acts_as_customizable
-      # validate custom values only of the touched section
+      # validate custom values only of a specified section
       # instead of validating ALL custom values like done in acts_as_customizable
       set_default_values! if new_record?
 
       custom_field_values
-        .select { |custom_value| of_touched_custom_field_section?(custom_value) }
+        .select { |custom_value| of_specified_custom_field_section?(custom_value) }
         .reject(&:marked_for_destruction?)
         .select(&:invalid?)
         .each { |custom_value| add_custom_value_errors! custom_value }
     end
 
-    def of_touched_custom_field_section?(custom_value)
-      if touched_custom_field_section_id.present?
-        custom_field_section_ids[custom_value.custom_field_id] == touched_custom_field_section_id
+    def of_specified_custom_field_section?(custom_value)
+      if limit_custom_fields_validation_to_section_id.present?
+        custom_field_section_ids[custom_value.custom_field_id] == limit_custom_fields_validation_to_section_id
       else
-        true # validate all custom values if no specific section was marked as touched via `update_custom_field_values_of_section`
+        true # validate all custom values if no specific section was specified
       end
     end
   end

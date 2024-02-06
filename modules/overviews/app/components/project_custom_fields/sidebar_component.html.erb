@@ -1,9 +1,9 @@
 <%=
-  content_tag("turbo-frame", id: "project-attributes-sidebar") do
+  content_tag("turbo-frame", id: "project-custom-fields-sidebar") do
     component_wrapper do
-      if @active_project_custom_fields_grouped_by_section.any?
-        flex_layout(data: { qa_selector: "project-attributes-sidebar-async-content" }) do |sections_container|
-          @active_project_custom_fields_grouped_by_section.each do |project_custom_field_section_id, project_custom_fields|
+      if available_project_custom_fields_grouped_by_section.any?
+        flex_layout(data: { qa_selector: "project-custom-fields-sidebar-async-content" }) do |sections_container|
+          available_project_custom_fields_grouped_by_section.each do |project_custom_field_section_id, project_custom_fields|
             sections_container.with_row(mb: 3) do
               render(ProjectCustomFields::Sections::ShowComponent.new(
                 project: @project,

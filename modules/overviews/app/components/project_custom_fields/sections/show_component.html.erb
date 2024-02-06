@@ -11,8 +11,8 @@
 
           heading.with_column do
             render(OpTurbo::OpPrimer::AsyncDialogComponent.new(
-              id: "edit-project-attributes-dialog-#{@project_custom_field_section.id}",
-              src: project_attribute_section_dialog_path(project_id: @project.id, section_id: @project_custom_field_section.id),
+              id: "edit-project-custom-fields-dialog-#{@project_custom_field_section.id}",
+              src: project_custom_field_section_dialog_path(project_id: @project.id, section_id: @project_custom_field_section.id),
               size: :medium_portrait,
               title: @project_custom_field_section.name,
               button_icon: :pencil,

@@ -5,34 +5,31 @@ module ::Overviews
     before_action :authorize
     before_action :jump_to_project_menu_item
     before_action :check_project_attributes_feature_enabled,
-                  only: %i[attributes_sidebar attribute_section_dialog update_attributes]
+                  only: %i[project_custom_fields_sidebar project_custom_field_section_dialog update_project_custom_values]
 
     menu_item :overview
 
-    def attributes_sidebar
+    def project_custom_fields_sidebar
       render(
         ProjectCustomFields::SidebarComponent.new(
           project: @project,
-          project_custom_field_sections: ProjectCustomFieldSection.all,
-          active_project_custom_fields_grouped_by_section:
+          eager_loaded_project_custom_field_sections:
         ),
         layout: false
       )
     end
 
-    def attribute_section_dialog
-      @section = find_project_custom_field_section
-
+    def project_custom_field_section_dialog
       render(
         ProjectCustomFields::Sections::EditDialogComponent.new(
           project: @project,
-          project_custom_field_section: @section
+          project_custom_field_section: find_project_custom_field_section
         ),
         layout: false
       )
     end
 
-    def update_attributes
+    def update_project_custom_values
       section = find_project_custom_field_section
 
       service_call = ::Projects::UpdateService
@@ -42,7 +39,7 @@ module ::Overviews
                       )
                       .call(
                         permitted_params.project.merge(
-                          touched_custom_field_section_id: section.id
+                          limit_custom_fields_validation_to_section_id: section.id
                         )
                       )
 
@@ -68,24 +65,6 @@ module ::Overviews
       render_404 unless OpenProject::FeatureDecisions.project_attributes_active?
     end
 
-    def active_project_custom_fields_grouped_by_section
-      # TODO: move to service/model
-      active_custom_field_ids_of_project = ProjectCustomFieldProjectMapping
-        .where(project_id: @project.id)
-        .pluck(:custom_field_id)
-
-      ProjectCustomField
-        .includes(:project_custom_field_section)
-        .where(id: active_custom_field_ids_of_project)
-        .sort_by { |pcf| pcf.project_custom_field_section.position }
-        .group_by(&:custom_field_section_id)
-    end
-
-    def active_project_custom_fields_of_section(section_id)
-      active_project_custom_fields_grouped_by_section[section_id]
-        .sort_by(&:position_in_custom_field_section)
-    end
-
     def find_project_custom_field_section
       ProjectCustomFieldSection.find(params[:section_id])
     end
@@ -103,10 +82,13 @@ module ::Overviews
       update_via_turbo_stream(
         component: ProjectCustomFields::SidebarComponent.new(
           project: @project,
-          project_custom_field_sections: ProjectCustomFieldSection.all,
-          active_project_custom_fields_grouped_by_section:
+          eager_loaded_project_custom_field_sections:
         )
       )
+    end
+
+    def eager_loaded_project_custom_field_sections
+      ProjectCustomFieldSection.all.to_a
     end
   end
 end

@@ -46,7 +46,7 @@ module Components
         end
 
         def dialog_css_selector
-          "modal-dialog#edit-project-attributes-dialog-#{@project_custom_field_section.id}"
+          "modal-dialog#edit-project-custom-fields-dialog-#{@project_custom_field_section.id}"
         end
 
         def async_content_container_css_selector

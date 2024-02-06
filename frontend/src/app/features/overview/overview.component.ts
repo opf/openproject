@@ -18,11 +18,11 @@ export class OverviewComponent extends GridPageComponent {
   }
 
   protected turboFrameSidebarSrc():string {
-    return `${this.pathHelper.staticBase}/projects/${this.currentProject.identifier!}/attributes_sidebar`;
+    return `${this.pathHelper.staticBase}/projects/${this.currentProject.identifier!}/project_custom_fields_sidebar`;
   }
 
   protected turboFrameSidebarId():string {
-    return "project-attributes-sidebar";
+    return "project-custom-fields-sidebar";
   }
 
   protected gridScopePath():string {

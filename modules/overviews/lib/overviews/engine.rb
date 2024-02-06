@@ -48,14 +48,14 @@ module Overviews
           .controller_actions
           .push(
             'overviews/overviews/show',
-            'overviews/overviews/attributes_sidebar'
+            'overviews/overviews/project_custom_fields_sidebar'
           )
 
         OpenProject::AccessControl.permission(:edit_project)
           .controller_actions
           .push(
-            'overviews/overviews/attribute_section_dialog',
-            'overviews/overviews/update_attributes'
+            'overviews/overviews/project_custom_field_section_dialog',
+            'overviews/overviews/update_project_custom_values'
           )
 
         OpenProject::AccessControl.permission(:view_work_packages)

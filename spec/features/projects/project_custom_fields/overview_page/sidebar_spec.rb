@@ -28,12 +28,11 @@
 
 require 'spec_helper'
 require_relative 'shared_context'
-require_relative 'overview_page'
 
 RSpec.describe 'Show project custom fields on project overview page', :js, :with_cuprite do
   include_context 'with seeded projects, members and project custom fields'
 
-  let(:overview_page) { OverviewPage.new(project) }
+  let(:overview_page) { Pages::Projects::Show.new(project) }
 
   before do
     login_as admin
@@ -44,7 +43,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
       overview_page.visit_page
 
       within '.op-grid-page' do
-        expect(page).to have_no_css('#project-attributes-sidebar')
+        expect(page).to have_no_css('#project-custom-fields-sidebar')
       end
     end
   end
@@ -54,7 +53,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
       overview_page.visit_page
 
       within '.op-grid-page' do
-        expect(page).to have_css('#project-attributes-sidebar')
+        expect(page).to have_css('#project-custom-fields-sidebar')
       end
     end
 

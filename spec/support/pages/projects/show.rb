@@ -56,8 +56,8 @@ module Pages
       end
 
       def within_async_loaded_sidebar(&)
-        within '#project-attributes-sidebar' do
-          expect(page).to have_css("[data-qa-selector='project-attributes-sidebar-async-content']")
+        within '#project-custom-fields-sidebar' do
+          expect(page).to have_css("[data-qa-selector='project-custom-fields-sidebar-async-content']")
           yield
         end
       end
