@@ -288,6 +288,11 @@ class PermittedParams
     whitelist.merge(custom_field_values(:project))
   end
 
+  def project_custom_field_project_mapping
+    params.require(:project_custom_field_project_mapping)
+      .permit(*self.class.permitted_attributes[:project_custom_field_project_mapping])
+  end
+
   def news
     params.require(:news).permit(:title, :summary, :description)
   end
@@ -552,6 +557,11 @@ class PermittedParams
           :name,
           { type_ids: [] }
         ],
+        project_custom_field_project_mapping: %i(
+          project_id
+          custom_field_id
+          custom_field_section_id
+        ),
         query: %i(
           name
           display_sums

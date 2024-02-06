@@ -57,8 +57,12 @@ module Projects
         def toggle_button
           render(Primer::Beta::Button.new(
                    tag: :a,
-                   href: toggle_project_settings_project_custom_fields_path(project_id: @project.id,
-                                                                            project_custom_field_id: @project_custom_field.id),
+                   href: toggle_project_settings_project_custom_fields_path(
+                     project_custom_field_project_mapping: {
+                       project_id: @project.id,
+                       custom_field_id: @project_custom_field.id
+                     }
+                   ),
                    scheme: :invisible,
                    data: { 'turbo-method': :put, 'turbo-stream': true,
                            qa_selector: "toggle-project-custom-field-mapping-#{@project_custom_field.id}" }
