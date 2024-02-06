@@ -47,9 +47,11 @@ class Members::CreateService < BaseServices::Create
   def add_group_memberships(member)
     return unless member.principal.is_a?(Group)
 
+    project_ids = member.project_id.nil? ? nil : [member.project_id]
+
     Groups::CreateInheritedRolesService
       .new(member.principal, current_user: user, contract_class: EmptyContract)
-      .call(user_ids: member.principal.user_ids, send_notifications: false, project_ids: [member.project_id])
+      .call(user_ids: member.principal.user_ids, send_notifications: false, project_ids:)
   end
 
   def event_type

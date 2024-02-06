@@ -254,6 +254,13 @@ ar:
       open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: لا يوجد حالياً مشاريع
       no_results_content_text: إنشاء مشروع جديد
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -326,6 +333,8 @@ ar:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: هذا المستخدم حالياً ليس عضواً في المشروع.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -593,6 +602,7 @@ ar:
         color: "اللون"
       user:
         admin: "مدير النظام"
+        auth_source: "Authentication source"
         ldap_auth_source: "اتصال LDAP"
         identity_url: "Identity URL"
         current_password: "كلمة السر الحالية"
@@ -624,6 +634,7 @@ ar:
         begin_insertion: "البدء بالإدراج"
         begin_deletion: "البدء بالحذف"
         children: "Subelements"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
@@ -644,7 +655,7 @@ ar:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Manual scheduling"
         spent_hours: "الوقت المستهلك"
         spent_time: "الوقت المستهلك"
@@ -953,6 +964,8 @@ ar:
               invalid_on_create: "ليس حالة صحيحة للمستخدمين الجدد."
             ldap_auth_source:
               error_not_found: "لم يتم العثور"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "يرجى اختيار مستخدم واحد على الأقل أو مجموعة."
           role_blank: "need to be assigned."
@@ -1543,6 +1556,7 @@ ar:
     message: تم تحرير الرسالة
     news: الأخبار
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "تم تعديل المشروع"
     reply: تم الرد
     time_entry: "تم تحرير Timelog"
@@ -1685,6 +1699,7 @@ ar:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1728,12 +1743,12 @@ ar:
   label_age: "العمر"
   label_ago: "أيام مضت"
   label_all: "الكل"
-  label_all_projects: "All projects"
   label_all_time: "كل الوقت"
   label_all_words: "كافة الكلمات"
   label_all_open_wps: "All open"
   label_always_visible: "معروض دائمًا"
   label_announcement: "إعلان"
+  label_angular: "AngularJS"
   label_api_access_key: "مفتاح الوصول إلى API"
   label_api_access_key_created_on: "مفتاح الوصول إلى API تم إنشاؤها %{value} قبل ذلك"
   label_api_access_key_type: "API"
@@ -1745,7 +1760,6 @@ ar:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "الحالة المطبقة"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "ترتيب تصاعدي"
   label_assigned_to_me_work_packages: "مجموعات العمل الموكلة لي"
   label_associated_revisions: "التعديلات المرتبطة بها"
@@ -1765,8 +1779,9 @@ ar:
   label_available_project_work_package_categories: "فئات مجموعة العمل المتاحة"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "توثيق API"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "بين"
   label_blocked_by: "محجوب من قبل"
   label_blocks: "حجوبات"
@@ -1776,6 +1791,7 @@ ar:
   label_forum_plural: "منتديات"
   label_forum_sticky: "مثبت"
   label_boolean: "قيمة منطقية"
+  label_board_plural: "Boards"
   label_branch: "فرع"
   label_browse: "تصفّح"
   label_bulk_edit_selected_work_packages: "تحرير كل مجموعات العمل المحددة"
@@ -1802,6 +1818,7 @@ ar:
   label_check_uncheck_all_in_column: "اختيار / إلغاء اختيار كل شيء في العمود"
   label_check_uncheck_all_in_row: "اختيار / إلغاء اختيار كل شيء في السطر"
   label_child_element: "العنصر التابع"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "إغلاق الإصدارات المنجزة"
   label_closed_work_packages: "مغلق"
@@ -1833,6 +1850,7 @@ ar:
   label_custom_field_plural: "الحقول المخصصة"
   label_custom_field_default_type: "نوع فارغ"
   label_custom_style: "Design"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "التاريخ"
   label_date_and_time: "Date and time"
@@ -1889,6 +1907,8 @@ ar:
   label_example: "مثال"
   label_experimental: "شارة تجريبية"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "متاح أيضاً في:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1928,6 +1948,7 @@ ar:
   label_home: "الصفحة الرئيسية"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Legal notice"
   label_in: "في"
   label_in_less_than: "في أقل من"
@@ -1944,6 +1965,7 @@ ar:
   label_internal: "داخلي"
   label_introduction_video: "Introduction video"
   label_invite_user: "دعوة مستخدم"
+  label_share: "Share"
   label_show_hide: "إظهار / إخفاء"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "يوميات"
@@ -2014,7 +2036,7 @@ ar:
   label_my_account: "حسابي"
   label_my_activity: "My activity"
   label_my_account_data: "بيانات حسابي"
-  label_my_projects: "مشاريعي"
+  label_my_avatar: "My avatar"
   label_my_queries: "استعلاماتي المخصصة"
   label_name: "الاسم"
   label_never: "أبداً"
@@ -2150,6 +2172,7 @@ ar:
   label_search: "البحث"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "إرسال رسالة اختبار"
+  label_session: "Session"
   label_setting_plural: "إعدادات"
   label_system_settings: "إعدادات النظام"
   label_show_completed_versions: "عرض الإصدارات المنجزة"
@@ -2179,11 +2202,13 @@ ar:
   label_system_storage: "معلومات التخزين"
   label_table_of_contents: "Table of contents"
   label_tag: "إشارة"
+  label_team_planner: "Team Planner"
   label_text: "نص طويل"
   label_this_month: "هذا الشهر"
   label_this_week: "هذا الأسبوع"
   label_this_year: "هذه السنة"
   label_time_entry_plural: "الوقت المستهلك"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "العنوان"
   label_projects_menu: "المشاريع"
   label_today: "اليوم"
@@ -2945,6 +2970,7 @@ ar:
     plain: "Plain text"
   status_active: "نشِط"
   status_archived: "archived"
+  status_blocked: "blocked"
   status_invited: مدعوّ
   status_locked: مقفل
   status_registered: تم التسجيل
@@ -3206,7 +3232,7 @@ ar:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

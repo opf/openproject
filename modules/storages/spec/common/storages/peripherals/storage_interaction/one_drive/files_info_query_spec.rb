@@ -110,7 +110,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                            status_code: 200,
                            id: '01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU',
                            name: 'Document.docx',
-                           size: 19408,
+                           size: 22514,
                            mime_type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                            created_at: Time.parse('2023-09-26T14:40:58Z'),
                            last_modified_at: Time.parse('2023-09-26T14:42:03Z'),

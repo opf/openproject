@@ -43,7 +43,7 @@ For Git, we recommend the [Pro Git guide](https://git-scm.com/book/en/v2).
 
 ## Reference work packages
 
-In the commit message you can reference a workpackage ID (e.g. #1234). In the repository settings (Administration -> System settings -> Repository) you can define keywords that change the status of the referenced work package (e.g. fixes #1234 or closes #1234).
+In the commit message you can reference a work package ID (e.g. #1234). In the repository settings (Administration -> System settings -> Repository) you can define keywords that change the status of the referenced work package (e.g. fixes #1234 or closes #1234).
 
 In any textile field you can reference revisions by putting an "r" in front of the revision number (e.g. r123).
 

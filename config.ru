@@ -36,5 +36,5 @@ map (subdir || '/') do
   use Rack::Protection::JsonCsrf
   use Rack::Protection::FrameOptions
 
-  run OpenProject::Application
+  run Rails.application
 end

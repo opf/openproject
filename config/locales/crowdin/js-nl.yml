@@ -583,7 +583,7 @@ nl:
           full_view: 'De <b>werkpakket details</b> weergave biedt alle relevante informatie over een bepaald werkpakket. zoals z''n beschrijving, status, prioriteit, activiteiten, afhankelijkheden en opmerkingen.'
           back_button: 'Gebruik de terug pijl in de linkerbovenhoek om af te sluiten en terug te gaan naar de werkpakketlijst.'
           create_button: 'De knop <b>+ Aanmaken</b> zal een nieuw werkpakket toevoegen aan uw project.'
-          timeline_button: 'U kunt de <b>Gantt-grafiek</b> weergave activeren om een tijdlijn voor uw project te maken.'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: 'Hier kunt u <b>uw projectplan</b>bewerken, nieuwe werkpakketten maken, zoals taken, mijlpalen, fasen, en meer en <b>afhankelijkheden toevoegen</b>. Alle teamleden kunnen de laatste planning op elk moment zien en bijwerken.'
         team_planner:
           overview: 'Met de teamplanner kunt u taken visueel toewijzen aan teamleden en een overzicht krijgen over wie er aan wat werkt.'
@@ -1032,6 +1032,7 @@ nl:
       sharing:
         share: 'Deel'
         title: "Share work package"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

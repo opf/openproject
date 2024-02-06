@@ -139,6 +139,8 @@ RSpec.describe 'Version action board', :js, with_ee: %i[board_view] do
 
       # Move item to Closed
       board_page.move_card(0, from: 'Open version', to: 'A second version')
+      board_page.wait_for_lists_reload
+
       board_page.expect_card('Open version', 'Task 1', present: false)
       board_page.expect_card('A second version', 'Task 1', present: true)
 

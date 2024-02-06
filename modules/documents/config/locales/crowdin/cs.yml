@@ -22,7 +22,7 @@
 cs:
   plugin_openproject_documents:
     name: "Dokumenty OpenProject"
-    description: "An OpenProject plugin to allow creation of documents in projects."
+    description: "OpenProject plugin umožňující vytváření dokumentů v projektech."
   activerecord:
     models:
       document: "Dokument"

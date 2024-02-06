@@ -234,6 +234,7 @@ projects:
     t_description: This is a short summary of the goals of this demo construction project.
     modules:
       - work_package_tracking
+      - gantt
       - news
       - wiki
       - board_view
@@ -380,6 +381,7 @@ projects:
     t_description: This is a short summary of the goals of this demo planning and constructing project.
     modules:
       - work_package_tracking
+      - gantt
       - news
       - wiki
       - board_view
@@ -846,6 +848,7 @@ projects:
     t_description: This is a short summary of the goals of this demo BIM project.
     modules:
       - work_package_tracking
+      - gantt
       - news
       - wiki
       - board_view
@@ -1428,6 +1431,7 @@ projects:
     t_description: This is a short summary of the goals of this demo BCF management project.
     modules:
       - work_package_tracking
+      - gantt
       - bim
       - board_view
       - team_planner_view

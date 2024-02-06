@@ -44,7 +44,7 @@ module OnboardingHelper
     expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.wp.create_button')), normalize_ws: true
 
     next_button.click
-    expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.wp.timeline_button')), normalize_ws: true
+    expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.wp.gantt_menu')), normalize_ws: true
 
     next_button.click
     expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.wp.timeline')), normalize_ws: true

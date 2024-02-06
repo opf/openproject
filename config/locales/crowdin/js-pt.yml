@@ -582,7 +582,7 @@ pt:
           full_view: 'A visualização com os <b>detalhes do pacote de trabalho</b> fornece todas as informações relevantes referentes a um determinado pacote de trabalho, como descrição, situação, prioridade, atividades, dependências e comentários.'
           back_button: 'Use a seta de retorno no canto superior esquerdo para sair e retornar à lista de pacotes de trabalho.'
           create_button: 'O botão <b>+ Criar</b> adicionará um novo pacote de trabalho ao seu projeto.'
-          timeline_button: 'Você pode ativar a exibição de <b>gráfico de Gantt</b> para criar uma linha do tempo para o seu projeto.'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: 'Aqui você pode <b>editar seu plano de projeto</b>, criar novos pacotes de trabalho, tais como tarefas, marcos, fases e muito mais, bem como <b>adicionam dependências</b>. Todos os membros da equipe podem visualizar e atualizar o plano mais recente a qualquer momento.'
         team_planner:
           overview: 'O planejador de equipe permite atribuir tarefas visualmente aos membros da equipe e obter uma visão geral de quem está trabalhando e no quê (onde).'
@@ -1031,6 +1031,7 @@ pt:
       sharing:
         share: 'Compartilhar'
         title: "Compartilhar pacote de trabalho"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} selecionado"
         selection:
           mixed: "Misturado"

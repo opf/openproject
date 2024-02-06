@@ -35,7 +35,13 @@ module API
         resources :shares do
           get &::API::V3::Utilities::Endpoints::Index
                  .new(model: Member,
-                      scope: -> { Member.visible(User.current).where.not(entity: nil).includes(ShareRepresenter.to_eager_load) },
+                      scope: -> do
+                        Member
+                        .visible(User.current)
+                        .without_inherited_roles
+                        .of_any_entity
+                        .includes(ShareRepresenter.to_eager_load)
+                      end,
                       api_name: 'Share')
                  .mount
 

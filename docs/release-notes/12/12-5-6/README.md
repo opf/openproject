@@ -23,7 +23,7 @@ For more information, [please see our security advisory](https://github.com/opf/
 
 **Patches**
 
-You can download the following patchfile to apply the patch to any OpenProject version > 10.0: https://patch-diff.githubusercontent.com/raw/opf/openproject/pull/12708.patch
+You can download the following patch file to apply the patch to any OpenProject version > 10.0: https://patch-diff.githubusercontent.com/raw/opf/openproject/pull/12708.patch
 
 **Workaround**
 If you are unable to update or apply the provided patch, mark any public project as non-public for the time being and give anyone in need of access to the project a membership.

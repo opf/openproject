@@ -251,6 +251,13 @@ zh-CN:
       open_as_gantt_title_admin: "您可以在“项目设置”下的“管理”中修改视图设置（如选择的工作包类型）。"
       no_results_title_text: 目前没有项目。
       no_results_content_text: 创建一个新的项目
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: 更改标识符
       activities:
@@ -323,6 +330,8 @@ zh-CN:
       no_results_title_text: 此用户当前不是任何组的成员。
     memberships:
       no_results_title_text: 该用户当前非项目成员。
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       不允许删除占位符用户。您无权管理任何成员包含占位符用户的项目中的成员。
@@ -584,6 +593,7 @@ zh-CN:
         color: "颜色"
       user:
         admin: "管理员"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP 连接"
         identity_url: "身份网址"
         current_password: "当前密码："
@@ -615,6 +625,7 @@ zh-CN:
         begin_insertion: "开始插入"
         begin_deletion: "开始删除"
         children: "子元素"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "派生的剩余工作"
         derived_remaining_time: "派生的剩余工作"
         done_ratio: "% 完成"
@@ -635,7 +646,7 @@ zh-CN:
         readonly: "只读"
         remaining_hours: "剩余工作"
         remaining_time: "剩余工作"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "手动计划"
         spent_hours: "已耗工时"
         spent_time: "已耗工时"
@@ -939,6 +950,8 @@ zh-CN:
               invalid_on_create: "不是新用户的有效状态"
             ldap_auth_source:
               error_not_found: "未找到"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "请选择至少一个用户或组。"
           role_blank: "需要进行分配。"
@@ -1404,6 +1417,7 @@ zh-CN:
     message: 编辑消息
     news: 新闻
     project_attributes: "项目属性已编辑"
+    project: "Project edited"
     projects: "项目已编辑"
     reply: 答复
     time_entry: "编辑时间记录"
@@ -1546,6 +1560,7 @@ zh-CN:
         revoke_token: "是否确实要移除此令牌？您需要再次登录 %{storage}"
         removed: "文件存储区令牌已成功移除"
         failed: "出错了，无法移除令牌。请稍后再试。"
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "发送此操作的通知"
     work_packages:
@@ -1589,12 +1604,12 @@ zh-CN:
   label_age: "年龄"
   label_ago: "天前"
   label_all: "所有"
-  label_all_projects: "所有项目"
   label_all_time: "所有的时间"
   label_all_words: "所有的词"
   label_all_open_wps: "全部打开"
   label_always_visible: "总是显示"
   label_announcement: "公告"
+  label_angular: "AngularJS"
   label_api_access_key: "API 访问键"
   label_api_access_key_created_on: "API 访问密钥创建于 %{value} 前"
   label_api_access_key_type: "API"
@@ -1606,7 +1621,6 @@ zh-CN:
   label_ical_access_key_revoke: "撤消"
   label_applied_status: "应用的状态"
   label_archive_project: "归档项目"
-  label_archived_projects: "归档项目"
   label_ascending: "升序"
   label_assigned_to_me_work_packages: "分配给我的工作包"
   label_associated_revisions: "关联的修订版本"
@@ -1626,8 +1640,9 @@ zh-CN:
   label_available_project_work_package_categories: "可用的工作包类别"
   label_available_project_work_package_types: "可用的工作包类型"
   label_available_projects: "可用的项目"
-  label_api_documentation: "API 文档"
+  label_api_doc: "API documentation"
   label_backup: "备份"
+  label_backup_code: "Backup code"
   label_between: "介于"
   label_blocked_by: "阻止于"
   label_blocks: "阻止"
@@ -1637,6 +1652,7 @@ zh-CN:
   label_forum_plural: "论坛"
   label_forum_sticky: "置顶"
   label_boolean: "布尔值"
+  label_board_plural: "Boards"
   label_branch: "分支"
   label_browse: "浏览"
   label_bulk_edit_selected_work_packages: "批量编辑所选工作包"
@@ -1663,6 +1679,7 @@ zh-CN:
   label_check_uncheck_all_in_column: "选中/取消选中所有列"
   label_check_uncheck_all_in_row: "选中/取消选中所有行"
   label_child_element: "子元素"
+  label_choices: "Choices"
   label_chronological_order: "最早的优先"
   label_close_versions: "关闭已完成版本"
   label_closed_work_packages: "关闭"
@@ -1694,6 +1711,7 @@ zh-CN:
   label_custom_field_plural: "自定义字段"
   label_custom_field_default_type: "空类型"
   label_custom_style: "设计"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL 版本"
   label_date: "日期"
   label_date_and_time: "日期和时间"
@@ -1750,6 +1768,8 @@ zh-CN:
   label_example: "示例"
   label_experimental: "实验"
   label_i_am_member: "我是成员"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "导入"
   label_export_to: "同时支持："
   label_expanded_click_to_collapse: "展开。点击折叠"
@@ -1789,6 +1809,7 @@ zh-CN:
   label_home: "首页"
   label_subject_or_id: "主题或ID"
   label_calendar_subscriptions: "日历订阅"
+  label_identifier: "Identifier"
   label_impressum: "法律声明"
   label_in: "在"
   label_in_less_than: "在小于"
@@ -1805,6 +1826,7 @@ zh-CN:
   label_internal: "内部"
   label_introduction_video: "自我介绍视频"
   label_invite_user: "邀请用户"
+  label_share: "Share"
   label_show_hide: "显示/隐藏"
   label_show_all_registered_users: "显示所有注册用户"
   label_journal: "日志"
@@ -1875,7 +1897,7 @@ zh-CN:
   label_my_account: "我的账户"
   label_my_activity: "我的活动"
   label_my_account_data: "我的账户数据"
-  label_my_projects: "我的项目"
+  label_my_avatar: "My avatar"
   label_my_queries: "我的自定义查询"
   label_name: "名称"
   label_never: "永不"
@@ -2011,6 +2033,7 @@ zh-CN:
   label_search: "搜索"
   label_send_information: "向用户发送新的凭据"
   label_send_test_email: "发送测试电子邮件"
+  label_session: "Session"
   label_setting_plural: "设置"
   label_system_settings: "系统设置"
   label_show_completed_versions: "显示已完成的版本"
@@ -2040,11 +2063,13 @@ zh-CN:
   label_system_storage: "存储信息"
   label_table_of_contents: "目录"
   label_tag: "标记"
+  label_team_planner: "Team Planner"
   label_text: "长文本"
   label_this_month: "这个月"
   label_this_week: "这一周"
   label_this_year: "这一年"
   label_time_entry_plural: "已耗工时"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "标题"
   label_projects_menu: "项目"
   label_today: "今天"
@@ -2792,6 +2817,7 @@ zh-CN:
     plain: "纯文本"
   status_active: "激活"
   status_archived: "已存档"
+  status_blocked: "blocked"
   status_invited: 已邀请
   status_locked: 锁定
   status_registered: 已注册
@@ -3047,7 +3073,7 @@ zh-CN:
       text_empty_search_description: "没有符合当前过滤条件的用户。"
       text_empty_search_header: "我们找不到任何匹配的结果。"
       text_empty_state_description: "工作包尚未共享给任何人。"
-      text_empty_state_header: "没有共享的成员。"
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此工作包。"
       text_user_limit_reached_admins: '添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>以添加更多用户。'
       warning_user_limit_reached: >

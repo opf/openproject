@@ -5,8 +5,6 @@ description: An introduction and description of guidelines for writing secure co
 keywords: infrastructure, security, coding, guidelines
 ---
 
-
-
 # Secure coding Guidelines
 
 This document provides secure coding development guidelines for developers working on OpenProject. The objective is to help identify and mitigate potential security vulnerabilities early in the development process. This document is based on the best practices following the [Open Web Application Security Project (OWASP)](https://www.owasp.org).
@@ -19,8 +17,6 @@ By adhering to these secure coding development guidelines, contributors to OpenP
 
 The guidelines mentioned below are implemented by OpenProject currently when not specified differently.
 
-
-
 ## Authentication and Credentials
 
 Implement strong authentication mechanisms for any sensitive credentials to be used in OpenProject. Currently these credentials are one of:
@@ -28,8 +24,6 @@ Implement strong authentication mechanisms for any sensitive credentials to be u
 - A user's own login and password for direct logins
 - Access tokens for API, OAuth, or external integrations
 - Session cookies
-
-
 
 **Risks and Impacts**
 
@@ -39,8 +33,6 @@ Implement strong authentication mechanisms for any sensitive credentials to be u
 - *Brute Force Attacks:* Insufficient protection against brute force attacks can allow attackers to guess or crack passwords. This could result in account lockouts or takeovers despite otherwise sound mechanisms.
 - *Insecure Password Storage*: Storing passwords improperly (e.g., in plaintext or in outdated or incorrectly constructed cryptographic hash functions) can expose them to theft in case of data breaches. This in turn could result in a mass compromise of account data.
 - *Insufficient Multi-Factor Authentication (MFA):* Lack of MFA support makes it easier for attackers to compromise accounts with stolen credentials. This results in reduced account security and higher risk of unauthorized access.
-
-
 
 **Guidelines**
 
@@ -53,8 +45,6 @@ Implement strong authentication mechanisms for any sensitive credentials to be u
 - Provide means of auditing, maintaining detailed logs of authentication events, including successful and failed login attempts. Log sufficient information for auditing and incident response.
 - Use the provided features by Rails to prevent cross-site request forgery (CSRF) attacks by utilizing anti-CSRF tokens for all state-changing requests and ensuring that authentication requests are immune to CSRF.
 
-
-
 <a id="usage-at-openproject"></a>
 
 **Usage at OpenProject**
@@ -66,8 +56,6 @@ OpenProject uses industry standard authentication mechanisms that follow the bes
 - OAuth 2.0 application authentication and authorization with OpenProject acting as the authorization server. Access tokens are hashed using SHA256 in the database.
 - Internal user credential authentication against passwords stored in BCrypt with a high default yet configurable cost factor depending on the organizational requirements.
 
-
-
 <a id="usage-recommendations"></a>
 
 OpenProject recommends these authentication mechanisms:
@@ -76,18 +64,14 @@ OpenProject recommends these authentication mechanisms:
 - For any external connection (Database, LDAP, etc.), OpenProject uses openssl library for the host or container's openssl certificate store. Use your distribution's mechanisms to add verified certificate or certificate chains. For more information, see the [Ruby OpenSSL X509 Store documentation](https://ruby-doc.org/stdlib-2.4.0/libdoc/openssl/rdoc/OpenSSL/X509/Store.html).
 
 - For smaller to medium organizations with no centralized authentication mechanism, use the internal username / password authentication mechanism for secure storing of your user's credentials using BCrypt salted cryptographic hash function.
-- For organizations with a centralized and accessible LDAP server, [OpenProject provides LDAP userbind authentication](https://www.openproject.org/docs/system-admin-guide/authentication/ldap-authentication/) to forward the authentication request to your LDAP server. Use TLS or LDAPS encrypted connections to the LDAP server to ensure transport level security. Optionally, synchronize roles and permissions using the [LDAP Group sync functionality](https://www.openproject.org/docs/system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/).
-- If your organization operates a central authentication services, it is very likely it supports one of the standard remote authentication mechanisms for single sign-on, such as [OpenID connect](https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/),  [SAML](https://www.openproject.org/docs/system-admin-guide/authentication/saml/), or [Kerberos](https://www.openproject.org/docs/system-admin-guide/authentication/kerberos/). Use these mechanisms to ensure a standardized and secure authentication of users without requiring the storage of any credentials at OpenProject while providing a high level of usability due to centralized logins.
-
-
+- For organizations with a centralized and accessible LDAP server, [OpenProject provides LDAP userbind authentication](../../../system-admin-guide/authentication/ldap-authentication/) to forward the authentication request to your LDAP server. Use TLS or LDAPS encrypted connections to the LDAP server to ensure transport level security. Optionally, synchronize roles and permissions using the [LDAP Group sync functionality](../../../system-admin-guide/authentication/ldap-authentication/ldap-group-synchronization/).
+- If your organization operates a central authentication services, it is very likely it supports one of the standard remote authentication mechanisms for single sign-on, such as [OpenID connect](../../../system-admin-guide/authentication/openid-providers/),  [SAML](../../../system-admin-guide/authentication/saml/), or [Kerberos](../../../system-admin-guide/authentication/kerberos/). Use these mechanisms to ensure a standardized and secure authentication of users without requiring the storage of any credentials at OpenProject while providing a high level of usability due to centralized logins.
 
 **References**
 
 https://cheatsheetseries.owasp.org/cheatsheets/Authentication_Cheat_Sheet.html
 
 https://guides.rubyonrails.org/security.html
-
-
 
 ### Session Management
 
@@ -113,8 +97,6 @@ As OpenProject is a web application, the web session is the central mechanism of
 
 - *Weak Session Tokens:* Weak or predictable session token generation can make it easier for attackers to guess or brute-force session identifiers.
 
-  
-
 **Guidelines**
 
 - Use Rails' built-in secure session cookies for maintaining the users' session. It incorporates best-practices to ensure strong session tokens, tamper resistance, and proper expiration.
@@ -129,8 +111,6 @@ As OpenProject is a web application, the web session is the central mechanism of
 
 https://cheatsheetseries.owasp.org/cheatsheets/Session_Management_Cheat_Sheet.html
 
-
-
 ## Authorization and Access Control
 
 At its core, permissions in OpenProject are the central key to determine who can access which projects and modules of an instance, as well as what actions they can perform on these pages. OpenProject application uses a Role-based access control (RBAC) approach to grant individual users permissions to projects. The risks associated with security vulnerabilities in the authorization code can have serious implications for the security.
@@ -139,8 +119,6 @@ At its core, permissions in OpenProject are the central key to determine who can
 
 - *Unauthorized access*: Users gaining or exploiting access to sensitive resources or functionalities they are not supposed to have access to. Potential consequences in data breaches, unauthorized actions, and potential exposure of confidential information.
 - *Over-Privileged Users*:  Users receiving more permissions than necessary for their role, leading to potential misuse of privileges. Potential consequences are unauthorized data modifications, data leaks, or abuse of system capabilities.
-
-
 
 **Guidelines**
 
@@ -151,21 +129,15 @@ At its core, permissions in OpenProject are the central key to determine who can
 - Provide extensive tests for permission checks, making assertions of all available cases and using visibility testing for asserting that certain actors _cannot_ access data or perform actions. 
 - Regularly review and update access controls to reflect changes in application functionality and roles.
 
-
-
 **References**
 
 https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html
 
 https://guides.rubyonrails.org/security.html
 
-
-
 ## User Input Validation
 
 OpenProject is a form-driven application, meaning that users input a lot of data into the system to use it. Proper validation and encoding of user input is crucial to ensure data can be processed in a responsible way.
-
-
 
 **Risks and Impacts**
 
@@ -173,8 +145,6 @@ OpenProject is a form-driven application, meaning that users input a lot of data
 - *Cross-site scripting (XSS)*: Failure to validate and sanitize user inputs can allow malicious scripts to be executed in the context of other users' browsers. Potential consequences are: Theft of sensitive user data, session hijacking, and potential defacement or compromise of the web application.
 - *Cross-Site Request Forgery (CSRF):* Lack of proper request validation can make it easier for attackers to trick users into performing unintended actions on their behalf. Potential consequences are unauthorized actions, such as account changes, data deletion, or fund transfers, performed without user consent.
 - *File Upload Vulnerabilities*: Insufficient input validation on file uploads can lead to arbitrary file uploads, enabling attackers to upload malicious files or execute code. Potential consequences are remote malware distribution, and remote code execution.
-
-
 
 **Guidelines**
 
@@ -195,34 +165,24 @@ https://cheatsheetseries.owasp.org/cheatsheets/Injection_Prevention_Cheat_Sheet.
 
 https://cheatsheetseries.owasp.org/cheatsheets/Input_Validation_Cheat_Sheet.html
 
-
-
 ## Virus and Malware protection
 
 As OpenProject may handle and distribute sensitive user data, attack vectors such as malicious user input as specified in the previous section pose a threat to the integrity, confidentiality, and availability of data. In the following, we will evaluate different risks and guidelines on the protection against viruses and other malware during operation of an OpenProject instance.
-
-
 
 **Risks and impacts**
 
 - *Viruses and malware uploads*: Whenever users are able to upload files to a system, potentially malicious files could be provided and distributed through OpenProject by users with the appropriate upload permission. 
 - *Malware in software*: OpenProject carefully selects and updates third-party dependencies. Please see the following section on [external dependencies](#external-dependencies) for more information on the best practices of external dependencies.
 
-
-
 **Guidelines**
 
 - Virus and malware uploads
   - OpenProject provides users with fine-grained access to control which user groups are allowed to upload files
   - Whitelist for uploads can be provided by MIME type, rejecting any non-matching files
-  - OpenProject currently does not provide a built-in virus scanner. However, using [webhooks](https://www.openproject.org/docs/system-admin-guide/api-and-webhooks/#webhooks) and the [attachments API](https://www.openproject.org/docs/api/endpoints/attachments/), users can plug existing virus scanning tools and scrub any uploaded files.
+  - OpenProject currently does not provide a built-in virus scanner. However, using [webhooks](../../../system-admin-guide/api-and-webhooks/#webhooks) and the [attachments API](../../../api/endpoints/attachments/), users can plug existing virus scanning tools and scrub any uploaded files.
 - *Malware in software*:
-  - OpenProject uses statical code analysis on every change provided to the application as well as code scanners on the artefacts generated from the source code (such as Snyk vulnerability scanner for Docker images).
+  - OpenProject uses statical code analysis on every change provided to the application as well as code scanners on the artifacts generated from the source code (such as Snyk vulnerability scanner for Docker images).
   - We recommend users to perform their own 
-
-
-
-
 
 ## Logging and Error Handling
 
@@ -244,24 +204,18 @@ Inconsiderate use of error handling, logging, and monitoring mechanisms of a web
 - Log data in a standard format to make parsing, auditing, and monitoring of that information easy.
 - Ensure that actions are aborted in case of errors
 
-
-
 **Usage at OpenProject**
 
 - Exception handlers catch all StandardErrors whenever your controller inherits from ApplicationController
 - Exception responses are disconnected from the actual errors and provide user-friendly messages without error details
 - Database transaction wrapping for any actions is wrapped in the [BaseContracted services](https://github.com/opf/openproject/blob/dev/app/services/base_services/base_contracted.rb#L54). Transactions are automatically rolled back in [Rails when exceptions occur](https://api.rubyonrails.org/v5.0.1/classes/ActiveRecord/Transactions/ClassMethods.html).
-- OpenProject uses a LogRage formatter for flexible, yet easily parseable formats
-
-
+- OpenProject uses a LogRage formatter for flexible, yet easily parsable formats
 
 **References**
 
 https://cheatsheetseries.owasp.org/cheatsheets/Error_Handling_Cheat_Sheet.html
 
 https://cheatsheetseries.owasp.org/cheatsheets/Logging_Cheat_Sheet.html
-
-
 
 ## External dependencies
 
@@ -286,29 +240,23 @@ OpenProject includes a number of external dependencies both in Ruby as well as i
 - *Vet new dependencies*: Before adding a new gem or package, research its maintenance history, last update, known vulnerabilities, and community reviews. Check if it's actively maintained, and evaluate all the alternatives.
 - *Remove outdated dependencies* :Only include gems and packages that are absolutely necessary for your project. Less dependencies mean a reduced attack surface. Remove libraries if they become unused.
 
-
-
 **References**
 
 https://cheatsheetseries.owasp.org/cheatsheets/Vulnerable_Dependency_Management_Cheat_Sheet.html
 
-
-
 ## Packaging and containerization
 
-Packaging and containerization are critical artefacts in the delivery pipeline of OpenProject. They encapsulate the application and its environment, ensuring consistent operation across different systems and infrastructures. These artefacts need to provide a secure and stable default for maintaining and upgrading OpenProject.
+Packaging and containerization are critical artifacts in the delivery pipeline of OpenProject. They encapsulate the application and its environment, ensuring consistent operation across different systems and infrastructures. These artifacts need to provide a secure and stable default for maintaining and upgrading OpenProject.
 
 Properly managed packaging and containerization pipelines ensure smooth installations, upgrades, and scaling, enhancing the deployment process and - as a result - the overall user experience. This section highlights risks connected to improper containerization or packaging as well as our main objectives and  best practices to provide a secure, efficient, and reliable software delivery process.
 
 OpenProject provides several installation mechanisms: 
 
-- [Packaged installations](https://www.openproject.org/docs/installation-and-operations/installation/packaged/) using the distribution's package manager for dependency control
+- [Packaged installations](../../../installation-and-operations/installation/packaged/) using the distribution's package manager for dependency control
 
-- [Slim and all-in-one docker images](https://www.openproject.org/docs/installation-and-operations/installation/docker/) for manual operation with docker
+- [Slim and all-in-one docker images](../../../installation-and-operations/installation/docker/) for manual operation with docker
 
-- [OpenProject helm chart](https://www.openproject.org/docs/installation-and-operations/installation/helm-chart/) , as a "package" for kubernetes clusters
-
-  
+- [OpenProject helm chart](../../../installation-and-operations/installation/helm-chart/) , as a "package" for kubernetes clusters
 
 **Risks and Impact**
 
@@ -320,8 +268,6 @@ OpenProject provides several installation mechanisms:
 - *Orchestration Complexity*: With more dependencies and services, deployments add complexity that can introduce errors in service discovery, networking, and persistence.
 - *Compliance and Compatibility*: Ensuring that packaging and containerization meet known regulatory compliance requirements and are compatible with commonly used platforms.
 
-
-
 **Guidelines**
 
 - *Use Immutable Tags*: Provide specific, immutable tags for Docker images and fixed packaged versions to ensure consistency and provide clear upgrade paths instead of automatically pulling the latest image
@@ -329,6 +275,6 @@ OpenProject provides several installation mechanisms:
 - *Minimal base Images*: Use minimal base images for Docker containers to reduce the attack surface. OpenProject currently uses a `ruby-${version}-${debianversion}` image as its base.
 - *Configuration Management*: Ensure configuration management is consistent between deployments. OpenProject provides an interface to ENV-based configuration for packages and Docker to ensure both can be configured similarly. Where necessary, different configuration mechanisms are documented for the different installation mechanisms.
 - *Resource Limits*: Set resource limits and requests in container definitions to prevent resource contention. The packaged installation provides a set of default scaling services. The OpenProject helm-charts define limits and resource requirements in the helm values.
-- *Monitor and Logging*: Implement robust monitoring and logging to track the health and performance of containers. [OpenProject provides individually pluggable health checks for various services as well as flexible logging](https://www.openproject.org/docs/installation-and-operations/operation/monitoring/).
+- *Monitor and Logging*: Implement robust monitoring and logging to track the health and performance of containers. [OpenProject provides individually pluggable health checks for various services as well as flexible logging](../../../installation-and-operations/operation/monitoring/).
 - *Continuous Integration/Continuous Deployment (CI/CD)*: Automate the building, testing, and deployment of containers using CI/CD pipelines. OpenProject builds `dev` containers and packages for every change to the core application.
 - *Documentation*: Maintain comprehensive documentation for installation and configuration processes across different mechanisms. OpenProject documents all changes as part of the standard development workflow. Documentation is released together with OpenProject to ensure consistency. [The documentation workflow is part of the product development handbook.](../../product-development-handbook/)

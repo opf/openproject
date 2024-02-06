@@ -38,6 +38,9 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
   let(:type) { create(:type_standard) }
   let(:project) { create(:project, types: [type], enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { create(:project_role, permissions:) }
+  let!(:anon_role) do
+    create(:anonymous_role, permissions: %i[view_project view_work_packages view_wiki_pages show_board_views])
+  end
 
   let(:board_index) { Pages::BoardIndex.new(project) }
 
@@ -147,7 +150,7 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
       expect(wp_task.project).to eq(project), 'Moving the card should not change the project'
     end
 
-    it 'allows management of boards' do
+    it 'allows management of boards', with_settings: { login_required: false } do
       board_index.visit!
 
       # Create new board
@@ -292,6 +295,14 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
 
       board_page.expect_card('Open', 'Task 1', present: false)
       board_page.expect_card('Closed', 'Task 1', present: true)
+
+      aggregate_failures 'allows to access the board publicly (Regression #51850)' do
+        project.update!(public: true)
+        login_as User.anonymous
+
+        board_page.visit!
+        board_page.expect_card('Closed', 'Task 1', present: true)
+      end
     end
 
     it 'shows the default column only once (regression #40858)' do

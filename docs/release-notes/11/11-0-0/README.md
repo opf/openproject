@@ -235,7 +235,7 @@ There are lots and lots of new things we packed into 11.0 to tell you about.
 - Fixed: Menu too small/completely hidden on Roadmap \[[#34712](https://community.openproject.org/wp/34712)\]
 - Fixed: QR code not displayed on 2FA device registration \[[#34793](https://community.openproject.org/wp/34793)\]
 - Fixed: Internal error (500) when creating child work package of parent with only start or finish date set \[[#34797](https://community.openproject.org/wp/34797)\]
-- Fixed: Text changes from German (Projekt kopieren) to English (Copy project) while loading \[[#34817](https://community.openproject.org/wp/34817)\]
+- Fixed: Text changes "Copy project" from German to English while loading \[[#34817](https://community.openproject.org/wp/34817)\]
 - Fixed: 500er Bug when Drag and Drop position in Gantt chart \[[#34836](https://community.openproject.org/wp/34836)\]
 - Fixed: Error messages in copy project modal (e.g. boards) not localized \[[#34843](https://community.openproject.org/wp/34843)\]
 - Fixed: Work package description containing work package attribute macro not displayed at all \[[#34852](https://community.openproject.org/wp/34852)\]
@@ -301,7 +301,7 @@ There are lots and lots of new things we packed into 11.0 to tell you about.
 - Epic: Time tracking and cost control 2.0 \[[#32125](https://community.openproject.org/wp/32125)\]
 - Epic: Wiki Macro functionality to allow retrieving work package and project attributes \[[#33648](https://community.openproject.org/wp/33648)\]
 - Epic: Basic portfolio management for project list \[[#34167](https://community.openproject.org/wp/34167)\]
-- Epic: Projekt Templates \[[#34468](https://community.openproject.org/wp/34468)\]
+- Epic: Project Templates \[[#34468](https://community.openproject.org/wp/34468)\]
 
 ## Installation and Updates
 
@@ -333,7 +333,7 @@ Special thanks go to all OpenProject contributors without whom this release woul
 
 - Special thanks for reporting and finding bugs go to:
 
-  Marc Vollmer, Andy Shilton, Christian Forgács, L B, Gábor Sift, Thyago Sanabio, Daniel Narberhaus, Harpan Budi Santoso, Çağlar Yeşilyurt, Rajiv Ranjan Sinha, Freddy Trotin, xin meng, Kris M, schermi schermi, Nick Bailey, Adam Vanko, Hartwin Leen, Sergey Anikin, Petros Christopoulos, Oscar Meier, Bert Regelink, Carsten Klein, Dagyo Lee, Jonatan Zint, Gio @ Enuan, Peter Pof, Sergey Shalikin, Benoit PETIT-DEMOULIERE
+  Marc Vollmer, Andy Shilton, Christian Forgács, L B, Gábor Sift, Thyago Sanabio, Daniel Narberhaus, Harpan Budi Santoso, Çağlar Yeşilyurt, Rajiv Ranjan Sinha, Freddy Trotin, Xin Meng, Kris M, Schermi Schermi, Nick Bailey, Adam Vanko, Hartwin Leen, Sergey Anikin, Petros Christopoulos, Oscar Meier, Bert Regelink, Carsten Klein, Dagyo Lee, Jonatan Zint, Gio @ Enuan, Peter Pof, Sergey Shalikin, Benoit Petit-Demouliere
 
 ## What’s next?
 

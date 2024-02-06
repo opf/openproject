@@ -2,7 +2,7 @@
 vi:
   js:
     boards:
-      create_new: 'Create new board'
+      create_new: 'Tạo bảng mới'
       label_unnamed_board: 'Bảng không tên'
       label_unnamed_list: 'Danh sách không tên'
       label_board_type: 'Kiểu bảng'
@@ -12,73 +12,73 @@ vi:
       lists:
         delete: 'Xoá danh sách'
       version:
-        is_locked: 'Version is locked. No items can be added to this version.'
-        is_closed: 'Version is closed. No items can be added to this version.'
-        close_version: 'Close version'
-        open_version: 'Open version'
-        lock_version: 'Lock version'
-        unlock_version: 'Unlock version'
-        edit_version: 'Edit version'
-        show_version: 'Show version'
+        is_locked: 'Phiên bản bị khóa. Không có mục nào có thể được thêm vào phiên bản này.'
+        is_closed: 'Phiên bản đã đóng. Không có mục nào có thể được thêm vào phiên bản này.'
+        close_version: 'Đóng phiên bản'
+        open_version: 'Mở phiên bản'
+        lock_version: 'Khoá phiên bản'
+        unlock_version: 'Mở khoá phiên bản'
+        edit_version: 'Chỉnh sửa phiên bản'
+        show_version: 'Hiển thị phiên bản'
         locked: 'Đã khóa'
         closed: 'Đã đóng'
       new_board: 'Bảng mới'
-      add_list: 'Add list to board'
+      add_list: 'Thêm danh sách vào bảng'
       add_card: 'Thêm thẻ'
-      error_attribute_not_writable: "Cannot move the work package, %{attribute} is not writable."
-      error_loading_the_list: "Error loading the list: %{error_message}"
-      error_permission_missing: "The permission to create public queries is missing"
-      error_cannot_move_into_self: "You can not move a work package into its own column."
-      text_hidden_list_warning: "Not all lists are displayed because you lack the permission. Contact your admin for more information."
+      error_attribute_not_writable: "Không thể di chuyển công việc, %{attribute} không thể được phép ghi."
+      error_loading_the_list: "Lỗi tải danh sách: %{error_message}"
+      error_permission_missing: "Thiếu quyền tạo truy vấn công khai"
+      error_cannot_move_into_self: "Bạn không thể di chuyển công việc vào cột riêng của nó."
+      text_hidden_list_warning: "Không phải tất cả các danh sách đều được hiển thị vì bạn thiếu quyền hạn. Hãy liên hệ với quản trị viên của bạn để biết thêm thông tin."
       click_to_remove_list: "Nhấp để xóa danh sách"
       board_type:
         text: 'Kiểu bảng'
-        free: 'basic'
-        select_board_type: 'Please choose the type of board you need.'
+        free: 'cơ bản'
+        select_board_type: 'Vui lòng chọn loại bảng bạn cần.'
         free_text: >
-          Start from scratch with a blank board. Manually add cards and columns to this board.
-        action: 'Action board'
-        action_by_attribute: 'Action board (%{attribute})'
+          Bắt đầu với một bảng trống. Thêm thẻ và cột theo cách thủ công vào bảng này.
+        action: 'Bảng hành động'
+        action_by_attribute: 'Bảng hành động (%{attribute})'
         action_text: >
-          A board with filtered lists on %{attribute} attribute. Moving work packages to other lists will update their attribute.
+          Một bảng có danh sách được lọc bằng thuộc tính %{attribute}. Việc di chuyển các công việc sang danh sách khác sẽ cập nhật thuộc tính của chúng.
         action_text_subprojects: >
-          Board with automated columns for subprojects. Dragging work packages to other lists updates the (sub-)project accordingly.
+          Bảng có các cột tự động cho các dự án con. Kéo các gói công việc vào danh sách khác sẽ cập nhật dự án (con) tương ứng.
         action_text_subtasks: >
-          Board with automated columns for sub-elements. Dragging work packages to other lists updates the parent accordingly.
+          Bảng có các cột tự động dành cho các thành phần phụ. Kéo các công việc vào danh sách khác sẽ cập nhật công việc gốc tương ứng.
         action_text_status: >
-          Basic kanban style board with columns for status such as To Do, In Progress, Done.
+          Bảng kiểu Kanban cơ bản với các cột cho trạng thái như Cần làm, Đang tiến hành, Đã xong.
         action_text_assignee: >
-          Board with automated columns based on assigned users. Ideal for dispatching work packages.
+          Bảng với các cột tự động dựa trên người được gán. Lý tưởng cho việc gửi các công việc.
         action_text_version: >
-          Board with automated columns based on the version attribute. Ideal for planning product development.
+          Bảng có các cột tự động dựa trên thuộc tính phiên bản. Lý tưởng cho việc lập kế hoạch phát triển sản phẩm.
         action_type:
           assignee: Người được giao
           status: Trạng thái
           version: Phiên bản
-          subproject: subproject
-          subtasks: parent-child
+          subproject: dự án con
+          subtasks: cha-con
         board_type_title:
           assignee: Người được giao
           status: Trạng thái
           version: Phiên bản
           subproject: Dự án con
           subtasks: Parent-child
-          basic: Basic
-        select_attribute: "Action attribute"
+          basic: Cơ bản
+        select_attribute: "Thuộc tính hành động"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Chọn người dùng để thêm làm danh sách người được gán mới
+          status: Chọn trạng thái để thêm làm danh sách mới
+          version: Chọn phiên bản để thêm làm danh sách mới
+          subproject: Chọn dự án con để thêm làm danh sách mới
+          subtasks: Chọn công việc để thêm làm danh sách mới
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+            Hiện tại không có trạng thái nào. <br>
+            Hoặc không có hoặc tất cả đều đã được thêm vào bảng.
+          assignee: Không có thành viên nào khớp với giá trị bộ lọc của bạn. <br>
+          no_member: Dự án này hiện không có bất kỳ thành viên nào có thể được thêm vào. <br>
+          add_members: <a href="%{link}">Thêm thành viên mới vào dự án này</a> để chọn lại người dùng.
       configuration_modal:
         title: 'Cấu hình bảng này'
         display_settings:

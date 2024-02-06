@@ -19,7 +19,7 @@ RSpec.describe 'Login with 2FA backup code', :js, with_settings: {
 
       # Open other options
       find_by_id('toggle_resend_form').click
-      expect(page).to have_no_css('a', text: I18n.t('two_factor_authentication.backup_codes.enter_backup_code_title'))
+      expect(page).to have_no_css('a', text: I18n.t('two_factor_authentication.login.enter_backup_code_title'))
     end
   end
 

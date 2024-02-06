@@ -10,7 +10,7 @@ http_interactions:
       User-Agent:
       - Rack::OAuth2 (2.2.1)
       Authorization:
-      - Basic NDI2MmRmMmItNzdiYi00OWMyLWE1ZGYtMjgzNTVkYTY3NmQyOlZ3azhRJTdFSlR1UGgucEFqdlBpV0JRQmRURk1ESyU3RUFJd3hiajlfYXhC
+      - Basic <BASIC_AUTH>
       Content-Type:
       - application/x-www-form-urlencoded
       Accept-Encoding:
@@ -37,24 +37,24 @@ http_interactions:
       P3p:
       - CP="DSP CUR OTPi IND OTRi ONL FIN"
       X-Ms-Request-Id:
-      - ede6e341-03a6-4171-b0cf-a72b9e8f7000
+      - 7faad3a2-39fa-49b2-93c7-1064765b7100
       X-Ms-Ests-Server:
-      - 2.1.16986.9 - NEULR1 ProdSlices
+      - 2.1.17122.3 - FRC ProdSlices
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - fpc=Am31HFdf2i9Fo6HBZdFTWdWkbDoXAQAAABKQOd0OAAAA; expires=Fri, 16-Feb-2024
-        09:08:35 GMT; path=/; secure; HttpOnly; SameSite=None
+      - fpc=As1vClrXwdlHsj6LwTQrAGGkbDoXAQAAAMraSt0OAAAA; expires=Thu, 29-Feb-2024
+        11:55:55 GMT; path=/; secure; HttpOnly; SameSite=None
       - stsservicecookie=estsfd; path=/; secure; samesite=none; httponly
       - x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly
       Date:
-      - Wed, 17 Jan 2024 09:08:35 GMT
+      - Tue, 30 Jan 2024 11:55:54 GMT
       Content-Length:
       - '1708'
     body:
       encoding: UTF-8
-      string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"eyJ0eXAiOiJKV1QiLCJub25jZSI6IlZwX0xlWk5JNklnQlhLSXoyMktldEg2Tkt4Q2JJZll2MWdiZlkyLVVjQkEiLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1NDgyMjE1LCJuYmYiOjE3MDU0ODIyMTUsImV4cCI6MTcwNTQ4NjExNSwiYWlvIjoiRTJWZ1lFZzhPamsvOWVQRW16TmI1OTJmZGVSWUFBQT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiUWVQbTdhWURjVUd3ejZjcm5vOXdBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.a--cDV-rux1foREv6pNSHEdJnzu4z2m8yFdRLgJCkkoh-lhkV4PMhjJI6sMMeT20dt0qqzoE2zJlADdXGPRW6yB3ohNecxzXPlJ4L_GotNSJ8YaMkUekSyJMP9aM2i3ZpxYLcPMVn1jxSAyOQG2-TplBFmC6a3lTYmpbw6IHIzqNWHx71aEeAPjYsfDip6aYuszgx0xRs9kbgXS_sgmII40ZQ7APzaKB7VlWECaW5jxPKGxdFFWVe3uumk-48xMcO3XKuaJmdzRZrTnZy5dJNBJ_ROyE-XLJ-FwZpd_rGyAlefxxua6jbviTChHXC6M2ZWaXaPKGEVlc0hFwe4GJew"}'
-  recorded_at: Wed, 17 Jan 2024 09:08:36 GMT
+      string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"<ACCESS_TOKEN>"}'
+  recorded_at: Tue, 30 Jan 2024 11:55:55 GMT
 - request:
     method: delete
     uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/NOT_HERE
@@ -63,7 +63,7 @@ http_interactions:
       string: ''
     headers:
       Authorization:
-      - Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IlZwX0xlWk5JNklnQlhLSXoyMktldEg2Tkt4Q2JJZll2MWdiZlkyLVVjQkEiLCJhbGciOiJSUzI1NiIsIng1dCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSIsImtpZCI6IjVCM25SeHRRN2ppOGVORGMzRnkwNUtmOTdaRSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWF0IjoxNzA1NDgyMjE1LCJuYmYiOjE3MDU0ODIyMTUsImV4cCI6MTcwNTQ4NjExNSwiYWlvIjoiRTJWZ1lFZzhPamsvOWVQRW16TmI1OTJmZGVSWUFBQT0iLCJhcHBfZGlzcGxheW5hbWUiOiJPcGVuUHJvamVjdCBEZXYgQXBwIiwiYXBwaWQiOiI0MjYyZGYyYi03N2JiLTQ5YzItYTVkZi0yODM1NWRhNjc2ZDIiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC80ZDQ0YmYzNi05YjU2LTQ1YzAtODgwNy1iYmYzODZkZDA0N2YvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiI0NGJjNzc5MC1iNjM4LTRlMTYtOWE5Mi04YWJjNDY1MGYyMDYiLCJyaCI6IjAuQVFrQU5yOUVUVmFid0VXSUI3dnpodDBFZndNQUFBQUFBQUFBd0FBQUFBQUFBQUFKQUFBLiIsInJvbGVzIjpbIlNpdGVzLlJlYWQuQWxsIiwiU2l0ZXMuUmVhZFdyaXRlLkFsbCIsIkZpbGVzLlJlYWRXcml0ZS5BbGwiXSwic3ViIjoiNDRiYzc3OTAtYjYzOC00ZTE2LTlhOTItOGFiYzQ2NTBmMjA2IiwidGVuYW50X3JlZ2lvbl9zY29wZSI6IkVVIiwidGlkIjoiNGQ0NGJmMzYtOWI1Ni00NWMwLTg4MDctYmJmMzg2ZGQwNDdmIiwidXRpIjoiUWVQbTdhWURjVUd3ejZjcm5vOXdBQSIsInZlciI6IjEuMCIsIndpZHMiOlsiMDk5N2ExZDAtMGQxZC00YWNiLWI0MDgtZDVjYTczMTIxZTkwIl0sInhtc190Y2R0IjoxNDA1NTE0ODYxLCJ4bXNfdGRiciI6IkVVIn0.a--cDV-rux1foREv6pNSHEdJnzu4z2m8yFdRLgJCkkoh-lhkV4PMhjJI6sMMeT20dt0qqzoE2zJlADdXGPRW6yB3ohNecxzXPlJ4L_GotNSJ8YaMkUekSyJMP9aM2i3ZpxYLcPMVn1jxSAyOQG2-TplBFmC6a3lTYmpbw6IHIzqNWHx71aEeAPjYsfDip6aYuszgx0xRs9kbgXS_sgmII40ZQ7APzaKB7VlWECaW5jxPKGxdFFWVe3uumk-48xMcO3XKuaJmdzRZrTnZy5dJNBJ_ROyE-XLJ-FwZpd_rGyAlefxxua6jbviTChHXC6M2ZWaXaPKGEVlc0hFwe4GJew
+      - Bearer <BEARER TOKEN>
       Accept:
       - application/json
       Content-Type:
@@ -90,17 +90,15 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - 0c9bcad9-6728-4891-a7d1-e42e2d6f59b3
+      - 10591249-e30c-49f7-b3a8-dfdb2b9f95b0
       Client-Request-Id:
-      - 0c9bcad9-6728-4891-a7d1-e42e2d6f59b3
+      - 10591249-e30c-49f7-b3a8-dfdb2b9f95b0
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF00000315"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"005","RoleInstance":"FR3PEPF00000449"}}'
       Date:
-      - Wed, 17 Jan 2024 09:08:35 GMT
-      Connection:
-      - close
+      - Tue, 30 Jan 2024 11:55:55 GMT
     body:
       encoding: UTF-8
-      string: '{"error":{"code":"itemNotFound","message":"Item not found","innerError":{"date":"2024-01-17T09:08:36","request-id":"0c9bcad9-6728-4891-a7d1-e42e2d6f59b3","client-request-id":"0c9bcad9-6728-4891-a7d1-e42e2d6f59b3"}}}'
-  recorded_at: Wed, 17 Jan 2024 09:08:36 GMT
+      string: '{"error":{"code":"itemNotFound","message":"Item not found","innerError":{"date":"2024-01-30T11:55:55","request-id":"10591249-e30c-49f7-b3a8-dfdb2b9f95b0","client-request-id":"10591249-e30c-49f7-b3a8-dfdb2b9f95b0"}}}'
+  recorded_at: Tue, 30 Jan 2024 11:55:55 GMT
 recorded_with: VCR 6.2.0

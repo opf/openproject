@@ -30,8 +30,7 @@ require 'spec_helper'
 
 RSpec.describe 'Work package timeline navigation',
                :js,
-               :selenium,
-               with_flag: { show_separate_gantt_module: true } do
+               :selenium do
   let(:user) { create(:admin) }
   let(:enabled_module_names) { %i[work_package_tracking gantt] }
   let(:project) { create(:project, enabled_module_names:) }
@@ -132,7 +131,7 @@ RSpec.describe 'Work package timeline navigation',
       find('#main-menu-gantt-wrapper .main-menu-toggler').click
 
       # Select first query again
-      query_menu.select query_tl
+      query_menu.click_item query_tl.name
 
       wp_timeline.expect_timeline!(open: true)
       wp_timeline.expect_work_package_listed work_package2
@@ -152,6 +151,35 @@ RSpec.describe 'Work package timeline navigation',
         find('.menu-item', text: 'Add predecessor')
         find('.menu-item', text: 'Add follower')
       end
+    end
+  end
+
+  describe 'with the default query' do
+    let(:closed_status) { create(:closed_status, name: 'Closed') }
+    let(:project) { create(:project, types: [milestone_type], enabled_module_names:) }
+
+    let!(:wp_milestone) do
+      create(:work_package,
+             project:,
+             type: milestone_type)
+    end
+    let!(:wp_closed) do
+      create(:work_package,
+             project:,
+             status: closed_status)
+    end
+
+    it 'shows the timeline open initially' do
+      wp_timeline.visit!
+      loading_indicator_saveguard
+
+      # The timeline is open per default
+      wp_timeline.expect_timeline!(open: true)
+
+      # Further, there is an active filter on open work packages
+      wp_timeline.expect_work_package_listed(wp_milestone)
+      wp_timeline.expect_work_package_listed(work_package)
+      wp_timeline.expect_work_package_not_listed(wp_closed)
     end
   end
 

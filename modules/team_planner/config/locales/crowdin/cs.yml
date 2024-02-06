@@ -2,7 +2,7 @@
 cs:
   plugin_openproject_team_planner:
     name: "Plánovač OpenProject týmu"
-    description: "Provides team planner views."
+    description: "Poskytuje zobrazení plánovače týmů."
   permission_view_team_planner: "Zobrazit plánovač týmu"
   permission_manage_team_planner: "Spravovat plánovač týmu"
   project_module_team_planner_view: "Týmové plánovače"

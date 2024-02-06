@@ -36,11 +36,6 @@ class Queries::Views::Filters::TypeFilter < Queries::Views::Filters::ViewFilter
   end
 
   def transformed_values
-    if !OpenProject::FeatureDecisions.show_separate_gantt_module_active? && values.include?('Views::WorkPackagesTable')
-      # If there is no separate Gantt module enabled: Show the Gantt queries in the WorkPackage module as well
-      values.push('Views::Gantt')
-    end
-
     values.map { |value| value[/Views::(?<name>.*?)$/, "name"].underscore }
   end
 

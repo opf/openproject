@@ -31,7 +31,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, :vcr, :webmock do
+RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, :webmock do
   using Storages::Peripherals::ServiceResultRefinements
 
   let(:user) { create(:user) }
@@ -48,42 +48,25 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery, 
 
     context 'with outbound requests successful' do
       context 'with parent folder being root', vcr: 'one_drive/files_query_root' do
-        # rubocop:disable RSpec/ExampleLength
         it 'returns a StorageFiles object for root' do
           storage_files = described_class.call(storage:, user:, folder:).result
 
           expect(storage_files).to be_a(Storages::StorageFiles)
           expect(storage_files.ancestors).to be_empty
           expect(storage_files.parent.name).to eq("Root")
-
-          expect(storage_files.files.map(&:to_h))
-            .to eq([
-                     {
-                       id: '01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR',
-                       name: 'Folder',
-                       size: 257394,
-                       created_at: '2023-09-26T14:38:50Z',
-                       created_by_name: 'Eric Schubert',
-                       last_modified_at: '2023-09-26T14:38:50Z',
-                       last_modified_by_name: 'Eric Schubert',
-                       location: '/Folder',
-                       mime_type: 'application/x-op-directory',
-                       permissions: %i[readable writeable]
-                     }, {
-                       id: '01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU',
-                       name: 'Folder with spaces',
-                       size: 35141,
-                       created_at: '2023-09-26T14:38:57Z',
-                       created_by_name: 'Eric Schubert',
-                       last_modified_at: '2023-09-26T14:38:57Z',
-                       last_modified_by_name: 'Eric Schubert',
-                       location: '/Folder with spaces',
-                       mime_type: 'application/x-op-directory',
-                       permissions: %i[readable writeable]
-                     }
-                   ])
+          expect(storage_files.files.count).to eq(3)
+          expect(storage_files.files.map(&:to_h).first)
+            .to eq({ id: '01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR',
+                     name: 'Folder',
+                     size: 260500,
+                     created_at: Time.zone.parse('2023-09-26T14:38:50Z'),
+                     created_by_name: 'Eric Schubert',
+                     last_modified_at: Time.zone.parse('2023-09-26T14:38:50Z'),
+                     last_modified_by_name: 'Eric Schubert',
+                     location: '/Folder',
+                     mime_type: 'application/x-op-directory',
+                     permissions: %i[readable writeable] })
         end
-        # rubocop:enable RSpec/ExampleLength
       end
 
       context 'with a given parent folder', vcr: 'one_drive/files_query_parent_folder' do

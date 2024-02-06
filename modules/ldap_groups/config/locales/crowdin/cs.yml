@@ -1,7 +1,7 @@
 cs:
   plugin_openproject_ldap_groups:
-    name: "OpenProject LDAP groups"
-    description: "Synchronization of LDAP group memberships."
+    name: "OpenProject LDAP skupiny"
+    description: "Synchronizace členství ve skupině LDAP."
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
@@ -42,7 +42,7 @@ cs:
         removed_groups: "Varování: Toto odstraní následující skupiny z OpenProject a odstraní je ze všech projektů!"
         verification: "Zadejte název projektu %{name} pro potvrzení odstranění."
       form:
-        group_name_attribute_text: 'Enter the attribute of the LDAP group used for setting the OpenProject group name.'
+        group_name_attribute_text: 'Zadejte atribut LDAP skupiny použité pro nastavení názvu OpenProject skupiny.'
         filter_string_text: 'Enter the RFC4515 LDAP filter that returns groups in your LDAP to synchronize with OpenProject.'
         base_dn_text: >
           Enter the search base DN to use for this filter. It needs to be below the base DN of the selected LDAP connection. Leave this option empty to reuse the base DN of the connection

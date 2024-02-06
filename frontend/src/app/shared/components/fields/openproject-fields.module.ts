@@ -131,6 +131,7 @@ import { FormsModule } from '@angular/forms';
     EditFormPortalComponent,
     EditFormComponent,
     EditableAttributeFieldComponent,
+    DisplayFieldComponent,
   ],
   providers: [
     {

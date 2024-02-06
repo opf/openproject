@@ -52,7 +52,7 @@ After authenticating your account, you are ready to manage and contribute to pro
 
 ## Step 5: Fork the OpenProject repository 
 
-If you are an external contributor you don't have write permissions on the repository [https://github.com/opf/openproject](https://github.com/opf/openproject). In this case you first need to fork the repository by clicking the button **[Fork](https://github.com/opf/openproject/fork)**. This basically means that you have your own copy of the repository on GitHub.com. Since it is your own repository you have write privileges here.
+If you are an external contributor you don't have write permissions on the repository [https://github.com/opf/openproject](https://github.com/opf/openproject). In this case you first need to fork the repository by clicking the button [Fork](https://github.com/opf/openproject/fork). This basically means that you have your own copy of the repository on GitHub.com. Since it is your own repository you have write privileges here.
 
 ![fork openproject](fork-openproject.png)
 

@@ -43,7 +43,7 @@ class Storages::Admin::StoragesController < ApplicationController
   # and set the @<controller_name> variable to the object referenced in the URL.
   before_action :require_admin
   before_action :find_model_object,
-                only: %i[show show_oauth_application destroy edit edit_host confirm_destroy update replace_oauth_application]
+                only: %i[show_oauth_application destroy edit edit_host confirm_destroy update replace_oauth_application]
   before_action :ensure_valid_provider_type_selected, only: %i[select_provider]
   before_action :require_ee_token_for_one_drive, only: %i[select_provider]
 
@@ -85,7 +85,7 @@ class Storages::Admin::StoragesController < ApplicationController
 
   def select_provider
     @object = Storages::Storage.new(provider_type: @provider_type)
-    service_result = ::Storages::Storages::SetAttributesService
+    service_result = ::Storages::Storages::SetProviderFieldsAttributesService
                        .new(user: current_user,
                             model: @object,
                             contract_class: EmptyContract)
@@ -230,7 +230,14 @@ class Storages::Admin::StoragesController < ApplicationController
   def permitted_storage_params(model_parameter_name = storage_provider_parameter_name)
     params
       .require(model_parameter_name)
-      .permit('name', 'provider_type', 'host', 'oauth_client_id', 'oauth_client_secret', 'tenant_id', 'drive_id')
+      .permit('name',
+              'provider_type',
+              'host',
+              'oauth_client_id',
+              'oauth_client_secret',
+              'tenant_id',
+              'drive_id',
+              'automatic_management_enabled')
   end
 
   def storage_provider_parameter_name

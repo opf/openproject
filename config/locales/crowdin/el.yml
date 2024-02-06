@@ -250,6 +250,13 @@ el:
       open_as_gantt_title_admin: "Μπορείτε να τροποποιήσετε τις ρυθμίσεις προβολής (όπως επιλεγμένοι τύποι πακέτων εργασίας) στη διαχείριση κάτω από τις ρυθμίσεις του έργου."
       no_results_title_text: Προς το παρόν δεν υπάρχουν έργα
       no_results_content_text: Δημιουργία νέου έργου
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Αλλαγή αναγνωριστικού
       activities:
@@ -322,6 +329,8 @@ el:
       no_results_title_text: Αυτός ο χρήστης, προς το παρόν, δεν είναι μέλος κάποιας ομάδας.
     memberships:
       no_results_title_text: Αυτός ο χρήστης δεν είναι προς το παρόν μέλος κάποιου έργου.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -585,6 +594,7 @@ el:
         color: "Χρώμα"
       user:
         admin: "Διαχειριστής"
+        auth_source: "Authentication source"
         ldap_auth_source: "Σύνδεση LDAP"
         identity_url: "Identity URL"
         current_password: "Τρέχων κωδικός πρόσβασης"
@@ -616,6 +626,7 @@ el:
         begin_insertion: "Ξεκινήστε την εισαγωγή"
         begin_deletion: "Ξεκινήστε την διαγραφή"
         children: "Υποστοιχεία"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
@@ -636,7 +647,7 @@ el:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Χειροκίνητος προγραμματισμός"
         spent_hours: "Χρόνος που δαπανήθηκε"
         spent_time: "Χρόνος που δαπανήθηκε"
@@ -941,6 +952,8 @@ el:
               invalid_on_create: "δεν είναι έγκυρη κατάσταση για νέους χρήστες."
             ldap_auth_source:
               error_not_found: "δεν βρέθηκε"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Παρακαλούμε επιλέξτε τουλάχιστον ένα χρήστη ή ομάδα."
           role_blank: "πρέπει να ανατεθεί."
@@ -1431,6 +1444,7 @@ el:
     message: Το μήνυμα επεξεργάστηκε
     news: Νέα
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Το έργο επεξεργάστηκε"
     reply: Απάντησε
     time_entry: "Η καταγραφή χρόνου επεξεργάστηκε"
@@ -1573,6 +1587,7 @@ el:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1616,12 +1631,12 @@ el:
   label_age: "Ηλικία"
   label_ago: "ημέρες πριν"
   label_all: "όλα"
-  label_all_projects: "Όλα τα έργα"
   label_all_time: "πάντα"
   label_all_words: "Όλες οι λέξεις"
   label_all_open_wps: "Όλα τα ανοιχτά"
   label_always_visible: "Προβολή πάντα"
   label_announcement: "Ανακοίνωση"
+  label_angular: "AngularJS"
   label_api_access_key: "Κλειδί πρόσβασης API"
   label_api_access_key_created_on: "Tο κλειδί πρόσβασης API δημιουργήθηκε πριν από %{value}"
   label_api_access_key_type: "API"
@@ -1633,7 +1648,6 @@ el:
   label_ical_access_key_revoke: "Ανάκληση"
   label_applied_status: "Εφαρμόστηκε η κατάσταση"
   label_archive_project: "Αρχειοθέτηση έργου"
-  label_archived_projects: "Archived projects"
   label_ascending: "Αύξουσα"
   label_assigned_to_me_work_packages: "Πακέτα εργασίας που έχουν ανατεθεί σε μένα"
   label_associated_revisions: "Σχετικές αναθεωρήσεις"
@@ -1653,8 +1667,9 @@ el:
   label_available_project_work_package_categories: "Διαθέσιμες κατηγορίες πακέτων εργασίας"
   label_available_project_work_package_types: "Διαθέσιμοι τύποι εργασιών"
   label_available_projects: "Available projects"
-  label_api_documentation: "Τεκμηρίωση API"
+  label_api_doc: "API documentation"
   label_backup: "Αντίγραφο Ασφαλείας"
+  label_backup_code: "Backup code"
   label_between: "μεταξύ"
   label_blocked_by: "αποκλεισμένο από"
   label_blocks: "μπλόκς"
@@ -1664,6 +1679,7 @@ el:
   label_forum_plural: "Φόρουμ"
   label_forum_sticky: "Sticky"
   label_boolean: "Δυαδικές τιμές"
+  label_board_plural: "Boards"
   label_branch: "Κλάδος"
   label_browse: "Περιήγηση"
   label_bulk_edit_selected_work_packages: "Μαζική επεξεργασία επιλεγμένων πακέτων εργασίας"
@@ -1690,6 +1706,7 @@ el:
   label_check_uncheck_all_in_column: "Επιλογή/Αποεπιλογή όλων στη στήλη"
   label_check_uncheck_all_in_row: "Επιλογή/Αποεπιλογή όλων στη σειρά"
   label_child_element: "Στοιχείο-παιδί"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Κλείσιμο ολοκληρωμένων εκδόσεων"
   label_closed_work_packages: "κλειστό"
@@ -1721,6 +1738,7 @@ el:
   label_custom_field_plural: "Προσαρμοσμένα πεδία"
   label_custom_field_default_type: "Άδειος τύπος"
   label_custom_style: "Σχεδιασμός"
+  label_dashboard: "Dashboard"
   label_database_version: "Έκδοση PostgreSQL"
   label_date: "Ημερομηνία"
   label_date_and_time: "Ημερομηνία και ώρα"
@@ -1777,6 +1795,8 @@ el:
   label_example: "Παράδειγμα"
   label_experimental: "Πειραματικό"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Εισαγωγή"
   label_export_to: "Επίσης διαθέσιμο σε:"
   label_expanded_click_to_collapse: "Επεκταμένο. Πατήστε για σύμπτυξη"
@@ -1816,6 +1836,7 @@ el:
   label_home: "Αρχική"
   label_subject_or_id: "Θέμα ή ταυτότητα"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Νομική Ειδοποίηση"
   label_in: "σε"
   label_in_less_than: "σε λιγότερο από"
@@ -1832,6 +1853,7 @@ el:
   label_internal: "Εσωτερικό"
   label_introduction_video: "Εισαγωγικό βίντεο"
   label_invite_user: "Προσκαλέστε χρήστη"
+  label_share: "Share"
   label_show_hide: "Εμφάνιση/απόκρυψη"
   label_show_all_registered_users: "Εμφάνιση όλων των εγγεγραμμένων χρηστών"
   label_journal: "Ημερολόγιο"
@@ -1902,7 +1924,7 @@ el:
   label_my_account: "Ο λογαριασμός μου"
   label_my_activity: "My activity"
   label_my_account_data: "Τα δεδομένα του λογαριασμού μου"
-  label_my_projects: "Τα έργα μου"
+  label_my_avatar: "My avatar"
   label_my_queries: "Οι προσαρμοσμένες αναζητήσεις μου"
   label_name: "Όνομα"
   label_never: "Ποτέ"
@@ -2038,6 +2060,7 @@ el:
   label_search: "Αναζήτηση"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Αποστολή δοκιμαστικού email"
+  label_session: "Session"
   label_setting_plural: "Ρυθμίσεις"
   label_system_settings: "Ρυθμίσεις συστήματος"
   label_show_completed_versions: "Εμφάνιση ολοκληρωμένων εκδόσεων"
@@ -2067,11 +2090,13 @@ el:
   label_system_storage: "Πληροφορίες αποθήκευσης"
   label_table_of_contents: "Πίνακας περιεχομένων"
   label_tag: "Σήμανση"
+  label_team_planner: "Team Planner"
   label_text: "Μακροσκελές κείμενο"
   label_this_month: "αυτό το μήνα"
   label_this_week: "αυτή την εβδομάδα"
   label_this_year: "αυτό το έτος"
   label_time_entry_plural: "Χρόνος που δαπανήθηκε"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Τίτλος"
   label_projects_menu: "Έργα"
   label_today: "σήμερα"
@@ -2826,6 +2851,7 @@ el:
     plain: "Απλό κείμενο"
   status_active: "ενεργό"
   status_archived: "αρχειοθετημένο"
+  status_blocked: "blocked"
   status_invited: προσκεκλημένος
   status_locked: κλειδωμένο
   status_registered: εγγεγραμμένο
@@ -3082,7 +3108,7 @@ el:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

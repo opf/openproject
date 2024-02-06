@@ -8,7 +8,7 @@ he:
       uploading_avatar: "מעלה תמונה"
       text_upload_instructions: |
         העלה תמונה משלך בגודל של 128 על 128 פיקסלים. קובץ גדול יותר ישונה וייחתך כדי להתאים. תצוגה מקדימה של התמונה שלך תיראה, ברגע שתבחר תמונה.
-      error_image_too_large: "התמונה גדולה מידי"
+      error_image_too_large: "קובץ גדול מדי"
       wrong_file_format: "רק קבצי jpg, png, gif מותרים"
       empty_file_error: "בבקשה העלה תמונה נתמכת (jpg, png, gif)"
 

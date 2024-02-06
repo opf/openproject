@@ -109,5 +109,33 @@ RSpec.describe 'project export', :js, :with_cuprite do
         expect(subject).to have_no_text(party_project.name)
       end
     end
+
+    context 'with a persisted list' do
+      let(:my_projects_list) do
+        create(:project_query, name: 'My projects list', user:) do |query|
+          query.where('name_and_identifier', '~', ['Important'])
+
+          query.save!
+        end
+      end
+
+      before do
+        my_projects_list
+      end
+
+      it 'exports with the filters persisted in the list' do
+        index_page.visit!
+
+        index_page.set_sidebar_filter(my_projects_list.name)
+
+        expect(page).to have_text(important_project.name)
+        expect(page).to have_no_text(party_project.name)
+
+        export!
+
+        expect(subject).to have_text(important_project.name)
+        expect(subject).to have_no_text(party_project.name)
+      end
+    end
   end
 end

@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
+Rails.application.routes.draw do
   namespace :admin do
     namespace :settings do
       resources :storages, controller: '/storages/admin/storages', except: [:show] do

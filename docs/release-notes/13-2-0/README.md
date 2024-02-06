@@ -128,4 +128,4 @@ A very special thank you goes to our sponsors for features and improvements of t
 
 A big thanks to Community members for reporting bugs and helping us identifying and providing fixes, especially to Arun M, Patrick Massé and Richard Richter.
 
-A big thank you to every other dedicated user who has [reported bugs](https://www.openproject.org/docs/development/report-a-bug), supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards) and provided translations on [CrowdIn](https://crowdin.com/projects/opf).
+A big thank you to every other dedicated user who has [reported bugs](../../development/report-a-bug), supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards) and provided translations on [CrowdIn](https://crowdin.com/projects/opf).

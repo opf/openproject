@@ -3,7 +3,7 @@ cs:
   plugin_openproject_avatars:
     name: "Avatary"
     description: >-
-      This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
+      Tento modul umožňuje uživatelům OpenProject nahrát obrázek, který bude použit jako avatar nebo použít registrované obrázky z Gravataru.
   label_avatar: "Avatar"
   label_avatar_plural: "Avatary"
   label_current_avatar: "Aktuální Avatar"

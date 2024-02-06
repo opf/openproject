@@ -28,9 +28,8 @@
 
 class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackages::Columns::RelationColumn
   def initialize(type)
-    super
-
     self.type = type
+    super(name)
   end
 
   def name

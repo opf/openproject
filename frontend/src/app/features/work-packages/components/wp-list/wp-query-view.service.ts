@@ -8,23 +8,15 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 
 @Injectable()
 export class WorkPackagesQueryViewService {
-  // Todo: Delete the whole attribute with feature flag `show_separate_gantt_module`
-  private query:QueryResource;
-
   constructor(
     protected $state:StateService,
     protected apiV3Service:ApiV3Service,
-    // Todo: Delete the whole attribute with feature flag `show_separate_gantt_module`
-    protected configurationService:ConfigurationService,
   ) { }
 
   create(query:QueryResource):Observable<IView> {
     if (!query.href) {
       throw new Error('Expected only queries that are created since an href is required');
     }
-
-    // Todo: Delete the whole attribute with feature flag `show_separate_gantt_module`
-    this.query = query;
 
     return this
       .apiV3Service
@@ -42,14 +34,6 @@ export class WorkPackagesQueryViewService {
   }
 
   private get viewType() {
-    // Todo: Delete the whole attribute with feature flag `show_separate_gantt_module`
-    if (!this.configurationService.activeFeatureFlags.includes('showSeparateGanttModule')) {
-      // Queries with an activated Gantt should already get the ViewType "gantt"
-      if (this.$state.includes('work-packages') && this.query.timelineVisible) {
-        return 'gantt';
-      }
-    }
-
     if (this.$state.includes('work-packages')) {
       return 'work_packages_table';
     }

@@ -88,7 +88,7 @@ ActiveRecord::Migration.maintain_test_schema! unless ENV['CI']
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{Rails.root.join('spec/fixtures')}"
+  config.fixture_paths = [Rails.root.join('spec/fixtures').to_s]
 
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!

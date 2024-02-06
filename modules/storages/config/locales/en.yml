@@ -174,7 +174,9 @@ en:
       not_connected: Not connected. The user should login to the storage via the following %{link}.
     members_no_results: No members to display.
     no_results: No storages set up yet.
-    notice_successful_storage_connection: Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it.
+    notice_successful_storage_connection: |-
+      Storage connected successfully! Remember to activate the module and the specific storage in the project settings
+      of each desired project to use it.
     oauth_grant_nudge_modal:
       access_granted: Access granted
       body: You have successfully added a storage to this project. Would you like to login in the storage and authenticate your user to start using the storage?
@@ -194,7 +196,14 @@ en:
         delete: Delete file storage
         subtitle: Add an external file storage in order to upload, link and manage files in work packages.
       managed_project_folders:
-        subtitle: Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
+        one_drive_information: |-
+          To enable automatically managed project folders in OneDrive/SharePoint, additional configuration is needed on
+          the drive that is used for this file storage. If OpenProject manages the permissions of this drive, it will
+          most likely be unusable for other use cases in SharePoint. For more information and guidance please refer
+          to the %{drive_id_link_text}.
+        subtitle: |-
+          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
+          member always has the correct access permissions.
         subtitle_short: Let OpenProject create folders per project automatically.
         title: Automatically managed project folders
       project_settings:
@@ -222,5 +231,7 @@ en:
       description: Add a storage to see them here.
       heading: You don't have any storages yet.
     upsale:
-      description: Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.
+      description: |-
+        Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to
+        work packages in a project.
       title: OneDrive/SharePoint integration

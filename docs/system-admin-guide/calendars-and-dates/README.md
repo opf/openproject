@@ -3,7 +3,7 @@ sidebar_navigation:
   title: Calendar and dates
   priority: 940
 description: Configure working days, dates formats and calendar subscriptions
-keywords: working non-working days work week dates calendars icalendar
+keywords: working non-working days work week dates calendars ical icalendar
 ---
 # Calendar and dates
 
@@ -59,7 +59,7 @@ We only recommend changing this setting if you are absolutely sure and you are a
 
 ### Effect on calendars
 
-The non-working days defined here are coloured differently, generally with a darker background colour, on the [work package date picker](../../user-guide/work-packages/set-change-dates/#working-days-and-duration), [Gantt chart](../../user-guide/gantt-chart/) and the [Team planner](../../user-guide/team-planner/) and [calendar](../../user-guide/calendar/) modules.
+The non-working days defined here are colored differently, generally with a darker background color, on the [work package date picker](../../user-guide/work-packages/set-change-dates/#working-days-and-duration), [Gantt chart](../../user-guide/gantt-chart/) and the [Team planner](../../user-guide/team-planner/) and [calendar](../../user-guide/calendar/) modules.
 
 ## Date format
 

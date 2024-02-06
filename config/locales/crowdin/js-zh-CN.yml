@@ -582,7 +582,7 @@ zh-CN:
           full_view: '<b>工作包详细信息</b>视图中提供了与给定工作包有关的所有相关信息，例如其描述、状态、优先级、活动、依赖项和评论。'
           back_button: '使用左上角的返回箭头可退出并返回到工作包列表。'
           create_button: '<b>+ 创建</b>按钮将为您的项目添加一个新工作包。'
-          timeline_button: '您可以激活<b>甘特图</b>视图来为项目创建时间轴。'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: '您可以在此<b>编辑您的项目计划</b>、创建新的工作包（例如任务、里程碑、阶段等）以及<b>添加依赖项</b>。所有团队成员都可以随时查看和更新最新计划。'
         team_planner:
           overview: '团队规划工具使您可以直观地为团队成员分配任务，并全面了解哪些成员正在处理哪些工作。'
@@ -1030,6 +1030,7 @@ zh-CN:
       sharing:
         share: '共享'
         title: "共享工作包"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} 已选择"
         selection:
           mixed: "混合"

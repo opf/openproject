@@ -254,6 +254,13 @@ ro:
       open_as_gantt_title_admin: "Puteți modifica setările de vizualizare (cum ar fi tipurile de pachete de lucru selectate) în administrare, la secțiunea Setări proiect."
       no_results_title_text: În acest moment nu există proiecte
       no_results_content_text: Creare proiect nou
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Schimbă identificatorul
       activities:
@@ -326,6 +333,8 @@ ro:
       no_results_title_text: Acest utilizator nu este în prezent membru în niciun grup.
     memberships:
       no_results_title_text: Acest utilizator nu este în acest moment participant în vreun proiect.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       Nu aveți permisiunea de a șterge utilizatorul de tip placeholder. Nu aveți dreptul de a gestiona membrii pentru toate proiectele din care face parte utilizatorul de tip placeholder.
@@ -590,6 +599,7 @@ ro:
         color: "Culoare"
       user:
         admin: "Administrator"
+        auth_source: "Authentication source"
         ldap_auth_source: "Conexiune LDAP"
         identity_url: "Identity URL"
         current_password: "Parola curentă"
@@ -621,6 +631,7 @@ ro:
         begin_insertion: "Început de inserare"
         begin_deletion: "Început de ștergere"
         children: "Subelemente"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
@@ -641,7 +652,7 @@ ro:
         readonly: "Doar citire"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
-        shared_with_users: "Shared users"
+        shared_with_users: "Shared with"
         schedule_manually: "Programarea manuală"
         spent_hours: "Timp consumat"
         spent_time: "Timp consumat"
@@ -947,6 +958,8 @@ ro:
               invalid_on_create: "nu este un statut valabil pentru utilizatorii noi."
             ldap_auth_source:
               error_not_found: "%s nu a fost găsit"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Trebuie să alegeţi cel puţin un utilizator sau grup."
           role_blank: "trebuie să fie atribuite."
@@ -1462,6 +1475,7 @@ ro:
     message: Mesaj editat
     news: Noutăţi
     project_attributes: "Atributele proiectului editate"
+    project: "Project edited"
     projects: "Proiect editat"
     reply: Răspuns
     time_entry: "Jurnal editat"
@@ -1604,6 +1618,7 @@ ro:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Trimite notificări pentru această acțiune"
     work_packages:
@@ -1647,12 +1662,12 @@ ro:
   label_age: "Vârstă"
   label_ago: "zile în urmă"
   label_all: "toate"
-  label_all_projects: "Toate Proiectele"
   label_all_time: "oricând"
   label_all_words: "Toate cuvintele"
   label_all_open_wps: "Toate deschise"
   label_always_visible: "Afișat permanent"
   label_announcement: "Anunţ"
+  label_angular: "AngularJS"
   label_api_access_key: "Cheie de acces API"
   label_api_access_key_created_on: "Cheia de acces creată acum %{value}"
   label_api_access_key_type: "API"
@@ -1664,7 +1679,6 @@ ro:
   label_ical_access_key_revoke: "Revocă"
   label_applied_status: "Stare aplicată"
   label_archive_project: "Proiect de arhivă"
-  label_archived_projects: "Archived projects"
   label_ascending: "Crescător"
   label_assigned_to_me_work_packages: "Pachete de lucru atribuite mie"
   label_associated_revisions: "Revizii asociate"
@@ -1684,8 +1698,9 @@ ro:
   label_available_project_work_package_categories: "Categorii de pachete de lucru disponibile"
   label_available_project_work_package_types: "Tipuri de pachete de lucru disponibile"
   label_available_projects: "Available projects"
-  label_api_documentation: "Documentație API"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "între"
   label_blocked_by: "blocat de"
   label_blocks: "blochează"
@@ -1695,6 +1710,7 @@ ro:
   label_forum_plural: "Forumuri"
   label_forum_sticky: "Lipicios"
   label_boolean: "Valoare logică"
+  label_board_plural: "Boards"
   label_branch: "Ramură"
   label_browse: "Răsfoire"
   label_bulk_edit_selected_work_packages: "Editare în masă a pachetelor de lucru selectate"
@@ -1721,6 +1737,7 @@ ro:
   label_check_uncheck_all_in_column: "Bifare/debifare toate în coloană"
   label_check_uncheck_all_in_row: "Bifare/debifare toate pe rând"
   label_child_element: "Element copil"
+  label_choices: "Choices"
   label_chronological_order: "Întâi cele mai vechi"
   label_close_versions: "Închidere versiuni complete"
   label_closed_work_packages: "închis"
@@ -1752,6 +1769,7 @@ ro:
   label_custom_field_plural: "Câmpuri personalizate"
   label_custom_field_default_type: "Golire tip"
   label_custom_style: "Design"
+  label_dashboard: "Dashboard"
   label_database_version: "Versiunea PostgreSQL"
   label_date: "Dată"
   label_date_and_time: "Data"
@@ -1808,6 +1826,8 @@ ro:
   label_example: "Exemplu"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Importă"
   label_export_to: "Disponibil și în:"
   label_expanded_click_to_collapse: "Extinse. Faceți clic pentru a restrânge"
@@ -1847,6 +1867,7 @@ ro:
   label_home: "Pagina de start"
   label_subject_or_id: "Subiect sau ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Notificare legala"
   label_in: "în"
   label_in_less_than: "în mai puțin de"
@@ -1863,6 +1884,7 @@ ro:
   label_internal: "Intern"
   label_introduction_video: "Video de introducere"
   label_invite_user: "Invitare utilizator"
+  label_share: "Share"
   label_show_hide: "Afișare/ascundere"
   label_show_all_registered_users: "Afișați toți utilizatorii înregistrați"
   label_journal: "Jurnal"
@@ -1933,7 +1955,7 @@ ro:
   label_my_account: "Contul meu"
   label_my_activity: "My activity"
   label_my_account_data: "Datele din contul meu"
-  label_my_projects: "Proiectele mele"
+  label_my_avatar: "My avatar"
   label_my_queries: "Interogările mele"
   label_name: "Nume"
   label_never: "Niciodată"
@@ -2069,6 +2091,7 @@ ro:
   label_search: "Căutare"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Trimite e-mail de test"
+  label_session: "Session"
   label_setting_plural: "Setări"
   label_system_settings: "Setări de sistem"
   label_show_completed_versions: "Afișare versiuni complete"
@@ -2098,11 +2121,13 @@ ro:
   label_system_storage: "Informații privind stocarea"
   label_table_of_contents: "Cuprins"
   label_tag: "Etichetă"
+  label_team_planner: "Team Planner"
   label_text: "Text lung"
   label_this_month: "luna curentă"
   label_this_week: "săptămâna curentă"
   label_this_year: "anul curent"
   label_time_entry_plural: "Timp consumat"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Titlu"
   label_projects_menu: "Proiecte"
   label_today: "astăzi"
@@ -2859,6 +2884,7 @@ ro:
     plain: "Text simplu"
   status_active: "activ"
   status_archived: "Arhivat"
+  status_blocked: "blocked"
   status_invited: invitat
   status_locked: blocat
   status_registered: înregistrat
@@ -3117,7 +3143,7 @@ ro:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >

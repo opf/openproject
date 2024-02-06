@@ -84,6 +84,8 @@ module Copy
         copy_dependency(params:)
       rescue StandardError => e
         Rails.logger.error { "Failed to copy dependency #{self.class.identifier}: #{e.message}" }
+        ::OpenProject.logger.error e
+
         result.success = false
         result.errors.add(:base, :could_not_be_copied, dependency: self.class.human_name)
       end

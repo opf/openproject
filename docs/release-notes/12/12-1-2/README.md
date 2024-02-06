@@ -24,7 +24,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Fixed: Project filter is reset to "Include all sub-projects" when saving the view \[[#42277](https://community.openproject.org/wp/42277)\]
 - Fixed: Global Basic Auth not working anymore \[[#42284](https://community.openproject.org/wp/42284)\]
 - Fixed: SMTP setting issues in packager installation \[[#42299](https://community.openproject.org/wp/42299)\]
-- Fixed: LDAP User Synchronisation doesn't work \[[#42312](https://community.openproject.org/wp/42312)\]
+- Fixed: LDAP User Synchronization doesn't work \[[#42312](https://community.openproject.org/wp/42312)\]
 
 #### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.

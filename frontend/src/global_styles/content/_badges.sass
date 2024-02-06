@@ -27,13 +27,11 @@
 //++
 
 $badge-diameter: 1.25rem
-$badge-fontsize: 1rem
 $badge-background: var(--primary-color)
 $badge-secondary-background: #F1F1F1
 $badge-color: var(--font-color-on-primary)
 
-@mixin badge-layout($fontsize: $badge-fontsize, $diameter: $badge-diameter)
-  font-size: $fontsize
+@mixin badge-layout($diameter: $badge-diameter)
   width: $diameter
   height: $diameter
 

@@ -26,7 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::TimeEntries::TimeEntryQuery < Queries::BaseQuery
+class Queries::TimeEntries::TimeEntryQuery
+  include Queries::BaseQuery
+  include Queries::UnpersistedQuery
+
   def self.model
     TimeEntry
   end

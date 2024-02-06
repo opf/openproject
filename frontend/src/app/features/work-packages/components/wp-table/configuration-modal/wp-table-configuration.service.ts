@@ -9,7 +9,6 @@ import { WpTableConfigurationTimelinesTabComponent } from 'core-app/features/wor
 import { WpTableConfigurationHighlightingTabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tabs/highlighting-tab.component';
 import { OpBaselineComponent } from 'core-app/features/work-packages/components/wp-baseline/baseline/baseline.component';
 import { StateService } from '@uirouter/angular';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 @Injectable()
 export class WpTableConfigurationService {
@@ -49,12 +48,11 @@ export class WpTableConfigurationService {
   constructor(
     readonly I18n:I18nService,
     readonly $state:StateService,
-    readonly configurationService:ConfigurationService,
   ) {
   }
 
   public get tabs() {
-    if (this.configurationService.activeFeatureFlags.includes('showSeparateGanttModule') && (this.$state.current.name?.includes('work-packages') || this.$state.current.name?.includes('bim'))) {
+    if (this.$state.current.name?.includes('work-packages') || this.$state.current.name?.includes('bim')) {
       return this._tabs;
     }
 

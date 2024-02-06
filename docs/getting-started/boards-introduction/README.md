@@ -10,7 +10,7 @@ keywords: Agile Boards
 
 This document provides an initial introduction to the boards in OpenProject, i.e. how to use a Kanban board to manage your tasks in an agile way.
 
-> **Note**:  The basic agile boards are included in the OpenProject Community edition.  OpenProject advanced Action boards are an Enterprise add-on and can only be used  with [Enterprise cloud](https://www.openproject.org/docs/enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](https://www.openproject.org/docs/enterprise-guide/enterprise-on-premises-guide). An upgrade from the free Community edition is easily possible.
+> **Note**:  The basic agile boards are included in the OpenProject Community edition.  OpenProject advanced Action boards are an Enterprise add-on and can only be used  with [Enterprise cloud](../../enterprise-guide/enterprise-cloud-guide) or [Enterprise on-premises](../../enterprise-guide/enterprise-on-premises-guide). An upgrade from the free Community edition is easily possible.
 
 
 
