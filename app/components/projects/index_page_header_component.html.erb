@@ -6,6 +6,11 @@
       <%= render(Primer::Alpha::ActionMenu.new) do |menu|
         menu.with_show_button(icon: 'op-kebab-vertical', 'aria-label': t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' })
 
+        menu.with_item(
+          tag: :a,
+          label: t('button_rename')
+        )
+
         if current_user.logged? && query_saveable?
           menu.with_item(
             label: t('button_save'),
@@ -22,11 +27,17 @@
           end
         end
 
+        if current_user.logged? && query_saveable?
+          menu.with_item(
+            label: t('button_save_as')
+          ) do |item|
+            item.with_leading_visual_icon(icon: :'op-save')
+          end
+        end
+
         if current_user.admin?
           menu.with_item(
-            label: t('button_configure'),
-            href: admin_settings_projects_path,
-            content_arguments: { target: '_blank' }
+            label: t('button_configure_view')
           ) do |item|
             item.with_leading_visual_icon(icon: :gear)
           end
