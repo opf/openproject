@@ -31,13 +31,11 @@ export class AlternativeSearchService {
     const alternativeMatch = Object
       .keys(this.alternativeNames)
       .some((alternativeName) => {
-        return alternativeName.toLowerCase().indexOf(lowercaseSearchTerm) > -1
+        return alternativeName.toLowerCase().includes(lowercaseSearchTerm)
           && currentItem.name === this.alternativeNames[alternativeName];
       });
 
-    return (
-      lowercaseCurrentItemName.indexOf(lowercaseSearchTerm) > -1
-      || alternativeMatch
-    );
+    return lowercaseCurrentItemName.includes(lowercaseSearchTerm)
+      || alternativeMatch;
   };
 }
