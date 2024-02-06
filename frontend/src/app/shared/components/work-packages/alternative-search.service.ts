@@ -10,18 +10,18 @@ export class AlternativeSearchService {
   ) { }
 
   private specialSearchStrings = {
-    done_ratio: this.I18n.t('js.work_packages.properties.done_ratio'),
-    done_ratio_alternative: this.I18n.t('js.work_packages.properties.done_ratio_alternative'),
+    percentComplete: this.I18n.t('js.work_packages.properties.percentComplete'),
+    percentCompleteAlternative: this.I18n.t('js.work_packages.properties.percentCompleteAlternative'),
     work: this.I18n.t('js.work_packages.properties.work'),
-    work_alternative: this.I18n.t('js.work_packages.properties.work_alternative'),
-    remaining_work: this.I18n.t('js.work_packages.properties.remaining_work'),
-    remaining_work_alternative: this.I18n.t('js.work_packages.properties.remaining_work_alternative'),
+    workAlternative: this.I18n.t('js.work_packages.properties.workAlternative'),
+    remainingWork: this.I18n.t('js.work_packages.properties.remainingWork'),
+    remainingWorkAlternative: this.I18n.t('js.work_packages.properties.remainingWorkAlternative'),
   };
 
   private alternativeNames:{ [index:string]:string } = {
-    [this.specialSearchStrings.done_ratio_alternative]: this.specialSearchStrings.done_ratio,
-    [this.specialSearchStrings.work_alternative]: this.specialSearchStrings.work,
-    [this.specialSearchStrings.remaining_work_alternative]: this.specialSearchStrings.remaining_work,
+    [this.specialSearchStrings.percentCompleteAlternative]: this.specialSearchStrings.percentComplete,
+    [this.specialSearchStrings.workAlternative]: this.specialSearchStrings.work,
+    [this.specialSearchStrings.remainingWorkAlternative]: this.specialSearchStrings.remainingWork,
   };
 
   public searchFunction = (term:string, currentItem:QueryFilterResource):boolean => {
