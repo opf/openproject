@@ -191,7 +191,7 @@ OpenProject::Application.routes.draw do
         resource :types, only: %i[show update]
         resource :project_custom_fields, only: %i[show] do
           member do
-            put :toggle
+            post :toggle
           end
           collection do
             put :enable_all_of_section

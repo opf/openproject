@@ -55,21 +55,20 @@ module Projects
         end
 
         def toggle_button
-          render(Primer::Beta::Button.new(
-                   tag: :a,
-                   href: toggle_project_settings_project_custom_fields_path(
+          render(Primer::Alpha::ToggleSwitch.new(
+                   src: toggle_project_settings_project_custom_fields_path(
                      project_custom_field_project_mapping: {
                        project_id: @project.id,
                        custom_field_id: @project_custom_field.id
                      }
                    ),
-                   scheme: :invisible,
+                   csrf_token: form_authenticity_token,
                    data: { 'turbo-method': :put, 'turbo-stream': true,
-                           qa_selector: "toggle-project-custom-field-mapping-#{@project_custom_field.id}" }
-                 )) do |button|
-            button.with_leading_visual_icon(icon: (active_in_project? ? 'check-circle' : 'circle'))
-            @project_custom_field.name
-          end
+                           qa_selector: "toggle-project-custom-field-mapping-#{@project_custom_field.id}" },
+                   checked: active_in_project?,
+                   size: :small,
+                   status_label_position: :end
+                 ))
         end
       end
     end

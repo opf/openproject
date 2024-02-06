@@ -106,7 +106,7 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
         visit project_settings_general_path(project)
 
         within '#menu-sidebar' do
-          expect(page).not_to have_css("li[data-name='settings_project_custom_fields']")
+          expect(page).to have_no_css("li[data-name='settings_project_custom_fields']")
         end
       end
 
@@ -128,7 +128,7 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
         visit project_settings_general_path(project)
 
         within '#menu-sidebar' do
-          expect(page).not_to have_css("li[data-name='settings_project_custom_fields']")
+          expect(page).to have_no_css("li[data-name='settings_project_custom_fields']")
         end
       end
     end
@@ -182,7 +182,7 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
           within_custom_field_container(boolean_project_custom_field) do
             expect_unchecked_state
 
-            page.find("[data-qa-selector='toggle-project-custom-field-mapping-#{boolean_project_custom_field.id}']").click
+            page.find("[data-qa-selector='toggle-project-custom-field-mapping-#{boolean_project_custom_field.id}'] > button").click
 
             expect_checked_state # without reloading the page
           end
@@ -275,15 +275,15 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
 
         within_custom_field_section_container(section_for_input_fields) do
           expect(page).to have_content('Boolean field')
-          expect(page).not_to have_content('String field')
+          expect(page).to have_no_content('String field')
         end
 
         within_custom_field_section_container(section_for_select_fields) do
-          expect(page).not_to have_content('List field')
+          expect(page).to have_no_content('List field')
         end
 
         within_custom_field_section_container(section_for_multi_select_fields) do
-          expect(page).not_to have_content('Multi list field')
+          expect(page).to have_no_content('Multi list field')
         end
       end
 
@@ -346,11 +346,11 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
   end
 
   def expect_checked_state
-    expect(page).to have_css('.octicon-check-circle')
+    expect(page).to have_css('.ToggleSwitch-statusOn')
   end
 
   def expect_unchecked_state
-    expect(page).to have_css('.octicon-circle')
+    expect(page).to have_css('.ToggleSwitch-statusOff')
   end
 
   def within_custom_field_section_container(section, &)
