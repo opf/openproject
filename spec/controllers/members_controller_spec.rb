@@ -175,6 +175,52 @@ RSpec.describe MembersController do
           expect(user4).to be_member_of(project)
         end
       end
+
+      context 'with yet-to-be-invited emails' do
+        let(:emails) { ['h.wurst@openproject.com', 'l.lustig@openproject.com'] }
+        let(:params) do
+          {
+            project_id: project.id,
+            member: {
+              role_ids: [role.id],
+              user_ids: [emails.first] + [user2.id, user3.id] + [emails.last]
+            }
+          }
+        end
+
+        let(:invited_users) { User.where(mail: emails).to_a }
+        let(:users) { invited_users + [user2, user3] }
+        let(:original_member_count) { Member.count }
+
+        before do
+          original_member_count
+
+          allow(Mails::InvitationJob).to receive(:perform_later)
+
+          post :create, params:
+        end
+
+        it 'redirects to the members list' do
+          expect(response).to redirect_to '/projects/pet_project/members?status=all'
+        end
+
+        it 'adds members' do
+          expect(users.size).to eq 4 # 2 emails, 2 existing users
+          expect(users).to all be_member_of(project)
+
+          expect(Member.count).to eq (original_member_count + users.size)
+        end
+
+        it 'invites new users' do
+          expect(invited_users.size).to be 2
+
+          invited_users.each do |user|
+            expect(Mails::InvitationJob)
+              .to have_received(:perform_later)
+              .with user.invitation_token
+          end
+        end
+      end
     end
 
     context 'with a failed save' do
