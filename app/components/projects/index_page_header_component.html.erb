@@ -3,20 +3,6 @@
     <% header.with_title(variant: :large, data: { 'test-selector': 'project-query-name'}) { page_title } %>
 
     <% header.with_actions do %>
-      <%= render(
-            Primer::Beta::Button.new(
-              tag: :a,
-              href: activities_path,
-              size: :medium,
-              type: :submit,
-              aria: { label: t(:label_overall_activity) },
-              mr: BUTTON_MARGIN_RIGHT
-            )
-          ) do
-          t(:label_overall_activity)
-        end
-      %>
-
       <%= render(Primer::Alpha::ActionMenu.new) do |menu|
         menu.with_show_button(icon: 'op-kebab-vertical', 'aria-label': t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' })
 
@@ -52,7 +38,13 @@
         ) do |item|
           item.with_leading_visual_icon(icon: 'op-file-download')
         end
-        
+
+        menu.with_item(
+          tag: :a,
+          label: t(:label_overall_activity),
+          href: activities_path
+        )
+
         if !gantt_portfolio_project_ids.empty?
           menu.with_item(
             tag: :a,
@@ -66,7 +58,7 @@
             item.with_tooltip(text: gantt_portfolio_title)
           end
         end
-        
+
         if query.persisted?
           menu.with_item(
             label: t(:button_delete),
