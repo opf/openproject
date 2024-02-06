@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
 </head>
 <body>
   <div id="wrapper">
-    <header class="op-app-header">
+    <header class="op-app-header<%= ' op-app-header_development' if OpenProject::Configuration.development_highlight_enabled? %>">
       <div class="op-app-header--center op-logo">
         <%= link_to(I18n.t('label_home'), home_url, class: 'op-logo--link') %>
       </div>
