@@ -9,7 +9,9 @@
         menu.with_item(
           tag: :a,
           label: t('button_rename')
-        )
+        ) do |item|
+          item.with_leading_visual_icon(icon: 'pencil')
+        end
 
         if current_user.logged? && query_saveable?
           menu.with_item(
