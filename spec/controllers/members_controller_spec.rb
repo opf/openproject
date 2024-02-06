@@ -195,9 +195,9 @@ RSpec.describe MembersController do
         before do
           original_member_count
 
-          allow(Mails::InvitationJob).to receive(:perform_later)
-
-          post :create, params:
+          perform_enqueued_jobs do
+            post :create, params:
+          end
         end
 
         it 'redirects to the members list' do
@@ -212,12 +212,14 @@ RSpec.describe MembersController do
         end
 
         it 'invites new users' do
-          expect(invited_users.size).to be 2
+          mails = ActionMailer::Base.deliveries
 
-          invited_users.each do |user|
-            expect(Mails::InvitationJob)
-              .to have_received(:perform_later)
-              .with user.invitation_token
+          expect(invited_users.size).to eq 2
+          expect(mails.size).to eq invited_users.size
+          expect(mails.map(&:to).flatten).to eq invited_users.map(&:mail)
+
+          mails.each do |mail|
+            expect(mail.subject).to include 'account activation'
           end
         end
       end
