@@ -27,34 +27,33 @@
 #++
 
 require 'tempfile'
-require 'fileutils'
+require 'pathname'
 
 namespace :backup do
   namespace :database do
     desc 'Creates a database dump which can be used as a backup.'
     task :create, [:path_to_backup] => [:environment] do |_task, args|
       args.with_defaults(path_to_backup: default_db_filename)
-      FileUtils.mkdir_p(Pathname.new(args[:path_to_backup]).dirname)
+      Pathname(args[:path_to_backup]).dirname.mkpath
 
       config = database_configuration
 
-      with_config_file(config) do |config_file|
-        pg_dump_call = ['pg_dump',
-                        '--clean',
-                        "--file=#{args[:path_to_backup]}",
-                        '--format=custom',
-                        '--no-owner']
-        pg_dump_call << "--host=#{config['host']}" if config['host']
-        pg_dump_call << "--port=#{config['port']}" if config['port']
-        user = config.values_at('user', 'username').compact.first
-        pg_dump_call << "--username=#{user}" if user
-        pg_dump_call << config['database'].to_s
+      pg_dump_call = ['pg_dump',
+                      '--clean',
+                      "--file=#{args[:path_to_backup]}",
+                      '--format=custom',
+                      '--no-owner']
+      pg_dump_call << "--host=#{config[:host]}" if config[:host]
+      pg_dump_call << "--port=#{config[:port]}" if config[:port]
+      pg_dump_call << "--username=#{config[:user]}" if config[:user]
+      pg_dump_call << config[:database].to_s
 
-        if config['password']
+      if config[:password]
+        with_config_file(config) do |config_file|
           Kernel.system({ 'PGPASSFILE' => config_file }, *pg_dump_call)
-        else
-          Kernel.system(*pg_dump_call)
         end
+      else
+        Kernel.system(*pg_dump_call)
       end
     end
 
@@ -65,50 +64,42 @@ namespace :backup do
 
       config = database_configuration
 
-      with_config_file(config) do |config_file|
-        pg_restore_call = ['pg_restore',
-                           '--clean',
-                           '--no-owner',
-                           '--single-transaction',
-                           "--dbname=#{config['database']}"]
-        pg_restore_call << "--host=#{config['host']}" if config['host']
-        pg_restore_call << "--port=#{config['port']}" if config['port']
-        user = config.values_at('user', 'username').compact.first
-        pg_restore_call << "--username=#{user}" if user
-        pg_restore_call << args[:path_to_backup].to_s
+      pg_restore_call = ['pg_restore',
+                         '--clean',
+                         '--no-owner',
+                         '--single-transaction',
+                         "--dbname=#{config[:database]}"]
+      pg_restore_call << "--host=#{config[:host]}" if config[:host]
+      pg_restore_call << "--port=#{config[:port]}" if config[:port]
+      pg_restore_call << "--username=#{config[:user]}" if config[:user]
+      pg_restore_call << args[:path_to_backup].to_s
 
-        if config['password']
+      if config[:password]
+        with_config_file(config) do |config_file|
           Kernel.system({ 'PGPASSFILE' => config_file }, *pg_restore_call)
-        else
-          Kernel.system(*pg_restore_call)
         end
+      else
+        Kernel.system(*pg_restore_call)
       end
     end
 
     private
 
     def database_configuration
-      ActiveRecord::Base.configurations[Rails.env] || Rails.application.config.database_configuration[Rails.env]
+      hash = ActiveRecord::Base.connection_db_config.configuration_hash
+
+      {
+        **hash.slice(:host, :port, :database, :password, :sslkey, :sslcert, :sslca),
+        user: hash[:user] || hash[:username],
+      }
     end
 
     def with_config_file(config, &blk)
-      file = Tempfile.new('op_pg_config')
-      file.write "*:*:*:*:#{config['password']}"
-      file.close
-      blk.yield file.path
-      file.unlink
-    end
-
-    def sql_dump_tempfile(config)
-      t =  "[client]\n"
-      t << "password=\"#{config['password']}\"\n"
-      t << "user=\"#{config.values_at('user', 'username').compact.first}\"\n"
-      t << "host=\"#{config['host'] || '127.0.0.1'}\"\n"
-      t << "port=\"#{config['port']}\"\n" if config['port']
-      t << "ssl-key=\"#{config['sslkey']}\"\n" if config['sslkey']
-      t << "ssl-cert=\"#{config['sslcert']}\"\n" if config['sslcert']
-      t << "ssl-ca=\"#{config['sslca']}\"\n" if config['sslca']
-      t
+      Tempfile.open('op_pg_config') do |file|
+        file.write "*:*:*:*:#{config[:password]}"
+        file.close
+        blk.yield file.path
+      end
     end
 
     def default_db_filename

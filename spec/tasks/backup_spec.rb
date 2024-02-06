@@ -36,8 +36,12 @@ RSpec.describe Rake::Task, 'backup:database' do
       'password' => 'test_password' }
   end
 
+  let(:hash_config) do
+    ActiveRecord::DatabaseConfigurations::HashConfig.new('test', 'primary', database_config)
+  end
+
   before do
-    allow(ActiveRecord::Base).to receive(:configurations).and_return('test' => database_config)
+    allow(ActiveRecord::Base).to receive(:connection_db_config).and_return(hash_config)
     allow(FileUtils).to receive(:mkdir_p).and_return(nil)
     allow(Kernel).to receive(:system)
   end
