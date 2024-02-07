@@ -43,7 +43,7 @@ module OpenProject
     def pg_env
       database_config = ActiveRecord::Base.connection_db_config.configuration_hash
 
-      entries = PG_ENV_TO_CONNECTION_CONFIG.map do |key, config_key|
+      PG_ENV_TO_CONNECTION_CONFIG.filter_map do |key, config_key|
         possible_keys = Array(config_key)
         value = possible_keys
           .lazy
@@ -51,9 +51,7 @@ module OpenProject
           .first
 
         [key.to_s, value.to_s] if value.present?
-      end
-
-      entries.compact.to_h
+      end.to_h
     end
   end
 end
