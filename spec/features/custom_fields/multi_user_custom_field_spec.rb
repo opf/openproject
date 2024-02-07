@@ -4,7 +4,6 @@ require "support/pages/work_packages/abstract_work_package"
 RSpec.describe "multi select custom values", :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
-  let(:wp_page) { Pages::FullWorkPackage.new work_package }
   let(:cf_edit_field) do
     field = wp_page.edit_field custom_field.attribute_name(:camel_case)
     field.field_type = 'create-autocompleter'
@@ -14,6 +13,7 @@ RSpec.describe "multi select custom values", :js, :with_cuprite do
   shared_let(:type) { create(:type) }
   shared_let(:project) { create(:project, types: [type]) }
   shared_let(:role) { create(:project_role) }
+  shared_let(:work_package) { create(:work_package, project:, type:, author: admin) }
 
   shared_let(:custom_field) do
     create(
@@ -25,6 +25,8 @@ RSpec.describe "multi select custom values", :js, :with_cuprite do
     )
   end
 
+  let(:wp_page) { Pages::FullWorkPackage.new work_package }
+
   before do
     login_as current_user
     wp_page.visit!
@@ -32,8 +34,6 @@ RSpec.describe "multi select custom values", :js, :with_cuprite do
   end
 
   describe 'with mixed users, group, and placeholders' do
-    let(:work_package) { create(:work_package, project:, type:) }
-
     let!(:user) do
       create(:user,
              firstname: 'Da Real',
@@ -93,6 +93,42 @@ RSpec.describe "multi select custom values", :js, :with_cuprite do
           .map(&:typed_value)
 
       expect(cvs).to contain_exactly(group, placeholder)
+    end
+
+    context 'on the table' do
+      let(:wp_page) { Pages::WorkPackagesTable.new(project) }
+      let(:columns) { Components::WorkPackages::Columns.new }
+
+      let(:cf_edit_field) do
+        field = wp_page.edit_field(work_package, custom_field.attribute_name(:camel_case))
+        field.field_type = 'create-autocompleter'
+        field
+      end
+
+      it "is shown and allowed to be updated" do
+        wp_page.expect_work_package_listed work_package
+        columns.open_modal
+        columns.add 'Reviewer'
+
+        cf_edit_field.expect_state_text "-"
+        cf_edit_field.activate!
+        cf_edit_field.set_value "Da Real"
+        cf_edit_field.set_value "groupfoo"
+        cf_edit_field.set_value "PLACEHOLDER"
+
+        cf_edit_field.submit_by_dashboard
+
+        wp_page.expect_and_dismiss_toaster(message: "Successful update.")
+        expect(page).to have_text "Da Real"
+        expect(page).to have_text "groupfoo"
+
+        work_package.reload
+        cvs = work_package
+          .custom_value_for(custom_field)
+          .map(&:typed_value)
+
+        expect(cvs).to contain_exactly(group, user, placeholder)
+      end
     end
   end
 
