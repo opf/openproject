@@ -48,6 +48,11 @@ module Components
         end
       end
 
+      def open!
+        open
+        expect_open
+      end
+
       def expect_filter_count(num)
         expect(filter_button).to have_css('.badge', text: num, wait: 10)
       end
@@ -94,6 +99,16 @@ module Components
 
         # Reset the filter search input
         input.set ""
+      end
+
+      def expect_alternative_available_filter(search_term, displayed_name)
+        input = page.find('.advanced-filters--add-filter-value input')
+        input.set(search_term)
+
+        expect(page)
+          .to have_css('.ng-dropdown-panel .ng-option-label', text: displayed_name)
+
+        input.set('')
       end
 
       def expect_loaded
