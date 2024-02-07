@@ -45,14 +45,17 @@ module Admin::Settings
 
       module_missing_deps = OpenProject::AccessControl
         .modules
-        .detect { |m| m[:dependencies] && enabled_modules.include?(m[:name]) && (m[:dependencies] & enabled_modules) != m[:dependencies] }
+        .select { |m| m[:dependencies] && enabled_modules.include?(m[:name]) && (m[:dependencies] & enabled_modules) != m[:dependencies] }
+        .map do |m|
+          I18n.t(
+            'settings.projects.missing_dependencies',
+            module: I18n.t("project_module_#{m[:name]}"),
+            dependencies: m[:dependencies].map { |dep|I18n.t("project_module_#{dep}") }.join(', ')
+          )
+        end
 
-      if module_missing_deps
-        flash[:error] = I18n.t(
-          'settings.projects.missing_dependencies',
-          module: I18n.t("project_module_#{module_missing_deps[:name]}"),
-          dependencies: module_missing_deps[:dependencies].map { |dep| I18n.t("project_module_#{dep}") }.join(', ')
-        )
+      if module_missing_deps.any?
+        flash[:error] = helpers.list_of_messages(module_missing_deps)
 
         redirect_to action: :show
       end
