@@ -69,7 +69,7 @@ class Attachment < ApplicationRecord
 
   mount_uploader :file, OpenProject::Configuration.file_uploader
 
-  after_commit :enqueue_jobs, on: :create
+  after_commit :enqueue_jobs, on: :create, if: -> { !internal_container? }
 
   scope :pending_direct_upload, -> { where(digest: "", downloads: -1) }
   scope :not_pending_direct_upload, -> { where.not(digest: "", downloads: -1) }

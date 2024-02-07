@@ -103,8 +103,12 @@ en:
 
   antivirus_scan:
     not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
-    quarantine_message: "A virus was detected in file %{filename}. It has been quarantined and is not available for download."
-    delete_message: "A virus was detected in file %{filename}. The file has been deleted."
+    quarantined_message: "A virus was detected in file %{filename}. It has been quarantined and is not available for download."
+    deleted_message: "A virus was detected in file %{filename}. The file has been deleted."
+    deleted_by_admin: "The quarantined file %{filename} has been deleted by an administrator."
+    quarantined_attachments:
+      container: "Container"
+      title: "Quarantined attachments"
 
   attribute_help_texts:
     note_public: "Any text and images you add to this field is publicly visible to all logged in users!"
