@@ -43,5 +43,11 @@ module ::Gantt
         end
       end
     end
+
+    private
+
+    def default_breadcrumb
+      t(:label_gantt_chart_plural)
+    end
   end
 end
