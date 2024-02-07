@@ -101,6 +101,11 @@ en:
     is_active: currently displayed
     is_inactive: currently not displayed
 
+  antivirus_scan:
+    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
+    quarantine_message: "A virus was detected in file %{filename}. It has been quarantined and is not available for download."
+    delete_message: "A virus was detected in file %{filename}. The file has been deleted."
+
   attribute_help_texts:
     note_public: "Any text and images you add to this field is publicly visible to all logged in users!"
     text_overview: "In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute."
@@ -2984,14 +2989,12 @@ en:
     antivirus:
       title: "Virus scanning"
       actions:
-        log: 'Log only'
         delete: 'Delete the file'
         quarantine: 'Quarantine the file'
         instructions_html: >
           Select the action to perform for files on which a virus has been detected:
           <br/>
           <ul>
-          <li><strong>%{log_option}</strong>: Log the found virus, but do not block access to the file.</li>
           <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can manually override the decision or delete the file in the administration.</li>
           <li><strong>%{delete_option}</strong>: Delete the file immediately.</li>
           </ul>

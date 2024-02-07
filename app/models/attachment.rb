@@ -30,10 +30,11 @@ require 'digest/md5'
 
 class Attachment < ApplicationRecord
   enum status: {
-    new: 0,
+    uploaded: 0,
     prepared: 1,
-    scanned: 2
-  }.freeze, _prefix: true, _default: :new
+    scanned: 2,
+    quarantined: 3
+  }.freeze, _prefix: true
 
   belongs_to :container, polymorphic: true
   belongs_to :author, class_name: 'User'
@@ -68,7 +69,7 @@ class Attachment < ApplicationRecord
 
   mount_uploader :file, OpenProject::Configuration.file_uploader
 
-  after_commit :extract_fulltext, on: :create
+  after_commit :enqueue_jobs, on: :create
 
   scope :pending_direct_upload, -> { where(digest: "", downloads: -1) }
   scope :not_pending_direct_upload, -> { where.not(digest: "", downloads: -1) }
@@ -129,6 +130,10 @@ class Attachment < ApplicationRecord
 
   def prepared?
     status_prepared?
+  end
+
+  def pending_virus_scan?
+    status_uploaded? && Setting.antivirus_scan_mode != :disabled
   end
 
   # images are sent inline
@@ -241,10 +246,14 @@ class Attachment < ApplicationRecord
     attachment.save!
   end
 
-  def extract_fulltext
-    return unless OpenProject::Database.allows_tsv? && (!container || container.class.attachment_tsv_extracted?)
+  def enqueue_jobs
+    if OpenProject::Database.allows_tsv? && (!container || container.class.attachment_tsv_extracted?)
+      Attachments::ExtractFulltextJob.perform_later(id)
+    end
 
-    ExtractFulltextJob.perform_later(id)
+    if pending_virus_scan?
+      Attachments::VirusScanJob.perform_later(self)
+    end
   end
 
   # Extract the fulltext of any attachments where fulltext is still nil.
@@ -258,9 +267,9 @@ class Attachment < ApplicationRecord
       .pluck(:id)
       .each do |id|
       if run_now
-        ExtractFulltextJob.perform_now(id)
+        Attachments::ExtractFulltextJob.perform_now(id)
       else
-        ExtractFulltextJob.perform_later(id)
+        Attachments::ExtractFulltextJob.perform_later(id)
       end
     end
   end
@@ -269,7 +278,7 @@ class Attachment < ApplicationRecord
     return unless OpenProject::Database.allows_tsv?
 
     Attachment.pluck(:id).each do |id|
-      ExtractFulltextJob.perform_now(id)
+      Attachments::ExtractFulltextJob.perform_now(id)
     end
   end
 

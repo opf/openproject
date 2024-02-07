@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe ExtractFulltextJob, type: :job do
+RSpec.describe Attachments::ExtractFulltextJob, type: :job do
   subject(:extracted_attributes) do
     perform_enqueued_jobs
 
@@ -49,7 +49,7 @@ RSpec.describe ExtractFulltextJob, type: :job do
   let(:text) { 'lorem ipsum' }
   let(:attachment) do
     create(:attachment).tap do |attachment|
-      expect(ExtractFulltextJob)
+      expect(Attachments::ExtractFulltextJob)
         .to have_been_enqueued
         .with(attachment.id)
 

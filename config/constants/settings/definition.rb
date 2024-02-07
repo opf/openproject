@@ -106,8 +106,8 @@ module Settings
       antivirus_scan_action: {
         description: 'Virus scanning action for found infected files',
         format: :symbol,
-        default: :delete,
-        allowed: %i[log delete]
+        default: :quarantine,
+        allowed: %i[quarantine delete]
       },
       auth_source_sso: {
         description: 'Configuration for Header-based Single Sign-On',

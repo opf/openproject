@@ -23,7 +23,6 @@
   <div class="form--field">
     <%= setting_select :antivirus_scan_action,
                        [
-                         [t('settings.antivirus.actions.log'), :log],
                          [t('settings.antivirus.actions.quarantine'), :quarantine],
                          [t('settings.antivirus.actions.delete'), :delete],
                        ],
@@ -31,7 +30,6 @@
     %>
     <div class="form--field-instructions">
       <p><%= t('settings.antivirus.actions.instructions_html',
-               log_option: t('settings.antivirus.actions.log'),
                quarantine_option: t('settings.antivirus.actions.quarantine'),
                delete_option: t('settings.antivirus.actions.delete')
              ) %></p>

@@ -305,6 +305,35 @@ RSpec.describe Attachment do
     end
   end
 
+  describe 'virus scan job on commit' do
+    shared_let(:work_package) { create(:work_package) }
+    let(:created_attachment) do
+      create(:attachment,
+             status: :uploaded,
+             container: work_package)
+    end
+
+    context 'with setting disabled', with_settings: { antivirus_scan_mode: :disabled } do
+      it 'does not run' do
+        attachment.save
+        expect(attachment.pending_virus_scan?).to be false
+
+        expect(Attachments::VirusScanJob)
+          .not_to have_been_enqueued.with(attachment)
+      end
+    end
+
+    context 'with setting enabled', with_settings: { antivirus_scan_mode: :clamav_socket } do
+      it 'runs the job' do
+        attachment.save
+        expect(attachment.pending_virus_scan?).to be true
+
+        expect(Attachments::VirusScanJob)
+          .to have_been_enqueued.with(attachment)
+      end
+    end
+  end
+
   describe 'full text extraction job on commit' do
     let(:created_attachment) do
       create(:attachment,
@@ -316,7 +345,7 @@ RSpec.describe Attachment do
       it 'runs extraction' do
         extraction_with_id = nil
 
-        allow(ExtractFulltextJob)
+        allow(Attachments::ExtractFulltextJob)
           .to receive(:perform_later) do |id|
           extraction_with_id = id
         end
@@ -331,7 +360,7 @@ RSpec.describe Attachment do
       it 'does not run extraction' do
         created_attachment
 
-        expect(ExtractFulltextJob)
+        expect(Attachments::ExtractFulltextJob)
           .not_to receive(:perform_later)
 
         created_attachment.save
