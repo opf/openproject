@@ -6,6 +6,26 @@
       <%= render(Primer::Alpha::ActionMenu.new) do |menu|
         menu.with_show_button(icon: 'op-kebab-vertical', 'aria-label': t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' })
 
+        if gantt_portfolio_project_ids.any?
+          menu.with_item(
+            tag: :a,
+            label: t('projects.index.open_as_gantt'),
+            href: gantt_portfolio_query_link,
+            id: 'projects-index-open-as-gantt',
+            content_arguments: { target: '_blank' }
+          ) do |item|
+            item.with_leading_visual_icon(icon: 'op-view-timeline')
+          end
+        end
+
+        menu.with_item(
+          tag: :a,
+          label: t(:label_overall_activity),
+          href: activities_path
+        )do |item|
+        item.with_leading_visual_icon(icon: 'tasklist')
+      end
+
         if current_user.logged? && query_saveable?
           menu.with_item(
             label: t('button_save'),
@@ -26,27 +46,7 @@
           label: t('js.label_export'),
           content_arguments: { 'data-show-dialog-id': EXPORT_MODAL_ID }
         ) do |item|
-          item.with_leading_visual_icon(icon: 'op-file-download')
-        end
-
-        menu.with_item(
-          tag: :a,
-          label: t(:label_overall_activity),
-          href: activities_path
-        )
-
-        if gantt_portfolio_project_ids.any?
-          menu.with_item(
-            tag: :a,
-            label: t('projects.index.open_as_gantt'),
-            href: gantt_portfolio_query_link,
-            id: 'projects-index-open-as-gantt',
-            content_arguments: { target: '_blank' }
-          ) do |item|
-            item.with_leading_visual_icon(icon: 'op-view-timeline')
-            item.with_trailing_visual_icon(icon: 'link-external')
-            item.with_tooltip(text: gantt_portfolio_title)
-          end
+          item.with_leading_visual_icon(icon: 'sign-out')
         end
 
         if query.persisted?

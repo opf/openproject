@@ -75,17 +75,6 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
     query.name.blank?
   end
 
-  def gantt_portfolio_title
-    title = t('projects.index.open_as_gantt_title')
-
-    if current_user.admin?
-      title << ' '
-      title << t('projects.index.open_as_gantt_title_admin')
-    end
-
-    title
-  end
-
   def show_state?
     state == :show
   end
