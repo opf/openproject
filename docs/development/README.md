@@ -40,7 +40,7 @@ Take a look at the bottom under Additional resources to see how to setup your de
 
 To make it easier to distinguish a development instance, it is using a tinted website icon and modified app header.
 
-This behaviour can be disabled by setting an environment variable `OPENPROJECT_DEVELOPMENT_HIGHLIGHT_ENABLE=false` (see also [documentation on configuration](../installation-and-operations/configuration/)).
+This behaviour can be disabled by setting an environment variable `OPENPROJECT_DEVELOPMENT_HIGHLIGHT_ENABLED=false` (see also [documentation on configuration](../installation-and-operations/configuration/)).
 
 
 
