@@ -200,8 +200,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
 
   def storage_oauth_access_granted?
     OAuthClientToken
-      .find_by(user: current_user, oauth_client: @project_storage.storage.oauth_client)
-      .present?
+      .exists?(user: current_user, oauth_client: @project_storage.storage.oauth_client)
   end
 
   def redirect_to_project_storages_path_with_nudge_modal
