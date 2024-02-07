@@ -104,6 +104,7 @@ ar:
   ldap_auth_sources:
     ldap_error: "خطأ LDAP: %{error_message}"
     ldap_auth_failed: "لا يمكن مصادقة على ملقم LDAP."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.

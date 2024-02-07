@@ -104,6 +104,7 @@ lt:
   ldap_auth_sources:
     ldap_error: "LDAP-Klaida: %{error_message}"
     ldap_auth_failed: "LDAP serveryje autentifikacija nepavyko."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Spauskite čia, kad gryžtumėte į jungčių sąrašą."
     technical_warning_html: |
       Ši LDAP forma reikalauja jūsų LDAP / Active Directory tvarkos žinojimo.

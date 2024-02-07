@@ -104,6 +104,7 @@ hu:
   ldap_auth_sources:
     ldap_error: "LDAP-hiba: %{error_message}"
     ldap_auth_failed: "A hitelesítés meghiúsult az LDAP-kiszolgálón."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Ehhez az LDAP űrlaphoz az Ön LDAP / Acitive Directory beállításainak ismerete szükséges.

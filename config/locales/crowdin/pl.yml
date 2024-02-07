@@ -104,6 +104,7 @@ pl:
   ldap_auth_sources:
     ldap_error: "Błąd LDAP: %{error_message}"
     ldap_auth_failed: "Nie można uwierzytelnić na serwerze LDAP."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Kliknij tutaj, aby wrócić do listy połączeń."
     technical_warning_html: |
       Ten formularz LDAP wymaga wiedzy technicznej na temat konfiguracji usługi LDAP / Active Directory.

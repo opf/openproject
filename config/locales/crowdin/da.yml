@@ -104,6 +104,7 @@ da:
   ldap_auth_sources:
     ldap_error: "LDAP-fejl: %{error_message}"
     ldap_auth_failed: "Kunne ikke godkendes på LDAP-serveren."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Denne LDAP-formular kræver teknisk viden om din LDAP/Active Directory opsætning.

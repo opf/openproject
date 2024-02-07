@@ -104,6 +104,7 @@ ko:
   ldap_auth_sources:
     ldap_error: "LDAP 오류: %{error_message}"
     ldap_auth_failed: "LDAP 서버에서 인증할 수 없습니다."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "연결 목록으로 돌아가려면 여기를 클릭하세요."
     technical_warning_html: |
       이 LDAP 양식을 사용하려면 LDAP / Active Directory 설정에 대한 기술 지식이 필요합니다.

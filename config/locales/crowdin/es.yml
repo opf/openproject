@@ -104,6 +104,7 @@ es:
   ldap_auth_sources:
     ldap_error: "Error de LDAP: %{error_message}"
     ldap_auth_failed: "No puede autenticarse en el servidor LDAP."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Haga clic aquí para volver a la lista de conexión."
     technical_warning_html: |
       Este formulario LDAP requiere conocimientos técnicos para la configuración de su  LDAP / Directorio Activo <br/>

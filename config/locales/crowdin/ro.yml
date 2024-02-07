@@ -104,6 +104,7 @@ ro:
   ldap_auth_sources:
     ldap_error: "Eroare LDAP: %{error_message}"
     ldap_auth_failed: "Nu a putut fi realizată autentificarea pe serverul LDAP."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Acest formular LDAP necesită cunoștințe tehnice privind configurația LDAP / Active Directory.

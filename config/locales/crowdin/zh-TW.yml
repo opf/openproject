@@ -104,6 +104,7 @@ zh-TW:
   ldap_auth_sources:
     ldap_error: "LDAP 錯誤: %{error_message}"
     ldap_auth_failed: "無法在 LDAP 伺服器上驗證"
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.

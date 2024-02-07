@@ -768,7 +768,7 @@ cs:
         confirm_reset: >
           Upozornění: Opravdu chcete resetovat konfiguraci formuláře? Tato akce obnoví atributy na jejich výchozí skupinu a zakáže VŠECHNY vlastní pole.
         upgrade_to_ee: "Upgradovat na Enterprise Edition on premises"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee_text: "Páni! Pokud potřebujete tuto funkci, jste super pro! Nevadili byste nám podpořit OpenSource vývojáře tím, že se stanete klientem Enterprise Edition?"
         more_information: "Více informací"
         nevermind: "Nevadí"
       edit:

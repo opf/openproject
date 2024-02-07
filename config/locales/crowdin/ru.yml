@@ -104,6 +104,7 @@ ru:
   ldap_auth_sources:
     ldap_error: "LDAP-ошибка: %{error_message}"
     ldap_auth_failed: "Не удалось авторизоваться на LDAP-сервере."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Нажмите здесь, чтобы вернуться к списку подключений."
     technical_warning_html: |
       Эта LDAP форма требует технических знаний по LDAP / Active Directory.

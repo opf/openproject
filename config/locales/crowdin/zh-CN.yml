@@ -104,6 +104,7 @@ zh-CN:
   ldap_auth_sources:
     ldap_error: "LDAP 错误：%{error_message}"
     ldap_auth_failed: "无法在 LDAP 服务器上验证身份。"
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "点击此处返回到连接列表。"
     technical_warning_html: |
       此 LDAP 表单需要您具备 LDAP / Active Directory 设置的技术知识。
