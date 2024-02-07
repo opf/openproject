@@ -39,7 +39,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
   # This defines @object as the model instance.
   model_object Storages::ProjectStorage
 
-  before_action :find_model_object, only: %i[edit update destroy destroy_info] # Fill @object with ProjectStorage
+  before_action :find_model_object, only: %i[oauth_access_grant edit update destroy destroy_info]
   # No need to before_action :find_project_by_project_id as SettingsController already checks
   # No need to check for before_action :authorize, as the SettingsController already checks this.
 
@@ -79,20 +79,38 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
   # Create a new ProjectStorage object.
   # Called by: The new page above with form-data from that form.
   def create
-    # Check params and overwrite creator_id and project_id in untrusted data from the Internet
-    # @project was calculated by before_action :find_optional_project.
     service_result = ::Storages::ProjectStorages::CreateService
                        .new(user: current_user)
                        .call(permitted_storage_settings_params)
+    @project_storage = service_result.result
 
-    # Create success/error messages to the user
     if service_result.success?
       flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to project_settings_project_storages_path
+      redirect_to_project_storages_path_with_oauth_access_grant_confirmation
     else
-      @project_storage = service_result.result
       @available_storages = available_storages
       render '/storages/project_settings/new'
+    end
+  end
+
+  def oauth_access_grant # rubocop:disable Metrics/AbcSize
+    @project_storage = @object
+    connection_manager = OAuthClients::ConnectionManager.new(
+      user: current_user,
+      configuration: @project_storage.storage.oauth_configuration
+    )
+
+    if connection_manager.authorization_state_connected?
+      redirect_to(project_settings_project_storages_path)
+    else
+      nonce = SecureRandom.uuid
+      cookies["oauth_state_#{nonce}"] = {
+        value: { href: project_settings_project_storages_url(project_id: @project_storage.project_id),
+                 storageId: @project_storage.storage_id }.to_json,
+        expires: 1.hour
+      }
+      session[:oauth_callback_flash_modal] = oauth_access_grant_nudge_modal(authorized: true)
+      redirect_to(connection_manager.get_authorization_uri(state: nonce))
     end
   end
 
@@ -170,5 +188,35 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
       .visible
       .not_enabled_for_project(@project)
       .select(&:configured?)
+  end
+
+  def redirect_to_project_storages_path_with_oauth_access_grant_confirmation
+    if storage_oauth_access_granted?
+      redirect_to project_settings_project_storages_path
+    else
+      redirect_to_project_storages_path_with_nudge_modal
+    end
+  end
+
+  def storage_oauth_access_granted?
+    OAuthClientToken
+      .exists?(user: current_user, oauth_client: @project_storage.storage.oauth_client)
+  end
+
+  def redirect_to_project_storages_path_with_nudge_modal
+    redirect_to(
+      project_settings_project_storages_path,
+      flash: { modal: oauth_access_grant_nudge_modal }
+    )
+  end
+
+  def oauth_access_grant_nudge_modal(authorized: false)
+    {
+      type: 'Storages::Admin::OAuthAccessGrantNudgeModalComponent',
+      parameters: {
+        project_storage_id: @project_storage.id,
+        authorized:
+      }
+    }
   end
 end

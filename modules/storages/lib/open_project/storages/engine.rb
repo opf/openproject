@@ -126,7 +126,7 @@ module OpenProject::Storages
                    contract_actions: { file_links: %i[manage] }
         permission :manage_storages_in_project,
                    { 'storages/admin/project_storages': %i[index members new
-                                                           edit update create
+                                                           edit update create oauth_access_grant
                                                            destroy destroy_info set_permissions],
                      'storages/project_settings/project_storage_members': %i[index] },
                    permissible_on: :project,

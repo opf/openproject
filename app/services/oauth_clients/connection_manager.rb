@@ -170,6 +170,12 @@ module OAuthClients
       :error
     end
 
+    %i[connected failed_authorization error].each do |authorization_result|
+      define_method(:"authorization_state_#{authorization_result}?") do
+        authorization_state == authorization_result
+      end
+    end
+
     # @returns ServiceResult with result to be :error or any type of object with data
     def request_with_token_refresh(oauth_client_token)
       # `yield` needs to returns a ServiceResult:
