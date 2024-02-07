@@ -36,25 +36,17 @@ namespace :backup do
       args.with_defaults(path_to_backup: default_db_filename)
       Pathname(args[:path_to_backup]).dirname.mkpath
 
-      config = database_configuration
+      include OpenProject::PostgresEnvironment
 
-      pg_dump_call = ['pg_dump',
-                      '--clean',
-                      "--file=#{args[:path_to_backup]}",
-                      '--format=custom',
-                      '--no-owner']
-      pg_dump_call << "--host=#{config[:host]}" if config[:host]
-      pg_dump_call << "--port=#{config[:port]}" if config[:port]
-      pg_dump_call << "--username=#{config[:user]}" if config[:user]
-      pg_dump_call << config[:database].to_s
+      pg_dump_call = %W[
+        pg_dump
+        --clean
+        --file=#{args[:path_to_backup]}
+        --format=custom
+        --no-owner
+      ]
 
-      if config[:password]
-        with_config_file(config) do |config_file|
-          Kernel.system({ 'PGPASSFILE' => config_file }, *pg_dump_call)
-        end
-      else
-        Kernel.system(*pg_dump_call)
-      end
+      Kernel.system(pg_env, *pg_dump_call)
     end
 
     desc 'Restores a database dump created by the :create task.'
@@ -62,45 +54,23 @@ namespace :backup do
       raise 'You must provide the path to the database dump' unless args[:path_to_backup]
       raise "File '#{args[:path_to_backup]}' is not readable" unless File.readable?(args[:path_to_backup])
 
-      config = database_configuration
+      include OpenProject::PostgresEnvironment
 
-      pg_restore_call = ['pg_restore',
-                         '--clean',
-                         '--no-owner',
-                         '--single-transaction',
-                         "--dbname=#{config[:database]}"]
-      pg_restore_call << "--host=#{config[:host]}" if config[:host]
-      pg_restore_call << "--port=#{config[:port]}" if config[:port]
-      pg_restore_call << "--username=#{config[:user]}" if config[:user]
-      pg_restore_call << args[:path_to_backup].to_s
+      # PGDATABASE is ignored by pg_restore if not specified explicitly
+      # https://www.postgresql.org/docs/current/app-pgrestore.html#:~:text=PGDATABASE
+      pg_restore_call = %W[
+        pg_restore
+        --clean
+        --no-owner
+        --single-transaction
+        --dbname=#{pg_env['PGDATABASE']}
+        #{args[:path_to_backup]}
+      ]
 
-      if config[:password]
-        with_config_file(config) do |config_file|
-          Kernel.system({ 'PGPASSFILE' => config_file }, *pg_restore_call)
-        end
-      else
-        Kernel.system(*pg_restore_call)
-      end
+      Kernel.system(pg_env, *pg_restore_call)
     end
 
     private
-
-    def database_configuration
-      hash = ActiveRecord::Base.connection_db_config.configuration_hash
-
-      {
-        **hash.slice(:host, :port, :database, :password),
-        user: hash[:user] || hash[:username],
-      }
-    end
-
-    def with_config_file(config, &blk)
-      Tempfile.open('op_pg_config') do |file|
-        file.write "*:*:*:*:#{config[:password]}"
-        file.close
-        blk.yield file.path
-      end
-    end
 
     def default_db_filename
       filename = "openproject-#{Rails.env}-db-#{date_string}.backup"

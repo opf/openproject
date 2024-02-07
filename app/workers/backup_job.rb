@@ -30,6 +30,8 @@ require 'tempfile'
 require 'zip'
 
 class BackupJob < ApplicationJob
+  include OpenProject::PostgresEnvironment
+
   queue_with_priority :above_normal
 
   attr_reader :backup, :user
@@ -257,35 +259,5 @@ class BackupJob < ApplicationJob
       status: :failure,
       message: error.present? ? "#{msg}: #{error}" : msg
     )
-  end
-
-  def pg_env
-    entries = pg_env_to_connection_config.map do |key, config_key|
-      possible_keys = Array(config_key)
-      value = possible_keys
-        .lazy
-        .filter_map { |key| database_config[key] }
-        .first
-
-      [key.to_s, value.to_s] if value.present?
-    end
-
-    entries.compact.to_h
-  end
-
-  def database_config
-    @database_config ||= ActiveRecord::Base.connection_db_config.configuration_hash
-  end
-
-  ##
-  # Maps the PG env variable name to the key in the AR connection config.
-  def pg_env_to_connection_config
-    {
-      PGHOST: :host,
-      PGPORT: :port,
-      PGUSER: %i[username user],
-      PGPASSWORD: :password,
-      PGDATABASE: :database
-    }
   end
 end

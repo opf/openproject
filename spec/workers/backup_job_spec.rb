@@ -85,8 +85,33 @@ RSpec.describe BackupJob, type: :model do
       job.perform **arguments.first
     end
 
-    describe '#pg_env' do
-      subject { job.pg_env }
+    describe 'environment variables' do
+      let(:hash_config) do
+        ActiveRecord::DatabaseConfigurations::HashConfig.new('test', 'primary', config_double)
+      end
+
+      before do
+        allow(ActiveRecord::Base).to receive(:connection_db_config).and_return(hash_config)
+      end
+
+      context 'when config has username' do
+        let(:config_double) do
+          {
+            adapter: :postgresql,
+            password: "blabla",
+            database: "test",
+            username: "foobar"
+          }
+        end
+
+        it 'sets PGUSER and other variables' do
+          perform
+
+          expect(Open3).to have_received(:capture3) do |*args|
+            expect(args[0]).to include('PGUSER' => 'foobar', 'PGPASSWORD' => 'blabla', 'PGDATABASE' => 'test')
+          end
+        end
+      end
 
       context 'when config has user reference, not username (regression #44251)' do
         let(:config_double) do
@@ -98,14 +123,12 @@ RSpec.describe BackupJob, type: :model do
           }
         end
 
-        before do
-          allow(job).to receive(:database_config).and_return(config_double)
-        end
+        it 'still sets PGUSER and other variables' do
+          perform
 
-        it 'still sets a PGUSER' do
-          expect(subject['PGUSER']).to eq 'foobar'
-          expect(subject['PGPASSWORD']).to eq 'blabla'
-          expect(subject['PGDATABASE']).to eq 'test'
+          expect(Open3).to have_received(:capture3) do |*args|
+            expect(args[0]).to include('PGUSER' => 'foobar', 'PGPASSWORD' => 'blabla', 'PGDATABASE' => 'test')
+          end
         end
       end
     end
