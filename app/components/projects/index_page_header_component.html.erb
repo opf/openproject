@@ -58,7 +58,7 @@
           href: activities_path
         )
 
-        if !gantt_portfolio_project_ids.empty?
+        if gantt_portfolio_project_ids.any?
           menu.with_item(
             tag: :a,
             label: t('projects.index.open_as_gantt'),
