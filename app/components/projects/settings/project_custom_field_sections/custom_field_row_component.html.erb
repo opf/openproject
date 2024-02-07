@@ -3,8 +3,7 @@
     flex_layout(align_items: :center, justify_content: :space_between, classes: 'op-project-custom-field', data: {
         qa_selector: "project-custom-field-#{@project_custom_field.id}"
       }) do |custom_field_container|
-      # prototypical implementation of the toggle button in order to review with the team
-      # TODO: once finally decided, it needs refactoring
+      # py: 1 quick fix: prevents the row from bouncing as the toggle switch currently changes height while toggling
       custom_field_container.with_column(py: 1, flex_layout: true) do |description_container|
         description_container.with_column(mr: 2) do
           render(Primer::Beta::Text.new) do 
@@ -17,7 +16,10 @@
           end
         end
       end
-      custom_field_container.with_column() do 
+      custom_field_container.with_column() do
+        # buggy currently:
+        # small variant +  status_label_position: :start leads to a small bounce while toggling
+        # behavior can be seen on primer's viewbook as well -> https://view-components-storybook.eastus.cloudapp.azure.com/view-components/lookbook/inspect/primer/alpha/toggle_switch/small
         render(Primer::Alpha::ToggleSwitch.new(
                   src: toggle_project_settings_project_custom_fields_path(
                     project_custom_field_project_mapping: {

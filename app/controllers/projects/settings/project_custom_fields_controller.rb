@@ -37,7 +37,6 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
   before_action :eager_load_project_custom_field_project_mappings,
                 only: %i[show toggle enable_all_of_section disable_all_of_section]
 
-  before_action :set_project_custom_field, only: %i[toggle]
   before_action :set_project_custom_field_section, only: %i[enable_all_of_section disable_all_of_section]
 
   def show; end
@@ -47,15 +46,12 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
       .new(user: current_user)
       .call(permitted_params.project_custom_field_project_mapping)
 
+    # we don't need to rerender a component as the toggle switch shows the correct state base on a successful response
     if call.success?
-      eager_load_project_custom_field_project_mappings # reload mappings
-
-      update_custom_field_row_via_turbo_stream
+      render json: {}, status: :ok
     else
-      # TODO: handle error
+      render json: {}, status: :unprocessable_entity
     end
-
-    respond_with_turbo_streams
   end
 
   def enable_all_of_section
@@ -103,13 +99,6 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
     @project_custom_field_project_mappings = ProjectCustomFieldProjectMapping
       .where(project_id: @project.id)
       .to_a
-  end
-
-  def set_project_custom_field
-    # required for component rerenderings
-    @project_custom_field = ProjectCustomField.find(
-      permitted_params.project_custom_field_project_mapping[:custom_field_id]
-    )
   end
 
   def set_project_custom_field_section
