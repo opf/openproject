@@ -1,16 +1,14 @@
 <%=
   component_wrapper do
-    flex_layout(align_items: :center, classes: 'op-project-custom-field', data: {
+    flex_layout(align_items: :center, justify_content: :space_between, classes: 'op-project-custom-field', data: {
         qa_selector: "project-custom-field-#{@project_custom_field.id}"
       }) do |custom_field_container|
       # prototypical implementation of the toggle button in order to review with the team
       # TODO: once finally decided, it needs refactoring
-      custom_field_container.with_column(style: "width: 245px;", flex_layout: true) do |description_container|
+      custom_field_container.with_column(py: 1, flex_layout: true) do |description_container|
         description_container.with_column(mr: 2) do
-          render(Primer::Beta::Truncate.new) do |component|
-            component.with_item(max_width: 170) do
-              @project_custom_field.name
-            end
+          render(Primer::Beta::Text.new) do 
+            @project_custom_field.name
           end
         end
         description_container.with_column(data: { qa_selector: "custom-field-type" } ) do
@@ -19,8 +17,21 @@
           end
         end
       end
-      custom_field_container.with_column do
-        toggle_button
+      custom_field_container.with_column() do 
+        render(Primer::Alpha::ToggleSwitch.new(
+                  src: toggle_project_settings_project_custom_fields_path(
+                    project_custom_field_project_mapping: {
+                      project_id: @project.id,
+                      custom_field_id: @project_custom_field.id
+                    }
+                  ),
+                  csrf_token: form_authenticity_token,
+                  data: { 'turbo-method': :put, 'turbo-stream': true,
+                          qa_selector: "toggle-project-custom-field-mapping-#{@project_custom_field.id}" },
+                  checked: active_in_project?,
+                  size: :small,
+                  status_label_position: :start
+                ))
       end
     end
   end
