@@ -45,13 +45,13 @@ module Storages::Admin
     private
 
     def title
-      return if authorized?
+      return if authorized
 
       I18n.t('storages.oauth_grant_nudge_modal.title')
     end
 
     def cancel_button_text
-      if authorized?
+      if authorized
         I18n.t('button_close')
       else
         I18n.t('storages.oauth_grant_nudge_modal.cancel_button_label')
@@ -59,17 +59,13 @@ module Storages::Admin
     end
 
     def body_text
-      if authorized?
+      if authorized
         success_title = I18n.t('storages.oauth_grant_nudge_modal.access_granted')
         success_subtitle = I18n.t('storages.oauth_grant_nudge_modal.storage_ready', storage: project_storage.storage.name)
         concat(render(Storages::OpenProjectStorageModalComponent::Body.new(:success, success_subtitle:, success_title:)))
       else
         I18n.t('storages.oauth_grant_nudge_modal.body')
       end
-    end
-
-    def authorized?
-      authorized.present?
     end
 
     def confirm_button_url

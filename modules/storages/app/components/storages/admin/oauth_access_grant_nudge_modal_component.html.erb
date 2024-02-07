@@ -24,7 +24,7 @@
         ) { cancel_button_text }
       )
 
-      unless authorized?
+      unless authorized
         concat(
           render(
             Primer::Beta::Button.new(
