@@ -175,6 +175,54 @@ RSpec.describe MembersController do
           expect(user4).to be_member_of(project)
         end
       end
+
+      context 'with yet-to-be-invited emails' do
+        let(:emails) { ['h.wurst@openproject.com', 'l.lustig@openproject.com'] }
+        let(:params) do
+          {
+            project_id: project.id,
+            member: {
+              role_ids: [role.id],
+              user_ids: [emails.first] + [user2.id, user3.id] + [emails.last]
+            }
+          }
+        end
+
+        let(:invited_users) { User.where(mail: emails).to_a }
+        let(:users) { invited_users + [user2, user3] }
+        let(:original_member_count) { Member.count }
+
+        before do
+          original_member_count
+
+          perform_enqueued_jobs do
+            post :create, params:
+          end
+        end
+
+        it 'redirects to the members list' do
+          expect(response).to redirect_to '/projects/pet_project/members?status=all'
+        end
+
+        it 'adds members' do
+          expect(users.size).to eq 4 # 2 emails, 2 existing users
+          expect(users).to all be_member_of(project)
+
+          expect(Member.count).to eq (original_member_count + users.size)
+        end
+
+        it 'invites new users' do
+          mails = ActionMailer::Base.deliveries
+
+          expect(invited_users.size).to eq 2
+          expect(mails.size).to eq invited_users.size
+          expect(mails.map(&:to).flatten).to eq invited_users.map(&:mail)
+
+          mails.each do |mail|
+            expect(mail.subject).to include 'account activation'
+          end
+        end
+      end
     end
 
     context 'with a failed save' do
