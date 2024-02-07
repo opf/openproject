@@ -77,7 +77,7 @@ class OAuthClientsController < ApplicationController
 
     handle_absent_oauth_client unless oauth_client
 
-    OAuthClients::ConnectionManager.new(
+    connection_manager = OAuthClients::ConnectionManager.new(
       user: User.current,
       configuration: oauth_client.integration.oauth_configuration
     )
