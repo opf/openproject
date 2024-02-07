@@ -77,7 +77,7 @@ class OAuthClientsController < ApplicationController
 
     handle_absent_oauth_client unless oauth_client
 
-    connection_manager = OAuthClients::ConnectionManager.new(
+    OAuthClients::ConnectionManager.new(
       user: User.current,
       configuration: oauth_client.integration.oauth_configuration
     )
@@ -88,7 +88,7 @@ class OAuthClientsController < ApplicationController
                       else
                         root_url
                       end
-    if connection_manager.authorization_state == :connected
+    if connection_manager.authorization_state_connected?
       redirect_to(destination_url)
     else
       nonce = SecureRandom.uuid
