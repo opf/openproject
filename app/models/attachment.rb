@@ -29,10 +29,16 @@
 require 'digest/md5'
 
 class Attachment < ApplicationRecord
+  enum status: {
+    new: 0,
+    prepared: 1,
+    scanned: 2
+  }.freeze, _prefix: true, _default: :new
+
   belongs_to :container, polymorphic: true
   belongs_to :author, class_name: 'User'
 
-  validates :author, :content_type, :filesize, presence: true
+  validates :author, :content_type, :filesize, :status, presence: true
   validates :description, length: { maximum: 255 }
 
   validate :filesize_below_allowed_maximum,
@@ -122,7 +128,7 @@ class Attachment < ApplicationRecord
   end
 
   def prepared?
-    downloads == -1
+    status_prepared?
   end
 
   # images are sent inline
