@@ -65,6 +65,10 @@ RSpec.describe "updating a cost report's cost type", :js do
 
     click_on "Save"
 
+    # Leave the just saved query.
+    report_page.visit!
+
+    # And load it again.
     click_on "My Query"
 
     expect(page).to have_field(cost_type.name, checked: true)
