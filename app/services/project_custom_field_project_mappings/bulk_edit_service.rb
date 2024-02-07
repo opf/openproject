@@ -70,7 +70,8 @@ module ProjectCustomFieldProjectMappings
     end
 
     def fetch_custom_field_ids
-      @project_custom_field_section.custom_fields.pluck(:id)
+      # only custom fields which are not set to required can be disabled
+      @project_custom_field_section.custom_fields.where(is_required: false).pluck(:id)
     end
 
     def enable_custom_fields(custom_field_ids)

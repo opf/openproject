@@ -32,11 +32,20 @@ module ProjectCustomFieldProjectMappings
     attribute :custom_field_id
 
     validate :validate_has_select_project_custom_fields_permission
+    validate :validate_is_not_required
 
     def validate_has_select_project_custom_fields_permission
       return if user.allowed_in_project?(:select_project_custom_fields, model.project)
 
       errors.add :base, :error_unauthorized
+    end
+
+    def validate_is_not_required
+      # only mappings of custom fields which are not required can be manipulated by the user
+      # enabling a custom field which is required happens in an after_save hook within the custom field model itself
+      return if model.project_custom_field.nil? || !model.project_custom_field.required?
+
+      errors.add :custom_field_id, :invalid
     end
   end
 end

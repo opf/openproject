@@ -10,30 +10,40 @@
             @project_custom_field.name
           end
         end
-        description_container.with_column(data: { qa_selector: "custom-field-type" } ) do
+        description_container.with_column(mr: 2, data: { qa_selector: "custom-field-type" } ) do
           render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
             @project_custom_field.field_format.capitalize
           end
         end
       end
-      custom_field_container.with_column() do
-        # buggy currently:
-        # small variant +  status_label_position: :start leads to a small bounce while toggling
-        # behavior can be seen on primer's viewbook as well -> https://view-components-storybook.eastus.cloudapp.azure.com/view-components/lookbook/inspect/primer/alpha/toggle_switch/small
-        render(Primer::Alpha::ToggleSwitch.new(
-                  src: toggle_project_settings_project_custom_fields_path(
-                    project_custom_field_project_mapping: {
-                      project_id: @project.id,
-                      custom_field_id: @project_custom_field.id
-                    }
-                  ),
-                  csrf_token: form_authenticity_token,
-                  data: { 'turbo-method': :put, 'turbo-stream': true,
-                          qa_selector: "toggle-project-custom-field-mapping-#{@project_custom_field.id}" },
-                  checked: active_in_project?,
-                  size: :small,
-                  status_label_position: :start
-                ))
+      custom_field_container.with_column(align_items: :center, flex_layout: true) do |toggle_container|
+        if @project_custom_field.required?
+          toggle_container.with_column(data: { qa_selector: "custom-field-type" } ) do
+            render(Primer::Beta::Label.new(scheme: :attention, size: :medium)) do
+              t("label_required")
+            end
+          end
+        end
+        toggle_container.with_column do
+          # buggy currently:
+          # small variant +  status_label_position: :start leads to a small bounce while toggling
+          # behavior can be seen on primer's viewbook as well -> https://view-components-storybook.eastus.cloudapp.azure.com/view-components/lookbook/inspect/primer/alpha/toggle_switch/small
+          render(Primer::Alpha::ToggleSwitch.new(
+                    src: toggle_project_settings_project_custom_fields_path(
+                      project_custom_field_project_mapping: {
+                        project_id: @project.id,
+                        custom_field_id: @project_custom_field.id
+                      }
+                    ),
+                    csrf_token: form_authenticity_token,
+                    data: { 'turbo-method': :put, 'turbo-stream': true,
+                            qa_selector: "toggle-project-custom-field-mapping-#{@project_custom_field.id}" },
+                    checked: active_in_project?,
+                    enabled: !@project_custom_field.required?, # required fields cannot be disabled
+                    size: :small,
+                    status_label_position: :start
+                  ))
+          end
       end
     end
   end
