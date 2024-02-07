@@ -122,9 +122,12 @@ module Pages
         expect(page).to have_no_css('[data-test-selector="project-new-button"]')
       end
 
-      def expect_gantt_button(disabled: false)
-        expect(page).to have_css("button#{disabled ? '[disabled]' : ''}",
-                                 text: 'Open as Gantt view')
+      def expect_gantt_menu_entry(visible: false)
+        if visible
+          expect(page).to have_link('Open as Gantt view')
+        else
+          expect(page).to have_no_link('Open as Gantt view')
+        end
       end
 
       def filter_by_active(value)
@@ -239,7 +242,7 @@ module Pages
       def click_more_menu_item(item)
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
 
-        find('.ActionListItem', text: item).click
+        page.find('.ActionListItem', text: item, exact_text: true).click
       end
 
       def click_menu_item_of(title, project)
