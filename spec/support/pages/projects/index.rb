@@ -124,9 +124,9 @@ module Pages
 
       def expect_gantt_menu_entry(visible: false)
         if visible
-          expect(page).to have_css('#projects-index-open-as-gantt', text: 'Open as Gantt view')
+          expect(page).to have_link('Open as Gantt view')
         else
-          expect(page).to have_no_css('#projects-index-open-as-gantt', text: 'Open as Gantt view')
+          expect(page).to have_no_link('Open as Gantt view')
         end
       end
 
