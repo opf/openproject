@@ -46,8 +46,8 @@ RSpec.describe Authorization::UserPermissibleService do
       expect(Project)
         .to have_received(:allowed_to) do |user, perm|
         expect(user).to eq(queried_user)
-        expect(perm[0]).to be_a(OpenProject::AccessControl::Permission)
-        expect(perm[0].name).to eq permission
+        expect(perm).to be_a(OpenProject::AccessControl::Permission)
+        expect(perm.name).to eq permission
       end
     end
   end

@@ -31,7 +31,7 @@ module Authorization
       return false unless authorizable_user?
       return true if admin_and_all_granted_to_admin?(perms)
 
-      Project.allowed_to(user, perms).exists?
+      cached_in_any_project?(perms)
     end
 
     def allowed_in_entity?(permission, entities_to_check, entity_class)
@@ -72,6 +72,14 @@ module Authorization
       end
 
       @cached_permissions[context]
+    end
+
+    def cached_in_any_project?(permissions)
+      @any_project_cache ||= Hash.new do |hash, perm|
+        hash[perm] = Project.allowed_to(user, perm).exists?
+      end
+
+      permissions.any? { |permission| @any_project_cache[permission] }
     end
 
     def allowed_in_single_project?(permissions, project)
