@@ -23,11 +23,11 @@ cs:
       singular: Poskytovatel OpenID
     setting_instructions:
       azure_deprecation_warning: >
-        The configured Azure app points to a deprecated API from Azure. Please create a new Azure app to ensure the functionality in future.
+        Nakonfigurovaná aplikace Azure ukazuje na zastaralé API z Azure. Vytvořte prosím novou aplikaci Azure pro zajištění funkčnosti v budoucnu.
       azure_graph_api: >
-        Use the graph.microsoft.com userinfo endpoint to request userdata. This should be the default unless you have an older azure application.
+        Použijte koncový bod userinfo na graf.microsoft.com pro vyžádání uživatelských dat. Toto by mělo být výchozí, pokud nemáte starší azure aplikaci.
       azure_tenant_html: >
-        Set the tenant of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">our user guide on Azure OpenID connect</a>.
+        Nastavte nájemce vašeho trvalého bodu Azure. To bude kontrolovat, kdo získá přístup k instanci OpenProjekt. Pro více informací navštivte <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">naši uživatelskou příručku na Azure OpenID spojení</a>.
       limit_self_registration: >
 
 
