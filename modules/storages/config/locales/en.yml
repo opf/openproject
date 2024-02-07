@@ -92,7 +92,8 @@ en:
       label_healthy: Healthy
       label_pending: Pending
       since: since %{datetime}
-      title: Managed folders status
+      title: Health status
+      subtitle: Automatic managed project folders
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     instructions:
