@@ -37,14 +37,10 @@ See COPYRIGHT and LICENSE files for more details.
   <tr>
     <%= placeholder_cell('12px', vertical: true) %>
     <td>
-      <%
-        summary = I18n.t("mail.storages.health.unhealthy.summary", storage_name: @storage.name)
-      %>
-
       <%= render partial: 'mailer/mailer_header',
                  locals: {
                    user: @admin,
-                   summary:,
+                   summary: I18n.t("mail.storages.health.unhealthy.summary", storage_name: @storage.name),
                    button_href: @url,
                    button_text: I18n.t(:'mail.storages.health.see_storage_settings'),
                  } %>
