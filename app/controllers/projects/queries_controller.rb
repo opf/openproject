@@ -32,17 +32,16 @@ class Projects::QueriesController < ApplicationController
   # No need for a more specific authorization check. That is carried out in the contracts.
   before_action :require_login
   before_action :find_query, only: :destroy
+  before_action :load_query_or_deny_access, only: %i[new]
 
   current_menu_item [:new, :create] do
     :projects
   end
 
   def new
-    call = load_query(existing: false)
-
     render template: '/projects/index',
            layout: 'global',
-           locals: { query: call.result, state: :edit }
+           locals: { query: @query, state: :edit }
   end
 
   def create
