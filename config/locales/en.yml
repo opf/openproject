@@ -3011,6 +3011,7 @@ en:
     other: "Other"
     passwords: "Passwords"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "Session"
