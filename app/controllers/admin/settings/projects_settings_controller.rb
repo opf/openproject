@@ -30,8 +30,32 @@ module Admin::Settings
   class ProjectsSettingsController < ::Admin::SettingsController
     menu_item :settings_projects
 
+    before_action :validate_enabled_modules, only: :update
+
     def default_breadcrumb
       t(:label_project_plural)
+    end
+
+    private
+
+    def validate_enabled_modules
+      return if settings_params[:default_projects_modules].blank?
+
+      enabled_modules = settings_params[:default_projects_modules].map(&:to_sym)
+
+      module_missing_deps = OpenProject::AccessControl
+        .modules
+        .detect { |m| m[:dependencies] && enabled_modules.include?(m[:name]) && (m[:dependencies] & enabled_modules) != m[:dependencies] }
+
+      if module_missing_deps
+        flash[:error] = I18n.t(
+          'settings.projects.missing_dependencies',
+          module: I18n.t("project_module_#{module_missing_deps[:name]}"),
+          dependencies: module_missing_deps[:dependencies].map { |dep| I18n.t("project_module_#{dep}") }.join(', ')
+        )
+
+        redirect_to action: :show
+      end
     end
   end
 end
