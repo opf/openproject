@@ -251,8 +251,6 @@ tr:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Gantt görünümü olarak aç"
-      open_as_gantt_title: "Bu sayfada görünen projeler için iş paketlerini filtreleyen bir Gantt görünümü oluşturmak için bu düğmeyi kullanın."
-      open_as_gantt_title_admin: "Proje ayarları altında yönetimde görünüm ayarlarını (seçilen iş paketi türleri gibi) değiştirebilirsiniz."
       no_results_title_text: Şu anda hiç proje bulunmamakta
       no_results_content_text: Yeni bir proje oluşturun
     lists:
@@ -1055,7 +1053,7 @@ tr:
     base: "Genel Hata:"
     blocks_ids: "Engellenen iş paketlerinin ID'leri"
     category: "Kategori"
-    comment: "Yorum"
+    comment: "Yorumlar"
     comments: "Yorum"
     content: "İçerik"
     color: "Renk"
@@ -1821,8 +1819,8 @@ tr:
   label_follows: "takip eder"
   label_force_user_language_to_default: "Varsayılan olmayan izin verildi bir dil olan kullanıcı dilini ayarlama"
   label_form_configuration: "Formu yapılandırma"
-  label_gantt: "Gantt"
   label_gantt_chart: "Gantt görünümü"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Genel"
   label_generate_key: "Anahtar oluştur"
   label_git_path: ".git dizininin yolu"
@@ -2838,6 +2836,7 @@ tr:
     other: "Diğer"
     passwords: "Parolalar"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Yeni projeler için ayarlar"
       section_project_overview: "Projeye genel bakış listesi ayarları"
     session: "Oturum"

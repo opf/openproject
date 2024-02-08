@@ -5,13 +5,13 @@
   activerecord:
     attributes:
       webhooks/webhook:
-        url: 'Payload URL'
-        secret: 'Signature secret'
+        url: 'Nyttelast URL'
+        secret: 'Hemmelig signatur'
         events: 'Hendelser'
         projects: 'Aktiverte prosjekter'
       webhooks/log:
         event_name: 'Navn på hendelse'
-        url: 'Payload URL'
+        url: 'Nyttelast URL'
         response_code: 'Svar kode'
         response_body: 'Svar'
     models:
@@ -37,7 +37,7 @@
       status:
         enabled: 'Webhooks aktivert'
         disabled: 'Webhooks er deaktivert'
-        enabled_text: 'The webhook will emit payloads for the defined events below.'
+        enabled_text: 'webhooken sender ut nyttelaster for de definerte hendelsene nedenfor.'
         disabled_text: 'Klikk på rediger-knappen for å aktivere webhook.'
       deliveries:
         no_results_table: Ingen leveranser er gjennomført for dette webhooket de siste dagene.
@@ -45,7 +45,7 @@
         time: 'Tid for levering'
       form:
         introduction: >
-          Send a POST request to the payload URL below for any event in the project you're subscribed to. Payload will correspond to the APIv3 representation of the object being modified.
+          Send en POST-forespørsel til URL-adressen for nyttelast nedenfor for enhver hendelse i prosjektet du abonnerer på. Lasten vil tilsvare APIv3-representasjonen av objektet som endres.
         apiv3_doc_url: For mer informasjon, besøk API-dokumentasjonen
         description:
           placeholder: 'Valgfri beskrivelse for webhook.'

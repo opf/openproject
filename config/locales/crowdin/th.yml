@@ -251,8 +251,6 @@ th:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Open as Gantt view"
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: ขณะนี้ยังไม่มีโครงการใดๆ
       no_results_content_text: สร้างโครงการใหม่
     lists:
@@ -1795,8 +1793,8 @@ th:
   label_follows: "ดังต่อไปนี้"
   label_force_user_language_to_default: "พบภาษาที่ไม่อนุญาตให้ใช้เป็นค่าเริ่มต้น ในชุดภาษาของผู้ใช้"
   label_form_configuration: "Form configuration"
-  label_gantt: "Gantt"
   label_gantt_chart: "Gantt chart"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "ทั่วไป"
   label_generate_key: "สร้างคีย์"
   label_git_path: "เส้นทางไปยังไดเรคทอรี่ ของไฟล์ .git"
@@ -2813,6 +2811,7 @@ th:
     other: "อื่น ๆ"
     passwords: "รหัสผ่าน"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "เซสชั่น"

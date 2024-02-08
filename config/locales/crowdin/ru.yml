@@ -104,7 +104,7 @@ ru:
   ldap_auth_sources:
     ldap_error: "LDAP-ошибка: %{error_message}"
     ldap_auth_failed: "Не удалось авторизоваться на LDAP-сервере."
-    sync_failed: "Failed to synchronize from LDAP: %{message}."
+    sync_failed: "Не удалось синхронизировать с LDAP: %{message}."
     back_to_index: "Нажмите здесь, чтобы вернуться к списку подключений."
     technical_warning_html: |
       Эта LDAP форма требует технических знаний по LDAP / Active Directory.
@@ -202,13 +202,13 @@ ru:
     reorder_alphabetical: "Переупорядочить значения по алфавиту"
     reorder_confirmation: "Внимание: Текущий порядок доступных значений будет утерян. Продолжить?"
     instructions:
-      is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
-      is_for_all: "Mark the custom field as available in all existing and new projects."
-      searchable: "Include the field values when using the global search functionality."
-      editable: "Allow the field to be editable by users themselves."
-      visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
+      is_required: ""
+      is_for_all: ""
+      searchable: "Включать значения полей при использовании функции глобального поиска."
+      editable: "Разрешить редактирование поля самими пользователями."
+      visible: "Сделать поле видимым для всех пользователей (не администраторов) в обзоре проекта и отображать его в деталях виджета проекта Обзора."
       is_filter: >
-        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
+        Разрешить использование настраиваемого поля в фильтре в представлениях рабочих пакетов. Обратите внимание, что настраиваемое поле будет отображаться в глобальных представлениях только при выборе параметра "Для всех проектов".
     tab:
       no_results_title_text: Нет настраиваемых полей.
       no_results_content_text: Создать новое настраиваемое поле
@@ -250,17 +250,15 @@ ru:
       completed_text_children: "Кроме того, были удалены следующие подпроекты:"
     index:
       open_as_gantt: "Открыть в виде диаграммы Ганта"
-      open_as_gantt_title: "Используйте эту кнопку для создания представления Ганта, фильтрующего пакеты работ, видимых на этой странице."
-      open_as_gantt_title_admin: "Вы можете изменить настройки вида (такие как выбранные типы пакетов работ) в администрировании в настройках проекта."
       no_results_title_text: На данный момент проектов нет
       no_results_content_text: Создать новый проект
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: 'Активные проекты'
+      my: 'Мои проекты'
+      archived: 'Архивные проекты'
+      my_private: 'Списки моих личных проектов'
       new:
-        placeholder: 'New project list'
+        placeholder: 'Список новых проектов'
     settings:
       change_identifier: Идентификатор изменений
       activities:
@@ -334,7 +332,7 @@ ru:
     memberships:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
   page:
-    text: 'Text'
+    text: 'Текст'
   placeholder_users:
     right_to_manage_members_missing: >
       Вы не можете удалить пользователя-заполнителя. Вы не имеете права управлять участниками проектов, в которых состоит заполнитель.
@@ -534,7 +532,7 @@ ru:
         column_count: "Количество столбцов"
         widgets: "Виджеты"
       oauth_client:
-        client: "Client ID"
+        client: "ID клиента"
       relation:
         delay: "Задержка"
         from: "Пакет работ"
@@ -600,7 +598,7 @@ ru:
         color: "Цвет"
       user:
         admin: "Администратор"
-        auth_source: "Authentication source"
+        auth_source: "Источник аутентификации"
         ldap_auth_source: "Подключение к LDAP"
         identity_url: "URL идентификации"
         current_password: "Текущий пароль"
@@ -632,7 +630,7 @@ ru:
         begin_insertion: "Начало вставки"
         begin_deletion: "Начало удаления"
         children: "Вложенные элементы"
-        derived_done_ratio: "Derived % Complete"
+        derived_done_ratio: "Запланировано % Завершено"
         derived_remaining_hours: "Запланированное время"
         derived_remaining_time: "Запланированное время"
         done_ratio: "% Завершено"
@@ -653,7 +651,7 @@ ru:
         readonly: "Только для чтения"
         remaining_hours: "Оставшиеся часы"
         remaining_time: "Оставшиеся часы"
-        shared_with_users: "Shared with"
+        shared_with_users: "В общем доступе с"
         schedule_manually: "Ручное планирование"
         spent_hours: "Затраченное время"
         spent_time: "Затраченное время"
@@ -961,7 +959,7 @@ ru:
             ldap_auth_source:
               error_not_found: "не найдено"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "не найдено"
         member:
           principal_blank: "Пожалуйста, выберите по крайней мере одного пользователя или группу."
           role_blank: "требуется назначить."
@@ -1502,7 +1500,7 @@ ru:
     message: Сообщение отредактировано
     news: Новости
     project_attributes: "Атрибуты проекта изменены"
-    project: "Project edited"
+    project: "Проект отредактирован"
     projects: "Проект отредактирован"
     reply: Отвечено
     time_entry: "Время подключения отредактировано"
@@ -1645,7 +1643,7 @@ ru:
         revoke_token: "Вы действительно хотите удалить этот токен?  Вам нужно будет снова войти в систему на %{storage}"
         removed: "Токен хранилища файлов успешно удален"
         failed: "Произошла ошибка, и токен не удалось удалить.  Пожалуйста, повторите попытку позже."
-        unknown_storage: "Unknown storage"
+        unknown_storage: "Неизвестное хранилище"
   notifications:
     send_notifications: "Отправить уведомления для этого действия"
     work_packages:
@@ -1725,9 +1723,9 @@ ru:
   label_available_project_work_package_categories: "Доступные категории рабочих пакетов"
   label_available_project_work_package_types: "Доступные типы пакетов работ"
   label_available_projects: "Доступные проекты"
-  label_api_doc: "API documentation"
+  label_api_doc: "Документация по API"
   label_backup: "Резервное копирование"
-  label_backup_code: "Backup code"
+  label_backup_code: "Код резервного копирования"
   label_between: "между"
   label_blocked_by: "заблокировано"
   label_blocks: "блоки"
@@ -1737,7 +1735,7 @@ ru:
   label_forum_plural: "Форумы"
   label_forum_sticky: "Прикреплено"
   label_boolean: "Логическое значение"
-  label_board_plural: "Boards"
+  label_board_plural: "Доски"
   label_branch: "Ветка"
   label_browse: "Обзор"
   label_bulk_edit_selected_work_packages: "Массовое изменение выбранных пакетов работ"
@@ -1764,7 +1762,7 @@ ru:
   label_check_uncheck_all_in_column: "Поставить/снять все флажки в столбце"
   label_check_uncheck_all_in_row: "Поставить/снять все флажки в строке"
   label_child_element: "Дочерний элемент"
-  label_choices: "Choices"
+  label_choices: "Выбор"
   label_chronological_order: "Самый старый в начале"
   label_close_versions: "Закрыть завершённые этапы"
   label_closed_work_packages: "закрыт"
@@ -1796,7 +1794,7 @@ ru:
   label_custom_field_plural: "Пользовательские поля"
   label_custom_field_default_type: "Пустой тип"
   label_custom_style: "Дизайн"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Панель"
   label_database_version: "Версия PostgreSQL"
   label_date: "Дата"
   label_date_and_time: "Дата и время"
@@ -1853,8 +1851,8 @@ ru:
   label_example: "Пример"
   label_experimental: "Экспериментально"
   label_i_am_member: "Я участник"
-  label_ifc_viewer: "Ifc Viewer"
-  label_ifc_model_plural: "Ifc Models"
+  label_ifc_viewer: "Просмотр Ifc"
+  label_ifc_model_plural: "Модели Ifc"
   label_import: "Импорт"
   label_export_to: "Скачать как:"
   label_expanded_click_to_collapse: "Развернуто. Кликните для сворачивания"
@@ -1867,7 +1865,7 @@ ru:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Файлы"
   label_filter_add: "Добавить фильтр"
-  label_filter: "Filters"
+  label_filter: "Фильтры"
   label_filter_plural: "Фильтры"
   label_filters_toggle: "Показать/скрыть фильтры"
   label_float: "Плавающий"
@@ -1875,8 +1873,8 @@ ru:
   label_follows: "Следует"
   label_force_user_language_to_default: "Язык, который пользователям нельзя установить как действующий по-умолчанию"
   label_form_configuration: "Настройка форм"
-  label_gantt: "Гант"
   label_gantt_chart: "Диаграмма Ганта"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Общие"
   label_generate_key: "Сгенерируйте ключ"
   label_git_path: "Путь к директории .git"
@@ -1894,7 +1892,7 @@ ru:
   label_home: "Главная"
   label_subject_or_id: "Тема или ID"
   label_calendar_subscriptions: "Подписки на календарь"
-  label_identifier: "Identifier"
+  label_identifier: "Идентификатор"
   label_impressum: "Правовое уведомление"
   label_in: "в"
   label_in_less_than: "менее чем"
@@ -1911,7 +1909,7 @@ ru:
   label_internal: "Внутренние"
   label_introduction_video: "Вводное видео"
   label_invite_user: "Пригласить пользователя"
-  label_share: "Share"
+  label_share: "Поделиться"
   label_show_hide: "Показать/скрыть"
   label_show_all_registered_users: "Показать всех зарегистрированных пользователей"
   label_journal: "Журнал"
@@ -1982,7 +1980,7 @@ ru:
   label_my_account: "Моя учетная запись"
   label_my_activity: "Моя активность"
   label_my_account_data: "Данные моей учетной записи"
-  label_my_avatar: "My avatar"
+  label_my_avatar: "Мой аватар"
   label_my_queries: "Мои пользовательские запросы"
   label_name: "Имя"
   label_never: "Никогда"
@@ -2118,7 +2116,7 @@ ru:
   label_search: "Поиск"
   label_send_information: "Отправить новые учетные данные пользователю"
   label_send_test_email: "Отправить тестовое сообщение"
-  label_session: "Session"
+  label_session: "Сессия"
   label_setting_plural: "Настройки"
   label_system_settings: "Настройки системы"
   label_show_completed_versions: "Показать завершённые этапы"
@@ -2148,13 +2146,13 @@ ru:
   label_system_storage: "Информация хранилища"
   label_table_of_contents: "Содержание"
   label_tag: "Тег"
-  label_team_planner: "Team Planner"
+  label_team_planner: "Менеджер команды"
   label_text: "Длинный текст"
   label_this_month: "в этом месяце"
   label_this_week: "на этой неделе"
   label_this_year: "в этом году"
   label_time_entry_plural: "Затраченное время"
-  label_time_entry_activity_plural: "Spent time activities"
+  label_time_entry_activity_plural: "Потраченное время"
   label_title: "Заголовок"
   label_projects_menu: "Проекты"
   label_today: "Сегодня"
@@ -2578,7 +2576,7 @@ ru:
   permission_view_news: "Просмотр новостей"
   permission_view_members: "Просмотреть участников"
   permission_view_reportings: "Просмотр отчетов"
-  permission_view_shared_work_packages: "View work package shares"
+  permission_view_shared_work_packages: "Просмотр общих ресурсов пакета работ"
   permission_view_time_entries: "Просмотр потраченного времени"
   permission_view_timelines: "Просмотр графиков"
   permission_view_wiki_edits: "Просмотр истории wiki"
@@ -2896,6 +2894,7 @@ ru:
     other: "Другие"
     passwords: "Пароли"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Настройки для новых проектов"
       section_project_overview: "Настройки списка обзоров проекта"
     session: "Сессия"
@@ -2911,7 +2910,7 @@ ru:
     plain: "Обычный текст"
   status_active: "активно"
   status_archived: "в архиве"
-  status_blocked: "blocked"
+  status_blocked: "заблокировано"
   status_invited: приглашено
   status_locked: заблокировано
   status_registered: Зарегистрирован
@@ -3167,10 +3166,10 @@ ru:
         view_description: "Может просматривать этот пакет работ."
       remove: "Удалить"
       share: "Поделиться"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
+      text_empty_search_description: "Пользователей с текущими критериями фильтрации нет."
+      text_empty_search_header: "Не удалось найти подходящие результаты."
       text_empty_state_description: "Пакет работ еще не передан никому."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Без общего доступа"
       text_user_limit_reached: "Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, свяжитесь с администратором, чтобы увеличить лимит пользователей, чтобы убедиться, что внешние пользователи имеют доступ к этому пакету работ."
       text_user_limit_reached_admins: 'Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}"> обновите свой тарифный план </a>, чтобы иметь возможность добавлять больше пользователей.'
       warning_user_limit_reached: >
@@ -3178,7 +3177,7 @@ ru:
       warning_user_limit_reached_admin: >
         Добавление дополнительных пользователей превысит текущий лимит. Пожалуйста, <a href="%{upgrade_url}"> обновите свой план </a>, чтобы обеспечить доступ внешних пользователей к этому рабочему пакету.
       warning_no_selected_user: "Пожалуйста, выберите пользователей для отправки этого пакета работ"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      warning_locked_user: "Пользователь %{user} заблокирован, и им нельзя поделиться с другими пользователями."
       user_details:
         locked: "Заблокированный пользователь"
         invited: "Приглашение отправлено. "
@@ -3221,7 +3220,7 @@ ru:
       code_429: "Слишком много запросов. Пожалуйста, повторите попытку позже."
       code_500: "Произошла внутренняя ошибка."
       code_500_outbound_request_failure: "Исходящий запрос к другому ресурсу не удался с кодом статуса %{status_code}."
-      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
+      code_500_missing_enterprise_token: "Запрос не может быть обработан из-за недействительного или отсутствующего корпоративного токена."
       not_found:
         work_package: "Пакет работ, который вы ищете, не найден или был удален."
       expected:

@@ -250,8 +250,6 @@ hu:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Gantt nézet megnyitása"
-      open_as_gantt_title: "Használja ezt a gombot hogy egy szűrt Gantt nézetet generáljon a projekthez"
-      open_as_gantt_title_admin: "A nézetbeállításokat (például a kiválasztott munkacsomag típusokat) módosíthatja az adminisztrációban a projektbeállítások alatt.\n"
       no_results_title_text: Jelenleg nincsenek projektek
       no_results_content_text: Új projekt létrehozása
     lists:
@@ -1819,8 +1817,8 @@ hu:
   label_follows: "követi ezt"
   label_force_user_language_to_default: "Nyelv beállitása a felhasználóknak, amelyeknél nem az alapértelmezett nyelv az elfogadott"
   label_form_configuration: "Űrlap konfiguráció"
-  label_gantt: "Gantt"
   label_gantt_chart: "Gantt-diagram"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Általános"
   label_generate_key: "Létrehoz egy kulcsot"
   label_git_path: ".Git könyvtár elérési útja"
@@ -2838,6 +2836,7 @@ hu:
     other: "Egyéb"
     passwords: "Jelszavak"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Új projekt beállításai"
       section_project_overview: "A projekt áttekintési lista beállítása"
     session: "Munkamenet"

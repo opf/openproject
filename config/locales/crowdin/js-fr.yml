@@ -469,7 +469,7 @@ fr:
     label_per_page: "Par page:"
     label_please_wait: "Veuillez patienter"
     label_project: "Projet"
-    label_project_list: "Liste des projets"
+    label_project_list: "Project lists"
     label_project_plural: "Projets"
     label_visibility_settings: "Paramètres de visibilité"
     label_quote_comment: "Citer ce commentaire"
@@ -967,6 +967,8 @@ fr:
         createdAt: "Créé le"
         description: "Description"
         date: "date"
+        percentComplete: "% Complete"
+        percentCompleteAlternative: "Progress"
         dueDate: "Date de fin"
         duration: "Durée"
         spentTime: "Temps passé"
@@ -974,6 +976,8 @@ fr:
         percentageDone: "Pourcentage effectué"
         priority: "Priorité"
         projectName: "Projet"
+        remainingWork: "Remaining work"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Responsable"
         startDate: "Date de début"
         status: "Statut"
@@ -984,6 +988,8 @@ fr:
         updatedAt: "Mis à jour le"
         versionName: "Version"
         version: "Version"
+        work: "Work"
+        workAlternative: "Estimated time"
         remainingTime: "Travail restant"
       default_queries:
         latest_activity: "Dernière activité"
@@ -1266,7 +1272,7 @@ fr:
         all: 'Tous les projets'
         selected: 'Uniquement la sélection'
       search_placeholder: 'Rechercher un projet...'
-      include_subprojects: 'inclure tous les sous-projets'
+      include_subprojects: 'Inclure tous les sous-projets'
       tooltip:
         include_all_selected: 'Projet déjà inclus puisque Include tous les sous-projets sont activés.'
         current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'

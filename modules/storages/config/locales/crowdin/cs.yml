@@ -91,7 +91,8 @@ cs:
       label_healthy: Zdravé
       label_pending: Nevyřízeno
       since: od %{datetime}
-      title: Stav spravovaných složek
+      subtitle: Automatic managed project folders
+      title: Health status
     help_texts:
       project_folder: Složka projektu je výchozí složka pro nahrávání souborů pro tento projekt. Uživatelé přesto mohou nahrávat soubory do jiných umístění.
     instructions:
@@ -175,13 +176,20 @@ cs:
     no_results: Zatím nejsou nastaveny žádné úložiště.
     notice_successful_storage_connection: |-
       Pro použití tohoto úložiště souborů nezapomeňte aktivovat modul a konkrétní úložiště v nastavení projektu každého požadovaného projektu.
+    oauth_grant_nudge_modal:
+      access_granted: Access granted
+      body: You have successfully added a storage to this project. Would you like to login in the storage and authenticate your user to start using the storage?
+      cancel_button_label: I will do it later
+      confirm_button_label: 'Yes'
+      storage_ready: You are now ready to use %{storage}
+      title: Storage added
     open_project_storage_modal:
       success:
-        a: Nastavení integrace dokončeno
-        b: Nyní jste přesměrováváni
+        subtitle: You are being redirected
+        title: Integration setup completed
       waiting:
-        a: Nastavujeme vaše oprávnění do složky projektu.
-        b: Prosím vydržte, chvilku to může chvíli trvat...
+        subtitle: One moment please, this might take some time...
+        title: We are setting up your permissions on the project folder.
     page_titles:
       file_storages:
         delete: Odstranit úložiště souborů

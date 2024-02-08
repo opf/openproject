@@ -251,8 +251,6 @@ ro:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Deschideți ca vizualizare Gantt"
-      open_as_gantt_title: "Utilizați acest buton pentru a genera o vizualizare Gantt care filtrează pachetele de lucru pentru proiectele vizibile pe această pagină."
-      open_as_gantt_title_admin: "Puteți modifica setările de vizualizare (cum ar fi tipurile de pachete de lucru selectate) în administrare, la secțiunea Setări proiect."
       no_results_title_text: În acest moment nu există proiecte
       no_results_content_text: Creare proiect nou
     lists:
@@ -1849,8 +1847,8 @@ ro:
   label_follows: "urmează după"
   label_force_user_language_to_default: "Setare limbă pentru utilizatorii care au o limbă implicită nepermisă"
   label_form_configuration: "Configurarea formularului"
-  label_gantt: "Gantt"
   label_gantt_chart: "Grafic Gantt"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "General"
   label_generate_key: "Generare cheie"
   label_git_path: "Calea catre directorul .git"
@@ -2870,6 +2868,7 @@ ro:
     other: "Altele"
     passwords: "Parole"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Setări pentru proiecte noi"
       section_project_overview: "Setări pentru lista de prezentare generală a proiectului"
     session: "Sesiune"

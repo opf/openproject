@@ -251,14 +251,12 @@ zh-TW:
       completed_text_children: "此外，下列子專案已被刪除："
     index:
       open_as_gantt: "以甘特圖打開"
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: 目前沒有專案
       no_results_content_text: 建立新專案
     lists:
       active: 'Active projects'
       my: 'My projects'
-      archived: 'Archived projects'
+      archived: '歸檔專案'
       my_private: 'My private project lists'
       new:
         placeholder: 'New project list'
@@ -291,7 +289,7 @@ zh-TW:
     send_invite_to: "Send invite to"
     no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     columns:
-      shared: "Shared"
+      shared: "共享"
     filters:
       all_shares: "All shares"
     menu:
@@ -339,7 +337,7 @@ zh-TW:
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "Delete placeholder user"
+    delete_tooltip: "刪除「非專案成員」"
     deletion_info:
       heading: "Delete placeholder user %{name}"
       data_consequences: >
@@ -347,9 +345,9 @@ zh-TW:
       irreversible: "This action is irreversible"
       confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
     upsale:
-      title: Placeholder users
+      title: 非專案成員
       description: >
-        佔位符用戶是一種將工作包分配給不屬於您項目的用戶的方法。它們在一系列場景中十分有用；例如，如果您需要跟蹤尚未命名或可用的資源的任務，或者如果您不想讓該人員訪問 OpenProject 但仍希望跟蹤分配給他們的任務。
+        非專案成員是一種將工作包分配給不屬於您專案成員的方法。它們在一系列場景中十分有用；例如，如果您需要追蹤尚未命名或可用的資源的任務，或者如果您不想讓該人員存取 OpenProject 但仍希望追蹤分配給他們的任務。
   prioritiies:
     edit:
       priority_color_text: |
@@ -1657,7 +1655,7 @@ zh-TW:
   label_forum_plural: "論壇"
   label_forum_sticky: "附著"
   label_boolean: "布林值"
-  label_board_plural: "Boards"
+  label_board_plural: "看板"
   label_branch: "分支"
   label_browse: "瀏覽"
   label_bulk_edit_selected_work_packages: "整批編輯選取的工作項目"
@@ -1795,8 +1793,8 @@ zh-TW:
   label_follows: "關注"
   label_force_user_language_to_default: "設置使用者使用預設語言"
   label_form_configuration: "表單設置"
-  label_gantt: "甘特圖"
   label_gantt_chart: "甘特圖"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "一般"
   label_generate_key: "產生一個金鑰"
   label_git_path: ".git 目錄的路徑"
@@ -1900,7 +1898,7 @@ zh-TW:
   label_more_than_ago: "很多天之前"
   label_move_work_package: "移動工作項目"
   label_my_account: "我的帳號"
-  label_my_activity: "My activity"
+  label_my_activity: "我的活動"
   label_my_account_data: "我的帳號資料"
   label_my_avatar: "My avatar"
   label_my_queries: "我的自訂查詢"
@@ -1958,8 +1956,8 @@ zh-TW:
   label_permissions_report: "權限報表"
   label_personalize_page: "個人化本頁"
   label_placeholder_user: "Placeholder user"
-  label_placeholder_user_new: "New placeholder user"
-  label_placeholder_user_plural: "Placeholder users"
+  label_placeholder_user_new: "新增「非專案成員」"
+  label_placeholder_user_plural: "非專案成員"
   label_planning: "計劃中"
   label_please_login: "請登入"
   label_plugins: "擴充套件"
@@ -2093,7 +2091,7 @@ zh-TW:
   label_used_by_types: "被類別使用中"
   label_used_in_projects: "被專案使用中"
   label_user: "使用者"
-  label_user_and_permission: "Users and permissions"
+  label_user_and_permission: "使用者與權限"
   label_user_named: "用戶名 %{name}"
   label_user_activity: "%{value} 的活動"
   label_user_anonymous: "匿名者"
@@ -2107,7 +2105,7 @@ zh-TW:
   label_user_plural: "使用者"
   label_user_search: "搜尋使用者"
   label_user_settings: "使用者設定"
-  label_users_settings: "Users settings"
+  label_users_settings: "使用者設定"
   label_version_new: "新增版本"
   label_version_plural: "版本"
   label_version_sharing_descendants: "與子專案"
@@ -2233,11 +2231,11 @@ zh-TW:
         assigned: "指派"
         responsible: "負責人"
         mentioned: "提醒"
-        shared: "Shared"
+        shared: "共享"
         subscribed: "所有"
         prefix: "因為通知設定而收到：%{reason}"
-        date_alert_start_date: "Date alert"
-        date_alert_due_date: "Date alert"
+        date_alert_start_date: "日期提醒"
+        date_alert_due_date: "到期提醒"
       see_all: "全部顯示"
       updated_at: "Updated at %{timestamp} by %{user}"
     sharing:
@@ -2531,7 +2529,7 @@ zh-TW:
   project_module_forums: "論壇"
   project_module_work_package_tracking: "工作項目"
   project_module_news: "新知"
-  project_module_repository: "Repository"
+  project_module_repository: "版本庫"
   project_module_wiki: "維基"
   permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
   query:
@@ -2545,7 +2543,7 @@ zh-TW:
     member_of_group: "負責執行者的群組"
     name_or_identifier: "名稱或識別碼"
     only_subproject_id: "Only subproject"
-    shared_with_user: "Shared with user"
+    shared_with_user: "分配給非專案成員"
     subproject_id: "Including subproject"
   repositories:
     at_identifier: "在 %{identifier}"
@@ -2812,6 +2810,7 @@ zh-TW:
     other: "其他"
     passwords: "密碼"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "Session"
