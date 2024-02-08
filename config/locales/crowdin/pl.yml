@@ -248,8 +248,6 @@ pl:
       completed_text_children: "Ponadto usunięto następujące podprojekty:"
     index:
       open_as_gantt: "Otwórz jako widok wykresu Gantta"
-      open_as_gantt_title: "Użyj tego przycisku, aby wygenerować widok wykresu Gantta, który filtruje pakiety robocze projektów widocznych na tej stronie."
-      open_as_gantt_title_admin: "Możesz modyfikować ustawienia widoku (takie jak wybrane typy pakietów roboczych) w obszarze administracji w ustawieniach projektu."
       no_results_title_text: Nie ma jeszcze żadnego projektu
       no_results_content_text: Utwórz nowy projekt
     lists:
@@ -1873,8 +1871,8 @@ pl:
   label_follows: "Następujący"
   label_force_user_language_to_default: "Ustaw język domyślny dla użytkowników o innych ustawieniach językowych niż dozwolone"
   label_form_configuration: "Konfiguracja formularza"
-  label_gantt: "Wykres Gantta"
   label_gantt_chart: "Wykres Gantta"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Ogólne"
   label_generate_key: "Generuj klucz"
   label_git_path: "Ścieżka do katalogu .git"
@@ -2894,6 +2892,7 @@ pl:
     other: "Inne"
     passwords: "Hasła"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Ustawienia nowych projektów"
       section_project_overview: "Ustawienia listy przeglądu projektu"
     session: "Sesja"

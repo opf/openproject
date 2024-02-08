@@ -249,8 +249,6 @@ ja:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "ガントビューとして開く"
-      open_as_gantt_title: "このボタンを使用して、このページに表示されているプロジェクトのワークパッケージをフィルタリングするガントビューを生成します。"
-      open_as_gantt_title_admin: "プロジェクト設定で、表示設定 (選択したワークパッケージの種類など) を変更できます。"
       no_results_title_text: 現在、プロジェクトはありません
       no_results_content_text: プロジェクトを新規作成
     lists:
@@ -1791,8 +1789,8 @@ ja:
   label_follows: "次の項目に後続"
   label_force_user_language_to_default: "ユーザーの言語設定が利用許可されていない場合、デフォルト言語を利用する"
   label_form_configuration: "フォーム設定"
-  label_gantt: "ガント"
   label_gantt_chart: "ガントチャート"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "概要"
   label_generate_key: "キーを生成する"
   label_git_path: ".gitディレクトリへのパス"
@@ -2809,6 +2807,7 @@ ja:
     other: "その他"
     passwords: "パスワード"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "新規プロジェクトの設定"
       section_project_overview: "プロジェクト概要リストの設定"
     session: "セッション"

@@ -76,11 +76,11 @@
           status: |
             There is currently no status available. <br>
             Either there are none or they have all already been added to the board.
-          assignee: There isn't any member matched with your filter value.  <br>
-          no_member: This project currently does not have any members that can be added.  <br>
-          add_members: <a href="%{link}">Add a new member to this project</a> to select users again.
+          assignee: Det er ikke noe medlem som samsvarer med filterverdien.  <br>
+          no_member: Dette prosjektet har for tiden ikke noen medlemmer som kan legges til.  <br>
+          add_members: <a href="%{link}">Legg til nytt medlem i prosjektet</a> for å velge brukere på nytt.
       configuration_modal:
-        title: 'Configure this board'
+        title: 'Konfigurer tavlen'
         display_settings:
-          card_mode: "Display as cards"
-          table_mode: "Display as table"
+          card_mode: "Vis som oppgavelapper"
+          table_mode: "Vis som tabell"

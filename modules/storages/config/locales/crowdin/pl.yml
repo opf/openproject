@@ -91,7 +91,8 @@ pl:
       label_healthy: Zdrowe
       label_pending: Oczekujący
       since: od %{datetime}
-      title: Status zarządzanych folderów
+      subtitle: Automatic managed project folders
+      title: Health status
     help_texts:
       project_folder: Folder projektu jest domyślnym folderem do przesyłania plików tego projektu. Użytkownicy mogą jednak przesyłać pliki do innych lokalizacji.
     instructions:
@@ -176,13 +177,20 @@ pl:
     notice_successful_storage_connection: |-
       Storage connected successfully! Remember to activate the module and the specific storage in the project settings
       of each desired project to use it.
+    oauth_grant_nudge_modal:
+      access_granted: Access granted
+      body: You have successfully added a storage to this project. Would you like to login in the storage and authenticate your user to start using the storage?
+      cancel_button_label: I will do it later
+      confirm_button_label: 'Yes'
+      storage_ready: You are now ready to use %{storage}
+      title: Storage added
     open_project_storage_modal:
       success:
-        a: Ukończono konfigurację integracji
-        b: Następuje przekierowanie
+        subtitle: You are being redirected
+        title: Integration setup completed
       waiting:
-        a: Konfigurujemy Twoje uprawnienia do folderu projektu.
-        b: Chwileczkę, to może zająć trochę czasu...
+        subtitle: One moment please, this might take some time...
+        title: We are setting up your permissions on the project folder.
     page_titles:
       file_storages:
         delete: Usuń magazyn plików

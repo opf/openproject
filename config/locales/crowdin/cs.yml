@@ -251,8 +251,6 @@ cs:
       completed_text_children: "Kromě toho byly odstraněny následující podprojekty:"
     index:
       open_as_gantt: "Otevřít jako Gantt diagram"
-      open_as_gantt_title: "Použijte toto tlačítko pro generování Ganttova zobrazení, které filtruje pracovní balíčky pro projekty viditelné na této stránce."
-      open_as_gantt_title_admin: "Nastavení zobrazení (například vybrané typy pracovních balíčků) můžete změnit v administraci pod nastavením projektu."
       no_results_title_text: V současné době nejsou žádné projekty
       no_results_content_text: Vytvořit nový projekt
     lists:
@@ -1876,8 +1874,8 @@ cs:
   label_follows: "sleduje"
   label_force_user_language_to_default: "Nastavte jazyk uživatelů, kteří nemají povolený jazyk na výchozí"
   label_form_configuration: "Konfigurace formuláře"
-  label_gantt: "Ganttův diagram"
   label_gantt_chart: "Ganttův diagram"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Obecné"
   label_generate_key: "Generovat klíč"
   label_git_path: "Cesta ke složce .git"
@@ -2899,6 +2897,7 @@ cs:
     other: "Ostatní"
     passwords: "Hesla"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Nastavení pro nové projekty"
       section_project_overview: "Nastavení přehledu seznamu  projektu"
     session: "Relace"

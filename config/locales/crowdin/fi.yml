@@ -251,8 +251,6 @@ fi:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Avaa Gantt-näkymässä"
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Tällä hetkellä ei ole projekteja
       no_results_content_text: Luo uusi projekti
     lists:
@@ -1822,8 +1820,8 @@ fi:
   label_follows: "seuraa"
   label_force_user_language_to_default: "Määritä oletuskieli jos käytössä on kieli joka ei ole sallittu"
   label_form_configuration: "Lomakkeen muokkaus"
-  label_gantt: "Gantt"
   label_gantt_chart: "Gantt-kaavio"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Yleinen"
   label_generate_key: "Luo avain"
   label_git_path: "Polku .git hakemistoon"
@@ -2842,6 +2840,7 @@ fi:
     other: "Muut"
     passwords: "Salasana"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "Istunto"

@@ -248,8 +248,6 @@ zh-CN:
       completed_text_children: "此外，下列子项目已被删除："
     index:
       open_as_gantt: "以甘特视图打开"
-      open_as_gantt_title: "此按钮用于生成甘特视图，该视图可以过滤此页面上可见项目的工作包。"
-      open_as_gantt_title_admin: "您可以在“项目设置”下的“管理”中修改视图设置（如选择的工作包类型）。"
       no_results_title_text: 目前没有项目。
       no_results_content_text: 创建一个新的项目
     lists:
@@ -1791,8 +1789,8 @@ zh-CN:
   label_follows: "跟踪"
   label_force_user_language_to_default: "设置拥有非允许语言的用户的默认语言"
   label_form_configuration: "表格配置"
-  label_gantt: "甘特图"
   label_gantt_chart: "甘特图"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "通用"
   label_generate_key: "生成密钥"
   label_git_path: ".git 目录的路径"
@@ -2803,6 +2801,7 @@ zh-CN:
     other: "其他"
     passwords: "密码"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "新项目的设置"
       section_project_overview: "项目概览列表的设置"
     session: "会话"

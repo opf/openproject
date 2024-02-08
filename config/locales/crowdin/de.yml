@@ -104,7 +104,7 @@ de:
   ldap_auth_sources:
     ldap_error: "LDAP-Fehler: %{error_message}"
     ldap_auth_failed: "Die Authentifizierung gegenüber des LDAP-Servers ist fehlgeschlagen."
-    sync_failed: "Failed to synchronize from LDAP: %{message}."
+    sync_failed: "Fehler beim Synchronisieren von LDAP: %{message}."
     back_to_index: "Klicken Sie hier, um zur Liste der Verbindungen zurückzukehren."
     technical_warning_html: |
       Dieses LDAP-Formular erfordert technische Kenntnisse ihres LDAP-/Active Directory Setups.
@@ -248,17 +248,15 @@ de:
       completed_text_children: "Zusätzlich wurden folgende Unterprojekte gelöscht:"
     index:
       open_as_gantt: "Als Gantt-Ansicht öffnen"
-      open_as_gantt_title: "Eine Gantt-Ansicht für Arbeitspakete aus den auf dieser Seite sichtbaren Projekten erzeugen."
-      open_as_gantt_title_admin: "Sie können die Einstellungen der erzeugten Ansicht (wie zum Beispiel die ausgewählten Arbeitspakettypen) in der Administration unter den Projekteinstellungen ändern."
       no_results_title_text: Es gibt aktuell keine Projekte
       no_results_content_text: Neues Projekt erstellen
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: 'Aktive Projekte'
+      my: 'Meine Projekte'
+      archived: 'Archivierte Projekte'
+      my_private: 'Meine privaten Projektlisten'
       new:
-        placeholder: 'New project list'
+        placeholder: 'Neue Projektliste'
     settings:
       change_identifier: Kennung ändern
       activities:
@@ -594,7 +592,7 @@ de:
         color: "Farbe"
       user:
         admin: "Administrator"
-        auth_source: "Authentication source"
+        auth_source: "Authentifizierungsquelle"
         ldap_auth_source: "LDAP-Verbindung"
         identity_url: "Identity URL"
         current_password: "Aktuelles Passwort"
@@ -647,7 +645,7 @@ de:
         readonly: "Nur Lesezugriff"
         remaining_hours: "Verbleibender Aufwand"
         remaining_time: "Verbleibender Aufwand"
-        shared_with_users: "Shared with"
+        shared_with_users: "Geteilt mit"
         schedule_manually: "Manuelle Planung"
         spent_hours: "Aufgewendete Zeit"
         spent_time: "Aufgewendete Zeit"
@@ -953,7 +951,7 @@ de:
             ldap_auth_source:
               error_not_found: "nicht gefunden"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "nicht gefunden"
         member:
           principal_blank: "Bitte wählen Sie mindestens einen Benutzer oder eine Gruppe."
           role_blank: "muss zugeordnet werden."
@@ -1444,7 +1442,7 @@ de:
     message: Nachricht bearbeitet
     news: Neuigkeiten
     project_attributes: "Projekt-Attribute bearbeitet"
-    project: "Project edited"
+    project: "Projekt bearbeitet"
     projects: "Projekt bearbeitet"
     reply: Antwort erstellt
     time_entry: "Zeiterfassungseintrag bearbeitet"
@@ -1587,7 +1585,7 @@ de:
         revoke_token: "Möchten Sie dieses Token wirklich entfernen? Sie müssen sich erneut bei %{storage} anmelden"
         removed: "Dateispeicher-Token erfolgreich entfernt"
         failed: "Ein Fehler ist aufgetreten und das Token konnte nicht entfernt werden. Bitte versuchen Sie es später erneut."
-        unknown_storage: "Unknown storage"
+        unknown_storage: "Unbekannter Speicher"
   notifications:
     send_notifications: "Sende Benachrichtigungen für diese Aktion"
     work_packages:
@@ -1667,7 +1665,7 @@ de:
   label_available_project_work_package_categories: "Verfügbare Arbeitspaket-Kategorien"
   label_available_project_work_package_types: "Verfügbare Arbeitspaket-Typen"
   label_available_projects: "Verfügbare Projekte"
-  label_api_doc: "API documentation"
+  label_api_doc: "API-Dokumentation"
   label_backup: "Backup"
   label_backup_code: "Backup code"
   label_between: "zwischen"
@@ -1706,7 +1704,7 @@ de:
   label_check_uncheck_all_in_column: "Alle in Spalte an/abwählen"
   label_check_uncheck_all_in_row: "Alle in Zeile an/abwählen"
   label_child_element: "Kind-Element"
-  label_choices: "Choices"
+  label_choices: "Auswahlmöglichkeiten"
   label_chronological_order: "Älteste zuerst"
   label_close_versions: "Abgeschlossene Versionen schließen"
   label_closed_work_packages: "Geschlossen"
@@ -1817,8 +1815,8 @@ de:
   label_follows: "folgt"
   label_force_user_language_to_default: "Setze Sprache für Nutzer, die eine nicht erlaubte Sprache gewählt haben, auf die Standard-Sprache"
   label_form_configuration: "Formularkonfiguration"
-  label_gantt: "Gantt"
   label_gantt_chart: "Gantt-Diagramm"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Allgemein"
   label_generate_key: "Schlüssel generieren"
   label_git_path: "Pfad zum .git-Verzeichnis"
@@ -1836,7 +1834,7 @@ de:
   label_home: "Hauptseite"
   label_subject_or_id: "Titel oder ID"
   label_calendar_subscriptions: "Kalenderabonnements"
-  label_identifier: "Identifier"
+  label_identifier: "Kennung"
   label_impressum: "Impressum"
   label_in: "an"
   label_in_less_than: "in weniger als"
@@ -1924,7 +1922,7 @@ de:
   label_my_account: "Mein Konto"
   label_my_activity: "Meine Aktivität"
   label_my_account_data: "Meine Kontodaten"
-  label_my_avatar: "My avatar"
+  label_my_avatar: "Mein Avatar"
   label_my_queries: "Meine Berichte"
   label_name: "Name"
   label_never: "Nie"
@@ -2060,7 +2058,7 @@ de:
   label_search: "Suche"
   label_send_information: "Neue Anmeldeinformationen an den Benutzer senden"
   label_send_test_email: "Test-E-Mail senden"
-  label_session: "Session"
+  label_session: "Sitzung"
   label_setting_plural: "Einstellungen"
   label_system_settings: "Systemkonfiguration"
   label_show_completed_versions: "Abgeschlossene Versionen anzeigen"
@@ -2090,7 +2088,7 @@ de:
   label_system_storage: "Speicherinformation"
   label_table_of_contents: "Inhaltsverzeichnis"
   label_tag: "Markierung"
-  label_team_planner: "Team Planner"
+  label_team_planner: "Teamplaner"
   label_text: "Langer Text"
   label_this_month: "aktueller Monat"
   label_this_week: "aktuelle Woche"
@@ -2837,6 +2835,7 @@ de:
     other: "Andere"
     passwords: "Passwörter"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Einstellungen für neue Projekte"
       section_project_overview: "Einstellungen für Projektliste"
     session: "Sitzung"
@@ -2852,7 +2851,7 @@ de:
     plain: "Reiner Text"
   status_active: "aktiv"
   status_archived: "archiviert"
-  status_blocked: "blocked"
+  status_blocked: "blockiert"
   status_invited: eingeladen
   status_locked: gesperrt
   status_registered: angemeldet
@@ -3109,7 +3108,7 @@ de:
       text_empty_search_description: "Es gibt keine Benutzer mit den aktuellen Filterkriterien."
       text_empty_search_header: "Keine passenden Ergebnisse gefunden."
       text_empty_state_description: "Das Arbeitspaket wurde mit niemandem geteilt."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Nicht geteilt"
       text_user_limit_reached: "Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte kontaktieren Sie einen Administrator, um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können."
       text_user_limit_reached_admins: 'Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte <a href="%{upgrade_url}">aktualisieren Sie Ihr Abonnement</a> um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.'
       warning_user_limit_reached: >

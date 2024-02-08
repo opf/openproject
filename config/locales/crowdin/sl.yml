@@ -250,8 +250,6 @@ sl:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Odpri kot gantogram"
-      open_as_gantt_title: "Uporabi ta gumb za izdelavo gantograma, ki filtrira delovne pakete za projekte vidne na tej strani."
-      open_as_gantt_title_admin: "Spreminjanje nastavitev pogleda (na primer izbrane vrste delovnih paketov) je možno v skrbništvu pod nastavitvami projekta."
       no_results_title_text: Trenutno ni projektov
       no_results_content_text: Kreiraj nov projekt
     lists:
@@ -1873,8 +1871,8 @@ sl:
   label_follows: "Sledi"
   label_force_user_language_to_default: "Nastavite jezik uporabnikov ki nimajo dovoljenja privzetega jezika"
   label_form_configuration: "Konfiguracija obrazca"
-  label_gantt: "Gant"
   label_gantt_chart: "Gantogram"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Splošno"
   label_generate_key: "Ustvari ključ"
   label_git_path: "Pot do datoteke ali mape"
@@ -2896,6 +2894,7 @@ sl:
     other: "Drugo"
     passwords: "Gesla"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Nastavitve za nove projekte"
       section_project_overview: "Nastavitve za seznam pregleda projekta."
     session: "Seja"

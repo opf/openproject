@@ -248,8 +248,6 @@ it:
       completed_text_children: "Inoltre, i seguenti progetti secondari sono stati eliminati:"
     index:
       open_as_gantt: "Apri come vista Gantt"
-      open_as_gantt_title: "Usa questo pulsante per generare una vista Gantt che filtra le macro-attività per i progetti visibili in questa pagina."
-      open_as_gantt_title_admin: "È possibile modificare le impostazioni di visualizzazione (come i tipi di macro-attività selezionati) nell'amministrazione nelle impostazioni del progetto."
       no_results_title_text: Al momento non esistono progetti
       no_results_content_text: Crea un nuovo progetto
     lists:
@@ -1819,8 +1817,8 @@ it:
   label_follows: "segue"
   label_force_user_language_to_default: "Imposta la lingua degli utenti che non hanno una lingua consentita a quella predefinita"
   label_form_configuration: "Configurazione del modulo"
-  label_gantt: "Gantt"
   label_gantt_chart: "Diagramma di Gantt"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Generale"
   label_generate_key: "Genera chiave"
   label_git_path: "Percorso per la cartella .git"
@@ -2839,6 +2837,7 @@ it:
     other: "Altro"
     passwords: "Password"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Impostazioni per i nuovi progetti"
       section_project_overview: "Impostazioni per l'elenco generale dei progetti"
     session: "Sessione"

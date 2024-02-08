@@ -4,26 +4,26 @@
     bcf:
       label_bcf: 'BCF'
       import: 'Importer'
-      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
+      import_bcf_xml_file: 'Importer BCF XML-fil (BCF versjon 2.1)'
       export: 'Eksportèr'
-      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
-      viewpoint: 'Viewpoint'
-      add_viewpoint: 'Add viewpoint'
-      show_viewpoint: 'Show viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
-      management: 'BCF management'
-      refresh: 'Refresh'
-      refresh_work_package: 'Refresh work package'
+      export_bcf_xml_file: 'Eksporter BCF XML-fil (BCF versjon 2.1)'
+      viewpoint: 'Synspunkt'
+      add_viewpoint: 'Legg til synspunkt'
+      show_viewpoint: 'Vis synspunkt'
+      delete_viewpoint: 'Slett synspunkt'
+      management: 'BCF håndtering'
+      refresh: 'Oppdater'
+      refresh_work_package: 'Oppdater arbeidspakken'
     ifc_models:
-      empty_warning: "This project does not yet have any IFC models."
-      use_this_link_to_manage: "Use this link to upload and manage your IFC models"
-      keyboard_input_disabled: "Viewer does not have keyboard controls. Click on the viewer to give keyboard control to the viewer."
+      empty_warning: "Dette prosjektet har ennå ingen IFC-modeller."
+      use_this_link_to_manage: "Bruk denne lenken til å laste opp og administrere IFC-modellene dine"
+      keyboard_input_disabled: "Viseren har ikke tastaturkontroller. Klikk på viseren for å gi tastaturkontroll til viseren."
       models:
-        ifc_models: 'IFC models'
+        ifc_models: 'IFC modeller'
       views:
-        viewer: 'Viewer'
-        split: 'Viewer and table'
-        split_cards: 'Viewer and cards'
+        viewer: 'Leser'
+        split: 'Leser og tabell'
+        split_cards: 'Leser og oppgavelapper'
     revit:
       revit_add_in: "Revit Add-In"
-      revit_add_in_settings: "Revit Add-In settings"
+      revit_add_in_settings: "Revit Add-In innstillinger"

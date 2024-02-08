@@ -104,7 +104,7 @@ lt:
   ldap_auth_sources:
     ldap_error: "LDAP-Klaida: %{error_message}"
     ldap_auth_failed: "LDAP serveryje autentifikacija nepavyko."
-    sync_failed: "Failed to synchronize from LDAP: %{message}."
+    sync_failed: "Nepavyko sinchronizuoti su LDAP: %{message}."
     back_to_index: "Spauskite čia, kad gryžtumėte į jungčių sąrašą."
     technical_warning_html: |
       Ši LDAP forma reikalauja jūsų LDAP / Active Directory tvarkos žinojimo.
@@ -248,8 +248,6 @@ lt:
       completed_text_children: "Papildomai buvo ištrinti ir šie subprojektai:"
     index:
       open_as_gantt: "Atidaryti kaip Gantt diagramą"
-      open_as_gantt_title: "Naudokite šį mygtuką visų šiame puslapyje matomų projektų darbo užduočių Gantt'o diagramai sugeneruoti."
-      open_as_gantt_title_admin: "Galite pakeisti vaizdo parametrus (tokius kaip pasirinkti darbo užduočių tipai) administravimo dalyje prie projekto nustatymų."
       no_results_title_text: Nėra jokių projektų
       no_results_content_text: Sukurti naują projektą
     lists:
@@ -1873,8 +1871,8 @@ lt:
   label_follows: "seka"
   label_force_user_language_to_default: "Nustatyti numatytąją kalbą vartotojams, kurie nurodo, sistemoje nežinomą kalbą"
   label_form_configuration: "Formos konfigūracija"
-  label_gantt: "Gantt"
   label_gantt_chart: "Ganto grafikas"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Bendra"
   label_generate_key: "Generuoti raktą"
   label_git_path: "Kelias į .git aplanką"
@@ -2893,6 +2891,7 @@ lt:
     other: "Kita"
     passwords: "Slaptažodžiai"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Naujų projektų nustatymai"
       section_project_overview: "Nustatymai projektų apžvalgos sąrašui"
     session: "Sesija"

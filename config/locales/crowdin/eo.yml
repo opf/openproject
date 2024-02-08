@@ -251,8 +251,6 @@ eo:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Open as Gantt view"
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Nun estas neniu projekto.
       no_results_content_text: Krei nova projekton
     lists:
@@ -1822,8 +1820,8 @@ eo:
   label_follows: "follows"
   label_force_user_language_to_default: "Set language of users having a non allowed language to default"
   label_form_configuration: "Formulara agordo"
-  label_gantt: "Gantt"
   label_gantt_chart: "Gantt chart"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "General"
   label_generate_key: "Generate a key"
   label_git_path: "Path to .git directory"
@@ -2842,6 +2840,7 @@ eo:
     other: "Aliaj"
     passwords: "Passwords"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "Session"

@@ -2,5 +2,5 @@ zh-TW:
   js:
     queries:
       all_open: 'All open'
-      timeline: 'Timeline'
-      milestones: 'Milestones'
+      timeline: '時間軸'
+      milestones: '里程碑'
