@@ -41,9 +41,12 @@ export function initializeLocale() {
   I18n.locale = userLocale;
   I18n.defaultLocale = defaultLocale;
 
+  moment.locale(userLocale);
+  // Remove Postformatting Arabic numbers in dates
+  moment.updateLocale(userLocale, { postformat: (string:string) => string });
+
   if (!Number.isNaN(firstDayOfWeek) && !Number.isNaN(firstWeekOfYear)) {
     // ensure locale like "zh-CN" falls back to "zh-cn"
-    moment.locale(userLocale);
     moment.updateLocale(moment.locale(), {
       week: {
         dow: firstDayOfWeek,
