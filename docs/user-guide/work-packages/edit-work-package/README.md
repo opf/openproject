@@ -109,7 +109,7 @@ The user will no longer get notifications in OpenProject about changes to this w
 
 ## Export work packages
 
-To export the work packages, choose **Export ...** in the settings menu on the top right of the work package table (or Gantt chart) view.
+To export the work packages, choose **Export ...** in the settings menu on the top right of the work package table view.
 
 Please see [this separate guide](../exporting) for more information on exporting work packages.
 
@@ -164,4 +164,4 @@ If you have opened the quick context menu for a work package that has a parent w
 
 - **Outdent hierarchy** option, which will remove the child-parent relationship. 
 
-> **Note**: if you open the [Gantt view](../../gantt-chart/), the quick context menu will have different options than in the work package table view.
+> **Note**: if you open the [Gantt charts module](../../gantt-chart/), the quick context menu will have different options than in the work package table view.

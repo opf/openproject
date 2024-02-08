@@ -35,12 +35,26 @@ For a specific project, select the **Gantt charts** module from the project modu
 
 ![activate-gantt](openproject-user-guide-select-gantt-charts.png)
 
-
-
 To view multiple projects in a single timeline, select **Gantt charts** from the **Global Modules** menu. 
 
 ![Select Gantt charts from the global modules menu in OpenProject](openproject-user-guide-select-gantt-charts-global.png)
 
+## Gantt charts views
+
+Once you opened the Gantt charts module, the default view will show all open work packages. You can adjust the view using the filters or  select one the following view options: 
+
+![View options in OpenProject Gantt charts](openproject-user-guide-gantt-charts-views.png) 
+
+**Favorite**: lists all saved Gantt charts view that are marked as favorite
+
+**Default**: lists pre-defined Gantt charts views and includes the following:
+
+	- **All open**: shows all work packages with the status open
+	- **Milestones**: shows all work packages with the work package type Milestones (or other types that are set to be recognized as milestones)
+
+**Public**: lists all Gantt charts views set to be public
+
+**Private***: lists all your personal saved Gantt charts views
 
 ## Quick context menu in Gantt chart view
 
@@ -131,7 +145,7 @@ Also, you have **Label Configuration** for your Gantt chart. You can add up to t
 
 Click the **Apply** button to save your changes.
 
-![configure-gantt-chart](configure-gantt-chart.gif)
+![configure-gantt-chart](openproject-user-guide-configure-gantt-chart.gif)
 
 ### How to export data from a Gantt diagram
 
@@ -159,7 +173,7 @@ In the settings, enable the **Background graphics** for printing.
 
 Press the **Print** button.
 
-![print-gantt-chart](print-gantt-chart.gif)
+![How to print a Gantt chart in OpenProject](openproject-user-guide-print-gantt-chart.gif)
 
 For other browsers, please simply follow the browser's printing instruction to optimize results.
 
@@ -171,15 +185,17 @@ To synchronize your work package data between OpenProject and Excel (two-way syn
 
 To zoom in and zoom out in the Gantt chart view, click on the button with the **+** and **- icon** on top of the chart.
 
-![zoom-in-Gantt-chart](image-20210204173135173.png)
+![Zooming into a Gantt chart in OpenProject](openproject-user-guide-gantt-charts-zoom.png)
 
 
 
 ### Auto zoom
 
-Select the **auto zoom button** on top of the Gantt chart to have the best view of your Gantt chart.
+Select the **auto zoom button** on top of the Gantt chart to have the best view of your Gantt chart. 
 
-![auto-zoom-Gantt](image-20210204173248266.png)
+Please note that it the **auto zoom button** may not be selectable if it has been pre-selected in the [Gantt charts configuration](#gantt-chart-configuration)
+
+![auto-zoom-Gantt](openproject-user-guide-gantt-charts-auto-zoom.png)
 
 
 
@@ -187,7 +203,7 @@ Select the **auto zoom button** on top of the Gantt chart to have the best view 
 
 The zen mode gives you more space to focus on the tasks at hand. It's almost like activating the full screen view in your browser. To exit press the *Esc* key or click on the **zen mode** symbol again.
 
-![zen-mode-Gantt-chart](image-20210204173420592.png)
+![zen-mode-Gantt-chart](openproject-user-guide-gantt-charts-zen-mode.png)
 
 
 ## Multi project views
@@ -206,23 +222,21 @@ If you want to adjust your work package table and filter, sort or order your wor
 
 ## Aggregation by project
 
-You can get a **quick overview of multiple projects** in the Gantt chart. To accomplish this navigate to the Work packages module of a project or the [project overarching work package table](../projects/#project-overarching-reports).
+You can get a **quick overview of multiple projects** in the Gantt chart. To accomplish this navigate to the Gantt charts module of a project or the [project overarching Gantt charts module](../projects/#project-overarching-reports).
 
 **Group the work packages** by project by using the [work packages table configuration](../work-packages/work-package-table-configuration/#flat-list-hierarchy-mode-and-group-by) (accessible in the upper right corner) or by clicking on the small triangle next to "Project" in the table header.
  ![group-by-project](image-20201211020614221.png)
 
-**Display the Gantt chart** by clicking on the button in the upper right corner.
-![insert-gantt-chart-button](image-20201211020748715.png)
-
 Use the minus next to the project's name or the **collapse button** in the upper right corner to collapse some or all projects.
 
-![collapse-button](collapse-all-expand-all.png)
+![collapse-button](openproject-user-guide-gantt-charts-collapse-all.png)
 
-This will give you an **aggregated view of the projects' milestones**.
+This will give you an **aggregated view of the projects' work packages**. You can further adjust this view by using the Filter functionality, for example display work package type Bugs. 
 
-![aggregated-projects-milestones](image-20201211131511543.png)
+![Filtering project aggregated projects Gantt chart view in OpenProject](openproject-user-guide-gantt-charts-filters.png)
 
-**Please note**: If you want to make use of this feature, it is necessary to add milestones for the most important dates to your projects. At the moment this feature is not available for other [work package types](../../getting-started/work-packages-introduction/#what-is-a-work-package). 
+**Please note**: If you want the work packages to be displayed when the projects are folded, it is necessary to set the selected work package type to be recognized as a milestone under  [work package type settings](../../system-admin-guide/manage-work-packages/work-package-types/). Otherwise you will need to unfold the projects to view all of the work packages.
+
 Apart from the set filters the list of displayed projects depends on your [permissions](../../system-admin-guide/users-permissions/roles-permissions/). You can only see private projects that you are a member of and public projects.
 In some cases (many work packages per project) you will have to increase the objects per page in bottom right corner to display multiple projects. Change the available options in the [system settings](../../system-admin-guide/system-settings/general-settings/) if necessary.
  ![image-20201211131803961](image-20201211131803961.png)
