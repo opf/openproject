@@ -42,13 +42,11 @@ RSpec.describe Storages::Admin::OAuthAccessGrantNudgeModalComponent, type: :comp
     let(:oauth_access_grant_nudge_modal_component) { described_class.new(project_storage_id: project_storage.id) }
 
     it 'renders the nudge modal' do
-      expect(page).to have_text('Storage added')
-      expect(page).to have_text('You have successfully added a storage to this project. ' \
-                                'Would you like to login in the storage and authenticate ' \
-                                'your user to start using the storage?')
+      expect(page).to have_text('One more step...')
+      expect(page).to have_text("To get access to the project folder you need to login to #{project_storage.storage.name}.")
 
       expect(page).to have_button('I will do it later')
-      expect(page).to have_link('Yes',
+      expect(page).to have_link('Login',
                                 href: oauth_access_grant_project_settings_project_storage_path(
                                   project_id: project_storage.project_id, id: project_storage
                                 ))

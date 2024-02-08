@@ -1,6 +1,6 @@
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title(variant: :large) { t(:label_member_plural) }
+    header.with_title { t(:label_member_plural) }
 
     header.with_actions do
       flex_layout do |actions|
