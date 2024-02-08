@@ -36,6 +36,9 @@ export class MultipleUserFieldModule extends ResourcesDisplayField {
 
   public render(element:HTMLElement):void {
     const users = this.value as HalResource[];
+    // The flex display of the nested op-principal-list breaks the height if
+    // this element's display is set to "initial".
+    element.style.display = 'block';
     element.innerHTML = '';
     element.setAttribute('title', users.map((el) => el.name).join(', '));
 

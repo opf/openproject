@@ -603,8 +603,8 @@ zh-TW:
         commented: '已評論'
         processed: '已處理'
         prioritized: '優先'
-        dateAlert: 'Date alert'
-        shared: 'shared'
+        dateAlert: '日期提醒'
+        shared: '共享'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -647,8 +647,8 @@ zh-TW:
         inbox: '收件匣'
         mentioned: '被標記'
         watched: "關注者\n"
-        date_alert: 'Date alert'
-        shared: 'Shared'
+        date_alert: '日期提醒'
+        shared: '共享'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "通知設定"
@@ -671,7 +671,7 @@ zh-TW:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: '負責執行者'
           responsible: '負責人'
-          shared: 'Shared'
+          shared: '共享'
           watched: "關注者\n"
           work_package_commented: '新評論'
           work_package_created: '新工作包'
@@ -996,7 +996,7 @@ zh-TW:
         recently_created: "最近創建的"
         all_open: "全部打開"
         summary: "大綱"
-        shared_with_users: "Shared with users"
+        shared_with_users: "分配給非專案成員"
       jump_marks:
         pagination: "跳轉至表格分頁"
         label_pagination: "點擊此處跳過工作包表格並轉到分頁"

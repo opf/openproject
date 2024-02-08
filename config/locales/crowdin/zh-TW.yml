@@ -289,7 +289,7 @@ zh-TW:
     send_invite_to: "Send invite to"
     no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     columns:
-      shared: "Shared"
+      shared: "共享"
     filters:
       all_shares: "All shares"
     menu:
@@ -2231,11 +2231,11 @@ zh-TW:
         assigned: "指派"
         responsible: "負責人"
         mentioned: "提醒"
-        shared: "Shared"
+        shared: "共享"
         subscribed: "所有"
         prefix: "因為通知設定而收到：%{reason}"
-        date_alert_start_date: "Date alert"
-        date_alert_due_date: "Date alert"
+        date_alert_start_date: "日期提醒"
+        date_alert_due_date: "到期提醒"
       see_all: "全部顯示"
       updated_at: "Updated at %{timestamp} by %{user}"
     sharing:
