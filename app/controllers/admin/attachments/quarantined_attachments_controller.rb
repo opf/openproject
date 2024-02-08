@@ -33,18 +33,33 @@ module Admin
       before_action :require_admin
       before_action :find_quarantined_attachments
 
+      before_action :find_attachment, only: %i[override destroy]
+      before_action :prevent_same_user, only: %i[override destroy]
+
       menu_item :attachment_quarantine
 
       def index; end
 
-      def destroy
-        attachment = @attachments.find(params[:id])
-        container = attachment.container
+      def override
+        @attachment.status_scanned!
 
-        attachment.destroy!
-        ::Journals::CreateService
-          .new(container, User.system)
-          .call(notes: I18n.t('antivirus_scan.deleted_by_admin', filename: attachment.filename))
+        create_journal(@attachment.container,
+                       current_user,
+                       I18n.t('antivirus_scan.overridden_by_admin',
+                              user: current_user.name,
+                              filename: @attachment.filename))
+
+        flash[:notice] = t(:notice_successful_update)
+        redirect_to action: :index
+      end
+
+      def destroy
+        container = @attachment.container
+        @attachment.destroy!
+
+        create_journal(container,
+                       User.system,
+                       I18n.t('antivirus_scan.deleted_by_admin', filename: @attachment.filename))
 
         flash[:notice] = t(:notice_successful_delete)
         redirect_to action: :index
@@ -55,6 +70,12 @@ module Admin
       end
 
       private
+
+      def create_journal(container, user, notes)
+        ::Journals::CreateService
+          .new(container, user)
+          .call(notes:)
+      end
 
       def find_quarantined_attachments
         @attachments = Attachment

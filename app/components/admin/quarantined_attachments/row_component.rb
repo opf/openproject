@@ -56,13 +56,31 @@ module Admin
       end
 
       def button_links
-        [delete_link]
+        [
+          override_link,
+          delete_link
+        ].compact
+      end
+
+      def override_link
+        return if User.current == attachment.author
+
+        helpers.link_to(
+          helpers.op_icon('icon icon-unlocked'),
+          { controller: '/admin/attachments/quarantined_attachments', action: :override, id: model },
+          title: I18n.t('antivirus_scan.quarantined_attachments.override'),
+          method: :patch,
+          data: { confirm: I18n.t(:text_are_you_sure), disable_with: I18n.t(:label_loading) },
+          )
       end
 
       def delete_link
+        return if User.current == attachment.author
+
         helpers.link_to(
           helpers.op_icon('icon icon-delete'),
           { controller: '/admin/attachments/quarantined_attachments', action: :destroy, id: model },
+          title: I18n.t('antivirus_scan.quarantined_attachments.delete'),
           method: :delete,
           data: { confirm: I18n.t(:text_are_you_sure), disable_with: I18n.t(:label_loading) },
         )
