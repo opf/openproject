@@ -13,6 +13,33 @@ Release date: 2024-02-14
 We released [OpenProject 13.3.0](https://community.openproject.org/versions/1487).
 The release contains several bug fixes and we recommend updating to the newest version.
 
+## New features
+
+In addition to other changes, OpenProject version 13.3 includes the following three important features:
+
+### Gantt charts module
+
+One major change is the relocation of the Gantt views to a separate module. Please note that with OpenProject 13.3 you will find any work package tables saved using the Gantt view in the new Gantt charts module. The view button from the work package module is now only present in the BIM version of OpenProject and only for switching to the map view.
+
+You can navigate to the new Gantt chart module either via the side menu or via the global menu:
+
+![OpenProject's Gantt charts module](openproject-user-guide-select-gantt-charts-global.png)
+
+### Filter and save custom project lists
+
+OpenProject has enhanced the project filter list view and now lets you create custom project lists by saving your preferred filter settings. Please note that in future releases, the project lists will be further improved and additional features will be added.
+
+![Filter and save custom project lists with OpenProject](openproject-filter-project-lists.png)
+
+### OneDrive/SharePoint integration: Automatically managed project folders
+
+With this release, admins of an Enterprise edition can choose between manually or automatically managed project folders. If you select the latter, all project members are granted access to the project folder.
+
+![Project folders for OneDrive/SharePoint with automatically managed permissions](openproject-13-3-sharepoint-onedrive-automatically-managed-project-folders-highlighted.png)
+
+---
+
+[See our blog](https://www.openproject.org/blog/openproject-13-3-release/) to learn more about features we included in OpenProject 13.3. You can find a detailed list of all new features and bugfixes below.
 
 ## Important updates and breaking changes
 
