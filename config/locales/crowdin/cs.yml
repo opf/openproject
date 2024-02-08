@@ -49,7 +49,7 @@ cs:
         main-menu-border-color: "Okraj hlavního menu"
       custom_colors: "Vlastní barvy"
       customize: "Přizpůsobte si instalaci OpenProject vlastním logem a barvami."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: ""
       enterprise_more_info: "Poznámka: použité logo bude veřejně přístupné."
       manage_colors: "Upravit možnosti výběru barvy"
       instructions:
@@ -104,6 +104,7 @@ cs:
   ldap_auth_sources:
     ldap_error: "Chyba LDAP: %{error_message}"
     ldap_auth_failed: "Nelze autentizovat u serveru LDAP."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Kliknutím sem se vrátíte do seznamu připojení."
     technical_warning_html: |
       Tento LDAP formulář vyžaduje technické znalosti nastavení LDAP / Active Directory.
@@ -150,15 +151,15 @@ cs:
       simple_tls: "LDAPS"
       start_tls: "STARTTLS"
       plain_description: "Otevře nešifrované připojení k LDAP serveru. Není doporučeno pro produkci."
-      simple_tls_description: "Use LDAPS. Requires a separate port on the LDAP server. This mode is often deprecated, we recommend using STARTTLS whenever possible."
-      start_tls_description: "Sends a STARTTLS command after connecting to the standard LDAP port. Recommended for encrypted connections."
+      simple_tls_description: "Použít LDAPS. Vyžaduje samostatný port na serveru LDAP. Tento režim je často zastaralý, doporučujeme použít STARTTLS, kdykoli je to možné."
+      start_tls_description: "Odešle příkaz STARTTLS po připojení ke standardnímu LDAP portu. Doporučeno pro šifrované připojení."
       section_more_info_link_html: >
         Tato sekce se týká zabezpečení připojení tohoto LDAP autentifikačního zdroje. Pro více informací navštivte <a href="%{link}">síť:LDAP dokumentaci</a>.
     tls_options:
       verify_peer: "Ověřit SSL certifikát"
       verify_peer_description_html: >
-        Enables strict SSL verification of the certificate trusted chain. <br/> <strong>Warning:</strong> Unchecking this option disables SSL verification of the LDAP server certificate. This exposes your connection to Man in the Middle attacks.
-      tls_certificate_description: "If the LDAP server certificate is not in the trust sources of this system, you can add it manually here. Enter a PEM X509 certifiate string."
+        Umožňuje přísné SSL ověření řetězce důvěryhodných certifikátů. <br/> <strong>Varování:</strong> Odškrtnutím této možnosti zakáže SSL ověření certifikátu LDAP serveru. To odhaluje vaši vazbu na člověka při blízkovýchodních útocích.
+      tls_certificate_description: "Pokud LDAP server není v důvěryhodných zdrojích tohoto systému, můžete jej přidat ručně zde. Zadejte PEM X509 certifikační řetězec."
   forums:
     show:
       no_results_title_text: V současné době nejsou k dispozici žádné příspěvky na fórum.
@@ -250,8 +251,6 @@ cs:
       completed_text_children: "Kromě toho byly odstraněny následující podprojekty:"
     index:
       open_as_gantt: "Otevřít jako Gantt diagram"
-      open_as_gantt_title: "Použijte toto tlačítko pro generování Ganttova zobrazení, které filtruje pracovní balíčky pro projekty viditelné na této stránce."
-      open_as_gantt_title_admin: "Nastavení zobrazení (například vybrané typy pracovních balíčků) můžete změnit v administraci pod nastavením projektu."
       no_results_title_text: V současné době nejsou žádné projekty
       no_results_content_text: Vytvořit nový projekt
     lists:
@@ -346,7 +345,7 @@ cs:
       irreversible: "Tato akce je nevratná"
       confirmation: "Zadejte název zástupného uživatele %{name} pro potvrzení odstranění."
     upsale:
-      title: placeholder uživatel
+      title: Placeholder uživatel
       description: >
         Placeholder uživatelé jsou způsob, jak přiřadit pracovní balíčky uživatelům, kteří nejsou součástí vašeho projektu. Mohou být užiteční v řadě scénářů; například, pokud potřebujete sledovat úkoly u zdroje, který ještě nejsou pojmenovány nebo dostupné, nebo pokud nechcete této osobě umožnit přístup k OpenProject ale stále chcete sledovat úkoly, které jim byly přiděleny.
   prioritiies:
@@ -424,7 +423,7 @@ cs:
     sharing:
       missing_workflow_waring:
         title: "Pro sdílení pracovního balíčku chybí pracovní postup"
-        message: "No workflow is configured for the 'Work package editor' role. Without a workflow, the shared with user cannot alter the status of the work package. Workflows can be copied. Select a source type (e.g. 'Task') and source role (e.g. 'Member'). Then select the target types. To start with, you could select all the types as targets. Finally, select the 'Work package editor' role as the target and press 'Copy'. After having thus created the defaults, fine tune the workflows as you do for every other role."
+        message: "Pro roli 'Pracovní balíček' není nastaven žádný pracovní postup. Bez pracovního postupu nemůže sdílení s uživatelem změnit stav pracovního balíčku. Pracovní toky mohou být zkopírovány. Vyberte typ zdroje (např. 'Úkol') a zdrojovou roli (např. 'Člen'). Pak vyberte cílové typy. Na začátku můžete vybrat všechny typy jako cíle. Nakonec vyberte roli 'Editor pracovních balíčků' jako cíl a stiskněte 'Kopírovat'. Poté, co jste tak vytvořili výchozí nastavení, vyladit pracovní postupy, jak to děláte pro každou jinou roli."
         link_message: "Konfigurace pracovních postupů v administraci."
     summary:
       reports:
@@ -552,7 +551,7 @@ cs:
           false: "archivováno"
         identifier: "Identifikátor"
         latest_activity_at: "Poslední aktivita"
-        parent: "Podprojekt"
+        parent: "Nadřazený projekt"
         public_value:
           title: "Viditelnost"
           true: "veřejný"
@@ -602,7 +601,7 @@ cs:
         admin: "Administrátor"
         auth_source: "Zdroj ověřování"
         ldap_auth_source: "Připojení LDAP"
-        identity_url: "Identity URL"
+        identity_url: "Adresa URL identity"
         current_password: "Aktuální přístupové heslo"
         force_password_change: "Vynutit změnu hesla při příštím přihlášení"
         language: "Jazyk"
@@ -646,7 +645,7 @@ cs:
           true: "zahrnuje nepracovní dny"
         notify: "Oznámit" #used in custom actions
         parent: "Nadřazený"
-        parent_issue: "Rodič"
+        parent_issue: "Nadřazený"
         parent_work_package: "Nadřazený"
         priority: "Priorita"
         progress: "% Dokončeno"
@@ -729,7 +728,7 @@ cs:
         unknown_property_nested: "má neznámou cestu '%{path}'."
         unremovable: "nelze odstranit."
         url_not_secure_context: >
-          is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
+          neposkytuje "bezpečný kontext". Buď použijte HTTPS nebo adresu pro smyčku, jako je localhost.
         wrong_length: "má chybnou délku (měla by být %{count} znaků)."
       models:
         ldap_auth_source:
@@ -782,7 +781,7 @@ cs:
               blank: "je povinné. Zvolte prosím název."
               not_unique: " už bylo použito. Prosím vyberte jiný název."
         notifications:
-          at_least_one_channel: "Alespoň jeden kanál pro odesílání oznámení musí být specifikován."
+          at_least_one_channel: "Pro odesílání notifikací musí být specifikován alespoň jeden kanál"
           attributes:
             read_ian:
               read_on_creation: "nelze nastavit na pravdivé při vytváření oznámení "
@@ -997,11 +996,11 @@ cs:
       member: "Člen"
       news: "Novinky"
       notification:
-        one: "Oznámení"
-        few: "Oznámení"
-        many: "Oznámení"
-        other: "Oznámení"
-      placeholder_user: "placeholder uživatel"
+        one: "Notifikace"
+        few: "Notifikací"
+        many: "Notifikací"
+        other: "Notifikace"
+      placeholder_user: "Placeholder uživatel"
       project: "Projekt"
       query: "Vlastní dotaz"
       role:
@@ -1602,7 +1601,7 @@ cs:
   instructions_after_error: "Zkuste se znovu přihlásit kliknutím na %{signin}. Pokud chyba přetrvává, požádejte správce o pomoc."
   menus:
     admin:
-      mail_notification: "E-mailová upozornění"
+      mail_notification: "E-mailové notifikace"
       mails_and_notifications: "E-maily a oznámení"
       aggregation: "Agregace"
       api_and_webhooks: "API & Webhooky"
@@ -1647,7 +1646,7 @@ cs:
         failed: "Došlo k chybě a token nemohl být odstraněn. Opakujte akci později."
         unknown_storage: "Neznámé úložiště"
   notifications:
-    send_notifications: "Odeslat oznámení pro tuto akci"
+    send_notifications: "Pro tuto akci odeslat notifikaci"
     work_packages:
       subject:
         created: "Pracovní balíček byl vytvořen."
@@ -1666,7 +1665,7 @@ cs:
         S pozdravem, OpenProject tým
       body_header: "Verze 12.0 s oznamovacím centrem"
       body_subheader: "Novinky"
-      subject: "Důležité změny oznámení s vydáním 12.0"
+      subject: "Důležité změny notifikací s vydáním 12.0"
   label_accessibility: "Přístupnost"
   label_account: "Účet"
   label_active: "Aktivní"
@@ -1875,8 +1874,8 @@ cs:
   label_follows: "sleduje"
   label_force_user_language_to_default: "Nastavte jazyk uživatelů, kteří nemají povolený jazyk na výchozí"
   label_form_configuration: "Konfigurace formuláře"
-  label_gantt: "Ganttův diagram"
   label_gantt_chart: "Ganttův diagram"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Obecné"
   label_generate_key: "Generovat klíč"
   label_git_path: "Cesta ke složce .git"
@@ -2037,9 +2036,9 @@ cs:
   label_permissions: "Práva"
   label_permissions_report: "Přehled oprávnění"
   label_personalize_page: "Přizpůsobit tuto stránku"
-  label_placeholder_user: "placeholder uživatel"
+  label_placeholder_user: "Placeholder uživatel"
   label_placeholder_user_new: ""
-  label_placeholder_user_plural: "placeholder uživatelé"
+  label_placeholder_user_plural: "Placeholder uživatelé"
   label_planning: "Plánování"
   label_please_login: "Přihlaste se prosím"
   label_plugins: "Pluginy"
@@ -2057,7 +2056,7 @@ cs:
   label_project_activity: "Aktivita projektu"
   label_project_attribute_plural: "Atributy projektu"
   label_project_count: "Celkový počet projektů"
-  label_project_copy_notifications: "Během kopie projektu odeslat oznámení e-mailem"
+  label_project_copy_notifications: "Během kopírování projektu odeslat notifikace e-mailem"
   label_project_latest: "Nejnovější projekty"
   label_project_default_type: "Povolit prázdný typ"
   label_project_hierarchy: "Hierarchie projektu"
@@ -2190,7 +2189,7 @@ cs:
   label_users_settings: "Uživatelská nastavení"
   label_version_new: "Nová verze"
   label_version_plural: "Verze"
-  label_version_sharing_descendants: "S Podprojekty"
+  label_version_sharing_descendants: "S podprojekty"
   label_version_sharing_hierarchy: "S hierarchií projektu"
   label_version_sharing_none: "Není sdíleno"
   label_version_sharing_system: "Se všemi projekty"
@@ -2288,28 +2287,28 @@ cs:
     digests:
       including_mention_singular: "včetně zmínky"
       including_mention_plural: "včetně %{number_mentioned} zmínění"
-      unread_notification_singular: "1 nepřečtené oznámení"
-      unread_notification_plural: "%{number_unread} nepřečtených oznámení"
+      unread_notification_singular: "1 nepřečtená notifikace"
+      unread_notification_plural: "%{number_unread} nepřečtených notifikací"
       you_have: "Máte"
     logo_alt_text: "Logo"
     mention:
       subject: "%{user_name} vás zmínil v #%{id} - %{subject}"
     notification:
-      center: "Centrum oznámení"
+      center: "Centrum notifikací"
       see_in_center: "Zobrazit komentář v oznamovacím centru"
       settings: "Změnit nastavení e-mailu"
     salutation: "Ahoj %{user}!"
     salutation_full_name: "Jméno a příjmení"
     work_packages:
       created_at: "Vytvořeno v %{timestamp} uživatelem %{user} "
-      login_to_see_all: "Přihlaste se pro zobrazení všech oznámení."
+      login_to_see_all: "Přihlaste se pro zobrazení všech notifikací."
       mentioned: "Byli jste <b>zmíněni v komentáři</b>"
       mentioned_by: "%{user} vás zmínil v komentáři"
       more_to_see:
-        one: "Existuje ještě 1 pracovní balíček s oznámeními."
-        few: "Existuje ještě  %{count}  pracovních balíčků s oznámeními."
-        many: "Existuje ještě  %{count}  pracovních balíčků s oznámeními."
-        other: "Existuje ještě  %{count}  pracovních balíčků s oznámeními."
+        one: "Existuje ještě %{count} pracovní balíček s notifikací."
+        few: "Existuje ještě %{count} pracovních balíčků s notifikacema."
+        many: "Existuje ještě %{count} pracovních balíčků s notifikacema."
+        other: "Existuje ještě %{count} pracovních balíčků s notifikacema."
       open_in_browser: "Otevřít v prohlížeči"
       reason:
         watched: "Sledováno"
@@ -2318,7 +2317,7 @@ cs:
         mentioned: "Zmíněné"
         shared: "Sdílené"
         subscribed: "vše"
-        prefix: "Obdrženo z důvodu nastavení oznámení: %{reason}"
+        prefix: "Obdrženo z důvodu nastavení notifikací: %{reason}"
         date_alert_start_date: "Upozornění na datum"
         date_alert_due_date: "Upozornění na datum"
       see_all: "Zobrazit vše"
@@ -2562,7 +2561,7 @@ cs:
   permission_move_work_packages: "Přesun pracovních balíčků"
   permission_protect_wiki_pages: "Ochrana stránky wiki"
   permission_rename_wiki_pages: "Přejmenovat stránky wiki"
-  permission_save_queries: "Uložit pohled"
+  permission_save_queries: "Uložit zobrazení"
   permission_search_project: "Hledat projekt"
   permission_select_custom_fields: "Vybrat vlastní pole"
   permission_select_project_modules: "Vyberte moduly projektu"
@@ -2890,14 +2889,15 @@ cs:
         type: "Celý řádek podle typu"
         priority: "Celý řádek podle priority"
     icalendar:
-      enable_subscriptions_text_html: Allows users with the necessary permissions to subscribe to OpenProject calendars and access work package information via an external calendar client. <strong>Note:</strong> Please read about <a href="%{link}" target="_blank">iCalendar subscriptions</a> to understand potential security risks before enabling this.
+      enable_subscriptions_text_html: Umožňuje uživatelům s nezbytnými oprávněními přihlásit se do OpenProject kalendářů a získat přístup k informacím o pracovním balíčku prostřednictvím externího klienta kalendáře. <strong>Poznámka:</strong> Před povolením si prosím přečtěte <a href="%{link}" target="_blank">iCalendar předplatné</a>.
     language_name_being_default: "%{language_name} (výchozí)"
     notifications:
-      events_explanation: "Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože oznámení pro ně mohou být nastavena speciálně pro každého uživatele."
+      events_explanation: "Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože notifikace pro ně mohou být nastavena speciálně pro každého uživatele."
       delay_minutes_explanation: "Odesílání e-mailu může být pozdrženo, aby bylo uživatelům s nakonfigurovaným v oznámení aplikace před odesláním pošty potvrzeno oznámení. Uživatelé, kteří si přečtou oznámení v aplikaci, nedostanou e-mail pro již přečtené oznámení."
     other: "Ostatní"
     passwords: "Hesla"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Nastavení pro nové projekty"
       section_project_overview: "Nastavení přehledu seznamu  projektu"
     session: "Relace"
@@ -2962,7 +2962,7 @@ cs:
   text_destroy_with_associated: "Existují další objekty, které jsou přiřazeny k pracovním balíčkům a které mají být odstraněny. Tyto objekty jsou následující typy:"
   text_destroy_what_to_do: "Co chcete udělat?"
   text_diff_truncated: "... Toto rozlišení bylo zkráceno, protože přesahuje maximální velikost, kterou lze zobrazit."
-  text_email_delivery_not_configured: "Doručení e-mailu není nakonfigurováno a oznámení jsou zakázána.\nNakonfigurujte váš SMTP server pro jejich povolení."
+  text_email_delivery_not_configured: "Doručení e-mailu není nakonfigurováno a notifikace jsou zakázány.\nNakonfigurujte váš SMTP server pro jejich povolení."
   text_enumeration_category_reassign_to: "Přiřadit je k této hodnotě:"
   text_enumeration_destroy_question: "%{count} objektů je přiřazeno k této hodnotě."
   text_file_repository_writable: "Do adresáře příloh lze zapisovat"

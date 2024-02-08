@@ -27,7 +27,31 @@
 #++
 
 module OpenProject
-  module DefaultWpQueries
-    GANTT = '{"tv":true,"hi":true}'.freeze
+  module PostgresEnvironment
+    ##
+    # Maps the PG env variable name to the key in the AR connection config.
+    PG_ENV_TO_CONNECTION_CONFIG = {
+      PGHOST: :host,
+      PGPORT: :port,
+      PGUSER: %i[username user],
+      PGPASSWORD: :password,
+      PGDATABASE: :database
+    }.freeze
+
+    module_function
+
+    def pg_env
+      database_config = ActiveRecord::Base.connection_db_config.configuration_hash
+
+      PG_ENV_TO_CONNECTION_CONFIG.filter_map do |key, config_key|
+        possible_keys = Array(config_key)
+        value = possible_keys
+          .lazy
+          .filter_map { |key| database_config[key] }
+          .first
+
+        [key.to_s, value.to_s] if value.present?
+      end.to_h
+    end
   end
 end

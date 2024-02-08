@@ -104,6 +104,7 @@ ko:
   ldap_auth_sources:
     ldap_error: "LDAP 오류: %{error_message}"
     ldap_auth_failed: "LDAP 서버에서 인증할 수 없습니다."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "연결 목록으로 돌아가려면 여기를 클릭하세요."
     technical_warning_html: |
       이 LDAP 양식을 사용하려면 LDAP / Active Directory 설정에 대한 기술 지식이 필요합니다.
@@ -250,8 +251,6 @@ ko:
       completed_text_children: "또한 다음 하위 프로젝트가 삭제되었습니다."
     index:
       open_as_gantt: "Gantt 보기로 열기"
-      open_as_gantt_title: "이 버튼을 사용하여 이 페이지에 표시되는 프로젝트에 대한 작업 패키지를 필터링하는 Gantt 보기를 생성하세요."
-      open_as_gantt_title_admin: "프로젝트 설정의 관리에서 보기 설정(예: 선택한 작업 패키지 유형)을 수정할 수 있습니다."
       no_results_title_text: 프로젝트가 없습니다.
       no_results_content_text: 새 프로젝트 생성
     lists:
@@ -1793,8 +1792,8 @@ ko:
   label_follows: "팔로우"
   label_force_user_language_to_default: "허용되지 않는 언어가 있는 사용자의 언어를 기본값으로 설정"
   label_form_configuration: "양식 구성"
-  label_gantt: "Gantt"
   label_gantt_chart: "Gantt 차트"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "일반"
   label_generate_key: "키 생성"
   label_git_path: ".git 디렉터리의 경로"
@@ -2808,6 +2807,7 @@ ko:
     other: "기타"
     passwords: "암호"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "새 프로젝트의 설정"
       section_project_overview: "프로젝트 개요 목록의 설정"
     session: "세션"

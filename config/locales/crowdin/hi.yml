@@ -104,6 +104,7 @@ hi:
   ldap_auth_sources:
     ldap_error: "LDAP-Error: %{error_message}"
     ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -250,8 +251,6 @@ hi:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Open as Gantt view"
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
     lists:
@@ -1819,8 +1818,8 @@ hi:
   label_follows: "फॉलो करें"
   label_force_user_language_to_default: "डिफ़ॉल्ट करने के लिए एक गैर अनुमति भाषा वाले उपयोगकर्ताओं की भाषा सेट करें"
   label_form_configuration: "Form configuration"
-  label_gantt: "गैन्ट"
   label_gantt_chart: "गैंट चार्ट"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "सामान्य"
   label_generate_key: "कोई कुंजी जैनेरेट करें"
   label_git_path: ". git निर्देशिका के लिए पथ"
@@ -2839,6 +2838,7 @@ hi:
     other: "अन्य"
     passwords: "Passwords"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "Session"

@@ -15,8 +15,6 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { shareModalUpdated } from 'core-app/features/work-packages/components/wp-share-modal/sharing.actions';
-import { fromEvent } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
 
 @Component({
   templateUrl: './wp-share.modal.html',
@@ -28,8 +26,6 @@ export class WorkPackageShareModalComponent extends OpModalComponent implements 
 
   private workPackage:WorkPackageResource;
   public frameSrc:string;
-
-  private count:number|null = null;
 
   text = {
     title: this.I18n.t('js.work_packages.sharing.title'),
@@ -52,27 +48,11 @@ export class WorkPackageShareModalComponent extends OpModalComponent implements 
 
   ngOnInit() {
     super.ngOnInit();
-
-    fromEvent(document, 'turbo:frame-render')
-      .pipe(
-        this.untilDestroyed(),
-        filter((evt) => evt.target === this.frameElement?.nativeElement),
-        take(1),
-      )
-      .subscribe(() => {
-        this.count = this.getRowCount();
-      });
   }
 
   onClose():boolean {
-    if (this.getRowCount() !== this.count) {
-      this.actions$.dispatch(shareModalUpdated({ workPackageId: this.workPackage.id as string }));
-    }
+    this.actions$.dispatch(shareModalUpdated({ workPackageId: this.workPackage.id as string }));
 
     return super.onClose();
-  }
-
-  private getRowCount():number {
-    return this.elementRef.nativeElement.querySelectorAll('#op-share-wp-active-shares > li').length;
   }
 }

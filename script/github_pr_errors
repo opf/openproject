@@ -263,6 +263,8 @@ def get_workflow_run(run_id)
   end
 end
 
+Report = Data.define(:errors, :failures_explanation)
+
 class Error
   attr_accessor :location, :page_html, :page_screenshot, :tests_group, :loading_error
 end
@@ -295,16 +297,19 @@ class JobErrorsFinder
   SCREENSHOT_PATTERN = /\{"message":"Screenshot captured for failed feature test"[^\n]+$/
   TESTS_GROUP_PATTERN = /Process \d+: TEST_ENV_NUMBER=\d+ [^\n]+$/
 
+  attr_reader :failures_explanation
+
   def self.scan_logs(logs)
     finder = new
     logs.each do |log|
       finder.scan_log(log)
     end
-    finder.errors
+    Report.new(errors: finder.errors, failures_explanation: finder.failures_explanation)
   end
 
   def scan_log(log)
     find_failures(log)
+    find_failures_explanation(log)
     find_loading_errors(log)
     find_screenshots(log)
     find_tests_groups(log)
@@ -342,6 +347,23 @@ class JobErrorsFinder
       .each do |rerun_location|
         create_error(rerun_location)
       end
+  end
+
+  def find_failures_explanation(log)
+    explanations = []
+    log.split("\n").each do |line|
+      if line.end_with?("Failures:") .. line.end_with?("Failed examples:")
+        explanations << line
+      end
+    end
+    explanations.map! { _1[29..] } # Remove leading timestamp (like "2024-02-05T08:37:54.5175930Z")
+    explanations.reject! do |line|
+      line == "Failures:" ||
+        line == "Failed examples:" ||
+        line.include?("gems/rspec-retry-") ||
+        line.include?("gems/webmock-")
+    end
+    @failures_explanation = explanations.join("\n")
   end
 
   def find_loading_errors(log)
@@ -418,6 +440,19 @@ class Formatter
 
   def display_job_status(job)
     warn "    #{status_line(job)}"
+  end
+
+  def display_report(report)
+    display_failures_explanation(report.failures_explanation)
+    display_errors(report.errors)
+  end
+
+  def display_failures_explanation(failures_explanation)
+    return if failures_explanation.nil? || failures_explanation.empty?
+
+    warn "Failures explanation:".bold
+    warn failures_explanation
+    warn ""
   end
 
   def display_errors(errors)
@@ -574,10 +609,10 @@ formatter = Formatter.new(compact: Options.compact)
 failed_jobs_logs = get_failed_jobs_logs(formatter)
 
 is_successful = failed_jobs_logs.none?
-errors = JobErrorsFinder.scan_logs(failed_jobs_logs)
+report = JobErrorsFinder.scan_logs(failed_jobs_logs)
 
 if is_successful
   warn "All jobs successful 🎉"
 else
-  formatter.display_errors(errors)
+  formatter.display_report(report)
 end

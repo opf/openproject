@@ -49,6 +49,7 @@ import { QueryFilterResource } from 'core-app/features/hal/resources/query-filte
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { combineLatestWith } from 'rxjs';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
+import { AlternativeSearchService } from 'core-app/shared/components/work-packages/alternative-search.service';
 
 const ADD_FILTER_SELECT_INDEX = -1;
 
@@ -94,6 +95,7 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     readonly wpTableBaseline:WorkPackageViewBaselineService,
     readonly wpFiltersService:WorkPackageFiltersService,
     readonly I18n:I18nService,
+    readonly alternativeSearchService:AlternativeSearchService,
     readonly cdRef:ChangeDetectorRef,
   ) {
     super();
@@ -187,4 +189,8 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
   public onOpen() {
     repositionDropdownBugfix(this.ngSelectComponent);
   }
+
+  searchFunction = (term:string, currentItem:QueryFilterResource):boolean => {
+    return this.alternativeSearchService.searchFunction(term, currentItem);
+  };
 }

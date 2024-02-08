@@ -55,7 +55,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
 
   def gantt_portfolio_query_link
     generator = ::Projects::GanttQueryGeneratorService.new(gantt_portfolio_project_ids)
-    work_packages_path query_props: generator.call
+    gantt_index_path query_props: generator.call
   end
 
   def gantt_portfolio_project_ids
@@ -73,17 +73,6 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
 
   def query_saveable?
     query.name.blank?
-  end
-
-  def gantt_portfolio_title
-    title = t('projects.index.open_as_gantt_title')
-
-    if current_user.admin?
-      title << ' '
-      title << t('projects.index.open_as_gantt_title_admin')
-    end
-
-    title
   end
 
   def show_state?

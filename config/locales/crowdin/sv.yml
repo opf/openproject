@@ -104,6 +104,7 @@ sv:
   ldap_auth_sources:
     ldap_error: "LDAP-fel: %{error_message}"
     ldap_auth_failed: "Kunde inte autentisera vid LDAP-servern."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Detta LDAP-formulär kräver teknisk kunskap om din LDAP / Active Directory-inställning.
@@ -250,8 +251,6 @@ sv:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Open as Gantt view"
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Det finns för närvarande inga projekt
       no_results_content_text: Skapa ett nytt projekt
     lists:
@@ -1820,8 +1819,8 @@ sv:
   label_follows: "följer"
   label_force_user_language_to_default: "Välj standardspråk för användare som har ett icke tillåtet språk"
   label_form_configuration: "Ställ in formulär"
-  label_gantt: "Gantt-schema"
   label_gantt_chart: "Gantt-schema"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Allmänt"
   label_generate_key: "Generera en nyckel"
   label_git_path: "Sökväg till .git katalog"
@@ -2838,6 +2837,7 @@ sv:
     other: "Andra"
     passwords: "Lösenord"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "Session"

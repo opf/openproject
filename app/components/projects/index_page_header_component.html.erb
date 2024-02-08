@@ -3,42 +3,28 @@
     <% header.with_title(variant: :large, data: { 'test-selector': 'project-query-name'}) { page_title } %>
 
     <% header.with_actions do %>
-      <%= render(
-            Primer::Beta::Button.new(
-              tag: :a,
-              href: activities_path,
-              size: :medium,
-              type: :submit,
-              aria: { label: t(:label_overall_activity) },
-              mr: BUTTON_MARGIN_RIGHT
-            )
-          ) do
-          t(:label_overall_activity)
-        end
-      %>
-
-      <%= render(
-            Primer::Beta::Button.new(
-              tag: :a,
-              href: gantt_portfolio_query_link,
-              size: :medium,
-              disabled: gantt_portfolio_project_ids.empty?,
-              type: :submit,
-              aria: { label: t('projects.index.open_as_gantt') },
-              mr: BUTTON_MARGIN_RIGHT,
-              id: 'projects-index-open-as-gantt',
-              target: '_blank'
-            )
-          ) do |button|
-        button.with_leading_visual_icon(icon: 'op-view-timeline')
-        button.with_trailing_visual_icon(icon: 'link-external')
-        button.with_tooltip(text: gantt_portfolio_title)
-
-        t('projects.index.open_as_gantt')
-      end %>
-
       <%= render(Primer::Alpha::ActionMenu.new) do |menu|
         menu.with_show_button(icon: 'op-kebab-vertical', 'aria-label': t(:label_more), data: { 'test-selector': 'project-more-dropdown-menu' })
+
+        if gantt_portfolio_project_ids.any?
+          menu.with_item(
+            tag: :a,
+            label: t('projects.index.open_as_gantt'),
+            href: gantt_portfolio_query_link,
+            id: 'projects-index-open-as-gantt',
+            content_arguments: { target: '_blank' }
+          ) do |item|
+            item.with_leading_visual_icon(icon: 'op-view-timeline')
+          end
+        end
+
+        menu.with_item(
+          tag: :a,
+          label: t(:label_overall_activity),
+          href: activities_path
+        )do |item|
+        item.with_leading_visual_icon(icon: 'tasklist')
+      end
 
         if current_user.logged? && query_saveable?
           menu.with_item(
@@ -56,21 +42,11 @@
           end
         end
 
-        if current_user.admin?
-          menu.with_item(
-            label: t('button_configure'),
-            href: admin_settings_projects_path,
-            content_arguments: { target: '_blank' }
-          ) do |item|
-            item.with_leading_visual_icon(icon: :gear)
-          end
-        end
-
         menu.with_item(
           label: t('js.label_export'),
           content_arguments: { 'data-show-dialog-id': EXPORT_MODAL_ID }
         ) do |item|
-          item.with_leading_visual_icon(icon: 'op-file-download')
+          item.with_leading_visual_icon(icon: 'sign-out')
         end
 
         if query.persisted?

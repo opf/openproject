@@ -7,7 +7,7 @@ zh-TW:
       label_unnamed_list: '未命名列表'
       label_board_type: '看板類型'
       upsale:
-        teaser_text: '你想用面板來自動化你的工作流程嗎？高級面板是一項企業功能。請升級到付費計劃。'
+        teaser_text: '你想用看板來自動化你的工作流程嗎？高級看板是一項企業功能。請升級到付費計劃。'
         upgrade: '立即更新'
       lists:
         delete: '刪除列表'

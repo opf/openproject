@@ -104,6 +104,7 @@ uk:
   ldap_auth_sources:
     ldap_error: "LDAP-помилка: %{error_message}"
     ldap_auth_failed: "Не вдалося перевірити автентичність через LDAP-сервер."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Натисніть тут, щоб повернутися до списку підключень."
     technical_warning_html: |
       Ця форма LDAP вимагає технічних знань про налаштування LDAP / Active Directory.<br/><a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Щоб отримати докладні вказівки, ознайомтеся з нашою документацією</a>.
@@ -245,8 +246,6 @@ uk:
       completed_text_children: "Крім того, видалено такі підпроєкти:"
     index:
       open_as_gantt: "Відкрити в поданні Ґанта"
-      open_as_gantt_title: "Натисніть цю кнопку, щоб створити подання Ґанта, у якому фільтруються пакети робіт для проєктів, видимих на цій сторінці."
-      open_as_gantt_title_admin: "Ви можете змінити налаштування подання (наприклад, вибрані типи пакетів робіт) у меню адміністрування в налаштуваннях проєкту."
       no_results_title_text: Наразі немає проектів
       no_results_content_text: Створіть новий проект
     lists:
@@ -1870,8 +1869,8 @@ uk:
   label_follows: "слідкувати"
   label_force_user_language_to_default: "Встановити мову користувачів, які мають не підтримувану мову, за умовчанням"
   label_form_configuration: "Конфігурація форми"
-  label_gantt: "Гантт"
   label_gantt_chart: "Діаграма Ганта"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Загальні"
   label_generate_key: "Згенерувати ключ"
   label_git_path: "Шлях до каталогу .git"
@@ -1901,7 +1900,7 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: "Інструкції зі встановлення"
+  label_installation_guides: "Інструкції із встановлення"
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
@@ -2891,6 +2890,7 @@ uk:
     other: "Інше"
     passwords: "Паролі"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Налаштування нових проєктів"
       section_project_overview: "Налаштування списку огляду проєктів"
     session: "Сесія"

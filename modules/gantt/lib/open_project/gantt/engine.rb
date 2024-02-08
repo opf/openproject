@@ -60,7 +60,7 @@ module OpenProject::Gantt
       menu :global_menu,
            :gantt,
            { controller: '/gantt/gantt', action: 'index', project_id: nil },
-           caption: :label_gantt,
+           caption: :label_gantt_chart_plural,
            after: :work_packages,
            icon: 'view-timeline',
            if: should_render_global_menu_item
@@ -71,13 +71,13 @@ module OpenProject::Gantt
            parent: :gantt,
            partial: 'gantt/menus/menu',
            last: true,
-           caption: :label_gantt_chart,
+           caption: :label_gantt_chart_plural,
            if: should_render_global_menu_item
 
       menu :project_menu,
            :gantt,
            { controller: '/gantt/gantt', action: 'index' },
-           caption: :label_gantt,
+           caption: :label_gantt_chart_plural,
            after: :work_packages,
            if: ->(project) { should_render_project_menu.call(project) },
            icon: 'view-timeline',
@@ -91,13 +91,13 @@ module OpenProject::Gantt
            parent: :gantt,
            partial: 'gantt/menus/menu',
            last: true,
-           caption: :label_gantt_chart,
+           caption: :label_gantt_chart_plural,
            if: ->(project) { should_render_project_menu.call(project) }
 
       menu :top_menu,
            :gantt,
            { controller: '/gantt/gantt', action: 'index', project_id: nil },
-           caption: :label_gantt,
+           caption: :label_gantt_chart_plural,
            after: :work_packages,
            icon: 'view-timeline',
            if: should_render_global_menu_item

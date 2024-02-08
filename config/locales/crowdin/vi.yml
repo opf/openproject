@@ -104,6 +104,7 @@ vi:
   ldap_auth_sources:
     ldap_error: "LDAP-Error: %{error_message}"
     ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Biểu mẫu LDAP này yêu cầu kiến thức kỹ thuật về thiết lập LDAP / Active Directory của bạn.
@@ -252,8 +253,6 @@ vi:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Open as Gantt view"
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Không có dự án nào
       no_results_content_text: Tạo một dự án mới
     lists:
@@ -1796,8 +1795,8 @@ vi:
   label_follows: "theo dõi"
   label_force_user_language_to_default: "Có một ngôn ngữ không được cho phép để mặc định trong thiết lập ngôn ngữ cho người sử dụng"
   label_form_configuration: "Mẫu cấu hình"
-  label_gantt: "Biểu đồ sự kiện"
   label_gantt_chart: "Biểu đồ Gantt"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Tổng quan"
   label_generate_key: "Tạo khóa"
   label_git_path: "Đường dẫn đến thư mục .git"
@@ -2814,6 +2813,7 @@ vi:
     other: "Khác"
     passwords: "Passwords"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "Session"

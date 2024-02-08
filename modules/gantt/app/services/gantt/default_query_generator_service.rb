@@ -31,7 +31,6 @@ module ::Gantt
     DEFAULT_QUERY = :all_open
     QUERY_MAPPINGS = {
       DEFAULT_QUERY => I18n.t('js.queries.all_open'),
-      :timeline => I18n.t('js.queries.timeline'),
       :milestones => I18n.t('js.queries.milestones')
     }.freeze
     QUERY_OPTIONS = QUERY_MAPPINGS.keys
@@ -59,8 +58,6 @@ module ::Gantt
         case query_key
         when DEFAULT_QUERY
           self.class.all_open_query(@project)
-        when :timeline
-          self.class.timeline_query(@project)
         when :milestones
           self.class.milestones_query(@project)
         end
@@ -76,16 +73,6 @@ module ::Gantt
 
         default_with_filter['f'] = [{ 'n' => 'status', 'o' => 'o', 'v' => [] }]
 
-        default_with_filter
-      end
-
-      def timeline_query(project)
-        default_with_filter = add_columns(project)
-
-        type_filter_values = milestone_ids(project).concat(phase_ids(project)).uniq
-        return if type_filter_values.empty?
-
-        default_with_filter['f'] = [{ 'n' => 'type', 'o' => '=', 'v' => type_filter_values }]
         default_with_filter
       end
 

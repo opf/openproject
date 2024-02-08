@@ -104,6 +104,7 @@ ca:
   ldap_auth_sources:
     ldap_error: "Error LDAP: %{error_message}"
     ldap_auth_failed: "No s'ha pogut autenticar en el servidor de LDAP."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Aquest formulari LDAP requereix coneixement tècnic sobre la teva configuració LDAP / Directori actiu.
@@ -247,8 +248,6 @@ ca:
       completed_text_children: "Addicionalment, s'han eliminat els següents subprojectes:"
     index:
       open_as_gantt: "Obre com a diagrama de Gantt"
-      open_as_gantt_title: "Utilitza aquest botó per a generar un diagrama de Gantt que filtra paquets de treball pels projectes visibles en aquesta pàgina."
-      open_as_gantt_title_admin: "Pots modificar les configuracions de vista (com els estils de paquets de treball seleccionats) en l'administració dins de la configuració del projecte."
       no_results_title_text: Actualment no hi ha projectes
       no_results_content_text: Crear un nou projecte
     lists:
@@ -1817,8 +1816,8 @@ ca:
   label_follows: "segueix"
   label_force_user_language_to_default: "Definir la llengua pels usuaris que tenen una llengua per defecte no permesa"
   label_form_configuration: "Configuració del formulari"
-  label_gantt: "Gantt"
   label_gantt_chart: "Diagrama de Gantt"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "General"
   label_generate_key: "Generar una clau"
   label_git_path: "Ruta del directori de .git"
@@ -2830,6 +2829,7 @@ ca:
     other: "Altres"
     passwords: "Contrasenyes"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Configuració per a projectes nous"
       section_project_overview: "Configuracions per a la llista de visió general del projecte"
     session: "Sessió"

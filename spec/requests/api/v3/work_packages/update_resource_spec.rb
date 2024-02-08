@@ -824,10 +824,10 @@ RSpec.describe 'API v3 Work package resource',
 
           it_behaves_like 'multiple errors', 422
 
-          it_behaves_like 'multiple errors of the same type', 2, 'PropertyConstraintViolation'
+          it_behaves_like 'multiple errors of the same type', 3, 'PropertyConstraintViolation'
 
           it_behaves_like 'multiple errors of the same type with messages' do
-            let(:message) { ['Subject can\'t be blank.', 'Parent does not exist.'] }
+            let(:message) { ['Subject can\'t be blank.', 'Parent does not exist.', 'Parent may not be accessed.'] }
           end
         end
 

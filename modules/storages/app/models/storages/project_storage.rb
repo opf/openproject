@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -40,10 +42,6 @@ class Storages::ProjectStorage < ApplicationRecord
   # There should be only one ProjectStorage per project and storage.
   validates :project, uniqueness: { scope: :storage }
 
-  # The enum type detection fails in the multitenancy context for unknown
-  # reasons. So we declare it explicitly here. @TODO remove once fixed properly
-  attribute :project_folder_mode, :string
-
   enum project_folder_mode: {
     inactive: 'inactive',
     manual: 'manual',
@@ -52,10 +50,10 @@ class Storages::ProjectStorage < ApplicationRecord
 
   scope :automatic, -> { where(project_folder_mode: 'automatic') }
   scope :active, -> { joins(:project).where(project: { active: true }) }
-  scope :active_nextcloud_automatically_managed, -> do
+  scope :active_automatically_managed, -> do
     automatic
       .active
-      .where(storages: Storages::NextcloudStorage.automatic_management_enabled)
+      .where(storages: Storages::Storage.automatic_management_enabled)
   end
 
   def automatic_management_possible?

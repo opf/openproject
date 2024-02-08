@@ -104,6 +104,7 @@ bg:
   ldap_auth_sources:
     ldap_error: "LDAP-Error: %{error_message}"
     ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Този LDAP формуляр изисква технически познания за настройката на LDAP / Active Directory.
@@ -250,8 +251,6 @@ bg:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Отваря се като изглед на Гант"
-      open_as_gantt_title: "Използвайте този бутон, за да генерирате изглед на Гант, който филтрира работни пакети за проектите, видими на тази страница."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: В момента няма проекти
       no_results_content_text: Създаване на нов проект
     lists:
@@ -1821,8 +1820,8 @@ bg:
   label_follows: "следва"
   label_force_user_language_to_default: "Задаване на език по подразбиране за потребителите с липсващи в системата езици"
   label_form_configuration: "Конфигурация на формата"
-  label_gantt: "Gantt"
   label_gantt_chart: "Gantt chart"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Общ"
   label_generate_key: "Генериране на ключ"
   label_git_path: "Път до .git директория"
@@ -2841,6 +2840,7 @@ bg:
     other: "Други"
     passwords: "Пароли"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Настройки за нови проекти"
       section_project_overview: "Настройки за списък с преглед на проекти"
     session: "Сесия"

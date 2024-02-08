@@ -1101,7 +1101,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
       end
 
       before do
-        allow(LdapAuthSource).to receive(:find_user).and_return attrs
+        allow(LdapAuthSource).to receive(:get_user_attributes).and_return attrs
       end
 
       it "shows the account creation form with an error" do
@@ -1122,7 +1122,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
       end
 
       before do
-        allow(LdapAuthSource).to receive(:find_user).and_return attrs
+        allow(LdapAuthSource).to receive(:get_user_attributes).and_return attrs
       end
 
       it "shows the account creation form with an error" do

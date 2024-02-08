@@ -291,8 +291,11 @@ RSpec.describe WorkPackages::UpdateContract do
   describe 'parent_id' do
     shared_let(:parent) { create(:work_package) }
 
+    let(:parent_visible) { true }
+
     before do
       work_package.parent_id = parent.id
+      allow(work_package.parent).to receive(:visible?).and_return(parent_visible)
       contract.validate
     end
 
@@ -338,6 +341,12 @@ RSpec.describe WorkPackages::UpdateContract do
 
         it { expect(contract.errors.symbols_for(:subject)).to include(:error_readonly) }
       end
+    end
+
+    context 'when the user does not have access to the parent' do
+      let(:parent_visible) { false }
+
+      it { expect(contract.errors.symbols_for(:parent_id)).to include(:error_unauthorized) }
     end
   end
 

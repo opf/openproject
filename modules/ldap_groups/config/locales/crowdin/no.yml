@@ -64,10 +64,10 @@
       plural: 'Synkroniserte LDAP-grupper'
       singular: 'Synkronisert LDAP-gruppe'
       form:
-        auth_source_text: 'Select which LDAP connection should be used.'
+        auth_source_text: 'Velg hvilken LDAP-tilkobling som skal brukes.'
         sync_users_text: >
-          If you enable this option, found users will also be automatically created in OpenProject. Without it, only existing accounts in OpenProject will be added to groups.
-        dn_text: 'Enter the full DN of the group in LDAP'
-        group_text: 'Select an existing OpenProject group that members of the LDAP group shall be synchronized with'
+          Hvis du aktiverer dette valget, vil funnede brukere automatisk bli opprettet i OpenProject. Uten dette vil bare eksisterende kontoer i OpenProject bli lagt til i grupper.
+        dn_text: 'Skriv inn hele DN for gruppen i LDAP'
+        group_text: 'Velg en eksisterende OpenProject gruppe som medlemmene i LDAP-gruppen skal synkroniseres med'
       upsale:
-        description: 'Take advantage of synchronised LDAP groups to manage users, change their permissions and facilitate user management across groups.'
+        description: 'Benytt deg av synkroniserte LDAP-grupper for å administrere brukere, endre deres rettigheter og lette brukeradministrasjon på tvers av grupper.'

@@ -101,7 +101,7 @@ ca:
     button_save: "Desa"
     button_settings: "Configuració"
     button_uncheck_all: "Desmarca-ho tot"
-    button_update: "Actualitza"
+    button_update: "Actualitzar"
     button_export-pdf: "Descarregar PDF"
     button_export-atom: "Descarregar Atom"
     button_create: "Crear"
@@ -469,7 +469,7 @@ ca:
     label_per_page: "Per pàgina:"
     label_please_wait: "Espereu, si us plau"
     label_project: "Projecte"
-    label_project_list: "Llista de projectes"
+    label_project_list: "Project lists"
     label_project_plural: "Projectes"
     label_visibility_settings: "Configuració de visualització"
     label_quote_comment: "Citar aquest comentari"
@@ -756,7 +756,7 @@ ca:
           label: 'Pausa els correu electrònic recordatori temporalment'
           first_day: 'Primer dia'
           last_day: 'Últim dia'
-    text_are_you_sure: "N'esteu segur?"
+    text_are_you_sure: "N'estas segur?"
     text_data_lost: "Totes les dades entrades es perdran."
     text_user_wrote: "%{value} wrote:"
     types:
@@ -967,6 +967,8 @@ ca:
         createdAt: "Creat el"
         description: "Descripció"
         date: "Data"
+        percentComplete: "% Complete"
+        percentCompleteAlternative: "Progress"
         dueDate: "Data final"
         duration: "Durada"
         spentTime: "Temps utilitzat"
@@ -974,6 +976,8 @@ ca:
         percentageDone: "Percentatge fet"
         priority: "Prioritat"
         projectName: "Projecte"
+        remainingWork: "Remaining work"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Responsable"
         startDate: "Data d'inici"
         status: "Estat"
@@ -984,6 +988,8 @@ ca:
         updatedAt: "Actualitzat el"
         versionName: "Versió"
         version: "Versió"
+        work: "Work"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Última activitat"

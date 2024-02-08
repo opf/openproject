@@ -104,6 +104,7 @@ el:
   ldap_auth_sources:
     ldap_error: "Σφάλμα-LDAP: %{error_message}"
     ldap_auth_failed: "Δεν ήταν δυνατή η ταυτοποίηση στον LDAP-Server."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Αυτή η φόρμα LDAP απαιτεί τεχνικές γνώσεις για την LDAP / Active Directory εγκατάσταση σας.
@@ -246,8 +247,6 @@ el:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Άνοιγμα ως προβολή Gantt"
-      open_as_gantt_title: "Χρησιμοποιήστε αυτό το κουμπί για να δημιουργήσετε μια προβολή Gantt που φιλτράρει τα πακέτα εργασίας για τα έργα που εμφανίζονται σε αυτή τη σελίδα."
-      open_as_gantt_title_admin: "Μπορείτε να τροποποιήσετε τις ρυθμίσεις προβολής (όπως επιλεγμένοι τύποι πακέτων εργασίας) στη διαχείριση κάτω από τις ρυθμίσεις του έργου."
       no_results_title_text: Προς το παρόν δεν υπάρχουν έργα
       no_results_content_text: Δημιουργία νέου έργου
     lists:
@@ -1817,8 +1816,8 @@ el:
   label_follows: "ακολουθεί"
   label_force_user_language_to_default: "Ορίστε την γλώσσα των χρηστών που έχουν μια μη επιτρεπόμενη γλώσσα ως προεπιλογή"
   label_form_configuration: "Διαμόρφωση φόρμας"
-  label_gantt: "Gantt"
   label_gantt_chart: "Διάγραμμα Gantt"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Γενικά"
   label_generate_key: "Δημιουργία κλειδιού"
   label_git_path: "Μονοπάτι προς το ευρετήριο .git"
@@ -2836,6 +2835,7 @@ el:
     other: "Άλλο"
     passwords: "Κωδικοί πρόσβασης"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Ρυθμίσεις για νέα έργα"
       section_project_overview: "Ρυθμίσεις για τη λίστα επισκόπησης έργου"
     session: "Συνεδρία"

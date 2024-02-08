@@ -45,23 +45,24 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
   end
 
   describe 'with no projects on index' do
-    it 'disables the button' do
+    it 'does not show the Gantt menu entry' do
       visit projects_path
 
       projects_page.open_filters
       projects_page.filter_by_active('yes')
+      page.find('[data-test-selector="project-more-dropdown-menu"]').click
 
-      projects_page.expect_gantt_button(disabled: true)
+      projects_page.expect_gantt_menu_entry(visible: false)
     end
   end
 
   describe 'with only an archived project on index' do
     let!(:project) { create(:project, active: false) }
 
-    it 'disables the button' do
+    it 'does not show the Gantt menu entry' do
       visit projects_path
-
-      projects_page.expect_gantt_button(disabled: true)
+      page.find('[data-test-selector="project-more-dropdown-menu"]').click
+      projects_page.expect_gantt_menu_entry(visible: false)
     end
   end
 
@@ -129,7 +130,8 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
       # Go to project page
       visit projects_path
 
-      # Click the gantt button
+      # Click the gantt from more menu button
+      page.find('[data-test-selector="project-more-dropdown-menu"]').click
       new_window = window_opened_by { click_on 'Open as Gantt view' }
       switch_to_window new_window
 

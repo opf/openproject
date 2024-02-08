@@ -27,10 +27,10 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title(t('label_gantt')) -%>
+<% html_title(t('label_gantt_chart_plural')) -%>
 <%= call_hook(:view_work_packages_index_bottom, { project: project, query: query }) %>
 
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, {query_id: query, format: 'atom', page: nil, key: User.current.rss_key}, title: t(:label_gantt)) %>
+  <%= auto_discovery_link_tag(:atom, { query_id: query, format: 'atom', page: nil, key: User.current.rss_key }, title: t(:label_gantt_chart_plural)) %>
   <%= auto_discovery_link_tag(:atom, {controller: '/journals', action: 'index', query_id: query, format: 'atom', page: nil, key: User.current.rss_key}, title: t(:label_changes_details)) %>
 <% end %>

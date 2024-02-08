@@ -104,6 +104,7 @@ sk:
   ldap_auth_sources:
     ldap_error: "LDAP-Chyba: %{error_message}"
     ldap_auth_failed: "Nemožno overiť v LDAP-Serveri."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -250,8 +251,6 @@ sk:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Open as Gantt view"
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: V súčasnosti neexistujú žiadne projekty
       no_results_content_text: Vytvoriť nový projekt
     lists:
@@ -1875,8 +1874,8 @@ sk:
   label_follows: "nasleduje"
   label_force_user_language_to_default: "Nastavenie jazyka užívateľov ktorí majú nastavený ako predvolený nepovolený jazyk"
   label_form_configuration: "Konfigurácia formulára"
-  label_gantt: "Ganttov graf"
   label_gantt_chart: "Ganttov diagram"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Všeobecné"
   label_generate_key: "Vygenerovať kľúč"
   label_git_path: "Cesta ku .git adresáru"
@@ -2898,6 +2897,7 @@ sk:
     other: "Ostatné"
     passwords: "Heslá"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "Relácie"

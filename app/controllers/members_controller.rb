@@ -40,7 +40,7 @@ class MembersController < ApplicationController
   def create
     overall_result = []
 
-    find_or_create_users(send_notification: false) do |member_params|
+    find_or_create_users(send_notification: true) do |member_params|
       service_call = Members::CreateService
                        .new(user: current_user)
                        .call(member_params)

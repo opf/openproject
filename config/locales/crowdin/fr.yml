@@ -104,6 +104,7 @@ fr:
   ldap_auth_sources:
     ldap_error: "Erreur LDAP : %{error_message}"
     ldap_auth_failed: "Authentification impossible sur le serveur LDAP."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Cliquez ici pour revenir à la liste des connexions."
     technical_warning_html: |
       Ce formulaire LDAP nécessite une connaissance technique de votre configuration LDAP / Active Directory.
@@ -250,8 +251,6 @@ fr:
       completed_text_children: "De plus, les sous-projets suivants ont été supprimés :"
     index:
       open_as_gantt: "Ouvrir comme vue Gantt"
-      open_as_gantt_title: "Utilisez ce bouton pour générer une vue Gantt qui filtre les lots de travaux des projets visibles sur cette page."
-      open_as_gantt_title_admin: "Vous pouvez modifier les paramètres d'affichage (comme les types de lots de travaux sélectionnés) dans l'administration dans les paramètres du projet."
       no_results_title_text: Aucun projet pour le moment
       no_results_content_text: Créer un nouveau projet
     lists:
@@ -1821,8 +1820,8 @@ fr:
   label_follows: "suivi"
   label_force_user_language_to_default: "Pour cet utilisateur, revenir au langage par defaut"
   label_form_configuration: "Configuration du formulaire"
-  label_gantt: "Gantt"
   label_gantt_chart: "Diagramme de Gantt"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Général"
   label_generate_key: "Générer une clé"
   label_git_path: "Chemin d'accès au répertoire .git"
@@ -2841,6 +2840,7 @@ fr:
     other: "Autre"
     passwords: "Mots de passe"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Paramètres pour les nouveaux projets"
       section_project_overview: "Paramètres de la liste des projets"
     session: "Session"

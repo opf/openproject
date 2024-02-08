@@ -91,7 +91,8 @@ es:
       label_healthy: Correcto
       label_pending: Pendiente
       since: desde %{datetime}
-      title: Estado de carpetas gestionadas
+      subtitle: Automatic managed project folders
+      title: Health status
     help_texts:
       project_folder: La carpeta del proyecto es la carpeta predeterminada para la carga de archivos de este proyecto. No obstante, los usuarios pueden subir archivos a otras ubicaciones.
     instructions:
@@ -176,13 +177,20 @@ es:
     notice_successful_storage_connection: |-
       Storage connected successfully! Remember to activate the module and the specific storage in the project settings
       of each desired project to use it.
+    oauth_grant_nudge_modal:
+      access_granted: Access granted
+      body: You have successfully added a storage to this project. Would you like to login in the storage and authenticate your user to start using the storage?
+      cancel_button_label: I will do it later
+      confirm_button_label: 'Yes'
+      storage_ready: You are now ready to use %{storage}
+      title: Storage added
     open_project_storage_modal:
       success:
-        a: Configuración de integración completada
-        b: Estás siendo redirigido
+        subtitle: You are being redirected
+        title: Integration setup completed
       waiting:
-        a: Estamos configurando tus permisos en la carpeta del proyecto.
-        b: Un momento, por favor, esto puede llevar algún tiempo...
+        subtitle: One moment please, this might take some time...
+        title: We are setting up your permissions on the project folder.
     page_titles:
       file_storages:
         delete: Eliminar el almacenamiento de archivos

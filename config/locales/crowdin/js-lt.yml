@@ -469,7 +469,7 @@ lt:
     label_per_page: "Puslapyje:"
     label_please_wait: "Prašome palaukti"
     label_project: "Projektas"
-    label_project_list: "Projektų sąrašas"
+    label_project_list: "Project lists"
     label_project_plural: "Projektai"
     label_visibility_settings: "Matomumo nustatymai"
     label_quote_comment: "Cituoti šį komentarą"
@@ -583,7 +583,7 @@ lt:
           full_view: '<b>Darbo paketo detalių</b> langas suteikia visą reikalingą informaciją apie konkretų darbų paketą, tokių kaip aprašymas, būsena, prioritetas, atlikti veiksmai, priklausomybės ir komentarai.'
           back_button: 'Pasinaudokite grįžimo rodykle kairiajame viršutiniame kampe, kad išeitumėte ir sugrįžtumėte į darbo paketų sąrašą.'
           create_button: 'Mygtukas <b>+Sukurti</b> pridės naują darbą į jūsų projektą.'
-          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
+          gantt_menu: 'Lengvai kurkite prjekto planus ir gaires naudodami Gantt modulį.'
           timeline: 'Čia jūs galite <b>redaguoti savo projekto planą</b>, kurti naujus darbo paketus, tokius kaip užduotys, etapai ir <b>pridėti priklausomybių</b>. Visi komandos nariai gali peržiūrėti ir keisti naujausią planą bet kuriuo metu.'
         team_planner:
           overview: 'Komandos planuotojas leidžia vizualiai priskirti užduotis komandos nariams ir gauti bendrą vaizdą, kas ką daro.'
@@ -969,6 +969,8 @@ lt:
         createdAt: "Sukurta"
         description: "Aprašymas"
         date: "Data"
+        percentComplete: "% Complete"
+        percentCompleteAlternative: "Progress"
         dueDate: "Pabaigos data"
         duration: "Trukmė"
         spentTime: "Praleista laiko"
@@ -976,6 +978,8 @@ lt:
         percentageDone: "Atlikta procentinė dalis"
         priority: "Pirmenybė"
         projectName: "Projektas"
+        remainingWork: "Remaining work"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Atsakingas"
         startDate: "Pradžios data"
         status: "Būsena"
@@ -986,6 +990,8 @@ lt:
         updatedAt: "Atnaujinta"
         versionName: "Versija"
         version: "Versija"
+        work: "Work"
+        workAlternative: "Estimated time"
         remainingTime: "Liko darbo"
       default_queries:
         latest_activity: "Paskutinė veikla"

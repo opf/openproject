@@ -99,7 +99,6 @@ export class WorkPackageShareButtonComponent extends UntilDestroyedMixin impleme
       .get()
       .pipe(
         map((collection:CollectionResource) => collection.total),
-        filter((count) => count > 0),
       );
   }
 }

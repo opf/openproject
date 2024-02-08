@@ -24,13 +24,16 @@ module Ldap
       Rails.logger.debug { "[LDAP user sync] Synchronizing user #{user.login}." }
 
       update_attributes = user_attributes(user.login, ldap_con)
-      lock_user!(user) if update_attributes.nil? && user.persisted?
-      return unless update_attributes
+      synchronize_user_attributes(user, update_attributes)
+    end
 
-      if user.new_record?
-        try_to_create(update_attributes)
+    def synchronize_user_attributes(user, attributes)
+      if attributes.blank?
+        lock_user!(user)
+      elsif user.new_record?
+        try_to_create(attributes)
       else
-        try_to_update(user, update_attributes)
+        try_to_update(user, attributes)
       end
     end
 
@@ -38,7 +41,7 @@ module Ldap
     def try_to_update(user, attrs)
       call = Users::UpdateService
         .new(model: user, user: User.system)
-        .call(attrs)
+        .call(attrs.merge(ldap_auth_source_id: ldap.id))
 
       if call.success?
         activate_user!(user)
@@ -46,18 +49,22 @@ module Ldap
       else
         Rails.logger.error { "[LDAP user sync] User '#{user.login}' could not be updated: #{call.message}" }
       end
+
+      call
     end
 
     def try_to_create(attrs)
       call = Users::CreateService
         .new(user: User.system)
-        .call(attrs)
+        .call(attrs.merge(ldap_auth_source_id: ldap.id))
 
       if call.success?
         Rails.logger.info { "[LDAP user sync] User '#{call.result.login}' created." }
       else
         Rails.logger.error { "[LDAP user sync] User '#{attrs[:login]}' could not be created: #{call.message}" }
       end
+
+      call
     end
 
     ##
@@ -113,7 +120,7 @@ module Ldap
         .search(
           base: ldap.base_dn,
           filter: ldap.login_filter(login),
-          attributes: ldap.search_attributes(true)
+          attributes: ldap.search_attributes
         )
         .map { |entry| ldap.get_user_attributes_from_ldap_entry(entry).except(:dn) }
     end
