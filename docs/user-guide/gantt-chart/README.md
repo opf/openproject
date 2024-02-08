@@ -9,8 +9,9 @@ keywords: gantt chart, timeline, project plan
 # Gantt charts
 
 <div class="glossary">
-The **Gantt chart** in OpenProject displays the work packages in a timeline. You can collaboratively create and manage your project plan. Have your project timelines available for all team members and share up-to-date information with stakeholders. You can add start and finish dates and adapt it with drag and drop in the Gantt chart. Also, you can add dependencies, predecessor or follower within the Gantt chart.
+The **Gantt charts** module in OpenProject displays the work packages in a timeline. You can collaboratively create and manage your project plan, have your project timelines available to all team members and share up-to-date information with stakeholders. You can add start and finish dates and adapt it via drag and drop directly in the Gantt chart. Also, you can add dependencies, predecessors or followers within the Gantt chart.
 </div>
+
 
 | Topic                                                                                                           | Content                                                                   |
 |-----------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------|
@@ -28,17 +29,23 @@ The **Gantt chart** in OpenProject displays the work packages in a timeline. You
 
 ## Activate the Gantt chart
 
-A Gantt chart can be activated in any work package table, to display the work packages in a timeline view.
+A Gantt chart view can be activated either for a specific project, or on the project overarching level if you need to view the timeline for multiple projects. 
 
-To activate the Gantt chart, select the **Gantt** icon at the top right corner of the work package table.
+For a specific project, select the **Gantt charts** module from the project module menu on the left side. 
 
-![activate-gantt](activate-gantt.gif)
+![activate-gantt](openproject-user-guide-select-gantt-charts.png)
+
+
+
+To view multiple projects in a single timeline, select **Gantt charts** from the **Global Modules** menu. 
+
+![Select Gantt charts from the global modules menu in OpenProject](openproject-user-guide-select-gantt-charts-global.png)
 
 
 ## Quick context menu in Gantt chart view
 
-Once you have selected the Gantt chart view, you can use the quick context menu. To do that, right-click on any of the work packages in the table. 
-> **Note**: if you use the [work packages view](../work-packages/edit-work-package#update-a-work-package-in-a-work-package-table-view), the options in the quick context menu will differ slightly from the ones in the Gantt chart view.
+Once you have selected the Gantt chart view, you can use the quick context menu. To do that, right-click on any of the work packages. 
+> **Note**: if you use the [work packages view](../work-packages/edit-work-package#update-a-work-package-in-a-work-package-table-view) in the **Work packages** module, the options in the quick context menu will differ slightly from the ones in the Gantt chart view.
 
 
 ![Quick context menu in OpenProject Gantt chart work packages view](gantt-context-menu.png)
