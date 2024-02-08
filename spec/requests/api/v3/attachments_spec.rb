@@ -115,4 +115,6 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
       end
     end
   end
+
+  context 'with an quarantined attachments'
 end
