@@ -64,7 +64,7 @@ module Storages::Admin
         success_subtitle = I18n.t('storages.oauth_grant_nudge_modal.storage_ready', storage: project_storage.storage.name)
         concat(render(Storages::OpenProjectStorageModalComponent::Body.new(:success, success_subtitle:, success_title:)))
       else
-        I18n.t('storages.oauth_grant_nudge_modal.body')
+        I18n.t('storages.oauth_grant_nudge_modal.body', storage: project_storage.storage.name)
       end
     end
 
