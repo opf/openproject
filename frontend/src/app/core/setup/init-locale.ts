@@ -43,7 +43,8 @@ export function initializeLocale() {
 
   moment.locale(userLocale);
 
-  // Remove Postformatting Arabic numbers in dates
+  // Remove Postformatting numbers in dates, this will ensure we are always using
+  // Arabic numbers in dates and durations, regardless of the chosen locale.
   // Using moment.locale() ensures locale like "zh-CN" falls back to "zh-cn"
   moment.updateLocale(moment.locale(), { postformat: (string:string) => string });
 
