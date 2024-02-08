@@ -35,10 +35,35 @@ module Projects::ActsAsCustomizablePatches
   # not needed for now, but might be relevant if we want to have edit dialogs just for one custom field
 
   included do
+    has_many :project_custom_field_project_mappings, class_name: 'ProjectCustomFieldProjectMapping', foreign_key: :project_id,
+                                                     dependent: :destroy, inverse_of: :project
+
+    before_save :build_missing_project_custom_field_project_mappings
+
+    def build_missing_project_custom_field_project_mappings
+      # activate custom fields for this project (via mapping table) if values have been provided for custom_fields but no mapping exists
+      # current shortcommings:
+      # - boolean custom fields are always activated as a nil value is never provided (always true/false)
+      # - custom fields with a default value are always activated as a nil value is never provided (even if set to blank in project creation form)
+      custom_field_ids = project.custom_values.reject { |cv| cv.value.blank? }.pluck(:custom_field_id)
+      activated_custom_field_ids = project_custom_field_project_mappings.pluck(:custom_field_id)
+
+      mappings = (custom_field_ids - activated_custom_field_ids)
+        .map { |pcf_id| { project_id: id, custom_field_id: pcf_id } }
+
+      project_custom_field_project_mappings.build(mappings)
+    end
+
     def active_custom_field_ids_of_project
-      @active_custom_field_ids_of_project ||= ProjectCustomFieldProjectMapping
-        .where(project_id: project.id)
-        .pluck(:custom_field_id)
+      # show all project custom fields in the project creation form
+      # later on, only those with values will be activated via before_save hook `build_missing_project_custom_field_project_mappings`
+      # a persisted project will then only show the activated custom fields
+      # this approach also supports project duplication based on project templates
+      if new_record?
+        ProjectCustomField.pluck(:id)
+      else
+        project_custom_field_project_mappings.pluck(:custom_field_id)
+      end
     end
 
     def available_custom_fields
