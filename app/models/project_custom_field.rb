@@ -48,7 +48,6 @@ class ProjectCustomField < CustomField
   end
 
   # TODO: write specs for this
-  # TODO: write migrations for existing required custom fields
   def activate_required_field_in_all_projects
     return unless required?
 
