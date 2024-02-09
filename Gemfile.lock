@@ -18,7 +18,7 @@ GIT
 
 GIT
   remote: https://github.com/citizensadvice/capybara_accessible_selectors
-  revision: 8e9748e1655f8c51e9b6f914e630bb6415813a57
+  revision: 621e394ff9bafb420fb15792c3a3e3334a618687
   branch: main
   specs:
     capybara_accessible_selectors (0.11.0)
@@ -219,7 +219,7 @@ PATH
   remote: modules/two_factor_authentication
   specs:
     openproject-two_factor_authentication (1.0.0)
-      aws-sdk-sns (~> 1.70.0)
+      aws-sdk-sns (~> 1.71.0)
       messagebird-rest (~> 1.4.2)
       rotp (~> 6.1)
 
@@ -342,7 +342,7 @@ GEM
       airbrake-ruby (~> 6.0)
     airbrake-ruby (6.2.2)
       rbtree3 (~> 0.6)
-    appsignal (3.5.5)
+    appsignal (3.5.6)
       rack
     ast (2.4.2)
     attr_required (1.0.2)
@@ -364,8 +364,8 @@ GEM
       aws-sdk-core (~> 3, >= 3.191.0)
       aws-sdk-kms (~> 1)
       aws-sigv4 (~> 1.8)
-    aws-sdk-sns (1.70.0)
-      aws-sdk-core (~> 3, >= 3.188.0)
+    aws-sdk-sns (1.71.0)
+      aws-sdk-core (~> 3, >= 3.191.0)
       aws-sigv4 (~> 1.1)
     aws-sigv4 (1.8.0)
       aws-eventstream (~> 1, >= 1.0.2)
@@ -391,7 +391,7 @@ GEM
       smart_properties
     bigdecimal (3.1.6)
     bindata (2.4.15)
-    bootsnap (1.17.1)
+    bootsnap (1.18.3)
       msgpack (~> 1.2)
     brakeman (6.1.2)
       racc
@@ -466,7 +466,7 @@ GEM
       delayed_job (>= 3.0, < 5)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
-    diff-lcs (1.5.0)
+    diff-lcs (1.5.1)
     disposable (0.6.3)
       declarative (>= 0.0.9, < 1.0.0)
       representable (>= 3.1.1, < 4)
@@ -587,9 +587,9 @@ GEM
       rexml
     google-apis-gmail_v1 (0.38.0)
       google-apis-core (>= 0.12.0, < 2.a)
-    google-cloud-env (2.1.0)
+    google-cloud-env (2.1.1)
       faraday (>= 1.0, < 3.a)
-    googleauth (1.9.2)
+    googleauth (1.10.0)
       faraday (>= 1.0, < 3.a)
       google-cloud-env (~> 2.1)
       jwt (>= 1.4, < 3.0)
@@ -705,7 +705,7 @@ GEM
     method_source (1.0.0)
     mime-types (3.5.2)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2023.1205)
+    mime-types-data (3.2024.0206)
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
@@ -719,7 +719,7 @@ GEM
     mutex_m (0.2.0)
     net-http (0.4.1)
       uri
-    net-imap (0.4.9.1)
+    net-imap (0.4.10)
       date
       net-protocol
     net-ldap (0.19.0)
@@ -770,7 +770,7 @@ GEM
       activerecord (>= 6.1)
       request_store (~> 1.4)
     parallel (1.24.0)
-    parallel_tests (4.4.0)
+    parallel_tests (4.5.0)
       parallel
     parser (3.3.0.5)
       ast (~> 2.4.1)
@@ -902,7 +902,7 @@ GEM
       psych (>= 4.0.0)
     recaptcha (5.16.0)
     redcarpet (3.6.0)
-    redis (5.0.8)
+    redis (5.1.0)
       redis-client (>= 0.17.0)
     redis-client (0.19.1)
       connection_pool
@@ -913,7 +913,7 @@ GEM
       declarative (< 0.1.0)
       trailblazer-option (>= 0.1.1, < 0.2.0)
       uber (< 0.2.0)
-    request_store (1.5.1)
+    request_store (1.6.0)
       rack (>= 1.4)
     responders (3.1.1)
       actionpack (>= 5.2)
@@ -925,18 +925,18 @@ GEM
       representable (~> 3.1)
     rotp (6.3.0)
     rouge (4.2.0)
-    rspec (3.12.0)
-      rspec-core (~> 3.12.0)
-      rspec-expectations (~> 3.12.0)
-      rspec-mocks (~> 3.12.0)
-    rspec-core (3.12.2)
-      rspec-support (~> 3.12.0)
-    rspec-expectations (3.12.3)
+    rspec (3.13.0)
+      rspec-core (~> 3.13.0)
+      rspec-expectations (~> 3.13.0)
+      rspec-mocks (~> 3.13.0)
+    rspec-core (3.13.0)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.12.0)
-    rspec-mocks (3.12.6)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.0)
       diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.12.0)
+      rspec-support (~> 3.13.0)
     rspec-rails (6.1.1)
       actionpack (>= 6.1)
       activesupport (>= 6.1)
@@ -947,7 +947,7 @@ GEM
       rspec-support (~> 3.12)
     rspec-retry (0.6.2)
       rspec-core (> 3.3)
-    rspec-support (3.12.1)
+    rspec-support (3.13.0)
     rubocop (1.60.2)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -1060,7 +1060,7 @@ GEM
     timeout (0.4.1)
     trailblazer-option (0.1.2)
     ttfunk (1.7.0)
-    turbo-rails (1.5.0)
+    turbo-rails (2.0.2)
       actionpack (>= 6.0.0)
       activejob (>= 6.0.0)
       railties (>= 6.0.0)
@@ -1068,7 +1068,7 @@ GEM
       rails (>= 5.0.4)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2023.4)
+    tzinfo-data (1.2024.1)
       tzinfo (>= 1.0.0)
     uber (0.1.0)
     unf (0.1.4)
@@ -1137,7 +1137,7 @@ DEPENDENCIES
   aws-sdk-s3 (~> 1.91)
   axe-core-rspec
   bcrypt (~> 3.1.6)
-  bootsnap (~> 1.17.0)
+  bootsnap (~> 1.18.0)
   brakeman (~> 6.1.0)
   browser (~> 5.3.0)
   budgets!
@@ -1263,14 +1263,14 @@ DEPENDENCIES
   rails-controller-testing (~> 1.0.2)
   rails-i18n (~> 7.0.0)
   rdoc (>= 2.4.2)
-  redis (~> 5.0.8)
-  request_store (~> 1.5.0)
+  redis (~> 5.1.0)
+  request_store (~> 1.6.0)
   responders (~> 3.0)
   retriable (~> 3.1.1)
   rinku (~> 2.0.4)
   roar (~> 1.2.0)
   rouge (~> 4.2.0)
-  rspec (~> 3.12.0)
+  rspec (~> 3.13.0)
   rspec-rails (~> 6.1.0)
   rspec-retry (~> 0.6.1)
   rubocop
@@ -1303,10 +1303,10 @@ DEPENDENCIES
   table_print (~> 1.5.6)
   test-prof (~> 1.3.0)
   timecop (~> 0.9.0)
-  turbo-rails (~> 1.1)
+  turbo-rails (~> 2.0.0)
   turbo_tests!
   typed_dag (~> 2.0.2)
-  tzinfo-data (~> 1.2023.1)
+  tzinfo-data (~> 1.2024.1)
   validate_url
   vcr
   view_component
