@@ -338,7 +338,7 @@ group :development, :test do
   gem 'i18n-tasks', '~> 1.0.13'
 end
 
-gem 'bootsnap', '~> 1.17.0', require: false
+gem 'bootsnap', '~> 1.18.0', require: false
 
 # API gems
 gem 'grape', '~> 2.0.0'
