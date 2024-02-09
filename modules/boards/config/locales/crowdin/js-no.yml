@@ -37,7 +37,7 @@
         select_board_type: 'Vennligst velg type tavle du trenger.'
         free_text: >
           Start fra bunn med en tom tavle. Legg til oppgaver og kolonner på denne tavlen.
-        action: 'Action board'
+        action: 'Oppgavetavle'
         action_by_attribute: 'Handlingstavle (%{attribute})'
         action_text: >
           Et tavle med filtrerte lister på %{attribute} attributt. Flytting av arbeidspakker til andre lister vil oppdatere attributtet deres.
@@ -52,11 +52,11 @@
         action_text_version: >
           Tavle med automatiserte kolonner basert på versjonsattributt. Ideelt for planlegging av produktutvikling.
         action_type:
-          assignee: assignee
+          assignee: oppdragstaker
           status: status
-          version: version
-          subproject: subproject
-          subtasks: parent-child
+          version: versjon
+          subproject: underprosjekt
+          subtasks: overordnet-underordnet
         board_type_title:
           assignee: Deltaker
           status: Status
@@ -64,18 +64,18 @@
           subproject: Underprosjekt
           subtasks: Foreldre-barn
           basic: Enkel
-        select_attribute: "Action attribute"
+        select_attribute: "Oppgave egenskap"
       add_list_modal:
         labels:
-          assignee: Select user to add as a new assignee list
-          status: Select status to add as a new list
-          version: Select version to add as a new list
-          subproject: Select subproject to add as a new list
-          subtasks: Select work package to add as a new list
+          assignee: Velg bruker å legge til som ny oppdragstaker liste
+          status: Velg status å legge til som ny liste
+          version: Velg versjon som skal legges til som ny liste
+          subproject: Velg underprosjekt å legge til som ny liste
+          subtasks: Velg arbeidspakke som skal legges til som ny liste
         warning:
           status: |
-            There is currently no status available. <br>
-            Either there are none or they have all already been added to the board.
+            Det er for øyeblikket ingen status tilgjengelig. <br>
+            Enten finnes det ingen eller alle har allerede blitt lagt til i tavlen.
           assignee: Det er ikke noe medlem som samsvarer med filterverdien.  <br>
           no_member: Dette prosjektet har for tiden ikke noen medlemmer som kan legges til.  <br>
           add_members: <a href="%{link}">Legg til nytt medlem i prosjektet</a> for å velge brukere på nytt.
