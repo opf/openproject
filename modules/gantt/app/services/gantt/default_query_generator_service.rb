@@ -36,7 +36,7 @@ module ::Gantt
     QUERY_OPTIONS = QUERY_MAPPINGS.keys
 
     PROJECT_DEFAULT_COLUMNS = %w[id type subject status startDate dueDate duration].freeze
-    GLOBAL_DEFAULT_COLUMNS = %w[id type subject status startDate dueDate duration project].freeze
+    GLOBAL_DEFAULT_COLUMNS = %w[id project type subject status startDate dueDate duration].freeze
 
     DEFAULT_PARAMS =
       {
