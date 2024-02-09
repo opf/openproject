@@ -47,7 +47,6 @@ module OpenProject
 
   def self.httpx
     HTTPX
-      .plugin(:persistent) # persistent plugin enables retries plugin under the hood
       .plugin(:basic_auth)
       .plugin(:webdav)
   end
