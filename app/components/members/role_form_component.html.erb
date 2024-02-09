@@ -40,6 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
                                    role.id,
                                    member.roles.include?(role),
                                    role.name,
+                                   disabled: role_disabled?(role),
                                    no_label: true
         %>
         <%= role %>
