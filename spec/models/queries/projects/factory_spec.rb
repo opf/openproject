@@ -116,7 +116,7 @@ RSpec.describe Queries::Projects::Factory do
           .to eql(I18n.t('projects.lists.my'))
       end
 
-      it 'has a filter for active projects' do
+      it 'has a filter for projects the user is a member of' do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
           .to eq([[:member_of, '=', ['t']]])
       end
@@ -140,7 +140,7 @@ RSpec.describe Queries::Projects::Factory do
           .to eql(I18n.t('projects.lists.archived'))
       end
 
-      it 'has a filter for active projects' do
+      it 'has a filter for archived projects' do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
           .to eq([[:active, '=', ['f']]])
       end
@@ -164,7 +164,7 @@ RSpec.describe Queries::Projects::Factory do
           .to eql(I18n.t('activerecord.attributes.project.status_codes.on_track'))
       end
 
-      it 'has a filter for active projects' do
+      it 'has a filter for projects that are "on track"' do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
           .to eq([[:project_status_code, '=', [Project.status_codes[:on_track].to_s]]])
       end
@@ -188,7 +188,7 @@ RSpec.describe Queries::Projects::Factory do
           .to eql(I18n.t('activerecord.attributes.project.status_codes.off_track'))
       end
 
-      it 'has a filter for active projects' do
+      it 'has a filter for projects that are "off track"' do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
           .to eq([[:project_status_code, '=', [Project.status_codes[:off_track].to_s]]])
       end
@@ -212,7 +212,7 @@ RSpec.describe Queries::Projects::Factory do
           .to eql(I18n.t('activerecord.attributes.project.status_codes.at_risk'))
       end
 
-      it 'has a filter for active projects' do
+      it 'has a filter for projects that are "at risk"' do
         expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
           .to eq([[:project_status_code, '=', [Project.status_codes[:at_risk].to_s]]])
       end
@@ -522,7 +522,7 @@ RSpec.describe Queries::Projects::Factory do
         .to eql(I18n.t('projects.lists.my'))
     end
 
-    it 'has a filter for active projects' do
+    it 'has a filter for projects the user is a member of' do
       expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
         .to eq([[:member_of, '=', ['t']]])
     end
@@ -546,7 +546,7 @@ RSpec.describe Queries::Projects::Factory do
         .to eql(I18n.t('projects.lists.archived'))
     end
 
-    it 'has a filter for active projects' do
+    it 'has a filter for archived projects' do
       expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
         .to eq([[:active, '=', ['f']]])
     end
@@ -570,7 +570,7 @@ RSpec.describe Queries::Projects::Factory do
         .to eql(I18n.t('activerecord.attributes.project.status_codes.on_track'))
     end
 
-    it 'has a filter for active projects' do
+    it 'has a filter for project that are "on track"' do
       expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
         .to eq([[:project_status_code, '=', [Project.status_codes[:on_track].to_s]]])
     end
@@ -594,7 +594,7 @@ RSpec.describe Queries::Projects::Factory do
         .to eql(I18n.t('activerecord.attributes.project.status_codes.off_track'))
     end
 
-    it 'has a filter for active projects' do
+    it 'has a filter for projects that are "off track"' do
       expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
         .to eq([[:project_status_code, '=', [Project.status_codes[:off_track].to_s]]])
     end
@@ -618,7 +618,7 @@ RSpec.describe Queries::Projects::Factory do
         .to eql(I18n.t('activerecord.attributes.project.status_codes.at_risk'))
     end
 
-    it 'has a filter for active projects' do
+    it 'has a filter for projects that are "at risk"' do
       expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
         .to eq([[:project_status_code, '=', [Project.status_codes[:at_risk].to_s]]])
     end

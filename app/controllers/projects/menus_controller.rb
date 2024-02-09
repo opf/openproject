@@ -50,7 +50,7 @@ module Projects
 
     def static_filters
       [
-        query_menu_item(::Queries::Projects::Factory.static_query_active, selected: no_query_props_or_all?),
+        query_menu_item(::Queries::Projects::Factory.static_query_active, selected: no_query_props?),
         query_menu_item(::Queries::Projects::Factory.static_query_my,
                         id: ::Queries::Projects::Factory::STATIC_MY),
         query_menu_item(::Queries::Projects::Factory.static_query_archived,
@@ -94,7 +94,7 @@ module Projects
       id.to_s == params[:query_id] && params[:filters].nil?
     end
 
-    def no_query_props_or_all?
+    def no_query_props?
       params[:query_id].nil? && params[:filters].nil? && params[:sortBy].nil?
     end
   end
