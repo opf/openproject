@@ -1068,7 +1068,7 @@ GEM
       rails (>= 5.0.4)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
-    tzinfo-data (1.2023.4)
+    tzinfo-data (1.2024.1)
       tzinfo (>= 1.0.0)
     uber (0.1.0)
     unf (0.1.4)
@@ -1306,7 +1306,7 @@ DEPENDENCIES
   turbo-rails (~> 1.1)
   turbo_tests!
   typed_dag (~> 2.0.2)
-  tzinfo-data (~> 1.2023.1)
+  tzinfo-data (~> 1.2024.1)
   validate_url
   vcr
   view_component
