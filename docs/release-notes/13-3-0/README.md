@@ -78,7 +78,8 @@ With this release, admins of an Enterprise edition can choose between manually o
 A very special thank you goes to our sponsors for features and improvements of this release:
 
 - BMI for sponsoring the features on progress reporting and Gantt charts (which will be continued in the following releases)
-- Deutsche Bahn for the OneDrive/SharePoint integration
+- City of Cologne for sponsoring the new features for the project lists
+- Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
 
 We also want to thank our Community members, particularly James Neale, Jeff Li, Christian Jeschke, Sreekanth Gopalakris and Jörg Mollowitz, for reporting bugs and helping us identify and provide fixes.
 
