@@ -1,6 +1,6 @@
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
   <% if show_state? %>
-    <% header.with_title(variant: :large, data: { 'test-selector': 'project-query-name'}) { page_title } %>
+    <% header.with_title(data: { 'test-selector': 'project-query-name'}) { page_title } %>
 
     <% header.with_actions do %>
       <%= render(Primer::Alpha::ActionMenu.new) do |menu|

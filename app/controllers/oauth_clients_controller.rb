@@ -54,7 +54,7 @@ class OAuthClientsController < ApplicationController
     service_result = @connection_manager.code_to_token(@code)
 
     if service_result.success?
-      flash[:modal] = session[:oauth_callback_flash_modal] if session[:oauth_callback_flash_modal].present?
+      flash[:modal] = session.delete(:oauth_callback_flash_modal) if session[:oauth_callback_flash_modal].present?
       # Redirect the user to the page that initially wanted to access the OAuth2 resource.
       # "state" is a nonce that identifies a cookie which holds that page's URL.
       redirect_to @redirect_uri

@@ -7,7 +7,7 @@ zh-TW:
   permission_manage_board_views: "管理看板"
   project_module_board_view: "看板"
   boards:
-    label_board: "面板"
+    label_board: "看板"
     label_boards: "看板"
     label_create_new_board: "建立新看板"
     label_board_type: "看板類型"
@@ -35,5 +35,5 @@ zh-TW:
       subtasks: >
         具有子元素自動列的面板。將工作包拖動到其他列表會相應地更新父項。
     upsale:
-      teaser_text: '你想用面板來自動化你的工作流程嗎？高級面板是一項企業功能。請升級到付費計劃。'
+      teaser_text: '你想用看板來自動化你的工作流程嗎？高級看板是一項企業功能。請升級到付費計劃。'
       upgrade: '立即升級'

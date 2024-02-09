@@ -468,7 +468,7 @@ zh-TW:
     label_per_page: "每頁："
     label_please_wait: "請稍候"
     label_project: "專案"
-    label_project_list: "專案清單"
+    label_project_list: "Project lists"
     label_project_plural: "專案"
     label_visibility_settings: "可見度設定"
     label_quote_comment: "引述這個評論"
@@ -479,7 +479,7 @@ zh-TW:
     label_remove_columns: "移除所選欄"
     label_remove_row: "移除列"
     label_report: "報表"
-    label_repository_plural: "Repositories"
+    label_repository_plural: "版本庫"
     label_save_as: "保存為"
     label_select_project: "選擇專案"
     label_select_watcher: "選擇一位關注者"
@@ -603,8 +603,8 @@ zh-TW:
         commented: '已評論'
         processed: '已處理'
         prioritized: '優先'
-        dateAlert: 'Date alert'
-        shared: 'shared'
+        dateAlert: '日期提醒'
+        shared: '共享'
       date_alerts:
         milestone_date: 'Milestone date'
         overdue: 'Overdue'
@@ -647,8 +647,8 @@ zh-TW:
         inbox: '收件匣'
         mentioned: '被標記'
         watched: "關注者\n"
-        date_alert: 'Date alert'
-        shared: 'Shared'
+        date_alert: '日期提醒'
+        shared: '共享'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "通知設定"
@@ -671,7 +671,7 @@ zh-TW:
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: '負責執行者'
           responsible: '負責人'
-          shared: 'Shared'
+          shared: '共享'
           watched: "關注者\n"
           work_package_commented: '新評論'
           work_package_created: '新工作包'
@@ -965,6 +965,8 @@ zh-TW:
         createdAt: "建立於"
         description: "說明"
         date: "日期"
+        percentComplete: "完成度(%)"
+        percentCompleteAlternative: "Progress"
         dueDate: "完成日期"
         duration: "時間長度"
         spentTime: "耗時"
@@ -972,6 +974,8 @@ zh-TW:
         percentageDone: "完成百分比"
         priority: "優先等級"
         projectName: "專案"
+        remainingWork: "Remaining work"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "責任歸屬者"
         startDate: "起始日期"
         status: "狀態"
@@ -982,6 +986,8 @@ zh-TW:
         updatedAt: "更新於"
         versionName: "版本"
         version: "版本"
+        work: "Work"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "最新活動"
@@ -990,7 +996,7 @@ zh-TW:
         recently_created: "最近創建的"
         all_open: "全部打開"
         summary: "大綱"
-        shared_with_users: "Shared with users"
+        shared_with_users: "分配給非專案成員"
       jump_marks:
         pagination: "跳轉至表格分頁"
         label_pagination: "點擊此處跳過工作包表格並轉到分頁"
@@ -1216,7 +1222,7 @@ zh-TW:
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
           title: 'Placeholder user'
-          title_no_ee: '佔位符用戶（Enterprise edition 附加功能）'
+          title_no_ee: '非專案成員（Enterprise edition 附加功能）'
           description: 'Has no access to the project and no emails are sent out.'
           description_no_ee: '由於沒有訪問項目的權限，所以不會發送電子郵件。<br>請查看<a href="%{eeHref}" target="_blank">企業版</a>。'
       principal:

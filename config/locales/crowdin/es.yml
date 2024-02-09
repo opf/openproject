@@ -248,8 +248,6 @@ es:
       completed_text_children: "Adicionalmente, los siguientes subproyectos han sido eliminados:"
     index:
       open_as_gantt: "Abrir como diagrama de Gantt"
-      open_as_gantt_title: "Use este botón para generar un diagrama de Gantt donde se filtren los paquetes de trabajo de los proyectos visibles en esta página."
-      open_as_gantt_title_admin: "Puede modificar los ajustes de visualización (como los tipos de paquetes de trabajo seleccionados) en el apartado de administración de la configuración del proyecto."
       no_results_title_text: No hay proyectos por el momento
       no_results_content_text: Crear un nuevo proyecto
     lists:
@@ -1819,8 +1817,8 @@ es:
   label_follows: "sigue"
   label_force_user_language_to_default: "Configurar idioma de usuarios que tienen un lenguaje no permitido por defecto"
   label_form_configuration: "Configuración del formato"
-  label_gantt: "Gantt"
   label_gantt_chart: "Diagrama de Gantt"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "General"
   label_generate_key: "Generar una contraseña"
   label_git_path: "Ruta al directorio .git"
@@ -2838,6 +2836,7 @@ es:
     other: "Otros"
     passwords: "Contraseñas"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Configuración para nuevos proyectos"
       section_project_overview: "Configuración de la lista de información general del proyecto"
     session: "Sesión"

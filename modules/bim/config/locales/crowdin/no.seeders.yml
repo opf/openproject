@@ -87,58 +87,58 @@
           Du kan endre denne velkomstteksten [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-construction-project:
-          name: "(Demo) Construction project"
-          status_explanation: All tasks and the sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo construction project.
+          name: "(Demo) Byggeprosjekt"
+          status_explanation: Alle oppgaver og delprosjektene er i rute. Medarbeiderne vet oppgavene sine. Systemet er ferdig satt opp.
+          description: Dette er en kort oppsummering av målene til dette demo-byggprosjektet.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Velkommen til demo-prosjektet
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Vi er glade for at du ble med.
+                I denne modulen kan du kommunisere nyheter om prosjektet til medlemmene i gruppen.
+              description: Faktiske nyheter
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (som skal endres i Prosjektinnstillingene)
           queries:
             item_0:
-              name: Project plan
+              name: Prosjektplan
             item_1:
-              name: Milestones
+              name: Milepæler
             item_2:
-              name: Tasks
+              name: Oppgaver
             item_3:
               name: Teamplanlegger
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: Enkel dra og slipp-arbeidsflyt
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Velkommen
               item_1:
                 options:
                   name: Komme i gang
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Vi er glade for at du ble med!  Vi foreslå et par ting du bør prøve for å komme i gang med OpenProject.
 
-                    But before you jump right into it, you should know that this exemplary project is split up into two different projects:
+                    Men før du begynner skal du vite at dette demoprosjektet er delt inn i to forskjellige prosjekter:
 
-                    1.  [Construction project]({{opSetting:base_url}}/projects/demo-planning-constructing-project): Here you will find the classical roles, some workflows and work packages for your construction project.
-                    2.  [Creating BIM Model]({{opSetting:base_url}}/projects/demo-bim-project): This project also offers roles, workflows and work packages but especially in the BIM context.
+                    1. [Byggeprosjekt] ({{opSetting:base_url}}/projects/demo-planning-constructing-project): Her finne du de klassiske rollene, noen arbeidsflyter og arbeidspakker for ditt byggeprosjekt.
+                    2. [Opprett BIM modell]({{opSetting:base_url}}/projects/demo-bim-project):  Dette prosjektet har også roller, arbeidsflyter og arbeidspakker, men med sepsielt fokus på BIM.
 
-                    _Try the following steps:_
+                    _Prøv følgende steg:_
 
-                    1.  _Invite new members to your project_: → Go to [Members]({{opSetting:base_url}}/projects/demo-construction-project/members) in the project navigation.
-                    2.  _View the work in your projects_: → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package_: → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart_: → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules_: → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
-                    6.  _Check out the tile view to get an overview of your BCF issues:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
-                    7.  _Agile working? Check out our brand new boards:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-construction-project/boards)
+                    1. _Inviter nye medlemmer til ditt prosjekt_: → Gå til [Medlemmer]({{opSetting:base_url}}/projects/demo-construction-project/members) i prosjektnavigasjonen.
+                    2. _Se på arbeidet i dine prosjekter → Gå til  [Arbeidspakker]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i prosjekt navigasjonen
+                    3.  _Opprett en  ny arbeidspakke_: → Gå til [Arbeidspakker → Opprett]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Opprett og oppdater et Gantt diagram_: → Gå til [Gantt diagram]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
+                    5.  _Aktiver flere moduler_: → Gå til [Prosjektinstillinger → Moduler]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
+                    6.  _Sjekk ut flisvisningen for å få en oversikt over dine BCF-utfordringer:_ → Gå til [Arbeidspakker]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    7.  _Arbeide dynamisk? Sjekk ut våre helt nye tavler:_ → Gå til [Tavler]({{opSetting:base_url}}/projects/demo-construction-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Her vil du finne våre [Bruksanvisninger](https://www.openproject.org/docs/user-guide/).
+                    Vennligst gi oss beskjed om du har spørsmål eller trenger support.Kontakt oss:[support\[at\]openproject.com](mailto:support@openproject.com)..
               item_4:
                 options:
                   name: Medlemmer
@@ -147,53 +147,57 @@
                   name: Arbeidspakker
               item_6:
                 options:
-                  name: Milestones
+                  name: Milepæler
         demo-planning-constructing-project:
-          name: "(Demo) Planning & constructing"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          name: "(Demo) Planlegging og utførelse"
+          status_explanation: Alle oppgaver er i rute. Personene som er involvert kjenner sine oppgaver. Systemet er ferdig satt opp.
+          description: Dette er en kort oppsummering av målene med demonstrasjonsplanleggingen og opprettelsen av prosjektet.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Velkommen til demo-prosjektet
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Vi er glade for at du ble med.
+                I denne modulen kan du kommunisere nyheter om prosjektet til medlemmene i teamet.
+              description: Faktiske nyheter
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (som skal endres i Prosjektinnstillingene)
           queries:
             item_0:
-              name: Project plan
+              name: Prosjektplan
             item_1:
-              name: Milestones
+              name: Milepæler
             item_2:
-              name: Tasks
+              name: Oppgaver
             item_3:
               name: Teamplanlegger
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Velkommen
               item_1:
                 options:
                   name: Komme i gang
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Vi er glade for at du ble med!  Vi foreslå et par ting du bør prøve for å komme i gang med OpenProject.
 
-                    Here you will find the classical roles, some workflows and work packages for your construction project.
+                    Men før du begynner skal du vite at dette demoprosjektet er delt inn i to forskjellige prosjekter:
 
-                    _Try the following steps:_
+                    1. [Byggeprosjekt] ({{opSetting:base_url}}/projects/demo-planning-constructing-project): Her finne du de klassiske rollene, noen arbeidsflyter og arbeidspakker for ditt byggeprosjekt.
+                    2. [Opprett BIM modell]({{opSetting:base_url}}/projects/demo-bim-project):  Dette prosjektet har også roller, arbeidsflyter og arbeidspakker, men med sepsielt fokus på BIM.
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) in the project navigation.
-                    2.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
-                    6.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
+                    _Prøv følgende steg:_
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    1. _Inviter nye medlemmer til ditt prosjekt_: → Gå til [Medlemmer]({{opSetting:base_url}}/projects/demo-construction-project/members) i prosjektnavigasjonen.
+                    2. _Se på arbeidet i dine prosjekter → Gå til  [Arbeidspakker]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) i prosjekt navigasjonen
+                    3.  _Opprett en  ny arbeidspakke_: → Gå til [Arbeidspakker → Opprett]({{opSetting:base_url}}/projects/demo-construction-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Opprett og oppdater et Gantt diagram_: → Gå til [Gantt diagram]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
+                    5.  _Aktiver flere moduler_: → Gå til [Prosjektinstillinger → Moduler]({{opSetting:base_url}}/projects/demo-construction-project/settings/modules).
+                    6.  _Sjekk ut flisvisningen for å få en oversikt over dine BCF-utfordringer:_ → Gå til [Arbeidspakker]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22id%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22card%22%7D)
+                    7.  _Arbeide dynamisk? Sjekk ut våre helt nye tavler:_ → Gå til [Tavler]({{opSetting:base_url}}/projects/demo-construction-project/boards)
+
+                    Her vil du finne våre [Bruksanvisninger](https://www.openproject.org/docs/user-guide/).
+                    Vennligst gi oss beskjed om du har spørsmål eller trenger support.Kontakt oss:[support\[at\]openproject.com](mailto:support@openproject.com)..
               item_4:
                 options:
                   name: Medlemmer
@@ -202,233 +206,233 @@
                   name: Arbeidspakker
               item_6:
                 options:
-                  name: Milestones
+                  name: Milepæler
           work_packages:
             item_0:
-              subject: Project kick off construction project
+              subject: Prosjekt kick off bygge- og anleggsprosjekt
               description: |-
-                The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
+                Prosjekt kick off innleder starten av prosjektet i ditt selskap.  Alle involverte bør inviteres til kick off'en for en tidlig briefing.
 
-                The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Det neste steget kan være å sjkke fremdriftsplanen og justere avtalene.  Dett ekan du gjøre ved å se på [Gantt diagram({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
-              subject: Basic evaluation
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Grunnleggende vurdering
+              description: Denne typen er hierarkisk overordnet typene &quot;Clash&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
               children:
                 item_0:
-                  subject: Gathering first project information
+                  subject: Samler inn første prosjektinformasjon
                   description: |-
-                    ## Goal
+                    ## Målet
 
-                    *   Define tasks based on the customer needs
-                    *   Time frame and cost estimation shall be defined
+                    * Definer oppgaver basert på kundens behov
+                    * Tidsramme og kostnadsberegning skal defineres
 
-                    ## Description
+                    ## Beskrivelse
 
-                    *   Identify the customer needs by having a workshop with him/ her
-                    *   Each need shall represent a task with its corresponding work packages
-                    *   Derive the cost estimation and time frame
+                    * Identifisere kundens behov ved å ha en workshop med han/ henne
+                    * Hvert behov skal representere en oppgave med de korresponderende arbeidspakkene
+                    * Løs kostnadsberegning og tidsramme
                 item_1:
-                  subject: Summarize the results
+                  subject: Oppsummer resultatene
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *  Opprett en nyttig oversikt over resultatene
+                    *  Kontroller hva som har blitt gjort, og oppsummer resultatene
+                    *  Kommuniser alle relevante resultater til kunden
+                    *  Identifiser de fundamentale begrensende betingelsene i prosjektet
 
-                    ## Description
+                    ## Beskrivelse
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
-                    *   ...
+                    *  Hvert emne får sin egen oversikt som blir brukt som en katalog av resultater
+                    *  Denne oversikten informerer alle deltagerne om hvilke beslutninger som er tatt
+                    *  ...
                 item_2:
-                  subject: End of basic evaluation
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Grunnvurderingen avsluttes
+                  description: Denne typen er hierarkisk overordnet typene &quot;Clash&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_2:
-              subject: Preliminary planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Innledende planlegging
+              description: Denne typen er hierarkisk overordnet typene &quot;Clash&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
               children:
                 item_0:
-                  subject: Developing first draft
+                  subject: Utvikle første utkast
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *  Opprett en nyttig oversikt over resultatene
+                    *  Kontroller hva som har blitt gjort, og oppsummer resultatene
+                    *  Kommuniser alle relevante resultater til kunden
+                    *  Identifiser de fundamentale begrensende betingelsene i prosjektet
 
-                    ## Description
+                    ## Beskrivelse
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
-                    *   ...
+                    *  Hvert emne får sin egen oversikt som blir brukt som en katalog av resultater
+                    *  Denne oversikten informerer alle deltagerne om hvilke beslutninger som er tatt
+                    *  ...
                 item_1:
-                  subject: Summarize results
+                  subject: Oppsummer resultatene
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Create a useful overview of the results
-                    *   Check what has been done and summarize the results
-                    *   Communicate all the relevant results with the customer
-                    *   Identify the fundamental boundary conditions of the project
+                    *  Opprett en nyttig oversikt over resultatene
+                    *  Kontroller hva som har blitt gjort, og oppsummer resultatene
+                    *  Kommuniser alle relevante resultater til kunden
+                    *  Identifiser de fundamentale begrensende betingelsene i prosjektet
 
-                    ## Description
+                    ## Beskrivelse
 
-                    *   Each topic gets its own overview which will be used as a catalogue of results
-                    *   This overview informs all participants about the decisions made
-                    *   ...
+                    *  Hvert emne får sin egen oversikt som blir brukt som en katalog av resultater
+                    *  Denne oversikten informerer alle deltagerne om hvilke beslutninger som er tatt
+                    *  ...
             item_3:
-              subject: Passing of preliminary planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Overlevering av innledende planlegging
+              description: Denne typen er hierarkisk overordnet typene &quot;Clash&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_4:
-              subject: Design planning
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Utformingsplanlegging
+              description: Denne typen er hierarkisk overordnet typene &quot;Clash&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
               children:
                 item_0:
-                  subject: Finishing design
+                  subject: Ferdigstiller design
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Design is done
-                    *   All parties are happy with the results of the design planning phase
+                    *  Design er utført
+                    *  Alle parter er fornøyde med resultatene av designplanleggingsfasen
 
-                    ## Description
+                    ## Beskrivelse
 
-                    *   The design of the project will be finished
-                    *   All parties agree on the design
-                    *   The owner is happy with the results
-                    *   ...
+                    *  Designet av prosjektet blir ferdigstilt
+                    *  Alle parter enige om designet
+                    *  Eieren er fornøyd med resultatene
+                    *  ...
                 item_1:
-                  subject: Design freeze
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Design låsing
+                  description: Denne typen er hierarkisk overordnet typene &quot;Konflikt&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_5:
-              subject: Construction phase
+              subject: Byggefase
               children:
                 item_0:
-                  subject: Start constructing
+                  subject: Start byggingen
                   description: |-
-                    ## Goal
+                    ## Målet
 
-                    *   Ground breaking ceremony
-                    *   Setting up the construction site
-                    *   ...
+                    *  Seremoni for byggestart
+                    *  Sette opp byggeplassen
+                    * ...
 
-                    ## Description
+                    ## Beskrivelse
 
-                    *   Preparing the site for the project
-                    *   Get the team together
-                    *   ...
+                    *  Forberede området til prosjektet
+                    *  Sette sammen gruppen
+                    *  ...
                 item_1:
-                  subject: Foundation
+                  subject: Fundamentering
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Laying of the foundation stone
-                    *   ...
+                    *  Legge grunnsteinen
+                    *  ...
 
-                    ## Description
+                    ## Beskrivelse
 
-                    *   Setting up the concrete mixer
-                    *   Setting up the supply chain for the concrete
-                    *   ...
+                    *  Sette opp betongmikser
+                    *  Sette opp leveransekjeden for betong
+                    *  ...
                 item_2:
-                  subject: Building construction
+                  subject: Byggets konstruksjon
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Topping out ceremony
-                    *   Walls and ceilings are done
-                    *   ...
+                    *  Kranselag
+                    *  Vegger og tak er på plass
+                    *  ...
 
-                    ## Description
+                    ## Beskrivelse
 
-                    *   Creating all structural levels of the building
-                    *   Installing doors and windows
-                    *   Finishing the roof structure
-                    *   ...
+                    *  Opprette alle konstruksjonsnivåer i bygningen
+                    *  Installerer dører og vinduer
+                    *  Ferdigstiller takstrukturen
+                    *  ...
                 item_3:
-                  subject: Finishing the facade
+                  subject: Sluttføring av fasaden
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Facade is done
-                    *   Whole building is waterproof
-                    *   ...
+                    *  Fasaden er ferdig
+                    *  Bygningen er vanntett
+                    *  ...
 
-                    ## Description
+                    ## Beskrivelse
 
-                    *   Install all elements for the facade
-                    *   Finish the roof
-                    *   ...
+                    *  Installer alle elementer til fasaden
+                    *  Fullfør taket
+                    *  ...
                 item_4:
-                  subject: Installing the building service systems
+                  subject: Installere systemene for bygningstjenester
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   All building service systems are ready to be used
+                    *  Alle bygningssystemer er klare til bruk
 
-                    ## Description
+                    ## Beskrivelse
 
-                    *   Installing the heating system
-                    *   Installing the climate system
-                    *   Electrical installation
-                    *   ...
+                    *  Installering av varmesystemet
+                    *  Installerer klimasystemet
+                    *  Elektrisk installasjon
+                    *  ...
                 item_5:
-                  subject: Final touches
+                  subject: Avsluttende detaljer
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Handover of the keys
-                    *   The customer is happy with his building
-                    *   ...
+                    *  Overlevering av bygget
+                    *  Kunden er fornøyd med bygningen sin
+                    *  ...
 
-                    ## Description
+                    ## Beskrivelse
 
-                    *   Finishing the installation of the building service systems
-                    *   Finishing the interior construction
-                    *   Finishing the facade
-                    *   ...
+                    *  Ferdigstiller installeringen av bygningssystemene
+                    *  Ferdigstiller indre konstruksjon
+                    *  Ferdigstiller fasaden
+                    *  ...
                 item_6:
-                  subject: House warming party
+                  subject: Innflyttingsfest
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Have a blast!
+                    *  Ha det gøy!
 
-                    ## Description
+                    ## Beskrivelse
 
-                    *   Invite the construction team
-                    *   Invite your friends
-                    *   Bring some drinks, snacks and your smile
+                    *  Inviter byggeteamet
+                    *  Inviter vennene dine
+                    *  Ta med deg noe å drikke, snacks og ditt smil
         demo-bim-project:
-          name: "(Demo) BIM project"
-          status_explanation: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BIM project.
+          name: "(Demo) BIM-prosjekt"
+          status_explanation: Alle oppgaver og underprosjekter er i rute. Personene som er involvert kjenner sine oppgaver. Systemet er ferdig satt opp.
+          description: Dette er en kort oppsummering av målene i dette demo-prosjektet.
           news:
             item_0:
-              title: Welcome to your demo project
+              title: Velkommen til demo-prosjektet
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
-              description: The actual news
+                Vi er glade for at du ble med.
+                I denne modulen kan du kommunisere nyheter om prosjektet til medlemmene i gruppen.
+              description: Faktiske nyheter
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (som skal endres i Prosjektinnstillingene)
           queries:
             item_0:
-              name: Project plan
+              name: Prosjektplan
             item_1:
-              name: Milestones
+              name: Milepæler
             item_2:
-              name: Tasks
+              name: Oppgaver
             item_3:
               name: Teamplanlegger
           project-overview:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Velkommen
               item_1:
                 options:
                   name: Komme i gang
@@ -539,160 +543,160 @@
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_4:
               subject: Modelling, first cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Denne typen er hierarkisk overordnet typene &quot;Clash&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
               children:
                 item_0:
-                  subject: Referencing external BIM models
+                  subject: Referere eksterne BIM-modeller
                   description: |-
-                    # Goal
+                    # Mål
 
-                    *   Having a foundation for developing the internal model/ offering answers
-                    *   Using the external model to develop the internal model
+                    *  Ha et fundament for å utvikle den interne modellen/ tilby løsninger
+                    *  Bruke den eskterne modellen til å utvikle den interne modellen
 
-                    # Description
+                    ## Beskrivelse
 
-                    *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
-                    *   ...
+                    *  Den eskterne modellen vil bli referert i BIM-plattformen, slik at den kan bli brukt til å lage den interne modellen
+                    *  ...
                 item_1:
-                  subject: Modelling the BIM model
+                  subject: Utvikle BIM-modellen
                   description: |-
-                    # Goal
+                    # Mål
 
-                    *   Creating a BIM model for the project
-                    *   Creating a BIM model for the whole project team
+                    *  Opprett en BIM-modell for prosjektet
+                    *  Opprett en BIM-modell for hele prosjektgruppen
 
-                    # Description
+                    ## Beskrivelse
 
-                    *   The model will be created according to the BIM execution plan
-                    *   ...
+                    *  Modellen vil bli opprettet i henhold til utførelsesplanen for BIM
+                    *  ...
                 item_2:
-                  subject: First Cycle, internal model check and revising
+                  subject: Første syklus, intern modellkontroll og revisjon
                   description: |-
-                    # Goal
+                    ## Mål
 
-                    *   Submitting a BIM model according to the defined standards
+                    * Legge in en BIM-modell i henhold til de definerte standarder
 
-                    # Description
+                    ## Beskrivelse
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised.
-                    *   ...
+                    *  Modellen skal sjekkes i henhold til de definerte standarder (krav, lover og forskrifter,...) og revideres.
+                    *  ...
                 item_3:
-                  subject: Submitting BIM model
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Send BIM-modellen
+                  description: Denne typen er hierarkisk overordnet typene &quot;Clash&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_5:
-              subject: Coordination, first cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Koordinering, første syklus
+              description: Denne typen er hierarkisk overordnet typene &quot;Clash&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
               children:
                 item_0:
-                  subject: Coordinate the different BIM models
+                  subject: Koordinere de ulike BIM-modellene
                   description: |-
-                    # Goal
+                    # Mål
 
-                    *   Assemble the different BIM models of the whole project team
-                    *   Coordinate the identified issues
+                    *  Sett sammen de forskjellige BIM-modellene for hele prosjektgruppen
+                    *  Koordiner de identifiserte utfordringene
 
-                    # Description
+                    ## Beskrivelse
 
-                    *   The different BIM models will be assembled and checked
-                    *   The identified model specific issues will be communicated via BCF files
-                    *   ...
+                    *  De forskjellige BIM-modellene vil bli satt sammen og kontrollert
+                    *  De modellspesifikke utfordringene vil bli kommunisert via BCF-filer
+                    *  ...
                 item_1:
-                  subject: Issue management, first cycle
+                  subject: Håndtering av utfordringer, første syklus
                 item_2:
-                  subject: Finishing coordination, first cycle
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  subject: Fullfører koordinasjon, første syklus
+                  description: Denne typen er hierarkisk overordnet typene &quot;Clash&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_6:
-              subject: Modelling & coordinating, second cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
+              subject: Modellering & koordinering, andre syklus
+              description: "## Mål\r\n\r\n* ...\r\n\r\n## Beskrivelse\r\n\r\n* \\ ..."
             item_7:
-              subject: Modelling & coordinating, ... cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Modellering og koordinering, ... syklus
+              description: Denne typen er hierarkisk overordnet typene &quot;Clash&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_8:
-              subject: Modelling & coordinating, (n-th minus 1) cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
+              subject: Modellering & koordinering, (n-th minus 1) syklus
+              description: "## Mål\r\n\r\n* ...\r\n\r\n## Beskrivelse\r\n\r\n* \\ ..."
             item_9:
-              subject: Modelling & coordinating n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Modellering & koordinering, n-th syklus
+              description: Denne typen er hierarkisk overordnet typene &quot;Clash&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_10:
-              subject: Finishing modelling & coordinating, n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Sluttføre modellering & koordinering, n-th syklus
+              description: Denne typen er hierarkisk overordnet typene &quot;Clash&quot; og &quot;Forespørsel&quot;, og representerer dermed en generell merknad.
             item_11:
-              subject: Use model for construction phase
+              subject: Bruke modell for byggefase
               children:
                 item_0:
-                  subject: Handover model for construction crew
+                  subject: Leveringsmodell for mannskapet
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   Everyone knows the model and their tasks
-                    *   Everybody gets all the relevant information, model based
-                    *   ...
+                    *  Alle kjenner modellen og deres oppgaver
+                    *  Alle får all relevant informasjon, modell basert
+                    *  ...
 
-                    ## Description
+                    ## Beskrivelse
 
-                    *   The Kickoff on the construction site includes an introduction to the model
-                    *   All the objects should have the information needed for the assigned tasks. If not, data enrichment of the model needs to be done
-                    *   ...
+                    *  Kickoff på byggeplassen inkluderer en introduksjon til modell
+                    *  Alle objekter bør ha den informasjonen som trengs for de tildelte oppgavene. Hvis ikke, er det behov for forbedring av  data i modellen.
+                    *  ...
                 item_1:
-                  subject: Construct the building
+                  subject: Bygg bygningen
                   description: |-
-                    ## Goal
+                    ## Mål
 
-                    *   New issues realized on construction site will be handled model based
-                    *   Issues will be documented by using the BCF files and the BIM model
+                    *  Nye utfordringer oppdaget på byggeplassen vil bli håndtert modellbasert
+                    *  Utfordringer vil bli dokumentert ved å bruke BCF-filene og BIM-modellen
 
                     ## Description
 
-                    *   New issues will be documented using BCF files as sticky notes for the model
-                    *   The BCF files will be used to assign, track and correct issues
-                    *   ...
+                    *  Nye utfordringer vil bli dokumentert ved hjelp av BCF-filer som klebrige notater for modellen
+                    *  BCF-filene vil bli brukt til å tildele, spore og korrigere utfordringer
+                    *  ...
                 item_2:
-                  subject: Finish construction
+                  subject: Fullfør byggingen
             item_12:
-              subject: Issue management, construction phase
+              subject: Problemløsning, byggefasen
             item_13:
-              subject: Handover for Facility Management
+              subject: Overlevering for fasilitetsstyring
               description: |-
-                ## Goal
+                ## Mål
 
-                *   The BIM model will be used for the Facility Management
-                *   The model provides all the relevant information for commissioning and operating the building
-                *   ...
+                *  BIM-modellen vil bli brukt for fasilitetsstyring
+                *  Modellen gir all relevant informasjon for idriftsettelse og drift av bygningen
+                *  ...
 
-                ## Description
+                ## Beskrivelse
 
-                *   The model contains the relevant information for the facility manager
-                *   The model can be used for the operating system of the building
-                *   ...
+                *  Modellen inneholder relevant informasjon til fasilitetsansvarlig
+                *  Modellen kan brukes for operativsystemet i bygningen
+                * ...
             item_14:
-              subject: Asset Management
-              description: Enjoy your building :)
+              subject: Forvaltning av eiendeler
+              description: Nyt bygningen din :)
         demo-bcf-management-project:
-          name: "(Demo) BCF management"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BCF management project.
+          name: "(Demo) BCF styring"
+          status_explanation: Alle oppgaver er i rute. Personene som er involvert kjenner sine oppgaver. Systemet er ferdig satt opp.
+          description: Dette er en kort oppsummering av målene i dette demo BCF-styringsprosjektet.
           ifc_models:
             item_0:
-              name: Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)
+              name: Sykehus – Arkitektur (cc-by-sa-3.0 Autodesk Inc.)
             item_1:
-              name: Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)
+              name: Sykehus - Strukturell (cc-by-sa-3.0 Autodesk Inc.)
             item_2:
-              name: Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)
+              name: Sykehus – Mekanisk (cc-by-sa-3.0 Autodesk Inc.)
           categories:
-            item_0: Category 1 (to be changed in Project settings)
+            item_0: Kategori 1 (som skal endres i Prosjektinnstillingene)
           queries:
             item_0:
-              name: Issues
+              name: Utfordringer
             item_1:
-              name: Clashes
+              name: Konflikter
             item_2:
-              name: Requests
+              name: Forespørsler
             item_3:
-              name: Remarks
+              name: Kommentarer
             item_4:
-              name: Project plan
+              name: Prosjektplan
             item_5:
-              name: Milestones
+              name: Milepæler
             item_6:
               name: Tasks
             item_7:

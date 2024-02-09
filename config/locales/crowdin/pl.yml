@@ -248,8 +248,6 @@ pl:
       completed_text_children: "Ponadto usunięto następujące podprojekty:"
     index:
       open_as_gantt: "Otwórz jako widok wykresu Gantta"
-      open_as_gantt_title: "Użyj tego przycisku, aby wygenerować widok wykresu Gantta, który filtruje pakiety robocze projektów widocznych na tej stronie."
-      open_as_gantt_title_admin: "Możesz modyfikować ustawienia widoku (takie jak wybrane typy pakietów roboczych) w obszarze administracji w ustawieniach projektu."
       no_results_title_text: Nie ma jeszcze żadnego projektu
       no_results_content_text: Utwórz nowy projekt
     lists:
@@ -682,7 +680,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise edition"
+        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise Edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         error_conflict: "Information has been updated by at least one other user in the meantime."
@@ -1873,8 +1871,8 @@ pl:
   label_follows: "Następujący"
   label_force_user_language_to_default: "Ustaw język domyślny dla użytkowników o innych ustawieniach językowych niż dozwolone"
   label_form_configuration: "Konfiguracja formularza"
-  label_gantt: "Wykres Gantta"
   label_gantt_chart: "Wykres Gantta"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Ogólne"
   label_generate_key: "Generuj klucz"
   label_git_path: "Ścieżka do katalogu .git"
@@ -2894,6 +2892,7 @@ pl:
     other: "Inne"
     passwords: "Hasła"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Ustawienia nowych projektów"
       section_project_overview: "Ustawienia listy przeglądu projektu"
     session: "Sesja"
@@ -2977,7 +2976,7 @@ pl:
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
   text_journal_attachment_added: "%{label} %{value} dodano jako załącznik"
-  text_journal_attachment_deleted: "%{label} %{value} usunięto jako załącznik"
+  text_journal_attachment_deleted: "%{label} %{old} usunięto jako załącznik"
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
@@ -3204,7 +3203,7 @@ pl:
         non_working: "%{day} jest teraz dniem nieroboczym"
       dates:
         working: "%{day} jest teraz roboczym"
-        non_working: "%{day} jest teraz wolnym od pracy"
+        non_working: "%{date} jest teraz wolnym od pracy"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:
