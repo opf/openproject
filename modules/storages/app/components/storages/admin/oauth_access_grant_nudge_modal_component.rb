@@ -38,8 +38,12 @@ module Storages::Admin
     attr_reader :project_storage
 
     def initialize(project_storage_id:, **options)
-      @project_storage = ::Storages::ProjectStorage.find(project_storage_id)
+      @project_storage = ::Storages::ProjectStorage.find_by(id: project_storage_id)
       super(@project_storage, **options)
+    end
+
+    def render?
+      @project_storage.present?
     end
 
     private

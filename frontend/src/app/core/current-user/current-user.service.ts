@@ -156,6 +156,7 @@ export class CurrentUserService {
   private _user:CurrentUser = {
     id: null,
     name: null,
+    loggedIn: false,
   };
 
   /** @deprecated Use the store mechanism `currentUserQuery.user$` */
