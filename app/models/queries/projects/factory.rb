@@ -27,27 +27,32 @@
 # ++
 
 class Queries::Projects::Factory
+  STATIC_ACTIVE = 'active'.freeze
+  STATIC_MY = 'my'.freeze
+  STATIC_ARCHIVED = 'archived'.freeze
+  STATIC_ON_TRACK = 'on_track'.freeze
+  STATIC_OFF_TRACK = 'off_track'.freeze
+  STATIC_AT_RISK = 'at_risk'.freeze
+
   class << self
-    def find(id)
-      static_query(id) || Queries::Projects::ProjectQuery.find(id)
+    def find(id, params:, user:)
+      find_and_update_static_query(id, params, user) || find_and_update_persisted_query(id, params, user)
     end
 
     def static_query(id)
       case id
-      when 'active'
+      when STATIC_ACTIVE, nil
         static_query_active
-      when 'my'
+      when STATIC_MY
         static_query_my
-      when 'archived'
+      when STATIC_ARCHIVED
         static_query_archived
-      when 'on_track'
+      when STATIC_ON_TRACK
         static_query_status_on_track
-      when 'off_track'
+      when STATIC_OFF_TRACK
         static_query_status_off_track
-      when 'at_risk'
+      when STATIC_AT_RISK
         static_query_status_at_risk
-      when nil
-        list_with(:'projects.lists.active')
       end
     end
 
@@ -91,8 +96,49 @@ class Queries::Projects::Factory
 
     def list_with(name)
       Queries::Projects::ProjectQuery.new(name: I18n.t(name)) do |query|
-        yield query if block_given?
+        query.order('lft' => 'asc')
+
+        yield query
       end
+    end
+
+    def find_and_update_static_query(id, params, user)
+      query = static_query(id)
+
+      return unless query
+
+      if params.any?
+        new_query(query, params, user)
+      else
+        query
+      end
+    end
+
+    def find_and_update_persisted_query(id, params, user)
+      query = Queries::Projects::ProjectQuery.where(user:).find_by(id:)
+
+      return unless query
+
+      if params.any?
+        update_query(query, params, user)
+      else
+        query
+      end
+    end
+
+    def new_query(source_query, params, user)
+      update_query(Queries::Projects::ProjectQuery.new(source_query.attributes.slice('filters', 'orders')),
+                   params,
+                   user)
+    end
+
+    def update_query(query, params, user)
+      Queries::Projects::ProjectQueries::SetAttributesService
+        .new(user:,
+             model: query,
+             contract_class: Queries::Projects::ProjectQueries::LoadingContract)
+        .call(params)
+        .result
     end
   end
 end

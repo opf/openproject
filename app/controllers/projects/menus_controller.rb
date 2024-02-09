@@ -50,17 +50,22 @@ module Projects
 
     def static_filters
       [
-        query_menu_item(::Queries::Projects::Factory.static_query_active, selected: no_query_props_or_all?),
-        query_menu_item(::Queries::Projects::Factory.static_query_my, id: 'my'),
-        query_menu_item(::Queries::Projects::Factory.static_query_archived, id: 'archived')
+        query_menu_item(::Queries::Projects::Factory.static_query_active, selected: no_query_props?),
+        query_menu_item(::Queries::Projects::Factory.static_query_my,
+                        id: ::Queries::Projects::Factory::STATIC_MY),
+        query_menu_item(::Queries::Projects::Factory.static_query_archived,
+                        id: ::Queries::Projects::Factory::STATIC_ARCHIVED)
       ]
     end
 
     def static_status_filters
       [
-        query_menu_item(::Queries::Projects::Factory.static_query_status_on_track, id: 'on_track'),
-        query_menu_item(::Queries::Projects::Factory.static_query_status_off_track, id: 'off_track'),
-        query_menu_item(::Queries::Projects::Factory.static_query_status_at_risk, id: 'at_risk')
+        query_menu_item(::Queries::Projects::Factory.static_query_status_on_track,
+                        id: ::Queries::Projects::Factory::STATIC_ON_TRACK),
+        query_menu_item(::Queries::Projects::Factory.static_query_status_off_track,
+                        id: ::Queries::Projects::Factory::STATIC_OFF_TRACK),
+        query_menu_item(::Queries::Projects::Factory.static_query_status_at_risk,
+                        id: ::Queries::Projects::Factory::STATIC_AT_RISK)
       ]
     end
 
@@ -89,9 +94,8 @@ module Projects
       id.to_s == params[:query_id] && params[:filters].nil?
     end
 
-    def no_query_props_or_all?
-      (params[:query_id].nil? && params[:filters].nil?) ||
-        params[:query_id] == 'all'
+    def no_query_props?
+      params[:query_id].nil? && params[:filters].nil? && params[:sortBy].nil?
     end
   end
 end
