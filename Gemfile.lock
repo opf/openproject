@@ -645,7 +645,7 @@ GEM
     ice_nine (0.11.2)
     interception (0.5)
     io-console (0.7.2)
-    irb (1.11.1)
+    irb (1.11.2)
       rdoc
       reline (>= 0.4.2)
     iso8601 (0.13.0)
@@ -709,7 +709,7 @@ GEM
     mini_magick (4.12.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.5)
-    minitest (5.22.0)
+    minitest (5.22.2)
     msgpack (1.7.2)
     multi_json (1.15.0)
     mustermann (3.0.0)
@@ -1115,7 +1115,7 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     yard (0.9.34)
-    zeitwerk (2.6.12)
+    zeitwerk (2.6.13)
 
 PLATFORMS
   ruby
