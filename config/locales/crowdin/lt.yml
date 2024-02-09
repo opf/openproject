@@ -1872,7 +1872,7 @@ lt:
   label_force_user_language_to_default: "Nustatyti numatytąją kalbą vartotojams, kurie nurodo, sistemoje nežinomą kalbą"
   label_form_configuration: "Formos konfigūracija"
   label_gantt_chart: "Ganto grafikas"
-  label_gantt_chart_plural: "Gantt charts"
+  label_gantt_chart_plural: "Ganto diagramos"
   label_general: "Bendra"
   label_generate_key: "Generuoti raktą"
   label_git_path: "Kelias į .git aplanką"
@@ -2891,7 +2891,7 @@ lt:
     other: "Kita"
     passwords: "Slaptažodžiai"
     projects:
-      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
+      missing_dependencies: "Parinktas projekto modulis %{module}, kuris priklauso nuo %{dependencies}. Jums reikia pažymėti ir šias priklausomybes."
       section_new_projects: "Naujų projektų nustatymai"
       section_project_overview: "Nustatymai projektų apžvalgos sąrašui"
     session: "Sesija"

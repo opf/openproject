@@ -101,7 +101,7 @@
     button_save: "Lagre"
     button_settings: "Innstillinger"
     button_uncheck_all: "Avmerk alle"
-    button_update: "Oppdater"
+    button_update: "Oppdatèr"
     button_export-pdf: "Last ned PDF"
     button_export-atom: "Last ned Atom"
     button_create: "Opprett"
@@ -215,11 +215,11 @@
             label_last_name: "Etternavn"
             label_domain: "Domene"
             label_subscriber: "Abonnent"
-            label_maximum_users: "Maximum active users"
-            label_starts_at: "Starts at"
+            label_maximum_users: "Maksimalt antall aktive brukere"
+            label_starts_at: "Starter på"
             label_expires_at: "Utløper på"
-            receive_newsletter: I want to receive the OpenProject <a target="_blank" href="%{link}">newsletter</a>.
-            taken_domain: There can only be one active trial per domain.
+            receive_newsletter: Jeg vil motta OpenProject <a target="_blank" href="%{link}">nyhetsbrev</a>.
+            taken_domain: Det kan kun være en aktiv prøveversjon per domene.
             domain_mismatch: Gjeldende forespørselsnavnet samsvarer ikke med det konfigurerte vertsnavnet. Vennligst dobbeltsjekk systeminnstillingene.
             taken_email: Hver bruker kan kun opprette en prøveversjon.
           email_not_received: "Du har ikke mottatt en e-post? Du kan sende e-posten på nytt med lenken til høyre."
@@ -345,7 +345,7 @@
       blocks:
         new_features:
           text_new_features: "Les om nye funksjoner og produktoppdateringer."
-          learn_about: "Learn more about the new features"
+          learn_about: "Lær mer om de nye funksjonene"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '13_2':
@@ -354,34 +354,34 @@
               new_features_html: >
                 Utgivelsen inneholder ulike nye funksjoner og forbedringer: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integrasjon med manuelle prosjektmapper.</li> <li>Filter for roller, grupper og deler av listen over prosjektmedlemmer.</li> <li>Tillat oppdragstaker og ansvarlig for delte arbeidspakker.</li> <li>Introduser nytt feltnavnverk, gjenstående arbeid og % Fullført for å forberede fremdriftsrapportering for arbeidspakkehierarkiene.</li> <li>Tillat statusendring uten arbeidspakkeredigeringsrettigheter.</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to calendar"
-      inital_setup_error_message: "An error occured while fetching data."
-      description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
-      warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
-      token_name_label: "Where will you be using this?"
-      token_name_placeholder: "Type a name, e.g. \"Phone\""
-      token_name_description_text: "If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href=\"my/access_token\", target=\"_blank\">access tokens</a> list."
-      copy_url_label: "Copy URL"
-      ical_generation_error_text: "An error occured while generating the calendar URL."
-      success_message: "The URL \"%{name}\" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription."
+      title: "Abonner på kalender"
+      inital_setup_error_message: "En feil oppstod under henting av data."
+      description: "Du kan bruke URLen (iCalendar) til å abonnere på denne kalenderen i en ekstern klient og vise oppdatert arbeidspakkeinformasjon derfra."
+      warning: "Ikke del denne URL-adressen med andre brukere. Alle med denne lenken vil kunne se arbeidspakkedetaljer uten konto eller passord."
+      token_name_label: "Hvor kommer du til å bruke dette?"
+      token_name_placeholder: "Skriv inn et navn, f.eks. \"Telefon\""
+      token_name_description_text: "Hvis du abonnerer på denne kalenderen fra flere enheter, vil dette navnet hjelpe deg med å skille dem fra i listen <a href=\"my/access_token\", target=\"_blank\">tilgangsnøkkel</a> listen."
+      copy_url_label: "Kopier URL"
+      ical_generation_error_text: "Det oppstod en feil ved generering av kalenderURL."
+      success_message: "URL-adressen \"%{name}\" ble vellykket kopiert til utklippstavlen. Lim den inn i kalenderklienten for å fullføre abonnementet."
     label_activate: "Aktiver"
     label_assignee: 'Deltaker'
-    label_add_column_after: "Add column after"
-    label_add_column_before: "Add column before"
-    label_add_columns: "Add columns"
+    label_add_column_after: "Legg til kolonne etter"
+    label_add_column_before: "Legg til kolonne før"
+    label_add_columns: "Legg til kolonner"
     label_add_comment: "Legg til kommentar"
-    label_add_comment_title: "Comment and type @ to notify other people"
-    label_add_row_after: "Add row after"
-    label_add_row_before: "Add row before"
+    label_add_comment_title: "Kommenter og skriv @ for å varsle andre"
+    label_add_row_after: "Legg til rad etter"
+    label_add_row_before: "Sett inn rad før"
     label_add_selected_columns: "Legg til valgte kolonner"
     label_added_by: "lagt til av"
-    label_added_time_by: "Added by <a href=\"%{authorLink}\">%{author}</a> at %{age}"
+    label_added_time_by: "Lagt til av <a href=\"%{authorLink}\">%{author}</a> i %{age}"
     label_ago: "dager siden"
     label_all: "alle"
     label_all_work_packages: "alle arbeidspakker"
     label_and: "og"
     label_ascending: "Stigende"
-    label_author: "Author: %{user}"
+    label_author: "Forfatter: %{user}"
     label_avatar: "Profilbilde"
     label_between: "mellom"
     label_board: "Tavle"
@@ -391,7 +391,7 @@
     label_change: "Endre"
     label_create: "Opprett"
     label_create_work_package: "Opprett ny arbeidspakke"
-    label_created_by: "Created by"
+    label_created_by: "Opprettet av"
     label_date: "Dato"
     label_date_with_format: "Angi %{date_attribute} med følgende format: %{format}"
     label_deactivate: "Deaktiver"
@@ -405,20 +405,20 @@
     label_collapsed: "skjult"
     label_collapse_all: "Skjul alle"
     label_comment: "Kommentar"
-    label_committed_at: "%{committed_revision_link} at %{date}"
-    label_committed_link: "committed revision %{revision_identifier}"
+    label_committed_at: "%{committed_revision_link} den %{date}"
+    label_committed_link: "engasjert revisjon %{revision_identifier}"
     label_contains: "inneholder"
     label_created_on: "Opprettet"
-    label_edit_comment: "Edit this comment"
-    label_edit_status: "Edit the status of the work package"
+    label_edit_comment: "Rediger denne kommentaren"
+    label_edit_status: "Rediger status for arbeidspakken"
     label_email: "E-post"
     label_equals: "er"
     label_expand: "Utvid"
     label_expanded: "utvidet"
     label_expand_all: "Utvid alle"
-    label_expand_project_menu: "Expand project menu"
+    label_expand_project_menu: "Utvid prosjektmeny"
     label_export: "Eksportèr"
-    label_export_preparing: "The export is being prepared and will be downloaded shortly."
+    label_export_preparing: "Eksporten forberedes og lastes ned i løpet av kort tid."
     label_filename: "Fil"
     label_filesize: "Størrelse"
     label_general: "Generell"
@@ -429,7 +429,7 @@
     label_group_plural: "Grupper"
     label_hide_attributes: "Vis færre"
     label_hide_column: "Skjul kolonne"
-    label_hide_project_menu: "Collapse project menu"
+    label_hide_project_menu: "Skjul Prosjekt-meny"
     label_in: "i"
     label_in_less_than: "i mindre enn"
     label_in_more_than: "i mer enn"
@@ -453,30 +453,30 @@
     label_next: "Neste"
     label_no_color: "Ingen farge"
     label_no_data: "Ingen data å vise"
-    label_no_due_date: "no finish date"
+    label_no_due_date: "ingen ferdigmeldingsdato"
     label_no_start_date: "ingen startdato"
-    label_no_date: "no date"
+    label_no_date: "ingen dato"
     label_no_value: "Ingen verdi"
     label_none: "ingen"
     label_not_contains: "inneholder ikke"
     label_not_equals: "er ikke"
     label_on: "på"
     label_open_menu: "Åpne meny"
-    label_open_context_menu: "Open context menu"
+    label_open_context_menu: "Åpne kontekstmeny"
     label_open_work_packages: "åpne"
     label_password: "Passord"
     label_previous: "Forrige"
     label_per_page: "Pr. side:"
     label_please_wait: "Vennligst vent"
     label_project: "Prosjekt"
-    label_project_list: "Project lists"
+    label_project_list: "Prosjektlister"
     label_project_plural: "Prosjekter"
-    label_visibility_settings: "Visibility settings"
-    label_quote_comment: "Quote this comment"
-    label_recent: "Recent"
+    label_visibility_settings: "Innstillinger for synlighet"
+    label_quote_comment: "Siter denne kommentaren"
+    label_recent: "Siste"
     label_reset: "Nullstill"
     label_remove: "Fjern"
-    label_remove_column: "Remove column"
+    label_remove_column: "Fjern kolonne"
     label_remove_columns: "Fjern valgte kolonner"
     label_remove_row: "Remove row"
     label_report: "Rapport"
@@ -505,13 +505,13 @@
     label_time_entry_plural: "Tid brukt"
     label_up: "Opp"
     label_user_plural: "Brukere"
-    label_activity_show_only_comments: "Show activities with comments only"
-    label_activity_show_all: "Show all activities"
+    label_activity_show_only_comments: "Vis bare aktiviteter med kommentarer"
+    label_activity_show_all: "Vis alle aktiviteter"
     label_total_progress: "%{percent}% utført"
-    label_total_amount: "Total: %{amount}"
-    label_updated_on: "updated on"
-    label_value_derived_from_children: "(value derived from children)"
-    label_children_derived_duration: "Work package's children derived duration"
+    label_total_amount: "Totalt: %{amount}"
+    label_updated_on: "oppdatert den"
+    label_value_derived_from_children: "(verdi utledet fra underordnet)"
+    label_children_derived_duration: "Arbeidspakkens underordnet varighet"
     label_warning: "Advarsel"
     label_work_package: "Arbeidspakke"
     label_work_package_parent: "Overordnet arbeidspakke"
@@ -664,12 +664,12 @@
               P3D: 3 dager før
               P7D: en uke før
             overdue:
-              P1D: every day
-              P3D: every 3 days
-              P7D: every week
+              P1D: hver dag
+              P3D: hver 3. dag
+              P7D: hver uke
         reasons:
           mentioned:
-            title: 'Mentioned'
+            title: 'Nevnt'
             description: 'Motta en melding hver gang noen nevner meg hvor som helst'
           assignee: 'Deltaker'
           responsible: 'Ansvarlig'
@@ -754,45 +754,45 @@
         title: 'E-post påminnelser'
         pause:
           label: 'pause daglige e-postpåminnelser midlertidig'
-          first_day: 'First day'
-          last_day: 'Last day'
+          first_day: 'Første dag '
+          last_day: 'Siste dag'
     text_are_you_sure: "Er du sikker?"
-    text_data_lost: "All entered data will be lost."
-    text_user_wrote: "%{value} wrote:"
+    text_data_lost: "Alle angitte data vil gå tapt."
+    text_user_wrote: "%{value} skrev:"
     types:
       attribute_groups:
-        error_duplicate_group_name: "The name %{group} is used more than once. Group names must be unique."
-        error_no_table_configured: "Please configure a table for %{group}."
-        reset_title: "Reset form configuration"
+        error_duplicate_group_name: "Navnet %{group} brukes flere ganger. Gruppenavn må være unike."
+        error_no_table_configured: "Vennligst konfigurer en tabell for %{group}."
+        reset_title: "Tilbakestill konfigurasjon for skjema"
         confirm_reset: >
-          Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
+          Advarsel: Er du sikker på at du vil tilbakestille skjemakonfigurasjonen? Dette vil tilbakestille egenskaper til deres standard gruppe og deaktivere ALLE egendefinerte felt.
         upgrade_to_ee: "Oppgradere til Enterprise on-premises-utgave"
         upgrade_to_ee_text: "Wow! Hvis du trenger dette tillegget er en superpro! Vil du støtte oss OpenSource-utviklere ved å bli en Enterpris-utgave-kunde?"
         more_information: "Mer informasjon"
-        nevermind: "Nevermind"
+        nevermind: "Glem det"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "Konfigurering av skjema"
         projects: "Prosjekter"
         settings: "Innstillinger"
     time_entry:
-      work_package_required: 'Requires selecting a work package first.'
+      work_package_required: 'Valg av arbeidspakke er påkrevd'
       title: 'Logg tid'
       tracking: 'Tidsstyring'
-      stop: 'Stop'
+      stop: 'Stopp'
     timer:
-      start_new_timer: 'Start new timer'
-      timer_already_running: 'To start a new timer, you must first stop the current timer:'
-      timer_already_stopped: 'No active timer for this work package, have you stopped it in another window?'
-      tracking_time: 'Tracking time'
-      button_stop: 'Stop current timer'
+      start_new_timer: 'Start ny tidtaker'
+      timer_already_running: 'For å starte en ny tidtaker må du først stoppe den gjeldende tidtakeren:'
+      timer_already_stopped: 'Ingen aktiv tidtaker for denne arbeidspakken, har du stoppet den i et annet vindu?'
+      tracking_time: 'Sporingstid'
+      button_stop: 'Stopp nåværende tidtaker'
     two_factor_authentication:
       label_two_factor_authentication: 'Tofaktorautentisering'
     watchers:
-      label_loading: loading watchers...
-      label_error_loading: An error occurred while loading the watchers
-      label_search_watchers: Search watchers
+      label_loading: laster overvåkere...
+      label_error_loading: Det oppstod en feil under lasting av overvåkere
+      label_search_watchers: Søk overvåkere
       label_add: Legg til overvåker
-      label_discard: Discard selection
+      label_discard: Forkast utvalg
       typeahead_placeholder: Søk etter mulige overvåkere
     relation_labels:
       parent: "Overordnet"
@@ -804,20 +804,20 @@
       blocked: "Blokkert av"
       precedes: "Rangerer foran"
       follows: "Følger"
-      includes: "Includes"
-      partof: "Part of"
-      requires: "Requires"
-      required: "Required by"
-      relation_type: "relation type"
+      includes: "Inkluderer"
+      partof: "Del av"
+      requires: "Krever"
+      required: "Kreves av"
+      relation_type: "type relasjon"
     relations_hierarchy:
       parent_headline: "Overordnet"
-      hierarchy_headline: "Hierarchy"
+      hierarchy_headline: "Hierarki"
       children_headline: "Underordnede"
     relation_buttons:
-      set_parent: "Set parent"
+      set_parent: "Angi overordnet"
       change_parent: "Endre overordnet"
-      remove_parent: "Remove parent"
-      hierarchy_indent: "Indent hierarchy"
+      remove_parent: "Fjern overordnet"
+      hierarchy_indent: "Indent-hierarki"
       hierarchy_outdent: "Outdent hierarchy"
       group_by_wp_type: "Group by work package type"
       group_by_relation_type: "Group by relation type"
@@ -1012,60 +1012,60 @@
         group_by: "Gruppèr resultater etter"
         group: "Grupper etter"
         group_by_disabled_by_hierarchy: "Gruppen av er deaktivert på grunn av at hierarki-modus er aktiv."
-        hierarchy_disabled_by_group_by: "Hierarchy mode is disabled due to results being grouped by %{column}."
+        hierarchy_disabled_by_group_by: "Hierarki-modus er deaktivert på grunn av at resultatene blir gruppert av %{column}."
         sort_ascending: "Stigende sortering"
         sort_descending: "Synkende sortering"
         move_column_left: "Flytt kolonne til venstre"
         move_column_right: "Flytt kolonne til høyre"
         hide_column: "Skjul kolonne"
-        insert_columns: "Insert columns"
+        insert_columns: "Sett inn kolonner"
         filters: "Filtre"
         display_sums: "Vis summer"
-        confirm_edit_cancel: "Are you sure you want to cancel editing the name of this view? Title will be set back to previous value."
-        click_to_edit_query_name: "Click to edit title of this view."
-        rename_query_placeholder: "Name of this view"
+        confirm_edit_cancel: "Er du sikker på at du vil avbryte redigering av navnet på denne visningen? Tittelen vil bli satt tilbake til forrige verdi."
+        click_to_edit_query_name: "Klikk for å redigere tittelen på denne visningen."
+        rename_query_placeholder: "Navn for denne visningen"
         star_text: "Marker denne visningen som favoritt og legg til i visnings meny på venstre side."
         public_text: >
-          Publish this view, allowing other users to access your view. Users with the 'Manage public views' permission can modify or remove public query. This does not affect the visibility of work package results in that view and depending on their permissions, users may see different results.
+          Publiser denne visningen, slik at andre brukere får tilgang til visningen din. Brukere med 'Administrere offentlige visninger' kan endre eller fjerne offentlig spørring. Dette påvirker ikke synligheten til resultatene i arbeidspakken  i denne oversikten og avhengig av tillatelser,  vil brukerne kunne se forskjellige resultater.
         errors:
-          unretrievable_query: "Unable to retrieve view from URL"
-          not_found: "There is no such view"
-          duplicate_query_title: "Name of this view already exists. Change anyway?"
-        text_no_results: "No matching views were found."
+          unretrievable_query: "Kan ikke hente visning fra URL"
+          not_found: "Det finnes ingen slik visning."
+          duplicate_query_title: "Navnet på denne visningen finnes allerede. Endre allikevel?"
+        text_no_results: "Ingen samsvarende visninger ble funnet."
       scheduling:
-        is_parent: "The dates of this work package are automatically deduced from its children. Activate 'Manual scheduling' to set the dates."
-        is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
+        is_parent: "Datoene for denne arbeidspakken trekkes automatisk fra de underordnede. Aktiver 'Manuell planlegging' for å angi datoene."
+        is_switched_from_manual_to_automatic: "Datoene for denne arbeidspakken må eventuelt beregnes på nytt etter å ha byttet fra manual til automatisk planlegging på grunn av relasjoner med andre arbeidspakker."
       sharing:
         share: 'Del'
-        title: "Share work package"
-        show_all_users: "Show all shared users"
-        selected_count: "%{count} selected"
+        title: "Del arbeidspakke"
+        show_all_users: "Vis alle delte brukere"
+        selected_count: "%{count} valgte"
         selection:
-          mixed: "Mixed"
+          mixed: "Blandet"
         upsale:
-          description: "Share work packages with users who are not members of the project."
+          description: "Del arbeidspakker med brukere som ikke er medlemmer i prosjektet."
       table:
-        configure_button: 'Configure work package table'
-        summary: "Table with rows of work package and columns of work package attributes."
-        text_inline_edit: "Most cells of this table are buttons that activate inline-editing functionality of that attribute."
-        text_sort_hint: "With the links in the table headers you can sort, group, reorder, remove and add table columns."
-        text_select_hint: "Select boxes should be opened with 'ALT' and arrow keys."
+        configure_button: 'Konfigurer tabell for arbeidspakke'
+        summary: "Tabell med rader for arbeidspakke og kolonner for arbeidspakkeegenskaper."
+        text_inline_edit: "De fleste celler i denne tabellen er knapper som aktiverer inkorporering av funksjonaliteten til den egenskapen."
+        text_sort_hint: "Med lenkene i tabelloverskriftene kan du sortere, gruppe, omorganisere og legge til tabellkolonner."
+        text_select_hint: "Velg bokser skal åpnes med 'ALT' og piltaster."
       table_configuration:
-        button: 'Configure this work package table'
-        choose_display_mode: 'Display work packages as'
-        modal_title: 'Work package table configuration'
-        embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
+        button: 'Konfigurer tabellen for arbeidspakker'
+        choose_display_mode: 'Vis arbeidspakker som'
+        modal_title: 'Tabelloppsett for arbeidspakke'
+        embedded_tab_disabled: "Denne konfigurasjons-fanen er ikke tilgjengelig for den innebygde visningen du redigerer."
         default: "standard"
-        display_settings: 'Display settings'
-        default_mode: "Flat list"
-        hierarchy_mode: "Hierarchy"
-        hierarchy_hint: "All filtered table results will be augmented with their ancestors. Hierarchies can be expanded and collapsed."
-        display_sums_hint: "Display sums of all summable attributes in a row below the table results."
-        show_timeline_hint: "Show an interactive gantt chart on the right side of the table. You can change its width by dragging the divider between table and gantt chart."
-        highlighting: 'Highlighting'
+        display_settings: 'Skjerminnstillinger'
+        default_mode: "Flat liste"
+        hierarchy_mode: "Hierarki"
+        hierarchy_hint: "Alle filtrerte tabellresultater vil bli forsterket med sine overordnede. Hierarkier kan utvides og kollapses."
+        display_sums_hint: "Vis summer av alle summerbare egenskaper i en rad under tabellresultatene."
+        show_timeline_hint: "Vis et interaktivt gantt-diagram på høyre side av tabellen. Du kan endre bredden ved å dra skillelinjen mellom tabell og gantt-tegnet."
+        highlighting: 'Utheving'
         highlighting_mode:
-          description: "Highlight with color"
-          none: "No highlighting"
+          description: "Marker med farge"
+          none: "Ingen utheving"
           inline: 'Highlighted attribute(s)'
           inline_all: 'All attributes'
           entire_row_by: 'Entire row by'
@@ -1135,22 +1135,22 @@
       destroy_time_entry:
         title: "Bekreft sletting av tidsregistrering"
         text: "Er du sikker på at du vil slette følgende tidsregistrering?"
-    notice_no_results_to_display: "No visible results to display."
+    notice_no_results_to_display: "Ingen synlige resultater å vise."
     notice_successful_create: "Opprettelsen var vellykket."
     notice_successful_delete: "Slettingen var vellykket."
     notice_successful_update: "Oppdateringen var vellykket."
-    notice_job_started: "job started."
+    notice_job_started: "jobb startet."
     notice_bad_request: "Ugyldig forespørsel."
     relations:
       empty: Det eksisterer ingen relasjoner
-      remove: Remove relation
+      remove: Fjern relasjonen
     inplace:
       button_edit: "%{attribute}: rediger"
       button_save: "%{attribute}: lagre"
       button_cancel: "%{attribute}: Avbryt"
       button_save_all: "Lagre"
       button_cancel_all: "Avbryt"
-      link_formatting_help: "Text formatting help"
+      link_formatting_help: "Tekstformatering hjelp"
       btn_preview_enable: "Forhåndsvis"
       btn_preview_disable: "Deaktiver forhåndsvisning"
       null_value_label: "Ingen verdi"
@@ -1160,161 +1160,161 @@
         number: '%{field} er ikke et gyldig tall'
         maxlength: '%{field} kan ikke inneholde mer enn %{maxLength} siffer()'
         minlength: '%{field} kan ikke inneholde mindre enn %{minLength} digit(s)'
-        messages_on_field: 'This field is invalid: %{messages}'
+        messages_on_field: 'Dette feltet er ugyldig: %{messages}'
     error_could_not_resolve_version_name: "Kunne ikke slå opp versjonsnavnet"
     error_could_not_resolve_user_name: "Kunne ikke slå opp brukernavn"
-    error_attachment_upload: "File failed to upload: %{error}"
-    error_attachment_upload_permission: "You don't have the permission to upload files on this resource."
+    error_attachment_upload: "Filen kunne ikke lastes opp: %{error}"
+    error_attachment_upload_permission: "Du har ikke tillatelse til å laste opp filer på denne ressursen."
     units:
       workPackage:
-        one: "work package"
-        other: "work packages"
+        one: "arbeidspakke"
+        other: "arbeidspakker"
       child_work_packages:
-        one: "one child work package"
-        other: "%{count} work package children"
+        one: "en underordnet arbeidspakke"
+        other: "%{count} underordnet arbeidspakke"
       hour:
-        one: "1 h"
-        other: "%{count} h"
-        zero: "0 h"
+        one: "1 t"
+        other: "%{count} t"
+        zero: "0 t"
       day:
         one: "1 dag"
         other: "%{count} dager"
-        zero: "0 days"
+        zero: "0 dager"
     zen_mode:
-      button_activate: 'Activate zen mode'
-      button_deactivate: 'Deactivate zen mode'
+      button_activate: 'Aktiver zen modus'
+      button_deactivate: 'Deaktiver zen modus'
     global_search:
-      all_projects: "In all projects"
-      close_search: "Close search"
-      current_project_and_all_descendants: "In this project + subprojects"
-      current_project: "In this project"
-      recently_viewed: "Recently viewed"
+      all_projects: "I alle prosjekter"
+      close_search: "Lukk søk"
+      current_project_and_all_descendants: "I dette prosjektet + underprosjekter"
+      current_project: "I dette prosjektet"
+      recently_viewed: "Nylig sett"
       search: "Søk"
       title:
-        all_projects: "all projects"
-        project_and_subprojects: "and all subprojects"
-        search_for: "Search for"
+        all_projects: "alle prosjekter"
+        project_and_subprojects: "og alle underprosjekter"
+        search_for: "Søk etter"
     views:
-      card: 'Cards'
-      list: 'Table'
+      card: 'Kort'
+      list: 'Tabell'
       timeline: 'Gantt'
     invite_user_modal:
       back: 'Tilbake'
-      invite: 'Invite'
+      invite: 'Inviter'
       title:
         invite: 'Inviter bruker'
-        invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
-        PlaceholderUser: 'placeholder user'
-        invite_principal_to_project: 'Invite %{principal} to %{project}'
+        invite_to_project: 'Inviter %{type} til %{project}'
+        User: 'bruker'
+        Group: 'gruppe'
+        PlaceholderUser: 'plassholder bruker'
+        invite_principal_to_project: 'Inviter %{principal} til %{project}'
       project:
         label: 'Prosjekt'
-        required: 'Please select a project'
-        lacking_permission: 'Please select a different project since you lack permissions to assign users to the currently selected.'
-        lacking_permission_info: 'You lack the permission to assign users to the project you are currently in. You need to select a different one.'
+        required: 'Velg et prosjekt'
+        lacking_permission: 'Velg et annet prosjekt da du mangler tillatelser for å tildele brukere til de valgte alternativene.'
+        lacking_permission_info: 'Du mangler tillatelse til å tilordne brukere til prosjektet du er i. Du må velge et annet.'
         next_button: 'Neste'
-        no_results: 'No projects were found'
-        no_invite_rights: 'You are not allowed to invite members to this project'
+        no_results: 'Ingen prosjekter ble funnet'
+        no_invite_rights: 'Du har ikke lov til å invitere medlemmer til dette prosjektet'
       type:
-        required: 'Please select the type to be invited'
+        required: 'Velg typen som skal inviteres'
         user:
           title: 'Bruker'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: 'Tillatelser basert på den tilordnede rollen i det valgte prosjektet'
         group:
           title: 'Gruppe'
-          description: 'Permissions based on the assigned role in the selected project'
+          description: 'Tillatelser basert på den tilordnede rollen i det valgte prosjektet'
         placeholder:
-          title: 'Placeholder user'
+          title: 'Plassholder bruker'
           title_no_ee: 'Midlertidig bruker (kun tillegg for Enterprise-utgave)'
-          description: 'Has no access to the project and no emails are sent out.'
+          description: 'Har ikke tilgang til prosjektet og ingen e-poster blir sendt ut.'
           description_no_ee: 'Har ikke tilgang til prosjektet og ingen e-poster har blitt sendt ut. <br>Sjekk ut <a href="%{eeHref}" target="_blank">Enterprise-utgaven</a>'
       principal:
         label:
-          name_or_email: 'Name or email address'
+          name_or_email: 'Navn eller e-postadresse'
           name: 'Navn'
-        already_member_message: 'Already a member of %{project}'
-        no_results_user: 'No users were found'
-        invite_user: 'Invite:'
-        no_results_placeholder: 'No placeholders were found'
-        create_new_placeholder: 'Create new placeholder:'
-        no_results_group: 'No groups were found'
+        already_member_message: 'Allerede et medlem av %{project}'
+        no_results_user: 'Ingen brukere ble funnet'
+        invite_user: 'Inviter:'
+        no_results_placeholder: 'Ingen plassholdere ble funnet'
+        create_new_placeholder: 'Opprett ny plassholder:'
+        no_results_group: 'Ingen grupper ble funnet'
         next_button: 'Neste'
         required:
-          user: 'Please select a user'
-          placeholder: 'Please select a placeholder'
-          group: 'Please select a group'
+          user: 'Vennligst velg en bruker'
+          placeholder: 'Vennligst velg en plassholder'
+          group: 'Velg en gruppe'
       role:
-        label: 'Role in %{project}'
-        no_roles_found: 'No roles were found'
-        description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
-        required: 'Please select a role'
+        label: 'Rolle i %{project}'
+        no_roles_found: 'Ingen roller ble funnet'
+        description: 'Dette er rollen brukeren vil få når de blir med i prosjektet. Rollen definerer hvilke tiltak de har lov til å ta, og hvilken informasjon de har lov til å se. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Lær mer om roller og tillatelser. </a>'
+        required: 'Vennligst velg en rolle'
         next_button: 'Neste'
       message:
-        label: 'Invitation message'
-        description: 'We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started.'
+        label: 'Melding i invitasjon'
+        description: 'Vi vil sende en e-post til brukeren, som du kan skrive en personlig melding til her. En forklaring på invitasjonen kan være nyttig, eller kanskje en litt informasjon om prosjektet for å hjelpe dem i gang.'
         next_button: 'Neste'
       summary:
         next_button: 'Send invitasjon'
       success:
-        title: '%{principal} was invited!'
+        title: '%{principal} ble invitert!'
         description:
-          user: 'The user can now log in to access %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          placeholder: 'The placeholder can now be used in %{project}. Meanwhile you can already plan with that user and assign work packages for instance.'
-          group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
+          user: 'Brukeren kan nå logge inn for å få tilgang til %{project}. Selv så kan du allerede planlegge med den brukeren og tilknytte arbeidspakker for forekomst.'
+          placeholder: 'Plassholderen kan nå brukes i %{project}. Samtidig kan du allerede planlegge med den brukeren og tilordne arbeidspakker i forekomsten.'
+          group: 'Gruppen er nå en del av %{project}. Dette betyr at du allerede kan planlegge med den gruppen og tildele arbeidspakker for forekomst.'
         next_button: 'Fortsett'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: 'Inkluder prosjekter'
       title: 'Prosjekter'
-      clear_selection: 'Clear selection'
+      clear_selection: 'Tøm valg'
       apply: 'Bruk'
       selected_filter:
-        all: 'All projects'
-        selected: 'Only selected'
-      search_placeholder: 'Search project...'
-      include_subprojects: 'Include all sub-projects'
+        all: 'Alle prosjekter'
+        selected: 'Kun valgte'
+      search_placeholder: 'Søk i prosjekt...'
+      include_subprojects: 'Inkluder alle underprosjekter'
       tooltip:
-        include_all_selected: 'Project already included since Include all sub-projects is enabled.'
-        current_project: 'This is the current project you are in.'
-        does_not_match_search: 'Project does not match the search criteria.'
-      no_results: 'No project matches your search criteria.'
+        include_all_selected: 'Prosjektet er allerede inkludert siden det alle underprosjekter er aktivert.'
+        current_project: 'Dette er det nåværende prosjektet du er i.'
+        does_not_match_search: 'Prosjektet samsvarer ikke med søkekriteriene.'
+      no_results: 'Ingen treff på dine søkekriterier.'
     baseline:
-      toggle_title: 'Baseline'
+      toggle_title: 'Grunnlinje'
       clear: 'Nullstill'
       apply: 'Bruk'
-      header_description: 'Highlight changes made to this list since any point in the past.'
-      enterprise_header_description: 'Highlight changes made to this list since any point in the past with Enterprise edition.'
-      show_changes_since: 'Show changes since'
-      baseline_comparison: 'Baseline comparison'
-      help_description: 'Reference time zone for the baseline.'
-      time_description: 'In your local time: %{datetime}'
+      header_description: 'Marker endringer som er gjort på denne listen tidligere.'
+      enterprise_header_description: 'Marker endringer på denne listen tidligere med Enterprise Edition.'
+      show_changes_since: 'Vis endringer siden'
+      baseline_comparison: 'Sammenligning grunnlinje'
+      help_description: 'Referansetidssone for grunnlinjen.'
+      time_description: 'I din lokale tid: %{datetime}'
       time: 'Tidspunkt'
       from: 'Fra'
       to: 'Til'
       drop_down:
         none: '-'
         yesterday: 'i går'
-        last_working_day: 'last working day'
+        last_working_day: 'siste arbeidsdag'
         last_week: 'siste uke'
         last_month: 'siste måned'
-        a_specific_date: 'a specific date'
-        between_two_specific_dates: 'between two specific dates'
+        a_specific_date: 'en bestemt dato'
+        between_two_specific_dates: 'mellom to spesifikke datoer'
       legends:
-        changes_since: 'Changes since'
-        changes_between: 'Changes between'
-        now_meets_filter_criteria: 'Now meets filter criteria'
-        no_longer_meets_filter_criteria: 'No longer meets filter criteria'
-        maintained_with_changes: 'Maintained with changes'
-        in_your_timezone: 'In your local timezone:'
+        changes_since: 'Endringer siden'
+        changes_between: 'Endringer mellom'
+        now_meets_filter_criteria: 'Oppfyller nå filterkriteriene'
+        no_longer_meets_filter_criteria: 'Oppfyller ikke lenger filterkriteriene'
+        maintained_with_changes: 'Beholdt med endringer'
+        in_your_timezone: 'I din lokale tidssone:'
       icon_tooltip:
-        added: 'Added to view within the comparison time period'
-        removed: 'Removed from view within the comparison time period'
-        changed: 'Maintained with modifications'
+        added: 'Lagt til for visning i tidsperioden for sammenligning'
+        removed: 'Fjernet fra visning i tidsperioden for sammenligning'
+        changed: 'Beholdt med modifikasjoner'
     forms:
-      submit_success_message: 'The form was successfully submitted'
-      load_error_message: 'There was an error loading the form'
-      validation_error_message: 'Please fix the errors present in the form'
-      advanced_settings: 'Advanced settings'
+      submit_success_message: 'Skjemaet ble sendt inn'
+      load_error_message: 'En feil oppstod under lasting av skjemaet'
+      validation_error_message: 'Vennligst fiks feilene i skjemaet'
+      advanced_settings: 'Avanserte innstillinger'
     spot:
       filter_chip:
         remove: 'Fjern'

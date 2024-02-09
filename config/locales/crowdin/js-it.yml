@@ -232,7 +232,7 @@ it:
           status_label: "Stato:"
           status_confirmed: "confermato"
           status_waiting: "email inviata, in attesa di conferma"
-          test_ee: "Prova l'Enterprise Edition gratuitamente per 14 giorni"
+          test_ee: "Prova l'Enterprise edition gratuitamente per 14 giorni"
           quick_overview: "Veloce panoramica sulla gestione dei progetti e il lavoro di squadra nell'edizione OpenProject Enterprise."
         upsale:
           become_hero: "Diventa un eroe!"

@@ -965,7 +965,7 @@ zh-TW:
         createdAt: "建立於"
         description: "說明"
         date: "日期"
-        percentComplete: "% Complete"
+        percentComplete: "完成度(%)"
         percentCompleteAlternative: "Progress"
         dueDate: "完成日期"
         duration: "時間長度"
