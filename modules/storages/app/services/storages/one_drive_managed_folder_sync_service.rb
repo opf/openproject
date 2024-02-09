@@ -126,6 +126,12 @@ module Storages
         .call(storage: @storage, folder_path:)
         .match(on_failure: ->(error) { format_and_log_error(error, folder_path:) },
                on_success: ->(folder_info) do
+                 last_project_folder = ::Storages::LastProjectFolder
+                                         .find_by(
+                                           project_storage_id: project_storage.id,
+                                           mode: project_storage.project_folder_mode
+                                         )
+                 last_project_folder.update(origin_folder_id: folder_info.id)
                  project_storage.update(project_folder_id: folder_info.id)
                  project_storage.reload
                end)
@@ -183,11 +189,17 @@ module Storages
     end
 
     def format_and_log_error(error, context = {})
-      error_message = context.merge({ command: error.data.source,
-                                      message: error.log_message,
-                                      data: { status: error.data.payload.status, body: error.data.payload.body.to_s } })
+      payload = error.data.payload
+      data =
+        case payload
+        in { status: Integer }
+          { status: payload.status.to_s, body: payload.body.to_s }
+        else
+          payload.error.to_s
+        end
 
-      OpenProject.logger.warn error_message
+      error_message = context.merge({ command: error.data.source, message: error.log_message, data: })
+      OpenProject.logger.warn error_message.to_json
     end
   end
 end
