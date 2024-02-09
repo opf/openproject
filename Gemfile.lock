@@ -517,7 +517,7 @@ GEM
       rainbow
       rubocop
       smart_properties
-    erblint-github (0.5.1)
+    erblint-github (1.0.1)
     erubi (1.12.0)
     escape_utils (1.3.0)
     et-orbi (1.2.7)
