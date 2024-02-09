@@ -17,13 +17,15 @@ The release contains several bug fixes and we recommend updating to the newest v
 
 In addition to other changes, OpenProject version 13.3 includes the following three important features:
 
-### Gantt charts module
+### Separate Gantt charts module
 
-One major change is the relocation of the Gantt views to a separate module. Please note that with OpenProject 13.3 you will find any work package tables saved using the Gantt view in the new Gantt charts module. The view button from the work package module is now only present in the BIM version of OpenProject and only for switching to the map view.
+One major change is the relocation of the Gantt views to a separate module. Please note that with OpenProject 13.3 all saved work package queries (private or public) with an activated Gantt view moved to the new Gantt charts module.
 
-You can navigate to the new Gantt chart module either via the side menu or via the global menu:
+You can navigate to the new Gantt chart module either via the side menu in a project or via the global menu:
 
 ![OpenProject's Gantt charts module](openproject-user-guide-select-gantt-charts-global.png)
+
+The view button from the work package module is now only present in the BIM version of OpenProject and only for switching from the list to the cards view.
 
 ### Filter and save custom project lists
 
@@ -31,26 +33,17 @@ OpenProject has enhanced the project filter list view and now lets you create cu
 
 ![Filter and save custom project lists with OpenProject](openproject-filter-project-lists.png)
 
-### OneDrive/SharePoint integration: Automatically managed project folders
+### OneDrive/SharePoint integration: Automatically managed project folders (Enterprise add-on)
 
-With this release, admins of an Enterprise edition can choose between manually or automatically managed project folders. If you select the latter, all project members are granted access to the project folder.
+With this release, admins of an Enterprise edition can choose between manually or automatically managed project folders. If you select the latter, all project members are automatically granted access to the project folder.
 
 ![Project folders for OneDrive/SharePoint with automatically managed permissions](openproject-13-3-sharepoint-onedrive-automatically-managed-project-folders-highlighted.png)
 
 ---
 
-[See our blog](https://www.openproject.org/blog/openproject-13-3-release/) to learn more about features we included in OpenProject 13.3. You can find a detailed list of all new features and bugfixes below.
+[See our blog](/blog/openproject-13-3-release/) to learn more about features we included in OpenProject 13.3. You can find a detailed list of all new features and bugfixes below.
 
-## Important updates and breaking changes
-
-<!-- Remove this section if empty, add to it in pull requests linking to tickets and provide information -->
-
-<!--more-->
-
-## Bug fixes and changes
-
-<!-- Warning: Anything within the below lines will be automatically removed by the release script -->
-<!-- BEGIN AUTOMATED SECTION -->
+## All features and bug fixes
 
 - Feature: Separate Gantt charts module \[[#32764](https://community.openproject.org/wp/32764)\]
 - Feature: Automatically managed project folders with SharePoint \[[#50988](https://community.openproject.org/wp/50988)\]
@@ -88,12 +81,12 @@ With this release, admins of an Enterprise edition can choose between manually o
 - Feature: Rename "Managed folder status" heading in Storage form \[[#52456](https://community.openproject.org/wp/52456)\]
 - Feature: File Storage Permissions explanation \[[#52571](https://community.openproject.org/wp/52571)\]
 
-<!-- END AUTOMATED SECTION -->
-<!-- Warning: Anything above this line will be automatically removed by the release script -->
+### Contributions
+A very special thank you goes to our sponsors for features and improvements of this release:
 
-#### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+- BMI for sponsoring the features on progress reporting and Gantt charts (which will be continued in the following releases)
+- Deutsche Bahn for the OneDrive/SharePoint integration
 
-Special thanks for reporting and finding bugs go to
+We also want to thank our Community members, particularly James Neale, Jeff Li, Christian Jeschke, Sreekanth Gopalakris and Jörg Mollowitz, for reporting bugs and helping us identify and provide fixes.
 
-James Neale, Jeff Li, Christian Jeschke, Sreekanth Gopalakris, Jörg Mollowitz
+A big thank you to every other dedicated user who has [reported bugs](../../development/report-a-bug), supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards) and provided translations on [CrowdIn](https://crowdin.com/projects/opf).
