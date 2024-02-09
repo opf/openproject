@@ -30,5 +30,6 @@ module Queries::Projects::ProjectQueries
   class LoadingContract < ::ModelContract
     attribute :filters
     attribute :orders
+    attribute :columns
   end
 end

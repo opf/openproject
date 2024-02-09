@@ -36,6 +36,7 @@ RSpec.describe Queries::Projects::ProjectQueries::LoadingContract do
   let(:query_user) { current_user }
   let(:query_filters) { [[:active, '=', 't']] }
   let(:query_orders) { [%w[name asc]] }
+  let(:query_columns) { ['name', 'public'] }
   let(:query) do
     Queries::Projects::ProjectQuery.new do |query|
       query_filters.each do |key, operator, values|
@@ -43,6 +44,7 @@ RSpec.describe Queries::Projects::ProjectQueries::LoadingContract do
       end
 
       query.order(query_orders)
+      query.columns = query_columns
     end
   end
   let(:contract) { described_class.new(query, current_user) }

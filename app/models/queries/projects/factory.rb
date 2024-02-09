@@ -97,6 +97,7 @@ class Queries::Projects::Factory
     def list_with(name)
       Queries::Projects::ProjectQuery.new(name: I18n.t(name)) do |query|
         query.order('lft' => 'asc')
+        query.columns = Setting.enabled_projects_columns
 
         yield query
       end
