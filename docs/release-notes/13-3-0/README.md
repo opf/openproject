@@ -47,7 +47,6 @@ With this release, admins of an Enterprise edition can choose between manually o
 
 - Feature: Separate Gantt charts module \[[#32764](https://community.openproject.org/wp/32764)\]
 - Feature: Automatically managed project folders with SharePoint \[[#50988](https://community.openproject.org/wp/50988)\]
-- Feature: Template folder and file structure when using SharePoint/OneDrive \[[#52177](https://community.openproject.org/wp/52177)\]
 - Bugfix: PDF doesn't contain cell color \[[#47169](https://community.openproject.org/wp/47169)\]
 - Bugfix: Save Team Planner view as 2 weeks view not only 1 week view. \[[#48355](https://community.openproject.org/wp/48355)\]
 - Bugfix: Delete work package API requires content-type header \[[#51317](https://community.openproject.org/wp/51317)\]
@@ -58,7 +57,6 @@ With this release, admins of an Enterprise edition can choose between manually o
 - Bugfix: Untranslated work package roles \[[#52598](https://community.openproject.org/wp/52598)\]
 - Bugfix: Users involved in work packages sharing are duplicated in project storage members list.  \[[#52673](https://community.openproject.org/wp/52673)\]
 - Feature: Nudge admin to go through OAuth flow \[[#49396](https://community.openproject.org/wp/49396)\]
-- Feature: Inform an admin via email about an unhealthy automatically managed file storage \[[#50913](https://community.openproject.org/wp/50913)\]
 - Feature: "% Complete" field split to own value and derived value \[[#51188](https://community.openproject.org/wp/51188)\]
 - Feature: Adapt onboardoing tour to new Gantt module \[[#51354](https://community.openproject.org/wp/51354)\]
 - Feature: Add column "Shared with" in the work packages table \[[#51491](https://community.openproject.org/wp/51491)\]
@@ -72,14 +70,9 @@ With this release, admins of an Enterprise edition can choose between manually o
 - Feature: Add link from work / estimated work sum to detailed query view \[[#52076](https://community.openproject.org/wp/52076)\]
 - Feature: Make renamed attributes searchable with old names ("% complete", "work" and "remaining work") \[[#52119](https://community.openproject.org/wp/52119)\]
 - Feature: Clean menu structure on project lists page \[[#52149](https://community.openproject.org/wp/52149)\]
-- Feature: Copy automatically managed project folder on project copy for SharePoint/OneDrive \[[#52175](https://community.openproject.org/wp/52175)\]
 - Feature: Remove Derived remaining work from Work package form configuration \[[#52252](https://community.openproject.org/wp/52252)\]
-- Feature: (Kopie) Project list: Truncate long text fields and disable expand action \[[#52259](https://community.openproject.org/wp/52259)\]
 - Feature: Maintain manually managed project folder on project copy for SharePoint/OneDrive \[[#52363](https://community.openproject.org/wp/52363)\]
-- Feature: Add toggle to deactivate/activate admin health notification for a storage \[[#52449](https://community.openproject.org/wp/52449)\]
-- Feature: Copy template folder command for SharePoint \[[#52450](https://community.openproject.org/wp/52450)\]
 - Feature: Rename "Managed folder status" heading in Storage form \[[#52456](https://community.openproject.org/wp/52456)\]
-- Feature: File Storage Permissions explanation \[[#52571](https://community.openproject.org/wp/52571)\]
 
 ### Contributions
 A very special thank you goes to our sponsors for features and improvements of this release:
