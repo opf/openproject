@@ -39,6 +39,8 @@ To view multiple projects in a single timeline, select **Gantt charts** from the
 
 ![Select Gantt charts from the global modules menu in OpenProject](openproject-user-guide-select-gantt-charts-global.png)
 
+Alternatively, you can also use the **Include projects** filter.
+
 ## Gantt charts views
 
 Once you opened the Gantt charts module, the default view will show all open work packages. You can adjust the view using the filters or  select one the following view options: 
