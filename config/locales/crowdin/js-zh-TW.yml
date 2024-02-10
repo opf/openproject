@@ -607,7 +607,7 @@ zh-TW:
         shared: '共享'
       date_alerts:
         milestone_date: 'Milestone date'
-        overdue: 'Overdue'
+        overdue: '逾期'
         overdue_since: 'since %{difference_in_days}'
         property_today: 'is today'
         property_is: 'is in %{difference_in_days}'
@@ -662,9 +662,9 @@ zh-TW:
               P3D: 3 days before
               P7D: a week before
             overdue:
-              P1D: every day
-              P3D: every 3 days
-              P7D: every week
+              P1D: 每天
+              P3D: 每 3 天
+              P7D: 每週
         reasons:
           mentioned:
             title: '被標記'
