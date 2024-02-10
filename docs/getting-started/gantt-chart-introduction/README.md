@@ -39,9 +39,9 @@ Within your project menu, navigate to the **Gantt charts** module.
 
 ![Select the Gantt charts module in OpenProject](openproject-user-guide-select-gantt-charts-module.png)
 
-The Gantt chart then displays all work package types, e.g. phases and milestones, tasks or bugs, in a timeline view. It shows dependencies between different work packages as well as additional information, e.g. subject, start or due dates. 
+The Gantt chart then displays all work package types, e.g. phases and milestones, tasks or bugs, in a timeline view. It shows dependencies between different work packages as well as additional information, e.g. subject, start or finish dates. 
 
-You can also select the project overarching Gantt charts view through the [global modules](../../user-guide/home/global-modules/) menu, which will include the information, which project the work packages are part of. 
+You can also select the cross-project Gantt charts view through the [global modules](../../user-guide/home/global-modules/) menu, which will include the information, which project the work packages are part of. 
 
 ## Create a project plan
 

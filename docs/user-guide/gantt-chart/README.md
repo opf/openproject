@@ -126,7 +126,7 @@ Scheduling modes can also affect work package relations. Read about [automatic a
 
 - A **blue line** connects two work packages, they are predecessor and follower.
 - The **vertical red dotted line** indicates today's date.
-- A **black clamp** indicates the duration from the start date of a work packages earliest starting child until the end date of a work packages latest ending child.
+- A **black clamp** indicates the duration from the start date of a work packages earliest starting child until the finish date of a work packages latest ending child.
 - A **red clamp** indicates the same as the black clamp, with an important difference: The clamp turns red if the dates derived from the children are before or after the manually scheduled dates (of this parent work package).
   The clamps are black in case the derived dates are within the set dates (of this parent).
 - A **diamond symbol** stands for a milestone.
@@ -193,7 +193,7 @@ To zoom in and zoom out in the Gantt chart view, click on the button with the **
 
 Select the **auto zoom button** on top of the Gantt chart to have the best view of your Gantt chart. 
 
-Please note that it the **auto zoom button** may not be selectable if it has been pre-selected in the [Gantt charts configuration](#gantt-chart-configuration)
+Please note that the **auto zoom button** may not be selectable if it has been pre-selected in the [Gantt charts configuration](#gantt-chart-configuration)
 
 ![auto-zoom-Gantt](openproject-user-guide-gantt-charts-auto-zoom.png)
 
