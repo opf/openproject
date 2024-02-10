@@ -22,7 +22,7 @@ fr:
         ifc_models: 'Modèles IFC'
       views:
         viewer: 'Visionneuse'
-        split: 'Visionneuse et table'
+        split: 'Visionneuse et tableau'
         split_cards: 'Visionneuse et cartes'
     revit:
       revit_add_in: "Module complémentaire Revit"

@@ -347,11 +347,11 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                该版本包含各种新功能和改进：<br> <ul class="%{list_styling_class}"> <li>与手动项目文件夹的 OneDrive/SharePoint 集成。</li><li>在项目成员列表中筛选角色、群组和共享内容。</li> <li>允许为共享工作包指定被指派人和责任人。</li> <li>引入新字段名称“工作”、“剩余工作”和“完成百分比”，以准备工作包层次结构的进度报告。</li> <li>允许在不编辑工作包权限的情况下更改状态。</li></ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter and save custom project lists.</li> <li>Separate Gantt charts module with new default views.</li> <li>Automatically managed project folders for OneDrive/SharePoint integration.</li> <li>Show number of "Shared users" in the share button and display them in the work packages list.</li> <li>Improved calculations and updates for progress reporting for work package hierarchies.</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
