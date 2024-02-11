@@ -45,10 +45,11 @@ If you have selected the OneDrive/SharePoint option in the previous step of stor
 
 Here you can choose which kind of OneDrive/SharePoint project folder will be the default folder for file uploads for this project when using SharePoint integration.
 
-![Select OneDrive/SharePoint folder type in OpenProject](onedrive-storage-add-folders.png)
+![Select OneDrive/SharePoint folder type in OpenProject](onedrive-storage-add-folders-new.png)
 
 1. **No specific folder**: By default, each user will start at the drive root when they upload a file or select files for linking.
-2. **Existing folder with manually managed permissions**: Once you selected this option, you can designate an existing folder as the project folder for this project using the button **Select folder**. The permissions are however not automatically managed, **instead the folder and its content inherits the permissions as configured in the SharePoint site or drive**. The administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects.
+2. **New folder with automatically managed permissions**: This will automatically create a folder for this project and manage the access permissions for each project member. Each project member will automatically get read, write and share access permissions (according to defined [File storages permissions](../../../../system-admin-guide/users-permissions/roles-permissions/#permissions) in the project) to this folder. IS THIS TRUE FOR SHAREPOINT? This option will only be available if the system administrator has [set up the storage with automatically managed folders](../../../../system-admin-guide/integrations/onedrive/).
+3. **Existing folder with manually managed permissions**: Once you selected this option, you can designate an existing folder as the project folder for this project using the button **Select folder**. The permissions are however not automatically managed, **instead the folder and its content inherits the permissions as configured in the SharePoint site or drive**. The administrator needs to manually ensure relevant users have access. The selected folder can be used by multiple projects. 
 
 
 Click on **Add** to add your new OneDrive/SharePoint file storage to this project.
