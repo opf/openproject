@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Project status
-  priority: 499
+  priority: 700
 description: How to set and display the project status.
 keywords: project status
 ---
