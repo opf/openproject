@@ -49,7 +49,7 @@
         main-menu-border-color: "Hovedmeny kantlinje"
       custom_colors: "Egendefinerte farger"
       customize: "Tilpass OpenProject installasjonen med din egen logo og farger."
-      enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny add-on is only available for Enterprise edition support subscribers."
+      enterprise_notice: "Som en spesiell 'takk!' for deres økonomiske bidrag til å utvikle OpenProject, er dette lille tillegget bare tilgjengelig for Enterprise edition abonnenter."
       enterprise_more_info: "Merk: den brukte logoen vil være offentlig tilgjengelig."
       manage_colors: "Endre alternativer for fargevalg"
       instructions:
@@ -64,15 +64,15 @@
         main-menu-bg-color: "Bakgrunnsfarge venstre meny."
       theme_warning: Endring av tema vil overskrive din egendefinerte stil. Designet vil da gå tapt. Er du sikker på at du vil fortsette?
     enterprise:
-      upgrade_to_ee: "Upgrade to the Enterprise edition"
-      add_token: "Upload an Enterprise edition support token"
+      upgrade_to_ee: "Oppgrader til Enterprise utgaven"
+      add_token: "Last opp en Enterprise edition supportnøkkel"
       delete_token_modal:
-        text: "Are you sure you want to remove the current Enterprise edition token used?"
+        text: "Er du sikker på at du vil fjerne gjeldende Enterprise edition nøkkel som brukes?"
         title: "Slett token"
       replace_token: "Erstatt din nåværende supporttoken"
-      order: "Order Enterprise on-premises edition"
-      paste: "Paste your Enterprise edition support token"
-      required_for_feature: "This add-on is only available with an active Enterprise edition support token."
+      order: "Oppgradere til Enterprise on-premises-utgave"
+      paste: "Lim inn din Enterprise edition supportnøkkel"
+      required_for_feature: "Dette tillegget er kun tilgjengelig med en aktiv Enterprise edition supportnøkkel."
       enterprise_link: "For mer informasjon, klikk her."
       start_trial: "Start gratis prøveperiode"
       book_now: "Bestill nå"
@@ -788,7 +788,7 @@
             reason:
               no_notification_reason: "kan ikke være blank da IAN er valgt som en kanal."
             reason_mail_digest:
-              no_notification_reason: "cannot be blank as mail digest is chosen as a channel."
+              no_notification_reason: "kan ikke være tom da e-post-sammendrag er valgt som en kanal."
         non_working_day:
           attributes:
             date:
@@ -802,7 +802,7 @@
               id_filter_required: "Et 'id'-filter er påkrevd."
         project:
           archived_ancestor: "Prosjektet har en arkivert overordnede rolle."
-          foreign_wps_reference_version: "Work packages in non descendant projects reference versions of the project or its descendants."
+          foreign_wps_reference_version: "Arbeidspakker i ikke underordnede prosjekters referanseversjoner av prosjektet eller dets etterkommere."
           attributes:
             base:
               archive_permission_missing_on_subprojects: "Du har ikke tillatelser som kreves for å arkivere alle underprosjekter. Kontakt en administrator."
@@ -1008,7 +1008,7 @@
       wiki_page: "Wiki-side"
   errors:
     header_invalid_fields:
-      one: "There was a problem with the following field:"
+      one: "Det oppstod et problem med følgende felt:"
       other: "Det oppstod problemer med følgende felter:"
     header_additional_invalid_fields:
       one: "I tillegg var det et problem med følgende felt:"
@@ -1028,7 +1028,7 @@
       parent_no_longer: "Ikke lenger underprosjekt for"
       time_entry:
         hour:
-          one: "%{count} hour"
+          one: "%{count} time"
           other: "%{count} timer"
         hour_html:
           one: "<i>%{count} time</i>"
@@ -1835,7 +1835,7 @@
   label_here: her
   label_hide: "Skjul"
   label_history: "Historikk"
-  label_hierarchy_leaf: "Hierarchy leaf"
+  label_hierarchy_leaf: "Hierarki blad"
   label_home: "Hjem"
   label_subject_or_id: "Emne eller ID"
   label_calendar_subscriptions: "Abonnementer til kalendere"
@@ -2224,7 +2224,7 @@
         page_not_found: "Finner ikke wiki-siden '%{name}'."
     create_work_package_link:
       errors:
-        no_project_context: "Calling create_work_package_link macro from outside project context."
+        no_project_context: "Kjør create_work_package_link makro fra utenfor prosjektkontekst."
         invalid_type: "Ingen type funnet med navn '%{type}' i prosjektet '%{project}'."
       link_name: "Ny arbeidspakke"
       link_name_type: "Ny %{type_name}"
@@ -2826,21 +2826,21 @@
     general: "Generell"
     highlighting:
       mode_long:
-        inline: "Highlight attribute(s) inline"
+        inline: "Fremhev innebygde egenskaper(er)"
         none: "Ingen utheving"
         status: "Hele raden etter status"
         type: "Hele raden etter type"
         priority: "Hele raden etter prioritet"
     icalendar:
       enable_subscriptions_text_html: Tillater brukere med nødvendige tillatelser til å abonnere på OpenProject kalendere og få tilgang til arbeidspakkeinformasjon via en ekstern kalenderklient. <strong>Merk:</strong> Vennligst les <a href="%{link}" target="_blank">iCalendar-abonnementer</a> for å forstå potensielle sikkerhetsrisikoer før dette aktiveres.
-    language_name_being_default: "%{language_name} (default)"
+    language_name_being_default: "%{language_name} (standard)"
     notifications:
-      events_explanation: "Governs for which event an email is sent out. Work packages are excluded from this list as the notifications for them can be configured specifically for every user."
-      delay_minutes_explanation: "Email sending can be delayed to allow users with configured in app notification to confirm the notification within the application before a mail is sent out. Users who read a notification within the application will not receive an email for the already read notification."
+      events_explanation: "Styrer hvilket  arrangement det sendes ut en e-post til. Arbeidspakker er utelatt fra denne listen siden varsler for dem kan konfigureres spesifikt for hver bruker."
+      delay_minutes_explanation: "E-postsending kan utsettes for å tillate brukere som har konfigurert varsling i appen å bekrefte varselet i appen før en e-post sendes ut. Brukere som leser et varsel i appen vil ikke motta en e-post for den allerede leste meldingen."
     other: "Øvrig"
     passwords: "Passord"
     projects:
-      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
+      missing_dependencies: "Prosjektmodul %{module} ble valgt, og denne avhenger av %{dependencies}. Du må også sjekke disse avhengighetene."
       section_new_projects: "Innstillinger for nye prosjekter"
       section_project_overview: "Innstillinger for liste over prosjektoversikt"
     session: "Sesjon"
@@ -3067,7 +3067,7 @@
     https_mismatch:
       title: "HTTPS-modus oppsett stemmer ikke"
       text_html: >
-        Your application is running with HTTPS mode set to <code>%{set_protocol}</code>, but the request is an <code>%{actual_protocol}</code> request. This will result in errors! You will need to set the following configuration value: <code>%{setting_value}</code>. Please see <a href="%{more_info_path}">the installation documentation</a> on how to set this configuration.
+        Appen kjører med HTTPS-modus satt til <code>%{set_protocol}</code>, men forespørselen er en forespørsel på <code>%{actual_protocol}</code> forespørsel. Dette vil resultere i feil! Du må angi følgende konfigurasjonsverdi: <code>%{setting_value}</code>. Vennligst se <a href="%{more_info_path}">installasjonsdokumentasjonen</a> for hvordan du angir denne konfigurasjonen.
     hostname_mismatch:
       title: "Usamsvarende vertsnavn innstilling"
       text_html: >
@@ -3111,8 +3111,8 @@
         view_description: "Kan se denne arbeidspakken."
       remove: "Fjern"
       share: "Del"
-      text_empty_search_description: "There are no users with the current filter criteria."
-      text_empty_search_header: "We couldn't find any matching results."
+      text_empty_search_description: "Det er ingen brukere med gjeldende filterkriterier."
+      text_empty_search_header: "Vi kunne ikke finne noen matchende resultater."
       text_empty_state_description: "Arbeidspakken har ikke blitt delt med noen enda."
       text_empty_state_header: "Ikke delt"
       text_user_limit_reached: "Å legg til ekstra brukere vil overskride gjeldende grense. Vennligst kontakt en administrator for å øke brukergrensen for å sikre at eksterne brukere har tilgang til denne arbeidspakken."
@@ -3122,7 +3122,7 @@
       warning_user_limit_reached_admin: >
         Å legg til ekstra brukere vil overskride gjeldende grense. Vennligst <a href="%{upgrade_url}">oppgrader planen din</a> for å sikre at eksterne brukere har tilgang til denne arbeidspakken.
       warning_no_selected_user: "Velg brukere du skal dele denne arbeidspakken med"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      warning_locked_user: "Brukeren %{user} er låst og kan ikke bli delt med"
       user_details:
         locked: "Låst bruker"
         invited: "Invitasjon sendt. "
@@ -3139,33 +3139,33 @@
       Hoppet over dager som ikke er valgt, ved planlegging av arbeidspakker (og ikke inkludert i antall dager). Disse kan overstyres på et arbeidspakkenivå.
     instance_wide_info: >
       Datoer som er lagt til i listen nedenfor regnes som arbeidsfrie og hoppet over når arbeidspakker planlegges.
-    change_button: "Change working days"
+    change_button: "Endre arbeidsdager"
     warning: >
-      Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages in all projects in this instance. <br/> Please note that changes are only applied after you click on the apply changes button.
+      Endring av hvilke ukedager som regnes som arbeidsdager eller arbeidsfrie dager kan påvirke start- og sluttdager for alle arbeidspakker i alle prosjekter i denne forekomsten. <br/> Vær oppmerksom på at endringer kun brukes etter at du har klikket på knappen Bruk endringer.
     journal_note:
-      changed: _**Working days** changed (%{changes})._
+      changed: _**Arbeidsdager** endret (%{changes})._
       days:
-        working: "%{day} is now working"
-        non_working: "%{day} is now non-working"
+        working: "%{day} er nå arbeidsdag"
+        non_working: "%{day} er nå arbeidsfri"
       dates:
-        working: "%{date} is now working"
-        non_working: "%{date} is now non-working"
+        working: "%{date} er nå arbeidsdag"
+        non_working: "%{date} er nå arbeidsfri"
   nothing_to_preview: "Ingenting å forhåndsvise"
   api_v3:
     attributes:
       lock_version: "Låst versjon"
-      property: "Property"
+      property: "Egenskap"
     errors:
-      code_400: "Bad request: %{message}"
+      code_400: "Feil forespørsel: %{message}"
       code_401: "Du må være pålogget for å få tilgang til denne ressursen."
       code_401_wrong_credentials: "Du har ikke angitt gyldige legitimasjon."
       code_403: "Du har ikke tilgang til denne ressursen."
       code_404: "Finner ikke den forespurte ressursen."
-      code_409: "Could not update the resource because of conflicting modifications."
+      code_409: "Kunne ikke oppdatere ressursen på grunn av konflikt med andre endringer."
       code_429: "For mange forespørsler. Prøv igjen senere."
       code_500: "En intern feil har oppstått."
       code_500_outbound_request_failure: "En utgående forespørsel til en annen ressurs har mislyktes med statuskode %{status_code}."
-      code_500_missing_enterprise_token: "The request can not be handled due to invalid or missing Enterprise token."
+      code_500_missing_enterprise_token: "Forespørselen kan ikke håndteres på grunn av ugyldig eller manglende Enterprise nøkkel."
       not_found:
         work_package: "Arbeidspakken du leter etter kan ikke bli funnet eller den har blitt slettet."
       expected:
@@ -3206,7 +3206,7 @@
       schema: "Skjema"
     undisclosed:
       parent: Ukjent - den valgte overordnet er usynlig på grunn av manglende tillatelser.
-      ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
+      ancestor: Ukjent - den valgte overordnet er usynlig på grunn av manglende tillatelser.
   doorkeeper:
     pre_authorization:
       status: "Pre-autorisasjon"
@@ -3236,7 +3236,7 @@
         #Access token errors
         invalid_client: "Autentisering av klient feilet på grunn av ukjent klient, ingen autentisering av klient inkludert, eller autentiseringsmetode som ikke støttes."
         invalid_grant: "Den oppgitte autorisasjonsinnvilgelsen er ugyldig, utløpt, trukket, matcher ikke omdirigerings-URI brukt i godkjenningsforespørselen, eller ble utgitt til en annen klient."
-        unsupported_grant_type: "The authorization grant type is not supported by the authorization server."
+        unsupported_grant_type: "Autorisasjonstildelingstypen er ikke støttet av denne autoriseringstjeneren."
         invalid_token:
           revoked: "Adgangsnøkkelen ble opphevet"
           expired: "Adgangsnøkkelen er utløpt"
@@ -3252,47 +3252,47 @@
     close_warning: "Ignorer denne advarselen."
   oauth:
     application:
-      singular: "OAuth application"
-      plural: "OAuth applications"
-      named: "OAuth application '%{name}'"
-      new: "New OAuth application"
-      default_scopes: "(Default scopes)"
+      singular: "OAuth program"
+      plural: "OAuth programmer"
+      named: "OAuth program '%{name}'"
+      new: "Ny OAuth-app"
+      default_scopes: "(Standard omfang)"
       instructions:
-        name: "The name of your application. This will be displayed to other users upon authorization."
+        name: "Navnet på søknaden. Dette vises til andre brukere etter autorisasjon."
         redirect_uri_html: >
-          The allowed URLs authorized users can be redirected to. One entry per line. <br/> If you're registering a desktop application, use the following URL.
-        confidential: "Check if the application will be used where the client secret can be kept confidential. Native mobile apps and Single Page Apps are assumed non-confidential."
-        scopes: "Check the scopes you want the application to grant access to. If no scope is checked, api_v3 is assumed."
-        client_credential_user_id: "Optional user ID to impersonate when clients use this application. Leave empty to allow public access only"
-        register_intro: "If you are developing an OAuth API client application for OpenProject, you can register it using this form for all users to use."
+          De tillatte nettadresser autoriserte brukere kan bli omdirigert til. Én oppføring per linje. <br/> Hvis du registrerer et skrivebordsprogram, bruk følgende URL.
+        confidential: "Sjekk om programmet vil bli brukt der klienthemmeligheten kan holdes konfidensielt. Personlige mobilapper og enkle sideapper antas å være ikke-konfidensielle."
+        scopes: "Merk av hvilke omfang som du ønsker applikasjonen skal gi tilgang til. Hvis det ikke er merket, antas api_v3."
+        client_credential_user_id: "Valgfri bruker-ID å gi seg selv når klienter bruker dette programmet. La stå tomt for å kun tillate offentlig tilgang"
+        register_intro: "Hvis du utvikler en OAuth API-klient-app for OpenProject, kan du registrere den ved hjelp av dette skjemaet for alle brukere."
         default_scopes: ""
     client_id: "Klient ID"
     client_secret_notice: >
-      This is the only time we can print the client secret, please note it down and keep it secure. It should be treated as a password and cannot be retrieved by OpenProject at a later time.
+      Dette er eneste gang vi kan skrive ut klientens hemmelighet, merk den ned og hold den sikker. Den skal behandles som et passord og kan ikke hentes av OpenProject på et senere tidspunkt.
     authorization_dialog:
-      authorize: "Authorize"
-      cancel: "Cancel and deny authorization."
-      prompt_html: "Authorize <strong>%{application_name}</strong> to use your account <em>%{login}</em>?"
-      title: "Authorize %{application_name}"
+      authorize: "Godkjenn"
+      cancel: "Avbryt og avslå autorisasjon."
+      prompt_html: "Godkjenn <strong>%{application_name}</strong> for å bruke din konto <em>%{login}</em>?"
+      title: "Godkjenn %{application_name}"
       wants_to_access_html: >
-        This application requests access to your OpenProject account. <br/> <strong>It has requested the following permissions:</strong>
+        Denne applikasjonen ber om tilgang til din OpenProject konto. <br/> <strong>Den har bedt om følgende tillatelser:</strong>
     scopes:
-      api_v3: "Full API v3 access"
-      api_v3_text: "Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf."
+      api_v3: "Full API v3 tilgang"
+      api_v3_text: "Applikasjonen vil få full lese/skrive tilgang til OpenProject API v3, og kan utføre handlinger på dine vegne."
     grants:
-      created_date: "Approved on"
+      created_date: "Godkjent den"
       scopes: "Tilganger"
-      successful_application_revocation: "Revocation of application %{application_name} successful."
-      none_given: "No OAuth applications have been granted access to your user account."
+      successful_application_revocation: "Tilbaketrekking av appen %{application_name} vellykket."
+      none_given: "Ingen OAuth-applikasjoner har blitt gitt tilgang til brukerkontoen din."
     x_active_tokens:
-      one: "one active token"
-      other: "%{count} active token"
+      one: "en aktiv nøkkel"
+      other: "%{count} aktive nøkler"
     flows:
-      authorization_code: "Authorization code flow"
-      client_credentials: "Client credentials flow"
-    client_credentials: "User used for Client credentials"
-    client_credentials_impersonation_set_to: "Client credentials user set to"
-    client_credentials_impersonation_warning: "Note: Clients using the 'Client credentials' flow in this application will have the rights of this user"
+      authorization_code: "Autorisasjon kode flyt"
+      client_credentials: "Kundens innloggingsflyt"
+    client_credentials: "Brukeren brukes til klientpåloggingsinformasjon"
+    client_credentials_impersonation_set_to: "Klientens påloggingsinformasjon satt til"
+    client_credentials_impersonation_warning: "Merk: Klienter som bruker \"Klient-legitimasjonsflyten\" i denne applikasjonen vil ha rettighetene til denne brukeren"
     client_credentials_impersonation_html: >
       Som standard gir OpenProject OAuth 2.0 autorisasjon via %{authorization_code_flow_link}. Du kan eventuelt aktivere %{client_credentials_flow_link}, men du må oppgi en bruker som forespørselen blir utført på vegne av.
     authorization_error: "Det oppstod en godkjenningsfeil."
@@ -3348,8 +3348,8 @@
   you: du
   link: kobling
   plugin_openproject_auth_plugins:
-    name: "OpenProject Auth Plugins"
-    description: "Integration of OmniAuth strategy providers for authentication in Openproject."
+    name: "OpenProject Auth utvidelse"
+    description: "Integrering av OmniAuth strategileverandører for autentisering i Openproject."
   plugin_openproject_auth_saml:
-    name: "OmniAuth SAML / Single-Sign On"
-    description: "Adds the OmniAuth SAML provider to OpenProject"
+    name: "OmniAuth SAML / Enkeltpålogging på"
+    description: "Legger til OmniAuth SAML leverandør til OpenProject"
