@@ -5,7 +5,7 @@
       remove: 'Fjern widget'
       configure: 'Konfigurer widget'
       upsale:
-        text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
+        text: "Noen widgeter, som arbeidspakke-diagram-modulen, er bare tilgjengelig i Enterprise versjonen."
         link: 'Enterprise edition.'
       widgets:
         custom_text:

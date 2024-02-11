@@ -22,7 +22,7 @@
 "no":
   plugin_openproject_backlogs:
     name: "OpenProject Backlogs"
-    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
+    description: "Denne modulen legger til funksjoner som setter dynamiske team i stand til å arbeide med OpenProject i Scrum prosjekter."
   activerecord:
     attributes:
       work_package:
