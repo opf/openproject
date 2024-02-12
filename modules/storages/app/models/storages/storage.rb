@@ -174,7 +174,8 @@ module Storages
     end
 
     def connect_src
-      ["#{uri.scheme}://#{uri.host}"]
+      port_part = [80, 443].include?(uri.port) ? "" : ":#{uri.port}"
+      ["#{uri.scheme}://#{uri.host}#{port_part}"]
     end
 
     def oauth_configuration
