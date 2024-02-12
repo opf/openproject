@@ -60,6 +60,8 @@ export class CopyToClipboardService {
     const notification = this.toastService[type](message);
 
     // Remove the notification some time later
-    setTimeout(() => this.toastService.remove(notification), 5000);
+    if (notification) {
+      setTimeout(() => this.toastService.remove(notification), 5000);
+    }
   }
 }
