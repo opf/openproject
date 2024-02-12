@@ -234,9 +234,12 @@ module Storages
                                 project_storage_id: project_storage.id,
                                 mode: project_storage.project_folder_mode
                               )
-      last_project_folder.update(origin_folder_id: project_folder_id)
-      project_storage.update(project_folder_id:)
-      project_storage.reload.project_folder_id
+
+      ApplicationRecord.transaction do
+        last_project_folder.update!(origin_folder_id: project_folder_id)
+        project_storage.update!(project_folder_id:)
+        project_storage.project_folder_id
+      end
     end
 
     # rubocop:enable Metrics/AbcSize

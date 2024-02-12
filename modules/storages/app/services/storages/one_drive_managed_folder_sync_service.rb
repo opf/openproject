@@ -131,9 +131,10 @@ module Storages
                                            project_storage_id: project_storage.id,
                                            mode: project_storage.project_folder_mode
                                          )
-                 last_project_folder.update(origin_folder_id: folder_info.id)
-                 project_storage.update(project_folder_id: folder_info.id)
-                 project_storage.reload
+                 ApplicationRecord.transaction do
+                   last_project_folder.update!(origin_folder_id: folder_info.id)
+                   project_storage.update!(project_folder_id: folder_info.id)
+                 end
                end)
     end
 
