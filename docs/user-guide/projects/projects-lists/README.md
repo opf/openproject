@@ -9,7 +9,7 @@ keywords: projects lists, project filters, project overview
 
 # Projects lists
 
-In OpenProject you can create projects to collaborate with your team members, track issues, document and share information with stakeholders, organize things. A project is a way to structure and organize your work in OpenProject.
+In OpenProject you can create projects to collaborate with your team members, track issues, document and share information with stakeholders and organize things. A project is a way to structure and organize your work in OpenProject.
 
 Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community edition nor in the Enterprise cloud or in Enterprise on-premises edition.
 
@@ -31,7 +31,7 @@ Alternatively, you can use the [**Global modules menu**](../../home/global-modul
 
 ![Select all projects from the global modules menu in OpenProject](view_all_projects_options.png)
 
-You will then get a list of all your projects in OpenProject. 
+You will then get a list of all your active projects in OpenProject. 
 
 ![A list of all projects in OpenProject](projects-list.png)
 
@@ -121,7 +121,7 @@ By selecting *Overall activity* you can open a view in which all the latest glob
 ![overall activity meeting filter](actvity-global-filter.png)
 
 
-## Export projects
+## Export project lists
 
 You can export a project list by clicking on the three dots in the upper right hand corner and selecting > **Export**.
 

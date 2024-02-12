@@ -30,7 +30,7 @@ You can create a new project here directly by using the  **+ Project** button.
 
 ![OpenProject projects overview in the global modules menu](openproject_global_modules_projects.png)
 
-**All projects** is the default view and shows only active projects. If you do not have administrator rights, this view will be the same as **My projects**.
+**Active projects** is the default view and shows only active projects. If you do not have administrator rights, this view will be the same as **My projects**.
 
 Read more on [Projects lists filters](../../../user-guide/projects/projects-lists/#projects-lists-filters).
 
