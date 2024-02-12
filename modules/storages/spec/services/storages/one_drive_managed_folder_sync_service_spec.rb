@@ -125,7 +125,27 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
 
     it 'creates the remote folders for all projects with automatically managed folders enabled',
        vcr: 'one_drive/sync_service_create_folder' do
-      expect { service.call }.not_to change(inactive_project_storage, :project_folder_id)
+      expect(project_storage.project_folder_id).to be_nil
+      expect(disallowed_chars_project_storage.project_folder_id).to be_nil
+      expect(public_project_storage.project_folder_id).to be_nil
+      expect(inactive_project_storage.project_folder_id).to be_nil
+
+      expect(project_storage.last_project_folders.pluck(:origin_folder_id)).to eq([nil])
+      expect(disallowed_chars_project_storage.last_project_folders.pluck(:origin_folder_id)).to eq([nil])
+      expect(public_project_storage.last_project_folders.pluck(:origin_folder_id)).to eq([nil])
+      expect(inactive_project_storage.last_project_folders.pluck(:origin_folder_id)).to eq([nil])
+
+      service.call
+
+      expect(project_storage.reload.project_folder_id).to eq("01AZJL5PMI2DPWLRLNF5E22SDENZUW56TW")
+      expect(disallowed_chars_project_storage.reload.project_folder_id).to eq("01AZJL5PIJKLR5R3F66FCYDSTWVOG5KC5D")
+      expect(public_project_storage.reload.project_folder_id).to eq("01AZJL5PPR64QSLQBO4ZCLSQZFZGBB6EWC")
+      expect(inactive_project_storage.reload.project_folder_id).to be_nil
+
+      expect(project_storage.last_project_folders.pluck(:origin_folder_id)).to eq(["01AZJL5PMI2DPWLRLNF5E22SDENZUW56TW"])
+      expect(disallowed_chars_project_storage.last_project_folders.pluck(:origin_folder_id)).to eq(["01AZJL5PIJKLR5R3F66FCYDSTWVOG5KC5D"])
+      expect(public_project_storage.last_project_folders.pluck(:origin_folder_id)).to eq(["01AZJL5PPR64QSLQBO4ZCLSQZFZGBB6EWC"])
+      expect(inactive_project_storage.last_project_folders.pluck(:origin_folder_id)).to eq([nil])
 
       [project_storage, disallowed_chars_project_storage, public_project_storage].each do |proj_storage|
         expect(project_folder_info(proj_storage)).to be_success

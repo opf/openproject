@@ -627,11 +627,23 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
     end
 
     it 'sets project folders properties' do
+      expect(project_storage1.project_folder_id).to be_nil
+      expect(project_storage2.project_folder_id).to eq('123')
+      expect(project_storage3.project_folder_id).to be_nil
+
+      expect(project_storage1.last_project_folders.pluck(:origin_folder_id)).to eq([nil])
+      expect(project_storage2.last_project_folders.pluck(:origin_folder_id)).to eq(['123'])
+      expect(project_storage3.last_project_folders.pluck(:origin_folder_id)).to eq([nil])
+
       described_class.new(storage).call
 
       expect(project_storage1.reload.project_folder_id).to eq('819')
       expect(project_storage2.reload.project_folder_id).to eq('123')
       expect(project_storage3.reload.project_folder_id).to eq('2600003')
+
+      expect(project_storage1.last_project_folders.pluck(:origin_folder_id)).to eq(['819'])
+      expect(project_storage2.last_project_folders.pluck(:origin_folder_id)).to eq(['123'])
+      expect(project_storage3.last_project_folders.pluck(:origin_folder_id)).to eq(['2600003'])
 
       expect(request_stubs).to all have_been_requested
     end
