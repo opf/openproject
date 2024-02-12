@@ -20,19 +20,21 @@
       </div>
     </div>
   <% end %>
-  <div class="form--field">
-    <%= setting_select :antivirus_scan_action,
-                       [
-                         [t('settings.antivirus.actions.quarantine'), :quarantine],
-                         [t('settings.antivirus.actions.delete'), :delete],
-                       ],
-                       container_class: '-wide'
-    %>
-    <div class="form--field-instructions">
-      <p><%= t('settings.antivirus.actions.instructions_html',
-               quarantine_option: t('settings.antivirus.actions.quarantine'),
-               delete_option: t('settings.antivirus.actions.delete')
-             ) %></p>
-    </div>
+  <% if selected != :disabled %>
+    <div class="form--field">
+      <%= setting_select :antivirus_scan_action,
+                         [
+                           [t('settings.antivirus.actions.quarantine'), :quarantine],
+                           [t('settings.antivirus.actions.delete'), :delete],
+                         ],
+                         container_class: '-wide'
+      %>
+      <div class="form--field-instructions">
+        <p><%= t('settings.antivirus.actions.instructions_html',
+                 quarantine_option: t('settings.antivirus.actions.quarantine'),
+                 delete_option: t('settings.antivirus.actions.delete')
+               ) %></p>
+      </div>
+  <% end %>
   </div>
 </turbo-frame>
