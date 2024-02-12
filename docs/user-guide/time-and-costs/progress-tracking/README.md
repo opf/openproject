@@ -32,7 +32,7 @@ OpenProject will automatically roll-up progress to parent work packages.
 
 After the initial installation, OpenProject is configured for manual progress tracking. In order to log progress,
 please open the details of a work package.
-The **% Complete (earlier called Progress (%))** field shows a visual progress bar with the default value of 0%.
+The **% Complete (earlier called Progress (%))** field shows the default value of 0%.
 
 ![Work package progress field](progress-tracking-wp-field.png)
 
@@ -69,7 +69,7 @@ Calculation examples:
 
 ## Status-based progress tracking
 
-As an alternative to the manual progress tracking mode above, you can configure your OpenProject system to associate work packages statuses .
+As an alternative to the manual progress tracking mode above, you can configure your OpenProject system to associate work packages statuses with fixed values for % Complete .
 In the Administration, please navigate to Work packages -> Settings and change “Calculate the work package done ratio” to
 “Use the work package status”.
 
