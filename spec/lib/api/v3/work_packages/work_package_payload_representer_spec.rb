@@ -126,35 +126,6 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
       end
 
-      describe 'percentage done' do
-        before do
-          allow(work_package)
-            .to receive(:leaf?)
-            .and_return(true)
-        end
-
-        context 'when percentage done enabled' do
-          it { is_expected.to have_json_path('percentageDone') }
-          it { is_expected.to have_json_type(Integer).at_path('percentageDone') }
-
-          it do
-            expect(subject).to be_json_eql(work_package.done_ratio.to_json).at_path('percentageDone')
-          end
-        end
-
-        %w(disabled status).each do |setting|
-          context "when work package done ratio setting on #{setting}" do
-            before do
-              allow(Setting).to receive(:work_package_done_ratio).and_return(setting)
-            end
-
-            it 'has no percentageDone attribute' do
-              expect(subject).not_to have_json_path('percentageDone')
-            end
-          end
-        end
-      end
-
       describe 'startDate' do
         before do
           allow(work_package)
