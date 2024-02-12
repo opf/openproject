@@ -966,7 +966,7 @@ de:
         createdAt: "Erstellt"
         description: "Beschreibung"
         date: "Datum"
-        percentComplete: "% Complete"
+        percentComplete: "% abgeschlossen"
         percentCompleteAlternative: "Progress"
         dueDate: "Endtermin"
         duration: "Dauer"

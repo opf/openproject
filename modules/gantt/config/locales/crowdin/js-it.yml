@@ -1,6 +1,6 @@
 it:
   js:
     queries:
-      all_open: 'All open'
-      timeline: 'Timeline'
-      milestones: 'Milestones'
+      all_open: 'Tutti aperti'
+      timeline: 'Sequenza temporale'
+      milestones: 'Pietre miliari'
