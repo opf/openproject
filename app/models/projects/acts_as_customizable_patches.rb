@@ -37,6 +37,7 @@ module Projects::ActsAsCustomizablePatches
   included do
     has_many :project_custom_field_project_mappings, class_name: 'ProjectCustomFieldProjectMapping', foreign_key: :project_id,
                                                      dependent: :destroy, inverse_of: :project
+    has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: 'ProjectCustomField'
 
     before_save :build_missing_project_custom_field_project_mappings
     after_create :disable_custom_fields_with_empty_values
