@@ -24,6 +24,7 @@
     [focusDirectly]="isFocusedDirectly"
     [model]="selectedItem"
     [searchFn]="customSearchFn"
+    [virtualScroll]="false"
     (focus)="onFocus()"
     (search)="search($event)"
     (close)="onClose()"
