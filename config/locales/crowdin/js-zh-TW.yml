@@ -749,7 +749,7 @@ zh-TW:
           wiki_page_updated: '維基頁面已更新'
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
-        title: 'Email reminders'
+        title: '電子郵件提醒'
         pause:
           label: 'Temporarily pause daily email reminders'
           first_day: 'First day'
@@ -769,7 +769,7 @@ zh-TW:
         more_information: "更多資訊"
         nevermind: "無視"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "表單設定"
         projects: "專案"
         settings: "設定"
     time_entry:
@@ -1202,7 +1202,7 @@ zh-TW:
         invite_to_project: 'Invite %{type} to %{project}'
         User: 'user'
         Group: 'group'
-        PlaceholderUser: 'placeholder user'
+        PlaceholderUser: '非專案成員'
         invite_principal_to_project: 'Invite %{principal} to %{project}'
       project:
         label: '專案'
@@ -1221,7 +1221,7 @@ zh-TW:
           title: '群組'
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
-          title: 'Placeholder user'
+          title: '非專案成員'
           title_no_ee: '非專案成員（Enterprise edition 附加功能）'
           description: 'Has no access to the project and no emails are sent out.'
           description_no_ee: '由於沒有訪問項目的權限，所以不會發送電子郵件。<br>請查看<a href="%{eeHref}" target="_blank">企業版</a>。'

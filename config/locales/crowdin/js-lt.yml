@@ -352,7 +352,7 @@ lt:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter and save custom project lists.</li> <li>Separate Gantt charts module with new default views.</li> <li>Automatically managed project folders for OneDrive/SharePoint integration.</li> <li>Show number of "Shared users" in the share button and display them in the work packages list.</li> <li>Improved calculations and updates for progress reporting for work package hierarchies.</li> </ul>
+                Šioje laidoje yra įvairios naujos savybės bei patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Filtruokite ir įrašykite savo projekto sąrašus.</li> <li>Atskiras Gantt diagramos modulis su naujais numatytais vaizdais.</li> <li>Automatiškai valdomi aplankai OneDrive/SharePoint integracijai.</li> <li>Rodyti „Bendrinamų naudotojų“ skaičių bendrinimo mygtuke ir rodyti juos darbo paketų sąraše.</li> <li>Pagerintas darbo paketų hierarchijos progreso ataskaitų skaičiavimas ir atnaujinimas.</li> </ul>
     ical_sharing_modal:
       title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
