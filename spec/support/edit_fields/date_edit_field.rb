@@ -162,11 +162,11 @@ class DateEditField < EditField
   end
 
   def submit_by_click
-    scroll_to_and_click action_button('Save')
+    scroll_to_and_click action_button(I18n.t(:button_save))
   end
 
   def cancel_by_click
-    scroll_to_and_click action_button('Cancel')
+    scroll_to_and_click action_button(I18n.t(:button_cancel))
   end
 
   def action_button(text)

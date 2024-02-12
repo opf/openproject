@@ -348,11 +348,11 @@
           learn_about: "Lær mer om de nye funksjonene"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                Utgivelsen inneholder ulike nye funksjoner og forbedringer: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integrasjon med manuelle prosjektmapper.</li> <li>Filter for roller, grupper og deler av listen over prosjektmedlemmer.</li> <li>Tillat oppdragstaker og ansvarlig for delte arbeidspakker.</li> <li>Introduser nytt feltnavnverk, gjenstående arbeid og % Fullført for å forberede fremdriftsrapportering for arbeidspakkehierarkiene.</li> <li>Tillat statusendring uten arbeidspakkeredigeringsrettigheter.</li> </ul>
+                Denne versjonen inneholder ulike nye funksjoner og forbedringer: <br> <ul class="%{list_styling_class}"> <li>Filtrer og lagre egendefinerte prosjektlister.</li> <li>Separat Gantt-diagram-modul med nye standardvisninger.</li> <li>Automatisk administrerte prosjektmapper for OneDrive/SharePoint integrasjon.</li> <li>Vis antall "Delte brukere" i knappen Deling og vis dem i listen over arbeidspakker.</li> <li>Forbedrede beregninger og oppdateringer for fremdriftsrapportering for arbeidspakkehierarkier.</li> </ul>
     ical_sharing_modal:
       title: "Abonner på kalender"
       inital_setup_error_message: "En feil oppstod under henting av data."
@@ -478,7 +478,7 @@
     label_remove: "Fjern"
     label_remove_column: "Fjern kolonne"
     label_remove_columns: "Fjern valgte kolonner"
-    label_remove_row: "Remove row"
+    label_remove_row: "Slett rad"
     label_report: "Rapport"
     label_repository_plural: "Pakkebrønner"
     label_save_as: "Lagre som"
@@ -486,7 +486,7 @@
     label_select_watcher: "Velg en overvåker..."
     label_selected_filter_list: "Valgte filtre"
     label_show_attributes: "Vis alle attributter"
-    label_show_in_menu: "Show view in menu"
+    label_show_in_menu: "Vis visning i meny"
     label_sort_by: "Sorter på"
     label_sorted_by: "sortert på"
     label_sort_higher: "Flytt opp"
@@ -494,11 +494,11 @@
     label_sorting: "Sortering"
     label_spent_time: "Tid brukt"
     label_star_query: "Favorittisert"
-    label_press_enter_to_save: "Press enter to save."
+    label_press_enter_to_save: "Trykk enter for å lagre."
     label_public_query: "Offentlig"
     label_sum: "Sum"
     label_sum_for: "Sum for"
-    label_total_sum: "Total sum"
+    label_total_sum: "Totalsum"
     label_subject: "Emne"
     label_this_week: "denne uken"
     label_today: "I dag"
@@ -818,23 +818,23 @@
       change_parent: "Endre overordnet"
       remove_parent: "Fjern overordnet"
       hierarchy_indent: "Indent-hierarki"
-      hierarchy_outdent: "Outdent hierarchy"
-      group_by_wp_type: "Group by work package type"
-      group_by_relation_type: "Group by relation type"
-      add_parent: "Add existing parent"
-      add_new_child: "Create new child"
-      create_new: "Create new"
+      hierarchy_outdent: "Utdødd hierarki"
+      group_by_wp_type: "Gruppere etter arbeidspakke"
+      group_by_relation_type: "Grupper etter type relasjon"
+      add_parent: "Legg til eksisterende overordnet"
+      add_new_child: "Opprett ny underordnet"
+      create_new: "Opprett ny"
       add_existing: "Legg til eksisterende"
-      add_existing_child: "Add existing child"
-      remove_child: "Remove child"
-      add_new_relation: "Create new relation"
-      add_existing_relation: "Add existing relation"
-      update_description: "Set or update description of this relation"
-      toggle_description: "Toggle relation description"
-      update_relation: "Click to change the relation type"
-      add_follower: "Add follower"
-      show_relations: "Show relations"
-      add_predecessor: "Add predecessor"
+      add_existing_child: "Legg til eksisterende underordnet"
+      remove_child: "Fjern underordnet"
+      add_new_relation: "Lag ny relasjon"
+      add_existing_relation: "Legg til eksisterende relasjon"
+      update_description: "Velg eller oppdater beskrivelse for denne relasjonen"
+      toggle_description: "Veksle relasjonsbeskrivelse"
+      update_relation: "Klikk for å endre relasjonstype"
+      add_follower: "Legg til følger"
+      show_relations: "Vis relasjoner"
+      add_predecessor: "Legg til forgjenger"
       remove: "Fjern relasjonen"
       save: "Lagre relasjon"
       abort: "Avbryt"
@@ -967,8 +967,8 @@
         createdAt: "Opprettet"
         description: "Beskrivelse"
         date: "Dato"
-        percentComplete: "% Complete"
-        percentCompleteAlternative: "Progress"
+        percentComplete: "% Ferdig"
+        percentCompleteAlternative: "Fremgang"
         dueDate: "Sluttdato"
         duration: "Varighet"
         spentTime: "Tid brukt"
@@ -976,8 +976,8 @@
         percentageDone: "Prosent utført"
         priority: "Prioritet"
         projectName: "Prosjekt"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Gjenstående arbeid"
+        remainingWorkAlternative: "Gjenstående timer"
         responsible: "Ansvarlig"
         startDate: "Startdato"
         status: "Status"
@@ -988,8 +988,8 @@
         updatedAt: "Oppdatert"
         versionName: "Versjon"
         version: "Versjon"
-        work: "Work"
-        workAlternative: "Estimated time"
+        work: "Arbeid"
+        workAlternative: "Estimert tid"
         remainingTime: "Gjenstående arbeid"
       default_queries:
         latest_activity: "Siste aktivitet"
@@ -1066,24 +1066,24 @@
         highlighting_mode:
           description: "Marker med farge"
           none: "Ingen utheving"
-          inline: 'Highlighted attribute(s)'
-          inline_all: 'All attributes'
-          entire_row_by: 'Entire row by'
+          inline: 'Uthevede egenskap(er)'
+          inline_all: 'Alle egenskaper'
+          entire_row_by: 'Hele raden etter'
           status: 'Status'
           priority: 'Prioritet'
           type: 'Type'
         sorting_mode:
-          description: 'Chose the mode to sort your Work packages:'
-          automatic: 'Automatic'
-          manually: 'Manually'
-          warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
-        columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
+          description: 'Velg modus for å sortere arbeidspakkene:'
+          automatic: 'Automatisk'
+          manually: 'Manuelt'
+          warning: 'Du vil miste din forrige sortering når du aktiverer automatiske sorteringsmodus.'
+        columns_help_text: "Bruk inndatafelt over for å legge til kolonner til din tabellvisning. Du kan dra og slippe kolonnene for å endre rekkefølgen for dem."
         upsale:
-          attribute_highlighting: 'Need certain work packages to stand out from the mass?'
-          relation_columns: 'Need to see relations in the work package list?'
+          attribute_highlighting: 'Trenger du visse arbeidspakker som skiller seg ut fra massen?'
+          relation_columns: 'Trenger du å se relasjoner i listen over arbeidspakke?'
           check_out_link: 'Sjekk ut Enterprise-utgaven.'
         relation_filters:
-          filter_work_packages_by_relation_type: 'Filter work packages by relation type'
+          filter_work_packages_by_relation_type: 'Filtrer arbeidspakker etter relasjonstype'
       tabs:
         overview: Oversikt
         activity: Aktivitet
@@ -1096,24 +1096,24 @@
         months: "måneder"
     toolbar:
       settings:
-        configure_view: "Configure view"
+        configure_view: "Konfigurer visning"
         columns: "Kolonner"
         sort_by: "Sorter på"
         group_by: "Grupper etter"
         display_sums: "Vis summer"
-        display_hierarchy: "Display hierarchy"
-        hide_hierarchy: "Hide hierarchy"
+        display_hierarchy: "Vis hierarki"
+        hide_hierarchy: "Skjul hierarki"
         hide_sums: "Skjul summer"
         save: "Lagre"
         save_as: "Lagre som"
         export: "Eksportèr"
-        visibility_settings: "Visibility settings"
-        share_calendar: "Subscribe to calendar"
-        page_settings: "Rename view"
+        visibility_settings: "Innstillinger for synlighet"
+        share_calendar: "Abonner på kalender"
+        page_settings: "Endre visningsnavn"
         delete: "Slett"
       filter: "Filter"
       unselected_title: "Arbeidspakke"
-      search_query_label: "Search saved views"
+      search_query_label: "Søk lagrede visninger"
     modals:
       label_name: "Navn"
       label_delete_page: "Slett gjeldende side"
@@ -1126,12 +1126,12 @@
         title: 'Bekreft for å fortsette'
         text: 'Er du sikker på at du vil utføre denne handlingen?'
       destroy_work_package:
-        title: "Confirm deletion of %{label}"
-        single_text: "Are you sure you want to delete the work package"
-        bulk_text: "Are you sure you want to delete the following %{label}?"
-        has_children: "The work package has %{childUnits}:"
-        confirm_deletion_children: "I acknowledge that ALL descendants of the listed work packages will be recursively removed."
-        deletes_children: "All child work packages and their descendants will also be recursively deleted."
+        title: "Bekreft sletting av %{label}"
+        single_text: "Er du sikker på at du vil slette arbeidspakken"
+        bulk_text: "Er du sikker på at du vil slette følgende %{label}?"
+        has_children: "Arbeidspakken har %{childUnits}:"
+        confirm_deletion_children: "Jeg erkjenner at ALLE underordnede av listede arbeidspakker vil fjernes samtidig."
+        deletes_children: "Alle underordnede arbeidspakker og tilhørende vil også bli slettet samtidig."
       destroy_time_entry:
         title: "Bekreft sletting av tidsregistrering"
         text: "Er du sikker på at du vil slette følgende tidsregistrering?"
@@ -1319,5 +1319,5 @@
       filter_chip:
         remove: 'Fjern'
       drop_modal:
-        focus_grab: 'This is a focus anchor for modals. Press shift+tab to go back to the modal trigger element.'
+        focus_grab: 'Dette er et fokusanker for modaler. Trykk shift+tab for å gå tilbake til modal trigger elementet.'
         Close: 'Lukk'

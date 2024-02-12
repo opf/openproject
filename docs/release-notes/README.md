@@ -14,6 +14,12 @@ Stay up to date and get an overview of the new features included in the releases
 <!--- New release notes are generated below. Do not remove comment. -->
 <!--- RELEASE MARKER -->
 
+## 13.3.0
+
+Release date: 2024-02-14
+
+[Release Notes](13-3-0/)
+
 ## 13.2.1
 
 Release date: 2024-01-31

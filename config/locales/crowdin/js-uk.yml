@@ -348,11 +348,11 @@ uk:
           learn_about: "Дізнатися більше про нові функції"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                Цей випуск містить нові й поліпшені функції. <br> <ul class="%{list_styling_class}"> <li>Налаштуйте інтеграцію з OneDrive і/або SharePoint для роботи з папками проєктів із ручним керуванням.</li> <li>Фільтруйте список учасників проєкту за ролями, групами й поширеннями.</li> <li>Призначайте виконавця й відповідальну особу для спільних пакетів робіт.</li> <li>Використовуйте нові назви полів «Робота», «Залишок роботи» й «% виконання» під час підготовки звітів про перебіг виконання для ієрархій пакетів робіт.</li> <li>Змінюйте статус без довзолу на редагування пакета робіт.</li> <li>.
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter and save custom project lists.</li> <li>Separate Gantt charts module with new default views.</li> <li>Automatically managed project folders for OneDrive/SharePoint integration.</li> <li>Show number of "Shared users" in the share button and display them in the work packages list.</li> <li>Improved calculations and updates for progress reporting for work package hierarchies.</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."

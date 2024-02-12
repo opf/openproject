@@ -104,7 +104,7 @@ it:
   ldap_auth_sources:
     ldap_error: "Errore LDAP: %{error_message}"
     ldap_auth_failed: "Non è possibile autenticare attraverso il Server LDAP."
-    sync_failed: "Failed to synchronize from LDAP: %{message}."
+    sync_failed: "Sincronizzazione da LDAP non riuscita: %{message}."
     back_to_index: "Clicca qui per tornare all'elenco delle connessioni."
     technical_warning_html: |
       Questo form LDAP richiede una conoscenza tecnica dell'attuale setup LDAP / Active Directory. <br/>
@@ -251,12 +251,12 @@ it:
       no_results_title_text: Al momento non esistono progetti
       no_results_content_text: Crea un nuovo progetto
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: 'Progetti attivi'
+      my: 'I miei progetti'
+      archived: 'Progetti archiviati'
+      my_private: 'I miei elenchi di progetti privati'
       new:
-        placeholder: 'New project list'
+        placeholder: 'Nuovo elenco progetti'
     settings:
       change_identifier: Cambia identificatore
       activities:
@@ -330,7 +330,7 @@ it:
     memberships:
       no_results_title_text: Questo utente non è attualmente membro di alcun progetto.
   page:
-    text: 'Text'
+    text: 'Testo'
   placeholder_users:
     right_to_manage_members_missing: >
       Non è consentito eliminare l'utente segnaposto. Non hai il permesso per gestire i membri per tutti i progetti di cui l'utente segnaposto è membro.
@@ -528,7 +528,7 @@ it:
         column_count: "Numero di colonne"
         widgets: "Widget"
       oauth_client:
-        client: "Client ID"
+        client: "ID Client"
       relation:
         delay: "Ritardo"
         from: "Macro-attività"
@@ -594,7 +594,7 @@ it:
         color: "Colore"
       user:
         admin: "Amministratore"
-        auth_source: "Authentication source"
+        auth_source: "Origine dell'autenticazione"
         ldap_auth_source: "Connessione LDAP"
         identity_url: "URL identificativo"
         current_password: "Password corrente"
@@ -626,7 +626,7 @@ it:
         begin_insertion: "Inizio inserimento"
         begin_deletion: "Inizio cancellazione"
         children: "Sottoelementi"
-        derived_done_ratio: "Derived % Complete"
+        derived_done_ratio: "% completamento derivata"
         derived_remaining_hours: "Lavoro rimanente derivato"
         derived_remaining_time: "Lavoro rimanente derivato"
         done_ratio: "% completamento"
@@ -647,7 +647,7 @@ it:
         readonly: "Sola lettura"
         remaining_hours: "Lavoro rimanente"
         remaining_time: "Lavoro rimanente"
-        shared_with_users: "Shared with"
+        shared_with_users: "Condiviso con"
         schedule_manually: "Programmazione manuale"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
@@ -953,7 +953,7 @@ it:
             ldap_auth_source:
               error_not_found: "non trovato"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "non trovato"
         member:
           principal_blank: "Si prega di scegliere almeno un utente o un gruppo."
           role_blank: "deve essere assegnato."
@@ -1444,7 +1444,7 @@ it:
     message: Messaggio modificato
     news: Notizie
     project_attributes: "Attributi del progetto modificati"
-    project: "Project edited"
+    project: "Progetto modificato"
     projects: "Progetto modificato"
     reply: Risposto
     time_entry: "Registro dell'orario effettuato modificato"
@@ -1587,7 +1587,7 @@ it:
         revoke_token: "Vuoi davvero rimuovere questo token? Dovrai effettuare nuovamente l'accesso su %{storage}"
         removed: "Token di archiviazione file rimosso correttamente"
         failed: "Si è verificato un errore e non è stato possibile rimuovere il token. Riprova più tardi."
-        unknown_storage: "Unknown storage"
+        unknown_storage: "Archivio sconosciuto"
   notifications:
     send_notifications: "Invia notifiche per questa azione"
     work_packages:
@@ -1667,9 +1667,9 @@ it:
   label_available_project_work_package_categories: "Categorie di macro-attività disponibili"
   label_available_project_work_package_types: "Tipi di pacchetti di lavoro disponibili"
   label_available_projects: "Progetti disponibili"
-  label_api_doc: "API documentation"
+  label_api_doc: "Documentazione API"
   label_backup: "Backup"
-  label_backup_code: "Backup code"
+  label_backup_code: "Codice di backup"
   label_between: "tra"
   label_blocked_by: "bloccato da"
   label_blocks: "blocca"
@@ -1679,7 +1679,7 @@ it:
   label_forum_plural: "Forum"
   label_forum_sticky: "In evidenza"
   label_boolean: "Booleano"
-  label_board_plural: "Boards"
+  label_board_plural: "Bacheche"
   label_branch: "Ramo"
   label_browse: "Naviga"
   label_bulk_edit_selected_work_packages: "Modifica in blocco le macro-attività selezionate"
@@ -1706,7 +1706,7 @@ it:
   label_check_uncheck_all_in_column: "Seleziona/Deseleziona tutto nella colonna"
   label_check_uncheck_all_in_row: "Seleziona/deseleziona tutto nella riga"
   label_child_element: "Elemento figlio"
-  label_choices: "Choices"
+  label_choices: "Scelte"
   label_chronological_order: "Prima i meno recenti"
   label_close_versions: "Chiudi le versioni complete"
   label_closed_work_packages: "chiuso"
@@ -1795,8 +1795,8 @@ it:
   label_example: "Esempio"
   label_experimental: "Sperimentale"
   label_i_am_member: "Sono membro"
-  label_ifc_viewer: "Ifc Viewer"
-  label_ifc_model_plural: "Ifc Models"
+  label_ifc_viewer: "Visualizzatore IFC"
+  label_ifc_model_plural: "Modelli IFC"
   label_import: "Importazione"
   label_export_to: "Disponibile anche in:"
   label_expanded_click_to_collapse: "Espanso. Clicca per comprimere"
@@ -1818,7 +1818,7 @@ it:
   label_force_user_language_to_default: "Imposta la lingua degli utenti che non hanno una lingua consentita a quella predefinita"
   label_form_configuration: "Configurazione del modulo"
   label_gantt_chart: "Diagramma di Gantt"
-  label_gantt_chart_plural: "Gantt charts"
+  label_gantt_chart_plural: "Diagrammi di Gantt"
   label_general: "Generale"
   label_generate_key: "Genera chiave"
   label_git_path: "Percorso per la cartella .git"
@@ -1836,7 +1836,7 @@ it:
   label_home: "Radice (home)"
   label_subject_or_id: "Oggetto o ID"
   label_calendar_subscriptions: "Iscrizioni calendario"
-  label_identifier: "Identifier"
+  label_identifier: "Identificatore"
   label_impressum: "Note legali"
   label_in: "in"
   label_in_less_than: "in meno di"
@@ -1853,7 +1853,7 @@ it:
   label_internal: "Interno"
   label_introduction_video: "Video introduttivo"
   label_invite_user: "Invita utente"
-  label_share: "Share"
+  label_share: "Condividi"
   label_show_hide: "Mostra/Nascondi"
   label_show_all_registered_users: "Mostra tutti gli utenti registrati"
   label_journal: "Diario"
@@ -1924,7 +1924,7 @@ it:
   label_my_account: "Il mio account"
   label_my_activity: "La mia attività"
   label_my_account_data: "I miei dati dell'account"
-  label_my_avatar: "My avatar"
+  label_my_avatar: "Il mio avatar"
   label_my_queries: "Le mie query personalizzate"
   label_name: "Nome"
   label_never: "Mai"
@@ -2060,7 +2060,7 @@ it:
   label_search: "Cerca"
   label_send_information: "Invia nuove credenziali all'utente"
   label_send_test_email: "Invia un email di prova"
-  label_session: "Session"
+  label_session: "Sessione"
   label_setting_plural: "Impostazioni"
   label_system_settings: "Impostazioni di sistema"
   label_show_completed_versions: "Visualizza le versioni completate"
@@ -2090,13 +2090,13 @@ it:
   label_system_storage: "Informazioni sullo spazio di archiviazione"
   label_table_of_contents: "Indice"
   label_tag: "Tag"
-  label_team_planner: "Team Planner"
+  label_team_planner: "Pianificatore di team"
   label_text: "Testo lungo"
   label_this_month: "questo mese"
   label_this_week: "questa settimana"
   label_this_year: "questo anno"
   label_time_entry_plural: "Tempo speso"
-  label_time_entry_activity_plural: "Spent time activities"
+  label_time_entry_activity_plural: "Attività di tempo trascorso"
   label_title: "Titolo"
   label_projects_menu: "Progetti"
   label_today: "oggi"
@@ -2837,7 +2837,7 @@ it:
     other: "Altro"
     passwords: "Password"
     projects:
-      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
+      missing_dependencies: "È stato controllato il modulo del progetto %{module} che dipende da %{dependencies}. È necessario controllare anche queste dipendenze."
       section_new_projects: "Impostazioni per i nuovi progetti"
       section_project_overview: "Impostazioni per l'elenco generale dei progetti"
     session: "Sessione"
@@ -2853,7 +2853,7 @@ it:
     plain: "Testo semplice"
   status_active: "attivo"
   status_archived: "archiviato"
-  status_blocked: "blocked"
+  status_blocked: "bloccato"
   status_invited: invitato
   status_locked: bloccato
   status_registered: registrato
@@ -3111,7 +3111,7 @@ it:
       text_empty_search_description: "Non ci sono utenti con i criteri di filtro attuali."
       text_empty_search_header: "Non siamo riusciti a trovare alcun risultato corrispondente."
       text_empty_state_description: "La macro-attività non è stata ancora condivisa con nessuno."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Non condiviso"
       text_user_limit_reached: "L'aggiunta di ulteriori utenti supererà il limite attuale. Contatta un amministratore per aumentare il limite di utenti e garantire che gli utenti esterni possano accedere a questa  macro-attività."
       text_user_limit_reached_admins: 'L''aggiunta di ulteriori utenti supererà il limite attuale. <a href="%{upgrade_url}">Aggiorna il tuo piano</a> per aggiungere più utenti.'
       warning_user_limit_reached: >

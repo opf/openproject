@@ -354,5 +354,14 @@ RSpec.describe 'Persisted lists on projects index page',
       projects_page.expect_projects_not_listed(another_project, # Because it is on the second page
                                                development_project) # Because it is on the second page
     end
+
+    it 'cannot access another user`s list' do
+      visit projects_path(query_id: another_users_projects_list.id)
+
+      expect(page)
+        .to have_no_text(another_users_projects_list.name)
+      expect(page)
+        .to have_text('You are not authorized to access this page.')
+    end
   end
 end
