@@ -46,9 +46,16 @@ class RootSeeder < Seeder
     end
   end
 
+  def translated_seed_data_for(*keys)
+    set_locale! do
+      Source::SeedDataLoader.get_data(only: keys)
+    end
+  end
+
   def seed_data!
     reset_active_record!
     set_locale! do
+      print_status "*** Seeding for locale: '#{I18n.locale}'"
       prepare_seed! do
         ActiveRecord::Base.transaction do
           block_given? ? (yield self) : do_seed!
@@ -103,7 +110,6 @@ class RootSeeder < Seeder
 
   def set_locale!
     I18n.with_locale(desired_lang) do
-      print_status "*** Seeding for locale: '#{I18n.locale}'"
       @locale_set = true
       yield
     end

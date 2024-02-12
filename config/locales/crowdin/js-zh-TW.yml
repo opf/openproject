@@ -347,11 +347,11 @@ zh-TW:
           learn_about: "瞭解更多新功能的資訊"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter and save custom project lists.</li> <li>Separate Gantt charts module with new default views.</li> <li>Automatically managed project folders for OneDrive/SharePoint integration.</li> <li>Show number of "Shared users" in the share button and display them in the work packages list.</li> <li>Improved calculations and updates for progress reporting for work package hierarchies.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -607,7 +607,7 @@ zh-TW:
         shared: '共享'
       date_alerts:
         milestone_date: 'Milestone date'
-        overdue: 'Overdue'
+        overdue: '逾期'
         overdue_since: 'since %{difference_in_days}'
         property_today: 'is today'
         property_is: 'is in %{difference_in_days}'
@@ -662,9 +662,9 @@ zh-TW:
               P3D: 3 days before
               P7D: a week before
             overdue:
-              P1D: every day
-              P3D: every 3 days
-              P7D: every week
+              P1D: 每天
+              P3D: 每 3 天
+              P7D: 每週
         reasons:
           mentioned:
             title: '被標記'
@@ -749,7 +749,7 @@ zh-TW:
           wiki_page_updated: '維基頁面已更新'
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
-        title: 'Email reminders'
+        title: '電子郵件提醒'
         pause:
           label: 'Temporarily pause daily email reminders'
           first_day: 'First day'
@@ -769,7 +769,7 @@ zh-TW:
         more_information: "更多資訊"
         nevermind: "無視"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "表單設定"
         projects: "專案"
         settings: "設定"
     time_entry:
@@ -965,7 +965,7 @@ zh-TW:
         createdAt: "建立於"
         description: "說明"
         date: "日期"
-        percentComplete: "% Complete"
+        percentComplete: "完成度(%)"
         percentCompleteAlternative: "Progress"
         dueDate: "完成日期"
         duration: "時間長度"
@@ -1202,7 +1202,7 @@ zh-TW:
         invite_to_project: 'Invite %{type} to %{project}'
         User: 'user'
         Group: 'group'
-        PlaceholderUser: 'placeholder user'
+        PlaceholderUser: '非專案成員'
         invite_principal_to_project: 'Invite %{principal} to %{project}'
       project:
         label: '專案'
@@ -1221,7 +1221,7 @@ zh-TW:
           title: '群組'
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
-          title: 'Placeholder user'
+          title: '非專案成員'
           title_no_ee: '非專案成員（Enterprise edition 附加功能）'
           description: 'Has no access to the project and no emails are sent out.'
           description_no_ee: '由於沒有訪問項目的權限，所以不會發送電子郵件。<br>請查看<a href="%{eeHref}" target="_blank">企業版</a>。'

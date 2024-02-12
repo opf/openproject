@@ -43,14 +43,9 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
   def validate_capabilities(contract, attribute, value)
     uri = URI.parse(File.join(value, '/ocs/v2.php/cloud/capabilities'))
 
-    response =
-      begin
-        OpenProject.httpx
-          .with(HTTPX_TIMEOUT_SETTINGS)
-          .get(uri, headers: { "Ocs-Apirequest" => "true", "Accept" => "application/json" })
-      rescue StandardError => e
-        e
-      end
+    response = OpenProject.httpx
+                          .with(HTTPX_TIMEOUT_SETTINGS)
+                          .get(uri, headers: { "Ocs-Apirequest" => "true", "Accept" => "application/json" })
     error_type = check_capabilities_response(response)
 
     if error_type
@@ -60,7 +55,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
   end
 
   def check_capabilities_response(response)
-    return :cannot_be_connected_to if response.is_a? StandardError
+    return :cannot_be_connected_to if response.error.present?
     return :cannot_be_connected_to unless response.status.in? 200..299
     return :not_nextcloud_server unless read_version(response)
     return :minimal_nextcloud_version_unmet unless major_version_sufficient?(response)
@@ -75,14 +70,9 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
   # https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/oauth2.html
   def validate_setup_completeness(contract, attribute, value)
     uri = URI.parse(File.join(value, 'index.php/apps/integration_openproject/check-config'))
-    response =
-      begin
-        OpenProject.httpx
-          .with(HTTPX_TIMEOUT_SETTINGS)
-          .get(uri, headers: { "Authorization" => AUTHORIZATION_HEADER })
-      rescue StandardError => e
-        e
-      end
+    response = OpenProject.httpx
+                          .with(HTTPX_TIMEOUT_SETTINGS)
+                          .get(uri, headers: { "Authorization" => AUTHORIZATION_HEADER })
     error_type = check_setup_completeness_response(response)
 
     if error_type
@@ -92,7 +82,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
   end
 
   def check_setup_completeness_response(response)
-    return :cannot_be_connected_to if response.is_a? StandardError
+    return :cannot_be_connected_to if response.error.present?
     return :op_application_not_installed if response.status.in? 300..399
     return :cannot_be_connected_to unless response.status.in? 200..299
     return :authorization_header_missing if read_authorization_header(response) != AUTHORIZATION_HEADER
@@ -100,19 +90,13 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
     nil
   end
 
-  def message(host, response_or_exception, error_type)
-    if response_or_exception.is_a?(HTTPX::Response)
-      response = response_or_exception
-    else
-      exception = response_or_exception
-    end
-
+  def message(host, response, error_type)
     message = "Nextcloud server invalid host=#{host.inspect} error_type=#{error_type}"
-    message << " http_status=#{response.status}" if response
+    message << " http_status=#{response.status}" if response.respond_to?(:status)
 
     case error_type
     when :cannot_be_connected_to
-      message << ": exception #{exception.class}: #{exception}" if exception
+      message << ": #{response.class}: #{response}"
     when :not_nextcloud_server
       message << ": either was not valid json, or value at 'ocs/data/version/major' was not defined"
     when :minimal_nextcloud_version_unmet

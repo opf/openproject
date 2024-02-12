@@ -49,6 +49,7 @@ RSpec.describe 'Datepicker modal logic test cases (WP #43539)', :js, :with_cupri
   let(:date_field) { work_packages_page.edit_field(date_attribute) }
   let(:datepicker) { date_field.datepicker }
 
+  let(:current_user) { user }
   let(:work_package) { bug_wp }
 
   def apply_and_expect_saved(attributes)
@@ -64,12 +65,13 @@ RSpec.describe 'Datepicker modal logic test cases (WP #43539)', :js, :with_cupri
   end
 
   before do
+    Setting.available_languages << current_user.language
+    I18n.locale = current_user.language
     work_package.update_columns(current_attributes)
-    login_as(user)
+    login_as(current_user)
 
     work_packages_page.visit!
     work_packages_page.ensure_page_loaded
-
     date_field.activate!
     date_field.expect_active!
     # Wait for the datepicker to be initialized
@@ -1027,6 +1029,35 @@ RSpec.describe 'Datepicker modal logic test cases (WP #43539)', :js, :with_cupri
       apply_and_expect_saved start_date: today,
                              due_date: today,
                              duration: 1
+    end
+  end
+
+  context 'when the user locale has a custom digit map' do
+    let(:current_user) { create(:admin, language: :ar) }
+    let(:current_attributes) do
+      {
+        start_date: Date.parse('2021-02-08'),
+        due_date: nil,
+        duration: nil
+      }
+    end
+
+    it 'still renders the traditional Arabic numbers without errors' do
+      work_packages_page.expect_no_toaster(type: :error, message: "is not a valid date.")
+
+      datepicker.expect_start_date '2021-02-08'
+      datepicker.expect_due_date ''
+      datepicker.expect_duration ''
+
+      datepicker.set_duration 10
+
+      datepicker.expect_start_date '2021-02-08'
+      datepicker.expect_due_date '2021-02-19'
+      datepicker.expect_duration 10
+
+      apply_and_expect_saved duration: 10,
+                             start_date: Date.parse('2021-02-08'),
+                             due_date: Date.parse('2021-02-19')
     end
   end
 end

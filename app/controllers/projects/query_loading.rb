@@ -27,31 +27,15 @@
 # ++
 module Projects
   module QueryLoading
-    def load_query(existing: true)
-      query = if existing
-                Queries::Projects::Factory.find(params[:query_id])
-              else
-                Queries::Projects::ProjectQuery.new
-              end
-
-      contract_class = if existing
-                         # This one allows to change the name of the query.
-                         # Semantically, it would be better to use the UpdateContract
-                         # but there wasn't the need to create that yet and for now it
-                         # would be the same as the CreateContract anyway.
-                         Queries::Projects::ProjectQueries::CreateContract
-                       else
-                         Queries::Projects::ProjectQueries::LoadingContract
-                       end
-
-      Queries::Projects::ProjectQueries::SetAttributesService
-        .new(user: current_user,
-             model: query,
-             contract_class:)
-        .call(permitted_query_params)
-    end
-
     private
+
+    def load_query_or_deny_access
+      @query = Queries::Projects::Factory.find(params[:query_id],
+                                               params: permitted_query_params,
+                                               user: current_user)
+
+      render_403 unless @query
+    end
 
     def permitted_query_params
       query_params = if params[:query]

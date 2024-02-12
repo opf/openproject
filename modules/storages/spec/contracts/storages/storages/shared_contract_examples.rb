@@ -157,30 +157,55 @@ RSpec.shared_examples_for 'nextcloud storage contract', :storage_server_helpers,
         let(:check_config_response_body) { nil } # use default
         let(:check_config_response_code) { nil } # use default
         let(:check_config_response_headers) { nil } # use default
+        let(:timeout_server_capabilities) { false }
+        let(:timeout_server_config_check) { false }
+        let(:stub_server_capabilities) do
+          mock_server_capabilities_response(storage_host,
+                                            response_code: capabilities_response_code,
+                                            response_headers: capabilities_response_headers,
+                                            response_body: capabilities_response_body,
+                                            timeout: timeout_server_capabilities,
+                                            response_nextcloud_major_version: capabilities_response_major_version)
+        end
+        let(:stub_config_check) do
+          mock_server_config_check_response(storage_host,
+                                            response_code: check_config_response_code,
+                                            response_headers: check_config_response_headers,
+                                            timeout: timeout_server_config_check,
+                                            response_body: check_config_response_body)
+        end
 
         before do
           # simulate host value changed to have GET request sent to check host URL validity
           storage.host_will_change!
 
           # simulate http response returned upon GET request
-          mock_server_capabilities_response(storage_host,
-                                            response_code: capabilities_response_code,
-                                            response_headers: capabilities_response_headers,
-                                            response_body: capabilities_response_body,
-                                            response_nextcloud_major_version: capabilities_response_major_version)
-
-          mock_server_config_check_response(storage_host,
-                                            response_code: check_config_response_code,
-                                            response_headers: check_config_response_headers,
-                                            response_body: check_config_response_body)
+          stub_server_capabilities
+          stub_config_check
         end
 
         context 'when connection fails' do
-          before do
-            allow_any_instance_of(HTTPX::Session).to receive(:get).and_raise(HTTPX::TimeoutError, 'SIMULATED Timeout')
+          context 'when server capabilities request times out' do
+            let(:timeout_server_capabilities) { true }
+
+            include_examples 'contract is invalid', host: :cannot_be_connected_to
+
+            it 'retries failed request once' do
+              contract.validate
+              expect(stub_server_capabilities).to have_been_made.twice
+            end
           end
 
-          include_examples 'contract is invalid', host: :cannot_be_connected_to
+          context 'when server config check request times out' do
+            let(:timeout_server_config_check) { true }
+
+            include_examples 'contract is invalid', host: :cannot_be_connected_to
+
+            it 'retries failed request once' do
+              contract.validate
+              expect(stub_config_check).to have_been_made.twice
+            end
+          end
         end
 
         context 'when response code is a 404 NOT FOUND' do

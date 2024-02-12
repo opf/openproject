@@ -65,4 +65,12 @@ RSpec.describe Storages::Admin::OAuthAccessGrantNudgeModalComponent, type: :comp
       expect(page).to have_button('Close')
     end
   end
+
+  context 'with no project storage' do
+    let(:oauth_access_grant_nudge_modal_component) { described_class.new(project_storage_id: nil) }
+
+    it 'does not render' do
+      expect(page.text).to be_empty
+    end
+  end
 end

@@ -651,7 +651,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
             request_stubs[1..].each { |request| expect(request).not_to have_been_requested }
           end
 
-          it "logs an error message" do
+          it 'logs an error message' do
             allow(OpenProject.logger).to receive(:warn)
             described_class.new(storage).call
 
@@ -679,6 +679,19 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
                                    'Depth' => '1'
                                  }
                                ).to_return(status: 500, body: "", headers: {})
+
+          expect(described_class.new(storage).call).to be_failure
+        end
+
+        it 'raises an error when dealing with a socket or connection error' do
+          request_stubs[0] = stub_request(:propfind, "#{storage.host}/remote.php/dav/files/OpenProject/OpenProject")
+                               .with(
+                                 body: propfind_request_body,
+                                 headers: {
+                                   'Authorization' => 'Basic T3BlblByb2plY3Q6MTIzNDU2Nzg=',
+                                   'Depth' => '1'
+                                 }
+                               ).to_timeout
 
           expect(described_class.new(storage).call).to be_failure
         end

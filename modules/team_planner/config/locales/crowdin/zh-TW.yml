@@ -4,13 +4,13 @@ zh-TW:
     name: "OpenProject Team Planner"
     description: "Provides team planner views."
   permission_view_team_planner: "查看團隊計劃"
-  permission_manage_team_planner: "Manage team planner"
-  project_module_team_planner_view: "Team planners"
+  permission_manage_team_planner: "管理團隊規劃"
+  project_module_team_planner_view: "團隊規劃"
   team_planner:
     label_team_planner: "團隊規劃"
     label_new_team_planner: "New team planner"
     label_create_new_team_planner: "Create new team planner"
-    label_team_planner_plural: "Team planners"
+    label_team_planner_plural: "團隊規劃"
     label_assignees: "Assignees"
     upsale:
       title: "團隊規劃"
