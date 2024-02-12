@@ -39,19 +39,32 @@ module Projects::ActsAsCustomizablePatches
                                                      dependent: :destroy, inverse_of: :project
 
     before_save :build_missing_project_custom_field_project_mappings
+    after_create :disable_custom_fields_with_empty_values
 
     def build_missing_project_custom_field_project_mappings
       # activate custom fields for this project (via mapping table) if values have been provided for custom_fields but no mapping exists
       # current shortcommings:
       # - boolean custom fields are always activated as a nil value is never provided (always true/false)
-      # - custom fields with a default value are always activated as a nil value is never provided (even if set to blank in project creation form)
-      custom_field_ids = project.custom_values.reject { |cv| cv.value.blank? }.pluck(:custom_field_id)
-      activated_custom_field_ids = project_custom_field_project_mappings.pluck(:custom_field_id)
+      custom_field_ids = project.custom_values.reject { |cv| cv.value.blank? }.pluck(:custom_field_id).uniq
+      activated_custom_field_ids = project_custom_field_project_mappings.pluck(:custom_field_id).uniq
 
       mappings = (custom_field_ids - activated_custom_field_ids)
         .map { |pcf_id| { project_id: id, custom_field_id: pcf_id } }
 
       project_custom_field_project_mappings.build(mappings)
+    end
+
+    def disable_custom_fields_with_empty_values
+      # run only on initial creation! (otherwise we would deactivate custom fields with empty values on every update!)
+      #
+      # ideally, `build_missing_project_custom_field_project_mappings` would not activate custom fields with empty values
+      # but:
+      # this hook is required as acts_as_customizable build custom values with their default value even if a blank value was provided in the project creation form
+      # `build_missing_project_custom_field_project_mappings` will then activate the custom field although the user explicitly provided a blank value
+      # in order to not patch `acts_as_customizable` further, we simply identify these custom values and deactivate the custom field
+      custom_field_ids = project.custom_values.select { |cv| cv.value.blank? && !cv.required? }.pluck(:custom_field_id)
+
+      project_custom_field_project_mappings.where(custom_field_id: custom_field_ids).destroy_all
     end
 
     def active_custom_field_ids_of_project
