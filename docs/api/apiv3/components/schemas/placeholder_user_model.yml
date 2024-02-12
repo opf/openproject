@@ -1,0 +1,36 @@
+# Schema: PlaceholderUserModel
+---
+allOf:
+  - $ref: './principal_model.yml'
+  - type: object
+    properties:
+      _links:
+        type: object
+        required:
+          - showUser
+        properties:
+          showUser:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  A relative path to show the placeholder user in the web application.
+          delete:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  An href to delete the placeholder user.
+
+                  # Conditions:
+
+                  - `manage_placeholder_user`
+          updateImmediately:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  An href to update the placeholder user.
+
+                  # Conditions:
+
+                  - `manage_placeholder_user`
+
+                  **Resource**: PlaceholderUser

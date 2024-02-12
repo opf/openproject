@@ -1,4 +1,4 @@
-# Schema: UserCollectionModel
+# Schema: PlaceholderUserCollectionModel
 ---
 allOf:
   - $ref: './collection_model.yml'
@@ -14,9 +14,9 @@ allOf:
         properties:
           self:
             allOf:
-              - $ref: './link.yml'
+              - $ref: "./link.yml"
               - description: |-
-                  This user collection
+                  This placeholder user collection
                   
                   **Resource**: Collection
       _embedded:
@@ -27,7 +27,7 @@ allOf:
           elements:
             type: array
             items:
-              $ref: './user_model.yml'
+              $ref: './placeholder_user_model.yml'
 
 example:
   _type: Collection
@@ -35,12 +35,12 @@ example:
   count: 2
   _links:
     self:
-      href: '/api/v3/users'
+      href: '/api/v3/placeholder_users'
   _embedded:
     elements:
-      - _hint: User resource shortened for brevity
-        _type: User
+      - _hint: PlaceholderUser resource shortened for brevity
+        _type: PlaceholderUser
         id: 1337
-      - _hint: User resource shortened for brevity
-        _type: User
+      - _hint: PlaceholderUser resource shortened for brevity
+        _type: PlaceholderUser
         id: 1338

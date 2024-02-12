@@ -52,7 +52,7 @@ module API
 
           {
             href: api_v3_paths.path_for(:memberships, filters:),
-            title: I18n.t(:label_member_plural)
+            title: I18n.t(:label_membership_plural)
           }
         end
 
