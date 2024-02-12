@@ -53,9 +53,7 @@ module WorkPackages
     attribute :project_id
 
     attribute :done_ratio,
-              writable: ->(*) do
-                Setting.work_package_done_ratio == 'field'
-              end
+              writable: false
     attribute :derived_done_ratio,
               writable: false
 
