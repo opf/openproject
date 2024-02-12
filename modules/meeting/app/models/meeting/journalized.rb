@@ -50,6 +50,8 @@ module Meeting::Journalized
     register_journal_formatted_fields(:agenda_item_position, /agenda_items_\d+_position/)
     register_journal_formatted_fields(:plaintext, /agenda_items_\d+_notes/)
     register_journal_formatted_fields(:decimal, /agenda_items_\d+_duration_in_minutes/)
+    register_journal_formatted_fields(:agenda_item_duration, 'duration_in_minutes')
+    # register_journal_formatted_fields(:decimal, /agenda_items_\d+_duration_in_minutes/)
 
     def touch_and_save_journals
       update_column(:updated_at, Time.current)

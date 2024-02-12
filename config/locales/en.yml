@@ -1093,6 +1093,10 @@ en:
           other: "<i>%{count} hours</i>"
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
+      meeting_agenda_item:
+        added: "set to %{value} minutes"
+        removed: "removed"
+        updated: "modified to %{value} minutes"
     filter:
       changeset: "Changesets"
       message: "Forums"

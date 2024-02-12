@@ -391,6 +391,7 @@ class MeetingsController < ApplicationController
         event.journal.details.each_with_object(results) do |(key, values), res|
           if key.match? /agenda_items_\d+/
             id, attribute = key.gsub("agenda_items_","").split("_")
+            attribute = "duration_in_minutes" if attribute == "duration" # quick and dirty
             res[:agenda_items][id.to_i][attribute] = values
           else
             res[key] = values
