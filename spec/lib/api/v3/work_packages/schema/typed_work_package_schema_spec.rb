@@ -58,8 +58,8 @@ RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
   end
 
   describe '#writable?' do
-    it 'percentage done is writable' do
-      expect(subject).to be_writable(:done_ratio)
+    it 'percentage done is not writable' do
+      expect(subject).not_to be_writable(:done_ratio)
     end
 
     it 'work is writable' do

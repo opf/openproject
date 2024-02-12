@@ -169,24 +169,8 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
 
   describe '#writable?' do
     describe '% Complete' do
-      it 'is not writable when inferred by status' do
-        allow(Setting).to receive(:work_package_done_ratio).and_return('status')
+      it 'is not writable' do
         expect(subject).not_to be_writable(:done_ratio)
-      end
-
-      it 'is not writable when disabled' do
-        allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
-        expect(subject).not_to be_writable(:done_ratio)
-      end
-
-      it 'is writable when the work package is a parent' do
-        allow(work_package).to receive(:leaf?).and_return(false)
-        expect(subject).to be_writable(:done_ratio)
-      end
-
-      it 'is writable when the work package is a leaf' do
-        allow(work_package).to receive(:leaf?).and_return(true)
-        expect(subject).to be_writable('done_ratio')
       end
     end
 

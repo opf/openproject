@@ -656,30 +656,12 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe 'percentageDone' do
-      before do
-        allow(schema).to receive(:writable?).with('done_ratio').and_return true
-      end
-
       it_behaves_like 'has basic schema properties' do
         let(:path) { 'percentageDone' }
         let(:type) { 'Integer' }
         let(:name) { I18n.t('activerecord.attributes.work_package.done_ratio') }
         let(:required) { false }
-        let(:writable) { true }
-      end
-
-      context 'when not writable' do
-        before do
-          allow(schema).to receive(:writable?).with('done_ratio').and_return false
-        end
-
-        it_behaves_like 'has basic schema properties' do
-          let(:path) { 'percentageDone' }
-          let(:type) { 'Integer' }
-          let(:name) { I18n.t('activerecord.attributes.work_package.done_ratio') }
-          let(:required) { false }
-          let(:writable) { false }
-        end
+        let(:writable) { false }
       end
 
       context 'as disabled' do
