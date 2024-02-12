@@ -111,4 +111,4 @@ When a file or folder from OneDrive/SharePoint is linked to a work package, an O
 
 However, all available actions depend on permissions the OpenProject user (or more precisely, the OneDrive/SharePoint account tied to that user) has in OneDrive/SharePoint. In other words, a user who does not have the permission to access the file in OneDrive/SharePoint will also *not* be able to open, download, or modify the file in OpenProject.
 
-Please note, that with automatically managed folders these permissions are pre-set in OpenProject.
+Please note, that with automatically managed project folders these permissions are set by OpenProject based on user permissions in OpenProject.
