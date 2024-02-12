@@ -153,7 +153,7 @@ If you want to delete a project, navigate to the [Project settings](project-sett
 
 ![delete a project](delete-a-project.png)
 
-Also, you can delete a project via the [projects overview](#projects-list).
+Also, you can delete a project via the [projects overview](./projects-lists/).
 
 **Note**: Deleting projects is only available for System administrators.
 

@@ -13,11 +13,11 @@ In OpenProject you can create projects to collaborate with your team members, tr
 
 Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community edition nor in the Enterprise cloud or in Enterprise on-premises edition.
 
-| Topic                                                       | Content                                                      |
-| ----------------------------------------------------------- | ------------------------------------------------------------ |
-| [Select projects lists](#select-projects-lists)             | Get an overview of all your projects in the projects list.   |
-| [Filter projects lists](#projects-lists-filters)            | Adjust filters in the projects list.                         |
-| [Export project list](#export-projects)                     | You can export the project list to XLS or CSV.               |
+| Topic                                                       | Content                                                             |
+|-------------------------------------------------------------|---------------------------------------------------------------------|
+| [Select projects lists](#select-projects-lists)             | Get an overview of all your projects in the projects list.          |
+| [Filter projects lists](#projects-lists-filters)            | Adjust filters in the projects list.                                |
+| [Export project list](#export-projects)                     | You can export the project list to XLS or CSV.                      |
 | [Project overarching reports](#project-overarching-reports) | How to create project overarching reports across multiple projects. |
 
 
@@ -37,7 +37,7 @@ You will then get a list of all your projects in OpenProject.
 
 ### Projects lists view explained
 
-You can use this projects overview to **create a multi project status dashboard** if you include your own [project custom fields](../../system-admin-guide/custom-fields/custom-fields-projects/), e.g. custom status options, Accountable, Project duration, and more.
+You can use this projects overview to **create a multi project status dashboard** if you include your own [project custom fields](../../../system-admin-guide/custom-fields/custom-fields-projects/), e.g. custom status options, Accountable, Project duration, and more.
 
 > **Please note:** Project custom fields are an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
@@ -45,15 +45,15 @@ With the **arrow** on the right you can display the **project description**.
 
 ![Open a project description in the projects lists view in OpenProject](arrow-project-description.png)
 
-With the horizontal **three dots** icon on the right side of the list you can open **further features**, such as [creating a new subproject](../projects/#create-a-subproject), [project settings](../project-settings), [archiving a project](#archive-a-project), [copying](../projects/#copy-a-project) and [deleting a project](#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features. Find out how to un-archive projects [here](#archive-a-project).
+With the horizontal **three dots** icon on the right side of the list you can open **further features**, such as [creating a new subproject](../#create-a-subproject), [project settings](../project-settings), [archiving a project](../#archive-a-project), [copying](../#copy-a-project) and [deleting a project](../#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features. Find out how to un-archive projects [here](../#archive-a-project).
 
 ![new subproject project list](new-subproject-project-list.png)
 
 
 
-You can choose the **columns displayed by default** in the [System settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration. 
+You can choose the **columns displayed by default** in the [System settings](../../../system-admin-guide/system-settings/project-system-settings) in the Administration. 
 
-To change the order of the displayed [custom fields](../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](../../system-admin-guide/custom-fields/custom-fields-projects/#display-project-custom-fields).
+To change the order of the displayed [custom fields](../../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](../../../system-admin-guide/custom-fields/custom-fields-projects/#display-project-custom-fields).
 
 ### Projects lists filters
 
@@ -99,7 +99,7 @@ You can always remove your private project lists by using the **Delete** option.
 
 To **display the work packages** of all your projects **in a Gantt chart** click on the **Open as Gantt view** icon on the upper right. This is a shortcut to quickly get to the report described in the [section below](#project-overarching-reports). 
 
-The Gantt chart view can be configured in the [System settings](../../system-admin-guide/system-settings/project-system-settings) in the Administration.
+The Gantt chart view can be configured in the [System settings](../../../system-admin-guide/system-settings/project-system-settings) in the Administration.
 
 ![display all work packages](display-all-workpackages.png)
 
@@ -157,10 +157,10 @@ Here you will find global (project overarching) overviews of the following modul
 
 ### Global work package tables
 
-Select **Work packages** from the drop down menu **Global modules** in the upper right (nine squares). Now, you will see all work packages in the projects for which you have the required [permissions](../..//system-admin-guide/users-permissions/roles-permissions/).
+Select **Work packages** from the drop down menu **Global modules** in the upper right (nine squares). Now, you will see all work packages in the projects for which you have the required [permissions](../../../system-admin-guide/users-permissions/roles-permissions/).
 
-In this project overarching list, you can search, filter, group by, sort, highlight and save views the same way as in the [work package table](../work-packages/work-package-table-configuration) in each project.
+In this project overarching list, you can search, filter, group by, sort, highlight and save views the same way as in the [work package table](../../work-packages/work-package-table-configuration) in each project.
 
-You can group by projects by clicking in the header of the work package table next to PROJECT and select **Group by**. Collapsing the groups will allow you an **overview of the projects' aggregated milestones** as described [here](../../user-guide/work-packages/work-package-table-configuration/#flat-list-hierarchy-mode-and-group-by).
+You can group by projects by clicking in the header of the work package table next to PROJECT and select **Group by**. Collapsing the groups will allow you an **overview of the projects' aggregated milestones** as described [here](../../work-packages/work-package-table-configuration/#flat-list-hierarchy-mode-and-group-by).
 
 ![project overarching report](project-overarching-report.gif)

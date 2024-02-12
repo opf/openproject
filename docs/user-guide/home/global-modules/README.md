@@ -32,9 +32,9 @@ You can create a new project here directly by using the  **+ Project** button.
 
 **All projects** is the default view and shows only active projects. If you do not have administrator rights, this view will be the same as **My projects**.
 
-Read more on [Projects lists filters](https://www.openproject.org/docs/user-guide/projects/projects-lists/#projects-lists-filters). 
+Read more on [Projects lists filters](../../../user-guide/projects/projects-lists/#projects-lists-filters).
 
->**Note:** You can also access the **Projects** global module by opening the [Select a project dropdown menu](../../../user-guide/projects/#projects-list ) and by clicking the **Projects list** button, or by clicking on the **Modules** button in the header next to the search bar and the selecting **Projects** in the menu that appears.
+>**Note:** You can also access the **Projects** global module by opening the [Select a project dropdown menu](../../../user-guide/projects/projects-lists/) and by clicking the **Projects list** button, or by clicking on the **Modules** button in the header next to the search bar and the selecting **Projects** in the menu that appears.
 
 ## Activity
 
@@ -66,7 +66,7 @@ The **Gantt charts** global module displays work packages in a timeline.
 
 ![Gantt charts global module in OpenProject](openproject_global_modules_gantt_charts.png)
 
-Find out more about [**Gantt charts** module](../../gantt-charts/).
+Find out more about [**Gantt charts** module](../../gantt-chart/).
 
 ## Calendars
 

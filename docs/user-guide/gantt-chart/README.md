@@ -199,7 +199,7 @@ If you want to adjust your work package table and filter, sort or order your wor
 
 ## Aggregation by project
 
-You can get a **quick overview of multiple projects** in the Gantt chart. To accomplish this navigate to the Work packages module of a project or the [project overarching work package table](../projects/#project-overarching-reports).
+You can get a **quick overview of multiple projects** in the Gantt chart. To accomplish this navigate to the Work packages module of a project or the [project overarching work package table](../projects/projects-lists/#project-overarching-reports).
 
 **Group the work packages** by project by using the [work packages table configuration](../work-packages/work-package-table-configuration/#flat-list-hierarchy-mode-and-group-by) (accessible in the upper right corner) or by clicking on the small triangle next to "Project" in the table header.
  ![group-by-project](image-20201211020614221.png)
