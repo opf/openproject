@@ -43,9 +43,13 @@ Projects and subprojects are displayed according to their hierarchy in the drop-
 </div>
 ![project_hierarchy](project_hierarchy-8178054.png)
 
+Alternatively, you can open the list of all existing projects using the [**Global modules**](../../user-guide/home/global-modules/#projects) menu. 
+
 Also, you will see your newest projects on the application landing page in the **Projects** section. Here you can simply click on one of the newest visible projects to open it.
 
 ![openproject landing page](openproject-landing-page.png)
+
+
 
 ## Create a new project
 
@@ -74,7 +78,13 @@ To view all your projects in which you are a member, click on the **Projects lis
 
 ![view all projects](view_all_projects.png)
 
-You will see a list with all your projects and their details.
+Alternatively you can use the [**Global modules menu**](../../user-guide/home/global-modules/#projects) on the left or select *Projects* using the grid icon in the top right corner.
+
+
+
+![Open a list of all existing projects in OPenProject](view_all_projects_options.png)
+
+You will see a list with all your projects and their details. 
 
 ![project overview list](project-overview-list.png)
 
