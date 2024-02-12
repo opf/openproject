@@ -145,6 +145,68 @@ RSpec.describe WorkPackages::SetAttributesService,
     it_behaves_like 'service call'
   end
 
+  context 'for done_ratio' do
+    context 'with the status being used for done_ratio computations',
+            with_settings: { work_package_done_ratio: 'status' } do
+      let!(:status) { create(:status, default_done_ratio: 99) }
+      let(:call_attributes) { { estimated_hours: 10.0, remaining_hours: 5.0 } }
+      let(:expected_attributes) { { estimated_hours: 10.0, remaining_hours: 5.0, done_ratio: 99 } }
+
+      before do
+        allow(work_package).to receive(:done_ratio=) # Spying-purposes
+
+        work_package.status = status
+      end
+
+      it_behaves_like 'service call' do
+        it 'does not try to compute and assign done_ratio' do
+          subject
+
+          expect(work_package)
+            .not_to have_received(:done_ratio=)
+        end
+      end
+    end
+
+    describe 'is "unset"' do
+      context 'when estimated_hours is unset' do
+        let(:call_attributes) { { estimated_hours: nil } }
+        let(:expected_attributes) do
+          { estimated_hours: nil, done_ratio: 0 }
+        end
+
+        it_behaves_like 'service call'
+      end
+
+      context 'when remaining_hours is unset' do
+        let(:call_attributes) { { remaining_hours: nil } }
+        let(:expected_attributes) do
+          { remaining_hours: nil, done_ratio: 0 }
+        end
+
+        it_behaves_like 'service call'
+      end
+
+      context 'when both estimated_hours and remaining_hours are unset' do
+        let(:call_attributes) { { estimated_hours: nil, remaining_hours: nil } }
+        let(:expected_attributes) do
+          { estimated_hours: nil, remaining_hours: nil, done_ratio: 0 }
+        end
+
+        it_behaves_like 'service call'
+      end
+    end
+
+    context 'when both estimated_hours and remaining_hours are set' do
+      let(:call_attributes) { { estimated_hours: 10.0, remaining_hours: 5.0 } }
+      let(:expected_attributes) do
+        { estimated_hours: 10.0, remaining_hours: 5.0, done_ratio: 50 }
+      end
+
+      it_behaves_like 'service call'
+    end
+  end
+
   context 'for status' do
     let(:default_status) { build_stubbed(:default_status) }
     let(:other_status) { build_stubbed(:status) }

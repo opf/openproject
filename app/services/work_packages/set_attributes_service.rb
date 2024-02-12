@@ -62,6 +62,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     end
     shift_dates_to_soonest_working_days
     update_duration
+    update_done_ratio
     update_derivable
     update_project_dependent_attributes
     reassign_invalid_status_if_type_changed
@@ -279,6 +280,35 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
   def update_duration
     work_package.duration = 1 if work_package.milestone?
+  end
+
+  # Compute and update +done_ratio+ if its dependent attributes are being modified.
+  # The dependent attributes for +done_ratio+ are
+  # - +remaining_hours+
+  # - +estimated_hours+
+  #
+  # Unless both +remaining_hours+ and +estimated_hours+ are set, +done_ratio+ will be
+  # considered 0.
+  def update_done_ratio
+    return if WorkPackage.use_status_for_done_ratio?
+    return unless work_package.remaining_hours_changed? || work_package.estimated_hours_changed?
+
+    work_package.done_ratio = if done_ratio_dependent_attribute_unset?
+                                0
+                              else
+                                compute_done_ratio
+                              end
+  end
+
+  def done_ratio_dependent_attribute_unset?
+    work_package.remaining_hours.nil? || work_package.estimated_hours.nil?
+  end
+
+  def compute_done_ratio
+    completed_work = work_package.estimated_hours - work_package.remaining_hours
+    completion_ratio = completed_work.to_f / work_package.estimated_hours
+
+    (completion_ratio * 100).round(2)
   end
 
   def set_version_to_nil
