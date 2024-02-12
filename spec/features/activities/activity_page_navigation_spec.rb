@@ -36,21 +36,42 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
     create(:project, parent: project, enabled_module_names: Setting.default_projects_modules + ['activity'])
   end
   shared_let(:user) do
-    create(:user, member_with_permissions: { project => [:view_work_packages], subproject => [:view_work_packages] })
+    create(:user,
+           lastname: 'the user',
+           member_with_permissions: {
+             project => [:view_work_packages],
+             subproject => [:view_work_packages]
+           })
   end
-  shared_let(:project_work_package) { create(:work_package, project:, subject: 'Work package for parent project') }
-  shared_let(:subproject_work_package) { create(:work_package, project: subproject, subject: 'Work package for subproject') }
+  shared_let(:project_work_package) do
+    create(:work_package,
+           project:,
+           author: user,
+           subject: 'Work package for parent project')
+  end
+  shared_let(:subproject_work_package) do
+    create(:work_package,
+           project: subproject,
+           author: user,
+           subject: 'Work package for subproject')
+  end
 
   shared_let(:project_older_work_package) do
     travel_to 45.days.ago
-    create(:work_package, project:, subject: 'Work package older for parent project')
+    create(:work_package,
+           project:,
+           author: user,
+           subject: 'Work package older for parent project')
   ensure
     travel_back
   end
 
   shared_let(:subproject_older_work_package) do
     travel_to 45.days.ago
-    create(:work_package, project: subproject, subject: 'Work package older for subproject')
+    create(:work_package,
+           project: subproject,
+           author: user,
+           subject: 'Work package older for subproject')
   ensure
     travel_back
   end
@@ -83,6 +104,45 @@ RSpec.describe 'Activity page navigation', :js, :with_cuprite do
     # 45 days ago should not be visible anymore
     expect(page)
       .to have_no_link(text: /#{subproject_older_work_package.subject}/)
+  end
+
+  context 'when filtering per user' do
+    shared_let(:another_user) do
+      create(:user,
+             firstname: 'Gizmo',
+             lastname: 'the other user',
+             member_with_permissions: {
+               project => [:view_work_packages],
+               subproject => [:view_work_packages]
+             })
+    end
+    shared_let(:project_work_package_of_another_user) do
+      create(:work_package,
+             project:,
+             author: another_user,
+             subject: 'Work package for parent project')
+    end
+
+    def fix_work_package_journal_author(user)
+      Journal.for_work_package
+        .where(journable: WorkPackage.where(author: user))
+        .update_all(user_id: user.id)
+    end
+
+    before do
+      fix_work_package_journal_author(user)
+      fix_work_package_journal_author(another_user)
+    end
+
+    it 'can filter by user' do
+      # using the user filter through the activity link on the user profile page
+      visit user_path(user.id)
+      click_on('Activity')
+
+      expect(page).to have_heading("#{user.name}'s activity")
+      expect(page).to have_link(user.name)
+      expect(page).to have_no_link(another_user.name)
+    end
   end
 
   shared_examples 'subprojects checkbox state is preserved' do

@@ -33,10 +33,10 @@ class ActivitiesController < ApplicationController
   before_action :find_optional_project,
                 :verify_activities_module_activated,
                 :determine_subprojects,
+                :determine_author,
                 :set_activity
 
   before_action :determine_date_range,
-                :determine_author,
                 :set_current_activity_page,
                 only: :index
 
