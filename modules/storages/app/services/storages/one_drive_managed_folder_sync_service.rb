@@ -193,13 +193,13 @@ module Storages
       data =
         case payload
         in { status: Integer }
-          { status: payload.status.to_s, body: payload.body.to_s }
+          { status: payload.status, body: payload.body.to_s }
         else
           payload.error.to_s
         end
 
       error_message = context.merge({ command: error.data.source, message: error.log_message, data: })
-      OpenProject.logger.warn error_message.to_json
+      OpenProject.logger.warn error_message
     end
   end
 end

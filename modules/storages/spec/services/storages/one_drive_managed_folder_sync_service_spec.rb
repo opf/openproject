@@ -47,14 +47,18 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
   # USER FACTORIES
   shared_let(:single_project_user) { create(:user) }
   shared_let(:single_project_user_token) do
-    create(:oauth_client_token, user: single_project_user,
-                                oauth_client: storage.oauth_client, origin_user_id: '2ff33b8f-2843-40c1-9a17-d786bca17fba')
+    create(:oauth_client_token,
+           user: single_project_user,
+           oauth_client: storage.oauth_client,
+           origin_user_id: '2ff33b8f-2843-40c1-9a17-d786bca17fba')
   end
 
   shared_let(:multiple_projects_user) { create(:user) }
   shared_let(:multiple_project_user_token) do
-    create(:oauth_client_token, user: multiple_projects_user,
-                                oauth_client: storage.oauth_client, origin_user_id: '248aeb72-b231-4e71-a466-67fa7df2a285')
+    create(:oauth_client_token,
+           user: multiple_projects_user,
+           oauth_client: storage.oauth_client,
+           origin_user_id: '248aeb72-b231-4e71-a466-67fa7df2a285')
   end
 
   # ROLE FACTORIES
@@ -68,25 +72,27 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
            name: '[Sample] Project Name / Ehuu',
            members: { multiple_projects_user => ordinary_role, single_project_user => ordinary_role })
   end
-  shared_let(:project_storage) { create(:project_storage, project_folder_mode: 'automatic', storage:, project:) }
+  shared_let(:project_storage) do
+    create(:project_storage, :with_historical_data, project_folder_mode: 'automatic', storage:, project:)
+  end
 
   shared_let(:disallowed_chars_project) do
     create(:project, name: '<=o=> | "Jedi" Project Folder ///', members: { multiple_projects_user => ordinary_role })
   end
   shared_let(:disallowed_chars_project_storage) do
-    create(:project_storage, project_folder_mode: 'automatic', project: disallowed_chars_project, storage:)
+    create(:project_storage, :with_historical_data, project_folder_mode: 'automatic', project: disallowed_chars_project, storage:)
   end
 
   shared_let(:inactive_project) do
     create(:project, name: 'INACTIVE PROJECT! f0r r34lz', active: false, members: { multiple_projects_user => ordinary_role })
   end
   shared_let(:inactive_project_storage) do
-    create(:project_storage, project_folder_mode: 'automatic', project: inactive_project, storage:)
+    create(:project_storage, :with_historical_data, project_folder_mode: 'automatic', project: inactive_project, storage:)
   end
 
   shared_let(:public_project) { create(:public_project, name: 'PUBLIC PROJECT', active: true) }
   shared_let(:public_project_storage) do
-    create(:project_storage, project_folder_mode: 'automatic', project: public_project, storage:)
+    create(:project_storage, :with_historical_data, project_folder_mode: 'automatic', project: public_project, storage:)
   end
 
   # This is a remote service call. We need to enable WebMock and VCR in order to record it,
