@@ -54,16 +54,17 @@ class Activities::ItemComponent < ViewComponent::Base
   end
 
   def display_details?
-    return false if @event.journal.initial? && @event.journal.journable_type != 'TimeEntry'
+    return false if (@event.journal.initial? && @event.journal.journable_type != 'TimeEntry') || initial_agenda_item?
 
     rendered_details.present?
   end
 
-  def rendered_details # separate logic here for meeting_agenda_items
-    if @event.meeting_agenda_item_data.nil?
-      filter_details.filter_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
-    else
+  def rendered_details
+    if meeting_agenda_item?
       agenda_items_details
+    else
+      # this doesn't do anything for details of type "agenda_items_10_title"
+      filter_details.filter_map { |detail| @event.journal.render_detail(detail, activity_page: @activity_page) }
     end
   end
 
@@ -99,6 +100,19 @@ class Activities::ItemComponent < ViewComponent::Base
     @current_project && (@event.project != @current_project)
   end
 
+  def meeting_agenda_item?
+    @event.meeting_agenda_item_data
+  end
+
+  def meeting_activity?
+    # need to check if the activities are coming from the meetings controller and not the activities controller, maybe?
+    # event.provider?
+  end
+
+  def initial_agenda_item?
+    @event.meeting_agenda_item_data.last["position"].first.nil?
+  end
+
   def filter_details
     # need to also filter agenda_items details here
     details = @event.journal.details
@@ -116,7 +130,30 @@ class Activities::ItemComponent < ViewComponent::Base
     details.delete(field) if details[field] && details[field].first.nil?
   end
 
-  def agenda_items_details()
-    # handle agenda items details here using meeting_agenda_item_data
+  def agenda_items_details
+    rendered_details = []
+    @event.meeting_agenda_item_data.last.each do |detail|
+      rendered_details << @event.journal.render_detail(detail, activity_page: @activity_page)
+    end
+
+    rendered_details
+  end
+
+  def agenda_item_title
+    agenda_item = MeetingAgendaItem.find(@event.meeting_agenda_item_data.first)
+
+    if agenda_item.item_type == "work_package"
+      agenda_item.work_package.to_s.to_s
+    elsif initial_agenda_item?
+      agenda_item.title.to_s
+    else
+      "Agenda item \"#{agenda_item.title}\""
+    end
+  rescue ActiveRecord::RecordNotFound # what to do if the item itself is deleted?
+    ("Agenda item deleted") # need i18n
+  end
+
+  def meeting_activity_title
+    "Meeting details"
   end
 end

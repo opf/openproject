@@ -52,8 +52,8 @@ module Acts::Journalized
         transformed = {}
         list.each do |key, value|
           value.each do |agenda_item, data|
-            transformed[agenda_item + '_' + key.to_s] ||= {}
-            transformed[agenda_item + '_' + key.to_s] = data
+            transformed["#{agenda_item}_#{key}"] ||= {}
+            transformed["#{agenda_item}_#{key}"] = data
           end
         end
 

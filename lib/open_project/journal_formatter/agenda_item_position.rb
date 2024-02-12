@@ -28,19 +28,19 @@
 
 class OpenProject::JournalFormatter::AgendaItemPosition < JournalFormatter::Base
   def render(_key, values, options = { html: true })
-    binding.pry
-
-    label_text = I18n.t('activerecord.attributes.project.public_value.title')
+    label_text = 'Order'
     label_text = content_tag(:strong, label_text) if options[:html]
 
-    value =
-      if values.last
-        I18n.t('activerecord.attributes.project.public_value.true')
-      else
-        I18n.t('activerecord.attributes.project.public_value.false')
-      end
-    value = content_tag(:i, value) if options[:html]
+    value = value(values.first, values.last)
 
-    I18n.t(:text_journal_set_to, label: label_text, value:)
+    I18n.t(:text_journal_of, label: label_text, value:)
+  end
+
+  private
+
+  def value(old_value, value)
+    if old_value && value
+      I18n.t(:'activity.item.meeting_agenda_item.position.updated')
+    end
   end
 end

@@ -40,11 +40,11 @@ class OpenProject::JournalFormatter::AgendaItemDuration < JournalFormatter::Base
 
   def value(old_value, value)
     if old_value.nil?
-      I18n.t(:'activity.item.meeting_agenda_item.added', value:)
+      I18n.t(:'activity.item.meeting_agenda_item.duration.added', value:)
     elsif value.nil?
-      I18n.t(:'activity.item.meeting_agenda_item.removed')
+      I18n.t(:'activity.item.meeting_agenda_item.duration.removed')
     else
-      I18n.t(:'activity.item.meeting_agenda_item.updated', value:)
+      I18n.t(:'activity.item.meeting_agenda_item.duration.updated', value:)
     end
   end
 end

@@ -29,13 +29,19 @@ See COPYRIGHT and LICENSE files for more details.
 
 <li class="op-activity-list--item">
   <div class="op-activity-list--item-title">
-    <%= link_to @event.event_title.squish, @event.event_path %>
-    <%= project_suffix %>
+    <% if meeting_agenda_item? -%>
+      <%= agenda_item_title %>
+    <% elsif meeting_activity? -%>
+      <%= meeting_activity_title %>
+    <% else %>
+      <%= link_to @event.event_title.squish, @event.event_path %>
+      <%= project_suffix %>
+    <% end -%>
   </div>
   <%=
     render(Activities::ItemSubtitleComponent.new(user: display_user? && @event.event_author,
                                              datetime: @event.event_datetime,
-                                             is_creation: @event.journal.initial?,
+                                             is_creation: @event.journal.initial? || initial_agenda_item?,
                                              journable_type: @event.journal.journable_type))
   %>
   <% if comment.present? -%>

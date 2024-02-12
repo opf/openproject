@@ -231,7 +231,7 @@ en:
       editable: "Allow the field to be editable by users themselves."
       visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
       is_filter: >
-        Allow the custom field to be used in a filter in work package views. 
+        Allow the custom field to be used in a filter in work package views.
         Note that only with 'For all projects' selected, the custom field will show up in global views.
 
     tab:
@@ -1094,9 +1094,12 @@ en:
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
       meeting_agenda_item:
-        added: "set to %{value} minutes"
-        removed: "removed"
-        updated: "modified to %{value} minutes"
+        duration:
+          added: "set to %{value} minutes"
+          removed: "removed"
+          updated: "modified to %{value} minutes"
+        position:
+          updated: "changed"
     filter:
       changeset: "Changesets"
       message: "Forums"

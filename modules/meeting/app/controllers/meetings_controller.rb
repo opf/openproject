@@ -374,12 +374,12 @@ class MeetingsController < ApplicationController
     @author = params[:user_id].blank? ? nil : User.active.find(params[:user_id])
   end
 
-  def separate_events_for_history
+  def separate_events_for_history # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     events_dup = @events.clone
 
     @events.each do |event|
       match = false
-      event.journal.details.keys.each do |key|
+      event.journal.details.each_key do |key|
         if key.match? /agenda_items_\d+/
           match = true
         end
@@ -390,7 +390,7 @@ class MeetingsController < ApplicationController
 
         event.journal.details.each_with_object(results) do |(key, values), res|
           if key.match? /agenda_items_\d+/
-            id, attribute = key.gsub("agenda_items_","").split("_")
+            id, attribute = key.gsub("agenda_items_", "").split("_")
             attribute = "duration_in_minutes" if attribute == "duration" # quick and dirty
             res[:agenda_items][id.to_i][attribute] = values
           else
@@ -398,10 +398,17 @@ class MeetingsController < ApplicationController
           end
         end
 
+        details_count = 0
+
         results[:agenda_items].each do |item_data|
           copy = event.clone
           copy.meeting_agenda_item_data = item_data
           events_dup << copy
+          details_count += item_data.last.count
+        end
+
+        if event.journal.details.count == details_count
+          events_dup.delete(event)
         end
       end
     end
