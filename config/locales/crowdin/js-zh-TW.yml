@@ -261,10 +261,10 @@ zh-TW:
           you_contribute: "開發者也需要支付他們的賬單。 通過升級到企業版，您將支持這個開放源碼社區的努力，並有助於其發展、維護和不斷改進。"
       working_days:
         calendar:
-          empty_state_header: "Non-working days"
+          empty_state_header: "非工作日"
           empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
           new_date: '（新）'
-        add_non_working_day: "Non-working day"
+        add_non_working_day: "非工作日"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
         change_button: "Save and reschedule"
         change_title: "Change working days"
@@ -1196,12 +1196,12 @@ zh-TW:
       timeline: '甘特圖'
     invite_user_modal:
       back: '返回'
-      invite: 'Invite'
+      invite: '邀請'
       title:
         invite: '邀請使用者'
         invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
+        User: '使用者'
+        Group: '群組'
         PlaceholderUser: '非專案成員'
         invite_principal_to_project: 'Invite %{principal} to %{project}'
       project:

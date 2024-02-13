@@ -104,7 +104,7 @@ zh-CN:
   ldap_auth_sources:
     ldap_error: "LDAP 错误：%{error_message}"
     ldap_auth_failed: "无法在 LDAP 服务器上验证身份。"
-    sync_failed: "从 LDAP 同步失败：%{message}。"
+    sync_failed: "无法从 LDAP 同步：%{message}。"
     back_to_index: "点击此处返回到连接列表。"
     technical_warning_html: |
       此 LDAP 表单需要您具备 LDAP / Active Directory 设置的技术知识。
@@ -251,7 +251,7 @@ zh-CN:
       no_results_title_text: 目前没有项目。
       no_results_content_text: 创建一个新的项目
     lists:
-      active: '活动项目'
+      active: '有效项目'
       my: '我的项目'
       archived: '归档项目'
       my_private: '我的私有项目列表'
@@ -645,7 +645,7 @@ zh-CN:
         readonly: "只读"
         remaining_hours: "剩余工作"
         remaining_time: "剩余工作"
-        shared_with_users: "已分享给"
+        shared_with_users: "共享对象"
         schedule_manually: "手动计划"
         spent_hours: "已耗工时"
         spent_time: "已耗工时"
@@ -2068,7 +2068,7 @@ zh-CN:
   label_this_week: "这一周"
   label_this_year: "这一年"
   label_time_entry_plural: "已耗工时"
-  label_time_entry_activity_plural: "用时活动"
+  label_time_entry_activity_plural: "花费时间的活动"
   label_title: "标题"
   label_projects_menu: "项目"
   label_today: "今天"

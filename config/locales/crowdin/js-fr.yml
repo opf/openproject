@@ -469,7 +469,7 @@ fr:
     label_per_page: "Par page:"
     label_please_wait: "Veuillez patienter"
     label_project: "Projet"
-    label_project_list: "Project lists"
+    label_project_list: "Listes de projets"
     label_project_plural: "Projets"
     label_visibility_settings: "Paramètres de visibilité"
     label_quote_comment: "Citer ce commentaire"
@@ -583,7 +583,7 @@ fr:
           full_view: 'La vue <b>détails du lot de travaux</b> fournit toutes les informations pertinentes relatives à un lot de travaux donné, comme sa description, son statut, sa priorité, ses activités, ses dépendances et ses commentaires.'
           back_button: 'Utilisez la flèche de retour dans le coin supérieur gauche pour quitter et retourner à la liste des lots de travaux.'
           create_button: 'La touche <b>+ Créer</b> ajoutera un nouveau lot de travaux à votre projet.'
-          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
+          gantt_menu: 'Créez facilement des calendriers et des frises chronologiques pour vos projets à l''aide du module de diagramme de Gantt.'
           timeline: 'Ici vous pouvez <b>modifier votre plan de projet</b>, créer de nouveaux lots de travaux, comme des tâches, des jalons, des phases et plus, ainsi que <b>ajouter des dépendances</b>. Tous les membres de l''équipe peuvent voir et mettre à jour le plan le plus récent à tout moment.'
         team_planner:
           overview: 'Le planificateur d''équipe vous permet d''assigner visuellement des tâches aux membres de l''équipe et d''obtenir un aperçu de qui travaille sur quoi.'
@@ -968,7 +968,7 @@ fr:
         description: "Description"
         date: "date"
         percentComplete: "% réalisé"
-        percentCompleteAlternative: "Progress"
+        percentCompleteAlternative: "Progression"
         dueDate: "Date de fin"
         duration: "Durée"
         spentTime: "Temps passé"
@@ -976,8 +976,8 @@ fr:
         percentageDone: "Pourcentage effectué"
         priority: "Priorité"
         projectName: "Projet"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Travail restant"
+        remainingWorkAlternative: "Heures restantes"
         responsible: "Responsable"
         startDate: "Date de début"
         status: "Statut"
@@ -988,8 +988,8 @@ fr:
         updatedAt: "Mis à jour le"
         versionName: "Version"
         version: "Version"
-        work: "Work"
-        workAlternative: "Estimated time"
+        work: "Travail"
+        workAlternative: "Durée estimée"
         remainingTime: "Travail restant"
       default_queries:
         latest_activity: "Dernière activité"
@@ -1038,7 +1038,7 @@ fr:
       sharing:
         share: 'Partager'
         title: "Partager le lot de travaux"
-        show_all_users: "Show all shared users"
+        show_all_users: "Afficher tous les utilisateurs partagés"
         selected_count: "%{count} sélectionné"
         selection:
           mixed: "Mixte"
