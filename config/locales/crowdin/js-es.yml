@@ -469,7 +469,7 @@ es:
     label_per_page: "Por pagina:"
     label_please_wait: "Por favor, espere"
     label_project: "Proyecto"
-    label_project_list: "Project lists"
+    label_project_list: "Listas de proyectos"
     label_project_plural: "Proyectos"
     label_visibility_settings: "Configuración de visibilidad"
     label_quote_comment: "Citar este comentario"
@@ -583,7 +583,7 @@ es:
           full_view: 'En la vista de <b>detalles del paquete de trabajo</b>, se muestra toda la información pertinente sobre un paquete de trabajo específico, como la descripción, el estado, la prioridad, las actividades, las dependencias y los comentarios.'
           back_button: 'Use la flecha de retorno de la esquina superior izquierda para salir y volver a la lista de paquetes de trabajo.'
           create_button: 'Use el botón <b>+ Crear</b> para añadir un nuevo paquete de trabajo a su proyecto.'
-          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
+          gantt_menu: 'Cree programas y cronogramas del proyecto sin esfuerzo utilizando el módulo de Diagrama de Gantt.'
           timeline: 'Aquí puede <b>editar su plan de proyecto</b>, crear nuevos paquetes de trabajo como tareas, hitos, fases y más, y <b>añadir dependencias</b>. Todos los miembros del equipo pueden ver y actualizar el plan más reciente en cualquier momento.'
         team_planner:
           overview: 'El planificador de equipo permite asignar de forma visual tareas a los miembros del equipo y obtener un resumen del trabajo de cada uno.'
@@ -967,8 +967,8 @@ es:
         createdAt: "Creado en"
         description: "Descripción"
         date: "Fecha"
-        percentComplete: "% Complete"
-        percentCompleteAlternative: "Progress"
+        percentComplete: "% compleado"
+        percentCompleteAlternative: "Progreso"
         dueDate: "Fecha de finalización"
         duration: "Duración"
         spentTime: "Tiempo invertido"
@@ -976,8 +976,8 @@ es:
         percentageDone: "Porcentaje realizado"
         priority: "Prioridad"
         projectName: "Proyecto"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Trabajo restante"
+        remainingWorkAlternative: "Horas restantes"
         responsible: "Responsable"
         startDate: "Fecha de inicio"
         status: "Estado"
@@ -988,8 +988,8 @@ es:
         updatedAt: "Actualizada el"
         versionName: "Versión"
         version: "Versión"
-        work: "Work"
-        workAlternative: "Estimated time"
+        work: "Trabajo"
+        workAlternative: "Tiempo estimado"
         remainingTime: "Trabajo restante"
       default_queries:
         latest_activity: "Actividad reciente"
@@ -1038,7 +1038,7 @@ es:
       sharing:
         share: 'Compartir'
         title: "Compartir paquete de trabajo"
-        show_all_users: "Show all shared users"
+        show_all_users: "Mostrar todos los usuarios compartidos"
         selected_count: "%{count} seleccionados"
         selection:
           mixed: "Mixto"

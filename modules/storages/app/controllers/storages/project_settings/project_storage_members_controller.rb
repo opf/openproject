@@ -40,7 +40,7 @@ class Storages::ProjectSettings::ProjectStorageMembersController < Projects::Set
 
   def index
     @memberships = Member
-      .where(project: @project)
+      .of_project(@project)
       .includes(:principal, :oauth_client_tokens, roles: :role_permissions)
       .paginate(page: page_param, per_page: per_page_param)
 

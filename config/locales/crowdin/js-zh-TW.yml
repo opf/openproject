@@ -261,10 +261,10 @@ zh-TW:
           you_contribute: "開發者也需要支付他們的賬單。 通過升級到企業版，您將支持這個開放源碼社區的努力，並有助於其發展、維護和不斷改進。"
       working_days:
         calendar:
-          empty_state_header: "Non-working days"
+          empty_state_header: "非工作日"
           empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
           new_date: '（新）'
-        add_non_working_day: "Non-working day"
+        add_non_working_day: "非工作日"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
         change_button: "Save and reschedule"
         change_title: "Change working days"
@@ -603,11 +603,11 @@ zh-TW:
         commented: '已評論'
         processed: '已處理'
         prioritized: '優先'
-        dateAlert: 'Date alert'
-        shared: 'shared'
+        dateAlert: '日期提醒'
+        shared: '共享'
       date_alerts:
         milestone_date: 'Milestone date'
-        overdue: 'Overdue'
+        overdue: '逾期'
         overdue_since: 'since %{difference_in_days}'
         property_today: 'is today'
         property_is: 'is in %{difference_in_days}'
@@ -647,8 +647,8 @@ zh-TW:
         inbox: '收件匣'
         mentioned: '被標記'
         watched: "關注者\n"
-        date_alert: 'Date alert'
-        shared: 'Shared'
+        date_alert: '日期提醒'
+        shared: '共享'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "通知設定"
@@ -662,16 +662,16 @@ zh-TW:
               P3D: 3 days before
               P7D: a week before
             overdue:
-              P1D: every day
-              P3D: every 3 days
-              P7D: every week
+              P1D: 每天
+              P3D: 每 3 天
+              P7D: 每週
         reasons:
           mentioned:
             title: '被標記'
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: '負責執行者'
           responsible: '負責人'
-          shared: 'Shared'
+          shared: '共享'
           watched: "關注者\n"
           work_package_commented: '新評論'
           work_package_created: '新工作包'
@@ -749,7 +749,7 @@ zh-TW:
           wiki_page_updated: '維基頁面已更新'
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
-        title: 'Email reminders'
+        title: '電子郵件提醒'
         pause:
           label: 'Temporarily pause daily email reminders'
           first_day: 'First day'
@@ -769,7 +769,7 @@ zh-TW:
         more_information: "更多資訊"
         nevermind: "無視"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "表單設定"
         projects: "專案"
         settings: "設定"
     time_entry:
@@ -965,7 +965,7 @@ zh-TW:
         createdAt: "建立於"
         description: "說明"
         date: "日期"
-        percentComplete: "% Complete"
+        percentComplete: "完成度(%)"
         percentCompleteAlternative: "Progress"
         dueDate: "完成日期"
         duration: "時間長度"
@@ -996,7 +996,7 @@ zh-TW:
         recently_created: "最近創建的"
         all_open: "全部打開"
         summary: "大綱"
-        shared_with_users: "Shared with users"
+        shared_with_users: "分配給非專案成員"
       jump_marks:
         pagination: "跳轉至表格分頁"
         label_pagination: "點擊此處跳過工作包表格並轉到分頁"
@@ -1196,13 +1196,13 @@ zh-TW:
       timeline: '甘特圖'
     invite_user_modal:
       back: '返回'
-      invite: 'Invite'
+      invite: '邀請'
       title:
         invite: '邀請使用者'
         invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
-        PlaceholderUser: 'placeholder user'
+        User: '使用者'
+        Group: '群組'
+        PlaceholderUser: '非專案成員'
         invite_principal_to_project: 'Invite %{principal} to %{project}'
       project:
         label: '專案'
@@ -1221,7 +1221,7 @@ zh-TW:
           title: '群組'
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
-          title: 'Placeholder user'
+          title: '非專案成員'
           title_no_ee: '非專案成員（Enterprise edition 附加功能）'
           description: 'Has no access to the project and no emails are sent out.'
           description_no_ee: '由於沒有訪問項目的權限，所以不會發送電子郵件。<br>請查看<a href="%{eeHref}" target="_blank">企業版</a>。'

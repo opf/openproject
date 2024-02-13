@@ -469,7 +469,7 @@ it:
     label_per_page: "Per pagina:"
     label_please_wait: "Attendere"
     label_project: "Progetto"
-    label_project_list: "Project lists"
+    label_project_list: "Elenchi progetti"
     label_project_plural: "Progetti"
     label_visibility_settings: "Impostazioni di visibilità"
     label_quote_comment: "Annota questo commento"
@@ -583,7 +583,7 @@ it:
           full_view: 'La visualizzazione dei <b>dettagli delle macro-attività</b> fornisce tutte le informazioni rilevanti relative a un determinato pacchetto di lavoro, come descrizione, stato, priorità, attività, dipendenze e commenti.'
           back_button: 'Utilizza la freccia di ritorno nell''angolo in alto a sinistra per uscire e tornare all''elenco delle macro-attività.'
           create_button: 'Il pulsante <b>+ Crea</b> aggiungerà una nuova macro-attività al tuo progetto.'
-          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
+          gantt_menu: 'Crea pianificazioni e sequenze temporali di progetto senza sforzo utilizzando il modulo diagramma di Gantt.'
           timeline: 'Qui puoi <b>modificare il tuo piano di progetto</b>, creare nuove macro-attività, come attività, pietre miliari, fasi e altro, nonché <b>aggiungere dipendenze</b>. Tutti i membri del team possono visualizzare e aggiornare il piano più recente in qualsiasi momento.'
         team_planner:
           overview: 'Il pianificatore di team consente di assegnare visivamente compiti ai membri del team e ottenere una panoramica di chi sta lavorando su cosa.'
@@ -967,8 +967,8 @@ it:
         createdAt: "Creato il"
         description: "Descrizione"
         date: "Data"
-        percentComplete: "% Complete"
-        percentCompleteAlternative: "Progress"
+        percentComplete: "% completamento"
+        percentCompleteAlternative: "Avanzamento"
         dueDate: "Data di fine"
         duration: "Durata"
         spentTime: "Tempo speso"
@@ -976,8 +976,8 @@ it:
         percentageDone: "Percentuale di completamento"
         priority: "Priorità"
         projectName: "Progetto"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Lavoro residuo"
+        remainingWorkAlternative: "Ore rimanenti"
         responsible: "Responsabile"
         startDate: "Data di inizio"
         status: "Stato"
@@ -988,8 +988,8 @@ it:
         updatedAt: "Aggiornato il"
         versionName: "Versione"
         version: "Versione"
-        work: "Work"
-        workAlternative: "Estimated time"
+        work: "Lavoro"
+        workAlternative: "Tempo stimato"
         remainingTime: "Lavoro rimanente"
       default_queries:
         latest_activity: "Ultima attività"
@@ -1038,7 +1038,7 @@ it:
       sharing:
         share: 'Condividi'
         title: "Condividi macro-attività"
-        show_all_users: "Show all shared users"
+        show_all_users: "Mostra tutti gli utenti condivisi"
         selected_count: "%{count} selezionati"
         selection:
           mixed: "Misto"

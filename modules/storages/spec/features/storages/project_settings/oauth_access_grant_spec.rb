@@ -81,9 +81,9 @@ RSpec.describe 'OAuth Access Grant Nudge upon adding a storage to a project',
     expect(page).to have_text(storage.name)
 
     within_test_selector('oauth-access-grant-nudge-modal') do
-      expect(page).to have_text('Storage added')
+      expect(page).to have_text('One more step...')
 
-      click_on('Yes')
+      click_on('Login')
       expect(page).to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
                                         "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
     end

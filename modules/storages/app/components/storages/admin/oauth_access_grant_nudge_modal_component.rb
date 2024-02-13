@@ -38,8 +38,12 @@ module Storages::Admin
     attr_reader :project_storage
 
     def initialize(project_storage_id:, **options)
-      @project_storage = ::Storages::ProjectStorage.find(project_storage_id)
+      @project_storage = ::Storages::ProjectStorage.find_by(id: project_storage_id)
       super(@project_storage, **options)
+    end
+
+    def render?
+      @project_storage.present?
     end
 
     private
@@ -64,7 +68,7 @@ module Storages::Admin
         success_subtitle = I18n.t('storages.oauth_grant_nudge_modal.storage_ready', storage: project_storage.storage.name)
         concat(render(Storages::OpenProjectStorageModalComponent::Body.new(:success, success_subtitle:, success_title:)))
       else
-        I18n.t('storages.oauth_grant_nudge_modal.body')
+        I18n.t('storages.oauth_grant_nudge_modal.body', storage: project_storage.storage.name)
       end
     end
 

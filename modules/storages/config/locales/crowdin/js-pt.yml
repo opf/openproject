@@ -78,7 +78,7 @@ pt:
         link_uploaded_file_error: >
           Ocorreu um erro ao vincular o arquivo recém-carregado '%{fileName}' para o pacote de trabalho %{workPackageId}
         tooltip:
-          not_logged_in: "Please log in to the storage to access this file."
+          not_logged_in: "Faça o login no armazenamento para acessar este arquivo"
           view_not_allowed: "Você não possui permissão para visualizar este arquivo."
           not_found: "Não foi possível encontrar este pedido"
         already_linked_file: "Este arquivo já está vinculado a este pacote de trabalho."

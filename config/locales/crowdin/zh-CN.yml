@@ -104,7 +104,7 @@ zh-CN:
   ldap_auth_sources:
     ldap_error: "LDAP 错误：%{error_message}"
     ldap_auth_failed: "无法在 LDAP 服务器上验证身份。"
-    sync_failed: "Failed to synchronize from LDAP: %{message}."
+    sync_failed: "无法从 LDAP 同步：%{message}。"
     back_to_index: "点击此处返回到连接列表。"
     technical_warning_html: |
       此 LDAP 表单需要您具备 LDAP / Active Directory 设置的技术知识。
@@ -251,12 +251,12 @@ zh-CN:
       no_results_title_text: 目前没有项目。
       no_results_content_text: 创建一个新的项目
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: '有效项目'
+      my: '我的项目'
+      archived: '归档项目'
+      my_private: '我的私有项目列表'
       new:
-        placeholder: 'New project list'
+        placeholder: '新项目列表'
     settings:
       change_identifier: 更改标识符
       activities:
@@ -330,7 +330,7 @@ zh-CN:
     memberships:
       no_results_title_text: 该用户当前非项目成员。
   page:
-    text: 'Text'
+    text: '文本'
   placeholder_users:
     right_to_manage_members_missing: >
       不允许删除占位符用户。您无权管理任何成员包含占位符用户的项目中的成员。
@@ -592,7 +592,7 @@ zh-CN:
         color: "颜色"
       user:
         admin: "管理员"
-        auth_source: "Authentication source"
+        auth_source: "身份验证源"
         ldap_auth_source: "LDAP 连接"
         identity_url: "身份网址"
         current_password: "当前密码："
@@ -624,7 +624,7 @@ zh-CN:
         begin_insertion: "开始插入"
         begin_deletion: "开始删除"
         children: "子元素"
-        derived_done_ratio: "Derived % Complete"
+        derived_done_ratio: "派生完成百分比"
         derived_remaining_hours: "派生的剩余工作"
         derived_remaining_time: "派生的剩余工作"
         done_ratio: "% 完成"
@@ -645,7 +645,7 @@ zh-CN:
         readonly: "只读"
         remaining_hours: "剩余工作"
         remaining_time: "剩余工作"
-        shared_with_users: "Shared with"
+        shared_with_users: "共享对象"
         schedule_manually: "手动计划"
         spent_hours: "已耗工时"
         spent_time: "已耗工时"
@@ -950,7 +950,7 @@ zh-CN:
             ldap_auth_source:
               error_not_found: "未找到"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "未找到"
         member:
           principal_blank: "请选择至少一个用户或组。"
           role_blank: "需要进行分配。"
@@ -1416,7 +1416,7 @@ zh-CN:
     message: 编辑消息
     news: 新闻
     project_attributes: "项目属性已编辑"
-    project: "Project edited"
+    project: "项目已编辑"
     projects: "项目已编辑"
     reply: 答复
     time_entry: "编辑时间记录"
@@ -1559,7 +1559,7 @@ zh-CN:
         revoke_token: "是否确实要移除此令牌？您需要再次登录 %{storage}"
         removed: "文件存储区令牌已成功移除"
         failed: "出错了，无法移除令牌。请稍后再试。"
-        unknown_storage: "Unknown storage"
+        unknown_storage: "未知存储"
   notifications:
     send_notifications: "发送此操作的通知"
     work_packages:
@@ -1639,9 +1639,9 @@ zh-CN:
   label_available_project_work_package_categories: "可用的工作包类别"
   label_available_project_work_package_types: "可用的工作包类型"
   label_available_projects: "可用的项目"
-  label_api_doc: "API documentation"
+  label_api_doc: "API 文档"
   label_backup: "备份"
-  label_backup_code: "Backup code"
+  label_backup_code: "备份代码"
   label_between: "介于"
   label_blocked_by: "阻止于"
   label_blocks: "阻止"
@@ -1651,7 +1651,7 @@ zh-CN:
   label_forum_plural: "论坛"
   label_forum_sticky: "置顶"
   label_boolean: "布尔值"
-  label_board_plural: "Boards"
+  label_board_plural: "面板"
   label_branch: "分支"
   label_browse: "浏览"
   label_bulk_edit_selected_work_packages: "批量编辑所选工作包"
@@ -1678,7 +1678,7 @@ zh-CN:
   label_check_uncheck_all_in_column: "选中/取消选中所有列"
   label_check_uncheck_all_in_row: "选中/取消选中所有行"
   label_child_element: "子元素"
-  label_choices: "Choices"
+  label_choices: "选择"
   label_chronological_order: "最早的优先"
   label_close_versions: "关闭已完成版本"
   label_closed_work_packages: "关闭"
@@ -1710,7 +1710,7 @@ zh-CN:
   label_custom_field_plural: "自定义字段"
   label_custom_field_default_type: "空类型"
   label_custom_style: "设计"
-  label_dashboard: "Dashboard"
+  label_dashboard: "仪表板"
   label_database_version: "PostgreSQL 版本"
   label_date: "日期"
   label_date_and_time: "日期和时间"
@@ -1767,8 +1767,8 @@ zh-CN:
   label_example: "示例"
   label_experimental: "实验"
   label_i_am_member: "我是成员"
-  label_ifc_viewer: "Ifc Viewer"
-  label_ifc_model_plural: "Ifc Models"
+  label_ifc_viewer: "Ifc 查看器"
+  label_ifc_model_plural: "Ifc 模型"
   label_import: "导入"
   label_export_to: "同时支持："
   label_expanded_click_to_collapse: "展开。点击折叠"
@@ -1790,7 +1790,7 @@ zh-CN:
   label_force_user_language_to_default: "设置拥有非允许语言的用户的默认语言"
   label_form_configuration: "表格配置"
   label_gantt_chart: "甘特图"
-  label_gantt_chart_plural: "Gantt charts"
+  label_gantt_chart_plural: "甘特图"
   label_general: "通用"
   label_generate_key: "生成密钥"
   label_git_path: ".git 目录的路径"
@@ -1808,7 +1808,7 @@ zh-CN:
   label_home: "首页"
   label_subject_or_id: "主题或ID"
   label_calendar_subscriptions: "日历订阅"
-  label_identifier: "Identifier"
+  label_identifier: "标识符"
   label_impressum: "法律声明"
   label_in: "在"
   label_in_less_than: "在小于"
@@ -1825,7 +1825,7 @@ zh-CN:
   label_internal: "内部"
   label_introduction_video: "自我介绍视频"
   label_invite_user: "邀请用户"
-  label_share: "Share"
+  label_share: "共享"
   label_show_hide: "显示/隐藏"
   label_show_all_registered_users: "显示所有注册用户"
   label_journal: "日志"
@@ -1896,7 +1896,7 @@ zh-CN:
   label_my_account: "我的账户"
   label_my_activity: "我的活动"
   label_my_account_data: "我的账户数据"
-  label_my_avatar: "My avatar"
+  label_my_avatar: "我的头像"
   label_my_queries: "我的自定义查询"
   label_name: "名称"
   label_never: "永不"
@@ -2032,7 +2032,7 @@ zh-CN:
   label_search: "搜索"
   label_send_information: "向用户发送新的凭据"
   label_send_test_email: "发送测试电子邮件"
-  label_session: "Session"
+  label_session: "会话"
   label_setting_plural: "设置"
   label_system_settings: "系统设置"
   label_show_completed_versions: "显示已完成的版本"
@@ -2062,13 +2062,13 @@ zh-CN:
   label_system_storage: "存储信息"
   label_table_of_contents: "目录"
   label_tag: "标记"
-  label_team_planner: "Team Planner"
+  label_team_planner: "团队规划工具"
   label_text: "长文本"
   label_this_month: "这个月"
   label_this_week: "这一周"
   label_this_year: "这一年"
   label_time_entry_plural: "已耗工时"
-  label_time_entry_activity_plural: "Spent time activities"
+  label_time_entry_activity_plural: "花费时间的活动"
   label_title: "标题"
   label_projects_menu: "项目"
   label_today: "今天"
@@ -2801,7 +2801,7 @@ zh-CN:
     other: "其他"
     passwords: "密码"
     projects:
-      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
+      missing_dependencies: "已检查依赖于 %{dependencies} 的项目模块 %{module}。您也需要检查这些依赖项。"
       section_new_projects: "新项目的设置"
       section_project_overview: "项目概览列表的设置"
     session: "会话"
@@ -2817,7 +2817,7 @@ zh-CN:
     plain: "纯文本"
   status_active: "激活"
   status_archived: "已存档"
-  status_blocked: "blocked"
+  status_blocked: "已阻止"
   status_invited: 已邀请
   status_locked: 锁定
   status_registered: 已注册
@@ -3073,7 +3073,7 @@ zh-CN:
       text_empty_search_description: "没有符合当前过滤条件的用户。"
       text_empty_search_header: "我们找不到任何匹配的结果。"
       text_empty_state_description: "工作包尚未共享给任何人。"
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "未共享"
       text_user_limit_reached: "添加额外的用户将超出当前限制。请联系管理员以增加用户限制，以确保外部用户能够访问此工作包。"
       text_user_limit_reached_admins: '添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>以添加更多用户。'
       warning_user_limit_reached: >

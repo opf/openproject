@@ -261,10 +261,16 @@ module Storages
     end
 
     def format_and_log_error(error, context = {})
-      error_message = context.merge({ command: error.data.source,
-                                      message: error.log_message,
-                                      data: { status: error.data.payload.status.to_s, body: error.data.payload.body.to_s } })
+      payload = error.data.payload
+      data =
+        case payload
+        in { status: Integer }
+          { status: payload.status.to_s, body: payload.body.to_s }
+        else
+          payload.error.to_s
+        end
 
+      error_message = context.merge({ command: error.data.source, message: error.log_message, data: })
       OpenProject.logger.warn error_message.to_json
     end
 

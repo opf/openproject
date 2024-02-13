@@ -21,8 +21,8 @@
 #++
 "no":
   plugin_openproject_reporting:
-    name: "OpenProject Reporting"
-    description: "This plugin allows creating custom cost reports with filtering and grouping created by the OpenProject Time and costs plugin."
+    name: "OpenProject rapportering"
+    description: "Dette programtillegget gjør det mulig å lage egendefinerte kostnadsrapporter med filtrering og gruppering opprettet av OpenProject -utvidelsen Tid og kostnad."
   button_save_as: "Lagre rapport som..."
   comments: "Kommentar"
   cost_reports_title: "Tid og kostnader"
