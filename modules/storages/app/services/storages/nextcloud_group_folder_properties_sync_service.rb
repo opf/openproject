@@ -219,16 +219,27 @@ module Storages
         return ServiceResult.failure(errors: error)
       end
 
-      folder_id = Peripherals::Registry
-                    .resolve('queries.nextcloud.file_ids')
-                    .call(storage: @storage, path: folder_path)
-                    .result_or do |error|
+      folder_id_result = Peripherals::Registry
+                           .resolve('queries.nextcloud.file_ids')
+                           .call(storage: @storage, path: folder_path)
+                           .result_or do |error|
         format_and_log_error(error, path:)
-        ServiceResult.failure(errors: error)
+
+        return ServiceResult.failure(errors: error)
       end
 
-      project_storage.update(project_folder_id: folder_id.dig(folder_path, 'fileid'))
-      project_storage.reload.project_folder_id
+      project_folder_id = folder_id_result.dig(folder_path, 'fileid')
+      last_project_folder = ::Storages::LastProjectFolder
+                              .find_by(
+                                project_storage_id: project_storage.id,
+                                mode: project_storage.project_folder_mode
+                              )
+
+      ApplicationRecord.transaction do
+        last_project_folder.update!(origin_folder_id: project_folder_id)
+        project_storage.update!(project_folder_id:)
+        project_storage.project_folder_id
+      end
     end
 
     # rubocop:enable Metrics/AbcSize
@@ -265,13 +276,13 @@ module Storages
       data =
         case payload
         in { status: Integer }
-          { status: payload.status.to_s, body: payload.body.to_s }
+          { status: payload.status, body: payload.body.to_s }
         else
           payload.error.to_s
         end
 
       error_message = context.merge({ command: error.data.source, message: error.log_message, data: })
-      OpenProject.logger.warn error_message.to_json
+      OpenProject.logger.warn error_message
     end
 
     ### Model Scopes

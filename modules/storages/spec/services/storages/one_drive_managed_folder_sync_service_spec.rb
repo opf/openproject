@@ -47,14 +47,18 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
   # USER FACTORIES
   shared_let(:single_project_user) { create(:user) }
   shared_let(:single_project_user_token) do
-    create(:oauth_client_token, user: single_project_user,
-                                oauth_client: storage.oauth_client, origin_user_id: '2ff33b8f-2843-40c1-9a17-d786bca17fba')
+    create(:oauth_client_token,
+           user: single_project_user,
+           oauth_client: storage.oauth_client,
+           origin_user_id: '2ff33b8f-2843-40c1-9a17-d786bca17fba')
   end
 
   shared_let(:multiple_projects_user) { create(:user) }
   shared_let(:multiple_project_user_token) do
-    create(:oauth_client_token, user: multiple_projects_user,
-                                oauth_client: storage.oauth_client, origin_user_id: '248aeb72-b231-4e71-a466-67fa7df2a285')
+    create(:oauth_client_token,
+           user: multiple_projects_user,
+           oauth_client: storage.oauth_client,
+           origin_user_id: '248aeb72-b231-4e71-a466-67fa7df2a285')
   end
 
   # ROLE FACTORIES
@@ -68,25 +72,27 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
            name: '[Sample] Project Name / Ehuu',
            members: { multiple_projects_user => ordinary_role, single_project_user => ordinary_role })
   end
-  shared_let(:project_storage) { create(:project_storage, project_folder_mode: 'automatic', storage:, project:) }
+  shared_let(:project_storage) do
+    create(:project_storage, :with_historical_data, project_folder_mode: 'automatic', storage:, project:)
+  end
 
   shared_let(:disallowed_chars_project) do
     create(:project, name: '<=o=> | "Jedi" Project Folder ///', members: { multiple_projects_user => ordinary_role })
   end
   shared_let(:disallowed_chars_project_storage) do
-    create(:project_storage, project_folder_mode: 'automatic', project: disallowed_chars_project, storage:)
+    create(:project_storage, :with_historical_data, project_folder_mode: 'automatic', project: disallowed_chars_project, storage:)
   end
 
   shared_let(:inactive_project) do
     create(:project, name: 'INACTIVE PROJECT! f0r r34lz', active: false, members: { multiple_projects_user => ordinary_role })
   end
   shared_let(:inactive_project_storage) do
-    create(:project_storage, project_folder_mode: 'automatic', project: inactive_project, storage:)
+    create(:project_storage, :with_historical_data, project_folder_mode: 'automatic', project: inactive_project, storage:)
   end
 
   shared_let(:public_project) { create(:public_project, name: 'PUBLIC PROJECT', active: true) }
   shared_let(:public_project_storage) do
-    create(:project_storage, project_folder_mode: 'automatic', project: public_project, storage:)
+    create(:project_storage, :with_historical_data, project_folder_mode: 'automatic', project: public_project, storage:)
   end
 
   # This is a remote service call. We need to enable WebMock and VCR in order to record it,
@@ -119,7 +125,27 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
 
     it 'creates the remote folders for all projects with automatically managed folders enabled',
        vcr: 'one_drive/sync_service_create_folder' do
-      expect { service.call }.not_to change(inactive_project_storage, :project_folder_id)
+      expect(project_storage.project_folder_id).to be_nil
+      expect(disallowed_chars_project_storage.project_folder_id).to be_nil
+      expect(public_project_storage.project_folder_id).to be_nil
+      expect(inactive_project_storage.project_folder_id).to be_nil
+
+      expect(project_storage.last_project_folders.pluck(:origin_folder_id)).to eq([nil])
+      expect(disallowed_chars_project_storage.last_project_folders.pluck(:origin_folder_id)).to eq([nil])
+      expect(public_project_storage.last_project_folders.pluck(:origin_folder_id)).to eq([nil])
+      expect(inactive_project_storage.last_project_folders.pluck(:origin_folder_id)).to eq([nil])
+
+      service.call
+
+      expect(project_storage.reload.project_folder_id).to eq("01AZJL5PMI2DPWLRLNF5E22SDENZUW56TW")
+      expect(disallowed_chars_project_storage.reload.project_folder_id).to eq("01AZJL5PIJKLR5R3F66FCYDSTWVOG5KC5D")
+      expect(public_project_storage.reload.project_folder_id).to eq("01AZJL5PPR64QSLQBO4ZCLSQZFZGBB6EWC")
+      expect(inactive_project_storage.reload.project_folder_id).to be_nil
+
+      expect(project_storage.last_project_folders.pluck(:origin_folder_id)).to eq(["01AZJL5PMI2DPWLRLNF5E22SDENZUW56TW"])
+      expect(disallowed_chars_project_storage.last_project_folders.pluck(:origin_folder_id)).to eq(["01AZJL5PIJKLR5R3F66FCYDSTWVOG5KC5D"])
+      expect(public_project_storage.last_project_folders.pluck(:origin_folder_id)).to eq(["01AZJL5PPR64QSLQBO4ZCLSQZFZGBB6EWC"])
+      expect(inactive_project_storage.last_project_folders.pluck(:origin_folder_id)).to eq([nil])
 
       [project_storage, disallowed_chars_project_storage, public_project_storage].each do |proj_storage|
         expect(project_folder_info(proj_storage)).to be_success
