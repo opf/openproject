@@ -351,7 +351,7 @@ de:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter and save custom project lists.</li> <li>Separate Gantt charts module with new default views.</li> <li>Automatically managed project folders for OneDrive/SharePoint integration.</li> <li>Show number of "Shared users" in the share button and display them in the work packages list.</li> <li>Improved calculations and updates for progress reporting for work package hierarchies.</li> </ul>
+                Diese Version enthält folgende Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Filtern und Speichern von individuellen Projektlisten.</li> <li>Gantt-Funktionalität in separates Modul "Gantt-Diagramme" extrahiert und Ergänzung von Standardansichten.</li> <li>Automatisch verwaltete Projektordner für OneDrive/SharePoint.</li> <li>Anzahl geteilter Nutzer im "Teilen"-Button für Arbeitspakete und separate Spalte zum Anzeigen geteilter Nutzer.</li> <li>Verbesserte Berechnungen für Fortschrittsberichte innerhalb Arbeitspaket-Hierarchien.</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -468,7 +468,7 @@ de:
     label_per_page: "Pro Seite:"
     label_please_wait: "Bitte warten"
     label_project: "Projekt"
-    label_project_list: "Project lists"
+    label_project_list: "Projektlisten"
     label_project_plural: "Projekte"
     label_visibility_settings: "Sichtbarkeits-Einstellungen"
     label_quote_comment: "Diesen Kommentar zitieren"
@@ -967,7 +967,7 @@ de:
         description: "Beschreibung"
         date: "Datum"
         percentComplete: "% abgeschlossen"
-        percentCompleteAlternative: "Progress"
+        percentCompleteAlternative: "Fortschritt"
         dueDate: "Endtermin"
         duration: "Dauer"
         spentTime: "Aufgewendete Zeit"
@@ -975,8 +975,8 @@ de:
         percentageDone: "Prozentsatz erledigt"
         priority: "Priorität"
         projectName: "Projekt"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Verbleibender Aufwand"
+        remainingWorkAlternative: "Verbleibende Stunden"
         responsible: "Verantwortlich"
         startDate: "Anfangstermin"
         status: "Status"
@@ -987,8 +987,8 @@ de:
         updatedAt: "Aktualisiert am"
         versionName: "Version"
         version: "Version"
-        work: "Work"
-        workAlternative: "Estimated time"
+        work: "Aufwand"
+        workAlternative: "Geschätzter Aufwand"
         remainingTime: "Verbleibender Aufwand"
       default_queries:
         latest_activity: "Letzte Änderungen"
@@ -1037,7 +1037,7 @@ de:
       sharing:
         share: 'Teilen'
         title: "Arbeitspaket teilen"
-        show_all_users: "Show all shared users"
+        show_all_users: "Alle Benutzer anzeigen, mit denen dieses Arbeitspaket geteilt wurde"
         selected_count: "%{count} ausgewählt"
         selection:
           mixed: "Gemischt"
