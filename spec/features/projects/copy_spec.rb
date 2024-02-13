@@ -35,7 +35,12 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
              parent: parent_project,
              types: active_types,
              members: { user => role },
-             custom_field_values: { project_custom_field.id => 'some text cf' }).tap do |p|
+             # custom_fields which are not used below are not activated for this project
+             custom_field_values: {
+               project_custom_field.id => 'some text cf',
+               optional_project_custom_field.id => 'some optional text cf',
+               optional_project_custom_field_with_default.id => 'foo'
+             }).tap do |p|
         p.work_package_custom_fields << wp_custom_field
         p.types.first.custom_fields << wp_custom_field
 
@@ -55,6 +60,12 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
     end
     let!(:project_custom_field) do
       create(:text_project_custom_field, is_required: true)
+    end
+    let!(:optional_project_custom_field) do
+      create(:text_project_custom_field, is_required: false)
+    end
+    let!(:optional_project_custom_field_with_default) do
+      create(:text_project_custom_field, is_required: false, default_value: 'foo')
     end
     let!(:wp_custom_field) do
       create(:text_wp_custom_field)
@@ -140,6 +151,137 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       clear_performed_jobs
     end
 
+    context 'with correct project custom field activations' do
+      before do
+        original_settings_page = Pages::Projects::Settings.new(project)
+        original_settings_page.visit!
+
+        find('.toolbar a', text: 'Copy').click
+
+        expect(page).to have_text "Copy project \"#{project.name}\""
+
+        fill_in 'Name', with: 'Copied project'
+      end
+
+      it 'enables the same project custom fields as activated on the source project if untouched' do
+        expect(project.project_custom_field_ids).to contain_exactly(
+          project_custom_field.id,
+          optional_project_custom_field.id,
+          optional_project_custom_field_with_default.id
+        )
+
+        click_button 'Save'
+
+        wait_for_copy_to_finish
+
+        copied_project = Project.find_by(name: 'Copied project')
+
+        expect(copied_project.project_custom_field_ids).to contain_exactly(
+          project_custom_field.id,
+          optional_project_custom_field.id,
+          optional_project_custom_field_with_default.id
+        )
+      end
+
+      it 'disables optional project custom fields if explicitly set to blank' do
+        # Expand advanced settings
+        click_on 'Advanced settings'
+
+        editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{optional_project_custom_field.id}']"
+        editor.clear
+
+        click_button 'Save'
+
+        wait_for_copy_to_finish
+
+        copied_project = Project.find_by(name: 'Copied project')
+
+        expect(copied_project.project_custom_field_ids).to contain_exactly(
+          project_custom_field.id,
+          optional_project_custom_field_with_default.id
+        )
+      end
+
+      # TBD: Is this intended from a conceptial point of view?
+      #
+      # If not, I don't know how to change this behavior while keeping the behavior specified in the creation spec where
+      # optional custom fields are not activated if the value is set to blank in the form (which seems to be desired from
+      # a concpetional point of view)
+      it 'does not enable project custom fields (with default values) if set to blank in source project' do
+        project.update!(custom_field_values: {
+                          optional_project_custom_field.id => '',
+                          optional_project_custom_field_with_default.id => ''
+                        })
+
+        # the optional custom fields are activated, but set to blank values
+        expect(project.project_custom_field_ids).to contain_exactly(
+          project_custom_field.id,
+          optional_project_custom_field.id,
+          optional_project_custom_field_with_default.id
+        )
+
+        original_settings_page = Pages::Projects::Settings.new(project)
+        original_settings_page.visit!
+
+        find('.toolbar a', text: 'Copy').click
+
+        expect(page).to have_text "Copy project \"#{project.name}\""
+
+        fill_in 'Name', with: 'Copied project'
+
+        click_button 'Save'
+
+        wait_for_copy_to_finish
+
+        copied_project = Project.find_by(name: 'Copied project')
+
+        expect(copied_project.project_custom_field_ids).to contain_exactly(
+          project_custom_field.id
+        )
+      end
+
+      context 'with project custom fields with default values, which are disabled in source project' do
+        let!(:optional_boolean_project_custom_field_with_default) do
+          create(:boolean_project_custom_field, is_required: false, default_value: true)
+        end
+        let!(:optional_string_project_custom_field_with_default) do
+          create(:string_project_custom_field, is_required: false, default_value: 'bar')
+        end
+
+        # TBD: Is this intended from a conceptial point of view?
+        #
+        # If not, I don't know how to change this behavior while keeping the behavior specified in the creation spec where
+        # optional custom fields with default values are activated if the value is untouched in the form (which seems to be desired from
+        # a concpetional point of view)
+        it 'does enable optional project custom fields with default values although not enabled in source project' do
+          # the optional boolean and string fields are not activated in the source project
+          expect(project.project_custom_field_ids).to contain_exactly(
+            project_custom_field.id,
+            optional_project_custom_field.id,
+            optional_project_custom_field_with_default.id
+          )
+
+          click_button 'Save'
+
+          wait_for_copy_to_finish
+
+          copied_project = Project.find_by(name: 'Copied project')
+
+          # the optional boolean and string fields are activated in the copied project with their default values
+          expect(copied_project.project_custom_field_ids).to contain_exactly(
+            project_custom_field.id,
+            optional_project_custom_field.id,
+            optional_project_custom_field_with_default.id,
+            optional_boolean_project_custom_field_with_default.id,
+            optional_string_project_custom_field_with_default.id
+          )
+
+          expect(copied_project.custom_value_for(optional_boolean_project_custom_field_with_default).typed_value).to be_truthy
+          expect(copied_project.custom_value_for(optional_string_project_custom_field_with_default).typed_value).to eq('bar')
+        end
+      end
+    end
+
     it 'copies projects and the associated objects' do
       original_settings_page = Pages::Projects::Settings.new(project)
       original_settings_page.visit!
@@ -159,11 +301,7 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
 
       click_button 'Save'
 
-      expect(page).to have_text 'The job has been queued and will be processed shortly.'
-
-      # ensure all jobs are run especially emails which might be sent later on
-      while perform_enqueued_jobs > 0
-      end
+      wait_for_copy_to_finish
 
       copied_project = Project.find_by(name: 'Copied project')
 
@@ -298,6 +436,14 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       wp_table.visit!
       wp_table.expect_work_package_listed *order
       wp_table.expect_work_package_order *order
+    end
+  end
+
+  def wait_for_copy_to_finish
+    expect(page).to have_text 'The job has been queued and will be processed shortly.'
+
+    # ensure all jobs are run especially emails which might be sent later on
+    while perform_enqueued_jobs > 0
     end
   end
 end

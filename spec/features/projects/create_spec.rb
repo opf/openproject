@@ -136,6 +136,19 @@ RSpec.describe 'Projects', 'creation',
       end
     end
 
+    context 'with correct validations' do
+      before do
+        visit new_project_path
+      end
+
+      it 'requires the required custom field' do
+        click_on 'Save'
+
+        expect(page).to have_content "Required Foo can't be blank"
+        expect(page).to have_no_content "Optional Foo can't be blank"
+      end
+    end
+
     context 'with correct custom field activation' do
       let!(:unused_custom_field) do
         create(:custom_field, name: 'Unused Foo',
@@ -233,6 +246,82 @@ RSpec.describe 'Projects', 'creation',
           )
 
           expect(project.custom_value_for(custom_field_with_default_value).value).to eq('foo')
+        end
+      end
+
+      context 'with correct handling of optional boolean values' do
+        let!(:custom_boolean_field_default_true) do
+          create(:custom_field, name: 'Boolean with default true',
+                                field_format: 'bool',
+                                default_value: true,
+                                type: ProjectCustomField,
+                                is_for_all: true)
+        end
+
+        let!(:custom_boolean_field_with_no_default) do
+          create(:custom_field, name: 'Boolean with no default',
+                                field_format: 'bool',
+                                type: ProjectCustomField,
+                                is_for_all: true)
+        end
+
+        before do
+          visit new_project_path
+          fill_in 'Name', with: 'Foo bar'
+          fill_in 'Required Foo', with: 'Required value'
+
+          click_on 'Advanced settings'
+        end
+
+        it 'only enables boolean custom fields with default values if untouched' do
+          # do not touch any of the boolean fields
+          click_on 'Save'
+
+          expect(page).to have_current_path /\/projects\/foo-bar\/?/
+
+          project = Project.last
+
+          # custom_field_with_default_value should be activated and contain the overwritten value
+          expect(project.project_custom_field_ids).to contain_exactly(
+            required_custom_field.id, custom_boolean_field_default_true.id
+          )
+
+          expect(project.custom_value_for(custom_boolean_field_default_true).typed_value).to be_truthy
+        end
+
+        it 'enables boolean custom fields without default values if set to true explicitly' do
+          check 'Boolean with no default'
+
+          click_on 'Save'
+
+          expect(page).to have_current_path /\/projects\/foo-bar\/?/
+
+          project = Project.last
+
+          # custom_field_with_default_value should be activated and contain the overwritten value
+          expect(project.project_custom_field_ids).to contain_exactly(
+            required_custom_field.id, custom_boolean_field_default_true.id, custom_boolean_field_with_no_default.id
+          )
+
+          expect(project.custom_value_for(custom_boolean_field_default_true).typed_value).to be_truthy
+          expect(project.custom_value_for(custom_boolean_field_with_no_default).typed_value).to be_truthy
+        end
+
+        it 'enables boolean custom fields with default values if set to false explicitly' do
+          uncheck 'Boolean with default true'
+
+          click_on 'Save'
+
+          expect(page).to have_current_path /\/projects\/foo-bar\/?/
+
+          project = Project.last
+
+          # custom_field_with_default_value should be activated and contain the overwritten value
+          expect(project.project_custom_field_ids).to contain_exactly(
+            required_custom_field.id, custom_boolean_field_default_true.id
+          )
+
+          expect(project.custom_value_for(custom_boolean_field_default_true).typed_value).to be_falsy
         end
       end
     end
