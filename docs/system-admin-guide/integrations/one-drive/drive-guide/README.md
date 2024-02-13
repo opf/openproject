@@ -1,12 +1,47 @@
 ---
 sidebar_navigation:
-  title: Drive ID Guide
+  title: Drive Guide
   priority: 600
-description: Drive ID guide for OneDrive/SharePoint integration setup in OpenProject
+description: Drive guide for OneDrive/SharePoint integration setup in OpenProject
 keywords: OneDrive/SharePoint file storage integration, OneDrive, SharePoint, DriveID, Azure, Drive ID
 ---
 
-# Drive ID Guide
+# Drive Guide
+
+## Configure drive for automatic management
+
+If you need a drive configured for the file storage feature "Automatically managed project folders", there are some
+previous steps to take. If the drive is destined to be used in a file storage, while the management is still based
+within OneDrive/SharePoint, you must skip those steps and continue
+with [obtaining the drive id](./#how-to-obtain-a-drive-id).
+
+> Disclaimer: Some of the following descriptions are very tightly connected to the current (2024-02-13) state of
+> SharePoint configuration. This may easily change in future, as we do not control nor foresee changes to the
+> configuration UI developed by Microsoft.
+
+### Break inheritance chain
+
+The first step to take is to interrupt the inheritance chain of SharePoint for this drive. Without doing this, your
+OpenProject instance won't be able to manage the permissions on the drive for the project folders, as SharePoint
+consistently will override those permissions.
+
+To achieve that, one must enter the *Library Settings* of the target drive. Those usually can get accessed by selecting
+the Settings gear icon to the top right, selecting *Library Settings* and finally selecting *More Library Settings*. In
+the category of *Permissions and Management*, there should be the option to select *Permissions for this document
+library*. Within the new page, in the top menu, one must select the option to *Stop Inheriting Permissions*.
+
+### Remove previously set permissions
+
+Once the inheritance chain is interrupted, there is a last step to do, to prepare the drive for remote management of
+permissions.
+
+In the last view of the drive configuration, the one visited after clicking on *Permissions for this document library*
+in the *Library Settings*, one should be able to see a list of all currently set permissions. In a standard drive, where
+no custom permissions were set, this is usually restricted to the *Members*, *Visitors* and *Owners*, SharePoint groups
+that are linked to the parent site. Now, one must remove all permissions except the one group of *Owners*. Keeping those
+is important to still being able to reconfigure the drive at a later point in time.
+
+Once this is done, there should be no permission left assigned to the document library, except the *Owners* group.
 
 ## How to obtain a drive ID
 
@@ -52,7 +87,10 @@ specific toolset.
 ### Example 1: Microsoft GRAPH explorer
 
 Microsoft provides a web application, which can browse the GRAPH API. This tool can be
-found [here](https://developer.microsoft.com/en-us/graph/graph-explorer).
+found [here](https://developer.microsoft.com/en-us/graph/graph-explorer). This method only works, if the drive is not
+configured as described in the section
+about [configuring a drive for automatic management](./#configure-drive-for-automatic-management), so the better
+alternative is [example 2](./#example-2-terminal).
 
 #### Preconditions
 

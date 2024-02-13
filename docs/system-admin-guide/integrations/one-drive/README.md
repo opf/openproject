@@ -12,7 +12,7 @@ keywords: One Drive, SharePoint, file storage, integration
 |-----------------------------------------------------------------------------------------|:--------------------------------------------------------------------------|
 | [Minimum requirements](#minimum-requirements)                                           | Minimum version requirements to enable the integration                    |
 | [Set up the integration](#set-up-the-integration)                                       | Connect OpenProject and OneDrive/SharePoint instances as an administrator |
-| [Drive ID guide](./drive-id-guide)                                                      | How to obtain a drive ID                                                  |
+| [Drive guide](./drive-guide)                                                            | How to configure a drive and obtain the drive id                          |
 | [Using the integration](#using-the-integration)                                         | How to use the OneDrive/SharePoint integration                            |
 | [Edit a OneDrive/SharePoint file storage](#edit-a-onedrivesharepoint-file-storage)      | Edit a OneDrive/SharePoint file storage                                   |
 | [Delete an OneDrive/SharePoint file storage](#delete-a-onedrivesharepoint-file-storage) | Delete a OneDrive/SharePoint file storage                                 |
@@ -55,7 +55,7 @@ Click the green **+Storage** button and select the OneDrive/SharePoint option.
 ![Add a new OneDrive/SharePoint storage to OpenProject](openproject_system_guide_new_onedrive_storage.png)
 
 A screen will open, in which you will need to add the following details for your new OneDrive/SharePoint storage. Please
-consult your Azure administrator and the [Drive ID guide](./drive-id-guide) to obtain respective information. Be aware,
+consult your Azure administrator and the [Drive guide](./drive-guide) to obtain respective information. Be aware,
 that the last step includes copying generated information to the Azure portal.
 
 ![Setting up a new OneDrive/SharePoint](openproject_system_guide_new_onedrive_storage_details_new.png)
