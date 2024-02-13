@@ -51,8 +51,8 @@ Once you opened the Gantt charts module, the default view will show all open wor
 
 **Default**: lists pre-defined Gantt charts views and includes the following:
 
-	- **All open**: shows all work packages with the status open
-	- **Milestones**: shows all work packages with the work package type Milestones (or other types that are set to be recognized as milestones)
+- **All open**: shows all work packages with the status open
+- **Milestones**: shows all work packages with the work package type Milestones (or other types that are set to be recognized as milestones)
 
 **Public**: lists all Gantt charts views set to be public
 
