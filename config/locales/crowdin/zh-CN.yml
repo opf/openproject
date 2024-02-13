@@ -2524,7 +2524,7 @@ zh-CN:
   project_module_news: "新闻"
   project_module_repository: "存储库"
   project_module_wiki: "维基"
-  permission_header_for_project_module_work_package_tracking: "工作包和甘特图"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),

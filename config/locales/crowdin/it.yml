@@ -2558,7 +2558,7 @@ it:
   project_module_news: "Notizie"
   project_module_repository: "Archivio"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Macro-attività e Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
