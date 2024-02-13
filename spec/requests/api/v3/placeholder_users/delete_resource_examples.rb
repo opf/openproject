@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 
 RSpec.shared_examples 'deletion allowed' do
-  it 'responds with 202' do
-    expect(last_response.status).to eq 202
+  it 'responds with 204' do
+    expect(last_response.status).to eq 204
   end
 
   it 'locks the account and mark for deletion' do
@@ -51,6 +51,6 @@ RSpec.shared_examples 'deletion is not allowed' do
   end
 
   it 'does not delete the user' do
-    expect(PlaceholderUser.exists?(placeholder.id)).to be_truthy
+    expect(PlaceholderUser).to exist(placeholder.id)
   end
 end

@@ -59,7 +59,7 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering
   end
 
   describe '_links' do
-    context 'self' do
+    describe 'self' do
       it_behaves_like 'has a titled link' do
         let(:link) { 'self' }
         let(:href) { api_v3_paths.placeholder_user placeholder_user.id }
@@ -67,19 +67,19 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering
       end
     end
 
-    context 'showUser' do
+    describe 'showUser' do
       it_behaves_like 'has an untitled link' do
         let(:link) { 'showUser' }
         let(:href) { "/placeholder_users/#{placeholder_user.id}" }
       end
     end
 
-    context 'delete' do
+    describe 'delete' do
       it_behaves_like 'has no link' do
         let(:link) { 'delete' }
       end
 
-      context 'when user allowed to manage' do
+      context 'if user is allowed to manage' do
         let(:global_permissions) { [:manage_placeholder_user] }
 
         it_behaves_like 'has a titled link' do
@@ -91,7 +91,7 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering
       end
     end
 
-    context 'updateImmediately' do
+    describe 'updateImmediately' do
       it_behaves_like 'has no link' do
         let(:link) { 'updateImmediately' }
       end
@@ -108,28 +108,28 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering
       end
     end
 
-    context 'memberships' do
+    describe 'memberships' do
       it_behaves_like 'has no link' do
         let(:link) { 'memberships' }
       end
 
-      context 'user allowed to see members' do
+      context 'if user is allowed to see members' do
         let(:project_permissions) { [:view_members] }
 
         it_behaves_like 'has a titled link' do
           let(:link) { 'memberships' }
           let(:href) { memberships_path }
-          let(:title) { I18n.t(:label_member_plural) }
+          let(:title) { I18n.t(:label_membership_plural) }
         end
       end
 
-      context 'user allowed to manage members' do
+      context 'if user is allowed to manage members' do
         let(:project_permissions) { [:manage_members] }
 
         it_behaves_like 'has a titled link' do
           let(:link) { 'memberships' }
           let(:href) { memberships_path }
-          let(:title) { I18n.t(:label_member_plural) }
+          let(:title) { I18n.t(:label_membership_plural) }
         end
       end
     end
@@ -181,12 +181,15 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering
 
   describe 'caching' do
     it 'is based on the representer\'s cache_key' do
-      expect(OpenProject::Cache)
+      allow(OpenProject::Cache)
         .to receive(:fetch)
-              .with(representer.json_cache_key)
               .and_call_original
 
       representer.to_json
+
+      expect(OpenProject::Cache)
+        .to have_received(:fetch)
+              .with(representer.json_cache_key)
     end
 
     describe '#json_cache_key' do
@@ -205,7 +208,7 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering
       end
 
       it 'changes when the placeholder is updated' do
-        placeholder_user.updated_at = Time.now + 20.seconds
+        placeholder_user.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key

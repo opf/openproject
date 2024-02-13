@@ -256,6 +256,10 @@ paths:
     "$ref": "./paths/oauth_application.yml"
   "/api/v3/oauth_client_credentials/{id}":
     "$ref": "./paths/oauth_client_credentials.yml"
+  "/api/v3/placeholder_users":
+    "$ref": "./paths/placeholder_users.yml"
+  "/api/v3/placeholder_users/{id}":
+    "$ref": "./paths/placeholder_user.yml"
   "/api/v3/posts/{id}":
     "$ref": "./paths/post.yml"
   "/api/v3/posts/{id}/attachments":
@@ -677,6 +681,8 @@ components:
       "$ref": "./components/schemas/paginated_collection_model.yml"
     PlaceholderUserCollectionModel:
       "$ref": "./components/schemas/placeholder_user_collection_model.yml"
+    PlaceholderUserCreateModel:
+      "$ref": "./components/schemas/placeholder_user_create_model.yml"
     PlaceholderUserModel:
       "$ref": "./components/schemas/placeholder_user_model.yml"
     Plain_TextModel:
