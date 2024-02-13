@@ -30,6 +30,7 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
+import { ModalDialogElement } from '@openproject/primer-view-components/app/components/primer/alpha/modal_dialog';
 
 export default class ProjectController extends Controller {
   static targets = [
@@ -42,7 +43,31 @@ export default class ProjectController extends Controller {
   declare readonly projectRowTargets:HTMLTableRowElement[];
   declare readonly descriptionRowTargets:HTMLTableRowElement[];
 
-   isEllipsisActive(e:HTMLElement) {
+  connect():void {
+    const longTexts = document.querySelectorAll('.long-text-truncation');
+    longTexts.forEach((e) => {
+      const children = e.querySelectorAll('.op-uc-p');
+      if (children.length) {
+        const isEllipssed= this.isEllipsisActive(children[0] as HTMLElement);
+        if (isEllipssed) {
+          const a = document.createElement('a');
+          a.href = '#';
+          a.textContent = I18n.t('js.label_expand');
+          a.addEventListener('click', () => {
+            const modal = document.querySelector('#modalDesc') as ModalDialogElement;
+            const modalBody = modal.querySelector('.Overlay-body');
+            if (modalBody && a.previousElementSibling) {
+              modalBody.textContent = a.previousElementSibling.textContent;
+              modal.show();
+            }
+          });
+          e.appendChild(a);
+        }
+      }
+    });
+  }
+
+  isEllipsisActive(e:HTMLElement) {
     return (e.offsetWidth < e.scrollWidth);
   }
 

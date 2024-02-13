@@ -446,6 +446,7 @@ en:
     label_display: "Display"
     label_cancel_comment: "Cancel comment"
     label_closed_work_packages: "closed"
+    label_expand: "Expand"
     label_collapse: "Collapse"
     label_collapsed: "collapsed"
     label_collapse_all: "Collapse all"
