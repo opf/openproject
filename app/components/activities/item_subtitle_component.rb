@@ -29,11 +29,12 @@
 #++
 
 class Activities::ItemSubtitleComponent < ViewComponent::Base
-  def initialize(user:, datetime:, is_creation:, journable_type:)
+  def initialize(user:, datetime:, is_creation:, is_deletion:, journable_type:)
     super()
     @user = user
     @datetime = datetime
     @is_creation = is_creation
+    @is_deletion = is_deletion
     @journable_type = journable_type
   end
 
@@ -56,7 +57,11 @@ class Activities::ItemSubtitleComponent < ViewComponent::Base
 
   def i18n_key
     i18n_key = 'activity.item.'.dup
-    i18n_key << (@is_creation ? 'created_' : 'updated_')
+    i18n_key << (if @is_deletion
+                   'deleted_'
+                 else
+                   (@is_creation ? 'created_' : 'updated_')
+                 end)
     i18n_key << 'by_' if @user
     i18n_key << 'on'
     i18n_key << '_time_entry' if time_entry?

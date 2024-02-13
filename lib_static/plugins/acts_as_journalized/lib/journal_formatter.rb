@@ -88,7 +88,7 @@ module JournalFormatter
     hash[journal_data_type] = {}
   end
 
-  def render_detail(detail, options = {}) # make changes here
+  def render_detail(detail, options = {})
     options = options.reverse_merge(html: true, only_path: true, cache: JournalFormatterCache.request_instance)
 
     if detail.respond_to? :to_ary

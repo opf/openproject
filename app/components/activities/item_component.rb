@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Activities::ItemComponent < ViewComponent::Base
+class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProject/AddPreviewForViewComponent
   with_collection_parameter :event
   strip_trailing_whitespace
 
@@ -54,7 +54,8 @@ class Activities::ItemComponent < ViewComponent::Base
   end
 
   def display_details?
-    return false if (@event.journal.initial? && @event.journal.journable_type != 'TimeEntry') || initial_agenda_item?
+    journal = @event.journal
+    return false if (journal.initial? && journal.journable_type != 'TimeEntry') || initial_agenda_item? || deleted_agenda_item?
 
     rendered_details.present?
   end
@@ -105,16 +106,23 @@ class Activities::ItemComponent < ViewComponent::Base
   end
 
   def meeting_activity?
-    # need to check if the activities are coming from the meetings controller and not the activities controller, maybe?
+    # need to check if the activities are coming from the meetings controller and not the activities controller
     # event.provider?
   end
 
   def initial_agenda_item?
+    return false unless meeting_agenda_item? && @event.meeting_agenda_item_data.last["position"]
+
     @event.meeting_agenda_item_data.last["position"].first.nil?
   end
 
+  def deleted_agenda_item?
+    return false unless meeting_agenda_item? && @event.meeting_agenda_item_data.last["position"]
+
+    @event.meeting_agenda_item_data.last["position"].last.nil?
+  end
+
   def filter_details
-    # need to also filter agenda_items details here
     details = @event.journal.details
 
     details.delete(:user_id) if details[:logged_by_id] == details[:user_id]
@@ -143,14 +151,14 @@ class Activities::ItemComponent < ViewComponent::Base
     agenda_item = MeetingAgendaItem.find(@event.meeting_agenda_item_data.first)
 
     if agenda_item.item_type == "work_package"
-      agenda_item.work_package.to_s.to_s
+      link_to agenda_item.work_package.to_s, agenda_item.work_package
     elsif initial_agenda_item?
       agenda_item.title.to_s
     else
-      "Agenda item \"#{agenda_item.title}\""
+      "Agenda item \"#{agenda_item.title}\"" # needs i18n
     end
-  rescue ActiveRecord::RecordNotFound # what to do if the item itself is deleted?
-    ("Agenda item deleted") # need i18n
+  rescue ActiveRecord::RecordNotFound # rework to remove dependence on rescue
+    @event.meeting_agenda_item_data.last["title"].last || @event.meeting_agenda_item_data.last["title"].first
   end
 
   def meeting_activity_title

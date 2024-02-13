@@ -30,11 +30,11 @@ class MeetingsController < ApplicationController
   around_action :set_time_zone
   before_action :find_optional_project, only: %i[index new create history]
   before_action :verify_activities_module_activated, only: %i[history]
-  before_action :set_activity, only: %i[history]
   before_action :determine_date_range, only: %i[history]
   before_action :determine_author, only: %i[history]
   before_action :build_meeting, only: %i[new create]
   before_action :find_meeting, except: %i[index new create]
+  before_action :set_activity, only: %i[history]
   before_action :convert_params, only: %i[create update update_participants]
   before_action :authorize, except: %i[index new create update_title update_details update_participants change_state]
   before_action :authorize_global, only: %i[index new create update_title update_details update_participants change_state]
@@ -352,7 +352,8 @@ class MeetingsController < ApplicationController
                                         project: @project,
                                         with_subprojects: @with_subprojects,
                                         author: @author,
-                                        scope: activity_scope)
+                                        scope: activity_scope,
+                                        meeting: @meeting)
   end
 
   def activity_scope
@@ -391,7 +392,7 @@ class MeetingsController < ApplicationController
         event.journal.details.each_with_object(results) do |(key, values), res|
           if key.match? /agenda_items_\d+/
             id, attribute = key.gsub("agenda_items_", "").split("_")
-            attribute = "duration_in_minutes" if attribute == "duration" # quick and dirty
+            attribute = "duration_in_minutes" if attribute == "duration"
             res[:agenda_items][id.to_i][attribute] = values
           else
             res[key] = values
@@ -407,12 +408,18 @@ class MeetingsController < ApplicationController
           details_count += item_data.last.count
         end
 
-        if event.journal.details.count == details_count
-          events_dup.delete(event)
-        end
+        agenda_item_only_check(event, events_dup, details_count)
       end
     end
 
     @events = events_dup
+  end
+
+  def agenda_item_only_check(event, events_dup, count)
+    if event.journal.details.count == count
+      events_dup.delete(event)
+    else
+      events_dup
+    end
   end
 end

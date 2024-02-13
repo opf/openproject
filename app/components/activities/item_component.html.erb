@@ -42,6 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
     render(Activities::ItemSubtitleComponent.new(user: display_user? && @event.event_author,
                                              datetime: @event.event_datetime,
                                              is_creation: @event.journal.initial? || initial_agenda_item?,
+                                             is_deletion: deleted_agenda_item?,
                                              journable_type: @event.journal.journable_type))
   %>
   <% if comment.present? -%>
