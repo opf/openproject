@@ -92,7 +92,7 @@ de:
       label_pending: Ausstehend
       since: seit %{datetime}
       subtitle: Automatisch verwaltete Projektordner
-      title: Gesundheitszustand
+      title: Verbindungsstatus
     help_texts:
       project_folder: Der Projektordner ist der Standardordner für Datei-Uploads für dieses Projekt. Benutzer können trotzdem Dateien an andere Orte hochladen.
     instructions:
