@@ -42,6 +42,10 @@ export default class ProjectController extends Controller {
   declare readonly projectRowTargets:HTMLTableRowElement[];
   declare readonly descriptionRowTargets:HTMLTableRowElement[];
 
+   isEllipsisActive(e:HTMLElement) {
+    return (e.offsetWidth < e.scrollWidth);
+  }
+
   toggleDescription({ target, params: { projectId } }:{ target:HTMLAnchorElement, params:{ projectId:number } }) {
     const toggledTrigger = target;
     const otherTrigger = this.descriptionToggleTargets.find((trigger) => trigger !== toggledTrigger);
