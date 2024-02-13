@@ -1,0 +1,158 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://login.microsoftonline.com/4d44bf36-9b56-45c0-8807-bbf386dd047f/oauth2/v2.0/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default
+    headers:
+      User-Agent:
+      - Rack::OAuth2 (2.2.1)
+      Authorization:
+      - Basic <BASIC_AUTH>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      P3p:
+      - CP="DSP CUR OTPi IND OTRi ONL FIN"
+      X-Ms-Request-Id:
+      - 548bc13b-eb1b-4712-bb7a-3232725f6e00
+      X-Ms-Ests-Server:
+      - 2.1.17282.6 - FRC ProdSlices
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - fpc=Avgk0s-Ae3tItp2nHOWWBdakbDoXAQAAAOA4Xd0OAAAA; expires=Thu, 14-Mar-2024
+        10:18:08 GMT; path=/; secure; HttpOnly; SameSite=None
+      - stsservicecookie=estsfd; path=/; secure; samesite=none; httponly
+      - x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly
+      Date:
+      - Tue, 13 Feb 2024 10:18:07 GMT
+      Content-Length:
+      - '1708'
+    body:
+      encoding: UTF-8
+      string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"<ACCESS_TOKEN>"}'
+  recorded_at: Tue, 13 Feb 2024 10:18:08 GMT
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root/children?$select=name,id,folder
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.2.2
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json;odata.metadata=minimal;odata.streaming=true;IEEE754Compatible=false;charset=utf-8
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 8babb520-ed7a-45f8-9804-b08a1f041919
+      Client-Request-Id:
+      - 8babb520-ed7a-45f8-9804-b08a1f041919
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"004","RoleInstance":"FR2PEPF000003EF"}}'
+      Odata-Version:
+      - '4.0'
+      Date:
+      - Tue, 13 Feb 2024 10:18:08 GMT
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs'')/root/children(name,id,folder)","value":[{"@odata.etag":"\"{6087B980-4C01-4020-BBF2-1E349BD0C831},1\"","id":"01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR","name":"Folder","folder":{"childCount":5}},{"@odata.etag":"\"{BAABD554-2A6E-4B51-A07F-22B54378CC94},1\"","id":"01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU","name":"Folder
+        with spaces","folder":{"childCount":4}},{"@odata.etag":"\"{E532F780-F35D-41AD-B81F-B633934C06DE},1\"","id":"01AZJL5PMA64ZOKXPTVVA3QH5WGOJUYBW6","name":"My
+        New Folder","folder":{"childCount":2}},{"@odata.etag":"\"{73565DBB-32EA-46CE-9F64-A01EDD691B01},3\"","id":"01AZJL5PN3LVLHH2RSZZDJ6ZFAD3OWSGYB","name":"Permissions
+        Folder","folder":{"childCount":0}},{"@odata.etag":"\"{F2075706-F394-4540-9675-44288DF7025D},1\"","id":"01AZJL5PIGK4D7FFHTIBCZM5KEFCG7OAS5","name":"Test
+        Template Folder","folder":{"childCount":2}}]}'
+  recorded_at: Tue, 13 Feb 2024 10:18:08 GMT
+- request:
+    method: post
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PIGK4D7FFHTIBCZM5KEFCG7OAS5/copy?@microsoft.graph.conflictBehavior=fail
+    body:
+      encoding: UTF-8
+      string: '{"name":"My New Folder"}'
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.2.2
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Length:
+      - '24'
+  response:
+    status:
+      code: 409
+      message: Conflict
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json
+      Content-Encoding:
+      - gzip
+      Vary:
+      - Accept-Encoding
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - 7c5d9121-b435-4be2-bb02-1d2d7bd38b40
+      Client-Request-Id:
+      - 7c5d9121-b435-4be2-bb02-1d2d7bd38b40
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"004","RoleInstance":"FR2PEPF000003FA"}}'
+      Date:
+      - Tue, 13 Feb 2024 10:18:08 GMT
+    body:
+      encoding: UTF-8
+      string: '{"error":{"code":"nameAlreadyExists","message":"Name already exists","innerError":{"date":"2024-02-13T10:18:08","request-id":"7c5d9121-b435-4be2-bb02-1d2d7bd38b40","client-request-id":"7c5d9121-b435-4be2-bb02-1d2d7bd38b40"}}}'
+  recorded_at: Tue, 13 Feb 2024 10:18:08 GMT
+recorded_with: VCR 6.2.0
