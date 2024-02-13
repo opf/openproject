@@ -163,11 +163,11 @@ module Projects
       case column
       when :name
         "project--hierarchy #{project.archived? ? 'archived' : ''}"
-      when :status_explanation
-        "-no-ellipsis"
+      when :status_explanation || :description
+        "long-text-truncation"
       when /\Acf_/
         cf = custom_field(column)
-        formattable = cf.field_format == 'text' ? ' -no-ellipsis' : ''
+        formattable = cf.field_format == 'text' ? ' long-text-truncation' : ''
         "format-#{cf.field_format}#{formattable}"
       end
     end
