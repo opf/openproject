@@ -17,7 +17,7 @@ Your projects can be available publicly or internally. OpenProject does not limi
 |-------------------------------------------------------------|---------------------------------------------------------------------|
 | [Select projects lists](#select-projects-lists)             | Get an overview of all your projects in the projects list.          |
 | [Filter projects lists](#projects-lists-filters)            | Adjust filters in the projects list.                                |
-| [Export project list](#export-projects)                     | You can export the project list to XLS or CSV.                      |
+| [Export project list](#export-project-lists)                | You can export the project list to XLS or CSV.                      |
 | [Project overarching reports](#project-overarching-reports) | How to create project overarching reports across multiple projects. |
 
 
@@ -48,8 +48,6 @@ With the **arrow** on the right you can display the **project description**.
 With the horizontal **three dots** icon on the right side of the list you can open **further features**, such as [creating a new subproject](../#create-a-subproject), [project settings](../project-settings), [archiving a project](../#archive-a-project), [copying](../#copy-a-project) and [deleting a project](../#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features. Find out how to un-archive projects [here](../#archive-a-project).
 
 ![new subproject project list](new-subproject-project-list.png)
-
-
 
 You can choose the **columns displayed by default** in the [System settings](../../../system-admin-guide/system-settings/project-system-settings) in the Administration. 
 
@@ -105,7 +103,6 @@ The Gantt chart view can be configured in the [System settings](../../../system-
 
 Alternatively you can also select the [Gantt charts from the global modules menu](../../home/global-modules/#gantt-charts) and adjust it further.
 
-
 ### Overall activity
 
 Besides the Gantt chart view and the filter function for the projects lists, you can also access the activity of all users in all active projects. 
@@ -120,7 +117,6 @@ By selecting *Overall activity* you can open a view in which all the latest glob
 
 ![overall activity meeting filter](actvity-global-filter.png)
 
-
 ## Export project lists
 
 You can export a project list by clicking on the three dots in the upper right hand corner and selecting > **Export**.
@@ -132,7 +128,6 @@ Next, you can select the format in which you want to export the project list.
 It can be exported as .xls or .csv.
 
 ![Export project list formats](export-project-list-formats.png)
-
 
 ## Project overarching reports
 
