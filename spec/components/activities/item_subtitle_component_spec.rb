@@ -35,12 +35,13 @@ RSpec.describe Activities::ItemSubtitleComponent, type: :component do
 
   let(:datetime) { Time.current }
 
-  subject { render_inline(described_class.new(user:, datetime:, is_creation:, journable_type:)) }
+  subject { render_inline(described_class.new(user:, datetime:, is_creation:, is_deletion:, journable_type:)) }
 
   context 'on creation with a user' do
     let(:is_creation) { true }
     let(:user) { build_stubbed(:user) }
     let(:journable_type) { 'WorkPackage' }
+    let(:is_deletion) { false }
 
     it { is_expected.to have_text("created by  #{user.name} on #{format_time(datetime)}") }
   end
@@ -49,6 +50,7 @@ RSpec.describe Activities::ItemSubtitleComponent, type: :component do
     let(:is_creation) { true }
     let(:user) { nil }
     let(:journable_type) { 'WorkPackage' }
+    let(:is_deletion) { false }
 
     it { is_expected.to have_text("created on #{format_time(datetime)}") }
   end
@@ -57,6 +59,7 @@ RSpec.describe Activities::ItemSubtitleComponent, type: :component do
     let(:is_creation) { false }
     let(:user) { build_stubbed(:user) }
     let(:journable_type) { 'WorkPackage' }
+    let(:is_deletion) { false }
 
     it { is_expected.to have_text("updated by  #{user.name} on #{format_time(datetime)}") }
   end
@@ -65,14 +68,34 @@ RSpec.describe Activities::ItemSubtitleComponent, type: :component do
     let(:is_creation) { false }
     let(:user) { nil }
     let(:journable_type) { 'WorkPackage' }
+    let(:is_deletion) { false }
 
     it { is_expected.to have_text("updated on #{format_time(datetime)}") }
+  end
+
+  context 'on delete with a user' do
+    let(:is_creation) { false }
+    let(:user) { build_stubbed(:user) }
+    let(:journable_type) { 'Meeting' }
+    let(:is_deletion) { true }
+
+    it { is_expected.to have_text("deleted by  #{user.name} on #{format_time(datetime)}") }
+  end
+
+  context 'on delete without a user' do
+    let(:is_creation) { false }
+    let(:user) { nil }
+    let(:journable_type) { 'Meeting' }
+    let(:is_deletion) { true }
+
+    it { is_expected.to have_text("deleted on #{format_time(datetime)}") }
   end
 
   context 'on TimeEntry creation' do
     let(:is_creation) { true }
     let(:user) { build_stubbed(:user) }
     let(:journable_type) { 'TimeEntry' }
+    let(:is_deletion) { false }
 
     it { is_expected.to have_text("time logged by  #{user.name} on #{format_time(datetime)}") }
   end
@@ -81,6 +104,7 @@ RSpec.describe Activities::ItemSubtitleComponent, type: :component do
     let(:is_creation) { false }
     let(:user) { build_stubbed(:user) }
     let(:journable_type) { 'TimeEntry' }
+    let(:is_deletion) { false }
 
     it { is_expected.to have_text("logged time updated by  #{user.name} on #{format_time(datetime)}") }
   end
