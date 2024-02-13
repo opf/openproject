@@ -80,9 +80,7 @@ To view all your projects in which you are a member, click on the **Projects lis
 
 Alternatively you can use the [**Global modules menu**](../../user-guide/home/global-modules/#projects) on the left or select *Projects* using the grid icon in the top right corner.
 
-
-
-![Open a list of all existing projects in OPenProject](view_all_projects_options.png)
+![Open a list of all existing projects in OpenProject](view_all_projects_options.png)
 
 You will see a list with all your projects and their details. 
 

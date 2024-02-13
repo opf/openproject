@@ -41,7 +41,7 @@ With this release, admins of an Enterprise edition can choose between manually o
 
 ---
 
-[See our blog](/blog/openproject-13-3-release/) to learn more about features we included in OpenProject 13.3. You can find a detailed list of all new features and bugfixes below.
+[See our blog](https://www.openproject.org/blog/openproject-13-3-release/) to learn more about features we included in OpenProject 13.3. You can find a detailed list of all new features and bugfixes below.
 
 ## All features and bug fixes
 
@@ -53,12 +53,12 @@ With this release, admins of an Enterprise edition can choose between manually o
 - Bugfix: Lookbook is broken \[[#51787](https://community.openproject.org/wp/51787)\]
 - Bugfix: Anonymous Users (without signing in) cannot load board content \[[#51850](https://community.openproject.org/wp/51850)\]
 - Bugfix: Multi-select user custom field broken in table \[[#52289](https://community.openproject.org/wp/52289)\]
-- Bugfix: [AppSignal] undefined method `status' for HTTPX::ErrorResponse \[[#52446](https://community.openproject.org/wp/52446)\]
+- Bugfix: \[AppSignal\] undefined method `status' for HTTPX::ErrorResponse \[[#52446](https://community.openproject.org/wp/52446)\]
 - Bugfix: Untranslated work package roles \[[#52598](https://community.openproject.org/wp/52598)\]
 - Bugfix: Users involved in work packages sharing are duplicated in project storage members list.  \[[#52673](https://community.openproject.org/wp/52673)\]
 - Feature: Nudge admin to go through OAuth flow \[[#49396](https://community.openproject.org/wp/49396)\]
 - Feature: "% Complete" field split to own value and derived value \[[#51188](https://community.openproject.org/wp/51188)\]
-- Feature: Adapt onboardoing tour to new Gantt module \[[#51354](https://community.openproject.org/wp/51354)\]
+- Feature: Adapt onboarding tour to new Gantt module \[[#51354](https://community.openproject.org/wp/51354)\]
 - Feature: Add column "Shared with" in the work packages table \[[#51491](https://community.openproject.org/wp/51491)\]
 - Feature: Show number of "Shared users" in the share button \[[#51492](https://community.openproject.org/wp/51492)\]
 - Feature: Have persisted project lists (only filters) \[[#51666](https://community.openproject.org/wp/51666)\]
