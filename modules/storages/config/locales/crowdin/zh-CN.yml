@@ -175,20 +175,20 @@ zh-CN:
     members_no_results: 没有要显示的成员。
     no_results: 尚未设置存储设备。
     notice_successful_storage_connection: |-
-      存储连接成功！请记住，在每个所需项目的项目设置中激活模块和特定存储，以便进行使用。
+      存储连接成功！请记住，在每个所需项目的项目设置中激活模块和特定存储，以进行使用。
     oauth_grant_nudge_modal:
-      access_granted: 授予访问权限
-      body: 要获取对项目文件夹的访问权限，需要登录 %{storage}。
+      access_granted: 已授予访问权限
+      body: 要获取对项目文件夹的访问权限，您需要登录 %{storage}。
       cancel_button_label: 稍后再操作
       confirm_button_label: 登录
-      storage_ready: 您现在已准备就绪，可以使用 %{storage}
-      title: 还有一步...
+      storage_ready: 您现在已准备就绪，可以使用 %{storage} 了
+      title: 还有一步…
     open_project_storage_modal:
       success:
         subtitle: 正在将您重定向
-        title: 集成设置完成
+        title: 集成设置已完成
       waiting:
-        subtitle: 请稍等，此操作可能需要一些时间...
+        subtitle: 请稍候，此操作可能需要一些时间…
         title: 我们正在设置您对项目文件夹的权限。
     page_titles:
       file_storages:
@@ -196,9 +196,9 @@ zh-CN:
         subtitle: 添加外部文件存储以便在工作包中上传、链接和管理文件。
       managed_project_folders:
         one_drive_information: |-
-          要在 OneDrive/SharePoint 中启用自动托管的项目文件夹，需要在用于该文件存储的驱动器上进行额外配置。如果 OpenProject 管理该驱动器的权限，那么它很可能无法用于 SharePoint 中的其他用例。更多信息和指导，请参考 %{drive_id_link_text}。
+          要在 OneDrive/SharePoint 中启用自动托管的项目文件夹，需要在用于此文件存储的驱动器上进行额外配置。如果 OpenProject 管理此驱动器的权限，那么它很可能无法用于 SharePoint 中的其他用例。有关更多信息和指导，请参考 %{drive_id_link_text}。
         subtitle: |-
-          让 OpenProject 自动为每个项目创建文件夹。建议使用此方法，因为这样可确保每个团队成员始终具有正确的访问权限。
+          让 OpenProject 自动为每个项目创建文件夹。建议使用此方法，因为这样可以确保每个团队成员始终具有正确的访问权限。
         subtitle_short: 允许 OpenProject 自动创建每个项目的文件夹。
         title: 自动托管的项目文件夹
       project_settings:

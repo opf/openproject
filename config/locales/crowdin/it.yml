@@ -2096,7 +2096,7 @@ it:
   label_this_week: "questa settimana"
   label_this_year: "questo anno"
   label_time_entry_plural: "Tempo speso"
-  label_time_entry_activity_plural: "Attività di tempo trascorso"
+  label_time_entry_activity_plural: "Attività che richiedono tempo"
   label_title: "Titolo"
   label_projects_menu: "Progetti"
   label_today: "oggi"

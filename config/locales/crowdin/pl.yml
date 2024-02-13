@@ -104,7 +104,7 @@ pl:
   ldap_auth_sources:
     ldap_error: "Błąd LDAP: %{error_message}"
     ldap_auth_failed: "Nie można uwierzytelnić na serwerze LDAP."
-    sync_failed: "Failed to synchronize from LDAP: %{message}."
+    sync_failed: "Nie udało się zsynchronizować z usługi LDAP: %{message}."
     back_to_index: "Kliknij tutaj, aby wrócić do listy połączeń."
     technical_warning_html: |
       Ten formularz LDAP wymaga wiedzy technicznej na temat konfiguracji usługi LDAP / Active Directory.
@@ -251,12 +251,12 @@ pl:
       no_results_title_text: Nie ma jeszcze żadnego projektu
       no_results_content_text: Utwórz nowy projekt
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: 'Aktywne projekty'
+      my: 'Moje projekty'
+      archived: 'Zarchiwizowane projekty'
+      my_private: 'Moje prywatne listy projektów'
       new:
-        placeholder: 'New project list'
+        placeholder: 'Nowa lista projektów'
     settings:
       change_identifier: Identyfikator zmiany
       activities:
@@ -330,7 +330,7 @@ pl:
     memberships:
       no_results_title_text: Użytkownik jeszcze nie jest członkiem projektu.
   page:
-    text: 'Text'
+    text: 'Tekst'
   placeholder_users:
     right_to_manage_members_missing: >
       Nie masz uprawnień do usunięcia użytkownika zastępczego. Nie masz uprawnień do zarządzania członkami niektórych projektów, których użytkownik zastępczy jest członkiem.
@@ -530,7 +530,7 @@ pl:
         column_count: "Liczba kolumn"
         widgets: "Widżety"
       oauth_client:
-        client: "Client ID"
+        client: "Identyfikator klienta"
       relation:
         delay: "Opóźnienie"
         from: "Zadanie"
@@ -596,7 +596,7 @@ pl:
         color: "Kolor"
       user:
         admin: "Administrator"
-        auth_source: "Authentication source"
+        auth_source: "Źródło uwierzytelniania"
         ldap_auth_source: "Połączenie LDAP"
         identity_url: "Adres URL tożsamości"
         current_password: "Aktualne hasło"
@@ -628,7 +628,7 @@ pl:
         begin_insertion: "Początek wstawiania"
         begin_deletion: "Początek usuwania"
         children: "Elementy składowe"
-        derived_done_ratio: "Derived % Complete"
+        derived_done_ratio: "% ukończenia wyprowadzania"
         derived_remaining_hours: "Wyprowadzona pozostała praca"
         derived_remaining_time: "Wyprowadzona pozostała praca"
         done_ratio: "% ukończono"
@@ -649,7 +649,7 @@ pl:
         readonly: "Tylko do odczytu"
         remaining_hours: "Pozostała praca"
         remaining_time: "Pozostała praca"
-        shared_with_users: "Shared with"
+        shared_with_users: "Udostępniono użytkownikom "
         schedule_manually: "Planowanie ręczne"
         spent_hours: "Czas pracy"
         spent_time: "Czas pracy"
@@ -957,7 +957,7 @@ pl:
             ldap_auth_source:
               error_not_found: "nie znaleziono"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "nie znaleziono"
         member:
           principal_blank: "Wybierz co najmniej jeden użytkownik lub Grupa."
           role_blank: "musi być przypisany."
@@ -1498,7 +1498,7 @@ pl:
     message: Wiadomość edytowana
     news: Aktualności
     project_attributes: "Edytowane atrybuty projektu"
-    project: "Project edited"
+    project: "Edytowano projekt"
     projects: "Edytowano projekt"
     reply: Odpowiedział
     time_entry: "Timelog edytowany"
@@ -1641,7 +1641,7 @@ pl:
         revoke_token: "Czy na pewno chcesz usunąć ten token? Trzeba będzie zalogować się ponownie w %{storage}"
         removed: "Token magazynu plików został usunięty"
         failed: "Wystąpił błąd i nie można było usunąć tokena. Spróbuj ponownie później."
-        unknown_storage: "Unknown storage"
+        unknown_storage: "Nieznany magazyn"
   notifications:
     send_notifications: "Wyślij powiadomienia dla tej czynności"
     work_packages:
@@ -1721,9 +1721,9 @@ pl:
   label_available_project_work_package_categories: "Dostępne kategorie Zadań"
   label_available_project_work_package_types: "Dostępne typy pakietów roboczych"
   label_available_projects: "Dostępne projekty"
-  label_api_doc: "API documentation"
+  label_api_doc: "Dokumentacja interfejsu API"
   label_backup: "Kopia zapasowa"
-  label_backup_code: "Backup code"
+  label_backup_code: "Kod kopii zapasowej"
   label_between: "pomiędzy"
   label_blocked_by: "Zablokowane przez"
   label_blocks: "Bloki"
@@ -1733,7 +1733,7 @@ pl:
   label_forum_plural: "Fora"
   label_forum_sticky: "Przyklejony"
   label_boolean: "Wartość logiczna"
-  label_board_plural: "Boards"
+  label_board_plural: "Tablice"
   label_branch: "Branch"
   label_browse: "Przeglądaj"
   label_bulk_edit_selected_work_packages: "Edycja wybranych zadań zbiorczo"
@@ -1760,7 +1760,7 @@ pl:
   label_check_uncheck_all_in_column: "Sprawdź/Odznacz wszystko w kolumnie"
   label_check_uncheck_all_in_row: "Sprawdź/Odznacz wszystko w wierszu"
   label_child_element: "Element podrzędny"
-  label_choices: "Choices"
+  label_choices: "Wybory"
   label_chronological_order: "Od najstarszych"
   label_close_versions: "Zamknij zakończone wersje"
   label_closed_work_packages: "Zamknięte"
@@ -1792,7 +1792,7 @@ pl:
   label_custom_field_plural: "Pola niestandardowe"
   label_custom_field_default_type: "Typ pusty"
   label_custom_style: "Kompozycja"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Pulpit nawigacyjny"
   label_database_version: "Wersja PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data i czas"
@@ -1849,8 +1849,8 @@ pl:
   label_example: "Przykład"
   label_experimental: "Eksperymentalny"
   label_i_am_member: "Jestem członkiem"
-  label_ifc_viewer: "Ifc Viewer"
-  label_ifc_model_plural: "Ifc Models"
+  label_ifc_viewer: "Przeglądarka IFC"
+  label_ifc_model_plural: "Modele IFC"
   label_import: "Importuj"
   label_export_to: "Dostępne również w:"
   label_expanded_click_to_collapse: "Rozwinięto. Kliknij, aby zwinąć"
@@ -1863,7 +1863,7 @@ pl:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Pliki"
   label_filter_add: "Dodaj filtr"
-  label_filter: "Filters"
+  label_filter: "Filtry"
   label_filter_plural: "Filtry"
   label_filters_toggle: "Pokaż/Ukryj filtry"
   label_float: "Liczba rzeczywista"
@@ -1872,7 +1872,7 @@ pl:
   label_force_user_language_to_default: "Ustaw język domyślny dla użytkowników o innych ustawieniach językowych niż dozwolone"
   label_form_configuration: "Konfiguracja formularza"
   label_gantt_chart: "Wykres Gantta"
-  label_gantt_chart_plural: "Gantt charts"
+  label_gantt_chart_plural: "Wykresy Gantta"
   label_general: "Ogólne"
   label_generate_key: "Generuj klucz"
   label_git_path: "Ścieżka do katalogu .git"
@@ -1890,7 +1890,7 @@ pl:
   label_home: "Strona główna"
   label_subject_or_id: "Temat lub identyfikator"
   label_calendar_subscriptions: "Subskrypcje Kalendarza"
-  label_identifier: "Identifier"
+  label_identifier: "Identyfikator"
   label_impressum: "Informacje prawne"
   label_in: "w"
   label_in_less_than: "w mniej niż"
@@ -1907,7 +1907,7 @@ pl:
   label_internal: "Wewnętrzne"
   label_introduction_video: "Film wprowadzający"
   label_invite_user: "Zaproś użytkownika"
-  label_share: "Share"
+  label_share: "Udostępnij"
   label_show_hide: "Pokaż/Ukryj"
   label_show_all_registered_users: "Pokaż wszystkich zarejestrowanych użytkowników"
   label_journal: "Dziennik"
@@ -1978,7 +1978,7 @@ pl:
   label_my_account: "Moje konto"
   label_my_activity: "Moja aktywność"
   label_my_account_data: "Moje dane konta"
-  label_my_avatar: "My avatar"
+  label_my_avatar: "Mój awatar"
   label_my_queries: "Moje zapytania niestandardowe"
   label_name: "Nazwa"
   label_never: "Nigdy"
@@ -2114,7 +2114,7 @@ pl:
   label_search: "Szukaj"
   label_send_information: "Wyślij nowe poświadczenia do użytkownika"
   label_send_test_email: "Wyślij wiadomość testową"
-  label_session: "Session"
+  label_session: "Sesja"
   label_setting_plural: "Ustawienia"
   label_system_settings: "Ustawienia"
   label_show_completed_versions: "Pokaż zakończone wersje"
@@ -2144,13 +2144,13 @@ pl:
   label_system_storage: "Informacje o pamięci"
   label_table_of_contents: "Spis treści"
   label_tag: "Znacznik"
-  label_team_planner: "Team Planner"
+  label_team_planner: "Planista zespołu"
   label_text: "Długi tekst"
   label_this_month: "ten miesiąc"
   label_this_week: "ten tydzień"
   label_this_year: "ten rok"
   label_time_entry_plural: "Czas pracy"
-  label_time_entry_activity_plural: "Spent time activities"
+  label_time_entry_activity_plural: "Czas spędzony na aktywności"
   label_title: "Tytuł"
   label_projects_menu: "Projekty"
   label_today: "dzisiaj"
@@ -2892,7 +2892,7 @@ pl:
     other: "Inne"
     passwords: "Hasła"
     projects:
-      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
+      missing_dependencies: "Sprawdzono moduł projektu %{module}, który zależy od %{dependencies}. Musisz sprawdzić również te zależności."
       section_new_projects: "Ustawienia nowych projektów"
       section_project_overview: "Ustawienia listy przeglądu projektu"
     session: "Sesja"
@@ -2908,7 +2908,7 @@ pl:
     plain: "Zwykły tekst"
   status_active: "aktywne"
   status_archived: "w archiwum"
-  status_blocked: "blocked"
+  status_blocked: "zablokowano"
   status_invited: zaproszony
   status_locked: zablokowane
   status_registered: zarejestrowany
@@ -3168,7 +3168,7 @@ pl:
       text_empty_search_description: "Brak użytkowników spełniających bieżące kryteria filtrowania."
       text_empty_search_header: "Nie mogliśmy znaleźć żadnych pasujących wyników."
       text_empty_state_description: "Pakiet roboczy nie został jeszcze nikomu udostępniony."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Nie udostępniono"
       text_user_limit_reached: "Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby zapewnić użytkownikom zewnętrznym dostęp do tego pakietu roboczego, skontaktuj się z administratorem w celu zwiększenia limitu liczby użytkowników."
       text_user_limit_reached_admins: 'Dodanie dodatkowych użytkowników spowoduje przekroczenie bieżącego limitu. Aby móc dodać więcej użytkowników, <a href="%{upgrade_url}">przejdź na wyższy plan</a>.'
       warning_user_limit_reached: >

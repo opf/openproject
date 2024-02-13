@@ -352,7 +352,7 @@ uk:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter and save custom project lists.</li> <li>Separate Gantt charts module with new default views.</li> <li>Automatically managed project folders for OneDrive/SharePoint integration.</li> <li>Show number of "Shared users" in the share button and display them in the work packages list.</li> <li>Improved calculations and updates for progress reporting for work package hierarchies.</li> </ul>
+                Цей випуск містить кілька нових і поліпшених функцій. <br><ul class="%{list_styling_class}"><li>Фільтрування й зберігання користувацьких списків проєктів.</li> <li>Окремий модуль «Діаграми Ґанта» з новими режимами перегляду за замовчуванням.</li> <li>Папки проєктів з автоматичним керуванням для інтеграції OneDrive і/або SharePoint.</li> <li>Показ кількості користувачів із доступом на кнопці надання доступу й можливість перегляду цих користувачів у списку пакетів робіт.</li> </ul>Точніші обчислення й оновлені звіти про прогрес для ієрархій пакетів робіт.</li> </ul>
     ical_sharing_modal:
       title: "Підписатися на календар"
       inital_setup_error_message: "Під час отримання даних сталася помилка."
@@ -469,7 +469,7 @@ uk:
     label_per_page: "К-сть на сторінку:"
     label_please_wait: "Будь ласка, зачекайте"
     label_project: "Проєкт"
-    label_project_list: "Project lists"
+    label_project_list: "Списки проєктів"
     label_project_plural: "Проекти"
     label_visibility_settings: "Налаштування видимості ..."
     label_quote_comment: "Цитувати цей коментар"
@@ -583,7 +583,7 @@ uk:
           full_view: 'Подання <b>Деталі пакета робіт</b> містить усю відповідну інформацію, пов’язану з даним пакетом робіт, наприклад його опис, статус, пріоритет, діяльність, залежності й коментарі.'
           back_button: 'Щоб вийти й повернутися в список пакета робіт, скористайтеся стрілкою повернення у верхньому лівому куті.'
           create_button: 'Кнопка <b>+ Створити</b> додасть новий пакет робіт до вашого проєкту.'
-          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
+          gantt_menu: 'Легко створюйте розклади й часові шкали проєктів за допомогою модуля «Діаграма Ґанта».'
           timeline: 'Тут можна <b>відредагувати свій план проєкту</b>, створити нові пакети робіт, наприклад завдання, віхи, етапи тощо, а також <b>додати залежності</b>. Усі учасники команди зможуть будь-коли побачити й оновити останній план.'
         team_planner:
           overview: 'Командний планувальник дає змогу призначати завдання учасникам команди так, щоб бачити, хто над чим працює.'
@@ -969,8 +969,8 @@ uk:
         createdAt: "Створений"
         description: "Опис"
         date: "Дата"
-        percentComplete: "% Complete"
-        percentCompleteAlternative: "Progress"
+        percentComplete: "% завершення"
+        percentCompleteAlternative: "Прогрес"
         dueDate: "Дата закінчення"
         duration: "Тривалість"
         spentTime: "Трудовитрати"
@@ -978,8 +978,8 @@ uk:
         percentageDone: "Процент виконання"
         priority: "Пріоритет"
         projectName: "Проект"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Залишок роботи"
+        remainingWorkAlternative: "Залишок годин"
         responsible: "Надійний"
         startDate: "Початок"
         status: "Статус"
@@ -990,8 +990,8 @@ uk:
         updatedAt: "Оновлене"
         versionName: "Версія"
         version: "Версія"
-        work: "Work"
-        workAlternative: "Estimated time"
+        work: "Робота"
+        workAlternative: "Приблизний час"
         remainingTime: "Залишок роботи"
       default_queries:
         latest_activity: "Останні дії"
@@ -1040,7 +1040,7 @@ uk:
       sharing:
         share: 'Поширити'
         title: "Надати доступ до пакета робіт"
-        show_all_users: "Show all shared users"
+        show_all_users: "Показати всіх користувачів із доступом"
         selected_count: "Вибрано: %{count}"
         selection:
           mixed: "Змішані"

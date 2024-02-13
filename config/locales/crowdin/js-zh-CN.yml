@@ -351,7 +351,7 @@ zh-CN:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                本次发布包含各种新功能和改进：<br> <ul class="%{list_styling_class}"> <li>筛选和保存自定义项目列表。</li> <li>独立的甘特图模块具有新的默认视图。</li> <li>自动托管的项目文件夹可实现 OneDrive/SharePoint 集成。</li> <li>在共享按钮中显示“共享用户“数量，并在工作包列表中显示这些用户。</li> <li>改进了工作包层次结构进度报告的计算和更新。</li> </ul>
+                本次发布包含各种新功能和改进：<br> <ul class="%{list_styling_class}"> <li>筛选和保存自定义项目列表。</li> <li>具有新的默认视图的独立甘特图模块。</li> <li>适用于 OneDrive/SharePoint 集成的自动托管的项目文件夹。</li> <li>在共享按钮中显示“共享用户“数量，并在工作包列表中显示这些用户。</li> <li>改进了工作包层次结构进度报告的计算和更新。</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -582,7 +582,7 @@ zh-CN:
           full_view: '<b>工作包详细信息</b>视图中提供了与给定工作包有关的所有相关信息，例如其描述、状态、优先级、活动、依赖项和评论。'
           back_button: '使用左上角的返回箭头可退出并返回到工作包列表。'
           create_button: '<b>+ 创建</b>按钮将为您的项目添加一个新工作包。'
-          gantt_menu: '使用甘特图模块不费力地创建项目计划和时间线。'
+          gantt_menu: '使用甘特图模块轻松创建项目时间表和时间线。'
           timeline: '您可以在此<b>编辑您的项目计划</b>、创建新的工作包（例如任务、里程碑、阶段等）以及<b>添加依赖项</b>。所有团队成员都可以随时查看和更新最新计划。'
         team_planner:
           overview: '工作组规划器使您可以直观地为团队成员分配任务，并全面了解哪些成员正在处理哪些工作。'
