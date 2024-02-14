@@ -36,7 +36,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
 
   shared_let(:original_folders) do
     WebMock.enable! && VCR.turn_on!
-    VCR.use_cassette('one_drive/copy_template_folder_existing_folders') { original_folder_tuples }
+    VCR.use_cassette('one_drive/copy_template_folder_existing_folders') { existing_folder_tuples }
   ensure
     VCR.turn_off! && WebMock.disable!
   end
@@ -46,6 +46,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
     VCR.use_cassette('one_drive/copy_template_folder_base_folder') { create_base_folder }
   ensure
     VCR.turn_off! && WebMock.disable!
+  end
+
+  it 'is registered under commands.one_drive.copy_template_folder' do
+    expect(Storages::Peripherals::Registry.resolve('commands.one_drive.copy_template_folder')).to eq(described_class)
   end
 
   it 'responds to .call' do
@@ -73,22 +77,22 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
 
     after(:all) do
       WebMock.enable! && VCR.turn_on!
-      # VCR.use_cassette('one_drive/copy_template_folder_teardown') { delete_template_folder }
+      VCR.use_cassette('one_drive/copy_template_folder_teardown') { delete_template_folder }
     ensure
       VCR.turn_off! && WebMock.disable!
     end
     # rubocop:enable RSpec/BeforeAfterAll
 
-    after { delete_copied_folder }
-
     let(:source_path) { base_template_folder.id }
 
-    it 'copies origin folder and all underlying files and folders to the destination_path', vcr: 'one_drive/copy_template_copy' do
+    it 'copies origin folder and all underlying files and folders to the destination_path',
+       vcr: 'one_drive/copy_template_copy_successful' do
       command_result = described_class.call(storage:, source_path:, destination_path: 'My New Folder')
 
       expect(command_result).to be_success
       expect(command_result.result).to match %r</drives/#{storage.drive_id}/items/.+\?.+$>
-      # this is a 202, ideally we would need to check the contents but bleh.
+    ensure
+      delete_copied_folder('My New Folder')
     end
 
     describe 'error handling' do
@@ -110,14 +114,14 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
 
       context 'when it would overwrite an already existing folder' do
         it 'fails', vcr: 'one_drive/copy_template_folder_no_overwrite' do
-          existing_folder = original_folder_tuples.first[:name]
+          existing_folder = original_folders.first[:name]
           result = described_class.call(storage:, source_path:, destination_path: existing_folder)
 
           expect(result).to be_failure
         end
 
         it 'explains the nature of the error', vcr: 'one_drive/copy_template_folder_no_overwrite' do
-          existing_folder = original_folder_tuples.first[:name]
+          existing_folder = original_folders.first[:name]
           result = described_class.call(storage:, source_path:, destination_path: existing_folder)
 
           expect(result.message).to eq('The copy would overwrite an already existing folder')
@@ -170,7 +174,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
       .call(storage:, location: base_template_folder.id)
   end
 
-  def original_folder_tuples
+  def existing_folder_tuples
     Storages::Peripherals::StorageInteraction::OneDrive::Util.using_admin_token(storage) do |http|
       response = http.get("/v1.0/drives/#{storage.drive_id}/root/children?$select=name,id,folder")
 
@@ -182,5 +186,12 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
     end
   end
 
-  def delete_copied_folder = puts "Here we delete the copied folder, if any"
+  def delete_copied_folder(folder_name)
+    copied_folder = existing_folder_tuples.find { |hash| hash[:name] == folder_name }
+    return unless copied_folder
+
+    Storages::Peripherals::Registry
+      .resolve('commands.one_drive.delete_folder')
+      .call(storage:, location: copied_folder[:id])
+  end
 end

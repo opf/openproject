@@ -33,29 +33,29 @@ http_interactions:
       Content-Encoding:
       - gzip
       Etag:
-      - '"{F2075706-F394-4540-9675-44288DF7025D},1"'
+      - '"{29CF8B48-A13B-4F86-8050-45454C57B06A},1"'
       Location:
-      - https://finn.sharepoint.com/_api/v2.0/drives('b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs')/items('root')/children('01AZJL5PIGK4D7FFHTIBCZM5KEFCG7OAS5')
+      - https://finn.sharepoint.com/_api/v2.0/drives('b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs')/items('root')/children('01AZJL5PKIRPHSSO5BQZHYAUCFIVGFPMDK')
       Vary:
       - Accept-Encoding
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - 1925fd71-8cbf-4ea8-8909-40e632a73b67
+      - e8ca8137-1548-4c70-9645-c97410f3a9db
       Client-Request-Id:
-      - 1925fd71-8cbf-4ea8-8909-40e632a73b67
+      - e8ca8137-1548-4c70-9645-c97410f3a9db
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"FR3PEPF00000350"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"004","RoleInstance":"FR2PEPF00000393"}}'
       Odata-Version:
       - '4.0'
       Date:
-      - Tue, 13 Feb 2024 09:38:41 GMT
+      - Wed, 14 Feb 2024 15:30:22 GMT
     body:
       encoding: UTF-8
-      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs'')/root/children/$entity","@odata.etag":"\"{F2075706-F394-4540-9675-44288DF7025D},1\"","createdDateTime":"2024-02-13T09:38:42Z","eTag":"\"{F2075706-F394-4540-9675-44288DF7025D},1\"","id":"01AZJL5PIGK4D7FFHTIBCZM5KEFCG7OAS5","lastModifiedDateTime":"2024-02-13T09:38:42Z","name":"Test
-        Template Folder","size":0,"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/Test%20Template%20Folder","cTag":"\"c:{F2075706-F394-4540-9675-44288DF7025D},0\"","commentSettings":{"commentingDisabled":{"isDisabled":false}},"createdBy":{"application":{"displayName":"OpenProject
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#drives(''b%21dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs'')/root/children/$entity","@odata.etag":"\"{29CF8B48-A13B-4F86-8050-45454C57B06A},1\"","createdDateTime":"2024-02-14T15:30:22Z","eTag":"\"{29CF8B48-A13B-4F86-8050-45454C57B06A},1\"","id":"01AZJL5PKIRPHSSO5BQZHYAUCFIVGFPMDK","lastModifiedDateTime":"2024-02-14T15:30:22Z","name":"Test
+        Template Folder","size":0,"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/Test%20Template%20Folder","cTag":"\"c:{29CF8B48-A13B-4F86-8050-45454C57B06A},0\"","commentSettings":{"commentingDisabled":{"isDisabled":false}},"createdBy":{"application":{"displayName":"OpenProject
         Dev App","id":"4262df2b-77bb-49c2-a5df-28355da676d2"},"user":{"displayName":"SharePoint
         App"}},"lastModifiedBy":{"application":{"displayName":"OpenProject Dev App","id":"4262df2b-77bb-49c2-a5df-28355da676d2"},"user":{"displayName":"SharePoint
-        App"}},"parentReference":{"driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","driveType":"documentLibrary","id":"01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:","sharepointIds":{"listId":"f3baf95b-362b-4740-80d8-4f593d28f5ec","listItemUniqueId":"049e81d0-52fb-4624-af6d-96611c29a9cc","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50","siteUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests","tenantId":"4d44bf36-9b56-45c0-8807-bbf386dd047f","webId":"7ef259e8-8eed-4645-920a-8b367bb0d8e0"}},"fileSystemInfo":{"createdDateTime":"2024-02-13T09:38:42Z","lastModifiedDateTime":"2024-02-13T09:38:42Z"},"folder":{"childCount":0}}'
-  recorded_at: Tue, 13 Feb 2024 09:38:42 GMT
+        App"}},"parentReference":{"driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","driveType":"documentLibrary","id":"01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:","sharepointIds":{"listId":"f3baf95b-362b-4740-80d8-4f593d28f5ec","listItemUniqueId":"049e81d0-52fb-4624-af6d-96611c29a9cc","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50","siteUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests","tenantId":"4d44bf36-9b56-45c0-8807-bbf386dd047f","webId":"7ef259e8-8eed-4645-920a-8b367bb0d8e0"}},"fileSystemInfo":{"createdDateTime":"2024-02-14T15:30:22Z","lastModifiedDateTime":"2024-02-14T15:30:22Z"},"folder":{"childCount":0}}'
+  recorded_at: Wed, 14 Feb 2024 15:30:22 GMT
 recorded_with: VCR 6.2.0

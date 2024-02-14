@@ -37,24 +37,24 @@ http_interactions:
       P3p:
       - CP="DSP CUR OTPi IND OTRi ONL FIN"
       X-Ms-Request-Id:
-      - 70c1edce-b95b-4437-9187-b8368c105800
+      - 76b17450-1dfe-419b-9152-9a114127ba00
       X-Ms-Ests-Server:
-      - 2.1.17282.6 - SEC ProdSlices
+      - 2.1.17282.6 - FRC ProdSlices
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - fpc=AsNnEvgrPb5MlqgQzH2L0gykbDoXAQAAAFA5Xd0OAAAA; expires=Thu, 14-Mar-2024
-        10:20:00 GMT; path=/; secure; HttpOnly; SameSite=None
+      - fpc=ArKF9nTEMhhHkHyYI5ZnJ8GkbDoXAQAAAJHTXt0OAAAA; expires=Fri, 15-Mar-2024
+        15:30:26 GMT; path=/; secure; HttpOnly; SameSite=None
       - stsservicecookie=estsfd; path=/; secure; samesite=none; httponly
       - x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly
       Date:
-      - Tue, 13 Feb 2024 10:20:00 GMT
+      - Wed, 14 Feb 2024 15:30:26 GMT
       Content-Length:
       - '1708'
     body:
       encoding: UTF-8
       string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"<ACCESS_TOKEN>"}'
-  recorded_at: Tue, 13 Feb 2024 10:20:00 GMT
+  recorded_at: Wed, 14 Feb 2024 15:30:26 GMT
 - request:
     method: post
     uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/TheCakeIsALie/copy?@microsoft.graph.conflictBehavior=fail
@@ -92,15 +92,15 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - fd067564-a20c-4a4d-80c1-03fa64df7248
+      - 47d428f9-f207-4570-85f1-e9ea9fd4aeb5
       Client-Request-Id:
-      - fd067564-a20c-4a4d-80c1-03fa64df7248
+      - 47d428f9-f207-4570-85f1-e9ea9fd4aeb5
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000001E0"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"004","RoleInstance":"FR2PEPF00000406"}}'
       Date:
-      - Tue, 13 Feb 2024 10:20:00 GMT
+      - Wed, 14 Feb 2024 15:30:26 GMT
     body:
       encoding: UTF-8
-      string: '{"error":{"code":"itemNotFound","message":"Item not found","innerError":{"date":"2024-02-13T10:20:01","request-id":"fd067564-a20c-4a4d-80c1-03fa64df7248","client-request-id":"fd067564-a20c-4a4d-80c1-03fa64df7248"}}}'
-  recorded_at: Tue, 13 Feb 2024 10:20:01 GMT
+      string: '{"error":{"code":"itemNotFound","message":"Item not found","innerError":{"date":"2024-02-14T15:30:26","request-id":"47d428f9-f207-4570-85f1-e9ea9fd4aeb5","client-request-id":"47d428f9-f207-4570-85f1-e9ea9fd4aeb5"}}}'
+  recorded_at: Wed, 14 Feb 2024 15:30:26 GMT
 recorded_with: VCR 6.2.0
