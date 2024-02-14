@@ -28,6 +28,8 @@
 
 module Attachments
   class VirusScanJob < ApplicationJob
+    class VirusScanFailed < StandardError; end
+
     retry_on VirusScanFailed, wait: 5.seconds, attempts: 3
     discard_on ActiveJob::DeserializationError
 

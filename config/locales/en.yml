@@ -2340,6 +2340,10 @@ en:
     one: "1 project"
     other: "%{count} projects"
     zero: "no projects"
+  label_x_files:
+    one: "1 file"
+    other: "%{count} files"
+    zero: "no files"
   label_yesterday: "yesterday"
   label_role_type: "Type"
   label_member_role: "Project role"
@@ -2996,6 +3000,11 @@ en:
         Multiple values allowed (one line for each value).
     antivirus:
       title: "Virus scanning"
+      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      remaining_quarantined_files_html: >
+        You have successfully disabled virus scanning. 
+        There are however still %{file_count} in quarantine. 
+        Visit %{link} to clean them up."
       actions:
         delete: 'Delete the file'
         quarantine: 'Quarantine the file'

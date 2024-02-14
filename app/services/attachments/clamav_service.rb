@@ -27,12 +27,12 @@
 #++
 
 module Attachments
-  class VirusScanFailed < StandardError; end
-
   class ClamAVService
+    attr_reader :clamav_client
+
     def initialize(scan_mode = Setting.antivirus_scan_mode, connection_target = Setting.antivirus_scan_target)
       options = clamav_client_options(scan_mode, connection_target)
-      @clamav_client ||= ClamAV::Client.new(**options)
+      @clamav_client = ClamAV::Client.new(**options)
     end
 
     def scan(attachment)

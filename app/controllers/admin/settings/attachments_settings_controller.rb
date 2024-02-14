@@ -30,7 +30,7 @@ module Admin::Settings
   class AttachmentsSettingsController < ::Admin::SettingsController
     menu_item :settings_attachments
 
-    before_action :check_clamav, only: %i[update], if: -> { params[:settings] }
+    before_action :check_clamav, only: %i[update]
 
     def default_breadcrumb
       t(:'attributes.attachments')
@@ -51,15 +51,28 @@ module Admin::Settings
     private
 
     def check_clamav
+      return if params[:settings].blank?
       return if params[:settings][:antivirus_scan_mode] == "disabled"
 
-      service = Attachments::ClamAVService.new(params[:settings][:antivirus_scan_mode],
-                                               params[:settings][:antivirus_scan_target])
+      service = ::Attachments::ClamAVService.new(params[:settings][:antivirus_scan_mode].to_sym,
+                                                 params[:settings][:antivirus_scan_target])
 
       service.ping
-    rescue ClamAV::Error
-      flash[:error] = t(:'attachments.settings.antivirus_scan_target_unreachable')
-      redirect_to admin_settings_path(tab: "attachments")
+    rescue StandardError => e
+      Rails.logger.error { "Failed to check availability of ClamAV: #{e.message}" }
+      flash[:error] = t(:'settings.antivirus.clamav_ping_failed')
+      redirect_to action: :show
+    end
+
+    def success_callback(_call)
+      if Setting.antivirus_scan_mode == :disabled && Attachment.status_quarantined.any?
+        flash[:info] = t('settings.antivirus.remaining_quarantined_files_html',
+                         link: helpers.link_to(t('antivirus_scan.quarantined_attachments.title'), admin_quarantined_attachments_path),
+                         file_count: t(:label_x_files, count: Attachment.status_quarantined.count))
+        redirect_to action: :show
+      else
+        super
+      end
     end
 
     def settings_params
