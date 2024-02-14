@@ -116,7 +116,9 @@ RSpec.describe RootSeeder,
 
     context 'when run a second time' do
       before_all do
-        described_class.new.seed_data!
+        with_edition('bim') do
+          described_class.new.seed_data!
+        end
       end
 
       it 'does not create additional data' do
