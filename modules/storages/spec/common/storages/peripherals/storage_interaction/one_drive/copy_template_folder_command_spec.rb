@@ -48,6 +48,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
     VCR.turn_off! && WebMock.disable!
   end
 
+  shared_let(:source_path) { base_template_folder.id }
+
   it 'is registered under commands.one_drive.copy_template_folder' do
     expect(Storages::Peripherals::Registry.resolve('commands.one_drive.copy_template_folder')).to eq(described_class)
   end
@@ -83,16 +85,14 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
     end
     # rubocop:enable RSpec/BeforeAfterAll
 
-    let(:source_path) { base_template_folder.id }
-
     it 'copies origin folder and all underlying files and folders to the destination_path',
        vcr: 'one_drive/copy_template_folder_copy_successful' do
       command_result = described_class.call(storage:, source_path:, destination_path: 'My New Folder')
 
       expect(command_result).to be_success
-      expect(command_result.result).to match %r</drives/#{storage.drive_id}/items/.+\?.+$>
+      expect(command_result.result[:url]).to match %r</drives/#{storage.drive_id}/items/.+\?.+$>
     ensure
-      delete_copied_folder('My New Folder')
+      delete_copied_folder(command_result.result[:id])
     end
 
     describe 'error handling' do
@@ -142,20 +142,22 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
   end
 
   def setup_template_folder
+    raise if source_path.nil?
+
     Storages::Peripherals::Registry
       .resolve('commands.one_drive.create_folder')
-      .call(storage:, folder_path: 'Test Template Folder/Empty Subfolder')
+      .call(storage:, folder_path: 'Empty Subfolder', parent_location: source_path)
 
-    parent = Storages::Peripherals::Registry
+    subfolder = Storages::Peripherals::Registry
       .resolve('commands.one_drive.create_folder')
-      .call(storage:, folder_path: 'Test Template Folder/Subfolder with File').result
+      .call(storage:, folder_path: 'Subfolder with File', parent_location: source_path).result
 
     file_name = 'files_query_root.yml'
     token = OAuthClientToken.last
 
     upload_link = Storages::Peripherals::Registry
       .resolve('queries.one_drive.upload_link')
-      .call(storage:, user: token.user, data: { 'parent' => parent.id, 'file_name' => file_name })
+      .call(storage:, user: token.user, data: { 'parent' => subfolder.id, 'file_name' => file_name })
       .result
 
     path = Rails.root.join('modules/storages/spec/support/fixtures/vcr_cassettes/one_drive', file_name)
@@ -186,12 +188,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
     end
   end
 
-  def delete_copied_folder(folder_name)
-    copied_folder = existing_folder_tuples.find { |hash| hash[:name] == folder_name }
-    return unless copied_folder
-
+  def delete_copied_folder(location)
     Storages::Peripherals::Registry
       .resolve('commands.one_drive.delete_folder')
-      .call(storage:, location: copied_folder[:id])
+      .call(storage:, location:)
   end
 end

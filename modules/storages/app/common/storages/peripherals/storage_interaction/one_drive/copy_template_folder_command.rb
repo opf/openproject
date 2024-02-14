@@ -47,26 +47,39 @@ module Storages
             normalized_destination = normalize_path(destination_path)
 
             Util.using_admin_token(@storage) do |httpx|
-              response = httpx.post(copy_path_for(source_path), json: payload(normalized_destination))
-
-              case response
-              in { status: 202 }
-                ServiceResult.success(result: response.headers[:location])
-              in { status: 401 }
-                ServiceResult.failure(result: :unauthorized)
-              in { status: 403 }
-                ServiceResult.failure(result: :forbidden)
-              in { status: 404 }
-                ServiceResult.failure(result: :not_found, message: 'Template folder not found')
-              in { status: 409 }
-                ServiceResult.failure(result: :conflict, message: 'The copy would overwrite an already existing folder')
-              else
-                ServiceResult.failure(result: :no_clue)
-              end
+              handle_response(
+                httpx.post(copy_path_for(source_path), json: payload(normalized_destination))
+              )
             end
           end
 
           private
+
+          def handle_response(response)
+            case response
+            in { status: 202 }
+              id = extract_id_from_url(response.headers[:location])
+
+              ServiceResult.success(result: { id:, url: response.headers[:location] })
+            in { status: 401 }
+              ServiceResult.failure(result: :unauthorized)
+            in { status: 403 }
+              ServiceResult.failure(result: :forbidden)
+            in { status: 404 }
+              ServiceResult.failure(result: :not_found, message: 'Template folder not found')
+            in { status: 409 }
+              ServiceResult.failure(result: :conflict, message: 'The copy would overwrite an already existing folder')
+            else
+              ServiceResult.failure(result: :error)
+            end
+          end
+
+          def extract_id_from_url(url)
+            extractor_regex = /.+\/items\/(?<item_id>\w+)\?/
+            match_data = extractor_regex.match(url)
+
+            match_data[:item_id] if match_data
+          end
 
           def payload(destination_path)
             {

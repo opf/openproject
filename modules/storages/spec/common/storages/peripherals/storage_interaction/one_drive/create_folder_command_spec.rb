@@ -48,7 +48,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
     expect(described_class).to respond_to(:call)
 
     method = described_class.method(:call)
-    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq folder_path])
+    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq folder_path], %i[key parent_location])
   end
 
   it 'is registered as create_folder' do
@@ -66,43 +66,13 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
   end
 
   it 'creates a sub folder', vcr: 'one_drive/create_folder_sub_folder' do
-    sub_folder = described_class.call(storage:, folder_path: "#{folder_path}/Another Folder").result
+    folder = described_class.call(storage:, folder_path:).result
+    sub_folder = described_class.call(storage:, folder_path: "Another Folder", parent_location: folder.id).result
 
     expect(sub_folder.name).to eq("Another Folder")
     expect(sub_folder.location).to eq("/#{folder_path}/Another Folder")
   ensure
     delete_created_files
-  end
-
-  it 'creates all the needed parent folders', vcr: 'one_drive/create_folder_deep_structure' do
-    sub_folder = described_class.call(storage:, folder_path: "#{folder_path}/Another Folder/Can I have another one")
-
-    expect(sub_folder).to be_success
-    expect(sub_folder.result.name).to eq("Can I have another one")
-    expect(sub_folder.result.location).to eq("/#{folder_path}/Another Folder/Can I have another one")
-
-    parent = find_folder(folder_path)
-    expect(parent).not_to be_nil
-    expect(parent[:name]).to eq(folder_path)
-
-    mid_folder = find_folder('Another Folder', parent)
-    expect(mid_folder).not_to be_nil
-    expect(parent[:name]).to eq(folder_path)
-  ensure
-    delete_created_files
-  end
-
-  context 'when the parent folder exists' do
-    it 'still creates the sub folder', vcr: 'one_drive/create_folder_sub_folder_with_existing_parent' do
-      described_class.call(storage:, folder_path:).on_failure { fail "Could not create the parent folder" }
-      sub_folder = described_class.call(storage:, folder_path: "#{folder_path}/With Existing Folder")
-
-      expect(sub_folder).to be_success
-      expect(sub_folder.result.name).to eq("With Existing Folder")
-      expect(sub_folder.result.location).to eq("/#{folder_path}/With Existing Folder")
-    ensure
-      delete_created_files
-    end
   end
 
   context 'when the folder already exists', vcr: 'one_drive/create_folder_already_exists' do
@@ -114,8 +84,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
       expect(result.errors.code).to eq(:conflict)
 
       error_data = result.errors.data
-      expect(error_data.name).to eq(folder_path)
-      expect(error_data.id).not_to be_nil
+      expect(error_data.payload.status).to eq(409)
+      expect(error_data.payload.json.dig('error', 'code')).to match /nameAlreadyExists/
     ensure
       delete_created_files
     end
