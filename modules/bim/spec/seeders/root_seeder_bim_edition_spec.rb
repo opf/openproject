@@ -204,4 +204,38 @@ RSpec.describe RootSeeder,
 
     include_examples 'creates BIM demo data'
   end
+
+  describe 'demo data with development data' do
+    shared_let(:root_seeder) { described_class.new(seed_development_data: true) }
+
+    before_all do
+      with_edition('bim') do
+        root_seeder.seed_data!
+      end
+    end
+
+    it 'creates 1 additional admin user with German locale' do
+      admins = User.not_builtin.where(admin: true)
+      expect(admins.count).to eq 2
+      expect(admins.pluck(:language)).to match_array(%w[en de])
+    end
+
+    it 'creates 5 additional projects for development' do
+      expect(Project.count).to eq 9
+    end
+
+    it 'creates 4 additional work packages for development' do
+      expect(WorkPackage.count).to eq 80
+    end
+
+    it 'creates 1 project with custom fields' do
+      expect(CustomField.count).to eq 12
+    end
+
+    it 'creates 2 additional types for development' do
+      expect(Type.count).to eq 9
+    end
+
+    include_examples 'no email deliveries'
+  end
 end
