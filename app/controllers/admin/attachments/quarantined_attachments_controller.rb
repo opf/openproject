@@ -34,7 +34,6 @@ module Admin
       before_action :find_quarantined_attachments
 
       before_action :find_attachment, only: %i[override destroy]
-      before_action :prevent_same_user, only: %i[override destroy]
 
       menu_item :attachment_quarantine
 
@@ -87,13 +86,6 @@ module Admin
         @attachment = @attachments.find(params[:id])
       rescue ActiveRecord::RecordNotFound
         render_404
-      end
-
-      def prevent_same_user
-        if current_user == @attachment.author
-          flash[:error] = t('antivirus_scan.quarantined_attachments.error_cannot_act_self')
-          redirect_to action: :index
-        end
       end
     end
   end

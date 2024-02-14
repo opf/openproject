@@ -63,8 +63,6 @@ module Admin
       end
 
       def override_link
-        return if User.current == attachment.author
-
         helpers.link_to(
           helpers.op_icon('icon icon-unlocked'),
           { controller: '/admin/attachments/quarantined_attachments', action: :override, id: model },
@@ -75,8 +73,6 @@ module Admin
       end
 
       def delete_link
-        return if User.current == attachment.author
-
         helpers.link_to(
           helpers.op_icon('icon icon-delete'),
           { controller: '/admin/attachments/quarantined_attachments', action: :destroy, id: model },

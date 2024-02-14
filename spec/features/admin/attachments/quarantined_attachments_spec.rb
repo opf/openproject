@@ -56,7 +56,7 @@ RSpec.describe 'Quarantined attachments', :js, :with_cuprite do
 
     page.within("#quarantined_attachment_#{own_quarantined_attachment.id}") do
       expect(page).to have_no_link I18n.t('antivirus_scan.quarantined_attachments.override')
-      expect(page).to have_no_link I18n.t('antivirus_scan.quarantined_attachments.delete')
+      expect(page).to have_link I18n.t('antivirus_scan.quarantined_attachments.delete')
     end
 
     page.within("#quarantined_attachment_#{quarantined_attachment.id}") do

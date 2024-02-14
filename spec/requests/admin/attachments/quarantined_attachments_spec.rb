@@ -29,15 +29,13 @@
 require 'spec_helper'
 
 RSpec.describe 'Quarantined attachments',
+               with_ee: %i[virus_scanning],
                type: :rails_request do
 
   shared_let(:other_author) { create(:user) }
   shared_let(:admin) { create(:admin) }
 
   shared_let(:container) { create(:work_package) }
-  shared_let(:own_quarantined_attachment) do
-    create(:attachment, container:, status: :quarantined, author: admin, filename: 'my-own.txt')
-  end
   shared_let(:quarantined_attachment) do
     create(:attachment, container:, status: :quarantined, author: other_author, filename: 'other-1.txt')
   end
@@ -61,28 +59,21 @@ RSpec.describe 'Quarantined attachments',
   end
 
   describe 'DELETE /admin/quarantined_attachments/:id' do
-    it 'allows management other attachments' do
+    it 'allows management of attachments' do
       delete admin_quarantined_attachment_path(quarantined_attachment)
       expect(response).to be_redirect
 
       expect { quarantined_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    it 'disallows own attachments' do
-      delete admin_quarantined_attachment_path(own_quarantined_attachment)
-      expect(response).to be_redirect
-
-      expect { own_quarantined_attachment.reload }.not_to raise_error
-    end
-
     it 'fails to find if not quarantined' do
       delete admin_quarantined_attachment_path(scanned_attachment)
-      expect(response).to have_http_status 404
+      expect(response).to have_http_status :not_found
     end
   end
 
   describe 'PATCH /admin/quarantined_attachments/:id/override' do
-    it 'allows management other attachments' do
+    it 'allows management of attachments' do
       patch override_admin_quarantined_attachment_path(quarantined_attachment)
       expect(response).to be_redirect
 
@@ -90,17 +81,9 @@ RSpec.describe 'Quarantined attachments',
       expect(quarantined_attachment).to be_status_scanned
     end
 
-    it 'disallows own attachments' do
-      patch override_admin_quarantined_attachment_path(own_quarantined_attachment)
-      expect(response).to be_redirect
-
-      own_quarantined_attachment.reload
-      expect(own_quarantined_attachment).to be_status_quarantined
-    end
-
     it 'fails to find if not quarantined' do
       patch override_admin_quarantined_attachment_path(scanned_attachment)
-      expect(response).to have_http_status 404
+      expect(response).to have_http_status :not_found
     end
   end
 end
