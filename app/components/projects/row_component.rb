@@ -117,6 +117,14 @@ module Projects
       end
     end
 
+    def description
+      return nil unless user_can_view_project?
+
+      if project.description
+        content_tag :div, helpers.format_text(project.description), class: 'wiki'
+      end
+    end
+
     def public
       helpers.checked_image project.public?
     end
@@ -125,11 +133,6 @@ module Projects
       classes = %w[basics context-menu--reveal]
       classes << project_css_classes
       classes << row_css_level_classes
-
-      if params[:expand] == 'all' && project.description.present?
-        classes << ' -no-highlighting -expanded'
-      end
-
       classes.join(" ")
     end
 
@@ -163,7 +166,7 @@ module Projects
       case column
       when :name
         "project--hierarchy #{project.archived? ? 'archived' : ''}"
-      when :status_explanation || :description
+      when :status_explanation, :description
         "long-text-truncation"
       when /\Acf_/
         cf = custom_field(column)
