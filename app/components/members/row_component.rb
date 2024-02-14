@@ -97,7 +97,7 @@ module Members
 
     def role_form
       render Members::RoleFormComponent.new(
-        member,
+        member.project_role? ? member : Member.new(project:, principal:),
         row: self,
         params: controller.params,
         roles: table.available_roles
