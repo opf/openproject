@@ -46,7 +46,7 @@ module Storages
             folder, filename = data.slice('parent', 'file_name').values
 
             Util.using_user_token(@storage, user) do |token|
-              response = HTTPX
+              response = OpenProject.httpx
                            .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
                                             'Content-Type' => 'application/json' })
                            .post(
@@ -65,16 +65,21 @@ module Storages
           end
 
           def handle_response(response)
+            data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
+
             case response
             in { status: 200..299 }
-              upload_url = MultiJson.load(response.body, symbolize_keys: true)[:uploadUrl]
+              upload_url = response.json(symbolize_keys: true)[:uploadUrl]
               ServiceResult.success(result: ::Storages::UploadLink.new(URI(upload_url), :put))
             in { status: 404 }
-              ServiceResult.failure(result: :not_found, errors: ::Storages::StorageError.new(code: :not_found))
+              ServiceResult.failure(result: :not_found,
+                                    errors: ::Storages::StorageError.new(code: :not_found, data:))
             in { status: 401 }
-              ServiceResult.failure(result: :unauthorized, errors: ::Storages::StorageError.new(code: :unauthorized))
+              ServiceResult.failure(result: :unauthorized,
+                                    errors: ::Storages::StorageError.new(code: :unauthorized, data:))
             else
-              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error))
+              ServiceResult.failure(result: :error,
+                                    errors: ::Storages::StorageError.new(code: :error, data:))
             end
           end
 

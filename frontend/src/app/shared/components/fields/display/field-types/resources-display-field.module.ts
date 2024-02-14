@@ -33,7 +33,7 @@ export class ResourcesDisplayField extends DisplayField {
     return _.isEmpty(this.value);
   }
 
-  public get value() {
+  public get stringValue():string[] {
     const cf = this.resource[this.name];
     if (this.schema && cf) {
       if (cf.elements) {
@@ -50,7 +50,7 @@ export class ResourcesDisplayField extends DisplayField {
   }
 
   public render(element:HTMLElement, displayText:string):void {
-    const values = this.value;
+    const values = this.stringValue;
     element.innerHTML = '';
     element.setAttribute('title', values.join(', '));
 

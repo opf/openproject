@@ -1,5 +1,6 @@
 <%= render(Primer::Box.new) do %>
   <%= render(Primer::Beta::Heading.new(tag: :h4, mb: 2)) { I18n.t('storages.health.title') } %>
+  <%= render(Primer::Beta::Text.new(tag: :div, mb: 2, font_weight: :bold)) { I18n.t('storages.health.subtitle') } %>
 
   <%= render(Primer::Box.new(py: 1)) do %>
     <%= render(Primer::Beta::Text.new(test_selector: "storage-health-checked-at")) {

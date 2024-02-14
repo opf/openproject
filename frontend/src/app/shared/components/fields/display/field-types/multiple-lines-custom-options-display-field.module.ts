@@ -31,7 +31,7 @@ import { ResourcesDisplayField } from './resources-display-field.module';
 
 export class MultipleLinesCustomOptionsDisplayField extends ResourcesDisplayField {
   public render(element:HTMLElement, displayText:string):void {
-    const values = this.value;
+    const values = this.stringValue;
     element.setAttribute('title', displayText);
     element.textContent = displayText;
 

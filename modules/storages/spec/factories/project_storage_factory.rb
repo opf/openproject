@@ -38,5 +38,14 @@ FactoryBot.define do
     trait :as_automatically_managed do
       project_folder_mode { 'automatic' }
     end
+
+    trait :with_historical_data do
+      after(:create) do |project_storage, _evaluator|
+        create(:last_project_folder,
+               project_storage:,
+               origin_folder_id: project_storage.project_folder_id,
+               mode: project_storage.project_folder_mode)
+      end
+    end
   end
 end

@@ -90,7 +90,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
         end
       end.to_xml
 
-      response = UTIL
+      response = OpenProject
                    .httpx
                    .basic_auth(@username, @password)
                    .with(headers: { "Depth" => depth })

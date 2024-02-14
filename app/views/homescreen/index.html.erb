@@ -48,8 +48,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% if show_homescreen_links? && @homescreen[:links].any? %>
   <section class="homescreen--links">
+
   <% @homescreen[:links].each do |link| %>
-    <% title = I18n.t(link[:label], scope: 'homescreen.links', default: I18n.t(link[:label])) %>
+    <% title = I18n.t(link[:label], scope: 'homescreen.links') %>
     <a class="homescreen--links--item" href="<%= link[:url] %>" target="_blank" title="<%= title %>">
       <%= op_icon(link[:icon]) %>
       <%= title %>

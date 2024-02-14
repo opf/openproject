@@ -420,6 +420,9 @@ module API
             show_revision_project_repository_path(project_id, identifier)
           end
 
+          index :shares
+          show :share
+
           def self.show_user(user_id)
             user_path(user_id)
           end

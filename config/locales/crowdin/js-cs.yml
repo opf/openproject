@@ -347,11 +347,11 @@ cs:
           learn_about: "Další informace o nových funkcích"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link:
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                Vydání obsahuje různé nové funkce a vylepšení: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integrace s manuálními složkami projektu.</li> <li>Filtrovat role, skupiny a sdílet v seznamu členů projektu.</li> <li>Povolit pověřené osoby a odpovědné za sdílené pracovní balíčky.</li> <li>Představte nové názvy polí Práce, Zbývající dílo a % Dokončit, abyste připravili zprávy o pokroku pro hierarchie pracovních balíčků.</li> <li>Povolit změnu stavu bez práv úprav pracovního balíčku.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter and save custom project lists.</li> <li>Separate Gantt charts module with new default views.</li> <li>Automatically managed project folders for OneDrive/SharePoint integration.</li> <li>Show number of "Shared users" in the share button and display them in the work packages list.</li> <li>Improved calculations and updates for progress reporting for work package hierarchies.</li> </ul>
     ical_sharing_modal:
       title: "Přihlásit kalendář k odběru"
       inital_setup_error_message: "Při načítání dat došlo k chybě."
@@ -468,7 +468,7 @@ cs:
     label_per_page: "Na stránku:"
     label_please_wait: "Čekejte prosím"
     label_project: "Projekt"
-    label_project_list: "Seznam projektů"
+    label_project_list: "Project lists"
     label_project_plural: "Projekty"
     label_visibility_settings: "Viditelnost zobrazení"
     label_quote_comment: "Citovat tento komentář"
@@ -519,8 +519,8 @@ cs:
     label_watch_work_package: "Sledovat pracovní balíček"
     label_watcher_added_successfully: "Sledující úspěšně přidán!"
     label_watcher_deleted_successfully: "Sledující úspěšně odstraněn!"
-    label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
-    label_work_package_context_menu: "Work package context menu"
+    label_work_package_details_you_are_here: "Jste na kartě %{tab} pro %{type} %{subject}."
+    label_work_package_context_menu: "Kontextové menu pracovního balíčku"
     label_unwatch: "Přestat sledovat"
     label_unwatch_work_package: "Přestat sledovat pracovní balíček"
     label_uploaded_by: "Nahrál"
@@ -582,7 +582,7 @@ cs:
           full_view: 'Zobrazení <b>podrobností pracovního balíčku</b> poskytuje všechny relevantní informace týkající se daného pracovního balíčku, jako je popis, stav, priorita, činnosti, závislosti a komentáře.'
           back_button: 'Použijte šipku zpět v levém horním rohu pro ukončení a návrat do seznamu pracovních balíčků.'
           create_button: 'Tlačítko <b>Vytvořit</b> přidá do vašeho projektu nový pracovní balíček.'
-          timeline_button: 'Můžete aktivovat <b>Gantt graf</b> pro vytvoření časové osy pro váš projekt.'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: 'Zde můžete upravit váš projektový plán. Vytvářet nové fáze, milníky a přidat závislosti. Všichni členové týmu mohou kdykoliv zobrazit a aktualizovat aktuální plán.'
         team_planner:
           overview: 'Plánovač týmu vám umožní vizuálně přiřadit úkoly členům týmu a získat přehled o tom, kdo na čem pracuje.'
@@ -638,7 +638,7 @@ cs:
         empty_state:
           no_notification: "Vypadá to, že jste všechno dohnali..."
           no_notification_with_current_project_filter: "Vypadá to, že nemáte žadné nové oznámení pro vybraný projekt."
-          no_notification_with_current_filter: "Looks like you are all caught up for %{filter} filter."
+          no_notification_with_current_filter: "Vypadá to, že tady nic není %{filter} filtr."
           no_selection: "Klikněte na oznámení pro zobrazení všech podrobností o aktivitě."
         new_notifications:
           message: 'Máte nová oznámení.'
@@ -690,12 +690,12 @@ cs:
             description: 'Další oznámení pro činnosti ve všech projektech.'
           date_alerts:
             title: 'Upozornění na datum'
-            description: 'Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).'
+            description: 'Automatická oznámení, pokud se blíží důležitá data pro otevřené pracovní balíčky, které jste zapojeni (přiřazený, zodpovědný nebo sledovaný).'
             teaser_text: 'S upozorněním na datum budete upozorněni na blížící se datum zahájení nebo ukončení, abyste nikdy nezmeškali nebo nezapomněli na důležitou lhůtu.'
           overdue: Po termínu
         project_specific:
           title: "Nastavení upozornění pro konkrétní projekt\n"
-          description: 'These project-specific settings override default settings above.'
+          description: 'Toto specifické nastavení projektu přepíše výchozí nastavení výše.'
           add: 'Přidat nastavení pro projekt'
           already_selected: 'Tento projekt je již vybrán'
           remove: 'Odstranit nastavení projektu'
@@ -768,7 +768,7 @@ cs:
         confirm_reset: >
           Upozornění: Opravdu chcete resetovat konfiguraci formuláře? Tato akce obnoví atributy na jejich výchozí skupinu a zakáže VŠECHNY vlastní pole.
         upgrade_to_ee: "Upgradovat na Enterprise Edition on premises"
-        upgrade_to_ee_text: "Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?"
+        upgrade_to_ee_text: "Páni! Pokud potřebujete tuto funkci, jste super pro! Nevadili byste nám podpořit OpenSource vývojáře tím, že se stanete klientem Enterprise Edition?"
         more_information: "Více informací"
         nevermind: "Nevadí"
       edit:
@@ -968,6 +968,8 @@ cs:
         createdAt: "Vytvořeno"
         description: "Popis"
         date: "Datum"
+        percentComplete: "% Complete"
+        percentCompleteAlternative: "Progress"
         dueDate: "Datum dokončení"
         duration: "Doba trvání"
         spentTime: "Strávený čas"
@@ -975,6 +977,8 @@ cs:
         percentageDone: "Procento hotovo"
         priority: "Priorita"
         projectName: "Projekt"
+        remainingWork: "Remaining work"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Zodpovědný"
         startDate: "Datum zahájení"
         status: "Stav"
@@ -985,6 +989,8 @@ cs:
         updatedAt: "Aktualizováno"
         versionName: "Verze"
         version: "Verze"
+        work: "Work"
+        workAlternative: "Estimated time"
         remainingTime: "Zbývající práce"
       default_queries:
         latest_activity: "Poslední aktivita"
@@ -1033,6 +1039,7 @@ cs:
       sharing:
         share: 'Sdílet'
         title: "Sdílet pracovní balíček"
+        show_all_users: "Zobrazit všechny sdílené uživatele"
         selected_count: "%{count} vybráno"
         selection:
           mixed: "Smíšená"

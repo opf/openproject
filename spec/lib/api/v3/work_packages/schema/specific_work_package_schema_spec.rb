@@ -179,9 +179,9 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
         expect(subject).not_to be_writable(:done_ratio)
       end
 
-      it 'is not writable when the work package is a parent' do
+      it 'is writable when the work package is a parent' do
         allow(work_package).to receive(:leaf?).and_return(false)
-        expect(subject).not_to be_writable(:done_ratio)
+        expect(subject).to be_writable(:done_ratio)
       end
 
       it 'is writable when the work package is a leaf' do

@@ -45,9 +45,9 @@ class Query < ApplicationRecord
   # dependent: :destroy is not possible as this would only delete the ical_token_query_assignments
   before_destroy :destroy_ical_tokens
 
-  serialize :filters, Queries::WorkPackages::FilterSerializer
-  serialize :column_names, Array
-  serialize :sort_criteria, Array
+  serialize :filters, coder: Queries::WorkPackages::FilterSerializer
+  serialize :column_names, type: Array
+  serialize :sort_criteria, type: Array
 
   validates :include_subprojects,
             inclusion: [true, false]

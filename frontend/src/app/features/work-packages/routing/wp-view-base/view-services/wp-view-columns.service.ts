@@ -35,6 +35,7 @@ import { combine } from '@openproject/reactivestates';
 import { mapTo, take } from 'rxjs/operators';
 import { cloneHalResourceCollection } from 'core-app/features/hal/helpers/hal-resource-builder';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
+import { sharedUserColumn } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 
 @Injectable()
 export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<QueryColumn[]> {
@@ -73,8 +74,8 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
     // We can avoid reloading even with relation columns if we only removed columns
     const onlyRemoved = _.difference(newColumns, oldColumns).length === 0;
 
-    // Reload the table visibly if adding relation columns.
-    return !onlyRemoved && this.hasRelationColumns();
+    // Reload the table visibly if adding relation or share columns.
+    return !onlyRemoved && (this.hasRelationColumns() || this.hasShareColumn());
   }
 
   /**
@@ -83,6 +84,13 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
   public hasRelationColumns() {
     const relationColumns = [queryColumnTypes.RELATION_OF_TYPE, queryColumnTypes.RELATION_TO_TYPE];
     return !!_.find(this.getColumns(), (c) => relationColumns.indexOf(c._type) >= 0);
+  }
+
+  /**
+   * Returns whether the current set of columns include shares
+   */
+  public hasShareColumn() {
+    return !!_.find(this.getColumns(), (c) => c.id === sharedUserColumn.id);
   }
 
   /**

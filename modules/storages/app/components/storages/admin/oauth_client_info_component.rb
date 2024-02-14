@@ -45,7 +45,7 @@ module Storages::Admin
       {
         icon: oauth_client_configured? ? :sync : :pencil,
         tag: :a,
-        href: Rails.application.routes.url_helpers.new_admin_settings_storage_oauth_client_path(storage),
+        href: url_helpers.new_admin_settings_storage_oauth_client_path(storage),
         scheme: :invisible,
         aria: { label: I18n.t("storages.label_edit_storage_oauth_client") },
         data: edit_icon_button_data_options,

@@ -104,6 +104,7 @@ th:
   ldap_auth_sources:
     ldap_error: "LDAP-Error: %{error_message}"
     ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -250,10 +251,15 @@ th:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Open as Gantt view"
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: ขณะนี้ยังไม่มีโครงการใดๆ
       no_results_content_text: สร้างโครงการใหม่
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: เปลี่ยน ตัวระบุ
       activities:
@@ -285,14 +291,14 @@ th:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -326,6 +332,8 @@ th:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       คุณไม่ได้รับอนุญาตให้ลบผู้ใช้ตัวยึดตำแหน่ง คุณไม่มีสิทธิ์จัดการสมาชิกสำหรับโครงการทั้งหมดที่ผู้ใช้ตัวแทนเป็นสมาชิกอยู่
@@ -521,6 +529,8 @@ th:
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "ล่าช้า"
         from: "ชุดภารกิจ"
@@ -586,6 +596,7 @@ th:
         color: "สี"
       user:
         admin: "ผู้ดูแลระบบ"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "รหัสผ่านเดิม"
@@ -617,6 +628,7 @@ th:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
@@ -637,6 +649,7 @@ th:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Manual scheduling"
         spent_hours: "เวลาที่ใช้"
         spent_time: "เวลาที่ใช้"
@@ -939,6 +952,8 @@ th:
             status:
               invalid_on_create: "ไม่ใช่สถานะที่ถูกต้องสำหรับผู้ใช้ใหม่"
             ldap_auth_source:
+              error_not_found: "not found"
+            auth_source:
               error_not_found: "not found"
         member:
           principal_blank: "โปรดเลือกอย่างน้อยหนึ่งผู้ใช้หรือหนึ่งกลุ่ม"
@@ -1405,6 +1420,7 @@ th:
     message: ข้อความได้รับการแก้ไขแล้ว
     news: ข่าวสาร
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "โครงการได้รับการแก้ไขแล้ว"
     reply: ตอบกลับ
     time_entry: "บันทึกเวลาได้รับการแก้ไขแล้ว"
@@ -1547,6 +1563,7 @@ th:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1590,12 +1607,12 @@ th:
   label_age: "ระยะเวลา"
   label_ago: "วันที่ผ่านมา"
   label_all: "ทั้งหมด"
-  label_all_projects: "All projects"
   label_all_time: "ตลอดเวลา"
   label_all_words: "ทุกคำ"
   label_all_open_wps: "All open"
   label_always_visible: "Always displayed"
   label_announcement: "Announcement"
+  label_angular: "AngularJS"
   label_api_access_key: "คีย์การเข้าถึง API"
   label_api_access_key_created_on: "คีย์การเข้าถึง API ซึ่งสร้างเมื่อ %{value} ที่ผ่านมา"
   label_api_access_key_type: "API"
@@ -1607,7 +1624,6 @@ th:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "ใช้สถานะ"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "จากน้อยไปมาก"
   label_assigned_to_me_work_packages: "ชุดภารกิจที่ฉันได้รับมอบหมาย"
   label_associated_revisions: "การปรับปรุงที่เกี่ยวข้อง"
@@ -1627,8 +1643,9 @@ th:
   label_available_project_work_package_categories: "Available work package categories"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "API documentation"
+  label_api_doc: "API documentation"
   label_backup: "สำรอง"
+  label_backup_code: "Backup code"
   label_between: "between"
   label_blocked_by: "ถูกบล็อคโดย"
   label_blocks: "บล็อก"
@@ -1638,6 +1655,7 @@ th:
   label_forum_plural: "กระทู้"
   label_forum_sticky: "ปักหมุด"
   label_boolean: "ถูกหรือผิด"
+  label_board_plural: "Boards"
   label_branch: "สาขา"
   label_browse: "เรียกดู"
   label_bulk_edit_selected_work_packages: "แก้ไขชุดภารกิจที่เลือกพร้อมกัน"
@@ -1664,6 +1682,7 @@ th:
   label_check_uncheck_all_in_column: "เลือก/ไม่เลือก ทั้งหมดในคอลัมน์"
   label_check_uncheck_all_in_row: "เลือก/ไม่เลือก ทั้งหมดในแถว"
   label_child_element: "Child element"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "ปิดเวอร์ชั่นที่เสร็จแล้ว"
   label_closed_work_packages: "ปิด"
@@ -1695,6 +1714,7 @@ th:
   label_custom_field_plural: "ฟิลด์ที่กำหนดเอง"
   label_custom_field_default_type: "ชนิดว่าง"
   label_custom_style: "การออกแบบ"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "วันที่"
   label_date_and_time: "Date and time"
@@ -1751,6 +1771,8 @@ th:
   label_example: "ตัวอย่าง"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "ยังสามารถพบใน:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1763,6 +1785,7 @@ th:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "ไฟล์"
   label_filter_add: "เพิ่มตัวกรอง"
+  label_filter: "Filters"
   label_filter_plural: "ตัวกรอง"
   label_filters_toggle: "Show/hide filters"
   label_float: "ลอย"
@@ -1770,8 +1793,8 @@ th:
   label_follows: "ดังต่อไปนี้"
   label_force_user_language_to_default: "พบภาษาที่ไม่อนุญาตให้ใช้เป็นค่าเริ่มต้น ในชุดภาษาของผู้ใช้"
   label_form_configuration: "Form configuration"
-  label_gantt: "Gantt"
   label_gantt_chart: "Gantt chart"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "ทั่วไป"
   label_generate_key: "สร้างคีย์"
   label_git_path: "เส้นทางไปยังไดเรคทอรี่ ของไฟล์ .git"
@@ -1789,6 +1812,7 @@ th:
   label_home: "หน้าหลัก"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Legal notice"
   label_in: "ใน"
   label_in_less_than: "ในไม่เกิน"
@@ -1805,6 +1829,7 @@ th:
   label_internal: "ภายใน"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
+  label_share: "Share"
   label_show_hide: "แสดง/ซ่อน"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "บันทึก"
@@ -1875,7 +1900,7 @@ th:
   label_my_account: "บัญชีของฉัน"
   label_my_activity: "My activity"
   label_my_account_data: "ข้อมูลบัญชีของฉัน"
-  label_my_projects: "โครงการของฉัน"
+  label_my_avatar: "My avatar"
   label_my_queries: "แบบสอบถามแบบกำหนดเองของฉัน"
   label_name: "ชื่อ"
   label_never: "Never"
@@ -2011,6 +2036,7 @@ th:
   label_search: "ค้นหา"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "ส่งอีเมลทดสอบ"
+  label_session: "Session"
   label_setting_plural: "การตั้งค่า"
   label_system_settings: "System settings"
   label_show_completed_versions: "แสดงเวอร์ชันที่เสร็จสมบูรณ์"
@@ -2040,11 +2066,13 @@ th:
   label_system_storage: "Storage information"
   label_table_of_contents: "Table of contents"
   label_tag: "แท็ก"
+  label_team_planner: "Team Planner"
   label_text: "ข้อความแบบยาว"
   label_this_month: "เดือนนี้"
   label_this_week: "สัปดาห์นี้"
   label_this_year: "ปีนี้"
   label_time_entry_plural: "เวลาที่ใช้"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "ชื่อเรื่อง"
   label_projects_menu: "โครงการ"
   label_today: "วันนี้"
@@ -2185,11 +2213,11 @@ th:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -2504,7 +2532,7 @@ th:
   project_module_news: "ข่าวสาร"
   project_module_repository: "ที่เก็บข้อมูล"
   project_module_wiki: "วิกิ"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2783,6 +2811,7 @@ th:
     other: "อื่น ๆ"
     passwords: "รหัสผ่าน"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "เซสชั่น"
@@ -2798,6 +2827,7 @@ th:
     plain: "Plain text"
   status_active: "ใช้งานอยู่"
   status_archived: "archived"
+  status_blocked: "blocked"
   status_invited: invited
   status_locked: ล็อก
   status_registered: ลงทะเบียน
@@ -3032,12 +3062,12 @@ th:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'บทบาท'
-        type: 'ประเภท'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "บทบาท"
+        type: "ประเภท"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3054,7 +3084,7 @@ th:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3254,7 +3284,6 @@ th:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

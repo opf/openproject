@@ -29,9 +29,19 @@
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
+import { HierarchyQueryLinkHelperService } from 'core-app/shared/components/fields/display/field-types/hierarchy-query-link-helper.service';
 
 export class EstimatedTimeDisplayField extends DisplayField {
   @InjectField() timezoneService:TimezoneService;
+
+  @InjectField() PathHelper:PathHelperService;
+
+  @InjectField() apiV3Service:ApiV3Service;
+
+  @InjectField() hierarchyQueryLinkHelper:HierarchyQueryLinkHelperService;
 
   private derivedText = this.I18n.t('js.label_value_derived_from_children');
 
@@ -100,13 +110,15 @@ export class EstimatedTimeDisplayField extends DisplayField {
   }
 
   public renderDerived(element:HTMLElement, displayText:string):void {
-    const span = document.createElement('span');
+    const link = document.createElement('a');
 
-    span.textContent = `Σ ${displayText}`;
-    span.title = `${this.derivedValueString} ${this.derivedText}`;
-    span.classList.add('-derived-value');
+    link.textContent = `Σ ${displayText}`;
+    link.title = `${this.derivedValueString} ${this.derivedText}`;
+    link.classList.add('-derived-value', uiStateLinkClass);
 
-    element.appendChild(span);
+    this.hierarchyQueryLinkHelper.addHref(link, this.resource);
+
+    element.appendChild(link);
   }
 
   public get title():string|null {

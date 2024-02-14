@@ -136,7 +136,7 @@ class Storages::Admin::OAuthClientsController < ApplicationController
   def prepare_storage_for_automatic_management_form
     return unless @storage.automatic_management_unspecified?
 
-    @storage = ::Storages::Storages::SetNextcloudProviderFieldsAttributesService
+    @storage = ::Storages::Storages::SetProviderFieldsAttributesService
                  .new(user: current_user, model: @storage, contract_class: EmptyContract)
                  .call
                  .result

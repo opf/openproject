@@ -24,7 +24,10 @@
   </div>
 
   <div class="spot-modal--body spot-container">
-    <turbo-frame id="work_package_share_list" src="{{this.frameSrc}}">
+    <turbo-frame
+      #frameElement
+      id="work_package_share_list"
+      src="{{this.frameSrc}}">
       <op-content-loader
         viewBox="0 0 180 80"
       >

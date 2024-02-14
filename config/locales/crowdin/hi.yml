@@ -104,6 +104,7 @@ hi:
   ldap_auth_sources:
     ldap_error: "LDAP-Error: %{error_message}"
     ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -250,10 +251,15 @@ hi:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Open as Gantt view"
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -285,14 +291,14 @@ hi:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -326,6 +332,8 @@ hi:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -520,6 +528,8 @@ hi:
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "देरी"
         from: "कार्य पैकेज"
@@ -585,6 +595,7 @@ hi:
         color: "रंग"
       user:
         admin: "व्यवस्थापक"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "Current password"
@@ -616,6 +627,7 @@ hi:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "उपतत्व"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
@@ -636,6 +648,7 @@ hi:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Manual scheduling"
         spent_hours: "समय बिताया"
         spent_time: "समय बिताया"
@@ -939,6 +952,8 @@ hi:
             status:
               invalid_on_create: "is not a valid status for new users."
             ldap_auth_source:
+              error_not_found: "not found"
+            auth_source:
               error_not_found: "not found"
         member:
           principal_blank: "कृपया कम से कम एक समूह या उपयोगकर्ता चुनें।"
@@ -1430,6 +1445,7 @@ hi:
     message: Message edited
     news: नया
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Project edited"
     reply: Replied
     time_entry: "Timelog edited"
@@ -1572,6 +1588,7 @@ hi:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1615,12 +1632,12 @@ hi:
   label_age: "Age"
   label_ago: "दिन पहले"
   label_all: "सभी"
-  label_all_projects: "All projects"
   label_all_time: "हमेशा"
   label_all_words: "सभी शब्दों"
   label_all_open_wps: "सभी खुले"
   label_always_visible: "Always displayed"
   label_announcement: "Announcement"
+  label_angular: "AngularJS"
   label_api_access_key: "API पहुंच कुंजी"
   label_api_access_key_created_on: "API access key created %{value} ago"
   label_api_access_key_type: "API"
@@ -1632,7 +1649,6 @@ hi:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "लागू की गई स्थिति"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "आरोही"
   label_assigned_to_me_work_packages: "मेरे लिए असाइन किए गए कार्य पैकेज"
   label_associated_revisions: "संबद्ध पुनरावलोकन"
@@ -1652,8 +1668,9 @@ hi:
   label_available_project_work_package_categories: "Available work package categories"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "API documentation"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "between"
   label_blocked_by: "द्वारा अवरुद्ध"
   label_blocks: "ब्लॉक"
@@ -1663,6 +1680,7 @@ hi:
   label_forum_plural: "मंच"
   label_forum_sticky: "चिपचिपा"
   label_boolean: "बूलियन"
+  label_board_plural: "Boards"
   label_branch: "शाखा"
   label_browse: "ब्राउज करें"
   label_bulk_edit_selected_work_packages: "चयनित कार्य पैकेजों का बल्क संपादन"
@@ -1689,6 +1707,7 @@ hi:
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Child element"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "पूर्ण संस्करण बंद करें"
   label_closed_work_packages: "बंद"
@@ -1720,6 +1739,7 @@ hi:
   label_custom_field_plural: "Custom fields"
   label_custom_field_default_type: "Empty type"
   label_custom_style: "Design"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "तिथि"
   label_date_and_time: "Date and time"
@@ -1776,6 +1796,8 @@ hi:
   label_example: "Example"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Also available in:"
   label_expanded_click_to_collapse: "विस्तार. संक्षिप्त करने के लिए क्लिक करें"
@@ -1788,6 +1810,7 @@ hi:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "फ़ाइलें"
   label_filter_add: "फ़िल्टर जोड़ें"
+  label_filter: "Filters"
   label_filter_plural: "फ़िल्टर"
   label_filters_toggle: "Show/hide filters"
   label_float: "फ्लोट"
@@ -1795,8 +1818,8 @@ hi:
   label_follows: "फॉलो करें"
   label_force_user_language_to_default: "डिफ़ॉल्ट करने के लिए एक गैर अनुमति भाषा वाले उपयोगकर्ताओं की भाषा सेट करें"
   label_form_configuration: "Form configuration"
-  label_gantt: "गैन्ट"
   label_gantt_chart: "गैंट चार्ट"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "सामान्य"
   label_generate_key: "कोई कुंजी जैनेरेट करें"
   label_git_path: ". git निर्देशिका के लिए पथ"
@@ -1814,6 +1837,7 @@ hi:
   label_home: "मुखपृष्ठ"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Legal notice"
   label_in: "में"
   label_in_less_than: "से भी कम समय में"
@@ -1830,6 +1854,7 @@ hi:
   label_internal: "आंतरिक"
   label_introduction_video: "परिचय वीडियो"
   label_invite_user: "Invite user"
+  label_share: "Share"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1900,7 +1925,7 @@ hi:
   label_my_account: "My account"
   label_my_activity: "My activity"
   label_my_account_data: "My account data"
-  label_my_projects: "My projects"
+  label_my_avatar: "My avatar"
   label_my_queries: "My custom queries"
   label_name: "नाम"
   label_never: "Never"
@@ -2036,6 +2061,7 @@ hi:
   label_search: "Search"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
+  label_session: "Session"
   label_setting_plural: "Settings"
   label_system_settings: "System settings"
   label_show_completed_versions: "Show completed versions"
@@ -2065,11 +2091,13 @@ hi:
   label_system_storage: "Storage information"
   label_table_of_contents: "विषय सूची"
   label_tag: "टैग"
+  label_team_planner: "Team Planner"
   label_text: "लंबा पाठ"
   label_this_month: "इस महीने"
   label_this_week: "इस सप्ताह"
   label_this_year: "इस वर्ष"
   label_time_entry_plural: "समय बिताया"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "शीर्षक"
   label_projects_menu: "Projects"
   label_today: "आज"
@@ -2210,11 +2238,11 @@ hi:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -2531,7 +2559,7 @@ hi:
   project_module_news: "नया"
   project_module_repository: "Repository"
   project_module_wiki: "विकी"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2810,6 +2838,7 @@ hi:
     other: "अन्य"
     passwords: "Passwords"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "Session"
@@ -2825,6 +2854,7 @@ hi:
     plain: "सादा पाठ"
   status_active: "सक्रिय"
   status_archived: "archived"
+  status_blocked: "blocked"
   status_invited: invited
   status_locked: locked
   status_registered: registered
@@ -3060,12 +3090,12 @@ hi:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'भूमिका'
-        type: 'प्रकार'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "भूमिका"
+        type: "प्रकार"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3082,7 +3112,7 @@ hi:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3283,7 +3313,6 @@ hi:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

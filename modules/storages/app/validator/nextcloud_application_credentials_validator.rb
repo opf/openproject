@@ -39,7 +39,7 @@ class NextcloudApplicationCredentialsValidator
   def call
     return unless contract.model.password_changed?
 
-    response = UTIL
+    response = OpenProject
                  .httpx
                  .basic_auth(contract.username, contract.password)
                  .head(UTIL.join_uri_path(uri, "remote.php/dav"))

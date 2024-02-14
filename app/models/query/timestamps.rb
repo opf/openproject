@@ -30,7 +30,7 @@ module Query::Timestamps
   extend ActiveSupport::Concern
 
   included do
-    serialize :timestamps, Array
+    serialize :timestamps, type: Array
 
     # Returns the timestamps the query should be evaluated at.
     #

@@ -61,7 +61,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     private
 
     def direct_download_request(token, file_link)
-      response = Util
+      response = OpenProject
                    .httpx
                    .post(
                      Util.join_uri_path(@uri, '/ocs/v2.php/apps/dav/api/v1/direct'),

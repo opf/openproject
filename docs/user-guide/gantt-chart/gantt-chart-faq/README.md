@@ -21,6 +21,10 @@ We understand that the loading time when working in Gantt Chart is too long for 
 At the moment that's not possible, but you can use the print feature of your browser to print it as PDF (we optimized this for Google Chrome). Please find out more [here](../#how-to-print-a-gantt-chart). 
 The respective feature request can be found [here](https://community.openproject.org/wp/15444).
 
+## I can no longer see my Gantt chart filters, what can I do?
+
+Gantt charts became a separate module in OpenProject 13.3. To see the filters you created and saved earlier please select the **Gantt charts** module either from the global modules menu or from the project menu on the left. 
+
 ## How can I build in a "buffer" (e.g. two weeks gap) between two consecutive work packages, so that even if the first one is postponed the second one always starts e.g. two weeks later?
 
 Adding a buffer directly is currently not possible in OpenProject. When you create a follows-precedes relationship between a preceding and a following work package and leave a gap between the finish date of the preceding and the start date of the following work package, and then postpone the preceding work package, the "buffer" will be used up. Only when the finish date of the preceding work package is moved past the start date of the following work package, will the following work package be postponed.

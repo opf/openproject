@@ -104,6 +104,7 @@ sk:
   ldap_auth_sources:
     ldap_error: "LDAP-Chyba: %{error_message}"
     ldap_auth_failed: "Nemožno overiť v LDAP-Serveri."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -250,10 +251,15 @@ sk:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Open as Gantt view"
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: V súčasnosti neexistujú žiadne projekty
       no_results_content_text: Vytvoriť nový projekt
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -285,14 +291,14 @@ sk:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Nepodarilo sa obnoviť prístupový token: %{error}"
@@ -326,6 +332,8 @@ sk:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Tento používateľ nie je v súčasnosti členom projektu.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -524,6 +532,8 @@ sk:
         row_count: "Počet riadkov"
         column_count: "Počet stĺpcov"
         widgets: "Miniaplikácie"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Oneskorenie"
         from: "Pracovný balíček"
@@ -589,6 +599,7 @@ sk:
         color: "Farba"
       user:
         admin: "Správca"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "Aktuálne heslo"
@@ -620,6 +631,7 @@ sk:
         begin_insertion: "Začiatok vkladania"
         begin_deletion: "Začiatok odstraňovania"
         children: "Dielčie prvky"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
@@ -640,6 +652,7 @@ sk:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Manuálne plánovanie"
         spent_hours: "Strávený čas"
         spent_time: "Strávený čas"
@@ -946,6 +959,8 @@ sk:
               invalid_on_create: "nie je platný stav pre nových používateľov."
             ldap_auth_source:
               error_not_found: "nenájdené"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Vyberte aspoň jedného používateľa alebo skupinu."
           role_blank: "musí byť pridelené."
@@ -1486,6 +1501,7 @@ sk:
     message: Správa upravená
     news: Novinky
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Projekt upravený"
     reply: Zodpovedané
     time_entry: "Časový záznam zmenený"
@@ -1628,6 +1644,7 @@ sk:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1671,12 +1688,12 @@ sk:
   label_age: "Vek"
   label_ago: "dní späť"
   label_all: "Všetky"
-  label_all_projects: "All projects"
   label_all_time: "všetok čas"
   label_all_words: "Všetky slová"
   label_all_open_wps: "Všetky otvorené"
   label_always_visible: "Vždy zobrazené"
   label_announcement: "Oznámenie"
+  label_angular: "AngularJS"
   label_api_access_key: "Prístupový kľúč API"
   label_api_access_key_created_on: "Prístupový kľúč pre API vytvorený %{value} vzad"
   label_api_access_key_type: "API"
@@ -1688,7 +1705,6 @@ sk:
   label_ical_access_key_revoke: "Odvolať"
   label_applied_status: "Aplikovaný stav"
   label_archive_project: "Archivovať projekt"
-  label_archived_projects: "Archived projects"
   label_ascending: "Vzostupne"
   label_assigned_to_me_work_packages: "Mne priradené pracovné balíčky"
   label_associated_revisions: "Súvisiace revízie"
@@ -1708,8 +1724,9 @@ sk:
   label_available_project_work_package_categories: "Dostupné kategórie pracovných balíčkov"
   label_available_project_work_package_types: "Dostupné kategórie pracovných balíčkov"
   label_available_projects: "Available projects"
-  label_api_documentation: "Dokumentácia API"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "medzi"
   label_blocked_by: "zablokované používateľom"
   label_blocks: "bloky"
@@ -1719,6 +1736,7 @@ sk:
   label_forum_plural: "Diskusie"
   label_forum_sticky: "Dôležité (vždy vyššie)"
   label_boolean: "Booleovská hodnota (pavda/nepravda)"
+  label_board_plural: "Boards"
   label_branch: "Vetva"
   label_browse: "Prechádzať"
   label_bulk_edit_selected_work_packages: "Hromadne upraviť vybrané pracovné balíčky"
@@ -1745,6 +1763,7 @@ sk:
   label_check_uncheck_all_in_column: "Označiť/zrušiť označenie všetkých v stĺpci"
   label_check_uncheck_all_in_row: "Označiť/zrušiť označenie všetkých v riadku"
   label_child_element: "Prvok - potomok"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Zavrieť ukončené verzie"
   label_closed_work_packages: "uzatvorené"
@@ -1776,6 +1795,7 @@ sk:
   label_custom_field_plural: "Vlastné polia"
   label_custom_field_default_type: "Prázdny typ"
   label_custom_style: "Návrh"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Dátum"
   label_date_and_time: "Dátum a čas"
@@ -1832,6 +1852,8 @@ sk:
   label_example: "Príklad"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "K dispozícii tiež ako:"
   label_expanded_click_to_collapse: "Rozbalené. Kliknutí zbalíte"
@@ -1844,6 +1866,7 @@ sk:
   label_feeds_access_key_type: "RSS kanál"
   label_file_plural: "Súbory"
   label_filter_add: "Pridať filter"
+  label_filter: "Filters"
   label_filter_plural: "Filtre"
   label_filters_toggle: "Zobraziť / skryť filtre"
   label_float: "Plávajúce (float)"
@@ -1851,8 +1874,8 @@ sk:
   label_follows: "nasleduje"
   label_force_user_language_to_default: "Nastavenie jazyka užívateľov ktorí majú nastavený ako predvolený nepovolený jazyk"
   label_form_configuration: "Konfigurácia formulára"
-  label_gantt: "Ganttov graf"
   label_gantt_chart: "Ganttov diagram"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Všeobecné"
   label_generate_key: "Vygenerovať kľúč"
   label_git_path: "Cesta ku .git adresáru"
@@ -1870,6 +1893,7 @@ sk:
   label_home: "Úvod"
   label_subject_or_id: "Predmet alebo ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Legal notice"
   label_in: "v"
   label_in_less_than: "v menej ako"
@@ -1886,6 +1910,7 @@ sk:
   label_internal: "Interné"
   label_introduction_video: "Úvodné video"
   label_invite_user: "Pozvať používateľa"
+  label_share: "Share"
   label_show_hide: "Zobraziť/skryť"
   label_show_all_registered_users: "Zobraziť všetkých registrovaných užívateľov"
   label_journal: "Denník"
@@ -1956,7 +1981,7 @@ sk:
   label_my_account: "Môj účet"
   label_my_activity: "My activity"
   label_my_account_data: "Moje prihlasovacie parametre"
-  label_my_projects: "Moje projekty"
+  label_my_avatar: "My avatar"
   label_my_queries: "Moje vlastné dopyty"
   label_name: "Názov"
   label_never: "Nikdy"
@@ -2092,6 +2117,7 @@ sk:
   label_search: "Vyhľadávanie"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Odoslať testovací email"
+  label_session: "Session"
   label_setting_plural: "Nastavenia"
   label_system_settings: "Nastavenia systému"
   label_show_completed_versions: "Zobraziť dokončené verzie"
@@ -2121,11 +2147,13 @@ sk:
   label_system_storage: "Informácie o úložišti"
   label_table_of_contents: "Obsah"
   label_tag: "Označenie"
+  label_team_planner: "Team Planner"
   label_text: "Dlhý text"
   label_this_month: "Tento mesiac"
   label_this_week: "tento týždeň"
   label_this_year: "Tento rok"
   label_time_entry_plural: "Strávený čas"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Nadpis"
   label_projects_menu: "Projekty"
   label_today: "dnes"
@@ -2266,11 +2294,11 @@ sk:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -2590,7 +2618,7 @@ sk:
   project_module_news: "Novinky"
   project_module_repository: "Repozitár"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2869,6 +2897,7 @@ sk:
     other: "Ostatné"
     passwords: "Heslá"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "Relácie"
@@ -2884,6 +2913,7 @@ sk:
     plain: "Obyčajný text"
   status_active: "aktívny"
   status_archived: "archivované"
+  status_blocked: "blocked"
   status_invited: pozvaný
   status_locked: zamknuté
   status_registered: registrovaný
@@ -3121,12 +3151,12 @@ sk:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Rola'
-        type: 'Typ'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Rola"
+        type: "Typ"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3143,7 +3173,7 @@ sk:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3346,7 +3376,6 @@ sk:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

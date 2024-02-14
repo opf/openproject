@@ -28,11 +28,19 @@ We eat our own ice cream so we use OpenProject for roadmap planning and team col
 
 - [Submit a feature idea](submit-feature-idea)
 
-  
+
 
 ## Development Environment
 
 Take a look at the bottom under Additional resources to see how to setup your development environment.
+
+
+
+## Highlighting Development Environment
+
+To make it easier to distinguish a development instance, it is using a tinted website icon and modified app header.
+
+This behavior can be disabled by setting an environment variable `OPENPROJECT_DEVELOPMENT_HIGHLIGHT_ENABLED=false` (see also [documentation on configuration](../installation-and-operations/configuration/)).
 
 
 

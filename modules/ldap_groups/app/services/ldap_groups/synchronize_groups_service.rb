@@ -101,7 +101,7 @@ module LdapGroups
       users = {}
       # Override the default search attributes from the ldap
       # if we have sync_users enabled, to also get user attributes
-      search_attributes = ldap.search_attributes(group.sync_users)
+      search_attributes = ldap.search_attributes
       ldap_con.search(base: base_dn,
                       filter: memberof_filter(group),
                       attributes: search_attributes) do |entry|

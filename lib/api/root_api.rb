@@ -91,8 +91,8 @@ module API
       end
 
       def enforce_content_type
-        # Content-Type is not present in GET
-        return if request.get?
+        # Content-Type is not present in GET or DELETE requests
+        return if request.get? || request.delete?
 
         # Raise if missing header
         content_type = request.content_type

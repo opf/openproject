@@ -347,11 +347,11 @@ da:
           learn_about: "Learn more about the new features"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter and save custom project lists.</li> <li>Separate Gantt charts module with new default views.</li> <li>Automatically managed project folders for OneDrive/SharePoint integration.</li> <li>Show number of "Shared users" in the share button and display them in the work packages list.</li> <li>Improved calculations and updates for progress reporting for work package hierarchies.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -468,7 +468,7 @@ da:
     label_per_page: "Per side:"
     label_please_wait: "Please wait"
     label_project: "Prjoekt"
-    label_project_list: "Projects list"
+    label_project_list: "Project lists"
     label_project_plural: "Projekter"
     label_visibility_settings: "Visibility settings"
     label_quote_comment: "Citér denne kommentar"
@@ -582,7 +582,7 @@ da:
           full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
           back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
           create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
-          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
         team_planner:
           overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
@@ -966,6 +966,8 @@ da:
         createdAt: "Oprettet den"
         description: "Beskrivelse"
         date: "Dato"
+        percentComplete: "% Complete"
+        percentCompleteAlternative: "Progress"
         dueDate: "Finish date"
         duration: "Varighed"
         spentTime: "Anvendt tid"
@@ -973,6 +975,8 @@ da:
         percentageDone: "Procentdel udført"
         priority: "Prioritet"
         projectName: "Prjoekt"
+        remainingWork: "Remaining work"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Ansvarlig"
         startDate: "Start dato"
         status: "Status"
@@ -983,6 +987,8 @@ da:
         updatedAt: "Opdateret den"
         versionName: "Version"
         version: "Version"
+        work: "Work"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Latest activity"
@@ -1031,6 +1037,7 @@ da:
       sharing:
         share: 'Del'
         title: "Share work package"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

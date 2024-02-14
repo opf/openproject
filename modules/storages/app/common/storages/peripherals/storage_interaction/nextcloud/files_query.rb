@@ -41,7 +41,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       result = Util.token(user:, configuration: @configuration) do |token|
         @location_prefix = Util.join_uri_path(@uri.path, "remote.php/dav/files", token.origin_user_id.gsub(' ', '%20'))
 
-        response = Util
+        response = OpenProject
                      .httpx
                      .request(
                        "PROPFIND",

@@ -48,7 +48,7 @@ module Storages
 
           def call(user:, folder:)
             result = Util.using_user_token(@storage, user) do |token|
-              response = HTTPX.get(
+              response = OpenProject.httpx.get(
                 Util.join_uri_path(@uri, children_uri_path_for(folder) + FIELDS),
                 headers: { 'Authorization' => "Bearer #{token.access_token}" }
               )
@@ -76,7 +76,7 @@ module Storages
               ServiceResult.failure(result: :unauthorized,
                                     errors: Util.storage_error(response:, code: :unauthorized, source: self))
             else
-              data = ::Storages::StorageErrorData.new(source: self, payload: response)
+              data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
               ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
             end
           end
@@ -105,7 +105,7 @@ module Storages
 
           def empty_response(user, folder)
             result = Util.using_user_token(@storage, user) do |token|
-              response = HTTPX.get(
+              response = OpenProject.httpx.get(
                 Util.join_uri_path(@uri, location_uri_path_for(folder) + FIELDS),
                 headers: { 'Authorization' => "Bearer #{token.access_token}" }
               )

@@ -5,6 +5,7 @@ it:
         origin_id: ID origine
       storages/storage:
         creator: Autore
+        drive: ID Drive
         host: Host
         name: Nome
         provider_type: Tipo di fonte
@@ -90,7 +91,8 @@ it:
       label_healthy: Tutto ok
       label_pending: In sospeso
       since: dal giorno %{datetime}
-      title: Stato cartelle gestite
+      subtitle: Cartelle di progetto gestite automaticamente
+      title: Stato di salute
     help_texts:
       project_folder: La cartella del progetto è la cartella predefinita per il caricamento dei file per questo progetto. Gli utenti possono, comunque, caricare i file in altre posizioni.
     instructions:
@@ -172,20 +174,36 @@ it:
       not_connected: Non connesso. L'utente dovrebbe accedere all'archivio tramite il seguente %{link}.
     members_no_results: Nessun membro da visualizzare.
     no_results: Ancora nessun'archiviazione configurata.
-    notice_successful_storage_connection: Spazio di archiviazione connesso correttamente! Ricordati di attivare il modulo e lo spazio di archiviazione specifico nelle impostazioni di progetto di ciascun progetto desiderato per utilizzarlo.
+    notice_successful_storage_connection: |-
+      Spazio di archiviazione connesso correttamente! Ricordati di attivare il modulo e lo spazio di archiviazione specifico nelle impostazioni di progetto
+      di ciascun progetto desiderato per utilizzarlo.
+    oauth_grant_nudge_modal:
+      access_granted: Accesso autorizzato
+      body: Per accedere alla cartella del progetto è necessario accedere a %{storage}.
+      cancel_button_label: Lo farò più tardi
+      confirm_button_label: Accedi
+      storage_ready: Ora è possibile usare %{storage}
+      title: Ancora un passo...
     open_project_storage_modal:
       success:
-        a: Configurazione dell'integrazione completata
-        b: Stai per essere reindirizzato
+        subtitle: Stai per essere reindirizzato
+        title: Configurazione dell'integrazione completata
       waiting:
-        a: Stiamo configurando le tue autorizzazioni sulla cartella del progetto.
-        b: Aspetta un attimo, potrebbe volerci un po' di tempo...
+        subtitle: Aspetta un attimo, potrebbe volerci un po' di tempo...
+        title: Stiamo configurando le tue autorizzazioni sulla cartella del progetto.
     page_titles:
       file_storages:
         delete: Elimina archivio file
         subtitle: Aggiungi un archivio file esterno per caricare, collegare e gestire i file nelle macro-attività.
       managed_project_folders:
-        subtitle: Consenti a OpenProject di creare automaticamente cartelle per progetto. Questa impostazione è consigliata in quanto garantisce che ogni membro del team abbia sempre le autorizzazioni di accesso corrette.
+        one_drive_information: |-
+          Per abilitare le cartelle di progetto gestite automaticamente in OneDrive/SharePoint, è necessaria una configurazione aggiuntiva
+          per l'unità utilizzata per l'archiviazione di questo file. Se OpenProject gestisce le autorizzazioni di questa unità,
+          molto probabilmente sarà inutilizzabile per altri casi d'uso in SharePoint. Per ulteriori informazioni e indicazioni
+          consulta il %{drive_id_link_text}.
+        subtitle: |-
+          Consenti a OpenProject di creare automaticamente cartelle per progetto. Questa impostazione è consigliata in quanto garantisce che ogni
+          membro del team abbia sempre le autorizzazioni di accesso corrette.
         subtitle_short: Consenti a OpenProject di creare cartelle per progetto automaticamente.
         title: Cartelle di progetto gestite automaticamente
       project_settings:
@@ -213,5 +231,7 @@ it:
       description: Aggiungi un archivio per vederli qui.
       heading: Non hai ancora archivi.
     upsale:
-      description: Integra il tuo OneDrive/SharePoint come archivio file con OpenProject. Carica i file e collegali direttamente a macro-attività in un progetto.
+      description: |-
+        Integra il tuo OneDrive/SharePoint come archivio file con OpenProject. Carica i file e collegali direttamente
+        a macro-attività in un progetto.
       title: Integrazione OneDrive/SharePoint

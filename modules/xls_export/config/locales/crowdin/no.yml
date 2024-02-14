@@ -1,7 +1,7 @@
 "no":
   plugin_openproject_xls_export:
-    name: "OpenProject XLS Export"
-    description: "Export issue lists as Excel spreadsheets (.xls)."
+    name: "OpenProject XLS eksport"
+    description: "Eksporter sakslister som Excel-regneark (.xls)."
   export_to_excel: "Eksporter XLS"
   print_with_description: "Skriv ut forhåndsvisning med beskrivelse"
   sentence_separator_or: "eller"

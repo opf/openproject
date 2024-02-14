@@ -43,7 +43,7 @@ zh-TW:
           name: 其他
       work_package_roles:
         item_0:
-          name: Work package editor
+          name: 工作項目編輯者
         item_1:
           name: Work package commenter
         item_2:

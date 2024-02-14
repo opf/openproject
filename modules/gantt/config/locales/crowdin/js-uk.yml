@@ -1,0 +1,6 @@
+uk:
+  js:
+    queries:
+      all_open: 'Усі відкриті'
+      timeline: 'Часова шкала'
+      milestones: 'Віхи'

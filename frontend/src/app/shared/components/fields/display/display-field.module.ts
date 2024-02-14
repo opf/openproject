@@ -38,6 +38,8 @@ export const cssClassCustomOption = 'custom-option';
 export class DisplayField<T extends HalResource = HalResource> extends Field {
   public static type:string;
 
+  public resource:T;
+
   public mode:string | null = null;
 
   public activeChange:ResourceChangeset<T>|null = null;

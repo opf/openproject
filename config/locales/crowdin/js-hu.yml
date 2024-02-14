@@ -348,11 +348,11 @@ hu:
           learn_about: "Tudjon meg többet az új funkciókról"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter and save custom project lists.</li> <li>Separate Gantt charts module with new default views.</li> <li>Automatically managed project folders for OneDrive/SharePoint integration.</li> <li>Show number of "Shared users" in the share button and display them in the work packages list.</li> <li>Improved calculations and updates for progress reporting for work package hierarchies.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -469,7 +469,7 @@ hu:
     label_per_page: "Oldalanként:"
     label_please_wait: "Kérem várjon"
     label_project: "Projekt"
-    label_project_list: "Projects list"
+    label_project_list: "Project lists"
     label_project_plural: "Projektek"
     label_visibility_settings: "Láthatósági beállítások"
     label_quote_comment: "Hozzászólás idézése"
@@ -583,7 +583,7 @@ hu:
           full_view: "A <b> munkacsomag részleteit </b> a nézet tartalmazza. Az adott munkacsomaggal kapcsolatos minden lényeges információt, például annak leírását, állapotát, prioritását, tevékenységeit, függőségeit és megjegyzéseit.\n"
           back_button: "A bal felső sarokban lévő visszatérési nyíllal lépjen ki és térjen vissza a munkacsomagok listájához.\n"
           create_button: 'A <b>Létrehoz</b> gombbal tudsz új feladatot hozzáadni a projekthez.'
-          timeline_button: 'Aktiválhatja a <b>Gantt-diagramot</b>, hogy létrehozzon egy idővonalat a projekthez.'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: "Itt <b> szerkesztheti projekttervét </b>, új munkacsomagokat hozhat létre, például feladatokat, mérföldköveket, fázisokat és egyebeket, valamint <b> hozzáadhat függőségeket </b>. A csapat minden tagja bármikor láthatja és frissítheti a legújabb tervet.\n"
         team_planner:
           overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
@@ -967,6 +967,8 @@ hu:
         createdAt: "Létrehozva"
         description: "Leírás"
         date: "dátum"
+        percentComplete: "% Complete"
+        percentCompleteAlternative: "Progress"
         dueDate: "Befejezési dátum"
         duration: "Időtartam"
         spentTime: "Eltöltött idő"
@@ -974,6 +976,8 @@ hu:
         percentageDone: "Százalékosan elkészült"
         priority: "Fontosság"
         projectName: "Projekt"
+        remainingWork: "Remaining work"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Felelős"
         startDate: "Indulási dátum"
         status: "Állapot"
@@ -984,6 +988,8 @@ hu:
         updatedAt: "Frissítve"
         versionName: "Verzió"
         version: "Verzió"
+        work: "Work"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Utolsó aktivitás"
@@ -1032,6 +1038,7 @@ hu:
       sharing:
         share: 'Megosztás'
         title: "Share work package"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

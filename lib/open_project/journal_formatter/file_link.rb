@@ -59,7 +59,9 @@ class OpenProject::JournalFormatter::FileLink < JournalFormatter::Base
     non_nil_value = [old, current].compact.first
     file_link = file_link_for(id, non_nil_value)
 
-    non_nil_value['storage_name'] || file_link&.storage&.name || I18n.t('storages.unknown_storage')
+    non_nil_value['storage_name'] ||
+    file_link&.storage&.name ||
+    I18n.t('unknown_storage', scope: 'my_account.access_tokens.storages')
   end
 
   def render_file_link_detail_text(label, value, old_value, storage)

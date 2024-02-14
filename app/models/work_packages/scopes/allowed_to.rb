@@ -46,11 +46,12 @@ module WorkPackages::Scopes
           where(project_id: Project.allowed_to(user, permissions))
         else
           allowed_via_wp_membership = allowed_to_member_relation(user, permissions).select(arel_table[:id]).arel
-          allowed_via_project_membership = unscoped.where(project_id: Project.unscoped.allowed_to(user, permissions).select(:id))
-            .select(arel_table[:id])
-            .arel
+          allowed_via_project_membership = Project.unscoped.allowed_to(user, permissions).select(:id)
 
-          where(arel_table[:id].in(Arel::Nodes::UnionAll.new(allowed_via_wp_membership, allowed_via_project_membership)))
+          with(
+            allowed_work_packages: allowed_via_wp_membership,
+            allowed_projects: allowed_via_project_membership
+          ).where("work_packages.project_id IN (SELECT id FROM allowed_projects) OR work_packages.id IN (SELECT id FROM allowed_work_packages)")
         end
       end
 

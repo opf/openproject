@@ -78,9 +78,7 @@ RSpec.describe 'Inline editing work packages', :js do
       subject_field.set_value('Other subject!')
       subject_field.save!
 
-      wp_table.expect_toast(message: 'Successful update')
-      wp_table.dismiss_toaster!
-      wp_table.expect_no_toaster(message: 'Successful update')
+      wp_table.expect_and_dismiss_toaster(message: 'Successful update')
 
       status_field.activate!
       status_field.set_value(status2.name)
@@ -91,9 +89,7 @@ RSpec.describe 'Inline editing work packages', :js do
       subject_field.expect_text('Other subject!')
       status_field.expect_text(status2.name)
 
-      wp_table.expect_toast(message: 'Successful update')
-      wp_table.dismiss_toaster!
-      wp_table.expect_no_toaster(message: 'Successful update')
+      wp_table.expect_and_dismiss_toaster(message: 'Successful update')
 
       work_package.reload
       expect(work_package.subject).to eq('Other subject!')

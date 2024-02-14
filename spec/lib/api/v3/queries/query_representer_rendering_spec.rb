@@ -884,7 +884,7 @@ RSpec.describe API::V3::Queries::QueryRepresenter do
 
     describe 'when timeline is visible' do
       let(:query) do
-        build_stubbed(:query, project:).tap do |query|
+        build_stubbed(:query_with_view_gantt, project:).tap do |query|
           query.timeline_visible = true
         end
       end

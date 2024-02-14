@@ -9,6 +9,7 @@ import {
   internalBaselineColumn,
   internalContextMenuColumn,
   internalSortColumn,
+  sharedUserColumn,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/internal-sort-columns';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
@@ -25,6 +26,7 @@ import {
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { BaselineColumnBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/baseline/baseline-column-builder';
+import { ShareCellbuilder } from '../share-cell-builder';
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
@@ -46,6 +48,9 @@ export class SingleRowBuilder {
 
   // Relation cell builder instance
   protected relationCellBuilder = new RelationCellbuilder(this.injector);
+
+  // Share cell builder instance
+  protected shareCellBuilder = new ShareCellbuilder(this.injector);
 
   // Details Link builder
   protected contextLinkBuilder = new TableActionRenderer(this.injector);
@@ -91,6 +96,10 @@ export class SingleRowBuilder {
     // handle relation types
     if (isRelationColumn(column)) {
       return this.relationCellBuilder.build(workPackage, column);
+    }
+
+    if (column.id === sharedUserColumn.id) {
+      return this.shareCellBuilder.build(workPackage, column);
     }
 
     // Handle property types

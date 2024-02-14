@@ -181,7 +181,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @Input() public bufferAmount ? = 4;
 
-  @Input() public virtualScroll?:boolean;
+  @Input() public virtualScroll = true;
 
   @Input() public selectableGroup?:boolean = false;
 

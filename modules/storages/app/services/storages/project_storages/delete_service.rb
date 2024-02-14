@@ -33,7 +33,7 @@ module Storages::ProjectStorages
   # by the model before_destroy hook.
   class DeleteService < ::BaseServices::Delete
     def before_perform(*)
-      delete_project_folder if model.storage.is_a?(Storages::NextcloudStorage)
+      delete_project_folder if model.project_folder_automatic?
 
       super
     end

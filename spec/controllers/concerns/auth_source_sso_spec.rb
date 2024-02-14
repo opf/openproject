@@ -46,6 +46,7 @@ RSpec.describe MyController, :skip_2fa_stage do
   let(:login) { "h.wurst" }
   let(:header_login_value) { login }
   let(:header_value) { "#{header_login_value}#{secret ? ':' : ''}#{secret}" }
+  let(:find_user_result) { user }
 
   shared_examples 'should log in the user' do
     it "logs in given user" do
@@ -97,8 +98,12 @@ RSpec.describe MyController, :skip_2fa_stage do
     if sso_config
       allow(OpenProject::Configuration)
         .to receive(:auth_source_sso)
-        .and_return(sso_config)
+              .and_return(sso_config)
     end
+
+    allow(LdapAuthSource)
+      .to(receive(:find_user))
+      .and_return(find_user_result)
 
     request.headers[header] = header_value
   end

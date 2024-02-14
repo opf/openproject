@@ -348,11 +348,11 @@ ca:
           learn_about: "Més informació sobre les noves funcions"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter and save custom project lists.</li> <li>Separate Gantt charts module with new default views.</li> <li>Automatically managed project folders for OneDrive/SharePoint integration.</li> <li>Show number of "Shared users" in the share button and display them in the work packages list.</li> <li>Improved calculations and updates for progress reporting for work package hierarchies.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "S'ha produït un error en carregar les dades."
@@ -469,7 +469,7 @@ ca:
     label_per_page: "Per pàgina:"
     label_please_wait: "Espereu, si us plau"
     label_project: "Projecte"
-    label_project_list: "Llista de projectes"
+    label_project_list: "Project lists"
     label_project_plural: "Projectes"
     label_visibility_settings: "Configuració de visualització"
     label_quote_comment: "Citar aquest comentari"
@@ -583,7 +583,7 @@ ca:
           full_view: 'La vista dels <b>detalls dels paquets de treball</b> proveeixen tota la informació rellevant que pertany al paquet de treball, com ara la descripció, l''estat, la prioritat, activitats, dependències i comentaris.'
           back_button: 'Utilitza la fletxa de retorn a la cantonada superior esquerra per sortir i tornar a la llista de paquets de treball.'
           create_button: 'El botó <b>+ Crear</b> afegirà un nou paquet de treball al teu projecte.'
-          timeline_button: 'Pots activar el <b>diagrama de Gantt</b> per a crear una línia de temps al teu projecte.'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: 'Aquí pots <b>editar el teu pla de projecte</b>, crear nous paquets de treball com tasques, fites, fases i més. També pots afegir <b>dependències</b>. Tots els membres poden veure i actualitzar l''últim pla en qualsevol moment.'
         team_planner:
           overview: 'El planificador d''equips et permet visualment assignar tasques a membres de l''equip i obtenir una visió general de qui està treballant en què.'
@@ -967,6 +967,8 @@ ca:
         createdAt: "Creat el"
         description: "Descripció"
         date: "Data"
+        percentComplete: "% Complete"
+        percentCompleteAlternative: "Progress"
         dueDate: "Data final"
         duration: "Durada"
         spentTime: "Temps utilitzat"
@@ -974,6 +976,8 @@ ca:
         percentageDone: "Percentatge fet"
         priority: "Prioritat"
         projectName: "Projecte"
+        remainingWork: "Remaining work"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Responsable"
         startDate: "Data d'inici"
         status: "Estat"
@@ -984,6 +988,8 @@ ca:
         updatedAt: "Actualitzat el"
         versionName: "Versió"
         version: "Versió"
+        work: "Work"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Última activitat"
@@ -1032,6 +1038,7 @@ ca:
       sharing:
         share: 'Compartir'
         title: "Share work package"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

@@ -110,7 +110,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                            status_code: 200,
                            id: '01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU',
                            name: 'Document.docx',
-                           size: 19408,
+                           size: 22514,
                            mime_type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                            created_at: Time.parse('2023-09-26T14:40:58Z'),
                            last_modified_at: Time.parse('2023-09-26T14:42:03Z'),
@@ -220,7 +220,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
 
       before do
         request = HTTPX::Request.new(:get, 'https://my.timeout.org/')
-        allow(HTTPX).to receive(:get).and_return(HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
+        httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
+
+        allow(OpenProject).to receive(:httpx).and_return(httpx_double)
       end
 
       it 'must return an array of file information when called' do

@@ -677,8 +677,6 @@ RSpec.describe WorkPackages::BaseContract do
   end
 
   describe 'percentage done' do
-    it_behaves_like 'a parent unwritable property', :done_ratio
-
     context 'when % Complete inferred by status',
             with_settings: { work_package_done_ratio: 'status' } do
       it_behaves_like 'invalid if changed', :done_ratio

@@ -83,6 +83,14 @@ FactoryBot.define do
       end
     end
 
+    factory :query_with_view_bim do
+      sequence(:name) { |n| "Bim query #{n}" }
+
+      callback(:after_create) do |query|
+        create(:view_bim, query:)
+      end
+    end
+
     callback(:after_build) { |query| query.add_default_filter }
   end
 end

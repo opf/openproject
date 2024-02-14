@@ -104,6 +104,7 @@ hr:
   ldap_auth_sources:
     ldap_error: "LDAP-Greška: %{error_message}"
     ldap_auth_failed: "Neuspjela autentifikacija na LDAP poslužitelju."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -250,10 +251,15 @@ hr:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Open as Gantt view"
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: Trenutno nema projekata
       no_results_content_text: Novi projekt
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -285,14 +291,14 @@ hr:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Ne mogu postaviti pristupni token: %{error}"
@@ -326,6 +332,8 @@ hr:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: Korisnik trenutno nije član projekta.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -523,6 +531,8 @@ hr:
         row_count: "Number of rows"
         column_count: "Number of columns"
         widgets: "Widgets"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Kašnjenje"
         from: "Radni paket"
@@ -588,6 +598,7 @@ hr:
         color: "Boja"
       user:
         admin: "Administrator"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "Trenutna lozinka"
@@ -619,6 +630,7 @@ hr:
         begin_insertion: "Početak umetanja"
         begin_deletion: "Početak brisanja"
         children: "Subelements"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
@@ -639,6 +651,7 @@ hr:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Manual scheduling"
         spent_hours: "Utrošeno vrijeme"
         spent_time: "Utrošeno vrijeme"
@@ -944,6 +957,8 @@ hr:
               invalid_on_create: "is not a valid status for new users."
             ldap_auth_source:
               error_not_found: "nije pronađeno"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Molim vas odaberite najamnje jednog korisnika ili grupu."
           role_blank: "need to be assigned."
@@ -1459,6 +1474,7 @@ hr:
     message: Poruka uređena
     news: Vijesti
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Projekt je uređivan"
     reply: Je odgovorio
     time_entry: "Timelog uređen"
@@ -1601,6 +1617,7 @@ hr:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1644,12 +1661,12 @@ hr:
   label_age: "Dob"
   label_ago: "dana ranije"
   label_all: "sve"
-  label_all_projects: "All projects"
   label_all_time: "sve vrijeme"
   label_all_words: "Sve riječi"
   label_all_open_wps: "Svi otvoreni"
   label_always_visible: "Uvijek se prikazuje"
   label_announcement: "Obavijest"
+  label_angular: "AngularJS"
   label_api_access_key: "API pristupni ključ"
   label_api_access_key_created_on: "API pristupni ključ kreiran %{value} prije"
   label_api_access_key_type: "API"
@@ -1661,7 +1678,6 @@ hr:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Dodijeljeni status"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "Uzlazno"
   label_assigned_to_me_work_packages: "Radni paketi dodijeljeni meni"
   label_associated_revisions: "Pridružene revizije"
@@ -1681,8 +1697,9 @@ hr:
   label_available_project_work_package_categories: "Dostupne kategorije radnih paketa"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "API dokumentacija"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "između"
   label_blocked_by: "blokirano od"
   label_blocks: "zabrane pristupa"
@@ -1692,6 +1709,7 @@ hr:
   label_forum_plural: "Forumi"
   label_forum_sticky: "Zaljepljeno"
   label_boolean: "Boolean"
+  label_board_plural: "Boards"
   label_branch: "Grana"
   label_browse: "Pregledaj"
   label_bulk_edit_selected_work_packages: "Višestruko uređivanje odabranih radnih paketa"
@@ -1718,6 +1736,7 @@ hr:
   label_check_uncheck_all_in_column: "Označi/Odznači sve u stupcu"
   label_check_uncheck_all_in_row: "Označi/Odznači sve u retku"
   label_child_element: "Podređeni element"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Blizu finalne verzije"
   label_closed_work_packages: "zaključen"
@@ -1749,6 +1768,7 @@ hr:
   label_custom_field_plural: "Prilagođena polja"
   label_custom_field_default_type: "Prazan tip"
   label_custom_style: "Dizajn"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Datum"
   label_date_and_time: "Datum i vrijeme"
@@ -1805,6 +1825,8 @@ hr:
   label_example: "Primjer"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Također dostupan kao:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1817,6 +1839,7 @@ hr:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Datoteke"
   label_filter_add: "Dodaj filter"
+  label_filter: "Filters"
   label_filter_plural: "Filteri"
   label_filters_toggle: "Pokaži/Sakrij filtere"
   label_float: "Plutajući"
@@ -1824,8 +1847,8 @@ hr:
   label_follows: "slijedi"
   label_force_user_language_to_default: "Postavi zadani jezik za korisnike koji imaju nedozvoljeni jezik kao zadani"
   label_form_configuration: "Form configuration"
-  label_gantt: "Gantt"
   label_gantt_chart: "Gantt chart"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Općenito"
   label_generate_key: "Generiraj ključ"
   label_git_path: "Putanja do .git direktorija"
@@ -1843,6 +1866,7 @@ hr:
   label_home: "Početna"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Legal notice"
   label_in: "u"
   label_in_less_than: "u manje od"
@@ -1859,6 +1883,7 @@ hr:
   label_internal: "Unutarnji"
   label_introduction_video: "Introduction video"
   label_invite_user: "Pozovi korisnika"
+  label_share: "Share"
   label_show_hide: "Pokaži/Sakrij"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1929,7 +1954,7 @@ hr:
   label_my_account: "Moj korisnički račun"
   label_my_activity: "My activity"
   label_my_account_data: "Moji korisnički podaci"
-  label_my_projects: "Moji projekati"
+  label_my_avatar: "My avatar"
   label_my_queries: "Moji prilagođeni upiti"
   label_name: "Naziv"
   label_never: "Nikad"
@@ -2065,6 +2090,7 @@ hr:
   label_search: "Pretraživanje"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Pošalji probni e-mail"
+  label_session: "Session"
   label_setting_plural: "Postavke"
   label_system_settings: "Postavke sustava"
   label_show_completed_versions: "Prikažite završene verzije"
@@ -2094,11 +2120,13 @@ hr:
   label_system_storage: "Informacije o podatkovnom sustavu"
   label_table_of_contents: "Table of contents"
   label_tag: "Tag"
+  label_team_planner: "Team Planner"
   label_text: "Dugi tekst"
   label_this_month: "ovaj mjesec"
   label_this_week: "ovog tjedna"
   label_this_year: "ove godine"
   label_time_entry_plural: "Utrošeno vrijeme"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Naziv"
   label_projects_menu: "Projekti"
   label_today: "danas"
@@ -2239,11 +2267,11 @@ hr:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -2562,7 +2590,7 @@ hr:
   project_module_news: "Vijesti"
   project_module_repository: "Repozitorij"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2841,6 +2869,7 @@ hr:
     other: "Ostalo"
     passwords: "Lozinke"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "Sesija"
@@ -2856,6 +2885,7 @@ hr:
     plain: "Plain text"
   status_active: "aktivno"
   status_archived: "arhivirano"
+  status_blocked: "blocked"
   status_invited: pozvani
   status_locked: zaključano
   status_registered: registriran
@@ -3092,12 +3122,12 @@ hr:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Tip'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Role"
+        type: "Tip"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3114,7 +3144,7 @@ hr:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3316,7 +3346,6 @@ hr:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

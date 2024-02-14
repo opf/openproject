@@ -5,6 +5,7 @@ pt:
         origin_id: Id da origem
       storages/storage:
         creator: Criador
+        drive: ID da unidade
         host: Servidor
         name: Nome
         provider_type: Tipo de provedor
@@ -90,7 +91,8 @@ pt:
       label_healthy: Saudável
       label_pending: Pendente
       since: desde %{datetime}
-      title: Situação das pastas gerenciadas
+      subtitle: Pastas do projeto gerenciadas automaticamente
+      title: Status de saúde
     help_texts:
       project_folder: A pasta do projeto é a pasta padrão para uploads de arquivos para esse projeto. No entanto, os usuários ainda podem carregar arquivos em outros locais.
     instructions:
@@ -172,20 +174,34 @@ pt:
       not_connected: Não conectado. O usuário deve iniciar sessão no armazenamento por meio do seguinte %{link}.
     members_no_results: Nenhum membro para exibir.
     no_results: Ainda não há armazenamento configurado.
-    notice_successful_storage_connection: Armazenamento conectado com sucesso! Lembre-se de ativar o módulo e o armazenamento específico nas configurações do projeto de cada projeto desejado para utilizá-lo.
+    notice_successful_storage_connection: |-
+      Armazenamento conectado com sucesso! Lembre-se de ativar o módulo e o armazenamento específico nas configurações do projeto de cada projeto desejado para utilizá-lo.
+    oauth_grant_nudge_modal:
+      access_granted: Acesso concedido
+      body: Para obter acesso à pasta do projeto, você precisa fazer login em %{storage}.
+      cancel_button_label: Cuidarei disso mais tarde
+      confirm_button_label: Login
+      storage_ready: Agora você está pronto para usar %{storage}
+      title: Só mais uma etapa...
     open_project_storage_modal:
       success:
-        a: Configuração de integração concluída
-        b: Você está sendo redirecionado
+        subtitle: Você está sendo redirecionado
+        title: Configuração de integração concluída
       waiting:
-        a: Estamos definindo suas permissões na pasta do projeto.
-        b: Aguarde um momento, esta ação pode demorar um pouco...
+        subtitle: Aguarde um momento, esta ação pode demorar um pouco...
+        title: Estamos definindo suas permissões na pasta do projeto.
     page_titles:
       file_storages:
         delete: Excluir armazenamento de arquivos
         subtitle: Adicione um armazenamento de arquivos externo para carregar, vincular e gerenciar arquivos em pacotes de trabalho.
       managed_project_folders:
-        subtitle: Deixe o OpenProject criar pastas por projeto automaticamente. Esta ação é recomendada, pois garante que cada membro da equipe sempre tenha as permissões de acesso corretas.
+        one_drive_information: |-
+          Para ativar pastas de projetos gerenciadas automaticamente no OneDrive/SharePoint, é necessária uma configuração adicional na
+          unidade que é usada para o armazenamento deste arquivo. Se o OpenProject gerenciar as permissões desta unidade, ele
+          provavelmente ficará inutilizável para outros casos de uso no SharePoint. Para mais informações e orientações, consulte
+          o %{drive_id_link_text}.
+        subtitle: |-
+          Deixe o OpenProject criar pastas por projeto automaticamente. Esta ação é recomendada, pois garante que cada membro da equipe sempre tenha as permissões de acesso corretas.
         subtitle_short: Deixe o OpenProject criar pastas por projeto automaticamente.
         title: Pastas do projeto gerenciadas automaticamente
       project_settings:
@@ -213,5 +229,6 @@ pt:
       description: Adicione um armazenamento para vê-lo aqui.
       heading: Ainda não tem nenhum armazenamento.
     upsale:
-      description: Integre seu OneDrive/SharePoint como um armazenamento de arquivos com o OpenProject. Carregue arquivos e vincule-os diretamente aos pacotes de trabalho em um projeto.
+      description: |-
+        Integre seu OneDrive/SharePoint como um armazenamento de arquivos com o OpenProject. Carregue arquivos e vincule-os diretamente aos pacotes de trabalho em um projeto.
       title: Integração OneDrive/SharePoint

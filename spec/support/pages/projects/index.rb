@@ -41,7 +41,7 @@ module Pages
       end
 
       def expect_projects_listed(*projects, archived: false)
-        within '#project-table' do
+        within_table do
           projects.each do |project|
             displayed_name = if archived
                                "ARCHIVED #{project.name}"
@@ -55,7 +55,7 @@ module Pages
       end
 
       def expect_projects_not_listed(*projects)
-        within '#project-table' do
+        within_table do
           projects.each do |project|
             case project
             when Project
@@ -69,6 +69,36 @@ module Pages
         end
       end
 
+      def expect_title(name)
+        expect(page)
+          .to have_css('[data-test-selector="project-query-name"]', text: name)
+      end
+
+      def expect_sidebar_filter(filter_name, selected: false)
+        within '#main-menu' do
+          expect(page).to have_css(".op-sidemenu--item-action#{selected ? '.selected' : ''}", text: filter_name)
+        end
+      end
+
+      def expect_no_sidebar_filter(filter_name)
+        within '#main-menu' do
+          expect(page).to have_no_css(".op-sidemenu--item-action", text: filter_name)
+        end
+      end
+
+      def expect_current_page_number(number)
+        expect(page)
+          .to have_css('.op-pagination--item_current', text: number)
+      end
+
+      def expect_total_pages(number)
+        expect(page)
+          .to have_css('.op-pagination--item', text: number)
+
+        expect(page)
+          .to have_no_css('.op-pagination--item', text: number + 1)
+      end
+
       def set_sidebar_filter(filter_name)
         within '#main-menu' do
           click_link text: filter_name
@@ -76,11 +106,11 @@ module Pages
       end
 
       def expect_filters_container_toggled
-        expect(page).to have_css('form.project-filters')
+        expect(page).to have_css('.op-filters-form')
       end
 
       def expect_filters_container_hidden
-        expect(page).to have_css('form.project-filters', visible: :hidden)
+        expect(page).to have_css('.op-filters-form', visible: :hidden)
       end
 
       def expect_filter_set(filter_name)
@@ -92,9 +122,12 @@ module Pages
         expect(page).to have_no_css('[data-test-selector="project-new-button"]')
       end
 
-      def expect_gantt_button(disabled: false)
-        expect(page).to have_css("button#{disabled ? '[disabled]' : ''}",
-                                 text: 'Open as Gantt view')
+      def expect_gantt_menu_entry(visible: false)
+        if visible
+          expect(page).to have_link('Open as Gantt view')
+        else
+          expect(page).to have_no_link('Open as Gantt view')
+        end
       end
 
       def filter_by_active(value)
@@ -147,6 +180,16 @@ module Pages
         end
       end
 
+      def remove_filter(name)
+        page.find("li[filter-name='#{name}'] .filter_rem").click
+      end
+
+      def apply_filters
+        within('.advanced-filters--filters') do
+          click_on 'Apply'
+        end
+      end
+
       def set_toggle_filter(values)
         should_active = values.first == 'yes'
         is_active = page.has_selector? '[data-test-selector="spot-switch-handle"][data-qa-active]'
@@ -191,16 +234,15 @@ module Pages
 
       def open_filters
         retry_block do
-          page.find('[data-test-selector="project-filter-toggle"]').click
+          page.find('[data-test-selector="filter-component-toggle"]').click
           page.find_field('Add filter', visible: true)
         end
       end
 
       def click_more_menu_item(item)
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
-        page.within('.ActionListWrap') do
-          click(item)
-        end
+
+        page.find('.ActionListItem', text: item, exact_text: true).click
       end
 
       def click_menu_item_of(title, project)
@@ -220,14 +262,42 @@ module Pages
         end
       end
 
-      def navigate_to_new_project_page_from_global_sidebar
-        within '#main-menu' do
-          click_on 'New project'
+      def navigate_to_new_project_page_from_toolbar_items
+        page.find('[data-test-selector="project-new-button"]').click
+      end
+
+      def save_query(name)
+        click_more_menu_item('Save')
+
+        within '[data-test-selector="project-query-name"]' do
+          fill_in 'Name', with: name
+        end
+
+        click_on 'Save'
+      end
+
+      def delete_query
+        accept_confirm do
+          click_more_menu_item('Delete')
         end
       end
 
-      def navigate_to_new_project_page_from_toolbar_items
-        find('[data-test-selector="project-new-button"]').click
+      def sort_by(column_name)
+        find('.generic-table--sort-header a', text: column_name.upcase).click
+      end
+
+      def set_page_size(size)
+        find('.op-pagination--options .op-pagination--item', text: size).click
+      end
+
+      def got_to_page(page_number)
+        within '.op-pagination--pages' do
+          find('.op-pagination--item-link', text: page_number).click
+        end
+      end
+
+      def within_table(&)
+        within '#project-table', &
       end
 
       private

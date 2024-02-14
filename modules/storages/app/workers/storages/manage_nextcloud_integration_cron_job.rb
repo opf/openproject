@@ -37,7 +37,7 @@ module Storages
     self.cron_expression = '*/5 * * * *'
 
     def self.ensure_scheduled!
-      if ::Storages::ProjectStorage.active_nextcloud_automatically_managed.exists?
+      if ::Storages::ProjectStorage.active_automatically_managed.exists?
         super
       else
         remove

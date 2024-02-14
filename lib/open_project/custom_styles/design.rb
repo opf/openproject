@@ -46,9 +46,23 @@ module OpenProject::CustomStyles
     end
 
     ##
-    # Path the favicon
+    # Path to favicon
     def favicon_asset_path
-      'favicon.ico'.freeze
+      if OpenProject::Configuration.development_highlight_enabled?
+        'development/favicon.ico'.freeze
+      else
+        'favicon.ico'.freeze
+      end
+    end
+
+    ##
+    # Path to apple touch icon
+    def apple_touch_icon_asset_path
+      if OpenProject::Configuration.development_highlight_enabled?
+        'development/apple-touch-icon-120x120.png'.freeze
+      else
+        'apple-touch-icon-120x120.png'.freeze
+      end
     end
 
     ##

@@ -1,4 +1,4 @@
-OpenProject::Application.routes.draw do
+Rails.application.routes.draw do
   get 'projects/:project_id',
       to: "overviews/overviews#show",
       as: :project_overview,

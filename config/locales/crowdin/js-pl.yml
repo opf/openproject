@@ -348,11 +348,11 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Integracja OneDrive/SharePoint z ręcznymi folderami projektów.</li> <li>Filtrowanie ról, grup i udziałów na liście członków projektu.</li> <li>Zezwalanie na przypisywanie i rozliczanie udostępnionych pakietów roboczych. </li> <li>Wprowadzenie nowych nazw pól Praca, Pozostała praca i % ukończenia w celu przygotowania raportów z postępu do hierarchii pakietów roboczych.</li> <li>Zezwalanie na zmianę statusu bez uprawnień do edycji pakietów roboczych.</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Filtruj i zapisuj niestandardowe listy projektów.</li> <li>Oddzielny moduł wykresów Gantta z nowymi widokami domyślnymi.</li> <li>Automatycznie zarządzane foldery projektów do integracji usług OneDrive/SharePoint. </li> <li>Pokazuj liczbę udostępnień użytkownikom w przycisku udostępniania i wyświetlaj ich na liście pakietów roboczych.</li> <li>Ulepszone obliczenia i aktualizacje raportów postępu dla hierarchii pakietów roboczych.</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -469,7 +469,7 @@ pl:
     label_per_page: "Na stronie:"
     label_please_wait: "Zaczekaj"
     label_project: "Projekt"
-    label_project_list: "Lista projektów"
+    label_project_list: "Listy projektów"
     label_project_plural: "Projekty"
     label_visibility_settings: "Ustawienia widoczności"
     label_quote_comment: "Cytuj komentarz"
@@ -583,7 +583,7 @@ pl:
           full_view: 'W widoku <b>szczegółów pakietu roboczego</b> znajdziesz wszystkie istotne informacje dotyczące danego pakietu roboczego, takie jak opis, stan i priorytet, aktywność, zależności oraz komentarze.'
           back_button: 'Użyj strzałki powrotu w lewym górnym rogu, aby wyjść i powrócić do listy pakietów roboczych.'
           create_button: 'Przycisk <b>+ Utwórz</b> doda nowy pakiet roboczy do twojego projektu.'
-          timeline_button: 'Aby utworzyć oś czasu dla twojego projektu, możesz uaktywnić widok <b>wykresu Gantta</b>.'
+          gantt_menu: 'Bez trudu twórz harmonogramy i osie czasu projektów, korzystając z modułu wykresu Gantta.'
           timeline: 'Tutaj możesz <b>edytować plan projektu.</b>, tworzyć nowe pakiety robocze, takie jak zadania robocze, kamienie milowe i inne oraz <b>dodawać  zależności</b>. Wszyscy członkowie zespołu mogą w każdej chwili wyświetlić i zaktualizować najnowszy plan.'
         team_planner:
           overview: 'Planista zespołu umożliwia wizualne przypisywanie zadań członkom zespołu i uzyskanie informacji o tym, kto nad czym pracuje.'
@@ -969,6 +969,8 @@ pl:
         createdAt: "Utworzone"
         description: "Opis"
         date: "Data"
+        percentComplete: "% ukończono"
+        percentCompleteAlternative: "Postęp"
         dueDate: "Data zakończenia"
         duration: "Czas trwania"
         spentTime: "Czas pracy"
@@ -976,6 +978,8 @@ pl:
         percentageDone: "Wykonano procent"
         priority: "Priorytet"
         projectName: "Projekt"
+        remainingWork: "Pozostała praca"
+        remainingWorkAlternative: "Pozostałe godziny"
         responsible: "Odpowiedzialny"
         startDate: "Data rozpoczęcia"
         status: "Status"
@@ -986,6 +990,8 @@ pl:
         updatedAt: "Aktualizacja"
         versionName: "Wersja"
         version: "Wersja"
+        work: "Praca"
+        workAlternative: "Szacowany czas"
         remainingTime: "Pozostała praca"
       default_queries:
         latest_activity: "Ostatnia aktywność"
@@ -1034,6 +1040,7 @@ pl:
       sharing:
         share: 'Udostępnij'
         title: "Udostępnij pakiet roboczy"
+        show_all_users: "Pokaż wszystkich udostępnionych użytkowników"
         selected_count: "Wybrano %{count}"
         selection:
           mixed: "Mieszane"

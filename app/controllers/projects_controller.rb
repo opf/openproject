@@ -31,6 +31,7 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, only: :roadmap
 
   before_action :find_project, except: %i[index new]
+  before_action :load_query_or_deny_access, only: %i[index]
   before_action :authorize, only: %i[copy]
   before_action :authorize_global, only: %i[new]
   before_action :require_admin, only: %i[destroy destroy_info]
@@ -39,6 +40,7 @@ class ProjectsController < ApplicationController
   include PaginationHelper
   include QueriesHelper
   include ProjectsHelper
+  include Projects::QueryLoading
 
   helper_method :has_managed_project_folders?
 
@@ -47,22 +49,15 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    query = load_query
-
-    unless query.valid?
-      flash[:error] = query.errors.full_messages
-    end
-
-    @projects = load_projects query
-    @orders = set_sorting query
-
     respond_to do |format|
       format.html do
-        render layout: 'global'
+        flash.now[:error] = @query.errors.full_messages if @query.errors.any?
+
+        render layout: 'global', locals: { query: @query, state: :show }
       end
 
       format.any(*supported_export_formats) do
-        export_list(request.format.symbol)
+        export_list(@query, request.format.symbol)
       end
     end
   end
@@ -115,24 +110,12 @@ class ProjectsController < ApplicationController
     @project = nil
   end
 
-  def load_query
-    @query = ParamsToQueryService.new(Project, current_user).call(params)
-
-    # Set default filter on status no filter is provided.
-    @query.where('active', '=', OpenProject::Database::DB_VALUE_TRUE) unless params[:filters]
-
-    # Order lft if no order is provided.
-    @query.order(lft: :asc) unless params[:sortBy]
-
-    @query
-  end
-
-  def export_list(mime_type)
+  def export_list(query, mime_type)
     job = Projects::ExportJob.perform_later(
       export: Projects::Export.create,
       user: current_user,
       mime_type:,
-      query: @query.to_hash
+      query: query.to_hash
     )
 
     if request.headers['Accept']&.include?('application/json')
@@ -140,19 +123,6 @@ class ProjectsController < ApplicationController
     else
       redirect_to job_status_path(job.job_id)
     end
-  end
-
-  def load_projects(query)
-    query
-      .results
-      .with_required_storage
-      .with_latest_activity
-      .includes(:custom_values, :enabled_modules)
-      .paginate(page: page_param, per_page: per_page_param)
-  end
-
-  def set_sorting(query)
-    query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
   end
 
   def supported_export_formats

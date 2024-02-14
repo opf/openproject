@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
+Rails.application.routes.draw do
   namespace 'webhooks' do
     match ":hook_name", to: 'incoming/hooks#handle_hook', via: %i(get post)
   end

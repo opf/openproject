@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
+Rails.application.routes.draw do
   scope 'projects/:project_id', as: 'projects' do
     resources :cost_entries, controller: 'costlog', only: %i[new create]
 
