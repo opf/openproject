@@ -26,25 +26,38 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= toolbar title: t(:'attributes.attachments') %>
+<%= toolbar title: t(:'settings.antivirus.title') %>
 
 <%= styled_form_tag(
-      admin_settings_attachments_path,
-      method: :patch
+      admin_settings_virus_scanning_path,
+      method: :patch,
+      data: {
+        'controller': 'refresh-on-form-changes',
+        'refresh-on-form-changes-target': 'form',
+        'refresh-on-form-changes-turbo-stream-url-value': url_for(action: 'av_form')
+      }
     ) do %>
-  <section class="form--section">
-    <div class="form--field">
-      <%= setting_text_field :attachment_max_size, size: 6, unit: t(:"number.human.storage_units.units.kb"), container_class: '-slim' %>
+  <div class="form--field">
+    <%= setting_select :antivirus_scan_mode,
+                       [
+                         [t(:label_disabled), :disabled],
+                         ['ClamAV (Socket)', :clamav_socket],
+                         ['ClamAV (Host)', :clamav_host],
+                       ],
+                       container_class: '-wide',
+                       data: {
+                         action: 'refresh-on-form-changes#triggerTurboStream'
+                       }
+    %>
+    <div class="form--field-instructions">
+      <p><%= t('settings.antivirus.modes.description_html',
+               disabled_option: t(:label_disabled),
+               socket_option: 'ClamAV (Socket)',
+               host_option: 'ClamAV (Host)',
+             ) %></p>
     </div>
-    <div class="form--field">
-      <%= setting_text_area :attachment_whitelist, rows: 5, container_class: '-wide' %>
-      <div class="form--field-instructions">
-        <%= t('settings.attachments.whitelist_text_html',
-              ext_example: '*.jpg',
-              mime_example: 'image/jpeg',
-            ) %>
-      </div>
-    </div>
-  </section>
+  </div>
+
+  <%= render partial: 'av_form', locals: { selected: Setting.antivirus_scan_mode } %>
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

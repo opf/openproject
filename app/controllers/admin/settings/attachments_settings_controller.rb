@@ -36,45 +36,6 @@ module Admin::Settings
       t(:'attributes.attachments')
     end
 
-    def av_form
-      selected = params.dig(:settings, :antivirus_scan_mode)&.to_sym || :disabled
-
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(:attachments_av_subform,
-                                                    partial: "admin/settings/attachments_settings/av_form",
-                                                    locals: { selected: })
-        end
-      end
-    end
-
-    private
-
-    def check_clamav
-      return if params[:settings].blank?
-      return if params[:settings][:antivirus_scan_mode] == "disabled"
-
-      service = ::Attachments::ClamAVService.new(params[:settings][:antivirus_scan_mode].to_sym,
-                                                 params[:settings][:antivirus_scan_target])
-
-      service.ping
-    rescue StandardError => e
-      Rails.logger.error { "Failed to check availability of ClamAV: #{e.message}" }
-      flash[:error] = t(:'settings.antivirus.clamav_ping_failed')
-      redirect_to action: :show
-    end
-
-    def success_callback(_call)
-      if Setting.antivirus_scan_mode == :disabled && Attachment.status_quarantined.any?
-        flash[:info] = t('settings.antivirus.remaining_quarantined_files_html',
-                         link: helpers.link_to(t('antivirus_scan.quarantined_attachments.title'), admin_quarantined_attachments_path),
-                         file_count: t(:label_x_files, count: Attachment.status_quarantined.count))
-        redirect_to action: :show
-      else
-        super
-      end
-    end
-
     def settings_params
       super.tap do |settings|
         settings["attachment_whitelist"] = settings["attachment_whitelist"].split(/\r?\n/)

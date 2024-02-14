@@ -356,11 +356,17 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'attachment',
             if: Proc.new { User.current.admin? }
 
+  menu.push :virus_scanning_settings,
+            { controller: '/admin/settings/virus_scanning_settings', action: :show },
+            caption: :'settings.antivirus.title',
+            parent: :settings_attachments,
+            if: Proc.new { User.current.admin? }
+
   menu.push :attachment_quarantine,
             { controller: '/admin/attachments/quarantined_attachments', action: :index },
             caption: :'antivirus_scan.quarantined_attachments.title',
             parent: :settings_attachments,
-            if: Proc.new { User.current.admin? && Setting.antivirus_scan_action == :quarantine }
+            if: Proc.new { User.current.admin? && Attachment.status_quarantined.exists? }
 
   menu.push :enumerations,
             { controller: '/enumerations' },

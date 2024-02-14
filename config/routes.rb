@@ -424,7 +424,12 @@ Rails.application.routes.draw do
 
       resource :authentication, controller: '/admin/settings/authentication_settings', only: %i[show update]
       resource :attachments, controller: '/admin/settings/attachments_settings', only: %i[show update]
-      get 'attachments/av_form', controller: '/admin/settings/attachments_settings', action: 'av_form'
+      resource :virus_scanning, controller: '/admin/settings/virus_scanning_settings', only: %i[show update] do
+        collection do
+          get :av_form
+        end
+      end
+
       resource :incoming_mails, controller: '/admin/settings/incoming_mails_settings', only: %i[show update]
       resource :aggregation, controller: '/admin/settings/aggregation_settings', only: %i[show update]
       resource :mail_notifications, controller: '/admin/settings/mail_notifications_settings', only: %i[show update]
