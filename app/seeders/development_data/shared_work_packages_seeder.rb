@@ -81,8 +81,8 @@ module DevelopmentData
           reference: :save_gotham,
           description: "Gotham is in trouble. It's your job to save it!",
           status: seed_data.find_reference(:default_status_new),
-          type: seed_data.find_reference(:default_type_epic),
-          priority: seed_data.find_reference(:default_priority_immediate)
+          type: seed_data.find_reference(:default_type_milestone),
+          priority: seed_data.find_reference(:default_priority_high)
         },
         {
           project:,
@@ -92,7 +92,7 @@ module DevelopmentData
           description: 'Must be stopped before Gotham is doomed.',
           status: seed_data.find_reference(:default_status_new),
           type: seed_data.find_reference(:default_type_task),
-          priority: seed_data.find_reference(:default_priority_immediate)
+          priority: seed_data.find_reference(:default_priority_high)
         },
         {
           project:,
