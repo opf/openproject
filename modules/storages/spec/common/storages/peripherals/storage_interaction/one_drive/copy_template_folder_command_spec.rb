@@ -86,7 +86,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
     let(:source_path) { base_template_folder.id }
 
     it 'copies origin folder and all underlying files and folders to the destination_path',
-       vcr: 'one_drive/copy_template_copy_successful' do
+       vcr: 'one_drive/copy_template_folder_copy_successful' do
       command_result = described_class.call(storage:, source_path:, destination_path: 'My New Folder')
 
       expect(command_result).to be_success
