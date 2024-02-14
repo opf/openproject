@@ -70,34 +70,4 @@ export default class ProjectController extends Controller {
   isEllipsisActive(e:HTMLElement) {
     return (e.offsetWidth < e.scrollWidth);
   }
-
-  toggleDescription({ target, params: { projectId } }:{ target:HTMLAnchorElement, params:{ projectId:number } }) {
-    const toggledTrigger = target;
-    const otherTrigger = this.descriptionToggleTargets.find((trigger) => trigger !== toggledTrigger);
-    // The projectId action parameter is automatically typecast to Number
-    // and to compare it with a data attribute it needs to be converted to
-    // a string.
-    const clickedProjectRow = this.projectRowTargets.find((projectRow) => projectRow.getAttribute('data-project-id') === projectId.toString());
-    const projectDescriptionRow = this.descriptionRowTargets.find((descriptionRow) => descriptionRow.getAttribute('data-project-id') === projectId.toString());
-
-    if (clickedProjectRow && projectDescriptionRow) {
-      clickedProjectRow.classList.toggle('-no-highlighting');
-      clickedProjectRow.classList.toggle('-expanded');
-      projectDescriptionRow.classList.toggle('-expanded');
-
-      this.setAriaLive(projectDescriptionRow);
-    }
-
-    if (otherTrigger) {
-      otherTrigger.focus();
-    }
-  }
-
-  private setAriaLive(descriptionRow:HTMLElement) {
-    if (descriptionRow.classList.contains('-expanded')) {
-      descriptionRow.setAttribute('aria-live', 'polite');
-    } else {
-      descriptionRow.removeAttribute('aria-live');
-    }
-  }
 }
