@@ -615,7 +615,7 @@ GEM
     html-pipeline (2.14.3)
       activesupport (>= 2)
       nokogiri (>= 1.4)
-    htmlbeautifier (1.4.2)
+    htmlbeautifier (1.4.3)
     htmldiff (0.0.1)
     htmlentities (4.3.4)
     http-2-next (1.0.3)
