@@ -360,6 +360,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/admin/settings/virus_scanning_settings', action: :show },
             caption: :'settings.antivirus.title',
             parent: :settings_attachments,
+            enterprise_feature: 'virus_scanning',
             if: Proc.new { User.current.admin? }
 
   menu.push :attachment_quarantine,

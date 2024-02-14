@@ -36,7 +36,7 @@ module Attachments
     queue_with_priority :low
 
     def perform(attachment)
-      return if Setting.antivirus_scan_mode == :disabled
+      return unless Setting::VirusScanning.enabled?
       return unless attachment.status_uploaded?
 
       User.execute_as(User.system) do

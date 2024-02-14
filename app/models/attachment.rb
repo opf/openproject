@@ -133,7 +133,7 @@ class Attachment < ApplicationRecord
   end
 
   def pending_virus_scan?
-    status_uploaded? && Setting.antivirus_scan_mode != :disabled
+    status_uploaded? && Setting::VirusScanning.enabled?
   end
 
   # images are sent inline

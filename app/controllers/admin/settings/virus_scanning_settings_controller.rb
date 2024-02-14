@@ -30,10 +30,11 @@ module Admin::Settings
   class VirusScanningSettingsController < ::Admin::SettingsController
     menu_item :settings_attachments
 
+    before_action :require_ee
     before_action :check_clamav, only: %i[update]
 
     def default_breadcrumb
-      t(:'virus_scanning.title')
+      t('settings.antivirus.title')
     end
 
     def av_form
@@ -49,6 +50,10 @@ module Admin::Settings
     end
 
     private
+
+    def require_ee
+      render('upsale') unless EnterpriseToken.allows_to?(:virus_scanning)
+    end
 
     def check_clamav
       return if params[:settings].blank?

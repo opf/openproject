@@ -3001,6 +3001,8 @@ en:
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      upsale:
+        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       remaining_quarantined_files_html: >
         You have successfully disabled virus scanning. 
         There are however still %{file_count} in quarantine. 

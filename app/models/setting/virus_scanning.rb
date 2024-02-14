@@ -26,55 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Authorization::EnterpriseService
-  attr_accessor :token
-
-  GUARDED_ACTIONS = %i(
-    baseline_comparison
-    board_view
-    conditional_highlighting
-    custom_actions
-    custom_fields_in_projects_list
-    date_alerts
-    define_custom_style
-    edit_attribute_groups
-    grid_widget_wp_graph
-    ldap_groups
-    openid_providers
-    placeholder_users
-    readonly_work_packages
-    team_planner_view
-    two_factor_authentication
-    work_package_query_relation_columns
-    work_package_sharing
-    one_drive_sharepoint_file_storage
-    virus_scanning
-  ).freeze
-
-  def initialize(token)
-    self.token = token
-  end
-
-  # Return a true ServiceResult if the token contains this particular action.
-  def call(action)
-    allowed =
-      if token.nil? || token.token_object.nil? || token.expired?
-        false
-      else
-        process(action)
-      end
-
-    result(allowed)
-  end
-
-  private
-
-  def process(action)
-    # Every non-expired token
-    GUARDED_ACTIONS.include?(action.to_sym)
-  end
-
-  def result(bool)
-    ServiceResult.new(success: bool, result: bool)
+class Setting
+  module VirusScanning
+    def self.enabled?
+      Setting.antivirus_scan_mode != :disabled && EnterpriseToken.allows_to?(:virus_scanning)
+    end
   end
 end
