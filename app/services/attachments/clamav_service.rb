@@ -26,23 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Be sure to restart your server when you modify this file.
+module Attachments
+  class VirusScanFailed < StandardError; end
 
-# Add new inflection rules using the following format. Inflections
-# are locale specific, and you may define rules for as many different
-# locales as you wish. All of these examples are active by default:
-# ActiveSupport::Inflector.inflections(:en) do |inflect|
-#   inflect.plural /^(ox)$/i, "\\1en"
-#   inflect.singular /^(ox)en/i, "\\1"
-#   inflect.irregular "person", "people"
-#   inflect.uncountable %w( fish sheep )
-# end
+  class ClamAVService
+    def initialize(scan_mode = Setting.antivirus_scan_mode, connection_target = Setting.antivirus_scan_target)
+      options = clamav_client_options(scan_mode, connection_target)
+      @clamav_client ||= ClamAV::Client.new(**options)
+    end
 
-# These inflection rules are supported but not enabled by default:
-ActiveSupport::Inflector.inflections(:en) do |inflect|
-  inflect.acronym "API"
-  inflect.acronym 'OAuth'
-  inflect.acronym 'OpenID'
-  inflect.acronym 'ICal'
-  inflect.acronym 'ClamAV'
+    def scan(attachment)
+      file = attachment.diskfile
+      clamav_client.execute(ClamAV::Commands::InstreamCommand.new(file))
+    end
+
+    def ping
+      clamav_client.execute(ClamAV::Commands::PingCommand.new)
+    end
+
+    private
+
+    def clamav_client_options(scan_mode, connection_target)
+      case scan_mode
+      when :clamav_socket
+        { unix_socket: connection_target }
+      when :clamav_host
+        tcp_host, tcp_port = connection_target.split(':')
+        { tcp_host:, tcp_port: }
+      else
+        raise ArgumentError.new("Unknown clamav scan mode #{scan_mode}")
+      end
+    end
+  end
 end

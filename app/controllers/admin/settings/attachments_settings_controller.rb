@@ -30,6 +30,8 @@ module Admin::Settings
   class AttachmentsSettingsController < ::Admin::SettingsController
     menu_item :settings_attachments
 
+    before_action :check_clamav, only: %i[update], if: -> { params[:settings] }
+
     def default_breadcrumb
       t(:'attributes.attachments')
     end
@@ -47,6 +49,18 @@ module Admin::Settings
     end
 
     private
+
+    def check_clamav
+      return if params[:settings][:antivirus_scan_mode] == "disabled"
+
+      service = Attachments::ClamAVService.new(params[:settings][:antivirus_scan_mode],
+                                               params[:settings][:antivirus_scan_target])
+
+      service.ping
+    rescue ClamAV::Error
+      flash[:error] = t(:'attachments.settings.antivirus_scan_target_unreachable')
+      redirect_to admin_settings_path(tab: "attachments")
+    end
 
     def settings_params
       super.tap do |settings|

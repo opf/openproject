@@ -28,8 +28,6 @@
 
 module Attachments
   class VirusScanJob < ApplicationJob
-    class VirusScanFailed < StandardError; end
-
     retry_on VirusScanFailed, wait: 5.seconds, attempts: 3
     discard_on ActiveJob::DeserializationError
 
@@ -52,17 +50,15 @@ module Attachments
     private
 
     def scan_attachment(attachment)
-      file = attachment.diskfile
-      response = clamav_client.execute(ClamAV::Commands::InstreamCommand.new(file))
+      service = Attachments::ClamAVService.new
+      response = service.scan(attachment)
       case response
       when ClamAV::SuccessResponse
         handle_success_response(attachment)
       when ClamAV::VirusResponse
         handle_virus_response(attachment, response.virus_name)
-      when ClamAV::ErrorResponse
-        raise VirusScanFailed.new(response.error_str)
       else
-        raise "Unknown response type #{response.class}"
+        raise VirusScanFailed.new(response&.error_str || "Failed virus scan: #{response.class}")
       end
     end
 
@@ -99,22 +95,6 @@ module Attachments
       ::Journals::CreateService
         .new(container, User.system)
         .call(notes:)
-    end
-
-    def clamav_client
-      @clamav_client ||= ClamAV::Client.new(**clamav_client_options)
-    end
-
-    def clamav_client_options
-      case Setting.antivirus_scan_mode
-      when :clamav_socket
-        { unix_socket: Setting.antivirus_scan_target }
-      when :clamav_host
-        tcp_host, tcp_port = Setting.antivirus_scan_target.split(':')
-        { tcp_host:, tcp_port: }
-      else
-        raise ArgumentError.new("Unknown clamav scan mode #{Setting.antivirus_scan_mode}")
-      end
     end
   end
 end
