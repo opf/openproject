@@ -339,6 +339,22 @@ RSpec.describe WorkPackages::BaseContract do
           .to contain_exactly(:only_values_greater_or_equal_zeroes_allowed)
       end
     end
+
+    context 'when inferior to remaining_hours' do
+      let(:estimated_hours) { 5.0 }
+
+      before do
+        work_package.remaining_hours = 6.0
+        allow(work_package).to receive(:changed).and_return(%w[estimated_hours])
+      end
+
+      it 'is invalid' do
+        contract.validate
+
+        expect(subject.errors.symbols_for(:estimated_hours))
+          .to contain_exactly(:cant_be_inferior_to_remaining_work)
+      end
+    end
   end
 
   describe 'derived estimated hours' do
@@ -362,6 +378,66 @@ RSpec.describe WorkPackages::BaseContract do
 
       it('is invalid (read only)') do
         expect(contract.errors.symbols_for(attribute)).to contain_exactly(:error_readonly)
+      end
+    end
+  end
+
+  describe 'remaining hours' do
+    before do
+      work_package.estimated_hours = 5.0
+      work_package.remaining_hours = remaining_hours
+
+      allow(work_package).to receive(:changed).and_return(%w[remaining_hours])
+    end
+
+    context "when it's the same as estimated_hours" do
+      let(:remaining_hours) { 5.0 }
+
+      it 'is valid' do
+        contract.validate
+
+        expect(subject.errors.symbols_for(:remaining_hours))
+          .to be_empty
+      end
+    end
+
+    context "when it's less than estimated_hours" do
+      let(:remaining_hours) { 4.0 }
+
+      it 'is valid' do
+        contract.validate
+
+        expect(subject.errors.symbols_for(:remaining_hours))
+          .to be_empty
+      end
+    end
+
+    context "when it's greater than estimated_hours" do
+      let(:remaining_hours) { 6.0 }
+
+      it 'is invalid' do
+        contract.validate
+
+        expect(subject.errors.symbols_for(:remaining_hours))
+          .to contain_exactly(:cant_exceed_work)
+      end
+    end
+  end
+
+  describe 'estimated_hours and remaining_hours' do
+    context 'when changing both and remaining_hours exceeds estimated_hours' do
+      before do
+        work_package.estimated_hours = 5.0
+        work_package.remaining_hours = 6.0
+      end
+
+      it 'is invalid' do
+        contract.validate
+
+        expect(subject.errors.symbols_for(:estimated_hours))
+          .to contain_exactly(:cant_be_inferior_to_remaining_work)
+        expect(subject.errors.symbols_for(:remaining_hours))
+          .to contain_exactly(:cant_exceed_work)
       end
     end
   end

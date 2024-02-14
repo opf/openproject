@@ -61,7 +61,9 @@ module WorkPackages
     attribute :derived_estimated_hours,
               writable: false
 
-    attribute :remaining_hours
+    attribute :remaining_hours do
+      validate_remaining_hours_doesnt_exceed_estimated_hours
+    end
     attribute :derived_remaining_hours,
               writable: false
 
@@ -316,6 +318,26 @@ module WorkPackages
       if model.version_id && model.assignable_versions.map(&:id).exclude?(model.version_id)
         errors.add :version_id, :inclusion
       end
+    end
+
+    def validate_remaining_hours_doesnt_exceed_estimated_hours
+      if both_remaining_and_estimated_hours_present? && remaining_work_exceeds_work?
+        if model.changed.include?("estimated_hours")
+          errors.add(:estimated_hours, :cant_be_inferior_to_remaining_work)
+        end
+
+        if model.changed.include?("remaining_hours")
+          errors.add(:remaining_hours, :cant_exceed_work)
+        end
+      end
+    end
+
+    def both_remaining_and_estimated_hours_present?
+      model.remaining_hours.present? && model.estimated_hours.present?
+    end
+
+    def remaining_work_exceeds_work?
+      model.remaining_hours > model.estimated_hours
     end
 
     def validate_no_reopen_on_closed_version
