@@ -11,8 +11,8 @@ keywords: OneDrive/SharePoint file storage integration, OneDrive, SharePoint, Dr
 ## Configure drive for automatic management
 
 If you need a drive configured for the file storage feature "Automatically managed project folders", there are some
-previous steps to take. If the drive is destined to be used in a file storage, while the management is still based
-within OneDrive/SharePoint, you must skip those steps and continue
+previous steps to take. Otherwise, if the drive is destined to be used in a file storage with the permission
+management is still based within OneDrive/SharePoint, you must skip those steps and continue
 with [obtaining the drive id](./#how-to-obtain-a-drive-id).
 
 > Disclaimer: Some of the following descriptions are very tightly connected to the current (2024-02-13) state of
@@ -21,8 +21,8 @@ with [obtaining the drive id](./#how-to-obtain-a-drive-id).
 
 ### Break inheritance chain
 
-The first step to take is to interrupt the inheritance chain of SharePoint for this drive. Without doing this, your
-OpenProject instance won't be able to manage the permissions on the drive for the project folders, as SharePoint
+The first step to take is to interrupt the inheritance chain of SharePoint for this drive. Doing this, your
+OpenProject instance will be able to manage the permissions on the drive for the project folders, as SharePoint
 consistently will override those permissions.
 
 To achieve that, one must enter the *Library Settings* of the target drive. Those usually can get accessed by selecting
