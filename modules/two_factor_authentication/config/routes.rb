@@ -40,9 +40,6 @@ Rails.application.routes.draw do
 
         # Make default
         post :make_default, on: :member
-
-        # Request a challenge for WebAuthn
-        get :webauthn_challenge, on: :collection
       end
     end
   end
