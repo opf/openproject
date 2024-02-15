@@ -1,4 +1,4 @@
-## Introducing OpenProject GitLab Integration v2.1 GA
+## Introducing OpenProject GitLab Integration v2.1.6 GA
 
 <div><a href="https://jb.gg/OpenSourceSupport"><img width="300" src="https://github.com/btey/openproject-gitlab-integration/assets/14983519/bc7b3e7f-163d-4bcf-ab31-9f5982b8d2fc"></a></div>
 
@@ -161,7 +161,7 @@ Add the following in **Gemfile.lock**:
 PATH
   remote: modules/gitlab_integration
   specs:
-    openproject-gitlab_integration (2.1.5)
+    openproject-gitlab_integration (2.1.6)
       openproject-webhooks
 ```
 

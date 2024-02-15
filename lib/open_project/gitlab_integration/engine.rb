@@ -95,7 +95,7 @@ module OpenProject::GitlabIntegration
     add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
       mount ::API::V3::GitlabMergeRequests::GitlabMergeRequestsByWorkPackageAPI
     end
-    
+
     add_api_endpoint 'API::V3::WorkPackages::WorkPackagesAPI', :id do
       mount ::API::V3::GitlabIssues::GitlabIssuesByWorkPackageAPI
     end
