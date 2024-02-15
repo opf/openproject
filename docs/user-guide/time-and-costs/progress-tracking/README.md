@@ -8,9 +8,19 @@ keywords: Progress tracking, cost reporting, earned value analysis, earned value
 
 # Progress tracking
 
-You can track the completion of projects in OpenProject by assigning
-a **% Complete (earlier called Progress (%))** value to individual work packages.
+You can track the completion of projects in OpenProject by assigning a **% Complete (earlier called Progress (%))** value to individual work packages.
 OpenProject will automatically roll-up progress to parent work packages.
+
+
+
+**% Complete** for work packages with children will show two values:
+
+-  the % Complete value from the work package progress itself, set manually (on the left)
+- the derived value, calculated as an aggregation of % Complete values of the children work packages. The derived value is a hyperlink, clicking it will open the detailed view of the children and illustrate the computation.
+
+![](progress-tracking-two-progress-values.png)
+
+## Manual progress tracking
 
 | Topic                                                                                               | Content                                           |
 |-----------------------------------------------------------------------------------------------------|:--------------------------------------------------|
@@ -20,11 +30,9 @@ OpenProject will automatically roll-up progress to parent work packages.
 
 ## Manual progress tracking
 
-After the initial installation, OpenProject is configured
-for manual progress tracking. In order to log progress,
+After the initial installation, OpenProject is configured for manual progress tracking. In order to log progress,
 please open the details of a work package.
-The **% Complete (earlier called Progress (%))** field shows a visual progress bar with
-the default value of 0%.
+The **% Complete (earlier called Progress (%))** field shows the default value of 0%.
 
 ![Work package progress field](progress-tracking-wp-field.png)
 
@@ -61,8 +69,7 @@ Calculation examples:
 
 ## Status-based progress tracking
 
-As an alternative to the manual progress tracking mode above, you can configure
-your OpenProject system to associate work packages statuses .
+As an alternative to the manual progress tracking mode above, you can configure your OpenProject system to associate work packages statuses with fixed values for % Complete .
 In the Administration, please navigate to Work packages -> Settings and change “Calculate the work package done ratio” to
 “Use the work package status”.
 

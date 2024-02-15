@@ -136,16 +136,6 @@ RSpec.describe User, 'allowed_to?' do
             expect(user).not_to be_allowed_to(permission, project)
           end
         end
-
-        context 'and requesting a public permission' do
-          let(:permission) { :view_project } # a permission defined as public
-
-          before do
-            final_setup_step
-          end
-
-          it { expect(user).not_to be_allowed_to(permission, project) }
-        end
       end
 
       context 'and the project being public' do
@@ -174,16 +164,6 @@ RSpec.describe User, 'allowed_to?' do
             expect(user).to be_allowed_to(permission, project)
           end
         end
-
-        context 'and requesting a public permission' do
-          let(:permission) { :view_project } # a permission defined as public
-
-          before do
-            final_setup_step
-          end
-
-          it { expect(user).to be_allowed_to(permission, project) }
-        end
       end
     end
 
@@ -199,17 +179,6 @@ RSpec.describe User, 'allowed_to?' do
           before { final_setup_step }
 
           it { expect(user).not_to be_allowed_to(permission, project) }
-        end
-
-        context 'and requesting a public permission' do
-          let(:permission) { :view_project } # a permission defined as public
-
-          before do
-            project.update(public: false)
-            final_setup_step
-          end
-
-          it { expect(user).to be_allowed_to(permission, project) }
         end
       end
 
@@ -272,14 +241,6 @@ RSpec.describe User, 'allowed_to?' do
             anonymous_role.add_permission!(permission)
             final_setup_step
           end
-
-          it { expect(anonymous).to be_allowed_to(permission, project) }
-        end
-
-        context 'with a public permission' do
-          let(:permission) { :view_project }
-
-          before { final_setup_step }
 
           it { expect(anonymous).to be_allowed_to(permission, project) }
         end

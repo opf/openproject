@@ -348,11 +348,11 @@ fr:
           learn_about: "En savoir plus sur les nouvelles fonctionnalités"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Intégration OneDrive/SharePoint avec des dossiers de projets manuels.</li> <li>Filtre pour les rôles, les groupes et les partages dans la liste des membres du projet.</li> <li>Possibilité de définir les responsables et les attributaires des lots de travaux partagés.</li> <li>Introduction de nouveaux noms de champs Travail, Travail restant et % d'achèvement pour préparer les rapports d'avancement pour les hiérarchies de lots de travaux.</li> <li>Possibilité de modifier le statut sans avoir le droit de modifier les lots de travaux.</li> </ul>
+                Cette version contient diverses nouvelles fonctionnalités et améliorations : <br> <ul class="%{list_styling_class}"> <li>Possibilité de filtrer et enregistrer des listes de projets personnalisées.</li> <li>Module de diagrammes de Gantt séparé avec de nouvelles vues par défaut.</li> <li>Dossiers de projets gérés automatiquement pour l'intégration OneDrive/SharePoint.</li> <li>Affichage du nombre d'utilisateurs partagés dans le bouton de partage et affichage dans la liste des lots de travaux.</li> <li>Amélioration des calculs et mises à jour des rapports de progression pour les hiérarchies de lots de travaux.</li> </ul>.
     ical_sharing_modal:
       title: "S'abonner au calendrier"
       inital_setup_error_message: "Une erreur est survenue lors de la récupération des données."
@@ -469,7 +469,7 @@ fr:
     label_per_page: "Par page:"
     label_please_wait: "Veuillez patienter"
     label_project: "Projet"
-    label_project_list: "Project lists"
+    label_project_list: "Listes de projets"
     label_project_plural: "Projets"
     label_visibility_settings: "Paramètres de visibilité"
     label_quote_comment: "Citer ce commentaire"
@@ -583,7 +583,7 @@ fr:
           full_view: 'La vue <b>détails du lot de travaux</b> fournit toutes les informations pertinentes relatives à un lot de travaux donné, comme sa description, son statut, sa priorité, ses activités, ses dépendances et ses commentaires.'
           back_button: 'Utilisez la flèche de retour dans le coin supérieur gauche pour quitter et retourner à la liste des lots de travaux.'
           create_button: 'La touche <b>+ Créer</b> ajoutera un nouveau lot de travaux à votre projet.'
-          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
+          gantt_menu: 'Créez facilement des calendriers et des frises chronologiques pour vos projets à l''aide du module de diagramme de Gantt.'
           timeline: 'Ici vous pouvez <b>modifier votre plan de projet</b>, créer de nouveaux lots de travaux, comme des tâches, des jalons, des phases et plus, ainsi que <b>ajouter des dépendances</b>. Tous les membres de l''équipe peuvent voir et mettre à jour le plan le plus récent à tout moment.'
         team_planner:
           overview: 'Le planificateur d''équipe vous permet d''assigner visuellement des tâches aux membres de l''équipe et d''obtenir un aperçu de qui travaille sur quoi.'
@@ -967,8 +967,8 @@ fr:
         createdAt: "Créé le"
         description: "Description"
         date: "date"
-        percentComplete: "% Complete"
-        percentCompleteAlternative: "Progress"
+        percentComplete: "% réalisé"
+        percentCompleteAlternative: "Progression"
         dueDate: "Date de fin"
         duration: "Durée"
         spentTime: "Temps passé"
@@ -976,8 +976,8 @@ fr:
         percentageDone: "Pourcentage effectué"
         priority: "Priorité"
         projectName: "Projet"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Travail restant"
+        remainingWorkAlternative: "Heures restantes"
         responsible: "Responsable"
         startDate: "Date de début"
         status: "Statut"
@@ -988,8 +988,8 @@ fr:
         updatedAt: "Mis à jour le"
         versionName: "Version"
         version: "Version"
-        work: "Work"
-        workAlternative: "Estimated time"
+        work: "Travail"
+        workAlternative: "Durée estimée"
         remainingTime: "Travail restant"
       default_queries:
         latest_activity: "Dernière activité"
@@ -1038,7 +1038,7 @@ fr:
       sharing:
         share: 'Partager'
         title: "Partager le lot de travaux"
-        show_all_users: "Show all shared users"
+        show_all_users: "Afficher tous les utilisateurs partagés"
         selected_count: "%{count} sélectionné"
         selection:
           mixed: "Mixte"
@@ -1272,7 +1272,7 @@ fr:
         all: 'Tous les projets'
         selected: 'Uniquement la sélection'
       search_placeholder: 'Rechercher un projet...'
-      include_subprojects: 'Inclure tous les sous-projets'
+      include_subprojects: 'inclure tous les sous-projets'
       tooltip:
         include_all_selected: 'Projet déjà inclus puisque Include tous les sous-projets sont activés.'
         current_project: 'Ceci est le projet dans lequel vous vous trouvez actuellement.'

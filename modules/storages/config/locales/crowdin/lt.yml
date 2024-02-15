@@ -91,8 +91,8 @@ lt:
       label_healthy: Sveikas
       label_pending: Laukiama
       since: nuo %{datetime}
-      subtitle: Automatic managed project folders
-      title: Health status
+      subtitle: Automatinio tvarkymo projekto aplankai
+      title: Sveikatos būsena
     help_texts:
       project_folder: Projekto aplankas yra numatytasis aplankas failų įkėlimui šiame projekte. Naudotojai gali įkelti failus ir į kitas vietas.
     instructions:
@@ -177,19 +177,19 @@ lt:
     notice_successful_storage_connection: |-
       Saugykla sėkmingai prijungta! Nepamirškite aktyvuoti modulį ir konkrečią saugyklą visų projektų, kuriuose norite ją naudoti, nustatymuose.
     oauth_grant_nudge_modal:
-      access_granted: Access granted
-      body: You have successfully added a storage to this project. Would you like to login in the storage and authenticate your user to start using the storage?
-      cancel_button_label: I will do it later
-      confirm_button_label: 'Yes'
-      storage_ready: You are now ready to use %{storage}
-      title: Storage added
+      access_granted: Prieiga suteikta
+      body: Kad gautumėte prieigą prie projekto aplanko, jums reikia prisijungti prie %{storage}.
+      cancel_button_label: Aš tai padarysiu vėliau
+      confirm_button_label: Prisijungti
+      storage_ready: Jūs dabar pasiruošę naudoti %{storage}
+      title: Dar vienas žingsnis...
     open_project_storage_modal:
       success:
-        subtitle: You are being redirected
-        title: Integration setup completed
+        subtitle: Jūs peradresuojami
+        title: Integracijos nustatymas baigtas
       waiting:
-        subtitle: One moment please, this might take some time...
-        title: We are setting up your permissions on the project folder.
+        subtitle: Minutėlę, tai gali užtrukti šiek tiek laiko...
+        title: Mes nustatome jūsų teises projekto aplankui.
     page_titles:
       file_storages:
         delete: Trinti failų saugyklą

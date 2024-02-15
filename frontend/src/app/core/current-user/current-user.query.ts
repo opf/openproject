@@ -8,7 +8,7 @@ export class CurrentUserQuery extends Query<CurrentUserState> {
     super(store);
   }
 
-  isLoggedIn$ = this.select((state) => !!state.id);
+  isLoggedIn$ = this.select((state) => !!state.loggedIn);
 
-  user$ = this.select(({ id, name }) => ({ id, name }));
+  user$ = this.select((user) => user);
 }

@@ -50,7 +50,7 @@ gem 'doorkeeper', '~> 5.6.6'
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
 gem 'omniauth', git: 'https://github.com/opf/omniauth', ref: 'fe862f986b2e846e291784d2caa3d90a658c67f0'
-gem 'request_store', '~> 1.5.0'
+gem 'request_store', '~> 1.6.0'
 
 gem 'warden', '~> 1.2'
 gem 'warden-basic_auth', '~> 0.2.1'
@@ -74,7 +74,7 @@ gem 'addressable', '~> 2.8.0'
 gem 'auto_strip_attributes', '~> 2.5'
 
 # Provide timezone info for TZInfo used by AR
-gem 'tzinfo-data', '~> 1.2023.1'
+gem 'tzinfo-data', '~> 1.2024.1'
 
 # to generate html-diffs (e.g. for wiki comparison)
 gem 'htmldiff'
@@ -169,7 +169,7 @@ group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
   gem 'dalli', '~> 3.2.0'
-  gem 'redis', '~> 5.0.8'
+  gem 'redis', '~> 5.1.0'
 end
 
 gem 'i18n-js', '~> 4.2.3'
@@ -220,7 +220,7 @@ gem 'factory_bot', '~> 6.4.0', require: false
 # require factory_bot_rails for convenience in core development
 gem 'factory_bot_rails', '~> 6.4.0', require: false
 
-gem 'turbo-rails', '~> 1.1'
+gem 'turbo-rails', '~> 2.0.0'
 
 gem 'httpx'
 
@@ -235,7 +235,7 @@ group :test do
   gem 'turbo_tests', github: 'crohr/turbo_tests', ref: 'fix/runtime-info'
 
   gem 'rack_session_access'
-  gem 'rspec', '~> 3.12.0'
+  gem 'rspec', '~> 3.13.0'
   # also add to development group, so 'spec' rake task gets loaded
   gem 'rspec-rails', '~> 6.1.0', group: :development
 
@@ -338,7 +338,7 @@ group :development, :test do
   gem 'i18n-tasks', '~> 1.0.13'
 end
 
-gem 'bootsnap', '~> 1.17.0', require: false
+gem 'bootsnap', '~> 1.18.0', require: false
 
 # API gems
 gem 'grape', '~> 2.0.0'

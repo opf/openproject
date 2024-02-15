@@ -348,11 +348,11 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>수동 프로젝트 폴더와 OneDrive/SharePoint 통합.</li> <li>프로젝트 멤버 목록의 역할, 그룹 및 공유 항목에 대한 필터.</li> <li>공유된 작업 패키지에 대해 담당자와 책임자 지정 가능.</li> <li>작업 패키지 계층에 대한 진행률 보고를 준비하기 위해 새로운 필드 이름인 "작업", "남은 작업" 및 "완료 %" 도입.</li> <li>작업 패키지 편집 권한 없이 상태 변경 허용.</li> </ul>
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>사용자 지정 프로젝트 목록 필터링 및 저장.</li> <li>새로운 기본 보기를 사용하여 Gantt 차트 모듈 분리.</li> <li>OneDrive/SharePoint 통합을 위해 자동으로 관리되는 프로젝트 폴더.</li> <li>공유 버튼에 "공유된 사용자" 수를 표시하고 작업 패키지 목록에 표시.</li> <li>작업 패키지 계층에 대한 진행률 보고용 계산 및 업데이트가 개선됨.</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
@@ -469,7 +469,7 @@ ko:
     label_per_page: "페이지 당:"
     label_please_wait: "잠시 기다려 주세요."
     label_project: "프로젝트"
-    label_project_list: "Project lists"
+    label_project_list: "프로젝트 목록"
     label_project_plural: "프로젝트"
     label_visibility_settings: "표시 여부 설정"
     label_quote_comment: "코멘트 인용"
@@ -583,7 +583,7 @@ ko:
           full_view: '<b>작업 패키지 세부 정보</b> 보기는 설명, 상태, 우선 순위, 활동, 종속성 및 코멘트 등 지정된 작업 패키지와 관련된 모든 관련 정보를 제공합니다.'
           back_button: '왼쪽 상단 모서리에 있는 뒤로 화살표를 사용하여 종료하고 작업 패키지 목록으로 돌아갑니다.'
           create_button: '<b>+ 만들기</b> 버튼은 프로젝트에 새로운 작업 패키지를 추가합니다.'
-          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
+          gantt_menu: 'Gantt 차트 모듈을 사용하여 프로젝트 스케줄과 타임라인을 손쉽게 생성하세요.'
           timeline: '여기에서 <b>프로젝트 계획을 편집</b>하고 작업, 마일스톤, 단계 등 새로운 작업 패키지를 만들고 <b>종속성을 추가</b>할 수도 있습니다. 모든 팀원이 언제든지 최신 계획을 보고 업데이트할 수 있습니다.'
         team_planner:
           overview: '팀 플래너를 사용하면 시각적으로 팀원에게 작업을 할당하고 누가 어떤 작업을 하는지에 대한 개요를 확인할 수 있습니다.'
@@ -966,8 +966,8 @@ ko:
         createdAt: "작성일"
         description: "설명"
         date: "날짜"
-        percentComplete: "% Complete"
-        percentCompleteAlternative: "Progress"
+        percentComplete: "완료 %"
+        percentCompleteAlternative: "진행률"
         dueDate: "완료 날짜"
         duration: "기간"
         spentTime: "소비한 시간"
@@ -975,8 +975,8 @@ ko:
         percentageDone: "완료율"
         priority: "우선 순위"
         projectName: "프로젝트"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "남은 작업"
+        remainingWorkAlternative: "남은 시간"
         responsible: "책임"
         startDate: "시작 날짜"
         status: "상태"
@@ -987,8 +987,8 @@ ko:
         updatedAt: "업데이트 날짜"
         versionName: "버전"
         version: "버전"
-        work: "Work"
-        workAlternative: "Estimated time"
+        work: "작업"
+        workAlternative: "예상 시간"
         remainingTime: "남은 작업"
       default_queries:
         latest_activity: "최근 활동"
@@ -1037,7 +1037,7 @@ ko:
       sharing:
         share: '공유하기'
         title: "작업 패키지 공유"
-        show_all_users: "Show all shared users"
+        show_all_users: "공유된 사용자 모두 표시"
         selected_count: "%{count}개 선택됨"
         selection:
           mixed: "혼합"

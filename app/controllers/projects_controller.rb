@@ -31,6 +31,7 @@ class ProjectsController < ApplicationController
   menu_item :roadmap, only: :roadmap
 
   before_action :find_project, except: %i[index new]
+  before_action :load_query_or_deny_access, only: %i[index]
   before_action :authorize, only: %i[copy]
   before_action :authorize_global, only: %i[new]
   before_action :require_admin, only: %i[destroy destroy_info]
@@ -48,17 +49,15 @@ class ProjectsController < ApplicationController
   end
 
   def index
-    call = load_query(existing: params[:filters].blank?)
-
     respond_to do |format|
       format.html do
-        flash.now[:error] = call.errors.full_messages unless call.success?
+        flash.now[:error] = @query.errors.full_messages if @query.errors.any?
 
-        render layout: 'global', locals: { query: call.result, state: :show }
+        render layout: 'global', locals: { query: @query, state: :show }
       end
 
       format.any(*supported_export_formats) do
-        export_list(call.result, request.format.symbol)
+        export_list(@query, request.format.symbol)
       end
     end
   end

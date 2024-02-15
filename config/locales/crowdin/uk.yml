@@ -104,7 +104,7 @@ uk:
   ldap_auth_sources:
     ldap_error: "LDAP-помилка: %{error_message}"
     ldap_auth_failed: "Не вдалося перевірити автентичність через LDAP-сервер."
-    sync_failed: "Failed to synchronize from LDAP: %{message}."
+    sync_failed: "Не вдалося виконати синхронізацію з LDAP: %{message}."
     back_to_index: "Натисніть тут, щоб повернутися до списку підключень."
     technical_warning_html: |
       Ця форма LDAP вимагає технічних знань про налаштування LDAP / Active Directory.<br/><a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Щоб отримати докладні вказівки, ознайомтеся з нашою документацією</a>.
@@ -249,12 +249,12 @@ uk:
       no_results_title_text: Наразі немає проектів
       no_results_content_text: Створіть новий проект
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: 'Активні проєкти'
+      my: 'Мої проєкти'
+      archived: 'Заархівовані проєкти'
+      my_private: 'Особисті списки проєктів'
       new:
-        placeholder: 'New project list'
+        placeholder: 'Новий список проєктів'
     settings:
       change_identifier: Ідентифікатор змін
       activities:
@@ -284,7 +284,7 @@ uk:
     send_invite_to: "Надіслати запрошення:"
     no_modify_on_shared: "Зараз ви не можете змінювати або вилучати спільні членства через сторінку учасника. Використайте натомість модальний спосіб поширення."
     columns:
-      shared: "Поширені"
+      shared: "Спільні"
     filters:
       all_shares: "Усі поширення"
     menu:
@@ -328,7 +328,7 @@ uk:
     memberships:
       no_results_title_text: Цей користувач наразі не є учасником проекту.
   page:
-    text: 'Text'
+    text: 'Текст'
   placeholder_users:
     right_to_manage_members_missing: >
       Ви не можете видалити прототип користувача. У вас немає права керувати учасниками для всіх проєктів, до яких належить прототип користувача.
@@ -528,7 +528,7 @@ uk:
         column_count: "Кількість стовпців"
         widgets: "Віджети"
       oauth_client:
-        client: "Client ID"
+        client: "ID клієнта"
       relation:
         delay: "Затримка"
         from: "Пакет робіт"
@@ -594,7 +594,7 @@ uk:
         color: "Колір"
       user:
         admin: "Адміністратор"
-        auth_source: "Authentication source"
+        auth_source: "Джерело автентифікації"
         ldap_auth_source: "LDAP-підключення"
         identity_url: "URL-адреса сутності"
         current_password: "Поточний пароль"
@@ -626,7 +626,7 @@ uk:
         begin_insertion: "Початок вставки"
         begin_deletion: "Початок видалення"
         children: "Субелементи"
-        derived_done_ratio: "Derived % Complete"
+        derived_done_ratio: "Похідний % завершення"
         derived_remaining_hours: "Отриманий залишок роботи"
         derived_remaining_time: "Отриманий залишок роботи"
         done_ratio: "% завершення"
@@ -647,7 +647,7 @@ uk:
         readonly: "Лише читання"
         remaining_hours: "Залишок роботи"
         remaining_time: "Залишок роботи"
-        shared_with_users: "Shared with"
+        shared_with_users: "Доступ мають"
         schedule_manually: "Ручне планування"
         spent_hours: "Трудовитрати"
         spent_time: "Трудовитрати"
@@ -955,7 +955,7 @@ uk:
             ldap_auth_source:
               error_not_found: "не знайдено"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "не знайдено"
         member:
           principal_blank: "Виберіть принаймні одного користувача або групу."
           role_blank: "повинні бути призначені."
@@ -1496,7 +1496,7 @@ uk:
     message: Повідомлення відредаговано
     news: Новини
     project_attributes: "Атрибути проєкту змінено"
-    project: "Project edited"
+    project: "Проєкт змінено"
     projects: "Проєкт змінено"
     reply: Відповіли
     time_entry: "Timelog відредаговано"
@@ -1639,7 +1639,7 @@ uk:
         revoke_token: "Справді вилучити цей маркер? Вам знадобиться знову ввійти в %{storage}"
         removed: "Маркер файлового сховища вилучено"
         failed: "Сталася помилка, і не вдалося вилучити маркет. Повторіть спробу пізніше."
-        unknown_storage: "Unknown storage"
+        unknown_storage: "Невідоме сховище"
   notifications:
     send_notifications: "Надсилати сповіщення щодо цієї дії"
     work_packages:
@@ -1719,9 +1719,9 @@ uk:
   label_available_project_work_package_categories: "Доступні категорії робочих пакетів"
   label_available_project_work_package_types: "Доступні типи пакетів робіт"
   label_available_projects: "Доступні проєкти"
-  label_api_doc: "API documentation"
+  label_api_doc: "Документація API"
   label_backup: "Резервна копія"
-  label_backup_code: "Backup code"
+  label_backup_code: "Код резервної копії"
   label_between: "між ними"
   label_blocked_by: "заблоковано"
   label_blocks: "блоки"
@@ -1731,7 +1731,7 @@ uk:
   label_forum_plural: "Форуми"
   label_forum_sticky: "Приліплена"
   label_boolean: "Логічний тип"
-  label_board_plural: "Boards"
+  label_board_plural: "Дошки"
   label_branch: "Гілка"
   label_browse: "Огляд"
   label_bulk_edit_selected_work_packages: "Масове редагування вибраних робочих пакетів"
@@ -1758,7 +1758,7 @@ uk:
   label_check_uncheck_all_in_column: "Позначте/зніміть всі прапорці в колонці"
   label_check_uncheck_all_in_row: "Позначте/зніміть всі прапорці в рядку"
   label_child_element: "Дочірній елемент"
-  label_choices: "Choices"
+  label_choices: "Варіанти вибору"
   label_chronological_order: "Спочатку старіші"
   label_close_versions: "Закрити завершені версії"
   label_closed_work_packages: "зачинено"
@@ -1790,7 +1790,7 @@ uk:
   label_custom_field_plural: "Індивідуальні поля"
   label_custom_field_default_type: "Порожній тип"
   label_custom_style: "Дизайн"
-  label_dashboard: "Dashboard"
+  label_dashboard: "Панель керування"
   label_database_version: "Версія PostgreSQL"
   label_date: "Дата"
   label_date_and_time: "Дата і час"
@@ -1847,8 +1847,8 @@ uk:
   label_example: "Приклад"
   label_experimental: "Експериментальне"
   label_i_am_member: "Я учасник"
-  label_ifc_viewer: "Ifc Viewer"
-  label_ifc_model_plural: "Ifc Models"
+  label_ifc_viewer: "Засіб перегляду Ifc"
+  label_ifc_model_plural: "Моделі Ifc"
   label_import: "Імпортувати"
   label_export_to: "Також вам доступні:"
   label_expanded_click_to_collapse: "Розширено. Натисніть, щоб згорнути"
@@ -1861,7 +1861,7 @@ uk:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Файли"
   label_filter_add: "Додати фільтр"
-  label_filter: "Filters"
+  label_filter: "Фільтри"
   label_filter_plural: "Фільтри"
   label_filters_toggle: "Показати / приховати фільтри"
   label_float: "З плаваючою крапкою"
@@ -1870,7 +1870,7 @@ uk:
   label_force_user_language_to_default: "Встановити мову користувачів, які мають не підтримувану мову, за умовчанням"
   label_form_configuration: "Конфігурація форми"
   label_gantt_chart: "Діаграма Ганта"
-  label_gantt_chart_plural: "Gantt charts"
+  label_gantt_chart_plural: "Діаграми Ґанта"
   label_general: "Загальні"
   label_generate_key: "Згенерувати ключ"
   label_git_path: "Шлях до каталогу .git"
@@ -1888,7 +1888,7 @@ uk:
   label_home: "Додому"
   label_subject_or_id: "Тема або ідентифікатор"
   label_calendar_subscriptions: "Підписки на календарі"
-  label_identifier: "Identifier"
+  label_identifier: "Ідентифікатор"
   label_impressum: "Правове повідомлення"
   label_in: "в"
   label_in_less_than: "менш ніж"
@@ -1900,12 +1900,12 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: "Інструкції із встановлення"
+  label_installation_guides: "Інструкції зі встановлення"
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"
   label_invite_user: "Запросити користувача"
-  label_share: "Share"
+  label_share: "Поділитися"
   label_show_hide: "Показати сховати"
   label_show_all_registered_users: "Усі зареєстровані користувачі"
   label_journal: "Журнал"
@@ -1976,7 +1976,7 @@ uk:
   label_my_account: "Мій обліковий запис"
   label_my_activity: "Мої дії"
   label_my_account_data: "Мої дані облікового запису"
-  label_my_avatar: "My avatar"
+  label_my_avatar: "Мій аватар"
   label_my_queries: "Мої збережені запити"
   label_name: "Ім’я"
   label_never: "Ніколи"
@@ -2112,7 +2112,7 @@ uk:
   label_search: "Пошук"
   label_send_information: "Надіслати нові облікові дані користувачу"
   label_send_test_email: "Послати email для перевірки"
-  label_session: "Session"
+  label_session: "Сеанс"
   label_setting_plural: "Налаштування"
   label_system_settings: "Параметри системи"
   label_show_completed_versions: "Показати завершені версії"
@@ -2142,13 +2142,13 @@ uk:
   label_system_storage: "Інформація про зберігання"
   label_table_of_contents: "Зміст"
   label_tag: "Мітка"
-  label_team_planner: "Team Planner"
+  label_team_planner: "Командний планувальник"
   label_text: "Довгий текст"
   label_this_month: "цього місяця"
   label_this_week: "цього тижня"
   label_this_year: "цей рік"
   label_time_entry_plural: "Трудовитрати"
-  label_time_entry_activity_plural: "Spent time activities"
+  label_time_entry_activity_plural: "Завдання з обліком часу"
   label_title: "Назва"
   label_projects_menu: "Проекти"
   label_today: "сьогодні"
@@ -2611,7 +2611,7 @@ uk:
   project_module_news: "Новини"
   project_module_repository: "Репозиторій"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Пакети робіт і Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute}%{direction}"
   #possible query parameters (e.g. issue queries),
@@ -2890,7 +2890,7 @@ uk:
     other: "Інше"
     passwords: "Паролі"
     projects:
-      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
+      missing_dependencies: "Перевірено модуль проєкту %{module}, який містить залежності від %{dependencies}. Ці залежності потрібно також перевірити."
       section_new_projects: "Налаштування нових проєктів"
       section_project_overview: "Налаштування списку огляду проєктів"
     session: "Сесія"
@@ -2906,7 +2906,7 @@ uk:
     plain: "Простий текст"
   status_active: "активний"
   status_archived: "в архіві"
-  status_blocked: "blocked"
+  status_blocked: "заблоковано"
   status_invited: запрошені
   status_locked: Заблоковано
   status_registered: Зареєстровано
@@ -3165,7 +3165,7 @@ uk:
       text_empty_search_description: "Користувачів за поточними умовами фільтра не знайдено"
       text_empty_search_header: "Результатів за запитом не знайдено."
       text_empty_state_description: "Доступ до цього пакета робіт ще нікому не надано."
-      text_empty_state_header: "Not shared"
+      text_empty_state_header: "Немає доступу"
       text_user_limit_reached: "Додавання користувачів призведе до перевищення поточного ліміту. Зверніться до адміністратора, щоб збільшити ліміт користувачів і таким чином забезпечити доступ до цього пакета робіт зовнішнім користувачам."
       text_user_limit_reached_admins: 'Додавання користувачів призведе до перевищення поточного ліміту. <a href="%{upgrade_url}">Підвищте рівень свого плану</a>, щоб додати користувачів.'
       warning_user_limit_reached: >

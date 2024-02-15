@@ -19,6 +19,7 @@ export function bootstrapModule(injector:Injector):void {
   currentUserService.setUser({
     id: userMeta?.dataset.id || null,
     name: userMeta?.dataset.name || null,
+    loggedIn: userMeta?.dataset.loggedIn === 'true',
   });
 }
 

@@ -347,11 +347,11 @@ zh-CN:
           learn_about: "详细了解新功能"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                该版本包含各种新功能和改进：<br> <ul class="%{list_styling_class}"> <li>与手动项目文件夹的 OneDrive/SharePoint 集成。</li><li>在项目成员列表中筛选角色、群组和共享内容。</li> <li>允许为共享工作包指定被指派人和责任人。</li> <li>引入新字段名称“工作”、“剩余工作”和“完成百分比”，以准备工作包层次结构的进度报告。</li> <li>允许在不编辑工作包权限的情况下更改状态。</li></ul>
+                本次发布包含各种新功能和改进：<br> <ul class="%{list_styling_class}"> <li>筛选和保存自定义项目列表。</li> <li>具有新的默认视图的独立甘特图模块。</li> <li>适用于 OneDrive/SharePoint 集成的自动托管的项目文件夹。</li> <li>在共享按钮中显示“共享用户“数量，并在工作包列表中显示这些用户。</li> <li>改进了工作包层次结构进度报告的计算和更新。</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -468,7 +468,7 @@ zh-CN:
     label_per_page: "每页："
     label_please_wait: "请稍等"
     label_project: "项目"
-    label_project_list: "Project lists"
+    label_project_list: "项目列表"
     label_project_plural: "项目"
     label_visibility_settings: "可见性设置"
     label_quote_comment: "引用这个评论"
@@ -566,7 +566,7 @@ zh-CN:
         wiki: '在 <b>维基</b> 中，您可以记录并与您的团队共享知识。'
         backlogs:
           overview: "在<b>待办清单</b>视图中管理您的工作。"
-          sprints: "右侧为产品待办清单和缺陷待办清单，左侧为各自的冲刺 (Sprint)。在这里，您可以创建<b>史诗、用户故事和缺陷</b>，通过拖放来确定优先级，以及将它们添加到冲刺 (Sprint) 中。"
+          sprints: "右侧为产品待办清单和缺陷待办清单，左侧为各自的冲刺 (Sprint)。在这里，您可以创建<b>长篇故事、用户故事和错误</b>，通过拖放来确定优先级，以及将它们添加到冲刺 (sprint) 中。"
           task_board_arrow: '要查看您的<b>任务面板</b>，请打开冲刺 (sprint) 下拉菜单…'
           task_board_select: '…并选择<b>任务面板</b>条目。'
           task_board: "任务面板可以将<b>此冲刺 (sprint) 的进度</b>可视化。点击用户故事旁边的加号 (+) 图标可添加新任务或障碍。<br>状态可以通过拖放更新。"
@@ -582,13 +582,13 @@ zh-CN:
           full_view: '<b>工作包详细信息</b>视图中提供了与给定工作包有关的所有相关信息，例如其描述、状态、优先级、活动、依赖项和评论。'
           back_button: '使用左上角的返回箭头可退出并返回到工作包列表。'
           create_button: '<b>+ 创建</b>按钮将为您的项目添加一个新工作包。'
-          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
+          gantt_menu: '使用甘特图模块轻松创建项目时间表和时间线。'
           timeline: '您可以在此<b>编辑您的项目计划</b>、创建新的工作包（例如任务、里程碑、阶段等）以及<b>添加依赖项</b>。所有团队成员都可以随时查看和更新最新计划。'
         team_planner:
-          overview: '工作组规划器使您可以直观地为团队成员分配任务，并全面了解哪些成员正在处理哪些工作。'
+          overview: '团队规划工具使您可以直观地为团队成员分配任务，并全面了解哪些成员正在处理哪些工作。'
           calendar: '单周或双周规划面板可以显示分配给您的团队成员的所有工作包。'
           add_assignee: '首先，请将受理人添加到工作组规划器。'
-          add_existing: '搜索现有工作包并将其拖动到工作组规划器，以立即将其分配给团队成员并定义开始日期和结束日期。'
+          add_existing: '搜索现有工作包并将其拖动到团队规划工具，以立即将其分配给团队成员并定义开始日期和结束日期。'
           card: '水平拖动工作包以前移或后移其时间，拖动边缘以更改开始日期和结束日期，甚至可以将其垂直拖动到不同的行以分配给其他成员。'
     notifications:
       title: "通知"
@@ -748,7 +748,7 @@ zh-CN:
           wiki_page_added: '添加维基页面'
           wiki_page_updated: '更新维基页面'
           membership_added: '添加成员'
-          membership_updated: '成员已更新'
+          membership_updated: '更新成员'
         title: '电子邮件提醒'
         pause:
           label: '临时暂停每日电子邮件提醒'
@@ -965,8 +965,8 @@ zh-CN:
         createdAt: "创建于"
         description: "描述"
         date: "日期"
-        percentComplete: "% Complete"
-        percentCompleteAlternative: "Progress"
+        percentComplete: "完成百分比"
+        percentCompleteAlternative: "进度"
         dueDate: "完成日期"
         duration: "时长"
         spentTime: "已耗工时"
@@ -974,8 +974,8 @@ zh-CN:
         percentageDone: "完成百分比"
         priority: "优先级"
         projectName: "项目"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "剩余工作"
+        remainingWorkAlternative: "剩余小时数"
         responsible: "责任人"
         startDate: "开始日期"
         status: "状态"
@@ -986,8 +986,8 @@ zh-CN:
         updatedAt: "更新时间"
         versionName: "版本"
         version: "版本"
-        work: "Work"
-        workAlternative: "Estimated time"
+        work: "工作"
+        workAlternative: "估算工时"
         remainingTime: "剩余的工作"
       default_queries:
         latest_activity: "最新活动"
@@ -1036,7 +1036,7 @@ zh-CN:
       sharing:
         share: '共享'
         title: "共享工作包"
-        show_all_users: "Show all shared users"
+        show_all_users: "显示所有共享用户"
         selected_count: "%{count} 已选择"
         selection:
           mixed: "混合"
@@ -1222,9 +1222,9 @@ zh-CN:
           description: '基于所选项目中所分配角色的权限'
         placeholder:
           title: '占位符用户'
-          title_no_ee: '占位符用户（Enterprise edition 附加功能）'
+          title_no_ee: '占位符用户（Enterprise edition 特定功能）'
           description: '无法访问该项目并且未发送电子邮件。'
-          description_no_ee: '由于没有访问项目的权限，所以不会发送电子邮件。<br>请查看<a href="%{eeHref}" target="_blank">企业版</a>。'
+          description_no_ee: '无法访问该项目并且未发送电子邮件。<br>请参见 <a href="%{eeHref}" target="_blank">Enterprise edition</a>'
       principal:
         label:
           name_or_email: '用户名或电子邮件地址'

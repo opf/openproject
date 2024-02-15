@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Project settings
-  priority: 500
+  priority: 900
 description: Configure your project in OpenProject.
 keywords: project settings
 ---

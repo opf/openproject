@@ -1,6 +1,6 @@
 es:
   js:
     queries:
-      all_open: 'All open'
-      timeline: 'Timeline'
-      milestones: 'Milestones'
+      all_open: 'Todo abierto'
+      timeline: 'Linea de tiempo'
+      milestones: 'Hitos'

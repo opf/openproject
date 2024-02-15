@@ -84,11 +84,14 @@ module Gantt
     def base_query
       base_query ||= Query
                      .visible(current_user)
-                     .joins(:views, :project)
+                     .includes(:project)
+                     .joins(:views)
                      .where('views.type' => 'gantt')
 
       if @project.present?
         base_query = base_query.where('queries.project_id' => @project.id)
+      else
+        base_query = base_query.where('queries.project_id' => nil)
       end
 
       base_query

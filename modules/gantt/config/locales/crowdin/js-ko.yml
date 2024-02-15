@@ -1,6 +1,6 @@
 ko:
   js:
     queries:
-      all_open: 'All open'
-      timeline: 'Timeline'
-      milestones: 'Milestones'
+      all_open: '모두 열림'
+      timeline: '타임라인'
+      milestones: '마일스톤'

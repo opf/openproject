@@ -61,7 +61,10 @@ class Storages::ProjectStorage < ApplicationRecord
   end
 
   def project_folder_path
-    "#{storage.group_folder}/#{project.name.tr('/', '|')} (#{project.id})/"
+    return "#{storage.group_folder}/#{project.name.tr('/', '|')} (#{project.id})/" if storage.provider_type_nextcloud?
+    return project_folder_id if storage.provider_type_one_drive?
+
+    raise 'Unknown Storage'
   end
 
   def project_folder_path_escaped

@@ -2561,7 +2561,7 @@ fa:
   project_module_news: "News"
   project_module_repository: "Repository"
   project_module_wiki: "دانشنامه"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
