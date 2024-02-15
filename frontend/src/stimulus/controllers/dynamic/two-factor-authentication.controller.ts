@@ -33,12 +33,13 @@ import * as WebAuthnJSON from '@github/webauthn-json/browser-ponyfill';
 import QrCreator from 'qr-creator';
 
 export default class TwoFactorAuthenticationController extends Controller {
-  static targets = ['resendOptions', 'qrCodeElement', 'webauthnCredential'];
+  static targets = ['resendOptions', 'qrCodeElement', 'webauthnCredential', 'errorDisplay'];
 
-  declare readonly resendOptionsTarget: HTMLElement;
-  declare readonly webauthnCredentialTarget: HTMLInputElement;
+  declare readonly resendOptionsTarget:HTMLElement;
+  declare readonly webauthnCredentialTarget:HTMLInputElement;
+  declare readonly errorDisplayTarget:HTMLElement;
 
-  async onVerifyDevice(event: SubmitEvent) {
+  async onVerifyDevice(event:SubmitEvent) {
     const form = event.target as HTMLFormElement;
     const data = form.dataset;
 
@@ -66,12 +67,12 @@ export default class TwoFactorAuthenticationController extends Controller {
 
       return true;
     } catch (error) {
-      console.log(`Error registering device: ${error}`);
+      this.errorDisplayTarget.innerText = `Error registering device: ${error}`;
       return false;
     }
   }
 
-  async onCreateDevice(event: SubmitEvent) {
+  async onCreateDevice(event:SubmitEvent) {
     const form = event.target as HTMLFormElement;
     const data = form.dataset;
 
@@ -99,12 +100,12 @@ export default class TwoFactorAuthenticationController extends Controller {
 
       return true;
     } catch (error) {
-      console.log(`Error registering device: ${error}`);
+      this.errorDisplayTarget.innerText = `Error registering device: ${error}`;
       return false;
     }
   }
 
-  qrCodeElementTargetConnected(target: HTMLElement) {
+  qrCodeElementTargetConnected(target:HTMLElement) {
     QrCreator.render(
       {
         text: target.dataset.value as string,
@@ -118,12 +119,12 @@ export default class TwoFactorAuthenticationController extends Controller {
     );
   }
 
-  print(evt: MouseEvent) {
+  print(evt:MouseEvent) {
     evt.preventDefault();
     window.print();
   }
 
-  toggleResendOptions(evt: MouseEvent) {
+  toggleResendOptions(evt:MouseEvent) {
     evt.preventDefault();
     this.resendOptionsTarget.hidden = !this.resendOptionsTarget.hidden;
   }

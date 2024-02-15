@@ -33,6 +33,7 @@
       <p><%= raw I18n.t('two_factor_authentication.devices.2fa_from_webauthn', device_name: identifier) %></p>
       <hr class="form--separator">
       <%= hidden_field_tag 'webauthn_credential', nil, "data-two-factor-authentication-target": "webauthnCredential" %>
+      <div class="form--field-error" data-two-factor-authentication-target="errorField"></div>
     <% end %>
     <% if remember_2fa_enabled? %>
       <div class="form--field -wide-label">

@@ -123,6 +123,7 @@ en:
       webauthn:
         title: "WebAuthn"
         description: Use Web Authentication to register a FIDO2 device (like a YubiKey) or the secure enclave of your mobile device as a second factor.
+        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
       totp:
         title: "Use your app-based authenticator"
         provisioning_uri: "Provisioning URI"
