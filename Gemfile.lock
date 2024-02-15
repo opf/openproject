@@ -36,16 +36,16 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: 04d22bfa73fbeb549fb1f215a6b9a81cfe820814
-  ref: 04d22bfa73fbeb549fb1f215a6b9a81cfe820814
+  revision: 82c2b5cc25a28fbd62cb05b17d9ba0f68d701109
+  ref: 82c2b5cc25a28fbd62cb05b17d9ba0f68d701109
   specs:
-    md_to_pdf (0.0.24)
+    md_to_pdf (0.0.25)
       color_conversion (~> 0.1)
       front_matter_parser (~> 1.0)
       json-schema (~> 4.1)
-      markly (~> 0.7)
+      markly (~> 0.10)
       matrix (~> 0.4)
-      nokogiri (~> 1.1)
+      nokogiri (~> 1.16)
       prawn (~> 2.4)
       prawn-table (~> 0.2)
       text-hyphen (~> 1.5)
