@@ -35,7 +35,8 @@ module CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
       filters:,
       searchKey: search_key,
       inputValue: input_value,
-      focusDirectly: false
+      focusDirectly: false,
+      appendTo: 'body'
     }
   end
 
