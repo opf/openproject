@@ -203,8 +203,6 @@ RSpec.describe 'Projects index page',
       end
 
       specify 'long description is truncated' do
-        Setting.enabled_projects_columns += [custom_field.column_name]
-
         development_project.update(
           description: 'I am a nice project with a very long long long long long long long long long description'
         )

@@ -54,7 +54,7 @@ export default class ProjectController extends Controller {
           a.href = '#';
           a.textContent = I18n.t('js.label_expand');
           a.addEventListener('click', () => {
-            const modal = document.querySelector('#modalDesc') as ModalDialogElement;
+            const modal = document.querySelector('#longTextModal') as ModalDialogElement;
             const modalBody = modal.querySelector('.Overlay-body');
             if (modalBody && a.previousElementSibling) {
               modalBody.textContent = a.previousElementSibling.textContent;
