@@ -501,13 +501,39 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
 
       describe 'with text CF' do
         describe 'with value set by user' do
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
+          context 'with a value that is shorter than 100 characters' do
+            it 'shows the correct value for the project custom field if given without truncation and dialog button' do
+              overview_page.visit_page
 
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(text_project_custom_field) do
-                expect(page).to have_text 'Text field'
-                expect(page).to have_text "Lorem\nipsum"
+              overview_page.within_async_loaded_sidebar do
+                overview_page.within_custom_field_container(text_project_custom_field) do
+                  expect(page).to have_text 'Text field'
+                  expect(page).to have_text "Lorem\nipsum"
+                end
+              end
+            end
+          end
+
+          context 'with a value that is longer than 100 characters' do
+            before do
+              text_project_custom_field.custom_values.where(customized: project).first.update!(value: 'a' * 101)
+            end
+
+            it 'shows the correct value for the project custom field if given with truncation and dialog button' do
+              overview_page.visit_page
+
+              overview_page.within_async_loaded_sidebar do
+                overview_page.within_custom_field_container(text_project_custom_field) do
+                  expect(page).to have_text 'Text field'
+                  expect(page).to have_text ("#{'a' * 97}...")
+                  expect(page).to have_text 'Expand'
+
+                  click_on 'Expand'
+
+                  within 'modal-dialog' do
+                    expect(page).to have_text 'a' * 101
+                  end
+                end
               end
             end
           end

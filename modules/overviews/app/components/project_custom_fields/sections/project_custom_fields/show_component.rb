@@ -43,19 +43,45 @@ module ProjectCustomFields
 
         private
 
-        def render_formatted_value
-          @project_custom_field_values&.map do |cf_value|
-            format_value(cf_value.value, @project_custom_field)
-          end&.join(", ")&.html_safe
+        def render_value
+          if @project_custom_field.field_format == "text"
+            render_rich_text
+          else
+            render(Primer::Beta::Text.new) do
+              @project_custom_field_values&.map do |cf_value|
+                format_value(cf_value.value, @project_custom_field)
+              end&.join(", ")&.html_safe
+            end
+          end
         end
 
-        def render_formatted_default_value
-          if @project_custom_field.default_value.is_a?(Array)
-            @project_custom_field.default_value.map do |default_value|
-              format_value(default_value, @project_custom_field)
-            end.join(", ").html_safe
+        def render_rich_text
+          truncation_length = 100
+
+          if @project_custom_field_values.first&.value&.length.to_i > truncation_length
+            render_truncated_preview_and_dialog_for_rich_text_value(truncation_length)
           else
-            format_value(@project_custom_field.default_value, @project_custom_field)
+            render(Primer::Beta::Text.new) do
+              format_value(@project_custom_field_values.first&.value, @project_custom_field)
+            end
+          end
+        end
+
+        def render_truncated_preview_and_dialog_for_rich_text_value(truncation_length)
+          flex_layout do |rich_text_preview_container|
+            rich_text_preview_container.with_row do
+              render(Primer::Beta::Text.new) do
+                format_value(@project_custom_field_values.first&.value&.truncate(truncation_length), @project_custom_field)
+              end
+            end
+            rich_text_preview_container.with_row do
+              render(Primer::Alpha::Dialog.new(size: :medium_portrait, title: @project_custom_field.name)) do |d|
+                d.with_show_button(scheme: :link) { "Expand" }
+                d.with_body(style: "max-height: 500px;") do
+                  format_value(@project_custom_field_values.first&.value, @project_custom_field)
+                end
+              end
+            end
           end
         end
 

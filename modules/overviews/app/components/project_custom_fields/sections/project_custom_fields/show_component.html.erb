@@ -9,13 +9,9 @@
 
     custom_field_value_container.with_row do
       if not_set?
-        # if @project_custom_field.default_value.present?
-        #   render(Primer::Beta::Text.new()) { render_formatted_default_value }
-        # else
-          render(Primer::Beta::Text.new()) { t('label_not_set_yet') }
-        # end
+        render(Primer::Beta::Text.new()) { t('label_not_set_yet') }
       else
-        render(Primer::Beta::Text.new()) { render_formatted_value }
+        render_value
       end
     end
   end
