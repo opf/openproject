@@ -347,11 +347,11 @@ pt:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                A versão contém vários recursos e melhorias novos: <br> <ul class="%{list_styling_class}"> <li>Integração do OneDrive/SharePoint com pastas de projeto manual.</li> <li>Filtrar por funções, grupos e compartilhamentos na lista de membros do projeto.</li> <li>Permitir atribuição e responsável por pacotes de trabalho compartilhados.</li> <li>Introduzir novos nomes de campo Trabalho, Trabalho Restante e % Concluído para preparar relatórios de progresso para hierarquias do pacotes de trabalho.</li> <li>Permitir alteração de status sem direitos de edição do pacote de trabalho.</li> </ul>
+                A versão contém vários novos recursos e melhorias: <br> <ul class="%{list_styling_class}"> <li>Filtre e salve listas de projetos personalizados.</li> <li>Módulo de gráficos de Gantt separados com novas visualizações padrão.</li> <li>Pastas de projetos gerenciadas automaticamente para integração do OneDrive/SharePoint.</li> <li>Exibição do número de "Usuários compartilhados" no botão de compartilhamento e exibição na lista de pacotes de trabalho.</li> <li>Melhoria dos cálculos e atualizações para relatórios de progresso para hierarquias de pacotes de trabalho.</li> </ul>
     ical_sharing_modal:
       title: "Assinar calendário"
       inital_setup_error_message: "Ocorreu um erro ao buscar dados."

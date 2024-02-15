@@ -128,8 +128,8 @@ class Options
         say_verbose("Extracted run id #{run_id} from #{url}")
         { run_id: }
       else
-        say_verbose("Unrecognized url #{url}")
-        {}
+        warn "Unrecognized url #{url}"
+        exit 1
       end
     end
   end

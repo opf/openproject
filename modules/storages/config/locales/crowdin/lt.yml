@@ -178,7 +178,7 @@ lt:
       Saugykla sėkmingai prijungta! Nepamirškite aktyvuoti modulį ir konkrečią saugyklą visų projektų, kuriuose norite ją naudoti, nustatymuose.
     oauth_grant_nudge_modal:
       access_granted: Prieiga suteikta
-      body: Kad gautumėte prieigą prie projekto aplanko jums reikia prisijungti prie %{storage}.
+      body: Kad gautumėte prieigą prie projekto aplanko, jums reikia prisijungti prie %{storage}.
       cancel_button_label: Aš tai padarysiu vėliau
       confirm_button_label: Prisijungti
       storage_ready: Jūs dabar pasiruošę naudoti %{storage}

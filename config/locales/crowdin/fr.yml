@@ -2561,7 +2561,7 @@ fr:
   project_module_news: "Actualités"
   project_module_repository: "Référentiel"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Lots de travaux et Gantt"
+  permission_header_for_project_module_work_package_tracking: "Lots de travaux et diagrammes de Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),

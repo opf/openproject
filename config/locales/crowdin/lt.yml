@@ -2614,7 +2614,7 @@ lt:
   project_module_news: "Naujienos"
   project_module_repository: "Repozitorija"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Darbo paketai ir Gantt"
+  permission_header_for_project_module_work_package_tracking: "Darbo paketai ir Gantt diagramos"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),

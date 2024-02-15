@@ -30,19 +30,11 @@ You can create a new project here directly by using the  **+ Project** button.
 
 ![OpenProject projects overview in the global modules menu](openproject_global_modules_projects.png)
 
-On the left you will have the following options:
+**Active projects** is the default view and shows only active projects. If you do not have administrator rights, this view will be the same as **My projects**.
 
-**All projects** is the default view and shows only active projects. If you do not have administrator rights, this view will be the same as **My projects**.
+Read more on [Projects lists filters](../../../user-guide/projects/projects-lists/#projects-lists-filters).
 
-**My projects** will show projects of which you are a member. When this menu entry is selected, an **I am member** filter will be activated under Filters. You can then add various other filters to adjust the view.
-
-![OpenProject global modules my projects](openproject_global_modules_myprojects_filter.png)
-
-**Public projects** will list all projects that have been set to be public.
-
-**Archived projects**  will list all archived projects of which were a member or have the right to see.
-
->**Note:** You can also access the **Projects** global module by opening the [Select a project dropdown menu](../../../user-guide/projects/#projects-list ) and by clicking the **Projects list** button, or by clicking on the **Modules** button in the header next to the search bar and the selecting **Projects** in the menu that appears.
+>**Note:** You can also access the **Projects** global module by opening the [Select a project dropdown menu](../../../user-guide/projects/projects-lists/) and by clicking the **Projects list** button, or by clicking on the **Modules** button in the header next to the search bar and the selecting **Projects** in the menu that appears.
 
 ## Activity
 
@@ -67,6 +59,14 @@ The **Work packages** global module will show a work packages table from the pro
 If you double-click to open one of the work packages in full screen view, the work package will highlight which project it belongs to at the top of the page.
 
 ![The project containing the current work package is highlighted when opening it from outside the project](openproject_global_modules_work_packages_full_view.png)
+
+## Gantt charts
+
+The **Gantt charts** global module displays work packages in a timeline.
+
+![Gantt charts global module in OpenProject](openproject_global_modules_gantt_charts.png)
+
+Find out more about [**Gantt charts** module](../../gantt-chart/).
 
 ## Calendars
 
