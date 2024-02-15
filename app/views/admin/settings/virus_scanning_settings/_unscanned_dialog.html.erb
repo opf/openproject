@@ -1,0 +1,8 @@
+<%=
+  render(Primer::Alpha::Dialog.new(title: t('settings.antivirus.unscanned.title'))) do |d|
+    d.with_header(variant: :large)
+    d.with_body do
+      "You have not scanned #{attachments.pluck(:filename)}"
+    end
+  end
+%>

@@ -31,7 +31,8 @@ module Admin::Settings
     menu_item :settings_attachments
 
     before_action :require_ee
-    before_action :check_clamav, only: %i[update]
+    before_action :check_clamav, only: %i[update], if: -> { scan_will_enable? }
+    before_action :mark_unscanned_attachments, if: -> { scan_will_enable? }
 
     def default_breadcrumb
       t('settings.antivirus.title')
@@ -55,9 +56,12 @@ module Admin::Settings
       render('upsale') unless EnterpriseToken.allows_to?(:virus_scanning)
     end
 
+    def mark_unscanned_attachments
+      @unscanned_attachments = Attachment.status_uploaded
+    end
+
     def check_clamav
-      return if params[:settings].blank?
-      return if params[:settings][:antivirus_scan_mode] == "disabled"
+      return if params.dig(:settings, :antivirus_scan_mode) == 'disabled'
 
       service = ::Attachments::ClamAVService.new(params[:settings][:antivirus_scan_mode].to_sym,
                                                  params[:settings][:antivirus_scan_target])
@@ -67,6 +71,10 @@ module Admin::Settings
       Rails.logger.error { "Failed to check availability of ClamAV: #{e.message}" }
       flash[:error] = t(:'settings.antivirus.clamav_ping_failed')
       redirect_to action: :show
+    end
+
+    def scan_will_enable?
+      Setting.antivirus_scan_mode == :disabled && params.dig(:settings, :antivirus_scan_mode) != 'disabled'
     end
 
     def success_callback(_call)
