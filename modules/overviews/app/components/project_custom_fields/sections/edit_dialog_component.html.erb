@@ -8,6 +8,7 @@
         url: update_project_custom_values_path(project_id: @project.id, section_id: @project_custom_field_section.id),
       ) do |f|
         component_collection do |collection|
+          # TODO: remove inline style
           collection.with_component(Primer::Alpha::Dialog::Body.new(my: 3, style: "max-height: 500px;")) do
             render(Projects::CustomFields::Form.new(f, project: @project, custom_field_section: @project_custom_field_section))
           end

@@ -706,6 +706,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
             overview_page.within_async_loaded_sidebar do
               overview_page.within_custom_field_container(user_project_custom_field) do
                 expect(page).to have_text 'User field'
+                expect(page).to have_css('opce-principal')
                 expect(page).to have_text 'Member 1 In Project'
               end
             end
@@ -841,7 +842,9 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
             overview_page.within_async_loaded_sidebar do
               overview_page.within_custom_field_container(multi_user_project_custom_field) do
                 expect(page).to have_text 'Multi user field'
-                expect(page).to have_text 'Member 1 In Project, Member 2 In Project'
+                expect(page).to have_css 'opce-principal', count: 2
+                expect(page).to have_text 'Member 1 In Project'
+                expect(page).to have_text 'Member 2 In Project'
               end
             end
           end

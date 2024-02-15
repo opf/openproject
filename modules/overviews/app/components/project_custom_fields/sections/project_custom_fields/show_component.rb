@@ -43,14 +43,21 @@ module ProjectCustomFields
 
         private
 
+        def not_set?
+          @project_custom_field_values.empty? || @project_custom_field_values.all? { |cf_value| cf_value.value.blank? }
+        end
+
         def render_value
-          if @project_custom_field.field_format == "text"
+          case @project_custom_field.field_format
+          when "text"
             render_rich_text
+          when "user"
+            render_user
           else
             render(Primer::Beta::Text.new) do
               @project_custom_field_values&.map do |cf_value|
                 format_value(cf_value.value, @project_custom_field)
-              end&.join(", ")&.html_safe
+              end&.join(", ")
             end
           end
         end
@@ -71,22 +78,44 @@ module ProjectCustomFields
           flex_layout do |rich_text_preview_container|
             rich_text_preview_container.with_row do
               render(Primer::Beta::Text.new) do
-                format_value(@project_custom_field_values.first&.value&.truncate(truncation_length), @project_custom_field)
+                format_value(
+                  @project_custom_field_values.first&.value&.truncate(truncation_length),
+                  @project_custom_field
+                )
               end
             end
             rich_text_preview_container.with_row do
-              render(Primer::Alpha::Dialog.new(size: :medium_portrait, title: @project_custom_field.name)) do |d|
-                d.with_show_button(scheme: :link) { "Expand" }
-                d.with_body(style: "max-height: 500px;") do
-                  format_value(@project_custom_field_values.first&.value, @project_custom_field)
-                end
-              end
+              render_dialog
             end
           end
         end
 
-        def not_set?
-          @project_custom_field_values.empty? || @project_custom_field_values.all? { |cf_value| cf_value.value.blank? }
+        def render_dialog
+          render(Primer::Alpha::Dialog.new(size: :medium_portrait, title: @project_custom_field.name)) do |dialog|
+            dialog.with_show_button(scheme: :link) { "Expand" }
+            # TODO: remove inline style
+            dialog.with_body(style: "max-height: 500px;") do
+              format_value(@project_custom_field_values.first&.value, @project_custom_field)
+            end
+          end
+        end
+
+        def render_user
+          if @project_custom_field.multi_value?
+            flex_layout do |avatar_container|
+              @project_custom_field_values&.each do |cf_value|
+                avatar_container.with_row do
+                  render_avatar(cf_value.typed_value)
+                end
+              end
+            end
+          else
+            render_avatar(@project_custom_field_values&.first&.typed_value)
+          end
+        end
+
+        def render_avatar(user)
+          render(Users::AvatarComponent.new(user:, size: :mini))
         end
       end
     end
