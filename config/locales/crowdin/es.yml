@@ -2557,7 +2557,7 @@ es:
   project_module_news: "Noticias"
   project_module_repository: "Repositorio"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
+  permission_header_for_project_module_work_package_tracking: "Paquetes de trabajo y diagramas de Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
