@@ -2531,7 +2531,7 @@ zh-TW:
   project_module_news: "新知"
   project_module_repository: "版本庫"
   project_module_wiki: "維基"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2729,7 +2729,7 @@ zh-TW:
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
   setting_work_packages_projects_export_limit: "工作包/專案導出限制"
-  setting_journal_aggregation_time_minutes: "整合的用戶操作"
+  setting_journal_aggregation_time_minutes: "合併使用者操作"
   setting_log_requesting_user: "對所有的請求紀錄使用者登入名稱和郵件地址"
   setting_login_required: "需要身份驗證"
   setting_mail_from: "發出的電子郵件地址"

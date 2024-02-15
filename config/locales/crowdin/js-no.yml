@@ -348,11 +348,11 @@
           learn_about: "Lær mer om de nye funksjonene"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                Utgivelsen inneholder ulike nye funksjoner og forbedringer: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integrasjon med manuelle prosjektmapper.</li> <li>Filter for roller, grupper og deler av listen over prosjektmedlemmer.</li> <li>Tillat oppdragstaker og ansvarlig for delte arbeidspakker.</li> <li>Introduser nytt feltnavnverk, gjenstående arbeid og % Fullført for å forberede fremdriftsrapportering for arbeidspakkehierarkiene.</li> <li>Tillat statusendring uten arbeidspakkeredigeringsrettigheter.</li> </ul>
+                Denne versjonen inneholder ulike nye funksjoner og forbedringer: <br> <ul class="%{list_styling_class}"> <li>Filtrer og lagre egendefinerte prosjektlister.</li> <li>Separat Gantt-diagram-modul med nye standardvisninger.</li> <li>Automatisk administrerte prosjektmapper for OneDrive/SharePoint integrasjon.</li> <li>Vis antall "Delte brukere" i knappen Deling og vis dem i listen over arbeidspakker.</li> <li>Forbedrede beregninger og oppdateringer for fremdriftsrapportering for arbeidspakkehierarkier.</li> </ul>
     ical_sharing_modal:
       title: "Abonner på kalender"
       inital_setup_error_message: "En feil oppstod under henting av data."

@@ -68,7 +68,7 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
     end
   end
 
-  context 'with a project with an active storage' do
+  context 'with a project with an active Nextcloud storage' do
     context 'when current user is an admin without being a member of any project' do
       current_user { admin }
 
@@ -119,5 +119,33 @@ RSpec.describe OpenProject::Storages::AppendStoragesHostsToCspHook do
     let(:storage) { nil }
 
     include_examples 'does not change CSP'
+  end
+
+  context 'with an active Nextcloud storage having a host with a non-standard port' do
+    let(:storage) { create(:nextcloud_storage, host: 'http://somehost.com:8080') }
+
+    current_user { admin }
+
+    it 'adds the port to the CSP directive' do
+      trigger_application_controller_before_action_hook
+
+      expect(controller).to have_received(:append_content_security_policy_directives) do |args|
+        expect(args).to eq(connect_src: ['http://somehost.com:8080'])
+      end
+    end
+  end
+
+  context 'with an active Nextcloud storage having a host with a path' do
+    let(:storage) { create(:nextcloud_storage, host: 'https://my.server.com/nextcloud') }
+
+    current_user { admin }
+
+    it 'removes the path from the host for the CSP directive' do
+      trigger_application_controller_before_action_hook
+
+      expect(controller).to have_received(:append_content_security_policy_directives) do |args|
+        expect(args).to eq(connect_src: ['https://my.server.com'])
+      end
+    end
   end
 end

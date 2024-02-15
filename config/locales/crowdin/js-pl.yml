@@ -348,11 +348,11 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Integracja OneDrive/SharePoint z ręcznymi folderami projektów.</li> <li>Filtrowanie ról, grup i udziałów na liście członków projektu.</li> <li>Zezwalanie na przypisywanie i rozliczanie udostępnionych pakietów roboczych. </li> <li>Wprowadzenie nowych nazw pól Praca, Pozostała praca i % ukończenia w celu przygotowania raportów z postępu do hierarchii pakietów roboczych.</li> <li>Zezwalanie na zmianę statusu bez uprawnień do edycji pakietów roboczych.</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Filtruj i zapisuj niestandardowe listy projektów.</li> <li>Oddzielny moduł wykresów Gantta z nowymi widokami domyślnymi.</li> <li>Automatycznie zarządzane foldery projektów do integracji usług OneDrive/SharePoint. </li> <li>Pokazuj liczbę udostępnień użytkownikom w przycisku udostępniania i wyświetlaj ich na liście pakietów roboczych.</li> <li>Ulepszone obliczenia i aktualizacje raportów postępu dla hierarchii pakietów roboczych.</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."

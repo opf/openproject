@@ -30,7 +30,7 @@ Now, you can find the results for your search term from different categories/par
 
 ![search-result-categories](openproject_search_result_categories.png)
 
-Please note: It is not possible to find content from archived projects. You will have to un-archive them first on the [global projects overview page](../projects/#projects-list).
+Please note: It is not possible to find content from archived projects. You will have to un-archive them first on the [global projects overview page](../projects/projects-lists/).
 
 ## Full text search, incl. work package attachments
 

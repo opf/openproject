@@ -2530,7 +2530,7 @@ ko:
   project_module_news: "뉴스"
   project_module_repository: "리포지토리"
   project_module_wiki: "위키"
-  permission_header_for_project_module_work_package_tracking: "작업 패키지 및 Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
