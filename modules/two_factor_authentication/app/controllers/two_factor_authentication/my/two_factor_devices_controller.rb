@@ -30,7 +30,7 @@ module ::TwoFactorAuthentication
 
       ##
       # Register the device and let the user confirm
-      def register
+      def register # rubocop:disable Metrics/AbcSize
         @device_type = params[:key].to_sym
         @device = new_device_type! @device_type
 
