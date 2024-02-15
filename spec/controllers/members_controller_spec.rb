@@ -82,7 +82,7 @@ RSpec.describe MembersController do
       )
     end
 
-    it 'however,s allow roles to be updated through mass assignment' do
+    it 'however allows roles to be updated through mass assignment' do
       put 'update',
           params: {
             project_id: project.identifier,
