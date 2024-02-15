@@ -30,8 +30,6 @@ require 'spec_helper'
 require_module_spec_helper
 
 RSpec.describe Storages::Admin::OAuthAccessGrantNudgeModalComponent, type: :component do # rubocop:disable RSpec/SpecFilePathFormat
-  include Rails.application.routes.url_helpers
-
   shared_let(:project_storage) { create(:project_storage) }
 
   before do
@@ -46,10 +44,7 @@ RSpec.describe Storages::Admin::OAuthAccessGrantNudgeModalComponent, type: :comp
       expect(page).to have_text("To get access to the project folder you need to login to #{project_storage.storage.name}.")
 
       expect(page).to have_button('I will do it later')
-      expect(page).to have_link('Login',
-                                href: oauth_access_grant_project_settings_project_storage_path(
-                                  project_id: project_storage.project_id, id: project_storage
-                                ))
+      expect(page).to have_button('Login')
     end
   end
 

@@ -31,7 +31,31 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class OAuthAccessGrantNudgeModalController extends Controller<HTMLDialogElement> {
+  static targets = [
+    'requestAccessForm',
+    'requestAccessButton',
+  ];
+
+  declare readonly requestAccessFormTarget:HTMLFormElement;
+  declare readonly requestAccessButtonTarget:HTMLElement;
+  declare readonly hasRequestAccessFormTarget:boolean;
+  declare readonly hasRequestAccessButtonTarget:boolean;
+
   connect() {
     this.element.showModal();
+
+    if (this.hasRequestAccessButtonTarget) {
+      // Focus on the request access button
+      this.requestAccessButtonTarget.focus();
+    }
+  }
+
+  public requestAccess(evt:Event):void {
+    evt.preventDefault();
+
+    this.requestAccessButtonTarget.textContent = 'Requesting access...';
+    this.requestAccessButtonTarget.setAttribute('aria-disabled', 'true');
+
+    this.requestAccessFormTarget.requestSubmit();
   }
 }
