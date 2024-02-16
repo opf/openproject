@@ -28,6 +28,8 @@ OpenProject offers an integration with OneDrive/SharePoint to allow users to:
 - Link files and folders stored in OneDrive/SharePoint with OpenProject work packages
 - View, open and download files and folder linked to a work package via the Files tab
 
+The goal here is to provide a *Document Library*, embedded in a SharePoint site, as a file storage system for OpenProject. 
+
 > Note: This guide only covers the integration setup. Please go to
 > our [OneDrive/SharePoint integration user guide](../../../user-guide/file-management/nextcloud-integration/) to learn
 > more about how to work with the OneDrive/SharePoint integration.
@@ -42,10 +44,19 @@ Please note these minimum version requirements for the integration to work with 
 We recommend using the latest versions of both OneDrive/SharePoint and OpenProject to be able to use the latest
 features.
 
+
+
 ## Set up the integration
 
 > **Important**: You need administrator privileges in the Azure portal for your Microsoft Entra ID and in your
 > OpenProject instance to set up this integration.
+>
+> Please make sure that you configure your Azure application to have the following **API permissions**:
+>
+> - Files.ReadWrite.All - Type: Delegated
+> - Files.ReadWrite.All - Type: Application
+> - offline_access - Type: Delegated
+> - User.Read - Type: Delegated
 
 Navigate to **System administration -> File storages**. You will see the list of all storages that have already been set
 up. If no files storages have been set up yet, a banner will tell you that there are no storages yet set up.

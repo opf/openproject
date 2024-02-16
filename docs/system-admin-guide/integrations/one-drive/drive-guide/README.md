@@ -10,9 +10,9 @@ keywords: OneDrive/SharePoint file storage integration, OneDrive, SharePoint, Dr
 
 ## Configure drive for automatic management
 
-If you need a drive configured for the file storage feature "Automatically managed project folders", there are some
-previous steps to take. Otherwise, if the drive is destined to be used in a file storage with the permission
-management is still based within OneDrive/SharePoint, you must skip those steps and continue
+If you need a OneDrive/SharePoint drive configured for using the "Automatically managed project folders" file storage option, there are some
+preliminary steps to take. Otherwise, if the drive will to be used in a file storage with the permission
+management still based within OneDrive/SharePoint, you should skip these steps and continue
 with [obtaining the drive id](./#how-to-obtain-a-drive-id).
 
 > Disclaimer: Some of the following descriptions are very tightly connected to the current (2024-02-13) state of
@@ -21,27 +21,26 @@ with [obtaining the drive id](./#how-to-obtain-a-drive-id).
 
 ### Break inheritance chain
 
-The first step to take is to interrupt the inheritance chain of SharePoint for this drive. Doing this, your
-OpenProject instance will be able to manage the permissions on the drive for the project folders, as SharePoint
-consistently will override those permissions.
+The first step to take is to interrupt the inheritance chain of SharePoint for this drive. By doing this, your
+OpenProject instance will be able to manage the permissions on the drive for the project folders, otherwise SharePoint
+will consistently override those permissions.
 
-To achieve that, one must enter the *Library Settings* of the target drive. Those usually can get accessed by selecting
-the Settings gear icon to the top right, selecting *Library Settings* and finally selecting *More Library Settings*. In
+To achieve that, you need to enter the *Library Settings* of the target drive. Those usually can get accessed by selecting
+the *Settings gear icon* to the top right, selecting *Library Settings* and finally selecting *More Library Settings*. In
 the category of *Permissions and Management*, there should be the option to select *Permissions for this document
-library*. Within the new page, in the top menu, one must select the option to *Stop Inheriting Permissions*.
+library*. Within the new page, in the top menu, you need to select the option *Stop Inheriting Permissions*.
 
 ### Remove previously set permissions
 
-Once the inheritance chain is interrupted, there is a last step to do, to prepare the drive for remote management of
-permissions.
+Once the inheritance chain is interrupted, the last remaining step is to prepare the drive for remote permissions management.
 
-In the last view of the drive configuration, the one visited after clicking on *Permissions for this document library*
-in the *Library Settings*, one should be able to see a list of all currently set permissions. In a standard drive, where
-no custom permissions were set, this is usually restricted to the *Members*, *Visitors* and *Owners*, SharePoint groups
-that are linked to the parent site. Now, one must remove all permissions except the one group of *Owners*. Keeping those
-is important to still being able to reconfigure the drive at a later point in time.
+In the last screen of the drive configuration (the one after clicking on *Permissions for this document library*
+in the *Library Settings*), you should be able to see a list of all currently set permissions. In a standard drive, where
+no custom permissions were set, this is usually restricted to the *Members*, *Visitors* and *Owners* (SharePoint groups
+that are linked to the parent site). Now, you need to remove all permissions except the ones for the group *Owners*. Keeping these
+is important for still being able to reconfigure the drive at a later point in time.
 
-Once this is done, there should be no permission left assigned to the document library, except the *Owners* group.
+Once this is done, there should be no permissions left assigned to the document library, except the *Owners* group.
 
 ## How to obtain a drive ID
 
