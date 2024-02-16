@@ -39,8 +39,8 @@ module Storages
         timeout_seconds: 0,
         transaction: false
       ) do
-        ::Storages::NextcloudStorage.automatic_management_enabled.includes(:oauth_client).find_each do |storage|
-          result = GroupFolderPropertiesSyncService.call(storage)
+        ::Storages::Storage.automatic_management_enabled.includes(:oauth_client).find_each do |storage|
+          result = service_for(storage).call(storage)
           result.match(
             on_success: ->(_) do
               storage.mark_as_healthy
@@ -52,6 +52,15 @@ module Storages
         end
         true
       end
+    end
+
+    private
+
+    def service_for(storage)
+      return NextcloudGroupFolderPropertiesSyncService if storage.provider_type_nextcloud?
+      return OneDriveManagedFolderSyncService if storage.provider_type_one_drive?
+
+      raise 'Unknown Storage'
     end
   end
 end

@@ -347,11 +347,11 @@ tr:
           learn_about: "Yeni özellikler hakkında daha fazla bilgi edinin"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter and save custom project lists.</li> <li>Separate Gantt charts module with new default views.</li> <li>Automatically managed project folders for OneDrive/SharePoint integration.</li> <li>Show number of "Shared users" in the share button and display them in the work packages list.</li> <li>Improved calculations and updates for progress reporting for work package hierarchies.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -468,7 +468,7 @@ tr:
     label_per_page: "Sayfa başına:"
     label_please_wait: "Lütfen bekleyin"
     label_project: "Proje"
-    label_project_list: "Projeler listesi"
+    label_project_list: "Project lists"
     label_project_plural: "Projeler"
     label_visibility_settings: "Görünürlük ayarları"
     label_quote_comment: "Yorumu alıntıla"
@@ -582,7 +582,7 @@ tr:
           full_view: '<b>İş paketi ayrıntıları</b> görünümü, tanımı, durumu, önceliği, etkinlikleri, bağımlılıkları ve yorumları gibi belirli bir iş paketiyle ilgili tüm ilgili bilgileri sağlar.'
           back_button: 'Çıkmak ve iş paketi listesine geri dönmek için sol üst köşedeki dönüş okunu kullanın.'
           create_button: '<b>+ Oluştur</b> düğmesi, projenize yeni bir çalışma paketi ekleyecektir.'
-          timeline_button: 'Projeniz için bir zaman çizelgesi oluşturmak üzere <b>Gantt şeması</b> görünümünü etkinleştirebilirsiniz.'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: 'Burada <b>proje planınızı düzenleyebilir</b>, görevler, kilometre taşları, aşamalar ve daha fazlası gibi yeni iş paketleri oluşturabilir ve <b>bağımlılıklar ekleyebilirsiniz</b>. Tüm ekip üyeleri istedikleri zaman en son planı görebilir ve güncelleyebilir.'
         team_planner:
           overview: 'Takım planlayıcı, takım üyelerine görsel olarak görevler atamanıza ve kimin ne üzerinde çalıştığına dair bir genel bakış elde etmenize olanak tanır.'
@@ -966,6 +966,8 @@ tr:
         createdAt: "Oluşturma tarihi"
         description: "Açıklama"
         date: "Tarih"
+        percentComplete: "% Complete"
+        percentCompleteAlternative: "Progress"
         dueDate: "Bitiş tarihi"
         duration: "Süre"
         spentTime: "Harcanan zaman"
@@ -973,6 +975,8 @@ tr:
         percentageDone: "Tamamlanan yüzde"
         priority: "Öncelik"
         projectName: "Proje"
+        remainingWork: "Remaining work"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Sorumlu"
         startDate: "Başlangıç tarihi"
         status: "Durum"
@@ -983,6 +987,8 @@ tr:
         updatedAt: "Güncelleme tarihi"
         versionName: "Sürüm"
         version: "Sürüm"
+        work: "Work"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "En son etkinlik"
@@ -1031,6 +1037,7 @@ tr:
       sharing:
         share: 'Paylaş'
         title: "Share work package"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

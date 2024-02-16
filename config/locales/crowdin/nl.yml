@@ -104,6 +104,7 @@ nl:
   ldap_auth_sources:
     ldap_error: "LDAP-fout: %{error_message}"
     ldap_auth_failed: "Kon niet authenticeren met LDAP-server."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Dit LDAP-formulier vereist technische kennis van uw LDAP / Active Directory-configuratie.
@@ -247,10 +248,15 @@ nl:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Open als Gantt weergave"
-      open_as_gantt_title: "Gebruik deze knop om een Gantt-weergave te genereren die werkpakketten filtert voor de projecten die op deze pagina zichtbaar zijn."
-      open_as_gantt_title_admin: "Je kunt de weergave-instellingen (zoals geselecteerde soorten werkpakketten) wijzigen in de administratie onder projectinstellingen."
       no_results_title_text: Er zijn momenteel geen projecten
       no_results_content_text: Maak een nieuw project
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -282,14 +288,14 @@ nl:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Reset-toegangstoken mislukt: %{error}"
@@ -323,6 +329,8 @@ nl:
       no_results_title_text: Deze gebruiker is momenteel geen lid in een groep.
     memberships:
       no_results_title_text: Deze gebruiker is momenteel geen lid van een project.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       U heeft geen toestemming om de placeholder gebruiker te verwijderen. U heeft niet het recht om deelnemers te beheren voor alle projecten waarvan de placeholder gebruiker lid is.
@@ -519,6 +527,8 @@ nl:
         row_count: "Aantal rijen"
         column_count: "Aantal kolommen"
         widgets: "Widgets"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Vertraging"
         from: "Werkpakket"
@@ -584,6 +594,7 @@ nl:
         color: "Kleur"
       user:
         admin: "Beheerder"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP verbinding"
         identity_url: "Identiteit URL"
         current_password: "Huidig wachtwoord"
@@ -615,6 +626,7 @@ nl:
         begin_insertion: "Begin van het invoegen"
         begin_deletion: "Begin van de verwijdering"
         children: "Subelementen"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
@@ -635,6 +647,7 @@ nl:
         readonly: "Alleen lezen"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Handmatige planning"
         spent_hours: "Bestede tijd"
         spent_time: "Bestede tijd"
@@ -939,6 +952,8 @@ nl:
               invalid_on_create: "is niet een geldige status voor nieuwe gebruikers."
             ldap_auth_source:
               error_not_found: "niet gevonden"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Kies ten minste één gebruiker of groep."
           role_blank: "moet worden toegewezen."
@@ -1429,6 +1444,7 @@ nl:
     message: Bericht bewerkt
     news: Nieuws
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Project bewerkt"
     reply: Beantwoord
     time_entry: "Tijdlog bewerkt"
@@ -1571,6 +1587,7 @@ nl:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Stuur meldingen voor deze actie"
     work_packages:
@@ -1614,12 +1631,12 @@ nl:
   label_age: "Leeftijd"
   label_ago: "dagen geleden"
   label_all: "alle"
-  label_all_projects: "Alle projecten"
   label_all_time: "aller tijden"
   label_all_words: "Alle woorden"
   label_all_open_wps: "Alles open"
   label_always_visible: "Altijd weergegeven"
   label_announcement: "Mededeling"
+  label_angular: "AngularJS"
   label_api_access_key: "API sleutel"
   label_api_access_key_created_on: "API sleutel %{value} geleden gemaakt"
   label_api_access_key_type: "API"
@@ -1631,7 +1648,6 @@ nl:
   label_ical_access_key_revoke: "Intrekken"
   label_applied_status: "Toegepaste status"
   label_archive_project: "Project archiveren"
-  label_archived_projects: "Gearchiveerde projecten"
   label_ascending: "Oplopend"
   label_assigned_to_me_work_packages: "Werkpakketten toegewezen aan mij"
   label_associated_revisions: "Bijbehorende revisies"
@@ -1651,8 +1667,9 @@ nl:
   label_available_project_work_package_categories: "Beschikbare werkpakket categorieën"
   label_available_project_work_package_types: "Beschikbare werkpakkettypes"
   label_available_projects: "Available projects"
-  label_api_documentation: "API documentatie"
+  label_api_doc: "API documentation"
   label_backup: "Back-up"
+  label_backup_code: "Backup code"
   label_between: "tussen"
   label_blocked_by: "vergrendeld door"
   label_blocks: "vergrendelingen"
@@ -1662,6 +1679,7 @@ nl:
   label_forum_plural: "Fora"
   label_forum_sticky: "Sticky"
   label_boolean: "Boolean"
+  label_board_plural: "Boards"
   label_branch: "Branch"
   label_browse: "Bladeren"
   label_bulk_edit_selected_work_packages: "Bulk bewerken van geselecteerd werkpakketten"
@@ -1688,6 +1706,7 @@ nl:
   label_check_uncheck_all_in_column: "Selecteer/Deselecteer alles in kolom"
   label_check_uncheck_all_in_row: "Selecteer/Deselecteer alles in rij"
   label_child_element: "Onderliggend element"
+  label_choices: "Choices"
   label_chronological_order: "Oudste eerst"
   label_close_versions: "Voltooide versies sluiten"
   label_closed_work_packages: "gesloten"
@@ -1719,6 +1738,7 @@ nl:
   label_custom_field_plural: "Aangepaste velden"
   label_custom_field_default_type: "Leeg type"
   label_custom_style: "Ontwerp"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL versie"
   label_date: "Datum"
   label_date_and_time: "Datum en tijd"
@@ -1775,6 +1795,8 @@ nl:
   label_example: "Voorbeeld"
   label_experimental: "Experimenteel"
   label_i_am_member: "Ik ben lid"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Importeren"
   label_export_to: "Ook verkrijgbaar in:"
   label_expanded_click_to_collapse: "Uitgebreid. Klik op samenvouwen"
@@ -1787,6 +1809,7 @@ nl:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Bestanden"
   label_filter_add: "Filter toevoegen"
+  label_filter: "Filters"
   label_filter_plural: "Filters"
   label_filters_toggle: "Filter tonen/verbergen"
   label_float: "Zwevend"
@@ -1794,8 +1817,8 @@ nl:
   label_follows: "volgt"
   label_force_user_language_to_default: "Taal van gebruikers met een niet toegestane taal op standaard instellen"
   label_form_configuration: "Formulierconfiguratie"
-  label_gantt: "Gantt"
   label_gantt_chart: "Gantt-grafiek"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Algemeen"
   label_generate_key: "Genereren van een sleutel"
   label_git_path: "Pad naar .git map"
@@ -1813,6 +1836,7 @@ nl:
   label_home: "Home"
   label_subject_or_id: "Onderwerp of ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Juridische mededeling"
   label_in: "in"
   label_in_less_than: "in minder dan"
@@ -1829,6 +1853,7 @@ nl:
   label_internal: "Intern"
   label_introduction_video: "Introductie video"
   label_invite_user: "Gebruiker uitnodigen"
+  label_share: "Share"
   label_show_hide: "Weergeven/verbergen"
   label_show_all_registered_users: "Toon alle geregistreerde gebruikers"
   label_journal: "Logboek"
@@ -1899,7 +1924,7 @@ nl:
   label_my_account: "Mijn gegevens"
   label_my_activity: "Mijn activiteit"
   label_my_account_data: "Mijn accountgegevens"
-  label_my_projects: "Mijn projecten"
+  label_my_avatar: "My avatar"
   label_my_queries: "Mijn aangepaste query 's"
   label_name: "Naam"
   label_never: "Nooit"
@@ -2035,6 +2060,7 @@ nl:
   label_search: "Zoeken"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Stuur een test e-mail"
+  label_session: "Session"
   label_setting_plural: "Instellingen"
   label_system_settings: "Systeeminstellingen"
   label_show_completed_versions: "Toon voltooide versies"
@@ -2064,11 +2090,13 @@ nl:
   label_system_storage: "Opslaginformatie"
   label_table_of_contents: "Inhoudsopgave"
   label_tag: "Label"
+  label_team_planner: "Team Planner"
   label_text: "Lange tekst"
   label_this_month: "Deze maand"
   label_this_week: "deze week"
   label_this_year: "Dit jaar"
   label_time_entry_plural: "Bestede tijd"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Titel"
   label_projects_menu: "Projecten"
   label_today: "vandaag"
@@ -2209,11 +2237,11 @@ nl:
     mention:
       subject: "%{user_name} heeft je genoemd in #%{id} - %{subject}"
     notification:
-      center: 'Naar meldingscentrum'
-      see_in_center: 'Bekijk commentaar in notificatie center'
-      settings: 'E-mailinstellingen wijzigen'
-    salutation: 'Hallo %{user}'
-    salutation_full_name: 'Full name'
+      center: "Naar meldingscentrum"
+      see_in_center: "Bekijk commentaar in notificatie center"
+      settings: "E-mailinstellingen wijzigen"
+    salutation: "Hallo %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Aangemaakt op %{timestamp} door %{user} "
       login_to_see_all: "Log in om alle meldingen te zien."
@@ -2529,7 +2557,7 @@ nl:
   project_module_news: "Nieuws"
   project_module_repository: "Repository"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2808,6 +2836,7 @@ nl:
     other: "Overige"
     passwords: "Wachtwoorden"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Instellingen voor nieuwe projecten"
       section_project_overview: "Instellingen voor project overzicht lijst"
     session: "Sessie"
@@ -2823,6 +2852,7 @@ nl:
     plain: "Onopgemaakte tekst"
   status_active: "actief"
   status_archived: "gearchiveerd"
+  status_blocked: "blocked"
   status_invited: uitgenodigd
   status_locked: geblokkeerd
   status_registered: geregistreerd
@@ -3057,12 +3087,12 @@ nl:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Rol'
-        type: 'Type'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Rol"
+        type: "Type"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3079,7 +3109,7 @@ nl:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3280,7 +3310,6 @@ nl:
       oauth_returned_json_error: "OAuth2 heeft een JSON-fout teruggestuurd"
       oauth_returned_http_error: "OAuth2 heeft een netwerkfout teruggestuurd"
       oauth_returned_standard_error: "OAuth2 stuurde een interne fout terug"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 gaf een verkeerd type token, verwacht AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 meldt een fout. Neem contact op met uw systeembeheerder."
       oauth_client_not_found: "OAuth2 client niet gevonden in 'callback' eindpunt (redirect_uri)."

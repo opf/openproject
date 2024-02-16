@@ -15,7 +15,7 @@ The quickest way to get started developing OpenProject is to use the docker setu
 
 And nothing else!
 
-## Quickstart
+## Quick start
 
 To get right into it and just start the application you can just do the following:
 
@@ -431,7 +431,7 @@ Ruby version is updated you may run into an error like the following when
 running `docker compose run --rm backend setup`:
 
 ```
-Your Ruby version is 2.7.6, but your Gemfile specified ~> 3.2.2
+Your Ruby version is 2.7.6, but your Gemfile specified ~> 3.2.3
 ```
 
 This means that the current image is out-dated. You can update it like this:

@@ -166,6 +166,11 @@ module PaginationHelper
 
     protected
 
+    def merge_get_params(url_params)
+      params = super
+      params.except(*blocked_url_params)
+    end
+
     def page_number(page)
       if page == current_page
         tag(:li, page, class: 'op-pagination--item op-pagination--item_current')
@@ -196,6 +201,10 @@ module PaginationHelper
       else
         ''
       end
+    end
+
+    def blocked_url_params
+      @options[:blocked_url_params] || [] # rubocop:disable Rails/HelperInstanceVariable
     end
   end
 

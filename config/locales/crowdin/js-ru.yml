@@ -347,11 +347,11 @@ ru:
           learn_about: "Подробнее о новых функциях"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-1-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter and save custom project lists.</li> <li>Separate Gantt charts module with new default views.</li> <li>Automatically managed project folders for OneDrive/SharePoint integration.</li> <li>Show number of "Shared users" in the share button and display them in the work packages list.</li> <li>Improved calculations and updates for progress reporting for work package hierarchies.</li> </ul>
     ical_sharing_modal:
       title: "Подписаться на календарь"
       inital_setup_error_message: "Произошла ошибка при получении данных."
@@ -468,7 +468,7 @@ ru:
     label_per_page: "На странице:"
     label_please_wait: "Пожалуйста, подождите"
     label_project: "Проект"
-    label_project_list: "Список Проектов"
+    label_project_list: "Списки проектов"
     label_project_plural: "Проекты"
     label_visibility_settings: "Параметры видимости"
     label_quote_comment: "Цитировать этот комментарий"
@@ -520,7 +520,7 @@ ru:
     label_watcher_added_successfully: "Наблюдатель успешно добавлен!"
     label_watcher_deleted_successfully: "Наблюдатель успешно удален!"
     label_work_package_details_you_are_here: "Вы находитесь на вкладке %{tab} для %{type} %{subject}."
-    label_work_package_context_menu: "Work package context menu"
+    label_work_package_context_menu: "Контекстное меню пакета работ"
     label_unwatch: "Прекратить наблюдение"
     label_unwatch_work_package: "Прекратить наблюдение за пакетом работ"
     label_uploaded_by: "Загружено"
@@ -582,7 +582,7 @@ ru:
           full_view: '<b>Детали пакета работ</b> предоставляют всю соответствующую информацию, касающуюся данного пакета работ, таких как описание, статус, приоритет, деятельность, зависимости и комментарии.'
           back_button: 'Используйте стрелку возврата в верхнем левом углу для выхода и возврата к списку пакетов работ.'
           create_button: 'Кнопка <b>+ Создать</b> добавит новый пакет работ в ваш проект.'
-          timeline_button: 'Вы можете активировать <b>диаграмму Ганта</b> для создания временной шкалы вашего проекта.'
+          gantt_menu: 'Создавайте расписания проектов и графики с помощью модуля Гантт.'
           timeline: 'Здесь вы можете <b>редактировать план проекта</b>, создавать новые пакеты работ, например, задачи, контрольные точки, фазы и многое другое, а также <b>добавить зависимости</b>. Все члены команды могут видеть и обновлять план в любое время.'
         team_planner:
           overview: 'Планировщик команды позволяет наглядно назначать задачи членам команды и получать представление о том, кто над чем работает.'
@@ -834,7 +834,7 @@ ru:
       toggle_description: "Переключить описание отношения"
       update_relation: "Нажмите, чтобы изменить тип отношения"
       add_follower: "Добавить подписчика"
-      show_relations: "Show relations"
+      show_relations: "Показать взаимосвязи"
       add_predecessor: "Добавить предшественника"
       remove: "Удалить связь"
       save: "Сохранить связь"
@@ -968,6 +968,8 @@ ru:
         createdAt: "Создано"
         description: "Описание"
         date: "Дата"
+        percentComplete: "% Готово"
+        percentCompleteAlternative: "Прогресс"
         dueDate: "Дата окончания"
         duration: "Продолжительность"
         spentTime: "Затраченное время"
@@ -975,6 +977,8 @@ ru:
         percentageDone: "Сделано в процентах"
         priority: "Приоритет"
         projectName: "Проект"
+        remainingWork: "Оставшаяся работа"
+        remainingWorkAlternative: "Оставшиеся часы"
         responsible: "Ответственный"
         startDate: "Дата начала"
         status: "Статус"
@@ -985,7 +989,9 @@ ru:
         updatedAt: "Обновлено"
         versionName: "Этап"
         version: "Этап"
-        remainingTime: "Оставшаяся работа"
+        work: "Работа"
+        workAlternative: "Приблизительное время"
+        remainingTime: "Оставшиеся часы"
       default_queries:
         latest_activity: "Последние действия"
         created_by_me: "Создано мной"
@@ -1033,11 +1039,12 @@ ru:
       sharing:
         share: 'Поделиться'
         title: "Поделиться пакетом работ"
+        show_all_users: "Показать всех общих пользователей"
         selected_count: "%{count} выбрано"
         selection:
           mixed: "Смешанное"
         upsale:
-          description: "Share work packages with users who are not members of the project."
+          description: "Поделитесь пакетами работ с пользователями, не являющимися участниками проекта."
       table:
         configure_button: 'Настроить таблицу пакета работ'
         summary: "Таблица с названиями пакетов работ в строках и атрибутами пакетов работ в столбцах."

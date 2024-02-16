@@ -261,10 +261,10 @@ zh-TW:
           you_contribute: "開發者也需要支付他們的賬單。 通過升級到企業版，您將支持這個開放源碼社區的努力，並有助於其發展、維護和不斷改進。"
       working_days:
         calendar:
-          empty_state_header: "Non-working days"
+          empty_state_header: "非工作日"
           empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
           new_date: '（新）'
-        add_non_working_day: "Non-working day"
+        add_non_working_day: "非工作日"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
         change_button: "Save and reschedule"
         change_title: "Change working days"
@@ -347,11 +347,11 @@ zh-TW:
           learn_about: "瞭解更多新功能的資訊"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter and save custom project lists.</li> <li>Separate Gantt charts module with new default views.</li> <li>Automatically managed project folders for OneDrive/SharePoint integration.</li> <li>Show number of "Shared users" in the share button and display them in the work packages list.</li> <li>Improved calculations and updates for progress reporting for work package hierarchies.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -468,7 +468,7 @@ zh-TW:
     label_per_page: "每頁："
     label_please_wait: "請稍候"
     label_project: "專案"
-    label_project_list: "專案清單"
+    label_project_list: "Project lists"
     label_project_plural: "專案"
     label_visibility_settings: "可見度設定"
     label_quote_comment: "引述這個評論"
@@ -479,7 +479,7 @@ zh-TW:
     label_remove_columns: "移除所選欄"
     label_remove_row: "移除列"
     label_report: "報表"
-    label_repository_plural: "Repositories"
+    label_repository_plural: "版本庫"
     label_save_as: "保存為"
     label_select_project: "選擇專案"
     label_select_watcher: "選擇一位關注者"
@@ -582,7 +582,7 @@ zh-TW:
           full_view: 'The <b>work package details</b> view provides all the relevant information pertaining to a given work package, such as its description, status, priority, activities, dependencies, and comments.'
           back_button: 'Use the return arrow in the top left corner to exit and return to the work package list.'
           create_button: 'The <b>+ Create</b> button will add a new work package to your project.'
-          timeline_button: 'You can activate the <b>Gantt chart</b> view to create a timeline for your project.'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: 'Here you can <b>edit your project plan</b>, create new work packages, such as tasks, milestones, phases, and more, as well as <b>add dependencies</b>. All team members can see and update the latest plan at any time.'
         team_planner:
           overview: 'The team planner lets you visually assign tasks to team members and get an overview of who is working on what.'
@@ -603,11 +603,11 @@ zh-TW:
         commented: '已評論'
         processed: '已處理'
         prioritized: '優先'
-        dateAlert: 'Date alert'
-        shared: 'shared'
+        dateAlert: '日期提醒'
+        shared: '共享'
       date_alerts:
         milestone_date: 'Milestone date'
-        overdue: 'Overdue'
+        overdue: '逾期'
         overdue_since: 'since %{difference_in_days}'
         property_today: 'is today'
         property_is: 'is in %{difference_in_days}'
@@ -647,8 +647,8 @@ zh-TW:
         inbox: '收件匣'
         mentioned: '被標記'
         watched: "關注者\n"
-        date_alert: 'Date alert'
-        shared: 'Shared'
+        date_alert: '日期提醒'
+        shared: '共享'
       settings:
         change_notification_settings: 'You can modify your <a target="_blank" href="%{url}">notification settings</a> to ensure you never miss an important update.'
         title: "通知設定"
@@ -662,16 +662,16 @@ zh-TW:
               P3D: 3 days before
               P7D: a week before
             overdue:
-              P1D: every day
-              P3D: every 3 days
-              P7D: every week
+              P1D: 每天
+              P3D: 每 3 天
+              P7D: 每週
         reasons:
           mentioned:
             title: '被標記'
             description: 'Receive a notification every time someone mentions me anywhere'
           assignee: '負責執行者'
           responsible: '負責人'
-          shared: 'Shared'
+          shared: '共享'
           watched: "關注者\n"
           work_package_commented: '新評論'
           work_package_created: '新工作包'
@@ -749,7 +749,7 @@ zh-TW:
           wiki_page_updated: '維基頁面已更新'
           membership_added: 'Membership added'
           membership_updated: 'Membership updated'
-        title: 'Email reminders'
+        title: '電子郵件提醒'
         pause:
           label: 'Temporarily pause daily email reminders'
           first_day: 'First day'
@@ -769,7 +769,7 @@ zh-TW:
         more_information: "更多資訊"
         nevermind: "無視"
       edit:
-        form_configuration: "Form Configuration"
+        form_configuration: "表單設定"
         projects: "專案"
         settings: "設定"
     time_entry:
@@ -965,6 +965,8 @@ zh-TW:
         createdAt: "建立於"
         description: "說明"
         date: "日期"
+        percentComplete: "完成度(%)"
+        percentCompleteAlternative: "Progress"
         dueDate: "完成日期"
         duration: "時間長度"
         spentTime: "耗時"
@@ -972,6 +974,8 @@ zh-TW:
         percentageDone: "完成百分比"
         priority: "優先等級"
         projectName: "專案"
+        remainingWork: "Remaining work"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "責任歸屬者"
         startDate: "起始日期"
         status: "狀態"
@@ -982,6 +986,8 @@ zh-TW:
         updatedAt: "更新於"
         versionName: "版本"
         version: "版本"
+        work: "Work"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "最新活動"
@@ -990,7 +996,7 @@ zh-TW:
         recently_created: "最近創建的"
         all_open: "全部打開"
         summary: "大綱"
-        shared_with_users: "Shared with users"
+        shared_with_users: "分配給非專案成員"
       jump_marks:
         pagination: "跳轉至表格分頁"
         label_pagination: "點擊此處跳過工作包表格並轉到分頁"
@@ -1030,6 +1036,7 @@ zh-TW:
       sharing:
         share: '分享'
         title: "Share work package"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"
@@ -1189,13 +1196,13 @@ zh-TW:
       timeline: '甘特圖'
     invite_user_modal:
       back: '返回'
-      invite: 'Invite'
+      invite: '邀請'
       title:
         invite: '邀請使用者'
         invite_to_project: 'Invite %{type} to %{project}'
-        User: 'user'
-        Group: 'group'
-        PlaceholderUser: 'placeholder user'
+        User: '使用者'
+        Group: '群組'
+        PlaceholderUser: '非專案成員'
         invite_principal_to_project: 'Invite %{principal} to %{project}'
       project:
         label: '專案'
@@ -1214,8 +1221,8 @@ zh-TW:
           title: '群組'
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
-          title: 'Placeholder user'
-          title_no_ee: '佔位符用戶（Enterprise edition 附加功能）'
+          title: '非專案成員'
+          title_no_ee: '非專案成員（Enterprise edition 附加功能）'
           description: 'Has no access to the project and no emails are sent out.'
           description_no_ee: '由於沒有訪問項目的權限，所以不會發送電子郵件。<br>請查看<a href="%{eeHref}" target="_blank">企業版</a>。'
       principal:

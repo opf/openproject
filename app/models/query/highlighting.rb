@@ -41,7 +41,7 @@ module Query::Highlighting
 
     QUERY_HIGHLIGHTING_MODES = %i[inline none status type priority].freeze
 
-    serialize :highlighted_attributes, Array
+    serialize :highlighted_attributes, type: Array
 
     validates :highlighting_mode,
               inclusion: { in: QUERY_HIGHLIGHTING_MODES,

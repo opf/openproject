@@ -104,6 +104,7 @@ af:
   ldap_auth_sources:
     ldap_error: "LDAP-Error: %{error_message}"
     ldap_auth_failed: "Could not authenticate at the LDAP-Server."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -250,10 +251,15 @@ af:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Open as Gantt view"
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -285,14 +291,14 @@ af:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Failed to reset access token: %{error}"
@@ -326,6 +332,8 @@ af:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -522,6 +530,8 @@ af:
         row_count: "Aantal rye"
         column_count: "Aantal kolomme"
         widgets: "Widgets"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Vertraag"
         from: "Werkspakket"
@@ -587,6 +597,7 @@ af:
         color: "Kleur"
       user:
         admin: "Administreerder"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "Current password"
@@ -618,6 +629,7 @@ af:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "Subelements"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
@@ -638,6 +650,7 @@ af:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Manual scheduling"
         spent_hours: "Tyd gespandeer"
         spent_time: "Tyd gespandeer"
@@ -941,6 +954,8 @@ af:
             status:
               invalid_on_create: "is not a valid status for new users."
             ldap_auth_source:
+              error_not_found: "not found"
+            auth_source:
               error_not_found: "not found"
         member:
           principal_blank: "Kies asseblief ten minste een gebruiker of groep."
@@ -1432,6 +1447,7 @@ af:
     message: Boodskap geredigeer
     news: Nuus
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Projek geredigeer"
     reply: Geantwoord
     time_entry: "Tydrekord geredigeer"
@@ -1574,6 +1590,7 @@ af:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1617,12 +1634,12 @@ af:
   label_age: "Ouderdom"
   label_ago: "dae gelede"
   label_all: "alle"
-  label_all_projects: "All projects"
   label_all_time: "alle tye"
   label_all_words: "Alle woorde"
   label_all_open_wps: "All open"
   label_always_visible: "Altyd vertoon"
   label_announcement: "Aankondiging"
+  label_angular: "AngularJS"
   label_api_access_key: "API toegangsleutel"
   label_api_access_key_created_on: "API toegangsleutel %{value} gelede geskep"
   label_api_access_key_type: "API"
@@ -1634,7 +1651,6 @@ af:
   label_ical_access_key_revoke: "Revoke"
   label_applied_status: "Toegepaste status"
   label_archive_project: "Archive project"
-  label_archived_projects: "Archived projects"
   label_ascending: "Stygende"
   label_assigned_to_me_work_packages: "Werkspakkette aan my toegeken"
   label_associated_revisions: "Gepaardgaande hersienings"
@@ -1654,8 +1670,9 @@ af:
   label_available_project_work_package_categories: "Available work package categories"
   label_available_project_work_package_types: "Available work package types"
   label_available_projects: "Available projects"
-  label_api_documentation: "API documentation"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "between"
   label_blocked_by: "geblokkeer deur"
   label_blocks: "blokke"
@@ -1665,6 +1682,7 @@ af:
   label_forum_plural: "Forums"
   label_forum_sticky: "Klewerig"
   label_boolean: "Boolese"
+  label_board_plural: "Boards"
   label_branch: "Tak"
   label_browse: "Blaai"
   label_bulk_edit_selected_work_packages: "Grootmaat redigeer geselekteerde werkspakkette"
@@ -1691,6 +1709,7 @@ af:
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Child element"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Maak voltooide weergawes toe"
   label_closed_work_packages: "gesluit"
@@ -1722,6 +1741,7 @@ af:
   label_custom_field_plural: "Pasgemaakte velde"
   label_custom_field_default_type: "Leë tipe"
   label_custom_style: "Design"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "Datum"
   label_date_and_time: "Date and time"
@@ -1778,6 +1798,8 @@ af:
   label_example: "Voorbeeld"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Import"
   label_export_to: "Ook beskikbaar in:"
   label_expanded_click_to_collapse: "Expanded. Click to collapse"
@@ -1790,6 +1812,7 @@ af:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Lêers"
   label_filter_add: "Voeg filter by"
+  label_filter: "Filters"
   label_filter_plural: "Filtreerders"
   label_filters_toggle: "Show/hide filters"
   label_float: "Dryf"
@@ -1797,8 +1820,8 @@ af:
   label_follows: "volg"
   label_force_user_language_to_default: "Stel taal van gebruikers wat 'n nie-toegelate taal gebruik na verstektaal"
   label_form_configuration: "Vorm konfigurasie"
-  label_gantt: "Gantt"
   label_gantt_chart: "Gantt chart"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Algemeen"
   label_generate_key: "Genereer 'n sleutel"
   label_git_path: "Pad na .git gids"
@@ -1816,6 +1839,7 @@ af:
   label_home: "Tuis"
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Legal notice"
   label_in: "in"
   label_in_less_than: "in minder as"
@@ -1832,6 +1856,7 @@ af:
   label_internal: "Interne"
   label_introduction_video: "Introduction video"
   label_invite_user: "Invite user"
+  label_share: "Share"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Show all registered users"
   label_journal: "Journal"
@@ -1902,7 +1927,7 @@ af:
   label_my_account: "My rekening"
   label_my_activity: "My activity"
   label_my_account_data: "My rekeningdata"
-  label_my_projects: "My projekte"
+  label_my_avatar: "My avatar"
   label_my_queries: "My pasgemaakte navrae"
   label_name: "Naam"
   label_never: "Never"
@@ -2038,6 +2063,7 @@ af:
   label_search: "Search"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Send a test email"
+  label_session: "Session"
   label_setting_plural: "Instellings"
   label_system_settings: "System settings"
   label_show_completed_versions: "Show completed versions"
@@ -2067,11 +2093,13 @@ af:
   label_system_storage: "Storage information"
   label_table_of_contents: "Table of contents"
   label_tag: "Tag"
+  label_team_planner: "Team Planner"
   label_text: "Long text"
   label_this_month: "vandeesmaand"
   label_this_week: "vandeesweek"
   label_this_year: "vandeesjaar"
   label_time_entry_plural: "Tyd gespandeer"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Titel"
   label_projects_menu: "Projekte"
   label_today: "vandag"
@@ -2212,11 +2240,11 @@ af:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -2533,7 +2561,7 @@ af:
   project_module_news: "Nuus"
   project_module_repository: "Repository"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2812,6 +2840,7 @@ af:
     other: "Ander"
     passwords: "Passwords"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "Session"
@@ -2827,6 +2856,7 @@ af:
     plain: "Plain text"
   status_active: "active"
   status_archived: "geargiveer"
+  status_blocked: "blocked"
   status_invited: invited
   status_locked: locked
   status_registered: registered
@@ -3062,12 +3092,12 @@ af:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Rol'
-        type: 'Soort'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Rol"
+        type: "Soort"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3084,7 +3114,7 @@ af:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3285,7 +3315,6 @@ af:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

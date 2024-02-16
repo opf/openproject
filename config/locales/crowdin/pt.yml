@@ -104,6 +104,7 @@ pt:
   ldap_auth_sources:
     ldap_error: "Erro LDAP: %{error_message}"
     ldap_auth_failed: "Não foi possível autenticar com o servidor LDAP."
+    sync_failed: "Não foi possível sincronizar do LDAP: %{message}."
     back_to_index: "Clique aqui para voltar para a lista de conexão."
     technical_warning_html: |
       Este formulário LDAP requer conhecimento técnico da sua configuração LDAP / Active Directory.
@@ -249,10 +250,15 @@ pt:
       completed_text_children: "Além disso, os seguintes subprojetos foram excluídos:"
     index:
       open_as_gantt: "Abrir como visualização Gantt"
-      open_as_gantt_title: "Use este botão para gerar uma exibição Gantt que filtra pacotes de trabalho para projetos visíveis nesta página."
-      open_as_gantt_title_admin: "Você pode modificar as configurações de exibição (tais como tipos de pacotes de trabalho selecionados) em administração, nas configurações de projeto."
       no_results_title_text: Atualmente, não existem projetos
       no_results_content_text: Criar um novo projeto
+    lists:
+      active: 'Projetos ativos'
+      my: 'Meus projetos'
+      archived: 'Projetos arquivados'
+      my_private: 'Minhas listas de projetos privados'
+      new:
+        placeholder: 'Nova lista de projetos'
     settings:
       change_identifier: Mudar identificador
       activities:
@@ -284,14 +290,14 @@ pt:
     columns:
       shared: "Compartilhado"
     filters:
-      all_shares: 'Todos os compartilhamentos'
+      all_shares: "Todos os compartilhamentos"
     menu:
-      all: 'Todos'
-      invited: 'Convites'
-      locked: 'Trancado'
-      project_roles: 'Papel no projeto'
-      wp_shares: 'Compartilhamento de pacote de trabalho'
-      groups: 'Grupos'
+      all: "Todos"
+      invited: "Convites"
+      locked: "Trancado"
+      project_roles: "Papel no projeto"
+      wp_shares: "Compartilhamento de pacote de trabalho"
+      groups: "Grupos"
   my:
     access_token:
       failed_to_reset_token: "Falha ao redefinir o token de acesso: %{error}"
@@ -325,6 +331,8 @@ pt:
       no_results_title_text: No momento, este usuário não é membro de nenhum grupo.
     memberships:
       no_results_title_text: Atualmente, este usuário não é um membro de um projeto.
+  page:
+    text: 'Texto'
   placeholder_users:
     right_to_manage_members_missing: >
       Você não pode excluir o usuário do espaço reservado. Você não possui direito de gerenciar membros para todos os projetos que o usuário do espaço reserva é membro.
@@ -521,6 +529,8 @@ pt:
         row_count: "Número de linhas"
         column_count: "Número de colunas"
         widgets: "Widgets"
+      oauth_client:
+        client: "ID do cliente"
       relation:
         delay: "Atraso"
         from: "Pacote de trabalho"
@@ -586,6 +596,7 @@ pt:
         color: "Cor"
       user:
         admin: "Administrador"
+        auth_source: "Fonte de autenticação"
         ldap_auth_source: "Conexão LDAP"
         identity_url: "URL de identidade"
         current_password: "Senha Atual"
@@ -617,6 +628,7 @@ pt:
         begin_insertion: "Início da inserção"
         begin_deletion: "Início da exclusão"
         children: "Subelementos"
+        derived_done_ratio: "% derivado concluído"
         derived_remaining_hours: "Trabalho restante derivado"
         derived_remaining_time: "Trabalho restante derivado"
         done_ratio: "% de conclusão"
@@ -637,6 +649,7 @@ pt:
         readonly: "Somente leitura"
         remaining_hours: "Trabalho restante"
         remaining_time: "Trabalho restante"
+        shared_with_users: "Compartilhado com"
         schedule_manually: "Planjamento manual"
         spent_hours: "Tempo gasto"
         spent_time: "Tempo gasto"
@@ -940,6 +953,8 @@ pt:
             status:
               invalid_on_create: "não é um estado válido para novos usuários."
             ldap_auth_source:
+              error_not_found: "não encontrado"
+            auth_source:
               error_not_found: "não encontrado"
         member:
           principal_blank: "Por favor, escolha ao menos um usuário ou grupo."
@@ -1431,6 +1446,7 @@ pt:
     message: Mensagem editada
     news: Notícias
     project_attributes: "Atributos do projeto editado"
+    project: "Projeto editado"
     projects: "Projeto editado"
     reply: Respondida
     time_entry: "Registro de tempo editado"
@@ -1573,6 +1589,7 @@ pt:
         revoke_token: "Você realmente deseja remover este token? Você precisará fazer login novamente no %{storage}"
         removed: "Token de armazenamento de arquivo removido com sucesso"
         failed: "Ocorreu um erro e o token não pôde ser removido. Tente novamente mais tarde."
+        unknown_storage: "Armazenamento desconhecido"
   notifications:
     send_notifications: "Enviar notificações para está ação "
     work_packages:
@@ -1616,12 +1633,12 @@ pt:
   label_age: "Idade"
   label_ago: "dias atrás"
   label_all: "todos"
-  label_all_projects: "Todos os projetos"
   label_all_time: "todos os tempos"
   label_all_words: "Todas as palavras"
   label_all_open_wps: "Tudo aberto"
   label_always_visible: "Sempre exibido"
   label_announcement: "Anúncio"
+  label_angular: "AngularJS"
   label_api_access_key: "Chave de acesso a API"
   label_api_access_key_created_on: "Chave de acesso a API criada %{value} atrás"
   label_api_access_key_type: "API"
@@ -1633,7 +1650,6 @@ pt:
   label_ical_access_key_revoke: "Revogar"
   label_applied_status: "Situação aplicada"
   label_archive_project: "Arquivar projeto"
-  label_archived_projects: "Projetos arquivados"
   label_ascending: "Ascendente"
   label_assigned_to_me_work_packages: "Pacotes de trabalho atribuídos a mim"
   label_associated_revisions: "Revisões associadas"
@@ -1653,8 +1669,9 @@ pt:
   label_available_project_work_package_categories: "Categorias de pacote de trabalho disponíveis"
   label_available_project_work_package_types: "Tipos de pacote de trabalho disponíveis"
   label_available_projects: "Projetos disponíveis"
-  label_api_documentation: "Documentação da API"
+  label_api_doc: "Documentação da API"
   label_backup: "Backup"
+  label_backup_code: "Código de backup"
   label_between: "entre"
   label_blocked_by: "Bloqueado por"
   label_blocks: "bloqueios"
@@ -1664,6 +1681,7 @@ pt:
   label_forum_plural: "Fóruns"
   label_forum_sticky: "Afixado"
   label_boolean: "Boleano"
+  label_board_plural: "Quadros"
   label_branch: "Ramo"
   label_browse: "Explorar"
   label_bulk_edit_selected_work_packages: "Editar em lote os pacotes de trabalho selecionados"
@@ -1690,6 +1708,7 @@ pt:
   label_check_uncheck_all_in_column: "Marcar/Desmarcar todos na coluna"
   label_check_uncheck_all_in_row: "Marcar/Desmarcar todos na linha"
   label_child_element: "Elemento filho"
+  label_choices: "Escolhas"
   label_chronological_order: "Mais antigo primeiro"
   label_close_versions: "Fechar versões concluídas"
   label_closed_work_packages: "fechado"
@@ -1721,6 +1740,7 @@ pt:
   label_custom_field_plural: "Campos personalizados"
   label_custom_field_default_type: "Tipo vazio"
   label_custom_style: "Design"
+  label_dashboard: "Painel"
   label_database_version: "Versão do PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data e hora"
@@ -1777,6 +1797,8 @@ pt:
   label_example: "Exemplo"
   label_experimental: "Experimental"
   label_i_am_member: "Sou membro"
+  label_ifc_viewer: "Visualizador de IFC"
+  label_ifc_model_plural: "Modelos de IFC"
   label_import: "Importar"
   label_export_to: "Também disponível em:"
   label_expanded_click_to_collapse: "Expandido. Clique para recolher"
@@ -1789,6 +1811,7 @@ pt:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Arquivos"
   label_filter_add: "Adicionar filtro"
+  label_filter: "Filtros"
   label_filter_plural: "Filtros"
   label_filters_toggle: "Mostrar/ocultar filtros"
   label_float: "Ponto flutuante"
@@ -1796,8 +1819,8 @@ pt:
   label_follows: "Segue"
   label_force_user_language_to_default: "Configurar o idioma de usuário que tem uma linguagem não permitida como padrão"
   label_form_configuration: "Configuração do formulário"
-  label_gantt: "Gantt"
   label_gantt_chart: "Gráfico de Gantt"
+  label_gantt_chart_plural: "Gráficos de Gantt"
   label_general: "Geral"
   label_generate_key: "Gerar uma chave"
   label_git_path: "Caminho para o diretório .git"
@@ -1815,6 +1838,7 @@ pt:
   label_home: "Início"
   label_subject_or_id: "Assunto ou ID"
   label_calendar_subscriptions: "Assinaturas do calendários"
+  label_identifier: "Identificador"
   label_impressum: "Aviso legal"
   label_in: "em"
   label_in_less_than: "em menos de"
@@ -1831,6 +1855,7 @@ pt:
   label_internal: "Interno"
   label_introduction_video: "Vídeo de introdução"
   label_invite_user: "Convidar usuário"
+  label_share: "Compartilhar"
   label_show_hide: "Mostrar/ocultar"
   label_show_all_registered_users: "Mostrar todos usuários registrados"
   label_journal: "Diário"
@@ -1901,7 +1926,7 @@ pt:
   label_my_account: "Minha conta"
   label_my_activity: "Minha atividade"
   label_my_account_data: "Dados da minha conta"
-  label_my_projects: "Meus projetos"
+  label_my_avatar: "Meu avatar"
   label_my_queries: "Minhas consultas personalizadas"
   label_name: "Nome"
   label_never: "Nunca"
@@ -2037,6 +2062,7 @@ pt:
   label_search: "Pesquisar"
   label_send_information: "Enviar novas credenciais ao usuário"
   label_send_test_email: "Enviar um e-mail de teste"
+  label_session: "Sessão"
   label_setting_plural: "Configurações"
   label_system_settings: "Configurações do sistema"
   label_show_completed_versions: "Mostrar versões concluídas"
@@ -2066,11 +2092,13 @@ pt:
   label_system_storage: "Informações de armazenamento"
   label_table_of_contents: "Tabela de conteúdos"
   label_tag: "Marcação"
+  label_team_planner: "Planejador de equipe"
   label_text: "Texto longo"
   label_this_month: "este mês"
   label_this_week: "esta semana"
   label_this_year: "este ano"
   label_time_entry_plural: "Tempo gasto"
+  label_time_entry_activity_plural: "Tempo investido em atividades"
   label_title: "Título"
   label_projects_menu: "Projetos"
   label_today: "hoje"
@@ -2211,11 +2239,11 @@ pt:
     mention:
       subject: "%{user_name} mencionou você em #%{id} - %{subject}"
     notification:
-      center: 'Para o centro de notificação'
-      see_in_center: 'Ver comentário no centro de notificações'
-      settings: 'Alterar configurações de e-mail'
-    salutation: 'Olá, %{user}!'
-    salutation_full_name: 'Nome completo'
+      center: "Para o centro de notificação"
+      see_in_center: "Ver comentário no centro de notificações"
+      settings: "Alterar configurações de e-mail"
+    salutation: "Olá, %{user}!"
+    salutation_full_name: "Nome completo"
     work_packages:
       created_at: "Criado em %{timestamp} por %{user}"
       login_to_see_all: "Faça o login para ver todas as notificações."
@@ -2530,7 +2558,7 @@ pt:
   project_module_news: "Notícias"
   project_module_repository: "Repositório"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Pacotes de trabalho e Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2809,6 +2837,7 @@ pt:
     other: "Outro"
     passwords: "Senhas"
     projects:
+      missing_dependencies: "Módulo de projeto %{module} foi verificado e depende de %{dependencies}. Você também precisa verificar estas dependências."
       section_new_projects: "Configurações para novos projetos"
       section_project_overview: "Configurações para a lista de visão geral do projeto"
     session: "Sessão"
@@ -2824,6 +2853,7 @@ pt:
     plain: "Texto simples"
   status_active: "ativo"
   status_archived: "arquivado"
+  status_blocked: "bloqueado"
   status_invited: convidado
   status_locked: bloqueado
   status_registered: registrado
@@ -3058,12 +3088,12 @@ pt:
         one: "1 usuário"
         other: "%{count} usuários"
       filter:
-        project_member: 'Membro do projeto'
-        not_project_member: 'Nenhum membro do projeto'
-        project_group: 'Grupo do projeto'
-        not_project_group: 'Não é um grupo do projeto'
-        role: 'Papel'
-        type: 'Tipo'
+        project_member: "Membro do projeto"
+        not_project_member: "Nenhum membro do projeto"
+        project_group: "Grupo do projeto"
+        not_project_group: "Não é um grupo do projeto"
+        role: "Papel"
+        type: "Tipo"
       label_search: "Buscar usuários para convidar"
       label_search_placeholder: "Buscar por usuário ou endereço de e-mail"
       label_toggle_all: "Alternar todos os compartilhamentos"
@@ -3080,7 +3110,7 @@ pt:
       text_empty_search_description: "Não há usuários com o critério de filtro atual."
       text_empty_search_header: "Não encontramos nenhum resultado correspondente."
       text_empty_state_description: "O pacote de trabalho ainda não foi compartilhado com ninguém."
-      text_empty_state_header: "Não há membros compartilhados."
+      text_empty_state_header: "Não compartilhado"
       text_user_limit_reached: "A adição de usuários adicionais fará com que o limite atual seja excedido. Entre em contato com um administrador para aumentar o limite de usuários e garantir que usuários externos possam acessar este pacote de trabalho."
       text_user_limit_reached_admins: 'A adição de usuários adicionais excederá o limite atual. <a href="%{upgrade_url}">Atualize o seu plano</a> para poder adicionar mais usuários.'
       warning_user_limit_reached: >
@@ -3281,7 +3311,6 @@ pt:
       oauth_returned_json_error: "OAuth2 retornou um erro JSON"
       oauth_returned_http_error: "OAuth2 retornou um erro de rede"
       oauth_returned_standard_error: "OAuth2 retornou um erro interno"
-      client_id_blank: "O ID não pode estar em branco."
       wrong_token_type_returned: "OAuth2 retornou um tipo errado de token, aguardando AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 comunicou um erro. Entre em contato com o administrador do sistema."
       oauth_client_not_found: "Cliente OAuth2 não encontrado no ponto de extremidade 'callback' (redirect_uri)."

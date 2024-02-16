@@ -1,7 +1,7 @@
 "no":
   plugin_openproject_openid_connect:
-    name: "OpenProject OpenID Connect"
-    description: "Adds OmniAuth OpenID Connect strategy providers to Openproject."
+    name: "OpenProject OpenID tilkobling"
+    description: "Legger til OmniAuth OpenID Koble strategileverandører til Openproject."
   logout_warning: >
     Du har blitt logget ut. Innholdet kan gå tapt. Vennligst [logg in].
   activemodel:
@@ -23,10 +23,10 @@
       singular: OpenID-leverandør
     setting_instructions:
       azure_deprecation_warning: >
-        The configured Azure app points to a deprecated API from Azure. Please create a new Azure app to ensure the functionality in future.
+        Den konfigurerte Asur-appen peker på et utdatert API fra Azure. Vennligst lag en ny Azure app for å sikre funksjonaliteten i fremtiden.
       azure_graph_api: >
-        Use the graph.microsoft.com userinfo endpoint to request userdata. This should be the default unless you have an older azure application.
+        Bruk «graph.microsoft.com»-brukerinfo til å be om brukerdata. Dette skal være standard med mindre du har en eldre azure applikasjon.
       azure_tenant_html: >
-        Set the tenant of your Azure endpoint. This will control who gets access to the OpenProject instance. For more information, please see <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">our user guide on Azure OpenID connect</a>.
+        Sett leverandøren av ditt azure endepunkt. Dette vil kontrollere hvem som får tilgang til OpenProject instansen. For mer informasjon, se <a href="https://www.openproject.org/docs/system-admin-guide/authentication/openid-providers/#azure-active-directory">vår brukerveiledning på Azure OpenID tilkobling</a>.
       limit_self_registration: >
         Hvis aktivert kan brukere bare registrere seg ved hjelp av denne leverandøren hvis selvregistreringsinnstillingen tillater det.

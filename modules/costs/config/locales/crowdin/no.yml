@@ -22,7 +22,7 @@
 "no":
   plugin_costs:
     name: "Tid og kostnader"
-    description: "This module adds features for planning and tracking costs of projects."
+    description: "Denne modulen legger til funksjoner for planlegging og sporing av prosjekter."
   activerecord:
     attributes:
       cost_entry:

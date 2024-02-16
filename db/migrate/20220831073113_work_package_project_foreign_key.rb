@@ -27,6 +27,11 @@
 #++
 
 class WorkPackageProjectForeignKey < ActiveRecord::Migration[7.0]
+  # Note: rails 7.1 breaks the class' ancestor chain, and raises an error, when a class
+  # with an enum definition without a database field is being referenced.
+  # Re-defining the Project class without the enum to avoid the issue.
+  class Project < ApplicationRecord; end
+
   def change
     reversible do |dir|
       dir.up do

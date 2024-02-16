@@ -40,7 +40,7 @@ This integration can be added for Google Chrome as [TimeCamp extension](https://
 
    ![TimeCamp account with a new project which shows 2 tasks](project-with-2-tasks.png)
 
-   The time tracked in Openproject will later on appear in TimeCamp on the task that you select.
+   The time tracked in OpenProject will later on appear in TimeCamp on the task that you select.
 
 3. [Log in to OpenProject](https://www.openproject.org/signin/), open a project and go to a work package. 
 

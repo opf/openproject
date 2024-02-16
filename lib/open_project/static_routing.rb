@@ -37,9 +37,11 @@ module OpenProject
     # Most importantly it does work for the '#{model}_path|url' helpers, though.
     module UrlHelpers
       extend ActiveSupport::Concern
-      include Rails.application.routes.url_helpers
 
       included do
+        # See https://github.com/rails/rails/pull/50403
+        include Rails.application.routes.url_helpers
+
         def default_url_options
           options = ActionMailer::Base.default_url_options.clone
 

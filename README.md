@@ -25,7 +25,7 @@ in-depth [installation guides](https://www.openproject.org/download-and-installa
 
 ## Reporting bugs
 
-You found a bug? Please [report it](https://www.openproject.org/docs/development/report-a-bug/) to our [OpenProject community](https://community.openproject.com/projects/openproject). Thank you!
+You found a bug? Please [report it](https://www.openproject.org/docs/development/report-a-bug/) to our [OpenProject community](https://community.openproject.org/projects/openproject). Thank you!
 
 ## Contribute
 
@@ -62,11 +62,8 @@ See [COPYRIGHT](COPYRIGHT) and [LICENSE](LICENSE) files for details.
 
 Thanks to Vincent Le Moign and his fabulous Minicons icons on [webalys.com](http://www.webalys.com/minicons/icons-free-pack.php).
 
-### Lato Font
-
-Thanks to Łukasz Dziedzic (aka "tyPoland") for his 'Lato' font.
-
 ### OpenProject icon font
+
 Published and created by the OpenProject Foundation (OPF) under [Creative Commons Attribution 3.0 Unported License](http://creativecommons.org/licenses/by/3.0/)
 with icons from the following sources
 [Minicons Free Vector Icons Pack](http://www.webalys.com/minicons) and

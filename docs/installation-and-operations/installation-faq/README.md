@@ -100,7 +100,7 @@ You can either order the SSL certificates from your ISP or we can create them du
 
 ### How do you implement the routing so that the page requests intended for this project domain of ours land on the Apache server that is part of the OpenProject installation? What agreements or requirements do we have to discuss with our domain/webspace provider?
 
-A DNS record needs to be placed at the ISP that connects the domain name you would like your OpenProject installation to be reachable at (e.g. [community.openproject.org](https://community.openproject.com/)) to the IP Address of your designated server (e.g. 13.226.159.10). The ports do not matter here as they can simply all be routed to the server. The server will then only listen on 80 and 443 and redirect 80 to 443. Depending on your network configuration, additional configurations need to be carried out e.g. on intermediary load balancers or switches.
+A DNS record needs to be placed at the ISP that connects the domain name you would like your OpenProject installation to be reachable at (e.g. [community.openproject.org](https://community.openproject.org/)) to the IP Address of your designated server (e.g. 13.226.159.10). The ports do not matter here as they can simply all be routed to the server. The server will then only listen on 80 and 443 and redirect 80 to 443. Depending on your network configuration, additional configurations need to be carried out e.g. on intermediary load balancers or switches.
 
 ### Does the email address used by OpenProject have to be within the our domain for OpenProject or can this also be another address?
 

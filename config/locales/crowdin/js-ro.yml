@@ -347,11 +347,11 @@ ro:
           learn_about: "Aflați mai multe despre noile caracteristici"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>OneDrive/SharePoint integration with manual project folders.</li> <li>Filter for roles, groups, and shares in the project members list.</li> <li>Allow assignee and accountable for shared work packages.</li> <li>Introduce new field names Work, Remaining Work, and % Complete to prepare progress reporting for work package hierarchies.</li> <li>Allow status change without work package edit rights.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter and save custom project lists.</li> <li>Separate Gantt charts module with new default views.</li> <li>Automatically managed project folders for OneDrive/SharePoint integration.</li> <li>Show number of "Shared users" in the share button and display them in the work packages list.</li> <li>Improved calculations and updates for progress reporting for work package hierarchies.</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -468,7 +468,7 @@ ro:
     label_per_page: "Pe pagină:"
     label_please_wait: "Așteptați"
     label_project: "Proiect"
-    label_project_list: "Lista proiecte"
+    label_project_list: "Project lists"
     label_project_plural: "Proiecte"
     label_visibility_settings: "Setări de vizibilitate"
     label_quote_comment: "Citare comentariu"
@@ -582,7 +582,7 @@ ro:
           full_view: 'Vizualizarea <b>pentru detaliile pachetului de lucru</b> furnizează toate informațiile relevante referitoare la un anumit pachet de lucru, cum ar fi descrierea, statutul, prioritatea, activităţile, dependenţele şi comentariile.'
           back_button: 'Utilizați săgeata de întoarcere din colțul din stânga sus pentru a ieși și pentru a reveni la lista pachetelor de lucru.'
           create_button: 'Butonul <b>Create (Creare</b> ) va adăuga un nou pachet de lucru la proiectul dumneavoastră.'
-          timeline_button: 'Puteți activa <b>diagrama Gantt</b> pentru a crea o cronologie pentru proiectul dvs.'
+          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
           timeline: 'Aici puteţi <b>edita planul de proiect</b>, crea noi pachete de lucru, cum ar fi sarcini, repere de etapă, faze și multe altele, precum și <b>adaugă dependențe</b>. Toți membrii echipei pot vedea și actualiza cel mai recent plan în orice moment.'
         team_planner:
           overview: 'Planificatorul de echipă vă permite să atribuiți vizual sarcini membrilor echipei și să obțineți o imagine de ansamblu a persoanelor care lucrează la ce.'
@@ -967,6 +967,8 @@ ro:
         createdAt: "Creat pe"
         description: "Descriere"
         date: "Dată"
+        percentComplete: "% Complete"
+        percentCompleteAlternative: "Progress"
         dueDate: "Data de finalizare"
         duration: "Durată"
         spentTime: "Timp consumat"
@@ -974,6 +976,8 @@ ro:
         percentageDone: "Procent realizat"
         priority: "Prioritate"
         projectName: "Proiect"
+        remainingWork: "Remaining work"
+        remainingWorkAlternative: "Remaining hours"
         responsible: "Responsabil"
         startDate: "Data de început"
         status: "Stare"
@@ -984,6 +988,8 @@ ro:
         updatedAt: "Actualizat pe"
         versionName: "Versiune"
         version: "Versiune"
+        work: "Work"
+        workAlternative: "Estimated time"
         remainingTime: "Remaining work"
       default_queries:
         latest_activity: "Activitate recentă"
@@ -1032,6 +1038,7 @@ ro:
       sharing:
         share: 'Distribuiți'
         title: "Share work package"
+        show_all_users: "Show all shared users"
         selected_count: "%{count} selected"
         selection:
           mixed: "Mixed"

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-OpenProject::Application.routes.draw do
+Rails.application.routes.draw do
   scope '', as: 'backlogs' do
     scope 'projects/:project_id', as: 'project' do
       resources :backlogs,         controller: :rb_master_backlogs,  only: :index

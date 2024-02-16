@@ -68,7 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
 <div id="wrapper" style="<%= initial_menu_styles(side_displayed) %>" class="<%= initial_classes %>">
   <% if show_decoration %>
-    <header class="op-app-header">
+    <header class="op-app-header<%= ' op-app-header_development' if OpenProject::Configuration.development_highlight_enabled? %>">
       <div class="op-app-header--start">
         <h1 class="hidden-for-sighted">
           <%= t(:label_top_menu) %>

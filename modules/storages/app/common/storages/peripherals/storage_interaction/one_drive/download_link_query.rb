@@ -44,7 +44,7 @@ module Storages
 
           def call(user:, file_link:)
             Util.using_user_token(@storage, user) do |token|
-              response = HTTPX.get(
+              response = OpenProject.httpx.get(
                 Util.join_uri_path(
                   @uri,
                   uri_path_for(file_link.origin_id)
@@ -52,11 +52,7 @@ module Storages
                 headers: { 'Authorization' => "Bearer #{token.access_token}" }
               )
 
-              if (300..399).include?(response.status)
-                ServiceResult.success(result: response.headers['Location'])
-              else
-                handle_errors(response)
-              end
+              handle_errors(response)
             end
           end
 
@@ -64,18 +60,20 @@ module Storages
 
           def handle_errors(response)
             case response
-            when 404
+            in { status: 300..399 }
+              ServiceResult.success(result: response.headers['Location'])
+            in { status: 404 }
               ServiceResult.failure(result: :not_found,
-                                    errors: ::Storages::StorageError.new(code: :not_found, data: response.body))
-            when 403
+                                    errors: ::Storages::StorageError.new(code: :not_found, data: response))
+            in { status: 403 }
               ServiceResult.failure(result: :forbidden,
-                                    errors: ::Storages::StorageError.new(code: :forbidden, data: response.body))
-            when 401
+                                    errors: ::Storages::StorageError.new(code: :forbidden, data: response))
+            in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: ::Storages::StorageError.new(code: :unauthorized, data: response.body))
+                                    errors: ::Storages::StorageError.new(code: :unauthorized, data: response))
             else
               ServiceResult.failure(result: :error,
-                                    errors: ::Storages::StorageError.new(code: :error, data: response.body))
+                                    errors: ::Storages::StorageError.new(code: :error, data: response))
             end
           end
 

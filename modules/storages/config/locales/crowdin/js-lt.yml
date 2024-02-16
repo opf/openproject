@@ -82,7 +82,7 @@ lt:
         link_uploaded_file_error: >
           Susiejant neseniai įkeltą failą „%{fileName}“ su darbo paketu %{workPackageId} įvyko klaida.
         tooltip:
-          not_logged_in: "Please log in to the storage to access this file."
+          not_logged_in: "Prašome prisijungti prie saugyklos, kad pasiektumėte šį failą."
           view_not_allowed: "Jūs neturite teisių matyti šį failą."
           not_found: "Nepavyksta rasti šio failo."
         already_linked_file: "Šis failas jau susietas su šiuo darbo paketu."

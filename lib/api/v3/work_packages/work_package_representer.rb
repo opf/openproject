@@ -445,6 +445,11 @@ module API
                  render_nil: true,
                  if: ->(*) { Setting.work_package_done_ratio != 'disabled' }
 
+        property :derived_done_ratio,
+                 as: :derivedPercentageDone,
+                 render_nil: true,
+                 if: ->(*) { Setting.work_package_done_ratio != 'disabled' }
+
         date_time_property :created_at
 
         date_time_property :updated_at
@@ -458,6 +463,7 @@ module API
         property :readonly,
                  writable: false,
                  render_nil: false,
+                 if: ->(*) { ::Status.can_readonly? },
                  getter: ->(*) do
                    status_id && status.is_readonly?
                  end

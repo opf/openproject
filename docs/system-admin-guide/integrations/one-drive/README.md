@@ -58,7 +58,7 @@ A screen will open, in which you will need to add the following details for your
 consult your Azure administrator and the [Drive ID guide](./drive-id-guide) to obtain respective information. Be aware,
 that the last step includes copying generated information to the Azure portal.
 
-![Setting up a new OneDrive/SharePoint](openproject_system_guide_new_onedrive_storage_details.png)
+![Setting up a new OneDrive/SharePoint](openproject_system_guide_new_onedrive_storage_details_new.png)
 
 ## Using the integration
 

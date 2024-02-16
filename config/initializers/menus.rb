@@ -162,7 +162,7 @@ Redmine::MenuManager.map :global_menu do |menu|
   menu.push :work_packages,
             { controller: '/work_packages', action: 'index' },
             caption: :label_work_package_plural,
-            icon: Proc.new { OpenProject::FeatureDecisions.show_separate_gantt_module_active? ? 'view-list' : 'view-timeline' },
+            icon: 'view-list',
             after: :activity
 
   menu.push :work_packages_query_select,
@@ -303,7 +303,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/admin/settings/work_packages_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_work_package_plural,
-            icon: Proc.new { OpenProject::FeatureDecisions.show_separate_gantt_module_active? ? 'view-list' : 'view-timeline' }
+            icon: 'view-list'
 
   menu.push :work_packages_setting,
             { controller: '/admin/settings/work_packages_settings', action: :show },
@@ -540,7 +540,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :work_packages,
             { controller: '/work_packages', action: 'index' },
             caption: :label_work_package_plural,
-            icon: Proc.new { OpenProject::FeatureDecisions.show_separate_gantt_module_active? ? 'view-list' : 'view-timeline' },
+            icon: 'view-list',
             html: {
               id: 'main-menu-work-packages',
               'wp-query-menu': 'wp-query-menu'

@@ -79,17 +79,17 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def validate_destination
       ->(urls) do
-        response = Util
+        response = OpenProject
                      .httpx
                      .basic_auth(@username, @password)
                      .head(urls[:destination_url])
 
-        case response.status
-        when 200..299
+        case response
+        in { status: 200..299 }
           Util.error(:conflict, 'Destination folder already exists.')
-        when 401
+        in { status: 401 }
           Util.error(:unauthorized, "unauthorized (validate_destination)")
-        when 404
+        in { status: 404 }
           ServiceResult.success(result: urls)
         else
           Util.error(:unknown, "Unexpected response (validate_destination): #{response.code}", response)
@@ -99,7 +99,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def copy_folder
       ->(urls) do
-        response = Util
+        response = OpenProject
                      .httpx
                      .basic_auth(@username, @password)
                      .request("COPY",
@@ -109,14 +109,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                                 'Depth' => 'infinity'
                               })
 
-        case response.status
-        when 200..299
+        case response
+        in { status: 200..299 }
           ServiceResult.success(message: 'Folder was successfully copied')
-        when 401
+        in { status: 401 }
           Util.error(:unauthorized, "Unauthorized (copy_folder)")
-        when 404
+        in { status: 404 }
           Util.error(:not_found, "Project folder not found (copy_folder)")
-        when 409
+        in { status: 409 }
           Util.error(:conflict, Util.error_text_from_response(response))
         else
           Util.error(:unknown, "Unexpected response (copy_folder): #{response.status}", response)

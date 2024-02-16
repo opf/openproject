@@ -1,7 +1,4 @@
-import {
-  Injector,
-  NgModule,
-} from '@angular/core';
+import { Injector, NgModule } from '@angular/core';
 
 import { CurrentUserService } from './current-user.service';
 import { CurrentUserStore } from './current-user.store';
@@ -22,7 +19,7 @@ export function bootstrapModule(injector:Injector):void {
   currentUserService.setUser({
     id: userMeta?.dataset.id || null,
     name: userMeta?.dataset.name || null,
-    mail: userMeta?.dataset.mail || null,
+    loggedIn: userMeta?.dataset.loggedIn === 'true',
   });
 }
 

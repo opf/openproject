@@ -52,19 +52,19 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     private
 
     def file_info(file_id, token)
-      response = Util
+      response = OpenProject
                    .httpx
                    .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
                                     'Accept' => 'application/json',
                                     'OCS-APIRequest' => 'true' })
                    .get(Util.join_uri_path(@uri, FILE_INFO_PATH, file_id))
 
-      case response.status
-      when 200..299
+      case response
+      in { status: 200..299 }
         ServiceResult.success(result: response.body)
-      when 404
+      in { status: 404 }
         Util.error(:not_found, 'Outbound request destination not found!', response)
-      when 401
+      in { status: 401 }
         Util.error(:unauthorized, 'Outbound request not authorized!', response)
       else
         Util.error(:error, 'Outbound request failed!')

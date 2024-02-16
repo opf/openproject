@@ -27,16 +27,20 @@
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { WorkPackageShareModalComponent } from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
+import {
+  WorkPackageShareModalComponent,
+} from 'core-app/features/work-packages/components/wp-share-modal/wp-share.modal';
+import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { filter, map, startWith, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { ActionsService } from 'core-app/core/state/actions/actions.service';
+import { shareModalUpdated } from 'core-app/features/work-packages/components/wp-share-modal/sharing.actions';
+import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -44,8 +48,10 @@ import { WorkPackageShareModalComponent } from 'core-app/features/work-packages/
   templateUrl: './wp-share-button.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorkPackageShareButtonComponent extends UntilDestroyedMixin {
+export class WorkPackageShareButtonComponent extends UntilDestroyedMixin implements OnInit {
   @Input() public workPackage:WorkPackageResource;
+
+  shareCount$:Observable<number>;
 
   public text = {
     share: this.I18n.t('js.work_packages.sharing.share'),
@@ -55,11 +61,40 @@ export class WorkPackageShareButtonComponent extends UntilDestroyedMixin {
     readonly I18n:I18nService,
     readonly opModalService:OpModalService,
     readonly cdRef:ChangeDetectorRef,
+    readonly apiV3Service:ApiV3Service,
+    readonly actions$:ActionsService,
   ) {
     super();
   }
 
+  ngOnInit() {
+    this.shareCount$ = this
+      .actions$
+      .ofType(shareModalUpdated)
+      .pipe(
+        map((action) => action.workPackageId),
+        filter((id) => id === this.workPackage.id?.toString()),
+        startWith(null),
+        switchMap(() => this.countShares()),
+      );
+  }
+
   openModal():void {
     this.opModalService.show(WorkPackageShareModalComponent, 'global', { workPackage: this.workPackage });
+  }
+
+  private countShares():Observable<number> {
+    const filters = new ApiV3FilterBuilder()
+      .add('entityType', '=', ['WorkPackage'])
+      .add('entityId', '=', [this.workPackage.id as string]);
+
+    return this
+      .apiV3Service
+      .shares
+      .filtered(filters, { pageSize: '0 ' })
+      .get()
+      .pipe(
+        map((collection:CollectionResource) => collection.total),
+      );
   }
 }

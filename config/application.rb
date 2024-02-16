@@ -35,16 +35,9 @@ require 'core_extensions'
 require "view_component"
 require "primer/view_components/engine"
 
-# Silence deprecations early on for testing on CI and production
-ActiveSupport::Deprecation.silenced =
-  (Rails.env.production? && !ENV['OPENPROJECT_SHOW_DEPRECATIONS']) ||
-  (Rails.env.test? && ENV.fetch('CI', nil))
-
-if defined?(Bundler)
-  # Require the gems listed in Gemfile, including any gems
-  # you've limited to :test, :development, or :production.
-  Bundler.require(*Rails.groups(:opf_plugins))
-end
+# Require the gems listed in Gemfile, including any gems
+# you've limited to :test, :development, or :production.
+Bundler.require(*Rails.groups(:opf_plugins))
 
 require_relative '../lib_static/open_project/configuration'
 
@@ -54,7 +47,7 @@ module OpenProject
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    # Initialize configuration defaults for a Rails version.
+    # Initialize configuration defaults for originally generated Rails version.
     #
     # This includes defaults for versions prior to the target version. See the
     # configuration guide at
@@ -66,9 +59,16 @@ module OpenProject
     # https://community.openproject.org/wp/45463 for details.
     config.load_defaults 5.0
 
-    # Silence the "multiple database warning"
-    # Note that this warning can be removed in the 7.1 upgrade
-    ActiveRecord.suppress_multiple_database_warning = true
+    # Please, add to the `ignore` list any other `lib` subdirectories that do
+    # not contain `.rb` files, or that should not be reloaded or eager loaded.
+    # Common ones are `templates`, `generators`, or `middleware`, for example.
+    config.autoload_lib(ignore: %w(assets tasks))
+
+    # Configuration for the application, engines, and railties goes here.
+    # These settings can be overridden in specific environments using the files
+    # in config/environments, which are processed later.
+    # config.time_zone = "Central Time (US & Canada)"
+    # config.eager_load_paths << Rails.root.join("extras")
 
     # Do not require `belongs_to` associations to be present by default.
     # Rails 5.0+ default is true. Because of history, lots of tests fail when
@@ -112,11 +112,6 @@ module OpenProject
     # Ensure that tempfiles are cleared after request
     # http://stackoverflow.com/questions/4590229
     config.middleware.use Rack::TempfileReaper
-
-    # Custom directories with classes and modules you want to be autoloadable.
-    config.enable_dependency_loading = true
-    config.paths.add Rails.root.join('lib').to_s, eager_load: true
-    config.paths.add Rails.root.join('lib/constraints').to_s, eager_load: true
 
     # Add lookbook preview paths when enabled
     if OpenProject::Configuration.lookbook_enabled?
@@ -233,13 +228,13 @@ module OpenProject
       Settings::Definition.add_all
     end
 
-    def self.root_url
+    def root_url
       "#{Setting.protocol}://#{Setting.host_name}"
     end
 
     ##
     # Load core and engine tasks we're interested in
-    def self.load_rake_tasks
+    def load_rake_tasks
       load_tasks
       Doorkeeper::Rake.load_tasks
     end

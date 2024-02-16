@@ -27,15 +27,12 @@
 //++
 
 import { Injectable } from '@angular/core';
-import {
-  Store,
-  StoreConfig,
-} from '@datorama/akita';
+import { Store, StoreConfig } from '@datorama/akita';
 
 export interface CurrentUser {
   id:string|null;
   name:string|null;
-  mail:string|null;
+  loggedIn:boolean|null;
 }
 
 export interface CurrentUserState extends CurrentUser {
@@ -45,7 +42,7 @@ export function createInitialState():CurrentUserState {
   return {
     id: null,
     name: null,
-    mail: null,
+    loggedIn: null,
   };
 }
 

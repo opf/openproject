@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Query } from '@datorama/akita';
-import {
-  CurrentUserState,
-  CurrentUserStore,
-} from './current-user.store';
+import { CurrentUserState, CurrentUserStore } from './current-user.store';
 
 @Injectable()
 export class CurrentUserQuery extends Query<CurrentUserState> {
@@ -11,7 +8,7 @@ export class CurrentUserQuery extends Query<CurrentUserState> {
     super(store);
   }
 
-  isLoggedIn$ = this.select((state) => !!state.id);
+  isLoggedIn$ = this.select((state) => !!state.loggedIn);
 
-  user$ = this.select(({ id, name, mail }) => ({ id, name, mail }));
+  user$ = this.select((user) => user);
 }

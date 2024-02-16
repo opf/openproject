@@ -43,7 +43,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def call(user:, group: @group)
-      response = Util
+      response = OpenProject
                    .httpx
                    .basic_auth(@username, @password)
                    .with(headers: { 'OCS-APIRequest' => 'true' })
@@ -54,13 +54,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
                        CGI.escapeURIComponent(user),
                        'groups'
                      ),
-                     form: { "groupid" => CGI.escapeURIComponent(group) },
+                     form: { "groupid" => CGI.escapeURIComponent(group) }
                    )
 
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 
-      case response.status
-      when 200..299
+      case response
+      in { status: 200..299 }
         statuscode = Nokogiri::XML(response.body.to_s).xpath('/ocs/meta/statuscode').text
 
         case statuscode
@@ -77,18 +77,19 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         when "105"
           Util.error(:error, "Failed to add user to group", error_data)
         end
-      when 405
+      in { status: 405 }
         Util.error(:not_allowed, 'Outbound request method not allowed', error_data)
-      when 401
+      in { status: 401 }
         Util.error(:not_found, 'Outbound request destination not found', error_data)
-      when 404
+      in { status: 404 }
         Util.error(:unauthorized, 'Outbound request not authorized', error_data)
-      when 409
+      in { status: 409 }
         Util.error(:conflict, Util.error_text_from_response(response), error_data)
       else
         Util.error(:error, 'Outbound request failed', error_data)
       end
     end
+
     # rubocop:enable Metrics/AbcSize
   end
 end

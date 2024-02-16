@@ -200,19 +200,20 @@ module Redmine::MenuManager::MenuHelper
     caption, url, = extract_node_details(node, project)
 
     content_tag(:div, class: 'main-menu--children-menu-header') do
-      concat render_children_back_up_link
+      concat render_children_back_up_link(node)
       concat link_to(caption, url, class: 'main-menu--parent-node ellipsis')
     end
   end
 
-  def render_children_back_up_link
+  def render_children_back_up_link(node)
     content_tag(
       :a,
       render(Primer::Beta::Octicon.new("arrow-left", size: :small)),
       title: I18n.t('js.label_up'),
       class: 'main-menu--arrow-left-to-project',
       data: {
-        action: 'menus--main#ascend'
+        action: 'menus--main#ascend',
+        'tour-selector': "main-menu--arrow-left_#{node.name}"
       }
     )
   end

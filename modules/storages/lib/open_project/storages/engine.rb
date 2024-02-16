@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -33,7 +35,7 @@
 module OpenProject::Storages
   class Engine < ::Rails::Engine
     def self.permissions
-      @permissions ||= Storages::GroupFolderPropertiesSyncService::PERMISSIONS_KEYS
+      @permissions ||= Storages::NextcloudGroupFolderPropertiesSyncService::PERMISSIONS_KEYS
     end
 
     # engine name is used as a default prefix for module tables when generating
@@ -124,7 +126,7 @@ module OpenProject::Storages
                    contract_actions: { file_links: %i[manage] }
         permission :manage_storages_in_project,
                    { 'storages/admin/project_storages': %i[index members new
-                                                           edit update create
+                                                           edit update create oauth_access_grant
                                                            destroy destroy_info set_permissions],
                      'storages/project_settings/project_storage_members': %i[index] },
                    permissible_on: :project,

@@ -34,8 +34,8 @@ sv:
         notes: "Anteckningar"
         participants: "Deltagare"
         participant:
-          one: "1 Participant"
-          other: "%{count} Participants"
+          one: "1 deltagare"
+          other: "%{count} deltagare"
         participants_attended: "Deltagare"
         participants_invited: "Inbjudna"
         project: "Projekt"

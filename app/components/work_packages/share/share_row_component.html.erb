@@ -28,7 +28,7 @@
 
         user_row_grid.with_area(:remove, tag: :div) do
           form_with url: work_packages_share_path(share), method: :delete do
-            render(Primer::Beta::Button.new(type: :submit, scheme: :invisible)) { I18n.t('work_package.sharing.remove') }
+            render(Primer::Beta::Button.new(type: :submit, scheme: :link)) { I18n.t('work_package.sharing.remove') }
           end
         end
       end

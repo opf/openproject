@@ -8,10 +8,7 @@ import { WorkPackageTable } from '../wp-fast-table';
 export function onClickOrEnter(evt:JQuery.TriggeredEvent, callback:() => void) {
   if (evt.type === 'click' || (evt.type === 'keydown' && evt.which === KeyCodes.ENTER)) {
     callback();
-    return false;
   }
-
-  return true;
 }
 
 export abstract class ClickOrEnterHandler {
@@ -19,5 +16,5 @@ export abstract class ClickOrEnterHandler {
     onClickOrEnter(evt, () => this.processEvent(view.workPackageTable, evt));
   }
 
-  protected abstract processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):boolean;
+  protected abstract processEvent(table:WorkPackageTable, evt:JQuery.TriggeredEvent):void;
 }

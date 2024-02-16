@@ -5,6 +5,7 @@ pl:
         origin_id: Identyfikator pochodzenia
       storages/storage:
         creator: Twórca
+        drive: Identyfikator dysku
         host: Host
         name: Nazwa
         provider_type: Typ dostawcy
@@ -90,7 +91,8 @@ pl:
       label_healthy: Zdrowe
       label_pending: Oczekujący
       since: od %{datetime}
-      title: Status zarządzanych folderów
+      subtitle: Automatycznie zarządzane foldery projektu
+      title: Status kondycji
     help_texts:
       project_folder: Folder projektu jest domyślnym folderem do przesyłania plików tego projektu. Użytkownicy mogą jednak przesyłać pliki do innych lokalizacji.
     instructions:
@@ -172,20 +174,31 @@ pl:
       not_connected: Nie połączono. Użytkownik powinien zalogować się do magazynu za pomocą %{link}.
     members_no_results: Brak członków do wyświetlenia.
     no_results: Brak skonfigurowanych magazynów.
-    notice_successful_storage_connection: Magazyn został podłączony! Pamiętaj, aby aktywować moduł i konkretny magazyn w ustawieniach każdego żądanego projektu, aby móc z nich korzystać.
+    notice_successful_storage_connection: |-
+      Magazyn został podłączony! Pamiętaj, aby aktywować moduł i konkretny magazyn w ustawieniach każdego żądanego projektu, aby móc z nich korzystać.
+    oauth_grant_nudge_modal:
+      access_granted: Udzielono dostępu
+      body: Aby uzyskać dostęp do folderu projektu, musisz zalogować się do %{storage}.
+      cancel_button_label: Zrobię to później
+      confirm_button_label: Zaloguj się
+      storage_ready: Możesz już używać %{storage}
+      title: Jeszcze jeden krok...
     open_project_storage_modal:
       success:
-        a: Ukończono konfigurację integracji
-        b: Następuje przekierowanie
+        subtitle: Następuje przekierowanie
+        title: Ukończono konfigurację integracji
       waiting:
-        a: Konfigurujemy Twoje uprawnienia do folderu projektu.
-        b: Chwileczkę, to może zająć trochę czasu...
+        subtitle: Chwileczkę, to może zająć trochę czasu...
+        title: Konfigurujemy Twoje uprawnienia do folderu projektu.
     page_titles:
       file_storages:
         delete: Usuń magazyn plików
         subtitle: Dodaj zewnętrzny magazyn plików w celu przesyłania plików, ich powiązywania i zarządzania nimi w pakietach roboczych.
       managed_project_folders:
-        subtitle: Pozwól OpenProject automatycznie tworzyć foldery dla każdego projektu. Jest to zalecane, ponieważ zapewnia, że każdy członek zespołu zawsze ma prawidłowe uprawnienia dostępu.
+        one_drive_information: |-
+          Aby włączyć automatycznie zarządzane foldery projektów w usługdze OneDrive/SharePoint, potrzebna jest dodatkowa konfiguracja na dysku, który jest używany do przechowywania plików. Jeśli OpenProject zarządza uprawnieniami do tego dysku, najprawdopodobniej nie będzie dostępny dla innych przypadków użycia w usłudze SharePoint. Więcej informacji i wskazówek — patrz %{drive_id_link_text}.
+        subtitle: |-
+          Pozwól OpenProject automatycznie tworzyć foldery dla każdego projektu. Jest to zalecane, ponieważ zapewnia, że każdy członek zespołu zawsze ma prawidłowe uprawnienia dostępu.
         subtitle_short: Pozwól OpenProject automatycznie tworzyć foldery dla każdego projektu.
         title: Automatycznie zarządzane foldery projektu
       project_settings:
@@ -213,5 +226,6 @@ pl:
       description: Dodaj magazyn, aby zobaczyć go tutaj.
       heading: Nie masz jeszcze żadnych magazynów.
     upsale:
-      description: Zintegruj swoją usługę OneDrive/SharePoint z OpenProject jako magazyn plików. Prześlij pliki i powiąż je bezpośrednio z pakietami roboczymi w projekcie.
+      description: |-
+        Zintegruj swoją usługę OneDrive/SharePoint z OpenProject jako magazyn plików. Prześlij pliki i powiąż je bezpośrednio z pakietami roboczymi w projekcie.
       title: Integracja OneDrive/SharePoint

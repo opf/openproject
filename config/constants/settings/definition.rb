@@ -298,7 +298,7 @@ module Settings
         allowed: -> { Redmine::I18n.all_languages }
       },
       default_projects_modules: {
-        default: %w[calendar board_view work_package_tracking news costs wiki],
+        default: %w[calendar board_view work_package_tracking gantt news costs wiki],
         allowed: -> { OpenProject::AccessControl.available_project_modules.map(&:to_s) }
       },
       default_projects_public: {
@@ -312,6 +312,11 @@ module Settings
       },
       demo_view_of_type_team_planner_seeded: {
         default: false
+      },
+      development_highlight_enabled: {
+        description: 'Enable highlighting of development environment',
+        default: -> { Rails.env.development? },
+        format: :boolean
       },
       diff_max_lines_displayed: {
         default: 1500

@@ -5,6 +5,7 @@ eo:
         origin_id: Origin Id
       storages/storage:
         creator: Creator
+        drive: Drive ID
         host: Gastiganto
         name: Nomo
         provider_type: Provider type
@@ -90,7 +91,8 @@ eo:
       label_healthy: Healthy
       label_pending: Pending
       since: since %{datetime}
-      title: Managed folders status
+      subtitle: Automatic managed project folders
+      title: Health status
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     instructions:
@@ -172,20 +174,36 @@ eo:
       not_connected: Not connected. The user should login to the storage via the following %{link}.
     members_no_results: No members to display.
     no_results: No storages set up yet.
-    notice_successful_storage_connection: Storage connected successfully! Remember to activate the module and the specific storage in the project settings of each desired project to use it.
+    notice_successful_storage_connection: |-
+      Storage connected successfully! Remember to activate the module and the specific storage in the project settings
+      of each desired project to use it.
+    oauth_grant_nudge_modal:
+      access_granted: Access granted
+      body: To get access to the project folder you need to login to %{storage}.
+      cancel_button_label: I will do it later
+      confirm_button_label: Login
+      storage_ready: You are now ready to use %{storage}
+      title: One more step...
     open_project_storage_modal:
       success:
-        a: Integration setup completed
-        b: You are being redirected
+        subtitle: You are being redirected
+        title: Integration setup completed
       waiting:
-        a: We are setting up your permissions on the project folder.
-        b: One moment please, this might take some time...
+        subtitle: One moment please, this might take some time...
+        title: We are setting up your permissions on the project folder.
     page_titles:
       file_storages:
         delete: Delete file storage
         subtitle: Add an external file storage in order to upload, link and manage files in work packages.
       managed_project_folders:
-        subtitle: Let OpenProject create folders per project automatically. This is recommended as it ensures that every team member always has the correct access permissions.
+        one_drive_information: |-
+          To enable automatically managed project folders in OneDrive/SharePoint, additional configuration is needed on
+          the drive that is used for this file storage. If OpenProject manages the permissions of this drive, it will
+          most likely be unusable for other use cases in SharePoint. For more information and guidance please refer
+          to the %{drive_id_link_text}.
+        subtitle: |-
+          Let OpenProject create folders per project automatically. This is recommended as it ensures that every team
+          member always has the correct access permissions.
         subtitle_short: Let OpenProject create folders per project automatically.
         title: Automatically managed project folders
       project_settings:
@@ -213,5 +231,7 @@ eo:
       description: Add a storage to see them here.
       heading: You don't have any storages yet.
     upsale:
-      description: Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to work packages in a project.
+      description: |-
+        Integrate your OneDrive/SharePoint as a file storage with OpenProject. Upload files and link them directly to
+        work packages in a project.
       title: OneDrive/SharePoint integration

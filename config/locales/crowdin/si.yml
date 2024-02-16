@@ -104,6 +104,7 @@ si:
   ldap_auth_sources:
     ldap_error: "LDAP-දෝෂය: %{error_message}"
     ldap_auth_failed: "LDAP-සේවාදායකයේ සත්යාපනය කළ නොහැකි විය."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       මෙම LDAP ආකෘතියට ඔබගේ LDAP/Active Directory සැකසුම පිළිබඳ තාක්ෂණික දැනුම අවශ්ය වේ.
@@ -250,10 +251,15 @@ si:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Open as Gantt view"
-      open_as_gantt_title: "Use this button to generate a Gantt view that filters work packages for the projects visible on this page."
-      open_as_gantt_title_admin: "You can modify the view settings (such as selected work package types) in the administration under project settings."
       no_results_title_text: දැනට ව්යාපෘති නොමැත
       no_results_content_text: නව ව්‍යාපෘතියක් සාදන්න
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Change identifier
       activities:
@@ -285,14 +291,14 @@ si:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "ප්රවේශ ටෝකනය නැවත සකස් කිරීමට අපොහොසත් විය: %{error}"
@@ -326,6 +332,8 @@ si:
       no_results_title_text: This user is currently not a member in any group.
     memberships:
       no_results_title_text: මෙම පරිශීලකයා දැනට ව්යාපෘතියක සාමාජිකයෙකු නොවේ.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -522,6 +530,8 @@ si:
         row_count: "පේළි ගණන"
         column_count: "තීරු ගණන"
         widgets: "විජට්"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "ප්රමාදය"
         from: "වැඩ පැකේජය"
@@ -587,6 +597,7 @@ si:
         color: "වර්ණ"
       user:
         admin: "පරිපාලක"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP connection"
         identity_url: "Identity URL"
         current_password: "වත්මන් මුරපදය"
@@ -618,6 +629,7 @@ si:
         begin_insertion: "ඇතුළත් කිරීම ආරම්භ කරන්න"
         begin_deletion: "මකාදැමීම ආරම්භ කරන්න"
         children: "උප මූලිකාංග"
+        derived_done_ratio: "Derived % Complete"
         derived_remaining_hours: "Derived remaining work"
         derived_remaining_time: "Derived remaining work"
         done_ratio: "% Complete"
@@ -638,6 +650,7 @@ si:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Manual scheduling"
         spent_hours: "වැය කළ කාලය"
         spent_time: "වැය කළ කාලය"
@@ -942,6 +955,8 @@ si:
               invalid_on_create: "නව පරිශීලකයින් සඳහා වලංගු තත්වයක් නොවේ."
             ldap_auth_source:
               error_not_found: "සොයාගත නොහැකි විය"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "කරුණාකර අවම වශයෙන් එක් පරිශීලකයෙකු හෝ කණ්ඩායමක් තෝරන්න."
           role_blank: "පැවරිය යුතුය."
@@ -1432,6 +1447,7 @@ si:
     message: සංස්කරණය කරන ලද පණිවිඩය
     news: පුවත්
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "සංස්කරණය කරන ලද ව්යාපෘතිය"
     reply: පිළිතුරු
     time_entry: "සංස්කරණය ටයිමෙලෝග්"
@@ -1574,6 +1590,7 @@ si:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1617,12 +1634,12 @@ si:
   label_age: "වයස"
   label_ago: "දින කිහිපයකට පෙර"
   label_all: "සියලු"
-  label_all_projects: "All projects"
   label_all_time: "සියලු කාලය"
   label_all_words: "සියලු වචන"
   label_all_open_wps: "සියල්ල විවෘතයි"
   label_always_visible: "සෑම විටම ප්රදර්ශනය"
   label_announcement: "නිවේදනය"
+  label_angular: "AngularJS"
   label_api_access_key: "API ප්රවේශ යතුර"
   label_api_access_key_created_on: "%{value} පෙර නිර්මාණය කරන ලද API ප්රවේශ යතුර"
   label_api_access_key_type: "යෙ.ක්‍ර.මු."
@@ -1634,7 +1651,6 @@ si:
   label_ical_access_key_revoke: "අවලංගු"
   label_applied_status: "ව්යවහාරික තත්ත්වය"
   label_archive_project: "සංරක්ෂිත ව්යාපෘතිය"
-  label_archived_projects: "Archived projects"
   label_ascending: "නැගීම"
   label_assigned_to_me_work_packages: "මට පවරා ඇති වැඩ පැකේජ"
   label_associated_revisions: "ආශ්රිත සංශෝධන"
@@ -1654,8 +1670,9 @@ si:
   label_available_project_work_package_categories: "ලබාගත හැකි වැඩ පැකේජ කාණ්ඩ"
   label_available_project_work_package_types: "ලබා ගත හැකි වැඩ පැකේජය වර්ග"
   label_available_projects: "Available projects"
-  label_api_documentation: "API ප්රලේඛනය"
+  label_api_doc: "API documentation"
   label_backup: "Backup"
+  label_backup_code: "Backup code"
   label_between: "අතර"
   label_blocked_by: "විසින් අවහිර"
   label_blocks: "කුට්ටි"
@@ -1665,6 +1682,7 @@ si:
   label_forum_plural: "සංසද"
   label_forum_sticky: "ඇලවෙන"
   label_boolean: "බූලියන්"
+  label_board_plural: "Boards"
   label_branch: "ශාඛාව"
   label_browse: "පිරික්සන්න"
   label_bulk_edit_selected_work_packages: "තොග සංස්කරණය තෝරාගත් වැඩ පැකේජ"
@@ -1691,6 +1709,7 @@ si:
   label_check_uncheck_all_in_column: "තීරුවේ සියලු පරීක්ෂා කරන්න/ඉවත් කරන්න"
   label_check_uncheck_all_in_row: "පේළියේ සියලු පරීක්ෂා කරන්න/ඉවත් කරන්න"
   label_child_element: "ළමා අංගයක්"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "අවසන් කරන ලද අනුවාද"
   label_closed_work_packages: "වසා"
@@ -1722,6 +1741,7 @@ si:
   label_custom_field_plural: "අභිරුචි ක්ෂේත්ර"
   label_custom_field_default_type: "හිස් වර්ගය"
   label_custom_style: "නිර්මාණ"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL version"
   label_date: "දිනය"
   label_date_and_time: "දිනය සහ වේලාව"
@@ -1778,6 +1798,8 @@ si:
   label_example: "උදාහරණය"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "ආනයන"
   label_export_to: "ද ලබා ගත හැකි:"
   label_expanded_click_to_collapse: "පුළුල්. කඩා වැටීමට ක්ලික් කරන්න"
@@ -1790,6 +1812,7 @@ si:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "ගොනු"
   label_filter_add: "පෙරහන් එකතු කරන්න"
+  label_filter: "Filters"
   label_filter_plural: "පෙරහන්"
   label_filters_toggle: "පෙරහන් පෙන්වන්න/සඟවන්න"
   label_float: "පාවෙන"
@@ -1797,8 +1820,8 @@ si:
   label_follows: "පහත සඳහන්"
   label_force_user_language_to_default: "පෙරනිමියට අවසර නොලත් භාෂාවක් ඇති පරිශීලකයින්ගේ භාෂාව සකසන්න"
   label_form_configuration: "ආකෘති වින්යාසය"
-  label_gantt: "ගැන්ට්"
   label_gantt_chart: "ගැන්ට් සටහන"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "පොදු"
   label_generate_key: "යතුරක් ජනනය කරන්න"
   label_git_path: ".git බහලුම වෙත මාර්ගය"
@@ -1816,6 +1839,7 @@ si:
   label_home: "නිවස"
   label_subject_or_id: "විෂය හෝ හැඳුනුම්පත"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "නීතිමය දැනුම්දීම"
   label_in: "තුළ"
   label_in_less_than: "වඩා අඩු"
@@ -1832,6 +1856,7 @@ si:
   label_internal: "අභ්යන්තර"
   label_introduction_video: "හැඳින්වීම වීඩියෝ"
   label_invite_user: "පරිශීලකයාට ආරාධනා කරන්න"
+  label_share: "Share"
   label_show_hide: "පෙන්වන්න/සඟවන්න"
   label_show_all_registered_users: "සියලුම ලියාපදිංචි පරිශීලකයන් පෙන්වන්න"
   label_journal: "ජර්නල්"
@@ -1902,7 +1927,7 @@ si:
   label_my_account: "මගේ ගිණුම"
   label_my_activity: "My activity"
   label_my_account_data: "මගේ ගිණුම් දත්ත"
-  label_my_projects: "මගේ ව්යාපෘති"
+  label_my_avatar: "My avatar"
   label_my_queries: "මගේ අභිරුචි විමසුම්"
   label_name: "නම"
   label_never: "කිසි විටෙකත්"
@@ -2038,6 +2063,7 @@ si:
   label_search: "සොයන්න"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "පරීක්ෂණ ඊ-තැපෑලක් යවන්න"
+  label_session: "Session"
   label_setting_plural: "සැකසුම්"
   label_system_settings: "පද්ධති සැකසුම්"
   label_show_completed_versions: "සම්පූර්ණ කළ අනුවාද පෙන්වන්න"
@@ -2067,11 +2093,13 @@ si:
   label_system_storage: "ගබඩා තොරතුරු"
   label_table_of_contents: "අන්තර්ගත වගුව"
   label_tag: "ටැග"
+  label_team_planner: "Team Planner"
   label_text: "දිගු පෙළ"
   label_this_month: "මෙම මාසය"
   label_this_week: "මේ සතියේ"
   label_this_year: "මේ වසරේ"
   label_time_entry_plural: "වැය කළ කාලය"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "මාතෘකාව"
   label_projects_menu: "ව්‍යාපෘති"
   label_today: "අද"
@@ -2212,11 +2240,11 @@ si:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -2533,7 +2561,7 @@ si:
   project_module_news: "පුවත්"
   project_module_repository: "ගබඩාව"
   project_module_wiki: "විකි"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2812,6 +2840,7 @@ si:
     other: "වෙනත්"
     passwords: "මුරපද"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "සැසිය"
@@ -2827,6 +2856,7 @@ si:
     plain: "සරල පෙළ"
   status_active: "ක්රියාකාරී"
   status_archived: "සංරක්ෂිත"
+  status_blocked: "blocked"
   status_invited: ආරාධනා
   status_locked: අගුළු දමා ඇත
   status_registered: ලියාපදිංචි
@@ -3062,12 +3092,12 @@ si:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'කාර්යභාරය'
-        type: 'වර්ගය'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "කාර්යභාරය"
+        type: "වර්ගය"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3084,7 +3114,7 @@ si:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3285,7 +3315,6 @@ si:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

@@ -43,6 +43,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     # rubocop:disable Metrics/AbcSize
+    # rubocop:disable Metrics/PerceivedComplexity
     def call(path:, permissions:)
       raise ArgumentError if path.blank?
 
@@ -79,7 +80,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         end
       end.to_xml
 
-      response = Util
+      response = OpenProject
                    .httpx
                    .basic_auth(@username, @password)
                    .request(
@@ -93,22 +94,24 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 
-      case response.status
-      when 200..299
+      case response
+      in { status: 200..299 }
         doc = Nokogiri::XML(response.body.to_s)
         if doc.xpath("/d:multistatus/d:response/d:propstat[d:status[text() = 'HTTP/1.1 200 OK']]/d:prop/nc:acl-list").present?
           ServiceResult.success(result: :success)
         else
           Util.error(:error, "nc:acl properly has not been set for #{path}", error_data)
         end
-      when 404
+      in { status: 404 }
         Util.error(:not_found, 'Outbound request destination not found', error_data)
-      when 401
+      in { status: 401 }
         Util.error(:unauthorized, 'Outbound request not authorized', error_data)
       else
         Util.error(:error, 'Outbound request failed', error_data)
       end
     end
+
     # rubocop:enable Metrics/AbcSize
+    # rubocop:enable Metrics/PerceivedComplexity
   end
 end

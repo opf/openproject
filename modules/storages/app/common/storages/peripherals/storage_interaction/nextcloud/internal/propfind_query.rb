@@ -90,10 +90,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
         end
       end.to_xml
 
-      response = UTIL
+      response = OpenProject
                    .httpx
                    .basic_auth(@username, @password)
-                   .with(headers: { "Depth" => depth})
+                   .with(headers: { "Depth" => depth })
                    .request(
                      "PROPFIND",
                      UTIL.join_uri_path(
@@ -102,13 +102,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
                        CGI.escapeURIComponent(@username),
                        UTIL.escape_path(path)
                      ),
-                     xml: body,
+                     xml: body
                    )
 
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 
-      case response.status
-      when 200..299
+      case response
+      in { status: 200..299 }
         doc = Nokogiri::XML(response.body.to_s)
         result = {}
         doc.xpath('/d:multistatus/d:response').each do |resource_section|
@@ -125,11 +125,11 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Internal
         end
 
         ServiceResult.success(result:)
-      when 405
+      in { status: 405 }
         UTIL.error(:not_allowed, 'Outbound request method not allowed', error_data)
-      when 401
+      in { status: 401 }
         UTIL.error(:unauthorized, 'Outbound request not authorized', error_data)
-      when 404
+      in { status: 404 }
         UTIL.error(:not_found, 'Outbound request destination not found', error_data)
       else
         UTIL.error(:error, 'Outbound request failed', error_data)

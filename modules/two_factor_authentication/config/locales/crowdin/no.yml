@@ -1,9 +1,9 @@
 #English strings go here for Rails i18n
 "no":
   plugin_openproject_two_factor_authentication:
-    name: "OpenProject Two-factor authentication"
+    name: "OpenProject to-faktor-autentisering"
     description: >-
-      This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call.
+      Dette OpenProject programtillegget godkjenner brukerne ved bruk av to-faktor autentisering ved hjelp av engangspassord gjennom TOTP-standarden (Google Authenticator) eller sendt til brukerens mobiltelefon via SMS eller telefonoppringing.
   activerecord:
     attributes:
       two_factor_authentication/device:
@@ -40,8 +40,8 @@
     label_one_time_password: 'Engangspassord'
     label_2fa_enabled: 'Tofaktorautentisering er aktiv'
     label_2fa_disabled: 'Tofaktorautentisering ikke aktiv'
-    text_otp_delivery_message_sms: "Your %{app_title} one-time password is %{token}"
-    text_otp_delivery_message_voice: "Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}"
+    text_otp_delivery_message_sms: "Ditt engangspassord for %{app_title} er %{token}"
+    text_otp_delivery_message_voice: "Ditt %{app_title}  engangspassord er %{pause}%{token}. %{pause} Jeg repeterer: %{pause}%{token}"
     text_enter_2fa: 'Vennligst skriv inn engangspassordet fra enheten.'
     text_2fa_enabled: 'Ved hvert innlogging vil du bli bedt om å legge inn et OTP-token fra standard 2FA-enheten.'
     text_2fa_disabled: 'For å aktivere tofaktorautentisering, bruk knappen ovenfor for å registrere en ny 2FA-enhet. Hvis du allerede har en enhet, må du gjøre det til en standard.'
@@ -50,20 +50,20 @@
       enter_backup_code_text: Vennligst skriv inn en gyldig sikkerhetskode fra koderlisten din hvis du ikke lenger kan få tilgang til de registrerte 2FA-enhetene dine.
       other_device: 'Bruk en annen enhet eller sikkerhetskode'
     settings:
-      title: '2FA settings'
-      current_configuration: 'Current configuration'
-      label_active_strategies: 'Active 2FA strategies'
-      label_enforced: 'Enforce 2FA'
-      label_remember: 'Remember 2FA login'
+      title: '2FA innstillinger'
+      current_configuration: 'Gjeldende konfigurasjon'
+      label_active_strategies: 'Aktive 2FA-strategier'
+      label_enforced: 'Krev 2FA'
+      label_remember: 'Husk 2FA innlogging'
       text_configuration: |
-        Note: These values represent the current application-wide configuration. You cannot disable settings enforced by the configuration or change the current active strategies, since they require a server restart.
-      text_configuration_guide: For more information, check the configuration guide.
-      text_enforced: 'Enable this setting to force all users to register a 2FA device on their next login. Can only be disabled when not enforced by configuration.'
+        Obs! Disse verdiene representerer gjeldende konfigurasjon for hele programmet. Du kan ikke deaktivere innstillingene som er tvunget av konfigurasjonen eller endre de gjeldende aktive strategiene, siden de krever en server omstart.
+      text_configuration_guide: For mer informasjon, kontroller konfigurasjonsveiledningen.
+      text_enforced: 'Aktiver denne innstillingen for å tvinge alle brukere til å registrere en 2FA-enhet på neste pålogging. Kan bare deaktiveres når denne ikke er tvungen i konfigurasjonen.'
       text_remember: |
-        Set this to greater than zero to allow users to remember their 2FA authentication for the given number of days.
-        They will not be requested to re-enter it during that period. Can only be set when not enforced by configuration.
-      error_invalid_settings: 'The 2FA strategies you selected are invalid'
-      failed_to_save_settings: 'Failed to update 2FA settings: %{message}'
+        Angi dette til større enn null for å tillate brukerne å huske 2FA autentisering i et gitt antall dager. (Automatic Translation)
+        De vil ikke bli bedt om å re-angi den i løpet av den perioden. Kan bare angis når den ikke håndheves av konfigurasjonen.
+      error_invalid_settings: '2FA strategiene du har valgt er ugyldige'
+      failed_to_save_settings: 'Kunne ikke oppdatere 2FA-innstillinger: %{message}'
     admin:
       self_edit_path: 'For å legge til eller endre dine egne 2FA-enheter, vennligst gå til %{self_edit_link}'
       self_edit_link_name: 'Tofaktorautentisering på kontosiden din'
@@ -73,11 +73,11 @@
       delete_all_are_you_sure: 'Er du sikker på at du vil slette alle 2FA-enheter for denne brukeren?'
       button_delete_all_devices: 'Slett registrerte 2FA-enheter'
       button_register_mobile_phone_for_user: 'Registrer mobiltelefon'
-      text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from their default 2FA device.'
-      text_2fa_disabled: "The user did not set up a 2FA device through their 'My account page'"
+      text_2fa_enabled: 'Ved hver pålogging vil denne brukeren bli bedt om å legge inn en OTP-nøkkel fra standard 2FA-enheten.'
+      text_2fa_disabled: "Brukeren har ikke satt opp en 2FA-enhet via sin «Min konto side»"
     upsale:
       title: 'Tofaktorautentisering'
-      description: 'Strenghten the security of your OpenProject instance by offering (or enforcing) two-factor authentification to all project members.'
+      description: 'Styrk sikkerheten til OpenProject ved å tilby (eller håndheve) godkjenning av tofaktor for alle prosjektmedlemmer.'
     backup_codes:
       none_found: Det finnes ingen sikkerhetskoder for denne kontoen.
       singular: Sikkerhetskopieringskode
@@ -106,7 +106,7 @@
       registration_failed_update: '2FA-enhetsregistrering mislyktes, symbolet var gyldig, men enheten kunne ikke oppdateres.'
       confirm_send_failed: 'Bekreftelse av 2FA-enheten din mislyktes.'
       button_complete_registration: 'Fullfør 2FA-registrering'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
+      text_confirm_to_complete_html: "Vennligst fullfør registrering av enheten <strong>%{identifier}</strong> ved å angi et engangspassord fra standardenheten."
       text_confirm_to_change_default_html: "Vennligst bekreft at standardinnstillingen din endres til <strong> %{new_identifier} </ strong> ved å skrive inn et engangspassord fra den gjeldende standard enheten din."
       text_identifier: 'Du kan gi enheten en egendefinert Id ved hjelp av dette feltet.'
       failed_to_delete: 'Kunne ikke slette 2FA-enheten.'
@@ -138,8 +138,8 @@
     sns:
       delivery_failed: 'SNS-levering mislyktes:'
     message_bird:
-      sms_delivery_failed: 'MessageBird SMS delivery failed.'
-      voice_delivery_failed: 'MessageBird voice call failed.'
+      sms_delivery_failed: 'MessageBird SMS levering mislyktes.'
+      voice_delivery_failed: 'MessageBird taleanrop mislyktes.'
     strategies:
       totp: 'Autentiseringsprogram'
       sns: 'Amazon SNS'
@@ -150,12 +150,12 @@
       required_to_add_device: 'En aktiv sikkerhetspolicy krever at du aktiverer tofaktorautentisering. Vennligst bruk følgende skjema for å registrere en enhet.'
     remember:
       active_session_notice: >
-        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
-      other_active_session_notice: Your account has an active remember cookie on another session.
-      label: 'Remember'
-      clear_cookie: 'Click here to remove all remembered 2FA sessions.'
-      cookie_removed: 'All remembered 2FA sessions have been removed.'
-      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
+        Kontoen din har en aktiv informasjonskapsel gyldig til %{expires_on}. Denne informasjonskapselen lar deg logge inn uten en ekstra faktor til kontoen din inntil utløp.
+      other_active_session_notice: Kontoen din har en aktiv (husk) cookie på en annen sesjon.
+      label: 'Husk'
+      clear_cookie: 'Klikk her for å fjerne alle huskede 2FA-økter.'
+      cookie_removed: 'Alle huskede 2FA-økter har blitt fjernet.'
+      dont_ask_again: "Opprette informasjonskapsel for å huske 2FA-autentisering på denne klienten i %{days} dager."
   field_phone: "Mobiltelefon"
   field_otp: "Engangspassord"
   notice_account_otp_invalid: "Ugyldig engangspassord."
@@ -168,7 +168,7 @@
   label_confirmed: 'Bekreftet'
   button_continue: 'Fortsette'
   button_make_default: 'Merk som standard'
-  label_unverified_phone: "Cell phone not yet verified"
+  label_unverified_phone: "Mobiltelefonen er ikke bekreftet ennå"
   notice_phone_number_format: "Vennligst skriv inn nummeret i følgende format: + XX XXXXXXXX."
   text_otp_not_receive: "Andre verifikasjonsmetoder"
   text_send_otp_again: "Send engangspassord på nytt ved å:"

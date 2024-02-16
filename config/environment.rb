@@ -26,7 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+# Load the Rails application.
 require_relative 'application'
 
-# Load and initialize the Rails application.
-OpenProject::Application.initialize!
+# Initialize the Rails application.
+Rails.application.initialize!

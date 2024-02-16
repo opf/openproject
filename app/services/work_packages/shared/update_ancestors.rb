@@ -51,8 +51,13 @@ module WorkPackages
       end
 
       def update_each_ancestor(work_packages, changes)
-        work_packages.map do |wp|
-          inherit_to_ancestors(wp, changes)
+        updated_work_package_ids = Set.new
+        work_packages.filter_map do |wp|
+          next if updated_work_package_ids.include?(wp.id)
+
+          result = inherit_to_ancestors(wp, changes)
+          updated_work_package_ids = updated_work_package_ids.merge(result.all_results.map(&:id))
+          result
         end
       end
 

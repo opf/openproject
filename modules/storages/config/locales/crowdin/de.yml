@@ -5,6 +5,7 @@ de:
         origin_id: Ursprungs-ID
       storages/storage:
         creator: Ersteller
+        drive: Laufwerk ID
         host: Host
         name: Name
         provider_type: Anbieter-Typ
@@ -90,7 +91,8 @@ de:
       label_healthy: Fehlerfrei
       label_pending: Ausstehend
       since: seit %{datetime}
-      title: Status des verwalteten Ordners
+      subtitle: Automatisch verwaltete Projektordner
+      title: Verbindungsstatus
     help_texts:
       project_folder: Der Projektordner ist der Standardordner für Datei-Uploads für dieses Projekt. Benutzer können trotzdem Dateien an andere Orte hochladen.
     instructions:
@@ -172,20 +174,31 @@ de:
       not_connected: Nicht verbunden. Der Benutzer sollte sich über diesen %{link} anmelden.
     members_no_results: Keine Mitglieder zum Anzeigen.
     no_results: Noch keine Dateispeicher eingerichtet.
-    notice_successful_storage_connection: Dateispeicher erfolgreich verbunden! Denken Sie daran, das Modul und den spezifischen Dateispeicher in den Projekteinstellungen jedes gewünschten Projekts zu aktivieren, um ihn zu benutzen.
+    notice_successful_storage_connection: |-
+      Dateispeicher erfolgreich verbunden! Denken Sie daran, das Modul und den spezifischen Dateispeicher in den Projekteinstellungen jedes gewünschten Projekts zu aktivieren, um ihn zu benutzen.
+    oauth_grant_nudge_modal:
+      access_granted: Zugriff gewährt
+      body: Um Zugriff auf den Projektordner zu erhalten, müssen Sie sich bei %{storage} anmelden.
+      cancel_button_label: Das mache ich später
+      confirm_button_label: Anmelden
+      storage_ready: '%{storage} kann jetzt verwendet werden'
+      title: Ein weiterer Schritt...
     open_project_storage_modal:
       success:
-        a: Einrichtung der Integration abgeschlossen
-        b: Sie werden jetzt weitergeleitet
+        subtitle: Sie werden weitergeleitet
+        title: Einrichtung der Integration abgeschlossen
       waiting:
-        a: Wir richten Ihre Berechtigungen für den Projektordner ein.
-        b: Einen Moment bitte, dies könnte etwas dauern...
+        subtitle: Einen Moment bitte, dies könnte etwas dauern...
+        title: Wir richten Ihre Berechtigungen für den Projektordner ein.
     page_titles:
       file_storages:
         delete: Dateispeicher löschen
         subtitle: Fügen Sie einen externen Dateispeicher hinzu, um Dateien in Arbeitspaketen hochzuladen, zu verlinken und zu verwalten.
       managed_project_folders:
-        subtitle: Lassen Sie OpenProject Ordner pro Projekt automatisch erstellen. Dies wird empfohlen, da mit dieser Option jedes Teammitglied immer über die richtigen Zugriffsrechte verfügt.
+        one_drive_information: |-
+          Um automatisch verwaltete Projektordner in OneDrive/SharePoint zu aktivieren, wird eine zusätzliche Konfiguration auf dem Laufwerk benötigt, das für diesen Dateispeicher verwendet wird. Wenn OpenProject die Berechtigungen dieses Laufwerks verwaltet, ist es wahrscheinlich für andere Anwendungsfälle in SharePoint unbrauchbar. Weitere Informationen und Hinweise finden Sie unter %{drive_id_link_text}.
+        subtitle: |-
+          Lassen Sie OpenProject Ordner pro Projekt automatisch erstellen. Dies wird empfohlen, da mit dieser Option jedes Teammitglied immer über die richtigen Zugriffsrechte verfügt.
         subtitle_short: Lassen Sie OpenProject Ordner im Dateispeicher automatisch für jedes Projekt anlegen.
         title: Automatisch verwaltete Projektordner
       project_settings:
@@ -213,5 +226,6 @@ de:
       description: Fügen Sie einen Dateispeicher hinzu, um ihn hier zu sehen.
       heading: Sie haben noch keine Dateispeicher.
     upsale:
-      description: Integrieren Sie Ihren OneDrive/SharePoint als Dateispeicher mit OpenProject. Laden Sie Dateien hoch und verknüpfen Sie diese direkt mit Arbeitspaketen in einem Projekt.
+      description: |-
+        Integrieren Sie Ihr OneDrive/SharePoint als Dateispeicher mit OpenProject. Laden Sie Dateien hoch und verknüpfen Sie diese direkt mit Arbeitspaketen in einem Projekt.
       title: OneDrive/SharePoint-Integration

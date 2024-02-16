@@ -26,7 +26,7 @@ You can configure the following options to add your OAuth application:
    `urn:ietf:wg:oauth:2.0:oob`
    Postman 9.6 and higher also provides a Web URL that you can use:
    `https://oauth.pstmn.io/v1/callback`.
-3. Set the **Scopes** that the OAuth clien application will be
+3. Set the **Scopes** that the OAuth client application will be
    able to access. Multiple selection is possible.
    If no scope is checked, per default **api_v3** is assumed.
    api_v3 is the standard OpenProject API, while

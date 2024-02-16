@@ -17,7 +17,7 @@ This integration makes it possible for you to:
 - Link files and folders stored in OneDrive/SharePoint with work packages in OpenProject
 - View, open and download files and folders linked to a work package via the **Files** tab 
 
-> **Important note**: To be able to use OneDrive/SharePoint as a file storage in your project, the administrator of your instance should first have completed the [OneDrive/SharePoint integration setup](../../../system-admin-guide/integrations/one-drive). Then a project administrator can activate the integrated storage in the [**File storages**](../../projects/project-settings/file-storages/) for a project.
+> **Important note**: To be able to use OneDrive/SharePoint as a file storage in your project, the administrator of your instance should first have completed the [OneDrive/SharePoint integration setup](../../../system-admin-guide/integrations/one-drive). Then a project administrator can activate the integrated storage in the [File storages](../../projects/project-settings/file-storages/) for a project.
 
 | Topic                                                        | Description                                                  |
 | ------------------------------------------------------------ | :----------------------------------------------------------- |
@@ -110,3 +110,5 @@ When a file or folder from OneDrive/SharePoint is linked to a work package, an O
 - See who last modified it (or who created it, if it has not yet been modified)
 
 However, all available actions depend on permissions the OpenProject user (or more precisely, the OneDrive/SharePoint account tied to that user) has in OneDrive/SharePoint. In other words, a user who does not have the permission to access the file in OneDrive/SharePoint will also *not* be able to open, download, or modify the file in OpenProject.
+
+Please note, that with automatically managed project folders these permissions are set by OpenProject based on user permissions in OpenProject.

@@ -443,7 +443,7 @@ For ADFS, you need add OpenProject as a "relying part trust" entry within the AD
 - In the ADFS management snap-in, right click on`AD FS -> Relying Party Trusts` , and select `Add Relying Party Trust...`
 - Select **Claims aware** and hit Start
 - **Select Data Source**: Choose "Enter data about the relying party manually" and click Next
-- **Specifiy Display Name**: Enter "OpenProject" or any arbitrary name for the OpenProject instance you want to identify
+- **Specify Display Name**: Enter "OpenProject" or any arbitrary name for the OpenProject instance you want to identify
 - **Configure Certificate**: Skip this step, unless you explicitly want to enable assertion encryption, whose steps are documented for OpenProject above.
 
 - **Configure URL**: Check "Enable support for the SAML 2.0 WebSSO protocol" and enter the URL `https://<Your OpenProject hostname>/auth/saml`
@@ -565,7 +565,7 @@ OPENPROJECT_SAML_SAML_IDP__SSO__SERVICE__URL="https://<Your Keycloak hostname>/r
 OPENPROJECT_SAML_SAML_IDP__CERT="<The certificate base64 copied from the metadata XML>"
 ```
 
-If you're unsure what the realm value is, go to the menu "Realm settings" and click on "Endpoints -> SAML 2.0 Identity Provider Metadata". This will include URLs for the `SingleSignOnSerivce` and `SingleLogoutService`.
+If you're unsure what the realm value is, go to the menu "Realm settings" and click on "Endpoints -> SAML 2.0 Identity Provider Metadata". This will include URLs for the `SingleSignOnService` and `SingleLogoutService`.
 
 
 

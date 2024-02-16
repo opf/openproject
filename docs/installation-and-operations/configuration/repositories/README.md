@@ -51,13 +51,13 @@ The following is an excerpt of the configuration and contains all required infor
 	#
 	#   Available types for git:
 	#     - :local (Local repositories, registered using a local path)
-	#     - :managed (Managed repositores, available IF :manages path is set below)
+	#     - :managed (Managed repositories, available IF :manages path is set below)
 	#   Available types for subversion:
 	#     - :existing (Existing subversion repositories by URL - local using file:/// or remote
 	#                 using one of the supported URL schemes (e.g., https://, svn+ssh:// )
-	#     - :managed (Managed repositores, available IF :manages path is set below)
+	#     - :managed (Managed repositories, available IF :manages path is set below)
 	#
-	# Examplary configuration (Enables managed Git repositories at the given path)
+	# Exemplary configuration (Enables managed Git repositories at the given path)
 	scm:
 	  git:
 	    manages: /srv/repositories/git
@@ -186,10 +186,10 @@ Apache provides the module `mod_dav_svn` to serve Subversion repositories throug
 
 This method requires some apache modules to be enabled and installed. The following commands are required for Debian / Ubuntu, please adjust accordingly for other distributions:
 
-<pre>
+```shell
   apt-get install subversion libapache2-mod-perl2 libapache2-svn
   a2enmod proxy proxy_http dav dav_svn
-</pre>
+```
 
 ### Permissions
 
@@ -274,10 +274,10 @@ We can exploit git-http-backend to serve Git repositories through HTTP(s) with A
 
 This method additionally requires the `cgi` Apache module to be installed. The following commands are required for Debian / Ubuntu, please adjust accordingly for other distributions:
 
-<pre>
+```shell
   apt-get install git libapache2-mod-perl2
   a2enmod proxy proxy_http cgi
-</pre>
+```
 
 You need to locate the location of the `git-http-backend` CGI wrapper shipping with the Git installation.
 Depending on your installation, it may reside in `/usr/libexec/git-core/git-http-backend`.
@@ -293,77 +293,78 @@ Thus, if you use a separate user for Apache and OpenProject, they need to reside
 
 We provide an example apache configuration. Some details are explained inline as comments.
 
-    # Load OpenProject per module used to authenticate requests against the user database.
-    # Be sure that the OpenProjectAuthentication.pm script is located in your perl path.
-    PerlSwitches -I/srv/www/perl-lib -T
-    PerlLoadModule Apache::OpenProjectAuthentication
-    
-    <VirtualHost *:80>
-      ErrorLog /var/log/apache2/error
-    
-      # The /sys endpoint is an internal API used to authenticate repository
-      # access requests. It shall not be reachable from remote.
-      <LocationMatch "/sys">
-        Order Deny,Allow
-        Deny from all
-        Allow from 127.0.0.1
-      </LocationMatch>
-    
-      # This fixes COPY for webdav over https
-      RequestHeader edit Destination ^https: http: early
-    
-      # Serves svn repositories locates in /srv/openproject/svn via WebDAV
-      # It is secure with basic auth against the OpenProject user database.
-      <Location /svn>
-        DAV svn
-        SVNParentPath "/srv/openproject/svn"
-        DirectorySlash Off
-    
-        AuthType Basic
-        AuthName "Secured Area"
-        Require valid-user
-    
-        PerlAccessHandler Apache::Authn::OpenProject::access_handler
-        PerlAuthenHandler Apache::Authn::OpenProject::authen_handler
-    
-        OpenProjectUrl 'http://127.0.0.1:3000'
-        OpenProjectApiKey 'REPLACE WITH REPOSITORY API KEY'
-    
-        <Limit OPTIONS PROPFIND GET REPORT MKACTIVITY PROPPATCH PUT CHECKOUT MKCOL MOVE COPY DELETE LOCK UNLOCK MERGE>
-          Allow from all
-        </Limit>
-      </Location>
-    
-      # see https://www.kernel.org/pub/software/scm/git/docs/git-http-backend.html for details
-      # needs mod_cgi to work -> a2enmod cgi
-      SetEnv GIT_PROJECT_ROOT /srv/openproject/git
-      SetEnv GIT_HTTP_EXPORT_ALL
-      ScriptAlias /git/ /usr/lib/git-core/git-http-backend/
-      <Location /git>
-        Order allow,deny
-        Allow from all
-    
-        AuthType Basic
-        AuthName "OpenProject GIT"
-        Require valid-user
-    
-        PerlAccessHandler Apache::Authn::OpenProject::access_handler
-        PerlAuthenHandler Apache::Authn::OpenProject::authen_handler
-    
-        OpenProjectGitSmartHttp yes
-        OpenProjectUrl 'http://127.0.0.1:3000'
-        OpenProjectApiKey 'REPLACE WITH REPOSITORY API KEY'
-      </Location>
-    
-      # Requires the apache module mod_proxy. Enable it with
-      # a2enmod proxy proxy_http
-      # See: http://httpd.apache.org/docs/2.2/mod/mod_proxy.html#ProxyPass
-      # Note that the ProxyPass with the longest path should be listed first, otherwise
-      # a shorter path may match and will do an early redirect (without looking for other
-      # more specific matching paths).
-      ProxyPass /svn !
-      ProxyPass /git !
-      ProxyPass / http://127.0.0.1:3000/
-      ProxyPassReverse / http://127.0.0.1:3000/
-    </VirtualHost>
+```apache
+# Load OpenProject per module used to authenticate requests against the user database.
+# Be sure that the OpenProjectAuthentication.pm script is located in your perl path.
+PerlSwitches -I/srv/www/perl-lib -T
+PerlLoadModule Apache::OpenProjectAuthentication
 
+<VirtualHost *:80>
+  ErrorLog /var/log/apache2/error
+
+  # The /sys endpoint is an internal API used to authenticate repository
+  # access requests. It shall not be reachable from remote.
+  <LocationMatch "/sys">
+    Order Deny,Allow
+    Deny from all
+    Allow from 127.0.0.1
+  </LocationMatch>
+
+  # This fixes COPY for webdav over https
+  RequestHeader edit Destination ^https: http: early
+
+  # Serves svn repositories locates in /srv/openproject/svn via WebDAV
+  # It is secure with basic auth against the OpenProject user database.
+  <Location /svn>
+    DAV svn
+    SVNParentPath "/srv/openproject/svn"
+    DirectorySlash Off
+
+    AuthType Basic
+    AuthName "Secured Area"
+    Require valid-user
+
+    PerlAccessHandler Apache::Authn::OpenProject::access_handler
+    PerlAuthenHandler Apache::Authn::OpenProject::authen_handler
+
+    OpenProjectUrl 'http://127.0.0.1:3000'
+    OpenProjectApiKey 'REPLACE WITH REPOSITORY API KEY'
+
+    <Limit OPTIONS PROPFIND GET REPORT MKACTIVITY PROPPATCH PUT CHECKOUT MKCOL MOVE COPY DELETE LOCK UNLOCK MERGE>
+      Allow from all
+    </Limit>
+  </Location>
+
+  # see https://www.kernel.org/pub/software/scm/git/docs/git-http-backend.html for details
+  # needs mod_cgi to work -> a2enmod cgi
+  SetEnv GIT_PROJECT_ROOT /srv/openproject/git
+  SetEnv GIT_HTTP_EXPORT_ALL
+  ScriptAlias /git/ /usr/lib/git-core/git-http-backend/
+  <Location /git>
+    Order allow,deny
+    Allow from all
+
+    AuthType Basic
+    AuthName "OpenProject GIT"
+    Require valid-user
+
+    PerlAccessHandler Apache::Authn::OpenProject::access_handler
+    PerlAuthenHandler Apache::Authn::OpenProject::authen_handler
+
+    OpenProjectGitSmartHttp yes
+    OpenProjectUrl 'http://127.0.0.1:3000'
+    OpenProjectApiKey 'REPLACE WITH REPOSITORY API KEY'
+  </Location>
+
+  # Requires the apache module mod_proxy. Enable it with
+  # a2enmod proxy proxy_http
+  # See: http://httpd.apache.org/docs/2.2/mod/mod_proxy.html#ProxyPass
+  # Note that the ProxyPass with the longest path should be listed first, otherwise
+  # a shorter path may match and will do an early redirect (without looking for other
+  # more specific matching paths).
+  ProxyPass /svn !
+  ProxyPass /git !
+  ProxyPass / http://127.0.0.1:3000/
+  ProxyPassReverse / http://127.0.0.1:3000/
+</VirtualHost>
+```

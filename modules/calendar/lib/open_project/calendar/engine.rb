@@ -54,7 +54,7 @@ module OpenProject::Calendar
            context: :modules,
            caption: :label_calendar_plural,
            icon: 'calendar',
-           after: :work_packages,
+           after: :gantt,
            if: should_render
 
       menu :global_menu,
@@ -62,7 +62,7 @@ module OpenProject::Calendar
            { controller: '/calendar/calendars', action: 'index', project_id: nil },
            caption: :label_calendar_plural,
            icon: 'calendar',
-           after: :work_packages,
+           after: :gantt,
            if: should_render
 
       menu :project_menu,
@@ -70,7 +70,7 @@ module OpenProject::Calendar
            { controller: '/calendar/calendars', action: 'index' },
            caption: :label_calendar_plural,
            icon: 'calendar',
-           after: :work_packages
+           after: :gantt
 
       menu :project_menu,
            :calendar_menu,

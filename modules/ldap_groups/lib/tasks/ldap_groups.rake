@@ -28,7 +28,7 @@
 
 namespace :ldap_groups do
   desc 'Synchronize groups and their users from the LDAP auth source.' \
-       'Will only synchronize for those users already present in the application.'
+         'Will only synchronize for those users already present in the application.'
   task synchronize: :environment do
     LdapGroups::SynchronizationService.synchronize!
   end
@@ -53,40 +53,70 @@ namespace :ldap_groups do
 
   namespace :development do
     desc 'Create a development LDAP server from the fixtures LDIF'
-    task :ldap_server do
+    task ldap_server: :environment do
       require 'ladle'
       ldif = ENV.fetch('LDIF_FILE') { Rails.root.join('spec/fixtures/ldap/users.ldif') }
       ldap_server = Ladle::Server.new(quiet: false, port: '12389', domain: 'dc=example,dc=com', ldif:).start
 
-      puts <<~EOS
-                #{'        '}
-                        LDAP server ready at localhost:12389
-                        Users Base dn: ou=people,dc=example,dc=com
-                        Admin account: uid=admin,ou=system
-                        Admin password: secret
-        #{'        '}
-                        --------------------------------------------------------
-        #{'        '}
-                        Attributes
-                        Login: uid
-                        First name: givenName
-                        Last name: sn
-                        Email: mail
-                        memberOf: (Hard-coded, not virtual)
-        #{'        '}
-                        --------------------------------------------------------
-                #{'          '}
-                        Users:
-                        uid=aa729,ou=people,dc=example,dc=com (Password: smada)
-                        uid=bb459,ou=people,dc=example,dc=com (Password: niwdlab)
-                        uid=cc414,ou=people,dc=example,dc=com (Password: retneprac)
-        #{'        '}
-                        --------------------------------------------------------
-        #{'        '}
-                        Groups:
-                        cn=foo,ou=groups,dc=example,dc=com (Members: aa729)
-                        cn=bar,ou=groups,dc=example,dc=com (Members: aa729, bb459, cc414)
-      EOS
+      puts <<~INFO
+        LDAP server ready at localhost:12389
+        Users Base dn: ou=people,dc=example,dc=com
+        Admin account: uid=admin,ou=system
+        Admin password: secret
+
+        --------------------------------------------------------
+
+        Attributes
+        Login: uid
+        First name: givenName
+        Last name: sn
+        Email: mail
+        Admin: isAdmin
+        memberOf: (Hard-coded, not virtual)
+
+        --------------------------------------------------------
+
+        Users:
+        uid=aa729,ou=people,dc=example,dc=com (Password: smada)
+        uid=bb459,ou=people,dc=example,dc=com (Password: niwdlab)
+        uid=cc414,ou=people,dc=example,dc=com (Password: retneprac)
+
+        --------------------------------------------------------
+
+        Groups:
+        cn=foo,ou=groups,dc=example,dc=com (Members: aa729)
+        cn=bar,ou=groups,dc=example,dc=com (Members: aa729, bb459, cc414)
+      INFO
+
+      puts "Creating a connection called ladle"
+      source = LdapAuthSource.find_or_initialize_by(name: 'ladle local development')
+
+      source.attributes = {
+        host: 'localhost',
+        port: '12389',
+        tls_mode: 'plain_ldap',
+        account: 'uid=admin,ou=system',
+        account_password: 'secret',
+        base_dn: 'dc=example,dc=com',
+        onthefly_register: true,
+        attr_login: 'uid',
+        attr_firstname: 'givenName',
+        attr_lastname: 'sn',
+        attr_mail: 'mail',
+        attr_admin: 'isAdmin'
+      }
+
+      source.save!
+
+      filter = LdapGroups::SynchronizedFilter.find_or_initialize_by(ldap_auth_source: source, name: 'All groups')
+      filter.group_name_attribute = 'dn'
+      filter.sync_users = true
+      filter.filter_string = '(cn=*)'
+      filter.base_dn = 'ou=groups,dc=example,dc=com'
+
+      filter.save!
+
+      ::LdapGroups::SynchronizationJob.perform_now
 
       puts "Send CTRL+D to stop the server"
       require 'irb'

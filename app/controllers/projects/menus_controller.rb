@@ -39,29 +39,49 @@ module Projects
 
     def first_level_menu_items
       [
-        OpenProject::Menu::MenuGroup.new(header: nil, children: static_filters)
+        OpenProject::Menu::MenuGroup.new(header: nil,
+                                         children: static_filters),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t(:'projects.lists.my_private'),
+                                         children: my_filters),
+        OpenProject::Menu::MenuGroup.new(header: I18n.t(:'activerecord.attributes.project.status_code'),
+                                         children: static_status_filters)
       ]
     end
 
     def static_filters
       [
-        menu_item(I18n.t(:label_all_projects),
-                  []),
-        menu_item(I18n.t(:label_my_projects),
-                  [{ member_of: { operator: '=', values: ['t'] } }]),
-        menu_item(I18n.t(:label_public_projects),
-                  [{ public: { operator: '=', values: ['t'] } }]),
-        menu_item(I18n.t(:label_archived_projects),
-                  [{ active: { operator: '=', values: ['f'] } }])
+        query_menu_item(::Queries::Projects::Factory.static_query_active, selected: no_query_props?),
+        query_menu_item(::Queries::Projects::Factory.static_query_my,
+                        id: ::Queries::Projects::Factory::STATIC_MY),
+        query_menu_item(::Queries::Projects::Factory.static_query_archived,
+                        id: ::Queries::Projects::Factory::STATIC_ARCHIVED)
       ]
     end
 
-    def menu_item(title, filters)
-      href = projects_path_with_filters(filters)
+    def static_status_filters
+      [
+        query_menu_item(::Queries::Projects::Factory.static_query_status_on_track,
+                        id: ::Queries::Projects::Factory::STATIC_ON_TRACK),
+        query_menu_item(::Queries::Projects::Factory.static_query_status_off_track,
+                        id: ::Queries::Projects::Factory::STATIC_OFF_TRACK),
+        query_menu_item(::Queries::Projects::Factory.static_query_status_at_risk,
+                        id: ::Queries::Projects::Factory::STATIC_AT_RISK)
+      ]
+    end
 
-      OpenProject::Menu::MenuItem.new(title:,
-                                      href:,
-                                      selected: item_selected?(filters))
+    def my_filters
+      ::Queries::Projects::ProjectQuery
+        .where(user: current_user)
+        .order(:name)
+        .map do |query|
+        query_menu_item(query)
+      end
+    end
+
+    def query_menu_item(query, id: nil, selected: query_item_selected?(id || query.id))
+      OpenProject::Menu::MenuItem.new(title: query.name,
+                                      href: projects_path(query_id: id || query.id),
+                                      selected:)
     end
 
     def projects_path_with_filters(filters)
@@ -70,12 +90,12 @@ module Projects
       projects_path(filters: filters.to_json, hide_filters_section: true)
     end
 
-    def item_selected?(filters)
-      active_filters = JSON.parse(params[:filters] || '[]')
+    def query_item_selected?(id)
+      id.to_s == params[:query_id] && params[:filters].nil?
+    end
 
-      filters == active_filters.map(&:deep_symbolize_keys)
-    rescue JSON::ParserError
-      false
+    def no_query_props?
+      params[:query_id].nil? && params[:filters].nil? && params[:sortBy].nil?
     end
   end
 end

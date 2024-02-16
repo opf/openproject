@@ -35,7 +35,7 @@ module Members::Scopes
       def not_locked
         includes(:principal)
           .references(:principals)
-          .merge(Principal.not_locked, rewhere: true)
+          .merge(Principal.not_locked)
       end
     end
   end

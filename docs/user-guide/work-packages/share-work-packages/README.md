@@ -64,6 +64,10 @@ You can always adjust the viewing rights of a user by selecting an option from t
 
 > **Note:** granting the **edit** rights to the user will allow you to set this user a work package **Assignee** or **Accountable**. 
 
+Once a work package has been shared, you will see the number of shared users in the **Share** button.
+
+![Number of shared users shown in the toolbar Share button in an OpenProject work package](openproject_user_guide_share_button_wp_numbers.png)
+
 ## Remove sharing privileges
 
 You can also remove the user from the list by clicking on **Remove** next to the user name. Please note that this will not remove a user entirely, but only revoke the viewing and/or editing rights for the work package. User account will remain intact. If you need to [delete a user](../../../system-admin-guide/users-permissions/users/#delete-users), please do that in system administration or contact your administrator.
@@ -72,17 +76,19 @@ You can also remove the user from the list by clicking on **Remove** next to the
 
 For an overview of all work packages that have been shared with other users or groups, navigate to the [global modules](../../home/global-modules/), select the module **Work Packages** and choose the filter **Shared with users** from the list of default work package filters on the left side. 
 
+The default view will include the **Shared with** column, which lists all users and/or groups that a particular work package was shared with. If there are more than two shared users and/or groups, two of them will be listed and the overall number will be indicated in the badge. Clicking on that number will show the details.
+
 If you want to see all shared work packages within a specific project, navigate to that project first and then select the same filter. You can also [adjust this filter](../work-package-table-configuration/#filter-work-packages) and save it under your private work package filters.
 
 You (with the correct permissions) can always change or remove sharing options. 
 
-![Filter for work packages shared with other users in OpenProject](openproject_user_guide_shared_with_users_filter.png)
+![Filter for work packages shared with other users in OpenProject](openproject_user_guide_shared_with_users_filter_new.png)
 
 ## Configuration
 
 Users with the edit role can update most of the attributes of a shared work package (e.g. 'Subject' and 'Description') and this includes the status. A change in status is governed by the workflows configured for the role the user has. An administrator will therefore have to setup the necessary workflows once. A message at the bottom of the screen will notify administrators of this:
 
-![Message on unconfigured work package editor workflows](openproject_user_guide_sharing_configuration_message.png)
+![Message on not configured work package editor workflows](openproject_user_guide_sharing_configuration_message.png)
 
 To do so, an administrator can follow the link in the message to get to the form for copying workflows. In that form, select the source type (e.g. 'Task') and source role (e.g. 'Member') to copy the workflow from. Afterwards, select the target (e.g. 'Task') and lastly the role which will be 'Work package editor' to copy the workflow for:
 

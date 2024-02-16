@@ -30,15 +30,15 @@ Step 4: You can add any filters necessary and sort or group the work packages by
 
 ![OpenProject sort work packages by assignee](openproject_sort_by_assignee.png)
 
-Step 5: Save your adjusted view by clicking on the **Save** icon on the left (you can name this view before saving or re-name it later). ![Save adjusted openrpoject workpage view](openproject_save_wp_adjusted_view.png)
+Step 5: Save your adjusted view by clicking on the **Save** icon on the left (you can name this view before saving or re-name it later). ![Save adjusted openproject work package view](openproject_save_wp_adjusted_view.png)
 
 This view will be saved and shown under your private work package filters (you can make it public and share with other team members).
 
-![OpenProjec work package private filter](work_package_private_filter.png)
+![OpenProject work package private filter](work_package_private_filter.png)
 
 ## Adding sums to the work packages view
 
-You can also use the sum function. Select **[⋮]** -> ***Configure view*** -> ***Display settings*** -> and check the ***Display Sums*** box:
+You can also use the sum function. Select **\[⋮\]** -> ***Configure view*** -> ***Display settings*** -> and check the ***Display Sums*** box:
 
 ![OpenProject work package configure view](openproject_configure_view.png)
 

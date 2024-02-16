@@ -348,11 +348,11 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                Šioje laidoje yra keli nauji funkcionalumai ir patobulinimai: <br> <ul class="%{list_styling_class}">  <li>OneDrive/SharePoint integracija su rankiniais projekto aplankais.</li><li>Vaidmenų, grupių ir bendrinimų filtravimas projekto narių sąraše.</li> <li>Leisti paskirtuosius ir atsakingus bendrinamuose darbo paketuose.</li> <li>Pridėti nauji laukų pavadinimai Darbas, Likęs darbas ir % Baigta, pasiruošiant darbo hierarchijos progreso ataskaitoms.</li> <li>Leisti būsenos pakeitimą be darbo paketo keitimo teisių.</li>
+                Šioje laidoje yra įvairios naujos savybės bei patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Filtruokite ir įrašykite savo projekto sąrašus.</li> <li>Atskiras Gantt diagramos modulis su naujais numatytais vaizdais.</li> <li>Automatiškai valdomi aplankai OneDrive/SharePoint integracijai.</li> <li>Rodyti „Bendrinamų naudotojų“ skaičių bendrinimo mygtuke ir rodyti juos darbo paketų sąraše.</li> <li>Pagerintas darbo paketų hierarchijos progreso ataskaitų skaičiavimas ir atnaujinimas.</li> </ul>
     ical_sharing_modal:
       title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."
@@ -469,7 +469,7 @@ lt:
     label_per_page: "Puslapyje:"
     label_please_wait: "Prašome palaukti"
     label_project: "Projektas"
-    label_project_list: "Projektų sąrašas"
+    label_project_list: "Projektų sąrašai"
     label_project_plural: "Projektai"
     label_visibility_settings: "Matomumo nustatymai"
     label_quote_comment: "Cituoti šį komentarą"
@@ -583,7 +583,7 @@ lt:
           full_view: '<b>Darbo paketo detalių</b> langas suteikia visą reikalingą informaciją apie konkretų darbų paketą, tokių kaip aprašymas, būsena, prioritetas, atlikti veiksmai, priklausomybės ir komentarai.'
           back_button: 'Pasinaudokite grįžimo rodykle kairiajame viršutiniame kampe, kad išeitumėte ir sugrįžtumėte į darbo paketų sąrašą.'
           create_button: 'Mygtukas <b>+Sukurti</b> pridės naują darbą į jūsų projektą.'
-          timeline_button: 'Jūs galite aktyvuoti <b>Gantto diagramą</b> norėdami matyti savo projekto laiko planavimo juostą.'
+          gantt_menu: 'Lengvai kurkite prjekto planus ir gaires naudodami Gantt modulį.'
           timeline: 'Čia jūs galite <b>redaguoti savo projekto planą</b>, kurti naujus darbo paketus, tokius kaip užduotys, etapai ir <b>pridėti priklausomybių</b>. Visi komandos nariai gali peržiūrėti ir keisti naujausią planą bet kuriuo metu.'
         team_planner:
           overview: 'Komandos planuotojas leidžia vizualiai priskirti užduotis komandos nariams ir gauti bendrą vaizdą, kas ką daro.'
@@ -969,6 +969,8 @@ lt:
         createdAt: "Sukurta"
         description: "Aprašymas"
         date: "Data"
+        percentComplete: "% baigta"
+        percentCompleteAlternative: "Progresas"
         dueDate: "Pabaigos data"
         duration: "Trukmė"
         spentTime: "Praleista laiko"
@@ -976,6 +978,8 @@ lt:
         percentageDone: "Atlikta procentinė dalis"
         priority: "Pirmenybė"
         projectName: "Projektas"
+        remainingWork: "Liko darbo"
+        remainingWorkAlternative: "Liko valandų"
         responsible: "Atsakingas"
         startDate: "Pradžios data"
         status: "Būsena"
@@ -986,6 +990,8 @@ lt:
         updatedAt: "Atnaujinta"
         versionName: "Versija"
         version: "Versija"
+        work: "Darbas"
+        workAlternative: "Numatyta trukmė"
         remainingTime: "Liko darbo"
       default_queries:
         latest_activity: "Paskutinė veikla"
@@ -1034,6 +1040,7 @@ lt:
       sharing:
         share: 'Dalintis'
         title: "Dalintis darbo paketu"
+        show_all_users: "Rodyti visus bendrinamus naudotojus"
         selected_count: "%{count} pažymėta"
         selection:
           mixed: "Mišrus"

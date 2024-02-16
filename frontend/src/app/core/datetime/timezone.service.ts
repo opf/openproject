@@ -30,22 +30,14 @@ import { Injectable } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import * as moment from 'moment-timezone';
-import {
-  Moment,
-} from 'moment';
+import { Moment } from 'moment';
 
 @Injectable({ providedIn: 'root' })
 export class TimezoneService {
   constructor(
     readonly configurationService:ConfigurationService,
     readonly I18n:I18nService,
-  ) {
-    this.setupLocale();
-  }
-
-  public setupLocale():void {
-    moment.locale(I18n.locale);
-  }
+  ) { }
 
   /**
    * Returns the user's configured timezone or guesses it through moment
@@ -84,9 +76,9 @@ export class TimezoneService {
     return this.parseDate(date, 'YYYY-MM-DD');
   }
 
-  public formattedDate(date:string):string {
+  public formattedDate(date:string, format = this.getDateFormat()):string {
     const d = this.parseDate(date);
-    return d.format(this.getDateFormat());
+    return d.format(format);
   }
 
   /**

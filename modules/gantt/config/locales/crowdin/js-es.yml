@@ -1,0 +1,6 @@
+es:
+  js:
+    queries:
+      all_open: 'Todo abierto'
+      timeline: 'Linea de tiempo'
+      milestones: 'Hitos'

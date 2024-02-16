@@ -32,7 +32,7 @@ class MenuItem < ApplicationRecord
     order('id ASC')
   }, class_name: 'MenuItem', dependent: :destroy, foreign_key: :parent_id
 
-  serialize :options, Hash
+  serialize :options, type: Hash
 
   validates :title,
             presence: true,

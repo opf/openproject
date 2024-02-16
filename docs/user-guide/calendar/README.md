@@ -30,7 +30,7 @@ Once enabled, clicking on the **Calendars** entry on the left sidebar takes you 
   
 - Click on an existing (saved) calendar to view it.
   
-- You can change the visibility settings of any calendar by clicking on **[⋮] (more)** -> **Visibility settings.**
+- You can change the visibility settings of any calendar by clicking on **\[⋮\] (more)** -> **Visibility settings.**
   
     - Any calendar that has the **Favored** option checked will be displayed under the **Favorite** heading in the sidebar to the left.
       
@@ -77,7 +77,7 @@ You can make basic date modifications simply by manipulating the work package st
 
 ![Use drag handles to change start and finish dates](Calendar-dragHandle-modifyDate.png)
 
-> **Note**: The calendar will highlight non-working days with a darker background colour. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the “Working days only” switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](../work-packages/set-change-dates/#working-days-and-duration).
+> **Note**: The calendar will highlight non-working days with a darker background color. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the “Working days only” switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](../work-packages/set-change-dates/#working-days-and-duration).
 >
 > Work packages can also expand and retract in width depending on how many non-working days are spanned. For example, a 3-day task starting on Thursday and ending on Monday will spread across 5 calendar days. Dragging that same work package so that it starts on a Tuesday and ends on a Thursday means that it will spread across 3 calendar days. In both cases, the duration remains 3 days.
 
@@ -115,7 +115,7 @@ This makes it possible for you to keep an eye on your project schedule from any 
 
 To subscribe to a calendar:
 
-1.  Click on the **[⋮]** **(more) button** on the toolbar and select **Subscribe to calendar**.
+1.  Click on the **\[⋮\] (more) button** on the toolbar and select **Subscribe to calendar**.
 2.  In the modal that appears, give this calendar a unique name (you can only use it once). We recommend naming it based on where you will be subscribing to this calendar from ("personal phone" or "work tablet" for example).  
 3.  Click on **Copy URL**. This creates the a [calendar token](../../getting-started/my-account/#access-tokens) and copies the calendar URL to your clipboard.
 4.  Paste this URL in your desired calendar client to subscribe.
