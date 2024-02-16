@@ -32,13 +32,15 @@ module ::Overviews
     def update_project_custom_values
       section = find_project_custom_field_section
 
+      processed_permitted_params = pre_process(permitted_params.project)
+
       service_call = ::Projects::UpdateService
                       .new(
                         user: current_user,
                         model: @project
                       )
                       .call(
-                        permitted_params.project.merge(
+                        processed_permitted_params.merge(
                           limit_custom_fields_validation_to_section_id: section.id
                         )
                       )
@@ -63,6 +65,27 @@ module ::Overviews
 
     def check_project_attributes_feature_enabled
       render_404 unless OpenProject::FeatureDecisions.project_attributes_active?
+    end
+
+    def pre_process(project_params)
+      # TODO: find better solution for this:
+      # quick fixing wrong submit format of multi user custom fields, should be fixed on the frontend side
+      # multi user autocompleter submits a comma separated list of user ids
+      # like `project[custom_field_values][40]: 5,4`
+      # instead of `project[custom_field_values][40][]: 5` and `project[custom_field_values][40][]: 4`
+      # this leads to parsing errors within the project.custom_field_values= method
+      # thus we preprocess the params to split the comma separated list into an array here
+      eager_loaded_custom_fields = @project.project_custom_fields.to_a
+
+      project_params[:custom_field_values].each do |custom_field_id, custom_field_value|
+        custom_field = eager_loaded_custom_fields.find { |pcf| pcf.id == custom_field_id.to_i }
+
+        if custom_field&.field_format == "user" && custom_field.multi_value?
+          project_params[:custom_field_values][custom_field_id] = custom_field_value&.split(",")
+        end
+      end
+
+      project_params
     end
 
     def find_project_custom_field_section
