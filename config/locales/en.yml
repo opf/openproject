@@ -894,6 +894,11 @@ en:
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
+        queries/projects/project_query:
+          attributes:
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              format: "%{message}"
         query:
           attributes:
             project:

@@ -32,6 +32,7 @@ class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::Se
   def set_attributes(params)
     set_filters(params.delete(:filters))
     set_order(params.delete(:orders))
+    set_select(params.delete(:selects))
 
     super
   end
@@ -40,7 +41,7 @@ class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::Se
     set_default_user
     set_default_filter
     set_default_order
-    set_default_columns
+    set_default_selects
   end
 
   def set_default_user
@@ -61,10 +62,10 @@ class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::Se
     model.where('active', '=', OpenProject::Database::DB_VALUE_TRUE)
   end
 
-  def set_default_columns
-    return if model.columns.any?
+  def set_default_selects
+    return if model.selects.any?
 
-    model.columns = Setting.enabled_projects_columns
+    model.select(*default_columns, add_not_existing: false)
   end
 
   def set_filters(filters)
@@ -81,5 +82,16 @@ class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::Se
 
     model.orders.clear
     model.order(orders.to_h { |o| [o[:attribute], o[:direction]] })
+  end
+
+  def set_select(selects)
+    return unless selects
+
+    model.selects.clear
+    model.select(*selects)
+  end
+
+  def default_columns
+    (['name'] + Setting.enabled_projects_columns).uniq
   end
 end

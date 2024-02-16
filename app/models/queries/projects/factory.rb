@@ -97,7 +97,7 @@ class Queries::Projects::Factory
     def list_with(name)
       Queries::Projects::ProjectQuery.new(name: I18n.t(name)) do |query|
         query.order('lft' => 'asc')
-        query.columns = Setting.enabled_projects_columns
+        query.select(*(['name'] + Setting.enabled_projects_columns).uniq, add_not_existing: false)
 
         yield query
       end
@@ -128,7 +128,7 @@ class Queries::Projects::Factory
     end
 
     def new_query(source_query, params, user)
-      update_query(Queries::Projects::ProjectQuery.new(source_query.attributes.slice('filters', 'orders')),
+      update_query(Queries::Projects::ProjectQuery.new(source_query.attributes.slice('filters', 'orders', 'selects')),
                    params,
                    user)
     end

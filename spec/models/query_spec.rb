@@ -262,7 +262,7 @@ RSpec.describe Query,
           no_highlight: {}
         }
 
-        allow(Queries::WorkPackages::Columns::PropertyColumn).to receive(:property_columns)
+        allow(Queries::WorkPackages::Selects::PropertySelect).to receive(:property_columns)
                                                                    .and_return(available_columns)
 
         expect(query.available_highlighting_columns.map(&:name)).to eq(%i{highlightable1 highlightable2})

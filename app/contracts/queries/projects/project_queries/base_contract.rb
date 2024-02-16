@@ -29,7 +29,7 @@
 module Queries::Projects::ProjectQueries
   class BaseContract < ::ModelContract
     attribute :name
-    attribute :columns
+    attribute :selects
     attribute :filters
     attribute :orders
 
@@ -42,10 +42,17 @@ module Queries::Projects::ProjectQueries
               length: { maximum: 255 }
 
     validate :user_is_current_user_and_logged_in
+    validate :name_select_included
 
     def user_is_current_user_and_logged_in
       unless user.logged? && user == model.user
         errors.add :base, :error_unauthorized
+      end
+    end
+
+    def name_select_included
+      if model.selects.none? { |s| s.attribute == :name }
+        errors.add :selects, :name_not_included
       end
     end
   end

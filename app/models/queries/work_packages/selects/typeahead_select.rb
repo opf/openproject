@@ -26,14 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-
-RSpec.describe Queries::WorkPackages::Columns::WorkPackageColumn do
-  it "allows to be constructed with attribute highlightable" do
-    expect(described_class.new('foo', highlightable: true).highlightable?).to be(true)
-  end
-
-  it "allows to be constructed without attribute highlightable" do
-    expect(described_class.new('foo').highlightable?).to be(false)
+class Queries::WorkPackages::Selects::TypeaheadSelect < Queries::WorkPackages::Selects::WorkPackageSelect
+  def self.instances(_context = nil)
+    new :typeahead,
+        displayable: false,
+        # This is an ugly hack. When using the typeahead order, the work packages should always be ordered
+        # by their updated_at. But when asc is specified for typeahead, the updated_at property is to be used
+        # in desc order.
+        sortable: ->(table_name = WorkPackage.table_name) { "#{table_name}.updated_at DESC, #{table_name}.updated_at" }
   end
 end

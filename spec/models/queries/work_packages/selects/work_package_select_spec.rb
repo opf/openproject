@@ -26,16 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ::Bim::Queries::WorkPackages::Columns
-  class BcfThumbnailColumn < Queries::WorkPackages::Columns::WorkPackageColumn
-    def caption
-      I18n.t('attributes.bcf_thumbnail')
-    end
+require 'spec_helper'
 
-    def self.instances(_context = nil)
-      return [] unless OpenProject::Configuration.bim?
+RSpec.describe Queries::WorkPackages::Selects::WorkPackageSelect do
+  it "allows to be constructed with attribute highlightable" do
+    expect(described_class.new('foo', highlightable: true).highlightable?).to be(true)
+  end
 
-      [new(:bcf_thumbnail, { summable: false, groupable: false, sortable: false })]
-    end
+  it "allows to be constructed without attribute highlightable" do
+    expect(described_class.new('foo').highlightable?).to be(false)
   end
 end

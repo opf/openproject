@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+class Queries::WorkPackages::Selects::CustomFieldSelect < Queries::WorkPackages::Selects::WorkPackageSelect
   def initialize(custom_field)
     super
 
@@ -86,7 +86,7 @@ class Queries::WorkPackages::Columns::CustomFieldColumn < Queries::WorkPackages:
                       select = summable_select_statement
 
                       ->(query, grouped) {
-                        Queries::WorkPackages::Columns::WorkPackageColumn
+                        Queries::WorkPackages::Selects::WorkPackageSelect
                           .scoped_column_sum(summable_scope(query), select, grouped && query.group_by_statement)
                       }
                     else

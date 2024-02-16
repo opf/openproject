@@ -86,75 +86,35 @@ module Projects
 
     def href_only_when_not_sort_lft
       unless sorted_by_lft?
-        projects_path(sortBy: JSON::dump([['lft', 'asc']]))
+        projects_path(filters: params[:filters], sortBy: JSON::dump([['lft', 'asc']]))
       end
     end
 
-    def all_columns
-      @all_columns ||= [
-        hierarchy_column,
-        [:name, { builtin: true, caption: Project.human_attribute_name(:name) }],
-        [:project_status, { caption: Project.human_attribute_name(:status) }],
-        [:status_explanation, { caption: Project.human_attribute_name(:status_explanation) }],
-        [:public, { caption: Project.human_attribute_name(:public) }],
-        [:description, { caption: Project.human_attribute_name(:description) }],
-        *custom_field_columns,
-        *admin_columns
-      ]
+    def order_options(select)
+      {
+        caption: select.caption,
+        data:
+          {
+            controller: "params-from-query",
+            'application-target': "dynamic",
+            'params-from-query-allowed-value': '["query_id"]',
+            'params-from-query-all-anchors-value': "true"
+          }
+      }
     end
 
-    def headers
-      headers = query
-        .columns
-        .map do |name|
-        all_columns.detect { |column| column.first.to_s == name }
-      end
-
-      index = headers.index { |column| column.first == :name }
-      headers.insert(index, hierarchy_column)
-
-      headers
-    end
-
-    def sortable_column?(_column)
-      true
+    def sortable_column?(select)
+      query.known_order?(select.attribute)
     end
 
     def columns
-      @columns ||= headers.map(&:first)
-    end
+      @columns ||= begin
+        columns = query.selects.reject { |select| select.is_a?(Queries::Selects::NotExistingSelect) }
 
-    def admin_columns
-      return [] unless current_user.admin?
+        index = columns.index { |column| column.attribute == :name }
+        columns.insert(index, Queries::Projects::Selects::Default.new(:hierarchy)) if index
 
-      [
-        [:created_at, { caption: Project.human_attribute_name(:created_at) }],
-        [:latest_activity_at, { caption: Project.human_attribute_name(:latest_activity_at) }],
-        [:required_disk_space, { caption: I18n.t(:label_required_disk_storage) }]
-      ]
-    end
-
-    def custom_field_columns
-      project_custom_fields.values.map do |custom_field|
-        [custom_field.column_name.to_sym, { caption: custom_field.name, custom_field: true }]
-      end
-    end
-
-    def hierarchy_column
-      [:hierarchy, { builtin: true }]
-    end
-
-    def project_custom_fields
-      @project_custom_fields ||= begin
-        fields =
-          if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
-            ProjectCustomField.visible(current_user).order(:position)
-          else
-            ProjectCustomField.none
-          end
-
-        fields
-          .index_by { |cf| cf.column_name.to_sym }
+        columns
       end
     end
 

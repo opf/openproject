@@ -26,29 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackages::Columns::RelationColumn
-  def initialize(type)
-    self.type = type
-    super(name)
+class Queries::Selects::Base
+  include ActiveModel::Validations
+
+  def self.key
+    raise NotImplementedError
   end
 
-  def name
-    :"relations_of_type_#{type[:sym]}"
+  def self.available?
+    true
   end
 
-  def sym
-    type[:sym]
+  def self.all_available
+    if available?
+      [new(key)]
+    else
+      []
+    end
   end
-  alias :relation_type :sym
 
   def caption
-    I18n.t(:'activerecord.attributes.query.relations_of_type_column',
-           type: I18n.t(type[:sym_name]).capitalize)
+    model = self.class.name.split('::')[1].singularize.constantize
+    model.human_attribute_name(attribute)
   end
 
-  def self.instances(_context = nil)
-    return [] unless granted_by_enterprise_token
+  attr_accessor :attribute
 
-    Relation::TYPES.map { |_key, type| new(type) }
+  def initialize(attribute)
+    self.attribute = attribute
+  end
+
+  def scope
+    model.select(attribute)
   end
 end

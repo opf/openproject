@@ -33,7 +33,7 @@ module Queries
 
         query_params[:filters] = parse_filters_from_params(params) if params[:filters].present?
         query_params[:orders] = parse_orders_from_params(params) if params[:sortBy].present?
-        query_params[:columns] = parse_columns_from_params(params) if params[:columns].present?
+        query_params[:selects] = parse_columns_from_params(params) if params[:columns].present?
 
         query_params
       end

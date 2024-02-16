@@ -26,30 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Columns::RelationToTypeColumn < Queries::WorkPackages::Columns::RelationColumn
-  def initialize(type)
-    super
+class Queries::WorkPackages::Selects::ManualSortingSelect < Queries::WorkPackages::Selects::WorkPackageSelect
+  include ::Queries::WorkPackages::Common::ManualSorting
 
-    set_name! type
-    self.type = type
+  def initialize
+    super(:manual_sorting,
+          default_order: 'asc',
+          displayable: false,
+          sortable: "#{OrderedWorkPackage.table_name}.position NULLS LAST, #{WorkPackage.table_name}.id")
   end
 
-  def set_name!(type)
-    self.name = :"relations_to_type_#{type.id}"
-  end
-
-  def caption
-    I18n.t(:'activerecord.attributes.query.relations_to_type_column',
-           type: type.name)
-  end
-
-  def self.instances(context = nil)
-    if !granted_by_enterprise_token
-      []
-    elsif context
-      context.types
-    else
-      Type.all
-    end.map { |type| new(type) }
+  def sortable_join_statement(query)
+    ordered_work_packages_join(query)
   end
 end

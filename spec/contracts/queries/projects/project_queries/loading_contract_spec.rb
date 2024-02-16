@@ -44,7 +44,7 @@ RSpec.describe Queries::Projects::ProjectQueries::LoadingContract do
       end
 
       query.order(query_orders)
-      query.columns = query_columns
+      query.select(*query_columns)
     end
   end
   let(:contract) { described_class.new(query, current_user) }

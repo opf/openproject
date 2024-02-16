@@ -158,11 +158,25 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
         .to eql [[:active, '=', %w[t]]]
     end
 
-    it 'assigns default columns' do
+    it 'assigns default selects including those for admin and ee if allowed',
+       with_ee: %i[custom_fields_in_projects_list],
+       with_settings: { enabled_projects_columns: %w[name created_at cf_1] } do
+      allow(User.current)
+        .to receive(:admin?)
+              .and_return(true)
+
       subject
 
-      expect(model_instance.columns)
-        .to eql Setting.enabled_projects_columns
+      expect(model_instance.selects.map(&:attribute))
+        .to eql Setting.enabled_projects_columns.map(&:to_sym)
+    end
+
+    it 'assigns default selects excluding those for admin and ee if not allowed',
+       with_settings: { enabled_projects_columns: %w[name created_at cf_1] } do
+      subject
+
+      expect(model_instance.selects.map(&:attribute))
+        .to eql [:name]
     end
   end
 
@@ -229,23 +243,23 @@ RSpec.describe Queries::Projects::ProjectQueries::SetAttributesService, type: :m
     end
   end
 
-  context 'with the query already having columns and with column params' do
+  context 'with the query already having selects and with selects params' do
     let(:model_instance) do
       Queries::Projects::ProjectQuery.new.tap do |query|
-        query.columns = %w[id name]
+        query.select(:id, :name)
       end
     end
 
     let(:params) do
       {
-        columns: %w[project_status created_at]
+        selects: %w[project_status created_at]
       }
     end
 
-    it 'assigns the columns param' do
+    it 'assigns the select param' do
       subject
-      expect(model_instance.columns)
-        .to eql %w[project_status created_at]
+      expect(model_instance.selects.map(&:attribute))
+        .to eql %i[project_status created_at]
     end
   end
 

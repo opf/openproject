@@ -31,6 +31,7 @@ module Queries::BaseQuery
 
   included do
     include Queries::Filters::AvailableFilters
+    include Queries::Selects::AvailableSelects
     include Queries::Orders::AvailableOrders
     include Queries::GroupBys::AvailableGroupBys
     include ActiveModel::Validations
@@ -78,6 +79,18 @@ module Queries::BaseQuery
     filter.context = context
 
     filters << filter
+
+    self
+  end
+
+  def select(*select_values, add_not_existing: true)
+    select_values.each do |select_value|
+      select_column = select_for(select_value)
+
+      if !select_column.is_a?(::Queries::Selects::NotExistingSelect) || add_not_existing
+        selects << select_column
+      end
+    end
 
     self
   end

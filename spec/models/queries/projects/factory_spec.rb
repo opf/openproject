@@ -29,8 +29,7 @@
 require 'spec_helper'
 require 'services/base_services/behaves_like_create_service'
 
-RSpec.describe Queries::Projects::Factory do
-  let(:current_user) { build_stubbed(:user) }
+RSpec.describe Queries::Projects::Factory, with_settings: { enabled_projects_columns: %w[name project_status active] } do
   let!(:query_finder) do
     scope = instance_double(ActiveRecord::Relation)
 
@@ -48,11 +47,14 @@ RSpec.describe Queries::Projects::Factory do
     build_stubbed(:project_query) do |query|
       query.order(id: :asc)
       query.where(:project_status, '=', [Project.status_codes[:on_track].to_s])
+      query.select(:project_status, :name, :created_at)
     end
   end
 
   let(:id) { nil }
   let(:params) { {} }
+
+  current_user { build_stubbed(:user) }
 
   describe '.find' do
     subject(:find) { described_class.find(id, params:, user: current_user) }
@@ -76,6 +78,22 @@ RSpec.describe Queries::Projects::Factory do
       it 'is ordered by lft asc' do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq([['lft', :asc]])
+      end
+
+      it 'has the enabled project columns columns as selects' do
+        expect(find.selects.map(&:attribute))
+          .to eq(Setting.enabled_projects_columns.map(&:to_sym))
+      end
+    end
+
+    context 'without id and with ee and admin privileges',
+            with_ee: %i[custom_fields_in_projects_list],
+            with_settings: { enabled_projects_columns: %w[name created_at cf_1] } do
+      current_user { build_stubbed(:admin) }
+
+      it 'has the enabled project columns columns as selects' do
+        expect(find.selects.map(&:attribute))
+          .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
     end
 
@@ -101,6 +119,11 @@ RSpec.describe Queries::Projects::Factory do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq([['lft', :asc]])
       end
+
+      it 'has the enabled project columns columns as selects' do
+        expect(find.selects.map(&:attribute))
+          .to eq(Setting.enabled_projects_columns.map(&:to_sym))
+      end
     end
 
     context 'with the \'my\' id' do
@@ -124,6 +147,11 @@ RSpec.describe Queries::Projects::Factory do
       it 'is ordered by lft asc' do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq([['lft', :asc]])
+      end
+
+      it 'has the enabled project columns columns as selects' do
+        expect(find.selects.map(&:attribute))
+          .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
     end
 
@@ -149,6 +177,11 @@ RSpec.describe Queries::Projects::Factory do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq([['lft', :asc]])
       end
+
+      it 'has the enabled project columns columns as selects' do
+        expect(find.selects.map(&:attribute))
+          .to eq(Setting.enabled_projects_columns.map(&:to_sym))
+      end
     end
 
     context 'with the \'on_track\' id' do
@@ -172,6 +205,11 @@ RSpec.describe Queries::Projects::Factory do
       it 'is ordered by lft asc' do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq([['lft', :asc]])
+      end
+
+      it 'has the enabled project columns columns as selects' do
+        expect(find.selects.map(&:attribute))
+          .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
     end
 
@@ -197,6 +235,11 @@ RSpec.describe Queries::Projects::Factory do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq([['lft', :asc]])
       end
+
+      it 'has the enabled project columns columns as selects' do
+        expect(find.selects.map(&:attribute))
+          .to eq(Setting.enabled_projects_columns.map(&:to_sym))
+      end
     end
 
     context 'with the \'at_risk\' id' do
@@ -220,6 +263,11 @@ RSpec.describe Queries::Projects::Factory do
       it 'is ordered by lft asc' do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq([['lft', :asc]])
+      end
+
+      it 'has the enabled project columns columns as selects' do
+        expect(find.selects.map(&:attribute))
+          .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
     end
 
@@ -267,7 +315,8 @@ RSpec.describe Queries::Projects::Factory do
               attribute: 'name',
               direction: 'desc'
             }
-          ]
+          ],
+          selects: %w[created_at name]
         }
       end
 
@@ -289,6 +338,11 @@ RSpec.describe Queries::Projects::Factory do
       it 'has the orders applied' do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq([['id', :asc], ['name', :desc]])
+      end
+
+      it 'has the selects' do
+        expect(find.selects.map(&:attribute))
+          .to eq(%i[created_at name])
       end
     end
 
@@ -327,6 +381,11 @@ RSpec.describe Queries::Projects::Factory do
       it 'has the orders overwritten' do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq([['id', :asc], ['name', :desc]])
+      end
+
+      it 'has the enabled project columns columns as selects' do
+        expect(find.selects.map(&:attribute))
+          .to eq(Setting.enabled_projects_columns.map(&:to_sym))
       end
     end
 
@@ -368,6 +427,45 @@ RSpec.describe Queries::Projects::Factory do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq([%i[lft asc]])
       end
+
+      it 'has the enabled project columns columns as selects' do
+        expect(find.selects.map(&:attribute))
+          .to eq(Setting.enabled_projects_columns.map(&:to_sym))
+      end
+    end
+
+    context 'with the \'active\' id and with select params' do
+      let(:id) { nil }
+      let(:params) do
+        {
+          selects: %w[created_at project_status]
+        }
+      end
+
+      it 'returns a project query' do
+        expect(find)
+          .to be_a(Queries::Projects::ProjectQuery)
+      end
+
+      it 'has no name' do
+        expect(find.name)
+          .to be_nil
+      end
+
+      it 'has the filters of the default \'active\' query applied' do
+        expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
+          .to eq([[:active, '=', ['t']]])
+      end
+
+      it 'has the orders of the default \'active\' query applied' do
+        expect(find.orders.map { |order| [order.attribute, order.direction] })
+          .to eq([%i[lft asc]])
+      end
+
+      it 'has the selects overwritten' do
+        expect(find.selects.map(&:attribute))
+          .to eq(%i[created_at project_status])
+      end
     end
 
     context 'with an integer id for which the user has a query and with filter params' do
@@ -408,6 +506,11 @@ RSpec.describe Queries::Projects::Factory do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq(persisted_query.orders.map { |order| [order.attribute, order.direction] })
       end
+
+      it 'has the selects of the persisted query' do
+        expect(find.selects.map(&:attribute))
+          .to eq(persisted_query.selects.map(&:attribute))
+      end
     end
 
     context 'with an integer id for which the user has a query and with order params' do
@@ -445,6 +548,45 @@ RSpec.describe Queries::Projects::Factory do
       it 'has the orders overwritten' do
         expect(find.orders.map { |order| [order.attribute, order.direction] })
           .to eq [["id", :asc], ["name", :desc]]
+      end
+
+      it 'has the selects of the persisted query' do
+        expect(find.selects.map(&:attribute))
+          .to eq(persisted_query.selects.map(&:attribute))
+      end
+    end
+
+    context 'with an integer id for which the user has a query and with select params' do
+      let(:id) { 42 }
+      let(:params) do
+        {
+          selects: %w[created_at project_status]
+        }
+      end
+
+      it 'returns a project query' do
+        expect(find)
+          .to be_a(Queries::Projects::ProjectQuery)
+      end
+
+      it 'keeps the name' do
+        expect(find.name)
+          .to eql(persisted_query.name)
+      end
+
+      it 'has the filters of the persisted query' do
+        expect(find.filters.map { |filter| [filter.field, filter.operator, filter.values] })
+          .to eq(persisted_query.filters.map { |filter| [filter.field, filter.operator, filter.values] })
+      end
+
+      it 'has the orders of the persisted query' do
+        expect(find.orders.map { |order| [order.attribute, order.direction] })
+          .to eq(persisted_query.orders.map { |order| [order.attribute, order.direction] })
+      end
+
+      it 'has the selects specified by the params' do
+        expect(find.selects.map(&:attribute))
+          .to eq(%i[created_at project_status])
       end
     end
 
@@ -507,6 +649,11 @@ RSpec.describe Queries::Projects::Factory do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
         .to eq([['lft', :asc]])
     end
+
+    it 'has the enabled project columns columns as selects' do
+      expect(find.selects.map(&:attribute))
+        .to eq(Setting.enabled_projects_columns.map(&:to_sym))
+    end
   end
 
   describe '.static_query_my' do
@@ -530,6 +677,11 @@ RSpec.describe Queries::Projects::Factory do
     it 'is ordered by lft asc' do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
         .to eq([['lft', :asc]])
+    end
+
+    it 'has the enabled project columns columns as selects' do
+      expect(find.selects.map(&:attribute))
+        .to eq(Setting.enabled_projects_columns.map(&:to_sym))
     end
   end
 
@@ -555,6 +707,11 @@ RSpec.describe Queries::Projects::Factory do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
         .to eq([['lft', :asc]])
     end
+
+    it 'has the enabled project columns columns as selects' do
+      expect(find.selects.map(&:attribute))
+        .to eq(Setting.enabled_projects_columns.map(&:to_sym))
+    end
   end
 
   describe '.static_query_status_on_track' do
@@ -578,6 +735,11 @@ RSpec.describe Queries::Projects::Factory do
     it 'is ordered by lft asc' do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
         .to eq([['lft', :asc]])
+    end
+
+    it 'has the enabled project columns columns as selects' do
+      expect(find.selects.map(&:attribute))
+        .to eq(Setting.enabled_projects_columns.map(&:to_sym))
     end
   end
 
@@ -603,6 +765,11 @@ RSpec.describe Queries::Projects::Factory do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
         .to eq([['lft', :asc]])
     end
+
+    it 'has the enabled project columns columns as selects' do
+      expect(find.selects.map(&:attribute))
+        .to eq(Setting.enabled_projects_columns.map(&:to_sym))
+    end
   end
 
   describe '.static_query_status_at_risk' do
@@ -626,6 +793,11 @@ RSpec.describe Queries::Projects::Factory do
     it 'is ordered by lft asc' do
       expect(find.orders.map { |order| [order.attribute, order.direction] })
         .to eq([['lft', :asc]])
+    end
+
+    it 'has the enabled project columns columns as selects' do
+      expect(find.selects.map(&:attribute))
+        .to eq(Setting.enabled_projects_columns.map(&:to_sym))
     end
   end
 end

@@ -30,7 +30,7 @@ module API
   module V3
     module Queries
       module Columns
-        class QueryRelationToTypeColumnRepresenter < QueryColumnRepresenter
+        class QueryQueries::WorkPackages::Selects::RelationToTypeSelectRepresenter < QueryColumnRepresenter
           link :type do
             {
               href: api_v3_paths.type(represented.type.id),

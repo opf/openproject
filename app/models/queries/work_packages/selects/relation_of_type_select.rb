@@ -26,40 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Projects
-  ::Queries::Register.register(ProjectQuery) do
-    filter Filters::AncestorFilter
-    filter Filters::TypeFilter
-    filter Filters::ActiveFilter
-    filter Filters::TemplatedFilter
-    filter Filters::PublicFilter
-    filter Filters::NameFilter
-    filter Filters::NameAndIdentifierFilter
-    filter Filters::MemberOfFilter
-    filter Filters::TypeaheadFilter
-    filter Filters::CustomFieldFilter
-    filter Filters::CreatedAtFilter
-    filter Filters::LatestActivityAtFilter
-    filter Filters::PrincipalFilter
-    filter Filters::ParentFilter
-    filter Filters::IdFilter
-    filter Filters::ProjectStatusFilter
-    filter Filters::UserActionFilter
-    filter Filters::VisibleFilter
+class Queries::WorkPackages::Selects::RelationOfTypeSelect < Queries::WorkPackages::Selects::RelationSelect
+  def initialize(type)
+    self.type = type
+    super(name)
+  end
 
-    order Orders::DefaultOrder
-    order Orders::LatestActivityAtOrder
-    order Orders::RequiredDiskSpaceOrder
-    order Orders::CustomFieldOrder
-    order Orders::ProjectStatusOrder
-    order Orders::NameOrder
-    order Orders::TypeaheadOrder
+  def name
+    :"relations_of_type_#{type[:sym]}"
+  end
 
-    select Selects::CreatedAt
-    select Selects::CustomField
-    select Selects::Default
-    select Selects::LatestActivityAt
-    select Selects::RequiredDiskSpace
-    select Selects::Status
+  def sym
+    type[:sym]
+  end
+  alias :relation_type :sym
+
+  def caption
+    I18n.t(:'activerecord.attributes.query.relations_of_type_column',
+           type: I18n.t(type[:sym_name]).capitalize)
+  end
+
+  def self.instances(_context = nil)
+    return [] unless granted_by_enterprise_token
+
+    Relation::TYPES.map { |_key, type| new(type) }
   end
 end

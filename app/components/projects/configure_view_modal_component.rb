@@ -35,15 +35,14 @@ class Projects::ConfigureViewModalComponent < ApplicationComponent
   options :query
 
   def all_columns
-    @all_columns ||= Projects::TableComponent
-                       .new(current_user: User.current)
-                       .all_columns
-                       .map { |c| { id: c.first, name: c.last[:caption] } }
+    @all_columns ||= query
+                       .available_selects
+                       .map { |c| { id: c.attribute, name: c.caption } }
   end
 
   def selected_columns
     @selected_columns ||= query
-                            .columns
-                            .flat_map { |name| all_columns.detect { |column| column[:id].to_s == name } }
+                            .selects
+                            .map { |c| { id: c.attribute, name: c.caption } }
   end
 end

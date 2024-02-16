@@ -35,6 +35,7 @@ RSpec.shared_examples_for 'project queries contract' do
   let(:current_user) { build_stubbed(:user) }
   let(:query_name) { "Query name" }
   let(:query_user) { current_user }
+  let(:query_selects) { %i[name project_status created_at] }
 
   describe 'validation' do
     it_behaves_like 'contract is valid'
@@ -61,6 +62,12 @@ RSpec.shared_examples_for 'project queries contract' do
       let(:current_user) { build_stubbed(:anonymous) }
 
       it_behaves_like 'contract is invalid', base: :error_unauthorized
+    end
+
+    context 'if the selects do not include the name column' do
+      let(:query_selects) { %i[project_status created_at] }
+
+      it_behaves_like 'contract is invalid', selects: :name_not_included
     end
   end
 end

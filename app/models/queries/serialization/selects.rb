@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,15 +24,32 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class Queries::WorkPackages::Columns::TypeaheadColumn < Queries::WorkPackages::Columns::WorkPackageColumn
-  def self.instances(_context = nil)
-    new :typeahead,
-        displayable: false,
-        # This is an ugly hack. When using the typeahead order, the work packages should always be ordered
-        # by their updated_at. But when asc is specified for typeahead, the updated_at property is to be used
-        # in desc order.
-        sortable: ->(table_name = WorkPackage.table_name) { "#{table_name}.updated_at DESC, #{table_name}.updated_at" }
+class Queries::Serialization::Selects
+  include Queries::Selects::AvailableSelects
+
+  def load(serialized_selects)
+    return [] if serialized_selects.nil?
+
+    serialized_selects.map do |o|
+      select_for(o.to_sym)
+    end
   end
+
+  def dump(selects)
+    selects.map(&:attribute)
+  end
+
+  def registered_and_available
+    ::Queries::Register
+      .selects[klass]
+      .select(&:available?)
+  end
+
+  def initialize(klass)
+    @klass = klass
+  end
+
+  attr_reader :klass
 end

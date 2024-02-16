@@ -26,40 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries::Projects
-  ::Queries::Register.register(ProjectQuery) do
-    filter Filters::AncestorFilter
-    filter Filters::TypeFilter
-    filter Filters::ActiveFilter
-    filter Filters::TemplatedFilter
-    filter Filters::PublicFilter
-    filter Filters::NameFilter
-    filter Filters::NameAndIdentifierFilter
-    filter Filters::MemberOfFilter
-    filter Filters::TypeaheadFilter
-    filter Filters::CustomFieldFilter
-    filter Filters::CreatedAtFilter
-    filter Filters::LatestActivityAtFilter
-    filter Filters::PrincipalFilter
-    filter Filters::ParentFilter
-    filter Filters::IdFilter
-    filter Filters::ProjectStatusFilter
-    filter Filters::UserActionFilter
-    filter Filters::VisibleFilter
+class Queries::WorkPackages::Selects::RelationToTypeSelect < Queries::WorkPackages::Selects::RelationSelect
+  def initialize(type)
+    super
 
-    order Orders::DefaultOrder
-    order Orders::LatestActivityAtOrder
-    order Orders::RequiredDiskSpaceOrder
-    order Orders::CustomFieldOrder
-    order Orders::ProjectStatusOrder
-    order Orders::NameOrder
-    order Orders::TypeaheadOrder
+    set_name! type
+    self.type = type
+  end
 
-    select Selects::CreatedAt
-    select Selects::CustomField
-    select Selects::Default
-    select Selects::LatestActivityAt
-    select Selects::RequiredDiskSpace
-    select Selects::Status
+  def set_name!(type)
+    self.name = :"relations_to_type_#{type.id}"
+  end
+
+  def caption
+    I18n.t(:'activerecord.attributes.query.relations_to_type_column',
+           type: type.name)
+  end
+
+  def self.instances(context = nil)
+    if !granted_by_enterprise_token
+      []
+    elsif context
+      context.types
+    else
+      Type.all
+    end.map { |type| new(type) }
   end
 end

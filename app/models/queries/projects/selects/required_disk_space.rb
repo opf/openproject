@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,29 +24,18 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module API
-  module V3
-    module Queries
-      module Columns
-        module QueryColumnsFactory
-          def self.representer(column)
-            case column
-            when ::Queries::WorkPackages::Selects::RelationToTypeSelect
-              ::API::V3::Queries::Columns::QueryQueries::WorkPackages::Selects::RelationToTypeSelectRepresenter
-            when ::Queries::WorkPackages::Selects::RelationOfTypeSelect
-              ::API::V3::Queries::Columns::QueryQueries::WorkPackages::Selects::RelationOfTypeSelectRepresenter
-            else
-              ::API::V3::Queries::Columns::QueryPropertyColumnRepresenter
-            end
-          end
+class Queries::Projects::Selects::RequiredDiskSpace < Queries::Selects::Base
+  def self.key
+    :required_disk_space
+  end
 
-          def self.create(column)
-            representer(column).new(column)
-          end
-        end
-      end
-    end
+  def self.available?
+    User.current.admin?
+  end
+
+  def caption
+    I18n.t(:label_required_disk_storage)
   end
 end

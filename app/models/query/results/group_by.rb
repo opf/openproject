@@ -76,7 +76,7 @@ module ::Query::Results::GroupBy
   end
 
   def transform_group_keys(groups)
-    if query.group_by_column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn)
+    if query.group_by_column.is_a?(Queries::WorkPackages::Selects::Queries::WorkPackages::Selects::CustomFieldSelect)
       transform_custom_field_keys(groups)
     else
       transform_property_keys(groups)

@@ -30,7 +30,7 @@ module API
   module V3
     module Queries
       module Columns
-        class QueryRelationOfTypeColumnRepresenter < QueryColumnRepresenter
+        class QueryQueries::WorkPackages::Selects::RelationOfTypeSelectRepresenter < QueryColumnRepresenter
           def _type
             'QueryColumn::RelationOfType'
           end

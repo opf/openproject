@@ -265,7 +265,7 @@ RSpec.describe Queries::ParamsParser, type: :model do
       end
 
       it 'returns an invalid sort order' do
-        expect(subject[:columns])
+        expect(subject[:selects])
           .to eql %w[name cf_1 project_status]
       end
     end

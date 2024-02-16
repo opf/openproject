@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,19 +24,33 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class Queries::WorkPackages::Columns::ManualSortingColumn < Queries::WorkPackages::Columns::WorkPackageColumn
-  include ::Queries::WorkPackages::Common::ManualSorting
+module Queries
+  module Selects
+    module AvailableSelects
+      def select_for(key)
+        (find_available_select(key) || ::Queries::Selects::NotExistingSelect).new(key.to_sym)
+      end
 
-  def initialize
-    super(:manual_sorting,
-          default_order: 'asc',
-          displayable: false,
-          sortable: "#{OrderedWorkPackage.table_name}.position NULLS LAST, #{WorkPackage.table_name}.id")
-  end
+      def available_selects
+        registered_and_available
+          .flat_map(&:all_available)
+      end
 
-  def sortable_join_statement(query)
-    ordered_work_packages_join(query)
+      private
+
+      def find_available_select(key)
+        registered_and_available.detect do |s|
+          s.key === key.to_sym
+        end
+      end
+
+      def registered_and_available
+        ::Queries::Register
+          .selects[self.class]
+          .select(&:available?)
+      end
+    end
   end
 end

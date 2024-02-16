@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,41 +24,41 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-require 'spec_helper'
-require_relative 'shared_query_column_specs'
+class Queries::Projects::Selects::CustomField < Queries::Selects::Base
+  validates :custom_field, presence: { message: I18n.t(:'activerecord.errors.messages.does_not_exist') }
 
-RSpec.describe Queries::WorkPackages::Columns::PropertyColumn do
-  let(:instance) { described_class.new(:query_column) }
+  def self.key
+    /cf_(\d+)/
+  end
 
-  it_behaves_like 'query column'
+  def self.available?
+    EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
+  end
 
-  describe 'instances' do
-    context 'when done_ratio disabled' do
-      it 'the done ratio column does not exist' do
-        allow(WorkPackage)
-          .to receive(:done_ratio_disabled?)
-          .and_return(true)
+  def self.all_available
+    return [] unless available?
 
-        expect(described_class.instances.map(&:name)).not_to include :done_ratio
-      end
-    end
+    ProjectCustomField
+      .visible
+      .pluck(:id)
+      .map { |cf_id| new("cf_#{cf_id}") }
+  end
 
-    context 'when done_ratio enabled' do
-      it 'the done ratio column exists' do
-        allow(WorkPackage)
-          .to receive(:done_ratio_disabled?)
-          .and_return(false)
+  def caption
+    custom_field.name
+  end
 
-        expect(described_class.instances.map(&:name)).to include :done_ratio
-      end
-    end
+  def custom_field
+    @custom_field ||= begin
+                        ProjectCustomField
+                          .visible
+                          .find_by_id(self.class.key.match(attribute)[1])
+                      end
+  end
 
-    context 'when duration feature flag enabled' do
-      it 'column exists' do
-        expect(described_class.instances.map(&:name)).to include :duration
-      end
-    end
+  def scope
+    super.select(custom_field.order_statements)
   end
 end

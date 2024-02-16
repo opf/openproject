@@ -423,7 +423,8 @@ module Settings
       },
       enabled_projects_columns: {
         default: %w[project_status public created_at latest_activity_at required_disk_space],
-        allowed: -> { Projects::TableComponent.new(current_user: User.admin.first).all_columns.map(&:first).map(&:to_s) }
+        # TODO: write a method on ProjectQuery to get all available column names
+        allowed: -> { Queries::Projects::ProjectQuery.available_select_keys.map(&:to_s) }
       },
       enabled_scm: {
         default: %w[subversion git]

@@ -32,15 +32,15 @@ See COPYRIGHT and LICENSE files for more details.
     <div class="generic-table--results-container">
       <table class="generic-table" <%= table_id ? "id=\"#{table_id}\"".html_safe : '' %>>
         <colgroup>
-          <% headers.each do |_name, _options| %>
-            <col <%= "opHighlightCol" unless _name == :hierarchy %> >
+          <% columns.each do |column| %>
+            <col <%= "opHighlightCol" unless column.attribute == :hierarchy %> >
           <% end %>
           <col opHighlightCol>
         </colgroup>
-        <thead  class="-sticky">
+        <thead class="-sticky">
         <tr>
-          <% headers.each do |name, options| %>
-            <% if name == :hierarchy %>
+          <% columns.each do |column| %>
+            <% if column.attribute == :hierarchy %>
               <th id="project-table--hierarchy-header">
                 <div class="generic-table--sort-header-outer generic-table--sort-header-outer_no-highlighting">
                   <div class="generic-table--sort-header">
@@ -52,22 +52,15 @@ See COPYRIGHT and LICENSE files for more details.
                   </div>
                 </div>
               </th>
-            <% elsif sortable_column?(name) %>
-              <%= build_sort_header name,
-                                    options.merge(data:
-                                                    {
-                                                      controller: "params-from-query",
-                                                      'application-target': "dynamic",
-                                                      'params-from-query-allowed-value': '["query_id"]',
-                                                      'params-from-query-all-anchors-value': "true"
-                                                    }
-                                                 ) %>
+            <% elsif sortable_column?(column) %>
+              <%= build_sort_header column.attribute,
+                                    order_options(column) %>
             <% else %>
               <th>
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
                     <span>
-                      <%= options[:caption] %>
+                      <%= column.caption %>
                     </span>
                   </div>
                 </div>
