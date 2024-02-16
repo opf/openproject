@@ -3,7 +3,7 @@ require_relative 'form_field'
 module FormFields
   module Primerized
     class InputField < FormField
-      delegate :fill_in, to: :input_element
+      delegate :fill_in, :check, :uncheck, to: :input_element
 
       def field_container
         page.find(selector).first(:xpath, ".//..").first(:xpath, ".//..")

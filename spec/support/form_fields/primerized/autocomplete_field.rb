@@ -20,6 +20,8 @@ module FormFields
           page.find('.ng-value', text: val, visible: :all).find('.ng-value-icon').click
           sleep 0.25 # still required?
         end
+        field_container.find('.ng-arrow-wrapper').click # close dropdown
+        sleep 0.25
       end
 
       def search(text)
