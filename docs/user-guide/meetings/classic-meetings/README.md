@@ -95,7 +95,7 @@ You will be directed to the meeting view, where you can edit the minutes (do not
 
 ## Send email to all participants
 
-To quickly notify participants about the meeting and send them a link to the meeting select the dropdown menu behind the three dots and select the  **Send email to all participants**.
+To quickly notify participants about the meeting and send them a link to the meeting select the dropdown menu behind the three dots and select the **Send email to all participants**.
 
 ![Send email to a classic meeting participants in OpenProject](send email to participants.png)
 
