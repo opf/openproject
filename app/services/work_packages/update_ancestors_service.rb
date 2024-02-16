@@ -87,15 +87,15 @@ class WorkPackages::UpdateAncestorsService
     return unless modified_attributes_justify_derivation?(attributes)
 
     {
-      # Estimated hours need to be calculated before the done_ratio below.
-      # The aggregation only depends on estimated hours.
+      # Derived estimated hours and Derived remaining hours need to be
+      # calculated before the Derived done ratio below since the
+      # aggregation depends on both derived fields.
+      #
+      # Changes in any of these, also warrant a recalculation of
+      # the Derived done ratio.
       %i[estimated_hours] => :derive_estimated_hours,
-      # Progress (done_ratio or also: percentDone) depends on both
-      # the completion of sub-WPs, as well as the estimated hours
-      # as a weight factor. So changes in estimated hours also have
-      # to trigger a recalculation of done_ratio.
-      %i[done_ratio estimated_hours status status_id] => :derive_done_ratio,
       %i[remaining_hours] => :derive_remaining_hours,
+      %i[done_ratio status status_id] => :derive_done_ratio,
       %i[ignore_non_working_days] => :derive_ignore_non_working_days
     }.each do |derivative_attributes, method|
       if attributes.intersect?(derivative_attributes + %i[parent parent_id])
@@ -116,8 +116,17 @@ class WorkPackages::UpdateAncestorsService
 
     return if WorkPackage.use_status_for_done_ratio? && ancestor.status && ancestor.status.default_done_ratio
 
-    # done ratio = weighted average ratio of leaves
-    ancestor.derived_done_ratio = (aggregate_done_ratio(ancestor, loader) || 0).round
+    ancestor.derived_done_ratio = compute_derived_done_ratio(ancestor, loader) || 0
+  end
+
+  def compute_derived_done_ratio(work_package, loader)
+    leaves = loader.leaves_of(work_package)
+
+    if leaves.size.positive?
+      work_done = (work_package.derived_estimated_hours - work_package.derived_remaining_hours)
+      progress = (work_done.to_f / work_package.derived_estimated_hours) * 100
+      progress.round
+    end
   end
 
   # Sets the ignore_non_working_days to true if any descendant has its value set to true.
@@ -135,54 +144,6 @@ class WorkPackages::UpdateAncestorsService
     end
 
     ancestor.ignore_non_working_days = descendant_value
-  end
-
-  ##
-  # done ratio = weighted average ratio of leaves
-  def aggregate_done_ratio(work_package, loader)
-    leaves = loader.leaves_of(work_package)
-
-    leaves_count = leaves.size
-
-    if leaves_count.positive?
-      average = average_estimated_hours(leaves)
-      progress = done_ratio_sum(leaves, average) / (average * leaves_count)
-
-      progress.round(2)
-    end
-  end
-
-  def average_estimated_hours(leaves)
-    # 0 and nil shall be considered the same for estimated hours
-    sum = all_estimated_hours(leaves).sum.to_f
-    count = all_estimated_hours(leaves).count
-
-    count = 1 if count.zero?
-
-    average = sum / count
-
-    average.zero? ? 1 : average
-  end
-
-  def done_ratio_sum(leaves, average_estimated_hours)
-    # Do not take into account estimated_hours when it is either nil or set to 0.0
-    summands = leaves.map do |leaf|
-      estimated_hours = if leaf.estimated_hours.to_f.positive?
-                          leaf.estimated_hours
-                        else
-                          average_estimated_hours
-                        end
-
-      done_ratio = if leaf.closed?
-                     100
-                   else
-                     leaf.done_ratio || 0
-                   end
-
-      estimated_hours * done_ratio
-    end
-
-    summands.sum
   end
 
   def derive_estimated_hours(work_package, loader)
