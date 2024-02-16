@@ -55,7 +55,7 @@ To communicate with the GRAPH API you need to authenticate against it. This is d
 in the [Azure portal](https://portal.azure.com/) for your Microsoft Entra ID. In addition, the Azure application needs
 some API permissions. In general those permissions are given either of the `Delegated` type (in a user context) or of
 the `Application` type (for the whole application). To achieve the task of getting the desired drive ID, you will need
-an access token with the permission `Sites.Read.All`.
+an access token with the permission `Files.Read.All`.
 
 ### API endpoints
 
@@ -93,7 +93,7 @@ alternative is [example 2](./#example-2-terminal).
 
 #### Preconditions
 
-- Azure application has the API permission `Sites.Read.All` of type `Delegated`
+- Azure application has the API permission `Files.Read.All` of type `Delegated`
 - Any browser
 
 #### How to
@@ -194,7 +194,7 @@ There is a way to get all necessary information by executing the web requests fr
 
 #### Preconditions
 
-- Azure application has the API permission `Sites.Read.All` of type `Application`
+- Azure application has the API permission `Files.Read.All` of type `Application`
 - `curl`
 - `jq` (You do not have to use this tool, but if you don't, you will have to take the information from the JSON HTTP
   responses by hand.)
