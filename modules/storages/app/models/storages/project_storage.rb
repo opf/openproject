@@ -53,7 +53,7 @@ class Storages::ProjectStorage < ApplicationRecord
   scope :active_automatically_managed, -> do
     automatic
       .active
-      .where(storages: Storages::Storage.automatic_management_enabled)
+      .where(storage: Storages::Storage.automatic_management_enabled)
   end
 
   def automatic_management_possible?
@@ -62,9 +62,20 @@ class Storages::ProjectStorage < ApplicationRecord
 
   def project_folder_path
     return "#{storage.group_folder}/#{project.name.tr('/', '|')} (#{project.id})/" if storage.provider_type_nextcloud?
-    return project_folder_id if storage.provider_type_one_drive?
+    return "#{project.name.gsub(/[\\<>+?:"|\/]/, '_')} (#{project.id})" if storage.provider_type_one_drive?
 
     raise 'Unknown Storage'
+  end
+
+  def project_folder_location
+    case storage.short_provider_type
+    when 'nextcloud'
+      project_folder_path
+    when 'one_drive'
+      project_folder_id
+    else
+      raise 'Unkown Storage'
+    end
   end
 
   def project_folder_path_escaped

@@ -28,9 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# [{:id=>"248aeb72-b231-4e71-a466-67fa7df2a285", :email=>"testuser01.op@outlook.com"},
-#  {:id=>"2ff33b8f-2843-40c1-9a17-d786bca17fba", :email=>"testuser02.op@outlook.com"},
-#  {:id=>"33db2c84-275d-46af-afb0-c26eb786b194", :email=>"testmanager01.op@outlook.com"}]
 require 'spec_helper'
 require_module_spec_helper
 
@@ -145,12 +142,15 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
 
       it 'adds a record to the LastProjectFolder for each new folder',
          vcr: 'one_drive/sync_service_create_folder' do
-        expect { service.call }.to change { project_storage.last_project_folders.last.origin_folder_id }
-                                     .and(change { public_project_storage.last_project_folders.last.origin_folder_id })
-                                     .and(change { disallowed_chars_project_storage.last_project_folders.last.origin_folder_id })
-                                     .and(change { public_project_storage.last_project_folders.last.origin_folder_id })
-                                     .and(not_change { unmanaged_project_storage.last_project_folders.last.origin_folder_id })
-                                     .and(not_change { inactive_project_storage.last_project_folders.last.origin_folder_id })
+        scope = ->(project_storage) { Storages::LastProjectFolder.where(project_storage:).last }
+
+        expect { service.call }.to not_change { scope[unmanaged_project_storage].reload.origin_folder_id }
+                                         .and(not_change { scope[inactive_project_storage].reload.origin_folder_id })
+
+        expect(scope[project_storage].origin_folder_id).to eq(project_storage.reload.project_folder_id)
+        expect(scope[public_project_storage].origin_folder_id).to eq(public_project_storage.reload.project_folder_id)
+        expect(scope[disallowed_chars_project_storage].origin_folder_id)
+          .to eq(disallowed_chars_project_storage.reload.project_folder_id)
       end
 
       it 'creates the remote folders for all projects with automatically managed folders enabled',
@@ -176,7 +176,7 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
     end
 
     it 'renames an already existing project folder', vcr: 'one_drive/sync_service_rename_folder' do
-      original_folder = create_folder_for(disallowed_chars_project, "Old Jedi Project")
+      original_folder = create_folder_for(disallowed_chars_project_storage, "Old Jedi Project")
 
       disallowed_chars_project_storage.update(project_folder_id: original_folder.result.id)
 
@@ -187,7 +187,7 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
     end
 
     it 'hides (removes all permissions) from inactive project folders', vcr: 'one_drive/sync_service_hide_inactive' do
-      original_folder = create_folder_for(inactive_project)
+      original_folder = create_folder_for(inactive_project_storage)
       inactive_project_storage.update(project_folder_id: original_folder.result.id)
 
       set_permissions_on(original_folder.result.id,
@@ -204,7 +204,7 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
     end
 
     it 'adds already logged in users to the project folder', vcr: 'one_drive/sync_service_set_permissions' do
-      original_folder = create_folder_for(inactive_project)
+      original_folder = create_folder_for(inactive_project_storage)
       inactive_project_storage.update(project_folder_id: original_folder.result.id)
 
       service.call
@@ -260,7 +260,7 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
 
       context 'when folder creation fails' do
         it "doesn't update the project_storage", vcr: 'one_drive/sync_service_creation_fail' do
-          already_existing_folder = create_folder_for(project).result
+          already_existing_folder = create_folder_for(project_storage).result
 
           expect { service.call }.not_to change(project_storage, :project_folder_id)
         ensure
@@ -268,7 +268,7 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
         end
 
         it 'logs the occurrence', vcr: 'one_drive/sync_service_creation_fail' do
-          already_existing_folder = create_folder_for(project).result
+          already_existing_folder = create_folder_for(project_storage).result
           service.call
 
           expect(OpenProject.logger)
@@ -284,8 +284,8 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
 
       context 'when folder renaming fails' do
         it 'logs the occurrence', vcr: 'one_drive/sync_service_rename_failed' do
-          already_existing_folder = create_folder_for(project)
-          original_folder = create_folder_for(project, "Flawless Death Star Blueprints")
+          already_existing_folder = create_folder_for(project_storage)
+          original_folder = create_folder_for(project_storage, "Flawless Death Star Blueprints")
           project_storage.update(project_folder_id: original_folder.result.id)
 
           service.call
@@ -357,11 +357,11 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
     end
   end
 
-  def create_folder_for(project, folder_override = nil)
-    folder_path = (folder_override || "#{project.name} (#{project.id})")
-      .gsub(described_class::DISALLOWED_CHARS, '_').squish
+  def create_folder_for(project_storage, folder_override = nil)
+    folder_path = folder_override || project_storage.project_folder_path
 
-    Storages::Peripherals::Registry.resolve('commands.one_drive.create_folder').call(storage:, folder_path:)
+    Storages::Peripherals::Registry.resolve('commands.one_drive.create_folder')
+                                   .call(storage: project_storage.storage, folder_path:)
   end
 
   def set_permissions_on(item_id, permissions)

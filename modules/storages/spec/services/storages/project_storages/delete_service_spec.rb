@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -104,7 +106,7 @@ RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model 
 
     context 'with Nextcloud storage' do
       let(:delete_folder_url) do
-        "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}/"
+        "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_location}"
       end
 
       it_behaves_like 'deleting project storages with project folders'
@@ -113,7 +115,7 @@ RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model 
     context 'with OneDrive storage' do
       let(:storage) { create(:one_drive_storage) }
       let(:delete_folder_url) do
-        "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{project_storage.project_folder_path}"
+        "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/items/#{project_storage.project_folder_location}"
       end
 
       before do

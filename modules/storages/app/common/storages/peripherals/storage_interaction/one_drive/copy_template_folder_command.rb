@@ -44,11 +44,9 @@ module Storages
           end
 
           def call(source_path, destination_path)
-            normalized_destination = normalize_path(destination_path)
-
             Util.using_admin_token(@storage) do |httpx|
               handle_response(
-                httpx.post(copy_path_for(source_path), json: payload(normalized_destination))
+                httpx.post(copy_path_for(source_path), json: payload(destination_path))
               )
             end
           end
@@ -81,18 +79,10 @@ module Storages
             match_data[:item_id] if match_data
           end
 
-          def payload(destination_path)
-            {
-              name: destination_path
-            }
-          end
+          def payload(destination_path) = { name: destination_path }
 
           def copy_path_for(path)
             "/v1.0/drives/#{@storage.drive_id}/items/#{path}/copy?@microsoft.graph.conflictBehavior=fail"
-          end
-
-          def normalize_path(path)
-            path.gsub(/[\\<>+?:"|\/]/, '')
           end
         end
       end

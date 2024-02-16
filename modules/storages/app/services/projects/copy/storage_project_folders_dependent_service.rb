@@ -62,7 +62,7 @@ module Projects::Copy
     private
 
     def copy_project_folder(source_project_storage, destination_project_storage)
-      source_folder_name = source_project_storage.project_folder_path
+      source_folder_name = source_project_storage.project_folder_location
       destination_folder_name = destination_project_storage.project_folder_path
 
       Storages::Peripherals::Registry
