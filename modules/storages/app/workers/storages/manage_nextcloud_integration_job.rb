@@ -65,9 +65,9 @@ module Storages
 
       def disable_cron_job_if_needed
         if ::Storages::ProjectStorage.active_automatically_managed.exists?
-          GoodJob::Setting.cron_key_enable(CRON_JOB_KEY)
+          GoodJob::Setting.cron_key_enable(CRON_JOB_KEY) unless GoodJob::Setting.cron_key_enabled?(CRON_JOB_KEY)
         else
-          GoodJob::Setting.cron_key_disable(CRON_JOB_KEY)
+          GoodJob::Setting.cron_key_disable(CRON_JOB_KEY) if GoodJob::Setting.cron_key_enabled?(CRON_JOB_KEY)
         end
       end
 
