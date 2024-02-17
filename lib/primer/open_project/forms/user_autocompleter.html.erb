@@ -3,8 +3,8 @@
                               data: @data_attributes,
                               inputs: @autocomplete_options.merge(
                                 classes: "ng-select--primerized #{@input.invalid? ? '-error' : ''}",
-                                inputName: builder.field_name(@input.name, multiple: @autocomplete_options[:multiple]),
-                                inputValue: builder.object.send(@input.name),
+                                inputName: @autocomplete_options.fetch(:inputName) { builder.field_name(@input.name, multiple: @autocomplete_options[:multiple]) },
+                                inputValue: @autocomplete_options.fetch(:inputValue) { builder.object.send(@input.name) },
                               )
     %>
 <% end %>

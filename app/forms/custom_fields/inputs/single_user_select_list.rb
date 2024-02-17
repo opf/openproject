@@ -30,8 +30,7 @@ class CustomFields::Inputs::SingleUserSelectList < CustomFields::Inputs::Base::A
   include CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
 
   form do |custom_value_form|
-    # TODO: use user_autocompleter as seen on sharing form instead
-    custom_value_form.autocompleter(**input_attributes)
+    custom_value_form.user_autocompleter(**input_attributes)
   end
 
   private
@@ -44,7 +43,7 @@ class CustomFields::Inputs::SingleUserSelectList < CustomFields::Inputs::Base::A
     super.merge(user_autocomplete_options)
   end
 
-  def init_user_ids
-    @custom_value.value.present? ? [@custom_value.value] : []
+  def custom_input_value
+    @custom_value&.value
   end
 end

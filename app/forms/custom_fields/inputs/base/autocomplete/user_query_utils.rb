@@ -31,10 +31,10 @@ module CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
     {
       placeholder: I18n.t(:label_user_search),
       resource:,
-      # url: ::API::V3::Utilities::PathHelper::ApiV3Path.users,
+      url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
       filters:,
       searchKey: search_key,
-      inputValue: input_value,
+      inputValue: custom_input_value,
       focusDirectly: false,
       appendTo: 'body'
     }
@@ -54,18 +54,5 @@ module CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
       { name: 'member', operator: '=', values: [@object.id.to_s] },
       { name: 'status', operator: '!', values: [Principal.statuses["locked"].to_s] }
     ]
-  end
-
-  def input_value
-    "?#{input_values_filter}" unless init_user_ids.empty?
-  end
-
-  def input_values_filter
-    # TODO: not working yet, would work with resource "users" and simple ids, but then the options cannot be loaded
-    user_filter = { "type" => { "operator" => "=", "values" => ["User", "Group", "PlaceholderUser"] } }
-    id_filter = { "id" => { "operator" => "=", "values" => init_user_ids } }
-
-    filters = [user_filter, id_filter]
-    URI.encode_www_form("filters" => filters.to_json)
   end
 end
