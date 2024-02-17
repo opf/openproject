@@ -17,7 +17,12 @@
       }
     )
 
-    dialog.with_body(id: dialog_body_id, role: :status, aria: { live: :polite }) do
+    dialog.with_body(
+      id: dialog_body_id,
+      role: :status,
+      aria: { live: (authorized ? :assertive : :polite) },
+      test_selector: 'oauth-access-grant-nudge-modal-body'
+    ) do
       concat(
         render(
           Primer::Beta::Text.new(
