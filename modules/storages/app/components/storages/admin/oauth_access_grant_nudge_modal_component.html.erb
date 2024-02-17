@@ -5,7 +5,8 @@
       title:,
       data: {
         'application-target': 'dynamic',
-        controller: 'storages--oauth-access-grant-nudge-modal'
+        controller: 'storages--oauth-access-grant-nudge-modal',
+        'storages--oauth-access-grant-nudge-modal-close-button-label-value': I18n.t('button_close')
       },
       test_selector: 'oauth-access-grant-nudge-modal'
     )
@@ -53,8 +54,7 @@
             aria: { label: cancel_button_text },
             data: {
               'close-dialog-id': dialog_id,
-              'storages--oauth-access-grant-nudge-modal-target': 'cancelButton',
-              'storages--oauth-access-grant-nudge-modal-close-label-value': I18n.t('button_close')
+              'storages--oauth-access-grant-nudge-modal-target': 'closeButton'
             }
           )
         ) { cancel_button_text }

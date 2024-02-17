@@ -37,7 +37,7 @@ export default class OAuthAccessGrantNudgeModalController extends Controller<HTM
     'header',
     'loadingIndicator',
     'requestAccessBody',
-    'cancelButton',
+    'closeButton',
   ];
 
   static values = {
@@ -49,10 +49,10 @@ export default class OAuthAccessGrantNudgeModalController extends Controller<HTM
   declare readonly headerTarget:HTMLElement;
   declare readonly loadingIndicatorTarget:HTMLElement;
   declare readonly requestAccessButtonTarget:HTMLElement;
-  declare readonly cancelButtonTarget:HTMLElement;
+  declare readonly closeButtonTarget:HTMLElement;
   declare readonly hasRequestAccessButtonTarget:boolean;
 
-  declare closeButtonLabelValue:string;
+  declare readonly closeButtonLabelValue:string;
 
   connect() {
     this.element.showModal();
@@ -73,8 +73,8 @@ export default class OAuthAccessGrantNudgeModalController extends Controller<HTM
   // Hide the request access button and show the loading indicator
   private activateLoadingState() {
     this.requestAccessButtonTarget.classList.add('d-none');
-    this.cancelButtonTarget.textContent = this.closeButtonLabelValue;
-    this.cancelButtonTarget.setAttribute('aria-label', this.closeButtonLabelValue);
+    this.closeButtonTarget.textContent = this.closeButtonLabelValue;
+    this.closeButtonTarget.setAttribute('aria-label', this.closeButtonLabelValue);
     this.headerTarget.classList.add('d-none');
 
     this.requestAccessBodyTarget.classList.add('d-none');
