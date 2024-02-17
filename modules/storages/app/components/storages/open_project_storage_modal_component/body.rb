@@ -26,7 +26,9 @@
 
 class Storages::OpenProjectStorageModalComponent::Body < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
   options success_title: I18n.t('storages.open_project_storage_modal.success.title'),
-          success_subtitle: I18n.t('storages.open_project_storage_modal.success.subtitle')
+          success_subtitle: I18n.t('storages.open_project_storage_modal.success.subtitle'),
+          waiting_title: I18n.t('storages.open_project_storage_modal.waiting.title'),
+          waiting_subtitle: I18n.t('storages.open_project_storage_modal.waiting.subtitle')
 
   def initialize(state, **options)
     @state = state
