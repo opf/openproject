@@ -254,9 +254,9 @@ sv:
       no_results_title_text: Det finns för närvarande inga projekt
       no_results_content_text: Skapa ett nytt projekt
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
+      active: 'Aktiva projekt'
+      my: 'Mina projekt'
+      archived: 'Arkiverade projekt'
       my_private: 'My private project lists'
       new:
         placeholder: 'New project list'

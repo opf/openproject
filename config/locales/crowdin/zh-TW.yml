@@ -1029,7 +1029,7 @@ zh-TW:
     filter:
       changeset: "變更項目"
       message: "論壇"
-      news: "新知"
+      news: "最新消息"
       project_attribute: "專案屬性"
       subproject: "Include subprojects"
       time_entry: "耗時"
@@ -1418,7 +1418,7 @@ zh-TW:
   events:
     changeset: "已編輯變更"
     message: 訊息已編輯
-    news: 新知
+    news: 最新消息
     project_attributes: "Project attributes edited"
     project: "Project edited"
     projects: "專案已編輯"
@@ -1583,7 +1583,7 @@ zh-TW:
         We hope you find in-app notifications useful and that they makes you even more productive.
         Sincerely, The OpenProject team
       body_header: "Version 12.0 with Notification Center"
-      body_subheader: "新知"
+      body_subheader: "最新消息"
       subject: "Important changes to notifications with the release of 12.0"
   label_accessibility: "輔助功能"
   label_account: "帳號"
@@ -1907,13 +1907,13 @@ zh-TW:
   label_new: "新增"
   label_new_features: "新功能"
   label_new_statuses_allowed: "允許的新狀態"
-  label_news_singular: "新知"
+  label_news_singular: "最新消息"
   label_news_added: "消息已新增"
   label_news_comment_added: "評論已新增"
   label_news_latest: "最新消息"
   label_news_new: "增加消息"
   label_news_edit: "編輯消息"
-  label_news_plural: "新知"
+  label_news_plural: "最新消息"
   label_news_view_all: "檢視所有新聞"
   label_next: "下一個"
   label_next_week: "下一週"
@@ -2528,7 +2528,7 @@ zh-TW:
   project_module_activity: "活動"
   project_module_forums: "論壇"
   project_module_work_package_tracking: "工作項目"
-  project_module_news: "新知"
+  project_module_news: "最新消息"
   project_module_repository: "版本庫"
   project_module_wiki: "維基"
   permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
