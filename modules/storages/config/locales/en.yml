@@ -185,6 +185,7 @@ en:
       confirm_button_label: Login
       storage_ready: You are now ready to use %{storage}
       title: One more step...
+      requesting_access_to: Requesting access to %{storage}
     open_project_storage_modal:
       success:
         subtitle: You are being redirected

@@ -10,7 +10,34 @@
       test_selector: 'oauth-access-grant-nudge-modal'
     )
   ) do |dialog|
-    dialog.with_body(id: dialog_body_id) { body_text }
+    dialog.with_header(
+      show_divider: false,
+      data: {
+        'storages--oauth-access-grant-nudge-modal-target': 'header'
+      }
+    )
+
+    dialog.with_body(id: dialog_body_id, role: :status, aria: { live: :polite }) do
+      concat(
+        render(
+          Primer::Beta::Text.new(
+            display: :none,
+            data: {
+              'storages--oauth-access-grant-nudge-modal-target': 'loadingIndicator'
+            }
+          )
+        ) { render(Storages::OpenProjectStorageModalComponent::Body.new(:waiting, waiting_title:)) }
+      )
+      concat(
+        render(
+          Primer::Beta::Text.new(
+            data: {
+              'storages--oauth-access-grant-nudge-modal-target': 'requestAccessBody'
+            }
+          )
+        ) { body_text }
+      )
+    end
 
     dialog.with_footer(show_divider: false) do
       concat(
@@ -19,7 +46,11 @@
             scheme: :default,
             size: :medium,
             aria: { label: cancel_button_text },
-            data: { 'close-dialog-id': dialog_id }
+            data: {
+              'close-dialog-id': dialog_id,
+              'storages--oauth-access-grant-nudge-modal-target': 'cancelButton',
+              'storages--oauth-access-grant-nudge-modal-close-label-value': I18n.t('button_close')
+            }
           )
         ) { cancel_button_text }
       )

@@ -34,12 +34,25 @@ export default class OAuthAccessGrantNudgeModalController extends Controller<HTM
   static targets = [
     'requestAccessForm',
     'requestAccessButton',
+    'header',
+    'loadingIndicator',
+    'requestAccessBody',
+    'cancelButton',
   ];
 
+  static values = {
+    closeButtonLabel: String,
+  };
+
   declare readonly requestAccessFormTarget:HTMLFormElement;
+  declare readonly requestAccessBodyTarget:HTMLElement;
+  declare readonly headerTarget:HTMLElement;
+  declare readonly loadingIndicatorTarget:HTMLElement;
   declare readonly requestAccessButtonTarget:HTMLElement;
-  declare readonly hasRequestAccessFormTarget:boolean;
+  declare readonly cancelButtonTarget:HTMLElement;
   declare readonly hasRequestAccessButtonTarget:boolean;
+
+  declare closeButtonLabelValue:string;
 
   connect() {
     this.element.showModal();
@@ -53,9 +66,18 @@ export default class OAuthAccessGrantNudgeModalController extends Controller<HTM
   public requestAccess(evt:Event):void {
     evt.preventDefault();
 
-    this.requestAccessButtonTarget.textContent = 'Requesting access...';
-    this.requestAccessButtonTarget.setAttribute('aria-disabled', 'true');
-
+    this.activateLoadingState();
     this.requestAccessFormTarget.requestSubmit();
+  }
+
+  // Hide the request access button and show the loading indicator
+  private activateLoadingState() {
+    this.requestAccessButtonTarget.classList.add('d-none');
+    this.cancelButtonTarget.textContent = this.closeButtonLabelValue;
+    this.cancelButtonTarget.setAttribute('aria-label', this.closeButtonLabelValue);
+    this.headerTarget.classList.add('d-none');
+
+    this.requestAccessBodyTarget.classList.add('d-none');
+    this.loadingIndicatorTarget.classList.remove('d-none');
   }
 }

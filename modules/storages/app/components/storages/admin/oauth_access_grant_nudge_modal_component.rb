@@ -54,6 +54,10 @@ module Storages::Admin
       I18n.t('storages.oauth_grant_nudge_modal.title')
     end
 
+    def waiting_title
+      I18n.t('storages.oauth_grant_nudge_modal.requesting_access_to', storage: project_storage.storage.name)
+    end
+
     def cancel_button_text
       if authorized
         I18n.t('button_close')
