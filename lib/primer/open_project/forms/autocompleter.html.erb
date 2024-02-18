@@ -6,8 +6,7 @@
                  input_id: builder.field_id(@input.name),
                  select_options: select_options.map(&:to_h),
                  multiple: @autocomplete_options.fetch(:multiple, false),
-                 key: @autocomplete_options.fetch(:resource, ''),
-                 append_to: @autocomplete_options.fetch(:append_to, 'body')
+                 key: @autocomplete_options.fetch(:resource, '')
                } %>
   <% else %>
     <%= angular_component_tag 'opce-autocompleter',

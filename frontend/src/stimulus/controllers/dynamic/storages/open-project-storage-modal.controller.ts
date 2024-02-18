@@ -30,8 +30,9 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { renderStreamMessage } from '@hotwired/turbo';
+import { ModalDialogElement } from '@openproject/primer-view-components/app/components/primer/alpha/modal_dialog';
 
-export default class OpenProjectStorageModalController extends Controller<HTMLDialogElement> {
+export default class OpenProjectStorageModalController extends Controller<ModalDialogElement> {
   static values = {
     projectStorageOpenUrl: String,
     redirectUrl: String,
@@ -42,7 +43,7 @@ export default class OpenProjectStorageModalController extends Controller<HTMLDi
   redirectUrlValue:string;
 
   connect() {
-    this.element.showModal();
+    this.element.open = true;
     this.interval = 0;
     this.load();
     this.element.addEventListener('close', () => { this.disconnect(); });

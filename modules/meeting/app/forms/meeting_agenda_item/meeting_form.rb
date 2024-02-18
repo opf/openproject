@@ -38,8 +38,7 @@ class MeetingAgendaItem::MeetingForm < ApplicationForm
       caption: I18n.t("label_meeting_selection_caption"),
       autocomplete_options: {
         multiple: false,
-        decorated: true,
-        append_to: append_to_container
+        decorated: true
       }
     ) do |select|
       MeetingAgendaItems::CreateContract
@@ -54,13 +53,8 @@ class MeetingAgendaItem::MeetingForm < ApplicationForm
     end
   end
 
-  def initialize(disabled: false, wrapper_id: nil)
+  def initialize(disabled: false)
     super()
     @disabled = disabled
-    @wrapper_id = wrapper_id
-  end
-
-  def append_to_container
-    @wrapper_id.nil? ? 'body' : "##{@wrapper_id}"
   end
 end
