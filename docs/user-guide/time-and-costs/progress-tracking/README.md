@@ -16,7 +16,7 @@ OpenProject will automatically roll-up progress to parent work packages.
 **% Complete** for work packages with children will show two values:
 
 -  the % Complete value from the work package progress itself, set manually (on the left)
-- the derived value, calculated as an aggregation of % Complete values of the children work packages. The derived value is a hyperlink, clicking it will open the detailed view of the children and illustrate the computation.
+- the value, calculated as an aggregation of % Complete values of the children work packages. This calculated value is a hyperlink, clicking it will open the detailed view of the children and illustrate the computation.
 
 ![](progress-tracking-two-progress-values.png)
 

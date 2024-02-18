@@ -29,10 +29,9 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import { ModalDialogElement } from '@openproject/primer-view-components/app/components/primer/alpha/modal_dialog';
 
-export default class OAuthAccessGrantNudgeModalController extends Controller<ModalDialogElement> {
+export default class OAuthAccessGrantNudgeModalController extends Controller<HTMLDialogElement> {
   connect() {
-    this.element.open = true;
+    this.element.showModal();
   }
 }
