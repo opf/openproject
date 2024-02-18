@@ -28,10 +28,6 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <%= toolbar title: t(:'settings.antivirus.title') %>
 
-<% if true || (Setting::VirusScanning.enabled? && @unscanned_atachments&.exists?) %>
-  <%= render partial: 'unscanned_dialog', locals: { attachments: Attachment.status_uploaded } %>
-<% end %>
-
 <%= styled_form_tag(
       admin_settings_virus_scanning_path,
       method: :patch,

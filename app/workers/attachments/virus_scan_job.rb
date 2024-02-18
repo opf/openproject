@@ -52,6 +52,7 @@ module Attachments
     private
 
     def scan_attachment(attachment)
+      Rails.logger.debug { "Scanning file #{attachment.id} for viruses." }
       service = Attachments::ClamAVService.new
       response = service.scan(attachment)
       case response

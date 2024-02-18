@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Attachments::VirusScanJob,
+               with_ee: %i[virus_scanning],
                with_settings: { antivirus_scan_mode: :clamav_socket } do
   let(:attachment_status) { :uploaded }
   let(:attachment) { build_stubbed(:attachment, status: attachment_status) }

@@ -31,8 +31,7 @@ module Admin::Settings
     menu_item :settings_attachments
 
     before_action :require_ee
-    before_action :check_clamav, only: %i[update], if: -> { scan_will_enable? }
-    before_action :mark_unscanned_attachments, if: -> { scan_will_enable? }
+    before_action :check_clamav, only: %i[update], if: -> { scan_enabled? }
 
     def default_breadcrumb
       t('settings.antivirus.title')
@@ -73,19 +72,34 @@ module Admin::Settings
       redirect_to action: :show
     end
 
-    def scan_will_enable?
-      Setting.antivirus_scan_mode == :disabled && params.dig(:settings, :antivirus_scan_mode) != 'disabled'
+    def scan_enabled?
+      Setting.antivirus_scan_mode != :disabled || params.dig(:settings, :antivirus_scan_mode) != 'disabled'
     end
 
     def success_callback(_call)
       if Setting.antivirus_scan_mode == :disabled && Attachment.status_quarantined.any?
-        flash[:info] = t('settings.antivirus.remaining_quarantined_files_html',
-                         link: helpers.link_to(t('antivirus_scan.quarantined_attachments.title'), admin_quarantined_attachments_path),
-                         file_count: t(:label_x_files, count: Attachment.status_quarantined.count))
-        redirect_to action: :show
+        remaining_quarantine_warning
+      elsif scan_enabled?
+        rescan_files
       else
         super
       end
+    end
+
+    def rescan_files
+      flash[:info] = t('settings.antivirus.remaining_rescanned_files',
+                       file_count: t(:label_x_files, count: Attachment.status_uploaded.count))
+      Attachment.status_uploaded.update_all(status: :rescan)
+
+      job = Attachments::VirusRescanJob.perform_later
+      redirect_to job_status_path(job.job_id)
+    end
+
+    def remaining_quarantine_warning
+      flash[:info] = t('settings.antivirus.remaining_quarantined_files_html',
+                       link: helpers.link_to(t('antivirus_scan.quarantined_attachments.title'), admin_quarantined_attachments_path),
+                       file_count: t(:label_x_files, count: Attachment.status_quarantined.count))
+      redirect_to action: :show
     end
   end
 end

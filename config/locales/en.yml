@@ -3001,14 +3001,17 @@ en:
     antivirus:
       title: "Virus scanning"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
-      unscanned:
-        title: 'Unscanned attachments'
+      remaining_quarantined_files_html: >
+        Virus scanning has been disbled. %{file_count} remain in quarantine.
+        To review quarantined files, please visit this link: %{link}
+      remaining_scan_complete_html: >
+        Remaining files have been scanned. There are %{file_count} in quarantine.
+        You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+      remaining_rescanned_files: >
+        With virus scanning now active, there are %{file_count} that need to be rescanned. 
+        This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
-      remaining_quarantined_files_html: >
-        You have successfully disabled virus scanning. 
-        There are however still %{file_count} in quarantine. 
-        Visit %{link} to clean them up."
       actions:
         delete: 'Delete the file'
         quarantine: 'Quarantine the file'
