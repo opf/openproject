@@ -195,7 +195,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @Input() public clearOnBackspace?:boolean = true;
 
-  @Input() public labelForId?:string;
+  @Input() public labelForId ? = null;
 
   @Input() public inputAttrs?:{ [key:string]:string } = {};
 
