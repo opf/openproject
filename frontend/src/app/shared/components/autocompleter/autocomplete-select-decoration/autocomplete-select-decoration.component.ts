@@ -27,17 +27,13 @@
 //++
 
 import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  ViewChild,
+  Component, ElementRef, OnInit, ViewChild,
 } from '@angular/core';
 import { NgSelectComponent } from '@ng-select/ng-select';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { IProjectAutocompleterData } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocompleter.component';
 import { IProjectAutocompleteItem } from 'core-app/shared/components/autocompleter/project-autocompleter/project-autocomplete-item';
-import {
-  IAutocompleteItem,
-  OpAutocompleterComponent,
-} from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 
 type SelectItem = { label:string, value:string, selected?:boolean };
 
@@ -48,10 +44,10 @@ export const autocompleteSelectDecorationSelector = 'autocomplete-select-decorat
     <op-project-autocompleter
       *ngIf="isProjectField()"
       [model]="currentProjectSelection"
-      [multiple]="multiple"
+      [multiple]="multiselect"
       [labelForId]="labelForId"
       (change)="updateProjectSelection($event)"
-      [appendTo]="appendTo"
+      appendTo="body"
     >
     </op-project-autocompleter>
 
@@ -60,10 +56,10 @@ export const autocompleteSelectDecorationSelector = 'autocomplete-select-decorat
       [items]="options"
       [labelForId]="labelForId"
       bindLabel="label"
-      [multiple]="multiple"
+      [multiple]="multiselect"
       [virtualScroll]="true"
       [ngModel]="selected"
-      [appendTo]="appendTo"
+      appendTo="body"
       [placeholder]="text.placeholder"
       (ngModelChange)="updateSelection($event)">
       <ng-template ng-option-tmp let-item="item" let-index="index">
@@ -73,10 +69,13 @@ export const autocompleteSelectDecorationSelector = 'autocomplete-select-decorat
   `,
   selector: autocompleteSelectDecorationSelector,
 })
-export class AutocompleteSelectDecorationComponent extends OpAutocompleterComponent<IAutocompleteItem> implements OnInit, AfterViewInit {
+export class AutocompleteSelectDecorationComponent implements OnInit {
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   public options:SelectItem[];
+
+  /** Whether we're a multiselect */
+  public multiselect = false;
 
   /** Get the selected options */
   public selected:SelectItem|SelectItem[];
@@ -87,6 +86,9 @@ export class AutocompleteSelectDecorationComponent extends OpAutocompleterCompon
   /** The input name we're syncing selections to */
   private syncInputFieldName:string;
 
+  /** The input id used for label */
+  public labelForId:string;
+
   /** The field key (e.g. status, type, or project)  */
   public key:string;
 
@@ -94,19 +96,24 @@ export class AutocompleteSelectDecorationComponent extends OpAutocompleterCompon
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
 
+  constructor(
+    protected elementRef:ElementRef,
+    readonly I18n:I18nService,
+  ) {
+  }
+
   ngOnInit():void {
     const element = this.elementRef.nativeElement as HTMLElement;
 
     // Set options
-    this.multiple = element.dataset.multiple === 'true';
-    this.labelForId = element.dataset.inputId;
+    this.multiselect = element.dataset.multiselect === 'true';
+    this.labelForId = element.dataset.inputId!;
     this.key = element.dataset.key!;
-    this.appendTo = element.dataset.appendTo;
 
     // Get the sync target
     this.syncInputFieldName = element.dataset.inputName!;
-    // Add Rails multiple identifier if multiple
-    if (this.multiple) {
+    // Add Rails multiple identifier if multiselect
+    if (this.multiselect) {
       this.syncInputFieldName += '[]';
     }
 
@@ -120,7 +127,7 @@ export class AutocompleteSelectDecorationComponent extends OpAutocompleterCompon
       this.setInitialProjectSelection();
     }
 
-    if (!this.multiple) {
+    if (!this.multiselect) {
       this.selected = (this.selected as SelectItem[])[0];
     }
 
@@ -128,11 +135,6 @@ export class AutocompleteSelectDecorationComponent extends OpAutocompleterCompon
 
     // Unhide the parent
     element.parentElement!.hidden = false;
-  }
-
-  // eslint-disable-next-line @angular-eslint/no-empty-lifecycle-method
-  ngAfterViewInit():void {
-    // do nothing and prevent the parent hook to be called
   }
 
   setInitialSelection(data:SelectItem[]):void {
@@ -183,7 +185,7 @@ export class AutocompleteSelectDecorationComponent extends OpAutocompleterCompon
     const items = _.castArray(this.selected);
     if (items.length === 0) return;
 
-    if (this.multiple) {
+    if (this.multiselect) {
       this.currentProjectSelection = items.map((item:SelectItem) => ({
         id: item.value,
         name: item.label,
