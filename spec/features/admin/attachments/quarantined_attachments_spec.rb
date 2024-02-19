@@ -33,9 +33,7 @@ RSpec.describe 'Quarantined attachments', :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
 
   shared_let(:container) { create(:work_package) }
-  shared_let(:own_quarantined_attachment) do
-    create(:attachment, container:, status: :quarantined, author: admin, filename: 'my-own.txt')
-  end
+
   shared_let(:quarantined_attachment) do
     create(:attachment, container:, status: :quarantined, author: other_author, filename: 'other-1.txt')
   end
@@ -50,17 +48,10 @@ RSpec.describe 'Quarantined attachments', :js, :with_cuprite do
   it 'allows management other attachments' do
     visit admin_quarantined_attachments_path
 
-    expect(page).to have_text 'my-own.txt'
     expect(page).to have_text 'other-1.txt'
     expect(page).to have_text 'other-2.txt'
 
-    page.within("#quarantined_attachment_#{own_quarantined_attachment.id}") do
-      expect(page).to have_no_link I18n.t('antivirus_scan.quarantined_attachments.override')
-      expect(page).to have_link I18n.t('antivirus_scan.quarantined_attachments.delete')
-    end
-
     page.within("#quarantined_attachment_#{quarantined_attachment.id}") do
-      expect(page).to have_link I18n.t('antivirus_scan.quarantined_attachments.override')
       expect(page).to have_link I18n.t('antivirus_scan.quarantined_attachments.delete')
 
       accept_confirm do
@@ -70,17 +61,7 @@ RSpec.describe 'Quarantined attachments', :js, :with_cuprite do
       expect { quarantined_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    page.within("#quarantined_attachment_#{other_quarantined_attachment.id}") do
-      expect(page).to have_link I18n.t('antivirus_scan.quarantined_attachments.override')
-      expect(page).to have_link I18n.t('antivirus_scan.quarantined_attachments.delete')
-
-      accept_confirm do
-        click_link I18n.t('antivirus_scan.quarantined_attachments.override')
-      end
-    end
-
-    expect(page).to have_text 'my-own.txt'
     expect(page).not_to have_text 'other-1.txt'
-    expect(page).not_to have_text 'other-2.txt'
+    expect(page).to have_text 'other-2.txt'
   end
 end

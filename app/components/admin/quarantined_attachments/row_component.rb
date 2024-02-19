@@ -56,20 +56,7 @@ module Admin
       end
 
       def button_links
-        [
-          override_link,
-          delete_link
-        ].compact
-      end
-
-      def override_link
-        helpers.link_to(
-          helpers.op_icon('icon icon-unlocked'),
-          { controller: '/admin/attachments/quarantined_attachments', action: :override, id: model },
-          title: I18n.t('antivirus_scan.quarantined_attachments.override'),
-          method: :patch,
-          data: { confirm: I18n.t(:text_are_you_sure), disable_with: I18n.t(:label_loading) },
-          )
+        [delete_link]
       end
 
       def delete_link

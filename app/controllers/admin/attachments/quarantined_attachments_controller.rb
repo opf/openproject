@@ -33,24 +33,11 @@ module Admin
       before_action :require_admin
       before_action :find_quarantined_attachments
 
-      before_action :find_attachment, only: %i[override destroy]
+      before_action :find_attachment, only: %i[destroy]
 
       menu_item :attachment_quarantine
 
       def index; end
-
-      def override
-        @attachment.status_scanned!
-
-        create_journal(@attachment.container,
-                       current_user,
-                       I18n.t('antivirus_scan.overridden_by_admin',
-                              user: current_user.name,
-                              filename: @attachment.filename))
-
-        flash[:notice] = t(:notice_successful_update)
-        redirect_to action: :index
-      end
 
       def destroy
         container = @attachment.container

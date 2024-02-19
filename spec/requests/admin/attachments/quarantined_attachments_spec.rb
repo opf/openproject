@@ -61,19 +61,4 @@ RSpec.describe 'Quarantined attachments',
       expect(response).to have_http_status :not_found
     end
   end
-
-  describe 'PATCH /admin/quarantined_attachments/:id/override' do
-    it 'allows management of attachments' do
-      patch override_admin_quarantined_attachment_path(quarantined_attachment)
-      expect(response).to be_redirect
-
-      quarantined_attachment.reload
-      expect(quarantined_attachment).to be_status_scanned
-    end
-
-    it 'fails to find if not quarantined' do
-      patch override_admin_quarantined_attachment_path(scanned_attachment)
-      expect(response).to have_http_status :not_found
-    end
-  end
 end

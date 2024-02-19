@@ -109,7 +109,6 @@ en:
     overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
     quarantined_attachments:
       container: "Container"
-      override: "Override the virus scan and allow downloading the file"
       delete: "Delete the quarantined file"
       title: "Quarantined attachments"
       error_cannot_act_self: "Cannot perform actions on your own uploaded files."
@@ -3019,7 +3018,7 @@ en:
           Select the action to perform for files on which a virus has been detected:
           <br/>
           <ul>
-          <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can manually override the decision or delete the file in the administration.</li>
+          <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li>
           <li><strong>%{delete_option}</strong>: Delete the file immediately.</li>
           </ul>
       modes:

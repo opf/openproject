@@ -451,11 +451,7 @@ Rails.application.routes.draw do
 
     resources :quarantined_attachments,
               controller: '/admin/attachments/quarantined_attachments',
-              only: %i[index destroy] do
-      member do
-        patch :override
-      end
-    end
+              only: %i[index destroy]
 
     resource :backups, controller: '/admin/backups', only: %i[show] do
       collection do
