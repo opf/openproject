@@ -116,4 +116,21 @@ RSpec.describe Projects::UpdateService, 'integration', type: :model do
       end
     end
   end
+
+  context 'with the seeded demo project' do
+    let(:demo_project) { create(:project, name: 'Demo project', identifier: 'demo-project', public: true) }
+    let(:instance) { described_class.new(user:, model: demo_project) }
+    let(:attributes) do
+      { public: false }
+    end
+
+    it 'saves in a Setting that the demo project was made private (regression #52826)' do
+      # Make the demo project private
+      service_result
+      expect(demo_project.public).to be(false)
+
+      # Demo project is not available for the onboarding tour any more
+      expect(Setting.demo_projects_available).to be(false)
+    end
+  end
 end
