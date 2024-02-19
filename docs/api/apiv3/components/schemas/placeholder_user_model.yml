@@ -3,7 +3,21 @@
 allOf:
   - $ref: './principal_model.yml'
   - type: object
+    required:
+      - _type
     properties:
+      _type:
+        type: string
+        enum:
+          - PlaceholderUser
+      status:
+        type: string
+        description: |-
+          The current activation status of the placeholder user.
+
+          # Conditions
+
+          - User has `manage_placeholder_user` permission globally
       _links:
         type: object
         required:

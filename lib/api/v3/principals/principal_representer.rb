@@ -63,10 +63,14 @@ module API
                  render_nil: true
 
         date_time_property :created_at,
-                           cache_if: -> { current_user_is_admin_or_self }
+                           cache_if: -> { current_user_can_see_date_properties? }
 
         date_time_property :updated_at,
-                           cache_if: -> { current_user_is_admin_or_self }
+                           cache_if: -> { current_user_can_see_date_properties? }
+
+        def current_user_can_see_date_properties?
+          current_user_is_admin_or_self
+        end
 
         def current_user_is_admin_or_self
           current_user_is_admin? || current_user_is_self?

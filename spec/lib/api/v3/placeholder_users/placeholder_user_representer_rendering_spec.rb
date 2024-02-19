@@ -140,15 +140,15 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering
       let(:value) { 'PlaceholderUser' }
     end
 
+    it_behaves_like 'property', :id do
+      let(:value) { placeholder_user.id }
+    end
+
+    it_behaves_like 'property', :name do
+      let(:value) { placeholder_user.name }
+    end
+
     context 'as regular user' do
-      it_behaves_like 'property', :id do
-        let(:value) { placeholder_user.id }
-      end
-
-      it_behaves_like 'property', :name do
-        let(:value) { placeholder_user.name }
-      end
-
       it 'hides the updatedAt property' do
         expect(subject).not_to have_json_path('updatedAt')
       end
@@ -158,15 +158,11 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUserRepresenter, 'rendering
       end
     end
 
-    context 'as admin' do
-      let(:current_user) { build_stubbed(:admin) }
+    context 'if user is allowed to manage placeholder users' do
+      let(:global_permissions) { [:manage_placeholder_user] }
 
-      it_behaves_like 'property', :id do
-        let(:value) { placeholder_user.id }
-      end
-
-      it_behaves_like 'property', :name do
-        let(:value) { placeholder_user.name }
+      it_behaves_like 'property', :status do
+        let(:value) { 'active' }
       end
 
       it_behaves_like 'datetime property', :createdAt do

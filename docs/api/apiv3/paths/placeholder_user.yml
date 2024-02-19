@@ -15,8 +15,12 @@ delete:
       schema:
         type: integer
   responses:
-    '204':
-      description: Returned if the placeholder user was deleted successfully.
+    '202':
+      description: |-
+        Returned if the group was marked for deletion.
+
+        Note that the response body is empty as of now. In future versions of the API a body
+        *might* be returned, indicating the progress of deletion.
     '403':
       content:
         application/hal+json:

@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 
 RSpec.shared_examples 'deletion allowed' do
-  it 'responds with 204' do
-    expect(last_response.status).to eq 204
+  it 'responds with 202' do
+    expect(last_response.status).to eq 202
   end
 
   it 'locks the account and mark for deletion' do

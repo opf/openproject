@@ -4,8 +4,13 @@ allOf:
   - $ref: './principal_model.yml'
   - type: object
     required:
+      - _type
       - _embedded
     properties:
+      _type:
+        type: string
+        enum:
+          - Group
       _embedded:
         type: object
         properties:

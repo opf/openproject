@@ -49,7 +49,7 @@ module API
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: PlaceholderUser).mount
             patch &::API::V3::Utilities::Endpoints::Update.new(model: PlaceholderUser).mount
-            delete &::API::V3::Utilities::Endpoints::Delete.new(model: PlaceholderUser, success_status: 204).mount
+            delete &::API::V3::Utilities::Endpoints::Delete.new(model: PlaceholderUser, success_status: 202).mount
           end
         end
       end

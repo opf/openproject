@@ -4,8 +4,13 @@ allOf:
   - $ref: './principal_model.yml'
   - type: object
     required:
+      - _type
       - avatar
     properties:
+      _type:
+        type: string
+        enum:
+          - User
       avatar:
         type: string
         format: uri
