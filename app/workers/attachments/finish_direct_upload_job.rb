@@ -91,7 +91,7 @@ class Attachments::FinishDirectUploadJob < ApplicationJob
                                       options:
   end
 
-  def schedule_jobs
+  def schedule_jobs(attachment)
     attachment.extract_fulltext
   end
 

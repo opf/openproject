@@ -323,7 +323,9 @@ RSpec.describe Attachment do
       end
     end
 
-    context 'with setting enabled', with_settings: { antivirus_scan_mode: :clamav_socket } do
+    context 'with setting enabled',
+            with_ee: %i[virus_scanning],
+            with_settings: { antivirus_scan_mode: :clamav_socket } do
       it 'runs the job' do
         attachment.save
         expect(attachment.pending_virus_scan?).to be true

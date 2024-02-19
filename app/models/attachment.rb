@@ -72,8 +72,8 @@ class Attachment < ApplicationRecord
 
   after_commit :enqueue_jobs, on: :create, if: -> { !internal_container? }
 
-  scope :pending_direct_upload, -> { where(digest: "", downloads: -1) }
-  scope :not_pending_direct_upload, -> { where.not(digest: "", downloads: -1) }
+  scope :pending_direct_upload, -> { status_prepared }
+  scope :not_pending_direct_upload, -> { not_status_prepared }
 
   ##
   # Returns an URL if the attachment is stored in an external (fog) attachment storage
@@ -248,12 +248,16 @@ class Attachment < ApplicationRecord
   end
 
   def enqueue_jobs
-    if OpenProject::Database.allows_tsv? && (!container || container.class.attachment_tsv_extracted?)
-      Attachments::ExtractFulltextJob.perform_later(id)
-    end
+    extract_fulltext
 
     if pending_virus_scan?
       Attachments::VirusScanJob.perform_later(self)
+    end
+  end
+
+  def extract_fulltext
+    if OpenProject::Database.allows_tsv? && (!container || container.class.attachment_tsv_extracted?)
+      Attachments::ExtractFulltextJob.perform_later(id)
     end
   end
 
@@ -315,16 +319,16 @@ class Attachment < ApplicationRecord
     digest == "" && downloads == -1
   end
 
+  def internal_container?
+    container&.is_a?(Export)
+  end
+
   private
 
   def filesize_below_allowed_maximum
     if filesize.to_i > Setting.attachment_max_size.to_i.kilobytes
       errors.add(:file, :file_too_large, count: Setting.attachment_max_size.to_i.kilobytes)
     end
-  end
-
-  def internal_container?
-    container&.is_a?(Export)
   end
 
   def container_changed_more_than_once

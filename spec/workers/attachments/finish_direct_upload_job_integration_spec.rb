@@ -34,7 +34,7 @@ RSpec.describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
   let!(:pending_attachment) do
     create(:attachment,
            author: user,
-           downloads: -1,
+           status: :prepared,
            digest: '',
            container:)
   end
@@ -47,6 +47,7 @@ RSpec.describe Attachments::FinishDirectUploadJob, 'integration', type: :job do
 
       attachment = Attachment.find(pending_attachment.id)
 
+      expect(attachment.status).to eq 'uploaded'
       expect(attachment.downloads)
         .to be(0)
       # expect to replace the content type with the actual value
