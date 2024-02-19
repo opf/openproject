@@ -31,7 +31,7 @@
 module Admin
   module QuarantinedAttachments
     class TableComponent < ::TableComponent
-      columns :filename, :container, :author, :created_at
+      columns :filename, :attached_to, :author, :created_at
       options :current_user
 
       def initial_sort
@@ -45,7 +45,7 @@ module Admin
       def headers
         [
           ['filename', { caption: Attachment.human_attribute_name(:filename) }],
-          ['container', { caption: I18n.t('antivirus_scan.quarantined_attachments.container') }],
+          ['attached_to', { caption: I18n.t('antivirus_scan.quarantined_attachments.container') }],
           ['author', { caption: Attachment.human_attribute_name(:author) }],
           ['created_at', { caption: Attachment.human_attribute_name(:created_at) }]
         ]

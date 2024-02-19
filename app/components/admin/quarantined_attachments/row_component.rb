@@ -31,6 +31,9 @@
 module Admin
   module QuarantinedAttachments
     class RowComponent < ::RowComponent
+      delegate :project, to: :attachment, allow_nil: true
+      delegate :container, to: :attachment, allow_nil: true
+
       def attachment
         model
       end
@@ -43,8 +46,29 @@ module Admin
         attachment.filename
       end
 
-      def container
-        "#{attachment.container_type} ##{attachment.container_id}"
+      def attached_to
+        description = attachment.description.present? ? "(#{attachment.description})" : ''
+        text = "#{container_name} #{attachment.container_id} #{description}"
+        case container
+        when Message
+          helpers.link_to_message(container)
+        when WorkPackage
+          helpers.link_to_work_package(container)
+        when WikiPage
+          helpers.link_to(text, project_wiki_path(project, container))
+        when User
+          helpers.link_to_user(container)
+        when MeetingContent
+          helpers.link_to(text, meeting_path(container.meeting_id))
+        when Grids::Overview
+          helpers.link_to(text, project_overview_path(container.project_id))
+        else
+          text
+        end
+      end
+
+      def container_name
+        container ? container.model_name.human : (attachment.container_type || I18n.t(:label_none))
       end
 
       def author

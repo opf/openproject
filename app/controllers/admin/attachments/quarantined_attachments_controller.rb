@@ -66,7 +66,7 @@ module Admin
       def find_quarantined_attachments
         @attachments = Attachment
           .status_quarantined
-          .includes(:author)
+          .includes(:author, :container)
       end
 
       def find_attachment
