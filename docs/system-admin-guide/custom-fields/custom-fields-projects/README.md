@@ -40,7 +40,7 @@ To do this navigate to a project and select *Project settings* from the side men
 
 
 
-If you selected *Visible* in the custom fields settings, the custom field for projects is also available in the [View all projects](../../../user-guide/projects/projects-lists/) overview.
+If you selected *Visible* in the custom fields settings, the custom field for projects is also available in the [View all projects](../../../user-guide/projects/project-lists/) overview.
 
 Navigate to this project list by selecting *View all projects* from the project selection menu on the top left side.
 

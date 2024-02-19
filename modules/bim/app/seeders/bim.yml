@@ -47,17 +47,21 @@ modules_permissions:
     - :view_linked_issues
 
 priorities:
-  - t_name: Low
+  - reference: :default_priority_low
+    t_name: Low
     color_name: cyan-1
     is_default: true
     position: 1
-  - t_name: Normal
+  - reference: :default_priority_normal
+    t_name: Normal
     color_name: blue-3
     position: 2
-  - t_name: High
+  - reference: :default_priority_high
+    t_name: High
     color_name: yellow-7
     position: 3
-  - t_name: Critical
+  - reference: :default_priority_critical
+    t_name: Critical
     color_name: grape-5
     position: 4
 
