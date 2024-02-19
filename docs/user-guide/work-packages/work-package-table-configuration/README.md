@@ -104,7 +104,7 @@ To automatically include all sub-projects for each project you chose to select, 
 
 ![work-package-filter-include-projects](work-package-filter-include-projects.png)
 
-To view all work packages across all projects you could select everything, or use the [global work package tables](../../projects/projects-lists/#global-work-package-tables).
+To view all work packages across all projects you could select everything, or use the [global work package tables](../../projects/project-lists/#global-work-package-tables).
 
 ### Filter by ID or work package name
 
