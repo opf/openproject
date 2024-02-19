@@ -112,14 +112,14 @@ export class StaticQueriesService {
       {
         title: this.text.all_open,
         uiSref: 'work-packages',
-        uiParams: { query_id: '', query_props: '' },
+        uiParams: { query_id: undefined, query_props: undefined },
         view: 'WorkPackagesTable',
       },
       {
         title: this.text.latest_activity,
         uiSref: 'work-packages',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc","f":[{"n":"status","o":"*","v":[]}]}',
         },
         view: 'WorkPackagesTable',
@@ -128,7 +128,7 @@ export class StaticQueriesService {
         title: this.text.recently_created,
         uiSref: 'work-packages',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","type","status","assignee","createdAt"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
         },
         view: 'WorkPackagesTable',
@@ -137,7 +137,7 @@ export class StaticQueriesService {
         title: this.text.overdue,
         uiSref: 'work-packages',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","type","subject","status","startDate","dueDate","duration"],"hi":false,"g":"","t":"createdAt:desc","f":[{"n":"dueDate","o":"<t-","v":["1"]},{"n":"status","o":"o","v":[]}]}',
         },
         view: 'WorkPackagesTable',
@@ -146,7 +146,7 @@ export class StaticQueriesService {
         title: this.text.all_open,
         uiSref: 'bim.partitioned.list',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"id:desc"}',
         },
         view: 'Bim',
@@ -155,7 +155,7 @@ export class StaticQueriesService {
         title: this.text.latest_activity,
         uiSref: 'bim.partitioned.list',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"updatedAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
         },
         view: 'Bim',
@@ -164,7 +164,7 @@ export class StaticQueriesService {
         title: this.text.recently_created,
         uiSref: 'bim.partitioned.list',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","bcfThumbnail","type","status","assignee","createdAt"],"t":"createdAt:desc","f":[{"n":"status","o":"o","v":[]}]}',
         },
         view: 'Bim',
@@ -210,7 +210,7 @@ export class StaticQueriesService {
         title: this.text.created_by_me,
         uiSref: 'work-packages',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","type","status","assignee","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
         },
         view: 'WorkPackagesTable',
@@ -219,7 +219,7 @@ export class StaticQueriesService {
         title: this.text.assigned_to_me,
         uiSref: 'work-packages',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","type","status","author","updatedAt"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
         },
         view: 'WorkPackagesTable',
@@ -234,7 +234,7 @@ export class StaticQueriesService {
         title: this.text.created_by_me,
         uiSref: 'bim.partitioned.list',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","bcfThumbnail","type","status","assignee","updatedAt"],"t":"id:desc","f":[{"n":"status","o":"o","v":[]},{"n":"author","o":"=","v":["me"]}]}',
         },
         view: 'Bim',
@@ -243,7 +243,7 @@ export class StaticQueriesService {
         title: this.text.assigned_to_me,
         uiSref: 'bim.partitioned.list',
         uiParams: {
-          query_id: '',
+          query_id: undefined,
           query_props: '{"c":["id","subject","bcfThumbnail","type","status","author","updatedAt"],"t":"id:desc","f":[{"n":"status","o":"o","v":[]},{"n":"assigneeOrGroup","o":"=","v":["me"]}]}',
         },
         view: 'Bim',
@@ -259,7 +259,7 @@ export class StaticQueriesService {
     return {
       uiSref: 'work-packages',
       uiParams: {
-        query_id: '',
+        query_id: undefined,
         query_props: '{"c":["id","subject","type","project","sharedWithUsers"],"hi":false,"g":"","t":"updatedAt:desc,id:asc","f":[{"n":"sharedWithUser","o":"*","v":[]}]}',
       },
     };
