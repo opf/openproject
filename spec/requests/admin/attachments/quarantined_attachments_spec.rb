@@ -29,8 +29,9 @@
 require 'spec_helper'
 
 RSpec.describe 'Quarantined attachments',
-               with_ee: %i[virus_scanning],
-               type: :rails_request do
+               :skip_csrf,
+               type: :rails_request,
+               with_ee: %i[virus_scanning] do
 
   shared_let(:other_author) { create(:user) }
   shared_let(:admin) { create(:admin) }
@@ -45,17 +46,6 @@ RSpec.describe 'Quarantined attachments',
 
   before do
     login_as admin
-    ActionController::Base.allow_forgery_protection = false
-  end
-
-  around do |example|
-    state = ActionController::Base.allow_forgery_protection
-    begin
-      ActionController::Base.allow_forgery_protection = false
-      example.run
-    ensure
-      ActionController::Base.allow_forgery_protection = state
-    end
   end
 
   describe 'DELETE /admin/quarantined_attachments/:id' do
