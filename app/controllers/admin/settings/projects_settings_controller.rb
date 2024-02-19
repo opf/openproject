@@ -33,7 +33,7 @@ module Admin::Settings
     before_action :validate_enabled_modules, only: :update
 
     def default_breadcrumb
-      t(:label_project_plural)
+      t(:label_project_settings)
     end
 
     private
@@ -50,7 +50,7 @@ module Admin::Settings
           I18n.t(
             'settings.projects.missing_dependencies',
             module: I18n.t("project_module_#{m[:name]}"),
-            dependencies: m[:dependencies].map { |dep|I18n.t("project_module_#{dep}") }.join(', ')
+            dependencies: m[:dependencies].map { |dep| I18n.t("project_module_#{dep}") }.join(', ')
           )
         end
 

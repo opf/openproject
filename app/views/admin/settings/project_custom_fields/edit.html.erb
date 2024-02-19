@@ -31,6 +31,8 @@ See COPYRIGHT and LICENSE files for more details.
                       'admin--custom-fields-format-value': @custom_field.field_format
 %>
 
+<% local_assigns[:additional_breadcrumb] = @custom_field.name %>
+
 <%= render(Settings::ProjectCustomFields::EditFormHeaderComponent.new(custom_field: @custom_field)) %>
 
 <%= error_messages_for 'custom_field' %>
