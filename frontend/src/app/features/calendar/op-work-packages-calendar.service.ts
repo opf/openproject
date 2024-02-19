@@ -417,7 +417,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     void this.$state.go(
       '.',
       {
-        cdate: this.timezoneService.formattedISODate(dates.view.currentStart),
+        cdate: this.timezoneService.formattedISODate(dates.view.calendar.getDate()),
         // v6.beta3 fails to have type on the ViewAPI
         cview: (dates.view as unknown as { type:string }).type,
       },
