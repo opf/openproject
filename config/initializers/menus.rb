@@ -367,7 +367,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/admin/attachments/quarantined_attachments', action: :index },
             caption: :'antivirus_scan.quarantined_attachments.title',
             parent: :settings_attachments,
-            if: Proc.new { User.current.admin? && Attachment.status_quarantined.exists? }
+            if: Proc.new { User.current.admin? }
 
   menu.push :enumerations,
             { controller: '/enumerations' },
