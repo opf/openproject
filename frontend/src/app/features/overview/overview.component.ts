@@ -14,7 +14,7 @@ export class OverviewComponent extends GridPageComponent {
   }
 
   protected isTurboFrameSidebarEnabled():boolean {
-    return this.configurationService.activeFeatureFlags.includes('projectAttributes')
+    return true
   }
 
   protected turboFrameSidebarSrc():string {
