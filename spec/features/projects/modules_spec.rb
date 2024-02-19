@@ -63,7 +63,6 @@ RSpec.describe 'Projects module administration' do
     expect(page).to have_unchecked_field 'Work packages'
 
     check 'Calendar'
-
     click_button 'Save'
 
     expect(page)
@@ -73,6 +72,7 @@ RSpec.describe 'Projects module administration' do
                                 module: 'Calendars')
 
     expect(page).not_to have_xpath(project_work_packages_menu_link_selector, visible: false)
+
     check 'Work packages'
     click_button 'Save'
 
