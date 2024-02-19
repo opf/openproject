@@ -33,8 +33,8 @@ module Accounts::UserConsent
   include ::UserConsentHelper
 
   def consent
-    if consent_required?
-      render 'account/consent', locals: { consenting_user: }
+    if user_consent_required? && consenting_user&.consent_expired?
+      render 'account/consent'
     else
       consent_finished
     end
@@ -50,14 +50,6 @@ module Accounts::UserConsent
     end
   end
 
-  def consent_required?
-    # Ensure consent is enabled and a text is provided
-    return false unless user_consent_required?
-
-    # Require the user to consent if he hasn't already
-    consent_expired?
-  end
-
   def decline_consent
     message = I18n.t('consent.decline_warning_message') + "\n"
     message <<
@@ -69,19 +61,6 @@ module Accounts::UserConsent
 
     flash[:error] = message
     redirect_to authentication_stage_failure_path :consent
-  end
-
-  def consent_expired?
-    consented_at = consenting_user.try(:consented_at)
-
-    # Always if the user has not consented
-    return true if consented_at.blank?
-
-    # Did not expire if no consent_time set, but user has consented at some point
-    return false if Setting.consent_time.blank?
-
-    # Otherwise, expires when consent_time is newer than last consented_at
-    consented_at < Setting.consent_time
   end
 
   def consenting_user
