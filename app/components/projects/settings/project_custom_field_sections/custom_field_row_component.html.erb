@@ -1,8 +1,27 @@
 <%=
   component_wrapper do
-    flex_layout(align_items: :center, classes: 'op-project-custom-field', data: {
+    flex_layout(align_items: :center, justify_content: :space_between, classes: 'op-project-custom-field', data: {
       qa_selector: "project-custom-field-#{@project_custom_field.id}"
     }) do |custom_field_container|
+      custom_field_container.with_column(flex_layout: true) do |title_container|
+        title_container.with_column(pt: 1, mr: 2) do
+          render(Primer::Beta::Text.new) do 
+            @project_custom_field.name
+          end
+        end
+        title_container.with_column(pt: 1, mr: 2, data: { qa_selector: "custom-field-type" } ) do
+          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+            @project_custom_field.field_format.capitalize
+          end
+        end
+        if @project_custom_field.required?
+          title_container.with_column(pt: 1) do
+            render(Primer::Beta::Label.new(scheme: :attention, size: :medium)) do
+              t("label_required")
+            end
+          end
+        end
+      end
       # py: 1 quick fix: prevents the row from bouncing as the toggle switch currently changes height while toggling
       custom_field_container.with_column(py: 1, mr: 2) do
         # buggy currently:
@@ -23,23 +42,6 @@
                   size: :small,
                   status_label_position: :start
                 ))
-      end
-      custom_field_container.with_column(pt: 1, mr: 2) do
-        render(Primer::Beta::Text.new) do 
-          @project_custom_field.name
-        end
-      end
-      custom_field_container.with_column(pt: 1, mr: 2, data: { qa_selector: "custom-field-type" } ) do
-        render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
-          @project_custom_field.field_format.capitalize
-        end
-      end
-      if @project_custom_field.required?
-        custom_field_container.with_column(pt: 1) do
-          render(Primer::Beta::Label.new(scheme: :attention, size: :medium)) do
-            t("label_required")
-          end
-        end
       end
     end
   end
