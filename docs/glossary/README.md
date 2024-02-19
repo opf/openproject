@@ -398,7 +398,7 @@ In OpenProject, a wiki is defined as a [module](#module) that allows to use wiki
 
 ### Work and Remaining Work
 
-Work is defined in OpenProject as a work package attribute that indicates in hours how much work is estimated to be required to complete a work package. You can edit the value for work manually, as well as the value for the work package attribute '**Remaining work**'. To make it easier for project managers to work with work package hierarchies, OpenProject also displays a value (in blue) for the total amount of work in the Work field for parent work packages – next to the value for the dedicated work package. This **total work value** is the sum of the work value of the parent work package and all the work values of its children. The same principle applies to the work package attribute Remaining Work. [Read in our user guide about how to configure a work package](../user-guide/work-packages/work-package-table-configuration/)
+In OpenProject, 'Work' refers to a work package attribute indicating the estimated hours needed to complete a task. You can edit the value for work manually, as well as the value for the work package attribute '**Remaining work**'. To make it easier for project managers to work with work package hierarchies, OpenProject also displays a value (in blue) for the total amount of work in the Work field for parent work packages – next to the value for the dedicated work package. This **total work value** is the sum of the work value of the parent work package and all the work values of its children. The same principle applies to the work package attribute Remaining Work. [Read in our user guide about how to configure a work package](../user-guide/work-packages/work-package-table-configuration/)
 
 ### Workflow
 
