@@ -254,9 +254,9 @@ sv:
       no_results_title_text: Det finns för närvarande inga projekt
       no_results_content_text: Skapa ett nytt projekt
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
+      active: 'Aktiva projekt'
+      my: 'Mina projekt'
+      archived: 'Arkiverade projekt'
       my_private: 'My private project lists'
       new:
         placeholder: 'New project list'
@@ -628,9 +628,9 @@ sv:
         begin_insertion: "Början av införandet"
         begin_deletion: "Början av raderingen"
         children: "Underelement"
-        derived_done_ratio: "Derived % Complete"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
+        derived_done_ratio: "Total % complete"
+        derived_remaining_hours: "Total remaining work"
+        derived_remaining_time: "Total remaining work"
         done_ratio: "% Complete"
         duration: "Varaktighet"
         end_insertion: "Slutet av införandet"
@@ -1064,7 +1064,7 @@ sv:
     default_columns: "Standardkolumnerna"
     description: "Beskrivning"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived work"
+    derived_estimated_hours: "Total work"
     derived_start_date: "Derived start date"
     display_sums: "Visa summor"
     due_date: "Slutdatum"
