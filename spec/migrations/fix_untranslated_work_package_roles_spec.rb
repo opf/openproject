@@ -73,6 +73,20 @@ RSpec.describe FixUntranslatedWorkPackageRoles, type: :model do
             .to have_attributes(name: 'Arbeitspaket-Betrachter')
         end
       end
+
+      describe "when #{env_var_name} is set with an unsupported language", :settings_reset do
+        it 'uses the English name', :settings_reset do
+          allow(Settings).to receive(:default_language).and_return('pt-br')
+          run_migration
+
+          expect(WorkPackageRole.find_by(builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_EDITOR))
+            .to have_attributes(name: 'Work package editor')
+          expect(WorkPackageRole.find_by(builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_COMMENTER))
+            .to have_attributes(name: 'Work package commenter')
+          expect(WorkPackageRole.find_by(builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_VIEWER))
+            .to have_attributes(name: 'Work package viewer')
+        end
+      end
     end
   end
 end
