@@ -33,7 +33,7 @@ RSpec.describe 'Projects module administration' do
     create(:project, enabled_module_names: [])
   end
 
-  let(:permissions) { %i(edit_project select_project_modules view view_work_packages) }
+  let(:permissions) { %i(edit_project select_project_modules view_work_packages) }
   let(:settings_page) { Pages::Projects::Settings.new(project) }
 
   current_user do
@@ -46,9 +46,9 @@ RSpec.describe 'Projects module administration' do
     settings_page.visit_tab!('modules')
 
     expect(page).to have_unchecked_field 'Activity'
-    expect(page).to have_unchecked_field 'Work packages'
     expect(page).to have_unchecked_field 'Calendar'
     expect(page).to have_unchecked_field 'Time and costs'
+    expect(page).to have_unchecked_field 'Work packages'
 
     expect(page).not_to have_xpath(project_work_packages_menu_link_selector, visible: false)
 
@@ -60,6 +60,7 @@ RSpec.describe 'Projects module administration' do
     expect(page).to have_checked_field 'Activity'
     expect(page).to have_unchecked_field 'Calendar'
     expect(page).to have_unchecked_field 'Time and costs'
+    expect(page).to have_unchecked_field 'Work packages'
 
     check 'Calendar'
 
@@ -79,6 +80,7 @@ RSpec.describe 'Projects module administration' do
 
     expect(page).to have_checked_field 'Activity'
     expect(page).to have_checked_field 'Calendars'
+    expect(page).to have_unchecked_field 'Time and costs'
     expect(page).to have_checked_field 'Work packages'
 
     expect(page).to have_xpath(project_work_packages_menu_link_selector, visible: false)
