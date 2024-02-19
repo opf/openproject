@@ -8,10 +8,10 @@ keywords: files, attachment, Nextcloud, OneDrive, SharePoint, FAQ
 
 # File Management FAQs
 
-## Why am I not allowed to see/read a certain file in OneDrive/SharePoint?
+## Why am I not allowed to see/read a certain file in OneDrive/SharePoint or Nextcloud?
 
 It is possible that you lack the necessary permissions to view a certain file. In this case please contact your administrator. 
-Another explanation may be that you have been removed from a project in OpenProject, which will also mean that you lost your viewing or reading privileges in OneDrive/SharePoint project folders.
+Another explanation may be that you have been removed from a project in OpenProject, which will also mean that you lost your viewing or reading privileges in OneDrive/SharePoint or Nextcloud project folders.
 
-## Can I rename a project with an established Nextcloud connection?
+## Can I rename a project with an established file storage (Nextcloud or OneDrive/SharePoint) connection?
 Yes, that is possible. If you work with automatically managed folders, the corresponding project folder will also be renamed automatically after a few minutes.
