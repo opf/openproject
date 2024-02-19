@@ -34,173 +34,171 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
 
   let(:overview_page) { Pages::Projects::Show.new(project) }
 
-  describe 'with enabled project attributes feature', with_flag: { project_attributes: true } do
-    before do
-      login_as member_with_project_edit_permissions
-      overview_page.visit_page
-    end
+  before do
+    login_as member_with_project_edit_permissions
+    overview_page.visit_page
+  end
 
-    describe 'with correct validation behaviour' do
-      describe 'with input fields' do
-        let(:section) { section_for_input_fields }
-        let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
+  describe 'with correct validation behaviour' do
+    describe 'with input fields' do
+      let(:section) { section_for_input_fields }
+      let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
 
-        shared_examples 'a custom field input' do
-          it 'shows an error if the value is invalid' do
-            custom_field.update!(is_required: true)
-            custom_field.custom_values.destroy_all
+      shared_examples 'a custom field input' do
+        it 'shows an error if the value is invalid' do
+          custom_field.update!(is_required: true)
+          custom_field.custom_values.destroy_all
 
-            overview_page.open_edit_dialog_for_section(section)
+          overview_page.open_edit_dialog_for_section(section)
 
-            dialog.submit
+          dialog.submit
 
-            field.expect_error(I18n.t('activerecord.errors.messages.blank'))
-          end
+          field.expect_error(I18n.t('activerecord.errors.messages.blank'))
+        end
+      end
+
+      # boolean CFs can not be validated
+
+      describe 'with string CF' do
+        let(:custom_field) { string_project_custom_field }
+        let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+
+        it_behaves_like 'a custom field input'
+
+        it 'shows an error if the value is too long' do
+          custom_field.update!(max_length: 3)
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          field.fill_in(with: 'Foooo')
+
+          dialog.submit
+
+          field.expect_error(I18n.t('activerecord.errors.messages.too_long', count: 3))
         end
 
-        # boolean CFs can not be validated
+        it 'shows an error if the value is too short' do
+          custom_field.update!(min_length: 3, max_length: 5)
 
-        describe 'with string CF' do
-          let(:custom_field) { string_project_custom_field }
-          let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+          overview_page.open_edit_dialog_for_section(section)
 
-          it_behaves_like 'a custom field input'
+          field.fill_in(with: 'Fo')
 
-          it 'shows an error if the value is too long' do
-            custom_field.update!(max_length: 3)
+          dialog.submit
 
-            overview_page.open_edit_dialog_for_section(section)
-
-            field.fill_in(with: 'Foooo')
-
-            dialog.submit
-
-            field.expect_error(I18n.t('activerecord.errors.messages.too_long', count: 3))
-          end
-
-          it 'shows an error if the value is too short' do
-            custom_field.update!(min_length: 3, max_length: 5)
-
-            overview_page.open_edit_dialog_for_section(section)
-
-            field.fill_in(with: 'Fo')
-
-            dialog.submit
-
-            field.expect_error(I18n.t('activerecord.errors.messages.too_short', count: 3))
-          end
-
-          it 'shows an error if the value does not match the regex' do
-            custom_field.update!(regexp: '^[A-Z]+$')
-
-            overview_page.open_edit_dialog_for_section(section)
-
-            field.fill_in(with: 'foo')
-
-            dialog.submit
-
-            field.expect_error(I18n.t('activerecord.errors.messages.invalid'))
-          end
+          field.expect_error(I18n.t('activerecord.errors.messages.too_short', count: 3))
         end
 
-        describe 'with integer CF' do
-          let(:custom_field) { integer_project_custom_field }
-          let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+        it 'shows an error if the value does not match the regex' do
+          custom_field.update!(regexp: '^[A-Z]+$')
 
-          it_behaves_like 'a custom field input'
+          overview_page.open_edit_dialog_for_section(section)
 
-          it 'shows an error if the value is too long' do
-            custom_field.update!(max_length: 2)
+          field.fill_in(with: 'foo')
 
-            overview_page.open_edit_dialog_for_section(section)
+          dialog.submit
 
-            field.fill_in(with: '111')
+          field.expect_error(I18n.t('activerecord.errors.messages.invalid'))
+        end
+      end
 
-            dialog.submit
+      describe 'with integer CF' do
+        let(:custom_field) { integer_project_custom_field }
+        let(:field) { FormFields::Primerized::InputField.new(custom_field) }
 
-            field.expect_error(I18n.t('activerecord.errors.messages.too_long', count: 2))
-          end
+        it_behaves_like 'a custom field input'
 
-          it 'shows an error if the value is too short' do
-            custom_field.update!(min_length: 2, max_length: 5)
+        it 'shows an error if the value is too long' do
+          custom_field.update!(max_length: 2)
 
-            overview_page.open_edit_dialog_for_section(section)
+          overview_page.open_edit_dialog_for_section(section)
 
-            field.fill_in(with: '1')
+          field.fill_in(with: '111')
 
-            dialog.submit
+          dialog.submit
 
-            field.expect_error(I18n.t('activerecord.errors.messages.too_short', count: 2))
-          end
+          field.expect_error(I18n.t('activerecord.errors.messages.too_long', count: 2))
         end
 
-        describe 'with float CF' do
-          let(:custom_field) { float_project_custom_field }
-          let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+        it 'shows an error if the value is too short' do
+          custom_field.update!(min_length: 2, max_length: 5)
 
-          it_behaves_like 'a custom field input'
+          overview_page.open_edit_dialog_for_section(section)
 
-          it 'shows an error if the value is too long' do
-            custom_field.update!(max_length: 4)
+          field.fill_in(with: '1')
 
-            overview_page.open_edit_dialog_for_section(section)
+          dialog.submit
 
-            field.fill_in(with: '1111.1')
+          field.expect_error(I18n.t('activerecord.errors.messages.too_short', count: 2))
+        end
+      end
 
-            dialog.submit
+      describe 'with float CF' do
+        let(:custom_field) { float_project_custom_field }
+        let(:field) { FormFields::Primerized::InputField.new(custom_field) }
 
-            field.expect_error(I18n.t('activerecord.errors.messages.too_long', count: 4))
-          end
+        it_behaves_like 'a custom field input'
 
-          it 'shows an error if the value is too short' do
-            custom_field.update!(min_length: 4, max_length: 5)
+        it 'shows an error if the value is too long' do
+          custom_field.update!(max_length: 4)
 
-            overview_page.open_edit_dialog_for_section(section)
+          overview_page.open_edit_dialog_for_section(section)
 
-            field.fill_in(with: '1.1')
+          field.fill_in(with: '1111.1')
 
-            dialog.submit
+          dialog.submit
 
-            field.expect_error(I18n.t('activerecord.errors.messages.too_short', count: 4))
-          end
+          field.expect_error(I18n.t('activerecord.errors.messages.too_long', count: 4))
         end
 
-        describe 'with date CF' do
-          let(:custom_field) { date_project_custom_field }
-          let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+        it 'shows an error if the value is too short' do
+          custom_field.update!(min_length: 4, max_length: 5)
 
-          it_behaves_like 'a custom field input'
+          overview_page.open_edit_dialog_for_section(section)
+
+          field.fill_in(with: '1.1')
+
+          dialog.submit
+
+          field.expect_error(I18n.t('activerecord.errors.messages.too_short', count: 4))
+        end
+      end
+
+      describe 'with date CF' do
+        let(:custom_field) { date_project_custom_field }
+        let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+
+        it_behaves_like 'a custom field input'
+      end
+
+      describe 'with text CF' do
+        let(:custom_field) { text_project_custom_field }
+        let(:field) { FormFields::Primerized::EditorFormField.new(custom_field) }
+
+        it_behaves_like 'a custom field input'
+
+        it 'shows an error if the value is too long' do
+          custom_field.update!(max_length: 3)
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          field.set_value('Foooo')
+
+          dialog.submit
+
+          field.expect_error(I18n.t('activerecord.errors.messages.too_long', count: 3))
         end
 
-        describe 'with text CF' do
-          let(:custom_field) { text_project_custom_field }
-          let(:field) { FormFields::Primerized::EditorFormField.new(custom_field) }
+        it 'shows an error if the value is too short' do
+          custom_field.update!(min_length: 3, max_length: 5)
 
-          it_behaves_like 'a custom field input'
+          overview_page.open_edit_dialog_for_section(section)
 
-          it 'shows an error if the value is too long' do
-            custom_field.update!(max_length: 3)
+          field.set_value('Fo')
 
-            overview_page.open_edit_dialog_for_section(section)
+          dialog.submit
 
-            field.set_value('Foooo')
-
-            dialog.submit
-
-            field.expect_error(I18n.t('activerecord.errors.messages.too_long', count: 3))
-          end
-
-          it 'shows an error if the value is too short' do
-            custom_field.update!(min_length: 3, max_length: 5)
-
-            overview_page.open_edit_dialog_for_section(section)
-
-            field.set_value('Fo')
-
-            dialog.submit
-
-            field.expect_error(I18n.t('activerecord.errors.messages.too_short', count: 3))
-          end
+          field.expect_error(I18n.t('activerecord.errors.messages.too_short', count: 3))
         end
       end
     end

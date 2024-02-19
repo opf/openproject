@@ -38,831 +38,819 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
     login_as admin
   end
 
-  describe 'with disabled project attributes feature', with_flag: { project_attributes: false } do
-    it 'does not show the project attributes sidebar' do
+  it 'does show the project attributes sidebar' do
+    overview_page.visit_page
+
+    within '.op-grid-page' do
+      expect(page).to have_css('#project-custom-fields-sidebar')
+    end
+  end
+
+  describe 'with correct scoping' do
+    it 'shows enabled project custom fields in a sidebar grouped by section' do
       overview_page.visit_page
 
-      within '.op-grid-page' do
-        expect(page).to have_no_css('#project-custom-fields-sidebar')
+      overview_page.within_async_loaded_sidebar do
+        expect(page).to have_css('.op-project-custom-field-section-container', count: 3)
+
+        overview_page.within_custom_field_section_container(section_for_input_fields) do
+          expect(page).to have_text 'Input fields'
+
+          expect(page).to have_text 'Boolean field'
+          expect(page).to have_text 'String field'
+          expect(page).to have_text 'Integer field'
+          expect(page).to have_text 'Float field'
+          expect(page).to have_text 'Date field'
+          expect(page).to have_text 'Text field'
+        end
+
+        overview_page.within_custom_field_section_container(section_for_select_fields) do
+          expect(page).to have_text 'Select fields'
+
+          expect(page).to have_text 'List field'
+          expect(page).to have_text 'Version field'
+          expect(page).to have_text 'User field'
+        end
+
+        overview_page.within_custom_field_section_container(section_for_multi_select_fields) do
+          expect(page).to have_text 'Multi select fields'
+
+          expect(page).to have_text 'Multi list field'
+          expect(page).to have_text 'Multi version field'
+          expect(page).to have_text 'Multi user field'
+        end
+      end
+    end
+
+    it 'does not show project custom fields not enabled for this project in a sidebar' do
+      create(:string_project_custom_field, projects: [other_project], name: 'String field enabled for other project')
+
+      overview_page.visit_page
+
+      overview_page.within_async_loaded_sidebar do
+        expect(page).to have_no_text 'String field enabled for other project'
       end
     end
   end
 
-  describe 'with enabled project attributes feature', with_flag: { project_attributes: true } do
-    it 'does show the project attributes sidebar' do
+  describe 'with correct order' do
+    it 'shows the project custom field sections in the correct order' do
       overview_page.visit_page
 
-      within '.op-grid-page' do
-        expect(page).to have_css('#project-custom-fields-sidebar')
+      overview_page.within_async_loaded_sidebar do
+        sections = page.all('.op-project-custom-field-section-container')
+
+        expect(sections.size).to eq(3)
+
+        expect(sections[0].text).to include('Input fields')
+        expect(sections[1].text).to include('Select fields')
+        expect(sections[2].text).to include('Multi select fields')
+      end
+
+      section_for_input_fields.move_to_bottom
+
+      overview_page.visit_page
+
+      overview_page.within_async_loaded_sidebar do
+        sections = page.all('.op-project-custom-field-section-container')
+
+        expect(sections.size).to eq(3)
+
+        expect(sections[0].text).to include('Select fields')
+        expect(sections[1].text).to include('Multi select fields')
+        expect(sections[2].text).to include('Input fields')
       end
     end
 
-    describe 'with correct scoping' do
-      it 'shows enabled project custom fields in a sidebar grouped by section' do
-        overview_page.visit_page
+    it 'shows the project custom fields in the correct order within the sections' do
+      overview_page.visit_page
 
-        overview_page.within_async_loaded_sidebar do
-          expect(page).to have_css('.op-project-custom-field-section-container', count: 3)
+      overview_page.within_async_loaded_sidebar do
+        overview_page.within_custom_field_section_container(section_for_input_fields) do
+          fields = page.all('.op-project-custom-field-container')
 
-          overview_page.within_custom_field_section_container(section_for_input_fields) do
-            expect(page).to have_text 'Input fields'
+          expect(fields.size).to eq(6)
 
-            expect(page).to have_text 'Boolean field'
-            expect(page).to have_text 'String field'
-            expect(page).to have_text 'Integer field'
-            expect(page).to have_text 'Float field'
-            expect(page).to have_text 'Date field'
-            expect(page).to have_text 'Text field'
-          end
+          expect(fields[0].text).to include('Boolean field')
+          expect(fields[1].text).to include('String field')
+          expect(fields[2].text).to include('Integer field')
+          expect(fields[3].text).to include('Float field')
+          expect(fields[4].text).to include('Date field')
+          expect(fields[5].text).to include('Text field')
+        end
+      end
 
-          overview_page.within_custom_field_section_container(section_for_select_fields) do
-            expect(page).to have_text 'Select fields'
+      string_project_custom_field.move_to_bottom
 
-            expect(page).to have_text 'List field'
-            expect(page).to have_text 'Version field'
-            expect(page).to have_text 'User field'
-          end
+      overview_page.visit_page
 
-          overview_page.within_custom_field_section_container(section_for_multi_select_fields) do
-            expect(page).to have_text 'Multi select fields'
+      overview_page.within_async_loaded_sidebar do
+        overview_page.within_custom_field_section_container(section_for_input_fields) do
+          fields = page.all('.op-project-custom-field-container')
 
-            expect(page).to have_text 'Multi list field'
-            expect(page).to have_text 'Multi version field'
-            expect(page).to have_text 'Multi user field'
+          expect(fields.size).to eq(6)
+
+          expect(fields[0].text).to include('Boolean field')
+          expect(fields[1].text).to include('Integer field')
+          expect(fields[2].text).to include('Float field')
+          expect(fields[3].text).to include('Date field')
+          expect(fields[4].text).to include('Text field')
+          expect(fields[5].text).to include('String field')
+        end
+      end
+    end
+  end
+
+  describe 'with correct values' do
+    describe 'with boolean CF' do
+      # it_behaves_like 'a project custom field' do
+      #   let(subject) { boolean_project_custom_field }
+      # end
+
+      describe 'with value set by user' do
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(boolean_project_custom_field) do
+              expect(page).to have_text 'Boolean field'
+              expect(page).to have_text 'Yes'
+            end
           end
         end
       end
 
-      it 'does not show project custom fields not enabled for this project in a sidebar' do
-        create(:string_project_custom_field, projects: [other_project], name: 'String field enabled for other project')
+      describe 'with value unset by user' do
+        # A boolean cannot be completely unset via UI, only toggle between true and false, no blank value possible
+        before do
+          boolean_project_custom_field.custom_values.where(customized: project).first.update!(value: false)
+        end
 
-        overview_page.visit_page
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
 
-        overview_page.within_async_loaded_sidebar do
-          expect(page).to have_no_text 'String field enabled for other project'
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(boolean_project_custom_field) do
+              expect(page).to have_text 'Boolean field'
+              expect(page).to have_text 'No'
+            end
+          end
+        end
+      end
+
+      describe 'with no value set by user' do
+        before do
+          boolean_project_custom_field.custom_values.where(customized: project).destroy_all
+        end
+
+        it 'shows an N/A text for the project custom field if no value given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(boolean_project_custom_field) do
+              expect(page).to have_text 'Boolean field'
+              expect(page).to have_text 'Not set yet'
+            end
+          end
+        end
+
+        it 'does not show the default value for the project custom field if no value given' do
+          boolean_project_custom_field.update!(default_value: true)
+
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(boolean_project_custom_field) do
+              expect(page).to have_text 'Boolean field'
+              expect(page).to have_text 'Not set yet'
+            end
+          end
+
+          boolean_project_custom_field.update!(default_value: false)
+
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(boolean_project_custom_field) do
+              expect(page).to have_text 'Boolean field'
+              expect(page).to have_text 'Not set yet'
+            end
+          end
         end
       end
     end
 
-    describe 'with correct order' do
-      it 'shows the project custom field sections in the correct order' do
-        overview_page.visit_page
+    describe 'with string CF' do
+      describe 'with value set by user' do
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
 
-        overview_page.within_async_loaded_sidebar do
-          sections = page.all('.op-project-custom-field-section-container')
-
-          expect(sections.size).to eq(3)
-
-          expect(sections[0].text).to include('Input fields')
-          expect(sections[1].text).to include('Select fields')
-          expect(sections[2].text).to include('Multi select fields')
-        end
-
-        section_for_input_fields.move_to_bottom
-
-        overview_page.visit_page
-
-        overview_page.within_async_loaded_sidebar do
-          sections = page.all('.op-project-custom-field-section-container')
-
-          expect(sections.size).to eq(3)
-
-          expect(sections[0].text).to include('Select fields')
-          expect(sections[1].text).to include('Multi select fields')
-          expect(sections[2].text).to include('Input fields')
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(string_project_custom_field) do
+              expect(page).to have_text 'String field'
+              expect(page).to have_text 'Foo'
+            end
+          end
         end
       end
 
-      it 'shows the project custom fields in the correct order within the sections' do
-        overview_page.visit_page
+      describe 'with value unset by user' do
+        before do
+          string_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
+        end
 
-        overview_page.within_async_loaded_sidebar do
-          overview_page.within_custom_field_section_container(section_for_input_fields) do
-            fields = page.all('.op-project-custom-field-container')
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
 
-            expect(fields.size).to eq(6)
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(string_project_custom_field) do
+              expect(page).to have_text 'String field'
+              expect(page).to have_text 'Not set yet'
+            end
+          end
+        end
+      end
 
-            expect(fields[0].text).to include('Boolean field')
-            expect(fields[1].text).to include('String field')
-            expect(fields[2].text).to include('Integer field')
-            expect(fields[3].text).to include('Float field')
-            expect(fields[4].text).to include('Date field')
-            expect(fields[5].text).to include('Text field')
+      describe 'with no value set by user' do
+        before do
+          string_project_custom_field.custom_values.where(customized: project).destroy_all
+        end
+
+        it 'shows an N/A text for the project custom field if no value given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(string_project_custom_field) do
+              expect(page).to have_text 'String field'
+              expect(page).to have_text 'Not set yet'
+            end
           end
         end
 
-        string_project_custom_field.move_to_bottom
+        it 'does not show the default value for the project custom field if no value given' do
+          string_project_custom_field.update!(default_value: 'Bar')
 
-        overview_page.visit_page
+          overview_page.visit_page
 
-        overview_page.within_async_loaded_sidebar do
-          overview_page.within_custom_field_section_container(section_for_input_fields) do
-            fields = page.all('.op-project-custom-field-container')
-
-            expect(fields.size).to eq(6)
-
-            expect(fields[0].text).to include('Boolean field')
-            expect(fields[1].text).to include('Integer field')
-            expect(fields[2].text).to include('Float field')
-            expect(fields[3].text).to include('Date field')
-            expect(fields[4].text).to include('Text field')
-            expect(fields[5].text).to include('String field')
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(string_project_custom_field) do
+              expect(page).to have_text 'String field'
+              expect(page).to have_text 'Not set yet'
+            end
           end
         end
       end
     end
 
-    describe 'with correct values' do
-      describe 'with boolean CF' do
-        # it_behaves_like 'a project custom field' do
-        #   let(subject) { boolean_project_custom_field }
-        # end
+    describe 'with integer CF' do
+      describe 'with value set by user' do
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
 
-        describe 'with value set by user' do
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(boolean_project_custom_field) do
-                expect(page).to have_text 'Boolean field'
-                expect(page).to have_text 'Yes'
-              end
-            end
-          end
-        end
-
-        describe 'with value unset by user' do
-          # A boolean cannot be completely unset via UI, only toggle between true and false, no blank value possible
-          before do
-            boolean_project_custom_field.custom_values.where(customized: project).first.update!(value: false)
-          end
-
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(boolean_project_custom_field) do
-                expect(page).to have_text 'Boolean field'
-                expect(page).to have_text 'No'
-              end
-            end
-          end
-        end
-
-        describe 'with no value set by user' do
-          before do
-            boolean_project_custom_field.custom_values.where(customized: project).destroy_all
-          end
-
-          it 'shows an N/A text for the project custom field if no value given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(boolean_project_custom_field) do
-                expect(page).to have_text 'Boolean field'
-                expect(page).to have_text 'Not set yet'
-              end
-            end
-          end
-
-          it 'does not show the default value for the project custom field if no value given' do
-            boolean_project_custom_field.update!(default_value: true)
-
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(boolean_project_custom_field) do
-                expect(page).to have_text 'Boolean field'
-                expect(page).to have_text 'Not set yet'
-              end
-            end
-
-            boolean_project_custom_field.update!(default_value: false)
-
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(boolean_project_custom_field) do
-                expect(page).to have_text 'Boolean field'
-                expect(page).to have_text 'Not set yet'
-              end
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(integer_project_custom_field) do
+              expect(page).to have_text 'Integer field'
+              expect(page).to have_text '123'
             end
           end
         end
       end
 
-      describe 'with string CF' do
-        describe 'with value set by user' do
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(string_project_custom_field) do
-                expect(page).to have_text 'String field'
-                expect(page).to have_text 'Foo'
-              end
-            end
-          end
+      describe 'with value unset by user' do
+        before do
+          integer_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
         end
 
-        describe 'with value unset by user' do
-          before do
-            string_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
-          end
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
 
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(string_project_custom_field) do
-                expect(page).to have_text 'String field'
-                expect(page).to have_text 'Not set yet'
-              end
-            end
-          end
-        end
-
-        describe 'with no value set by user' do
-          before do
-            string_project_custom_field.custom_values.where(customized: project).destroy_all
-          end
-
-          it 'shows an N/A text for the project custom field if no value given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(string_project_custom_field) do
-                expect(page).to have_text 'String field'
-                expect(page).to have_text 'Not set yet'
-              end
-            end
-          end
-
-          it 'does not show the default value for the project custom field if no value given' do
-            string_project_custom_field.update!(default_value: 'Bar')
-
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(string_project_custom_field) do
-                expect(page).to have_text 'String field'
-                expect(page).to have_text 'Not set yet'
-              end
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(integer_project_custom_field) do
+              expect(page).to have_text 'Integer field'
+              expect(page).to have_text 'Not set yet'
             end
           end
         end
       end
 
-      describe 'with integer CF' do
-        describe 'with value set by user' do
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
+      describe 'with no value set by user' do
+        before do
+          integer_project_custom_field.custom_values.where(customized: project).destroy_all
+        end
 
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(integer_project_custom_field) do
-                expect(page).to have_text 'Integer field'
-                expect(page).to have_text '123'
-              end
+        it 'shows an N/A text for the project custom field if no value given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(integer_project_custom_field) do
+              expect(page).to have_text 'Integer field'
+              expect(page).to have_text 'Not set yet'
             end
           end
         end
 
-        describe 'with value unset by user' do
-          before do
-            integer_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
-          end
+        it 'does not show the default value for the project custom field if no value given' do
+          integer_project_custom_field.update!(default_value: 456)
 
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
+          overview_page.visit_page
 
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(integer_project_custom_field) do
-                expect(page).to have_text 'Integer field'
-                expect(page).to have_text 'Not set yet'
-              end
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(integer_project_custom_field) do
+              expect(page).to have_text 'Integer field'
+              expect(page).to have_text 'Not set yet'
             end
           end
         end
+      end
+    end
 
-        describe 'with no value set by user' do
-          before do
-            integer_project_custom_field.custom_values.where(customized: project).destroy_all
-          end
+    describe 'with date CF' do
+      describe 'with value set by user' do
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
 
-          it 'shows an N/A text for the project custom field if no value given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(integer_project_custom_field) do
-                expect(page).to have_text 'Integer field'
-                expect(page).to have_text 'Not set yet'
-              end
-            end
-          end
-
-          it 'does not show the default value for the project custom field if no value given' do
-            integer_project_custom_field.update!(default_value: 456)
-
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(integer_project_custom_field) do
-                expect(page).to have_text 'Integer field'
-                expect(page).to have_text 'Not set yet'
-              end
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(date_project_custom_field) do
+              expect(page).to have_text 'Date field'
+              expect(page).to have_text '01/01/2024'
             end
           end
         end
       end
 
-      describe 'with date CF' do
-        describe 'with value set by user' do
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(date_project_custom_field) do
-                expect(page).to have_text 'Date field'
-                expect(page).to have_text '01/01/2024'
-              end
-            end
-          end
+      describe 'with value unset by user' do
+        before do
+          date_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
         end
 
-        describe 'with value unset by user' do
-          before do
-            date_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
-          end
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
 
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(date_project_custom_field) do
-                expect(page).to have_text 'Date field'
-                expect(page).to have_text 'Not set yet'
-              end
-            end
-          end
-        end
-
-        describe 'with no value set by user' do
-          before do
-            date_project_custom_field.custom_values.where(customized: project).destroy_all
-          end
-
-          it 'shows an N/A text for the project custom field if no value given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(date_project_custom_field) do
-                expect(page).to have_text 'Date field'
-                expect(page).to have_text 'Not set yet'
-              end
-            end
-          end
-
-          it 'does not show the default value for the project custom field if no value given' do
-            date_project_custom_field.update!(default_value: Date.new(2024, 2, 2))
-
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(date_project_custom_field) do
-                expect(page).to have_text 'Date field'
-                expect(page).to have_text 'Not set yet'
-              end
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(date_project_custom_field) do
+              expect(page).to have_text 'Date field'
+              expect(page).to have_text 'Not set yet'
             end
           end
         end
       end
 
-      describe 'with float CF' do
-        describe 'with value set by user' do
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
+      describe 'with no value set by user' do
+        before do
+          date_project_custom_field.custom_values.where(customized: project).destroy_all
+        end
 
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(float_project_custom_field) do
-                expect(page).to have_text 'Float field'
-                expect(page).to have_text '123.456'
-              end
+        it 'shows an N/A text for the project custom field if no value given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(date_project_custom_field) do
+              expect(page).to have_text 'Date field'
+              expect(page).to have_text 'Not set yet'
             end
           end
         end
 
-        describe 'with value unset by user' do
-          before do
-            float_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
-          end
+        it 'does not show the default value for the project custom field if no value given' do
+          date_project_custom_field.update!(default_value: Date.new(2024, 2, 2))
 
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
+          overview_page.visit_page
 
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(float_project_custom_field) do
-                expect(page).to have_text 'Float field'
-                expect(page).to have_text 'Not set yet'
-              end
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(date_project_custom_field) do
+              expect(page).to have_text 'Date field'
+              expect(page).to have_text 'Not set yet'
             end
           end
         end
+      end
+    end
 
-        describe 'with no value set by user' do
-          before do
-            float_project_custom_field.custom_values.where(customized: project).destroy_all
-          end
+    describe 'with float CF' do
+      describe 'with value set by user' do
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
 
-          it 'shows an N/A text for the project custom field if no value given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(float_project_custom_field) do
-                expect(page).to have_text 'Float field'
-                expect(page).to have_text 'Not set yet'
-              end
-            end
-          end
-
-          it 'dies not show the default value for the project custom field if no value given' do
-            float_project_custom_field.update!(default_value: 456.789)
-
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(float_project_custom_field) do
-                expect(page).to have_text 'Float field'
-                expect(page).to have_text 'Not set yet'
-              end
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(float_project_custom_field) do
+              expect(page).to have_text 'Float field'
+              expect(page).to have_text '123.456'
             end
           end
         end
       end
 
-      describe 'with text CF' do
-        describe 'with value set by user' do
-          context 'with a value that is shorter than 100 characters' do
-            it 'shows the correct value for the project custom field if given without truncation and dialog button' do
-              overview_page.visit_page
+      describe 'with value unset by user' do
+        before do
+          float_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
+        end
 
-              overview_page.within_async_loaded_sidebar do
-                overview_page.within_custom_field_container(text_project_custom_field) do
-                  expect(page).to have_text 'Text field'
-                  expect(page).to have_text "Lorem\nipsum"
-                end
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(float_project_custom_field) do
+              expect(page).to have_text 'Float field'
+              expect(page).to have_text 'Not set yet'
+            end
+          end
+        end
+      end
+
+      describe 'with no value set by user' do
+        before do
+          float_project_custom_field.custom_values.where(customized: project).destroy_all
+        end
+
+        it 'shows an N/A text for the project custom field if no value given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(float_project_custom_field) do
+              expect(page).to have_text 'Float field'
+              expect(page).to have_text 'Not set yet'
+            end
+          end
+        end
+
+        it 'dies not show the default value for the project custom field if no value given' do
+          float_project_custom_field.update!(default_value: 456.789)
+
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(float_project_custom_field) do
+              expect(page).to have_text 'Float field'
+              expect(page).to have_text 'Not set yet'
+            end
+          end
+        end
+      end
+    end
+
+    describe 'with text CF' do
+      describe 'with value set by user' do
+        context 'with a value that is shorter than 100 characters' do
+          it 'shows the correct value for the project custom field if given without truncation and dialog button' do
+            overview_page.visit_page
+
+            overview_page.within_async_loaded_sidebar do
+              overview_page.within_custom_field_container(text_project_custom_field) do
+                expect(page).to have_text 'Text field'
+                expect(page).to have_text "Lorem\nipsum"
               end
             end
           end
+        end
 
-          context 'with a value that is longer than 100 characters' do
-            before do
-              text_project_custom_field.custom_values.where(customized: project).first.update!(value: 'a' * 101)
-            end
+        context 'with a value that is longer than 100 characters' do
+          before do
+            text_project_custom_field.custom_values.where(customized: project).first.update!(value: 'a' * 101)
+          end
 
-            it 'shows the correct value for the project custom field if given with truncation and dialog button' do
-              overview_page.visit_page
+          it 'shows the correct value for the project custom field if given with truncation and dialog button' do
+            overview_page.visit_page
 
-              overview_page.within_async_loaded_sidebar do
-                overview_page.within_custom_field_container(text_project_custom_field) do
-                  expect(page).to have_text 'Text field'
-                  expect(page).to have_text ("#{'a' * 97}...")
-                  expect(page).to have_text 'Expand'
+            overview_page.within_async_loaded_sidebar do
+              overview_page.within_custom_field_container(text_project_custom_field) do
+                expect(page).to have_text 'Text field'
+                expect(page).to have_text ("#{'a' * 97}...")
+                expect(page).to have_text 'Expand'
 
-                  click_on 'Expand'
+                click_on 'Expand'
 
-                  within 'modal-dialog' do
-                    expect(page).to have_text 'a' * 101
-                  end
+                within 'modal-dialog' do
+                  expect(page).to have_text 'a' * 101
                 end
               end
             end
           end
         end
+      end
 
-        describe 'with value unset by user' do
-          before do
-            text_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
-          end
-
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(text_project_custom_field) do
-                expect(page).to have_text 'Text field'
-                expect(page).to have_text 'Not set yet'
-              end
-            end
-          end
+      describe 'with value unset by user' do
+        before do
+          text_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
         end
 
-        describe 'with no value set by user' do
-          before do
-            text_project_custom_field.custom_values.where(customized: project).destroy_all
-          end
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
 
-          it 'shows an N/A text for the project custom field if no value given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(text_project_custom_field) do
-                expect(page).to have_text 'Text field'
-                expect(page).to have_text 'Not set yet'
-              end
-            end
-          end
-
-          it 'does not show the default value for the project custom field if no value given' do
-            text_project_custom_field.update!(default_value: 'Dolor sit amet')
-
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(text_project_custom_field) do
-                expect(page).to have_text 'Text field'
-                expect(page).to have_text 'Not set yet'
-              end
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(text_project_custom_field) do
+              expect(page).to have_text 'Text field'
+              expect(page).to have_text 'Not set yet'
             end
           end
         end
       end
 
-      describe 'with list CF' do
-        describe 'with value set by user' do
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
+      describe 'with no value set by user' do
+        before do
+          text_project_custom_field.custom_values.where(customized: project).destroy_all
+        end
 
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(list_project_custom_field) do
-                expect(page).to have_text 'List field'
-                expect(page).to have_text 'Option 1'
-              end
+        it 'shows an N/A text for the project custom field if no value given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(text_project_custom_field) do
+              expect(page).to have_text 'Text field'
+              expect(page).to have_text 'Not set yet'
             end
           end
         end
 
-        describe 'with value unset by user' do
-          before do
-            list_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
-          end
+        it 'does not show the default value for the project custom field if no value given' do
+          text_project_custom_field.update!(default_value: 'Dolor sit amet')
 
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
+          overview_page.visit_page
 
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(list_project_custom_field) do
-                expect(page).to have_text 'List field'
-                expect(page).to have_text 'Not set yet'
-              end
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(text_project_custom_field) do
+              expect(page).to have_text 'Text field'
+              expect(page).to have_text 'Not set yet'
             end
           end
         end
+      end
+    end
 
-        describe 'with no value set by user' do
-          before do
-            list_project_custom_field.custom_values.where(customized: project).destroy_all
-          end
+    describe 'with list CF' do
+      describe 'with value set by user' do
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
 
-          it 'shows an N/A text for the project custom field if no value given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(list_project_custom_field) do
-                expect(page).to have_text 'List field'
-                expect(page).to have_text 'Not set yet'
-              end
-            end
-          end
-
-          it 'does not show the default value for the project custom field if no value given' do
-            list_project_custom_field.custom_options.first.update!(default_value: true)
-
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(list_project_custom_field) do
-                expect(page).to have_text 'List field'
-                expect(page).to have_text 'Not set yet'
-              end
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(list_project_custom_field) do
+              expect(page).to have_text 'List field'
+              expect(page).to have_text 'Option 1'
             end
           end
         end
       end
 
-      describe 'with version CF' do
-        describe 'with value set by user' do
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(version_project_custom_field) do
-                expect(page).to have_text 'Version field'
-                expect(page).to have_text 'Version 1'
-              end
-            end
-          end
+      describe 'with value unset by user' do
+        before do
+          list_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
         end
 
-        describe 'with value unset by user' do
-          before do
-            version_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
-          end
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
 
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(version_project_custom_field) do
-                expect(page).to have_text 'Version field'
-                expect(page).to have_text 'Not set yet'
-              end
-            end
-          end
-        end
-
-        describe 'with no value set by user' do
-          before do
-            version_project_custom_field.custom_values.where(customized: project).destroy_all
-          end
-
-          it 'shows an N/A text for the project custom field if no value given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(version_project_custom_field) do
-                expect(page).to have_text 'Version field'
-                expect(page).to have_text 'Not set yet'
-              end
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(list_project_custom_field) do
+              expect(page).to have_text 'List field'
+              expect(page).to have_text 'Not set yet'
             end
           end
         end
       end
 
-      describe 'with user CF' do
-        describe 'with value set by user' do
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
+      describe 'with no value set by user' do
+        before do
+          list_project_custom_field.custom_values.where(customized: project).destroy_all
+        end
 
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(user_project_custom_field) do
-                expect(page).to have_text 'User field'
-                expect(page).to have_css('opce-principal')
-                expect(page).to have_text 'Member 1 In Project'
-              end
+        it 'shows an N/A text for the project custom field if no value given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(list_project_custom_field) do
+              expect(page).to have_text 'List field'
+              expect(page).to have_text 'Not set yet'
             end
           end
         end
 
-        describe 'with value unset by user' do
-          before do
-            user_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
-          end
+        it 'does not show the default value for the project custom field if no value given' do
+          list_project_custom_field.custom_options.first.update!(default_value: true)
 
-          it 'shows the correct value for the project custom field if given' do
-            overview_page.visit_page
+          overview_page.visit_page
 
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(user_project_custom_field) do
-                expect(page).to have_text 'User field'
-                expect(page).to have_text 'Not set yet'
-              end
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(list_project_custom_field) do
+              expect(page).to have_text 'List field'
+              expect(page).to have_text 'Not set yet'
             end
           end
-        end
-
-        describe 'with no value set by user' do
-          before do
-            user_project_custom_field.custom_values.where(customized: project).destroy_all
-          end
-
-          it 'shows an N/A text for the project custom field if no value given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(user_project_custom_field) do
-                expect(page).to have_text 'User field'
-                expect(page).to have_text 'Not set yet'
-              end
-            end
-          end
-        end
-
-        describe 'with support for user groups' do
-          # TODO
-        end
-
-        describe 'with support for user placeholders' do
-          # TODO
         end
       end
+    end
 
-      describe 'with multi list CF' do
-        describe 'with value set by user' do
-          it 'shows the correct values for the project custom field if given' do
-            overview_page.visit_page
+    describe 'with version CF' do
+      describe 'with value set by user' do
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
 
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(multi_list_project_custom_field) do
-                expect(page).to have_text 'Multi list field'
-                expect(page).to have_text 'Option 1, Option 2'
-              end
-            end
-          end
-        end
-
-        describe 'with no value set by user' do
-          before do
-            multi_list_project_custom_field.custom_values.where(customized: project).destroy_all
-          end
-
-          it 'shows an N/A text for the project custom field if no value given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(multi_list_project_custom_field) do
-                expect(page).to have_text 'Multi list field'
-                expect(page).to have_text 'Not set yet'
-              end
-            end
-          end
-
-          it 'does not show the default value(s) for the project custom field if no value given' do
-            multi_list_project_custom_field.custom_options.first.update!(default_value: true)
-            multi_list_project_custom_field.custom_options.second.update!(default_value: true)
-
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(multi_list_project_custom_field) do
-                expect(page).to have_text 'Multi list field'
-                expect(page).to have_text 'Not set yet'
-              end
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(version_project_custom_field) do
+              expect(page).to have_text 'Version field'
+              expect(page).to have_text 'Version 1'
             end
           end
         end
       end
 
-      describe 'with multi version CF' do
-        describe 'with value set by user' do
-          it 'shows the correct values for the project custom field if given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(multi_version_project_custom_field) do
-                expect(page).to have_text 'Multi version field'
-                expect(page).to have_text 'Version 1, Version 2'
-              end
-            end
-          end
+      describe 'with value unset by user' do
+        before do
+          version_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
         end
 
-        describe 'with no value set by user' do
-          before do
-            multi_version_project_custom_field.custom_values.where(customized: project).destroy_all
-          end
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
 
-          it 'shows an N/A text for the project custom field if no value given' do
-            overview_page.visit_page
-
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(multi_version_project_custom_field) do
-                expect(page).to have_text 'Multi version field'
-                expect(page).to have_text 'Not set yet'
-              end
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(version_project_custom_field) do
+              expect(page).to have_text 'Version field'
+              expect(page).to have_text 'Not set yet'
             end
           end
         end
       end
 
-      describe 'with multi user CF' do
-        describe 'with value set by user' do
-          it 'shows the correct values for the project custom field if given' do
-            overview_page.visit_page
+      describe 'with no value set by user' do
+        before do
+          version_project_custom_field.custom_values.where(customized: project).destroy_all
+        end
 
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(multi_user_project_custom_field) do
-                expect(page).to have_text 'Multi user field'
-                expect(page).to have_css 'opce-principal', count: 2
-                expect(page).to have_text 'Member 1 In Project'
-                expect(page).to have_text 'Member 2 In Project'
-              end
+        it 'shows an N/A text for the project custom field if no value given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(version_project_custom_field) do
+              expect(page).to have_text 'Version field'
+              expect(page).to have_text 'Not set yet'
+            end
+          end
+        end
+      end
+    end
+
+    describe 'with user CF' do
+      describe 'with value set by user' do
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(user_project_custom_field) do
+              expect(page).to have_text 'User field'
+              expect(page).to have_css('opce-principal')
+              expect(page).to have_text 'Member 1 In Project'
+            end
+          end
+        end
+      end
+
+      describe 'with value unset by user' do
+        before do
+          user_project_custom_field.custom_values.where(customized: project).first.update!(value: '')
+        end
+
+        it 'shows the correct value for the project custom field if given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(user_project_custom_field) do
+              expect(page).to have_text 'User field'
+              expect(page).to have_text 'Not set yet'
+            end
+          end
+        end
+      end
+
+      describe 'with no value set by user' do
+        before do
+          user_project_custom_field.custom_values.where(customized: project).destroy_all
+        end
+
+        it 'shows an N/A text for the project custom field if no value given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(user_project_custom_field) do
+              expect(page).to have_text 'User field'
+              expect(page).to have_text 'Not set yet'
+            end
+          end
+        end
+      end
+
+      describe 'with support for user groups' do
+        # TODO
+      end
+
+      describe 'with support for user placeholders' do
+        # TODO
+      end
+    end
+
+    describe 'with multi list CF' do
+      describe 'with value set by user' do
+        it 'shows the correct values for the project custom field if given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(multi_list_project_custom_field) do
+              expect(page).to have_text 'Multi list field'
+              expect(page).to have_text 'Option 1, Option 2'
+            end
+          end
+        end
+      end
+
+      describe 'with no value set by user' do
+        before do
+          multi_list_project_custom_field.custom_values.where(customized: project).destroy_all
+        end
+
+        it 'shows an N/A text for the project custom field if no value given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(multi_list_project_custom_field) do
+              expect(page).to have_text 'Multi list field'
+              expect(page).to have_text 'Not set yet'
             end
           end
         end
 
-        describe 'with no value set by user' do
-          before do
-            multi_user_project_custom_field.custom_values.where(customized: project).destroy_all
+        it 'does not show the default value(s) for the project custom field if no value given' do
+          multi_list_project_custom_field.custom_options.first.update!(default_value: true)
+          multi_list_project_custom_field.custom_options.second.update!(default_value: true)
+
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(multi_list_project_custom_field) do
+              expect(page).to have_text 'Multi list field'
+              expect(page).to have_text 'Not set yet'
+            end
           end
+        end
+      end
+    end
 
-          it 'shows an N/A text for the project custom field if no value given' do
-            overview_page.visit_page
+    describe 'with multi version CF' do
+      describe 'with value set by user' do
+        it 'shows the correct values for the project custom field if given' do
+          overview_page.visit_page
 
-            overview_page.within_async_loaded_sidebar do
-              overview_page.within_custom_field_container(multi_user_project_custom_field) do
-                expect(page).to have_text 'Multi user field'
-                expect(page).to have_text 'Not set yet'
-              end
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(multi_version_project_custom_field) do
+              expect(page).to have_text 'Multi version field'
+              expect(page).to have_text 'Version 1, Version 2'
+            end
+          end
+        end
+      end
+
+      describe 'with no value set by user' do
+        before do
+          multi_version_project_custom_field.custom_values.where(customized: project).destroy_all
+        end
+
+        it 'shows an N/A text for the project custom field if no value given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(multi_version_project_custom_field) do
+              expect(page).to have_text 'Multi version field'
+              expect(page).to have_text 'Not set yet'
+            end
+          end
+        end
+      end
+    end
+
+    describe 'with multi user CF' do
+      describe 'with value set by user' do
+        it 'shows the correct values for the project custom field if given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(multi_user_project_custom_field) do
+              expect(page).to have_text 'Multi user field'
+              expect(page).to have_css 'opce-principal', count: 2
+              expect(page).to have_text 'Member 1 In Project'
+              expect(page).to have_text 'Member 2 In Project'
+            end
+          end
+        end
+      end
+
+      describe 'with no value set by user' do
+        before do
+          multi_user_project_custom_field.custom_values.where(customized: project).destroy_all
+        end
+
+        it 'shows an N/A text for the project custom field if no value given' do
+          overview_page.visit_page
+
+          overview_page.within_async_loaded_sidebar do
+            overview_page.within_custom_field_container(multi_user_project_custom_field) do
+              expect(page).to have_text 'Multi user field'
+              expect(page).to have_text 'Not set yet'
             end
           end
         end

@@ -40,7 +40,7 @@ class CustomFieldsController < ApplicationController
     @custom_fields_by_type = CustomField.all
       .where.not(type: 'WorkPackageCustomField')
       # ProjectCustomFields now managed in a different UI
-      .tap { |query| query.where.not(type: 'ProjectCustomField') unless OpenProject::FeatureDecisions.project_attributes_active? }
+      .tap { |query| query.where.not(type: 'ProjectCustomField') }
       .group_by { |f| f.class.name }
 
     @custom_fields_by_type['WorkPackageCustomField'] = WorkPackageCustomField.includes(:types).all
@@ -80,9 +80,7 @@ class CustomFieldsController < ApplicationController
 
   def check_custom_field
     # ProjecCustomFields now managed in a different UI
-    if
-      OpenProject::FeatureDecisions.project_attributes_active? &&
-      (@custom_field.nil? || @custom_field.type == 'ProjectCustomField')
+    if @custom_field.nil? || @custom_field.type == 'ProjectCustomField'
       flash[:error] = 'Invalid CF type'
       redirect_to action: :index
     end

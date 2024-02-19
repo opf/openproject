@@ -330,25 +330,17 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: Proc.new { Workflow.model_name.human },
             parent: :admin_work_packages
 
-  if OpenProject::FeatureDecisions.project_attributes_active?
-    menu.push :admin_projects_settings,
-              { controller: '/admin/settings/project_custom_fields', action: :index },
-              if: Proc.new { User.current.admin? },
-              caption: :label_project_plural,
-              icon: 'projects'
+  menu.push :admin_projects_settings,
+            { controller: '/admin/settings/project_custom_fields', action: :index },
+            if: Proc.new { User.current.admin? },
+            caption: :label_project_plural,
+            icon: 'projects'
 
-    menu.push :project_custom_fields_settings,
-              { controller: '/admin/settings/project_custom_fields', action: :index },
-              if: Proc.new { User.current.admin? },
-              caption: :label_project_attributes_plural,
-              parent: :admin_projects_settings
-  else
-    menu.push :admin_projects_settings,
-              { controller: '/admin/settings/projects_settings', action: :show },
-              if: Proc.new { User.current.admin? },
-              caption: :label_project_plural,
-              icon: 'projects'
-  end
+  menu.push :project_custom_fields_settings,
+            { controller: '/admin/settings/project_custom_fields', action: :index },
+            if: Proc.new { User.current.admin? },
+            caption: :label_project_attributes_plural,
+            parent: :admin_projects_settings
 
   menu.push :projects_settings,
             { controller: '/admin/settings/projects_settings', action: :show },
@@ -623,6 +615,7 @@ Redmine::MenuManager.map :project_menu do |menu|
 
   project_menu_items = {
     general: :label_information_plural,
+    project_custom_fields: :label_project_attributes_plural,
     modules: :label_module_plural,
     types: :label_work_package_types,
     custom_fields: :label_custom_field_plural,
@@ -632,10 +625,6 @@ Redmine::MenuManager.map :project_menu do |menu|
     time_entry_activities: :enumeration_activities,
     storage: :label_required_disk_storage
   }
-
-  if OpenProject::FeatureDecisions.project_attributes_active?
-    project_menu_items = project_menu_items.to_a.insert(1, %i[project_custom_fields label_project_attributes_plural]).to_h
-  end
 
   project_menu_items.each do |key, caption|
     menu.push :"settings_#{key}",

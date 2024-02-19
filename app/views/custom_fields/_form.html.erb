@@ -30,7 +30,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field -required" id="custom_field_name_attributes">
     <%= f.text_field :name, required: true, container_class: '-middle' %>
   </div>
-  <% if @custom_field.type == 'ProjectCustomField' && OpenProject::FeatureDecisions.project_attributes_active? %>
+  <% if @custom_field.type == 'ProjectCustomField' %>
     <div class="form--field">
       <%= f.select :custom_field_section_id,
                   ProjectCustomFieldSection.all.collect { |s| [s.name, s.id] },

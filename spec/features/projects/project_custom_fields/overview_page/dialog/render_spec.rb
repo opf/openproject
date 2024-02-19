@@ -33,113 +33,110 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
   include_context 'with seeded projects, members and project custom fields'
 
   let(:overview_page) { Pages::Projects::Show.new(project) }
+  let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section_for_input_fields) }
 
-  describe 'with enabled project attributes feature', with_flag: { project_attributes: true } do
-    before do
-      login_as member_with_project_edit_permissions
-      overview_page.visit_page
-    end
+  before do
+    login_as member_with_project_edit_permissions
+    overview_page.visit_page
+  end
 
-    let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section_for_input_fields) }
+  it 'opens a dialog showing inputs for project custom fields of a specific section' do
+    overview_page.open_edit_dialog_for_section(section_for_input_fields)
 
-    it 'opens a dialog showing inputs for project custom fields of a specific section' do
-      overview_page.open_edit_dialog_for_section(section_for_input_fields)
+    dialog.expect_open
+  end
 
-      dialog.expect_open
-    end
+  it 'renders the dialog body asynchronically' do
+    expect(page).to have_no_css(dialog.async_content_container_css_selector, visible: :all)
 
-    it 'renders the dialog body asynchronically' do
-      expect(page).to have_no_css(dialog.async_content_container_css_selector, visible: :all)
+    overview_page.open_edit_dialog_for_section(section_for_input_fields)
 
-      overview_page.open_edit_dialog_for_section(section_for_input_fields)
+    expect(page).to have_css(dialog.async_content_container_css_selector, visible: :visible)
+  end
 
-      expect(page).to have_css(dialog.async_content_container_css_selector, visible: :visible)
-    end
+  it 'can be closed via close icon or cancel button' do
+    overview_page.open_edit_dialog_for_section(section_for_input_fields)
 
-    it 'can be closed via close icon or cancel button' do
-      overview_page.open_edit_dialog_for_section(section_for_input_fields)
+    dialog.close_via_icon
 
-      dialog.close_via_icon
+    dialog.expect_closed
 
-      dialog.expect_closed
+    overview_page.open_edit_dialog_for_section(section_for_input_fields)
 
-      overview_page.open_edit_dialog_for_section(section_for_input_fields)
+    dialog.close_via_button
 
-      dialog.close_via_button
+    dialog.expect_closed
+  end
 
-      dialog.expect_closed
-    end
+  it 'shows only the project custom fields of the specific section within the dialog' do
+    overview_page.open_edit_dialog_for_section(section_for_input_fields)
 
-    it 'shows only the project custom fields of the specific section within the dialog' do
-      overview_page.open_edit_dialog_for_section(section_for_input_fields)
-
-      dialog.within_async_content(close_after_yield: true) do
-        (input_fields + select_fields + multi_select_fields).each do |project_custom_field|
-          if input_fields.include?(project_custom_field)
-            expect(page).to have_content(project_custom_field.name)
-          else
-            expect(page).to have_no_content(project_custom_field.name)
-          end
-        end
-      end
-
-      dialog = Components::Projects::ProjectCustomFields::EditDialog.new(project, section_for_select_fields)
-
-      overview_page.open_edit_dialog_for_section(section_for_select_fields)
-
-      dialog.within_async_content(close_after_yield: true) do
-        (input_fields + select_fields + multi_select_fields).each do |project_custom_field|
-          if select_fields.include?(project_custom_field)
-            expect(page).to have_content(project_custom_field.name)
-          else
-            expect(page).to have_no_content(project_custom_field.name)
-          end
-        end
-      end
-
-      dialog = Components::Projects::ProjectCustomFields::EditDialog.new(project, section_for_multi_select_fields)
-
-      overview_page.open_edit_dialog_for_section(section_for_multi_select_fields)
-
-      dialog.within_async_content(close_after_yield: true) do
-        (input_fields + select_fields + multi_select_fields).each do |project_custom_field|
-          if multi_select_fields.include?(project_custom_field)
-            expect(page).to have_content(project_custom_field.name)
-          else
-            expect(page).to have_no_content(project_custom_field.name)
-          end
+    dialog.within_async_content(close_after_yield: true) do
+      (input_fields + select_fields + multi_select_fields).each do |project_custom_field|
+        if input_fields.include?(project_custom_field)
+          expect(page).to have_content(project_custom_field.name)
+        else
+          expect(page).to have_no_content(project_custom_field.name)
         end
       end
     end
 
-    it 'shows the inputs in the correct order defined by the position of project custom field in a section' do
-      overview_page.open_edit_dialog_for_section(section_for_input_fields)
+    dialog = Components::Projects::ProjectCustomFields::EditDialog.new(project, section_for_select_fields)
 
-      dialog.within_async_content(close_after_yield: true) do
-        containers = dialog.input_containers
+    overview_page.open_edit_dialog_for_section(section_for_select_fields)
 
-        expect(containers[0].text).to include('Boolean field')
-        expect(containers[1].text).to include('String field')
-        expect(containers[2].text).to include('Integer field')
-        expect(containers[3].text).to include('Float field')
-        expect(containers[4].text).to include('Date field')
-        expect(containers[5].text).to include('Text field')
+    dialog.within_async_content(close_after_yield: true) do
+      (input_fields + select_fields + multi_select_fields).each do |project_custom_field|
+        if select_fields.include?(project_custom_field)
+          expect(page).to have_content(project_custom_field.name)
+        else
+          expect(page).to have_no_content(project_custom_field.name)
+        end
       end
+    end
 
-      boolean_project_custom_field.move_to_bottom
+    dialog = Components::Projects::ProjectCustomFields::EditDialog.new(project, section_for_multi_select_fields)
 
-      overview_page.open_edit_dialog_for_section(section_for_input_fields)
+    overview_page.open_edit_dialog_for_section(section_for_multi_select_fields)
 
-      dialog.within_async_content(close_after_yield: true) do
-        containers = dialog.input_containers
-
-        expect(containers[0].text).to include('String field')
-        expect(containers[1].text).to include('Integer field')
-        expect(containers[2].text).to include('Float field')
-        expect(containers[3].text).to include('Date field')
-        expect(containers[4].text).to include('Text field')
-        expect(containers[5].text).to include('Boolean field')
+    dialog.within_async_content(close_after_yield: true) do
+      (input_fields + select_fields + multi_select_fields).each do |project_custom_field|
+        if multi_select_fields.include?(project_custom_field)
+          expect(page).to have_content(project_custom_field.name)
+        else
+          expect(page).to have_no_content(project_custom_field.name)
+        end
       end
+    end
+  end
+
+  it 'shows the inputs in the correct order defined by the position of project custom field in a section' do
+    overview_page.open_edit_dialog_for_section(section_for_input_fields)
+
+    dialog.within_async_content(close_after_yield: true) do
+      containers = dialog.input_containers
+
+      expect(containers[0].text).to include('Boolean field')
+      expect(containers[1].text).to include('String field')
+      expect(containers[2].text).to include('Integer field')
+      expect(containers[3].text).to include('Float field')
+      expect(containers[4].text).to include('Date field')
+      expect(containers[5].text).to include('Text field')
+    end
+
+    boolean_project_custom_field.move_to_bottom
+
+    overview_page.open_edit_dialog_for_section(section_for_input_fields)
+
+    dialog.within_async_content(close_after_yield: true) do
+      containers = dialog.input_containers
+
+      expect(containers[0].text).to include('String field')
+      expect(containers[1].text).to include('Integer field')
+      expect(containers[2].text).to include('Float field')
+      expect(containers[3].text).to include('Date field')
+      expect(containers[4].text).to include('Text field')
+      expect(containers[5].text).to include('Boolean field')
     end
   end
 end

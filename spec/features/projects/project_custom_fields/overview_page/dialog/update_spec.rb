@@ -34,605 +34,603 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
 
   let(:overview_page) { Pages::Projects::Show.new(project) }
 
-  describe 'with enabled project attributes feature', with_flag: { project_attributes: true } do
-    before do
-      login_as member_with_project_edit_permissions
-      overview_page.visit_page
+  before do
+    login_as member_with_project_edit_permissions
+    overview_page.visit_page
+  end
+
+  describe 'with correct updating behaviour' do
+    describe 'with input fields' do
+      let(:section) { section_for_input_fields }
+      let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
+
+      shared_examples 'a custom field checkbox' do
+        it 'sets the value to true if checked' do
+          custom_field.custom_values.destroy_all
+
+          overview_page.visit_page
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_content "Not set yet"
+          end
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          field.check
+
+          dialog.submit
+          dialog.expect_closed
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_content "Yes"
+          end
+        end
+
+        it 'sets the value to false if unchecked' do
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_content "Yes"
+          end
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          field.uncheck
+
+          dialog.submit
+          dialog.expect_closed
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_content "No"
+          end
+        end
+
+        it 'does not change the value if untouched' do
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_content "Yes"
+          end
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          # don't touch the input
+
+          dialog.submit
+          dialog.expect_closed
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_content "Yes"
+          end
+        end
+      end
+
+      shared_examples 'a custom field input' do
+        it 'saves the value properly' do
+          custom_field.custom_values.destroy_all
+
+          overview_page.visit_page
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_content "Not set yet"
+          end
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          field.fill_in(with: update_value)
+
+          dialog.submit
+          dialog.expect_closed
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_content expected_updated_value
+          end
+        end
+
+        it 'does not change the value if untouched' do
+          overview_page.visit_page
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_content expected_initial_value
+          end
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          # don't touch the input
+
+          dialog.submit
+          dialog.expect_closed
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_content expected_initial_value
+          end
+        end
+
+        it 'removes the value properly' do
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_content expected_initial_value
+          end
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          field.fill_in(with: '')
+
+          dialog.submit
+          dialog.expect_closed
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_content "Not set yet"
+          end
+        end
+      end
+
+      shared_examples 'a rich text custom field input' do
+        it 'saves the value properly' do
+          custom_field.custom_values.destroy_all
+
+          overview_page.visit_page
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_no_text(expected_updated_value)
+          end
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          field.set_value(update_value)
+
+          dialog.submit
+          dialog.expect_closed
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_text(expected_updated_value)
+          end
+        end
+
+        it 'does not change the value if untouched' do
+          overview_page.visit_page
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_content expected_initial_value
+          end
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          # don't touch the input
+
+          dialog.submit
+          dialog.expect_closed
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_content expected_initial_value
+          end
+        end
+
+        it 'removes the value properly' do
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_text(expected_initial_value)
+          end
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          field.set_value('')
+
+          dialog.submit
+          dialog.expect_closed
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_no_text(expected_initial_value)
+          end
+        end
+      end
+
+      describe 'with boolean CF' do
+        let(:custom_field) { boolean_project_custom_field }
+        let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+        let(:expected_initial_value) { true }
+
+        it_behaves_like 'a custom field checkbox'
+      end
+
+      describe 'with string CF' do
+        let(:custom_field) { string_project_custom_field }
+        let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+        let(:expected_initial_value) { 'Foo' }
+        let(:update_value) { 'Bar' }
+        let(:expected_updated_value) { update_value }
+
+        it_behaves_like 'a custom field input'
+      end
+
+      describe 'with integer CF' do
+        let(:custom_field) { integer_project_custom_field }
+        let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+        let(:expected_initial_value) { 123 }
+        let(:update_value) { 456 }
+        let(:expected_updated_value) { update_value }
+
+        it_behaves_like 'a custom field input'
+      end
+
+      describe 'with float CF' do
+        let(:custom_field) { float_project_custom_field }
+        let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+        let(:expected_initial_value) { 123.456 }
+        let(:update_value) { 456.789 }
+        let(:expected_updated_value) { update_value }
+
+        it_behaves_like 'a custom field input'
+      end
+
+      describe 'with date CF' do
+        let(:custom_field) { date_project_custom_field }
+        let(:field) { FormFields::Primerized::InputField.new(custom_field) }
+        let(:expected_initial_value) { '01/01/2024' }
+        let(:update_value) { Date.new(2024, 1, 2) }
+        let(:expected_updated_value) { '01/02/2024' }
+
+        it_behaves_like 'a custom field input'
+      end
+
+      describe 'with text CF' do
+        let(:custom_field) { text_project_custom_field }
+        let(:field) { FormFields::Primerized::EditorFormField.new(custom_field) }
+        let(:expected_initial_value) { "Lorem\nipsum" } # TBD: why is the second newline missing?
+        let(:update_value) { "Dolor\n\nsit" }
+        let(:expected_updated_value) { "Dolor\nsit" }
+
+        it_behaves_like 'a rich text custom field input'
+      end
     end
 
-    describe 'with correct updating behaviour' do
-      describe 'with input fields' do
-        let(:section) { section_for_input_fields }
-        let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
+    describe 'with select fields' do
+      let(:section) { section_for_select_fields }
+      let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
 
-        shared_examples 'a custom field checkbox' do
-          it 'sets the value to true if checked' do
-            custom_field.custom_values.destroy_all
+      shared_examples 'a select field' do
+        it 'saves the value properly' do
+          custom_field.custom_values.destroy_all
 
-            overview_page.visit_page
+          overview_page.visit_page
 
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_content "Not set yet"
-            end
-
-            overview_page.open_edit_dialog_for_section(section)
-
-            field.check
-
-            dialog.submit
-            dialog.expect_closed
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_content "Yes"
-            end
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_no_text first_option
           end
 
-          it 'sets the value to false if unchecked' do
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_content "Yes"
-            end
+          overview_page.open_edit_dialog_for_section(section)
 
-            overview_page.open_edit_dialog_for_section(section)
+          field.select_option(first_option)
 
-            field.uncheck
+          dialog.submit
+          dialog.expect_closed
 
-            dialog.submit
-            dialog.expect_closed
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_content "No"
-            end
-          end
-
-          it 'does not change the value if untouched' do
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_content "Yes"
-            end
-
-            overview_page.open_edit_dialog_for_section(section)
-
-            # don't touch the input
-
-            dialog.submit
-            dialog.expect_closed
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_content "Yes"
-            end
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_text first_option
           end
         end
 
-        shared_examples 'a custom field input' do
-          it 'saves the value properly' do
-            custom_field.custom_values.destroy_all
+        it 'does not change the value if untouched' do
+          overview_page.visit_page
 
-            overview_page.visit_page
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_content "Not set yet"
-            end
-
-            overview_page.open_edit_dialog_for_section(section)
-
-            field.fill_in(with: update_value)
-
-            dialog.submit
-            dialog.expect_closed
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_content expected_updated_value
-            end
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_text first_option
           end
 
-          it 'does not change the value if untouched' do
-            overview_page.visit_page
+          overview_page.open_edit_dialog_for_section(section)
 
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_content expected_initial_value
-            end
+          # don't touch the input
 
-            overview_page.open_edit_dialog_for_section(section)
+          dialog.submit
+          dialog.expect_closed
 
-            # don't touch the input
-
-            dialog.submit
-            dialog.expect_closed
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_content expected_initial_value
-            end
-          end
-
-          it 'removes the value properly' do
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_content expected_initial_value
-            end
-
-            overview_page.open_edit_dialog_for_section(section)
-
-            field.fill_in(with: '')
-
-            dialog.submit
-            dialog.expect_closed
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_content "Not set yet"
-            end
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_text first_option
           end
         end
 
-        shared_examples 'a rich text custom field input' do
-          it 'saves the value properly' do
-            custom_field.custom_values.destroy_all
-
-            overview_page.visit_page
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_no_text(expected_updated_value)
-            end
-
-            overview_page.open_edit_dialog_for_section(section)
-
-            field.set_value(update_value)
-
-            dialog.submit
-            dialog.expect_closed
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_text(expected_updated_value)
-            end
+        it 'removes the value properly' do
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_text first_option
           end
 
-          it 'does not change the value if untouched' do
-            overview_page.visit_page
+          overview_page.open_edit_dialog_for_section(section)
 
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_content expected_initial_value
-            end
+          field.clear
 
-            overview_page.open_edit_dialog_for_section(section)
+          dialog.submit
+          dialog.expect_closed
 
-            # don't touch the input
-
-            dialog.submit
-            dialog.expect_closed
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_content expected_initial_value
-            end
-          end
-
-          it 'removes the value properly' do
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_text(expected_initial_value)
-            end
-
-            overview_page.open_edit_dialog_for_section(section)
-
-            field.set_value('')
-
-            dialog.submit
-            dialog.expect_closed
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_no_text(expected_initial_value)
-            end
-          end
-        end
-
-        describe 'with boolean CF' do
-          let(:custom_field) { boolean_project_custom_field }
-          let(:field) { FormFields::Primerized::InputField.new(custom_field) }
-          let(:expected_initial_value) { true }
-
-          it_behaves_like 'a custom field checkbox'
-        end
-
-        describe 'with string CF' do
-          let(:custom_field) { string_project_custom_field }
-          let(:field) { FormFields::Primerized::InputField.new(custom_field) }
-          let(:expected_initial_value) { 'Foo' }
-          let(:update_value) { 'Bar' }
-          let(:expected_updated_value) { update_value }
-
-          it_behaves_like 'a custom field input'
-        end
-
-        describe 'with integer CF' do
-          let(:custom_field) { integer_project_custom_field }
-          let(:field) { FormFields::Primerized::InputField.new(custom_field) }
-          let(:expected_initial_value) { 123 }
-          let(:update_value) { 456 }
-          let(:expected_updated_value) { update_value }
-
-          it_behaves_like 'a custom field input'
-        end
-
-        describe 'with float CF' do
-          let(:custom_field) { float_project_custom_field }
-          let(:field) { FormFields::Primerized::InputField.new(custom_field) }
-          let(:expected_initial_value) { 123.456 }
-          let(:update_value) { 456.789 }
-          let(:expected_updated_value) { update_value }
-
-          it_behaves_like 'a custom field input'
-        end
-
-        describe 'with date CF' do
-          let(:custom_field) { date_project_custom_field }
-          let(:field) { FormFields::Primerized::InputField.new(custom_field) }
-          let(:expected_initial_value) { '01/01/2024' }
-          let(:update_value) { Date.new(2024, 1, 2) }
-          let(:expected_updated_value) { '01/02/2024' }
-
-          it_behaves_like 'a custom field input'
-        end
-
-        describe 'with text CF' do
-          let(:custom_field) { text_project_custom_field }
-          let(:field) { FormFields::Primerized::EditorFormField.new(custom_field) }
-          let(:expected_initial_value) { "Lorem\nipsum" } # TBD: why is the second newline missing?
-          let(:update_value) { "Dolor\n\nsit" }
-          let(:expected_updated_value) { "Dolor\nsit" }
-
-          it_behaves_like 'a rich text custom field input'
-        end
-      end
-
-      describe 'with select fields' do
-        let(:section) { section_for_select_fields }
-        let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
-
-        shared_examples 'a select field' do
-          it 'saves the value properly' do
-            custom_field.custom_values.destroy_all
-
-            overview_page.visit_page
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_no_text first_option
-            end
-
-            overview_page.open_edit_dialog_for_section(section)
-
-            field.select_option(first_option)
-
-            dialog.submit
-            dialog.expect_closed
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_text first_option
-            end
-          end
-
-          it 'does not change the value if untouched' do
-            overview_page.visit_page
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_text first_option
-            end
-
-            overview_page.open_edit_dialog_for_section(section)
-
-            # don't touch the input
-
-            dialog.submit
-            dialog.expect_closed
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_text first_option
-            end
-          end
-
-          it 'removes the value properly' do
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_text first_option
-            end
-
-            overview_page.open_edit_dialog_for_section(section)
-
-            field.clear
-
-            dialog.submit
-            dialog.expect_closed
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_no_text first_option
-            end
-          end
-        end
-
-        describe 'with list CF' do
-          let(:custom_field) { list_project_custom_field }
-          let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
-
-          let(:first_option) { custom_field.custom_options.first.value }
-
-          it_behaves_like 'a select field'
-        end
-
-        describe 'with version select CF' do
-          let(:custom_field) { version_project_custom_field }
-          let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
-
-          let(:first_option) { first_version.name }
-
-          it_behaves_like 'a select field'
-        end
-
-        describe 'with user select CF' do
-          let(:custom_field) { user_project_custom_field }
-          let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
-
-          let(:first_option) { member_in_project.name }
-
-          it_behaves_like 'a select field'
-
-          describe 'with support for user groups' do
-            let!(:group) do
-              create(:group, name: 'Group 1 in project',
-                             member_with_roles: { project => reader_role })
-            end
-
-            it 'saves selected user group properly' do
-              custom_field.custom_values.destroy_all
-
-              overview_page.visit_page
-
-              overview_page.open_edit_dialog_for_section(section)
-
-              field.select_option(group.name)
-
-              dialog.submit
-              dialog.expect_closed
-
-              overview_page.within_custom_field_container(custom_field) do
-                expect(page).to have_text group.name
-              end
-            end
-          end
-
-          describe 'with support for placeholder users' do
-            let!(:placeholder_user) do
-              create(:placeholder_user, name: 'Placeholder user',
-                                        member_with_roles: { project => reader_role })
-            end
-
-            it 'saves selected placeholer user properly' do
-              custom_field.custom_values.destroy_all
-
-              overview_page.visit_page
-
-              overview_page.open_edit_dialog_for_section(section)
-
-              field.select_option(placeholder_user.name)
-
-              dialog.submit
-              dialog.expect_closed
-
-              overview_page.within_custom_field_container(custom_field) do
-                expect(page).to have_text placeholder_user.name
-              end
-            end
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_no_text first_option
           end
         end
       end
 
-      describe 'with multi select fields' do
-        let(:section) { section_for_multi_select_fields }
-        let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
+      describe 'with list CF' do
+        let(:custom_field) { list_project_custom_field }
+        let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
 
-        shared_examples 'a autocomplete multi select field' do
-          it 'saves single selected values properly' do
+        let(:first_option) { custom_field.custom_options.first.value }
+
+        it_behaves_like 'a select field'
+      end
+
+      describe 'with version select CF' do
+        let(:custom_field) { version_project_custom_field }
+        let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
+
+        let(:first_option) { first_version.name }
+
+        it_behaves_like 'a select field'
+      end
+
+      describe 'with user select CF' do
+        let(:custom_field) { user_project_custom_field }
+        let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
+
+        let(:first_option) { member_in_project.name }
+
+        it_behaves_like 'a select field'
+
+        describe 'with support for user groups' do
+          let!(:group) do
+            create(:group, name: 'Group 1 in project',
+                           member_with_roles: { project => reader_role })
+          end
+
+          it 'saves selected user group properly' do
             custom_field.custom_values.destroy_all
 
             overview_page.visit_page
 
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_no_text first_option
-            end
-
             overview_page.open_edit_dialog_for_section(section)
 
-            field.select_option(first_option)
+            field.select_option(group.name)
 
             dialog.submit
             dialog.expect_closed
 
             overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_text first_option
+              expect(page).to have_text group.name
             end
           end
+        end
 
-          it 'saves multi selected values properly' do
+        describe 'with support for placeholder users' do
+          let!(:placeholder_user) do
+            create(:placeholder_user, name: 'Placeholder user',
+                                      member_with_roles: { project => reader_role })
+          end
+
+          it 'saves selected placeholer user properly' do
             custom_field.custom_values.destroy_all
 
             overview_page.visit_page
 
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_no_text first_option
-              expect(page).to have_no_text second_option
-            end
-
             overview_page.open_edit_dialog_for_section(section)
 
-            field.select_option(first_option)
-            field.select_option(second_option)
+            field.select_option(placeholder_user.name)
 
             dialog.submit
             dialog.expect_closed
 
             overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_text first_option
-              expect(page).to have_text second_option
+              expect(page).to have_text placeholder_user.name
             end
           end
+        end
+      end
+    end
 
-          it 'removes deselected values properly' do
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_text first_option
-              expect(page).to have_text second_option
-            end
+    describe 'with multi select fields' do
+      let(:section) { section_for_multi_select_fields }
+      let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
 
-            overview_page.open_edit_dialog_for_section(section)
+      shared_examples 'a autocomplete multi select field' do
+        it 'saves single selected values properly' do
+          custom_field.custom_values.destroy_all
 
-            field.deselect_option(first_option)
+          overview_page.visit_page
 
-            dialog.submit
-            dialog.expect_closed
-
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_no_text first_option
-              expect(page).to have_text second_option
-            end
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_no_text first_option
           end
 
-          it 'does not remove values when not touching the init values' do
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_text first_option
-              expect(page).to have_text second_option
-            end
+          overview_page.open_edit_dialog_for_section(section)
 
-            overview_page.open_edit_dialog_for_section(section)
+          field.select_option(first_option)
 
-            # don't touch the values
+          dialog.submit
+          dialog.expect_closed
 
-            dialog.submit
-            dialog.expect_closed
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_text first_option
+          end
+        end
 
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_text first_option
-              expect(page).to have_text second_option
-            end
+        it 'saves multi selected values properly' do
+          custom_field.custom_values.destroy_all
+
+          overview_page.visit_page
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_no_text first_option
+            expect(page).to have_no_text second_option
           end
 
-          it 'removes all values when clearing the input' do
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_text first_option
-              expect(page).to have_text second_option
-            end
+          overview_page.open_edit_dialog_for_section(section)
 
-            overview_page.open_edit_dialog_for_section(section)
+          field.select_option(first_option)
+          field.select_option(second_option)
 
-            field.clear
+          dialog.submit
+          dialog.expect_closed
 
-            dialog.submit
-            dialog.expect_closed
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_text first_option
+            expect(page).to have_text second_option
+          end
+        end
 
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_no_text first_option
-              expect(page).to have_no_text second_option
-            end
+        it 'removes deselected values properly' do
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_text first_option
+            expect(page).to have_text second_option
           end
 
-          it 'adds values properly to init values' do
-            custom_field.custom_values.last.destroy
+          overview_page.open_edit_dialog_for_section(section)
 
-            overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_text first_option
-              expect(page).to have_no_text second_option
-            end
+          field.deselect_option(first_option)
+
+          dialog.submit
+          dialog.expect_closed
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_no_text first_option
+            expect(page).to have_text second_option
+          end
+        end
+
+        it 'does not remove values when not touching the init values' do
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_text first_option
+            expect(page).to have_text second_option
+          end
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          # don't touch the values
+
+          dialog.submit
+          dialog.expect_closed
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_text first_option
+            expect(page).to have_text second_option
+          end
+        end
+
+        it 'removes all values when clearing the input' do
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_text first_option
+            expect(page).to have_text second_option
+          end
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          field.clear
+
+          dialog.submit
+          dialog.expect_closed
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_no_text first_option
+            expect(page).to have_no_text second_option
+          end
+        end
+
+        it 'adds values properly to init values' do
+          custom_field.custom_values.last.destroy
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_text first_option
+            expect(page).to have_no_text second_option
+          end
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          field.select_option(second_option)
+
+          dialog.submit
+          dialog.expect_closed
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_text first_option
+            expect(page).to have_text second_option
+          end
+        end
+      end
+
+      describe 'with multi select list CF' do
+        let(:custom_field) { multi_list_project_custom_field }
+        let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
+
+        let(:first_option) { custom_field.custom_options.first.value }
+        let(:second_option) { custom_field.custom_options.second.value }
+
+        it_behaves_like 'a autocomplete multi select field'
+      end
+
+      describe 'with multi version select list CF' do
+        let(:custom_field) { multi_version_project_custom_field }
+        let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
+
+        let(:first_option) { first_version.name }
+        let(:second_option) { second_version.name }
+
+        it_behaves_like 'a autocomplete multi select field'
+      end
+
+      describe 'with multi user select list CF' do
+        let(:custom_field) { multi_user_project_custom_field }
+        let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
+
+        let(:first_option) { member_in_project.name }
+        let(:second_option) { another_member_in_project.name }
+
+        it_behaves_like 'a autocomplete multi select field'
+
+        describe 'with support for user groups' do
+          let!(:group) do
+            create(:group, name: 'Group 1 in project',
+                           member_with_roles: { project => reader_role })
+          end
+          let!(:another_group) do
+            create(:group, name: 'Group 2 in project',
+                           member_with_roles: { project => reader_role })
+          end
+
+          it 'saves selected user groups properly' do
+            custom_field.custom_values.destroy_all
+
+            overview_page.visit_page
 
             overview_page.open_edit_dialog_for_section(section)
 
-            field.select_option(second_option)
+            field.select_option(group.name)
+            field.select_option(another_group.name)
 
             dialog.submit
             dialog.expect_closed
 
             overview_page.within_custom_field_container(custom_field) do
-              expect(page).to have_text first_option
-              expect(page).to have_text second_option
+              expect(page).to have_text group.name
+              expect(page).to have_text another_group.name
             end
           end
         end
 
-        describe 'with multi select list CF' do
-          let(:custom_field) { multi_list_project_custom_field }
-          let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
-
-          let(:first_option) { custom_field.custom_options.first.value }
-          let(:second_option) { custom_field.custom_options.second.value }
-
-          it_behaves_like 'a autocomplete multi select field'
-        end
-
-        describe 'with multi version select list CF' do
-          let(:custom_field) { multi_version_project_custom_field }
-          let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
-
-          let(:first_option) { first_version.name }
-          let(:second_option) { second_version.name }
-
-          it_behaves_like 'a autocomplete multi select field'
-        end
-
-        describe 'with multi user select list CF' do
-          let(:custom_field) { multi_user_project_custom_field }
-          let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
-
-          let(:first_option) { member_in_project.name }
-          let(:second_option) { another_member_in_project.name }
-
-          it_behaves_like 'a autocomplete multi select field'
-
-          describe 'with support for user groups' do
-            let!(:group) do
-              create(:group, name: 'Group 1 in project',
-                             member_with_roles: { project => reader_role })
-            end
-            let!(:another_group) do
-              create(:group, name: 'Group 2 in project',
-                             member_with_roles: { project => reader_role })
-            end
-
-            it 'saves selected user groups properly' do
-              custom_field.custom_values.destroy_all
-
-              overview_page.visit_page
-
-              overview_page.open_edit_dialog_for_section(section)
-
-              field.select_option(group.name)
-              field.select_option(another_group.name)
-
-              dialog.submit
-              dialog.expect_closed
-
-              overview_page.within_custom_field_container(custom_field) do
-                expect(page).to have_text group.name
-                expect(page).to have_text another_group.name
-              end
-            end
+        describe 'with support for placeholder users' do
+          let!(:placeholder_user) do
+            create(:placeholder_user, name: 'Placeholder user',
+                                      member_with_roles: { project => reader_role })
+          end
+          let!(:another_placeholder_user) do
+            create(:placeholder_user, name: 'Another placeholder User',
+                                      member_with_roles: { project => reader_role })
           end
 
-          describe 'with support for placeholder users' do
-            let!(:placeholder_user) do
-              create(:placeholder_user, name: 'Placeholder user',
-                                        member_with_roles: { project => reader_role })
-            end
-            let!(:another_placeholder_user) do
-              create(:placeholder_user, name: 'Another placeholder User',
-                                        member_with_roles: { project => reader_role })
-            end
+          it 'shows only placeholder users from this project' do
+            custom_field.custom_values.destroy_all
 
-            it 'shows only placeholder users from this project' do
-              custom_field.custom_values.destroy_all
+            overview_page.visit_page
 
-              overview_page.visit_page
+            overview_page.open_edit_dialog_for_section(section)
 
-              overview_page.open_edit_dialog_for_section(section)
+            field.select_option(placeholder_user.name)
+            field.select_option(another_placeholder_user.name)
 
-              field.select_option(placeholder_user.name)
-              field.select_option(another_placeholder_user.name)
+            dialog.submit
+            dialog.expect_closed
 
-              dialog.submit
-              dialog.expect_closed
-
-              overview_page.within_custom_field_container(custom_field) do
-                expect(page).to have_text placeholder_user.name
-                expect(page).to have_text another_placeholder_user.name
-              end
+            overview_page.within_custom_field_container(custom_field) do
+              expect(page).to have_text placeholder_user.name
+              expect(page).to have_text another_placeholder_user.name
             end
           end
         end

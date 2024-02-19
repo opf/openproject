@@ -101,20 +101,18 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
       login_as member_in_project # can edit project but is not allowed to select project custom fields
     end
 
-    describe 'with enabled project attributes feature', with_flag: { project_attributes: true } do
-      it 'does not show the menu entry in the project settings menu' do
-        visit project_settings_general_path(project)
+    it 'does not show the menu entry in the project settings menu' do
+      visit project_settings_general_path(project)
 
-        within '#menu-sidebar' do
-          expect(page).to have_no_css("li[data-name='settings_project_custom_fields']")
-        end
+      within '#menu-sidebar' do
+        expect(page).to have_no_css("li[data-name='settings_project_custom_fields']")
       end
+    end
 
-      it 'does not show the project custom fields page' do
-        visit project_settings_project_custom_fields_path(project)
+    it 'does not show the project custom fields page' do
+      visit project_settings_project_custom_fields_path(project)
 
-        expect(page).to have_content('You are not authorized to access this page.')
-      end
+      expect(page).to have_content('You are not authorized to access this page.')
     end
   end
 
@@ -123,218 +121,206 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
       login_as user_with_sufficient_permissions
     end
 
-    describe 'with disabled project attributes feature', with_flag: { project_attributes: false } do
-      it 'does not show the menu entry in the project settings menu' do
-        visit project_settings_general_path(project)
+    it 'does show the menu entry in the project settings menu' do
+      visit project_settings_general_path(project)
 
-        within '#menu-sidebar' do
-          expect(page).to have_no_css("li[data-name='settings_project_custom_fields']")
-        end
+      within '#menu-sidebar' do
+        expect(page).to have_css("li[data-name='settings_project_custom_fields']")
       end
     end
 
-    describe 'with enabled project attributes feature', with_flag: { project_attributes: true } do
-      it 'does show the menu entry in the project settings menu' do
-        visit project_settings_general_path(project)
+    it 'shows all available project custom fields with their correct mapping state' do
+      visit project_settings_project_custom_fields_path(project)
 
-        within '#menu-sidebar' do
-          expect(page).to have_css("li[data-name='settings_project_custom_fields']")
-        end
-      end
-
-      it 'shows all available project custom fields with their correct mapping state' do
-        visit project_settings_project_custom_fields_path(project)
-
-        within_custom_field_section_container(section_for_input_fields) do
-          within_custom_field_container(boolean_project_custom_field) do
-            expect(page).to have_content('Boolean field')
-            expect_type("Bool")
-            expect_unchecked_state
-          end
-          within_custom_field_container(string_project_custom_field) do
-            expect(page).to have_content('String field')
-            expect_type("String")
-            expect_unchecked_state
-          end
-        end
-
-        within_custom_field_section_container(section_for_select_fields) do
-          within_custom_field_container(list_project_custom_field) do
-            expect(page).to have_content('List field')
-            expect_type("List")
-            expect_unchecked_state
-          end
-        end
-
-        within_custom_field_section_container(section_for_multi_select_fields) do
-          within_custom_field_container(multi_list_project_custom_field) do
-            expect(page).to have_content('Multi list field')
-            expect_type("List")
-            expect_unchecked_state
-          end
-        end
-      end
-
-      it 'toggles the mapping state of a project custom field for a specific project when clicked' do
-        visit project_settings_project_custom_fields_path(project)
-
-        within_custom_field_section_container(section_for_input_fields) do
-          within_custom_field_container(boolean_project_custom_field) do
-            expect_unchecked_state
-
-            page.find("[data-qa-selector='toggle-project-custom-field-mapping-#{boolean_project_custom_field.id}'] > button").click
-
-            expect_checked_state # without reloading the page
-          end
-        end
-
-        # propely persisted and visible after full page reload
-        visit project_settings_project_custom_fields_path(project)
-
+      within_custom_field_section_container(section_for_input_fields) do
         within_custom_field_container(boolean_project_custom_field) do
-          expect_checked_state
+          expect(page).to have_content('Boolean field')
+          expect_type("Bool")
+          expect_unchecked_state
         end
-
-        # only for this project
-        visit project_settings_project_custom_fields_path(other_project)
-
-        within_custom_field_container(boolean_project_custom_field) do
+        within_custom_field_container(string_project_custom_field) do
+          expect(page).to have_content('String field')
+          expect_type("String")
           expect_unchecked_state
         end
       end
 
-      it 'enables all mapping states of a section for a specific project when bulk action button clicked' do
-        visit project_settings_project_custom_fields_path(project)
-
-        within_custom_field_section_container(section_for_input_fields) do
-          page.find("[data-qa-selector='enable-all-project-custom-field-mappings-#{section_for_input_fields.id}']").click
-
-          within_custom_field_container(boolean_project_custom_field) do
-            expect_checked_state
-          end
-          within_custom_field_container(string_project_custom_field) do
-            expect_checked_state
-          end
-        end
-
-        within_custom_field_section_container(section_for_select_fields) do
-          within_custom_field_container(list_project_custom_field) do
-            expect_unchecked_state
-          end
-        end
-
-        within_custom_field_section_container(section_for_multi_select_fields) do
-          within_custom_field_container(multi_list_project_custom_field) do
-            expect_unchecked_state
-          end
+      within_custom_field_section_container(section_for_select_fields) do
+        within_custom_field_container(list_project_custom_field) do
+          expect(page).to have_content('List field')
+          expect_type("List")
+          expect_unchecked_state
         end
       end
 
-      it 'disables all mapping states of a section for a specific project when bulk action button clicked' do
-        visit project_settings_project_custom_fields_path(project)
-
-        within_custom_field_section_container(section_for_input_fields) do
-          page.find("[data-qa-selector='enable-all-project-custom-field-mappings-#{section_for_input_fields.id}']").click
-
-          within_custom_field_container(boolean_project_custom_field) do
-            expect_checked_state
-          end
-          within_custom_field_container(string_project_custom_field) do
-            expect_checked_state
-          end
+      within_custom_field_section_container(section_for_multi_select_fields) do
+        within_custom_field_container(multi_list_project_custom_field) do
+          expect(page).to have_content('Multi list field')
+          expect_type("List")
+          expect_unchecked_state
         end
+      end
+    end
 
-        within_custom_field_section_container(section_for_select_fields) do
-          within_custom_field_container(list_project_custom_field) do
-            expect_unchecked_state
-          end
-        end
+    it 'toggles the mapping state of a project custom field for a specific project when clicked' do
+      visit project_settings_project_custom_fields_path(project)
 
-        within_custom_field_section_container(section_for_multi_select_fields) do
-          within_custom_field_container(multi_list_project_custom_field) do
-            expect_unchecked_state
-          end
-        end
+      within_custom_field_section_container(section_for_input_fields) do
+        within_custom_field_container(boolean_project_custom_field) do
+          expect_unchecked_state
 
-        within_custom_field_section_container(section_for_input_fields) do
-          page.find("[data-qa-selector='disable-all-project-custom-field-mappings-#{section_for_input_fields.id}']").click
+          page.find("[data-qa-selector='toggle-project-custom-field-mapping-#{boolean_project_custom_field.id}'] > button").click
 
-          within_custom_field_container(boolean_project_custom_field) do
-            expect_unchecked_state
-          end
-          within_custom_field_container(string_project_custom_field) do
-            expect_unchecked_state
-          end
+          expect_checked_state # without reloading the page
         end
       end
 
-      it 'filters the project custom fields by name with given user input' do
-        visit project_settings_project_custom_fields_path(project)
+      # propely persisted and visible after full page reload
+      visit project_settings_project_custom_fields_path(project)
 
-        fill_in 'project-custom-fields-mapping-filter', with: 'Boolean'
+      within_custom_field_container(boolean_project_custom_field) do
+        expect_checked_state
+      end
 
-        within_custom_field_section_container(section_for_input_fields) do
-          expect(page).to have_content('Boolean field')
-          expect(page).to have_no_content('String field')
+      # only for this project
+      visit project_settings_project_custom_fields_path(other_project)
+
+      within_custom_field_container(boolean_project_custom_field) do
+        expect_unchecked_state
+      end
+    end
+
+    it 'enables all mapping states of a section for a specific project when bulk action button clicked' do
+      visit project_settings_project_custom_fields_path(project)
+
+      within_custom_field_section_container(section_for_input_fields) do
+        page.find("[data-qa-selector='enable-all-project-custom-field-mappings-#{section_for_input_fields.id}']").click
+
+        within_custom_field_container(boolean_project_custom_field) do
+          expect_checked_state
         end
-
-        within_custom_field_section_container(section_for_select_fields) do
-          expect(page).to have_no_content('List field')
-        end
-
-        within_custom_field_section_container(section_for_multi_select_fields) do
-          expect(page).to have_no_content('Multi list field')
+        within_custom_field_container(string_project_custom_field) do
+          expect_checked_state
         end
       end
 
-      it 'shows the project custom field sections in the correct order' do
-        visit project_settings_project_custom_fields_path(project)
-
-        sections = page.all('.op-project-custom-field-section')
-
-        expect(sections.size).to eq(3)
-
-        expect(sections[0].text).to include('Input fields')
-        expect(sections[1].text).to include('Select fields')
-        expect(sections[2].text).to include('Multi select fields')
-
-        section_for_input_fields.move_to_bottom
-
-        visit project_settings_project_custom_fields_path(project)
-
-        sections = page.all('.op-project-custom-field-section')
-
-        expect(sections.size).to eq(3)
-
-        expect(sections[0].text).to include('Select fields')
-        expect(sections[1].text).to include('Multi select fields')
-        expect(sections[2].text).to include('Input fields')
+      within_custom_field_section_container(section_for_select_fields) do
+        within_custom_field_container(list_project_custom_field) do
+          expect_unchecked_state
+        end
       end
 
-      it 'shows the project custom fields in the correct order within the sections' do
-        visit project_settings_project_custom_fields_path(project)
-
-        within_custom_field_section_container(section_for_input_fields) do
-          custom_fields = page.all('.op-project-custom-field')
-
-          expect(custom_fields.size).to eq(2)
-
-          expect(custom_fields[0].text).to include('Boolean field')
-          expect(custom_fields[1].text).to include('String field')
+      within_custom_field_section_container(section_for_multi_select_fields) do
+        within_custom_field_container(multi_list_project_custom_field) do
+          expect_unchecked_state
         end
+      end
+    end
 
-        boolean_project_custom_field.move_to_bottom
+    it 'disables all mapping states of a section for a specific project when bulk action button clicked' do
+      visit project_settings_project_custom_fields_path(project)
 
-        visit project_settings_project_custom_fields_path(project)
+      within_custom_field_section_container(section_for_input_fields) do
+        page.find("[data-qa-selector='enable-all-project-custom-field-mappings-#{section_for_input_fields.id}']").click
 
-        within_custom_field_section_container(section_for_input_fields) do
-          custom_fields = page.all('.op-project-custom-field')
-
-          expect(custom_fields.size).to eq(2)
-
-          expect(custom_fields[0].text).to include('String field')
-          expect(custom_fields[1].text).to include('Boolean field')
+        within_custom_field_container(boolean_project_custom_field) do
+          expect_checked_state
         end
+        within_custom_field_container(string_project_custom_field) do
+          expect_checked_state
+        end
+      end
+
+      within_custom_field_section_container(section_for_select_fields) do
+        within_custom_field_container(list_project_custom_field) do
+          expect_unchecked_state
+        end
+      end
+
+      within_custom_field_section_container(section_for_multi_select_fields) do
+        within_custom_field_container(multi_list_project_custom_field) do
+          expect_unchecked_state
+        end
+      end
+
+      within_custom_field_section_container(section_for_input_fields) do
+        page.find("[data-qa-selector='disable-all-project-custom-field-mappings-#{section_for_input_fields.id}']").click
+
+        within_custom_field_container(boolean_project_custom_field) do
+          expect_unchecked_state
+        end
+        within_custom_field_container(string_project_custom_field) do
+          expect_unchecked_state
+        end
+      end
+    end
+
+    it 'filters the project custom fields by name with given user input' do
+      visit project_settings_project_custom_fields_path(project)
+
+      fill_in 'project-custom-fields-mapping-filter', with: 'Boolean'
+
+      within_custom_field_section_container(section_for_input_fields) do
+        expect(page).to have_content('Boolean field')
+        expect(page).to have_no_content('String field')
+      end
+
+      within_custom_field_section_container(section_for_select_fields) do
+        expect(page).to have_no_content('List field')
+      end
+
+      within_custom_field_section_container(section_for_multi_select_fields) do
+        expect(page).to have_no_content('Multi list field')
+      end
+    end
+
+    it 'shows the project custom field sections in the correct order' do
+      visit project_settings_project_custom_fields_path(project)
+
+      sections = page.all('.op-project-custom-field-section')
+
+      expect(sections.size).to eq(3)
+
+      expect(sections[0].text).to include('Input fields')
+      expect(sections[1].text).to include('Select fields')
+      expect(sections[2].text).to include('Multi select fields')
+
+      section_for_input_fields.move_to_bottom
+
+      visit project_settings_project_custom_fields_path(project)
+
+      sections = page.all('.op-project-custom-field-section')
+
+      expect(sections.size).to eq(3)
+
+      expect(sections[0].text).to include('Select fields')
+      expect(sections[1].text).to include('Multi select fields')
+      expect(sections[2].text).to include('Input fields')
+    end
+
+    it 'shows the project custom fields in the correct order within the sections' do
+      visit project_settings_project_custom_fields_path(project)
+
+      within_custom_field_section_container(section_for_input_fields) do
+        custom_fields = page.all('.op-project-custom-field')
+
+        expect(custom_fields.size).to eq(2)
+
+        expect(custom_fields[0].text).to include('Boolean field')
+        expect(custom_fields[1].text).to include('String field')
+      end
+
+      boolean_project_custom_field.move_to_bottom
+
+      visit project_settings_project_custom_fields_path(project)
+
+      within_custom_field_section_container(section_for_input_fields) do
+        custom_fields = page.all('.op-project-custom-field')
+
+        expect(custom_fields.size).to eq(2)
+
+        expect(custom_fields[0].text).to include('String field')
+        expect(custom_fields[1].text).to include('Boolean field')
       end
     end
   end

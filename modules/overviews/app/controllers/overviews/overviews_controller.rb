@@ -4,8 +4,6 @@ module ::Overviews
 
     before_action :authorize
     before_action :jump_to_project_menu_item
-    before_action :check_project_attributes_feature_enabled,
-                  only: %i[project_custom_fields_sidebar project_custom_field_section_dialog update_project_custom_values]
 
     menu_item :overview
 
@@ -62,10 +60,6 @@ module ::Overviews
     end
 
     private
-
-    def check_project_attributes_feature_enabled
-      render_404 unless OpenProject::FeatureDecisions.project_attributes_active?
-    end
 
     def pre_process(project_params)
       # TODO: find better solution for this:

@@ -34,33 +34,31 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
 
   let(:overview_page) { Pages::Projects::Show.new(project) }
 
-  describe 'with enabled project attributes feature', with_flag: { project_attributes: true } do
-    describe 'with insufficient permissions' do
-      # turboframe sidebar request is covered by a controller spec checking for 403
-      # async dialog content request is be covered by a controller spec checking for 403
-      # via spec/permissions/manage_project_custom_values_spec.rb
-      before do
-        login_as member_without_project_edit_permissions
-        overview_page.visit_page
-      end
-
-      it 'does not show the edit buttons' do
-        overview_page.within_async_loaded_sidebar do
-          expect(page).to have_no_css("[data-qa-selector='project-custom-field-section-edit-button']")
-        end
-      end
+  describe 'with insufficient permissions' do
+    # turboframe sidebar request is covered by a controller spec checking for 403
+    # async dialog content request is be covered by a controller spec checking for 403
+    # via spec/permissions/manage_project_custom_values_spec.rb
+    before do
+      login_as member_without_project_edit_permissions
+      overview_page.visit_page
     end
 
-    describe 'with sufficient permissions' do
-      before do
-        login_as member_with_project_edit_permissions
-        overview_page.visit_page
+    it 'does not show the edit buttons' do
+      overview_page.within_async_loaded_sidebar do
+        expect(page).to have_no_css("[data-qa-selector='project-custom-field-section-edit-button']")
       end
+    end
+  end
 
-      it 'shows the edit buttons' do
-        overview_page.within_async_loaded_sidebar do
-          expect(page).to have_css("[data-qa-selector='project-custom-field-section-edit-button']", count: 3)
-        end
+  describe 'with sufficient permissions' do
+    before do
+      login_as member_with_project_edit_permissions
+      overview_page.visit_page
+    end
+
+    it 'shows the edit buttons' do
+      overview_page.within_async_loaded_sidebar do
+        expect(page).to have_css("[data-qa-selector='project-custom-field-section-edit-button']", count: 3)
       end
     end
   end
