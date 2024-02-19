@@ -28,6 +28,7 @@
 
 module Projects
   class UpdateService < ::BaseServices::Update
+    prepend Projects::Concerns::UpdateDemoData
     private
 
     attr_accessor :memoized_changes
