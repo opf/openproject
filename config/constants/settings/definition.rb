@@ -475,13 +475,6 @@ module Settings
         format: :string,
         default: nil
       },
-      # Maximum number of backed up jobs (that are not yet executed)
-      # before health check fails
-      health_checks_jobs_queue_count_threshold: {
-        description: 'Set threshold of backed up background jobs to fail health check',
-        format: :integer,
-        default: 50
-      },
       ## Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
       health_checks_jobs_never_ran_minutes_ago: {
         description: 'Set threshold of outstanding background jobs to fail health check',

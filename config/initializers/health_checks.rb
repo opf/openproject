@@ -1,20 +1,16 @@
 require 'ok_computer/ok_computer_controller'
 
-class DelayedJobNeverRanCheck < OkComputer::Check
-  attr_reader :threshold
-
-  def initialize(minute_threshold)
-    @threshold = minute_threshold.to_i
-  end
+class GoodJobCheck < OkComputer::Check
+  def initialize;end
 
   def check
-    never_ran = Delayed::Job.where('run_at < ?', threshold.minutes.ago).count
+    count = GoodJob::Process.active.count
 
-    if never_ran.zero?
-      mark_message "All previous jobs have completed within the past #{threshold} minutes."
-    else
+    if count.zero?
       mark_failure
-      mark_message "#{never_ran} jobs waiting to be executed for more than #{threshold} minutes"
+      mark_message "No good_job processes are active."
+    else
+      mark_message "#{count} good_job processes are active."
     end
   end
 end
@@ -67,20 +63,13 @@ class PumaCheck < OkComputer::Check
   end
 end
 
-# Register delayed_job backed up test
-dj_max = OpenProject::Configuration.health_checks_jobs_queue_count_threshold
-OkComputer::Registry.register "delayed_jobs_backed_up",
-                              OkComputer::DelayedJobBackedUpCheck.new(0, dj_max)
-
-dj_never_ran_max = OpenProject::Configuration.health_checks_jobs_never_ran_minutes_ago
-OkComputer::Registry.register "delayed_jobs_never_ran",
-                              DelayedJobNeverRanCheck.new(dj_never_ran_max)
+OkComputer::Registry.register "worker", GoodJobCheck.new
 
 backlog_threshold = OpenProject::Configuration.health_checks_backlog_threshold
 OkComputer::Registry.register "puma", PumaCheck.new(backlog_threshold)
 
 # Make dj backed up optional due to bursts
-OkComputer.make_optional %w(delayed_jobs_backed_up puma)
+OkComputer.make_optional %w(puma)
 
 # Register web worker check for web + database
 OkComputer::CheckCollection.new('web').tap do |collection|
@@ -94,8 +83,7 @@ OkComputer::CheckCollection.new('full').tap do |collection|
   collection.register :default, OkComputer::Registry.fetch('default')
   collection.register :database, OkComputer::Registry.fetch('database')
   collection.register :mail, OkComputer::ActionMailerCheck.new
-  collection.register :delayed_jobs_backed_up, OkComputer::Registry.fetch('delayed_jobs_backed_up')
-  collection.register :delayed_jobs_never_ran, OkComputer::Registry.fetch('delayed_jobs_never_ran')
+  collection.register :worker, OkComputer::Registry.fetch('worker')
   collection.register :puma, OkComputer::Registry.fetch('puma')
   OkComputer::Registry.default_collection.register 'full', collection
 end
