@@ -37,7 +37,7 @@ RSpec.describe Storages::Admin::OAuthAccessGrantNudgeModalComponent, type: :comp
   end
 
   context 'with access pending authorization' do
-    let(:oauth_access_grant_nudge_modal_component) { described_class.new(project_storage_id: project_storage.id) }
+    let(:oauth_access_grant_nudge_modal_component) { described_class.new(project_storage: project_storage.id) }
 
     it 'renders the nudge modal' do
       expect(page).to have_text('One more step...')
@@ -72,7 +72,7 @@ RSpec.describe Storages::Admin::OAuthAccessGrantNudgeModalComponent, type: :comp
   end
 
   context 'with no project storage' do
-    let(:oauth_access_grant_nudge_modal_component) { described_class.new(project_storage_id: nil) }
+    let(:oauth_access_grant_nudge_modal_component) { described_class.new(project_storage: nil) }
 
     it 'does not render' do
       expect(page.text).to be_empty

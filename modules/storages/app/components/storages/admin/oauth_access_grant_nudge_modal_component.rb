@@ -37,8 +37,8 @@ module Storages::Admin
 
     attr_reader :project_storage
 
-    def initialize(project_storage_id:, **options)
-      @project_storage = ::Storages::ProjectStorage.find_by(id: project_storage_id)
+    def initialize(project_storage:, **options)
+      @project_storage = find_project_storage(project_storage)
       super(@project_storage, **options)
     end
 
@@ -77,10 +77,17 @@ module Storages::Admin
     end
 
     def confirm_button_url
-      url_helpers.oauth_access_grant_project_settings_project_storage_path(
+      options[:confirm_button_url] || url_helpers.oauth_access_grant_project_settings_project_storage_path(
         project_id: project_storage.project.id,
         id: project_storage
       )
+    end
+
+    def find_project_storage(project_storage_record_or_id)
+      return if project_storage_record_or_id.blank?
+      return project_storage_record_or_id if project_storage_record_or_id.is_a?(Storages::ProjectStorage)
+
+      Storages::ProjectStorage.find_by(id: project_storage_record_or_id)
     end
   end
 end
