@@ -28,7 +28,7 @@
 
 module Admin::Settings
   class VirusScanningSettingsController < ::Admin::SettingsController
-    menu_item :settings_attachments
+    menu_item :virus_scanning_settings
 
     before_action :require_ee
     before_action :check_clamav, only: %i[update], if: -> { scan_enabled? }

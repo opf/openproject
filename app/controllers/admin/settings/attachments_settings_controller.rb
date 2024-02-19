@@ -28,7 +28,7 @@
 
 module Admin::Settings
   class AttachmentsSettingsController < ::Admin::SettingsController
-    menu_item :settings_attachments
+    menu_item :attachments_settings
 
     before_action :check_clamav, only: %i[update]
 

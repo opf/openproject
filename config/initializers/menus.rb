@@ -350,23 +350,29 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: 'help2',
             if: Proc.new { User.current.allowed_globally?(:edit_attribute_help_texts) }
 
-  menu.push :settings_attachments,
+  menu.push :attachments,
             { controller: '/admin/settings/attachments_settings', action: :show },
             caption: :'attributes.attachments',
             icon: 'attachment',
             if: Proc.new { User.current.admin? }
 
+  menu.push :attachments_settings,
+            { controller: '/admin/settings/attachments_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_setting_plural,
+            parent: :attachments
+
   menu.push :virus_scanning_settings,
             { controller: '/admin/settings/virus_scanning_settings', action: :show },
             caption: :'settings.antivirus.title',
-            parent: :settings_attachments,
+            parent: :attachments,
             enterprise_feature: 'virus_scanning',
             if: Proc.new { User.current.admin? }
 
   menu.push :attachment_quarantine,
             { controller: '/admin/attachments/quarantined_attachments', action: :index },
             caption: :'antivirus_scan.quarantined_attachments.title',
-            parent: :settings_attachments,
+            parent: :attachments,
             if: Proc.new { User.current.admin? }
 
   menu.push :enumerations,
