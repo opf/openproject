@@ -27,30 +27,20 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<table>
-  <tr>
-    <%= placeholder_cell('20px', vertical: false) %>
-  </tr>
-</table>
-
 <table <%= placeholder_table_styles(width: '100%', style: 'width:100%;max-width:700px') %>>
   <tr>
-    <%= placeholder_cell('12px', vertical: true) %>
     <td>
-      <%= render partial: 'mailer/mailer_header',
+      <%= render(partial: 'mailer/mailer_header',
                  locals: {
                    user: @admin,
                    summary: I18n.t("mail.storages.health.unhealthy.summary", storage_name: @storage.name),
                    button_href: @url,
-                   button_text: I18n.t(:'mail.storages.health.see_storage_settings'),
-                 } %>
+                   button_text: I18n.t(:'mail.storages.health.see_storage_settings')
+                 }) %>
 
-      <table>
-        <tr>
-          <%= placeholder_cell('40px', vertical: false) %>
-        </tr>
-      </table>
+      <div>Foo</div>
+      
+      <%= render(Storages::Admin::Mailer::HealthStatusNotificationComponent.new) %>
     </td>
-    <%= placeholder_cell('12px', vertical: true) %>
   </tr>
 </table>

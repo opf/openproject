@@ -28,31 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  class StoragesMailer < ApplicationMailer
-    layout 'mailer'
+module Mailer
+  LABEL_SCHEME_COLORS = {
+    default: 'rgb(208, 215, 222)',
+    primary: 'rgb(110, 119, 129)',
+    secondary: 'rgb(208, 215, 222)',
+    accent: 'rgb(9, 105, 218)',
+    success: 'rgb(31, 136, 61)',
+    attention: 'rgb(154, 103, 0)',
+    danger: 'rgb(207, 34, 46)',
+    severe: 'rgb(188, 76, 0)',
+    done: 'rgb(130, 80, 223)',
+    sponsor: 'rgb(191, 57, 137)'
+  }.freeze
 
-    include MessagesHelper
-    include MailNotificationHelper
+  class LabelComponent < ViewComponent::Base
+    include MailLayoutHelper
 
-    helper_method :message_url
-    helper :mail_notification
+    def initialize(scheme:, text:)
+      super
 
-    def notify_unhealthy(admin, storage)
-      @admin = admin
-      @storage = storage
-      @reason = storage.health_reason
-      @url = edit_admin_settings_storage_url(storage)
-      subject = "Storage turned unhealthy!"
-      mail(to: admin.mail, subject:)
-    end
-
-    def notify_healthy(admin, storage)
-      @admin = admin
-      @storage = storage
-      @url = edit_admin_settings_storage_url(storage)
-      subject = "Storage is back healthy!"
-      mail(to: admin.mail, subject:)
+      @color = LABEL_SCHEME_COLORS[scheme]
+      @text = text
     end
   end
 end

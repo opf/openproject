@@ -27,32 +27,12 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
 
-module Storages
-  class StoragesMailer < ApplicationMailer
-    layout 'mailer'
-
-    include MessagesHelper
-    include MailNotificationHelper
-
-    helper_method :message_url
-    helper :mail_notification
-
-    def notify_unhealthy(admin, storage)
-      @admin = admin
-      @storage = storage
-      @reason = storage.health_reason
-      @url = edit_admin_settings_storage_url(storage)
-      subject = "Storage turned unhealthy!"
-      mail(to: admin.mail, subject:)
-    end
-
-    def notify_healthy(admin, storage)
-      @admin = admin
-      @storage = storage
-      @url = edit_admin_settings_storage_url(storage)
-      subject = "Storage is back healthy!"
-      mail(to: admin.mail, subject:)
+module Storages::Admin
+  module Mailer
+    class HealthStatusNotificationComponent < ViewComponent::Base
+      include MailLayoutHelper
     end
   end
 end
