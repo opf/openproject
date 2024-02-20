@@ -266,7 +266,7 @@ module OpenProject
                 href: 'https://www.openproject.org/docs/system-admin-guide/integrations/one-drive/'
               },
               one_drive_drive_id_guide: {
-                href: 'https://www.openproject.org/docs/system-admin-guide/integrations/one-drive/drive-id-guide/'
+                href: 'https://www.openproject.org/docs/system-admin-guide/integrations/one-drive/drive-guide/'
               },
               nextcloud_oauth_application: {
                 href: 'https://apps.nextcloud.com/apps/integration_openproject'

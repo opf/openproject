@@ -128,7 +128,7 @@ class Options
 
     def parse_url(url)
       case url
-      when %r{^https://github.com/opf/openproject/actions/runs/(\d+)(?:/job/\d+)?$}
+      when %r{^https://github.com/opf/openproject/actions/runs/(\d+)(?:/job/\d+(?:\?.*)?)?$}
         run_id = $1.to_i
         say_verbose("Extracted run id #{run_id} from #{url}")
         { run_id: }
@@ -505,6 +505,11 @@ class Formatter
 
     display_error_attribute("screenshot", screenshot_url)
     if Options.display_images
+      if screenshot_url.start_with?("/")
+        # external pull requests do not have access to AWS credentials to upload screenshots
+        warn "      (cannot display screenshot: it is local file stored on the runner)".yellow
+        return
+      end
       begin
         Open3.popen2e('imgcat', '--width', '50%', '--url', screenshot_url) do |stdin, stdout_and_stderr, _thread|
           stdin.close

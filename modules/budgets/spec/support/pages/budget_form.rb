@@ -160,14 +160,6 @@ module Pages
       find('h4', text: title).find(:xpath, '..')
     end
 
-    def toggle_unit_costs!
-      find('fieldset', text: 'UNITS').click
-    end
-
-    def toggle_labor_costs!
-      find('fieldset', text: 'LABOR').click
-    end
-
     ##
     # @param type [String] Either 'new' or 'existing'
     def unit_cost_attr_id(type)

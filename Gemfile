@@ -213,7 +213,7 @@ gem 'appsignal', '~> 3.0', require: false
 
 gem 'view_component'
 # Lookbook
-gem 'lookbook', github: 'ViewComponent/lookbook', ref: '473f86d7e343cd78b74cc293a4de06b9b5e7a3e2'
+gem 'lookbook', '~> 2.2.1'
 
 # Require factory_bot for usage with openproject plugins testing
 gem 'factory_bot', '~> 6.4.0', require: false
@@ -263,7 +263,7 @@ group :test do
   gem 'capybara-screenshot', '~> 1.0.17'
   gem 'cuprite', '~> 0.15.0'
   gem 'selenium-devtools'
-  gem 'selenium-webdriver', '~> 4.17.0'
+  gem 'selenium-webdriver', '~> 4.18.0'
 
   gem 'fuubar', '~> 2.5.0'
   gem 'timecop', '~> 0.9.0'
@@ -382,4 +382,4 @@ end
 
 gem 'openproject-octicons', '~>19.8.0'
 gem 'openproject-octicons_helper', '~>19.8.0'
-gem 'openproject-primer_view_components', '~>0.20.0'
+gem 'openproject-primer_view_components', '~>0.22.2'

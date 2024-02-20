@@ -63,12 +63,24 @@ RSpec.describe Source::SeedData do
     it 'raises an error if the reference is not found' do
       expect { seed_data.find_reference(:ref) }
         .to raise_error(ArgumentError, 'Nothing registered with reference :ref')
+      expect { seed_data.find_reference(:ref, :other_ref) }
+        .to raise_error(ArgumentError, 'Nothing registered with references :ref and :other_ref')
+      expect { seed_data.find_reference(:ref, :other_ref, :yet_another_ref) }
+        .to raise_error(ArgumentError, 'Nothing registered with references :ref, :other_ref, and :yet_another_ref')
     end
 
     it 'returns the given default value if the reference is not found' do
       expect(seed_data.find_reference(:ref, default: 42)).to eq(42)
       expect(seed_data.find_reference(:ref, default: 'hello')).to eq('hello')
       expect(seed_data.find_reference(:ref, default: nil)).to be_nil
+    end
+
+    it 'tries with fallback references if the primary reference is not found' do
+      object = Object.new
+      seed_data.store_reference(:other_ref, object)
+      expect(seed_data.find_reference(:other_ref)).to be(object)
+      expect(seed_data.find_reference(:ref, :other_ref)).to be(object)
+      expect(seed_data.find_reference(:ref, :unknown_ref, :another_unknown, :other_ref)).to be(object)
     end
   end
 

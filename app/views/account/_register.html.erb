@@ -90,7 +90,7 @@ See COPYRIGHT and LICENSE files for more details.
 
       <% if user_consent_required? %>
         <hr/>
-        <%= render partial: 'account/user_consent_check', locals: { consenting_user: @user } %>
+        <%= render partial: 'account/user_consent_check' %>
       <% end %>
 
       <%= render partial: 'account/auth_providers', locals: { omniauth_title: I18n.t('account.signup_with_auth_provider'), wide: true } %>
