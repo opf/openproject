@@ -640,7 +640,7 @@ Rails.application.routes.draw do
     mount Lookbook::Engine, at: "/lookbook"
   end
 
-  constraints(->(req) { User.exists?(id: req.session[:user_id], admin: true) }) do
+  if Rails.env.development?
     mount GoodJob::Engine => 'good_job'
   end
 end
