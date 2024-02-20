@@ -49,7 +49,8 @@ module AuthenticationHelpers
       end
     end
 
-    allow(User).to receive(:current).and_return(user)
+    allow(RequestStore).to receive(:[]).and_call_original
+    allow(RequestStore).to receive(:[]).with(:current_user).and_return(user)
   end
 
   def login_with(login, password, autologin: false, visit_signin_path: true)
