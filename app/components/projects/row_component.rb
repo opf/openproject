@@ -113,7 +113,7 @@ module Projects
       return nil unless user_can_view_project?
 
       if project.status_explanation
-        content_tag :div, helpers.format_text(project.status_explanation), class: 'wiki'
+        content_tag :div, helpers.format_text(project.status_explanation), class: 'op-uc-p'
       end
     end
 
@@ -121,7 +121,7 @@ module Projects
       return nil unless user_can_view_project?
 
       if project.description
-        content_tag :div, helpers.format_text(project.description), class: 'wiki'
+        content_tag :div, helpers.format_text(project.description), class: 'op-uc-p'
       end
     end
 
