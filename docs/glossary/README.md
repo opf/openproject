@@ -324,7 +324,7 @@ In OpenProject, projects can be private or public. Public means that the project
 
 ### Quick context menu
 
-The quick context menu in OpenProject opens when you open a [work package table](#work-package-table) and then right-click on a single work package. It allows you to perform quick actions like *open details view*, *copy link to clipboard* or *create new child*. Please note that the quick context menu differs depending on whether you are in the [Gantt charts](#gantt-chart) module or not.
+The quick context menu in OpenProject opens when you open a [work package table](#work-package-table) and then right-click on a single work package. It allows you to perform quick actions like *open details view*, *copy link to clipboard* or *create new child*. Please note that the quick context menu differs depending on whether you are in the [Gantt charts](#gantt-charts) module or not.
 
 ## R
 
