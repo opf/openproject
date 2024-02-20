@@ -90,6 +90,12 @@ module API
         %w(application/json application/hal+json)
       end
 
+      # Prevent committing the session
+      # This prevents an unnecessary write when accessing the API
+      def skip_session_write
+        request.session_options[:skip] = true
+      end
+
       def enforce_content_type
         # Content-Type is not present in GET or DELETE requests
         return if request.get? || request.delete?
@@ -328,6 +334,7 @@ module API
       authenticate
       set_localization
       enforce_content_type
+      skip_session_write
       ::OpenProject::Appsignal.tag_request(request:)
     end
   end
