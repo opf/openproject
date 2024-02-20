@@ -30,7 +30,7 @@ class CustomFields::Inputs::MultiUserSelectList < CustomFields::Inputs::Base::Au
   include CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
 
   form do |custom_value_form|
-    custom_value_form.user_autocompleter(**input_attributes)
+    custom_value_form.autocompleter(**input_attributes)
   end
 
   private

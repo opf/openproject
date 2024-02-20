@@ -29,6 +29,8 @@
 module CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
   def user_autocomplete_options
     {
+      component: 'opce-user-autocompleter',
+      defaultData: false,
       placeholder: I18n.t(:label_user_search),
       resource:,
       url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
