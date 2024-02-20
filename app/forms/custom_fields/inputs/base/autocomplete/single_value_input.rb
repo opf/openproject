@@ -26,15 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CustomFields::Inputs::Base::Autocomplete::SingleValueInput < ApplicationForm
-  include CustomFields::Inputs::Base::Utils
-
-  def initialize(custom_field:, custom_value:, object:)
-    @custom_field = custom_field
-    @custom_value = custom_value
-    @object = object
-  end
-
+class CustomFields::Inputs::Base::Autocomplete::SingleValueInput < CustomFields::Inputs::Base::Input
   def input_attributes
     base_input_attributes.merge(
       autocomplete_options:,
@@ -53,13 +45,5 @@ class CustomFields::Inputs::Base::Autocomplete::SingleValueInput < ApplicationFo
 
   def decorated?
     raise NotImplementedError
-  end
-
-  def invalid?
-    @custom_value.errors.any?
-  end
-
-  def validation_message
-    @custom_value.errors.full_messages.join(', ') if invalid?
   end
 end

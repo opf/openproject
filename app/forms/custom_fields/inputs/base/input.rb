@@ -29,10 +29,12 @@
 class CustomFields::Inputs::Base::Input < ApplicationForm
   include CustomFields::Inputs::Base::Utils
 
-  def initialize(custom_field:, custom_value:, object:)
+  attr_reader :options
+
+  def initialize(custom_field:, object:, **options)
     @custom_field = custom_field
-    @custom_value = custom_value
     @object = object
+    @options = options
   end
 
   def input_attributes
@@ -44,11 +46,15 @@ class CustomFields::Inputs::Base::Input < ApplicationForm
     )
   end
 
+  def custom_value
+    @custom_value ||= @object.custom_value_for(@custom_field.id)
+  end
+
   def invalid?
-    @custom_value.errors.any?
+    custom_value.errors.any?
   end
 
   def validation_message
-    @custom_value.errors.full_messages.join(', ') if invalid?
+    custom_value.errors.full_messages.join(', ') if invalid?
   end
 end

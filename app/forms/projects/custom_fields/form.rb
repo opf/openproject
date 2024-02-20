@@ -35,11 +35,12 @@ module Projects::CustomFields
       end
     end
 
-    def initialize(project:, custom_field_section: nil, custom_field: nil)
+    def initialize(project:, custom_field_section: nil, custom_field: nil, wrapper_id: nil)
       super()
       @project = project
       @custom_field_section = custom_field_section
       @custom_field = custom_field
+      @wrapper_id = wrapper_id
 
       if @custom_field_section.present? && @custom_field.present?
         raise ArgumentError,
@@ -76,8 +77,7 @@ module Projects::CustomFields
     # - rich text editor is not yet supported
 
     def single_value_custom_field_input(builder, custom_field)
-      custom_value = @project.custom_value_for(custom_field.id)
-      form_args = { custom_field:, custom_value:, object: @project }
+      form_args = { custom_field:, object: @project, wrapper_id: @wrapper_id }
 
       case custom_field.field_format
       when "string"
@@ -102,8 +102,7 @@ module Projects::CustomFields
     end
 
     def multi_value_custom_field_input(builder, custom_field)
-      custom_values = @project.custom_values_for_custom_field(id: custom_field.id)
-      form_args = { custom_field:, custom_values:, object: @project }
+      form_args = { custom_field:, object: @project, wrapper_id: @wrapper_id }
 
       case custom_field.field_format
       when "list"

@@ -26,15 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CustomFields::Inputs::Base::Autocomplete::MultiValueInput < ApplicationForm
-  include CustomFields::Inputs::Base::Utils
-
-  def initialize(custom_field:, custom_values:, object:)
-    @custom_field = custom_field
-    @custom_values = custom_values
-    @object = object
-  end
-
+class CustomFields::Inputs::Base::Autocomplete::MultiValueInput < CustomFields::Inputs::Base::Input
   def input_attributes
     base_input_attributes.merge(
       autocomplete_options:,
@@ -55,11 +47,15 @@ class CustomFields::Inputs::Base::Autocomplete::MultiValueInput < ApplicationFor
     raise NotImplementedError
   end
 
+  def custom_values
+    @custom_values ||= @object.custom_values_for_custom_field(id: @custom_field.id)
+  end
+
   def invalid?
-    @custom_values.any? { |custom_value| custom_value.errors.any? }
+    custom_values.any? { |custom_value| custom_value.errors.any? }
   end
 
   def validation_message
-    @custom_values.map { |custom_value| custom_value.errors.full_messages }.join(', ') if invalid?
+    custom_values.map { |custom_value| custom_value.errors.full_messages }.join(', ') if invalid?
   end
 end

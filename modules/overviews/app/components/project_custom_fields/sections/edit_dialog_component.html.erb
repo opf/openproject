@@ -1,4 +1,3 @@
-
 <%=
   content_tag("turbo-frame", id: "edit-project-custom-fields-dialog-#{@project_custom_field_section.id}-frame") do
     component_wrapper(data: { qa_selector: 'async-dialog-content' }) do
@@ -10,7 +9,12 @@
         component_collection do |collection|
           # TODO: remove inline style
           collection.with_component(Primer::Alpha::Dialog::Body.new(my: 3, style: "max-height: 500px;")) do
-            render(Projects::CustomFields::Form.new(f, project: @project, custom_field_section: @project_custom_field_section))
+            render(Projects::CustomFields::Form.new(
+              f,
+              project: @project,
+              custom_field_section: @project_custom_field_section,
+              wrapper_id: "#edit-project-custom-fields-dialog-#{@project_custom_field_section.id}"
+            ))
           end
           collection.with_component(Primer::Alpha::Dialog::Footer.new) do
             component_collection do |footer_collection|

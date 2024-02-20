@@ -36,7 +36,7 @@ module CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
       searchKey: search_key,
       inputValue: custom_input_value,
       focusDirectly: false,
-      appendTo: 'body'
+      appendTo: append_to
     }
   end
 
@@ -46,6 +46,10 @@ module CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
 
   def search_key
     'any_name_attribute'
+  end
+
+  def append_to
+    options.fetch(:wrapper_id, 'body')
   end
 
   def filters
