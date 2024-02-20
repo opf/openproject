@@ -50,6 +50,10 @@ Rails.application.configure do
   # loading is working properly before deploying your code.
   config.eager_load = %w[CI EAGER_LOAD].any? { |name| ENV[name].present? }
 
+  # Prevent race condition with session modification, when not set this is equal
+  # to allowing concurrency
+  config.allow_concurrency = false
+
   # Configure public file server for tests with Cache-Control for performance.
   config.public_file_server.enabled = true
   config.public_file_server.headers = { 'Cache-Control' => 'public, max-age=3600' }
