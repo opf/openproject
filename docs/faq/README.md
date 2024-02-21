@@ -204,7 +204,7 @@ In many companies it makes sense to structure your project tree according to you
 
 ### Is there an architecture diagram for OpenProject?
 
-A (very rough) diagram can be found on [https://www.openproject.org/hosting/](https://www.openproject.org/hosting/).
+A (very rough) diagram can be found on [https://www.openproject.org/enterprise-edition/#hosting-options](https://www.openproject.org/enterprise-edition/#hosting-options).
 
 ### Can I set up an entity-relationship diagram in OpenProject?
 

@@ -11,7 +11,7 @@ release_date: 2018-10-26
 OpenProject 8.1 includes several improvements: A new guided tour helps
 new users with onboarding and graphs are shown in the roadmap.
 
-For users of the [Enterprise cloud](https://www.openproject.org/hosting/)
+For users of the [Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options)
 or [Enterprise
 edition](https://www.openproject.org/enterprise-edition/) the
 conditional formatting has been improved: It is now possible to

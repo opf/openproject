@@ -117,7 +117,7 @@ OpenProject can be used in three different editions, either on-premises or as so
 ![openproject versions](1569586019132.png)
 
 * [Community edition](https://www.openproject.org/download-and-installation/): self-installed on-premise.
-* [Enterprise cloud edition](https://www.openproject.org/hosting/): we host it, incl. Enterprise add-ons and support.
+* [Enterprise cloud edition](https://www.openproject.org/enterprise-edition/#hosting-options): we host it, incl. Enterprise add-ons and support.
 * [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/): self-hosted version, incl. Enterprise add-ons and support.
 
 To compare the features side by side, please visit our [Feature Comparison](https://www.openproject.org/pricing/#features) page.
