@@ -27,7 +27,7 @@ There are several ways to get an overview of all your projects. You can press th
 
 ![project lists button](Project-list-button.png)
 
-Alternatively, you can use the [**Global modules menu**](../../home/global-modules/#projects) and select *Projects*. You can access that menu either on the left side of the OpenProject application homepage or by using the grid menu icon in the top left corner.
+Alternatively, you can use the [**Global modules menu**](../../home/global-modules/#projects) and select *Projects*. You can access that menu either on the left side of the OpenProject application homepage or by using the grid menu icon in the top right corner.
 
 ![Select all projects from the global modules menu in OpenProject](view_all_projects_options.png)
 
