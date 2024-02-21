@@ -39,7 +39,7 @@ If you want to install it on Windows or Mac you can use the Docker based install
 The package based installation (for Linux) offers an installation wizard.
 If you already use Univention, you can use it to install OpenProject, too.
 
-Alternatively, you could use OpenProject [as cloud version](https://www.openproject.org/hosting/) to avoid installation. 
+Alternatively, you could use OpenProject [as cloud version](https://www.openproject.org/enterprise-edition/#hosting-options) to avoid installation. 
 
 ### Why don't you support Windows?
 
@@ -90,7 +90,7 @@ Please follow these steps:
 
 ### Are there extra fees to pay, in terms of installing the OpenProject software?
 
-The Community edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/hosting/) is hosted by us. 
+The Community edition and [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/) are on-premises solutions and thus need installation from your side while the [Enterprise cloud edition](https://www.openproject.org/enterprise-edition/#hosting-options) is hosted by us. 
 The Community edition is for free and we ask you to do the installation yourself. Of course we support you with a clear and easy [installation guide](https://www.openproject.org/download-and-installation/). 
 If you would like us to install the **Enterprise on-premises edition** for you, we are charging a fee of €300 (excluding VAT) for this once-off service. You can add the installation support during your [Enterprise on-premises edition booking process](../../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/#order-the-enterprise-on-premises-edition).
 
