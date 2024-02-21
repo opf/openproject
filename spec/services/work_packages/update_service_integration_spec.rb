@@ -445,24 +445,21 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
   end
 
   describe 'inheriting done_ratio' do
-    let(:attributes) { { done_ratio: 50 } }
+    let(:attributes) { { estimated_hours: 10.0, remaining_hours: 5.0 } }
     let(:work_package_attributes) do
       { project_id: project.id,
         type_id: type.id,
         author_id: user.id,
         status_id: status.id,
-        priority:,
-        estimated_hours: 10 }
+        priority: }
     end
 
     let(:sibling1_attributes) do
-      work_package_attributes.merge(estimated_hours: nil,
-                                    done_ratio: 20,
-                                    parent: parent_work_package)
+      work_package_attributes.merge(parent: parent_work_package)
     end
     let(:sibling2_attributes) do
-      work_package_attributes.merge(done_ratio: 0,
-                                    estimated_hours: 100,
+      work_package_attributes.merge(estimated_hours: 100.0,
+                                    remaining_hours: 25.0,
                                     parent: parent_work_package)
     end
 
@@ -477,33 +474,32 @@ RSpec.describe WorkPackages::UpdateService, 'integration', type: :model do
       expect(subject)
         .to be_success
 
-      # set to the provided values
+      # sets it to the computation between estimated_hours and remaining_hours
       expect(work_package.done_ratio)
-        .to eql(attributes[:done_ratio])
-
-      # calculated
-      # sibling1 not factored in as its estimated_hours are nil
-      calculated_ratio = ((work_package.done_ratio * work_package.estimated_hours) +
-                          (sibling2_work_package.done_ratio * sibling2_work_package.estimated_hours)) / \
-                         (work_package.done_ratio +
-                          sibling2_work_package.done_ratio)
+        .to eq(50)
 
       [parent_work_package,
        grandparent_work_package].each do |wp|
         wp.reload
 
+        # sibling1 not factored in as its estimated and remaining hours are nil
+        #
+        # Total factored in estimated_hours (work_package + sibling2) = 110
+        # Total factored in remaining_hours (work_package + sibling2) = 30
+        # Work done = 80
+        # Calculated done ratio rounded up = (80 / 110) * 100
         expect(wp.derived_done_ratio)
-          .to eql(calculated_ratio.to_i)
+          .to eq(73)
       end
 
       # unchanged
       sibling1_work_package.reload
       expect(sibling1_work_package.done_ratio)
-        .to eql(sibling1_attributes[:done_ratio])
+        .to eq(0)
 
       sibling2_work_package.reload
       expect(sibling2_work_package.done_ratio)
-        .to eql(sibling2_attributes[:done_ratio])
+        .to eq(75) # Was not changed as
 
       # Returns changed work packages
       expect(subject.all_results)
