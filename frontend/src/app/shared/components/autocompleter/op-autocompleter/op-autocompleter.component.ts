@@ -191,9 +191,9 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @Input() public searchFn:(term:string, item:any) => boolean;
 
-  @Input() public trackByFn ? = null;
+  @Input() public trackByFn = this.defaultTrackByFunction();
 
-  @Input() public compareWith ? = (a:unknown, b:unknown):boolean => a === b;
+  @Input() public compareWith = this.defaultCompareWithFunction();
 
   @Input() public clearOnBackspace?:boolean = true;
 
@@ -543,5 +543,13 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   public addNewObjectFn(searchTerm:string):unknown {
     return this.bindLabel ? { [this.bindLabel]: searchTerm } : searchTerm;
+  }
+
+  protected defaultTrackByFunction():((i:number, x:unknown) => unknown)|null {
+    return null;
+  }
+
+  protected defaultCompareWithFunction():(a:unknown, b:unknown) => boolean {
+    return (a, b) => a === b;
   }
 }
