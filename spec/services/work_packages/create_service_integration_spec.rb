@@ -119,7 +119,8 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
     let(:attributes) do
       { subject: 'blubs',
         project:,
-        done_ratio: 50,
+        estimated_hours: 10.0,
+        remaining_hours: 5.0,
         parent:,
         start_date: Date.current,
         due_date: Date.current + 3.days }
@@ -155,7 +156,7 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
       # parent updated
       parent.reload
       expect(parent.derived_done_ratio)
-        .to eql attributes[:done_ratio]
+        .to eq 50
       expect(parent.start_date)
         .to eql attributes[:start_date]
       expect(parent.due_date)
