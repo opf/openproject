@@ -97,13 +97,13 @@ You will be directed to the meeting view, where you can edit the minutes (do not
 
 To quickly notify participants about the meeting and send them a link to the meeting select the dropdown menu behind the three dots and select the **Send email to all participants**.
 
-![Send email to a classic meeting participants in OpenProject](send email to participants.png)
+![Send email to a classic meeting participants in OpenProject](send-email-to-participants.png)
 
 ## Download iCalendar event
 
 To add a meeting to a calendar, select the dropdown menu behind the three dots and select **Download iCalendar event**. You can then quickly add the meeting to your calendar or forward it other meeting participants. 
 
-![Download a classic meeting as an iCalendar event in OpenProject](downoad a meeting.png)
+![Download a classic meeting as an iCalendar event in OpenProject](download-a-meeting.png)
 
 ## Copy a meeting (recurring meetings)
 
