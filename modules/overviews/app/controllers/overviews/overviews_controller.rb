@@ -8,13 +8,7 @@ module ::Overviews
     menu_item :overview
 
     def project_custom_fields_sidebar
-      render(
-        ProjectCustomFields::SidebarComponent.new(
-          project: @project,
-          eager_loaded_project_custom_field_sections:
-        ),
-        layout: false
-      )
+      @eager_loaded_project_custom_field_sections = eager_loaded_project_custom_field_sections
     end
 
     def project_custom_field_section_dialog

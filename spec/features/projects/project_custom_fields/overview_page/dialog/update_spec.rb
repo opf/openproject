@@ -527,9 +527,21 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
         end
 
         it 'adds values properly to init values' do
-          custom_field.custom_values.last.destroy
+          custom_field.custom_values.destroy_all
 
           overview_page.visit_page
+
+          overview_page.within_custom_field_container(custom_field) do
+            expect(page).to have_no_text first_option
+            expect(page).to have_no_text second_option
+          end
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          field.select_option(first_option)
+
+          dialog.submit
+          dialog.expect_closed
 
           overview_page.within_custom_field_container(custom_field) do
             expect(page).to have_text first_option
