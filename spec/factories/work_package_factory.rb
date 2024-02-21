@@ -125,5 +125,12 @@ FactoryBot.define do
                                     updated_at: work_package.journals.maximum(:updated_at))
       end
     end
+
+    callback(:after_build) do |work_package, _evaluator|
+      if work_package.estimated_hours.present? && work_package.remaining_hours.present?
+        work_package.done_ratio = (work_package.estimated_hours - work_package.remaining_hours) \
+                                  / work_package.estimated_hours * 100
+      end
+    end
   end
 end
