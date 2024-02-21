@@ -519,7 +519,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
 
                 click_on 'Expand'
 
-                within 'modal-dialog' do
+                within 'dialog' do
                   expect(page).to have_text 'a' * 101
                 end
               end
