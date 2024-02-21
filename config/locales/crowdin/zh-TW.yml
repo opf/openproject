@@ -1873,7 +1873,7 @@ zh-TW:
   label_member_new: "新成員"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "成員"
-  lable_membership_added: "Member added"
+  lable_membership_added: "成員加入"
   lable_membership_updated: "Member updated"
   label_menu_badge:
     pre_alpha: "早期開發版本"

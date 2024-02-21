@@ -113,9 +113,7 @@ RSpec.describe 'account/register' do
     let(:locale) { raise "you have to define the locale" }
 
     before do
-      I18n.with_locale(locale) do
-        render
-      end
+      I18n.with_locale(locale) { render }
     end
 
     context "for English (locale: en) users" do

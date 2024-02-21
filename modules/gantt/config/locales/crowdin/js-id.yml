@@ -1,6 +1,6 @@
 id:
   js:
     queries:
-      all_open: 'All open'
-      timeline: 'Timeline'
-      milestones: 'Milestones'
+      all_open: 'Semua terbuka'
+      timeline: 'Lini Masa'
+      milestones: 'Pencapaian'

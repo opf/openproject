@@ -100,18 +100,26 @@ RSpec.describe 'Authentication Stages' do
             consent_required: true,
             consent_info: { de: '# Einwilligung', en: '# Consent header!' }
           } do
-    around do |example|
-      Capybara.current_session.driver.header('Accept-Language', 'de')
-      example.call
-    ensure
-      Capybara.current_session.driver.header('Accept-Language', 'en')
+    context 'users language is en' do
+      let(:language) { 'en' }
+
+      it 'shows consent en' do
+        login_with user.login, user_password
+
+        expect(page).to have_css('.account-consent')
+        expect(page).to have_css('h1', text: 'Consent header!')
+      end
     end
 
-    it 'shows localized consent as defined by the accept language header (ignoring users language)' do
-      login_with user.login, user_password
+    context 'users language is de' do
+      let(:language) { 'de' }
 
-      expect(page).to have_css('.account-consent')
-      expect(page).to have_css('h1', text: 'Einwilligung')
+      it 'shows consent in de' do
+        login_with user.login, user_password
+
+        expect(page).to have_css('.account-consent')
+        expect(page).to have_css('h1', text: 'Einwilligung')
+      end
     end
   end
 
