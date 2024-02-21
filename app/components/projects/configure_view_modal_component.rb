@@ -30,6 +30,7 @@
 
 class Projects::ConfigureViewModalComponent < ApplicationComponent
   MODAL_ID = 'op-project-list-configure-dialog'
+  COLUMN_FORM_ID = 'op-project-list-configure-columns-form'
   COLUMN_HTML_NAME = 'columns'
 
   options :query
@@ -37,6 +38,7 @@ class Projects::ConfigureViewModalComponent < ApplicationComponent
   def all_columns
     @all_columns ||= query
                        .available_selects
+                       .sort_by(&:caption)
                        .map { |c| { id: c.attribute, name: c.caption } }
   end
 

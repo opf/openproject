@@ -2,25 +2,27 @@
                                      id: MODAL_ID)) do |d| %>
   <% d.with_header(variant: :large, mb: 3) %>
 
-  <%= primer_form_with(
-    url: projects_path,
-    method: :get,
-    data: {
-      controller: "params-from-query",
-      'application-target': "dynamic",
-      'params-from-query-allowed-value': '["filters", "query_id"]'
-      }) do |f| %>
-    <%= render(Primer::Alpha::Dialog::Body.new) do %>
-      <%= helpers.angular_component_tag 'opce-draggable-autocompleter',
-                                        inputs: {
-                                          options: all_columns,
-                                          selected: selected_columns,
-                                          name: COLUMN_HTML_NAME
-                                        }%>
+  <%= render(Primer::Alpha::Dialog::Body.new) do %>
+    <%= primer_form_with(
+          url: projects_path,
+          id: COLUMN_FORM_ID,
+          method: :get,
+          data: {
+            controller: "params-from-query",
+            'application-target': "dynamic",
+            'params-from-query-allowed-value': '["filters", "query_id"]'
+          }) do %>
+          <%= helpers.angular_component_tag 'opce-draggable-autocompleter',
+                                            inputs: {
+                                              options: all_columns,
+                                              selected: selected_columns,
+                                              name: COLUMN_HTML_NAME
+                                            }%>
     <% end %>
-    <%= render(Primer::Alpha::Dialog::Footer.new(show_divider: true)) do %>
-      <%= render(Primer::ButtonComponent.new(data: { "close-dialog-id": MODAL_ID })) { I18n.t(:button_cancel) } %>
-      <%= render(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) { I18n.t(:button_apply) } %>
-    <% end %>
+  <% end %>
+
+  <%= render(Primer::Alpha::Dialog::Footer.new(show_divider: true)) do %>
+    <%= render(Primer::ButtonComponent.new(data: { "close-dialog-id": MODAL_ID })) { I18n.t(:button_cancel) } %>
+    <%= render(Primer::ButtonComponent.new(scheme: :primary, type: :submit, form: COLUMN_FORM_ID)) { I18n.t(:button_apply) } %>
   <% end %>
 <% end %>
