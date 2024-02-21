@@ -9,7 +9,7 @@
     <input
       *ngFor="let value of mappedInputValue"
       type="hidden"
-      [attr.name]="inputName"
+      [attr.name]="inputName+'[]'"
       [attr.data-action]="hiddenFieldAction"
       [value]="value">
   </ng-container>

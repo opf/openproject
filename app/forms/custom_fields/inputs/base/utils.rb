@@ -57,4 +57,9 @@ module CustomFields::Inputs::Base::Utils
   def qa_field_name
     @custom_field.attribute_name(:kebab_case)
   end
+
+  # used within autocompleter inputs
+  def append_to
+    options.fetch(:wrapper_id, 'body')
+  end
 end

@@ -39,7 +39,8 @@ class CustomFields::Inputs::Base::Autocomplete::MultiValueInput < CustomFields::
   def autocomplete_options
     {
       multiple: true,
-      decorated: decorated?
+      decorated: decorated?,
+      append_to:
     }
   end
 

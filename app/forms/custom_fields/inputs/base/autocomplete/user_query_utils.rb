@@ -38,7 +38,7 @@ module CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
       searchKey: search_key,
       inputValue: custom_input_value,
       focusDirectly: false,
-      appendTo: append_to
+      appendTo: append_to # unlike for the decorated autocompleters, this option has to be passed as camelCase key here!
     }
   end
 
@@ -48,10 +48,6 @@ module CustomFields::Inputs::Base::Autocomplete::UserQueryUtils
 
   def search_key
     'any_name_attribute'
-  end
-
-  def append_to
-    options.fetch(:wrapper_id, 'body')
   end
 
   def filters
