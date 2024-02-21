@@ -87,7 +87,7 @@ module Projects::Copy
                   target_project_storage.project_folder_path_escaped
                 )
                 new_file_location = CGI.unescape(new_file_location[1..])
-                folder_files_file_ids_deep_query_result[new_file_location]['fileid']
+                folder_files_file_ids_deep_query_result[new_file_location].id
               else
                 old_file_link.origin_id
               end
@@ -109,6 +109,7 @@ module Projects::Copy
         end
       end
     end
+
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/PerceivedComplexity
 
