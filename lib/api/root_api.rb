@@ -331,10 +331,10 @@ module API
 
     # run authentication before each request
     after_validation do
+      skip_session_write
       authenticate
       set_localization
       enforce_content_type
-      skip_session_write
       ::OpenProject::Appsignal.tag_request(request:)
     end
   end
