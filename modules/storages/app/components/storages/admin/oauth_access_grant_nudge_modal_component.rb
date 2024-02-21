@@ -76,6 +76,10 @@ module Storages::Admin
       end
     end
 
+    def confirm_button_aria_label
+      I18n.t('storages.oauth_grant_nudge_modal.confirm_button_aria_label', storage: project_storage.storage.name)
+    end
+
     def confirm_button_url
       options[:confirm_button_url] || url_helpers.oauth_access_grant_project_settings_project_storage_path(
         project_id: project_storage.project.id,

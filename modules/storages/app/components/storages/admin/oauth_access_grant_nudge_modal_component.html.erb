@@ -51,7 +51,6 @@
           Primer::Beta::Button.new(
             scheme: :default,
             size: :medium,
-            aria: { label: cancel_button_text },
             data: {
               'close-dialog-id': dialog_id,
               'storages--oauth-access-grant-nudge-modal-target': 'closeButton'
@@ -75,7 +74,7 @@
                 scheme: :primary,
                 size: :medium,
                 type: :submit,
-                aria: { label: confirm_button_text },
+                aria: { label: confirm_button_aria_label },
                 data: {
                   'storages--oauth-access-grant-nudge-modal-target': 'requestAccessButton',
                   action: 'click->storages--oauth-access-grant-nudge-modal#requestAccess'

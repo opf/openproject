@@ -49,7 +49,7 @@ RSpec.describe Storages::Admin::OAuthAccessGrantNudgeModalComponent, type: :comp
       )
 
       expect(page).to have_button('I will do it later')
-      expect(page).to have_button('Login')
+      expect(page).to have_button('Login', aria: { label: "Login to #{project_storage.storage.name}" })
     end
   end
 
