@@ -546,6 +546,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :work_packages,
             { controller: '/work_packages', action: 'index' },
             caption: :label_work_package_plural,
+            if: Proc.new { |p| p.module_enabled?('work_package_tracking') },
             icon: 'view-list',
             html: {
               id: 'main-menu-work-packages',

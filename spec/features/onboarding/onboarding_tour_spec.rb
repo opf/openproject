@@ -35,7 +35,6 @@ RSpec.describe 'onboarding tour for new users',
     create(:project, name: 'Demo project', identifier: 'demo-project', public: true,
                      enabled_module_names: %w[work_package_tracking gantt wiki])
   end
-  let(:project_link) { "<a href=/projects/#{project.identifier}> #{project.name} </a>" }
 
   let!(:wp1) { create(:work_package, project:) }
   let(:next_button) { find('.enjoyhint_next_btn') }
@@ -44,8 +43,6 @@ RSpec.describe 'onboarding tour for new users',
     before do
       login_as user
       allow(Setting).to receive(:demo_projects_available).and_return(true)
-      allow(Setting).to receive(:welcome_title).and_return('Hey ho!')
-      allow(Setting).to receive(:welcome_on_homescreen?).and_return(true)
     end
 
     it 'I can select a language' do

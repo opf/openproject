@@ -137,4 +137,18 @@ RSpec.describe Projects::ArchiveService do
       end
     end
   end
+
+  context 'with the seeded demo project' do
+    let(:demo_project) { create(:project, name: 'Demo project', identifier: 'demo-project', public: true) }
+    let(:instance) { described_class.new(user:, model: demo_project) }
+
+    it 'saves in a Setting that the demo project was modified (regression #52826)' do
+      # Archive the demo project
+      expect(instance.call).to be_truthy
+      expect(demo_project.reload).to be_archived
+
+      # Demo project is not available any more for the onboarding tour
+      expect(Setting.demo_projects_available).to be(false)
+    end
+  end
 end

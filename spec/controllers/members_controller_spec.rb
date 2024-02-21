@@ -39,17 +39,11 @@ RSpec.describe MembersController do
                     roles: [role])
   end
 
-  before do
-    allow(User).to receive(:current).and_return(admin)
-  end
+  before { login_as(admin) }
 
   describe 'create' do
     shared_let(:admin) { create(:admin) }
     let(:project_2) { create(:project) }
-
-    before do
-      allow(User).to receive(:current).and_return(admin)
-    end
 
     it 'works for multiple users' do
       post :create,
@@ -88,10 +82,6 @@ RSpec.describe MembersController do
       )
     end
 
-    before do
-      allow(User).to receive(:current).and_return(admin)
-    end
-
     it 'however,s allow roles to be updated through mass assignment' do
       put 'update',
           params: {
@@ -110,9 +100,7 @@ RSpec.describe MembersController do
   describe '#autocomplete_for_member' do
     let(:params) { { 'project_id' => project.identifier.to_s } }
 
-    before do
-      login_as(user)
-    end
+    before { login_as(user) }
 
     describe "WHEN the user is authorized
               WHEN a project is provided" do

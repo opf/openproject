@@ -731,24 +731,24 @@ zh-TW:
           explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
           no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
           time_label: '時間 %{counter}:'
-          title: 'Send me daily email reminders for unread notifications'
+          title: '每日將尚未讀取之通知，寄提醒郵件給我'
         workdays:
           title: 'Receive email reminders on these days'
         immediate:
-          title: 'Send me an email reminder'
+          title: '寄發提醒郵件給我'
           mentioned: 'Immediately when someone @mentions me'
         alerts:
-          title: 'Email alerts for other items (that are not work packages)'
+          title: '其他非工作項目之提醒'
           explanation: >
             Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
           news_added: '消息已新增'
           news_commented: 'Comment on a news item'
-          document_added: 'Documents added'
+          document_added: '新增文件'
           forum_messages: 'New forum messages'
           wiki_page_added: '維基頁面已新增'
           wiki_page_updated: '維基頁面已更新'
-          membership_added: 'Membership added'
-          membership_updated: 'Membership updated'
+          membership_added: '成員加入'
+          membership_updated: '成員更新'
         title: '電子郵件提醒'
         pause:
           label: 'Temporarily pause daily email reminders'

@@ -48,14 +48,29 @@ With this release, admins of an Enterprise edition can choose between manually o
 - Feature: Separate Gantt charts module \[[#32764](https://community.openproject.org/wp/32764)\]
 - Feature: Automatically managed project folders with SharePoint \[[#50988](https://community.openproject.org/wp/50988)\]
 - Bugfix: PDF doesn't contain cell color \[[#47169](https://community.openproject.org/wp/47169)\]
-- Bugfix: Save Team Planner view as 2 weeks view not only 1 week view. \[[#48355](https://community.openproject.org/wp/48355)\]
+- Bugfix: Wrong arabic date format and calender error \[[#48834](https://community.openproject.org/wp/48834)\]
+- Bugfix: Labels on radio buttons are not clickable on File storages page \[[#49328](https://community.openproject.org/wp/49328)\]
+- Bugfix: Slow performance after upgrade to version 13 \[[#50850](https://community.openproject.org/wp/50850)\]
 - Bugfix: Delete work package API requires content-type header \[[#51317](https://community.openproject.org/wp/51317)\]
+- Bugfix: Meetings: Title of linked work packages are truncated too early \[[#51619](https://community.openproject.org/wp/51619)\]
 - Bugfix: Lookbook is broken \[[#51787](https://community.openproject.org/wp/51787)\]
 - Bugfix: Anonymous Users (without signing in) cannot load board content \[[#51850](https://community.openproject.org/wp/51850)\]
+- Bugfix: Misalignment in the dropdown on searching work packages \[[#51948](https://community.openproject.org/wp/51948)\]
+- Bugfix: Remove colour in share modal is not correct \[[#52012](https://community.openproject.org/wp/52012)\]
+- Bugfix: Timeouts as non privileged users \[[#52022](https://community.openproject.org/wp/52022)\]
+- Bugfix: WorkPackage query with baseline filter takes too much time for non-admins \[[#52156](https://community.openproject.org/wp/52156)\]
 - Bugfix: Multi-select user custom field broken in table \[[#52289](https://community.openproject.org/wp/52289)\]
-- Bugfix: \[AppSignal\] undefined method `status' for HTTPX::ErrorResponse \[[#52446](https://community.openproject.org/wp/52446)\]
+- Bugfix: \[AppSignal\] undefined method status for HTTPX::ErrorResponse \[[#52446](https://community.openproject.org/wp/52446)\]
+- Bugfix: Global group memberships not correctly inherited to all members \[[#52528](https://community.openproject.org/wp/52528)\]
+- Bugfix: Internal server error when opening sprint wiki \[[#52530](https://community.openproject.org/wp/52530)\]
+- Bugfix: Users can enter any work package id when setting a work package's parent \[[#52556](https://community.openproject.org/wp/52556)\]
+- Bugfix: User activity feed should only show the activities of the user \[[#52561](https://community.openproject.org/wp/52561)\]
+- Bugfix: Error "0: Unknown error" when request is cancelled \[[#52562](https://community.openproject.org/wp/52562)\]
 - Bugfix: Untranslated work package roles \[[#52598](https://community.openproject.org/wp/52598)\]
+- Bugfix: User invitations via members screen no longer working \[[#52606](https://community.openproject.org/wp/52606)\]
 - Bugfix: Users involved in work packages sharing are duplicated in project storage members list.  \[[#52673](https://community.openproject.org/wp/52673)\]
+- Bugfix: Forbidden access error when accessing public work package anonymously \[[#52752](https://community.openproject.org/wp/52752)\]
+- Bugfix: Incorrect CSP for Nextcloud storage configured with non-standard port \[[#52779](https://community.openproject.org/wp/52779)\]
 - Feature: Nudge admin to go through OAuth flow \[[#49396](https://community.openproject.org/wp/49396)\]
 - Feature: "% Complete" field split to own value and derived value \[[#51188](https://community.openproject.org/wp/51188)\]
 - Feature: Adapt onboarding tour to new Gantt module \[[#51354](https://community.openproject.org/wp/51354)\]
@@ -64,6 +79,7 @@ With this release, admins of an Enterprise edition can choose between manually o
 - Feature: Have persisted project lists (only filters) \[[#51666](https://community.openproject.org/wp/51666)\]
 - Feature: Add and remove user from automatically managed folders on SharePoint/OneDrive \[[#51711](https://community.openproject.org/wp/51711)\]
 - Feature: Add, remove and rename folders in SharePoint/OneDrive \[[#51712](https://community.openproject.org/wp/51712)\]
+- Feature: Background cron sync job \[[#51714](https://community.openproject.org/wp/51714)\]
 - Feature: Move filters toggle and "+Project"-Button from header into content \[[#51778](https://community.openproject.org/wp/51778)\]
 - Feature: User identifier saved in OAuthToken \[[#51783](https://community.openproject.org/wp/51783)\]
 - Feature: Create/edit SharePoint/OneDrive storages for automatically managed folders \[[#51841](https://community.openproject.org/wp/51841)\]
@@ -81,6 +97,6 @@ A very special thank you goes to our sponsors for features and improvements of t
 - City of Cologne for sponsoring the new features for the project lists
 - Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
 
-We also want to thank our Community members, particularly James Neale, Jeff Li, Christian Jeschke, Sreekanth Gopalakris and Jörg Mollowitz, for reporting bugs and helping us identify and provide fixes.
+We also want to thank our Community members, particularly James Neale, TARIQ YASIN, Jeff Li, Christian Jeschke, Sreekanth Gopalakris, Jörg Mollowitz, Sven Kunze, Steffen Kirschke, and Valeria Aguzzi for reporting bugs and helping us identify and provide fixes.
 
 A big thank you to every other dedicated user who has [reported bugs](../../development/report-a-bug), supported the community by asking and answering questions in the [forum](https://community.openproject.org/projects/openproject/boards) and provided translations on [CrowdIn](https://crowdin.com/projects/opf).
