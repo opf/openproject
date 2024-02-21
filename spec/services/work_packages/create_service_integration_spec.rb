@@ -119,8 +119,8 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
         project:,
         done_ratio: 50,
         parent:,
-        start_date: Date.today,
-        due_date: Date.today + 3.days }
+        start_date: Date.current,
+        due_date: Date.current + 3.days }
     end
 
     it 'creates the work_package with the provided attributes and sets the user as a watcher' do
