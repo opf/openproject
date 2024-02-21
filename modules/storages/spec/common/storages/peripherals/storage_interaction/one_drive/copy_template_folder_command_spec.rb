@@ -50,7 +50,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
 
   shared_let(:source_path) { base_template_folder.id }
 
-  it 'is registered under commands.one_drive.copy_template_folder' do
+  it 'is registered under commands.one_drive.copy_template_folder',
+     skip: 'Skipped while we decide on what to do with the copy project folder' do
     expect(Storages::Peripherals::Registry.resolve('commands.one_drive.copy_template_folder')).to eq(described_class)
   end
 
@@ -65,7 +66,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
   end
 
   it "destination_path and source_path can't be empty" do
-    expect { described_class.call(storage:, source_path: '', destination_path: nil) }.to raise_error ArgumentError
+    missing_source = described_class.call(storage:, source_path: '', destination_path: 'Path')
+    missing_path = described_class.call(storage:, source_path: 'Path', destination_path: nil)
+    missing_both = described_class.call(storage:, source_path: nil, destination_path: '')
+
+    expect([missing_both, missing_path, missing_source]).to all(be_failure)
   end
 
   describe '#call' do

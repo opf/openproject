@@ -61,10 +61,14 @@ class Storages::ProjectStorage < ApplicationRecord
   end
 
   def project_folder_path
-    return "#{storage.group_folder}/#{project.name.tr('/', '|')} (#{project.id})/" if storage.provider_type_nextcloud?
-    return "#{project.name.gsub(/[\\<>+?:"|\/]/, '_')} (#{project.id})" if storage.provider_type_one_drive?
-
-    raise 'Unknown Storage'
+    case storage.short_provider_type
+    when 'nextcloud'
+      "#{storage.group_folder}/#{project.name.tr('/', '|')} (#{project.id})/"
+    when 'one_drive'
+      "#{project.name.gsub(/[\\<>+?:"|\/]/, '_')} (#{project.id})"
+    else
+      raise 'Unknown Storage'
+    end
   end
 
   def project_folder_location

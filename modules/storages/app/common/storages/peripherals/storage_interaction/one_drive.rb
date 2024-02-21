@@ -46,7 +46,6 @@ module Storages
 
         Commands = Dry::Container::Namespace.new('commands') do
           namespace('one_drive') do
-            register(:copy_template_folder, CopyTemplateFolderCommand)
             register(:create_folder, CreateFolderCommand)
             register(:delete_folder, DeleteFolderCommand)
             register(:rename_file, RenameFileCommand)

@@ -84,7 +84,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def remote_folder_does_not_exist?(destination_url)
-      response = OpenProject.httpx.basic_auth(@username, @password).head(destination_url)
+      response = OpenProject.httpx.basic_auth(@storage.username, @storage.password).head(destination_url)
 
       case response
       in { status: 200..299 }
@@ -101,7 +101,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def copy_folder(source_url:, destination_url:)
       response = OpenProject
         .httpx
-        .basic_auth(@username, @password)
+        .basic_auth(@storage.username, @storage.password)
         .request('COPY', source_url, headers: { 'Destination' => destination_url, 'Depth' => 'infinity' })
 
       case response

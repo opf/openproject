@@ -34,19 +34,25 @@ module Storages
       module OneDrive
         class CopyTemplateFolderCommand
           def self.call(storage:, source_path:, destination_path:)
-            raise ArgumentError if source_path.blank? || destination_path.blank?
+            if source_path.blank? || destination_path.blank?
+              return ServiceResult.failure(
+                result: :error,
+                errors: StorageError.new(code: :error,
+                                         log_message: 'Both source and destination paths need to be present')
+              )
+            end
 
-            new(storage).call(source_path, destination_path)
+            new(storage).call(source_location: source_path, destination_name: destination_path)
           end
 
           def initialize(storage)
             @storage = storage
           end
 
-          def call(source_path, destination_path)
+          def call(source_location:, destination_name:)
             Util.using_admin_token(@storage) do |httpx|
               handle_response(
-                httpx.post(copy_path_for(source_path), json: payload(destination_path))
+                httpx.post(copy_path_for(source_location), json: { name: destination_name })
               )
             end
           end
@@ -79,10 +85,8 @@ module Storages
             match_data[:item_id] if match_data
           end
 
-          def payload(destination_path) = { name: destination_path }
-
-          def copy_path_for(path)
-            "/v1.0/drives/#{@storage.drive_id}/items/#{path}/copy?@microsoft.graph.conflictBehavior=fail"
+          def copy_path_for(source_location)
+            "/v1.0/drives/#{@storage.drive_id}/items/#{source_location}/copy?@microsoft.graph.conflictBehavior=fail"
           end
         end
       end
