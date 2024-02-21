@@ -120,6 +120,8 @@ class WorkPackages::UpdateAncestorsService
   end
 
   def compute_derived_done_ratio(work_package, loader)
+    return if work_package.derived_estimated_hours.nil? || work_package.derived_remaining_hours.nil?
+
     leaves = loader.leaves_of(work_package)
 
     if leaves.size.positive?
