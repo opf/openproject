@@ -60,7 +60,7 @@ module Storages::Peripherals::StorageInteraction::OneDrive
           queue.concat(to_queue)
         end
 
-        file_ids_dictionary
+        ServiceResult.success(result: file_ids_dictionary)
       end
     end
 
@@ -121,13 +121,13 @@ module Storages::Peripherals::StorageInteraction::OneDrive
         ServiceResult.success(result: response.json(symbolize_keys: true))
       in { status: 404 }
         ServiceResult.failure(result: :not_found,
-                              errors: UTIL.storage_error(response:, code: :not_found, source: self))
+                              errors: Util.storage_error(response:, code: :not_found, source: self))
       in { status: 403 }
         ServiceResult.failure(result: :forbidden,
-                              errors: UTIL.storage_error(response:, code: :forbidden, source: self))
+                              errors: Util.storage_error(response:, code: :forbidden, source: self))
       in { status: 401 }
         ServiceResult.failure(result: :unauthorized,
-                              errors: UTIL.storage_error(response:, code: :unauthorized, source: self))
+                              errors: Util.storage_error(response:, code: :unauthorized, source: self))
       else
         data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
         ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
