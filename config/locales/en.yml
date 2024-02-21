@@ -3029,14 +3029,14 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       label_new_section: "Section"
       label_edit_section: "Edit title"
       label_section_actions: "Section actions"
-      heading_description: "These project attributes appear in the project overview of each project. You can add new attributes and group them into sections. Individual attributes can be enabled or disabled at a project level."
+      heading_description: "These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level."
       label_project_custom_field_actions: "Project attribute actions"
       label_no_project_custom_fields: "No project attributes defined in this section"
       edit:
-        description: "Set the details of the project attribute that will be selectable by project administrators in each individual project settings."
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
       new:
         heading: "New attribute"
-        description: "Set the details of the project attribute that will be selectable by project administrators in each individual project settings."
+        description: "Changes to this project attribute will be reflected in all projects where it is enabled. Required attributes cannot be disabled on a per-project basis."
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
