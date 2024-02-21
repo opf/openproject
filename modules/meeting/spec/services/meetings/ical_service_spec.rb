@@ -29,17 +29,22 @@
 require 'spec_helper'
 
 RSpec.describe Meetings::ICalService, type: :model do
-  let(:user) { build_stubbed(:user, firstname: 'Bob', lastname: 'Barker') }
-  let(:project) { build_stubbed(:project, name: 'My Project') }
+  shared_let(:user) { create(:user, firstname: 'Bob', lastname: 'Barker', mail: 'bob@example.com') }
+  shared_let(:user2) { create(:user, firstname: 'Foo', lastname: 'Fooer', mail: 'foo@example.com') }
+  shared_let(:project) { create(:project, name: 'My Project') }
 
-  let(:meeting) do
-    build_stubbed(:meeting,
-                  author: user,
-                  project:,
-                  title: 'Important meeting',
-                  location: 'https://example.com/meet/important-meeting',
-                  start_time: Time.zone.parse("2021-01-19T10:00:00Z"),
-                  duration: 1.0)
+  shared_let(:meeting) do
+    create(:meeting,
+           author: user,
+           project:,
+           title: 'Important meeting',
+           participants: [
+             MeetingParticipant.new(user:),
+             MeetingParticipant.new(user: user2)
+           ],
+           location: 'https://example.com/meet/important-meeting',
+           start_time: Time.zone.parse("2021-01-19T10:00:00Z"),
+           duration: 1.0)
   end
 
   let(:service) { described_class.new(user:, meeting:) }
@@ -68,6 +73,7 @@ RSpec.describe Meetings::ICalService, type: :model do
     it 'renders the ICS file', :aggregate_failures do
       expect(result).to be_a String
 
+      expect(entry.attendee.map(&:to_s)).to contain_exactly('mailto:foo@example.com', 'mailto:bob@example.com')
       expect(entry.dtstart.utc).to eq meeting.start_time
       expect(entry.dtend.utc).to eq meeting.start_time + 1.hour
       expect(entry.summary).to eq '[My Project] Important meeting'
