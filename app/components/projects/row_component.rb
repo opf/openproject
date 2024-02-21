@@ -58,7 +58,7 @@ module Projects
       custom_value = project.formatted_custom_value_for(cf)
 
       if cf.field_format == 'text' && custom_value.present?
-        content_tag :div, custom_value.html_safe, class: 'project-long-text' # rubocop:disable Rails/OutputSafety
+        content_tag :div, custom_value.html_safe, class: 'project-long-text', column_title: cf.name # rubocop:disable Rails/OutputSafety
       elsif custom_value.is_a?(Array)
         safe_join(Array(custom_value).compact_blank, ', ')
       else
@@ -113,7 +113,7 @@ module Projects
       return nil unless user_can_view_project?
 
       if project.status_explanation
-        content_tag :div, helpers.format_text(project.status_explanation), class: 'project-long-text'
+        content_tag :div, helpers.format_text(project.status_explanation), class: 'project-long-text', column_title: I18n.t('activerecord.attributes.project.status_explanation')
       end
     end
 
@@ -121,7 +121,7 @@ module Projects
       return nil unless user_can_view_project?
 
       if project.description.present?
-        content_tag :div, helpers.format_text(project.description), class: 'project-long-text'
+        content_tag :div, helpers.format_text(project.description), class: 'project-long-text', column_title: I18n.t('activerecord.attributes.project.status_explanation')
       end
     end
 

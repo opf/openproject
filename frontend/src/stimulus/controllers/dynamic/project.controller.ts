@@ -33,16 +33,6 @@ import { Controller } from '@hotwired/stimulus';
 import { ModalDialogElement } from '@openproject/primer-view-components/app/components/primer/alpha/modal_dialog';
 
 export default class ProjectController extends Controller {
-  static targets = [
-    'descriptionToggle',
-    'projectRow',
-    'descriptionRow',
-  ];
-
-  declare readonly descriptionToggleTargets:HTMLAnchorElement[];
-  declare readonly projectRowTargets:HTMLTableRowElement[];
-  declare readonly descriptionRowTargets:HTMLTableRowElement[];
-
   connect():void {
     const longTexts = document.querySelectorAll('.long-text-container');
     longTexts.forEach((e) => {
@@ -68,10 +58,13 @@ export default class ProjectController extends Controller {
               a.addEventListener('click', () => {
                 const modal = document.querySelector('#longTextModal') as ModalDialogElement;
                 const modalBody = modal.querySelector('.Overlay-body');
+                const modalHeader = modal.querySelector('#longTextModal-title');
                 // show the original text inside the modal
                 const hideChild = e.querySelector('#hidden');
-                if (modalBody && hideChild) {
+                const headerTitle = e.firstElementChild?.getAttribute("column_title");
+                if (modalBody && modalHeader && hideChild) {
                   modalBody.innerHTML = (hideChild.innerHTML || '');
+                  modalHeader.innerHTML = headerTitle || '';
                   modal.show();
                 }
               });
