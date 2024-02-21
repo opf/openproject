@@ -29,7 +29,7 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :webmock do
+RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_access_grant", :webmock do
   shared_let(:user) { create(:user, preferences: { time_zone: 'Etc/UTC' }) }
 
   shared_let(:role) do
@@ -49,74 +49,72 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
   end
   shared_let(:project_storage) { create(:project_storage, project:, storage:) }
 
-  describe '#oauth_access_grant' do
-    context 'when user is not logged in' do
-      it 'requires login' do
+  context 'when user is not logged in' do
+    it 'requires login' do
+      get oauth_access_grant_project_settings_project_storage_path(
+        project_id: project_storage.project.id,
+        id: project_storage
+      )
+      expect(last_response.status).to eq(401)
+    end
+  end
+
+  context 'when user is logged in' do
+    before { login_as(user) }
+
+    context 'when user is not "connected"' do
+      let(:nonce) { '57a17c3f-b2ed-446e-9dd8-651ba3aec37d' }
+      let(:redirect_uri) do
+        CGI.escape("#{OpenProject::Application.root_url}/oauth_clients/#{storage.oauth_client.client_id}/callback")
+      end
+
+      before do
+        allow(SecureRandom).to receive(:uuid).and_call_original.ordered
+        allow(SecureRandom).to receive(:uuid).and_return(nonce).ordered
+      end
+
+      it 'redirects to storage authorization_uri with oauth_state_* cookie set' do
         get oauth_access_grant_project_settings_project_storage_path(
           project_id: project_storage.project.id,
           id: project_storage
         )
-        expect(last_response.status).to eq(401)
+        expect(last_response.status).to eq(302)
+        expect(last_response.location).to eq(
+          "#{storage.host}/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
+          "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}"
+        )
+
+        expect(last_response.cookies["oauth_state_#{nonce}"])
+          .to eq([CGI.escape({ href: "http://example.org/projects/#{project.id}/settings/project_storages",
+                               storageId: project_storage.storage_id }.to_json)])
       end
     end
 
-    context 'when user is logged in' do
-      before { login_as(user) }
+    context 'when user is "connected"' do
+      shared_let(:oauth_client_token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user:) }
 
-      context 'when user is not "connected"' do
-        let(:nonce) { '57a17c3f-b2ed-446e-9dd8-651ba3aec37d' }
-        let(:redirect_uri) do
-          CGI.escape("#{OpenProject::Application.root_url}/oauth_clients/#{storage.oauth_client.client_id}/callback")
-        end
-
-        before do
-          allow(SecureRandom).to receive(:uuid).and_call_original.ordered
-          allow(SecureRandom).to receive(:uuid).and_return(nonce).ordered
-        end
-
-        it 'redirects to storage authorization_uri with oauth_state_* cookie set' do
-          get oauth_access_grant_project_settings_project_storage_path(
-            project_id: project_storage.project.id,
-            id: project_storage
-          )
-          expect(last_response.status).to eq(302)
-          expect(last_response.location).to eq(
-            "#{storage.host}/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
-            "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}"
-          )
-
-          expect(last_response.cookies["oauth_state_#{nonce}"])
-            .to eq([CGI.escape({ href: "http://example.org/projects/#{project.id}/settings/project_storages",
-                                 storageId: project_storage.storage_id }.to_json)])
-        end
+      before do
+        oauth_client_token
+        stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user")
+          .with(
+            headers: {
+              'Accept' => 'application/json',
+              'Authorization' => "Bearer #{oauth_client_token.access_token}",
+              'Ocs-Apirequest' => 'true'
+            }
+          ).to_return(status: 200, body: "", headers: {})
       end
 
-      context 'when user is "connected"' do
-        shared_let(:oauth_client_token) { create(:oauth_client_token, oauth_client: storage.oauth_client, user:) }
+      it 'redirects to destination_url' do
+        get oauth_access_grant_project_settings_project_storage_path(
+          project_id: project_storage.project.id,
+          id: project_storage
+        )
 
-        before do
-          oauth_client_token
-          stub_request(:get, "#{storage.host}/ocs/v1.php/cloud/user")
-            .with(
-              headers: {
-                'Accept' => 'application/json',
-                'Authorization' => "Bearer #{oauth_client_token.access_token}",
-                'Ocs-Apirequest' => 'true'
-              }
-            ).to_return(status: 200, body: "", headers: {})
-        end
-
-        it 'redirects to destination_url' do
-          get oauth_access_grant_project_settings_project_storage_path(
-            project_id: project_storage.project.id,
-            id: project_storage
-          )
-
-          storage.oauth_client
-          expect(last_response.status).to eq(302)
-          expect(last_response.location).to eq("http://example.org/projects/#{project.id}/settings/project_storages")
-          expect(last_response.cookies.keys).to eq(["_open_project_session"])
-        end
+        storage.oauth_client
+        expect(last_response.status).to eq(302)
+        expect(last_response.location).to eq("http://example.org/projects/#{project.id}/settings/project_storages")
+        expect(last_response.cookies.keys).to eq(["_open_project_session"])
       end
     end
   end
