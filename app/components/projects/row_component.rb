@@ -57,8 +57,8 @@ module Projects
       cf = custom_field(column)
       custom_value = project.formatted_custom_value_for(cf)
 
-      if cf.field_format == 'text'
-        content_tag :div, custom_value.html_safe, class: 'op-uc-p' # rubocop:disable Rails/OutputSafety
+      if cf.field_format == 'text' && custom_value.present?
+        content_tag :div, custom_value.html_safe, class: 'project-long-text' # rubocop:disable Rails/OutputSafety
       elsif custom_value.is_a?(Array)
         safe_join(Array(custom_value).compact_blank, ', ')
       else
@@ -113,15 +113,15 @@ module Projects
       return nil unless user_can_view_project?
 
       if project.status_explanation
-        content_tag :div, helpers.format_text(project.status_explanation), class: 'op-uc-p'
+        content_tag :div, helpers.format_text(project.status_explanation), class: 'project-long-text'
       end
     end
 
     def description
       return nil unless user_can_view_project?
 
-      if project.description
-        content_tag :div, helpers.format_text(project.description), class: 'op-uc-p'
+      if project.description.present?
+        content_tag :div, helpers.format_text(project.description), class: 'project-long-text'
       end
     end
 
@@ -167,10 +167,10 @@ module Projects
       when :name
         "project--hierarchy #{project.archived? ? 'archived' : ''}"
       when :status_explanation, :description
-        "long-text-truncation"
+        "long-text-container"
       when /\Acf_/
         cf = custom_field(column)
-        formattable = cf.field_format == 'text' ? ' long-text-truncation' : ''
+        formattable = cf.field_format == 'text' ? ' long-text-container' : ''
         "format-#{cf.field_format}#{formattable}"
       end
     end
