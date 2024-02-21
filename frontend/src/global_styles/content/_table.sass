@@ -165,7 +165,7 @@ table.generic-table
       border-bottom: 1px solid var(--table-border-color)
 
     @media screen
-      td:not(.-no-ellipsis)
+      td:not(.-no-ellipsis), td:not(.long-text-truncation)
         @include text-shortener
 
     .project td
@@ -386,5 +386,3 @@ thead.-sticky th
   display: flex
   .op-uc-p
     @include text-shortener
-  .wiki
-    overflow: hidden

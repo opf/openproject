@@ -47,17 +47,31 @@ export default class ProjectController extends Controller {
     const longTexts = document.querySelectorAll('.long-text-truncation');
     longTexts.forEach((e) => {
       const children = e.querySelectorAll('.op-uc-p');
+      // create a hidden child to keep the original cell value with html tags
+      const hiddenChild = document.createElement('div');
+      hiddenChild.style.display = 'none';
+      hiddenChild.id = 'hidden';
+      hiddenChild.innerHTML = e.innerHTML || '';
+      e.appendChild(hiddenChild);
       if (children.length) {
-        const isEllipssed= this.isEllipsisActive(children[0] as HTMLElement);
-        if (isEllipssed) {
+        const firstChild = children[0] as HTMLElement;
+        // check if there is html tag in text
+        const htmlRegex = RegExp.prototype.test.bind(/(<([^>]+)>)/gi);
+        const hasHtmltag = htmlRegex(firstChild.innerHTML|| '');
+        // remove html tags from the text
+        firstChild.textContent = (firstChild.textContent || '').replace(/(<([^>]+)>)/gi, ' ');
+        const isEllipssed= this.isEllipsisActive(firstChild);
+        if (isEllipssed || hasHtmltag) {
           const a = document.createElement('a');
           a.href = '#';
           a.textContent = I18n.t('js.label_expand');
           a.addEventListener('click', () => {
             const modal = document.querySelector('#longTextModal') as ModalDialogElement;
             const modalBody = modal.querySelector('.Overlay-body');
-            if (modalBody && a.previousElementSibling) {
-              modalBody.textContent = a.previousElementSibling.textContent;
+            // show the original text inside the modal
+            const hideChild = e.querySelector('#hidden');
+            if (modalBody && hideChild) {
+              modalBody.innerHTML = (hideChild.innerHTML || '');
               modal.show();
             }
           });
