@@ -40,6 +40,7 @@ module Storages
           end
 
           def initialize(storage)
+            @storage = storage
             @delegate = Internal::DriveItemQuery.new(storage)
           end
 
