@@ -26,7 +26,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<%= toolbar title: t(:'settings.antivirus.title') %>
+<%= render(Primer::OpenProject::PageHeader.new) do |header| %>
+  <% header.with_title do %>
+    <%= t('settings.antivirus.title') %>
+  <% end %>
+<% end %>
 
 <%= styled_form_tag(
       admin_settings_virus_scanning_path,
