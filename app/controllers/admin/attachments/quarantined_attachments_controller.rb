@@ -55,6 +55,10 @@ module Admin
         t('antivirus_scan.quarantined_attachments.title')
       end
 
+      def show_local_breadcrumb
+        true
+      end
+
       private
 
       def create_journal(container, user, notes)
