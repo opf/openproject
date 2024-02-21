@@ -61,7 +61,7 @@ export default class ProjectController extends Controller {
                 const modalHeader = modal.querySelector('#longTextModal-title');
                 // show the original text inside the modal
                 const hideChild = e.querySelector('#hidden');
-                const headerTitle = e.firstElementChild?.getAttribute("column_title");
+                const headerTitle = e.firstElementChild?.getAttribute('column_title');
                 if (modalBody && modalHeader && hideChild) {
                   modalBody.innerHTML = (hideChild.innerHTML || '');
                   modalHeader.innerHTML = headerTitle || '';
