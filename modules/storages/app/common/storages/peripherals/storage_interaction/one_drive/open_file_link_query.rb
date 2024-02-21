@@ -46,24 +46,26 @@ module Storages
           def call(user:, file_id:, open_location: false)
             @user = user
 
-            if open_location
-              request_parent_id.call(file_id) >> request_web_url
-            else
-              request_web_url.call(file_id)
+            Util.using_user_token(@storage, user) do |token|
+              if open_location
+                request_parent_id(token).call(file_id) >> request_web_url(token)
+              else
+                request_web_url(token).call(file_id)
+              end
             end
           end
 
           private
 
-          def request_web_url
+          def request_web_url(token)
             ->(file_id) do
-              @delegate.call(user: @user, drive_item_id: file_id, fields: %w[webUrl]).map(&web_url)
+              @delegate.call(token:, drive_item_id: file_id, fields: %w[webUrl]).map(&web_url)
             end
           end
 
-          def request_parent_id
+          def request_parent_id(token)
             ->(file_id) do
-              @delegate.call(user: @user, drive_item_id: file_id, fields: %w[parentReference]).map(&parent_id)
+              @delegate.call(token:, drive_item_id: file_id, fields: %w[parentReference]).map(&parent_id)
             end
           end
 

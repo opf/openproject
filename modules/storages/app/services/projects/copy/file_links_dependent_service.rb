@@ -64,7 +64,7 @@ module Projects::Copy
                                                      file_ids: source_file_links.map(&:origin_id))
           folder_files_file_ids_deep_query_result = folder_files_file_ids_deep_query(
             storage:,
-            path: target_project_storage.managed_project_folder_path
+            location: target_project_storage.managed_project_folder_path
           )
           source_file_links.each do |old_file_link|
             attributes = {
@@ -120,10 +120,10 @@ module Projects::Copy
         .result
     end
 
-    def folder_files_file_ids_deep_query(storage:, path:)
+    def folder_files_file_ids_deep_query(storage:, location:)
       Storages::Peripherals::Registry
         .resolve("queries.#{storage.short_provider_type}.folder_files_file_ids_deep_query")
-        .call(storage:, path:)
+        .call(storage:, folder: Storages::Peripherals::ParentFolder.new(location))
         .on_failure { |r| add_error!("folder_files_file_ids_deep_query", r.to_active_model_errors) }
         .result
     end
