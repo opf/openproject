@@ -30,14 +30,14 @@ require 'spec_helper'
 require_module_spec_helper
 
 RSpec.describe Storages::Admin::OAuthAccessGrantNudgeModalComponent, type: :component do # rubocop:disable RSpec/SpecFilePathFormat
-  shared_let(:project_storage) { create(:project_storage) }
+  let(:project_storage) { build_stubbed(:project_storage) }
 
   before do
     render_inline(oauth_access_grant_nudge_modal_component)
   end
 
   context 'with access pending authorization' do
-    let(:oauth_access_grant_nudge_modal_component) { described_class.new(project_storage: project_storage.id) }
+    let(:oauth_access_grant_nudge_modal_component) { described_class.new(project_storage:) }
 
     it 'renders the nudge modal' do
       expect(page).to have_text('One more step...')
@@ -55,7 +55,7 @@ RSpec.describe Storages::Admin::OAuthAccessGrantNudgeModalComponent, type: :comp
 
   context 'with access authorized' do
     let(:oauth_access_grant_nudge_modal_component) do
-      described_class.new(project_storage_id: project_storage.id, authorized: true)
+      described_class.new(project_storage:, authorized: true)
     end
 
     it 'renders a success modal' do
