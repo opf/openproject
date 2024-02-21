@@ -149,14 +149,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
   def setup_template_folder
     raise if source_path.nil?
 
-    Storages::Peripherals::Registry
-      .resolve('commands.one_drive.create_folder')
-      .call(storage:, folder_path: 'Empty Subfolder', parent_location: source_path)
+    command = Storages::Peripherals::Registry
+      .resolve('commands.one_drive.create_folder').new(storage)
+    command.call(folder_path: 'Empty Subfolder', parent_location: source_path)
 
-    subfolder = Storages::Peripherals::Registry
-      .resolve('commands.one_drive.create_folder')
-      .call(storage:, folder_path: 'Subfolder with File', parent_location: source_path).result
-
+    subfolder = command.call(folder_path: 'Subfolder with File', parent_location: source_path).result
     file_name = 'files_query_root.yml'
     token = OAuthClientToken.last
 

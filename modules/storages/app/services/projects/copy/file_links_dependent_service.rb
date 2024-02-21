@@ -64,7 +64,7 @@ module Projects::Copy
                                                      file_ids: source_file_links.map(&:origin_id))
           folder_files_file_ids_deep_query_result = folder_files_file_ids_deep_query(
             storage:,
-            path: target_project_storage.project_folder_path
+            path: target_project_storage.managed_project_folder_path
           )
           source_file_links.each do |old_file_link|
             attributes = {

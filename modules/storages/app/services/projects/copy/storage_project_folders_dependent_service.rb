@@ -63,7 +63,7 @@ module Projects::Copy
 
     def copy_project_folder(source_project_storage, destination_project_storage)
       source_folder_name = source_project_storage.project_folder_location
-      destination_folder_name = destination_project_storage.project_folder_path
+      destination_folder_name = destination_project_storage.managed_project_folder_path
 
       Storages::Peripherals::Registry
         .resolve("commands.#{source_project_storage.storage.short_provider_type}.copy_template_folder")

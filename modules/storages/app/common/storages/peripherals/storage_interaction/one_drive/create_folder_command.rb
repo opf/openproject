@@ -35,8 +35,8 @@ module Storages
         class CreateFolderCommand
           using ServiceResultRefinements
 
-          def self.call(storage:, folder_path:, parent_location: nil)
-            new(storage).call(folder_path:, parent_location:)
+          def self.call(storage:, folder_path:)
+            new(storage).call(folder_path:)
           end
 
           def initialize(storage)

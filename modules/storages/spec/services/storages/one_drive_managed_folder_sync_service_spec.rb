@@ -358,7 +358,7 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
   end
 
   def create_folder_for(project_storage, folder_override = nil)
-    folder_path = folder_override || project_storage.project_folder_path
+    folder_path = folder_override || project_storage.managed_project_folder_path
 
     Storages::Peripherals::Registry.resolve('commands.one_drive.create_folder')
                                    .call(storage: project_storage.storage, folder_path:)

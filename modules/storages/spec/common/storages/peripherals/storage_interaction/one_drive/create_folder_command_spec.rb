@@ -48,7 +48,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
     expect(described_class).to respond_to(:call)
 
     method = described_class.method(:call)
-    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq folder_path], %i[key parent_location])
+    expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq folder_path])
   end
 
   it 'is registered as create_folder' do
@@ -67,7 +67,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
 
   it 'creates a sub folder', vcr: 'one_drive/create_folder_sub_folder' do
     folder = described_class.call(storage:, folder_path:).result
-    sub_folder = described_class.call(storage:, folder_path: "Another Folder", parent_location: folder.id).result
+    sub_folder = described_class.new(storage).call(folder_path: "Another Folder", parent_location: folder.id).result
 
     expect(sub_folder.name).to eq("Another Folder")
     expect(sub_folder.location).to eq("/#{folder_path}/Another Folder")

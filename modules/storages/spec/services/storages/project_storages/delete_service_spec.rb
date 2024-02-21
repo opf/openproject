@@ -132,7 +132,7 @@ RSpec.describe Storages::ProjectStorages::DeleteService, :webmock, type: :model 
     let(:factory) { :project_storage }
     let(:host) { model_instance.storage.host }
     let(:username) { model_instance.storage.username }
-    let(:path) { model_instance.project_folder_path.chop }
+    let(:path) { model_instance.managed_project_folder_path.chop }
     let(:delete_folder_url) do
       "#{host}/remote.php/dav/files/#{username}/#{path}/"
     end

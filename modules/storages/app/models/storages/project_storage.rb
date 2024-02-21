@@ -60,7 +60,7 @@ class Storages::ProjectStorage < ApplicationRecord
     storage.present? && storage.automatic_management_enabled?
   end
 
-  def project_folder_path
+  def managed_project_folder_path
     case storage.short_provider_type
     when 'nextcloud'
       "#{storage.group_folder}/#{project.name.tr('/', '|')} (#{project.id})/"
@@ -74,7 +74,7 @@ class Storages::ProjectStorage < ApplicationRecord
   def project_folder_location
     case storage.short_provider_type
     when 'nextcloud'
-      project_folder_path
+      managed_project_folder_path
     when 'one_drive'
       project_folder_id
     else
@@ -83,7 +83,7 @@ class Storages::ProjectStorage < ApplicationRecord
   end
 
   def project_folder_path_escaped
-    escape_path(project_folder_path)
+    escape_path(managed_project_folder_path)
   end
 
   def file_inside_project_folder?(escaped_file_path)
