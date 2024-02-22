@@ -318,9 +318,9 @@ group :development, :test do
   gem 'debug'
 
   gem 'pry-byebug', '~> 3.10.0', platforms: [:mri]
+  gem 'pry-doc'
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.6.0'
-  gem 'pry-doc'
 
   # ruby linting
   gem 'rubocop', require: false
