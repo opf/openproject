@@ -48,6 +48,7 @@ class Authorization::EnterpriseService
     work_package_query_relation_columns
     work_package_sharing
     one_drive_sharepoint_file_storage
+    virus_scanning
   ).freeze
 
   def initialize(token)

@@ -36,6 +36,8 @@ OpenProject::Inflector.rule do |basename, abspath|
     "#{default_inflect($1, abspath)}OAuth"
   when 'oauth'
     'OAuth'
+  when /\Aclamav_(.*)\z/
+    "ClamAV#{default_inflect($1, abspath)}"
   when /\A(.*)_sso\z/
     "#{default_inflect($1, abspath)}SSO"
   end
@@ -62,7 +64,8 @@ OpenProject::Inflector.inflection(
   'cors' => 'CORS',
   'openid_connect' => 'OpenIDConnect',
   'pdf_export' => 'PDFExport',
-  'ical' => 'ICal'
+  'ical' => 'ICal',
+  'clamav' => 'ClamAV'
 )
 
 Rails.autoloaders.each do |autoloader|
