@@ -74,7 +74,7 @@ module Admin::Settings
       # needs refactoring via update service
       @custom_field.move_to = params[:move_to]&.to_sym
 
-      update_sections_via_turbo_stream(project_custom_field_sections: @custom_field_sections)
+      update_sections_via_turbo_stream(project_custom_field_sections: @project_custom_field_sections)
 
       respond_with_turbo_streams
     end

@@ -11,7 +11,7 @@
               tag: :a,
               href: new_admin_settings_project_custom_field_path(type: "ProjectCustomField"),
               scheme: :primary,
-              data: { turbo: "false"}
+              data: { turbo: "false", qa_selector: "new-project-custom-field-button" }
             )) do |button|
               button.with_leading_visual_icon(icon: :plus)
               t('settings.project_attributes.label_new_attribute')
