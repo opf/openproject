@@ -59,7 +59,12 @@ module Projects
       custom_value = project.formatted_custom_value_for(cf)
 
       if cf.field_format == 'text' && custom_value.present?
-        custom_value.html_safe # rubocop:disable Rails/OutputSafety
+
+        concat content_tag :div, Nokogiri::HTML(custom_value).text, class: 'project-long-text', id: "#{project.id}-cf-#{cf.id}"
+        render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-cf-#{cf.id}", title: cf.name)) do |component|
+          component.with_show_button(scheme: :link, display: :none) { I18n.t('js.label_expand') }
+          component.with_body { helpers.format_text(custom_value.html_safe) } # rubocop:disable Rails/OutputSafety
+        end
       elsif custom_value.is_a?(Array)
         safe_join(Array(custom_value).compact_blank, ', ')
       else
