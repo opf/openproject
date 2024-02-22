@@ -25,10 +25,8 @@ export interface DraggableOption {
   id:string;
 }
 
-export const opDraggableAutocompleteSelector = 'opce-draggable-autocompleter';
-
 @Component({
-  selector: opDraggableAutocompleteSelector,
+  selector: 'op-draggable-autocompleter',
   templateUrl: './draggable-autocomplete.component.html',
   styleUrls: ['./draggable-autocomplete.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,6 +39,9 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   @Input() autofocus = true;
 
   @Input() name = '';
+
+  /** Id of the autocompleter input */
+  @Input() id = this.name;
 
   /** Label to display above the autocompleter */
   @Input() inputLabel = '';
@@ -65,6 +66,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   private columnsGroup:Group;
 
   @ViewChild('ngSelectComponent') public ngSelectComponent:NgSelectComponent;
+  @ViewChild('input') inputElement:ElementRef;
 
   constructor(
     readonly I18n:I18nService,
@@ -116,6 +118,12 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   ngAfterViewInit():void {
     if (this.autofocus) {
       this.ngSelectComponent.focus();
+    }
+
+    // Set the id of the input so that it matches the label.
+    const input = this.ngSelectComponent.element.querySelector('input');
+    if (input) {
+      input.id = this.id;
     }
   }
 

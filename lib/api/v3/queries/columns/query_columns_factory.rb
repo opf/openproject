@@ -34,9 +34,9 @@ module API
           def self.representer(column)
             case column
             when ::Queries::WorkPackages::Selects::RelationToTypeSelect
-              ::API::V3::Queries::Columns::QueryQueries::WorkPackages::Selects::RelationToTypeSelectRepresenter
+              ::API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter
             when ::Queries::WorkPackages::Selects::RelationOfTypeSelect
-              ::API::V3::Queries::Columns::QueryQueries::WorkPackages::Selects::RelationOfTypeSelectRepresenter
+              ::API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter
             else
               ::API::V3::Queries::Columns::QueryPropertyColumnRepresenter
             end

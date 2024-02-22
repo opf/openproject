@@ -44,6 +44,24 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
               :summable_select,
               :summable_work_packages_select
 
+  def self.instances(_context = nil)
+    new
+  end
+
+  def self.scoped_column_sum(scope, select, group_by)
+    scope = scope
+              .except(:order, :select)
+
+    if group_by
+      scope
+        .group(group_by)
+        .select("#{group_by} id", select)
+    else
+      scope
+        .select(select)
+    end
+  end
+
   def sortable_join_statement(_query)
     sortable_join
   end
@@ -102,26 +120,6 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
     model.send name
   end
 
-  def self.instances(_context = nil)
-    new
-  end
-
-  protected
-
-  def name_or_value_or_false(value)
-    # This is different from specifying value = nil in the signature
-    # in that it will also set the value to false if nil is provided.
-    value ||= false
-
-    # Explicitly checking for true because apparently, we do not want
-    # truish values to count here.
-    if value == true
-      name.to_s
-    else
-      value
-    end
-  end
-
   def initialize(name, options = {})
     self.name = name
 
@@ -145,17 +143,19 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
     WorkPackage.human_attribute_name(name)
   end
 
-  def self.scoped_column_sum(scope, select, group_by)
-    scope = scope
-              .except(:order, :select)
+  protected
 
-    if group_by
-      scope
-        .group(group_by)
-        .select("#{group_by} id", select)
+  def name_or_value_or_false(value)
+    # This is different from specifying value = nil in the signature
+    # in that it will also set the value to false if nil is provided.
+    value ||= false
+
+    # Explicitly checking for true because apparently, we do not want
+    # truish values to count here.
+    if value == true
+      name.to_s
     else
-      scope
-        .select(select)
+      value
     end
   end
 end

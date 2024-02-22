@@ -158,7 +158,6 @@ en:
     description_available_columns: "Available Columns"
     description_current_position: "You are here: "
     description_select_work_package: "Select work package #%{id}"
-    description_selected_columns: "Selected Columns"
     description_subwork_package: "Child of work package #%{id}"
     editor:
       preview: 'Toggle preview mode'

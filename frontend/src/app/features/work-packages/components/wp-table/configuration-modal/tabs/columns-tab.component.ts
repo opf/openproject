@@ -27,7 +27,6 @@ export class WpTableConfigurationColumnsTabComponent implements TabComponent, On
   public text = {
     columnsHelp: this.I18n.t('js.work_packages.table_configuration.columns_help_text'),
     columnsLabel: this.I18n.t('js.label_columns'),
-    selectedColumns: this.I18n.t('js.description_selected_columns'),
     multiSelectLabel: this.I18n.t('js.work_packages.label_column_multiselect'),
 
     upsaleRelationColumns: this.I18n.t('js.work_packages.table_configuration.upsale.relation_columns'),
@@ -40,10 +39,9 @@ export class WpTableConfigurationColumnsTabComponent implements TabComponent, On
   };
 
   constructor(
-readonly injector:Injector,
+    readonly injector:Injector,
     readonly I18n:I18nService,
     readonly wpTableColumns:WorkPackageViewColumnsService,
-    readonly ConfigurationService:ConfigurationService,
     readonly bannerService:BannersService,
 ) {
   }

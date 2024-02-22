@@ -1,19 +1,12 @@
 <div class="columns-modal--content">
-  <label
-    [textContent]="text.selectedColumns"
-    class="hidden-for-sighted">
-  </label>
-
-  <opce-draggable-autocompleter [options]="availableColumnsOptions"
-                                [selected]="selectedColumns"
-                                [inputLabel]="text.inputLabel"
-                                [inputPlaceholder]="text.inputPlaceholder"
-                                [dragAreaLabel]="text.inputDragLabel">
-                                (onChange)="updateSelected($event)"
-
-  </opce-draggable-autocompleter>
-
-  <p class="form--inline-instructions" [textContent]="text.columnsHelp"></p>
+  <op-draggable-autocompleter [options]="availableColumnsOptions"
+                              [selected]="selectedColumns"
+                              [inputLabel]="text.inputLabel"
+                              [inputPlaceholder]="text.inputPlaceholder"
+                              [dragAreaLabel]="text.inputDragLabel"
+                              [id]="'columns-select'"
+                              (onChange)="updateSelected($event)">
+  </op-draggable-autocompleter>
 </div>
 
 <op-enterprise-banner class="ee-relation-columns-upsale"
