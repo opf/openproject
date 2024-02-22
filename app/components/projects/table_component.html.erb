@@ -76,17 +76,7 @@ See COPYRIGHT and LICENSE files for more details.
           <% end %>
           <th class="-right">
             <div class="generic-table--header-outer">
-              <div class="generic-table--header"
-                   data-controller="params-from-query"
-                   data-application-target="dynamic"
-                   data-params-from-query-all-anchors-value="true"
-                   data-params-from-query-allowed-value='["query_id", "per_page", "page", "sortBy", "filters"]'>
-                <% if params[:expand] == 'all' %>
-                  <%= link_to t(:button_collapse_all) %>
-                <% else %>
-                  <%= link_to t(:button_expand_all), { params: { expand: 'all' } } %>
-                <% end %>
-              </div>
+            <%= render(Primer::Beta::Octicon.new(:gear, size: :small)) %>
             </div>
           </th>
         </tr>
