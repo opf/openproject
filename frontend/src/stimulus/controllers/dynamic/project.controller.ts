@@ -32,43 +32,17 @@
 import { Controller } from '@hotwired/stimulus';
 
 export default class ProjectController extends Controller {
-  static targets = [
-    'descriptionToggle',
-    'projectRow',
-    'descriptionRow',
-  ];
-
-  declare readonly descriptionToggleTargets:HTMLAnchorElement[];
-  declare readonly projectRowTargets:HTMLTableRowElement[];
-  declare readonly descriptionRowTargets:HTMLTableRowElement[];
-
-  toggleDescription({ target, params: { projectId } }:{ target:HTMLAnchorElement, params:{ projectId:number } }) {
-    const toggledTrigger = target;
-    const otherTrigger = this.descriptionToggleTargets.find((trigger) => trigger !== toggledTrigger);
-    // The projectId action parameter is automatically typecast to Number
-    // and to compare it with a data attribute it needs to be converted to
-    // a string.
-    const clickedProjectRow = this.projectRowTargets.find((projectRow) => projectRow.getAttribute('data-project-id') === projectId.toString());
-    const projectDescriptionRow = this.descriptionRowTargets.find((descriptionRow) => descriptionRow.getAttribute('data-project-id') === projectId.toString());
-
-    if (clickedProjectRow && projectDescriptionRow) {
-      clickedProjectRow.classList.toggle('-no-highlighting');
-      clickedProjectRow.classList.toggle('-expanded');
-      projectDescriptionRow.classList.toggle('-expanded');
-
-      this.setAriaLive(projectDescriptionRow);
-    }
-
-    if (otherTrigger) {
-      otherTrigger.focus();
-    }
+  connect():void {
+    const longTexts = document.querySelectorAll('.project-long-text');
+    longTexts.forEach((e) => {
+      const isEllipssed= this.isEllipsisActive(e as HTMLElement);
+        if (isEllipssed) {
+          document.querySelectorAll(`[data-show-dialog-id=dialog-${e.id}]`)[0].classList.remove('d-none');
+        }
+    });
   }
 
-  private setAriaLive(descriptionRow:HTMLElement) {
-    if (descriptionRow.classList.contains('-expanded')) {
-      descriptionRow.setAttribute('aria-live', 'polite');
-    } else {
-      descriptionRow.removeAttribute('aria-live');
-    }
+  isEllipsisActive(e:HTMLElement) {
+    return (e.offsetWidth < e.scrollWidth);
   }
 }
