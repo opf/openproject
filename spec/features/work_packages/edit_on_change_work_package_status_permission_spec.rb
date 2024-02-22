@@ -37,7 +37,7 @@ RSpec.describe 'edit work package', :js do
            member_with_roles: { project => role })
   end
   let(:permissions) { %i[view_work_packages change_work_package_status] }
-  let(:role) { create(:project_role, permissions: permissions) }
+  let(:role) { create(:project_role, permissions:) }
 
   let(:type) { create(:type) }
   let(:project) { create(:project, types: [type]) }
@@ -48,7 +48,7 @@ RSpec.describe 'edit work package', :js do
            type_id: type.id,
            old_status: status_new,
            new_status: status_done,
-           role: role)
+           role:)
   end
   let(:work_package) do
     create(:work_package,
