@@ -30,9 +30,7 @@ require 'spec_helper'
 require_relative '../../support/pages/ifc_models/show_default'
 
 RSpec.describe 'Switching work package view',
-               :js,
-               with_ee: %i[conditional_highlighting],
-               with_config: { edition: 'bim' } do
+               :js, with_config: { edition: 'bim' }, with_ee: %i[conditional_highlighting] do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:wp_page) { Pages::IfcModels::ShowDefault.new(project) }
