@@ -33,13 +33,19 @@ export class WpTableConfigurationColumnsTabComponent implements TabComponent, On
     upsaleRelationColumns: this.I18n.t('js.work_packages.table_configuration.upsale.relation_columns'),
     upsaleCheckOutLink: this.I18n.t('js.work_packages.table_configuration.upsale.check_out_link'),
     moreInfoLink: enterpriseDocsUrl.website,
+
+    inputPlaceholder: this.I18n.t('js.label_search_columns'),
+    inputLabel: this.I18n.t('js.label_add_columns'),
+    inputDragLabel: this.I18n.t('js.label_manage_columns'),
   };
 
-  constructor(readonly injector:Injector,
+  constructor(
+readonly injector:Injector,
     readonly I18n:I18nService,
     readonly wpTableColumns:WorkPackageViewColumnsService,
     readonly ConfigurationService:ConfigurationService,
-    readonly bannerService:BannersService) {
+    readonly bannerService:BannersService,
+) {
   }
 
   public onSave() {

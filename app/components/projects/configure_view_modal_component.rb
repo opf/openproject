@@ -38,6 +38,7 @@ class Projects::ConfigureViewModalComponent < ApplicationComponent
   def all_columns
     @all_columns ||= query
                        .available_selects
+                       .reject { |c| c.attribute == :hierarchy }
                        .sort_by(&:caption)
                        .map { |c| { id: c.attribute, name: c.caption } }
   end

@@ -3278,7 +3278,13 @@ en:
 
   queries:
     apply_filter: Apply preconfigured filter
-    configure_view: Configure view
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
+
 
   top_menu:
     additional_resources: "Additional resources"

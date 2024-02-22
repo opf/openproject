@@ -6,7 +6,11 @@
 
   <opce-draggable-autocompleter [options]="availableColumnsOptions"
                                 [selected]="selectedColumns"
-                                (onChange)="updateSelected($event)">
+                                [inputLabel]="text.inputLabel"
+                                [inputPlaceholder]="text.inputPlaceholder"
+                                [dragAreaLabel]="text.inputDragLabel">
+                                (onChange)="updateSelected($event)"
+
   </opce-draggable-autocompleter>
 
   <p class="form--inline-instructions" [textContent]="text.columnsHelp"></p>

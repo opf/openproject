@@ -1,4 +1,5 @@
-<%= render(Primer::Alpha::Dialog.new(title: t(:'queries.configure_view'),
+<%= render(Primer::Alpha::Dialog.new(title: t(:'queries.configure_view.heading'),
+                                     size: :large,
                                      id: MODAL_ID)) do |d| %>
   <% d.with_header(variant: :large, mb: 3) %>
 
@@ -16,12 +17,15 @@
                                             inputs: {
                                               options: all_columns,
                                               selected: selected_columns,
-                                              name: COLUMN_HTML_NAME
+                                              name: COLUMN_HTML_NAME,
+                                              inputLabel: I18n.t(:'queries.configure_view.columns.input_label'),
+                                              inputPlaceholder: I18n.t(:'queries.configure_view.columns.input_placeholder'),
+                                              dragAreaLabel: I18n.t(:'queries.configure_view.columns.drag_area_label')
                                             }%>
     <% end %>
   <% end %>
 
-  <%= render(Primer::Alpha::Dialog::Footer.new(show_divider: true)) do %>
+  <%= render(Primer::Alpha::Dialog::Footer.new) do %>
     <%= render(Primer::ButtonComponent.new(data: { "close-dialog-id": MODAL_ID })) { I18n.t(:button_cancel) } %>
     <%= render(Primer::ButtonComponent.new(scheme: :primary, type: :submit, form: COLUMN_FORM_ID)) { I18n.t(:button_apply) } %>
   <% end %>

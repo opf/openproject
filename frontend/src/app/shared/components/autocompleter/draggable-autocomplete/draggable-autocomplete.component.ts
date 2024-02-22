@@ -28,7 +28,7 @@ export interface DraggableOption {
 export const opDraggableAutocompleteSelector = 'opce-draggable-autocompleter';
 
 @Component({
-  selector: 'opce-draggable-autocompleter',
+  selector: opDraggableAutocompleteSelector,
   templateUrl: './draggable-autocomplete.component.html',
   styleUrls: ['./draggable-autocomplete.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -41,6 +41,15 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   @Input() autofocus = true;
 
   @Input() name = '';
+
+  /** Label to display above the autocompleter */
+  @Input() inputLabel = '';
+
+  /** Placeholder text to display in the autocompleter input */
+  @Input() inputPlaceholder = '';
+
+  /** Label to display drag&drop area */
+  @Input() dragAreaLabel = '';
 
   /** Order list of selected items */
   @Input('selected') _selected:DraggableOption[] = [];
@@ -56,10 +65,6 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   private columnsGroup:Group;
 
   @ViewChild('ngSelectComponent') public ngSelectComponent:NgSelectComponent;
-
-  text = {
-    placeholder: this.I18n.t('js.label_add_columns'),
-  };
 
   constructor(
     readonly I18n:I18nService,

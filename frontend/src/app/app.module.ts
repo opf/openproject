@@ -145,9 +145,6 @@ import {
 import {
   CkeditorAugmentedTextareaComponent,
 } from 'core-app/shared/components/editor/components/ckeditor-augmented-textarea/ckeditor-augmented-textarea.component';
-import {
-  DraggableAutocompleteComponent,
-} from 'core-app/shared/components/autocompleter/draggable-autocomplete/draggable-autocomplete.component';
 
 export function initializeServices(injector:Injector) {
   return () => {

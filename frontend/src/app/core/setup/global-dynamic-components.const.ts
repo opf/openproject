@@ -184,8 +184,7 @@ import {
   timerAccountSelector,
 } from 'core-app/shared/components/time_entries/timer/timer-account-menu.component';
 import {
-  DraggableAutocompleteComponent,
-  opDraggableAutocompleteSelector,
+  DraggableAutocompleteComponent, opDraggableAutocompleteSelector,
 } from 'core-app/shared/components/autocompleter/draggable-autocomplete/draggable-autocomplete.component';
 
 export const globalDynamicComponents:OptionalBootstrapDefinition[] = [

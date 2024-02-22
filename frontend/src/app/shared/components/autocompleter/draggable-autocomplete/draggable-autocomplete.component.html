@@ -1,36 +1,52 @@
 <div class="op-draggable-autocomplete">
-  <div
-    class="op-draggable-autocomplete--selected"
-    dragula="columns"
-    [(dragulaModel)]="selected"
-  >
-    <div class="op-draggable-autocomplete--item" *ngFor="let item of selected">
-      <span
-        class="op-draggable-autocomplete--item-text"
-        [textContent]="item.name"
-      ></span>
-      <a
-        (click)="remove(item)"
-        class="op-draggable-autocomplete--remove-item icon-remove"
-      ></a>
-    </div>
+  <div class="FormControl-spacingWrapper mb-3">
+    <div class="FormControl width-full">
+      <label class="FormControl-label"
+             [textContent]="inputLabel">
+      </label>
 
-    <input type="hidden" [name]="name" [value]="hidden_value" />
+      <ng-select
+        #ngSelectComponent
+        [items]="availableOptions"
+        ngClass="op-draggable-autocomplete--input ng-select--primerized"
+        bindLabel="name"
+        [multiple]="false"
+        [virtualScroll]="true"
+        appendTo="body"
+        [placeholder]="inputPlaceholder"
+        [clearSearchOnAdd]="true"
+        [closeOnSelect]="true"
+        [searchFn]="searchFunction"
+        (open)="opened()"
+        (change)="select($event)"
+      ></ng-select>
+    </div>
   </div>
 
-  <ng-select
-    #ngSelectComponent
-    [items]="availableOptions"
-    ngClass="op-draggable-autocomplete--input"
-    bindLabel="name"
-    [multiple]="false"
-    [virtualScroll]="true"
-    appendTo="body"
-    [placeholder]="text.placeholder"
-    [clearSearchOnAdd]="true"
-    [closeOnSelect]="true"
-    [searchFn]="searchFunction"
-    (open)="opened()"
-    (change)="select($event)"
-  ></ng-select>
+  <div class="FormControl-spacingWrapper">
+    <div class="FormControl width-full">
+      <label class="FormControl-label"
+             [textContent]="dragAreaLabel">
+      </label>
+
+      <div
+        class="op-draggable-autocomplete--selected"
+        dragula="columns"
+        [(dragulaModel)]="selected"
+      >
+        <div class="op-draggable-autocomplete--item" *ngFor="let item of selected">
+          <span
+            class="op-draggable-autocomplete--item-text"
+            [textContent]="item.name"
+          ></span>
+          <a
+            (click)="remove(item)"
+            class="op-draggable-autocomplete--remove-item icon-remove"
+          ></a>
+        </div>
+
+        <input type="hidden" [name]="name" [value]="hidden_value" />
+      </div>
+    </div>
+  </div>
 </div>

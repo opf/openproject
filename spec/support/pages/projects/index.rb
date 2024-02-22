@@ -242,7 +242,7 @@ module Pages
       end
 
       def set_columns(*columns)
-        click_more_menu_item(I18n.t(:'queries.configure_view'))
+        click_more_menu_item(I18n.t(:'queries.configure_view.heading'))
 
         # Assumption: there is always one item selected, the 'Name' column
         # That column can currently not be removed.
