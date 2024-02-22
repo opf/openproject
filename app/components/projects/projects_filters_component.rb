@@ -29,7 +29,6 @@
 # ++
 
 class Projects::ProjectsFiltersComponent < FiltersComponent
-  
   def allowed_filters
     super
       .select { |f| allowed_filter?(f) }

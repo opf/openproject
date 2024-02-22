@@ -77,9 +77,9 @@ module Members
     def shared
       count = member.shared_work_packages_count
       if count > 0
-        link_to I18n.t(:'label_x_work_packages', count:),
+        link_to I18n.t(:label_x_work_packages, count:),
                 helpers.project_work_packages_shared_with_path(principal, member.project),
-                target: "_blank"
+                target: "_blank", rel: "noopener"
       end
     end
 

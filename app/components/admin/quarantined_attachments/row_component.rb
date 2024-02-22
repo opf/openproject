@@ -42,9 +42,7 @@ module Admin
         "quarantined_attachment_#{attachment.id}"
       end
 
-      def filename
-        attachment.filename
-      end
+      delegate :filename, to: :attachment
 
       def attached_to
         description = attachment.description.present? ? "(#{attachment.description})" : ''
@@ -89,7 +87,7 @@ module Admin
           { controller: '/admin/attachments/quarantined_attachments', action: :destroy, id: model },
           title: I18n.t('antivirus_scan.quarantined_attachments.delete'),
           method: :delete,
-          data: { confirm: I18n.t(:text_are_you_sure), disable_with: I18n.t(:label_loading) },
+          data: { confirm: I18n.t(:text_are_you_sure), disable_with: I18n.t(:label_loading) }
         )
       end
     end
