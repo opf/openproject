@@ -60,10 +60,11 @@ module Projects
 
       if cf.field_format == 'text' && custom_value.present?
 
-        concat content_tag :div, Nokogiri::HTML(custom_value).text, class: 'project-long-text', id: "#{project.id}-cf-#{cf.id}"
+        concat content_tag :p, Nokogiri::HTML(custom_value).text, class: 'project-long-text', id: "#{project.id}-cf-#{cf.id}"
         render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-cf-#{cf.id}", title: cf.name)) do |component|
           component.with_show_button(scheme: :link, display: :none) { I18n.t('js.label_expand') }
           component.with_body { helpers.format_text(custom_value.html_safe) } # rubocop:disable Rails/OutputSafety
+          component.with_header(show_divider: true)
         end
       elsif custom_value.is_a?(Array)
         safe_join(Array(custom_value).compact_blank, ', ')
@@ -119,10 +120,11 @@ module Projects
       return nil unless user_can_view_project?
 
       if project.status_explanation.present? && project.status_explanation
-        concat content_tag :div, Nokogiri::HTML(project.status_explanation).text, class: 'project-long-text', id: "#{project.id}-status-explanation"
+        concat content_tag :p, Nokogiri::HTML(project.status_explanation).text, class: 'project-long-text', id: "#{project.id}-status-explanation"
         render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-status-explanation", title: I18n.t('activerecord.attributes.project.status_explanation'))) do |component|
           component.with_show_button(scheme: :link, display: :none) { I18n.t('js.label_expand') }
           component.with_body { helpers.format_text(project.status_explanation) }
+          component.with_header(show_divider: true)
         end
       end
     end
@@ -131,10 +133,11 @@ module Projects
       return nil unless user_can_view_project?
 
       if project.description.present?
-        concat content_tag :div, Nokogiri::HTML(project.description).text, class: 'project-long-text', id: "#{project.id}-description"
+        concat content_tag :p, Nokogiri::HTML(project.description).text, class: 'project-long-text', id: "#{project.id}-description"
         render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-description", title: I18n.t('activerecord.attributes.project.description'))) do |component|
           component.with_show_button(scheme: :link, display: :none) { I18n.t('js.label_expand') }
           component.with_body { helpers.format_text(project.description) }
+          component.with_header(show_divider: true)
         end
       end
     end
