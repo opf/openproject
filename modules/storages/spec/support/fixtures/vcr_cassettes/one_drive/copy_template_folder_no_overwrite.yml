@@ -37,30 +37,30 @@ http_interactions:
       P3p:
       - CP="DSP CUR OTPi IND OTRi ONL FIN"
       X-Ms-Request-Id:
-      - 76b17450-1dfe-419b-9152-9a113e63be00
+      - 96563b2f-18f0-42f1-bff0-e8a3a6afba00
       X-Ms-Ests-Server:
-      - 2.1.17282.6 - FRC ProdSlices
+      - 2.1.17282.6 - WEULR1 ProdSlices
       X-Xss-Protection:
       - '0'
       Set-Cookie:
-      - fpc=AokVI2gc9RtEpXdh6MBn5eykbDoXAQAAAA_4Xt0OAAAA; expires=Fri, 15-Mar-2024
-        18:06:08 GMT; path=/; secure; HttpOnly; SameSite=None
+      - fpc=Aow4CwlsPWdHubKXADsWoDykbDoXAQAAABAKX90OAAAA; expires=Fri, 15-Mar-2024
+        19:22:57 GMT; path=/; secure; HttpOnly; SameSite=None
       - stsservicecookie=estsfd; path=/; secure; samesite=none; httponly
       - x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly
       Date:
-      - Wed, 14 Feb 2024 18:06:08 GMT
+      - Wed, 14 Feb 2024 19:22:57 GMT
       Content-Length:
       - '1708'
     body:
       encoding: UTF-8
       string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"<ACCESS_TOKEN>"}'
-  recorded_at: Wed, 14 Feb 2024 18:06:08 GMT
+  recorded_at: Wed, 14 Feb 2024 19:22:57 GMT
 - request:
-    method: get
-    uri: https://graph.microsoft.com/v1.0/drives/THIS-IS-NOT-A-DRIVE-ID/root/children
+    method: post
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/items/01AZJL5PNRT4JHUBDHNJF2HOFKENALDGCZ/copy?@microsoft.graph.conflictBehavior=fail
     body:
-      encoding: US-ASCII
-      string: ''
+      encoding: UTF-8
+      string: '{"name":"Folder"}'
     headers:
       Authorization:
       - Bearer <BEARER TOKEN>
@@ -72,10 +72,12 @@ http_interactions:
       - httpx.rb/1.2.2
       Accept-Encoding:
       - gzip, deflate
+      Content-Length:
+      - '17'
   response:
     status:
-      code: 400
-      message: Bad Request
+      code: 409
+      message: Conflict
     headers:
       Cache-Control:
       - no-store, no-cache
@@ -90,16 +92,15 @@ http_interactions:
       Strict-Transport-Security:
       - max-age=31536000
       Request-Id:
-      - dc640ba4-6220-42d5-ad89-ac3b48215995
+      - c25ccc75-416d-40b6-a2c5-58392738a66b
       Client-Request-Id:
-      - dc640ba4-6220-42d5-ad89-ac3b48215995
+      - c25ccc75-416d-40b6-a2c5-58392738a66b
       X-Ms-Ags-Diagnostic:
-      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"002","RoleInstance":"FR3PEPF00000166"}}'
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF000001E9"}}'
       Date:
-      - Wed, 14 Feb 2024 18:06:07 GMT
+      - Wed, 14 Feb 2024 19:22:57 GMT
     body:
       encoding: UTF-8
-      string: '{"error":{"code":"invalidRequest","message":"The provided drive id
-        appears to be malformed, or does not represent a valid drive.","innerError":{"date":"2024-02-14T18:06:08","request-id":"dc640ba4-6220-42d5-ad89-ac3b48215995","client-request-id":"dc640ba4-6220-42d5-ad89-ac3b48215995"}}}'
-  recorded_at: Wed, 14 Feb 2024 18:06:08 GMT
+      string: '{"error":{"code":"nameAlreadyExists","message":"Name already exists","innerError":{"date":"2024-02-14T19:22:58","request-id":"c25ccc75-416d-40b6-a2c5-58392738a66b","client-request-id":"c25ccc75-416d-40b6-a2c5-58392738a66b"}}}'
+  recorded_at: Wed, 14 Feb 2024 19:22:58 GMT
 recorded_with: VCR 6.2.0
