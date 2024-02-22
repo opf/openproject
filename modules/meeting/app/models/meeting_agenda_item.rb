@@ -85,4 +85,8 @@ class MeetingAgendaItem < ApplicationRecord
   def modifiable?
     !(meeting&.closed? || (deleted_work_package? && work_package_id.present?))
   end
+
+  def copy_attributes
+    attributes.except('id', 'meeting_id')
+  end
 end
