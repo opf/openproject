@@ -106,6 +106,7 @@ module API
         formattable_property :description,
                              plain: true
 
+        property :status
         property :content_type
         property :digest,
                  getter: ->(*) {
