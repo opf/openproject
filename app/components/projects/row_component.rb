@@ -115,8 +115,8 @@ module Projects
 
       if project.status_explanation.present? && project.status_explanation
         concat content_tag :div, Nokogiri::HTML(project.status_explanation).text, class: 'project-long-text', id: "#{project.id}-status-explanation"
-        render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-status-explanation", title: project.id)) do |component|
-          component.with_show_button(scheme: :link, display: :none) { 'Expand' }
+        render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-status-explanation", title: I18n.t('activerecord.attributes.project.status_explanation'))) do |component|
+          component.with_show_button(scheme: :link, display: :none) { I18n.t('js.label_expand') }
           component.with_body { helpers.format_text(project.status_explanation) }
         end
       end
