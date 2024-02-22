@@ -39,6 +39,7 @@ module Storages
             register(:file_info, FileInfoQuery)
             register(:files_info, FilesInfoQuery)
             register(:open_file_link, OpenFileLinkQuery)
+            register(:folder_files_file_ids_deep_query, FolderFilesFileIdsDeepQuery)
             register(:open_storage, OpenStorageQuery)
             register(:upload_link, UploadLinkQuery)
           end

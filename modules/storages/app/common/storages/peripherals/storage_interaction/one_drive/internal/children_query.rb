@@ -33,11 +33,11 @@ module Storages
     module StorageInteraction
       module OneDrive
         module Internal
-          class DriveItemQuery
+          class ChildrenQuery
             UTIL = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
 
-            def self.call(storage:, token:, drive_item_id:, fields: [])
-              new(storage).call(token:, drive_item_id:, fields:)
+            def self.call(storage:, http:, folder:, fields: [])
+              new(storage).call(http:, folder:, fields:)
             end
 
             def initialize(storage)
@@ -45,23 +45,20 @@ module Storages
               @uri = storage.uri
             end
 
-            def call(token:, drive_item_id:, fields: [])
+            def call(http:, folder:, fields: [])
               select_url_query = if fields.empty?
                                    ''
                                  else
                                    "?$select=#{fields.join(',')}"
                                  end
 
-              make_file_request(drive_item_id, token, select_url_query)
+              make_children_request(folder, http, select_url_query)
             end
 
             private
 
-            def make_file_request(drive_item_id, token, select_url_query)
-              response = OpenProject.httpx.get(
-                UTIL.join_uri_path(@uri, uri_path_for(drive_item_id) + select_url_query),
-                headers: { 'Authorization' => "Bearer #{token.access_token}" }
-              )
+            def make_children_request(folder, http, select_url_query)
+              response = http.get(UTIL.join_uri_path(@uri, uri_path_for(folder) + select_url_query))
               handle_responses(response)
             end
 
@@ -84,8 +81,10 @@ module Storages
               end
             end
 
-            def uri_path_for(file_id)
-              "/v1.0/drives/#{@storage.drive_id}/items/#{file_id}"
+            def uri_path_for(folder)
+              return "/v1.0/drives/#{@storage.drive_id}/root/children" if folder.root?
+
+              "/v1.0/drives/#{@storage.drive_id}/items/#{folder.path}/children"
             end
           end
         end
