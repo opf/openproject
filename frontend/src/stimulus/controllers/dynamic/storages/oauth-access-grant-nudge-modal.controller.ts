@@ -42,6 +42,7 @@ export default class OAuthAccessGrantNudgeModalController extends Controller<HTM
 
   static values = {
     closeButtonLabel: String,
+    loadingScreenReaderMessage: String,
   };
 
   declare readonly requestAccessFormTarget:HTMLFormElement;
@@ -53,6 +54,7 @@ export default class OAuthAccessGrantNudgeModalController extends Controller<HTM
   declare readonly hasRequestAccessButtonTarget:boolean;
 
   declare readonly closeButtonLabelValue:string;
+  declare readonly loadingScreenReaderMessageValue:string;
 
   connect() {
     this.element.showModal();
@@ -73,10 +75,15 @@ export default class OAuthAccessGrantNudgeModalController extends Controller<HTM
   // Hide the request access button and show the loading indicator
   private activateLoadingState() {
     this.requestAccessButtonTarget.classList.add('d-none');
-    this.closeButtonTarget.textContent = this.closeButtonLabelValue;
-    this.closeButtonTarget.setAttribute('aria-label', this.closeButtonLabelValue);
-    this.headerTarget.classList.add('d-none');
 
+    // Set the close button label to "Cancel"
+    this.closeButtonTarget.textContent = this.closeButtonLabelValue;
+
+    // Convey to screen readers that we're waiting for the request
+    this.headerTarget.classList.add('sr-only');
+    this.headerTarget.textContent = this.loadingScreenReaderMessageValue;
+
+    // Hide the request access body and show the loading indicator
     this.requestAccessBodyTarget.classList.add('d-none');
     this.loadingIndicatorTarget.classList.remove('d-none');
   }

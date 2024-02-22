@@ -6,22 +6,24 @@
       data: {
         'application-target': 'dynamic',
         controller: 'storages--oauth-access-grant-nudge-modal',
-        'storages--oauth-access-grant-nudge-modal-close-button-label-value': I18n.t('button_close')
+        'storages--oauth-access-grant-nudge-modal-close-button-label-value': I18n.t('button_close'),
+        'storages--oauth-access-grant-nudge-modal-loading-screen-reader-message-value': waiting_title,
       },
       test_selector: 'oauth-access-grant-nudge-modal'
     )
   ) do |dialog|
     dialog.with_header(
       show_divider: false,
+      role: :alert,
+      aria: { live: :assertive },
       data: {
         'storages--oauth-access-grant-nudge-modal-target': 'header'
-      }
+      },
+      test_selector: 'oauth-access-grant-nudge-modal-header'
     )
 
     dialog.with_body(
       id: dialog_body_id,
-      role: :status,
-      aria: { live: (authorized ? :assertive : :polite) },
       test_selector: 'oauth-access-grant-nudge-modal-body'
     ) do
       concat(

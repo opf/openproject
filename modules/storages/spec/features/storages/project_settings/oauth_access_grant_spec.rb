@@ -71,10 +71,12 @@ RSpec.describe 'OAuth Access Grant Nudge upon adding a storage to a project',
     expect(page).to have_text(storage.name)
 
     within_test_selector('oauth-access-grant-nudge-modal') do
+      expect(page).to be_axe_clean
       expect(page).to have_text('One more step...')
       click_on('Login')
 
       expect(page).to have_text("Requesting access to #{storage.name}")
+      expect(page).to be_axe_clean
     end
   end
 end
