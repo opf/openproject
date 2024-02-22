@@ -202,6 +202,21 @@ RSpec.describe 'Projects index page',
         end
       end
 
+      specify 'long description is truncated' do
+        Setting.enabled_projects_columns += ['description']
+
+        development_project.update(
+          description: 'I am a nice project with a very long long long long long long long long long description'
+        )
+
+        login_as(admin)
+        projects_page.visit!
+        tr_project_development = page.first('tr', text: 'Development project')
+        expect(tr_project_development).to have_css('button', text: 'Expand')
+        tr_project_development.find('button', text: 'Expand').click
+        expect(page).to have_css('.Overlay-body', text: development_project.description)
+      end
+
       specify 'flash sortBy is being escaped' do
         login_as(admin)
         visit projects_path(sortBy: "[[\"><script src='/foobar.js'></script>\",\"\"]]")
