@@ -21,5 +21,10 @@ keywords: Attachments Settings
    
 2. Do not forget to **save** your changes.
 
-   ![attachment settings](image-20220125124252869.png)
+   ![attachment settings](image-20240220-hgce.png)
 
+
+
+# Virus scanning
+
+For information about virus scanning, please see the [documentation on virus scanning](../virus-scanning/)

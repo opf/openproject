@@ -458,7 +458,7 @@ zh-TW:
     label_no_value: "無值"
     label_none: "無"
     label_not_contains: "不包含"
-    label_not_equals: "不是"
+    label_not_equals: "不包含"
     label_on: "開啟"
     label_open_menu: "開啟選單"
     label_open_context_menu: "打開選單"
@@ -994,7 +994,7 @@ zh-TW:
         created_by_me: "由我創建"
         assigned_to_me: "分配給我"
         recently_created: "最近創建的"
-        all_open: "全部打開"
+        all_open: "所有進行中工作"
         summary: "大綱"
         shared_with_users: "分配給非專案成員"
       jump_marks:
