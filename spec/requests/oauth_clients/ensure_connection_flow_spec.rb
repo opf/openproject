@@ -126,7 +126,7 @@ RSpec.describe "/oauth_clients/:oauth_client_id/ensure_connection endpoint", :we
                 headers: {
                   'Accept' => 'application/json',
                   'Authorization' => "Bearer #{oauth_client_token.access_token}",
-                  'Ocs-Apirequest' => 'true',
+                  'Ocs-Apirequest' => 'true'
                 }
               ).to_return(status: 200, body: "", headers: {})
           end

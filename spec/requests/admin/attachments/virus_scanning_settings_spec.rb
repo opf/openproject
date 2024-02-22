@@ -31,13 +31,12 @@ require 'spec_helper'
 RSpec.describe 'Attachments virus scanning',
                :skip_csrf,
                type: :rails_request do
-
   shared_let(:admin) { create(:admin) }
   let(:service) { instance_double(Attachments::ClamAVService) }
 
   before do
     login_as admin
-    allow(::Attachments::ClamAVService)
+    allow(Attachments::ClamAVService)
       .to receive(:new)
       .and_return(service)
 
@@ -46,7 +45,6 @@ RSpec.describe 'Attachments virus scanning',
 
   describe 'enabling virus scanning',
            with_ee: %i[virus_scanning] do
-
     subject do
       patch '/admin/settings/virus_scanning',
             params: {
@@ -69,7 +67,7 @@ RSpec.describe 'Attachments virus scanning',
     it 'shows no error if ClamAV can be reached' do
       expect(subject).to be_redirect
       follow_redirect!
-      expect(response.body).not_to have_text I18n.t('settings.antivirus.clamav_ping_failed')
+      expect(response.body).to have_no_text I18n.t('settings.antivirus.clamav_ping_failed')
       expect(Setting.antivirus_scan_mode).to eq(:clamav_socket)
     end
   end
@@ -112,7 +110,7 @@ RSpec.describe 'Attachments virus scanning',
 
       expect(response).to be_redirect
       follow_redirect!
-      expect(response.body).not_to have_text 'remain in quarantine.'
+      expect(response.body).to have_no_text 'remain in quarantine.'
       expect(Setting.antivirus_scan_mode).to eq(:disabled)
     end
 
