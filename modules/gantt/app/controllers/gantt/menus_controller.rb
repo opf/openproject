@@ -89,12 +89,10 @@ module Gantt
                      .where('views.type' => 'gantt')
 
       if @project.present?
-        base_query = base_query.where('queries.project_id' => @project.id)
+        base_query.where('queries.project_id' => @project.id)
       else
-        base_query = base_query.where('queries.project_id' => nil)
+        base_query.where('queries.project_id' => nil)
       end
-
-      base_query
     end
 
     def menu_item(query_params, name)
