@@ -127,6 +127,18 @@ module Projects
       end
     end
 
+    def description
+      return nil unless user_can_view_project?
+
+      if project.description.present?
+        concat content_tag :div, Nokogiri::HTML(project.description).text, class: 'project-long-text', id: "#{project.id}-description"
+        render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-description", title: I18n.t('activerecord.attributes.project.description'))) do |component|
+          component.with_show_button(scheme: :link, display: :none) { I18n.t('js.label_expand') }
+          component.with_body { helpers.format_text(project.description) }
+        end
+      end
+    end
+
     def public
       helpers.checked_image project.public?
     end
@@ -135,10 +147,6 @@ module Projects
       classes = %w[basics context-menu--reveal]
       classes << project_css_classes
       classes << row_css_level_classes
-
-      if params[:expand] == 'all' && project.description.present?
-        classes << ' -no-highlighting -expanded'
-      end
 
       classes.join(" ")
     end
