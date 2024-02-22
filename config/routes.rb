@@ -446,7 +446,6 @@ Rails.application.routes.draw do
       # Plugin settings
       get 'plugin/:id', action: :show_plugin
       post 'plugin/:id', action: :update_plugin
-
     end
 
     resources :quarantined_attachments,
