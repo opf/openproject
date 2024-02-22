@@ -45,9 +45,9 @@ module SettingsHelper
         label: :label_languages
       },
       {
-        name: 'attachments',
-        controller: '/admin/settings/attachments_settings',
-        label: :'attributes.attachments'
+        name: 'projects',
+        controller: '/admin/settings/projects_settings',
+        label: :label_project_plural
       },
       {
         name: 'repositories',

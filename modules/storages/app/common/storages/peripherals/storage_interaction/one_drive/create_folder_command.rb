@@ -33,6 +33,8 @@ module Storages
     module StorageInteraction
       module OneDrive
         class CreateFolderCommand
+          using ServiceResultRefinements
+
           def self.call(storage:, folder_path:)
             new(storage).call(folder_path:)
           end
@@ -42,13 +44,18 @@ module Storages
             @uri = storage.uri
           end
 
-          # NOTE: This is currently creating a folder only on the root folder
-          def call(folder_path:)
+          def call(folder_path:, parent_location: nil)
             Util.using_admin_token(@storage) do |http|
-              response = http.post("/v1.0/drives/#{@storage.drive_id}/root/children", body: payload(folder_path))
+              response = http.post(uri_for(parent_location), body: payload(folder_path))
 
               handle_response(response)
             end
+          end
+
+          def uri_for(parent_location)
+            return "#{base_uri}/root/children" if parent_location.nil?
+
+            "#{base_uri}/items/#{parent_location}/children"
           end
 
           private
@@ -97,6 +104,8 @@ module Storages
               '@microsoft.graph.conflictBehavior' => "fail"
             }.to_json
           end
+
+          def base_uri = "/v1.0/drives/#{@storage.drive_id}"
         end
       end
     end

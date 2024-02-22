@@ -259,7 +259,7 @@ sv:
       archived: 'Arkiverade projekt'
       my_private: 'My private project lists'
       new:
-        placeholder: 'New project list'
+        placeholder: 'Ny projektlista'
     settings:
       change_identifier: Change identifier
       activities:
