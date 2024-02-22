@@ -5,7 +5,6 @@ class FixInheritedGroupMemberships < ActiveRecord::Migration[7.0]
     Group
       .where(id: Member.where(project_id: nil, user_id: Group.select(:id)).select(:user_id))
       .find_each do |group|
-
       warn "Creating inherited roles for group ##{group.id}"
       Groups::CreateInheritedRolesService
         .new(group, current_user: User.system, contract_class: EmptyContract)
