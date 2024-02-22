@@ -185,10 +185,10 @@ module Projects
       when :name
         "project--hierarchy #{project.archived? ? 'archived' : ''}"
       when :status_explanation, :description
-        "long-text-container"
+        "project-long-text-container"
       when /\Acf_/
         cf = custom_field(column)
-        formattable = cf.field_format == 'text' ? ' long-text-container' : ''
+        formattable = cf.field_format == 'text' ? ' project-long-text-container' : ''
         "format-#{cf.field_format}#{formattable}"
       end
     end
