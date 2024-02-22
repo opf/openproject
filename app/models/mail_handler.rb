@@ -387,7 +387,7 @@ class MailHandler < ActionMailer::Base
       'start_date' => wp_start_date_from_keywords,
       'due_date' => wp_due_date_from_keywords,
       'estimated_hours' => wp_estimated_hours_from_keywords,
-      'done_ratio' => wp_done_ratio_from_keyword
+      'remaining_hours' => wp_remaining_hours_from_keywords
     }.compact_blank!
   end
 
@@ -565,8 +565,8 @@ class MailHandler < ActionMailer::Base
     get_keyword(:estimated_hours, override: true)
   end
 
-  def wp_done_ratio_from_keyword
-    get_keyword(:done_ratio, override: true, format: '(\d|10)?0')
+  def wp_remaining_hours_from_keywords
+    get_keyword(:remaining_hours, override: true)
   end
 
   def log(message, level = :info, report: true)
