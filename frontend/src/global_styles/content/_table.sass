@@ -165,7 +165,7 @@ table.generic-table
       border-bottom: 1px solid var(--table-border-color)
 
     @media screen
-      td:not(.-no-ellipsis)
+      td:not(.-no-ellipsis), td:not(.long-text-container)
         @include text-shortener
 
     .project td
@@ -381,3 +381,10 @@ thead.-sticky th
 
   p:last-child
     margin-bottom: 0
+
+.long-text-container
+  display: flex
+  justify-content: space-between
+
+.project-long-text
+  @include text-shortener

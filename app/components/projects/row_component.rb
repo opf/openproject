@@ -27,6 +27,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+require 'nokogiri'
 
 module Projects
   class RowComponent < ::RowComponent
@@ -57,7 +58,7 @@ module Projects
       cf = custom_field(column)
       custom_value = project.formatted_custom_value_for(cf)
 
-      if cf.field_format == 'text'
+      if cf.field_format == 'text' && custom_value.present?
         custom_value.html_safe # rubocop:disable Rails/OutputSafety
       elsif custom_value.is_a?(Array)
         safe_join(Array(custom_value).compact_blank, ', ')
@@ -112,8 +113,12 @@ module Projects
     def status_explanation
       return nil unless user_can_view_project?
 
-      if project.status_explanation
-        content_tag :div, helpers.format_text(project.status_explanation), class: 'wiki'
+      if project.status_explanation.present? && project.status_explanation
+        concat content_tag :div, Nokogiri::HTML(project.status_explanation).text, class: 'project-long-text', id: "#{project.id}-status-explanation"
+        render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-status-explanation", title: project.id)) do |component|
+          component.with_show_button(scheme: :link, display: :none) { 'Expand' }
+          component.with_body { helpers.format_text(project.status_explanation) }
+        end
       end
     end
 
@@ -163,11 +168,11 @@ module Projects
       case column
       when :name
         "project--hierarchy #{project.archived? ? 'archived' : ''}"
-      when :status_explanation
-        "-no-ellipsis"
+      when :status_explanation, :description
+        "long-text-container"
       when /\Acf_/
         cf = custom_field(column)
-        formattable = cf.field_format == 'text' ? ' -no-ellipsis' : ''
+        formattable = cf.field_format == 'text' ? ' long-text-container' : ''
         "format-#{cf.field_format}#{formattable}"
       end
     end
