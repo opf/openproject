@@ -39,7 +39,8 @@ module API
           include API::Caching::CachedRepresenter
           cached_representer key_parts: %i[project type],
                              dependencies: -> {
-                               all_permissions_granted_to_user_under_project + [Setting.work_package_done_ratio, Setting.plugin_openproject_backlogs]
+                               all_permissions_granted_to_user_under_project + [Setting.work_package_done_ratio,
+                                                                                Setting.plugin_openproject_backlogs]
                              }
 
           custom_field_injector type: :schema_representer
