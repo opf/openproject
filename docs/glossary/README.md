@@ -98,6 +98,10 @@ OpenProject can be installed either [on-premises](#on-premises) (available for b
 - [Read a blog article on why to choose an open source cloud software](https://www.openproject.org/blog/open-source-cloud-software/)
 - [See the FAQ for OpenProject Enterprise cloud](../enterprise-guide/enterprise-cloud-guide/enterprise-cloud-faq/)
 
+### % Complete
+
+In OpenProject, you can track the completion of projects by assigning a % Complete (earlier called Progress (%)) value to individual work packages. Parent work packages also display a value (in blue) for the total percentage completed – next to the value for the dedicated work package. This **total % Complete** is calculated from the parent work package and all its children. [See our user guide to learn more about progress tracking with OpenProject](../user-guide/time-and-costs/progress-tracking/)
+
 ### Community edition
 
 Community edition is defined as the main and free-of-charge edition of OpenProject software. It is installed [on-premises](#on-premises) and therefore self-managed. Benefit from a wide range of features and data sovereignty in a free and open source project management software. The Community edition is actively maintained and is continuously being further developed. [Read more about OpenProject Community edition](https://www.openproject.org/community-edition/).
