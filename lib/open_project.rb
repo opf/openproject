@@ -33,6 +33,7 @@ require 'open_project/logging'
 require 'open_project/patches'
 require 'open_project/mime_type'
 require 'open_project/custom_styles/design'
+require 'open_project/httpx_appsignal'
 require 'redmine/plugin'
 
 require 'csv'
@@ -46,8 +47,23 @@ module OpenProject
   end
 
   def self.httpx
-    HTTPX
-      .plugin(:basic_auth)
-      .plugin(:webdav)
+    # It is essential to reuse HTTPX session if persistent connections are enabled.
+    # Otherwise for every request there will be a new connections.
+    # And old connections will not be closed properly which could lead to EMFILE error.
+    Thread.current[:httpx_session] ||= begin
+      session = HTTPX
+        .plugin(:persistent) # persistent plugin enables retries plugin under the hood
+        .plugin(:basic_auth)
+        .plugin(:webdav)
+        .with(
+          timeout: {
+            connect_timeout: OpenProject::Configuration.httpx_connect_timeout,
+            write_timeout: OpenProject::Configuration.httpx_write_timeout,
+            read_timeout: OpenProject::Configuration.httpx_read_timeout,
+            keep_alive_timeout: OpenProject::Configuration.httpx_keep_alive_timeout
+          }
+        )
+      OpenProject::Appsignal.enabled? ? session.plugin(HttpxAppsignal) : session
+    end
   end
 end
