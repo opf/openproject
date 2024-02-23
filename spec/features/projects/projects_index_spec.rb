@@ -304,7 +304,7 @@ RSpec.describe 'Projects index page',
     end
   end
 
-  context 'when paginating', with_settings: { enabled_projects_columns: %w[name status] } do
+  context 'when paginating', with_settings: { enabled_projects_columns: %w[name project_status] } do
     before do
       allow(Setting).to receive(:per_page_options_array).and_return([1, 5])
     end

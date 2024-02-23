@@ -894,11 +894,6 @@ en:
             enabled_modules:
               dependency_missing: "The module '%{dependency}' needs to be enabled as well since the module '%{module}' depends on it."
               format: "%{message}"
-        queries/projects/project_query:
-          attributes:
-            selects:
-              name_not_included: "The 'Name' column needs to be included"
-              format: "%{message}"
         query:
           attributes:
             project:
@@ -917,6 +912,10 @@ en:
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
+              format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:

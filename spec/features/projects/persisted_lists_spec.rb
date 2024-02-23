@@ -208,13 +208,13 @@ RSpec.describe 'Persisted lists on projects index page',
     end
   end
 
-  describe 'persisting queries' do
+  describe 'persisting queries', with_settings: { enabled_projects_columns: %w[name project_status] } do
     current_user { user }
 
     let!(:project_member) { create(:member, principal: user, project:, roles: [developer]) }
     let!(:development_project_member) { create(:member, principal: user, project: development_project, roles: [developer]) }
 
-    it 'allows saving, loading and deleting persisted filters' do
+    it 'allows saving, loading and deleting persisted filters and columns' do
       projects_page.visit!
 
       # The default filter is active
@@ -231,6 +231,10 @@ RSpec.describe 'Persisted lists on projects index page',
       projects_page.expect_projects_listed(project, development_project)
       projects_page.expect_projects_not_listed(public_project)
 
+      projects_page.set_columns('Name')
+      projects_page.expect_columns('Name')
+      projects_page.expect_no_columns('Status')
+
       # Saving the query will lead to it being displayed in the sidebar
       projects_page.save_query('My saved query')
 
@@ -240,6 +244,7 @@ RSpec.describe 'Persisted lists on projects index page',
       projects_page.set_sidebar_filter('Active projects')
 
       projects_page.expect_projects_listed(project, public_project, development_project)
+      projects_page.expect_columns('Name', 'Status')
 
       # Reloading the persisted query will reconstruct filters and columns
       projects_page.set_sidebar_filter('My saved query')
@@ -248,6 +253,8 @@ RSpec.describe 'Persisted lists on projects index page',
 
       projects_page.expect_projects_listed(project, development_project)
       projects_page.expect_projects_not_listed(public_project)
+      projects_page.expect_columns('Name')
+      projects_page.expect_no_columns('Status')
 
       # The query can be deleted
       projects_page.delete_query
@@ -257,6 +264,7 @@ RSpec.describe 'Persisted lists on projects index page',
       # And the default filter will be active again
       projects_page.expect_title('Active projects')
       projects_page.expect_projects_listed(project, public_project, development_project)
+      projects_page.expect_columns('Name', 'Status')
     end
   end
 

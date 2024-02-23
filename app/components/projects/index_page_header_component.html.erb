@@ -34,7 +34,7 @@
             data: {
               controller: "params-from-query",
               'application-target': "dynamic",
-              'params-from-query-allowed-value': '["filters"]'
+              'params-from-query-allowed-value': '["filters", "columns"]'
             }
           }
           ) do |item|
@@ -84,7 +84,7 @@
                          data: {
                            controller: "params-from-query",
                            'application-target': "dynamic",
-                           'params-from-query-allowed-value': '["filters"]'
+                           'params-from-query-allowed-value': '["filters", "columns"]'
                          },
                          id: 'project-save-form') do |f|
           render(Queries::Projects::Create.new(f))
