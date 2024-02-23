@@ -41,12 +41,13 @@
             [textContent]="item.name"
           ></span>
           <a
+            *ngIf="isRemovable(item)"
             (click)="remove(item)"
             class="op-draggable-autocomplete--remove-item icon-remove"
           ></a>
         </div>
 
-        <input type="hidden" [name]="name" [value]="hidden_value" />
+        <input type="hidden" [name]="name" [value]="hiddenValue" />
       </div>
     </div>
   </div>

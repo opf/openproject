@@ -35,6 +35,12 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   /** Options to show in the autocompleter */
   @Input() options:DraggableOption[];
 
+  /** Order list of selected items */
+  @Input('selected') _selected:DraggableOption[] = [];
+
+  /** List of options that are protected from being deleted. They can still be moved. */
+  @Input() protected:DraggableOption[] = [];
+
   /** Should we focus the autocompleter ? */
   @Input() autofocus = true;
 
@@ -51,9 +57,6 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
 
   /** Label to display drag&drop area */
   @Input() dragAreaLabel = '';
-
-  /** Order list of selected items */
-  @Input('selected') _selected:DraggableOption[] = [];
 
   /** Output when autocompleter changes values or items removed */
   @Output() onChange = new EventEmitter<DraggableOption[]>();
@@ -148,6 +151,10 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
     this.selected = this.selected.filter((selected) => selected.id !== item.id);
   }
 
+  isRemovable(item:DraggableOption) {
+    return !this.protected.find((protectedItem) => protectedItem.id === item.id);
+  }
+
   get selected() {
     return this._selected;
   }
@@ -159,7 +166,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
     this.onChange.emit(this.selected);
   }
 
-  get hidden_value() {
+  get hiddenValue() {
     return this.selected.map((item) => item.id).join(' ');
   }
 

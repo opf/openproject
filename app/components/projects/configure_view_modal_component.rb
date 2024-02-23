@@ -48,4 +48,8 @@ class Projects::ConfigureViewModalComponent < ApplicationComponent
                             .selects
                             .map { |c| { id: c.attribute, name: c.caption } }
   end
+
+  def protected_columns
+    selected_columns.select { |c| c[:id] == :name }
+  end
 end
