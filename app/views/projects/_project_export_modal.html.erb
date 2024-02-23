@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
     data-controller="params-from-query"
     data-application-target="dynamic"
     data-params-from-query-all-anchors-value="true"
-    data-params-from-query-allowed-value='["query_id", "filters", "sortBy"]'>
+    data-params-from-query-allowed-value='["query_id", "filters", "sortBy", "columns"]'>
   <% supported_export_formats.each do |key| %>
     <li class="op-export-options--option">
       <%= link_to url_for(action: 'index', format: key),

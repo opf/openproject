@@ -150,7 +150,7 @@ module Projects
     end
 
     def sorted_by_lft?
-      query.orders.first.attribute == :lft
+      query.orders.first&.attribute == :lft
     end
   end
 end
