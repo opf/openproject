@@ -408,7 +408,7 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
 
     before do
       Storages::Peripherals::Registry.stub(
-        'queries.nextcloud.open_storage',
+        'nextcloud.queries.open_storage',
         ->(_) { ServiceResult.success(result: location) }
       )
     end
