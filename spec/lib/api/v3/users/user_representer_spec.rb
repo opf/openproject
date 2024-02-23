@@ -36,7 +36,7 @@ RSpec.describe API::V3::Users::UserRepresenter do
 
   include API::V3::Utilities::PathHelper
 
-  context 'generation' do
+  describe 'generation' do
     subject(:generated) { representer.to_json }
 
     it do
@@ -114,13 +114,13 @@ RSpec.describe API::V3::Users::UserRepresenter do
         end
       end
 
-      context 'user shows his E-Mail address' do
+      context 'if user shows his E-Mail address' do
         let(:preference) { build(:user_preference, hide_mail: false) }
 
         it_behaves_like 'shows the users E-Mail address'
       end
 
-      context 'user hides his E-Mail address' do
+      context 'if user hides his E-Mail address' do
         let(:preference) { build(:user_preference, hide_mail: true) }
 
         it 'does not render the users E-Mail address' do
@@ -156,7 +156,7 @@ RSpec.describe API::V3::Users::UserRepresenter do
         expect(subject).to have_json_path('_links/self/href')
       end
 
-      context 'showUser' do
+      describe 'showUser' do
         it_behaves_like 'has an untitled link' do
           let(:link) { 'showUser' }
           let(:href) { "/users/#{user.id}" }
@@ -197,8 +197,8 @@ RSpec.describe API::V3::Users::UserRepresenter do
         context 'when deletion is allowed' do
           before do
             allow(Users::DeleteContract).to receive(:deletion_allowed?)
-                                             .with(user, current_user)
-                                             .and_return(true)
+                                              .with(user, current_user)
+                                              .and_return(true)
           end
 
           it 'links to delete' do
@@ -210,8 +210,8 @@ RSpec.describe API::V3::Users::UserRepresenter do
       context 'when deletion is allowed' do
         before do
           allow(Users::DeleteContract).to receive(:deletion_allowed?)
-            .with(user, current_user)
-            .and_return(true)
+                                            .with(user, current_user)
+                                            .and_return(true)
         end
 
         it 'links to delete' do
@@ -222,8 +222,8 @@ RSpec.describe API::V3::Users::UserRepresenter do
       context 'when deletion is not allowed' do
         before do
           allow(Users::DeleteContract).to receive(:deletion_allowed?)
-            .with(user, current_user)
-            .and_return(false)
+                                            .with(user, current_user)
+                                            .and_return(false)
         end
 
         it 'does not link to delete' do
@@ -252,7 +252,7 @@ RSpec.describe API::V3::Users::UserRepresenter do
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'memberships' }
-            let(:title) { I18n.t(:label_member_plural) }
+            let(:title) { I18n.t(:label_membership_plural) }
           end
         end
 
@@ -261,7 +261,7 @@ RSpec.describe API::V3::Users::UserRepresenter do
 
           it_behaves_like 'has a titled link' do
             let(:link) { 'memberships' }
-            let(:title) { I18n.t(:label_member_plural) }
+            let(:title) { I18n.t(:label_membership_plural) }
           end
         end
 
@@ -277,12 +277,15 @@ RSpec.describe API::V3::Users::UserRepresenter do
 
     describe 'caching' do
       it 'is based on the representer\'s cache_key' do
-        expect(OpenProject::Cache)
+        allow(OpenProject::Cache)
           .to receive(:fetch)
-          .with(representer.json_cache_key)
-          .and_call_original
+                .and_call_original
 
         representer.to_json
+
+        expect(OpenProject::Cache)
+          .to have_received(:fetch)
+                .with(representer.json_cache_key)
       end
 
       describe '#json_cache_key' do
@@ -308,7 +311,7 @@ RSpec.describe API::V3::Users::UserRepresenter do
         end
 
         it 'changes when the user is updated' do
-          user.updated_at = Time.now + 20.seconds
+          user.updated_at = 20.seconds.from_now
 
           expect(representer.json_cache_key)
             .not_to eql former_cache_key

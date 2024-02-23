@@ -51,6 +51,6 @@ RSpec.shared_examples 'deletion is not allowed' do
   end
 
   it 'does not delete the user' do
-    expect(PlaceholderUser.exists?(placeholder.id)).to be_truthy
+    expect(PlaceholderUser).to exist(placeholder.id)
   end
 end
