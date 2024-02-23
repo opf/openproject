@@ -27,92 +27,123 @@
 #++
 
 require 'spec_helper'
-
 RSpec.describe Project, 'customizable' do
-  let(:project) do
-    build_stubbed(:project,
-                  custom_values:)
-  end
-  let(:stub_available_custom_fields) do
-    custom_fields_stub = double('custom fields stub')
-    allow(CustomField)
-      .to receive(:where)
-      .with(type: "ProjectCustomField")
-      .and_return(custom_fields_stub)
+  let!(:bool_custom_field) { create(:boolean_project_custom_field) }
+  let!(:text_custom_field) { create(:text_project_custom_field) }
+  let!(:list_custom_field) { create(:list_project_custom_field) }
 
-    allow(custom_fields_stub)
-      .to receive(:order)
-      .with(:position)
-      .and_return(available_custom_fields)
-  end
-  let(:custom_values) { [] }
-  let(:bool_custom_field) { build_stubbed(:boolean_project_custom_field) }
-  let(:text_custom_field) { build_stubbed(:text_project_custom_field) }
-  let(:list_custom_field) { build_stubbed(:list_project_custom_field) }
+  context 'when not persisted' do
+    let(:project) { build(:project) }
 
-  before do
-    stub_available_custom_fields
+    describe '#available_custom_fields' do
+      it 'returns all existing project custom fields as available custom fields' do
+        expect(project.project_custom_field_project_mappings)
+          .to be_empty
+        expect(project.project_custom_fields)
+          .to be_empty
+        # but:
+        expect(project.available_custom_fields)
+          .to contain_exactly(bool_custom_field, text_custom_field, list_custom_field)
+      end
+    end
   end
 
-  describe '#custom_value_for' do
-    subject { project.custom_value_for(custom_field) }
+  context 'when persisted' do
+    shared_let(:project) { create(:project) }
 
-    context 'for a boolean custom field' do
-      let(:custom_field) { bool_custom_field }
-      let(:available_custom_fields) { [custom_field] }
+    describe '#active_custom_field_ids_of_project' do
+      it 'returns all active custom field ids of the project' do
+        expect(project.active_custom_field_ids_of_project)
+          .to be_empty
+      end
+    end
 
-      context 'with no value set' do
-        it 'returns a custom value' do
-          expect(subject)
-            .to be_present
-        end
+    describe '#available_custom_fields' do
+      it 'returns only mapped project custom fields as available custom fields' do
+        expect(project.project_custom_field_project_mappings)
+          .to be_empty
+        expect(project.project_custom_fields)
+          .to be_empty
+        # and thus:
+        expect(project.available_custom_fields)
+          .to be_empty
 
-        it 'is unpersisted' do
-          expect(subject)
-            .to be_new_record
-        end
+        project.project_custom_fields << bool_custom_field
 
-        it 'has nil as its value' do
-          expect(subject.value)
+        expect(project.available_custom_fields)
+          .to contain_exactly(bool_custom_field)
+      end
+    end
+
+    describe '#custom_field_values and #custom_value_for' do
+      context 'when no custom fields are mapped to this project' do
+        it '#custom_value_for returns nil' do
+          expect(project.custom_value_for(text_custom_field))
+            .to be_nil
+          expect(project.custom_value_for(bool_custom_field))
+            .to be_nil
+          expect(project.custom_value_for(list_custom_field))
             .to be_nil
         end
-      end
 
-      context 'with a value set' do
-        let(:custom_value) do
-          build_stubbed(:custom_value,
-                        custom_field:,
-                        value: true)
-        end
-        let(:custom_values) { [custom_value] }
-
-        it 'returns the custom value' do
-          expect(subject)
-            .to eql custom_value
+        it '#custom_field_values returns an empty hash' do
+          expect(project.custom_field_values)
+            .to be_empty
         end
       end
-    end
-  end
 
-  describe '#custom_value_attributes' do
-    let(:available_custom_fields) { [bool_custom_field, list_custom_field, text_custom_field] }
-    let(:text_custom_value) do
-      build_stubbed(:custom_value,
-                    custom_field: text_custom_field,
-                    value: 'blubs')
-    end
-    let(:bool_custom_value) do
-      build_stubbed(:custom_value,
-                    custom_field: bool_custom_field,
-                    value: true)
-    end
-    let(:custom_values) { [bool_custom_value, text_custom_value] }
+      context 'when custom fields are mapped to this project' do
+        before do
+          project.project_custom_fields << [text_custom_field, bool_custom_field]
+          project.reload # TODO: why is this necessary?
+        end
 
-    subject { project.custom_value_attributes }
+        it '#custom_field_values returns a hash of mapped custom fields with nil values' do
+          text_custom_field_custom_field_value = project.custom_field_values.find do |custom_value|
+            custom_value.custom_field_id == text_custom_field.id
+          end
 
-    it 'returns a hash with all the custom values available' do
-      expect(subject)
-        .to eql(text_custom_field.id => 'blubs', bool_custom_field.id => 't', list_custom_field.id => nil)
+          expect(text_custom_field_custom_field_value).to be_present
+          expect(text_custom_field_custom_field_value.value).to be_nil
+
+          bool_custom_field_custom_field_value = project.custom_field_values.find do |custom_value|
+            custom_value.custom_field_id == bool_custom_field.id
+          end
+
+          expect(bool_custom_field_custom_field_value).to be_present
+          expect(bool_custom_field_custom_field_value.value).to be_nil
+        end
+
+        context 'when values are set for mapped custom fields' do
+          before do
+            project.custom_field_values = {
+              text_custom_field.id => 'foo',
+              bool_custom_field.id => true
+            }
+          end
+
+          it '#custom_value_for returns the set custom values' do
+            expect(project.custom_value_for(text_custom_field).typed_value)
+              .to eq('foo')
+            expect(project.custom_value_for(bool_custom_field).typed_value)
+              .to be_truthy
+            expect(project.custom_value_for(list_custom_field))
+              .to be_nil
+          end
+
+          it '#custom_field_values returns a hash of mapped custom fields with their set values' do
+            expect(project.custom_field_values.find do |custom_value|
+                     custom_value.custom_field_id == text_custom_field.id
+                   end.typed_value)
+              .to eq('foo')
+
+            expect(project.custom_field_values.find do |custom_value|
+                     custom_value.custom_field_id == bool_custom_field.id
+                   end.typed_value)
+              .to be_truthy
+          end
+        end
+      end
     end
   end
 end

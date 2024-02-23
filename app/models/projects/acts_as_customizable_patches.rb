@@ -84,7 +84,7 @@ module Projects::ActsAsCustomizablePatches
       # overrides acts_as_customizable
       # in contrast to acts_as_customizable, custom_fields are enabled per project
       # thus we need to check the project_custom_field_project_mappings
-      @available_custom_fields ||= ProjectCustomField
+      ProjectCustomField
         .includes(:project_custom_field_section)
         .where(id: active_custom_field_ids_of_project)
     end
