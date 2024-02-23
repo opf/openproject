@@ -30,7 +30,7 @@ require 'spec_helper'
 
 RSpec.describe Query::Results, 'sums' do
   let(:project) do
-    create(:project).tap do |p|
+    create(:project) do |p|
       p.work_package_custom_fields << int_cf
       p.work_package_custom_fields << float_cf
     end
@@ -44,7 +44,7 @@ RSpec.describe Query::Results, 'sums' do
   let(:remaining_hours_column) { query.displayable_columns.detect { |c| c.name.to_s == "remaining_hours" } }
   let(:story_points_column) { query.displayable_columns.detect { |c| c.name.to_s == "story_points" } }
   let(:other_project) do
-    create(:project).tap do |p|
+    create(:project) do |p|
       p.work_package_custom_fields << int_cf
       p.work_package_custom_fields << float_cf
     end
@@ -130,7 +130,7 @@ RSpec.describe Query::Results, 'sums' do
     create(:float_wp_custom_field)
   end
   let(:type) do
-    create(:type).tap do |t|
+    create(:type) do |t|
       t.custom_fields << int_cf
       t.custom_fields << float_cf
     end

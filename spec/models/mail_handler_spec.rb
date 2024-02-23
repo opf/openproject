@@ -112,7 +112,7 @@ RSpec.describe MailHandler do
     let!(:work_package) do
       create(:work_package,
              id: 2,
-             project:).tap do |wp|
+             project:) do |wp|
         wp.journals.last.update_column(:id, 891223)
       end
     end
@@ -157,7 +157,7 @@ RSpec.describe MailHandler do
       create(:work_package,
              subject: 'Some subject of the bug',
              id: 39733,
-             project:).tap do |wp|
+             project:) do |wp|
         wp.journals.last.update_column(:id, 99999999)
       end
     end
@@ -183,7 +183,7 @@ RSpec.describe MailHandler do
              subject: 'Some subject of the bug',
              id: 39733,
              project:,
-             status: original_status).tap do |wp|
+             status: original_status) do |wp|
         wp.journals.last.update_column(:id, 99999999)
       end
     end
@@ -192,7 +192,7 @@ RSpec.describe MailHandler do
     end
     let!(:resolved_status) do
       create(:status,
-             name: 'Resolved').tap do |status|
+             name: 'Resolved') do |status|
         create(:workflow,
                old_status: original_status,
                new_status: status,
@@ -207,7 +207,7 @@ RSpec.describe MailHandler do
     end
     let!(:float_cf) do
       create(:float_wp_custom_field,
-             name: 'float field').tap do |cf|
+             name: 'float field') do |cf|
         project.work_package_custom_fields << cf
         work_package.type.custom_fields << cf
       end
@@ -229,7 +229,7 @@ RSpec.describe MailHandler do
     let!(:message) do
       create(:message,
              id: 70917,
-             forum: create(:forum, project:)).tap do |wp|
+             forum: create(:forum, project:)) do |wp|
         wp.journals.last.update_column(:id, 99999999)
       end
     end
@@ -250,7 +250,7 @@ RSpec.describe MailHandler do
     end
     let!(:feature_type) do
       create(:type,
-             name: 'Feature request').tap do |type|
+             name: 'Feature request') do |type|
         project.types << type
       end
     end
@@ -281,7 +281,7 @@ RSpec.describe MailHandler do
     end
     let!(:feature_type) do
       create(:type,
-             name: 'Feature request').tap do |type|
+             name: 'Feature request') do |type|
         project.types << type
       end
     end
@@ -312,7 +312,7 @@ RSpec.describe MailHandler do
     end
     let!(:japanese_type) do
       create(:type,
-             name: '開発').tap do |type|
+             name: '開発') do |type|
         project.types << type
       end
     end
@@ -367,7 +367,7 @@ RSpec.describe MailHandler do
              member_with_permissions: { project => permissions })
     end
     let!(:custom_field) do
-      create(:string_wp_custom_field, name: 'Searchable field').tap do |cf|
+      create(:string_wp_custom_field, name: 'Searchable field') do |cf|
         project.work_package_custom_fields << cf
         project.types.first.custom_fields << cf
       end
@@ -409,7 +409,7 @@ RSpec.describe MailHandler do
 
     let!(:feature_type) do
       create(:type,
-             name: 'Feature request').tap do |type|
+             name: 'Feature request') do |type|
         project.types << type
       end
     end
@@ -615,7 +615,7 @@ RSpec.describe MailHandler do
 
       context 'for a given project with a default type' do
         let(:default_type) do
-          create(:type, is_default: true).tap do |t|
+          create(:type, is_default: true) do |t|
             project.types << t
           end
         end
