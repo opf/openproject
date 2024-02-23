@@ -49,9 +49,11 @@ module Storages::Admin
     private
 
     def title
-      return if authorized
-
-      I18n.t('storages.oauth_grant_nudge_modal.title')
+      if authorized
+        I18n.t('storages.oauth_grant_nudge_modal.access_granted_screen_reader', storage: project_storage.storage.name)
+      else
+        I18n.t('storages.oauth_grant_nudge_modal.title')
+      end
     end
 
     def waiting_title

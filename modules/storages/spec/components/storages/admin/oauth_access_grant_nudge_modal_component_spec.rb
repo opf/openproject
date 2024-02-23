@@ -49,6 +49,7 @@ RSpec.describe Storages::Admin::OAuthAccessGrantNudgeModalComponent, type: :comp
       expect(page).to have_test_selector(
         'oauth-access-grant-nudge-modal-body',
         text: "To get access to the project folder you need to login to #{project_storage.storage.name}.",
+        aria: { hidden: false }
       )
 
       expect(page).to have_button('I will do it later')
@@ -62,10 +63,20 @@ RSpec.describe Storages::Admin::OAuthAccessGrantNudgeModalComponent, type: :comp
     end
 
     it 'renders a success modal' do
-      expect(page).to have_text('Access granted')
+      expect(page).to have_css(
+        'h1.sr-only',
+        text: "Access granted. You are now ready to use #{project_storage.storage.name}"
+      )
+
+      expect(page).to have_test_selector(
+        'oauth-access-grant-nudge-modal-body',
+        text: 'Access granted',
+        aria: { hidden: true }
+      )
       expect(page).to have_test_selector(
         'oauth-access-grant-nudge-modal-body',
         text: "You are now ready to use #{project_storage.storage.name}",
+        aria: { hidden: true }
       )
 
       expect(page).to have_button('Close')

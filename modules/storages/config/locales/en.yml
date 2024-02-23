@@ -180,6 +180,7 @@ en:
       of each desired project to use it.
     oauth_grant_nudge_modal:
       access_granted: Access granted
+      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
       body: To get access to the project folder you need to login to %{storage}.
       cancel_button_label: I will do it later
       confirm_button_aria_label: Login to %{storage}

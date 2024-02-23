@@ -19,12 +19,14 @@
       data: {
         'storages--oauth-access-grant-nudge-modal-target': 'header'
       },
-      test_selector: 'oauth-access-grant-nudge-modal-header'
+      test_selector: 'oauth-access-grant-nudge-modal-header',
+      visually_hide_title: authorized
     )
 
     dialog.with_body(
       id: dialog_body_id,
-      test_selector: 'oauth-access-grant-nudge-modal-body'
+      test_selector: 'oauth-access-grant-nudge-modal-body',
+      aria: { hidden: authorized }
     ) do
       concat(
         render(
