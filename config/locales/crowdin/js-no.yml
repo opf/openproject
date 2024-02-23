@@ -31,6 +31,7 @@
         Er du sikker på at du vil slette denne filen? Denne handlingen kan ikke angres.
       draggable_hint: |
         Dra i tekstbehandlerfeltet for å sette inn bilde eller referansevedlegg. Lukket felt i tekstbehandler åpnes mens du fortsetter å dra det.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Legg til element"
       clear_all: "Fjern alle"
