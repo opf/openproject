@@ -186,7 +186,7 @@ RSpec.describe 'API v3 storage files', :webmock, content_type: :json do
 
       before do
         files_info_query = ->(_) { ServiceResult.success(result: response) }
-        Storages::Peripherals::Registry.stub('queries.nextcloud.file_info', files_info_query)
+        Storages::Peripherals::Registry.stub('nextcloud.queries.file_info', files_info_query)
       end
 
       subject { last_response.body }

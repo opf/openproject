@@ -34,7 +34,7 @@ class API::V3::Storages::StorageOpenAPI < API::OpenProjectAPI
   resources :open do
     get do
       Storages::Peripherals::Registry
-        .resolve("queries.#{@storage.short_provider_type}.open_storage")
+        .resolve("#{@storage.short_provider_type}.queries.open_storage")
         .call(storage: @storage, user: current_user)
         .match(
           on_success: ->(url) do
