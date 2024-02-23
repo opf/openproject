@@ -77,7 +77,7 @@ module WorkPackage::PDFExport::OverviewTable
 
   def transformed_sum_group
     sums = query.results.all_group_sums
-    if query.group_by_column.is_a?(Queries::WorkPackages::Selects::Queries::WorkPackages::Selects::CustomFieldSelect)
+    if query.group_by_column.is_a?(Queries::WorkPackages::Selects::CustomFieldSelect)
       transform_custom_field_keys(sums)
     else
       sums

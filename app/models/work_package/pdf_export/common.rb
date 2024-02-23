@@ -244,7 +244,7 @@ module WorkPackage::PDFExport::Common
   end
 
   def text_column?(column)
-    column.is_a?(Queries::WorkPackages::Selects::Queries::WorkPackages::Selects::CustomFieldSelect) &&
+    column.is_a?(Queries::WorkPackages::Selects::CustomFieldSelect) &&
       %w(string text).include?(column.custom_field.field_format)
   end
 

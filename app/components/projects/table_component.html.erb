@@ -43,7 +43,11 @@ See COPYRIGHT and LICENSE files for more details.
             <% if column.attribute == :hierarchy %>
               <th id="project-table--hierarchy-header">
                 <div class="generic-table--sort-header-outer generic-table--sort-header-outer_no-highlighting">
-                  <div class="generic-table--sort-header">
+                  <div class="generic-table--sort-header"
+                       data-controller="params-from-query"
+                       data-application-target="dynamic"
+                       data-params-from-query-all-anchors-value="true"
+                       data-params-from-query-allowed-value='["query_id", "per_page", "filters", "columns"]'>
                     <%= content_tag :a,
                                     helpers.op_icon("icon-hierarchy"),
                                     href: href_only_when_not_sort_lft,
@@ -93,8 +97,8 @@ See COPYRIGHT and LICENSE files for more details.
     <div data-controller="params-from-query"
          data-application-target="dynamic"
          data-params-from-query-all-anchors-value="true"
-         data-params-from-query-allowed-value='["query_id"]'>
-      <%= helpers.pagination_links_full model, { blocked_url_params: [:query_id] } %>
+         data-params-from-query-allowed-value='["query_id", "columns"]'>
+      <%= helpers.pagination_links_full model, { blocked_url_params: [:query_id, :columns] } %>
     </div>
   <% end %>
 </div>

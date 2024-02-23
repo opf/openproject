@@ -189,9 +189,13 @@ export default class FiltersController extends Controller {
 
     const filters = this.parseFilters();
     const orderParam = this.getUrlParameter('sortBy');
+    const columnParam = this.getUrlParameter('columns');
     let queryString = `?filters=${encodeURIComponent(filters.join('&'))}`;
     if (orderParam) {
       queryString = `${queryString}&sortBy=${encodeURIComponent(orderParam)}`;
+    }
+    if (columnParam) {
+      queryString = `${queryString}&columns=${columnParam.toString()}`;
     }
 
     window.location.href = window.location.pathname + queryString;

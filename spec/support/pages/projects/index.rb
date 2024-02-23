@@ -132,6 +132,18 @@ module Pages
         end
       end
 
+      def expect_columns(*column_names)
+        column_names.each do |column_name|
+          expect(page).to have_css('th', text: column_name.upcase)
+        end
+      end
+
+      def expect_no_columns(*column_names)
+        column_names.each do |column_name|
+          expect(page).to have_no_css('th', text: column_name.upcase)
+        end
+      end
+
       def filter_by_active(value)
         set_filter('active',
                    'Active',
@@ -249,22 +261,25 @@ module Pages
         # Serves as a safeguard
         page.find('.op-draggable-autocomplete--item', text: 'Name')
 
-        protected_columns = Regexp.new("^(?!#{(columns + ['Name']).join('$|')}$).*$")
+        not_protected_columns = Regexp.new("^(?!#{(columns + ['Name']).join('$|')}$).*$")
 
-        while (item = page.all('.op-draggable-autocomplete--item', text: protected_columns)[0])
-          puts item
-          item.click
+        while (item = page.all('.op-draggable-autocomplete--item', text: not_protected_columns)[0])
+          item.find('.op-draggable-autocomplete--remove-item').click
         end
 
-        remaining_columns = page.all('.op-draggable-autocomplete--item').map(&:text)
+        remaining_columns = page.all('.op-draggable-autocomplete--item').map { |i| i.text.downcase }
 
-        (columns - remaining_columns).each do |column|
+        columns.each do |column|
+          next if remaining_columns.include?(column.downcase)
+
           select_autocomplete find('.op-draggable-autocomplete--input'),
                               results_selector: '.ng-dropdown-panel-items',
                               query: column
         end
 
-        click_on 'Apply'
+        within 'modal-dialog' do
+          click_on 'Apply'
+        end
       end
 
       def click_more_menu_item(item)

@@ -86,7 +86,7 @@ module Projects
 
     def href_only_when_not_sort_lft
       unless sorted_by_lft?
-        projects_path(filters: params[:filters], sortBy: JSON::dump([['lft', 'asc']]))
+        projects_path(sortBy: JSON::dump([['lft', 'asc']]))
       end
     end
 
