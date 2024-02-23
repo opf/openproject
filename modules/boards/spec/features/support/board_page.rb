@@ -177,7 +177,7 @@ module Pages
     end
 
     def move_card_by_name(text, from:, to:)
-      source = page.find("#{list_selector(from)} [data-test-selector='op-wp-single-card']", text: text)
+      source = page.find("#{list_selector(from)} [data-test-selector='op-wp-single-card']", text:)
       target = page.find list_selector(to)
 
       drag_n_drop_element(from: source, to: target)
