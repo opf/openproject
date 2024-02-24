@@ -91,16 +91,16 @@ lt:
     is_active: šiuo metu rodoma
     is_inactive: šiuo metu nerodoma
   antivirus_scan:
-    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
-    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
-    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
-    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
-    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    not_processed_yet_message: "Atsisiuntimas užblokuotas, nes failas dar nebuvo patikrintas dėl virusų. Prašome pabandyti vėliau."
+    quarantined_message: "Faile „%{filename}“ aptiktas virusas. Jis buvo patalpintas į karantiną ir jo atsisiųsti negalima."
+    deleted_message: "Faile „%{filename}“ aptiktas virusas. Failas buvo ištrintas."
+    deleted_by_admin: "Administratorius ištrynė į karantiną patekusį failą „%{filename}“."
+    overridden_by_admin: "Failo „%{filename}“ karantinas buvo pašalintas %{user}. Dabar failą galima pasiekti."
     quarantined_attachments:
-      container: "Container"
-      delete: "Delete the quarantined file"
-      title: "Quarantined attachments"
-      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
+      container: "Konteineris"
+      delete: "Trinti į karantiną patekusį failą"
+      title: "Į karantiną patalpinti priedai"
+      error_cannot_act_self: "Negalima atlikti veiksmų su savo įkeltais failais."
   attribute_help_texts:
     note_public: "Bet koks tekstas ir piešinukai, kuriuos jūs pridedate prie šio lauko, yra viešai matomas visiems prisijungusiems naudotojams!"
     text_overview: "Šioje peržiūroje Jūs galite kurti pritaikytus pagalbos tekstus atributams. Kai nustatyti, šie tekstai gali būti rodomi paspaudžiant pagalbos piktogramą šalia atitinkamo atributo."
@@ -1962,6 +1962,7 @@ lt:
   label_member_new: "Naujas narys"
   label_member_all_admin: "(Visi vaidmenys, nes turite administratoriaus statusą)"
   label_member_plural: "Nariai"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Narys pridėtas"
   lable_membership_updated: "Narys atnaujintas"
   label_menu_badge:
@@ -2265,9 +2266,9 @@ lt:
     other: "%{count} projektai (-as, -ų)"
     zero: "nėra projektų"
   label_x_files:
-    one: "1 file"
-    other: "%{count} files"
-    zero: "no files"
+    one: "1 failas"
+    other: "%{count} failai"
+    zero: "nėra failų"
   label_yesterday: "vakar"
   label_role_type: "Tipas"
   label_member_role: "Vaidmuo projekte"
@@ -2780,7 +2781,7 @@ lt:
   setting_app_subtitle: "Programos paantraštė"
   setting_app_title: "Programos pavadinimas"
   setting_attachment_max_size: "Didžiausias prisegamo failo dydis"
-  setting_antivirus_scan_mode: "Scan mode"
+  setting_antivirus_scan_mode: "Skenavimo režimas"
   setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Automatiškai įkelti repozitorijos pakeitimus"
   setting_autologin: "Automatinis prisijungimas"

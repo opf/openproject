@@ -1880,6 +1880,7 @@ zh-CN:
   label_member_new: "新成员"
   label_member_all_admin: "（所有角色都由管理员状态决定）"
   label_member_plural: "成员"
+  label_membership_plural: "Memberships"
   lable_membership_added: "已添加成员"
   lable_membership_updated: "已更新成员"
   label_menu_badge:

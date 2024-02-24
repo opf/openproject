@@ -1960,6 +1960,7 @@ uk:
   label_member_new: "Новий учасник"
   label_member_all_admin: "(Усі ролі через статус адміністратора)"
   label_member_plural: "Учасники"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Учасника додано"
   lable_membership_updated: "Учасника оновлено"
   label_menu_badge:

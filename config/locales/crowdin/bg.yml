@@ -1911,6 +1911,7 @@ bg:
   label_member_new: "Нов потребител"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Потребители"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
   label_menu_badge:

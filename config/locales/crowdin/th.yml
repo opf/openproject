@@ -1884,6 +1884,7 @@ th:
   label_member_new: "สมาชิกใหม่"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "สมาชิก"
+  label_membership_plural: "Memberships"
   lable_membership_added: "เพิ่มสมาชิกแล้ว"
   lable_membership_updated: "ปรับปรุงข้อมูลสมาชิกแล้ว"
   label_menu_badge:

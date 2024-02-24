@@ -1911,6 +1911,7 @@ ka:
   label_member_new: "ახალი წევრი"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "წევრები"
+  label_membership_plural: "Memberships"
   lable_membership_added: "წევრი დაემატა"
   lable_membership_updated: "წევრი განახლდა"
   label_menu_badge:

@@ -1880,6 +1880,7 @@ ja:
   label_member_new: "新規メンバー"
   label_member_all_admin: "(管理ステータスのすべての役割)"
   label_member_plural: "メンバー"
+  label_membership_plural: "Memberships"
   lable_membership_added: "メンバーが追加されました"
   lable_membership_updated: "メンバーが更新されました"
   label_menu_badge:

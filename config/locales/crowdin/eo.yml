@@ -1911,6 +1911,7 @@ eo:
   label_member_new: "Nova membro"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Membroj"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
   label_menu_badge:

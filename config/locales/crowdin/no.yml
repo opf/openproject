@@ -1911,6 +1911,7 @@
   label_member_new: "Nytt medlem"
   label_member_all_admin: "(Alle roller på grunn av administratorstatus)"
   label_member_plural: "Medlemmer"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Medlem lagt til"
   lable_membership_updated: "Medlem oppdatert"
   label_menu_badge:
