@@ -29,7 +29,7 @@
 module Projects::ActsAsCustomizablePatches
   extend ActiveSupport::Concern
 
-  attr_accessor :_limit_custom_fields_validation_to_section_id
+  attr_accessor :_limit_custom_fields_validation_to_section_id, :_query_available_custom_fields_on_global_level
 
   # attr_accessor :_limit_custom_fields_validation_to_field_id
   # not needed for now, but might be relevant if we want to have edit dialogs just for one custom field
@@ -104,9 +104,14 @@ module Projects::ActsAsCustomizablePatches
       # overrides acts_as_customizable
       # in contrast to acts_as_customizable, custom_fields are enabled per project
       # thus we need to check the project_custom_field_project_mappings
-      ProjectCustomField
+      custom_fields = ProjectCustomField
         .includes(:project_custom_field_section)
-        .where(id: active_custom_field_ids_of_project)
+
+      unless _query_available_custom_fields_on_global_level
+        custom_fields = custom_fields.where(id: active_custom_field_ids_of_project)
+      end
+
+      custom_fields
     end
 
     def available_project_custom_fields_grouped_by_section
@@ -158,6 +163,39 @@ module Projects::ActsAsCustomizablePatches
         custom_field_section_ids[custom_value.custom_field_id] == _limit_custom_fields_validation_to_section_id
       else
         true # validate all custom values if no specific section was specified
+      end
+    end
+
+    # patching the update methods directly as rails before/after/around update hooks did not work in this context
+    #
+    # reason for the patch:
+    # we need to query the available custom fields on a global level when updating custom field values
+    # in order to support implicit activation of custom fields when values are provided during an update
+    # _query_available_custom_fields_on_global_level is used within the patched `available_custom_fields` method
+    #
+    # TODO: this patch seems far from ideal, find better solution for this
+    #
+    def update(attributes)
+      if attributes[:custom_field_values].present?
+        self._query_available_custom_fields_on_global_level = true
+        result = super(attributes)
+        self._query_available_custom_fields_on_global_level = false
+
+        result
+      else
+        super
+      end
+    end
+
+    def update!(attributes)
+      if attributes[:custom_field_values].present?
+        self._query_available_custom_fields_on_global_level = true
+        result = super(attributes)
+        self._query_available_custom_fields_on_global_level = false
+
+        result
+      else
+        super
       end
     end
   end
