@@ -8,6 +8,8 @@ module ::TwoFactorAuthentication
 
     before_action :find_device, only: %i[confirm make_default destroy]
 
+    helper_method :optional_webauthn_challenge_url
+
     layout 'no_menu'
 
     def new
@@ -260,6 +262,12 @@ module ::TwoFactorAuthentication
       return if target_user.webauthn_id
 
       target_user.update(webauthn_id: WebAuthn.generate_user_id)
+    end
+
+    def optional_webauthn_challenge_url
+      if @device_type == :webauthn
+        helpers.url_for(action: :webauthn_challenge, format: :json)
+      end
     end
   end
 end
