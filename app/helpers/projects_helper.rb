@@ -43,10 +43,22 @@ module ProjectsHelper
   end
 
   def short_project_description(project, length = 255)
-    unless project.description.present?
+    if project.description.blank?
       return ''
     end
 
     project.description.gsub(/\A(.{#{length}}[^\n\r]*).*\z/m, '\1...').strip
+  end
+
+  def enabled_projects_columns_options
+    ::Queries::Projects::ProjectQuery
+      .new.available_selects
+      .sort_by(&:caption)
+      .map do |s|
+      [s.caption,
+       s.attribute.to_s,
+       { checked: Setting.enabled_projects_columns.include?(s.attribute.to_s) || s.attribute == :name,
+         disabled: s.attribute == :name }]
+    end
   end
 end

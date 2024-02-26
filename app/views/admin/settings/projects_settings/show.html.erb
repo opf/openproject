@@ -47,14 +47,6 @@ See COPYRIGHT and LICENSE files for more details.
   <section class="form--section">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= t('settings.projects.section_project_overview') %></legend>
-      <%
-        column_choices = ::Projects::TableComponent
-          .new(current_user: current_user)
-          .all_columns
-          .reject { |_, options| !options[:caption] }
-          .map { |name, options| [options[:caption], name.to_s, checked: options[:builtin], disabled: options[:builtin]] }
-      %>
-
       <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
         <div class="form--field">
           <%=
@@ -67,9 +59,9 @@ See COPYRIGHT and LICENSE files for more details.
           %>
         </div>
       <% end %>
-      
+
       <div class="form--field">
-        <%= setting_multiselect(:enabled_projects_columns, column_choices) %>
+        <%= setting_multiselect(:enabled_projects_columns, enabled_projects_columns_options) %>
       </div>
 
       <div class="form--field">

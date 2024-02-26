@@ -93,35 +93,60 @@ RSpec.describe Queries::Projects::ProjectQuery do
   describe '.available_selects' do
     current_user { user }
 
+    before do
+      scope = instance_double(ActiveRecord::Relation)
+
+      allow(ProjectCustomField)
+        .to receive(:visible)
+              .and_return(scope)
+
+      allow(scope)
+        .to receive(:pluck)
+              .and_return([23, 42])
+    end
+
     it 'lists registered selects' do
-      expect(instance.available_selects)
-        .to contain_exactly(Queries::Projects::Selects::Default)
+      expect(instance.available_selects.map(&:attribute))
+        .to contain_exactly(:name,
+                            :public,
+                            :description,
+                            :hierarchy,
+                            :project_status,
+                            :status_explanation)
     end
 
     context 'with the user being admin' do
       current_user { admin }
 
       it 'includes admin columns' do
-        expect(instance.available_selects)
-          .to contain_exactly(Queries::Projects::Selects::Default,
-                              Queries::Projects::Selects::Admin)
+        expect(instance.available_selects.map(&:attribute))
+          .to contain_exactly(:name,
+                              :public,
+                              :description,
+                              :hierarchy,
+                              :project_status,
+                              :status_explanation,
+                              :created_at,
+                              :latest_activity_at,
+                              :required_disk_space)
       end
     end
 
     context 'with an enterprise token',
             with_ee: %i[custom_fields_in_projects_list] do
+      # rubocop:disable Naming/VariableNumber
       it 'includes custom field columns' do
-        expect(instance.available_selects)
-          .to contain_exactly(Queries::Projects::Selects::Default,
-                              Queries::Projects::Selects::CustomField)
+        expect(instance.available_selects.map(&:attribute))
+          .to contain_exactly(:name,
+                              :public,
+                              :description,
+                              :hierarchy,
+                              :project_status,
+                              :status_explanation,
+                              :cf_23,
+                              :cf_42)
       end
-    end
-  end
-
-  describe '.available_select_names' do
-    it 'lists registered selects' do
-      expect(instance.available_select_keys)
-        .to include(:name, :public)
+      # rubocop:enable Naming/VariableNumber
     end
   end
 end
