@@ -40,8 +40,11 @@ module Projects::ActsAsCustomizablePatches
     has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: 'ProjectCustomField'
 
     before_save :build_missing_project_custom_field_project_mappings
-    after_save :reset_section_scoped_validation
+
+    after_save :reset_section_scoped_validation, :reset_query_available_custom_fields_on_global_level
+
     before_create :reject_section_scoped_validation_for_creation
+
     after_create :disable_custom_fields_with_empty_values
 
     def build_missing_project_custom_field_project_mappings
@@ -61,6 +64,12 @@ module Projects::ActsAsCustomizablePatches
       # reset the section scope after saving
       # in order not to silently carry this setting in this instance
       self._limit_custom_fields_validation_to_section_id = nil
+    end
+
+    def reset_query_available_custom_fields_on_global_level
+      # reset the query_available_custom_fields_on_global_level after saving
+      # in order not to silently carry this setting in this instance
+      self._query_available_custom_fields_on_global_level = nil
     end
 
     def reject_section_scoped_validation_for_creation
@@ -196,6 +205,33 @@ module Projects::ActsAsCustomizablePatches
         result
       else
         super
+      end
+    end
+
+    def custom_field_values=(values)
+      # overrides acts_as_customizable
+      # we need to query the available custom fields on a global level when updating custom field values
+      # in order to support implicit activation of custom fields when values are provided during an update
+      self._query_available_custom_fields_on_global_level = true
+      set_custom_field_values_method_from_acts_as_customizable_module(values)
+    end
+
+    # we cannot call super as the code in acts_as_customizable is shipped in a module
+    # thus copy and pasted the code from acts_as_customizable here
+    def set_custom_field_values_method_from_acts_as_customizable_module(values)
+      return unless values.is_a?(Hash) && values.any?
+
+      values.with_indifferent_access.each do |custom_field_id, val|
+        existing_cv_by_value = custom_values_for_custom_field(id: custom_field_id)
+                                 .group_by(&:value)
+                                 .transform_values(&:first)
+        new_values = Array(val).map { |v| v.respond_to?(:id) ? v.id.to_s : v.to_s }
+
+        if existing_cv_by_value.any?
+          assign_new_values custom_field_id, existing_cv_by_value, new_values
+          delete_obsolete_custom_values existing_cv_by_value, new_values
+          handle_minimum_custom_value custom_field_id, existing_cv_by_value, new_values
+        end
       end
     end
   end

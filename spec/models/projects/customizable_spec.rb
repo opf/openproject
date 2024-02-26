@@ -135,7 +135,7 @@ RSpec.describe Project, 'customizable' do
               .to eq('foo')
             expect(project.custom_value_for(bool_custom_field).typed_value)
               .to be_truthy
-            expect(project.custom_value_for(list_custom_field))
+            expect(project.custom_value_for(list_custom_field).typed_value)
               .to be_nil
           end
 
@@ -278,6 +278,19 @@ RSpec.describe Project, 'customizable' do
                           text_custom_field.id => 'foo',
                           bool_custom_field.id => true
                         })
+      end
+
+      it_behaves_like 'implicitly enabled and saved custom values'
+    end
+
+    context 'with #custom_field_values= method' do
+      before do
+        project.custom_field_values = {
+          text_custom_field.id => 'foo',
+          bool_custom_field.id => true
+        }
+
+        project.save!
       end
 
       it_behaves_like 'implicitly enabled and saved custom values'
