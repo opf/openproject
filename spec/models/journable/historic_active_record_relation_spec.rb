@@ -267,7 +267,7 @@ RSpec.describe Journable::HistoricActiveRecordRelation do
                   customizable_journals.journal_id = journals.id
                   AND customizable_journals.custom_field_id = #{custom_field.id}
                 SQL
-              expect(subject_sql).to include "customizable_journals.value ILIKE '%Wednesday_CV%'"
+              expect(subject_sql).to include "customizable_journals.value ILIKE '%Wednesday\\_CV%'"
             end
           end
 

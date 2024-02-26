@@ -138,7 +138,7 @@ de:
   text_meeting_minutes_for_meeting: 'das Protokoll für die Besprechung "%{meeting}"'
   text_notificiation_invited: "Diese Email enthält einen ics Eintrag für die untenstehende Besprechung:"
   text_meeting_empty_heading: "Ihre Besprechung ist leer"
-  text_meeting_empty_description_1: "Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes."
+  text_meeting_empty_description_1: "Beginnen Sie unten mit dem Hinzufügen von Tagesordnungspunkten. Jeder Eintrag kann zunächst nur aus einem Titel bestehen. Optional können Sie zusätzliche Details wie Dauer und Notizen hinzufügen."
   text_meeting_empty_description_2: "Sie können auch Verweise auf bestehende Arbeitspakete hinzufügen. So werden angehängte Notizen automatisch auch im \"Besprechungen\"-Tab des Arbeitspakets angezeigt."
   label_meeting_empty_action: "Tagesordnungspunkt hinzufügen"
   label_meeting_actions: "Aktionen der Besprechung"

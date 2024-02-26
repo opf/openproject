@@ -103,37 +103,69 @@ RSpec.describe 'layouts/base' do
   describe 'icons' do
     let(:current_user) { anonymous }
 
-    before do
-      render
+    context 'not in development environment' do
+      before do
+        render
+      end
+
+      it 'renders main favicon' do
+        expect(rendered).to have_css(
+          "link[type='image/x-icon'][href*='/assets/favicon.ico']",
+          visible: false
+        )
+      end
+
+      it 'renders apple icons' do
+        expect(rendered).to have_css(
+          "link[type='image/png'][href*='/assets/apple-touch-icon-120x120.png']",
+          visible: false
+        )
+      end
+
+      # We perform a get request against the icons to ensure they are there (and
+      # avoid 404 errors in production). Should you continue to see 404s in production,
+      # ensure your asset cache is not stale.
+
+      # We do this here as opposed to a request spec to 1. keep icon specs contained
+      # in one place, and 2. the view itself makes this request, so this is an appropriate
+      # location for it.
+      it 'icons actually exist' do
+        visit 'assets/favicon.ico'
+        expect(page.status_code).to eq(200)
+
+        visit 'assets/apple-touch-icon-120x120.png'
+        expect(page.status_code).to eq(200)
+      end
     end
 
-    it 'renders main favicon' do
-      expect(rendered).to have_css(
-        "link[type='image/x-icon'][href*='#{OpenProject::CustomStyles::Design.favicon_asset_path}']",
-        visible: false
-      )
-    end
+    context 'in development environment' do
+      before do
+        allow(OpenProject::Configuration).to receive(:development_highlight_enabled?).and_return(true)
 
-    it 'renders apple icons' do
-      expect(rendered).to have_css(
-        "link[type='image/png'][href*='/assets/apple-touch-icon-120x120.png']",
-        visible: false
-      )
-    end
+        render
+      end
 
-    # We perform a get request against the icons to ensure they are there (and
-    # avoid 404 errors in production). Should you continue to see 404s in production,
-    # ensure your asset cache is not stale.
+      it 'renders main favicon' do
+        expect(rendered).to have_css(
+          "link[type='image/x-icon'][href*='/assets/development/favicon.ico']",
+          visible: false
+        )
+      end
 
-    # We do this here as opposed to a request spec to 1. keep icon specs contained
-    # in one place, and 2. the view itself makes this request, so this is an appropriate
-    # location for it.
-    it 'icons actually exist' do
-      visit 'assets/favicon.ico'
-      expect(page.status_code).to eq(200)
+      it 'renders apple icons' do
+        expect(rendered).to have_css(
+          "link[type='image/png'][href*='/assets/development/apple-touch-icon-120x120.png']",
+          visible: false
+        )
+      end
 
-      visit 'assets/apple-touch-icon-120x120.png'
-      expect(page.status_code).to eq(200)
+      it 'icons actually exist' do
+        visit 'assets/development/favicon.ico'
+        expect(page.status_code).to eq(200)
+
+        visit 'assets/development/apple-touch-icon-120x120.png'
+        expect(page.status_code).to eq(200)
+      end
     end
   end
 
@@ -236,8 +268,8 @@ RSpec.describe 'layouts/base' do
     context 'with the user being anonymous' do
       let(:current_user) { anonymous }
 
-      it 'has no current_user metatag' do
-        expect(rendered).to have_no_css('meta[name=current_user]', visible: false)
+      it 'has a current_user metatag' do
+        expect(rendered).to have_css('meta[name=current_user]', visible: false)
       end
     end
   end

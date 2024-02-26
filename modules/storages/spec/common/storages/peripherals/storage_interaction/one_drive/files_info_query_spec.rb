@@ -110,7 +110,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
                            status_code: 200,
                            id: '01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU',
                            name: 'Document.docx',
-                           size: 19408,
+                           size: 22514,
                            mime_type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
                            created_at: Time.parse('2023-09-26T14:40:58Z'),
                            last_modified_at: Time.parse('2023-09-26T14:42:03Z'),
@@ -211,6 +211,33 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FilesInfoQue
         result.match(
           on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
           on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
+        )
+      end
+    end
+
+    context 'with network errors' do
+      let(:file_ids) { %w[01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU] }
+
+      before do
+        request = HTTPX::Request.new(:get, 'https://my.timeout.org/')
+        httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
+
+        allow(OpenProject).to receive(:httpx).and_return(httpx_double)
+      end
+
+      it 'must return an array of file information when called' do
+        result = subject.call(user:, file_ids:)
+        expect(result).to be_success
+
+        result.match(
+          on_success: ->(file_infos) do
+            expect(file_infos.size).to eq(1)
+            expect(file_infos).to all(be_a(Storages::StorageFileInfo))
+            expect(file_infos[0].id).to eq('01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU')
+            expect(file_infos[0].status).to eq('Timeout happens')
+            expect(file_infos[0].status_code).to eq(500)
+          end,
+          on_failure: ->(error) { fail "Expected success, got #{error}" }
         )
       end
     end

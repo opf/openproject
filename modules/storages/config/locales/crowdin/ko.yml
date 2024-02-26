@@ -5,6 +5,7 @@ ko:
         origin_id: 원본 ID
       storages/storage:
         creator: 생성자
+        drive: 드라이브 ID
         host: 호스트
         name: 이름
         provider_type: 공급자 유형
@@ -90,7 +91,8 @@ ko:
       label_healthy: 정상
       label_pending: 대기 중
       since: '%{datetime} 이후'
-      title: 관리되는 폴더 상태
+      subtitle: 자동으로 관리되는 프로젝트 폴더
+      title: 상태
     help_texts:
       project_folder: 프로젝트 폴더는 이 프로젝트에 대한 파일 업로드의 기본 폴더입니다. 사용자는 다른 위치에 파일을 계속 업로드할 수 있습니다.
     instructions:
@@ -172,20 +174,34 @@ ko:
       not_connected: 연결되지 않았습니다. 사용자는 다음 %{link}을(를) 통해 저장소에 로그인해야 합니다.
     members_no_results: 표시할 멤버가 없습니다.
     no_results: 아직 저장소가 설정되지 않았습니다.
-    notice_successful_storage_connection: 저장소가 연결되었습니다! 이 저장소를 사용하려면 원하는 각 프로젝트의 프로젝트 설정에서 모듈과 특정 저장소를 활성화해야 합니다.
+    notice_successful_storage_connection: |-
+      저장소가 연결되었습니다! 이 저장소를 사용하려면 원하는 각 프로젝트의 프로젝트 설정에서 모듈과 특정 저장소를 활성화해야 합니다.
+    oauth_grant_nudge_modal:
+      access_granted: 액세스 승인됨
+      body: 프로젝트 폴더에 액세스하려면 %{storage}에 로그인해야 합니다.
+      cancel_button_label: 나중에 하겠습니다
+      confirm_button_label: 로그인
+      storage_ready: 이제 %{storage}을(를) 사용할 준비가 되었습니다
+      title: 한 단계 더...
     open_project_storage_modal:
       success:
-        a: 통합 설정 완료됨
-        b: 리디렉션 중입니다
+        subtitle: 리디렉션 중입니다
+        title: 통합 설정 완료됨
       waiting:
-        a: 프로젝트 폴더에 대한 권한을 설정하는 중입니다.
-        b: 잠시 기다려 주세요. 시간이 좀 걸릴 수 있습니다.
+        subtitle: 잠시 기다려 주세요. 시간이 좀 걸릴 수 있습니다.
+        title: 프로젝트 폴더에 대한 권한을 설정하는 중입니다.
     page_titles:
       file_storages:
         delete: 파일 저장소 삭제
         subtitle: 작업 패키지의 파일을 업로드하고, 링크하고, 관리하려면 외부 파일 저장소를 추가하세요.
       managed_project_folders:
-        subtitle: OpenProject가 프로젝트별 폴더를 자동으로 생성하도록 합니다. 각 팀원이 항상 올바른 액세스 권한을 갖도록 보장하므로 권장됩니다.
+        one_drive_information: |-
+          OneDrive/SharePoint에서 자동으로 관리되는 프로젝트 폴더를 활성화하려면, 이 파일 저장소에 사용되는
+          드라이브에서 추가 구성이 필요합니다. OpenProject가 이 드라이브의 권한을 관리하는 경우,
+          SharePoint의 다른 사용 사례에는 사용하지 못할 가능성이 높습니다. 자세한 정보와 지침은
+          %{drive_id_link_text} 내용을 참조하세요.
+        subtitle: |-
+          OpenProject가 프로젝트별 폴더를 자동으로 생성하도록 합니다. 각 팀원이 항상 올바른 액세스 권한을 갖도록 보장하므로 권장됩니다.
         subtitle_short: OpenProject가 프로젝트별 폴더를 자동으로 생성하도록 하세요.
         title: 자동으로 관리되는 프로젝트 폴더
       project_settings:
@@ -213,5 +229,6 @@ ko:
       description: 여기에서 보려면 저장소를 추가합니다.
       heading: 아직 저장소가 없습니다.
     upsale:
-      description: OpenProject를 사용하여 OneDrive/SharePoint를 파일 저장소로 통합합니다. 파일을 업로드하고 프로젝트의 작업 패키지에 직접 링크합니다.
+      description: |-
+        OpenProject를 사용하여 OneDrive/SharePoint를 파일 저장소로 통합합니다. 파일을 업로드하고 프로젝트의 작업 패키지에 직접 링크합니다.
       title: OneDrive/SharePoint 통합

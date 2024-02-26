@@ -43,6 +43,6 @@ class Widget::Controls::QueryName < Widget::Controls
   end
 
   def translations
-    { isPublic: I18n.t(:field_is_public) }.to_json
+    { isPublic: I18n.t(:public, scope: 'attributes') }.to_json
   end
 end

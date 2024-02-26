@@ -53,7 +53,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
           result = subject.call(user:, file_id: nil)
 
           expect(result).to be_failure
-          expect(result.error_source).to be_a(described_class)
+          expect(result.error_source).to eq(described_class)
           expect(result.result).to eq(:error)
         end
       end
@@ -184,6 +184,24 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
         on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
         on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
       )
+    end
+  end
+
+  context 'with network errors' do
+    let(:file_id) { '01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA' }
+
+    before do
+      request = HTTPX::Request.new(:get, 'https://my.timeout.org/')
+      httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
+
+      allow(OpenProject).to receive(:httpx).and_return(httpx_double)
+    end
+
+    it 'must return an error with wrapped network error response' do
+      error = subject.call(user:, file_id:)
+      expect(error).to be_failure
+      expect(error.result).to eq(:error)
+      expect(error.error_payload).to be_a(HTTPX::ErrorResponse)
     end
   end
 end

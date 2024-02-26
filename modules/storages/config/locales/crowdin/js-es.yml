@@ -15,6 +15,7 @@ es:
       choose_location: "Seleccionar ubicación"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/Sharepoint"
         default: "Almacén"
       information:
         connection_error: >
@@ -77,7 +78,7 @@ es:
         link_uploaded_file_error: >
           Se ha producido un error al vincular el archivo cargado recientemente "%{fileName}" al paquete de trabajo %{workPackageId}.
         tooltip:
-          not_logged_in: "Por favor, inicia sesión en Nextcloud para acceder a este archivo"
+          not_logged_in: "Inicia sesión en el almacenamiento para acceder a este archivo."
           view_not_allowed: "No tienes permisos para ver este archivo."
           not_found: "No se ha encontrado este archivo."
         already_linked_file: "El archivo ya está vinculado a este paquete de trabajo."

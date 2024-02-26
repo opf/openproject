@@ -90,6 +90,17 @@ id:
     show_until: Show until
     is_active: currently displayed
     is_inactive: currently not displayed
+  antivirus_scan:
+    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
+    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
+    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
+    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
+    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    quarantined_attachments:
+      container: "Container"
+      delete: "Delete the quarantined file"
+      title: "Quarantined attachments"
+      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
   attribute_help_texts:
     note_public: "Teks dan gambar apa pun yang Anda tambahkan ke bidang ini dapat dilihat secara publik oleh semua pengguna yang masuk!"
     text_overview: "Pada tampilan ini, anda dapat membuat teks-teks bantuan yang dikhususkan untuk tampilan atribut-atribut tersebut. Ketika didefinisikan, teks-teks ini dapat ditampilkan dengan mengklik ikon bantuan pada atribut miliknya."
@@ -104,6 +115,7 @@ id:
   ldap_auth_sources:
     ldap_error: "LDAP-Error: %{error_message}"
     ldap_auth_failed: "Authentikasi pada LDAP-Server gagal."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Formulir LDAP ini membutuhkan pengetahuan teknis LDAP anda / pengaturan Direktori Aktif. <br/><a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Silahkan kungjungi dokumentasi untuk instruksi lebih jelas</a>.
@@ -244,10 +256,15 @@ id:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Buka sebagai tampilan Gantt"
-      open_as_gantt_title: "Gunakan tombol ini untuk membuat tampilan Gantt yang memfilter paket kerja untuk proyek yang terlihat di halaman ini."
-      open_as_gantt_title_admin: "Anda dapat memodifikasi pengaturan tampilan (seperti jenis paket pekerjaan yang dipilih) di administrasi di bawah pengaturan proyek."
       no_results_title_text: Tidak ada proyek saat ini
       no_results_content_text: Buat proyek baru
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Ubah pengenal
       activities:
@@ -279,14 +296,14 @@ id:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Gagal untuk menset ulang akses token: %{error}"
@@ -320,6 +337,8 @@ id:
       no_results_title_text: Pengguna ini saat ini bukan anggota di grup mana pun.
     memberships:
       no_results_title_text: This user is currently not a member of a project.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       Anda tidak diizinkan untuk menghapus pengguna placeholder. Anda tidak memiliki hak untuk mengelola anggota untuk semua proyek yang menjadi anggota pengguna placeholder.
@@ -514,6 +533,8 @@ id:
         row_count: "Jumlah baris"
         column_count: "Jumlah kolom"
         widgets: "Widget"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Jeda"
         from: "Paket-Penugasan"
@@ -579,6 +600,7 @@ id:
         color: "Warna"
       user:
         admin: "Administrator"
+        auth_source: "Authentication source"
         ldap_auth_source: "koneksi LDAP"
         identity_url: "Identity URL"
         current_password: "Current password"
@@ -610,8 +632,9 @@ id:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
         children: "Subelemen"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
+        derived_done_ratio: "Total % complete"
+        derived_remaining_hours: "Total remaining work"
+        derived_remaining_time: "Total remaining work"
         done_ratio: "% Complete"
         duration: "Durasi"
         end_insertion: "End of the insertion"
@@ -630,6 +653,7 @@ id:
         readonly: "Baca saja"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Penjadwalan manual"
         spent_hours: "Durasi"
         spent_time: "Durasi"
@@ -933,6 +957,8 @@ id:
               invalid_on_create: "bukan status yang valid untuk user baru."
             ldap_auth_source:
               error_not_found: "tidak ditemukan"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Silakan pilih setidaknya satu user atau grup."
           role_blank: "need to be assigned."
@@ -1034,7 +1060,7 @@ id:
     default_columns: "Kolom default"
     description: "Deskripsi"
     derived_due_date: "Tanggal selesai turunan"
-    derived_estimated_hours: "Derived work"
+    derived_estimated_hours: "Total work"
     derived_start_date: "Tanggal mulai turunan"
     display_sums: "Tampilkan jumlah"
     due_date: "Tanggal selesai"
@@ -1398,6 +1424,7 @@ id:
     message: Pesan telah diedit
     news: News
     project_attributes: "Atribut proyek diubah"
+    project: "Project edited"
     projects: "Project edited"
     reply: Telah direspon
     time_entry: "Timelog telah diedit"
@@ -1540,6 +1567,7 @@ id:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Kirim pemberitahuan untuk tindakan ini"
     work_packages:
@@ -1583,12 +1611,12 @@ id:
   label_age: "Usia"
   label_ago: "hari yang lalu"
   label_all: "semua"
-  label_all_projects: "Semua proyek"
   label_all_time: "Sepanjang waktu"
   label_all_words: "Semua kata"
   label_all_open_wps: "Semua terbuka"
   label_always_visible: "Always displayed"
   label_announcement: "Announcement"
+  label_angular: "AngularJS"
   label_api_access_key: "API access key"
   label_api_access_key_created_on: "API access key dibuat %{value} yg lalu"
   label_api_access_key_type: "API"
@@ -1600,7 +1628,6 @@ id:
   label_ical_access_key_revoke: "Menarik kembali"
   label_applied_status: "Status berjalan"
   label_archive_project: "Proyek arsip"
-  label_archived_projects: "Archived projects"
   label_ascending: "Askending"
   label_assigned_to_me_work_packages: "Paket-Penugasan yang saya kerjakan"
   label_associated_revisions: "Revisi terkait"
@@ -1620,8 +1647,9 @@ id:
   label_available_project_work_package_categories: "Available work package categories"
   label_available_project_work_package_types: "Jenis paket pekerjaan yang tersedia"
   label_available_projects: "Available projects"
-  label_api_documentation: "API documentation"
+  label_api_doc: "API documentation"
   label_backup: "Cadangan"
+  label_backup_code: "Backup code"
   label_between: "antara"
   label_blocked_by: "diblokir oleh"
   label_blocks: "blok"
@@ -1631,6 +1659,7 @@ id:
   label_forum_plural: "Forum"
   label_forum_sticky: "Sticky"
   label_boolean: "Boolean"
+  label_board_plural: "Boards"
   label_branch: "Branch"
   label_browse: "Browse"
   label_bulk_edit_selected_work_packages: "Edit masal Paket-Penugasan yang dipilih"
@@ -1657,6 +1686,7 @@ id:
   label_check_uncheck_all_in_column: "Check/Uncheck all in column"
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Sub-elemen"
+  label_choices: "Choices"
   label_chronological_order: "Terlama dulu"
   label_close_versions: "Tutup versi yang sudah komplit"
   label_closed_work_packages: "berakhir"
@@ -1688,6 +1718,7 @@ id:
   label_custom_field_plural: "Isian kustom"
   label_custom_field_default_type: "Tipe kosong"
   label_custom_style: "Rancangan"
+  label_dashboard: "Dashboard"
   label_database_version: "Versi PostgreSQL"
   label_date: "Tanggal"
   label_date_and_time: "Tanggal dan waktu"
@@ -1744,6 +1775,8 @@ id:
   label_example: "Contoh"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Impor"
   label_export_to: "Juga tersedia dalam:"
   label_expanded_click_to_collapse: "Diperluas. Klik untuk menciutkan"
@@ -1756,6 +1789,7 @@ id:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "File"
   label_filter_add: "Tambah Filter"
+  label_filter: "Filters"
   label_filter_plural: "Filter"
   label_filters_toggle: "Tampilkan/Sembunyikan penyaringan"
   label_float: "Float"
@@ -1763,8 +1797,8 @@ id:
   label_follows: "Berikut"
   label_force_user_language_to_default: "Set bahasa user ke default"
   label_form_configuration: "Form configuration"
-  label_gantt: "Gantt"
   label_gantt_chart: "Bagan Gantt"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Umum"
   label_generate_key: "Generate a key"
   label_git_path: "Path to .git directory"
@@ -1782,6 +1816,7 @@ id:
   label_home: "Home"
   label_subject_or_id: "Subyek atau ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Pernyataan hukum"
   label_in: "dalam"
   label_in_less_than: "kurang dari"
@@ -1798,6 +1833,7 @@ id:
   label_internal: "Internal"
   label_introduction_video: "Video pengantar"
   label_invite_user: "Invite user"
+  label_share: "Share"
   label_show_hide: "Show/hide"
   label_show_all_registered_users: "Menampilkan semua pengguna teregistrasi"
   label_journal: "Journal"
@@ -1841,6 +1877,7 @@ id:
   label_member_new: "Member baru"
   label_member_all_admin: "(Semua peran karena status admin)"
   label_member_plural: "Member"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Anggota ditambahkan"
   lable_membership_updated: "Anggota diperbarui"
   label_menu_badge:
@@ -1868,7 +1905,7 @@ id:
   label_my_account: "Akun saya"
   label_my_activity: "Aktivitas saya"
   label_my_account_data: "Data akun saya"
-  label_my_projects: "Project saya"
+  label_my_avatar: "My avatar"
   label_my_queries: "Query kustom saya"
   label_name: "Nama"
   label_never: "Never"
@@ -2004,6 +2041,7 @@ id:
   label_search: "Cari"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Kirim test email"
+  label_session: "Session"
   label_setting_plural: "Pengaturan"
   label_system_settings: "System settings"
   label_show_completed_versions: "Tampilkan versi lengkap"
@@ -2033,11 +2071,13 @@ id:
   label_system_storage: "Informasi storage"
   label_table_of_contents: "Daftar isi"
   label_tag: "Tag"
+  label_team_planner: "Team Planner"
   label_text: "Teks panjang"
   label_this_month: "bulan ini"
   label_this_week: "minggu ini"
   label_this_year: "tahun ini"
   label_time_entry_plural: "Durasi"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Judul"
   label_projects_menu: "Project"
   label_today: "hari ini"
@@ -2140,6 +2180,10 @@ id:
     one: "1 project"
     other: "%{count} proyek"
     zero: "no projects"
+  label_x_files:
+    one: "1 file"
+    other: "%{count} files"
+    zero: "no files"
   label_yesterday: "kemarin"
   label_role_type: "Mengetik"
   label_member_role: "Project role"
@@ -2178,11 +2222,11 @@ id:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -2495,7 +2539,7 @@ id:
   project_module_news: "News"
   project_module_repository: "Repositori"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2646,6 +2690,8 @@ id:
   setting_app_subtitle: "Subjudul aplikasi"
   setting_app_title: "Judul aplikasi"
   setting_attachment_max_size: "Ukuran lampiran maks."
+  setting_antivirus_scan_mode: "Scan mode"
+  setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Ambil perubahan repository secara otomatis"
   setting_autologin: "Autologin"
   setting_available_languages: "Bahasa yang tersedia"
@@ -2745,6 +2791,27 @@ id:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    antivirus:
+      title: "Virus scanning"
+      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      remaining_quarantined_files_html: >
+        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+      remaining_scan_complete_html: >
+        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+      remaining_rescanned_files: >
+        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+      upsale:
+        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+      actions:
+        delete: 'Delete the file'
+        quarantine: 'Quarantine the file'
+        instructions_html: >
+          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+      modes:
+        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
+        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        description_html: >
+          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
     brute_force_prevention: "Pemblokiran otomatis user"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2772,6 +2839,7 @@ id:
     other: "Lainnya"
     passwords: "Password"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
       section_project_overview: "Settings for project overview list"
     session: "Sesi"
@@ -2787,6 +2855,7 @@ id:
     plain: "Plain text"
   status_active: "aktif"
   status_archived: "diarsipkan"
+  status_blocked: "blocked"
   status_invited: invited
   status_locked: terkunci
   status_registered: telah terdaftar
@@ -3021,12 +3090,12 @@ id:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Role'
-        type: 'Tipe'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Role"
+        type: "Tipe"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3043,7 +3112,7 @@ id:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3243,7 +3312,6 @@ id:
       oauth_returned_json_error: "OAuth2 mengembalikan kesalahan JSON"
       oauth_returned_http_error: "OAuth2 mengembalikan kesalahan jaringan"
       oauth_returned_standard_error: "OAuth2 mengembalikan kesalahan internal"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 mengembalikan jenis token yang salah, mengharapkan AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 melaporkan kesalahan. Silakan hubungi administrator sistem Anda."
       oauth_client_not_found: "Klien OAuth2 tidak ditemukan di titik akhir 'panggilan balik' (redirect_uri)."

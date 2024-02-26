@@ -35,7 +35,7 @@ It is possible for a project non-member to add attachments to work packages. For
 
 ### How can I set workload, deadline and duration in a work package?
 
-- Workload: Use the "Estimated time" field
+- Workload: Use the "Work" field (earlier this field was called "Estimated time")
 - Deadline: Use the "Finish date" field
 - Duration: Use the "Duration" field
 
@@ -55,12 +55,12 @@ tracking (in bullet point 5)
 ### How can I track the progress of work packages with children?
 
 OpenProject automatically calculates the progress of work packages with children. 
-It sums up the progress of the children weighted by the Estimated time 
-of each child. OpenProject uses 1 hour as the default value if Estimated time 
+It sums up the progress of the children weighted by the **Work** (earlier called Estimated time)
+of each child. OpenProject uses 1 hour as the default value if **Work** field
 is empty. When adding the progress bar to a work package hierarchy view, 
-please always add the Estimated time column as well so that you can track 
+please always add the **Work** column as well so that you can track 
 the calculation.
-Estimated time manually added to work packages with children is ignored.
+**Work** (Estimated time) manually added to work packages with children is ignored.
 
 ### Can I set multiple parents for one work package?
 
@@ -93,9 +93,9 @@ As an inherited change is always commented ("Updated automatically by...") they 
 The "Position" attribute is provided by the Backlogs plugin and shows the position of a work package in the backlog.
 If you create e.g. a Feature and assign it to a sprint, the position of the feature in the sprint is shown in the "Position" attribute on the work package table.
 
-### Can I restore a deleted workpackage?
+### Can I restore a deleted work  package?
 
-There is no easy way to restore a deleted workpackage. Generally, you have the option to create and restore your own backups. 
+There is no easy way to restore a deleted work package. Generally, you have the option to create and restore your own backups. 
 
 ## Filters and queries
 
@@ -112,7 +112,7 @@ Tick the box next to "Public" when saving the work package view. We suggest tick
 
 This is not possible at the moment, but you can configure and save another view.
 
-A [feature request](../../../development/submit-feature-idea/) to change this can be found [here](https://community.openproject.com/wp/31423).
+A [feature request](../../../development/submit-feature-idea/) to change this can be found [here](https://community.openproject.org/wp/31423).
 
 ### I sorted my work package table and when I get back to my work package table it doesn't look the same way again. Why?
 
@@ -120,13 +120,13 @@ It is most likely that you did not save the view of your work package table afte
 
 ### In the global work package tables, not all custom fields are available for filters. Why?
 
-In the [global work package tables](../../projects/#global-work-package-tables), only the custom fields that apply to all projects are displayed in the filter area (setting "for all projects" in the administration). 
+In the [global work package tables](../../projects/project-lists/#global-work-package-tables), only the custom fields that apply to all projects are displayed in the filter area (setting "for all projects" in the administration). 
 There are two reasons for this: 1. Potentially, a lot of values are displayed in the global filter list - especially if a lot of custom fields are used in individual projects. This can impair usability and (in extreme cases) performance.  2. As the values in the filter area are displayed for all users, sensitive information (name of the custom fields and their values) could in principle be visible to users who do not have access to the respective project where the custom field is activated.
 
 ### I have a parent work package with multiple children. In the work package table I don't see all of the children below the parent. Why? How can I change this?
 
 Please increase the number of displayed work packages per page [in the administration](../../../system-admin-guide/system-settings/general-settings/#general-system-settings). Then the probability of this phenomenon happening is lower. 
-This is a known behavior of OpenProject, but not trivial to solve. There's already a feature request for this [here](https://community.openproject.com/wp/34925).
+This is a known behavior of OpenProject, but not trivial to solve. There's already a feature request for this [here](https://community.openproject.org/wp/34925).
 
 
 

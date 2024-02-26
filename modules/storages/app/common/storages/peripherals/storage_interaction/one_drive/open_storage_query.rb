@@ -51,7 +51,7 @@ module Storages
           private
 
           def request_drive(token)
-            response = HTTPX.get(
+            response = OpenProject.httpx.get(
               Util.join_uri_path(@uri, drive_uri_path),
               headers: { 'Authorization' => "Bearer #{token.access_token}" }
             )
@@ -59,24 +59,21 @@ module Storages
           end
 
           def handle_responses(response)
-            json = MultiJson.load(response.body.to_s, symbolize_keys: true)
-            error_data = ::Storages::StorageErrorData.new(source: self, payload: json)
-
-            case response.status
-            when 200..299
-              ServiceResult.success(result: json)
-            when 404
+            case response
+            in { status: 200..299 }
+              ServiceResult.success(result: response.json(symbolize_keys: true))
+            in { status: 404 }
               ServiceResult.failure(result: :not_found,
-                                    errors: ::Storages::StorageError.new(code: :not_found, data: error_data))
-            when 403
+                                    errors: Util.storage_error(response:, code: :not_found, source: self))
+            in { status: 403 }
               ServiceResult.failure(result: :forbidden,
-                                    errors: ::Storages::StorageError.new(code: :forbidden, data: error_data))
-            when 401
+                                    errors: Util.storage_error(response:, code: :forbidden, source: self))
+            in { status: 401 }
               ServiceResult.failure(result: :unauthorized,
-                                    errors: ::Storages::StorageError.new(code: :unauthorized, data: error_data))
+                                    errors: Util.storage_error(response:, code: :unauthorized, source: self))
             else
-              ServiceResult.failure(result: :error,
-                                    errors: ::Storages::StorageError.new(code: :error, data: error_data))
+              data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
+              ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
             end
           end
 

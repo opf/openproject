@@ -1,7 +1,4 @@
-import {
-  Injectable,
-  Injector,
-} from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import {
   CalendarOptions,
   DatesSetArg,
@@ -22,11 +19,10 @@ import { splitViewRoute } from 'core-app/features/work-packages/routing/split-vi
 import { StateService } from '@uirouter/angular';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { firstValueFrom, Observable } from 'rxjs';
 import {
-  firstValueFrom,
-  Observable,
-} from 'rxjs';
-import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
+  WorkPackageViewFiltersService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -40,19 +36,26 @@ import {
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { UIRouterGlobals } from '@uirouter/core';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { WorkPackagesListChecksumService } from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
 import {
-  EventReceiveArg,
-  EventResizeDoneArg,
-} from '@fullcalendar/interaction';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+  WorkPackagesListChecksumService,
+} from 'core-app/features/work-packages/components/wp-list/wp-list-checksum.service';
+import { EventReceiveArg, EventResizeDoneArg } from '@fullcalendar/interaction';
+import {
+  HalResourceEditingService,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import * as moment from 'moment';
-import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
+import {
+  WorkPackageViewSelectionService,
+} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
 import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/link-handling';
-import { uiStateLinkClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
+import {
+  uiStateLinkClass,
+} from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
-import { WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
+import {
+  WorkPackageViewContextMenu,
+} from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
@@ -71,7 +74,7 @@ interface CalendarOptionsWithDayGrid extends CalendarOptions {
 
 @Injectable()
 export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
-  static MAX_DISPLAYED = 100;
+  static MAX_DISPLAYED = 500;
 
   tooManyResultsText:string|null;
 
@@ -207,6 +210,8 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
             ...(oldQueryProps.f as QueryPropsFilter[]).filter((filter:QueryPropsFilter) => filter.n !== 'datesInterval'),
             OpWorkPackagesCalendarService.dateFilter(startDate, endDate),
           ],
+          pp: OpWorkPackagesCalendarService.MAX_DISPLAYED,
+          pa: 1,
         };
 
         queryProps = JSON.stringify(newQueryProps);
@@ -412,7 +417,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
     void this.$state.go(
       '.',
       {
-        cdate: this.timezoneService.formattedISODate(dates.view.currentStart),
+        cdate: this.timezoneService.formattedISODate(dates.view.calendar.getDate()),
         // v6.beta3 fails to have type on the ViewAPI
         cview: (dates.view as unknown as { type:string }).type,
       },

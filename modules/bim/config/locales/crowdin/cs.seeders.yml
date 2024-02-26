@@ -89,13 +89,13 @@ cs:
         demo-construction-project:
           name: "(Demo) Stavební projekt"
           status_explanation: Všechny úkoly a dílčí projekty probíhají podle harmonogramu. Zúčastněné osoby znají své úkoly. Systém je kompletně nastaven.
-          description: This is a short summary of the goals of this demo construction project.
+          description: Toto je krátké shrnutí cílů tohoto demo stavebního projektu.
           news:
             item_0:
               title: Vítejte ve vašem demo projektu
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Jsme rádi, že jste se připojili.
+                V tomto modulu můžete sdělit zprávy o projektu členům vašeho týmu.
               description: Aktuální novinky
           categories:
             item_0: Kategorie 1 (bude změněno v nastavení projektu)
@@ -110,7 +110,7 @@ cs:
               name: Týmový plánovač
           boards:
             bcf:
-              name: Simple drag'n drop workflow
+              name: Jednoduchý drag'n drop workflow
           project-overview:
             widgets:
               item_0:
@@ -150,14 +150,14 @@ cs:
                   name: Milníky
         demo-planning-constructing-project:
           name: "(Demo) Plánování a výstavba"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo planning and constructing project.
+          status_explanation: Všechny úkoly probíhají podle harmonogramu. Zúčastněné osoby znají své úkoly. Systém je kompletně nastaven.
+          description: Toto je krátké shrnutí cílů tohoto demo plánování a budování projektu.
           news:
             item_0:
               title: Vítejte ve vašem demo projektu
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Jsme rádi, že jste se připojili.
+                V tomto modulu můžete sdělit zprávy o projektu členům vašeho týmu.
               description: Aktuální novinky
           categories:
             item_0: Kategorie 1 (bude změněno v nastavení projektu)
@@ -205,14 +205,14 @@ cs:
                   name: Milníky
           work_packages:
             item_0:
-              subject: Project kick off construction project
+              subject: Projekt kickoff stavební
               description: |-
-                The project kick off initializes the start of the project in your company. Everybody being part of this project should be invited to the kick off for a first briefing.
+                Kickoff projektu inicializuje zahájení projektu ve vaší společnosti. Všichni, kdo jsou součástí tohoto projektu, by měli být pozváni na zahájení na první briefing.
 
-                The next step could be checking out the timetable and adjusting the appointments, by looking at the [Gantt chart]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
+                Dalším krokem by mohla být kontrola rozvrhu a úprava schůzek pomocí [Ganttova diagramu]({{opSetting:base_url}}/projects/demo-construction-project/work_packages?query_props=%7B%22c%22%3A%5B%22id%22%2C%22subject%22%2C%22startDate%22%2C%22dueDate%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22status%22%2C%22o%22%3A%22o%22%2C%22v%22%3A%5B%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%7D).
             item_1:
               subject: Základní hodnocení
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              description: Tento typ je hierarchicky nadřazeným typem &quot;Clash&quot; a &quot;Request&quot;, proto představuje obecnou poznámku.
               children:
                 item_0:
                   subject: Shromažďování informací o prvním projektu
@@ -246,11 +246,11 @@ cs:
                   subject: Konec základního hodnocení
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
-              subject: Preliminary planning
+              subject: Předběžné plánování
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Developing first draft
+                  subject: Vývoj prvního konceptu
                   description: |-
                     ## Goal
 
@@ -283,11 +283,11 @@ cs:
               subject: Passing of preliminary planning
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_4:
-              subject: Design planning
+              subject: Plánování návrhů
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Finishing design
+                  subject: Dokončovací návrhu
                   description: |-
                     ## Goal
 
@@ -301,13 +301,13 @@ cs:
                     *   The owner is happy with the results
                     *   ...
                 item_1:
-                  subject: Design freeze
+                  subject: Zmrazení návrhu
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_5:
-              subject: Construction phase
+              subject: Fáze výstavby
               children:
                 item_0:
-                  subject: Start constructing
+                  subject: Začít stavět
                   description: |-
                     ## Goal
 
@@ -349,7 +349,7 @@ cs:
                     *   Finishing the roof structure
                     *   ...
                 item_3:
-                  subject: Finishing the facade
+                  subject: Dokončování fasády
                   description: |-
                     ## Goal
 
@@ -405,7 +405,7 @@ cs:
         demo-bim-project:
           name: "(Demo) BIM projekt"
           status_explanation: All tasks and sub-projects are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BIM project.
+          description: Toto je krátké shrnutí cílů tohoto demo BIM projektu.
           news:
             item_0:
               title: Vítejte ve vašem demo projektu
@@ -462,7 +462,7 @@ cs:
                   name: Milníky
           work_packages:
             item_0:
-              subject: Project kick off creating BIM model
+              subject: Projekt odstartuje vytváření modelu BIM
               description: |-
                 The project Kickoff initializes the start of the project in your company. The whole project team should be invited to the Kickoff for a first briefing.
 
@@ -488,7 +488,7 @@ cs:
                     *   A strategy for the delivery phase
                     *   ...
                 item_1:
-                  subject: Creating the BIM execution plan
+                  subject: Vytváření prováděcího plánu BIM
                   description: |-
                     # Goal
 
@@ -501,17 +501,17 @@ cs:
                     *   To handle the technological interfaces, a software topology will be defined and analyzed and verified
                     *   ...
                 item_2:
-                  subject: Completion of the BIM execution plan
+                  subject: Dokončení plánu provádění BIM
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_2:
               subject: Konec přípravné fáze
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_3:
-              subject: Creating initial BIM model
+              subject: Vytváření počátečního modelu BIM
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Modelling initial BIM model
+                  subject: Modelování počátečního modelu BIM
                   description: |-
                     # Goal
 
@@ -524,7 +524,7 @@ cs:
                     *   The model shall be modelled according to the LOD Matrices and contain the information needed
                     *   ...
                 item_1:
-                  subject: Initial, internal model check and revising
+                  subject: Poćáteční, interní kontrola modelu a revize
                   description: |-
                     # Goal
 
@@ -535,10 +535,10 @@ cs:
                     *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
                     *   ...
                 item_2:
-                  subject: Submitting initial BIM model
+                  subject: Odesílání počátečního modelu BIM
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_4:
-              subject: Modelling, first cycle
+              subject: Modelování, první cyklus
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
@@ -554,7 +554,7 @@ cs:
                     *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
                     *   ...
                 item_1:
-                  subject: Modelling the BIM model
+                  subject: Modelování modelu BIM
                   description: |-
                     # Goal
 
@@ -577,10 +577,10 @@ cs:
                     *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised.
                     *   ...
                 item_3:
-                  subject: Submitting BIM model
+                  subject: Odesílání modelu BIM
                   description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_5:
-              subject: Coordination, first cycle
+              subject: Koordinace, první cyklus
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
@@ -600,77 +600,77 @@ cs:
                   subject: Issue management, first cycle
                 item_2:
                   subject: Finishing coordination, first cycle
-                  description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+                  description: Tento typ je hierarchicky nadřazeným typem &quot;Clash&quot; a &quot;Request&quot;, proto představuje obecnou poznámku.
             item_6:
-              subject: Modelling & coordinating, second cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
+              subject: Modelování a koordinace, druhý cyklus
+              description: "## Cíl\r\n\r\n*   ...\r\n\r\n## Popis\r\n\r\n* \\  ..."
             item_7:
-              subject: Modelling & coordinating, ... cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Modelování a koordinace, ... cyklus
+              description: Tento typ je hierarchicky nadřazeným typem &quot;Clash&quot; a &quot;Request&quot;, proto představuje obecnou poznámku.
             item_8:
-              subject: Modelling & coordinating, (n-th minus 1) cycle
-              description: "## Goal\r\n\r\n*   ...\r\n\r\n## Description\r\n\r\n* \\  ..."
+              subject: Modelování a koordinace (n-tého -1)  cyklu
+              description: "## Cíl\r\n\r\n*   ...\r\n\r\n## Popis\r\n\r\n* \\  ..."
             item_9:
-              subject: Modelling & coordinating n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Modelování a koordinace n-tého cyklu
+              description: Tento typ je hierarchicky nadřazeným typem &quot;Clash&quot; a &quot;Request&quot;, proto představuje obecnou poznámku.
             item_10:
-              subject: Finishing modelling & coordinating, n-th cycle
-              description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
+              subject: Modelování a koordinace n-tého cyklu
+              description: Tento typ je hierarchicky nadřazeným typem &quot;Clash&quot; a &quot;Request&quot;, proto představuje obecnou poznámku.
             item_11:
-              subject: Use model for construction phase
+              subject: Použití modelu pro fázi výstavby
               children:
                 item_0:
-                  subject: Handover model for construction crew
+                  subject: Předávaný model pro stavební team
                   description: |-
-                    ## Goal
+                    ## Cíl
 
-                    *   Everyone knows the model and their tasks
-                    *   Everybody gets all the relevant information, model based
-                    *   ...
+                    * Každý zná model a jeho úkoly
+                    * Každý obdrží všechny relevantní informace, model založený na
+                    * ...
 
-                    ## Description
+                    ## Popis
 
-                    *   The Kickoff on the construction site includes an introduction to the model
-                    *   All the objects should have the information needed for the assigned tasks. If not, data enrichment of the model needs to be done
-                    *   ...
+                    * Kickoff na staveništi obsahuje úvod do modelu
+                    * Všechny objekty by měly mít informace potřebné pro přiřazené úkoly. Pokud ne, obohacení dat modelu je třeba provést
+                    * ...
                 item_1:
-                  subject: Construct the building
+                  subject: Postavit budovu
                   description: |-
-                    ## Goal
+                    ## Cíl
 
-                    *   New issues realized on construction site will be handled model based
-                    *   Issues will be documented by using the BCF files and the BIM model
+                    * Nové problémy realizované na staveništi budou zpracovány na základě modelu
+                    * Problémy budou zdokumentovány pomocí souborů BCF a BIM model
 
-                    ## Description
+                    ## Popis
 
-                    *   New issues will be documented using BCF files as sticky notes for the model
-                    *   The BCF files will be used to assign, track and correct issues
-                    *   ...
+                    * Nové problémy budou dokumentovány pomocí souborů BCF jako věcné poznámky pro model
+                    * Soubory BCF budou použity k přiřazení, sledovat a správné problémy
+                    * ...
                 item_2:
                   subject: Dokončit výstavbu
             item_12:
-              subject: Issue management, construction phase
+              subject: Řízení emisí, fáze výstavby
             item_13:
-              subject: Handover for Facility Management
+              subject: Předání pro správu budov
               description: |-
-                ## Goal
+                ## Cíl
 
-                *   The BIM model will be used for the Facility Management
-                *   The model provides all the relevant information for commissioning and operating the building
-                *   ...
+                * Model BIM bude použit pro správu budovy
+                * Model poskytuje všechny příslušné informace pro uvedení do provozu a provoz budovy
+                * ...
 
-                ## Description
+                ## Popis
 
-                *   The model contains the relevant information for the facility manager
-                *   The model can be used for the operating system of the building
-                *   ...
+                * Model obsahuje příslušné informace pro správce budovy
+                * Model lze použít pro operační systém budovy
+                * ...
             item_14:
               subject: Správa majetku
-              description: Enjoy your building :)
+              description: Užijte si svou budovu :)
         demo-bcf-management-project:
           name: "(Demo) řízení BCF"
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo BCF management project.
+          status_explanation: Všechny úkoly probíhají podle harmonogramu. Zúčastněné osoby znají své úkoly. Systém je kompletně nastaven.
+          description: Toto je krátké shrnutí cílů tohoto demo BCF.
           ifc_models:
             item_0:
               name: Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)
@@ -684,7 +684,7 @@ cs:
             item_0:
               name: Problémy
             item_1:
-              name: Clashes
+              name: Třídy
             item_2:
               name: Požadavky
             item_3:

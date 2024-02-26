@@ -120,7 +120,7 @@ RSpec.describe Storages::ProjectStorage do
       expect(project_storage).to define_enum_for(:project_folder_mode)
         .with_values(inactive: 'inactive', manual: 'manual', automatic: 'automatic')
         .with_prefix(:project_folder)
-        .backed_by_column_of_type(:enum)
+        .backed_by_column_of_type(:string)
     end
   end
 

@@ -24,7 +24,7 @@ Click the Start Free Trial button.
 
 ![create OpenProject trial](image-20191202165638244.png)
 
-You will then be asked to [**create an OpenProject account**](../../../getting-started/sign-in-registration/#create-a-new-account).
+You will then be asked to [create an OpenProject account](../../../getting-started/sign-in-registration/#create-a-new-account).
 
 1. Enter your first and last **name**. 
 2. Enter your **e-mail address**.

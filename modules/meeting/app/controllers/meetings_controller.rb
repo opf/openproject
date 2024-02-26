@@ -50,6 +50,7 @@ class MeetingsController < ApplicationController
   include OpTurbo::ComponentStream
   include ApplicationComponentStreams
   include Meetings::AgendaComponentStreams
+  include MetaTagsHelper
 
   menu_item :new_meeting, only: %i[new create]
 
@@ -64,6 +65,7 @@ class MeetingsController < ApplicationController
   end
 
   def show
+    html_title "#{t(:label_meeting)}: #{@meeting.title}"
     if @meeting.is_a?(StructuredMeeting)
       render(Meetings::ShowComponent.new(meeting: @meeting))
     elsif @meeting.agenda.present? && @meeting.agenda.locked?

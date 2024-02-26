@@ -31,6 +31,7 @@ de:
         Sind Sie sicher, dass Sie diese Datei löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.
       draggable_hint: |
         Ziehen Sie diesen Anhang auf ein editierbares Feld, um das Bild oder den Anhang einzubinden. Geöffnete Felder werden automatisch geöffnet während Sie das Attachment mit der Maus ziehen und halten.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Eintrag hinzufügen"
       clear_all: "Eingabe löschen"
@@ -347,11 +348,11 @@ de:
           learn_about: "Erfahren Sie mehr über die neuen Funktionen"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/de/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                Die Version enthält verschiedene neue Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Filter für Rollen, Gruppen und geteilte Arbeitspakete in der Liste der Projektmitglieder.</li> <li>Geteilte Nutzer können für die Attribute "Zugewiesen an" und "Verantwortlich" ausgewählt werden.</li> <li>Umbenennen von Attributen zu Aufwand und Fortschritt in Arbeit, Verbleibende Arbeit und % vollständig ein, um Fortschrittsberichte für Arbeitspaket-Hierarchien vorzubereiten.</li> <li>Separates Recht, um Statusänderungen in Arbeitspaketen ohne Bearbeitungsrechte zu ermöglichen.</li> <li>Manuelle Projektordner für OneDrive/SharePoint-Speicher.</li> </ul>
+                Diese Version enthält folgende Funktionen und Verbesserungen: <br> <ul class="%{list_styling_class}"> <li>Filtern und Speichern von individuellen Projektlisten.</li> <li>Gantt-Funktionalität in separates Modul "Gantt-Diagramme" extrahiert und Ergänzung von Standardansichten.</li> <li>Automatisch verwaltete Projektordner für OneDrive/SharePoint.</li> <li>Anzahl geteilter Nutzer im "Teilen"-Button für Arbeitspakete und separate Spalte zum Anzeigen geteilter Nutzer.</li> <li>Verbesserte Berechnungen für Fortschrittsberichte innerhalb Arbeitspaket-Hierarchien.</li> </ul>
     ical_sharing_modal:
       title: "Kalender abonnieren"
       inital_setup_error_message: "Beim Abrufen der Daten ist ein Fehler aufgetreten."
@@ -468,7 +469,7 @@ de:
     label_per_page: "Pro Seite:"
     label_please_wait: "Bitte warten"
     label_project: "Projekt"
-    label_project_list: "Projektliste"
+    label_project_list: "Projektlisten"
     label_project_plural: "Projekte"
     label_visibility_settings: "Sichtbarkeits-Einstellungen"
     label_quote_comment: "Diesen Kommentar zitieren"
@@ -520,7 +521,7 @@ de:
     label_watcher_added_successfully: "Beobachter erfolgreich hinzugefügt!"
     label_watcher_deleted_successfully: "Beobachter erfolgreich gelöscht!"
     label_work_package_details_you_are_here: "Sie sind auf dem Reiter %{tab} von %{type} %{subject}."
-    label_work_package_context_menu: "Work package context menu"
+    label_work_package_context_menu: "Arbeitspaket-Kontextmenü"
     label_unwatch: "Nicht mehr beobachten"
     label_unwatch_work_package: "Arbeitspaket nicht mehr beobachten"
     label_uploaded_by: "Hochgeladen von"
@@ -582,7 +583,7 @@ de:
           full_view: 'Die <b>Arbeitspaketdetails</b> Ansicht enthält alle relevanten Informationen zu einem bestimmten Arbeitspaket wie Beschreibung, Status, Priorität, Aktivitäten, Abhängigkeiten und Kommentare.'
           back_button: 'Benutzen Sie den Pfeil in der linken oberen Ecke, um zur Arbeitspaketliste zurückzukehren.'
           create_button: 'Mit dem <b>+ Anlegen</b> Knopf erstellen Sie weitere Arbeitspakete für Ihr Projekt.'
-          timeline_button: 'Sie können ein <b>Gantt Diagramm</b> aktivieren um Projektpläne zu erstellen.'
+          gantt_menu: 'Erstellen Sie Projektpläne und Zeitpläne mühelos mithilfe des Gantt-Diagramm-Moduls.'
           timeline: 'Hier sehen Sie den Projektplan. Sie können neue Phasen oder Meilensteine sowie Abhängigkeiten hinzufügen und bearbeiten. Das Team sieht jederzeit die aktuelle Planung und kann diese bei Bedarf aktualisieren.'
         team_planner:
           overview: 'Mit dem Teamplaner können Sie den Teammitgliedern Aufgaben visuell zuweisen und sich einen Überblick verschaffen, wer an welchen Aufgaben arbeitet.'
@@ -832,7 +833,7 @@ de:
       toggle_description: "Beschreibung der Beziehung ein-/ausklappen"
       update_relation: "Klicken um den Beziehungstyp zu ändern"
       add_follower: "Nachfolger hinzufügen"
-      show_relations: "Show relations"
+      show_relations: "Beziehungen anzeigen"
       add_predecessor: "Vorgänger hinzufügen"
       remove: "Beziehung entfernen"
       save: "Beziehung speichern"
@@ -966,6 +967,8 @@ de:
         createdAt: "Erstellt"
         description: "Beschreibung"
         date: "Datum"
+        percentComplete: "% abgeschlossen"
+        percentCompleteAlternative: "Fortschritt"
         dueDate: "Endtermin"
         duration: "Dauer"
         spentTime: "Aufgewendete Zeit"
@@ -973,6 +976,8 @@ de:
         percentageDone: "Prozentsatz erledigt"
         priority: "Priorität"
         projectName: "Projekt"
+        remainingWork: "Verbleibender Aufwand"
+        remainingWorkAlternative: "Verbleibende Stunden"
         responsible: "Verantwortlich"
         startDate: "Anfangstermin"
         status: "Status"
@@ -983,6 +988,8 @@ de:
         updatedAt: "Aktualisiert am"
         versionName: "Version"
         version: "Version"
+        work: "Aufwand"
+        workAlternative: "Geschätzter Aufwand"
         remainingTime: "Verbleibender Aufwand"
       default_queries:
         latest_activity: "Letzte Änderungen"
@@ -1031,11 +1038,12 @@ de:
       sharing:
         share: 'Teilen'
         title: "Arbeitspaket teilen"
+        show_all_users: "Alle Benutzer anzeigen, mit denen dieses Arbeitspaket geteilt wurde"
         selected_count: "%{count} ausgewählt"
         selection:
           mixed: "Gemischt"
         upsale:
-          description: "Share work packages with users who are not members of the project."
+          description: "Teilen Sie Arbeitspakete mit Benutzern, die nicht Mitglieder des Projekts sind."
       table:
         configure_button: 'Arbeitspaket-Tabelle konfigurieren'
         summary: "Tabelle mit Zeilen von Arbeitspaketen und Spalten von Attributen dieser Arbeitspakete."

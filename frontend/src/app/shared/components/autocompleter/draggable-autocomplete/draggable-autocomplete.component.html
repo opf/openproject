@@ -27,6 +27,7 @@
     [placeholder]="text.placeholder"
     [clearSearchOnAdd]="true"
     [closeOnSelect]="true"
+    [searchFn]="searchFunction"
     (open)="opened()"
     (change)="select($event)"
   ></ng-select>

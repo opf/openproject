@@ -220,7 +220,15 @@ class ApplicationController < ActionController::Base
   end
 
   def set_localization
-    SetLocalizationService.new(User.current, request.env['HTTP_ACCEPT_LANGUAGE']).call
+    # 1. Use completely autheticated user
+    # 2. Use user with some authenticated stages not compelted.
+    #    In this case user is not considered logged in, but identified.
+    #    It covers localization for extra authentication stages(like :consent, for example)
+    # 3. Use anonymous instance.
+    user = RequestStore[:current_user] ||
+           (session[:authenticated_user_id].present? && User.find_by(id: session[:authenticated_user_id])) ||
+           User.anonymous
+    SetLocalizationService.new(user, request.env['HTTP_ACCEPT_LANGUAGE']).call
   end
 
   def deny_access(not_found: false)
@@ -574,7 +582,7 @@ class ApplicationController < ActionController::Base
   end
 
   def default_breadcrumb
-    label = "label_#{self.class.name.gsub('Controller', '').underscore.singularize}"
+    label = "label_#{controller_name.singularize}"
 
     I18n.t(label + '_plural',
            default: label.to_sym)

@@ -332,7 +332,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     elsif @object.class.respond_to?(:human_attribute_name)
       @object.class.human_attribute_name(field)
     else
-      I18n.t(field)
+      I18n.t(field, scope: sanitized_object_name)
     end
   end
 

@@ -15,6 +15,7 @@ zh-CN:
       choose_location: "选择地点"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
         default: "存储"
       information:
         connection_error: >
@@ -75,7 +76,7 @@ zh-CN:
         link_uploaded_file_error: >
           在链接最近上传的文件 '%{fileName}' 到工作包 %{workPackageId} 时出现错误。
         tooltip:
-          not_logged_in: "请登录 Nextcloud 访问此文件。"
+          not_logged_in: "请登录到存储区来访问此文件。"
           view_not_allowed: "您无权查看此文件。"
           not_found: "找不到此文件。"
         already_linked_file: "此文件已链接到该工作包。"

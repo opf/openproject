@@ -10,7 +10,7 @@ release_date: 2022-08-18
 
 Release date: 2022-08-18
 
-We released [OpenProject 12.2.1](https://community.openproject.com/versions/1594).
+We released [OpenProject 12.2.1](https://community.openproject.org/versions/1594).
 The release contains a critical bug fixes that resolves a data corruption issue and we urge updating to the newest version. Please see the details below for more information.
 
 
@@ -25,7 +25,7 @@ When aggregating an activity (the user edits the same object within the first 5 
 This error manifests itself as:
 
 - Being unable to access the notification center (page stays blank).
-- Being unable to see activities in work package [#43773](https://community.openproject.com/wp/43773).
+- Being unable to see activities in work package [#43773](https://community.openproject.org/wp/43773).
 - Getting internal errors trying to update an existing work package.
 
 
@@ -54,14 +54,14 @@ For more information on this setting and how to configure it for your installati
 <!--more-->
 ## All bug fixes
 
-- Fixed: Wrong html title while selecting filters in notification center \[[#43122](https://community.openproject.com/wp/43122)\]
-- Fixed: Outdated app description for the OpenProject app in the Nextcloud App Store \[[#43715](https://community.openproject.com/wp/43715)\]
-- Fixed: Error message on subprojects boards \[[#43755](https://community.openproject.com/wp/43755)\]
-- Fixed: New HTTPS flag is poorly documented and breaks quick start docker containers \[[#43759](https://community.openproject.com/wp/43759)\]
-- Fixed: Wrong days highlighted as weekend in Gantt diagram \[[#43762](https://community.openproject.com/wp/43762)\]
-- Fixed: Open Project Docker Installation \[[#43767](https://community.openproject.com/wp/43767)\]
-- Fixed: Unable to see activities in work package \[[#43773](https://community.openproject.com/wp/43773)\]
-- Fixed: Timeline shows bar at wrong time after collapsing a group \[[#43775](https://community.openproject.com/wp/43775)\]
+- Fixed: Wrong html title while selecting filters in notification center \[[#43122](https://community.openproject.org/wp/43122)\]
+- Fixed: Outdated app description for the OpenProject app in the Nextcloud App Store \[[#43715](https://community.openproject.org/wp/43715)\]
+- Fixed: Error message on subprojects boards \[[#43755](https://community.openproject.org/wp/43755)\]
+- Fixed: New HTTPS flag is poorly documented and breaks quick start docker containers \[[#43759](https://community.openproject.org/wp/43759)\]
+- Fixed: Wrong days highlighted as weekend in Gantt diagram \[[#43762](https://community.openproject.org/wp/43762)\]
+- Fixed: Open Project Docker Installation \[[#43767](https://community.openproject.org/wp/43767)\]
+- Fixed: Unable to see activities in work package \[[#43773](https://community.openproject.org/wp/43773)\]
+- Fixed: Timeline shows bar at wrong time after collapsing a group \[[#43775](https://community.openproject.org/wp/43775)\]
 
 
 

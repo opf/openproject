@@ -47,17 +47,21 @@ modules_permissions:
     - :view_linked_issues
 
 priorities:
-  - t_name: Low
+  - reference: :default_priority_low
+    t_name: Low
     color_name: cyan-1
     is_default: true
     position: 1
-  - t_name: Normal
+  - reference: :default_priority_normal
+    t_name: Normal
     color_name: blue-3
     position: 2
-  - t_name: High
+  - reference: :default_priority_high
+    t_name: High
     color_name: yellow-7
     position: 3
-  - t_name: Critical
+  - reference: :default_priority_critical
+    t_name: Critical
     color_name: grape-5
     position: 4
 
@@ -234,6 +238,7 @@ projects:
     t_description: This is a short summary of the goals of this demo construction project.
     modules:
       - work_package_tracking
+      - gantt
       - news
       - wiki
       - board_view
@@ -380,6 +385,7 @@ projects:
     t_description: This is a short summary of the goals of this demo planning and constructing project.
     modules:
       - work_package_tracking
+      - gantt
       - news
       - wiki
       - board_view
@@ -846,6 +852,7 @@ projects:
     t_description: This is a short summary of the goals of this demo BIM project.
     modules:
       - work_package_tracking
+      - gantt
       - news
       - wiki
       - board_view
@@ -1428,6 +1435,7 @@ projects:
     t_description: This is a short summary of the goals of this demo BCF management project.
     modules:
       - work_package_tracking
+      - gantt
       - bim
       - board_view
       - team_planner_view

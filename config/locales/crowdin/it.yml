@@ -90,6 +90,17 @@ it:
     show_until: Mostra fino a
     is_active: attualmente visualizzato
     is_inactive: attualmente non visualizzato
+  antivirus_scan:
+    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
+    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
+    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
+    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
+    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    quarantined_attachments:
+      container: "Container"
+      delete: "Delete the quarantined file"
+      title: "Quarantined attachments"
+      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
   attribute_help_texts:
     note_public: "Qualsiasi testo o immagine che aggiungi a questo campo sarà pubblicamente visibile a tutti gli utenti registrati!"
     text_overview: "In questa vista, puoi creare testi guida personalizzati per la visualizzazione degli attributi. Quando definiti, questi testi possono essere visualizzati facendo clic sull'icona guida accanto all'attributo relativo."
@@ -104,6 +115,7 @@ it:
   ldap_auth_sources:
     ldap_error: "Errore LDAP: %{error_message}"
     ldap_auth_failed: "Non è possibile autenticare attraverso il Server LDAP."
+    sync_failed: "Sincronizzazione da LDAP non riuscita: %{message}."
     back_to_index: "Clicca qui per tornare all'elenco delle connessioni."
     technical_warning_html: |
       Questo form LDAP richiede una conoscenza tecnica dell'attuale setup LDAP / Active Directory. <br/>
@@ -247,10 +259,15 @@ it:
       completed_text_children: "Inoltre, i seguenti progetti secondari sono stati eliminati:"
     index:
       open_as_gantt: "Apri come vista Gantt"
-      open_as_gantt_title: "Usa questo pulsante per generare una vista Gantt che filtra le macro-attività per i progetti visibili in questa pagina."
-      open_as_gantt_title_admin: "È possibile modificare le impostazioni di visualizzazione (come i tipi di macro-attività selezionati) nell'amministrazione nelle impostazioni del progetto."
       no_results_title_text: Al momento non esistono progetti
       no_results_content_text: Crea un nuovo progetto
+    lists:
+      active: 'Progetti attivi'
+      my: 'I miei progetti'
+      archived: 'Progetti archiviati'
+      my_private: 'I miei elenchi di progetti privati'
+      new:
+        placeholder: 'Nuovo elenco progetti'
     settings:
       change_identifier: Cambia identificatore
       activities:
@@ -282,14 +299,14 @@ it:
     columns:
       shared: "Condivisa"
     filters:
-      all_shares: 'Tutte le condivisioni'
+      all_shares: "Tutte le condivisioni"
     menu:
-      all: 'Tutti'
-      invited: 'Invitato'
-      locked: 'Bloccato'
-      project_roles: 'Ruoli del progetto'
-      wp_shares: 'Condivisioni della macro-attività'
-      groups: 'Gruppi'
+      all: "Tutti"
+      invited: "Invitato"
+      locked: "Bloccato"
+      project_roles: "Ruoli del progetto"
+      wp_shares: "Condivisioni della macro-attività"
+      groups: "Gruppi"
   my:
     access_token:
       failed_to_reset_token: "Impossibile reimpostare il token di accesso: %{error}"
@@ -323,6 +340,8 @@ it:
       no_results_title_text: Questo utente al momento non è un membro di alcun gruppo.
     memberships:
       no_results_title_text: Questo utente non è attualmente membro di alcun progetto.
+  page:
+    text: 'Testo'
   placeholder_users:
     right_to_manage_members_missing: >
       Non è consentito eliminare l'utente segnaposto. Non hai il permesso per gestire i membri per tutti i progetti di cui l'utente segnaposto è membro.
@@ -519,6 +538,8 @@ it:
         row_count: "Numero di righe"
         column_count: "Numero di colonne"
         widgets: "Widget"
+      oauth_client:
+        client: "ID Client"
       relation:
         delay: "Ritardo"
         from: "Macro-attività"
@@ -584,6 +605,7 @@ it:
         color: "Colore"
       user:
         admin: "Amministratore"
+        auth_source: "Origine dell'autenticazione"
         ldap_auth_source: "Connessione LDAP"
         identity_url: "URL identificativo"
         current_password: "Password corrente"
@@ -615,8 +637,9 @@ it:
         begin_insertion: "Inizio inserimento"
         begin_deletion: "Inizio cancellazione"
         children: "Sottoelementi"
-        derived_remaining_hours: "Lavoro rimanente derivato"
-        derived_remaining_time: "Lavoro rimanente derivato"
+        derived_done_ratio: "Total % complete"
+        derived_remaining_hours: "Total remaining work"
+        derived_remaining_time: "Total remaining work"
         done_ratio: "% completamento"
         duration: "Durata"
         end_insertion: "Fine inserimento"
@@ -635,6 +658,7 @@ it:
         readonly: "Sola lettura"
         remaining_hours: "Lavoro rimanente"
         remaining_time: "Lavoro rimanente"
+        shared_with_users: "Condiviso con"
         schedule_manually: "Programmazione manuale"
         spent_hours: "Tempo speso"
         spent_time: "Tempo speso"
@@ -939,6 +963,8 @@ it:
               invalid_on_create: "non è uno stato valido per i nuovi utenti."
             ldap_auth_source:
               error_not_found: "non trovato"
+            auth_source:
+              error_not_found: "non trovato"
         member:
           principal_blank: "Si prega di scegliere almeno un utente o un gruppo."
           role_blank: "deve essere assegnato."
@@ -1047,7 +1073,7 @@ it:
     default_columns: "Colonne predefinite"
     description: "Descrizione"
     derived_due_date: "Data di fine derivata"
-    derived_estimated_hours: "Lavoro derivato"
+    derived_estimated_hours: "Total work"
     derived_start_date: "Data di inizio derivata"
     display_sums: "Visualizza somme"
     due_date: "Data di fine"
@@ -1429,6 +1455,7 @@ it:
     message: Messaggio modificato
     news: Notizie
     project_attributes: "Attributi del progetto modificati"
+    project: "Progetto modificato"
     projects: "Progetto modificato"
     reply: Risposto
     time_entry: "Registro dell'orario effettuato modificato"
@@ -1571,6 +1598,7 @@ it:
         revoke_token: "Vuoi davvero rimuovere questo token? Dovrai effettuare nuovamente l'accesso su %{storage}"
         removed: "Token di archiviazione file rimosso correttamente"
         failed: "Si è verificato un errore e non è stato possibile rimuovere il token. Riprova più tardi."
+        unknown_storage: "Archivio sconosciuto"
   notifications:
     send_notifications: "Invia notifiche per questa azione"
     work_packages:
@@ -1614,12 +1642,12 @@ it:
   label_age: "Età"
   label_ago: "giorni fa"
   label_all: "tutti"
-  label_all_projects: "Tutti i progetti"
   label_all_time: "tutto il tempo"
   label_all_words: "Tutte le parole"
   label_all_open_wps: "Apri tutto"
   label_always_visible: "Sempre visibile"
   label_announcement: "Annuncio"
+  label_angular: "AngularJS"
   label_api_access_key: "Chiave di accesso API"
   label_api_access_key_created_on: "Chiave di accesso API creata %{value} fa"
   label_api_access_key_type: "API"
@@ -1631,7 +1659,6 @@ it:
   label_ical_access_key_revoke: "Revoca"
   label_applied_status: "Stato applicato"
   label_archive_project: "Archivia progetto"
-  label_archived_projects: "Progetti archiviati"
   label_ascending: "Crescente"
   label_assigned_to_me_work_packages: "Macro-attività assegnate a me"
   label_associated_revisions: "Revisioni associate"
@@ -1651,8 +1678,9 @@ it:
   label_available_project_work_package_categories: "Categorie di macro-attività disponibili"
   label_available_project_work_package_types: "Tipi di pacchetti di lavoro disponibili"
   label_available_projects: "Progetti disponibili"
-  label_api_documentation: "Documentazione API"
+  label_api_doc: "Documentazione API"
   label_backup: "Backup"
+  label_backup_code: "Codice di backup"
   label_between: "tra"
   label_blocked_by: "bloccato da"
   label_blocks: "blocca"
@@ -1662,6 +1690,7 @@ it:
   label_forum_plural: "Forum"
   label_forum_sticky: "In evidenza"
   label_boolean: "Booleano"
+  label_board_plural: "Bacheche"
   label_branch: "Ramo"
   label_browse: "Naviga"
   label_bulk_edit_selected_work_packages: "Modifica in blocco le macro-attività selezionate"
@@ -1688,6 +1717,7 @@ it:
   label_check_uncheck_all_in_column: "Seleziona/Deseleziona tutto nella colonna"
   label_check_uncheck_all_in_row: "Seleziona/deseleziona tutto nella riga"
   label_child_element: "Elemento figlio"
+  label_choices: "Scelte"
   label_chronological_order: "Prima i meno recenti"
   label_close_versions: "Chiudi le versioni complete"
   label_closed_work_packages: "chiuso"
@@ -1719,6 +1749,7 @@ it:
   label_custom_field_plural: "Campo personalizzato"
   label_custom_field_default_type: "Tipo vuoto"
   label_custom_style: "Progettazione"
+  label_dashboard: "Dashboard"
   label_database_version: "Versione di PostgreSQL"
   label_date: "Data"
   label_date_and_time: "Data e ora"
@@ -1775,6 +1806,8 @@ it:
   label_example: "Esempio"
   label_experimental: "Sperimentale"
   label_i_am_member: "Sono membro"
+  label_ifc_viewer: "Visualizzatore IFC"
+  label_ifc_model_plural: "Modelli IFC"
   label_import: "Importazione"
   label_export_to: "Disponibile anche in:"
   label_expanded_click_to_collapse: "Espanso. Clicca per comprimere"
@@ -1787,6 +1820,7 @@ it:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "File"
   label_filter_add: "Aggiungi filtro"
+  label_filter: "Filtri"
   label_filter_plural: "Filtri"
   label_filters_toggle: "Mostra/nascondi filtri"
   label_float: "Virgola mobile"
@@ -1794,8 +1828,8 @@ it:
   label_follows: "segue"
   label_force_user_language_to_default: "Imposta la lingua degli utenti che non hanno una lingua consentita a quella predefinita"
   label_form_configuration: "Configurazione del modulo"
-  label_gantt: "Gantt"
   label_gantt_chart: "Diagramma di Gantt"
+  label_gantt_chart_plural: "Diagrammi di Gantt"
   label_general: "Generale"
   label_generate_key: "Genera chiave"
   label_git_path: "Percorso per la cartella .git"
@@ -1813,6 +1847,7 @@ it:
   label_home: "Radice (home)"
   label_subject_or_id: "Oggetto o ID"
   label_calendar_subscriptions: "Iscrizioni calendario"
+  label_identifier: "Identificatore"
   label_impressum: "Note legali"
   label_in: "in"
   label_in_less_than: "in meno di"
@@ -1829,6 +1864,7 @@ it:
   label_internal: "Interno"
   label_introduction_video: "Video introduttivo"
   label_invite_user: "Invita utente"
+  label_share: "Condividi"
   label_show_hide: "Mostra/Nascondi"
   label_show_all_registered_users: "Mostra tutti gli utenti registrati"
   label_journal: "Diario"
@@ -1872,6 +1908,7 @@ it:
   label_member_new: "Nuovo membro"
   label_member_all_admin: "(Tutti i ruoli a causa dello stato di admin)"
   label_member_plural: "Membri"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Membro aggiunto"
   lable_membership_updated: "Membro aggiornato"
   label_menu_badge:
@@ -1899,7 +1936,7 @@ it:
   label_my_account: "Il mio account"
   label_my_activity: "La mia attività"
   label_my_account_data: "I miei dati dell'account"
-  label_my_projects: "I miei progetti"
+  label_my_avatar: "Il mio avatar"
   label_my_queries: "Le mie query personalizzate"
   label_name: "Nome"
   label_never: "Mai"
@@ -2035,6 +2072,7 @@ it:
   label_search: "Cerca"
   label_send_information: "Invia nuove credenziali all'utente"
   label_send_test_email: "Invia un email di prova"
+  label_session: "Sessione"
   label_setting_plural: "Impostazioni"
   label_system_settings: "Impostazioni di sistema"
   label_show_completed_versions: "Visualizza le versioni completate"
@@ -2064,11 +2102,13 @@ it:
   label_system_storage: "Informazioni sullo spazio di archiviazione"
   label_table_of_contents: "Indice"
   label_tag: "Tag"
+  label_team_planner: "Pianificatore di team"
   label_text: "Testo lungo"
   label_this_month: "questo mese"
   label_this_week: "questa settimana"
   label_this_year: "questo anno"
   label_time_entry_plural: "Tempo speso"
+  label_time_entry_activity_plural: "Attività che richiedono tempo"
   label_title: "Titolo"
   label_projects_menu: "Progetti"
   label_today: "oggi"
@@ -2171,6 +2211,10 @@ it:
     one: "1 progetto"
     other: "%{count} progetti"
     zero: "nessun progetto"
+  label_x_files:
+    one: "1 file"
+    other: "%{count} files"
+    zero: "no files"
   label_yesterday: "ieri"
   label_role_type: "Tipo"
   label_member_role: "Ruolo del progetto"
@@ -2209,11 +2253,11 @@ it:
     mention:
       subject: "%{user_name} ti ha menzionato nel n.%{id} - %{subject}"
     notification:
-      center: 'Al centro notifiche'
-      see_in_center: 'Vedi commento nel centro notifiche'
-      settings: 'Modifica impostazioni email'
-    salutation: 'Ciao %{user}'
-    salutation_full_name: 'Nome e cognome'
+      center: "Al centro notifiche"
+      see_in_center: "Vedi commento nel centro notifiche"
+      settings: "Modifica impostazioni email"
+    salutation: "Ciao %{user}"
+    salutation_full_name: "Nome e cognome"
     work_packages:
       created_at: "Creato il %{timestamp} da %{user} "
       login_to_see_all: "Accedi per visualizzare tutte le notifiche."
@@ -2489,7 +2533,7 @@ it:
   permission_view_news: "Visualizza notizie"
   permission_view_members: "Mostra membri"
   permission_view_reportings: "Visualizzare prospetti"
-  permission_view_shared_work_packages: "View work package shares"
+  permission_view_shared_work_packages: "Mostra condivisioni della macro-attività"
   permission_view_time_entries: "Visualizza il tempo impiegato"
   permission_view_timelines: "Visualizza le cronologie"
   permission_view_wiki_edits: "Visualizza il registro della wiki"
@@ -2530,7 +2574,7 @@ it:
   project_module_news: "Notizie"
   project_module_repository: "Archivio"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Macro-attività e Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2683,6 +2727,8 @@ it:
   setting_app_subtitle: "Sottotitolo applicazione"
   setting_app_title: "Titolo applicazione"
   setting_attachment_max_size: "Dimensione max. dell'allegato"
+  setting_antivirus_scan_mode: "Scan mode"
+  setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Recupera automaticamente i cambiamenti dell'archivio di progetto"
   setting_autologin: "Accesso automatico"
   setting_available_languages: "Linguaggi disponibili"
@@ -2782,6 +2828,27 @@ it:
     attachments:
       whitelist_text_html: >
         Definisci un elenco di estensioni di file valide e/o tipi MIME per i file caricati. <br/> Inserisci le estensioni dei file (ad es. <code>%{ext_example}</code>) o i tipi MIME (ad es. <code>%{mime_example}</code>). <br/> Lascia vuoto per consentire il caricamento di qualsiasi tipo di file. Sono consentiti più valori (una riga per ogni valore).
+    antivirus:
+      title: "Virus scanning"
+      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      remaining_quarantined_files_html: >
+        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+      remaining_scan_complete_html: >
+        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+      remaining_rescanned_files: >
+        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+      upsale:
+        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+      actions:
+        delete: 'Delete the file'
+        quarantine: 'Quarantine the file'
+        instructions_html: >
+          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+      modes:
+        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
+        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        description_html: >
+          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
     brute_force_prevention: "Blocco automatico degli utenti"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2809,6 +2876,7 @@ it:
     other: "Altro"
     passwords: "Password"
     projects:
+      missing_dependencies: "È stato controllato il modulo del progetto %{module} che dipende da %{dependencies}. È necessario controllare anche queste dipendenze."
       section_new_projects: "Impostazioni per i nuovi progetti"
       section_project_overview: "Impostazioni per l'elenco generale dei progetti"
     session: "Sessione"
@@ -2824,6 +2892,7 @@ it:
     plain: "Testo semplice"
   status_active: "attivo"
   status_archived: "archiviato"
+  status_blocked: "bloccato"
   status_invited: invitato
   status_locked: bloccato
   status_registered: registrato
@@ -3059,12 +3128,12 @@ it:
         one: "1 utente"
         other: "%{count} utenti"
       filter:
-        project_member: 'Membro del progetto'
-        not_project_member: 'Non è membro del progetto'
-        project_group: 'Gruppo di progetto'
-        not_project_group: 'Non è gruppo di progetto'
-        role: 'Ruolo'
-        type: 'Tipo'
+        project_member: "Membro del progetto"
+        not_project_member: "Non è membro del progetto"
+        project_group: "Gruppo di progetto"
+        not_project_group: "Non è gruppo di progetto"
+        role: "Ruolo"
+        type: "Tipo"
       label_search: "Cerca gli utenti da invitare"
       label_search_placeholder: "Cerca per utente o indirizzo e-mail"
       label_toggle_all: "Attiva/disattiva tutte le condivisioni"
@@ -3081,7 +3150,7 @@ it:
       text_empty_search_description: "Non ci sono utenti con i criteri di filtro attuali."
       text_empty_search_header: "Non siamo riusciti a trovare alcun risultato corrispondente."
       text_empty_state_description: "La macro-attività non è stata ancora condivisa con nessuno."
-      text_empty_state_header: "Nessun membro in condivisione."
+      text_empty_state_header: "Non condiviso"
       text_user_limit_reached: "L'aggiunta di ulteriori utenti supererà il limite attuale. Contatta un amministratore per aumentare il limite di utenti e garantire che gli utenti esterni possano accedere a questa  macro-attività."
       text_user_limit_reached_admins: 'L''aggiunta di ulteriori utenti supererà il limite attuale. <a href="%{upgrade_url}">Aggiorna il tuo piano</a> per aggiungere più utenti.'
       warning_user_limit_reached: >
@@ -3282,7 +3351,6 @@ it:
       oauth_returned_json_error: "OAuth2 ha restituito un errore JSON"
       oauth_returned_http_error: "OAuth2 ha restituito un errore di rete"
       oauth_returned_standard_error: "OAuth2 ha restituito un errore interno"
-      client_id_blank: "Il campo ID non può essere vuoto."
       wrong_token_type_returned: "OAuth2 ha restituito un tipo di token sbagliato, aspettandosi AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 ha segnalato un errore. Contatta l'amministratore di sistema."
       oauth_client_not_found: "Client OAuth2 non trovato nell'endpoint 'callback' (redirect_uri)."

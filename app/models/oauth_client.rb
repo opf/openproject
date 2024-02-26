@@ -30,6 +30,6 @@ class OAuthClient < ApplicationRecord
   belongs_to :integration, polymorphic: true
 
   def redirect_uri
-    File.join(OpenProject::Application.root_url, 'oauth_clients', client_id, 'callback')
+    File.join(Rails.application.root_url, 'oauth_clients', client_id, 'callback')
   end
 end

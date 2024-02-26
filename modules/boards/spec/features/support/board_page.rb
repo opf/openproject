@@ -136,9 +136,13 @@ module Pages
     # Expect the given titled card in the list name to be present (expect=true) or not (expect=false)
     def expect_card(list_name, card_title, present: true)
       within_list(list_name) do
+        # Wait for the card loading to finish
+        expect(page).to have_no_selector(".loading-indicator--background")
         expect(page).to have_conditional_selector(present,
                                                   '[data-test-selector="op-wp-single-card--content-subject"]',
-                                                  text: card_title)
+                                                  text: card_title,
+                                                  # Don't wait on non-presence expectation
+                                                  wait: present ? 10 : 0)
       end
     end
 
@@ -167,6 +171,13 @@ module Pages
 
     def move_card(index, from:, to:)
       source = page.all("#{list_selector(from)} [data-test-selector='op-wp-single-card']")[index]
+      target = page.find list_selector(to)
+
+      drag_n_drop_element(from: source, to: target)
+    end
+
+    def move_card_by_name(text, from:, to:)
+      source = page.find("#{list_selector(from)} [data-test-selector='op-wp-single-card']", text:)
       target = page.find list_selector(to)
 
       drag_n_drop_element(from: source, to: target)
@@ -302,17 +313,21 @@ module Pages
         input.set new_name
         input.send_keys :enter
       else
-        page.within('.toolbar-container') do
-          input = page.find('.editable-toolbar-title--input').click
-          input.set new_name
-          input.send_keys :enter
-        end
+        rename_via_toolbar new_name
       end
 
       expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
 
       page.within('.toolbar-container') do
         expect(page).to have_field('editable-toolbar-title', with: new_name)
+      end
+    end
+
+    def rename_via_toolbar(new_name)
+      page.within('.toolbar-container') do
+        input = page.find('.editable-toolbar-title--input').click
+        input.set new_name
+        input.send_keys :enter
       end
     end
 
@@ -353,6 +368,7 @@ module Pages
       open_add_list_modal
       sleep(0.1)
       page.find('.spot-modal .new-list--action-select input').set(name)
+      expect(page).to have_no_css('.ng-spinner-loader')
     end
 
     def open_add_list_modal

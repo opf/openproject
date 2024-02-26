@@ -41,35 +41,9 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       new(storage).call(user:, file_link:)
     end
 
-    # rubocop:disable Metrics/AbcSize
     def call(user:, file_link:)
       result = Util.token(user:, configuration: @configuration) do |token|
-        service_result = begin
-          response = Util
-                       .httpx
-                       .post(
-                         Util.join_uri_path(@uri, '/ocs/v2.php/apps/dav/api/v1/direct'),
-                         json: { fileId: file_link.origin_id },
-                         headers: {
-                           'Authorization' => "Bearer #{token.access_token}",
-                           'OCS-APIRequest' => 'true',
-                           'Accept' => 'application/json',
-                           'Content-Type' => 'application/json'
-                         }
-                       )
-          case response.status
-          when 200..299
-            ServiceResult.success(result: response)
-          when 404
-            Util.error(:not_found, 'Outbound request destination not found!', response)
-          when 401
-            Util.error(:unauthorized, 'Outbound request not authorized!', response)
-          else
-            Util.error(:error, 'Outbound request failed!')
-          end
-        end
-
-        service_result.bind do |resp|
+        direct_download_request(token, file_link).bind do |resp|
           # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
           if resp.body.blank?
             Util.error(:unauthorized, 'Outbound request not authorized!')
@@ -84,9 +58,32 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         .map { |download_token| download_link(download_token, file_link.origin_name) }
     end
 
-    # rubocop:enable Metrics/AbcSize
-
     private
+
+    def direct_download_request(token, file_link)
+      response = OpenProject
+                   .httpx
+                   .post(
+                     Util.join_uri_path(@uri, '/ocs/v2.php/apps/dav/api/v1/direct'),
+                     json: { fileId: file_link.origin_id },
+                     headers: {
+                       'Authorization' => "Bearer #{token.access_token}",
+                       'OCS-APIRequest' => 'true',
+                       'Accept' => 'application/json',
+                       'Content-Type' => 'application/json'
+                     }
+                   )
+      case response
+      in { status: 200..299 }
+        ServiceResult.success(result: response)
+      in { status: 404 }
+        Util.error(:not_found, 'Outbound request destination not found!', response)
+      in { status: 401 }
+        Util.error(:unauthorized, 'Outbound request not authorized!', response)
+      else
+        Util.error(:error, 'Outbound request failed!')
+      end
+    end
 
     def download_link(token, origin_name)
       Util.join_uri_path(@uri, 'index.php/apps/integration_openproject/direct', token, CGI.escape(origin_name))

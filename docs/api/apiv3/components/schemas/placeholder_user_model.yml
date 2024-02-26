@@ -1,0 +1,50 @@
+# Schema: PlaceholderUserModel
+---
+allOf:
+  - $ref: './principal_model.yml'
+  - type: object
+    required:
+      - _type
+    properties:
+      _type:
+        type: string
+        enum:
+          - PlaceholderUser
+      status:
+        type: string
+        description: |-
+          The current activation status of the placeholder user.
+
+          # Conditions
+
+          - User has `manage_placeholder_user` permission globally
+      _links:
+        type: object
+        required:
+          - showUser
+        properties:
+          showUser:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  A relative path to show the placeholder user in the web application.
+          delete:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  An href to delete the placeholder user.
+
+                  # Conditions:
+
+                  - `manage_placeholder_user`
+          updateImmediately:
+            allOf:
+              - $ref: './link.yml'
+              - description: |-
+                  An href to update the placeholder user.
+
+                  # Conditions:
+
+                  - `manage_placeholder_user`
+
+                  **Resource**: PlaceholderUser

@@ -77,9 +77,9 @@ module Pages
     def open_split_view_by_info_icon(work_package)
       element = card(work_package)
       scroll_to_element(element)
-      element.hover
+
       # The offset is needed to ensure that the resizer does not catch the click, instead of the info icon
-      element.find('[data-test-selector="op-wp-single-card--details-button"]').click(x: -5, y: 0)
+      element.hover.find('[data-test-selector="op-wp-single-card--details-button"]').click(x: -5, y: 0)
 
       ::Pages::SplitWorkPackage.new(work_package, project)
     end

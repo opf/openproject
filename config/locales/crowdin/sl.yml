@@ -90,6 +90,17 @@ sl:
     show_until: Prikaži dokler
     is_active: trenutno prikazano
     is_inactive: trenutno ni prikazano
+  antivirus_scan:
+    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
+    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
+    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
+    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
+    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    quarantined_attachments:
+      container: "Container"
+      delete: "Delete the quarantined file"
+      title: "Quarantined attachments"
+      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
   attribute_help_texts:
     note_public: "Vsa dodana besedila in slike so javno vidna vsem prijavljenim uporabnikom!"
     text_overview: "V tem pogledu lahko ustvarite besedila pomoči po meri za pogled atributov. Ob definiciji lahko ta besedila prikažemo s klikom ikone pomoči poleg pripadajočega atributa."
@@ -104,6 +115,7 @@ sl:
   ldap_auth_sources:
     ldap_error: "LDAP-Napaka: %{error_message}"
     ldap_auth_failed: "Overitev ni mogoča na LDAP-Strežniku"
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Ta obrazec LDAP zahteva tehnično znanje o vaši namestitvi LDAP / Active Directory.
@@ -249,10 +261,15 @@ sl:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Odpri kot gantogram"
-      open_as_gantt_title: "Uporabi ta gumb za izdelavo gantograma, ki filtrira delovne pakete za projekte vidne na tej strani."
-      open_as_gantt_title_admin: "Spreminjanje nastavitev pogleda (na primer izbrane vrste delovnih paketov) je možno v skrbništvu pod nastavitvami projekta."
       no_results_title_text: Trenutno ni projektov
       no_results_content_text: Kreiraj nov projekt
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Zamenjaj identifikator
       activities:
@@ -284,14 +301,14 @@ sl:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Neuspešna poenostavitev \"dostopnega simbola\": %{error}"
@@ -325,6 +342,8 @@ sl:
       no_results_title_text: Ta uporabnik trenutno ni član v nobeni skupini.
     memberships:
       no_results_title_text: Ta uporabnik trenutno ni član projekta.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -521,6 +540,8 @@ sl:
         row_count: "Število vrstic"
         column_count: "Število stolpcev"
         widgets: "Gradniki"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "zamuda"
         from: "Zahtevek"
@@ -586,6 +607,7 @@ sl:
         color: "Barva"
       user:
         admin: "Aministrator"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP povezava"
         identity_url: "Identity URL"
         current_password: "Trenutno geslo"
@@ -617,8 +639,9 @@ sl:
         begin_insertion: "Začetek vstavitve"
         begin_deletion: "Začetek izbrisa"
         children: "Podelementi"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
+        derived_done_ratio: "Total % complete"
+        derived_remaining_hours: "Total remaining work"
+        derived_remaining_time: "Total remaining work"
         done_ratio: "% Complete"
         duration: "Trajanje"
         end_insertion: "Konec vstavitve"
@@ -637,6 +660,7 @@ sl:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Ročno razvrščanje."
         spent_hours: "Porabljen čas"
         spent_time: "Porabljen čas"
@@ -943,6 +967,8 @@ sl:
               invalid_on_create: "za nove uporabnike ni veljaven status."
             ldap_auth_source:
               error_not_found: "Ni najdeno"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Prosimo izberite vsaj eno osebo ali kategorijo."
           role_blank: "treba dodeliti"
@@ -1065,7 +1091,7 @@ sl:
     default_columns: "Privzeti stolpci"
     description: "Opis"
     derived_due_date: "Končni datum"
-    derived_estimated_hours: "Derived work"
+    derived_estimated_hours: "Total work"
     derived_start_date: "Izpeljan začetni datum"
     display_sums: "Prikaži vsote"
     due_date: "Končni datum"
@@ -1483,6 +1509,7 @@ sl:
     message: Sporočilo urejeno
     news: Novice
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Projekt urejen"
     reply: Odgovori
     time_entry: "Časovnik urejen"
@@ -1625,6 +1652,7 @@ sl:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1668,12 +1696,12 @@ sl:
   label_age: "Starost"
   label_ago: "pred dnevi"
   label_all: "vsi"
-  label_all_projects: "Vsi projekti"
   label_all_time: "Ves čas"
   label_all_words: "Vse besede"
   label_all_open_wps: "Vse odprto"
   label_always_visible: "Stalno prikazano"
   label_announcement: "Objava"
+  label_angular: "AngularJS"
   label_api_access_key: "API dostopni ključ"
   label_api_access_key_created_on: "Atom dostopni ključ narejen %{value} nazaj"
   label_api_access_key_type: "API"
@@ -1685,7 +1713,6 @@ sl:
   label_ical_access_key_revoke: "Prekliči"
   label_applied_status: "Uveljavljeno stanje"
   label_archive_project: "Arhivirani projekti"
-  label_archived_projects: "Archived projects"
   label_ascending: "Naraščajoče"
   label_assigned_to_me_work_packages: "Delovni paketi, ki so mi bili dodeljeni"
   label_associated_revisions: "Povezane revizije"
@@ -1705,8 +1732,9 @@ sl:
   label_available_project_work_package_categories: "Razpoložljive kategorije delovnih paketov"
   label_available_project_work_package_types: "Razpoložljive vrste delovnih paketov"
   label_available_projects: "Available projects"
-  label_api_documentation: "API dokumentacija"
+  label_api_doc: "API documentation"
   label_backup: "Varnostna kopija"
+  label_backup_code: "Backup code"
   label_between: "med"
   label_blocked_by: "blokirano od"
   label_blocks: "Bloki"
@@ -1716,6 +1744,7 @@ sl:
   label_forum_plural: "Forumi"
   label_forum_sticky: "Lepljivo"
   label_boolean: "Logika"
+  label_board_plural: "Boards"
   label_branch: "Podružnica"
   label_browse: "Brskanje"
   label_bulk_edit_selected_work_packages: "Skupno urejanje izbranih delovnih paketov"
@@ -1742,6 +1771,7 @@ sl:
   label_check_uncheck_all_in_column: "Označite / počistite vse v stolpcu"
   label_check_uncheck_all_in_row: "Potrdite / počistite vse vrstice"
   label_child_element: "Podrejeni elementi"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Zapri dokončane različice"
   label_closed_work_packages: "Zaprto"
@@ -1773,6 +1803,7 @@ sl:
   label_custom_field_plural: "Polja po meri"
   label_custom_field_default_type: "Prazen tip"
   label_custom_style: "Oblika"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL verzija"
   label_date: "Datum"
   label_date_and_time: "Datum in ura"
@@ -1829,6 +1860,8 @@ sl:
   label_example: "Primer"
   label_experimental: "Experimental"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Uvozi"
   label_export_to: "Na razpolago tudi v:"
   label_expanded_click_to_collapse: "Razširjeno. Kliknite, če želite strniti"
@@ -1841,6 +1874,7 @@ sl:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Datoteke"
   label_filter_add: "Dodaj filter"
+  label_filter: "Filters"
   label_filter_plural: "Filtri"
   label_filters_toggle: "Prikaži/skrij filter"
   label_float: "Lebdeti"
@@ -1848,8 +1882,8 @@ sl:
   label_follows: "Sledi"
   label_force_user_language_to_default: "Nastavite jezik uporabnikov ki nimajo dovoljenja privzetega jezika"
   label_form_configuration: "Konfiguracija obrazca"
-  label_gantt: "Gant"
   label_gantt_chart: "Gantogram"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Splošno"
   label_generate_key: "Ustvari ključ"
   label_git_path: "Pot do datoteke ali mape"
@@ -1867,6 +1901,7 @@ sl:
   label_home: "Domov"
   label_subject_or_id: "Predmet ali ID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Pravno obvestilo"
   label_in: "v"
   label_in_less_than: "v manj kot"
@@ -1883,6 +1918,7 @@ sl:
   label_internal: "Notranji"
   label_introduction_video: "Predstavitveni video"
   label_invite_user: "Povabi uporabnika"
+  label_share: "Share"
   label_show_hide: "Pokaži / skrij"
   label_show_all_registered_users: "Prikaži vse registrirane uporabnike"
   label_journal: "Dnevnik"
@@ -1926,6 +1962,7 @@ sl:
   label_member_new: "Nov član"
   label_member_all_admin: "(Vse vloge zaradi statusa skrbnika)"
   label_member_plural: "Člani"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Član dodan"
   lable_membership_updated: "Član posodobljen"
   label_menu_badge:
@@ -1953,7 +1990,7 @@ sl:
   label_my_account: "Moj račun"
   label_my_activity: "My activity"
   label_my_account_data: "Podatki mojega računa"
-  label_my_projects: "Moji projekti"
+  label_my_avatar: "My avatar"
   label_my_queries: "Moje poizvedbe po meri"
   label_name: "Ime"
   label_never: "Nikoli"
@@ -2089,6 +2126,7 @@ sl:
   label_search: "Išči"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Pošlji testni mail"
+  label_session: "Session"
   label_setting_plural: "Nastavitve"
   label_system_settings: "Sistemske nastavitve"
   label_show_completed_versions: "Prikaži zaključene različice"
@@ -2118,11 +2156,13 @@ sl:
   label_system_storage: "Podatki o shranjevanju"
   label_table_of_contents: "Kazalo vsebine"
   label_tag: "Oznaka"
+  label_team_planner: "Team Planner"
   label_text: "Dolgo besedilo"
   label_this_month: "Ta mesec"
   label_this_week: "ta teden"
   label_this_year: "to leto"
   label_time_entry_plural: "Porabljen čas"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Naslov"
   label_projects_menu: "Projekti"
   label_today: "Danes"
@@ -2225,6 +2265,10 @@ sl:
     one: "1 projekt"
     other: "%{count} projektov"
     zero: "Brez projektov"
+  label_x_files:
+    one: "1 file"
+    other: "%{count} files"
+    zero: "no files"
   label_yesterday: "včeraj"
   label_role_type: "Vrsta"
   label_member_role: "Project role"
@@ -2263,11 +2307,11 @@ sl:
     mention:
       subject: "%{user_name} vas je omenil v #%{id} - %{subject}"
     notification:
-      center: 'V središče za obvestila'
-      see_in_center: 'Preglej komentar v središču za obvestila'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "V središče za obvestila"
+      see_in_center: "Preglej komentar v središču za obvestila"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -2588,7 +2632,7 @@ sl:
   project_module_news: "Novice"
   project_module_repository: "Repozitorij"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2740,6 +2784,8 @@ sl:
   setting_app_subtitle: "Podnaslov aplikacije"
   setting_app_title: "Naslov aplikacije"
   setting_attachment_max_size: "Največja velikost priponke"
+  setting_antivirus_scan_mode: "Scan mode"
+  setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Samodejno pridobi spremembe odlagališča"
   setting_autologin: "Avtomatska prijava"
   setting_available_languages: "Razpoložljivi jeziki"
@@ -2839,6 +2885,27 @@ sl:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    antivirus:
+      title: "Virus scanning"
+      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      remaining_quarantined_files_html: >
+        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+      remaining_scan_complete_html: >
+        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+      remaining_rescanned_files: >
+        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+      upsale:
+        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+      actions:
+        delete: 'Delete the file'
+        quarantine: 'Quarantine the file'
+        instructions_html: >
+          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+      modes:
+        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
+        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        description_html: >
+          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
     brute_force_prevention: "Avtomatično blokiranje uporabnika"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2866,6 +2933,7 @@ sl:
     other: "Drugo"
     passwords: "Gesla"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Nastavitve za nove projekte"
       section_project_overview: "Nastavitve za seznam pregleda projekta."
     session: "Seja"
@@ -2881,6 +2949,7 @@ sl:
     plain: "Golo besedilo"
   status_active: "aktiven"
   status_archived: "Arhiviran"
+  status_blocked: "blocked"
   status_invited: Povabljen
   status_locked: zaklenjeno
   status_registered: registriran
@@ -3118,12 +3187,12 @@ sl:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Vloga'
-        type: 'Vrsta'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Vloga"
+        type: "Vrsta"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3140,7 +3209,7 @@ sl:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3344,7 +3413,6 @@ sl:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

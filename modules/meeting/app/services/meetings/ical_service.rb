@@ -60,10 +60,12 @@ module Meetings
         e.dtend = ical_datetime meeting.end_time, tzid
         e.url = url_helpers.meeting_url(meeting)
         e.summary = "[#{meeting.project.name}] #{meeting.title}"
-        e.description = ical_subject(meeting)
+        e.description = ical_subject
         e.uid = "#{meeting.id}@#{meeting.project.identifier}"
-        e.organizer = ical_organizer meeting
+        e.organizer = ical_organizer
         e.location = meeting.location.presence
+
+        add_attendees(e)
       end
     end
     # rubocop:enable Metrics/AbcSize
@@ -77,7 +79,27 @@ module Meetings
       calendar.to_ical
     end
 
-    def ical_subject(meeting)
+    def add_attendees(event)
+      meeting.participants.includes(:user).find_each do |participant|
+        user = participant.user
+        next unless user
+
+        address = Icalendar::Values::CalAddress.new(
+          "mailto:#{user.mail}",
+          {
+            "CN" => user.name,
+            "PARTSTAT" => "NEEDS-ACTION",
+            "RSVP" => "TRUE",
+            "CUTYPE" => "INDIVIDUAL",
+            "ROLE" => "REQ-PARTICIPANT"
+          }
+        )
+
+        event.append_attendee(address)
+      end
+    end
+
+    def ical_subject
       "[#{meeting.project.name}] #{I18n.t(:label_meeting)}: #{meeting.title}"
     end
 
@@ -85,7 +107,7 @@ module Meetings
       Icalendar::Values::DateTime.new time.in_time_zone(timezone_id), 'tzid' => timezone_id
     end
 
-    def ical_organizer(meeting)
+    def ical_organizer
       Icalendar::Values::CalAddress.new("mailto:#{meeting.author.mail}", cn: meeting.author.name)
     end
   end

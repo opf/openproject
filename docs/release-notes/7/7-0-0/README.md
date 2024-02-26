@@ -16,7 +16,7 @@ table, multi-select custom fields and much more.
 ## New integrated Gantt chart / timeline
 
 OpenProject 7.0 introduces a new Gantt chart which is integrated in the
-work package table ([#13785](https://community.openproject.com/wp/13785)).
+work package table ([#13785](https://community.openproject.org/wp/13785)).
 
 The new timeline is much more interactive and user-friendly than the old
 timeline.
@@ -27,7 +27,7 @@ timeline.
 
 You can display hierarchies on the work package table and collapse and
 expand them
-([#24647](https://community.openproject.com/wp/24647)).
+([#24647](https://community.openproject.org/wp/24647)).
 
 
 
@@ -35,7 +35,7 @@ expand them
 
 With OpenProject 7.0 you can configure which attributes
 are displayed for a work package type
-([#24123](https://community.openproject.com/wp/24123)).
+([#24123](https://community.openproject.org/wp/24123)).
 
 You can therefore control which attributes are shown and which are
 hidden by default.
@@ -47,7 +47,7 @@ hidden by default.
 The work package table now supports filtering based on fixed dates. This
 affects all date attributes (e.g. start / due date, created on / updated
 on)
-([#22585](https://community.openproject.com/projects/telekom/work_packages/22585)).
+([#22585](https://community.openproject.org/projects/telekom/work_packages/22585)).
 
 
 
@@ -56,7 +56,7 @@ on)
 The header navigation in OpenProject is updated and displays the current
 project. Additionally, the logo has been centered and existing menus
 have been reordered
-([#24465](https://community.openproject.com/projects/design/work_packages/24465)).
+([#24465](https://community.openproject.org/projects/design/work_packages/24465)).
 
 
 
@@ -64,7 +64,7 @@ have been reordered
 
 As an administrator you can archive and delete projects right from the
 project settings
-([#24913](https://community.openproject.com/wp/24913)).
+([#24913](https://community.openproject.org/wp/24913)).
 
 
 
@@ -72,7 +72,7 @@ project settings
 
 With the zen mode on the work package table, you can maximize the
 available screen real estate by hiding the side and top navigation
-([#18216](https://community.openproject.com/wp/18216)).
+([#18216](https://community.openproject.org/wp/18216)).
 
 This provides a cleaner and larger user interface to work with.
 
@@ -81,9 +81,9 @@ This provides a cleaner and larger user interface to work with.
 ## Multi-select custom fields (Enterprise add-on)
 
 Users of the OpenProject [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) 
-and [Enterprise cloud](https://www.openproject.org/hosting/) can create multi-select
+and [Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options) can create multi-select
 custom fields
-([#24793](https://community.openproject.com/wp/24793)).
+([#24793](https://community.openproject.org/wp/24793)).
 
 With these custom fields you can select multiple values for work package
 custom fields at once and also filter based on them.
@@ -96,8 +96,8 @@ Users of the OpenProject Enterprise cloud and Enterprise on-premises edition can
 their own company’s logo instead of the OpenProject logo.
 
 Additionally, you can change the colors by using a custom color scheme
-([#18099](https://community.openproject.com/projects/gmbh/work_packages/18099),
-[#24460](https://community.openproject.com/projects/gmbh/work_packages/24460)).
+([#18099](https://community.openproject.org/projects/gmbh/work_packages/18099),
+[#24460](https://community.openproject.org/projects/gmbh/work_packages/24460)).
 
 
 
@@ -115,5 +115,5 @@ user experience for users accessing OpenProject on a mobile device.
 OpenProject 7.0 contains a large number of bugs fixes.
 
 For an extensive overview of bug fixes please refer to the [following
-list](https://community.openproject.com/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22%5D,%22p%22:%22openproject%22,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22version%22,%22o%22:%22%253D%22,%22t%22:%22list_optional%22,%22v%22:%22750%22%7D,%7B%22n%22:%22type%22,%22o%22:%22%253D%22,%22t%22:%22list_model%22,%22v%22:%221%22%7D,%7B%22n%22:%22subprojectId%22,%22o%22:%22*%22,%22t%22:%22list_subprojects%22,%22v%22:%5B%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D).
+list](https://community.openproject.org/projects/openproject/work_packages?query_props=%7B%22c%22:%5B%22id%22,%22subject%22,%22type%22,%22status%22,%22assignee%22%5D,%22p%22:%22openproject%22,%22t%22:%22parent:desc%22,%22f%22:%5B%7B%22n%22:%22version%22,%22o%22:%22%253D%22,%22t%22:%22list_optional%22,%22v%22:%22750%22%7D,%7B%22n%22:%22type%22,%22o%22:%22%253D%22,%22t%22:%22list_model%22,%22v%22:%221%22%7D,%7B%22n%22:%22subprojectId%22,%22o%22:%22*%22,%22t%22:%22list_subprojects%22,%22v%22:%5B%5D%7D%5D,%22pa%22:1,%22pp%22:20%7D).
 

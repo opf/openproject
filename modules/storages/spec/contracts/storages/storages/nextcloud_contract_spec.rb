@@ -83,6 +83,21 @@ RSpec.describe Storages::Storages::NextcloudContract, :storage_server_helpers, :
         end
       end
 
+      context 'with timeout' do
+        let(:storage) { build(:nextcloud_storage, :as_automatically_managed) }
+
+        it 'fails validation' do
+          credentials_request = mock_nextcloud_application_credentials_validation(storage.host, timeout: true)
+
+          expect(subject).not_to be_valid
+          expect(subject.errors.to_hash)
+            .to eq({ password: ["could not be validated. Please check your storage connection and try again."] })
+
+          # will be twice when httpx persistent plugin enabled.
+          expect(credentials_request).to have_been_made.once
+        end
+      end
+
       context 'with unknown error' do
         let(:storage) { build(:nextcloud_storage, :as_automatically_managed) }
 

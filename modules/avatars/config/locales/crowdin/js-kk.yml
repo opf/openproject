@@ -1,0 +1,15 @@
+#English strings go here
+kk:
+  js:
+    label_preview: 'Алдын-ала көру'
+    button_update: 'Жаңарту'
+    avatars:
+      label_choose_avatar: "Аватарды файлдан таңдау"
+      uploading_avatar: "Өз аватарыңызды жүктеу."
+      text_upload_instructions: |
+        Өлшемі 128 де 128 пиксел болатын өзіңіздің жеке аватарыңызды жүктеңіз. Одан үлкен файлдар осы өлшемге келетіндей болып қиылады.
+        Таңдаған суретіңіз жүктелмес бұрын аватарыңыздың алдын-ала бейнесі көрсетіледі.
+      error_image_too_large: "Сурет тым үлкен."
+      wrong_file_format: "Рұқсат етілен форматтар: jpg, png, gif"
+      empty_file_error: "Талапқа сай суретті жүктеуіңізді сұраймыз (jpg, png, gif)"
+

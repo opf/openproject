@@ -5,7 +5,7 @@ sidebar_navigation:
 description: Integration to OpenProject.
 keywords: projects, integration, Jira
 ---
-# Integrations and Community plugins
+# Integrations and community plugins
 
 There are various integrations and Community plugins out there. Please [contact us](https://www.openproject.org/contact/) if you want to have your plugin to be added to this list.
 
@@ -24,7 +24,6 @@ OpenProject offers a basic GitHub integration. You will find more information ab
 ## Gitlab
 
 There is a Gitlab plugin from the community. You will find the README and the code [here](https://github.com/btey/openproject-gitlab-integration).
-
 
 ## Jira
 

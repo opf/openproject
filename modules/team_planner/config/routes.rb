@@ -1,4 +1,4 @@
-OpenProject::Application.routes.draw do
+Rails.application.routes.draw do
   resources :team_planners,
             controller: 'team_planner/team_planner',
             only: %i[create] do

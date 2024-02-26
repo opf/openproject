@@ -32,7 +32,7 @@ To help development teams prioritize accessibility implementation and remediatio
 
 ### 2.1. Keyboard usability
 * All page functionality is available using the keyboard, unless the functionality cannot be accomplished in any known way using a keyboard (e.g., free hand drawing).
-* Page-specified shortcut keys and accesskeys (accesskey should typically be avoided) do not conflict with existing browser and screen reader shortcuts.
+* Page-specified shortcut keys and access keys (access key should typically be avoided) do not conflict with existing browser and screen reader shortcuts.
 * Keyboard focus is never locked or trapped at one particular page element. The user can navigate to and from all navigable page elements using only a keyboard.
 * All page functionality is available using the keyboard.
 

@@ -30,7 +30,6 @@ class CostlogController < ApplicationController
   menu_item :work_packages
   before_action :find_project, :authorize, only: %i[edit new create update destroy]
   before_action :find_associated_objects, only: %i[create update]
-  before_action :find_optional_project, only: %i[report]
 
   helper :work_packages
   include CostlogHelper

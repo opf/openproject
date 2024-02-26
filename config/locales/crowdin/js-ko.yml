@@ -31,6 +31,7 @@ ko:
         이 파일을 삭제하시겠습니까? 삭제하면 되돌릴 수 없습니다.
       draggable_hint: |
         인라인 이미지 또는 참조 첨부 파일로 편집기 필드를 드래그하세요. 드래그하는 동안에는 닫힌 편집기 필드가 열립니다.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "항목 추가"
       clear_all: "모두 지우기"
@@ -348,11 +349,11 @@ ko:
           learn_about: "새로운 기능에 대해 자세히 알아보기"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          '13_2':
+          '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-2-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
               new_features_html: >
-                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>프로젝트 멤버 목록에서 역할, 그룹 및 공유 항목을 필터링합니다.</li> <li>공유된 작업 패키지에 대한 담당자와 책임자를 허용합니다.</li> <li>작업 패키지 계층에 대한 진행률 보고를 준비하기 위해 새로운 필드 이름인 "작업", "남은 작업" 및 "완료 %"를 도입합니다.</li> <li>작업 패키지 편집 권한 없이 상태 변경을 허용합니다.</li> <li>OneDrive/SharePoint 저장소에 대한 수동 프로젝트 폴더를 활성화합니다.</li> </ul>
+                이 릴리스에는 다양한 새로운 기능과 개선 사항이 포함되어 있습니다. <br> <ul class="%{list_styling_class}"> <li>사용자 지정 프로젝트 목록 필터링 및 저장.</li> <li>새로운 기본 보기를 사용하여 Gantt 차트 모듈 분리.</li> <li>OneDrive/SharePoint 통합을 위해 자동으로 관리되는 프로젝트 폴더.</li> <li>공유 버튼에 "공유된 사용자" 수를 표시하고 작업 패키지 목록에 표시.</li> <li>작업 패키지 계층에 대한 진행률 보고용 계산 및 업데이트가 개선됨.</li> </ul>
     ical_sharing_modal:
       title: "캘린더 구독"
       inital_setup_error_message: "데이터를 가져오는 중에 오류가 발생했습니다."
@@ -583,7 +584,7 @@ ko:
           full_view: '<b>작업 패키지 세부 정보</b> 보기는 설명, 상태, 우선 순위, 활동, 종속성 및 코멘트 등 지정된 작업 패키지와 관련된 모든 관련 정보를 제공합니다.'
           back_button: '왼쪽 상단 모서리에 있는 뒤로 화살표를 사용하여 종료하고 작업 패키지 목록으로 돌아갑니다.'
           create_button: '<b>+ 만들기</b> 버튼은 프로젝트에 새로운 작업 패키지를 추가합니다.'
-          timeline_button: '<b>Gantt 차트</b> 보기를 활성화하여 프로젝트의 타임라인을 만들 수 있습니다.'
+          gantt_menu: 'Gantt 차트 모듈을 사용하여 프로젝트 스케줄과 타임라인을 손쉽게 생성하세요.'
           timeline: '여기에서 <b>프로젝트 계획을 편집</b>하고 작업, 마일스톤, 단계 등 새로운 작업 패키지를 만들고 <b>종속성을 추가</b>할 수도 있습니다. 모든 팀원이 언제든지 최신 계획을 보고 업데이트할 수 있습니다.'
         team_planner:
           overview: '팀 플래너를 사용하면 시각적으로 팀원에게 작업을 할당하고 누가 어떤 작업을 하는지에 대한 개요를 확인할 수 있습니다.'
@@ -966,6 +967,8 @@ ko:
         createdAt: "작성일"
         description: "설명"
         date: "날짜"
+        percentComplete: "완료 %"
+        percentCompleteAlternative: "진행률"
         dueDate: "완료 날짜"
         duration: "기간"
         spentTime: "소비한 시간"
@@ -973,6 +976,8 @@ ko:
         percentageDone: "완료율"
         priority: "우선 순위"
         projectName: "프로젝트"
+        remainingWork: "남은 작업"
+        remainingWorkAlternative: "남은 시간"
         responsible: "책임"
         startDate: "시작 날짜"
         status: "상태"
@@ -983,6 +988,8 @@ ko:
         updatedAt: "업데이트 날짜"
         versionName: "버전"
         version: "버전"
+        work: "작업"
+        workAlternative: "예상 시간"
         remainingTime: "남은 작업"
       default_queries:
         latest_activity: "최근 활동"
@@ -1031,6 +1038,7 @@ ko:
       sharing:
         share: '공유하기'
         title: "작업 패키지 공유"
+        show_all_users: "공유된 사용자 모두 표시"
         selected_count: "%{count}개 선택됨"
         selection:
           mixed: "혼합"

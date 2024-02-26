@@ -46,10 +46,10 @@ Apart from using OpenProject in the cloud (OpenProject Enterprise cloud) OpenPro
 Here are resources to get to know OpenProject:
 
 - The [overview of our features](https://www.openproject.org/collaboration-software-features)
-- Our [English demo video](https://www.youtube.com/watch?v=un6zCm8_FT4) or [German demo video](https://www.youtube.com/watch?v=doVtVArSSvk) to get an overview of Openproject. There are additional videos explaining certain features to be found on our [YouTube channel](https://www.youtube.com/c/OpenProjectCommunity/videos), too.
+- Our [English demo video](https://www.youtube.com/watch?v=un6zCm8_FT4) or [German demo video](https://www.youtube.com/watch?v=doVtVArSSvk) to get an overview of OpenProject. There are additional videos explaining certain features to be found on our [YouTube channel](https://www.youtube.com/c/OpenProjectCommunity/videos), too.
 - The [Getting started guide](../getting-started) and the [User guide](../user-guide)
 - Our free trial: Click the green button [here](https://www.openproject.org/enterprise-edition) for Enterprise on-premises or go to [start.openproject.com](https://start.openproject.com) for the Enterprise cloud.
-- Our [development roadmap](https://community.openproject.com/projects/openproject/roadmap) (to get to know future features)
+- Our [development roadmap](https://community.openproject.org/projects/openproject/roadmap) (to get to know future features)
 - Our [training and consulting offers](https://www.openproject.org/training-and-consulting)
 
 ### Can I run OpenProject as a single user?
@@ -135,7 +135,7 @@ On a work package level you could use "Assignee" for "Responsible", "Accountable
 
 To create and print/export reports you can...
 
-- use the [global work packages list](../user-guide/projects/#global-work-package-tables): Filter for e.g. phases and milestones (which would make sense to use in your projects in this case). Then use the [export feature](../user-guide/work-packages/exporting/). This will give you an overview over all projects' work packages (or all projects' milestones and phases, respectively).
+- use the [global work packages list](../user-guide/projects/project-lists/#global-work-package-tables): Filter for e.g. phases and milestones (which would make sense to use in your projects in this case). Then use the [export feature](../user-guide/work-packages/exporting/). This will give you an overview over all projects' work packages (or all projects' milestones and phases, respectively).
 - use the [Wiki module](../user-guide/wiki) to document your project reports. The Wiki pages is optimized for being printed using your browser's print feature. You could even insert a work packages list there. If you want to use the Wiki we suggest setting it up in a (global) parent project.
 
 The projects overview is not optimized for export via PDF, yet. Nevertheless, you can try to use your browser's print feature.
@@ -146,7 +146,7 @@ Please go to [openproject.org/newsletter/](https://www.openproject.org/newslette
 
 ## FAQ regarding features
 
-Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community edition [here](https://www.openproject.org/pricing/#features). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](https://community.openproject.com).
+Please find information on the features of OpenProject [here](https://www.openproject.org/collaboration-software-features/) and a comparison between Enterprise on-premises, Enterprise cloud and Community edition [here](https://www.openproject.org/pricing/#features). The community platform to see and [issue](../development/submit-feature-idea/) feature ideas can be found [here](https://community.openproject.org).
 
 ### Is it possible to use multiple languages in OpenProject?
 
@@ -185,9 +185,9 @@ Yes, you can. Starting with OpenProject 12.4 we implemented date alerts and emai
 
 ### Does OpenProject offer resource management?
 
-You can [set up budgets](../user-guide/budgets), [set an Estimated time](../user-guide/work-packages/edit-work-package/) for a work package and use the [Assignee board](../user-guide/agile-boards/#choose-between-board-types) to find out how many work packages are assigned to a person at the moment.
-Additional resource management features will be added within the next years. You can find the road-map for future releases [here](https://community.openproject.com/projects/openproject/work_packages?query_id=1993).
-More infomation regarding resource management in OpenProject can be found in the [Use Cases](../use-cases/resource-management) section.
+You can [set up budgets](../user-guide/budgets), [set the estimated time in  the **Work** field](../user-guide/work-packages/edit-work-package/) of a work package and use the [Assignee board](../user-guide/agile-boards/#choose-between-board-types) to find out how many work packages are assigned to a person at the moment.
+Additional resource management features will be added within the next years. You can find the roadmap for future releases [here](https://community.openproject.org/projects/openproject/work_packages?query_id=1993).
+More information regarding resource management in OpenProject can be found in the [Use Cases](../use-cases/resource-management) section.
 
 ### Does OpenProject offer portfolio management?
 
@@ -204,7 +204,7 @@ In many companies it makes sense to structure your project tree according to you
 
 ### Is there an architecture diagram for OpenProject?
 
-A (very rough) diagram can be found on [https://www.openproject.org/hosting/](https://www.openproject.org/hosting/).
+A (very rough) diagram can be found on [https://www.openproject.org/enterprise-edition/#hosting-options](https://www.openproject.org/enterprise-edition/#hosting-options).
 
 ### Can I set up an entity-relationship diagram in OpenProject?
 

@@ -313,6 +313,8 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     return if available_types.include?(work_package.type) && work_package.type
 
     work_package.type = available_types.first
+    update_duration
+    unify_milestone_dates
 
     reassign_status assignable_statuses
   end

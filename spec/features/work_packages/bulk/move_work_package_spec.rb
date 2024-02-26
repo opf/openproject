@@ -52,7 +52,6 @@ RSpec.describe 'Moving a work package through Rails view', :js do
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
-  let(:display_representation) { Components::WorkPackages::DisplayRepresentation.new }
   let(:current_user) { mover }
   let(:work_packages) { [work_package, work_package2] }
 
@@ -225,7 +224,8 @@ RSpec.describe 'Moving a work package through Rails view', :js do
     it 'displays an error message explaining which work package could not be moved and why' do
       expect(page)
         .to have_css('.op-toast.-error',
-                     text: I18n.t('work_packages.bulk.could_not_be_saved'))
+                     text: I18n.t('work_packages.bulk.could_not_be_saved'),
+                     wait: 10)
 
       expect(page)
         .to have_css(
@@ -242,30 +242,6 @@ RSpec.describe 'Moving a work package through Rails view', :js do
 
       expect(work_package.reload.project_id).to eq(project2.id)
       expect(work_package2.reload.project_id).to eq(project.id)
-    end
-  end
-
-  describe 'accessing the bulk move from the card view' do
-    before do
-      display_representation.switch_to_card_layout
-      loading_indicator_saveguard
-      find('body').send_keys [:control, 'a']
-    end
-
-    context 'with permissions' do
-      it 'does allow to move' do
-        context_menu.open_for work_package
-        context_menu.expect_options 'Bulk change of project'
-      end
-    end
-
-    context 'without permission' do
-      let(:current_user) { dev }
-
-      it 'does not allow to move' do
-        context_menu.open_for work_package
-        context_menu.expect_no_options 'Bulk change of project'
-      end
     end
   end
 end

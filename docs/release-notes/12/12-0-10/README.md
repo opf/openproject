@@ -10,7 +10,7 @@ release_date: 2022-03-16
 
 Release date: 2022-03-16
 
-We released [OpenProject 12.0.10](https://community.openproject.com/versions/1512).
+We released [OpenProject 12.0.10](https://community.openproject.org/versions/1512).
 The release contains several bug fixes and we recommend updating to the newest version.
 
 ##### Localization issues
@@ -21,9 +21,9 @@ This has been fixed and is the primary reason for this release.
 <!--more-->
 #### Bug fixes and changes
 
-- Fixed: Several Translation Errors [DE] \[[#41414](https://community.openproject.com/wp/41414)\]
-- Fixed: LOCALE env used for seeding is too generic \[[#41427](https://community.openproject.com/wp/41427)\]
-- Fixed: Broken translation in russian/german language after upgrade to actual release \[[#41434](https://community.openproject.com/wp/41434)\]
+- Fixed: Several Translation Errors [DE] \[[#41414](https://community.openproject.org/wp/41414)\]
+- Fixed: LOCALE env used for seeding is too generic \[[#41427](https://community.openproject.org/wp/41427)\]
+- Fixed: Broken translation in russian/german language after upgrade to actual release \[[#41434](https://community.openproject.org/wp/41434)\]
 
 #### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.

@@ -60,7 +60,7 @@ A follower cannot be moved to start before the finish date of its predecessor. H
 
 ## Display relations in a work package table (Enterprise add-on)
 
-As a user of [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [Enterprise cloud](https://www.openproject.org/hosting/) you can display relations as columns in the work package tables.
+As a user of [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) or [Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options) you can display relations as columns in the work package tables.
 
 This is useful if you want to get an overview of certain types of relationships between work packages. You can for example see which work packages are blocking other work packages.
 
@@ -94,7 +94,7 @@ Open a work package and select the tab *Relations*. Click on *+ Create new child
 
 Insert the name of the new work package and save the newly created work package by pressing *Enter*. You can make changes to the work package by clicking on the work package ID.
 
-![create workpackage children](image-20200129144540902.png)
+![create work package children](image-20200129144540902.png)
 
 For more information on the work package creation take a look at the guideline on [creating a work package](../create-work-package).
 

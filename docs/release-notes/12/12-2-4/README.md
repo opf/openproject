@@ -10,7 +10,7 @@ release_date: 2022-09-15
 
 Release date: 2022-09-15
 
-We released [OpenProject 12.2.4](https://community.openproject.com/versions/1599).
+We released [OpenProject 12.2.4](https://community.openproject.org/versions/1599).
 The release contains several bug fixes and we recommend updating to the newest version.
 
 
@@ -23,17 +23,17 @@ That migration would fail for some customers that have some invalid journal refe
 
 A migration was added to this release to do just that, and ensure that the 12.2.2 migration can successfully be ran.
 
-For more information on that change, please see the discussion in [Bug #44132](https://community.openproject.com/wp/44132)
+For more information on that change, please see the discussion in [Bug #44132](https://community.openproject.org/wp/44132)
 
 
 
 <!--more-->
 #### Bug fixes and changes
 
-- Fixed: Remaining hours sum not well formed \[[#43833](https://community.openproject.com/wp/43833)\]
-- Fixed: Destroy journals with invalid data_type associations \[[#44132](https://community.openproject.com/wp/44132)\]
-- Fixed: Internal error / Illegal instruction error \[[#44155](https://community.openproject.com/wp/44155)\]
-- Fixed: Dragging images to CKEditor on Grid custom texts not working with direct upload \[[#44156](https://community.openproject.com/wp/44156)\]
+- Fixed: Remaining hours sum not well formed \[[#43833](https://community.openproject.org/wp/43833)\]
+- Fixed: Destroy journals with invalid data_type associations \[[#44132](https://community.openproject.org/wp/44132)\]
+- Fixed: Internal error / Illegal instruction error \[[#44155](https://community.openproject.org/wp/44155)\]
+- Fixed: Dragging images to CKEditor on Grid custom texts not working with direct upload \[[#44156](https://community.openproject.org/wp/44156)\]
 
 #### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.

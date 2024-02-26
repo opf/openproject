@@ -90,6 +90,17 @@ lt:
     show_until: Rodyti iki
     is_active: šiuo metu rodoma
     is_inactive: šiuo metu nerodoma
+  antivirus_scan:
+    not_processed_yet_message: "Atsisiuntimas užblokuotas, nes failas dar nebuvo patikrintas dėl virusų. Prašome pabandyti vėliau."
+    quarantined_message: "Faile „%{filename}“ aptiktas virusas. Jis buvo patalpintas į karantiną ir jo atsisiųsti negalima."
+    deleted_message: "Faile „%{filename}“ aptiktas virusas. Failas buvo ištrintas."
+    deleted_by_admin: "Administratorius ištrynė į karantiną patekusį failą „%{filename}“."
+    overridden_by_admin: "Failo „%{filename}“ karantinas buvo pašalintas %{user}. Dabar failą galima pasiekti."
+    quarantined_attachments:
+      container: "Konteineris"
+      delete: "Trinti į karantiną patekusį failą"
+      title: "Į karantiną patalpinti priedai"
+      error_cannot_act_self: "Negalima atlikti veiksmų su savo įkeltais failais."
   attribute_help_texts:
     note_public: "Bet koks tekstas ir piešinukai, kuriuos jūs pridedate prie šio lauko, yra viešai matomas visiems prisijungusiems naudotojams!"
     text_overview: "Šioje peržiūroje Jūs galite kurti pritaikytus pagalbos tekstus atributams. Kai nustatyti, šie tekstai gali būti rodomi paspaudžiant pagalbos piktogramą šalia atitinkamo atributo."
@@ -104,6 +115,7 @@ lt:
   ldap_auth_sources:
     ldap_error: "LDAP-Klaida: %{error_message}"
     ldap_auth_failed: "LDAP serveryje autentifikacija nepavyko."
+    sync_failed: "Nepavyko sinchronizuoti su LDAP: %{message}."
     back_to_index: "Spauskite čia, kad gryžtumėte į jungčių sąrašą."
     technical_warning_html: |
       Ši LDAP forma reikalauja jūsų LDAP / Active Directory tvarkos žinojimo.
@@ -247,10 +259,15 @@ lt:
       completed_text_children: "Papildomai buvo ištrinti ir šie subprojektai:"
     index:
       open_as_gantt: "Atidaryti kaip Gantt diagramą"
-      open_as_gantt_title: "Naudokite šį mygtuką visų šiame puslapyje matomų projektų darbo užduočių Gantt'o diagramai sugeneruoti."
-      open_as_gantt_title_admin: "Galite pakeisti vaizdo parametrus (tokius kaip pasirinkti darbo užduočių tipai) administravimo dalyje prie projekto nustatymų."
       no_results_title_text: Nėra jokių projektų
       no_results_content_text: Sukurti naują projektą
+    lists:
+      active: 'Aktyvūs projektai'
+      my: 'Mano projektai'
+      archived: 'Archyvuoti projektai'
+      my_private: 'Mano privatūs projektų sąrašai'
+      new:
+        placeholder: 'Naujas projektų sąrašas'
     settings:
       change_identifier: Pokyčio identifikatorius
       activities:
@@ -282,14 +299,14 @@ lt:
     columns:
       shared: "Bendrinta"
     filters:
-      all_shares: 'Visi bendrinimai'
+      all_shares: "Visi bendrinimai"
     menu:
-      all: 'Visi'
-      invited: 'Pakviesti'
-      locked: 'Užrakinti'
-      project_roles: 'Projekto vaidmenys'
-      wp_shares: 'Darbo paketų bendrinimai'
-      groups: 'Grupės'
+      all: "Visi"
+      invited: "Pakviesti"
+      locked: "Užrakinti"
+      project_roles: "Projekto vaidmenys"
+      wp_shares: "Darbo paketų bendrinimai"
+      groups: "Grupės"
   my:
     access_token:
       failed_to_reset_token: "Atpažinimo rakto nepavyko nustatyti iš naujo: %{error}"
@@ -323,6 +340,8 @@ lt:
       no_results_title_text: Šis naudotojas nėra jokios grupės narys.
     memberships:
       no_results_title_text: Šis naudotojas šiuo metu nėra projekto narys.
+  page:
+    text: 'Tekstas'
   placeholder_users:
     right_to_manage_members_missing: >
       Jums neleidžiama ištrinti statytinio naudotojo. Jūs neturite teisių valdyti projektų narių visuose projektuose, kuriuose šis statytinis naudotojas yra narys.
@@ -521,6 +540,8 @@ lt:
         row_count: "Eilučių skaičius"
         column_count: "Stulpelių skaičius"
         widgets: "Valdikliai"
+      oauth_client:
+        client: "Kliento ID"
       relation:
         delay: "Vėlavimas"
         from: "Darbų paketas"
@@ -586,6 +607,7 @@ lt:
         color: "Spalva"
       user:
         admin: "Administratorius"
+        auth_source: "Autentifikacijos šaltinis"
         ldap_auth_source: "LDAP jungtis"
         identity_url: "Identiteto URL"
         current_password: "Dabartinis slaptažodis"
@@ -617,8 +639,9 @@ lt:
         begin_insertion: "Įterpimo pradžioje"
         begin_deletion: "Ištrynimo pradžioje"
         children: "Subelementai"
-        derived_remaining_hours: "Išvestas likęs darbas"
-        derived_remaining_time: "Išvestas likęs darbas"
+        derived_done_ratio: "Iš viso % baigta"
+        derived_remaining_hours: "Iš viso liko darbo"
+        derived_remaining_time: "Iš viso liko darbo"
         done_ratio: "% baigta"
         duration: "Trukmė"
         end_insertion: "Įterpimo pabaigoje"
@@ -637,6 +660,7 @@ lt:
         readonly: "Tik skaitymui"
         remaining_hours: "Liko darbo"
         remaining_time: "Liko darbo"
+        shared_with_users: "Dalinamasi su"
         schedule_manually: "Rankinis laiko parinkimas"
         spent_hours: "Praleista laiko"
         spent_time: "Praleista laiko"
@@ -943,6 +967,8 @@ lt:
               invalid_on_create: "yra netinkama naujų naudotojų būsena."
             ldap_auth_source:
               error_not_found: "nerasta"
+            auth_source:
+              error_not_found: "nerasta"
         member:
           principal_blank: "Prašome pasirinkti bent vieną naudotoją ar grupę."
           role_blank: "turi būti priskirtas."
@@ -1065,7 +1091,7 @@ lt:
     default_columns: "Numatytieji stulpeliai"
     description: "Aprašymas"
     derived_due_date: "Išvestinė pabaigos data"
-    derived_estimated_hours: "Išvestas darbas"
+    derived_estimated_hours: "Iš viso darbo"
     derived_start_date: "Išvestinė pradžios data"
     display_sums: "Rodyti suvestines"
     due_date: "Pabaigos data"
@@ -1483,6 +1509,7 @@ lt:
     message: Žinutė redaguota
     news: Naujienos
     project_attributes: "Projekto atributai pakeisti"
+    project: "Projektas redaguotas"
     projects: "Projektas redaguotas"
     reply: Atsakė
     time_entry: "Laiko įrašai redaguoti"
@@ -1625,6 +1652,7 @@ lt:
         revoke_token: "Ar tikrai norite išimti šį žetoną? Jums vėl reikės prisijungti prie %{storage}"
         removed: "Failų saugykla sėkmingai pašalinta"
         failed: "Įvyko klaida ir žetono išimti nepavyko. Prašome pabandyti dar kartą vėliau."
+        unknown_storage: "Nežinoma saugykla"
   notifications:
     send_notifications: "Siųsti pranešimus apie šį veiksmą"
     work_packages:
@@ -1668,12 +1696,12 @@ lt:
   label_age: "Amžius"
   label_ago: "dienų prieš"
   label_all: "visi"
-  label_all_projects: "Visi projektai"
   label_all_time: "visas laikas"
   label_all_words: "Visi žodžiai"
   label_all_open_wps: "Visi atviri"
   label_always_visible: "Visada rodomas"
   label_announcement: "Skelbimas"
+  label_angular: "AngularJS"
   label_api_access_key: "API prieigos raktas"
   label_api_access_key_created_on: "API prieigos raktas sukurtas prieš %{value}"
   label_api_access_key_type: "API"
@@ -1685,7 +1713,6 @@ lt:
   label_ical_access_key_revoke: "Atšaukti"
   label_applied_status: "Taikomoji būsena"
   label_archive_project: "Archyvuoti projektą"
-  label_archived_projects: "Archyvuoti projektai"
   label_ascending: "Didėjančia tvarka"
   label_assigned_to_me_work_packages: "Man priskirti darbų paketai"
   label_associated_revisions: "Susijusios revizijos"
@@ -1705,8 +1732,9 @@ lt:
   label_available_project_work_package_categories: "Galimos darbų paketo kategorijos"
   label_available_project_work_package_types: "Galimi darbo paketų tipai"
   label_available_projects: "Galimi projektai"
-  label_api_documentation: "API dokumentacija"
+  label_api_doc: "API dokumentacija"
   label_backup: "Atsarginė kopija"
+  label_backup_code: "Atsarginis kodas"
   label_between: "tarp"
   label_blocked_by: "blokuojamas"
   label_blocks: "blokai"
@@ -1716,6 +1744,7 @@ lt:
   label_forum_plural: "Forumai"
   label_forum_sticky: "Lipnus"
   label_boolean: "Būlio loginis"
+  label_board_plural: "Lentos"
   label_branch: "Šaka"
   label_browse: "Naršyti"
   label_bulk_edit_selected_work_packages: "Masiškai redaguoti pasirinktus darbų paketus"
@@ -1742,6 +1771,7 @@ lt:
   label_check_uncheck_all_in_column: "Žymėti/atžymėti visus stulpelyje"
   label_check_uncheck_all_in_row: "Žymėti/atžymėti visus eilutėje"
   label_child_element: "Vaiko elementas"
+  label_choices: "Pasirinkimai"
   label_chronological_order: "Seniausias pirmas"
   label_close_versions: "Uždaryti užbaigtas versijas"
   label_closed_work_packages: "uždarytas"
@@ -1773,6 +1803,7 @@ lt:
   label_custom_field_plural: "Pritaikyti laukai"
   label_custom_field_default_type: "Tuščias tipas"
   label_custom_style: "Išvaizda"
+  label_dashboard: "Skydelis"
   label_database_version: "PostgreSQL versija"
   label_date: "Data"
   label_date_and_time: "Data ir laikas"
@@ -1829,6 +1860,8 @@ lt:
   label_example: "Pavyzdys"
   label_experimental: "Eksperimentinis"
   label_i_am_member: "Aš esu narys"
+  label_ifc_viewer: "Ifc žiūryklė"
+  label_ifc_model_plural: "Ifc modeliai"
   label_import: "Importuoti"
   label_export_to: "Taip pat galima rasti:"
   label_expanded_click_to_collapse: "Išplėsta. Spauskite, kad sutrauktumėte"
@@ -1841,6 +1874,7 @@ lt:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Failai"
   label_filter_add: "Pridėti filtrą"
+  label_filter: "Filtrai"
   label_filter_plural: "Filtrai"
   label_filters_toggle: "Rodyti/slėpti filtrus"
   label_float: "Skaičius su kableliu"
@@ -1848,8 +1882,8 @@ lt:
   label_follows: "seka"
   label_force_user_language_to_default: "Nustatyti numatytąją kalbą vartotojams, kurie nurodo, sistemoje nežinomą kalbą"
   label_form_configuration: "Formos konfigūracija"
-  label_gantt: "Gantt"
   label_gantt_chart: "Ganto grafikas"
+  label_gantt_chart_plural: "Ganto diagramos"
   label_general: "Bendra"
   label_generate_key: "Generuoti raktą"
   label_git_path: "Kelias į .git aplanką"
@@ -1867,6 +1901,7 @@ lt:
   label_home: "Namai"
   label_subject_or_id: "Tema arba ID"
   label_calendar_subscriptions: "Kalendoriaus prenumeratos"
+  label_identifier: "Identifikatorius"
   label_impressum: "Teisinė informacija"
   label_in: " "
   label_in_less_than: "mažiau nei"
@@ -1883,6 +1918,7 @@ lt:
   label_internal: "Vidinis"
   label_introduction_video: "Įvado video"
   label_invite_user: "Pakviesti vartotoją"
+  label_share: "Dalintis"
   label_show_hide: "Rodyti/slėpti"
   label_show_all_registered_users: "Rodyti visus registruotus vartotojus"
   label_journal: "Žurnalas"
@@ -1926,6 +1962,7 @@ lt:
   label_member_new: "Naujas narys"
   label_member_all_admin: "(Visi vaidmenys, nes turite administratoriaus statusą)"
   label_member_plural: "Nariai"
+  label_membership_plural: "Narystės"
   lable_membership_added: "Narys pridėtas"
   lable_membership_updated: "Narys atnaujintas"
   label_menu_badge:
@@ -1953,7 +1990,7 @@ lt:
   label_my_account: "Mano paskyra"
   label_my_activity: "Mano veikla"
   label_my_account_data: "Mano paskyros duomenys"
-  label_my_projects: "Mano projektai"
+  label_my_avatar: "Mano avataras"
   label_my_queries: "Mano sukurtos užklausos"
   label_name: "Vardas"
   label_never: "Niekada"
@@ -2089,6 +2126,7 @@ lt:
   label_search: "Paieška"
   label_send_information: "Siųsti naujus prisijungimo duomenis naudotojui"
   label_send_test_email: "Siųsti bandomąjį el. laišką"
+  label_session: "Sesija"
   label_setting_plural: "Nustatymai"
   label_system_settings: "Sistemos nustatymai"
   label_show_completed_versions: "Rodyti užbaigtas versijas"
@@ -2118,11 +2156,13 @@ lt:
   label_system_storage: "Talpyklos informacija"
   label_table_of_contents: "Turinys"
   label_tag: "Žymė"
+  label_team_planner: "Komandos planuotojas"
   label_text: "Ilgas tekstas"
   label_this_month: "šis mėnuo"
   label_this_week: "ši savaitė"
   label_this_year: "šiemet"
   label_time_entry_plural: "Praleista laiko"
+  label_time_entry_activity_plural: "Praleisto laiko veiklos"
   label_title: "Pavadinimas"
   label_projects_menu: "Projektai"
   label_today: "šiandien"
@@ -2225,6 +2265,10 @@ lt:
     one: "1 projektas"
     other: "%{count} projektai (-as, -ų)"
     zero: "nėra projektų"
+  label_x_files:
+    one: "1 failas"
+    other: "%{count} failai"
+    zero: "nėra failų"
   label_yesterday: "vakar"
   label_role_type: "Tipas"
   label_member_role: "Vaidmuo projekte"
@@ -2263,11 +2307,11 @@ lt:
     mention:
       subject: "%{user_name} paminėjo jus #%{id} - %{subject}"
     notification:
-      center: 'Į pranešimų centrą'
-      see_in_center: 'Žiūrėkite komentarą pranešimų centre'
-      settings: 'Keisti e-pašto nustatymus'
-    salutation: 'Sveiki, %{user}'
-    salutation_full_name: 'Pilnas vardas'
+      center: "Į pranešimų centrą"
+      see_in_center: "Žiūrėkite komentarą pranešimų centre"
+      settings: "Keisti e-pašto nustatymus"
+    salutation: "Sveiki, %{user}"
+    salutation_full_name: "Pilnas vardas"
     work_packages:
       created_at: "Sukūrė %{user} %{timestamp} "
       login_to_see_all: "Prisijunkite, norėdami pamatyti visus pranešimus."
@@ -2586,7 +2630,7 @@ lt:
   project_module_news: "Naujienos"
   project_module_repository: "Repozitorija"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Darbo paketai ir Gantt"
+  permission_header_for_project_module_work_package_tracking: "Darbo paketai ir Gantt diagramos"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2737,6 +2781,8 @@ lt:
   setting_app_subtitle: "Programos paantraštė"
   setting_app_title: "Programos pavadinimas"
   setting_attachment_max_size: "Didžiausias prisegamo failo dydis"
+  setting_antivirus_scan_mode: "Skenavimo režimas"
+  setting_antivirus_scan_action: "Užkrėsto failo veiksmas"
   setting_autofetch_changesets: "Automatiškai įkelti repozitorijos pakeitimus"
   setting_autologin: "Automatinis prisijungimas"
   setting_available_languages: "Siūlomos kalbos"
@@ -2836,6 +2882,27 @@ lt:
     attachments:
       whitelist_text_html: >
         Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).
+    antivirus:
+      title: "Virusų tikrinimas"
+      clamav_ping_failed: "Nepavyko prisijungti prie ClamAV demono. Dar kartą patikrinkite konfigūraciją ir bandykite dar kartą."
+      remaining_quarantined_files_html: >
+        Virusų tikrinimas išjungtas. %{file_count} lieka karantine. Norėdami peržiūrėti į karantiną patekusius failus, apsilankykite šią nuorodą: %{link}
+      remaining_scan_complete_html: >
+        Likę failai buvo patikrinti. Karantine yra %{file_count} . Esate nukreipiami į karantino puslapį. Naudokitės šiuo puslapiu norėdami ištrinti arba pakeisti karantine esančius failus.
+      remaining_rescanned_files: >
+        Dabar, kai virusų skenavimas yra aktyvus, yra %{file_count} failai, kuruos reikia iš naujo patikrinti. Šis procesas suplanuotas fone. Tikrinimo metu failai išliks prieinami.
+      upsale:
+        description: "Užtikrinkite, kad į OpenProject įkelti failai būtų patikrinti nuo virusų prieš padarant juos prieinamus kitiems naudotojams."
+      actions:
+        delete: 'Trinti failą'
+        quarantine: 'Karantinuoti failą'
+        instructions_html: >
+          Pasirinkite veiksmą, kurį norite atlikti su failais, kuriuose aptiktas virusas: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Perkelkite į karantiną, neleisdami naudotojams prieiti prie failo. Administratoriai gali peržiūrėti ir ištrinti į karantiną patalpintus failus administravimo įrankiais.</li> <li><strong>%{delete_option}</strong>: Iškart ištrinti failą.</li> </ul>
+      modes:
+        clamav_socket_html: Įveskite clamd demono lizdą, pvz., %{example}
+        clamav_host_html: Įveskite kompiuterio pavadinimą ir prievadą clamd demonui, atskirti dvitaškiu. pvz., %{example}
+        description_html: >
+          Pasirinkite režimą, kuriuo turėtų veikti virusų tikrinimo integracija. <br/> <ul> <li><strong>%{disabled_option}</strong>: Įkelti failai nėra tikrinami dėl virusų.</li> <li><strong>%{socket_option}</strong>: Tame pačiame serveryje, kuriame yra „OpenProject“, įdiegėte "ClamAV" ir fone veikia skenavimo demonas clamd.</li> <li><strong>%{host_option}</strong>: Siunčiate failus į išorinį virusų skenavimo kompiuterį.</li> </ul>
     brute_force_prevention: "Automatinis vartotojų blokavimas"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2863,6 +2930,7 @@ lt:
     other: "Kita"
     passwords: "Slaptažodžiai"
     projects:
+      missing_dependencies: "Parinktas projekto modulis %{module}, kuris priklauso nuo %{dependencies}. Jums reikia pažymėti ir šias priklausomybes."
       section_new_projects: "Naujų projektų nustatymai"
       section_project_overview: "Nustatymai projektų apžvalgos sąrašui"
     session: "Sesija"
@@ -2878,6 +2946,7 @@ lt:
     plain: "Paprastas tekstas"
   status_active: "aktyvus"
   status_archived: "suarchyvuotas"
+  status_blocked: "užblokuota"
   status_invited: pakviestas
   status_locked: užrakintas
   status_registered: registruotas
@@ -3114,12 +3183,12 @@ lt:
         one: "1 naudotojas"
         other: "%{count} naudotojai"
       filter:
-        project_member: 'Projekto nariai'
-        not_project_member: 'Ne projekto nariai'
-        project_group: 'Projekto grupė'
-        not_project_group: 'Ne projekto grupė'
-        role: 'Vaidmuo'
-        type: 'Tipas'
+        project_member: "Projekto nariai"
+        not_project_member: "Ne projekto nariai"
+        project_group: "Projekto grupė"
+        not_project_group: "Ne projekto grupė"
+        role: "Vaidmuo"
+        type: "Tipas"
       label_search: "Ieškoti naudotojų pakvietimui"
       label_search_placeholder: "Ieškoti pagal naudotoją arba e-pašto adresą"
       label_toggle_all: "Perjungti visus bendrinimus"
@@ -3136,7 +3205,7 @@ lt:
       text_empty_search_description: "Nėra naudotojų su dabartiniu filtro kriterijumi."
       text_empty_search_header: "Mes neradome jokių atitinkančių rezultatų."
       text_empty_state_description: "Darbo paketas dar nėra su niekuo bendrinamas."
-      text_empty_state_header: "Nėra bendrinamų narių."
+      text_empty_state_header: "Nesidalinama"
       text_user_limit_reached: "Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome susisiekti su administratoriumi ir padidinti naudotojų apribojimą, kad užtikrintumėte, jog išoriniai naudotojai gali prieiti prie šio darbo paketo."
       text_user_limit_reached_admins: 'Pridėjus papildomus naudotojus bus viršytas dabartinis apribojimas. Prašome <a href="%{upgrade_url}">pagerinti jūsų planą</a>, kad galėtumėte pridėti daugiau naudotojų.'
       warning_user_limit_reached: >
@@ -3339,7 +3408,6 @@ lt:
       oauth_returned_json_error: "OAuth2 grąžino JSON klaidą"
       oauth_returned_http_error: "OAuth2 grąžino tinklo klaidą"
       oauth_returned_standard_error: "OAuth2 grąžino vidinę klaidą"
-      client_id_blank: "ID negali būti tuščias."
       wrong_token_type_returned: "OAuth2 grąžino netinkamą žetono tipą, tikėtasi AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 grąžino klaidą. Prašome susisiekti su jūsų sistemos administratoriumi."
       oauth_client_not_found: "OAuth2 klientas nerastas „callback“ taške (redirect_uri)."

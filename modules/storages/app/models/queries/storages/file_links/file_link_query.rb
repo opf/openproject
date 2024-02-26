@@ -30,7 +30,10 @@
 # reference to the embedded model.
 
 # The namespace is programmatically derived from the model name. See app/services/params_to_query_service.rb:130
-class Queries::Storages::FileLinks::FileLinkQuery < Queries::BaseQuery
+class Queries::Storages::FileLinks::FileLinkQuery
+  include Queries::BaseQuery
+  include Queries::UnpersistedQuery
+
   class << self
     # We need to overwrite the model method, as the standard implementation cannot derive the name from nested
     # namespaces. See app/models/queries/base_query.rb:31

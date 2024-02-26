@@ -162,7 +162,7 @@ Redmine::MenuManager.map :global_menu do |menu|
   menu.push :work_packages,
             { controller: '/work_packages', action: 'index' },
             caption: :label_work_package_plural,
-            icon: 'view-timeline',
+            icon: 'view-list',
             after: :activity
 
   menu.push :work_packages_query_select,
@@ -303,7 +303,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
             { controller: '/admin/settings/work_packages_settings', action: :show },
             if: Proc.new { User.current.admin? },
             caption: :label_work_package_plural,
-            icon: 'view-timeline'
+            icon: 'view-list'
 
   menu.push :work_packages_setting,
             { controller: '/admin/settings/work_packages_settings', action: :show },
@@ -349,6 +349,34 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :'attribute_help_texts.label_plural',
             icon: 'help2',
             if: Proc.new { User.current.allowed_globally?(:edit_attribute_help_texts) }
+
+  menu.push :attachments,
+            { controller: '/admin/settings/attachments_settings', action: :show },
+            caption: :'attributes.attachments',
+            icon: 'attachment',
+            if: Proc.new { User.current.admin? }
+
+  menu.push :attachments_settings,
+            { controller: '/admin/settings/attachments_settings', action: :show },
+            if: Proc.new { User.current.admin? },
+            caption: :label_setting_plural,
+            parent: :attachments
+
+  menu.push :virus_scanning_settings,
+            { controller: '/admin/settings/virus_scanning_settings', action: :show },
+            caption: :'settings.antivirus.title',
+            parent: :attachments,
+            enterprise_feature: 'virus_scanning',
+            if: Proc.new { User.current.admin? }
+
+  menu.push :attachment_quarantine,
+            { controller: '/admin/attachments/quarantined_attachments', action: :index },
+            caption: :'antivirus_scan.quarantined_attachments.title',
+            parent: :attachments,
+            if: Proc.new {
+              User.current.admin? &&
+                (EnterpriseToken.allows_to?(:virus_scanning) || Attachment.status_quarantined.any?)
+            }
 
   menu.push :enumerations,
             { controller: '/enumerations' },
@@ -546,6 +574,7 @@ Redmine::MenuManager.map :project_menu do |menu|
   menu.push :work_packages,
             { controller: '/work_packages', action: 'index' },
             caption: :label_work_package_plural,
+            if: Proc.new { |p| p.module_enabled?('work_package_tracking') },
             icon: 'view-list',
             html: {
               id: 'main-menu-work-packages',

@@ -45,7 +45,7 @@ module Queries
         {
           filters: filters.map { |f| { name: f.name, operator: f.operator, values: f.values } },
           orders: orders.to_h { |o| [o.attribute, o.direction] },
-          group_by:,
+          group_by: respond_to?(:group_by) ? group_by : nil,
           user:
         }
       end

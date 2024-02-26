@@ -20,12 +20,12 @@ You will find user stories in the left column, followed by their individual task
 
 ![User-guide-new-task](User-guide-new-task.png)
 
-Here, you can set the fields *Subject*, *Assigned To*, and *Remaining Hours*. The new task will be created as a child element of the user story in the same row.
+Here, you can set the fields *Subject*, *Assigned To*, and *Remaining work* (earlier called Remaining Hours). The new task will be created as a child element of the user story in the same row.
 
 If a task is updated or completed, it can be moved to the respective column by a team member using drag&drop.
 In the background, the status of the work package will be adjusted accordingly. Clicking on the work package number opens the work package’s detail view.
 
-![drag and drop taskboard](image-20200129132035246.png)
+![drag and drop taskboard](User-guide-drag.png)
 
 On the very top of the table, sprint impediments are documented and assigned to the scrum master for removal.
 
@@ -33,7 +33,7 @@ On the very top of the table, sprint impediments are documented and assigned to 
 
 > **Note**: If you add an impediment and type the work package number into the field Blocked (ID), the respective work package will be linked to the impediment. As long as the impediment remains, the work package cannot be closed.
 
-![sprint impediments](image-20200129132413044.png)
+![sprint impediments](User-guide-add-impediment.png)
 
 
 

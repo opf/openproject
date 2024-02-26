@@ -15,6 +15,7 @@ ru:
       choose_location: "Выберите местоположение"
       types:
         nextcloud: "Nextcloud"
+        one_drive: "OneDrive/SharePoint"
         default: "Хранилище"
       information:
         connection_error: >
@@ -81,7 +82,7 @@ ru:
         link_uploaded_file_error: >
           Произошла ошибка при привязке недавно загруженного файла '%{fileName}' к пакету работ %{workPackageId}.
         tooltip:
-          not_logged_in: "Войдите в Nextcloud для доступа к этому файлу."
+          not_logged_in: "Пожалуйста, войдите в хранилище для доступа к этому файлу."
           view_not_allowed: "У вас недостаточно прав для просмотра этого файла."
           not_found: "Этот файл не найден."
         already_linked_file: "Этот файл уже связан с этим пакетом работ."

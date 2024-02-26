@@ -39,7 +39,8 @@ module API
           include API::Caching::CachedRepresenter
           cached_representer key_parts: %i[project type],
                              dependencies: -> {
-                               all_permissions_granted_to_user_under_project + [Setting.work_package_done_ratio]
+                               all_permissions_granted_to_user_under_project + [Setting.work_package_done_ratio,
+                                                                                Setting.plugin_openproject_backlogs]
                              }
 
           custom_field_injector type: :schema_representer
@@ -185,6 +186,12 @@ module API
           schema :percentage_done,
                  type: 'Integer',
                  name_source: :done_ratio,
+                 show_if: ->(*) { Setting.work_package_done_ratio != 'disabled' },
+                 required: false
+
+          schema :derived_percentage_done,
+                 type: 'Integer',
+                 name_source: :derived_done_ratio,
                  show_if: ->(*) { Setting.work_package_done_ratio != 'disabled' },
                  required: false
 

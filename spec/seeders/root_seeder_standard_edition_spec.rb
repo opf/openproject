@@ -47,6 +47,7 @@ RSpec.describe RootSeeder,
 
     it 'creates the demo data' do
       expect(Project.count).to eq 2
+      expect(EnabledModule.count).to eq 13
       expect(WorkPackage.count).to eq 36
       expect(Wiki.count).to eq 2
       expect(Query.having_views.count).to eq 8

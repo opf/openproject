@@ -31,13 +31,13 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Storages::NextcloudContract, :storage_server_helpers, :webmock do
+RSpec.describe Storages::Storages::OneDriveContract, :storage_server_helpers, :webmock do
   let(:current_user) { create(:admin) }
   let(:storage) { build(:one_drive_storage) }
 
   # As the OneDriveContract is selected by the BaseContract to make writable attributes available,
   # the BaseContract needs to be instantiated here.
-  subject { Storages::Storages::BaseContract.new(storage, current_user) }
+  subject(:contract) { Storages::Storages::BaseContract.new(storage, current_user) }
 
   describe 'when a host is set' do
     before do
@@ -45,7 +45,17 @@ RSpec.describe Storages::Storages::NextcloudContract, :storage_server_helpers, :
     end
 
     it 'must be invalid' do
-      expect(subject).not_to be_valid
+      expect(contract).not_to be_valid
+    end
+  end
+
+  context 'with blank Drive ID' do
+    let(:storage) { build(:one_drive_storage, drive_id: '') }
+
+    it 'is invalid' do
+      expect(contract).not_to be_valid
+
+      expect(contract.errors[:drive_id]).to eq(["can't be blank."])
     end
   end
 end

@@ -90,6 +90,17 @@ ja:
     show_until: までを表示
     is_active: 現在表示されています
     is_inactive: 現在表示されていません
+  antivirus_scan:
+    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
+    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
+    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
+    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
+    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    quarantined_attachments:
+      container: "Container"
+      delete: "Delete the quarantined file"
+      title: "Quarantined attachments"
+      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
   attribute_help_texts:
     note_public: "このフィールドに追加したテキストと画像は、ログインしているすべてのユーザーに公開されます！"
     text_overview: "このビューは、属性表示のカスタム ヘルプ テキストを作成できます。定義すると、このテキストはその属性の横にあるヘルプ アイコンをクリックして表示できます。"
@@ -104,6 +115,7 @@ ja:
   ldap_auth_sources:
     ldap_error: "LDAPエラー: %{error_message}"
     ldap_auth_failed: "LDAPサーバーで認証できませんでした。"
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       この LDAP フォームには、LDAP / Active Directory の設定に関する技術的な知識が必要です。
@@ -248,10 +260,15 @@ ja:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "ガントビューとして開く"
-      open_as_gantt_title: "このボタンを使用して、このページに表示されているプロジェクトのワークパッケージをフィルタリングするガントビューを生成します。"
-      open_as_gantt_title_admin: "プロジェクト設定で、表示設定 (選択したワークパッケージの種類など) を変更できます。"
       no_results_title_text: 現在、プロジェクトはありません
       no_results_content_text: プロジェクトを新規作成
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: 識別子の変更
       activities:
@@ -283,14 +300,14 @@ ja:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "アクセストークンをリセットできませんでした: %{error}"
@@ -324,6 +341,8 @@ ja:
       no_results_title_text: このユーザーは現在どのグループのメンバーでもありません。
     memberships:
       no_results_title_text: このユーザは現在プロジェクトのメンバーではありません。
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -517,6 +536,8 @@ ja:
         row_count: "行数"
         column_count: "列数"
         widgets: "ウィジェット"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "遅延"
         from: "ワーク パッケージ"
@@ -582,6 +603,7 @@ ja:
         color: "色"
       user:
         admin: "管理者"
+        auth_source: "Authentication source"
         ldap_auth_source: "LDAP 接続"
         identity_url: "Identity URL"
         current_password: "現在のパスワード"
@@ -613,8 +635,9 @@ ja:
         begin_insertion: "挿入の始まり"
         begin_deletion: "削除の始まり"
         children: "サブ要素"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
+        derived_done_ratio: "Total % complete"
+        derived_remaining_hours: "Total remaining work"
+        derived_remaining_time: "Total remaining work"
         done_ratio: "% Complete"
         duration: "期間"
         end_insertion: "挿入の終わり"
@@ -633,6 +656,7 @@ ja:
         readonly: "読み取り専用"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "手動スケジュール"
         spent_hours: "作業時間の記録"
         spent_time: "作業時間の記録"
@@ -936,6 +960,8 @@ ja:
               invalid_on_create: "新規ユーザーの有効なステータスではありません。"
             ldap_auth_source:
               error_not_found: "存在しません"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "一つ以上のユーザまたはグループを選択してください。"
           role_blank: "を割り当てる必要があります。"
@@ -1037,7 +1063,7 @@ ja:
     default_columns: "既定の列"
     description: "説明"
     derived_due_date: "派生終了日"
-    derived_estimated_hours: "Derived work"
+    derived_estimated_hours: "Total work"
     derived_start_date: "派生開始日"
     display_sums: "合計を表示"
     due_date: "終了日"
@@ -1401,6 +1427,7 @@ ja:
     message: メッセージが編集されました。
     news: ニュース
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "プロジェクトが編集されました。"
     reply: 返信済み
     time_entry: "時系列ログが編集されました。"
@@ -1543,6 +1570,7 @@ ja:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1586,12 +1614,12 @@ ja:
   label_age: "経過"
   label_ago: "○日前"
   label_all: "全て"
-  label_all_projects: "すべてのプロジェクト"
   label_all_time: "全期間"
   label_all_words: "全ての単語"
   label_all_open_wps: "全ての未完了"
   label_always_visible: "常に表示"
   label_announcement: "お知らせ"
+  label_angular: "AngularJS"
   label_api_access_key: "APIアクセスキー"
   label_api_access_key_created_on: "APIアクセスキーが%{value}前に作成されました"
   label_api_access_key_type: "API"
@@ -1603,7 +1631,6 @@ ja:
   label_ical_access_key_revoke: "取り消し"
   label_applied_status: "適用されるステータス"
   label_archive_project: "プロジェクトをアーカイブ"
-  label_archived_projects: "Archived projects"
   label_ascending: "昇順"
   label_assigned_to_me_work_packages: "担当しているワークパッケージ"
   label_associated_revisions: "関連するリビジョン"
@@ -1623,8 +1650,9 @@ ja:
   label_available_project_work_package_categories: "有効なワークパッケージのカテゴリ"
   label_available_project_work_package_types: "利用可能なワークパッケージのタイプ"
   label_available_projects: "Available projects"
-  label_api_documentation: "APIドキュメント"
+  label_api_doc: "API documentation"
   label_backup: "バックアップ"
+  label_backup_code: "Backup code"
   label_between: "次の範囲内"
   label_blocked_by: "ブロックされている"
   label_blocks: "ブロックしている"
@@ -1634,6 +1662,7 @@ ja:
   label_forum_plural: "フォーラム"
   label_forum_sticky: "固定する"
   label_boolean: "ブール型"
+  label_board_plural: "Boards"
   label_branch: "分岐"
   label_browse: "閲覧"
   label_bulk_edit_selected_work_packages: "選択したワークパッケージを一括編集"
@@ -1660,6 +1689,7 @@ ja:
   label_check_uncheck_all_in_column: "すべての欄をチェック/チェックを外す"
   label_check_uncheck_all_in_row: "すべての行をチェック/チェックを外す"
   label_child_element: "子要素"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "完了したバージョンを終了にする"
   label_closed_work_packages: "完了"
@@ -1691,6 +1721,7 @@ ja:
   label_custom_field_plural: "カスタムフィールド"
   label_custom_field_default_type: "空の種類"
   label_custom_style: "デザイン"
+  label_dashboard: "Dashboard"
   label_database_version: "PostgreSQL バージョン"
   label_date: "日付"
   label_date_and_time: "日付と時刻"
@@ -1747,6 +1778,8 @@ ja:
   label_example: "例"
   label_experimental: "実験的"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "インポート"
   label_export_to: "こちらもアクセス可能："
   label_expanded_click_to_collapse: "拡大しました。クリックすると閉じます"
@@ -1759,6 +1792,7 @@ ja:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "ファイルを添付する"
   label_filter_add: "フィルタを追加"
+  label_filter: "Filters"
   label_filter_plural: "フィルタ"
   label_filters_toggle: "フィルターの表示/非表示"
   label_float: "小数"
@@ -1766,8 +1800,8 @@ ja:
   label_follows: "次の項目に後続"
   label_force_user_language_to_default: "ユーザーの言語設定が利用許可されていない場合、デフォルト言語を利用する"
   label_form_configuration: "フォーム設定"
-  label_gantt: "ガント"
   label_gantt_chart: "ガントチャート"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "概要"
   label_generate_key: "キーを生成する"
   label_git_path: ".gitディレクトリへのパス"
@@ -1785,6 +1819,7 @@ ja:
   label_home: "ホーム"
   label_subject_or_id: "タイトルまたはID"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "法的情報"
   label_in: "今日から○日後"
   label_in_less_than: "今日から○日後以前"
@@ -1801,6 +1836,7 @@ ja:
   label_internal: "社内"
   label_introduction_video: "紹介ビデオ"
   label_invite_user: "ユーザを招待"
+  label_share: "Share"
   label_show_hide: "表示/非表示"
   label_show_all_registered_users: "すべての登録ユーザーを表示"
   label_journal: "履歴記述"
@@ -1844,6 +1880,7 @@ ja:
   label_member_new: "新規メンバー"
   label_member_all_admin: "(管理ステータスのすべての役割)"
   label_member_plural: "メンバー"
+  label_membership_plural: "Memberships"
   lable_membership_added: "メンバーが追加されました"
   lable_membership_updated: "メンバーが更新されました"
   label_menu_badge:
@@ -1871,7 +1908,7 @@ ja:
   label_my_account: "個人設定"
   label_my_activity: "My activity"
   label_my_account_data: "アカウントのデータ"
-  label_my_projects: "参加しているプロジェクト"
+  label_my_avatar: "My avatar"
   label_my_queries: "個人のクエリ"
   label_name: "名称"
   label_never: "なし"
@@ -2007,6 +2044,7 @@ ja:
   label_search: "検索"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "テスト電子メールを送信"
+  label_session: "Session"
   label_setting_plural: "設定"
   label_system_settings: "システム設定"
   label_show_completed_versions: "終了したバージョンを表示"
@@ -2036,11 +2074,13 @@ ja:
   label_system_storage: "ストレージ情報"
   label_table_of_contents: "目次"
   label_tag: "タグ"
+  label_team_planner: "Team Planner"
   label_text: "長文"
   label_this_month: "今月"
   label_this_week: "今週"
   label_this_year: "今年"
   label_time_entry_plural: "作業時間の記録"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "タイトル"
   label_projects_menu: "プロジェクト"
   label_today: "今日"
@@ -2143,6 +2183,10 @@ ja:
     one: "1 プロジェクト"
     other: "%{count} プロジェクト"
     zero: "プロジェクトがありません"
+  label_x_files:
+    one: "1 file"
+    other: "%{count} files"
+    zero: "no files"
   label_yesterday: "昨日"
   label_role_type: "種別"
   label_member_role: "Project role"
@@ -2181,11 +2225,11 @@ ja:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -2500,7 +2544,7 @@ ja:
   project_module_news: "ニュース"
   project_module_repository: "リポジトリ"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2653,6 +2697,8 @@ ja:
   setting_app_subtitle: "アプリケーションのサブタイトル"
   setting_app_title: "アプリケーションのタイトル"
   setting_attachment_max_size: "添付ファイルの最大サイズ"
+  setting_antivirus_scan_mode: "Scan mode"
+  setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "リポジトリの変更を自動取得"
   setting_autologin: "自動ログイン"
   setting_available_languages: "利用できる言語"
@@ -2752,6 +2798,27 @@ ja:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    antivirus:
+      title: "Virus scanning"
+      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      remaining_quarantined_files_html: >
+        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+      remaining_scan_complete_html: >
+        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+      remaining_rescanned_files: >
+        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+      upsale:
+        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+      actions:
+        delete: 'Delete the file'
+        quarantine: 'Quarantine the file'
+        instructions_html: >
+          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+      modes:
+        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
+        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        description_html: >
+          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
     brute_force_prevention: "自動的にユーザをロック"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2779,6 +2846,7 @@ ja:
     other: "その他"
     passwords: "パスワード"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "新規プロジェクトの設定"
       section_project_overview: "プロジェクト概要リストの設定"
     session: "セッション"
@@ -2794,6 +2862,7 @@ ja:
     plain: "プレーンテキスト"
   status_active: "アクティブ"
   status_archived: "アーカイブ済"
+  status_blocked: "blocked"
   status_invited: 招待済み
   status_locked: ロック済み
   status_registered: 登録済み
@@ -3027,12 +3096,12 @@ ja:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'ロール'
-        type: 'タイプ'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "ロール"
+        type: "タイプ"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3049,7 +3118,7 @@ ja:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3249,7 +3318,6 @@ ja:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Project status
-  priority: 499
+  priority: 700
 description: How to set and display the project status.
 keywords: project status
 ---
@@ -29,7 +29,7 @@ The project status is displayed in different OpenProject modules.
 
 ### Project list
 
-Select **View all projects** from the header menu, it will then open your [project list](../../projects/#projects-list) which displays all your projects including the project status.
+Select **View all projects** from the header menu, it will then open your [project list](../../projects/project-lists/) which displays all your projects including the project status.
 
 ![View-all-projects](View-all-projects-4478986.png)
 

@@ -90,6 +90,17 @@ el:
     show_until: Εμφάνιση μέχρι
     is_active: εμφανίζεται αυτή τη στιγμή
     is_inactive: δεν εμφανίζεται αυτή τη στιγμή
+  antivirus_scan:
+    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
+    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
+    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
+    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
+    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    quarantined_attachments:
+      container: "Container"
+      delete: "Delete the quarantined file"
+      title: "Quarantined attachments"
+      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
   attribute_help_texts:
     note_public: "Οποιοδήποτε κείμενο και εικόνες που προσθέτετε σε αυτό το πεδίο είναι δημόσια ορατό σε όλους τους συνδεδεμένους χρήστες!"
     text_overview: "Σε αυτήν την προβολή, μπορείτε να δημιουργήσετε προσαρμοσμένα κείμενα βοήθειας για προβολή χαρακτηριστικών. Όταν οριστεί, αυτά τα κείμενα μπορούν να προβληθούν κάνοντας κλικ στο παρακάτω εικονίδιο."
@@ -104,6 +115,7 @@ el:
   ldap_auth_sources:
     ldap_error: "Σφάλμα-LDAP: %{error_message}"
     ldap_auth_failed: "Δεν ήταν δυνατή η ταυτοποίηση στον LDAP-Server."
+    sync_failed: "Failed to synchronize from LDAP: %{message}."
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       Αυτή η φόρμα LDAP απαιτεί τεχνικές γνώσεις για την LDAP / Active Directory εγκατάσταση σας.
@@ -246,10 +258,15 @@ el:
       completed_text_children: "Additionally, the following subprojects have been deleted:"
     index:
       open_as_gantt: "Άνοιγμα ως προβολή Gantt"
-      open_as_gantt_title: "Χρησιμοποιήστε αυτό το κουμπί για να δημιουργήσετε μια προβολή Gantt που φιλτράρει τα πακέτα εργασίας για τα έργα που εμφανίζονται σε αυτή τη σελίδα."
-      open_as_gantt_title_admin: "Μπορείτε να τροποποιήσετε τις ρυθμίσεις προβολής (όπως επιλεγμένοι τύποι πακέτων εργασίας) στη διαχείριση κάτω από τις ρυθμίσεις του έργου."
       no_results_title_text: Προς το παρόν δεν υπάρχουν έργα
       no_results_content_text: Δημιουργία νέου έργου
+    lists:
+      active: 'Active projects'
+      my: 'My projects'
+      archived: 'Archived projects'
+      my_private: 'My private project lists'
+      new:
+        placeholder: 'New project list'
     settings:
       change_identifier: Αλλαγή αναγνωριστικού
       activities:
@@ -281,14 +298,14 @@ el:
     columns:
       shared: "Shared"
     filters:
-      all_shares: 'All shares'
+      all_shares: "All shares"
     menu:
-      all: 'All'
-      invited: 'Invited'
-      locked: 'Locked'
-      project_roles: 'Project roles'
-      wp_shares: 'Work package shares'
-      groups: 'Groups'
+      all: "All"
+      invited: "Invited"
+      locked: "Locked"
+      project_roles: "Project roles"
+      wp_shares: "Work package shares"
+      groups: "Groups"
   my:
     access_token:
       failed_to_reset_token: "Αποτυχία επαναφοράς του token πρόσβασης: %{error}"
@@ -322,6 +339,8 @@ el:
       no_results_title_text: Αυτός ο χρήστης, προς το παρόν, δεν είναι μέλος κάποιας ομάδας.
     memberships:
       no_results_title_text: Αυτός ο χρήστης δεν είναι προς το παρόν μέλος κάποιου έργου.
+  page:
+    text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -518,6 +537,8 @@ el:
         row_count: "Πλήθος γραμμών"
         column_count: "Πλήθος στηλών"
         widgets: "Γραφικά στοιχεία"
+      oauth_client:
+        client: "Client ID"
       relation:
         delay: "Καθυστέρηση"
         from: "Εργασία"
@@ -583,6 +604,7 @@ el:
         color: "Χρώμα"
       user:
         admin: "Διαχειριστής"
+        auth_source: "Authentication source"
         ldap_auth_source: "Σύνδεση LDAP"
         identity_url: "Identity URL"
         current_password: "Τρέχων κωδικός πρόσβασης"
@@ -614,8 +636,9 @@ el:
         begin_insertion: "Ξεκινήστε την εισαγωγή"
         begin_deletion: "Ξεκινήστε την διαγραφή"
         children: "Υποστοιχεία"
-        derived_remaining_hours: "Derived remaining work"
-        derived_remaining_time: "Derived remaining work"
+        derived_done_ratio: "Total % complete"
+        derived_remaining_hours: "Total remaining work"
+        derived_remaining_time: "Total remaining work"
         done_ratio: "% Complete"
         duration: "Διάρκεια"
         end_insertion: "Λήξη της εισαγωγής"
@@ -634,6 +657,7 @@ el:
         readonly: "Read only"
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
+        shared_with_users: "Shared with"
         schedule_manually: "Χειροκίνητος προγραμματισμός"
         spent_hours: "Χρόνος που δαπανήθηκε"
         spent_time: "Χρόνος που δαπανήθηκε"
@@ -938,6 +962,8 @@ el:
               invalid_on_create: "δεν είναι έγκυρη κατάσταση για νέους χρήστες."
             ldap_auth_source:
               error_not_found: "δεν βρέθηκε"
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Παρακαλούμε επιλέξτε τουλάχιστον ένα χρήστη ή ομάδα."
           role_blank: "πρέπει να ανατεθεί."
@@ -1046,7 +1072,7 @@ el:
     default_columns: "Προεπιλεγμένες στήλες"
     description: "Περιγραφή"
     derived_due_date: "Derived finish date"
-    derived_estimated_hours: "Derived work"
+    derived_estimated_hours: "Total work"
     derived_start_date: "Derived start date"
     display_sums: "Εμφάνιση Αθροισμάτων"
     due_date: "Ημερομηνία λήξης"
@@ -1428,6 +1454,7 @@ el:
     message: Το μήνυμα επεξεργάστηκε
     news: Νέα
     project_attributes: "Project attributes edited"
+    project: "Project edited"
     projects: "Το έργο επεξεργάστηκε"
     reply: Απάντησε
     time_entry: "Η καταγραφή χρόνου επεξεργάστηκε"
@@ -1570,6 +1597,7 @@ el:
         revoke_token: "Do you really want to remove this token? You will need to login again on %{storage}"
         removed: "File Storage token successfully removed"
         failed: "An error occurred and the token couldn't be removed. Please try again later."
+        unknown_storage: "Unknown storage"
   notifications:
     send_notifications: "Send notifications for this action"
     work_packages:
@@ -1613,12 +1641,12 @@ el:
   label_age: "Ηλικία"
   label_ago: "ημέρες πριν"
   label_all: "όλα"
-  label_all_projects: "Όλα τα έργα"
   label_all_time: "πάντα"
   label_all_words: "Όλες οι λέξεις"
   label_all_open_wps: "Όλα τα ανοιχτά"
   label_always_visible: "Προβολή πάντα"
   label_announcement: "Ανακοίνωση"
+  label_angular: "AngularJS"
   label_api_access_key: "Κλειδί πρόσβασης API"
   label_api_access_key_created_on: "Tο κλειδί πρόσβασης API δημιουργήθηκε πριν από %{value}"
   label_api_access_key_type: "API"
@@ -1630,7 +1658,6 @@ el:
   label_ical_access_key_revoke: "Ανάκληση"
   label_applied_status: "Εφαρμόστηκε η κατάσταση"
   label_archive_project: "Αρχειοθέτηση έργου"
-  label_archived_projects: "Archived projects"
   label_ascending: "Αύξουσα"
   label_assigned_to_me_work_packages: "Πακέτα εργασίας που έχουν ανατεθεί σε μένα"
   label_associated_revisions: "Σχετικές αναθεωρήσεις"
@@ -1650,8 +1677,9 @@ el:
   label_available_project_work_package_categories: "Διαθέσιμες κατηγορίες πακέτων εργασίας"
   label_available_project_work_package_types: "Διαθέσιμοι τύποι εργασιών"
   label_available_projects: "Available projects"
-  label_api_documentation: "Τεκμηρίωση API"
+  label_api_doc: "API documentation"
   label_backup: "Αντίγραφο Ασφαλείας"
+  label_backup_code: "Backup code"
   label_between: "μεταξύ"
   label_blocked_by: "αποκλεισμένο από"
   label_blocks: "μπλόκς"
@@ -1661,6 +1689,7 @@ el:
   label_forum_plural: "Φόρουμ"
   label_forum_sticky: "Sticky"
   label_boolean: "Δυαδικές τιμές"
+  label_board_plural: "Boards"
   label_branch: "Κλάδος"
   label_browse: "Περιήγηση"
   label_bulk_edit_selected_work_packages: "Μαζική επεξεργασία επιλεγμένων πακέτων εργασίας"
@@ -1687,6 +1716,7 @@ el:
   label_check_uncheck_all_in_column: "Επιλογή/Αποεπιλογή όλων στη στήλη"
   label_check_uncheck_all_in_row: "Επιλογή/Αποεπιλογή όλων στη σειρά"
   label_child_element: "Στοιχείο-παιδί"
+  label_choices: "Choices"
   label_chronological_order: "Oldest first"
   label_close_versions: "Κλείσιμο ολοκληρωμένων εκδόσεων"
   label_closed_work_packages: "κλειστό"
@@ -1718,6 +1748,7 @@ el:
   label_custom_field_plural: "Προσαρμοσμένα πεδία"
   label_custom_field_default_type: "Άδειος τύπος"
   label_custom_style: "Σχεδιασμός"
+  label_dashboard: "Dashboard"
   label_database_version: "Έκδοση PostgreSQL"
   label_date: "Ημερομηνία"
   label_date_and_time: "Ημερομηνία και ώρα"
@@ -1774,6 +1805,8 @@ el:
   label_example: "Παράδειγμα"
   label_experimental: "Πειραματικό"
   label_i_am_member: "I am member"
+  label_ifc_viewer: "Ifc Viewer"
+  label_ifc_model_plural: "Ifc Models"
   label_import: "Εισαγωγή"
   label_export_to: "Επίσης διαθέσιμο σε:"
   label_expanded_click_to_collapse: "Επεκταμένο. Πατήστε για σύμπτυξη"
@@ -1786,6 +1819,7 @@ el:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Αρχεία"
   label_filter_add: "Προσθήκη φίλτρου"
+  label_filter: "Filters"
   label_filter_plural: "Φίλτρα"
   label_filters_toggle: "Εμφάνιση/απόκρυψη φίλτρων"
   label_float: "Float"
@@ -1793,8 +1827,8 @@ el:
   label_follows: "ακολουθεί"
   label_force_user_language_to_default: "Ορίστε την γλώσσα των χρηστών που έχουν μια μη επιτρεπόμενη γλώσσα ως προεπιλογή"
   label_form_configuration: "Διαμόρφωση φόρμας"
-  label_gantt: "Gantt"
   label_gantt_chart: "Διάγραμμα Gantt"
+  label_gantt_chart_plural: "Gantt charts"
   label_general: "Γενικά"
   label_generate_key: "Δημιουργία κλειδιού"
   label_git_path: "Μονοπάτι προς το ευρετήριο .git"
@@ -1812,6 +1846,7 @@ el:
   label_home: "Αρχική"
   label_subject_or_id: "Θέμα ή ταυτότητα"
   label_calendar_subscriptions: "Calendar subscriptions"
+  label_identifier: "Identifier"
   label_impressum: "Νομική Ειδοποίηση"
   label_in: "σε"
   label_in_less_than: "σε λιγότερο από"
@@ -1828,6 +1863,7 @@ el:
   label_internal: "Εσωτερικό"
   label_introduction_video: "Εισαγωγικό βίντεο"
   label_invite_user: "Προσκαλέστε χρήστη"
+  label_share: "Share"
   label_show_hide: "Εμφάνιση/απόκρυψη"
   label_show_all_registered_users: "Εμφάνιση όλων των εγγεγραμμένων χρηστών"
   label_journal: "Ημερολόγιο"
@@ -1871,6 +1907,7 @@ el:
   label_member_new: "Νέο μέλος"
   label_member_all_admin: "(Όλοι οι ρόλοι λόγω κατάστασης διαχειριστή)"
   label_member_plural: "Μέλη"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Το μέλος προστέθηκε"
   lable_membership_updated: "Το μέλος ενημερώθηκε"
   label_menu_badge:
@@ -1898,7 +1935,7 @@ el:
   label_my_account: "Ο λογαριασμός μου"
   label_my_activity: "My activity"
   label_my_account_data: "Τα δεδομένα του λογαριασμού μου"
-  label_my_projects: "Τα έργα μου"
+  label_my_avatar: "My avatar"
   label_my_queries: "Οι προσαρμοσμένες αναζητήσεις μου"
   label_name: "Όνομα"
   label_never: "Ποτέ"
@@ -2034,6 +2071,7 @@ el:
   label_search: "Αναζήτηση"
   label_send_information: "Send new credentials to the user"
   label_send_test_email: "Αποστολή δοκιμαστικού email"
+  label_session: "Session"
   label_setting_plural: "Ρυθμίσεις"
   label_system_settings: "Ρυθμίσεις συστήματος"
   label_show_completed_versions: "Εμφάνιση ολοκληρωμένων εκδόσεων"
@@ -2063,11 +2101,13 @@ el:
   label_system_storage: "Πληροφορίες αποθήκευσης"
   label_table_of_contents: "Πίνακας περιεχομένων"
   label_tag: "Σήμανση"
+  label_team_planner: "Team Planner"
   label_text: "Μακροσκελές κείμενο"
   label_this_month: "αυτό το μήνα"
   label_this_week: "αυτή την εβδομάδα"
   label_this_year: "αυτό το έτος"
   label_time_entry_plural: "Χρόνος που δαπανήθηκε"
+  label_time_entry_activity_plural: "Spent time activities"
   label_title: "Τίτλος"
   label_projects_menu: "Έργα"
   label_today: "σήμερα"
@@ -2170,6 +2210,10 @@ el:
     one: "1 έργο"
     other: "%{count} έργα"
     zero: "κανένα έργο"
+  label_x_files:
+    one: "1 file"
+    other: "%{count} files"
+    zero: "no files"
   label_yesterday: "χθες"
   label_role_type: "Τύπος"
   label_member_role: "Project role"
@@ -2208,11 +2252,11 @@ el:
     mention:
       subject: "%{user_name} mentioned you in #%{id} - %{subject}"
     notification:
-      center: 'To notification center'
-      see_in_center: 'See comment in notification center'
-      settings: 'Change email settings'
-    salutation: 'Hello %{user}'
-    salutation_full_name: 'Full name'
+      center: "To notification center"
+      see_in_center: "See comment in notification center"
+      settings: "Change email settings"
+    salutation: "Hello %{user}"
+    salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
       login_to_see_all: "Log in to see all notifications."
@@ -2528,7 +2572,7 @@ el:
   project_module_news: "Νέα"
   project_module_repository: "Αποθετήριο"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt"
+  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2681,6 +2725,8 @@ el:
   setting_app_subtitle: "Υπότιτλος εφαρμογής"
   setting_app_title: "Τίτλος εφαρμογής"
   setting_attachment_max_size: "Μέγιστο μέγεθος συνημμένων"
+  setting_antivirus_scan_mode: "Scan mode"
+  setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Αυτόματη ανάκτηση αλλαγών αποθετηρίου"
   setting_autologin: "Αυτόματη σύνδεση"
   setting_available_languages: "Διαθέσιμες γλώσσες"
@@ -2780,6 +2826,27 @@ el:
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).
+    antivirus:
+      title: "Virus scanning"
+      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      remaining_quarantined_files_html: >
+        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+      remaining_scan_complete_html: >
+        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+      remaining_rescanned_files: >
+        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+      upsale:
+        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+      actions:
+        delete: 'Delete the file'
+        quarantine: 'Quarantine the file'
+        instructions_html: >
+          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+      modes:
+        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
+        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        description_html: >
+          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
     brute_force_prevention: "Αυτόματο μπλοκάρισμα χρήστη"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2807,6 +2874,7 @@ el:
     other: "Άλλο"
     passwords: "Κωδικοί πρόσβασης"
     projects:
+      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Ρυθμίσεις για νέα έργα"
       section_project_overview: "Ρυθμίσεις για τη λίστα επισκόπησης έργου"
     session: "Συνεδρία"
@@ -2822,6 +2890,7 @@ el:
     plain: "Απλό κείμενο"
   status_active: "ενεργό"
   status_archived: "αρχειοθετημένο"
+  status_blocked: "blocked"
   status_invited: προσκεκλημένος
   status_locked: κλειδωμένο
   status_registered: εγγεγραμμένο
@@ -3056,12 +3125,12 @@ el:
         one: "1 user"
         other: "%{count} users"
       filter:
-        project_member: 'Project member'
-        not_project_member: 'Not project member'
-        project_group: 'Project group'
-        not_project_group: 'Not project group'
-        role: 'Ρόλος'
-        type: 'Τύπος'
+        project_member: "Project member"
+        not_project_member: "Not project member"
+        project_group: "Project group"
+        not_project_group: "Not project group"
+        role: "Ρόλος"
+        type: "Τύπος"
       label_search: "Search for users to invite"
       label_search_placeholder: "Search by user or email address"
       label_toggle_all: "Toggle all shares"
@@ -3078,7 +3147,7 @@ el:
       text_empty_search_description: "There are no users with the current filter criteria."
       text_empty_search_header: "We couldn't find any matching results."
       text_empty_state_description: "The work package has not been shared with anyone yet."
-      text_empty_state_header: "No shared members."
+      text_empty_state_header: "Not shared"
       text_user_limit_reached: "Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this work package."
       text_user_limit_reached_admins: 'Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to add more users.'
       warning_user_limit_reached: >
@@ -3279,7 +3348,6 @@ el:
       oauth_returned_json_error: "OAuth2 returned a JSON error"
       oauth_returned_http_error: "OAuth2 returned a network error"
       oauth_returned_standard_error: "OAuth2 returned an internal error"
-      client_id_blank: "ID can't be blank."
       wrong_token_type_returned: "OAuth2 returned a wrong type of token, expecting AccessToken::Bearer"
       oauth_issue_contact_admin: "OAuth2 reported an error. Please contact your system administrator."
       oauth_client_not_found: "OAuth2 client not found in 'callback' endpoint (redirect_uri)."

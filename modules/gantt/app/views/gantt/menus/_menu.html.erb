@@ -1,0 +1,5 @@
+<%= turbo_frame_tag "gantt_menu",
+                    src: @project ? menu_project_gantt_index_path(@project, params.permit(:query_props, :query_id, :name)) : gantt_menu_path(params.permit(:query_props, :query_id, :name)),
+                    target: '_top',
+                    data: { turbo: false },
+                    loading: :lazy %>

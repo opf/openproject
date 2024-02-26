@@ -28,7 +28,9 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Projects index page', :js, :with_cuprite,
+RSpec.describe 'Projects index page',
+               :js,
+               :with_cuprite,
                with_settings: { login_required?: false } do
   shared_let(:admin) { create(:admin) }
 
@@ -143,17 +145,19 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
         )
 
         login_as(user)
-        visit projects_path
+        projects_page.visit!
 
-        expect(page).to have_text(development_project.name)
-        expect(page).to have_text(public_project.name)
-        expect(page).to have_no_text(project.name)
+        projects_page.within_table do
+          expect(page).to have_text(development_project.name)
+          expect(page).to have_text(public_project.name)
+          expect(page).to have_no_text(project.name)
 
-        # They should not see the description, status or custom fields for the project
-        expect(page).to have_no_text(development_project.description)
-        expect(page).to have_no_text(project_status_name(development_project.status_code))
-        expect(page).to have_no_text(development_project.status_explanation)
-        expect(page).to have_no_text(development_project.custom_value_for(custom_field))
+          # They should not see the description, status or custom fields for the project
+          expect(page).to have_no_text(development_project.description)
+          expect(page).to have_no_text(project_status_name(development_project.status_code))
+          expect(page).to have_no_text(development_project.status_explanation)
+          expect(page).to have_no_text(development_project.custom_value_for(custom_field))
+        end
       end
     end
 
@@ -246,89 +250,6 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
     end
   end
 
-  context 'when filtering with the global sidebar' do
-    let(:current_user) { admin }
-
-    before do
-      ProjectRole.non_member
-      login_as current_user
-      projects_page.visit!
-    end
-
-    context 'with the "All projects" filter' do
-      before do
-        projects_page.set_sidebar_filter 'All projects'
-      end
-
-      it 'shows all active projects (default)' do
-        projects_page.expect_projects_listed(project,
-                                             public_project,
-                                             development_project)
-
-        projects_page.expect_filters_container_hidden
-        projects_page.expect_filter_set 'active'
-      end
-    end
-
-    context 'with the "My projects" filter' do
-      shared_let(:member) do
-        create(:user, member_with_permissions: { project => %i[view_work_packages edit_work_packages] })
-      end
-
-      let(:current_user) { member }
-
-      before do
-        projects_page.set_sidebar_filter 'My projects'
-      end
-
-      it 'shows all projects I am a member of' do
-        projects_page.expect_projects_listed(project)
-        projects_page.expect_projects_not_listed(public_project, development_project)
-
-        projects_page.expect_filters_container_hidden
-        projects_page.expect_filter_set 'member_of'
-      end
-    end
-
-    context 'with the "Public projects" filter' do
-      before do
-        projects_page.set_sidebar_filter 'Public projects'
-      end
-
-      it 'shows all public projects' do
-        projects_page.expect_projects_listed(public_project)
-        projects_page.expect_projects_not_listed(project,
-                                                 development_project)
-
-        projects_page.expect_filters_container_hidden
-        projects_page.expect_filter_set 'public'
-      end
-    end
-
-    context 'with the "Archived projects" filter' do
-      shared_let(:archived_project) do
-        create(:project,
-               name: 'Archived project',
-               identifier: 'archived-project',
-               active: false)
-      end
-
-      before do
-        projects_page.set_sidebar_filter 'Archived projects'
-      end
-
-      it 'shows all archived projects' do
-        projects_page.expect_projects_listed(archived_project, archived: true)
-        projects_page.expect_projects_not_listed(public_project,
-                                                 project,
-                                                 development_project)
-
-        projects_page.expect_filters_container_hidden
-        projects_page.expect_filter_set 'active'
-      end
-    end
-  end
-
   context 'with a filter set' do
     it 'only shows the matching projects and filters' do
       load_and_open_filters admin
@@ -364,7 +285,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
       wait_for_reload
 
       # Sorts ASC by name
-      click_on 'Sort by "Name"'
+      projects_page.sort_by('Name')
       wait_for_reload
 
       # Results should be filtered and ordered ASC by name
@@ -374,9 +295,9 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
       expect(page).to have_text('Next') # as the result set is larger than 1
 
       # Changing the page size to 5 and back to 1 should not change the filters (which we test later on the second page)
-      find('.op-pagination--options .op-pagination--item', text: '5').click # click page size '5'
+      projects_page.set_page_size(5)
       wait_for_reload
-      find('.op-pagination--options .op-pagination--item', text: '1').click # return back to page size '1'
+      projects_page.set_page_size(1)
       wait_for_reload
       click_on '2' # Go to pagination page 2
 
@@ -384,18 +305,21 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
       projects_page.expect_projects_listed(public_project)
       projects_page.expect_projects_not_listed(project,             # Filtered out
                                                development_project) # Present on page 1
-      expect(page).to have_no_text('Next') # Filters kept active, so there is no third page.
+      projects_page.expect_total_pages(2) # Filters kept active, so there is no third page.
 
       # Sorts DESC by name
-      click_on 'Ascending sorted by "Name"'
+      projects_page.sort_by('Name')
       wait_for_reload
 
-      # On page 2 the same filters should still be intact but the order should be DESC on name
-      projects_page.expect_projects_listed(development_project)
-      projects_page.expect_projects_not_listed(project,        # Filtered out
-                                               public_project) # Present on page 1
+      # Clicking on sorting resets the page to the first one
+      projects_page.expect_current_page_number(1)
 
-      expect(page).to have_no_text('Next') # Filters kept active, so there is no third page.
+      # The same filters should still be intact but the order should be DESC on name
+      projects_page.expect_projects_listed(public_project)
+      projects_page.expect_projects_not_listed(project, # Filtered out
+                                               development_project) # Present on page 2
+
+      projects_page.expect_total_pages(2) # Filters kept active, so there is no third page.
       expect(page).to have_css('.sort.desc', text: 'NAME')
 
       # Sending the filter form again what implies to compose the request freshly
@@ -407,7 +331,7 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
       projects_page.expect_projects_listed(public_project)
       projects_page.expect_projects_not_listed(development_project, # as it is on the second page
                                                project)             # as it filtered out
-      expect(page).to have_text('Next') # as the result set is larger than 1
+      projects_page.expect_total_pages(2) # as the result set is larger than 1
       expect(page).to have_css('.sort.desc', text: 'NAME')
     end
   end

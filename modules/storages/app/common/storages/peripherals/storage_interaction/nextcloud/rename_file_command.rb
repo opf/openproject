@@ -44,25 +44,28 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def call(source:, target:)
-      response = Util
+      response = OpenProject
                    .httpx
                    .basic_auth(@username, @password)
                    .request(
                      "MOVE",
                      Util.join_uri_path(@base_path, Util.escape_path(source)),
                      headers: {
-                       'Destination' => Util.join_uri_path(@uri.path, "remote.php/dav/files", CGI.escapeURIComponent(@username), Util.escape_path(target))
+                       'Destination' => Util.join_uri_path(@uri.path,
+                                                           "remote.php/dav/files",
+                                                           CGI.escapeURIComponent(@username),
+                                                           Util.escape_path(target))
                      }
                    )
 
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 
-      case response.status
-      when 200..299
+      case response
+      in { status: 200..299 }
         ServiceResult.success
-      when 404
+      in { status: 404 }
         Util.error(:not_found, 'Outbound request destination not found', error_data)
-      when 401
+      in { status: 401 }
         Util.error(:unauthorized, 'Outbound request not authorized', error_data)
       else
         Util.error(:error, 'Outbound request failed', error_data)

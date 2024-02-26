@@ -81,9 +81,9 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
     let(:container_href) { nil }
 
     describe 'GET /uploaded' do
-      let(:digest) { "" }
+      let(:status) { :prepared }
       let(:attachment) do
-        create(:attachment, digest:, author: current_user, container: nil, container_type: nil, downloads: -1)
+        create(:attachment, status:, author: current_user, container: nil, container_type: nil)
       end
 
       before do
@@ -91,7 +91,7 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
       end
 
       context 'with no pending attachments' do
-        let(:digest) { "0xFF" }
+        let(:status) { :uploaded }
 
         it 'returns 404' do
           expect(last_response.status).to eq 404
@@ -115,4 +115,6 @@ RSpec.describe API::V3::Attachments::AttachmentsAPI do
       end
     end
   end
+
+  context 'with an quarantined attachments'
 end

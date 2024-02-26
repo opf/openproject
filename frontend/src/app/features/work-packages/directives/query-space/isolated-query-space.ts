@@ -2,6 +2,7 @@ import {
   derive,
   input,
   InputState,
+  multiInput,
   State,
   StatesGroup,
 } from '@openproject/reactivestates';
@@ -19,6 +20,7 @@ import { QueryFilterInstanceSchemaResource } from 'core-app/features/hal/resourc
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
+import { ShareResource } from 'core-app/features/hal/resources/share-resource';
 
 @Injectable()
 export class IsolatedQuerySpace extends StatesGroup {
@@ -61,6 +63,9 @@ export class IsolatedQuerySpace extends StatesGroup {
 
   // Required work packages to be rendered by hierarchy mode + relation columns
   additionalRequiredWorkPackages = input<null>();
+
+  // Cached shares for work packages
+  workPackageSharesCache = multiInput<ShareResource[]>();
 
   // Input state that emits whenever table services have initialized
   initialized = input<unknown>();

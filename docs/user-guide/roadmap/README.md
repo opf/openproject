@@ -28,6 +28,6 @@ Clicking the title of a version allows you to evaluate further information of th
 
 The chart displays all work packages listed by a certain attribute. Select the drop-down list to change the attribute:
 
-![roadmap-workpackage-details](1567423371954.png)
+![roadmap work package details](1567423371954.png)
 
 > **Note**: A roadmap is only displayed in the project menu when at least one [version](../projects/) exists in a project.

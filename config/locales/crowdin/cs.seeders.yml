@@ -45,7 +45,7 @@ cs:
         item_0:
           name: Editor pracovních balíčků
         item_1:
-          name: Work package commenter
+          name: Komentář pracovního balíčku
         item_2:
           name: Prohlížeč pracovních balíčků
       project_roles:
@@ -132,32 +132,32 @@ cs:
       welcome:
         title: Vítejte v OpenProject!
         text: |
-          OpenProject is the leading open source project management software. It supports classic, agile as well as hybrid project management and gives you full control over your data.
+          OpenProject je hlavní open source software pro správu projektů. Podporuje klasické, agilní i hybridní řízení projektů a dává vám plnou kontrolu nad vašimi daty.
 
-          Core features and use cases:
+          Základní funkce a použití případů:
 
-          * [Project Portfolio Management](https://www.openproject.org/collaboration-software-features/project-portfolio-management/)
-          * [Project Planning and Scheduling](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
-          * [Task Management and Issue Tracking](https://www.openproject.org/collaboration-software-features/task-management/)
-          * [Agile Boards (Scrum and Kanban)](https://www.openproject.org/collaboration-software-features/agile-project-management/)
+          * [Project Portfolio Management](https://www.openproject. rg/collaboration-software-features/project-portfolio-management/)
+          * [Plánování projektů a plánování](https://www.openproject.org/collaboration-software-features/project-planning-scheduling/)
+          * [Správa úloh a sledování problémů](https://www.openproject.org/collaboration-software-features/task-management/)
+          * [Agile Boards (Scrum and Kanban)](https://www. penproject.org/collaboration-software-features/agile-project-management/)
           * [Requirements Management and Release Planning](https://www.openproject.org/collaboration-software-features/product-development/)
-          * [Time and Cost Tracking, Budgets](https://www.openproject.org/collaboration-software-features/time-tracking/)
-          * [Team Collaboration and Documentation](https://www.openproject.org/collaboration-software-features/team-collaboration/)
+          * [Time and Cost Tracking, Budgets](https://www.openproject. rg/collaboration-software-features/time-tracking/)
+          * [Team Collaboration and Documentation](https://www.openproject. rg/collaboration-software-features/tým-collaboration/)
 
-          Welcome to the future of project management.
+          Vítejte v budoucnosti řízení projektu.
 
-          For Admins: You can change this welcome text [here]({{opSetting:base_url}}/admin/settings/general).
+          Pro administrátory: Můžete změnit uvítací text [here]({{opSetting:base_url}}/admin/settings/general).
       projects:
         demo-project:
           name: Demo projekt
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo project.
+          status_explanation: Všechny úkoly probíhají podle harmonogramu. Zúčastněné osoby znají své úkoly. Systém je kompletně nastaven.
+          description: Toto je krátké shrnutí cílů tohoto demo projektu.
           news:
             item_0:
               title: Vítejte ve vašem demo projektu
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Jsme rádi, že jste se připojili.
+                V tomto modulu můžete sdělit zprávy o projektu členům vašeho týmu.
               description: Aktuální novinky
           categories:
             item_0: Kategorie 1 (bude změněno v nastavení projektu)
@@ -179,7 +179,7 @@ cs:
                 item_0:
                   name: Seznam přání
                 item_1:
-                  name: Short list
+                  name: Krátký seznam
                 item_2:
                   name: Seznam priorit pro dnešek
                 item_3:
@@ -195,21 +195,7 @@ cs:
                 options:
                   name: Začínáme
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
 
-                    Discover the most important features with our [Guided Tour]({{opSetting:base_url}}/projects/demo-project/work_packages/?start_onboarding_tour=true).
-
-                    _Try the following steps:_
-
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/demo-project/members) in the project navigation.
-                    2. *View the work in your project*: &rightarrow; Go to [Work packages]({{opSetting:base_url}}/projects/demo-project/work_packages) in the project navigation.
-                    3. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/demo-project/work_packages/new).
-                    4. *Create and update a project plan*: &rightarrow; Go to [Project plan]({{opSetting:base_url}}/projects/demo-project/work_packages?query_id=##query.id:demo_project__query__project_plan) in the project navigation.
-                    5. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/demo-project/settings/modules).
-                    6. *Complete your tasks in the project*: &rightarrow; Go to [Work packages &rightarrow; Tasks]({{opSetting:base_url}}/projects/demo-project/work_packages/details/##wp.id:set_date_and_location_of_conference/overview?query_id=##query.id:demo_project__query__tasks).
-
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Pracovní balíčky
@@ -220,7 +206,7 @@ cs:
             item_0:
               subject: Zahájení projektu
             item_1:
-              subject: Organize open source conference
+              subject: Spravovat open source konferenci
               children:
                 item_0:
                   subject: Nastavit datum a místo konference
@@ -228,9 +214,9 @@ cs:
                     item_0:
                       subject: Poslat pozvánku řečníkům
                     item_1:
-                      subject: Contact sponsoring partners
+                      subject: Kontaktovat sponzorské partnery
                     item_2:
-                      subject: Create sponsorship brochure and hand-outs
+                      subject: Vytvořte sponzorskou brožuru a podklady
                 item_1:
                   subject: Pozvat účastníky konference
                 item_2:
@@ -243,24 +229,24 @@ cs:
                 item_0:
                   subject: Nahrát prezentace na webové stránky
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Party pro podporovatele konferencí :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    * [ ] Pivo
+                    * [ ] Pivo
+                    * [ ] Hudba
+                    * [ ] Ještě více piva
             item_4:
               subject: Ukončení projektu
         scrum-project:
           name: Projekt Scrum
-          status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
-          description: This is a short summary of the goals of this demo Scrum project.
+          status_explanation: Všechny úkoly a dílčí projekty probíhají podle harmonogramu. Zúčastněné osoby znají své úkoly. Systém je kompletně nastaven.
+          description: Toto je krátké shrnutí cílů tohoto demo Scrum projektu.
           news:
             item_0:
               title: Vítejte ve vašem Scrum demo projektu
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Jsme rádi, že jste se připojili.
+                V tomto modulu můžete sdělit zprávy o projektu členům vašeho týmu.
           versions:
             item_0:
               name: Bug Backlog
@@ -271,51 +257,51 @@ cs:
               wiki:
                 title: Sprint 1
                 content: |
-                  ### Sprint planning meeting
+                  ### Schůzka plánování sprintu
 
-                  _Please document here topics to the Sprint planning meeting_
+                  _Prosím dokumentujte zde témata na schůzce plánování Sprintu_
 
-                  * Time boxed (8 h)
-                  * Input: Product Backlog
-                  * Output: Sprint Backlog
+                  * Uložený čas (8 h)
+                  * Vstup: produkt Backlog
+                  * Výstup: nevyřízené nevyhovění
 
-                  * Divided into two additional time boxes of 4 h:
+                  * Rozděleno na dvě další časová pole 4 h:
 
-                      * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                      * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
+                      * Vlastník produktu prezentuje [Backlog]({{opSetting:base_url}}/projekts/your-scrum-project/backlogs) a priority týmu a vysvětluje svůj orientační cíl. s nímž musí tým souhlasit. Dohromady upřednostňují témata z Nevyřízené produkty, o které se tým postará při dalším sprintu. Tým se zavazuje k diskutované zásilce.
+                      * Tým plánuje samostatně (bez vlastníka produktu) a rozděluje úkoly z projednávaných požadavků na konsolidaci [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
-                  ### Daily Scrum meeting
+                  ### Denní schůzka na crum
 
-                  _Please document here topics to the Daily Scrum meeting_
+                  _Prosím zdokumentujte zde témata na denní schůzce crum schůzky_
 
-                  * Short, daily status meeting of the team.
-                  * Time boxed (max. 15 min).
-                  * Stand-up meeting to discuss the following topics from the [Task board](##sprint:scrum_project__version__sprint_1).
-                      * What do I plan to do until the next Daily Scrum?
-                      * What has blocked my work (Impediments)?
-                  * Scrum Master moderates and notes down [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
-                  * Product Owner may participate may participate in order to stay informed.
+                  * Krátká denní schůzka o stavu týmu.
+                  * Časové políčko (max. 15 min).
+                  * Upřesnění schůzky k diskusi o následujících tématech z [pracovní tabule](##sprint:scrum_project__version__sprint_1).
+                      * Co mám v plánu dělat do příštího denního drobech?
+                      * Co zablokovalo mou práci (Impediments)?
+                  * Mistrovství střihu droby a poznámky [Sprint Impediments](##sprint:scrum_project__version__sprint_1).
+                  * Vlastník produktu se může zúčastnit, aby zůstal informovaný.
 
                   ### Sprint Review meeting
 
-                  _Please document here topics to the Sprint Review meeting_
+                  _Please document here to the Sprint Review meeting_
 
                   * Time boxed (4 h).
-                  * A maximum of one hour of preparation time per person.
-                  * The team shows the product owner and other interested persons what has been achieved in this sprint.
-                  * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-                  * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-                  * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
+                  * Nejvýše jednu hodinu přípravy na osobu.
+                  * Tým zobrazuje vlastníka produktu a další zúčastněné osoby, čeho bylo v tomto sprintu dosaženo.
+                  * Důležité: žádné figuríny a žádný PowerPoint! Jen hotová funkčnost produktu (Přírůstky) by měla být prokázána.
+                  * Zpětná vazba od vlastníka produktu, zúčastněných stran a dalších je žádoucí a bude zahrnuta do další práce.
+                  * Na základě prokázaných funkcí se vlastník produktu rozhodne žít s tímto přírůstkem nebo jej dále rozvíjet. Tato možnost umožňuje předčasnou návratnost investice.
 
 
                   ### Sprint Retrospective
 
-                  _Please document here topics to the Sprint Retrospective meeting_
+                  _Dokumentujte zde témata na schůzce Sprint Retrospective meeting_
 
-                  * Time boxed (3 h).
-                  * After Sprint Review, will be moderated by Scrum Master.
-                  * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
+                  * Uložený čas (3 h).
+                  * Po recenzi bude upraveno Scrum Master.
+                  * Tým diskutuje sprint: co se povedlo, co je třeba zlepšit, aby bylo produktivnější pro další sprint, nebo mít ještě více zábavy.
             item_3:
               name: Sprint 2
           categories:
@@ -331,14 +317,14 @@ cs:
               name: Úkoly
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban tabule
             basic:
               name: Tabule úkolů
               lists:
                 item_0:
                   name: Seznam přání
                 item_1:
-                  name: Short list
+                  name: Krátký seznam
                 item_2:
                   name: Seznam priorit pro dnešek
                 item_3:
@@ -352,20 +338,18 @@ cs:
                 options:
                   name: Začínáme
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Jsme rádi, že jste se připojili! Doporučujeme zkusit pár věcí pro začátek v OpenProject.
 
-                    _Try the following steps:_
+                    _Vyzkoušejte následující kroky:_[Backlogs]. *Pozvěte nové členy do svého projektu*: &rightarrow; Jděte do [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) v projektové navigaci.
+                    2. *Podívejte se na nevyřízené produkty a nevyřízené záznamy*: &rightarrow; Přejděte do [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) v projektové navigaci.
+                    3. *Zobrazit tvou tabulku*: &rightarrow; Přejdi na [Backlogs] ({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Klikni na šipku vpravo na Sprint &rightarrow; Vyberte [Pracovní tabuli](##sprint:scrum_project__version__sprint_1).
+                    4. *Vytvořte nový pracovní balíček*: &rightarrow; Přejít na [Pracovní balíčky &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
+                    5. *Vytvořte a aktualizujte plán projektu*: &rightarrow; Jděte na [Plán projektu](##query:scrum_project__query__project_plan) v projektové navigaci.
+                    6. *Vytvoř Sprint wiki*: &rightarrow; Přejít na [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) a otevři wiki sprintu z nabídky vpravo v nabídce sprintu. Můžete upravit [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) na základě vašich potřeb.
+                    7. *Aktivujte další moduly*: &rightarrow; Přejít na [Nastavení projektu &rightarrow; modulů]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
-                    1. *Invite new members to your project*: &rightarrow; Go to [Members]({{opSetting:base_url}}/projects/your-scrum-project/members) in the project navigation.
-                    2. *View your Product backlog and Sprint backlogs*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) in the project navigation.
-                    3. *View your Task board*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Click on right arrow on Sprint &rightarrow; Select [Task Board](##sprint:scrum_project__version__sprint_1).
-                    4. *Create a new work package*: &rightarrow; Go to [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
-                    5. *Create and update a project plan*: &rightarrow; Go to [Project plan](##query:scrum_project__query__project_plan) in the project navigation.
-                    6. *Create a Sprint wiki*: &rightarrow; Go to [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and open the sprint wiki from the right drop down menu in a sprint. You can edit the [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) based on your needs.
-                    7. *Activate further modules*: &rightarrow; Go to [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
-
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support[at]openproject.com](mailto:support@openproject.com).
+                    Zde najdete naši [uživatelskou příručku](https://www. penproject.org/docs/user-guide/).
+                    Prosím, dejte nám vědět, pokud máte nějaké dotazy nebo potřebujete podporu. Kontaktujte nás: [support[at]openproject.com](mailto:support@openproject.com).
               item_5:
                 options:
                   name: Pracovní balíčky
@@ -383,25 +367,25 @@ cs:
                 item_0:
                   subject: Formulář pro registraci k odběru novinek
                 item_1:
-                  subject: Implement product tour
+                  subject: Navýšit prohlídku produktu
                 item_2:
                   subject: Nová vstupní stránka
                   children:
                     item_0:
-                      subject: Create wireframes for new landing page
+                      subject: Vytvořit drátový model pro novou vstupní stránku
             item_3:
               subject: Kontaktní formulář
             item_4:
-              subject: Feature carousel
+              subject: Kolotoč vzhledu
               children:
                 item_0:
-                  subject: Make screenshots for feature tour
+                  subject: Vytvářejte snímky obrazovky pro prohlídku funkcí
             item_5:
-              subject: Wrong hover color
+              subject: Špatná barva při přejetí myší
             item_6:
               subject: SSL certifikát
             item_7:
-              subject: Set-up Staging environment
+              subject: Nastavení přípravného prostředí
             item_8:
               subject: Vyberte systém pro správu obsahu
             item_9:
@@ -410,7 +394,7 @@ cs:
                 item_0:
                   subject: Nastavte navigační koncept pro webové stránky.
             item_10:
-              subject: Internal link structure
+              subject: Vnitřní struktura odkazů
             item_11:
               subject: Vyvinout v1.0
             item_12:
@@ -424,48 +408,5 @@ cs:
             item_16:
               subject: Vydání v2.0
           wiki: |
-            ### Sprint planning meeting
-
-            _Please document here topics to the Sprint planning meeting_
-
-            * Time boxed (8 h)
-            * Input: Product Backlog
-            * Output: Sprint Backlog
-
-            * Divided into two additional time boxes of 4 h:
-
-                * The Product Owner presents the [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) and the priorities to the team and explains the Sprint Goal, to which the team must agree. Together, they prioritize the topics from the Product Backlog which the team will take care of in the next sprint. The team commits to the discussed delivery.
-                * The team plans autonomously (without the Product Owner) in detail and breaks down the tasks from the discussed requirements to consolidate a [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
-            ### Daily Scrum meeting
-
-            _Please document here topics to the Daily Scrum meeting_
-
-            * Short, daily status meeting of the team.
-            * Time boxed (max. 15 min).
-            * Stand-up meeting to discuss the following topics from the Task board.
-                * What do I plan to do until the next Daily Scrum?
-                * What has blocked my work (Impediments)?
-            * Scrum Master moderates and notes down Sprint Impediments.
-            * Product Owner may participate may participate in order to stay informed.
-
-            ### Sprint Review meeting
-
-            _Please document here topics to the Sprint Review meeting_
-
-            * Time boxed (4 h).
-            * A maximum of one hour of preparation time per person.
-            * The team shows the product owner and other interested persons what has been achieved in this sprint.
-            * Important: no dummies and no PowerPoint! Just finished product functionality (Increments) should be demonstrated.
-            * Feedback from Product Owner, stakeholders and others is desired and will be included in further work.
-            * Based on the demonstrated functionalities, the Product Owner decides to go live with this increment or to develop it further. This possibility allows an early ROI.
-
-
-            ### Sprint Retrospective
-
-            _Please document here topics to the Sprint Retrospective meeting_
-
-            * Time boxed (3 h).
-            * After Sprint Review, will be moderated by Scrum Master.
-            * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.

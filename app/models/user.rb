@@ -82,7 +82,13 @@ class User < Principal
            inverse_of: :user,
            dependent: :destroy
 
-  has_many :notification_settings, dependent: :destroy
+  has_many :notification_settings,
+           dependent: :destroy
+
+  has_many :project_queries,
+           class_name: 'Queries::Projects::ProjectQuery',
+           inverse_of: :user,
+           dependent: :destroy
 
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
@@ -463,6 +469,17 @@ class User < Principal
     !logged?
   end
 
+  def consent_expired?
+    # Always if the user has not consented
+    return true if consented_at.blank?
+
+    # Did not expire if no consent_time set, but user has consented at some point
+    return false if Setting.consent_time.blank?
+
+    # Otherwise, expires when consent_time is newer than last consented_at
+    consented_at < Setting.consent_time
+  end
+
   # Cheap version of Project.visible.count
   def number_of_known_projects
     if admin?
@@ -500,7 +517,7 @@ class User < Principal
   #   - OmniAuth
   #   - LDAP
   def missing_authentication_method?
-    identity_url.nil? && passwords.empty? && auth_source.nil?
+    identity_url.nil? && passwords.empty? && ldap_auth_source_id.nil?
   end
 
   # Returns the anonymous user.  If the anonymous user does not exist, it is created.  There can be only

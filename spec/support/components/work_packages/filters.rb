@@ -40,11 +40,17 @@ module Components
 
       def open
         SeleniumHubWaiter.wait
+        expect_loaded
         retry_block do
           # Run in retry block because filters do nothing if not yet loaded
           filter_button.click
           find(filters_selector, visible: true)
         end
+      end
+
+      def open!
+        open
+        expect_open
       end
 
       def expect_filter_count(num)
@@ -95,9 +101,19 @@ module Components
         input.set ""
       end
 
+      def expect_alternative_available_filter(search_term, displayed_name)
+        input = page.find('.advanced-filters--add-filter-value input')
+        input.set(search_term)
+
+        expect(page)
+          .to have_css('.ng-dropdown-panel .ng-option-label', text: displayed_name)
+
+        input.set('')
+      end
+
       def expect_loaded
         SeleniumHubWaiter.wait
-        expect(filter_button).to have_css('.badge', wait: 2)
+        expect(filter_button).to have_css('.badge', wait: 2, visible: :all)
       end
 
       def add_filter(name)

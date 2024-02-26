@@ -30,11 +30,10 @@ require 'spec_helper'
 
 RSpec.describe 'Projects module administration' do
   let!(:project) do
-    create(:project,
-           enabled_module_names: [])
+    create(:project, enabled_module_names: [])
   end
 
-  let(:permissions) { %i(edit_project select_project_modules) }
+  let(:permissions) { %i(edit_project select_project_modules view_work_packages) }
   let(:settings_page) { Pages::Projects::Settings.new(project) }
 
   current_user do
@@ -42,34 +41,28 @@ RSpec.describe 'Projects module administration' do
   end
 
   it 'allows adding and removing modules' do
+    project_work_packages_menu_link_selector = '//ul[contains(@class, "menu_root")]//span[text()="Work packages"]'
+
     settings_page.visit_tab!('modules')
 
-    expect(page)
-      .to have_unchecked_field 'Activity'
+    expect(page).to have_unchecked_field 'Activity'
+    expect(page).to have_unchecked_field 'Calendar'
+    expect(page).to have_unchecked_field 'Time and costs'
+    expect(page).to have_unchecked_field 'Work packages'
 
-    expect(page)
-      .to have_unchecked_field 'Calendar'
-
-    expect(page)
-      .to have_unchecked_field 'Time and costs'
+    expect(page).to have_no_xpath(project_work_packages_menu_link_selector)
 
     check 'Activity'
-
     click_button 'Save'
 
     settings_page.expect_toast message: I18n.t(:notice_successful_update)
 
-    expect(page)
-      .to have_checked_field 'Activity'
-
-    expect(page)
-      .to have_unchecked_field 'Calendar'
-
-    expect(page)
-      .to have_unchecked_field 'Time and costs'
+    expect(page).to have_checked_field 'Activity'
+    expect(page).to have_unchecked_field 'Calendar'
+    expect(page).to have_unchecked_field 'Time and costs'
+    expect(page).to have_unchecked_field 'Work packages'
 
     check 'Calendar'
-
     click_button 'Save'
 
     expect(page)
@@ -78,20 +71,24 @@ RSpec.describe 'Projects module administration' do
                                 dependency: 'Work packages',
                                 module: 'Calendars')
 
-    check 'Work packages'
+    expect(page).to have_no_xpath(project_work_packages_menu_link_selector)
 
+    check 'Work packages'
     click_button 'Save'
 
     settings_page.expect_toast message: I18n.t(:notice_successful_update)
 
-    expect(page)
-      .to have_checked_field 'Activity'
+    expect(page).to have_checked_field 'Activity'
+    expect(page).to have_checked_field 'Calendars'
+    expect(page).to have_unchecked_field 'Time and costs'
+    expect(page).to have_checked_field 'Work packages'
 
-    expect(page)
-      .to have_checked_field 'Calendars'
+    expect(page).to have_xpath(project_work_packages_menu_link_selector, visible: :all)
 
-    expect(page)
-      .to have_checked_field 'Work packages'
+    uncheck 'Work packages'
+    click_button 'Save'
+
+    expect(page).to have_no_xpath(project_work_packages_menu_link_selector)
   end
 
   context 'with a user who does not have the correct permissions (#38097)' do
@@ -106,8 +103,7 @@ RSpec.describe 'Projects module administration' do
     end
 
     it "I can't see the modules menu item" do
-      expect(page)
-        .to have_no_css('[data-name="settings_modules"]')
+      expect(page).to have_no_css('[data-name="settings_modules"]')
     end
   end
 end

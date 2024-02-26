@@ -57,7 +57,7 @@ See COPYRIGHT and LICENSE files for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%=t('backlogs.work_package_is_closed')%>
+                  <%= t('backlogs.work_package_is_closed') %>
                 </span>
               </div>
             </div>
@@ -87,7 +87,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% end %>
 
-<h3><%=t('backlogs.rebuild_positions')%></h3>
+<h3><%= t('backlogs.rebuild_positions') %></h3>
 
 <%= styled_form_tag(controller: '/projects/settings/backlogs', action: "rebuild_positions", id: @project) do %>
   <p><%= styled_button_tag t('backlogs.rebuild'), class: '-highlight' %></p>

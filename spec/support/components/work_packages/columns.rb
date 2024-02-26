@@ -70,6 +70,19 @@ module Components
         close_autocompleter
       end
 
+      def expect_alternative_available_column(search_term, displayed_name)
+        column_autocompleter.click
+
+        autocompleter_input = column_autocompleter.find('input')
+
+        autocompleter_input.set(search_term)
+
+        expect(page)
+          .to have_css('.ng-dropdown-panel .ng-option-label', text: displayed_name)
+
+        autocompleter_input.set(search_term)
+      end
+
       def add(name, save_changes: true)
         open_modal unless modal_open?
 

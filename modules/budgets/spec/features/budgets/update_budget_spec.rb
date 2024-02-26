@@ -39,7 +39,7 @@ RSpec.describe 'updating a budget', :js do
 
   current_user { user }
 
-  describe 'with new cost items' do
+  describe 'with new cost items', :with_cuprite do
     let(:cost_type) do
       create(:cost_type, name: 'Post-war', unit: 'cap', unit_plural: 'caps')
     end
@@ -47,25 +47,23 @@ RSpec.describe 'updating a budget', :js do
     let(:budget_page) { Pages::EditBudget.new budget.id }
 
     before do
-      create(:cost_rate, cost_type:, rate: 50.0)
-      create(:default_hourly_rate, user:, rate: 25.0)
+      create(:cost_rate, cost_type:, rate: 50.0, valid_from: 1.day.ago)
+      create(:default_hourly_rate, user:, rate: 25.0, valid_from: 1.day.ago)
     end
 
     it 'creates the cost items' do
       budget_page.visit!
       click_on 'Update'
 
-      budget_page.add_unit_costs! 3, comment: 'Stimpak'
-      budget_page.add_labor_costs! 5, user_name: user.name, comment: 'treatment'
+      budget_page.add_unit_costs! 3, comment: 'Stimpak', expected_costs: '150.00 EUR'
+      budget_page.add_labor_costs! 5, user_name: user.name, comment: 'treatment', expected_costs: '125.00 EUR'
 
       click_on 'Submit'
       expect(budget_page).to have_content('Successful update')
 
-      budget_page.toggle_unit_costs!
       expect(page).to have_css('tbody td.currency', text: '150.00 EUR')
       expect(budget_page.overall_unit_costs).to have_content '150.00 EUR'
 
-      budget_page.toggle_labor_costs!
       expect(page).to have_css('tbody td.currency', text: '125.00 EUR')
       expect(budget_page.labor_costs_at(1)).to have_content '125.00 EUR'
       expect(budget_page.overall_labor_costs).to have_content '125.00 EUR'
@@ -124,12 +122,10 @@ RSpec.describe 'updating a budget', :js do
       click_on 'Submit'
       expect(budget_page).to have_content('Successful update')
 
-      budget_page.toggle_unit_costs!
       expect(page).to have_css('tbody td.currency', text: '250.00 EUR')
       expect(budget_page.unit_costs_at(1)).to have_content '250.00 EUR'
       expect(budget_page.overall_unit_costs).to have_content '250.00 EUR'
 
-      budget_page.toggle_labor_costs!
       expect(page).to have_css('tbody td.currency', text: '75.00 EUR')
       expect(budget_page.labor_costs_at(1)).to have_content '75.00 EUR'
       expect(budget_page.overall_labor_costs).to have_content '75.00 EUR'

@@ -26,8 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::BaseQuery
-  class << self
+module Queries::BaseQuery
+  extend ActiveSupport::Concern
+
+  included do
+    include Queries::Filters::AvailableFilters
+    include Queries::Orders::AvailableOrders
+    include Queries::GroupBys::AvailableGroupBys
+    include ActiveModel::Validations
+
+    validate :filters_valid,
+             :sortation_valid
+    validate :group_by_valid, if: -> { respond_to?(:group_by) }
+  end
+
+  class_methods do
     def model
       @model ||= name.demodulize.gsub('Query', '').constantize
     end
@@ -35,25 +48,6 @@ class Queries::BaseQuery
     def i18n_scope
       :activerecord
     end
-  end
-
-  attr_accessor :filters, :orders
-  attr_reader :group_by
-
-  include Queries::Filters::AvailableFilters
-  include Queries::Orders::AvailableOrders
-  include Queries::GroupBys::AvailableGroupBys
-  include ActiveModel::Validations
-
-  validate :filters_valid,
-           :sortation_valid,
-           :group_by_valid
-
-  def initialize(user: nil)
-    @filters = []
-    @orders = []
-    @group_by = nil
-    @user = user
   end
 
   def results
@@ -91,7 +85,7 @@ class Queries::BaseQuery
   def order(hash)
     hash.each do |attribute, direction|
       order = order_for(attribute)
-      order.direction = direction
+      order.direction = direction.to_sym
       orders << order
     end
 
@@ -121,9 +115,6 @@ class Queries::BaseQuery
   end
 
   protected
-
-  attr_accessor :user
-  attr_writer :group_by
 
   def filters_valid
     filters.each do |filter|
@@ -195,7 +186,7 @@ class Queries::BaseQuery
   end
 
   def build_orders
-    return orders if group_by.nil? || has_group_by_order?
+    return orders if !respond_to?(:group_by) || group_by.nil? || has_group_by_order?
 
     [group_by_order] + orders
   end

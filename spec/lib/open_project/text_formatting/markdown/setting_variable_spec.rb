@@ -57,15 +57,15 @@ RSpec.describe OpenProject::TextFormatting,
             Inline reference to variable setting: #{OpenProject::StaticRouting::UrlHelpers.host}
           </p>
           <p class="op-uc-p">
-            Inline reference to base_url variable: #{OpenProject::Application.root_url}
+            Inline reference to base_url variable: #{Rails.application.root_url}
           </p>
           <p class="op-uc-p">
-            <a href="#{OpenProject::Application.root_url}/foo/bar" rel="noopener noreferrer"
+            <a href="#{Rails.application.root_url}/foo/bar" rel="noopener noreferrer"
                target="_top"
                class="op-uc-link">Link with setting</a>
           </p>
           <p class="op-uc-p">
-            <a href="#{OpenProject::Application.root_url}/foo/bar" rel="noopener noreferrer"
+            <a href="#{Rails.application.root_url}/foo/bar" rel="noopener noreferrer"
                target="_top"
                class="op-uc-link">Saved and transformed link with setting</a>
           </p>

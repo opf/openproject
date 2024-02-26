@@ -90,9 +90,15 @@ module API
         %w(application/json application/hal+json)
       end
 
+      # Prevent committing the session
+      # This prevents an unnecessary write when accessing the API
+      def skip_session_write
+        request.session_options[:skip] = true
+      end
+
       def enforce_content_type
-        # Content-Type is not present in GET
-        return if request.get?
+        # Content-Type is not present in GET or DELETE requests
+        return if request.get? || request.delete?
 
         # Raise if missing header
         content_type = request.content_type
@@ -325,6 +331,7 @@ module API
 
     # run authentication before each request
     after_validation do
+      skip_session_write
       authenticate
       set_localization
       enforce_content_type

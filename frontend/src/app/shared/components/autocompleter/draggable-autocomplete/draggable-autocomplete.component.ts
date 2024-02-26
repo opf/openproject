@@ -16,6 +16,8 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
 import { merge } from 'rxjs';
 import { setBodyCursor } from 'core-app/shared/helpers/dom/set-window-cursor.helper';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
+import { QueryFilterResource } from 'core-app/features/hal/resources/query-filter-resource';
+import { AlternativeSearchService } from 'core-app/shared/components/work-packages/alternative-search.service';
 
 export interface DraggableOption {
   name:string;
@@ -54,8 +56,11 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
     placeholder: this.I18n.t('js.label_add_columns'),
   };
 
-  constructor(readonly I18n:I18nService,
-    readonly dragula:DragulaService) {
+  constructor(
+    readonly I18n:I18nService,
+    readonly dragula:DragulaService,
+    readonly alternativeSearchService:AlternativeSearchService,
+  ) {
     super();
   }
 
@@ -136,6 +141,10 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   opened() {
     repositionDropdownBugfix(this.ngSelectComponent);
   }
+
+  searchFunction = (term:string, currentItem:QueryFilterResource):boolean => {
+    return this.alternativeSearchService.searchFunction(term, currentItem);
+  };
 
   private updateAvailableOptions() {
     this.availableOptions = this.options

@@ -90,6 +90,17 @@ fr:
     show_until: Afficher jusqu'à
     is_active: actuellement affiché
     is_inactive: actuellement non affiché
+  antivirus_scan:
+    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
+    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
+    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
+    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
+    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    quarantined_attachments:
+      container: "Container"
+      delete: "Delete the quarantined file"
+      title: "Quarantined attachments"
+      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
   attribute_help_texts:
     note_public: "Tout le texte et toutes les images que vous ajoutez à ce champ sont visibles publiquement à tous les utilisateurs connectés !"
     text_overview: "Dans cette vue, vous pouvez créer des textes d’aide personnalisés pour l'affichage des attributs. Lorsqu'ils sont définis, ces textes peuvent être affichés en cliquant sur l’icône d’aide à côté de l'attribut correspondant."
@@ -104,6 +115,7 @@ fr:
   ldap_auth_sources:
     ldap_error: "Erreur LDAP : %{error_message}"
     ldap_auth_failed: "Authentification impossible sur le serveur LDAP."
+    sync_failed: "Échec de la synchronisation à partir de LDAP : %{message}."
     back_to_index: "Cliquez ici pour revenir à la liste des connexions."
     technical_warning_html: |
       Ce formulaire LDAP nécessite une connaissance technique de votre configuration LDAP / Active Directory.
@@ -250,10 +262,15 @@ fr:
       completed_text_children: "De plus, les sous-projets suivants ont été supprimés :"
     index:
       open_as_gantt: "Ouvrir comme vue Gantt"
-      open_as_gantt_title: "Utilisez ce bouton pour générer une vue Gantt qui filtre les lots de travaux des projets visibles sur cette page."
-      open_as_gantt_title_admin: "Vous pouvez modifier les paramètres d'affichage (comme les types de lots de travaux sélectionnés) dans l'administration dans les paramètres du projet."
       no_results_title_text: Aucun projet pour le moment
       no_results_content_text: Créer un nouveau projet
+    lists:
+      active: 'Projets actifs'
+      my: 'Mes projets'
+      archived: 'Projets archivés'
+      my_private: 'Mes listes de projets privés'
+      new:
+        placeholder: 'Nouvelle liste de projets'
     settings:
       change_identifier: Changer l'identifiant
       activities:
@@ -285,14 +302,14 @@ fr:
     columns:
       shared: "Partagé"
     filters:
-      all_shares: 'Tous les partages'
+      all_shares: "Tous les partages"
     menu:
-      all: 'Tout'
-      invited: 'Invité'
-      locked: 'Verrouillé'
-      project_roles: 'Rôle du projet'
-      wp_shares: 'Répartition des lots de travail'
-      groups: 'Groupes'
+      all: "Tout"
+      invited: "Invité"
+      locked: "Verrouillé"
+      project_roles: "Rôle du projet"
+      wp_shares: "Répartition des lots de travaux"
+      groups: "Groupes"
   my:
     access_token:
       failed_to_reset_token: "Impossible de réinitialiser le jeton d’accès : %{error}"
@@ -326,6 +343,8 @@ fr:
       no_results_title_text: Cet utilisateur n'est actuellement membre d'aucun groupe.
     memberships:
       no_results_title_text: Cet utilisateur n'est membre d'aucun projet pour le moment.
+  page:
+    text: 'Texte'
   placeholder_users:
     right_to_manage_members_missing: >
       Vous n'avez pas le droit de supprimer l'utilisateur fictif. Vous n'avez pas le droit de gérer les membres de tous les projets dont l'utilisateur fictif est membre.
@@ -522,6 +541,8 @@ fr:
         row_count: "Nombre de lignes"
         column_count: "Nombre de colonnes"
         widgets: "Widgets"
+      oauth_client:
+        client: "ID client"
       relation:
         delay: "Délai"
         from: "Lot de travaux"
@@ -587,6 +608,7 @@ fr:
         color: "Couleur"
       user:
         admin: "Administrateur"
+        auth_source: "Sources d'authentification"
         ldap_auth_source: "Connexion LDAP"
         identity_url: "URL d'identité"
         current_password: "Mot de passe actuel"
@@ -618,9 +640,10 @@ fr:
         begin_insertion: "Début de l’insertion"
         begin_deletion: "Début de la suppression"
         children: "Sous-éléments"
-        derived_remaining_hours: "Travail restant dérivé"
-        derived_remaining_time: "Travail restant dérivé"
-        done_ratio: "% complet"
+        derived_done_ratio: "% total réalisé"
+        derived_remaining_hours: "Travail total restant"
+        derived_remaining_time: "Travail total restant"
+        done_ratio: "% réalisé"
         duration: "Durée"
         end_insertion: "Fin de l’insertion"
         end_deletion: "Fin de la suppression"
@@ -634,10 +657,11 @@ fr:
         parent_issue: "Parent"
         parent_work_package: "Parent"
         priority: "Priorité"
-        progress: "% complet"
+        progress: "% réalisé"
         readonly: "Lecture seule"
         remaining_hours: "Travail restant"
         remaining_time: "Travail restant"
+        shared_with_users: "Partagé avec"
         schedule_manually: "Planification manuelle"
         spent_hours: "Temps passé"
         spent_time: "Temps passé"
@@ -942,6 +966,8 @@ fr:
               invalid_on_create: "n’est pas un statut valide pour les nouveaux utilisateurs."
             ldap_auth_source:
               error_not_found: "introuvable"
+            auth_source:
+              error_not_found: "introuvable"
         member:
           principal_blank: "Veuillez choisir au moins un utilisateur ou un groupe."
           role_blank: "doit être assigné."
@@ -1050,7 +1076,7 @@ fr:
     default_columns: "Colonnes par défaut"
     description: "Description"
     derived_due_date: "Date de fin dérivée"
-    derived_estimated_hours: "Travail dérivé"
+    derived_estimated_hours: "Travail total"
     derived_start_date: "Date de début dérivée"
     display_sums: "Afficher les sommes"
     due_date: "Date de fin"
@@ -1401,7 +1427,7 @@ fr:
   error_pdf_export_too_many_columns: "Trop de colonnes sélectionnées pour l’exportation PDF. Veuillez réduire le nombre de colonnes."
   error_pdf_failed_to_export: "L'export PDF n'a pas pu être enregistré: %{error}"
   error_token_authenticity: "Impossible de vérifier le jeton de Cross-Site Request Forgery. Avez-vous essayé d'envoyer des données sur plusieurs navigateurs ou onglets ? Veuillez fermer tous les onglets et réessayer."
-  error_work_package_done_ratios_not_updated: "Les valeurs % complet du lot de travaux n'ont pas été mises à jour."
+  error_work_package_done_ratios_not_updated: "Les valeurs % réalisé du lot de travaux n'ont pas été mises à jour."
   error_work_package_not_found_in_project: "Le Lot de Travaux n'a pas été trouvé ou n'appartient pas à ce projet"
   error_must_be_project_member: "doit être membre du projet"
   error_migrations_are_pending: "Votre installation OpenProject a des migrations de base de données en attente. Vous n'avez probablement pas exécuté les migrations lors de votre dernière mise à jour. Veuillez consulter le guide de mise à jour afin de mettre votre installation correctement à jour."
@@ -1432,6 +1458,7 @@ fr:
     message: Message édité
     news: Actualités
     project_attributes: "Attributs du projet modifiés"
+    project: "Projet édité"
     projects: "Projet édité"
     reply: Y a-t-il eu une réponse
     time_entry: "Journal horaire édité"
@@ -1574,6 +1601,7 @@ fr:
         revoke_token: "Voulez-vous vraiment supprimer ce jeton ? Vous devrez vous reconnecter sur %{storage}"
         removed: "Jeton de stockage de fichiers supprimé avec succès"
         failed: "Une erreur s'est produite et le jeton n'a pas pu être supprimé. Veuillez réessayer plus tard."
+        unknown_storage: "Espace de stockage inconnu"
   notifications:
     send_notifications: "Envoyer des notifications pour cette action"
     work_packages:
@@ -1617,12 +1645,12 @@ fr:
   label_age: "Âge"
   label_ago: "il y a"
   label_all: "tous"
-  label_all_projects: "Tous les projets"
   label_all_time: "tout le temps"
   label_all_words: "Tous les mots"
   label_all_open_wps: "Tous les ouverts"
   label_always_visible: "Toujours affiché"
   label_announcement: "Annonce ou avis. "
+  label_angular: "AngularJS"
   label_api_access_key: "Clé d'accès API"
   label_api_access_key_created_on: "Clé d'accès API créé il y a %{value}"
   label_api_access_key_type: "API"
@@ -1634,7 +1662,6 @@ fr:
   label_ical_access_key_revoke: "Révoquer"
   label_applied_status: "Statut appliqué"
   label_archive_project: "Archiver le projet"
-  label_archived_projects: "Projets archivés"
   label_ascending: "Croissant"
   label_assigned_to_me_work_packages: "Lots de Travaux m'étant assignés"
   label_associated_revisions: "Révisions associées"
@@ -1654,8 +1681,9 @@ fr:
   label_available_project_work_package_categories: "Catégories de lots de travaux disponibles"
   label_available_project_work_package_types: "Types de paquet de travail disponible"
   label_available_projects: "Projets disponibles"
-  label_api_documentation: "Documentation de l'API"
+  label_api_doc: "Documentation de l'API"
   label_backup: "Sauvegarde"
+  label_backup_code: "Code de sauvegarde"
   label_between: "entre"
   label_blocked_by: "bloqué par"
   label_blocks: "bloque"
@@ -1665,6 +1693,7 @@ fr:
   label_forum_plural: "Forums"
   label_forum_sticky: "Epinglé"
   label_boolean: "Booléen"
+  label_board_plural: "Tableaux"
   label_branch: "Branche"
   label_browse: "Parcourir"
   label_bulk_edit_selected_work_packages: "Edition en masse des Lots de Travaux selectionnés"
@@ -1691,6 +1720,7 @@ fr:
   label_check_uncheck_all_in_column: "Cocher/Décocher tout dans la colonne"
   label_check_uncheck_all_in_row: "Cocher/Décocher tout dans la ligne"
   label_child_element: "Élément enfant"
+  label_choices: "Choix"
   label_chronological_order: "Le plus ancien en premier"
   label_close_versions: "Fermer les versions complètes"
   label_closed_work_packages: "clôturé"
@@ -1722,6 +1752,7 @@ fr:
   label_custom_field_plural: "Champs personnalisés"
   label_custom_field_default_type: "Type défaut"
   label_custom_style: "Apparence"
+  label_dashboard: "Tableau de bord"
   label_database_version: "Version de PostgreSQL"
   label_date: "Date"
   label_date_and_time: "Date et heure"
@@ -1778,6 +1809,8 @@ fr:
   label_example: "Exemple"
   label_experimental: "Expérimental"
   label_i_am_member: "Je suis membre"
+  label_ifc_viewer: "Visionneuse IFC"
+  label_ifc_model_plural: "Modèles IFC"
   label_import: "Importer"
   label_export_to: "Aussi disponible en :"
   label_expanded_click_to_collapse: "Déplié. Cliquez pour replier"
@@ -1790,6 +1823,7 @@ fr:
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Fichiers"
   label_filter_add: "Ajouter le filtre"
+  label_filter: "Filtres"
   label_filter_plural: "Filtres"
   label_filters_toggle: "Afficher/masquer les filtres"
   label_float: "Flottant"
@@ -1797,8 +1831,8 @@ fr:
   label_follows: "suivi"
   label_force_user_language_to_default: "Pour cet utilisateur, revenir au langage par defaut"
   label_form_configuration: "Configuration du formulaire"
-  label_gantt: "Gantt"
   label_gantt_chart: "Diagramme de Gantt"
+  label_gantt_chart_plural: "Diagrammes de Gantt"
   label_general: "Général"
   label_generate_key: "Générer une clé"
   label_git_path: "Chemin d'accès au répertoire .git"
@@ -1816,6 +1850,7 @@ fr:
   label_home: "Accueil"
   label_subject_or_id: "Objet ou ID"
   label_calendar_subscriptions: "Abonnements au calendrier"
+  label_identifier: "Identifiant"
   label_impressum: "Mentions légales"
   label_in: "dans"
   label_in_less_than: "dans moins de"
@@ -1832,6 +1867,7 @@ fr:
   label_internal: "Interne"
   label_introduction_video: "Vidéo de présentation"
   label_invite_user: "Inviter utilisateur"
+  label_share: "Partager"
   label_show_hide: "Afficher/masquer"
   label_show_all_registered_users: "Afficher tous les utilisateurs enregistrés"
   label_journal: "Journal"
@@ -1875,6 +1911,7 @@ fr:
   label_member_new: "Nouveau membre"
   label_member_all_admin: "(Tous les rôles en raison du statut d'administrateur)"
   label_member_plural: "Membres"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Membre ajouté"
   lable_membership_updated: "Membre mis à jour"
   label_menu_badge:
@@ -1902,7 +1939,7 @@ fr:
   label_my_account: "Mon compte"
   label_my_activity: "Mon activité"
   label_my_account_data: "Info sur mon compte"
-  label_my_projects: "Mes projets"
+  label_my_avatar: "Mon avatar"
   label_my_queries: "Mes requêtes personnalisées"
   label_name: "Nom"
   label_never: "Jamais"
@@ -2038,6 +2075,7 @@ fr:
   label_search: "Recherche"
   label_send_information: "Envoyer de nouveaux identifiants à l'utilisateur"
   label_send_test_email: "Envoyer un courriel de test"
+  label_session: "Session"
   label_setting_plural: "Paramètres"
   label_system_settings: "Paramètres système"
   label_show_completed_versions: "Afficher les versions terminées"
@@ -2067,11 +2105,13 @@ fr:
   label_system_storage: "Informations de stockage"
   label_table_of_contents: "Table des matières"
   label_tag: "Étiquette"
+  label_team_planner: "Planificateur d'équipe"
   label_text: "Long texte"
   label_this_month: "ce mois"
   label_this_week: "cette semaine"
   label_this_year: "cette année"
   label_time_entry_plural: "Temps passé"
+  label_time_entry_activity_plural: "Activités du temps passé"
   label_title: "Titre"
   label_projects_menu: "Projets"
   label_today: "aujourd'hui"
@@ -2174,6 +2214,10 @@ fr:
     one: "1 projet"
     other: "%{count} projets"
     zero: "aucun projet"
+  label_x_files:
+    one: "1 file"
+    other: "%{count} files"
+    zero: "no files"
   label_yesterday: "hier"
   label_role_type: "Type"
   label_member_role: "Rôle dans le projet"
@@ -2212,11 +2256,11 @@ fr:
     mention:
       subject: "%{user_name} vous a mentionné dans #%{id} - %{subject}"
     notification:
-      center: 'Vers le centre de notifications'
-      see_in_center: 'Voir le commentaire dans le centre de notifications'
-      settings: 'Modifier les paramètres d''e-mail'
-    salutation: 'Bonjour %{user}'
-    salutation_full_name: 'Nom complet'
+      center: "Vers le centre de notifications"
+      see_in_center: "Voir le commentaire dans le centre de notifications"
+      settings: "Modifier les paramètres d'e-mail"
+    salutation: "Bonjour %{user}"
+    salutation_full_name: "Nom complet"
     work_packages:
       created_at: "Créé le %{timestamp} par %{user} "
       login_to_see_all: "Connectez-vous pour voir toutes les notifications."
@@ -2353,7 +2397,7 @@ fr:
   notice_file_not_found: "La page à laquelle vous essayez d'accéder n'existe pas ou a été supprimée."
   notice_forced_logout: "Vous avez été déconnecté après %{ttl_time} minutes d'inactivité."
   notice_internal_server_error: "Une erreur est survenue sur la page à laquelle vous essayez d'accéder. Si le problème persiste, veuillez contacter votre administrateur %{app_title} pour assistance."
-  notice_work_package_done_ratios_updated: "% de mise à jour terminée"
+  notice_work_package_done_ratios_updated: "% réalisé mis à jour"
   notice_locking_conflict: "Cette information a été mise a jour par au moin un autre utilisateur pendant la même session"
   notice_locking_conflict_additional_information: "Le(s) mise(s) à jour(s) ont été faite par %{users}."
   notice_locking_conflict_reload_page: "Veuillez rafraîchir la page, vérifier les changements et rélancer la mise à jour."
@@ -2492,7 +2536,7 @@ fr:
   permission_view_news: "Voir les nouvelles"
   permission_view_members: "Afficher les membres"
   permission_view_reportings: "Voir rapports"
-  permission_view_shared_work_packages: "View work package shares"
+  permission_view_shared_work_packages: "Voir la répartition des lots de travaux"
   permission_view_time_entries: "Voir temps passé"
   permission_view_timelines: "Voir les lignes du temps"
   permission_view_wiki_edits: "Voir l'historique du wiki"
@@ -2507,7 +2551,7 @@ fr:
     default: "-"
   project:
     destroy:
-      confirmation: "Si vous continuez, le projet %{identifiant} sera définitivement supprimé. Pour confirmer cette action, veuillez saisir le nom du projet dans le champ ci-dessous. Cela va :"
+      confirmation: "Si vous continuez, le projet %{identifier} sera définitivement supprimé. Pour confirmer cette action, veuillez saisir le nom du projet dans le champ ci-dessous. Cela va :"
       project_delete_result_1: "Supprimer toutes les données associées."
       project_delete_result_2: "Supprimer tous les dossiers de projet gérés dans les unités de stockage attachées."
       info: "La suppression du projet est une action irréversible."
@@ -2533,7 +2577,7 @@ fr:
   project_module_news: "Actualités"
   project_module_repository: "Référentiel"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Lots de travaux et Gantt"
+  permission_header_for_project_module_work_package_tracking: "Lots de travaux et diagrammes de Gantt"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2686,6 +2730,8 @@ fr:
   setting_app_subtitle: "Sous-titre de l'Application"
   setting_app_title: "Titre de l'Application"
   setting_attachment_max_size: "Taille maximale de la pièce jointe"
+  setting_antivirus_scan_mode: "Scan mode"
+  setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Rapatrier automatiquement les changements du dépôt"
   setting_autologin: "Auto-connexion"
   setting_available_languages: "Langages disponibles"
@@ -2725,8 +2771,8 @@ fr:
   setting_invitation_expiration_days: "L'émail d’activation expire après"
   setting_work_package_done_ratio: "Calculer le % de réalisation du lot de travaux avec"
   setting_work_package_done_ratio_field: "Le champ du lot de travaux"
-  setting_work_package_done_ratio_status: "Status du lot de travaux"
-  setting_work_package_done_ratio_disabled: "Désactiver (masquer le champ % complet)"
+  setting_work_package_done_ratio_status: "Le statut du lot de travaux"
+  setting_work_package_done_ratio_disabled: "Désactiver (masquer le champ % réalisé)"
   setting_work_package_list_default_columns: "Afficher par défaut"
   setting_work_package_properties: "Propriétés du Lot de Travaux"
   setting_work_package_startdate_is_adddate: "Utiliser la date actuelle comme date de début des nouveaux lots de travaux"
@@ -2785,6 +2831,27 @@ fr:
     attachments:
       whitelist_text_html: >
         Définissez une liste d'extensions de fichiers et/ou de types MIME valides pour les fichiers téléversés. <br/> Entrez les extensions de fichier (par exemple, <code>%{ext_example}</code>) ou les types mime (par exemple, <code>%{mime_example}</code>). <br/> Laissez vide pour permettre le téléversement de tout type de fichier. Plusieurs valeurs autorisées (une ligne pour chaque valeur).
+    antivirus:
+      title: "Virus scanning"
+      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      remaining_quarantined_files_html: >
+        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+      remaining_scan_complete_html: >
+        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+      remaining_rescanned_files: >
+        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+      upsale:
+        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+      actions:
+        delete: 'Delete the file'
+        quarantine: 'Quarantine the file'
+        instructions_html: >
+          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+      modes:
+        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
+        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        description_html: >
+          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
     brute_force_prevention: "Blocage d'utilisateur automatique (pour éviter les pirates)"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2812,6 +2879,7 @@ fr:
     other: "Autre"
     passwords: "Mots de passe"
     projects:
+      missing_dependencies: "Le module de projet %{module} a été vérifié et dépend de %{dependencies}. Vous devez également vérifier ces dépendances."
       section_new_projects: "Paramètres pour les nouveaux projets"
       section_project_overview: "Paramètres de la liste des projets"
     session: "Session"
@@ -2827,6 +2895,7 @@ fr:
     plain: "Texte brut"
   status_active: "actif"
   status_archived: "archivé"
+  status_blocked: "bloqué"
   status_invited: invité
   status_locked: verrouillé
   status_registered: enregistré
@@ -3061,19 +3130,19 @@ fr:
         one: "1 utilisateur"
         other: "%{count} utilisateurs"
       filter:
-        project_member: 'Membre du projet'
-        not_project_member: 'Non membre du projet'
-        project_group: 'Groupe de projet'
-        not_project_group: 'Non groupe du projet'
-        role: 'Rôle'
-        type: 'Type'
+        project_member: "Membre du projet"
+        not_project_member: "Non membre du projet"
+        project_group: "Groupe de projet"
+        not_project_group: "Non groupe du projet"
+        role: "Rôle"
+        type: "Type"
       label_search: "Rechercher des utilisateurs à inviter"
       label_search_placeholder: "Rechercher par nom ou par adresse mail..."
       label_toggle_all: "Activer/désactiver tous les partages"
       permissions:
         comment: "Commentaire"
         comment_description: "Peut voir et commenter ce lot de travaux."
-        denied: "Vous n'avez pas l'autorisation de partager des lots de travail."
+        denied: "Vous n'avez pas l'autorisation de partager des lots de travaux. "
         edit: "Éditer"
         edit_description: "Peut voir, commenter et modifier ce lot de travaux."
         view: "Afficher"
@@ -3083,7 +3152,7 @@ fr:
       text_empty_search_description: "Aucun utilisateur ne répond aux critères de filtrage actuels."
       text_empty_search_header: "Aucun résultat correspondant n'a été trouvé."
       text_empty_state_description: "Le lot de travaux n'a pas encore été partagé avec personne."
-      text_empty_state_header: "Partagé avec aucun membre"
+      text_empty_state_header: "Non partagé"
       text_user_limit_reached: "L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez contacter un administrateur pour augmenter la limite d'utilisateurs afin que les utilisateurs externes puissent accéder à ce lot de travaux."
       text_user_limit_reached_admins: 'L''ajout d''utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour pouvoir ajouter d''autres utilisateurs.'
       warning_user_limit_reached: >
@@ -3091,7 +3160,7 @@ fr:
       warning_user_limit_reached_admin: >
         L'ajout d'utilisateurs supplémentaires dépassera la limite actuelle. Veuillez <a href="%{upgrade_url}">mettre à niveau votre plan</a> pour que les utilisateurs externes puissent accéder à ce work package.
       warning_no_selected_user: "Veuillez sélectionner les utilisateurs avec lesquels partager ce lot de travaux"
-      warning_locked_user: "Impossible de partager avec %{utilisateur} dont le compte est verrouillé"
+      warning_locked_user: "Impossible de partager avec %{user} dont le compte est verrouillé"
       user_details:
         locked: "Utilisateur verrouillé"
         invited: "Invitation envoyée."
@@ -3163,7 +3232,7 @@ fr:
         unsupported_context: "La ressource donnée n'est pas prise en charge comme contexte."
         context_object_not_found: "Impossible de trouver la ressource donnée comme contexte."
       validation:
-        done_ratio: "Le % complet ne peut pas être défini sur les lots de travaux parents, lorsqu'il est déduit par le statut ou lorsqu'il est désactivé."
+        done_ratio: "Le % réalisé ne peut pas être défini sur les lots de travaux parents, lorsqu'il est déduit par le statut ou lorsqu'il est désactivé."
         due_date: "La date de fin ne peut pas être définie dans les lots de travaux parents."
         estimated_hours: "La valeur \"travail\" ne peut pas être définie pour les paquets de travail parents." #feel like this one should be removed eventually
         invalid_user_assigned_to_work_package: "L’utilisateur choisi n'est pas autorisé à être « %{property} » pour ce lot de travaux."
@@ -3284,7 +3353,6 @@ fr:
       oauth_returned_json_error: "OAuth2 a renvoyé une erreur JSON"
       oauth_returned_http_error: "OAuth2 a renvoyé une erreur réseau"
       oauth_returned_standard_error: "OAuth2 a renvoyé une erreur interne"
-      client_id_blank: "L'ID ne peut pas être vide."
       wrong_token_type_returned: "OAuth2 a retourné un mauvais type de jeton, AccessToken::Bearer était attendu"
       oauth_issue_contact_admin: "OAuth2 a signalé une erreur. Veuillez contacter votre administrateur système."
       oauth_client_not_found: "Client OAuth2 introuvable dans le point de terminaison « callback » (redirect_uri)."

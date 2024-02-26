@@ -10,7 +10,7 @@ We are pleased that you are thinking about contributing to OpenProject! This gui
 
 ## Get in touch
 
-Please get in touch with us using our [development forum](https://community.openproject.com/projects/openproject/forums/7) or send us an email to info@openproject.org.
+Please get in touch with us using our [development forum](https://community.openproject.org/projects/openproject/forums/7) or send us an email to info@openproject.org.
 
 
 
@@ -22,17 +22,25 @@ We eat our own ice cream so we use OpenProject for roadmap planning and team col
 
 - [Wish list](https://community.openproject.org/projects/openproject/work_packages?query_id=180)
 
-- [Bug backlog](https://community.openproject.com/projects/openproject/work_packages?query_id=491)
+- [Bug backlog](https://community.openproject.org/projects/openproject/work_packages?query_id=491)
 
 - [Reporting a bug](report-a-bug)
 
 - [Submit a feature idea](submit-feature-idea)
 
-  
+
 
 ## Development Environment
 
 Take a look at the bottom under Additional resources to see how to setup your development environment.
+
+
+
+## Highlighting Development Environment
+
+To make it easier to distinguish a development instance, it is using a tinted website icon and modified app header.
+
+This behavior can be disabled by setting an environment variable `OPENPROJECT_DEVELOPMENT_HIGHLIGHT_ENABLED=false` (see also [documentation on configuration](../installation-and-operations/configuration/)).
 
 
 

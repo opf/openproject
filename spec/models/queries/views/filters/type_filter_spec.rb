@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Queries::Views::Filters::TypeFilter, with_flag: { show_separate_gantt_module: true }  do
+RSpec.describe Queries::Views::Filters::TypeFilter do
   let(:current_user) { create(:user) }
 
   before do

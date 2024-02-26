@@ -33,7 +33,7 @@ module Storages::ProjectStorages
   # by the model before_destroy hook.
   class DeleteService < ::BaseServices::Delete
     def before_perform(*)
-      delete_project_folder if model.storage.is_a?(Storages::NextcloudStorage)
+      delete_project_folder if model.project_folder_automatic?
 
       super
     end
@@ -60,7 +60,7 @@ module Storages::ProjectStorages
 
     def delete_project_folder
       Storages::Peripherals::Registry.resolve("commands.#{model.storage.short_provider_type}.delete_folder")
-        .call(storage: model.storage, location: model.project_folder_path)
+        .call(storage: model.storage, location: model.project_folder_location)
     end
 
     # Delete FileLinks with the same Storage as the ProjectStorage.

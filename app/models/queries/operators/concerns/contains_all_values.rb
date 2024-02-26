@@ -35,7 +35,7 @@ module Queries::Operators::Concerns
         values
           .first
           .split(/\s+/)
-          .map { |substr| "#{db_table}.#{db_field} ILIKE '%#{connection.quote_string(substr)}%'" }
+          .map { |token| "#{db_table}.#{db_field} ILIKE '%#{OpenProject::SqlSanitization.quoted_sanitized_sql_like(token)}%'" }
           .join(' AND ')
       end
     end

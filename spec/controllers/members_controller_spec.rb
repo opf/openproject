@@ -39,17 +39,11 @@ RSpec.describe MembersController do
                     roles: [role])
   end
 
-  before do
-    allow(User).to receive(:current).and_return(admin)
-  end
+  before { login_as(admin) }
 
   describe 'create' do
     shared_let(:admin) { create(:admin) }
     let(:project_2) { create(:project) }
-
-    before do
-      allow(User).to receive(:current).and_return(admin)
-    end
 
     it 'works for multiple users' do
       post :create,
@@ -88,10 +82,6 @@ RSpec.describe MembersController do
       )
     end
 
-    before do
-      allow(User).to receive(:current).and_return(admin)
-    end
-
     it 'however,s allow roles to be updated through mass assignment' do
       put 'update',
           params: {
@@ -110,9 +100,7 @@ RSpec.describe MembersController do
   describe '#autocomplete_for_member' do
     let(:params) { { 'project_id' => project.identifier.to_s } }
 
-    before do
-      login_as(user)
-    end
+    before { login_as(user) }
 
     describe "WHEN the user is authorized
               WHEN a project is provided" do
@@ -173,6 +161,54 @@ RSpec.describe MembersController do
           expect(user2).to be_member_of(project)
           expect(user3).to be_member_of(project)
           expect(user4).to be_member_of(project)
+        end
+      end
+
+      context 'with yet-to-be-invited emails' do
+        let(:emails) { ['h.wurst@openproject.com', 'l.lustig@openproject.com'] }
+        let(:params) do
+          {
+            project_id: project.id,
+            member: {
+              role_ids: [role.id],
+              user_ids: [emails.first] + [user2.id, user3.id] + [emails.last]
+            }
+          }
+        end
+
+        let(:invited_users) { User.where(mail: emails).to_a }
+        let(:users) { invited_users + [user2, user3] }
+        let(:original_member_count) { Member.count }
+
+        before do
+          original_member_count
+
+          perform_enqueued_jobs do
+            post :create, params:
+          end
+        end
+
+        it 'redirects to the members list' do
+          expect(response).to redirect_to '/projects/pet_project/members?status=all'
+        end
+
+        it 'adds members' do
+          expect(users.size).to eq 4 # 2 emails, 2 existing users
+          expect(users).to all be_member_of(project)
+
+          expect(Member.count).to eq (original_member_count + users.size)
+        end
+
+        it 'invites new users' do
+          mails = ActionMailer::Base.deliveries
+
+          expect(invited_users.size).to eq 2
+          expect(mails.size).to eq invited_users.size
+          expect(mails.map(&:to).flatten).to eq invited_users.map(&:mail)
+
+          mails.each do |mail|
+            expect(mail.subject).to include 'account activation'
+          end
         end
       end
     end

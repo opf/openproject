@@ -4,7 +4,7 @@ zh-TW:
     name: "頭像"
     description: >-
       This plugin allows OpenProject users to upload a picture to be used as an avatar or use registered images from Gravatar.
-  label_avatar: "頭像分身"
+  label_avatar: "頭像"
   label_avatar_plural: "頭像"
   label_current_avatar: "目前頭像"
   label_choose_avatar: "選擇頭像"

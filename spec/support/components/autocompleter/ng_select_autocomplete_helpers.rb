@@ -30,13 +30,18 @@ module Components::Autocompleter
     end
 
     def ng_find_dropdown(element, results_selector: nil)
-      if results_selector
-        results_selector = "#{results_selector} .ng-dropdown-panel" if results_selector == 'body'
-        page.find(results_selector)
-      else
-        within(element) do
-          page.find('ng-select .ng-dropdown-panel')
+      retry_block do
+        if results_selector
+          results_selector = "#{results_selector} .ng-dropdown-panel" if results_selector == 'body'
+          page.find(results_selector)
+        else
+          within(element) do
+            page.find('ng-select .ng-dropdown-panel')
+          end
         end
+      rescue StandardError => e
+        ng_select_input(element)&.click
+        raise e
       end
     end
 

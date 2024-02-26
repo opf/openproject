@@ -170,7 +170,7 @@ Depending on the individual use and permissions of the user the following person
 - Assignment of a work package to a person
 - Change history
 - Person mentioned in a list or project schedule
-- Person mentioned in an attributs or text field
+- Person mentioned in an attribute or text field
 - Person mentioned in a linked file
 - Person mentioned in a linked pull request (i.e. GitHub)
 
@@ -197,7 +197,7 @@ The data listed above is generated upon entering the application. When actually 
 
 Logfiles are automatically removed based on a first-in-first-out mechanism. This is done to limit the disk space which ensures the server's operation and at the same time serves as a means to erase the log entries once they have served their purpose of supporting operations. By default the retention period is determined by the size of the logfile. Once the logfile reaches its storage limit, the oldest entries are removed. 
 
-As such, the log entries are not kept for a fixed period of time. If there are a lot of requests, old entries are removed faster then if there are less requests. Administrators of an OpenProject installation might decide to configure a different behaviour that factors in the age of the log entries.
+As such, the log entries are not kept for a fixed period of time. If there are a lot of requests, old entries are removed faster then if there are less requests. Administrators of an OpenProject installation might decide to configure a different behavior that factors in the age of the log entries.
 
 #### Technical documentation
 
@@ -273,7 +273,7 @@ As a web application, the primary data flow is between the user's web browser (o
 
 The external web server acts as a proxy/reverse-proxy for the OpenProject Puma app server, relaying requests for it to handle and respond. In the course of the request, access to external services such as the PostgreSQL database, a caching server, or attached storages might be performed. In case of S3-compatible object storage set ups, OpenProject performs calls to the object storage to put or request files from it. Likewise, for network-attached storages linked into the application, underlying network requests are performed. These are out of scope for this evaluation, as they are provided and maintained by the operator of the system.
 
-In the course of using the application, background tasks are enqueued in the database such as outgoing emails, cleanup tasks, or notification processing. These tasks are performed in a separate process, the background worker queue. This process accesses the same services as the application server process to access or modify data. It might connect to external integrations such as a [Nextcloud](../../user-guide/file-management/nextcloud-integration/) or [OneDrive/SharePoint]((../../user-guide/file-management/one-drive-integration/)) instance to set up file sharings depending on actions performed by the users.
+In the course of using the application, background tasks are enqueued in the database such as outgoing emails, cleanup tasks, or notification processing. These tasks are performed in a separate process, the background worker queue. This process accesses the same services as the application server process to access or modify data. It might connect to external integrations such as a [Nextcloud](../../user-guide/file-management/nextcloud-integration/) or [OneDrive/SharePoint](../../user-guide/file-management/one-drive-integration/) instance to set up file sharings depending on actions performed by the users.
 
 **Exemplary request flow**
 
@@ -388,7 +388,7 @@ flowchart LR
 
 #### Purpose
 
-* Create a new work package by sending an email to a configured email adress.
+* Create a new work package by sending an email to a configured email address.
 * Adding a comment to an existing work package by answering to an email notification.
 * Sending email notifications about updates in OpenProject (e.g [email reminder](../../system-admin-guide/emails-and-notifications/), meeting updates, project invitation, wiki notifications)
 
@@ -630,7 +630,7 @@ flowchart LR
 
 * All data the user has permissions to.
 
-> **Note**: Please see the [API documentation](https://www.openproject.org/docs/api) for further information about all API endpoints.
+> **Note**: Please see the [API documentation](../../api/) for further information about all API endpoints.
 
 #### Security measure
 
@@ -642,9 +642,9 @@ OpenProject makes use of technical cookies to identity the browser client and/or
 
 | **Cookie name**                                | **Description**                                              | **Expiry**                                                   | **Security flags**                                    | **Implementation**                                           |
 | ---------------------------------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ----------------------------------------------------- | ------------------------------------------------------------ |
-| `_open_project_session` (name is configurable) | contains the information about the logged in user as well as information stored between requests on the user's choices (e.g. the filters for costs are in part stored there) | Session <br />+ configurable server-sideTTL                  | secure<br />httponly<br />Samesite=Lax<br />encrypted | [Code ref](https://github.com/opf/openproject/blob/release/13.0/config/initializers/session_store.rb#L34-L39) |
-| `autologin` (name is configurable)             | (Optional feature, requires opt-in under Administration > Authentication settings) <br />enables the user to automatically log in again after the session expired (e.g. because the browser was closed). It is set when the user checks the '*Stay logged in*' box in the login form.<br /> | Cookie 1 year<br />+ server-side token N days (configurable) | secure<br />httponly<br />Samesite=Lax<br />encrypted | [Code ref](https://github.com/opf/openproject/blob/release/13.0/app/controllers/concerns/accounts/user_login.rb#L19C1-L29) |
-| `op2fa_remember_token`                         | the presence of that cookie suppresses the need for the user to provide a second factor upon login for N days (configurable by administration) if the user selects to do so when entering the 2fa information. | N days (configurable)                                        | secure<br />httponly<br />Samesite=Lax<br />encrypted | [Code ref](https://github.com/opf/openproject/blob/release/13.0/modules/two_factor_authentication/app/controllers/concerns/two_factor_authentication/remember_token.rb#L28-L34) |
+| `_open_project_session` (name is configurable) | contains the information about the logged in user as well as information stored between requests on the user's choices (e.g. the filters for costs are in part stored there) | Session <br>+ configurable server-sideTTL                  | secure<br>httponly<br>Samesite=Lax<br>encrypted | [Code ref](https://github.com/opf/openproject/blob/release/13.0/config/initializers/session_store.rb#L34-L39) |
+| `autologin` (name is configurable)             | (Optional feature, requires opt-in under Administration > Authentication settings) <br>enables the user to automatically log in again after the session expired (e.g. because the browser was closed). It is set when the user checks the '*Stay logged in*' box in the login form.<br> | Cookie 1 year<br>+ server-side token N days (configurable) | secure<br>httponly<br>Samesite=Lax<br>encrypted | [Code ref](https://github.com/opf/openproject/blob/release/13.0/app/controllers/concerns/accounts/user_login.rb#L19C1-L29) |
+| `op2fa_remember_token`                         | the presence of that cookie suppresses the need for the user to provide a second factor upon login for N days (configurable by administration) if the user selects to do so when entering the 2fa information. | N days (configurable)                                        | secure<br>httponly<br>Samesite=Lax<br>encrypted | [Code ref](https://github.com/opf/openproject/blob/release/13.0/modules/two_factor_authentication/app/controllers/concerns/two_factor_authentication/remember_token.rb#L28-L34) |
 
 ## Deletion of personal data
 

@@ -54,6 +54,7 @@ class OAuthClientsController < ApplicationController
     service_result = @connection_manager.code_to_token(@code)
 
     if service_result.success?
+      flash[:modal] = session.delete(:oauth_callback_flash_modal) if session[:oauth_callback_flash_modal].present?
       # Redirect the user to the page that initially wanted to access the OAuth2 resource.
       # "state" is a nonce that identifies a cookie which holds that page's URL.
       redirect_to @redirect_uri
@@ -87,7 +88,7 @@ class OAuthClientsController < ApplicationController
                       else
                         root_url
                       end
-    if connection_manager.authorization_state == :connected
+    if connection_manager.authorization_state_connected?
       redirect_to(destination_url)
     else
       nonce = SecureRandom.uuid
@@ -118,6 +119,10 @@ class OAuthClientsController < ApplicationController
   end
 
   def set_oauth_errors(service_result)
+    if service_result.errors.is_a?(::Storages::StorageError)
+      service_result.errors = service_result.errors.to_active_model_errors
+    end
+
     flash[:error] = ["#{t(:'oauth_client.errors.oauth_authorization_code_grant_had_errors')}:"]
     service_result.errors.each do |error|
       flash[:error] << "#{t(:'oauth_client.errors.oauth_reported')}: #{error.full_message}"

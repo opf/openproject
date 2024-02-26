@@ -54,7 +54,7 @@ module FlashMessagesHelper
       .map do |k, v|
       if k.to_sym == :modal
         component = v[:type].constantize
-        component.new(**v[:parameters]).render_in(self)
+        component.new(**v.fetch(:parameters, {})).render_in(self)
       else
         render_flash_message(k, v)
       end

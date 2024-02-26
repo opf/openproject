@@ -173,6 +173,13 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
         expect(subject.success).to be_truthy
         expect(subject.result).to be_a OAuthClientToken
       end
+
+      it 'fills in the origin_user_id' do
+        expect { subject }.to change(OAuthClientToken, :count).by(1)
+        last_token = OAuthClientToken.where(access_token: 'yjTDZ...RYvRH').last
+
+        expect(last_token.origin_user_id).to eq('admin')
+      end
     end
 
     context 'with known error' do
@@ -492,6 +499,7 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
     context 'without access token present' do
       it 'returns :failed_authorization' do
         expect(subject).to eq :failed_authorization
+        expect(instance).to be_authorization_state_failed_authorization
       end
     end
 
@@ -508,6 +516,7 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
 
           it 'returns :connected' do
             expect(subject).to eq :connected
+            expect(instance).to be_authorization_state_connected
           end
         end
 
@@ -518,6 +527,7 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
 
           it 'returns :error' do
             expect(subject).to eq :error
+            expect(instance).to be_authorization_state_error
           end
         end
       end

@@ -30,7 +30,7 @@ To open your personal settings in OpenProject, click on your user icon in the to
 
 Choose **My account**.
 
-![my account profil information](openproject_open_my_account_page.png)
+![my account profile information](openproject_open_my_account_page.png)
 
 ## Edit your user information
 To change your email address or your name, navigate to **Profile** on the left side menu of **My account** page.
@@ -106,7 +106,7 @@ Press the blue **Save** button in order to confirm the password changes.
 
 In order to activate the two-factor authentication for your OpenProject installation, navigate to your **My account** and choose the **Two-factor authentication** in the menu.
 
-![Openproject_my_account_two_factor_authentication](openproject_my_account_two_factor_authentication.png)
+![OpenProject my account two_factor authentication](openproject_my_account_two_factor_authentication.png)
 
 In order to register a new device for two-factor authentication, click the green button to add a **new 2FA device**.
 
@@ -156,7 +156,7 @@ You will then see a message informing you that the the token und the iCal URL ar
 
 ### OAUTH
 
-OAuth tokens allow third-party applications to connect with this OpenProject instance, for example Nextcloud (see [here](../../user-guide/file-management/nextcloud-integration/) how to set up Nextcloud integration).  OAuth tokens can be created under [*Administration-> Authentication*](https://www.openproject.org/docs/system-admin-guide/authentication/). 
+OAuth tokens allow third-party applications to connect with this OpenProject instance, for example Nextcloud (see [here](../../user-guide/file-management/nextcloud-integration/) how to set up Nextcloud integration).  OAuth tokens can be created under [*Administration-> Authentication*](../../system-admin-guide/authentication/). 
 
 If no third-party application integration has been activated yet, this list will be empty. Please contact your administrator to help you set it up. Once an integration has been set up, you will see the details here and will be able to delete any OAuth tokens by clicking on the **Delete** icon. 
 

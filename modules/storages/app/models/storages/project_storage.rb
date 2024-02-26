@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -48,22 +50,40 @@ class Storages::ProjectStorage < ApplicationRecord
 
   scope :automatic, -> { where(project_folder_mode: 'automatic') }
   scope :active, -> { joins(:project).where(project: { active: true }) }
-  scope :active_nextcloud_automatically_managed, -> do
+  scope :active_automatically_managed, -> do
     automatic
       .active
-      .where(storages: Storages::NextcloudStorage.automatic_management_enabled)
+      .where(storage: Storages::Storage.automatic_management_enabled)
   end
 
   def automatic_management_possible?
-    storage.present? && storage.provider_type_nextcloud? && storage.automatic_management_enabled?
+    storage.present? && storage.automatic_management_enabled?
   end
 
-  def project_folder_path
-    "#{storage.group_folder}/#{project.name.tr('/', '|')} (#{project.id})/"
+  def managed_project_folder_path
+    case storage.short_provider_type
+    when 'nextcloud'
+      "#{storage.group_folder}/#{project.name.tr('/', '|')} (#{project.id})/"
+    when 'one_drive'
+      "#{project.name.gsub(/[\\<>+?:"|\/]/, '_')} (#{project.id})"
+    else
+      raise 'Unknown Storage'
+    end
+  end
+
+  def project_folder_location
+    case storage.short_provider_type
+    when 'nextcloud'
+      managed_project_folder_path
+    when 'one_drive'
+      project_folder_id
+    else
+      raise 'Unkown Storage'
+    end
   end
 
   def project_folder_path_escaped
-    escape_path(project_folder_path)
+    escape_path(managed_project_folder_path)
   end
 
   def file_inside_project_folder?(escaped_file_path)
@@ -71,9 +91,7 @@ class Storages::ProjectStorage < ApplicationRecord
   end
 
   def open(user)
-    if project_folder_inactive? ||
-       (project_folder_automatic? && !user.allowed_in_project?(:read_files, project)) ||
-       project_folder_id.blank?
+    if project_folder_not_accessible?(user)
       Storages::Peripherals::Registry
         .resolve("queries.#{storage.short_provider_type}.open_storage")
         .call(storage:, user:)
@@ -102,6 +120,12 @@ class Storages::ProjectStorage < ApplicationRecord
   end
 
   private
+
+  def project_folder_not_accessible?(user)
+    project_folder_inactive? ||
+      (project_folder_automatic? && !user.allowed_in_project?(:read_files, project)) ||
+      project_folder_id.blank?
+  end
 
   def escape_path(path)
     ::Storages::Peripherals::StorageInteraction::Nextcloud::Util.escape_path(path)

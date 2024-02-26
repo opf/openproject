@@ -42,9 +42,9 @@ module Storages
 
         def authorization_check_wrapper
           case yield
-          when 200..299
+          in { status: 200..299 }
             :success
-          when 401, 403
+          in { status: 401 | 403 }
             :refresh_needed
           else
             :error

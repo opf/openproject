@@ -1,6 +1,13 @@
 module Bim
   module IfcModels
     class IfcModel < ApplicationRecord
+      # Note: rails 7.1 breaks the class' ancestor chain, if it fails to infer the enum attribute's
+      # type. We reference the Project class in migrations prior to the `conversion_status` column being added
+      # to the database, which leads to rails failing to infer the enum's type.
+      # The `conversion_status`'s type needs to be declared so rails will do the correct type inference and
+      # not break the ancestor chain. Once this is fixed in rails, we can remove it.
+      attribute :conversion_status, :integer
+
       enum conversion_status: {
         pending: 0,
         processing: 1,

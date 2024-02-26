@@ -28,19 +28,13 @@
 
 require 'spec_helper'
 
-RSpec.describe 'onboarding tour for new users', :js do
+RSpec.describe 'onboarding tour for new users',
+               :js do
   let(:user) { create(:admin) }
   let(:project) do
     create(:project, name: 'Demo project', identifier: 'demo-project', public: true,
-                     enabled_module_names: %w[work_package_tracking wiki])
+                     enabled_module_names: %w[work_package_tracking gantt wiki])
   end
-  let(:project_link) { "<a href=/projects/#{project.identifier}> #{project.name} </a>" }
-
-  let(:scrum_project) do
-    create(:project, name: 'Scrum project', identifier: 'your-scrum-project', public: true,
-                     enabled_module_names: %w[work_package_tracking])
-  end
-  let(:scrum_project_link) { "<a href=/projects/#{scrum_project.identifier}> #{scrum_project.name} </a>" }
 
   let!(:wp1) { create(:work_package, project:) }
   let(:next_button) { find('.enjoyhint_next_btn') }
@@ -49,8 +43,6 @@ RSpec.describe 'onboarding tour for new users', :js do
     before do
       login_as user
       allow(Setting).to receive(:demo_projects_available).and_return(true)
-      allow(Setting).to receive(:welcome_title).and_return('Hey ho!')
-      allow(Setting).to receive(:welcome_on_homescreen?).and_return(true)
     end
 
     it 'I can select a language' do
@@ -82,9 +74,6 @@ RSpec.describe 'onboarding tour for new users', :js do
 
     context 'when I skip the language selection' do
       before do
-        allow(Setting)
-          .to receive(:welcome_text)
-          .and_return(project_link + scrum_project_link)
         visit home_path first_time_user: true
       end
 
@@ -109,9 +98,6 @@ RSpec.describe 'onboarding tour for new users', :js do
 
     context 'the tutorial starts' do
       before do
-        allow(Setting)
-          .to receive(:welcome_text)
-          .and_return(project_link + scrum_project_link)
         visit home_path first_time_user: true
 
         select 'English', from: 'user_language'
