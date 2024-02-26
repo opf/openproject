@@ -39,15 +39,15 @@ VCR.configure do |config|
   end
 
   config.filter_sensitive_data '<BASIC_AUTH>' do |interaction|
-    header = interaction.request.headers['Authorization'].first.split
+    header = interaction.request.headers['Authorization']&.first&.split
 
-    header.last if header.first == 'Basic'
+    header.last if header&.first == 'Basic'
   end
 
   config.filter_sensitive_data '<BEARER TOKEN>' do |interaction|
-    header = interaction.request.headers['Authorization'].first.split
+    header = interaction.request.headers['Authorization']&.first&.split
 
-    header.last if header.first == 'Bearer'
+    header.last if header&.first == 'Bearer'
   end
 
   config.filter_sensitive_data '<ACCESS_TOKEN>' do |interaction|

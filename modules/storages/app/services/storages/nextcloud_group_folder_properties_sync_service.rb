@@ -132,7 +132,7 @@ module Storages
       end
 
       command_params = {
-        path: project_storage.project_folder_path,
+        path: project_storage.managed_project_folder_path,
         permissions: {
           users: admin_permissions.to_h.merge(users_permissions),
           groups: { "#{@storage.group}": NO_PERMISSIONS }
@@ -143,7 +143,7 @@ module Storages
         .resolve("commands.nextcloud.set_permissions")
         .call(storage: @storage, **command_params)
         .result_or do |error|
-        format_and_log_error(error, folder: project_storage.project_folder_path)
+        format_and_log_error(error, folder: project_storage.managed_project_folder_path)
       end
     end
 
@@ -186,11 +186,11 @@ module Storages
         next create_folder(project_storage) unless id_folder_map.key?(project_storage.project_folder_id)
 
         current_path = id_folder_map[project_storage.project_folder_id]
-        if current_path != project_storage.project_folder_path
+        if current_path != project_storage.managed_project_folder_path
           rename_folder(project_storage, current_path).on_failure do |service_result|
             format_and_log_error(service_result.errors,
                                  source: current_path,
-                                 target: project_storage.project_folder_path)
+                                 target: project_storage.managed_project_folder_path)
 
             # we need to stop as this would mess with the other processes
             return service_result
@@ -205,11 +205,11 @@ module Storages
     def rename_folder(project_storage, current_name)
       Peripherals::Registry
         .resolve("commands.nextcloud.rename_file")
-        .call(storage: @storage, source: current_name, target: project_storage.project_folder_path)
+        .call(storage: @storage, source: current_name, target: project_storage.managed_project_folder_path)
     end
 
     def create_folder(project_storage)
-      folder_path = project_storage.project_folder_path
+      folder_path = project_storage.managed_project_folder_path
       Peripherals::Registry
         .resolve("commands.nextcloud.create_folder")
         .call(storage: @storage, folder_path:)

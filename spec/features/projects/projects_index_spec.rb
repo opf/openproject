@@ -316,7 +316,7 @@ RSpec.describe 'Projects index page',
 
       # The same filters should still be intact but the order should be DESC on name
       projects_page.expect_projects_listed(public_project)
-      projects_page.expect_projects_not_listed(project,        # Filtered out
+      projects_page.expect_projects_not_listed(project, # Filtered out
                                                development_project) # Present on page 2
 
       projects_page.expect_total_pages(2) # Filters kept active, so there is no third page.

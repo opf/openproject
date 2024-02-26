@@ -40,6 +40,7 @@ module Storages
           end
 
           def initialize(storage)
+            @storage = storage
             @delegate = Internal::DriveItemQuery.new(storage)
           end
 
@@ -53,7 +54,9 @@ module Storages
               )
             end
 
-            @delegate.call(user:, drive_item_id: file_id, fields: FIELDS).map(&storage_file_infos)
+            Util.using_user_token(@storage, user) do |token|
+              @delegate.call(token:, drive_item_id: file_id, fields: FIELDS).map(&storage_file_infos)
+            end
           end
 
           private

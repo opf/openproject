@@ -31,6 +31,7 @@ uk:
         Справді видалити цей файл? Цю дію не можна скасувати.
       draggable_hint: |
         Перетягніть поле редактора, щоб вбудувати зображення або вкладені посилання. Закриті поля редактора будуть відкриті, коли ви продовжуватимете перетягувати.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Додати елемент"
       clear_all: "Очистити все"

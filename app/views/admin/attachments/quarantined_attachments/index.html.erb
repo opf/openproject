@@ -1,0 +1,9 @@
+<% html_title t('antivirus_scan.quarantined_attachments.title') %>
+
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title(variant: :large) { t('antivirus_scan.quarantined_attachments.title') }
+  end
+%>
+
+<%= render ::Admin::QuarantinedAttachments::TableComponent.new(rows: @attachments) %>

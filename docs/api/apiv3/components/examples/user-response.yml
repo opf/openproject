@@ -1,0 +1,39 @@
+# Example: UserResponse
+---
+value:
+  _type: User
+  id: 14
+  name: Mara Jade
+  createdAt: '2022-04-04T08:07:22.910Z'
+  updatedAt: '2024-02-09T09:01:17.382Z'
+  login: member
+  admin: false
+  firstName: Mara
+  lastName: Jade
+  email: m.jade@empire.org
+  avatar: 'https://secure.gravatar.com/avatar/17dd23570f3bd129d06db9b48b7a41b8?default=404&secure=true'
+  status: active
+  identityUrl: null
+  language: en
+  _links:
+    self:
+      href: '/api/v3/users/14'
+      title: Mara Jade
+    memberships:
+      href: '/api/v3/memberships?filters=%5B%7B%22principal%22%3A%7B%22operator%22%3A%22%3D%22%2C%22values%22%3A%5B%2214%22%5D%7D%7D%5D'
+      title: Memberships
+    showUser:
+      href: '/users/14'
+      type: text/html
+    updateImmediately:
+      href: '/api/v3/users/14'
+      title: Update member
+      method: patch
+    lock:
+      href: '/api/v3/users/14/lock'
+      title: Set lock on member
+      method: post
+    delete:
+      href: '/api/v3/users/14'
+      title: Delete member
+      method: delete

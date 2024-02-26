@@ -31,6 +31,7 @@ it:
         Vuoi davvero eliminare questo file? Quest’azione è irreversibile.
       draggable_hint: |
         Trascina l'elemento nei campi dell'editor per allineare l'immagine o il riferimento allegato. I campi dell'editor chiusi verranno sbloccati durante il trascinamento.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Aggiungi elemento"
       clear_all: "Cancella tutto"
@@ -232,7 +233,7 @@ it:
           status_label: "Stato:"
           status_confirmed: "confermato"
           status_waiting: "email inviata, in attesa di conferma"
-          test_ee: "Prova l'Enterprise Edition gratuitamente per 14 giorni"
+          test_ee: "Prova l'Enterprise edition gratuitamente per 14 giorni"
           quick_overview: "Veloce panoramica sulla gestione dei progetti e il lavoro di squadra nell'edizione OpenProject Enterprise."
         upsale:
           become_hero: "Diventa un eroe!"

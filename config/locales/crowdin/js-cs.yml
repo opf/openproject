@@ -31,6 +31,7 @@ cs:
         Opravdu chcete odstranit tento soubor? Tato akce není vratná.
       draggable_hint: |
         Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Přidat položku"
       clear_all: "Vymazat vše"
@@ -492,7 +493,7 @@ cs:
     label_sort_lower: "Přesunout níž"
     label_sorting: "Řazení"
     label_spent_time: "Strávený čas"
-    label_star_query: "Oblíbené"
+    label_star_query: "Oblíbená"
     label_press_enter_to_save: "Stiskněte Enter pro uložení."
     label_public_query: "Veřejné"
     label_sum: "Suma"
@@ -754,7 +755,7 @@ cs:
           membership_updated: 'Členství bylo aktualizováno'
         title: 'E-mail upozornění '
         pause:
-          label: 'Dočasně pozastavit denní posílání oznámení e-mailem'
+          label: 'Dočasně pozastavit denní připomenutí e-mailem'
           first_day: 'První den'
           last_day: 'Poslední den'
     text_are_you_sure: "Jste si jisti?"

@@ -83,7 +83,6 @@ RSpec.describe WorkPackages::CreateService, 'integration', type: :model do
     end
     let(:project) { create(:project, types: [default_type]) }
 
-
     describe 'call without date attributes' do
       let(:attributes) do
         { subject: 'blubs', project: }

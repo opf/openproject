@@ -31,6 +31,7 @@ id:
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Drag pada kotak editor untuk memasukan gambar atau referensikan lampiran. kotak editor akan tetap terbuka saat anda masih melakukan drag.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
@@ -101,7 +102,7 @@ id:
     button_save: "Simpan"
     button_settings: "Pengaturan"
     button_uncheck_all: "Uncek semua"
-    button_update: "Perbarui"
+    button_update: "Update"
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
     button_create: "Buat baru"

@@ -55,8 +55,19 @@ module API
           }
         end
 
+        property :status,
+                 getter: ->(*) { represented.status },
+                 setter: ->(fragment:, represented:, **) { represented.status = User.statuses[fragment.to_sym] },
+                 exec_context: :decorator,
+                 render_nil: true,
+                 cache_if: -> { current_user_can_manage? }
+
         def _type
           'PlaceholderUser'
+        end
+
+        def current_user_can_see_date_properties?
+          current_user_can_manage?
         end
 
         def current_user_can_manage?

@@ -31,6 +31,7 @@
         Er du sikker på at du vil slette denne filen? Denne handlingen kan ikke angres.
       draggable_hint: |
         Dra i tekstbehandlerfeltet for å sette inn bilde eller referansevedlegg. Lukket felt i tekstbehandler åpnes mens du fortsetter å dra det.
+      quarantined_hint: "Filen er satt i karantene fordi et virus ble funnet. Den er ikke tilgjengelig for nedlasting."
     autocomplete_ng_select:
       add_tag: "Legg til element"
       clear_all: "Fjern alle"
@@ -101,7 +102,7 @@
     button_save: "Lagre"
     button_settings: "Innstillinger"
     button_uncheck_all: "Avmerk alle"
-    button_update: "Oppdater"
+    button_update: "Oppdatèr"
     button_export-pdf: "Last ned PDF"
     button_export-atom: "Last ned Atom"
     button_create: "Opprett"
