@@ -40,7 +40,7 @@ module Projects::ActsAsCustomizablePatches
     has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: 'ProjectCustomField'
 
     before_save :build_missing_project_custom_field_project_mappings
-    after_save :reset_section_scope
+    after_save :reset_section_scoped_validation
     before_create :reject_section_scoped_validation_for_creation
     after_create :disable_custom_fields_with_empty_values
 
@@ -57,7 +57,7 @@ module Projects::ActsAsCustomizablePatches
       project_custom_field_project_mappings.build(mappings)
     end
 
-    def reset_section_scope
+    def reset_section_scoped_validation
       # reset the section scope after saving
       # in order not to silently carry this setting in this instance
       self._limit_custom_fields_validation_to_section_id = nil
