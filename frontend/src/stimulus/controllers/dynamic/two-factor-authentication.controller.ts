@@ -48,6 +48,7 @@ export default class TwoFactorAuthenticationController extends Controller {
       return true;
     }
 
+    this.clearError();
     event.preventDefault();
 
     try {
@@ -67,7 +68,7 @@ export default class TwoFactorAuthenticationController extends Controller {
 
       return true;
     } catch (error) {
-      this.errorDisplayTarget.innerText = `Error registering device: ${error}`;
+      this.displayError(error);
       return false;
     }
   }
@@ -81,6 +82,7 @@ export default class TwoFactorAuthenticationController extends Controller {
       return true;
     }
 
+    this.clearError();
     event.preventDefault();
 
     try {
@@ -100,7 +102,7 @@ export default class TwoFactorAuthenticationController extends Controller {
 
       return true;
     } catch (error) {
-      this.errorDisplayTarget.innerText = `Error registering device: ${error}`;
+      this.displayError(error);
       return false;
     }
   }
@@ -127,5 +129,17 @@ export default class TwoFactorAuthenticationController extends Controller {
   toggleResendOptions(evt:MouseEvent) {
     evt.preventDefault();
     this.resendOptionsTarget.hidden = !this.resendOptionsTarget.hidden;
+  }
+
+  private displayError(error:DOMException) {
+    let errorMessage = `Error registering device: ${error.message}`;
+    if (error.name === 'AbortError') {
+      errorMessage = I18n.t('js.two_factor_authentication.errors.aborted');
+    }
+    this.errorDisplayTarget.innerText = errorMessage;
+  }
+
+  private clearError() {
+    this.errorDisplayTarget.innerText = '';
   }
 }
