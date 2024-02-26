@@ -29,9 +29,9 @@
 module Projects::ActsAsCustomizablePatches
   extend ActiveSupport::Concern
 
-  attr_accessor :limit_custom_fields_validation_to_section_id
+  attr_accessor :_limit_custom_fields_validation_to_section_id
 
-  # attr_accessor :limit_custom_fields_validation_to_field_id
+  # attr_accessor :_limit_custom_fields_validation_to_field_id
   # not needed for now, but might be relevant if we want to have edit dialogs just for one custom field
 
   included do
@@ -40,6 +40,8 @@ module Projects::ActsAsCustomizablePatches
     has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: 'ProjectCustomField'
 
     before_save :build_missing_project_custom_field_project_mappings
+    after_save :reset_section_scope
+    before_create :reject_section_scoped_validation_for_creation
     after_create :disable_custom_fields_with_empty_values
 
     def build_missing_project_custom_field_project_mappings
@@ -53,6 +55,19 @@ module Projects::ActsAsCustomizablePatches
         .map { |pcf_id| { project_id: id, custom_field_id: pcf_id } }
 
       project_custom_field_project_mappings.build(mappings)
+    end
+
+    def reset_section_scope
+      # reset the section scope after saving
+      # in order not to silently carry this setting in this instance
+      self._limit_custom_fields_validation_to_section_id = nil
+    end
+
+    def reject_section_scoped_validation_for_creation
+      if _limit_custom_fields_validation_to_section_id.present?
+        raise ArgumentError,
+              'Section scoped validation is not supported for project creation, only for project updates'
+      end
     end
 
     def disable_custom_fields_with_empty_values
@@ -77,6 +92,11 @@ module Projects::ActsAsCustomizablePatches
         ProjectCustomField.pluck(:id)
       else
         project_custom_field_project_mappings.pluck(:custom_field_id)
+          .concat(ProjectCustomField.required.pluck(:id))
+          .uniq
+        # if for whatever reason a required custom field is not activated for this instance,
+        # we need to make sure it's treated as activated especially in context of the validation
+        # relevant when a project is created with a section scoped
       end
     end
 
@@ -134,8 +154,8 @@ module Projects::ActsAsCustomizablePatches
     end
 
     def of_specified_custom_field_section?(custom_value)
-      if limit_custom_fields_validation_to_section_id.present?
-        custom_field_section_ids[custom_value.custom_field_id] == limit_custom_fields_validation_to_section_id
+      if _limit_custom_fields_validation_to_section_id.present?
+        custom_field_section_ids[custom_value.custom_field_id] == _limit_custom_fields_validation_to_section_id
       else
         true # validate all custom values if no specific section was specified
       end

@@ -31,7 +31,7 @@ module ::Overviews
                       )
                       .call(
                         permitted_params.project.merge(
-                          limit_custom_fields_validation_to_section_id: section.id
+                          _limit_custom_fields_validation_to_section_id: section.id
                         )
                       )
 

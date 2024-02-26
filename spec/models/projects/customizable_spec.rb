@@ -28,9 +28,17 @@
 
 require 'spec_helper'
 RSpec.describe Project, 'customizable' do
-  let!(:bool_custom_field) { create(:boolean_project_custom_field) }
-  let!(:text_custom_field) { create(:text_project_custom_field) }
-  let!(:list_custom_field) { create(:list_project_custom_field) }
+  let!(:section) { create(:project_custom_field_section) }
+
+  let!(:bool_custom_field) do
+    create(:boolean_project_custom_field, project_custom_field_section: section)
+  end
+  let!(:text_custom_field) do
+    create(:text_project_custom_field, project_custom_field_section: section)
+  end
+  let!(:list_custom_field) do
+    create(:list_project_custom_field, project_custom_field_section: section)
+  end
 
   context 'when not persisted' do
     let(:project) { build(:project) }
@@ -143,6 +151,92 @@ RSpec.describe Project, 'customizable' do
               .to be_truthy
           end
         end
+      end
+    end
+  end
+
+  context 'when creating with custom field values' do
+    let(:project) do
+      create(:project, custom_field_values: {
+               text_custom_field.id => 'foo',
+               bool_custom_field.id => true
+             })
+    end
+
+    it 'saves the custom field values properly' do
+      expect(project.custom_value_for(text_custom_field).typed_value)
+        .to eq('foo')
+      expect(project.custom_value_for(bool_custom_field).typed_value)
+        .to be_truthy
+    end
+
+    it 'enables fields with provided values and disables fields with none' do
+      # list_custom_field is not provided, thus it should not be enabled
+      expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
+          .to contain_exactly(text_custom_field.id, bool_custom_field.id)
+      expect(project.project_custom_fields)
+        .to contain_exactly(text_custom_field, bool_custom_field)
+    end
+
+    context 'with correct validation' do
+      let(:another_section) { create(:project_custom_field_section) }
+
+      let!(:required_text_custom_field) do
+        create(:text_project_custom_field,
+               is_required: true,
+               project_custom_field_section: another_section)
+      end
+
+      it 'validates all custom values if not scoped to a section' do
+        project = build(:project, custom_field_values: {
+                          text_custom_field.id => 'foo',
+                          bool_custom_field.id => true
+                        })
+
+        expect(project).not_to be_valid
+
+        expect { project.save! }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+
+      it 'rejects section validation scoping for project creation' do
+        project = build(:project, custom_field_values: {
+                                    text_custom_field.id => 'foo',
+                                    bool_custom_field.id => true
+                                  },
+                                  _limit_custom_fields_validation_to_section_id: section.id)
+
+        expect { project.save! }.to raise_error(ArgumentError)
+      end
+
+      it 'temporarly validates only custom values of a section if section scope is provided while updating' do
+        project = create(:project, custom_field_values: {
+                           text_custom_field.id => 'foo',
+                           bool_custom_field.id => true,
+                           required_text_custom_field.id => 'bar'
+                         })
+
+        expect(project).to be_valid
+
+        # after a project is created, a new require custom field is added
+        # which gets automatically activated for all projects
+        create(:text_project_custom_field,
+               is_required: true,
+               project_custom_field_section: another_section)
+
+        # thus, the project is invalid in total
+        expect(project.reload).not_to be_valid
+        expect { project.save! }.to raise_error(ActiveRecord::RecordInvalid)
+
+        # but we still want to allow updating other sections without invalid required custom field values
+        # by limiting the validation scope to a section temporarily
+        project._limit_custom_fields_validation_to_section_id = section.id
+
+        expect(project).to be_valid
+
+        expect { project.save! }.not_to raise_error
+
+        # section scope is resetted after each update
+        expect { project.save! }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
   end
