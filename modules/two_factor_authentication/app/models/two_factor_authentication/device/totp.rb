@@ -4,7 +4,7 @@ module TwoFactorAuthentication
   class Device::Totp < Device
     validates_presence_of :otp_secret
 
-    def device_type
+    def self.device_type
       :totp
     end
 
