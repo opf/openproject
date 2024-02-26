@@ -62,22 +62,31 @@ RSpec.describe Projects::Exports::CSV, 'integration' do
 
   describe 'custom field columns selected' do
     before do
-      Setting.enabled_projects_columns += custom_fields.map(&:column_name)
+      Setting.enabled_projects_columns += global_project_custom_fields.map(&:column_name)
     end
 
     context 'when ee enabled', with_ee: %i[custom_fields_in_projects_list] do
-      it 'renders all those columns' do
+      it 'renders all globally available project custom fields in the header' do
         expect(parsed.size).to eq 2
 
-        cf_names = custom_fields.map(&:name)
-        expect(header).to eq ['id', 'Identifier', 'Name', 'Description', 'Status', 'Public', *cf_names]
+        cf_names = global_project_custom_fields.map(&:name)
 
-        custom_values = custom_fields.map do |cf|
+        expect(cf_names).to include(not_used_string_cf.name)
+
+        expect(header).to eq ['id', 'Identifier', 'Name', 'Description', 'Status', 'Public', *cf_names]
+      end
+
+      it 'renders the custom field values in the rows if enabled for a project' do
+        expect(parsed.size).to eq 2
+
+        custom_values = global_project_custom_fields.map do |cf|
           case cf
           when bool_cf
             'true'
           when text_cf
             project.typed_custom_value_for(cf)
+          when not_used_string_cf
+            ''
           else
             project.formatted_custom_value_for(cf)
           end
@@ -85,6 +94,9 @@ RSpec.describe Projects::Exports::CSV, 'integration' do
         expect(rows.first)
           .to eq [project.id.to_s, project.identifier, project.name,
                   project.description, 'Off track', 'false', *custom_values]
+
+        # The column for the project-level-disabled custom field is blank
+        expect(rows.first[header.index(not_used_string_cf.name)]).to eq ''
       end
     end
 

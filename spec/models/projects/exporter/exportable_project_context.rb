@@ -36,6 +36,8 @@ RSpec.shared_context 'with a project with an arrangement of custom fields' do
   shared_let(:string_cf) { create(:string_project_custom_field, position: 7) }
   shared_let(:date_cf) { create(:date_project_custom_field, position: 8) }
 
+  let!(:not_used_string_cf) { create(:string_project_custom_field, position: 9) }
+
   shared_let(:system_version) { create(:version, sharing: 'system') }
 
   shared_let(:role) do
@@ -49,22 +51,24 @@ RSpec.shared_context 'with a project with an arrangement of custom fields' do
   end
 
   shared_let(:project) do
-    create(:project,
-           status_code: 'off_track',
-           status_explanation: 'some explanation',
-           members: { other_user => role }).tap do |p|
-      p.description = "The description of the project"
-      p.send(int_cf.attribute_setter, 5)
-      p.send(bool_cf.attribute_setter, true)
-      p.send(version_cf.attribute_setter, system_version)
-      p.send(float_cf.attribute_setter, 4.5)
-      p.send(text_cf.attribute_setter, 'Some **long** text')
-      p.send(string_cf.attribute_setter, 'Some small text')
-      p.send(date_cf.attribute_setter, Time.zone.today)
-      p.send(user_cf.attribute_setter, other_user)
+    project = build(:project,
+                    status_code: 'off_track',
+                    status_explanation: 'some explanation',
+                    members: { other_user => role },
+                    description: "The description of the project",
+                    custom_field_values: {
+                      int_cf.id => 5,
+                      bool_cf.id => true,
+                      version_cf.id => system_version,
+                      float_cf.id => 4.5,
+                      text_cf.id => 'Some **long** text',
+                      string_cf.id => 'Some small text',
+                      date_cf.id => Time.zone.today,
+                      user_cf.id => other_user.id
+                    })
+    project.save!(validate: false)
 
-      p.save!(validate: false)
-    end
+    project
   end
 end
 
@@ -82,7 +86,8 @@ RSpec.shared_context 'with an instance of the described exporter' do
     described_class.new(query)
   end
 
-  let(:custom_fields) { project.available_custom_fields }
+  let(:global_project_custom_fields) { ProjectCustomField.all }
+  let(:custom_fields_of_project) { project.available_custom_fields }
 
   let(:output) do
     instance.export!.content
