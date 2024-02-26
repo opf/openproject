@@ -38,9 +38,16 @@ See COPYRIGHT and LICENSE files for more details.
                    button_text: I18n.t(:'mail.storages.health.see_storage_settings')
                  }) %>
 
-      <div>Foo</div>
-      
-      <%= render(Storages::Admin::Mailer::HealthStatusNotificationComponent.new) %>
+      <%= render(partial: 'health_status_notification',
+                 locals: {
+                   url: @url,
+                   storage_name: @storage.name,
+                   storage_type: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name"),
+                   storage_url: @storage.host,
+                   reason: "#{@storage.health_reason_identifier} - #{@storage.health_reason_description}",
+                   is_nextcloud: @storage.provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
+                   troubleshooting_url: ::OpenProject::Static::Links[:storage_docs][:troubleshooting][:href]
+                 }) %>
     </td>
   </tr>
 </table>

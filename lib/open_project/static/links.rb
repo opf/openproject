@@ -273,6 +273,9 @@ module OpenProject
               },
               one_drive_oauth_application: {
                 href: 'https://portal.azure.com/'
+              },
+              troubleshooting: {
+                href: 'https://www.openproject.org/docs/user-guide/file-management/nextcloud-integration/#possible-errors-and-troubleshooting'
               }
             },
             ical_docs: {

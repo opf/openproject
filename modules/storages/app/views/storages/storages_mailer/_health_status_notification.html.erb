@@ -1,0 +1,80 @@
+<a style="text-decoration: none;display: block;" href="<%= url %>" target="_blank">
+  <%= render layout: 'mailer/border_table' do %>
+    <tr>
+      <td>
+        <table <%= placeholder_table_styles(width: '100%', style: 'width:100%;font-size:14px;') %>>
+          <tr>
+            <%= placeholder_cell('12px', vertical: true) %>
+            <td>
+              <table <%= placeholder_table_styles %>>
+                <tr>
+                  <td>
+                    <%= render Mailer::LabelComponent.new(scheme: :danger, text: 'Error') %>
+                  </td>
+
+                  <%= placeholder_cell('8px', vertical: true) %>
+
+                  <td style="color: #878787; font-size: 12px; font-weight: 700;">
+                    <%= storage_type %> - <%= storage_url %>
+                  </td>
+                </tr>
+              </table>
+            </td>
+            <%= placeholder_cell('12px', vertical: true) %>
+          </tr>
+
+          <tr>
+            <%= placeholder_cell('8px', vertical: false) %>
+          </tr>
+
+          <tr>
+            <%= placeholder_cell('12px', vertical: true) %>
+            <td style="font-weight: 700; line-height: 20px; color: black;"><%= storage_name %></td>
+            <%= placeholder_cell('12px', vertical: true) %>
+          </tr>
+
+          <tr>
+            <%= placeholder_cell('8px', vertical: false) %>
+          </tr>
+
+          <tr id="reason">
+            <%= placeholder_cell('12px', vertical: true) %>
+            <td style="color: #878787; font-size: 12px; font-weight: 400; line-height: 16px;"><%= reason %></td>
+            <%= placeholder_cell('12px', vertical: true) %>
+          </tr>
+
+          <% if is_nextcloud %>
+            <tr id="troubleshooting">
+              <%= placeholder_cell('12px', vertical: true) %>
+              <td style="color: #878787; font-size: 12px; font-weight: 400; line-height: 16px;">For more information,
+                check file storages <a href="<%= troubleshooting_url %>">troubleshooting documentation</a>.
+              </td>
+              <%= placeholder_cell('12px', vertical: true) %>
+            </tr>
+          <% end %>
+        </table>
+      </td>
+    </tr>
+  <% end %>
+</a>
+
+<table <%= placeholder_table_styles(width: '100%', style: "width:100%;") %>>
+  <tr>
+    <%= placeholder_cell('12px', vertical: false) %>
+  </tr>
+
+  <tr>
+    <td>
+      <a style="text-decoration: none; line-height: 24px; font-size: 14px"
+         href="<%= url %>"
+         target="_blank"
+         rel="noopener noreferrer">
+        <%= I18n.t('mail.work_packages.open_in_browser') %>
+      </a>
+    </td>
+  </tr>
+
+  <tr>
+    <%= placeholder_cell('20px', vertical: false) %>
+  </tr>
+</table>
