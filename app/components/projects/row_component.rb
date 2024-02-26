@@ -58,7 +58,7 @@ module Projects
       custom_value = project.formatted_custom_value_for(cf)
 
       if cf.field_format == 'text'
-        custom_value.html_safe # rubocop:disable Rails/OutputSafety
+        custom_value&.html_safe # rubocop:disable Rails/OutputSafety
       elsif custom_value.is_a?(Array)
         safe_join(Array(custom_value).compact_blank, ', ')
       else
