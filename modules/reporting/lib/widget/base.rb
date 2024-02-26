@@ -107,7 +107,7 @@ module ::Widget
       if cached?
         write Rails.cache.fetch(cache_key)
       else
-        render(&)
+        render(&block)
         Rails.cache.write(cache_key, @cache_output || @output) if cache?
       end
     end

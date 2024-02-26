@@ -44,7 +44,7 @@ module Components
       expect(page).to have_css('.op-app-menu--dropdown')
     end
 
-    def within_dropdown(&)
+    def within_dropdown(&block)
       page.within('.op-app-menu--dropdown', &)
     end
 

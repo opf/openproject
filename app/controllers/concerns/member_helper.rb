@@ -80,7 +80,7 @@ module MemberHelper
   end
 
   def each_comma_separated(array, &)
-    array.map(&).flatten
+    array.map(&block).flatten
   end
 
   def transform_array_of_comma_separated_ids(array)

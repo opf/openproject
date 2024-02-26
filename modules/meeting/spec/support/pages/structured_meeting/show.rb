@@ -62,7 +62,7 @@ module Pages::StructuredMeeting
       end
     end
 
-    def in_agenda_form(&)
+    def in_agenda_form(&block)
       page.within('#meeting-agenda-items-form-component', &)
     end
 
@@ -150,7 +150,7 @@ module Pages::StructuredMeeting
       expect(page).to have_css(".ng-input  ", value: nil)
     end
 
-    def in_participant_form(&)
+    def in_participant_form(&block)
       page.within('#meetings-sidebar-participants-form-component form', &)
     end
 

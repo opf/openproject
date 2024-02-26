@@ -55,8 +55,8 @@ module Redmine
         end
       end
 
-      def log_debug(&)
-        logger.debug(&)
+      def log_debug(&block)
+        logger.debug(&block)
       end
 
       def logger

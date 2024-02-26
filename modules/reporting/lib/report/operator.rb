@@ -292,8 +292,8 @@ class Report::Operator
     all.has_key?(name.to_s)
   end
 
-  def self.defaults(&)
-    class_eval(&)
+  def self.defaults(&block)
+    class_eval(&block)
   end
 
   def self.default_operator

@@ -43,7 +43,7 @@ module Pages
         project_path(project)
       end
 
-      def within_sidebar(&)
+      def within_sidebar(&block)
         within('#menu-sidebar', &)
       end
 

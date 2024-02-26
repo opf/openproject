@@ -46,7 +46,7 @@ RSpec.describe WorkPackagesController do
 
   let(:current_user) { create(:user) }
 
-  def self.requires_permission_in_project(&)
+  def self.requires_permission_in_project(&block)
     describe 'w/o the permission to see the project/work_package' do
       before do
         allow(controller).to receive(:work_package).and_return(nil)
@@ -65,11 +65,11 @@ RSpec.describe WorkPackagesController do
         expect(WorkPackage).to receive_message_chain('visible.find_by').and_return(stub_work_package)
       end
 
-      instance_eval(&)
+      instance_eval(&block)
     end
   end
 
-  def self.requires_export_permission(&)
+  def self.requires_export_permission(&block)
     describe 'w/ the export permission
               w/o a project' do
       let(:project) { nil }
@@ -81,7 +81,7 @@ RSpec.describe WorkPackagesController do
         end
       end
 
-      instance_eval(&)
+      instance_eval(&block)
     end
 
     describe 'w/ the export permission
@@ -94,7 +94,7 @@ RSpec.describe WorkPackagesController do
         end
       end
 
-      instance_eval(&)
+      instance_eval(&block)
     end
 
     describe 'w/o the export permission' do

@@ -341,7 +341,7 @@ module Redmine # :nodoc:
       plugin = self
       Rails.application.reloader.to_prepare do
         plugin.instance_eval { @project_scope = [name, options] }
-        plugin.instance_eval(&)
+        plugin.instance_eval(&block)
       end
     ensure
       plugin.instance_eval { @project_scope = nil }

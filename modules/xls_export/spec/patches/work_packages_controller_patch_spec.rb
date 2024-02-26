@@ -45,7 +45,7 @@ RSpec.describe WorkPackagesController, type: :controller do
 
   let(:current_user) { create(:user) }
 
-  def self.requires_export_permission(&)
+  def self.requires_export_permission(&block)
     describe 'w/ the export permission
               w/o a project' do
       let(:project) { nil }
@@ -56,7 +56,7 @@ RSpec.describe WorkPackagesController, type: :controller do
         end
       end
 
-      instance_eval(&)
+      instance_eval(&block)
     end
 
     describe 'w/ the export permission
@@ -69,7 +69,7 @@ RSpec.describe WorkPackagesController, type: :controller do
         end
       end
 
-      instance_eval(&)
+      instance_eval(&block)
     end
 
     describe 'w/o the export permission' do

@@ -217,7 +217,7 @@ module ApplicationHelper
     path.to_s
   end
 
-  def other_formats_links(&)
+  def other_formats_links(&block)
     formats = capture(Redmine::Views::OtherFormatsBuilder.new(self), &)
     unless formats.nil? || formats.strip.empty?
       content_tag 'p', class: 'other-formats' do

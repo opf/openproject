@@ -49,7 +49,7 @@ Grape::DSL::Routing::ClassMethods.module_eval do
 
   def namespace(space = nil, options = {}, &)
     orig_namespace(space, options) do
-      instance_eval(&)
+      instance_eval(&block)
       apply_patches(space)
     end
   end

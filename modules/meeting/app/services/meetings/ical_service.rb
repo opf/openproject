@@ -70,10 +70,10 @@ module Meetings
     end
     # rubocop:enable Metrics/AbcSize
 
-    def ical_event(&)
+    def ical_event(&block)
       calendar = ::Icalendar::Calendar.new
 
-      calendar.event(&)
+      calendar.event(&block)
 
       calendar.publish
       calendar.to_ical

@@ -68,7 +68,7 @@ module VirtualAttribute
         if instance_variable_get(:"@#{attribute}_set")
           instance_variable_get(:"@#{attribute}")
         else
-          value = instance_eval(&)
+          value = instance_eval(&block)
 
           set_virtual_attribute_was(attribute, value)
 

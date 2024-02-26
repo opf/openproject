@@ -57,6 +57,6 @@ class Notifications::GroupMemberAlteredJob < ApplicationJob
   def each_member(members_ids, &)
     Member
       .where(id: members_ids)
-      .each(&)
+      .each(&block)
   end
 end

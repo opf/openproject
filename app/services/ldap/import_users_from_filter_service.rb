@@ -16,7 +16,7 @@ module Ldap
       end
     end
 
-    def get_entries_from_filter(&)
+    def get_entries_from_filter(&block)
       ldap_con = new_ldap_connection
 
       ldap_con.search(

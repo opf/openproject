@@ -67,7 +67,7 @@ module Queries::Register
     end
 
     def register(query, &)
-      Registration.new(query).instance_exec(&)
+      Registration.new(query).instance_exec(&block)
     end
 
     attr_accessor :filters,

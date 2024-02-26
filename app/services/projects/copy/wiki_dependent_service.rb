@@ -90,7 +90,7 @@ module Projects::Copy
       end
     end
 
-    def pages_top_down(&)
+    def pages_top_down(&block)
       id_by_parent = source.wiki.pages.pluck(:parent_id, :id).inject(Hash.new { [] }) do |h, (k, v)|
         h[k] += [v]
         h

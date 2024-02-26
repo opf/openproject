@@ -49,7 +49,7 @@ class ApplicationRecord < ActiveRecord::Base
       &.first # max column
   end
 
-  def self.skip_optimistic_locking(&)
+  def self.skip_optimistic_locking(&block)
     # TODO: The activerecord-import gem does not respect the ActiveRecord::Base.lock_optimistically
     # flag, so a direct cleaning of the locking_column is necessary.
     # Once the gem is updated we can use the ActiveRecord::Base.lock_optimistically = false, instead of

@@ -131,8 +131,8 @@ module SortHelper
         .to_h
     end
 
-    def map_each(&)
-      to_a.map(&)
+    def map_each(&block)
+      to_a.map(&block)
     end
 
     def add!(key, asc)

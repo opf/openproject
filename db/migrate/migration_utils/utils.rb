@@ -32,7 +32,7 @@ module Migration
 
     def say_with_time_silently(message, &)
       say_with_time message do
-        suppress_messages(&)
+        suppress_messages(&block)
       end
     end
 

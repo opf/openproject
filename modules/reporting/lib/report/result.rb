@@ -262,15 +262,15 @@ class Report::Result
       values
     end
 
-    def each(&)
-      values.each(&)
+    def each(&block)
+      values.each(&block)
     end
 
     def each_direct_result(cached = true, &)
       return enum_for(__method__) unless block_given?
 
       if @direct_results
-        @direct_results.each(&)
+        @direct_results.each(&block)
       else
         values.each do |value|
           value.each_direct_result(false) do |result|

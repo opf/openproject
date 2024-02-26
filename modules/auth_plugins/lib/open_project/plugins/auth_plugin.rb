@@ -28,10 +28,10 @@
 
 module OpenProject::Plugins
   module AuthPlugin
-    def register_auth_providers(&)
+    def register_auth_providers(&block)
       initializer "#{engine_name}.middleware" do |app|
         builder = ProviderBuilder.new
-        builder.instance_eval(&)
+        builder.instance_eval(&block)
 
         app.config.middleware.use OmniAuth::FlexibleBuilder do
           builder.new_strategies.each do |strategy|

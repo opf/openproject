@@ -51,7 +51,7 @@ RSpec.shared_examples_for 'provides a single WP context menu' do
     open_context_menu.call
     menu.choose('Create new child')
     expect(page).to have_css('.inline-edit--container.subject input')
-    expect(current_url).to match(/.*\/create_new\?.*(&)*parent_id=#{work_package.id}/)
+    expect(current_url).to match(/.*\/create_new\?.*(&block)*parent_id=#{work_package.id}/)
 
     find_by_id('work-packages--edit-actions-cancel').click
     expect(page).to have_no_css('.inline-edit--container.subject input')
@@ -77,7 +77,7 @@ RSpec.shared_examples_for 'provides a single WP context menu' do
       open_context_menu.call
       menu.choose('Create new child')
       expect(page).to have_css('.inline-edit--container.subject input')
-      expect(current_url).to match(/.*\/create_new\?.*(&)*parent_id=#{work_package.id}/)
+      expect(current_url).to match(/.*\/create_new\?.*(&block)*parent_id=#{work_package.id}/)
 
       split_view = Pages::SplitWorkPackageCreate.new project: work_package.project
       subject = split_view.edit_field(:subject)

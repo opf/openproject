@@ -323,7 +323,7 @@ module OpenProject
           cmd << '--limit' << options[:limit].to_s if options[:limit]
           cmd << target(path, peg: identifier_from)
           xml_capture(cmd, force_encoding: true) do |doc|
-            doc.xpath('/log/logentry').each(&)
+            doc.xpath('/log/logentry').each(&block)
           end
         end
 

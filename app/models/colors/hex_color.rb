@@ -58,9 +58,9 @@ module Colors
         .map(&:hex) # to int
     end
 
-    def rgb_modify(&)
+    def rgb_modify(&block)
       rgb_colors
-        .map(&)
+        .map(&block)
         .map(&:round)
         .map { |val| [val, 255].min }
     end

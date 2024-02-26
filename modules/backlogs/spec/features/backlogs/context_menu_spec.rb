@@ -72,7 +72,7 @@ RSpec.describe 'Backlogs context menu', :js, :with_cuprite do
 
   let(:backlogs_page) { Pages::Backlogs.new(project) }
 
-  def within_backlog_context_menu(&)
+  def within_backlog_context_menu(&block)
     backlogs_page.visit!
     backlogs_page.within_backlog_menu(sprint, &)
   end

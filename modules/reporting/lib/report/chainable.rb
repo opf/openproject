@@ -62,8 +62,8 @@ module Report
       superclass.base
     end
 
-    def self.from_base(&)
-      base.instance_eval(&)
+    def self.from_base(&block)
+      base.instance_eval(&block)
     end
 
     def self.available
@@ -129,7 +129,7 @@ module Report
 
     accepts_property :type
 
-    def each(&)
+    def each(&block)
       yield self
       child.try(:each, &)
     end

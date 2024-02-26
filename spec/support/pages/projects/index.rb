@@ -296,7 +296,7 @@ module Pages
         end
       end
 
-      def within_table(&)
+      def within_table(&block)
         within '#project-table', &
       end
 

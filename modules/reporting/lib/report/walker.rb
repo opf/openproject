@@ -33,19 +33,19 @@ class Report::Walker
     @query = query
   end
 
-  def for_row(&)
+  def for_row(&block)
     access_block(:row, &)
   end
 
-  def for_final_row(&)
+  def for_final_row(&block)
     access_block(:final_row, &) || access_block(:row)
   end
 
-  def for_cell(&)
+  def for_cell(&block)
     access_block(:cell, &)
   end
 
-  def for_empty_cell(&)
+  def for_empty_cell(&block)
     access_block(:empty_cell, &) || access_block(:cell)
   end
 
@@ -114,7 +114,7 @@ class Report::Walker
   end
 
   def body(result = nil, &)
-    return [*body(result)].each(&) if block_given?
+    return [*body(result)].each(&block) if block_given?
 
     result ||= query.result.tap { |r| sort(r) }
     if result.row?

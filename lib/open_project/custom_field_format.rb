@@ -50,7 +50,7 @@ module OpenProject
     end
 
     class << self
-      def map(&)
+      def map(&block)
         yield self
       end
 

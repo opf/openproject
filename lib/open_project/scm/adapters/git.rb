@@ -505,7 +505,7 @@ module OpenProject
         def parse_by_line(cmd, opts = {}, &)
           popen3(cmd) do |io|
             io.binmode if opts[:binmode]
-            io.each_line(&)
+            io.each_line(&block)
           end
         end
 

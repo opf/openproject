@@ -33,7 +33,7 @@ module Redmine
     @@available_search_types = []
 
     class << self
-      def map(&)
+      def map(&block)
         yield self
       end
 

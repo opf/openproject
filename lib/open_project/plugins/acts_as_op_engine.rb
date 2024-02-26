@@ -225,7 +225,7 @@ module OpenProject::Plugins
         config.to_prepare do
           representer_namespace = args.map { |arg| arg.to_s.camelize }.join('::')
           representer_class     = "::API::#{representer_namespace}Representer".constantize
-          representer_class.instance_eval(&)
+          representer_class.instance_eval(&block)
         end
       end
 
@@ -264,9 +264,9 @@ module OpenProject::Plugins
           if defined?(super)
             existing = super()
 
-            existing + instance_eval(&)
+            existing + instance_eval(&block)
           else
-            instance_eval(&)
+            instance_eval(&block)
           end
         end
 

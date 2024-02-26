@@ -31,7 +31,7 @@
 module API
   module Helpers
     module AttachmentRenderer
-      def self.content_endpoint(&)
+      def self.content_endpoint(&block)
         ->(*) {
           helpers ::API::Helpers::AttachmentRenderer
 
@@ -40,7 +40,7 @@ module API
           end
 
           get do
-            attachment = instance_exec(&)
+            attachment = instance_exec(&block)
             respond_with_attachment attachment, cache_seconds: fog_cache_seconds
           end
         }

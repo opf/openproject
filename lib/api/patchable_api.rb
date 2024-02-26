@@ -44,7 +44,7 @@ module API
 
       def namespace(name, *args, &)
         super(name, *args) do
-          instance_eval(&)
+          instance_eval(&block)
           execute_patches_for(name)
         end
       end

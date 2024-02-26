@@ -262,7 +262,7 @@ class MeetingsController < ApplicationController
       .paginate(page: page_param, per_page: per_page_param)
   end
 
-  def set_time_zone(&)
+  def set_time_zone(&block)
     zone = User.current.time_zone
     if zone.nil?
       localzone = Time.current.utc_offset

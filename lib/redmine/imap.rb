@@ -94,7 +94,7 @@ module Redmine
         end
       end
 
-      def log_debug(&)
+      def log_debug(&block)
         logger.debug(yield) if logger && logger.debug?
       end
 

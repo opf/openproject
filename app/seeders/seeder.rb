@@ -95,7 +95,7 @@ class Seeder
     Seeder.logger.error message
   end
 
-  def without_notifications(&)
+  def without_notifications(&block)
     Journal::NotificationConfiguration.with(false, &)
   end
 end

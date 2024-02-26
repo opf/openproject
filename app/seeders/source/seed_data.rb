@@ -99,7 +99,7 @@ class Source::SeedData
     when nil
       nil
     when Enumerable
-      sub_data.each(&)
+      sub_data.each(&block)
     else
       raise ArgumentError, "expected an Enumerable at path #{path}, got #{sub_data.class}"
     end

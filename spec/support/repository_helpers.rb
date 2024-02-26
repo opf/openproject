@@ -50,11 +50,11 @@ def with_filesystem_repository(vendor, command = nil)
   yield(repo_dir)
 end
 
-def with_subversion_repository(&)
+def with_subversion_repository(&block)
   with_filesystem_repository('subversion', 'svn', &)
 end
 
-def with_git_repository(&)
+def with_git_repository(&block)
   with_filesystem_repository('git', 'git', &)
 end
 

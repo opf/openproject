@@ -89,7 +89,7 @@ module Components
         page.find(".generic-table--sort-header ##{name.downcase}").click
       end
 
-      def within_column_context_menu(&)
+      def within_column_context_menu(&block)
         page.within('#column-context-menu', &)
       end
     end
