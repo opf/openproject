@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/citizensadvice/capybara_accessible_selectors
-  revision: 621e394ff9bafb420fb15792c3a3e3334a618687
+  revision: 67bbac702fd039a81ce858f1157701b5a5b70cd1
   branch: main
   specs:
     capybara_accessible_selectors (0.11.0)
