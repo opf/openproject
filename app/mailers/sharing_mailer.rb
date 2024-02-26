@@ -20,10 +20,8 @@ class SharingMailer < ApplicationMailer
     set_open_project_headers(@work_package)
     message_id(membership, sharer)
 
-    with_locale_for(@shared_with_user) do
-      mail to: @shared_with_user.mail,
-           subject: I18n.t('mail.sharing.work_packages.subject',
-                           id: @work_package.id)
+    send_localized_mail(@shared_with_user) do
+      I18n.t('mail.sharing.work_packages.subject', id: @work_package.id)
     end
   end
 
