@@ -44,4 +44,5 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'OAuth'
   inflect.acronym 'OpenID'
   inflect.acronym 'ICal'
+  inflect.acronym 'ClamAV'
 end

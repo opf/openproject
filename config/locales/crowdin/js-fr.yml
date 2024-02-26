@@ -31,6 +31,7 @@ fr:
         Voulez-vous vraiment supprimer ce fichier ? Cette action est irréversible.
       draggable_hint: |
         Faites glisser le champ de l'éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l'éditeur seront ouverts tant que vous continuer à faire glisser.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Ajouter un élément"
       clear_all: "Tout réinitialiser"
@@ -493,7 +494,7 @@ fr:
     label_sort_lower: "Déplacer vers le bas"
     label_sorting: "Tri"
     label_spent_time: "Temps passé"
-    label_star_query: "Préféré"
+    label_star_query: "Favori"
     label_press_enter_to_save: "Appuyer sur \"entrée\" pour enregistrer."
     label_public_query: "Public"
     label_sum: "Total"

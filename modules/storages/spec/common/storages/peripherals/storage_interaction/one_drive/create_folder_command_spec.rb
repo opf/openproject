@@ -32,10 +32,17 @@ require 'spec_helper'
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolderCommand, :vcr, :webmock do
-  let(:storage) { create(:sharepoint_dev_drive_storage) }
-  let(:project) { create(:project) }
+  shared_let(:storage) { create(:sharepoint_dev_drive_storage) }
 
+  let(:delete_command) { Storages::Peripherals::Registry.resolve('commands.one_drive.delete_folder') }
   let(:folder_path) { 'Földer CreatedBy Çommand' }
+
+  shared_let(:original_ids) do
+    WebMock.enable! && VCR.turn_on!
+    VCR.use_cassette('one_drive/create_folder_setup') { original_files }
+  ensure
+    VCR.turn_off! && WebMock.disable!
+  end
 
   it 'responds to .call with correct parameters' do
     expect(described_class).to respond_to(:call)
@@ -55,30 +62,65 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
 
     expect(result.result.name).to eq(folder_path)
   ensure
-    if result.success?
-      Storages::Peripherals::Registry
-        .resolve('commands.one_drive.delete_folder')
-        .call(storage:, location: result.result.id)
-    end
+    delete_created_files
+  end
+
+  it 'creates a sub folder', vcr: 'one_drive/create_folder_sub_folder' do
+    folder = described_class.call(storage:, folder_path:).result
+    sub_folder = described_class.new(storage).call(folder_path: "Another Folder", parent_location: folder.id).result
+
+    expect(sub_folder.name).to eq("Another Folder")
+    expect(sub_folder.location).to eq("/#{folder_path}/Another Folder")
+  ensure
+    delete_created_files
   end
 
   context 'when the folder already exists', vcr: 'one_drive/create_folder_already_exists' do
     it 'returns a failure' do
-      original_folder = described_class.call(storage:, folder_path:)
+      described_class.call(storage:, folder_path:)
 
       result = described_class.call(storage:, folder_path:)
       expect(result).to be_failure
-
-      expect(result.result).to eq(:already_exists)
       expect(result.errors.code).to eq(:conflict)
 
       error_data = result.errors.data
-      error_payload = MultiJson.load(error_data.payload, symbolize_keys: true)
-      expect(error_payload.dig(:error, :code)).to eq('nameAlreadyExists')
+      expect(error_data.payload.status).to eq(409)
+      expect(error_data.payload.json.dig('error', 'code')).to match /nameAlreadyExists/
     ensure
-      Storages::Peripherals::Registry
-        .resolve('commands.one_drive.delete_folder')
-        .call(storage:, location: original_folder.result.id)
+      delete_created_files
+    end
+  end
+
+  private
+
+  def find_folder(folder_name, parent = nil)
+    Storages::Peripherals::StorageInteraction::OneDrive::Util.using_admin_token(storage) do |http|
+      uri = if parent.nil?
+              "/v1.0/drives/#{storage.drive_id}/root/children"
+            else
+              "/v1.0/drives/#{storage.drive_id}/items/#{parent[:id]}/children"
+            end
+
+      response = http.get(uri)
+
+      response.json(symbolize_keys: true).fetch(:value, []).find { |item| item[:name] == folder_name }
+    end
+  end
+
+  def original_files
+    Storages::Peripherals::StorageInteraction::OneDrive::Util.using_admin_token(storage) do |http|
+      response = http.get("/v1.0/drives/#{storage.drive_id}/root/children")
+
+      response.json(symbolize_keys: true).fetch(:value, []).pluck(:id)
+    end
+  end
+
+  def delete_created_files
+    Storages::Peripherals::StorageInteraction::OneDrive::Util.using_admin_token(storage) do |http|
+      response = http.get("/v1.0/drives/#{storage.drive_id}/root/children")
+      files = response.json(symbolize_keys: true).fetch(:value, []).pluck(:id)
+
+      (files - original_ids).each { |location| delete_command.call(storage:, location:) }
     end
   end
 end

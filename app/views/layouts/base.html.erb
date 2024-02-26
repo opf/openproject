@@ -158,8 +158,8 @@ See COPYRIGHT and LICENSE files for more details.
     var savedMainMenuWidth = window.OpenProject.guardedLocalStorage("openProject-mainMenuWidth");
     var mainMenuCollapsed =  window.OpenProject.guardedLocalStorage("openProject-mainMenuCollapsed");
 
-    if (window.innerWidth < 768) {
-      // force hide on load for tablet
+    if (window.innerWidth < 1012) {
+      // force hide on load for small desktops
       $('.can-hide-navigation').addClass('hidden-navigation');
     }
 

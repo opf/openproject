@@ -31,6 +31,7 @@ kk:
         Are you sure you want to delete this file? This action is not reversible.
       draggable_hint: |
         Drag on editor field to inline image or reference attachment. Closed editor fields will be opened while you keep dragging.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
@@ -101,7 +102,7 @@ kk:
     button_save: "Save"
     button_settings: "Settings"
     button_uncheck_all: "Uncheck all"
-    button_update: "Update"
+    button_update: "Жаңарту"
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
     button_create: "Create"

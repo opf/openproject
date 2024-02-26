@@ -56,6 +56,7 @@ module API
       # @param cache_seconds [integer] Time in seconds the cache headers signal the browser to cache the attachment.
       #                                Defaults to no cache headers.
       def respond_with_attachment(attachment, cache_seconds: nil)
+        validate_attachment_access!(attachment)
         prepare_cache_headers(cache_seconds) if cache_seconds
 
         if attachment.external_storage?
@@ -66,6 +67,18 @@ module API
       end
 
       private
+
+      def validate_attachment_access!(attachment)
+        if attachment.status_quarantined?
+          raise ::API::Errors::Unauthorized.new(message: I18n.t('antivirus_scan.quarantined_message',
+                                                                filename: attachment.filename))
+        end
+
+        if attachment.author != current_user && attachment.pending_virus_scan?
+          raise ::API::Errors::Unauthorized.new(message: I18n.t('antivirus_scan.not_processed_yet_message',
+                                                                filename: attachment.filename))
+        end
+      end
 
       def redirect_to_external_attachment(attachment, cache_seconds)
         set_cache_headers!

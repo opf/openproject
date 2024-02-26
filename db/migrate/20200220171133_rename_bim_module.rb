@@ -44,8 +44,8 @@ class RenameBimModule < ActiveRecord::Migration[6.0]
     end
 
     # Rename attachments container
-    Attachment.where(container_type: 'Bcf::Viewpoint').update_all(container_type: 'Bim::Bcf::Viewpoint')
-    Attachment.where(container_type: 'IFCModels::IFCModel').update_all(container_type: 'Bim::IfcModels::IfcModel')
+    execute "UPDATE attachments SET container_type = 'Bim::Bcf::Viewpoint' WHERE container_type = 'Bcf::Viewpoint'"
+    execute "UPDATE attachments SET container_type = 'Bim::IfcModels::IfcModel' WHERE container_type = 'IFCModels::IFCModel'"
   end
 
   def down
@@ -53,7 +53,7 @@ class RenameBimModule < ActiveRecord::Migration[6.0]
     EnabledModule.where(name: 'bim').update_all(name: 'bcf')
 
     # Rename attachments container
-    Attachment.where(container_type: 'Bim::Bcf::Viewpoint').update_all(container_type: 'Bcf::Viewpoint')
-    Attachment.where(container_type: 'Bim::IfcModel::IfcModel').update_all(container_type: 'IFCModels::IFCModel')
+    execute "UPDATE attachments SET container_type = 'Bcf::Viewpoint' WHERE container_type = 'Bim::Bcf::Viewpoint'"
+    execute "UPDATE attachments SET container_type = 'IfcModels::IfcModel' WHERE container_type = 'Bim::IFCModels::IFCModel'"
   end
 end

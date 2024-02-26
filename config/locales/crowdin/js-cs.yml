@@ -31,6 +31,7 @@ cs:
         Opravdu chcete odstranit tento soubor? Tato akce není vratná.
       draggable_hint: |
         Přetáhněte pole editoru na vložený obrázek nebo referenční přílohu. Uzavřená pole editoru budou otevřena během pokračujícího přetahování.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Přidat položku"
       clear_all: "Vymazat vše"
@@ -349,9 +350,9 @@ cs:
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
           '13_3':
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-0-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>Filter and save custom project lists.</li> <li>Separate Gantt charts module with new default views.</li> <li>Automatically managed project folders for OneDrive/SharePoint integration.</li> <li>Show number of "Shared users" in the share button and display them in the work packages list.</li> <li>Improved calculations and updates for progress reporting for work package hierarchies.</li> </ul>
+                Vydání obsahuje různé nové funkce a vylepšení: <br> <ul class="%{list_styling_class}"> <li>filtrovat a ukládat vlastní seznamy projektů.</li> <li>Oddělte Gantt grafy novým výchozím zobrazením.</li> <li>Automaticky spravované složky projektu pro integraci OneDrive/SharePoint</li> <li>Zobrazit počet "Sdílených uživatelů" v tlačítku sdílení a zobrazit je v seznamu pracovních balíčků.</li> <li>Vylepšené výpočty a aktualizace zpráv o pokroku pro hierarchie pracovních balíčků.</li> </ul>
     ical_sharing_modal:
       title: "Přihlásit kalendář k odběru"
       inital_setup_error_message: "Při načítání dat došlo k chybě."
@@ -468,7 +469,7 @@ cs:
     label_per_page: "Na stránku:"
     label_please_wait: "Čekejte prosím"
     label_project: "Projekt"
-    label_project_list: "Project lists"
+    label_project_list: "Seznamy projektů"
     label_project_plural: "Projekty"
     label_visibility_settings: "Viditelnost zobrazení"
     label_quote_comment: "Citovat tento komentář"
@@ -582,7 +583,7 @@ cs:
           full_view: 'Zobrazení <b>podrobností pracovního balíčku</b> poskytuje všechny relevantní informace týkající se daného pracovního balíčku, jako je popis, stav, priorita, činnosti, závislosti a komentáře.'
           back_button: 'Použijte šipku zpět v levém horním rohu pro ukončení a návrat do seznamu pracovních balíčků.'
           create_button: 'Tlačítko <b>Vytvořit</b> přidá do vašeho projektu nový pracovní balíček.'
-          gantt_menu: 'Create project schedules and timelines effortlessly using the Gantt chart module.'
+          gantt_menu: 'Vytvořte projektové plány a časové osy bez námahy pomocí modulu Ganttovy diagramy.'
           timeline: 'Zde můžete upravit váš projektový plán. Vytvářet nové fáze, milníky a přidat závislosti. Všichni členové týmu mohou kdykoliv zobrazit a aktualizovat aktuální plán.'
         team_planner:
           overview: 'Plánovač týmu vám umožní vizuálně přiřadit úkoly členům týmu a získat přehled o tom, kdo na čem pracuje.'
@@ -968,8 +969,8 @@ cs:
         createdAt: "Vytvořeno"
         description: "Popis"
         date: "Datum"
-        percentComplete: "% Complete"
-        percentCompleteAlternative: "Progress"
+        percentComplete: "% Dokončeno"
+        percentCompleteAlternative: "Průběh"
         dueDate: "Datum dokončení"
         duration: "Doba trvání"
         spentTime: "Strávený čas"
@@ -977,8 +978,8 @@ cs:
         percentageDone: "Procento hotovo"
         priority: "Priorita"
         projectName: "Projekt"
-        remainingWork: "Remaining work"
-        remainingWorkAlternative: "Remaining hours"
+        remainingWork: "Zbývající práce"
+        remainingWorkAlternative: "Zbývající hodiny"
         responsible: "Zodpovědný"
         startDate: "Datum zahájení"
         status: "Stav"
@@ -989,8 +990,8 @@ cs:
         updatedAt: "Aktualizováno"
         versionName: "Verze"
         version: "Verze"
-        work: "Work"
-        workAlternative: "Estimated time"
+        work: "Práce"
+        workAlternative: "Odhadovaný čas"
         remainingTime: "Zbývající práce"
       default_queries:
         latest_activity: "Poslední aktivita"

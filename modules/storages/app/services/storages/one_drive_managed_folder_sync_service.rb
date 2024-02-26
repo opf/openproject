@@ -32,7 +32,6 @@ module Storages
   class OneDriveManagedFolderSyncService
     using Peripherals::ServiceResultRefinements
 
-    DISALLOWED_CHARS = /[\\<>+?:"|\/]/
     OP_PERMISSIONS = %i[read_files write_files create_files delete_files share_files].freeze
 
     def self.call(storage)
@@ -69,11 +68,10 @@ module Storages
 
     def ensure_folders_exist(folder_map)
       active_project_storages_scope.includes(:project).find_each do |project_storage|
-        actual_path = project_folder_path(project_storage.project)
-        next create_folder(project_storage, actual_path) unless folder_map.key?(project_storage.project_folder_id)
+        next create_folder(project_storage) unless folder_map.key?(project_storage.project_folder_id)
 
-        if folder_map[project_storage.project_folder_id] != actual_path
-          rename_folder(project_storage.project_folder_id, actual_path)
+        if folder_map[project_storage.project_folder_id] != project_storage.managed_project_folder_path
+          rename_folder(project_storage.project_folder_id, project_storage.managed_project_folder_path)
         end
       end
 
@@ -101,10 +99,6 @@ module Storages
       end
     end
 
-    def project_folder_path(project)
-      "#{project.name} (#{project.id})".gsub(DISALLOWED_CHARS, '_').squish
-    end
-
     def set_permissions(path, permissions)
       Peripherals::Registry.resolve("commands.one_drive.set_permissions")
                            .call(storage: @storage, path:, permissions:)
@@ -120,11 +114,11 @@ module Storages
         .result_or { |error| format_and_log_error(error, source:, target:) }
     end
 
-    def create_folder(project_storage, folder_path)
+    def create_folder(project_storage)
       Peripherals::Registry
         .resolve('commands.one_drive.create_folder')
-        .call(storage: @storage, folder_path:)
-        .match(on_failure: ->(error) { format_and_log_error(error, folder_path:) },
+        .call(storage: @storage, folder_path: project_storage.managed_project_folder_path)
+        .match(on_failure: ->(error) { format_and_log_error(error, folder_path: project_storage.managed_project_folder_path) },
                on_success: ->(folder_info) do
                  last_project_folder = ::Storages::LastProjectFolder
                                          .find_by(

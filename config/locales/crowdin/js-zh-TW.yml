@@ -31,6 +31,7 @@ zh-TW:
         是否確定要刪除此檔？此操作無法撤銷。
       draggable_hint: |
         在編輯器欄位上拖動到內聯圖像或引用附件。在繼續拖動時, 將打開已關閉的編輯器欄位。
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Add item"
       clear_all: "Clear all"
@@ -458,7 +459,7 @@ zh-TW:
     label_no_value: "無值"
     label_none: "無"
     label_not_contains: "不包含"
-    label_not_equals: "不是"
+    label_not_equals: "不包含"
     label_on: "開啟"
     label_open_menu: "開啟選單"
     label_open_context_menu: "打開選單"
@@ -731,24 +732,24 @@ zh-TW:
           explanation: 'You will receive these reminders only for unread notifications and only at hours you specify. %{no_time_zone}'
           no_time_zone: 'Until you configure a time zone for your account, the times will be interpreted to be in UTC.'
           time_label: '時間 %{counter}:'
-          title: 'Send me daily email reminders for unread notifications'
+          title: '每日將尚未讀取之通知，寄提醒郵件給我'
         workdays:
           title: 'Receive email reminders on these days'
         immediate:
-          title: 'Send me an email reminder'
+          title: '寄發提醒郵件給我'
           mentioned: 'Immediately when someone @mentions me'
         alerts:
-          title: 'Email alerts for other items (that are not work packages)'
+          title: '其他非工作項目之提醒'
           explanation: >
             Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
           news_added: '消息已新增'
           news_commented: 'Comment on a news item'
-          document_added: 'Documents added'
+          document_added: '新增文件'
           forum_messages: 'New forum messages'
           wiki_page_added: '維基頁面已新增'
           wiki_page_updated: '維基頁面已更新'
-          membership_added: 'Membership added'
-          membership_updated: 'Membership updated'
+          membership_added: '成員加入'
+          membership_updated: '成員更新'
         title: '電子郵件提醒'
         pause:
           label: 'Temporarily pause daily email reminders'
@@ -994,7 +995,7 @@ zh-TW:
         created_by_me: "由我創建"
         assigned_to_me: "分配給我"
         recently_created: "最近創建的"
-        all_open: "全部打開"
+        all_open: "所有進行中工作"
         summary: "大綱"
         shared_with_users: "分配給非專案成員"
       jump_marks:
@@ -1260,15 +1261,15 @@ zh-TW:
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: '繼續'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: '包含的專案'
       title: '專案'
-      clear_selection: 'Clear selection'
+      clear_selection: '清除選擇'
       apply: '套用'
       selected_filter:
         all: '所有專案'
-        selected: 'Only selected'
+        selected: '僅所選專案'
       search_placeholder: 'Search project...'
-      include_subprojects: 'Include all sub-projects'
+      include_subprojects: '包含子專案'
       tooltip:
         include_all_selected: 'Project already included since Include all sub-projects is enabled.'
         current_project: 'This is the current project you are in.'

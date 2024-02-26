@@ -4,6 +4,7 @@ require "support/pages/work_packages/abstract_work_package"
 RSpec.describe "multi select custom values", :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
   let(:current_user) { admin }
+  let(:wp_page) { Pages::FullWorkPackage.new work_package }
   let(:cf_edit_field) do
     field = wp_page.edit_field custom_field.attribute_name(:camel_case)
     field.field_type = 'create-autocompleter'
@@ -24,8 +25,6 @@ RSpec.describe "multi select custom values", :js, :with_cuprite do
       projects: [project]
     )
   end
-
-  let(:wp_page) { Pages::FullWorkPackage.new work_package }
 
   before do
     login_as current_user

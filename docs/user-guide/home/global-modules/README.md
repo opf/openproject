@@ -32,9 +32,9 @@ You can create a new project here directly by using the  **+ Project** button.
 
 **Active projects** is the default view and shows only active projects. If you do not have administrator rights, this view will be the same as **My projects**.
 
-Read more on [Projects lists filters](../../../user-guide/projects/projects-lists/#projects-lists-filters).
+Read more on [Project lists filters](../../../user-guide/projects/project-lists/#project-lists-filters).
 
->**Note:** You can also access the **Projects** global module by opening the [Select a project dropdown menu](../../../user-guide/projects/projects-lists/) and by clicking the **Projects list** button, or by clicking on the **Modules** button in the header next to the search bar and the selecting **Projects** in the menu that appears.
+>**Note:** You can also access the **Projects** global module by opening the [Select a project dropdown menu](../../../user-guide/projects/project-lists/) and by clicking the **Project lists** button, or by clicking on the **Modules** button in the header next to the search bar and the selecting **Projects** in the menu that appears.
 
 ## Activity
 

@@ -92,6 +92,23 @@ module Settings
         description: 'Time in minutes to wait before uploaded files not attached to any container are removed',
         default: 180
       },
+      antivirus_scan_mode: {
+        description: 'Virus scanning option for files uploaded to OpenProject',
+        format: :symbol,
+        default: :disabled,
+        allowed: %i[disabled clamav_socket clamav_host]
+      },
+      antivirus_scan_target: {
+        description: 'The socket or hostname to connect to ClamAV',
+        format: :string,
+        default: nil
+      },
+      antivirus_scan_action: {
+        description: 'Virus scanning action for found infected files',
+        format: :symbol,
+        default: :quarantine,
+        allowed: %i[quarantine delete]
+      },
       auth_source_sso: {
         description: 'Configuration for Header-based Single Sign-On',
         format: :hash,
@@ -826,7 +843,7 @@ module Settings
       sendmail_arguments: {
         description: 'Arguments to call sendmail with in case it is configured as outgoing email setup',
         format: :string,
-        default: "-i",
+        default: "-i"
       },
       sendmail_location: {
         description: 'Location of sendmail to call if it is configured as outgoing email setup',
