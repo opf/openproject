@@ -12,8 +12,6 @@
         { action: :confirm_otp },
         id: 'submit_otp',
         autocomplete: "off", data: {
-                                        controller: "two-factor-authentication",
-                                application_target: "dynamic",
                                 challenge_url: url_for(action: :webauthn_challenge, format: :json),
                                 device_type: @used_device.class.device_type,
                                 action: "submit->two-factor-authentication#onVerifyDevice"}) do %>
