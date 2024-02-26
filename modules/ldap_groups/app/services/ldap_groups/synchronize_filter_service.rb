@@ -57,7 +57,7 @@ module LdapGroups
 
     ##
     # Perform the LDAP search for the groups
-    def search(filter, ldap_con, &)
+    def search(filter, ldap_con, &block)
       ldap_con.search(
         base: filter.used_base_dn,
         filter: filter.parsed_filter_string,

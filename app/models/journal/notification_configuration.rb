@@ -35,14 +35,14 @@ class Journal::NotificationConfiguration
     # In case the method is called multiple times within itself, the first setting prevails.
     # This allows to control the setting globally without having to pass the setting down the call stack in
     # order to ensure all subsequent code follows the provided setting.
-    def with(send_notifications, &)
+    def with(send_notifications, &block)
       if send_notifications.nil?
         yield
       elsif already_set?
         log_warning(send_notifications)
         yield
       else
-        with_first(send_notifications, &)
+        with_first(send_notifications, &block)
       end
     end
 

@@ -36,7 +36,7 @@ module Pages::StructuredMeeting
       expect(page).to have_no_css('[id^="meeting-agenda-items-item-component"]')
     end
 
-    def add_agenda_item(type: MeetingAgendaItem, &)
+    def add_agenda_item(type: MeetingAgendaItem, &block)
       page.within("#meeting-agenda-items-new-button-component") do
         click_button I18n.t(:button_add)
         click_link type.model_name.human
@@ -63,7 +63,7 @@ module Pages::StructuredMeeting
     end
 
     def in_agenda_form(&block)
-      page.within('#meeting-agenda-items-form-component', &)
+      page.within('#meeting-agenda-items-form-component', &block)
     end
 
     def assert_agenda_order!(*titles)
@@ -119,10 +119,10 @@ module Pages::StructuredMeeting
       end
     end
 
-    def edit_agenda_item(item, &)
+    def edit_agenda_item(item, &block)
       select_action item, 'Edit'
       expect_item_edit_form(item)
-      page.within("#meeting-agenda-items-form-component-#{item.id}", &)
+      page.within("#meeting-agenda-items-form-component-#{item.id}", &block)
     end
 
     def expect_item_edit_form(item, visible: true)
@@ -151,7 +151,7 @@ module Pages::StructuredMeeting
     end
 
     def in_participant_form(&block)
-      page.within('#meetings-sidebar-participants-form-component form', &)
+      page.within('#meetings-sidebar-participants-form-component form', &block)
     end
 
     def expect_participant(participant, invited: false, attended: false, editable: true)

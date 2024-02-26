@@ -29,11 +29,11 @@
 class Widget::Settings::Fieldset < Widget::Base
   dont_cache!
 
-  def render_with_options(options, &)
+  def render_with_options(options, &block)
     @type = options.delete(:type) || 'filter'
     @id = @type.to_s
     @label = :"label_#{@type}"
-    super(options, &)
+    super(options, &block)
   end
 
   def render

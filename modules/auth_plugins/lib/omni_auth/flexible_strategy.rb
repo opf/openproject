@@ -90,8 +90,8 @@ module OmniAuth
   end
 
   module FlexibleStrategyClass
-    def new(app, *args, &)
-      super(app, *args, &).tap do |strategy|
+    def new(app, *args, &block)
+      super(app, *args, &block).tap do |strategy|
         strategy.extend FlexibleStrategy
       end
     end

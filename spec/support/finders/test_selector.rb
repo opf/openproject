@@ -36,8 +36,8 @@ module TestSelectorFinders
     find(:test_id, value, **)
   end
 
-  def within_test_selector(value, **, &)
-    within(:test_id, value, **, &)
+  def within_test_selector(value, **, &block)
+    within(:test_id, value, **, &block)
   end
 
   # expect(page).to have_test_selector('foo')

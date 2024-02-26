@@ -266,8 +266,8 @@ module Redmine # :nodoc:
     end
     alias :add_menu_item :menu
 
-    def configure_menu(menu_name, &)
-      Redmine::MenuManager.map(menu_name, &)
+    def configure_menu(menu_name, &block)
+      Redmine::MenuManager.map(menu_name, &block)
     end
 
     # Removes +item+ from the given +menu+.
@@ -337,7 +337,7 @@ module Redmine # :nodoc:
     #     permission :view_contacts, { contacts: [:list, :show] }, public: true
     #     permission :destroy_contacts, { contacts: :destroy }
     #   end
-    def project_module(name, options = {}, &)
+    def project_module(name, options = {}, &block)
       plugin = self
       Rails.application.reloader.to_prepare do
         plugin.instance_eval { @project_scope = [name, options] }

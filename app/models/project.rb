@@ -388,20 +388,20 @@ class Project < ApplicationRecord
       sort_by_name(result)
     end
 
-    def project_tree_from_hierarchy(projects_hierarchy, level, &)
+    def project_tree_from_hierarchy(projects_hierarchy, level, &block)
       projects_hierarchy.each do |hierarchy|
         project = hierarchy[:project]
         children = hierarchy[:children]
         yield project, level
         # recursively show children
-        project_tree_from_hierarchy(children, level + 1, &) if children.any?
+        project_tree_from_hierarchy(children, level + 1, &block) if children.any?
       end
     end
 
     # Yields the given block for each project with its level in the tree
-    def project_tree(projects, &)
+    def project_tree(projects, &block)
       projects_hierarchy = build_projects_hierarchy(projects)
-      project_tree_from_hierarchy(projects_hierarchy, 0, &)
+      project_tree_from_hierarchy(projects_hierarchy, 0, &block)
     end
 
     private

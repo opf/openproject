@@ -34,19 +34,19 @@ class Report::Walker
   end
 
   def for_row(&block)
-    access_block(:row, &)
+    access_block(:row, &block)
   end
 
   def for_final_row(&block)
-    access_block(:final_row, &) || access_block(:row)
+    access_block(:final_row, &block) || access_block(:row)
   end
 
   def for_cell(&block)
-    access_block(:cell, &)
+    access_block(:cell, &block)
   end
 
   def for_empty_cell(&block)
-    access_block(:empty_cell, &) || access_block(:cell)
+    access_block(:empty_cell, &block) || access_block(:cell)
   end
 
   def access_block(name, &block)
@@ -59,7 +59,7 @@ class Report::Walker
     cell ? for_cell[cell] : for_empty_cell[nil]
   end
 
-  def headers(result = nil, &)
+  def headers(result = nil, &block)
     @header_stack = []
     result ||= query.column_first
     sort result
@@ -113,7 +113,7 @@ class Report::Walker
     result.sort!
   end
 
-  def body(result = nil, &)
+  def body(result = nil, &block)
     return [*body(result)].each(&block) if block_given?
 
     result ||= query.result.tap { |r| sort(r) }

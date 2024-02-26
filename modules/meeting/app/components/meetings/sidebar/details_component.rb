@@ -48,13 +48,13 @@ module Meetings
       end
     end
 
-    def render_meeting_attribute_row(icon, &)
+    def render_meeting_attribute_row(icon, &block)
       flex_layout(align_items: :center, justify_content: :space_between) do |flex|
         flex.with_column do
           render(Primer::Beta::Octicon.new(icon:))
         end
 
-        flex.with_column(flex: 1, ml: 1, &)
+        flex.with_column(flex: 1, ml: 1, &block)
       end
     end
   end

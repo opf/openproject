@@ -341,11 +341,11 @@ module SortHelper
     end
   end
 
-  def within_sort_header_tag_hierarchy(options, classes, &)
+  def within_sort_header_tag_hierarchy(options, classes, &block)
     content_tag 'th', options do
       content_tag 'div', class: 'generic-table--sort-header-outer' do
         content_tag 'div', class: 'generic-table--sort-header' do
-          content_tag('span', class: classes, &)
+          content_tag('span', class: classes, &block)
         end
       end
     end

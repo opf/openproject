@@ -63,7 +63,7 @@ module VirtualAttribute
       end
     end
 
-    def _define_virtual_attribute_getter(attribute, &)
+    def _define_virtual_attribute_getter(attribute, &block)
       define_method attribute do
         if instance_variable_get(:"@#{attribute}_set")
           instance_variable_get(:"@#{attribute}")

@@ -70,6 +70,6 @@ module ToolbarHelper
   def dom_toolbar(&block)
     return '' unless block_given?
 
-    content_tag(:ul, class: 'toolbar-items', &)
+    content_tag(:ul, class: 'toolbar-items', &block)
   end
 end

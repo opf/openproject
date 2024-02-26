@@ -34,7 +34,7 @@ namespace :openproject do
     task update: %w[openproject:dependencies:update:gems]
 
     namespace :update do
-      def parse_capture(capture, &)
+      def parse_capture(capture, &block)
         capture
           .split("\n")
           .filter_map(&block)

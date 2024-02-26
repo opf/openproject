@@ -68,8 +68,8 @@ module Pages
         item_title(notification).double_click
       end
 
-      def within_item(notification, &)
-        page.within("[data-test-selector='op-ian-notification-item-#{notification.id}']", &)
+      def within_item(notification, &block)
+        page.within("[data-test-selector='op-ian-notification-item-#{notification.id}']", &block)
       end
 
       def expect_item(notification, expected_text = notification.subject)

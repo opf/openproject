@@ -123,10 +123,10 @@ module Pages
       page.find(%([data-qa-remove-assignee="#{user.id}"])).click
     end
 
-    def within_lane(user, &)
+    def within_lane(user, &block)
       raise ArgumentError.new("Expected instance of principal") unless user.is_a?(Principal)
 
-      page.within(lane(user), &)
+      page.within(lane(user), &block)
     end
 
     def expect_event(work_package, present: true)

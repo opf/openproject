@@ -40,8 +40,8 @@ end
 module WithEnvMixin
   module_function
 
-  def with_env(environment_overrides, &)
-    ClimateControl.modify(environment_overrides, &)
+  def with_env(environment_overrides, &block)
+    ClimateControl.modify(environment_overrides, &block)
   end
 end
 

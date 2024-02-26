@@ -44,7 +44,7 @@ module Pages
       end
 
       def within_sidebar(&block)
-        within('#menu-sidebar', &)
+        within('#menu-sidebar', &block)
       end
 
       def toast_type

@@ -501,10 +501,10 @@ class User < Principal
     RequestStore[:current_user] || User.anonymous
   end
 
-  def self.execute_as(user, &)
+  def self.execute_as(user, &block)
     previous_user = User.current
     User.current = user
-    OpenProject::LocaleHelper.with_locale_for(user, &)
+    OpenProject::LocaleHelper.with_locale_for(user, &block)
   ensure
     User.current = previous_user
   end

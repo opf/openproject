@@ -66,7 +66,7 @@ module Queries::Register
       @columns[query] << column
     end
 
-    def register(query, &)
+    def register(query, &block)
       Registration.new(query).instance_exec(&block)
     end
 

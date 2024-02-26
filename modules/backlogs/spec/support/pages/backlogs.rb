@@ -264,7 +264,7 @@ module Pages
       backlogs_project_backlogs_path(project)
     end
 
-    def within_backlog_menu(backlog, &)
+    def within_backlog_menu(backlog, &block)
       within_backlog(backlog) do
         menu = find('.backlog-menu')
         menu.click
@@ -275,12 +275,12 @@ module Pages
 
     private
 
-    def within_story(story, &)
-      within(story_selector(story), &)
+    def within_story(story, &block)
+      within(story_selector(story), &block)
     end
 
-    def within_backlog(backlog, &)
-      within(backlog_selector(backlog), &)
+    def within_backlog(backlog, &block)
+      within(backlog_selector(backlog), &block)
     end
 
     def backlog_selector(backlog)

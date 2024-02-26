@@ -131,7 +131,7 @@ module Report
 
     def each(&block)
       yield self
-      child.try(:each, &)
+      child.try(:each, &block)
     end
 
     def row?
@@ -218,14 +218,14 @@ module Report
       end
     end
 
-    def chain_collect(name, *, &)
-      top.subchain_collect(name, *, &)
+    def chain_collect(name, *, &block)
+      top.subchain_collect(name, *, &block)
     end
 
     # See #chain_collect
-    def subchain_collect(name, *, &)
-      subchain = child.subchain_collect(name, *, &) unless bottom?
-      [* send(name, *, &)].push(*subchain).compact.uniq
+    def subchain_collect(name, *, &block)
+      subchain = child.subchain_collect(name, *, &block) unless bottom?
+      [* send(name, *, &block)].push(*subchain).compact.uniq
     end
 
     # overwrite in subclass to maintain constisten state

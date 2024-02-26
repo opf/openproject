@@ -32,26 +32,26 @@ module PasswordHelper
   ##
   # Decorate the form_for helper with the request-for-confirmation directive
   # when the user is internally authenticated.
-  def password_confirmation_form_for(record, options = {}, &)
+  def password_confirmation_form_for(record, options = {}, &block)
     if password_confirmation_required?
       options.reverse_merge!(html: {})
       data = options[:html].fetch(:data, {})
       options[:html][:data] = password_confirmation_data_attribute(data)
     end
 
-    form_for(record, options, &)
+    form_for(record, options, &block)
   end
 
   ##
   # Decorate the form_tag helper with the request-for-confirmation directive
   # when the user is internally authenticated.
-  def password_confirmation_form_tag(url_for_options = {}, options = {}, &)
+  def password_confirmation_form_tag(url_for_options = {}, options = {}, &block)
     if password_confirmation_required?
       data = options.fetch(:data, {})
       options[:data] = password_confirmation_data_attribute(data)
     end
 
-    form_tag(url_for_options, options, &)
+    form_tag(url_for_options, options, &block)
   end
 
   def password_confirmation_data_attribute(with_data = {})

@@ -27,11 +27,11 @@
 #++
 
 class Widget::CostTypes < Widget::Base
-  def render_with_options(options, &)
+  def render_with_options(options, &block)
     @cost_types = options.delete(:cost_types)
     @selected_type_id = options.delete(:selected_type_id)
 
-    super(options, &)
+    super(options, &block)
   end
 
   def render

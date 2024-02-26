@@ -28,31 +28,31 @@
 
 module OpPrimer
   module ComponentHelpers
-    def flex_layout(**, &)
-      render(Primer::OpenProject::FlexLayout.new(**), &)
+    def flex_layout(**, &block)
+      render(Primer::OpenProject::FlexLayout.new(**), &block)
     end
 
-    def grid_layout(css_class, **, &)
-      render(Primer::OpenProject::GridLayout.new(css_class:, **), &)
+    def grid_layout(css_class, **, &block)
+      render(Primer::OpenProject::GridLayout.new(css_class:, **), &block)
     end
 
-    def box_collection(**, &)
-      render(OpPrimer::BoxCollectionComponent.new(**), &)
+    def box_collection(**, &block)
+      render(OpPrimer::BoxCollectionComponent.new(**), &block)
     end
 
-    def component_collection(**, &)
-      render(OpPrimer::ComponentCollectionComponent.new(**), &)
+    def component_collection(**, &block)
+      render(OpPrimer::ComponentCollectionComponent.new(**), &block)
     end
 
-    def border_box_row(wrapper_arguments, &)
+    def border_box_row(wrapper_arguments, &block)
       if container
-        container.with_row(**wrapper_arguments, &)
+        container.with_row(**wrapper_arguments, &block)
       else
         container = Primer::Beta::BorderBox.new
         row = container.registered_slots[:rows][:renderable_function]
                        .bind_call(container, **wrapper_arguments)
 
-        render(row, &)
+        render(row, &block)
       end
     end
   end

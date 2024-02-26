@@ -155,11 +155,11 @@ module ProjectsHelper
     end
   end
 
-  def projects_with_levels_order_sensitive(projects, &)
+  def projects_with_levels_order_sensitive(projects, &block)
     if sorted_by_lft?
-      project_tree(projects, &)
+      project_tree(projects, &block)
     else
-      projects_with_level(projects, &)
+      projects_with_level(projects, &block)
     end
   end
 

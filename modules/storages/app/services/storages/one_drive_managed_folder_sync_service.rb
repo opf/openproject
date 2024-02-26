@@ -158,7 +158,7 @@ module Storages
     end
 
     def using_admin_token(&block)
-      Peripherals::StorageInteraction::OneDrive::Util.using_admin_token(@storage, &)
+      Peripherals::StorageInteraction::OneDrive::Util.using_admin_token(@storage, &block)
     end
 
     def project_tokens(project_storage)

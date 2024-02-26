@@ -57,8 +57,8 @@ module Components
         end
       end
 
-      def within_modal(name = nil, **options, &)
-        super(name, **options, &)
+      def within_modal(name = nil, **options, &block)
+        super(name, **options, &block)
       end
 
       def modal_element

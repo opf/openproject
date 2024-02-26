@@ -955,7 +955,7 @@ et:
               lowercase: "väiketäht (näiteks \"a\")"
               uppercase: "suurtäht (näiteks 'A')"
               numeric: "arvuline (nt 1, 2, 3)"
-              special: "erimärk (nt %, &)"
+              special: "erimärk (nt %, &block)"
               reused:
                 one: "Vali uus parool, mis erineb eelmisest paroolist."
                 other: "Vali uus parool, mis erineb eelmiselt kasutatud %{count}-st paroolist."

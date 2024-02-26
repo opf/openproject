@@ -27,7 +27,7 @@
 #++
 
 module Shared::BlockService
-  def block_with_result(result, &)
+  def block_with_result(result, &block)
     if block_given?
       yield result
     else

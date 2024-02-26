@@ -70,8 +70,8 @@ module Pages
       page.all('[data-test-selector="op-board-list"]').count
     end
 
-    def within_list(name, &)
-      page.within(list_selector(name), &)
+    def within_list(name, &block)
+      page.within(list_selector(name), &block)
     end
 
     def list_selector(name)

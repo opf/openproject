@@ -270,7 +270,7 @@ class MeetingsController < ApplicationController
       zone = ::ActiveSupport::TimeZone[localzone]
     end
 
-    Time.use_zone(zone, &)
+    Time.use_zone(zone, &block)
   end
 
   def build_meeting

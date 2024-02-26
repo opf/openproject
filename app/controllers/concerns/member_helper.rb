@@ -79,7 +79,7 @@ module MemberHelper
     !OpenProject::Enterprise.user_limit_reached? || !OpenProject::Enterprise.fail_fast?
   end
 
-  def each_comma_separated(array, &)
+  def each_comma_separated(array, &block)
     array.map(&block).flatten
   end
 

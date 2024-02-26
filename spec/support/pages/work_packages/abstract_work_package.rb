@@ -54,7 +54,7 @@ module Pages
     end
 
     def within_active_tab(&block)
-      within('.work-packages-full-view--split-right .work-packages--panel-inner', &)
+      within('.work-packages-full-view--split-right .work-packages--panel-inner', &block)
     end
 
     def edit_field(attribute)
@@ -113,10 +113,10 @@ module Pages
       )
     end
 
-    def expect_group(name, &)
+    def expect_group(name, &block)
       expect(page).to have_css('.attributes-group--header-text', text: name.upcase)
       if block_given?
-        page.within(".attributes-group[data-group-name='#{name}']", &)
+        page.within(".attributes-group[data-group-name='#{name}']", &block)
       end
     end
 

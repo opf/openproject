@@ -146,7 +146,7 @@ module WorkPackagesHelper
     end.html_safe
   end
 
-  def work_package_list(work_packages, &)
+  def work_package_list(work_packages, &block)
     ancestors = []
     work_packages.each do |work_package|
       while ancestors.any? && !work_package.is_descendant_of?(ancestors.last)

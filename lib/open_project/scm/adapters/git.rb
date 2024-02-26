@@ -502,7 +502,7 @@ module OpenProject
         # Runs the given arguments through git
         # and processes the result line by line.
         #
-        def parse_by_line(cmd, opts = {}, &)
+        def parse_by_line(cmd, opts = {}, &block)
           popen3(cmd) do |io|
             io.binmode if opts[:binmode]
             io.each_line(&block)

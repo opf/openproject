@@ -52,21 +52,21 @@ class Widget::ReportingWidget < ActionView::Base
     false
   end
 
-  def method_missing(name, *, &)
-    controller.send(name, *, &)
+  def method_missing(name, *, &block)
+    controller.send(name, *, &block)
   rescue NoMethodError
     raise NoMethodError, "undefined method `#{name}' for #<#{self.class}:0x#{object_id}>"
   end
 
   module RenderWidgetInstanceMethods
-    def render_widget(widget, subject, options = {}, &)
+    def render_widget(widget, subject, options = {}, &block)
       i = widget.new(subject)
       i.config = config
       i._routes = _routes
       i._content_for = @_content_for
       i.controller = respond_to?(:controller) ? controller : self
       i.request = request
-      i.render_with_options(options, &)
+      i.render_with_options(options, &block)
     end
   end
 end

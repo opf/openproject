@@ -94,7 +94,7 @@ class Source::SeedData
     end
   end
 
-  def each(path, &)
+  def each(path, &block)
     case sub_data = fetch(path)
     when nil
       nil

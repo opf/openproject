@@ -149,10 +149,10 @@ module API
           end
         end
 
-        def reformated(setting, &)
+        def reformated(setting, &block)
           setting
             .to_s
-            .gsub(/%\w/, &)
+            .gsub(/%\w/, &block)
             .presence
         end
       end

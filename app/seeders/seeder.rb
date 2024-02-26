@@ -96,6 +96,6 @@ class Seeder
   end
 
   def without_notifications(&block)
-    Journal::NotificationConfiguration.with(false, &)
+    Journal::NotificationConfiguration.with(false, &block)
   end
 end

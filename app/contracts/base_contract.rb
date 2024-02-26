@@ -67,7 +67,7 @@ class BaseContract < Disposable::Twin
       attribute_aliases[db] = outside
     end
 
-    def property(name, options = {}, &)
+    def property(name, options = {}, &block)
       if (twin = options.delete(:form))
         options[:twin] = twin
       end

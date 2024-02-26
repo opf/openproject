@@ -94,7 +94,7 @@ module Components
       private
 
       def within_menu(&block)
-        within(:menu, work_package_context_menu_label, &)
+        within(:menu, work_package_context_menu_label, &block)
       end
 
       def work_package_context_menu_label

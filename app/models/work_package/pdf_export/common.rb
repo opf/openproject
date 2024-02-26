@@ -64,9 +64,9 @@ module WorkPackage::PDFExport::Common
     raise ::Exports::ExportError.new message
   end
 
-  def with_margin(opts, &)
+  def with_margin(opts, &block)
     with_vertical_margin(opts) do
-      pdf.indent(opts[:left_margin] || 0, opts[:right_margin] || 0, &)
+      pdf.indent(opts[:left_margin] || 0, opts[:right_margin] || 0, &block)
     end
   end
 
@@ -130,12 +130,12 @@ module WorkPackage::PDFExport::Common
     pdf.add_dest(id.to_s, pdf_dest)
   end
 
-  def pdf_table_auto_widths(data, column_widths, options, &)
+  def pdf_table_auto_widths(data, column_widths, options, &block)
     return if data.empty?
 
-    pdf.table(data, options.merge({ width: pdf.bounds.width }), &)
+    pdf.table(data, options.merge({ width: pdf.bounds.width }), &block)
   rescue Prawn::Errors::CannotFit
-    pdf.table(data, options.merge({ column_widths: }), &)
+    pdf.table(data, options.merge({ column_widths: }), &block)
   end
 
   def draw_text_multiline_left(text:, text_style:, max_left:, top:, max_lines:)

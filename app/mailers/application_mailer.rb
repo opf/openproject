@@ -44,7 +44,7 @@ class ApplicationMailer < ActionMailer::Base
 
   class << self
     # Activates/deactivates email deliveries during +block+
-    def with_deliveries(temporary_state = true, &)
+    def with_deliveries(temporary_state = true, &block)
       old_state = ActionMailer::Base.perform_deliveries
       ActionMailer::Base.perform_deliveries = temporary_state
       yield

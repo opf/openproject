@@ -41,6 +41,6 @@ RSpec.shared_context 'work package table helpers' do
   end
 
   def within_wp_table(&block)
-    within('.work-package-table--container', &)
+    within('.work-package-table--container', &block)
   end
 end

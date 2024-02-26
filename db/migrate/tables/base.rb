@@ -41,7 +41,7 @@ class Tables::Base
     { id: :integer }
   end
 
-  def self.create_table(migration, &)
+  def self.create_table(migration, &block)
     migration.create_table table_name, **id_options.merge(bulk: true), &
   end
 

@@ -98,9 +98,9 @@ module Pages
 
         private
 
-        def within_placeholder_user_row(placeholder_user, &)
+        def within_placeholder_user_row(placeholder_user, &block)
           row = find('tr.placeholder_user td.name', text: placeholder_user.name).ancestor('tr')
-          within(row, &)
+          within(row, &block)
         end
       end
     end

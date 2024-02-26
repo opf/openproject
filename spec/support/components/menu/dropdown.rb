@@ -45,7 +45,7 @@ module Components
     end
 
     def within_dropdown(&block)
-      page.within('.op-app-menu--dropdown', &)
+      page.within('.op-app-menu--dropdown', &block)
     end
 
     def trigger_element

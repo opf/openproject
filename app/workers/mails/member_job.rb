@@ -98,7 +98,7 @@ class Mails::MemberJob < ApplicationJob
       .deliver_now
   end
 
-  def every_group_user_member(member, &)
+  def every_group_user_member(member, &block)
     Member
       .of_project(member.project)
       .where(principal: member.principal.users)

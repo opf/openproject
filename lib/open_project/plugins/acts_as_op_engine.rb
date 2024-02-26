@@ -203,25 +203,25 @@ module OpenProject::Plugins
         Constants::Views.add(type, contract_strategy:)
       end
 
-      def add_api_path(path_name, &)
+      def add_api_path(path_name, &block)
         config.to_prepare do
           ::API::V3::Utilities::PathHelper::ApiV3Path.class_eval do
             singleton_class.instance_eval do
-              define_method(path_name, &)
+              define_method(path_name, &block)
             end
           end
         end
       end
 
-      def add_api_endpoint(base_endpoint, path = nil, &)
+      def add_api_endpoint(base_endpoint, path = nil, &block)
         # we are expecting the base_endpoint as string for two reasons:
         # 1. it does not seem possible to pass it as constant (auto loader not ready yet)
         # 2. we can't constantize it here, because that would evaluate
         #    the API before it can be patched
-        ::Constants::APIPatchRegistry.add_patch(base_endpoint, path, &)
+        ::Constants::APIPatchRegistry.add_patch(base_endpoint, path, &block)
       end
 
-      def extend_api_response(*args, &)
+      def extend_api_response(*args, &block)
         config.to_prepare do
           representer_namespace = args.map { |arg| arg.to_s.camelize }.join('::')
           representer_class     = "::API::#{representer_namespace}Representer".constantize

@@ -107,9 +107,9 @@ module Pages
 
         private
 
-        def within_user_row(user, &)
+        def within_user_row(user, &block)
           row = find('tr.user', text: user.login)
-          within(row, &)
+          within(row, &block)
         end
       end
     end

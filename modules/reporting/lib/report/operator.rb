@@ -268,7 +268,7 @@ class Report::Operator
     @force
   end
 
-  def self.new(name, values = {}, &)
+  def self.new(name, values = {}, &block)
     all[name.to_s] ||= super
   end
 

@@ -314,7 +314,7 @@ module OpenProject
           )
         end
 
-        def fetch_revision_entries(identifier_from, identifier_to, options, path, &)
+        def fetch_revision_entries(identifier_from, identifier_to, options, path, &block)
           path ||= ''
           identifier_from = numeric_identifier(identifier_from, 'HEAD')
           identifier_to = numeric_identifier(identifier_to, 1)

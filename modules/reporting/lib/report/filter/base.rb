@@ -96,7 +96,7 @@ class Report::Filter
 
     use :default_operators
 
-    def self.new(*args, &) # :nodoc:
+    def self.new(*args, &block) # :nodoc:
       # this class is abstract. instances are only allowed from child classes
       raise "#{name} is an abstract class" if base?
 

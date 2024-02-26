@@ -99,7 +99,7 @@ module Components
     end
 
     def within_body(&block)
-      page.within(body_selector, &)
+      page.within(body_selector, &block)
     end
 
     def body_element

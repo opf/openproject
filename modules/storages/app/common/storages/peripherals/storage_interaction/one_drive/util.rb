@@ -36,7 +36,7 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
       json.dig(:file, :mimeType) || (json.key?(:folder) ? 'application/x-op-directory' : nil)
     end
 
-    def using_user_token(storage, user, &)
+    def using_user_token(storage, user, &block)
       connection_manager = ::OAuthClients::ConnectionManager
         .new(user:, configuration: storage.oauth_configuration)
 

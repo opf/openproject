@@ -55,7 +55,7 @@ module Mail
 
     def start_smtp_session(&block)
       build_smtp_session.start(settings[:domain], settings[:user_name], settings[:password],
-                               settings[:authentication], &)
+                               settings[:authentication], &block)
     end
 
     # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity

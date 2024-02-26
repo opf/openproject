@@ -74,10 +74,10 @@ module ::Widget
     # Render this widget, passing options.
     # Available options:
     #   :to => canvas - The canvas (streaming or otherwise) to render to. Has to respond to #write
-    def render_with_options(options = {}, &)
+    def render_with_options(options = {}, &block)
       set_canvas(options.delete(:to)) if options.has_key? :to
       @options = options
-      render_with_cache(options, &)
+      render_with_cache(options, &block)
       @output
     end
 
@@ -103,7 +103,7 @@ module ::Widget
 
     ##
     # Render this widget or serve it from cache
-    def render_with_cache(_options = {}, &)
+    def render_with_cache(_options = {}, &block)
       if cached?
         write Rails.cache.fetch(cache_key)
       else

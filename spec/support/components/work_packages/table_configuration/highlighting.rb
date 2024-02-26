@@ -93,7 +93,7 @@ module Components
       private
 
       def within_modal(&block)
-        page.within('.wp-table--configuration-modal', &)
+        page.within('.wp-table--configuration-modal', &block)
       end
 
       def modal_open?

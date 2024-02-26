@@ -77,8 +77,8 @@ module Pages
       end
     end
 
-    def in_user_row(user, &)
-      page.within(".principal-#{user.id}", &)
+    def in_user_row(user, &block)
+      page.within(".principal-#{user.id}", &block)
     end
 
     ##

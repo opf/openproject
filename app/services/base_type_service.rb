@@ -38,10 +38,10 @@ class BaseTypeService
     self.contract_class = ::Types::BaseContract
   end
 
-  def call(params, options, &)
+  def call(params, options, &block)
     result = update(params, options)
 
-    block_with_result(result, &)
+    block_with_result(result, &block)
   end
 
   private

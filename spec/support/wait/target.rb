@@ -29,15 +29,15 @@ module RSpec
       end
 
       # From: https://github.com/rspec/rspec-expectations/blob/v3.12.3/lib/rspec/expectations/expectation_target.rb#L63-L66
-      def to(matcher = nil, message = nil, &)
+      def to(matcher = nil, message = nil, &block)
         prevent_operator_matchers(:to) unless matcher
-        with_wait { PositiveHandler.handle_matcher(@target, matcher, message, &) }
+        with_wait { PositiveHandler.handle_matcher(@target, matcher, message, &block) }
       end
 
       # From: https://github.com/rspec/rspec-expectations/blob/v3.12.3/lib/rspec/expectations/expectation_target.rb#L76-L79
-      def not_to(matcher = nil, message = nil, &)
+      def not_to(matcher = nil, message = nil, &block)
         prevent_operator_matchers(:not_to) unless matcher
-        with_wait { NegativeHandler.handle_matcher(@target, matcher, message, &) }
+        with_wait { NegativeHandler.handle_matcher(@target, matcher, message, &block) }
       end
 
       alias_method :to_not, :not_to
@@ -45,7 +45,7 @@ module RSpec
       private
 
       def with_wait(&block)
-        Wait.with_wait(**@wait_options, &)
+        Wait.with_wait(**@wait_options, &block)
       end
     end
   end

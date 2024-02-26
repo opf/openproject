@@ -101,7 +101,7 @@ module Redmine::MenuManager::MenuHelper
   # Available options:
   # menu_item_class: Additional classes for the menu item li wrapper
   # drop_down_class: Additional classes for the hidden drop down
-  def render_menu_dropdown(label_node, options = {}, &)
+  def render_menu_dropdown(label_node, options = {}, &block)
     content_tag :li, class: "op-app-menu--item op-app-menu--item_has-dropdown #{options[:menu_item_class]}" do
       concat(label_node)
       concat(content_tag(:ul,
@@ -260,8 +260,8 @@ module Redmine::MenuManager::MenuHelper
     false
   end
 
-  def first_level_menu_items_for(menu, project = nil, &)
-    menu_items_for(Redmine::MenuManager.items(menu, project).root.children, menu, project, &)
+  def first_level_menu_items_for(menu, project = nil, &block)
+    menu_items_for(Redmine::MenuManager.items(menu, project).root.children, menu, project, &block)
   end
 
   private

@@ -48,11 +48,11 @@ module OpenProject
     # The callback may return an Integer, which is interpreted as a http return code.
     #
     # Returns the newly created hook
-    def self.register_hook(name, &)
+    def self.register_hook(name, &block)
       raise "A hook named '#{name}' is already registered!" if find(name)
 
       Rails.logger.debug { "incoming webhook registered: #{name}" }
-      hook = Hook.new(name, &)
+      hook = Hook.new(name, &block)
       @@registered_hooks << hook
       hook
     end

@@ -74,7 +74,7 @@ RSpec.describe 'Backlogs context menu', :js, :with_cuprite do
 
   def within_backlog_context_menu(&block)
     backlogs_page.visit!
-    backlogs_page.within_backlog_menu(sprint, &)
+    backlogs_page.within_backlog_menu(sprint, &block)
   end
 
   context 'when the backlog is a sprint backlog (displayed on the left, the default)' do

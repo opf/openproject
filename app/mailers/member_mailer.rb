@@ -92,9 +92,9 @@ class MemberMailer < ApplicationMailer
     end
   end
 
-  def in_member_locale(member, &)
+  def in_member_locale(member, &block)
     raise ArgumentError unless member.principal.is_a?(User)
 
-    with_locale_for(member.principal, &)
+    with_locale_for(member.principal, &block)
   end
 end

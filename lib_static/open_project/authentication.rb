@@ -61,11 +61,11 @@ module OpenProject
       # @yield [strategies] A block returning the strategies to be used for this scope.
       # @yieldparam [Set] strategies The strategies currently used by this scope. May be empty.
       # @yieldreturn [Set] The strategies to be used by this scope.
-      def update_strategies(scope, opts = {}, &)
+      def update_strategies(scope, opts = {}, &block)
         raise ArgumentError, "invalid scope: #{scope}" unless Scope.values.include? scope
 
         config = Manager.scope_config scope
-        config.update!(opts, &)
+        config.update!(opts, &block)
       end
 
       ##

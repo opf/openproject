@@ -59,7 +59,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
       File.join(uri.to_s, *)
     end
 
-    def token(user:, configuration:, &)
+    def token(user:, configuration:, &block)
       connection_manager = ::OAuthClients::ConnectionManager.new(user:, configuration:)
       connection_manager.get_access_token.match(
         on_success: ->(token) do

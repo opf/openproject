@@ -100,7 +100,7 @@ module AuthenticationHelpers
     #
     # @block [Proc] The user to log in.
     def current_user(&block)
-      let(:current_user, &)
+      let(:current_user, &block)
 
       before { login_as current_user }
     end
@@ -116,7 +116,7 @@ module AuthenticationHelpers
     #
     # @block [Proc] The user to log in.
     def shared_current_user(&block)
-      shared_let(:current_user, &)
+      shared_let(:current_user, &block)
 
       before { login_as current_user }
     end

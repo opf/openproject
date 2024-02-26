@@ -98,15 +98,15 @@ module Pages
 
         private
 
-        def within_row_of(name, &)
+        def within_row_of(name, &block)
           within 'table' do
-            within(find('tr', text: name), &)
+            within(find('tr', text: name), &block)
           end
         end
 
-        def within_buttons_of(name, &)
+        def within_buttons_of(name, &block)
           within_row_of(name) do
-            within(find('.buttons'), &)
+            within(find('.buttons'), &block)
           end
         end
       end

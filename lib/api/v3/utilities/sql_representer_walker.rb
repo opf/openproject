@@ -87,14 +87,14 @@ module API
           url_query[:select]
         end
 
-        def embedded_depth_first(stack, current_representer, &)
+        def embedded_depth_first(stack, current_representer, &block)
           up_map = {}
 
           embed_for(stack).each_key do |key|
             representer = current_representer
                           .embed_map[key]
 
-            up_map[key] = embedded_depth_first(stack.dup << key, representer, &)
+            up_map[key] = embedded_depth_first(stack.dup << key, representer, &block)
           end
 
           yield up_map, stack, current_representer if select_for(stack)

@@ -175,9 +175,9 @@ module OpenProject
         #
         # If the operation throws an exception or the operation we rethrow a
         # +CommandFailed+ with a meaningful error message.
-        def popen3(args, opts = {}, &)
+        def popen3(args, opts = {}, &block)
           logger.debug "Shelling out: `#{stripped_command(args)}`"
-          Open3.popen3(client_command, *args, opts, &)
+          Open3.popen3(client_command, *args, opts, &block)
         rescue Exceptions::SCMError => e
           raise e
         rescue StandardError => e

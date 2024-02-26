@@ -35,7 +35,7 @@ class JournalFormatterCache
     @cache = Hash.new
   end
 
-  def fetch(klass, id, &)
+  def fetch(klass, id, &block)
     key = [klass, id]
     if @cache.key?(key)
       @cache[key]

@@ -229,10 +229,10 @@ class Report::Result
       @sum_for[field] ||= sum { |v| v.send(field) || 0 }
     end
 
-    def recursive_each_with_level(level = 0, depth_first = true, &)
+    def recursive_each_with_level(level = 0, depth_first = true, &block)
       if depth_first
         super
-        each { |c| c.recursive_each_with_level(level + 1, depth_first, &) }
+        each { |c| c.recursive_each_with_level(level + 1, depth_first, &block) }
       else # width-first
         to_evaluate = [self]
         lvl = level
@@ -266,7 +266,7 @@ class Report::Result
       values.each(&block)
     end
 
-    def each_direct_result(cached = true, &)
+    def each_direct_result(cached = true, &block)
       return enum_for(__method__) unless block_given?
 
       if @direct_results

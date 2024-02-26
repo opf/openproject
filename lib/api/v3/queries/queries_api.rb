@@ -47,8 +47,8 @@ module API
           helpers ::API::V3::Queries::QueryHelper
 
           helpers do
-            def authorize_by_policy(action, &)
-              authorize_by_with_raise(-> { allowed_to?(action) }, &)
+            def authorize_by_policy(action, &block)
+              authorize_by_with_raise(-> { allowed_to?(action) }, &block)
             end
 
             def allowed_to?(action)
