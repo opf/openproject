@@ -26,11 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class RemoveNotificationCleanupJob < ActiveRecord::Migration[7.0]
+class RemoveRenamedDateAlertJob < ActiveRecord::Migration[6.0]
   def up
-    execute_sql("DELETE FROM delayed_jobs WHERE handler LIKE '%job_class: Notifications::CleanupJob%'")
-    Setting
-      .where(name: 'notification_retention_period_days')
-      .delete_all
+    # The job has been renamed to Notifications::ScheduleDateAlertsNotificationsJob.
+    # The new job will be added on restarting the application.
+    execute_sql("DELETE FROM delayed_jobs WHERE handler LIKE '%job_class: Notifications::CreateDateAlertsNotificationsJob%'")
   end
 end

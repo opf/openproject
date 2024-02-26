@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class RemoveNotificationCleanupJob < ActiveRecord::Migration[7.0]
+class RemoveRenamedCronJob < ActiveRecord::Migration[6.0]
   def up
-    execute_sql("DELETE FROM delayed_jobs WHERE handler LIKE '%job_class: Notifications::CleanupJob%'")
-    Setting
-      .where(name: 'notification_retention_period_days')
-      .delete_all
+    # The job has been renamed to JobStatus::Cron::ClearOldJobStatusJob
+    # the new job will be added on restarting the application but the old will still be in the database
+    # and will cause 'uninitialized constant' errors.
+    execute_sql("DELETE FROM delayed_jobs WHERE handler LIKE '%job_class: Cron::ClearOldJobStatusJob%'")
   end
 end
