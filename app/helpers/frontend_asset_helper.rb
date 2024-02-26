@@ -68,7 +68,8 @@ module FrontendAssetHelper
 
   def frontend_asset_path(unhashed)
     file_name = ::OpenProject::Assets.lookup_asset unhashed
-    "/assets/frontend/#{file_name}"
+    relative_url = OpenProject::Configuration.rails_relative_url_root || ""
+    "#{relative_url}/assets/frontend/#{file_name}"
   end
 
   def variable_asset_path(path)
