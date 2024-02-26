@@ -108,7 +108,7 @@ module Redmine::MenuManager::MenuHelper
                          style: 'display:none',
                          id: options[:drop_down_id],
                          class: "op-app-menu--dropdown #{options.fetch(:drop_down_class, '')}",
-                         &))
+                         &block))
     end
   end
 

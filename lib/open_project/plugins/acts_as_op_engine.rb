@@ -258,7 +258,7 @@ module OpenProject::Plugins
       #                defined. If no cache key was defined before, the block's result makes up
       #                the whole cache key.
       def add_api_representer_cache_key(*path,
-                                        &)
+                                        &block)
         mod = Module.new
         mod.send :define_method, :json_cache_key do
           if defined?(super)

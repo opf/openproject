@@ -23,7 +23,7 @@ module Ldap
         base: ldap.base_dn,
         filter: filter & ldap.default_filter,
         attributes: ldap.search_attributes,
-        &
+        &block
       )
     end
   end

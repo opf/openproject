@@ -297,7 +297,7 @@ module Pages
       end
 
       def within_table(&block)
-        within '#project-table', &
+        within '#project-table', &block
       end
 
       private

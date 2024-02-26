@@ -48,7 +48,7 @@ module ::Recaptcha
       if OpenProject::Recaptcha::Configuration.use_hcaptcha?
         Recaptcha.with_configuration(verify_url: OpenProject::Recaptcha.hcaptcha_verify_url,
                                      api_server_url: OpenProject::Recaptcha.hcaptcha_api_server_url,
-                                     &)
+                                     &block)
       else
         yield
       end

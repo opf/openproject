@@ -42,7 +42,7 @@ class Tables::Base
   end
 
   def self.create_table(migration, &block)
-    migration.create_table table_name, **id_options.merge(bulk: true), &
+    migration.create_table table_name, **id_options.merge(bulk: true), &block
   end
 
   def self.table(_migration)

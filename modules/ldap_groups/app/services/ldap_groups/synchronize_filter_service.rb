@@ -62,7 +62,7 @@ module LdapGroups
         base: filter.used_base_dn,
         filter: filter.parsed_filter_string,
         attributes: ['dn', filter.group_name_attribute],
-        &
+        &block
       )
     end
 
