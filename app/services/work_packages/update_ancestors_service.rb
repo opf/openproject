@@ -90,12 +90,18 @@ class WorkPackages::UpdateAncestorsService
       # Derived estimated hours and Derived remaining hours need to be
       # calculated before the Derived done ratio below since the
       # aggregation depends on both derived fields.
-      #
       # Changes in any of these, also warrant a recalculation of
       # the Derived done ratio.
+      #
+      # Changes to estimated hours also warrant a recalculation of
+      # derived done ratios in the work package's ancestry as the
+      # derived estimated hours would affect the derived done ratio
+      # or the derived remaining hours, depending on the % Complete mode
+      # currently active.
+      #
       %i[estimated_hours] => :derive_estimated_hours,
       %i[remaining_hours] => :derive_remaining_hours,
-      %i[done_ratio status status_id] => :derive_done_ratio,
+      %i[estimated_hours done_ratio status status_id] => :derive_done_ratio,
       %i[ignore_non_working_days] => :derive_ignore_non_working_days
     }.each do |derivative_attributes, method|
       if attributes.intersect?(derivative_attributes + %i[parent parent_id])
@@ -113,8 +119,6 @@ class WorkPackages::UpdateAncestorsService
   def derive_done_ratio(ancestor, loader)
     return if initiator?(ancestor)
     return if WorkPackage.done_ratio_disabled?
-
-    return if WorkPackage.use_status_for_done_ratio? && ancestor.status && ancestor.status.default_done_ratio
 
     ancestor.derived_done_ratio = compute_derived_done_ratio(ancestor, loader) || 0
   end

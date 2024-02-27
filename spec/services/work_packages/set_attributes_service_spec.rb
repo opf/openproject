@@ -145,27 +145,61 @@ RSpec.describe WorkPackages::SetAttributesService,
     it_behaves_like 'service call'
   end
 
+  context 'for estimated_hours' do
+    context 'with the status being used for done_ratio computations',
+            with_settings: { work_package_done_ratio: 'status' } do
+      context 'when the work package has estimated hours and remaining hours set along with a done ratio' do
+        let!(:status) { create(:status, default_done_ratio: 50) }
+
+        before do
+          work_package.status = status
+          work_package.estimated_hours = 10.0
+          work_package.remaining_hours = 5.0
+          work_package.send(:clear_changes_information)
+        end
+
+        context 'and estimated_hours are subsequently unset' do
+          let(:call_attributes) { { estimated_hours: nil } }
+          let(:expected_attributes) { { estimated_hours: nil, remaining_hours: nil, done_ratio: 50 } }
+
+          it_behaves_like 'service call'
+        end
+
+        context 'and estimated_hours are subsequently modified' do
+          let(:call_attributes) { { estimated_hours: 5.0 } }
+          let(:expected_attributes) { { estimated_hours: 5.0, remaining_hours: 2.5, done_ratio: 50 } }
+
+          it_behaves_like 'service call'
+        end
+
+        context 'and the status is subsequently changed' do
+          let!(:other_status) { create(:status, default_done_ratio: 70) }
+          let(:call_attributes) { {} }
+          let(:expected_attributes) { { estimated_hours: 10.0, remaining_hours: 3.0 } }
+
+          before do
+            work_package.status = other_status
+          end
+
+          it_behaves_like 'service call'
+        end
+      end
+    end
+  end
+
   context 'for done_ratio' do
     context 'with the status being used for done_ratio computations',
             with_settings: { work_package_done_ratio: 'status' } do
-      let!(:status) { create(:status, default_done_ratio: 99) }
-      let(:call_attributes) { { estimated_hours: 10.0, remaining_hours: 5.0 } }
-      let(:expected_attributes) { { estimated_hours: 10.0, remaining_hours: 5.0, done_ratio: 99 } }
+      let!(:status) { create(:status, default_done_ratio: 50) }
+      let(:call_attributes) { { estimated_hours: 10.0 } }
+      # remaining hours computed from estimated hours and the status's default done ratio
+      let(:expected_attributes) { { estimated_hours: 10.0, remaining_hours: 5.0, done_ratio: 50 } }
 
       before do
-        allow(work_package).to receive(:done_ratio=) # Spying-purposes
-
         work_package.status = status
       end
 
-      it_behaves_like 'service call' do
-        it 'does not try to compute and assign done_ratio' do
-          subject
-
-          expect(work_package)
-            .not_to have_received(:done_ratio=)
-        end
-      end
+      it_behaves_like 'service call'
     end
 
     describe 'is "unset"' do
