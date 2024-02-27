@@ -287,12 +287,12 @@ module OpenProject::Storages
       {
         'Storages::CleanupUncontaineredFileLinksJob': {
           cron: "06 22 * * *",
-          class: "Storages::CleanupUncontaineredFileLinksJob"
+          class: ::Storages::CleanupUncontaineredFileLinksJob.name
         },
 
         'Storages::ManageNextcloudIntegrationJob': {
           cron: "*/5 * * * *",
-          class: "Storages::ManageNextcloudIntegrationJob"
+          class: ::Storages::ManageNextcloudIntegrationJob.name
         }
       }
     end

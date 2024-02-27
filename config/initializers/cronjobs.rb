@@ -27,44 +27,44 @@
 #++
 
 # Register "Cron-like jobs"
-OpenProject::Application.configure do |application|
-  application.config.good_job.cron.merge!(
+Rails.application.config.after_initialize do
+  Rails.application.config.good_job.cron.merge!(
     {
       'Cron::ClearOldSessionsJob': {
         cron: '15 1 * * *', # runs at 1:15 nightly
-        class: 'Cron::ClearOldSessionsJob'
+        class: Cron::ClearOldSessionsJob.name
       },
       'Cron::ClearTmpCacheJob': {
         cron: '45 2 * * 7', # runs at 02:45 sundays
-        class: 'Cron::ClearTmpCacheJob'
+        class: Cron::ClearTmpCacheJob.name
       },
       'Cron::ClearUploadedFilesJob': {
         cron: '0 23 * * 5', # runs 23:00 fridays
-        class: 'Cron::ClearUploadedFilesJob'
+        class: Cron::ClearUploadedFilesJob.name
       },
       'OAuth::CleanupJob': {
         cron: '52 1 * * *',
-        class: 'OAuth::CleanupJob'
+        class: OAuth::CleanupJob.name
       },
       'PaperTrailAudits::CleanupJob': {
         cron: '3 4 * * 6',
-        class: 'PaperTrailAudits::CleanupJob'
+        class: PaperTrailAudits::CleanupJob.name
       },
       'Attachments::CleanupUncontaineredJob': {
         cron: '03 22 * * *',
-        class: 'Attachments::CleanupUncontaineredJob'
+        class: Attachments::CleanupUncontaineredJob.name
       },
       'Notifications::ScheduleDateAlertsNotificationsJob': {
         cron: '*/15 * * * *',
-        class: 'Notifications::ScheduleDateAlertsNotificationsJob'
+        class: Notifications::ScheduleDateAlertsNotificationsJob.name
       },
       'Notifications::ScheduleReminderMailsJob': {
         cron: '*/15 * * * *',
-        class: 'Notifications::ScheduleReminderMailsJob'
+        class: Notifications::ScheduleReminderMailsJob.name
       },
       'Ldap::SynchronizationJob': {
         cron: '30 23 * * *',
-        class: 'Ldap::SynchronizationJob'
+        class: Ldap::SynchronizationJob.name
       }
     }
   )

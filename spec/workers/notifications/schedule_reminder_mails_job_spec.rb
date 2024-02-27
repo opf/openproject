@@ -57,7 +57,7 @@ RSpec.describe Notifications::ScheduleReminderMailsJob, type: :job do
       it 'queries with the intended job execution time (which might have been missed due to high load)' do
         GoodJob.perform_inline
 
-        expect(User).to have_received(:having_reminder_mail_to_send).with(scheduled_job.good_job_scheduled_at)
+        expect(User).to have_received(:having_reminder_mail_to_send).with(scheduled_job.job_scheduled_at)
       end
     end
 
@@ -67,7 +67,7 @@ RSpec.describe Notifications::ScheduleReminderMailsJob, type: :job do
       before do
         GoodJob::Job
           .where(id: scheduled_job.job_id)
-          .update_all(scheduled_at: scheduled_job.good_job_scheduled_at - 3.hours)
+          .update_all(scheduled_at: scheduled_job.job_scheduled_at - 3.hours)
       end
 
       it_behaves_like 'schedules reminder mails'

@@ -87,9 +87,9 @@ module OpenProject::GithubIntegration
 
     add_cron_jobs do
       {
-        ClearOldPullRequestsJob: {
+        'Cron::ClearOldPullRequestsJob': {
           cron: '25 1 * * *', # runs at 1:25 nightly
-          class: 'ClearOldPullRequestsJob'
+          class: ::Cron::ClearOldPullRequestsJob.name
         }
       }
     end

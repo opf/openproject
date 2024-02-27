@@ -32,7 +32,7 @@ require 'spec_helper'
 require_module_spec_helper
 
 RSpec.describe Storages::CleanupUncontaineredFileLinksJob, type: :job do
-  describe '#perfrom' do
+  describe '#perform' do
     it 'removes uncontainered file_links which are old enough' do
       grace_period = 10
       allow(OpenProject::Configuration)

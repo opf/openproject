@@ -53,7 +53,7 @@ module Notifications
     end
 
     def scheduled_time
-      good_job_scheduled_at.then { |t| t.change(min: t.min / 15 * 15) }
+      job_scheduled_at.then { |t| t.change(min: t.min / 15 * 15) }
     end
   end
 end

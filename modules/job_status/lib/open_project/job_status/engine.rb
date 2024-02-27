@@ -50,7 +50,7 @@ module OpenProject::JobStatus
       {
         'JobStatus::Cron::ClearOldJobStatusJob': {
           cron: '15 4 * * *', # runs at 4:15 nightly
-          class: '::JobStatus::Cron::ClearOldJobStatusJob'
+          class: ::JobStatus::Cron::ClearOldJobStatusJob.name
         }
       }
     end

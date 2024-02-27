@@ -23,17 +23,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Notifications
-  class ScheduleReminderMailsJob < ApplicationJob
-    def perform
-      User.having_reminder_mail_to_send(job_scheduled_at)
-          .pluck(:id)
-          .each do |user_id|
-        Mails::ReminderJob.perform_later(user_id)
-      end
+class RemoveDelayedJobs < ActiveRecord::Migration[7.1]
+  def change
+    drop_table :delayed_jobs do |t|
+      t.integer :priority, default: 0   # Allows some jobs to jump to the front of the queue
+      t.integer :attempts, default: 0   # Provides for retries, but still fail eventually.
+      t.text :handler                   # YAML-encoded string of the object that will do work
+      t.text :last_error                # reason for last failure (See Note below)
+      t.datetime :run_at                # When to run. Could be Time.zone.now for immediately, or sometime in the future.
+      t.datetime :locked_at             # Set when a client is working on this object
+      t.datetime :failed_at             # Set when all retries have failed (actually, by default, the record is deleted instead)
+      t.string :locked_by               # Who is working on this object (if locked)
+      t.timestamps null: true
+      t.string :queue
+      t.string :cron
+
+      t.index %i[priority run_at], name: 'delayed_jobs_priority'
     end
   end
 end

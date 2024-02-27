@@ -23,7 +23,7 @@ module OpenProject::LdapGroups
       {
         'Ldap::SynchronizationJob': {
           cron: '30 23 * * *', # Run once per night at 11:30pm
-          class: 'Ldap::SynchronizationJob'
+          class: Ldap::SynchronizationJob.name
         }
       }
     end

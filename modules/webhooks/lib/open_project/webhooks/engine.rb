@@ -55,7 +55,7 @@ module OpenProject::Webhooks
       {
         CleanupWebhookLogsJob: {
           cron: '28 5 * * 7', # runs at 5:28 on Sunday
-          class: 'CleanupWebhookLogsJob'
+          class: ::CleanupWebhookLogsJob.name
         }
       }
     end

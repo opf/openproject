@@ -9,7 +9,7 @@ RSpec.describe "Reminder email sending", :js, :with_cuprite do
   let(:work_package) { create(:work_package, project:) }
   let(:watched_work_package) { create(:work_package, project:, watcher_users: [current_user]) }
   let(:involved_work_package) { create(:work_package, project:, assigned_to: current_user) }
-  # GoodJob::Job#scheduled_at is used for scheduling the reminder mails
+  # ApplicationJob#job_scheduled_at is used for scheduling the reminder mails
   # needs to be within a time frame eligible for sending out mails for the chose
   # time zone. For the time zone Hawaii (UTC-10) this means between 8:00:00 and 8:14:59 UTC.
   # The job is scheduled to run every 15 min so the scheduled_at will in production always move between the quarters of an hour.

@@ -66,8 +66,8 @@ module Storages
       def disable_cron_job_if_needed
         if ::Storages::ProjectStorage.active_automatically_managed.exists?
           GoodJob::Setting.cron_key_enable(CRON_JOB_KEY) unless GoodJob::Setting.cron_key_enabled?(CRON_JOB_KEY)
-        else
-          GoodJob::Setting.cron_key_disable(CRON_JOB_KEY) if GoodJob::Setting.cron_key_enabled?(CRON_JOB_KEY)
+        elsif GoodJob::Setting.cron_key_enabled?(CRON_JOB_KEY)
+          GoodJob::Setting.cron_key_disable(CRON_JOB_KEY)
         end
       end
 
@@ -80,11 +80,8 @@ module Storages
     end
 
     def perform
-      ::Storages::Storage
-        .automatic_management_enabled
-        .includes(:oauth_client)
-        .find_each do |storage|
-          result = service_for(storage).call(storage)
+      find_storages do |storage|
+        result = service_for(storage).call(storage)
         result.match(
           on_success: ->(_) { storage.mark_as_healthy },
           on_failure: ->(errors) { storage.mark_as_unhealthy(reason: errors.to_s) }
@@ -93,6 +90,13 @@ module Storages
     end
 
     private
+
+    def find_storages(&)
+      ::Storages::Storage
+        .automatic_management_enabled
+        .includes(:oauth_client)
+        .find_each(&)
+    end
 
     def service_for(storage)
       return NextcloudGroupFolderPropertiesSyncService if storage.provider_type_nextcloud?

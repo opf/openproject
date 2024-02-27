@@ -214,15 +214,17 @@ module OpenProject
 
     config.active_job.queue_adapter = :good_job
 
-    config.good_job.preserve_job_records = true
     config.good_job.retry_on_unhandled_error = false
-    # config.good_job.on_thread_error = -> (exception) { Rails.error.report(exception) }
+    # It has been commented out because AppSignal gem modifies ActiveJob::Base to report exceptions already.
+    # config.good_job.on_thread_error = -> (exception) { OpenProject.logger.error(exception) }
     config.good_job.execution_mode = :external
-    config.good_job.queues = '*'
-    config.good_job.max_threads = 20
-    config.good_job.poll_interval = 30
-    config.good_job.shutdown_timeout = 25
-    config.good_job.enable_cron = true
+    config.good_job.preserve_job_records = true
+    config.good_job.cleanup_preserved_jobs_before_seconds_ago = OpenProject::Configuration[:good_job_cleanup_preserved_jobs_before_seconds_ago]
+    config.good_job.queues = OpenProject::Configuration[:good_job_queues]
+    config.good_job.max_threads = OpenProject::Configuration[:good_job_max_threads]
+    config.good_job.max_cache = OpenProject::Configuration[:good_job_max_cache]
+    config.good_job.enable_cron = OpenProject::Configuration[:good_job_enable_cron]
+    config.good_job.shutdown_timeout = 30
     config.good_job.smaller_number_is_higher_priority = false
 
     config.action_controller.asset_host = OpenProject::Configuration::AssetHost.value
