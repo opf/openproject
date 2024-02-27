@@ -32,7 +32,6 @@ module Storages::Admin
   class OAuthAccessGrantNudgeModalComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     options dialog_id: 'storages--oauth-grant-nudge-modal-component',
             dialog_body_id: 'storages--oauth-grant-nudge-modal-body-component',
-            confirm_button_text: I18n.t('storages.oauth_grant_nudge_modal.confirm_button_label'),
             authorized: false
 
     attr_reader :project_storage
@@ -47,6 +46,10 @@ module Storages::Admin
     end
 
     private
+
+    def confirm_button_text
+      I18n.t('storages.oauth_grant_nudge_modal.confirm_button_label')
+    end
 
     def title
       if authorized
