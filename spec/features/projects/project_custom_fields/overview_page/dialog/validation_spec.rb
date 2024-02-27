@@ -40,6 +40,51 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
   end
 
   describe 'with correct validation behaviour' do
+    describe 'after validation' do
+      let(:section) { section_for_input_fields }
+      let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
+
+      it 'keeps showing only activated custom fields (tricky regression)' do
+        custom_field = string_project_custom_field
+        custom_field.update!(is_required: true)
+        field = FormFields::Primerized::InputField.new(custom_field)
+
+        overview_page.open_edit_dialog_for_section(section)
+
+        dialog.within_async_content do
+          containers = dialog.input_containers
+
+          expect(containers[0].text).to include('Boolean field')
+          expect(containers[1].text).to include('String field')
+          expect(containers[2].text).to include('Integer field')
+          expect(containers[3].text).to include('Float field')
+          expect(containers[4].text).to include('Date field')
+          expect(containers[5].text).to include('Text field')
+
+          expect(page).to have_no_text(boolean_project_custom_field_activated_in_other_project.name)
+        end
+
+        field.fill_in(with: '') # this will trigger the validation
+
+        dialog.submit
+
+        field.expect_error(I18n.t('activerecord.errors.messages.blank'))
+
+        dialog.within_async_content do
+          containers = dialog.input_containers
+
+          expect(containers[0].text).to include('Boolean field')
+          expect(containers[1].text).to include('String field')
+          expect(containers[2].text).to include('Integer field')
+          expect(containers[3].text).to include('Float field')
+          expect(containers[4].text).to include('Date field')
+          expect(containers[5].text).to include('Text field')
+
+          expect(page).to have_no_text(boolean_project_custom_field_activated_in_other_project.name)
+        end
+      end
+    end
+
     describe 'with input fields' do
       let(:section) { section_for_input_fields }
       let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
