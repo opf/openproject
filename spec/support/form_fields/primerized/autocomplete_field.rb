@@ -63,6 +63,11 @@ module FormFields
       def expect_visible
         expect(field_container).to have_css('ng-select')
       end
+
+      def expect_error(string = nil)
+        expect(field_container).to have_css('.FormControl-inlineValidation')
+        expect(field_container).to have_content(string) if string
+      end
     end
   end
 end

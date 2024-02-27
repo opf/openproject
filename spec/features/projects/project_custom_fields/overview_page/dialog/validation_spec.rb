@@ -247,5 +247,83 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
         end
       end
     end
+
+    describe 'with select fields' do
+      let(:section) { section_for_select_fields }
+      let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
+
+      shared_examples 'a custom field select' do
+        it 'shows an error if the value is invalid' do
+          custom_field.update!(is_required: true)
+          custom_field.custom_values.destroy_all
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          dialog.submit
+
+          field.expect_error(I18n.t('activerecord.errors.messages.blank'))
+        end
+      end
+
+      describe 'with list CF' do
+        let(:custom_field) { list_project_custom_field }
+        let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
+
+        it_behaves_like 'a custom field select'
+      end
+
+      describe 'with version CF' do
+        let(:custom_field) { version_project_custom_field }
+        let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
+
+        it_behaves_like 'a custom field select'
+      end
+
+      describe 'with user CF' do
+        let(:custom_field) { user_project_custom_field }
+        let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
+
+        it_behaves_like 'a custom field select'
+      end
+    end
+
+    describe 'with multi select fields' do
+      let(:section) { section_for_multi_select_fields }
+      let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
+
+      shared_examples 'a custom field multi select' do
+        it 'shows an error if the value is invalid' do
+          custom_field.update!(is_required: true)
+          custom_field.custom_values.destroy_all
+
+          overview_page.open_edit_dialog_for_section(section)
+
+          dialog.submit
+
+          field.expect_error(I18n.t('activerecord.errors.messages.blank'))
+        end
+      end
+
+      describe 'with multi list CF' do
+        let(:custom_field) { multi_list_project_custom_field }
+        let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
+
+        it_behaves_like 'a custom field multi select'
+      end
+
+      describe 'with multi version CF' do
+        let(:custom_field) { multi_version_project_custom_field }
+        let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
+
+        it_behaves_like 'a custom field multi select'
+      end
+
+      describe 'with multi user CF' do
+        let(:custom_field) { multi_user_project_custom_field }
+        let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
+
+        it_behaves_like 'a custom field multi select'
+      end
+    end
   end
 end
