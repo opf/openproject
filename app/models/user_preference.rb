@@ -127,6 +127,10 @@ class UserPreference < ApplicationRecord
     super.presence || Setting.user_default_theme
   end
 
+  def high_contrast_theme?
+    theme.end_with?('high_contrast')
+  end
+
   def time_zone
     super.presence || Setting.user_default_timezone.presence
   end
