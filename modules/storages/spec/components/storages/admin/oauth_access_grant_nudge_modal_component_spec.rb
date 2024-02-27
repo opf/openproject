@@ -40,12 +40,7 @@ RSpec.describe Storages::Admin::OAuthAccessGrantNudgeModalComponent, type: :comp
     let(:oauth_access_grant_nudge_modal_component) { described_class.new(project_storage:) }
 
     it 'renders the nudge modal' do
-      expect(page).to have_test_selector(
-        'oauth-access-grant-nudge-modal-header',
-        text: 'One more step...',
-        aria: { live: :assertive },
-        role: :alert
-      )
+      expect(page).to have_css('[role="alert"]', text: 'One more step...', aria: { live: :assertive })
       expect(page).to have_test_selector(
         'oauth-access-grant-nudge-modal-body',
         text: "To get access to the project folder you need to login to #{project_storage.storage.name}.",
