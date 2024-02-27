@@ -23,6 +23,11 @@ module FormFields
         expect(page).to have_css("#{selector}[invalid='true']")
         expect(field_container).to have_content(string) if string
       end
+
+      def expect_value(value)
+        scroll_to_element(field_container)
+        expect(field_container).to have_css('input') { |el| el.value == value }
+      end
     end
   end
 end

@@ -83,6 +83,175 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           expect(page).to have_no_text(boolean_project_custom_field_activated_in_other_project.name)
         end
       end
+
+      describe 'does not loose the unpersisted values of the custom fields' do
+        context 'with input fields' do
+          let(:section) { section_for_input_fields }
+
+          let(:invalid_custom_field) { string_project_custom_field }
+          let(:valid_custom_field) { integer_project_custom_field }
+          let(:invalid_field) { FormFields::Primerized::InputField.new(invalid_custom_field) }
+          let(:valid_field) { FormFields::Primerized::InputField.new(valid_custom_field) }
+
+          it 'keeps the value' do
+            invalid_custom_field.update!(is_required: true)
+            overview_page.open_edit_dialog_for_section(section)
+
+            invalid_field.fill_in(with: '')
+            valid_field.fill_in(with: '123')
+
+            dialog.submit
+
+            invalid_field.expect_error(I18n.t('activerecord.errors.messages.blank'))
+
+            invalid_field.expect_value('')
+            valid_field.expect_value('123')
+          end
+        end
+
+        context 'with select fields' do
+          let(:section) { section_for_select_fields }
+
+          context 'with version selected' do
+            let(:invalid_custom_field) { list_project_custom_field }
+            let(:valid_custom_field) { version_project_custom_field }
+            let(:invalid_field) { FormFields::Primerized::AutocompleteField.new(invalid_custom_field) }
+            let(:valid_field) { FormFields::Primerized::AutocompleteField.new(valid_custom_field) }
+
+            it 'keeps the value' do
+              invalid_custom_field.update!(is_required: true)
+              overview_page.open_edit_dialog_for_section(section)
+
+              invalid_field.clear
+              valid_field.select_option(third_version.name)
+
+              dialog.submit
+
+              invalid_field.expect_error(I18n.t('activerecord.errors.messages.blank'))
+
+              invalid_field.expect_blank
+              valid_field.expect_selected(third_version.name)
+            end
+          end
+
+          context 'with user selected' do
+            let(:invalid_custom_field) { list_project_custom_field }
+            let(:valid_custom_field) { user_project_custom_field }
+            let(:invalid_field) { FormFields::Primerized::AutocompleteField.new(invalid_custom_field) }
+            let(:valid_field) { FormFields::Primerized::AutocompleteField.new(valid_custom_field) }
+
+            it 'keeps the value' do
+              invalid_custom_field.update!(is_required: true)
+              overview_page.open_edit_dialog_for_section(section)
+
+              invalid_field.clear
+              valid_field.select_option(another_member_in_project.name)
+
+              dialog.submit
+
+              invalid_field.expect_error(I18n.t('activerecord.errors.messages.blank'))
+
+              invalid_field.expect_blank
+              valid_field.expect_selected(another_member_in_project.name)
+            end
+          end
+
+          context 'with list selected' do
+            let(:invalid_custom_field) { user_project_custom_field }
+            let(:valid_custom_field) { list_project_custom_field }
+            let(:invalid_field) { FormFields::Primerized::AutocompleteField.new(invalid_custom_field) }
+            let(:valid_field) { FormFields::Primerized::AutocompleteField.new(valid_custom_field) }
+
+            it 'keeps the value' do
+              invalid_custom_field.update!(is_required: true)
+              overview_page.open_edit_dialog_for_section(section)
+
+              invalid_field.clear
+              valid_field.select_option('Option 3')
+
+              dialog.submit
+
+              invalid_field.expect_error(I18n.t('activerecord.errors.messages.blank'))
+
+              invalid_field.expect_blank
+              valid_field.expect_selected('Option 3')
+            end
+          end
+        end
+
+        context 'with multi select fields' do
+          let(:section) { section_for_multi_select_fields }
+
+          context 'with multi version selected' do
+            let(:invalid_custom_field) { multi_list_project_custom_field }
+            let(:valid_custom_field) { multi_version_project_custom_field }
+            let(:invalid_field) { FormFields::Primerized::AutocompleteField.new(invalid_custom_field) }
+            let(:valid_field) { FormFields::Primerized::AutocompleteField.new(valid_custom_field) }
+
+            it 'keeps the values' do
+              invalid_custom_field.update!(is_required: true)
+              overview_page.open_edit_dialog_for_section(section)
+
+              invalid_field.clear
+              valid_field.clear
+              valid_field.select_option(first_version.name, third_version.name)
+
+              dialog.submit
+
+              invalid_field.expect_error(I18n.t('activerecord.errors.messages.blank'))
+
+              invalid_field.expect_blank
+              valid_field.expect_selected(first_version.name, third_version.name)
+            end
+          end
+
+          context 'with multi user selected' do
+            let(:invalid_custom_field) { multi_list_project_custom_field }
+            let(:valid_custom_field) { multi_user_project_custom_field }
+            let(:invalid_field) { FormFields::Primerized::AutocompleteField.new(invalid_custom_field) }
+            let(:valid_field) { FormFields::Primerized::AutocompleteField.new(valid_custom_field) }
+
+            it 'keeps the values' do
+              invalid_custom_field.update!(is_required: true)
+              overview_page.open_edit_dialog_for_section(section)
+
+              invalid_field.clear
+              valid_field.clear
+              valid_field.select_option(member_in_project.name, one_more_member_in_project.name)
+
+              dialog.submit
+
+              invalid_field.expect_error(I18n.t('activerecord.errors.messages.blank'))
+
+              invalid_field.expect_blank
+              valid_field.expect_selected(member_in_project.name, one_more_member_in_project.name)
+            end
+          end
+
+          context 'with multi list selected' do
+            let(:invalid_custom_field) { multi_user_project_custom_field }
+            let(:valid_custom_field) { multi_list_project_custom_field }
+            let(:invalid_field) { FormFields::Primerized::AutocompleteField.new(invalid_custom_field) }
+            let(:valid_field) { FormFields::Primerized::AutocompleteField.new(valid_custom_field) }
+
+            it 'keeps the value' do
+              invalid_custom_field.update!(is_required: true)
+              overview_page.open_edit_dialog_for_section(section)
+
+              invalid_field.clear
+              valid_field.clear
+              valid_field.select_option('Option 1', 'Option 3')
+
+              dialog.submit
+
+              invalid_field.expect_error(I18n.t('activerecord.errors.messages.blank'))
+
+              invalid_field.expect_blank
+              valid_field.expect_selected('Option 1', 'Option 3')
+            end
+          end
+        end
+      end
     end
 
     describe 'with input fields' do

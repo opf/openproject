@@ -54,10 +54,8 @@ class CustomFields::Inputs::MultiSelectList < CustomFields::Inputs::Base::Autoco
   end
 
   def selected?(custom_option)
-    cf_values = @custom_values.reject { |custom_value| custom_value.id.nil? }
-
-    if cf_values.any?
-      cf_values.pluck(:value).map { |value| value&.to_i }.include?(custom_option.id)
+    if @custom_values.any?
+      @custom_values.pluck(:value).map { |value| value&.to_i }.include?(custom_option.id)
     else
       custom_option.default_value?
     end
