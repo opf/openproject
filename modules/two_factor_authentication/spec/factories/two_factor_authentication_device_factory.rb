@@ -7,7 +7,7 @@ FactoryBot.define do
     identifier { 'Phone number (+49 123456789)' }
 
     transient do
-      make_default { false }
+      make_default { true }
     end
 
     callback(:after_create) do |device, evaluator|
@@ -22,7 +22,7 @@ FactoryBot.define do
     identifier { 'TOTP device' }
 
     transient do
-      make_default { false }
+      make_default { true }
     end
 
     callback(:after_create) do |device, evaluator|
@@ -40,7 +40,7 @@ FactoryBot.define do
     webauthn_public_key { "bar" }
 
     transient do
-      make_default { false }
+      make_default { true }
     end
 
     callback(:after_create) do |device, evaluator|
