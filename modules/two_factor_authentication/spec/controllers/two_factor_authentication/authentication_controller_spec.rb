@@ -63,7 +63,7 @@ RSpec.describe TwoFactorAuthentication::AuthenticationController, with_settings:
     end
 
     context 'with a non-default device' do
-      let!(:device) { create(:two_factor_authentication_device_sms, user:, make_default: false, channel: :sms) }
+      let!(:device) { create(:two_factor_authentication_device_sms, user:, default: false, channel: :sms) }
 
       before do
         session[:authenticated_user_id] = user.id
