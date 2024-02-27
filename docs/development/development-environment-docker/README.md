@@ -99,7 +99,7 @@ cp docker-compose.override.example.yml docker-compose.override.yml
 # and will install all required server dependencies
 docker compose run --rm backend setup
 
-# This will install the web dependencies 
+# This will install the web dependencies
 docker compose run --rm frontend npm install
 ```
 
@@ -307,7 +307,7 @@ On Debian, you need to add the generated root CA to system certificates bundle.
 docker compose --project-directory docker/dev/tls cp \
  step:/home/step/certs/root_ca.crt /usr/local/share/ca-certificates/OpenProject_Development_Root_CA.crt
 
-# Create symbolic link   
+# Create symbolic link
 ln -s /usr/local/share/ca-certificates/OpenProject_Development_Root_CA.crt /etc/ssl/certs/OpenProject_Development_Root_CA.pem
 
 # Update certificate bundle
@@ -392,6 +392,33 @@ suspended and continued at a later time. To fix it, restart your proxy stack.
 ```shell
 docker compose --project-directory docker/dev/tls down
 docker compose --project-directory docker/dev/tls up -d
+```
+
+## GitLab CE Service
+
+Within `docker/dev/gitlab` a compose file is provided for running local Gitlab instance with TLS support. The provides
+a production like environment for testing the OpenProject GitLab integration against a community edition gitlab instance
+accessible on `https://gitlab.local`.
+
+> NOTE: Configure [TLS Support](#tls-support) first before starting the GitLab service
+
+See [Install GitLab using Docker Compose](https://docs.gitlab.com/ee/install/docker.html#install-gitlab-using-docker-compose)
+official GitLab documentation.
+
+### Running the GitLab Instance
+
+Start up the docker compose service for gitlab as follows:
+
+```shell
+docker compose --project-directory docker/dev/gitlab up -d
+```
+
+### Initial password
+
+Once the GitLab service is started and running, you can access the initial `root` user password as follows:
+
+```shell
+docker compose --project-directory docker/dev/gitlab exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 ```
 
 ## Local files
