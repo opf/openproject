@@ -45,6 +45,8 @@ class MeetingAgendaItem::Notes < ApplicationForm
   end
 
   def resource
+    return unless object&.meeting
+
     API::V3::Meetings::MeetingRepresenter
       .new(object.meeting, current_user: User.current, embed_links: false)
   end
