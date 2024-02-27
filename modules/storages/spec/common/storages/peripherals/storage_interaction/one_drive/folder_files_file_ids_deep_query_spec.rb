@@ -116,12 +116,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FolderFilesF
 
     context 'with invalid oauth credentials', vcr: 'one_drive/folder_files_file_ids_deep_query_invalid_credentials' do
       before do
-        unauthorized_http = OpenProject.httpx.with(origin: storage.uri,
-                                                   headers: { authorization: "Bearer YouShallNotPass",
-                                                              accept: "application/json",
-                                                              'content-type': 'application/json' })
-        allow(Storages::Peripherals::StorageInteraction::OneDrive::Util)
-          .to receive(:using_admin_token)
+        unauthorized_http = OpenProject.httpx.with(headers: { authorization: "Bearer YouShallNotPass" })
+        allow(Storages::Peripherals::StorageInteraction::Authentication)
+          .to receive(:with_client_credentials)
                 .and_yield(unauthorized_http)
       end
 
@@ -141,8 +138,8 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FolderFilesF
       before do
         request = HTTPX::Request.new(:get, 'https://my.timeout.org/')
         httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
-        allow(Storages::Peripherals::StorageInteraction::OneDrive::Util)
-          .to receive(:using_admin_token)
+        allow(Storages::Peripherals::StorageInteraction::Authentication)
+          .to receive(:with_client_credentials)
                 .and_yield(httpx_double)
       end
 

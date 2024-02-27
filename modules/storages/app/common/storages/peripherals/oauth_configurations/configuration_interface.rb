@@ -34,7 +34,7 @@ module Storages
       class ConfigurationInterface
         def authorization_state_check(_) = raise ::Storages::Errors::SubclassResponsibility
 
-        def scope = raise ::Storages::Errors::SubclassResponsibility
+        def scope(_user:) = raise ::Storages::Errors::SubclassResponsibility
 
         def basic_rack_oauth_client = raise ::Storages::Errors::SubclassResponsibility
 

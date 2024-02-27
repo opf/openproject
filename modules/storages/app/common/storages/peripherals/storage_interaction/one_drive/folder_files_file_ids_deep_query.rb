@@ -31,6 +31,7 @@
 module Storages::Peripherals::StorageInteraction::OneDrive
   class FolderFilesFileIdsDeepQuery
     FIELDS = %w[id name file folder parentReference].freeze
+    AUTH = ::Storages::Peripherals::StorageInteraction::Authentication
 
     def self.call(storage:, folder:)
       new(storage).call(folder:)
@@ -42,7 +43,7 @@ module Storages::Peripherals::StorageInteraction::OneDrive
     end
 
     def call(folder:)
-      Util.using_admin_token(@storage) do |http|
+      AUTH.with_client_credentials(storage: @storage, http_options: Util.accept_json) do |http|
         fetch_result = fetch_folder(http, folder)
         return fetch_result if fetch_result.failure?
 

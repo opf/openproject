@@ -35,6 +35,7 @@ module Storages
         attr_reader :oauth_client
 
         def initialize(storage)
+          super()
           @uri = storage.uri
           @oauth_client = storage.oauth_client.freeze
         end
@@ -58,7 +59,7 @@ module Storages
           rack_access_token.raw_attributes[:user_id]
         end
 
-        def scope
+        def scope(_user:)
           []
         end
 

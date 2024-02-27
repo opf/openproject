@@ -32,24 +32,26 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class GroupUsersQuery
     using Storages::Peripherals::ServiceResultRefinements
 
+    AUTH = ::Storages::Peripherals::StorageInteraction::Authentication
+
     def initialize(storage)
-      @uri = storage.uri
-      @username = storage.username
-      @password = storage.password
+      @storage = storage
     end
 
     def self.call(storage:, group: storage.group)
       new(storage).call(group:)
     end
 
-    # rubocop:disable Metrics/AbcSize
     def call(group:)
-      response = OpenProject
-                   .httpx
-                   .basic_auth(@username, @password)
-                   .with(headers: { 'OCS-APIRequest' => 'true' })
-                   .get(Util.join_uri_path(@uri, "ocs/v1.php/cloud/groups", CGI.escapeURIComponent(group)))
+      AUTH.with_basic_auth(storage: @storage, http_options: Util.ocs_api_request) do |http|
+        response = http.get(Util.join_uri_path(@storage.uri, "ocs/v1.php/cloud/groups", CGI.escapeURIComponent(group)))
+        handle_errors(response)
+      end
+    end
 
+    private
+
+    def handle_errors(response)
       error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 
       case response
@@ -70,7 +72,5 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         Util.error(:error, 'Outbound request failed', error_data)
       end
     end
-
-    # rubocop:enable Metrics/AbcSize
   end
 end

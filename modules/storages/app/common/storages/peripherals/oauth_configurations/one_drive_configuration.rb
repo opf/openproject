@@ -34,13 +34,14 @@ module Storages
       class OneDriveConfiguration < ConfigurationInterface
         DEFAULT_SCOPES = %w[offline_access files.readwrite.all user.read sites.readwrite.all].freeze
 
-        attr_reader :oauth_client
+        attr_reader :oauth_client, :oauth_uri
 
         def initialize(storage)
+          super()
           @storage = storage
           @uri = storage.uri
           @oauth_client = storage.oauth_client
-          @oauth_uri = URI('https://login.microsoftonline.com/').normalize
+          @oauth_uri = URI("https://login.microsoftonline.com/#{@storage.tenant_id}/oauth2/v2.0").normalize
         end
 
         def authorization_state_check(access_token)
@@ -63,8 +64,8 @@ module Storages
           ).raise_for_status.json['id']
         end
 
-        def scope
-          DEFAULT_SCOPES
+        def scope(user:)
+          user.nil? ? %w[https://graph.microsoft.com/.default] : DEFAULT_SCOPES
         end
 
         def basic_rack_oauth_client
@@ -75,8 +76,8 @@ module Storages
             scheme: @oauth_uri.scheme,
             host: @oauth_uri.host,
             port: @oauth_uri.port,
-            authorization_endpoint: "/#{@storage.tenant_id}/oauth2/v2.0/authorize",
-            token_endpoint: "/#{@storage.tenant_id}/oauth2/v2.0/token"
+            authorization_endpoint: "#{@oauth_uri.path}/authorize",
+            token_endpoint: "#{@oauth_uri.path}/token"
           )
         end
       end

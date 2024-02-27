@@ -37,8 +37,7 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
     end
 
     def using_user_token(storage, user, &)
-      connection_manager = ::OAuthClients::ConnectionManager
-        .new(user:, configuration: storage.oauth_configuration)
+      connection_manager = ::OAuthClients::ConnectionManager.new(user:, configuration: storage.oauth_configuration)
 
       connection_manager
         .get_access_token
@@ -97,6 +96,10 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
         end,
         on_failure: ->(errors) { ServiceResult.failure(result: :unauthorized, errors:) }
       )
+    end
+
+    def accept_json
+      { headers: { accept: 'application/json' } }
     end
 
     def extract_location(parent_reference, file_name = '')

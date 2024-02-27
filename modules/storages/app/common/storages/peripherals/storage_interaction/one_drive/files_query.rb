@@ -34,6 +34,7 @@ module Storages
       module OneDrive
         class FilesQuery
           FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
+          AUTH = ::Storages::Peripherals::StorageInteraction::Authentication
 
           using ServiceResultRefinements
 
@@ -47,12 +48,8 @@ module Storages
           end
 
           def call(user:, folder:)
-            result = Util.using_user_token(@storage, user) do |token|
-              response = OpenProject.httpx.get(
-                Util.join_uri_path(@uri, children_uri_path_for(folder) + FIELDS),
-                headers: { 'Authorization' => "Bearer #{token.access_token}" }
-              )
-
+            result = AUTH.with_user_token(storage: @storage, user:) do |http|
+              response = http.get(Util.join_uri_path(@uri, children_uri_path_for(folder) + FIELDS))
               handle_response(response, :value)
             end
 
