@@ -251,7 +251,7 @@ RSpec.describe 'Structured meetings CRUD',
     expect(page).to have_css('.flash', text: I18n.t('activerecord.errors.messages.error_conflict'))
   end
 
-  it 'can copy the meeting (empty)' do
+  it 'can copy the meeting' do
     show_page.expect_toast(message: 'Successful creation')
 
     # Can add and edit a single item
@@ -270,7 +270,7 @@ RSpec.describe 'Structured meetings CRUD',
 
     click_button 'Create'
 
-    expect(page).to have_text 'Your meeting is empty'
+    show_page.expect_agenda_item title: 'My agenda item'
     new_meeting = StructuredMeeting.reorder(id: :asc).last
     expect(page).to have_current_path "/meetings/#{new_meeting.id}"
   end

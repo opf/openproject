@@ -1,0 +1,158 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2012-2024 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+ms:
+  plugin_openproject_backlogs:
+    name: "OpenProject Backlogs"
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
+  activerecord:
+    attributes:
+      work_package:
+        position: "Kedudukan"
+        story_points: "Titik cerita"
+        backlogs_work_package_type: "Jenis tunggakan"
+    errors:
+      models:
+        work_package:
+          attributes:
+            blocks_ids:
+              can_only_contain_work_packages_of_current_sprint: "hanya boleh mengandungi ID pakej kerja dalam pecutan semasa."
+              must_block_at_least_one_work_package: "perlu mengandungi sekurang-kurangnya ID untuk satu tiket."
+            version_id:
+              task_version_must_be_the_same_as_story_version: "perlu sama dengan versi cerita induk."
+        sprint:
+          cannot_end_before_it_starts: "Pecutan tidak boleh berakhir lebih awal sebelum ia bermula."
+  backlogs:
+    add_new_story: "Cerita baharu"
+    any: "mana-mana"
+    backlog_settings: "Tetapan tunggakan"
+    burndown_graph: "Graf Burndown"
+    card_paper_size: "Saiz kertas untuk mencetak kad"
+    chart_options: "Pilihan carta"
+    close: "Tutup"
+    column_width: "Lebar kolum:"
+    date: "Hari"
+    definition_of_done: "Definisi Selesai"
+    generating_chart: "Sedang Menjana Graf..."
+    hours: "Jam"
+    impediment: "Halangan"
+    label_versions_default_fold_state: "Show versions folded"
+    work_package_is_closed: "Pakej kerja selesai apabila"
+    label_is_done_status: "Status %{status_name} bermaksud selesai"
+    no_burndown_data: "Tiada data burndown tersedia. Adalah perlu untuk menentukan tarikh mula dan tarikh akhir pecutan."
+    points: "Mata"
+    positions_could_not_be_rebuilt: "Kedudukan tidak boleh dibina semula."
+    positions_rebuilt_successfully: "Kedudukan berjaya dibina semula."
+    properties: "Ciri-ciri"
+    rebuild: "Bina semula"
+    rebuild_positions: "Bina semula kedudukan"
+    remaining_hours: "Kerja yang tinggal"
+    remaining_hours_ideal: "Kerja yang tinggal (ideal)"
+    show_burndown_chart: "Carta Burndown"
+    story: "Cerita"
+    story_points: "Titik cerita"
+    story_points_ideal: "Titik Cerita (ideal)"
+    task: "Tugasan"
+    task_color: "Warna tugasan"
+    unassigned: "Belum Ditetapkan"
+    x_more: "%{count} lagi..."
+  backlogs_active: "aktif"
+  backlogs_any: "mana-mana"
+  backlogs_inactive: "Projek tidak menunjukkan sebarang aktiviti"
+  backlogs_points_burn_direction: "Mata untuk burn up/down"
+  backlogs_product_backlog: "Tunggakan produk"
+  backlogs_product_backlog_is_empty: "Tunggakan produk kosong"
+  backlogs_product_backlog_unsized: "Bahagian atas tunggakan produk mempunyai cerita tanpa saiz"
+  backlogs_sizing_inconsistent: "Saiz cerita berbeza berbanding anggaran"
+  backlogs_sprint_notes_missing: "Pecutan ditutup tanpa nota restrospektif atau semakan"
+  backlogs_sprint_unestimated: "Pecutan aktif atau ditutup bersama cerita yang tiada anggaran"
+  backlogs_sprint_unsized: "Project has stories on active or recently closed sprints that were not sized"
+  backlogs_sprints: "Pecutan"
+  backlogs_story: "Cerita"
+  backlogs_story_type: "Jenis Cerita"
+  backlogs_task: "Tugasan"
+  backlogs_task_type: "Jenis Tugasan"
+  backlogs_velocity_missing: "No velocity could be calculated for this project"
+  backlogs_velocity_varies: "Velocity varies significantly over sprints"
+  backlogs_wiki_template: "Template for sprint wiki page"
+  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
+  button_edit_wiki: "Edit wiki page"
+  error_backlogs_task_cannot_be_story: "The settings are invalid. The selected task type can not also be a story type."
+  error_intro_plural: "The following errors were encountered:"
+  error_intro_singular: "The following error was encountered:"
+  error_outro: "Please correct the above errors before submitting again."
+  event_sprint_description: "%{summary}: %{url}\n%{description}"
+  event_sprint_summary: "%{project}: %{summary}"
+  ideal: "ideal"
+  inclusion: "is not included in the list"
+  label_back_to_project: "Back to project page"
+  label_backlog: "Backlog"
+  label_backlogs: "Backlogs"
+  label_backlogs_unconfigured: "You have not configured Backlogs yet. Please go to %{administration} > %{plugins}, then click on the %{configure} link for this plugin. Once you have set the fields, come back to this page to start using the tool."
+  label_blocks_ids: "IDs of blocked work packages"
+  label_burndown: "Burndown"
+  label_column_in_backlog: "Column in backlog"
+  label_hours: "hours"
+  label_work_package_hierarchy: "Work package Hierarchy"
+  label_master_backlog: "Master Backlog"
+  label_not_prioritized: "not prioritized"
+  label_points: "points"
+  label_points_burn_down: "Down"
+  label_points_burn_up: "Up"
+  label_product_backlog: "product backlog"
+  label_select_all: "Select all"
+  label_sprint_backlog: "sprint backlog"
+  label_sprint_cards: "Export cards"
+  label_sprint_impediments: "Sprint Impediments"
+  label_sprint_name: "Sprint \"%{name}\""
+  label_sprint_velocity: "Velocity %{velocity}, based on %{sprints} sprints with an average %{days} days"
+  label_stories: "Stories"
+  label_stories_tasks: "Stories/Tasks"
+  label_task_board: "Task board"
+  label_version_setting: "Versi"
+  label_version: 'Versi'
+  label_webcal: "Webcal Feed"
+  label_wiki: "Wiki"
+  permission_view_master_backlog: "View master backlog"
+  permission_view_taskboards: "View taskboards"
+  permission_select_done_statuses: "Select done statuses"
+  permission_update_sprints: "Update sprints"
+  points_accepted: "points accepted"
+  points_committed: "points committed"
+  points_resolved: "points resolved"
+  points_to_accept: "points not accepted"
+  points_to_resolve: "points not resolved"
+  project_module_backlogs: "Backlogs"
+  rb_label_copy_tasks: "Copy work packages"
+  rb_label_copy_tasks_all: "All"
+  rb_label_copy_tasks_none: "None"
+  rb_label_copy_tasks_open: "Open"
+  rb_label_link_to_original: "Include link to original story"
+  remaining_hours: "remaining work"
+  required_burn_rate_hours: "required burn rate (hours)"
+  required_burn_rate_points: "required burn rate (points)"
+  todo_work_package_description: "%{summary}: %{url}\n%{description}"
+  todo_work_package_summary: "%{type}: %{summary}"
+  version_settings_display_label: "Column in backlog"
+  version_settings_display_option_left: "left"
+  version_settings_display_option_none: "none"
+  version_settings_display_option_right: "right"
