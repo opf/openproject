@@ -25,6 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+require 'nokogiri'
 
 module OpenProject
   module Common
@@ -34,16 +35,8 @@ module OpenProject
         super
         @id = id
         @name = name
-        @description = description
+        @description = Nokogiri::HTML(description).text
         @system_arguments = args
-      end
-
-      def call
-        render(Primer::Alpha::Dialog.new(id: @id, title: @name, size: :large)) do |component|
-          component.with_show_button(scheme: :link, display: (show_expand_button(@description) ? :block : :none)) { I18n.t('js.label_expand') }
-          component.with_body(mt: 2) { @description }
-          component.with_header
-        end
       end
 
       private
