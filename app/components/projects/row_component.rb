@@ -64,7 +64,7 @@ module Projects
         render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-cf-#{cf.id}", title: cf.name, size: :large)) do |component|
           component.with_show_button(scheme: :link, display: (show_expand_button(custom_value) ? :block : :none)) { I18n.t('js.label_expand') }
           component.with_body { helpers.format_text(custom_value.html_safe) } # rubocop:disable Rails/OutputSafety
-          component.with_header(show_divider: true)
+          component.with_header
         end
       elsif custom_value.is_a?(Array)
         safe_join(Array(custom_value).compact_blank, ', ')
@@ -124,7 +124,7 @@ module Projects
         render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-status-explanation", title: I18n.t('activerecord.attributes.project.status_explanation'), size: :large)) do |component|
           component.with_show_button(scheme: :link, display: (show_expand_button(project.status_explanation) ? :block : :none)) { I18n.t('js.label_expand') }
           component.with_body { helpers.format_text(project.status_explanation) }
-          component.with_header(show_divider: true)
+          component.with_header
         end
       end
     end
@@ -137,7 +137,7 @@ module Projects
         render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-description", title: I18n.t('activerecord.attributes.project.description'), size: :large)) do |component|
           component.with_show_button(scheme: :link, display: (show_expand_button(project.description) ? :block : :none)) { I18n.t('js.label_expand') }
           component.with_body { helpers.format_text(project.description) }
-          component.with_header(show_divider: true)
+          component.with_header
         end
       end
     end
