@@ -63,7 +63,7 @@ module Projects
         concat content_tag :p, Nokogiri::HTML(custom_value).text, class: 'project-long-text', id: "#{project.id}-cf-#{cf.id}"
         render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-cf-#{cf.id}", title: cf.name, size: :large)) do |component|
           component.with_show_button(scheme: :link, display: (show_expand_button(custom_value) ? :block : :none)) { I18n.t('js.label_expand') }
-          component.with_body { helpers.format_text(custom_value.html_safe) } # rubocop:disable Rails/OutputSafety
+          component.with_body(mt: 2) { helpers.format_text(custom_value.html_safe) } # rubocop:disable Rails/OutputSafety
           component.with_header
         end
       elsif custom_value.is_a?(Array)
@@ -123,7 +123,7 @@ module Projects
         concat content_tag :p, Nokogiri::HTML(project.status_explanation).text, class: 'project-long-text', id: "#{project.id}-status-explanation"
         render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-status-explanation", title: I18n.t('activerecord.attributes.project.status_explanation'), size: :large)) do |component|
           component.with_show_button(scheme: :link, display: (show_expand_button(project.status_explanation) ? :block : :none)) { I18n.t('js.label_expand') }
-          component.with_body { helpers.format_text(project.status_explanation) }
+          component.with_body(mt: 2) { helpers.format_text(project.status_explanation) }
           component.with_header
         end
       end
@@ -134,11 +134,7 @@ module Projects
 
       if project.description.present?
         concat content_tag :p, Nokogiri::HTML(project.description).text, class: 'project-long-text', id: "#{project.id}-description"
-        render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-description", title: I18n.t('activerecord.attributes.project.description'), size: :large)) do |component|
-          component.with_show_button(scheme: :link, display: (show_expand_button(project.description) ? :block : :none)) { I18n.t('js.label_expand') }
-          component.with_body { helpers.format_text(project.description) }
-          component.with_header
-        end
+        render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-description", I18n.t('activerecord.attributes.project.description'), helpers.format_text(project.description))
       end
     end
 
