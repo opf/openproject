@@ -291,7 +291,7 @@ module OpenProject::Storages
         },
 
         'Storages::ManageNextcloudIntegrationJob': {
-          cron: "*/5 * * * *",
+          cron: "1 * * * *",
           class: ::Storages::ManageNextcloudIntegrationJob.name
         }
       }

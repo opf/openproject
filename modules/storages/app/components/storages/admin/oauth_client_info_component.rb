@@ -42,12 +42,15 @@ module Storages::Admin
     end
 
     def edit_icon_button_options
+      label = I18n.t("storages.buttons.replace_oauth_client",
+                     provider_type: I18n.t("storages.provider_types.#{storage.short_provider_type}.name"))
+
       {
         icon: oauth_client_configured? ? :sync : :pencil,
         tag: :a,
         href: url_helpers.new_admin_settings_storage_oauth_client_path(storage),
         scheme: :invisible,
-        aria: { label: I18n.t("storages.label_edit_storage_oauth_client") },
+        aria: { label: },
         data: edit_icon_button_data_options,
         test_selector: 'storage-edit-oauth-client-button'
       }
@@ -57,7 +60,10 @@ module Storages::Admin
 
     def edit_icon_button_data_options
       {}.tap do |data_h|
-        data_h[:confirm] = I18n.t("storages.confirm_replace_oauth_client") if oauth_client_configured?
+        if oauth_client_configured?
+          provider_type = I18n.t("storages.provider_types.#{storage.short_provider_type}.name")
+          data_h[:confirm] = I18n.t('storages.confirm_replace_oauth_client', provider_type:)
+        end
         data_h[:turbo_stream] = true
       end
     end
