@@ -69,7 +69,9 @@ export default class OAuthAccessGrantNudgeModalController extends Controller<HTM
     evt.preventDefault();
 
     this.activateLoadingState();
-    this.requestAccessFormTarget.requestSubmit();
+    // NOTE: Automated requestAccessFormTarget.requestSubmit() is not possible due to CSP restrictions
+    // See: https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/form-action
+    window.location.href = this.requestAccessFormTarget.action;
   }
 
   // Hide the request access button and show the loading indicator
