@@ -13,7 +13,7 @@ Automated workflows with custom actions support you to easily update several wor
 
 You can use custom actions to standardize your workflows, avoid errors and reduce manual work for updates.
 
-The workflows with custom actions are an Enterprise add-on and only available for [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) and [Enterprise cloud](https://www.openproject.org/hosting/) customers.
+The workflows with custom actions are an Enterprise add-on and only available for [Enterprise on-premises](https://www.openproject.org/enterprise-edition/) and [Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options) customers.
 
 Watch the following video to see how you can configure your custom actions:
 

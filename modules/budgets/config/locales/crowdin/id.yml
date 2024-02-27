@@ -39,13 +39,13 @@ id:
       work_package:
         budget_subject: "Judul anggaran"
     models:
-      budget: "Bugdet"
+      budget: "Anggaran"
       material_budget_item: "Unit"
   activity:
     filter:
-      budget: "Budget"
+      budget: "Anggaran"
   attributes:
-    budget: "Bugdet"
+    budget: "Anggaran"
   button_add_budget_item: "Tambahkan biaya terencana"
   button_add_budget: "Tambahkan budget"
   button_add_cost_type: "Tambahkan jenis biaya"
@@ -54,13 +54,13 @@ id:
   caption_labor: "Tenaga kerja"
   caption_labor_costs: "Biaya tenaga aktual"
   caption_material_costs: "Biaya unit aktual"
-  budgets_title: "Budget"
+  budgets_title: "Anggaran"
   events:
     budget: "Buget telah di-edit"
   help_click_to_edit: "Klik untuk edit."
   help_currency_format: "Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit."
   help_override_rate: "Masukkan nilai untuk mengubah rate default."
-  label_budget: "Bugdet"
+  label_budget: "Anggaran"
   label_budget_new: "Tambah budget"
   label_budget_plural: "Budget"
   label_budget_id: "Budget #%{id}"

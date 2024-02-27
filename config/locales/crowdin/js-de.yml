@@ -31,6 +31,7 @@ de:
         Sind Sie sicher, dass Sie diese Datei löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.
       draggable_hint: |
         Ziehen Sie diesen Anhang auf ein editierbares Feld, um das Bild oder den Anhang einzubinden. Geöffnete Felder werden automatisch geöffnet während Sie das Attachment mit der Maus ziehen und halten.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Eintrag hinzufügen"
       clear_all: "Eingabe löschen"

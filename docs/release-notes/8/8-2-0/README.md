@@ -12,7 +12,7 @@
 OpenProject 8.2 includes several improvements, such as a modernized
 calendar as well as many usability improvements.
 
-Users of the [Enterprise cloud](https://www.openproject.org/hosting/) and
+Users of the [Enterprise cloud](https://www.openproject.org/enterprise-edition/#hosting-options) and
 [Enterprise on-premises](https://www.openproject.org/enterprise-edition/)
 can change work packages to a read-only mode to avoid unwanted changes.
 Additionally, embedded work package now also support relations.

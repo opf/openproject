@@ -50,7 +50,7 @@ RSpec.describe 'Projects module administration' do
     expect(page).to have_unchecked_field 'Time and costs'
     expect(page).to have_unchecked_field 'Work packages'
 
-    expect(page).not_to have_xpath(project_work_packages_menu_link_selector, visible: false)
+    expect(page).to have_no_xpath(project_work_packages_menu_link_selector)
 
     check 'Activity'
     click_button 'Save'
@@ -71,7 +71,7 @@ RSpec.describe 'Projects module administration' do
                                 dependency: 'Work packages',
                                 module: 'Calendars')
 
-    expect(page).not_to have_xpath(project_work_packages_menu_link_selector, visible: false)
+    expect(page).to have_no_xpath(project_work_packages_menu_link_selector)
 
     check 'Work packages'
     click_button 'Save'
@@ -83,12 +83,12 @@ RSpec.describe 'Projects module administration' do
     expect(page).to have_unchecked_field 'Time and costs'
     expect(page).to have_checked_field 'Work packages'
 
-    expect(page).to have_xpath(project_work_packages_menu_link_selector, visible: false)
+    expect(page).to have_xpath(project_work_packages_menu_link_selector, visible: :all)
 
     uncheck 'Work packages'
     click_button 'Save'
 
-    expect(page).not_to have_xpath(project_work_packages_menu_link_selector, visible: false)
+    expect(page).to have_no_xpath(project_work_packages_menu_link_selector)
   end
 
   context 'with a user who does not have the correct permissions (#38097)' do

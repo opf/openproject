@@ -31,6 +31,7 @@ it:
         Vuoi davvero eliminare questo file? Quest’azione è irreversibile.
       draggable_hint: |
         Trascina l'elemento nei campi dell'editor per allineare l'immagine o il riferimento allegato. I campi dell'editor chiusi verranno sbloccati durante il trascinamento.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Aggiungi elemento"
       clear_all: "Cancella tutto"

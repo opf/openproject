@@ -90,6 +90,17 @@ lt:
     show_until: Rodyti iki
     is_active: šiuo metu rodoma
     is_inactive: šiuo metu nerodoma
+  antivirus_scan:
+    not_processed_yet_message: "Atsisiuntimas užblokuotas, nes failas dar nebuvo patikrintas dėl virusų. Prašome pabandyti vėliau."
+    quarantined_message: "Faile „%{filename}“ aptiktas virusas. Jis buvo patalpintas į karantiną ir jo atsisiųsti negalima."
+    deleted_message: "Faile „%{filename}“ aptiktas virusas. Failas buvo ištrintas."
+    deleted_by_admin: "Administratorius ištrynė į karantiną patekusį failą „%{filename}“."
+    overridden_by_admin: "Failo „%{filename}“ karantinas buvo pašalintas %{user}. Dabar failą galima pasiekti."
+    quarantined_attachments:
+      container: "Konteineris"
+      delete: "Trinti į karantiną patekusį failą"
+      title: "Į karantiną patalpinti priedai"
+      error_cannot_act_self: "Negalima atlikti veiksmų su savo įkeltais failais."
   attribute_help_texts:
     note_public: "Bet koks tekstas ir piešinukai, kuriuos jūs pridedate prie šio lauko, yra viešai matomas visiems prisijungusiems naudotojams!"
     text_overview: "Šioje peržiūroje Jūs galite kurti pritaikytus pagalbos tekstus atributams. Kai nustatyti, šie tekstai gali būti rodomi paspaudžiant pagalbos piktogramą šalia atitinkamo atributo."
@@ -1951,6 +1962,7 @@ lt:
   label_member_new: "Naujas narys"
   label_member_all_admin: "(Visi vaidmenys, nes turite administratoriaus statusą)"
   label_member_plural: "Nariai"
+  label_membership_plural: "Narystės"
   lable_membership_added: "Narys pridėtas"
   lable_membership_updated: "Narys atnaujintas"
   label_menu_badge:
@@ -2253,6 +2265,10 @@ lt:
     one: "1 projektas"
     other: "%{count} projektai (-as, -ų)"
     zero: "nėra projektų"
+  label_x_files:
+    one: "1 failas"
+    other: "%{count} failai"
+    zero: "nėra failų"
   label_yesterday: "vakar"
   label_role_type: "Tipas"
   label_member_role: "Vaidmuo projekte"
@@ -2765,6 +2781,8 @@ lt:
   setting_app_subtitle: "Programos paantraštė"
   setting_app_title: "Programos pavadinimas"
   setting_attachment_max_size: "Didžiausias prisegamo failo dydis"
+  setting_antivirus_scan_mode: "Skenavimo režimas"
+  setting_antivirus_scan_action: "Užkrėsto failo veiksmas"
   setting_autofetch_changesets: "Automatiškai įkelti repozitorijos pakeitimus"
   setting_autologin: "Automatinis prisijungimas"
   setting_available_languages: "Siūlomos kalbos"
@@ -2864,6 +2882,27 @@ lt:
     attachments:
       whitelist_text_html: >
         Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).
+    antivirus:
+      title: "Virusų tikrinimas"
+      clamav_ping_failed: "Nepavyko prisijungti prie ClamAV demono. Dar kartą patikrinkite konfigūraciją ir bandykite dar kartą."
+      remaining_quarantined_files_html: >
+        Virusų tikrinimas išjungtas. %{file_count} lieka karantine. Norėdami peržiūrėti į karantiną patekusius failus, apsilankykite šią nuorodą: %{link}
+      remaining_scan_complete_html: >
+        Likę failai buvo patikrinti. Karantine yra %{file_count} . Esate nukreipiami į karantino puslapį. Naudokitės šiuo puslapiu norėdami ištrinti arba pakeisti karantine esančius failus.
+      remaining_rescanned_files: >
+        Dabar, kai virusų skenavimas yra aktyvus, yra %{file_count} failai, kuruos reikia iš naujo patikrinti. Šis procesas suplanuotas fone. Tikrinimo metu failai išliks prieinami.
+      upsale:
+        description: "Užtikrinkite, kad į OpenProject įkelti failai būtų patikrinti nuo virusų prieš padarant juos prieinamus kitiems naudotojams."
+      actions:
+        delete: 'Trinti failą'
+        quarantine: 'Karantinuoti failą'
+        instructions_html: >
+          Pasirinkite veiksmą, kurį norite atlikti su failais, kuriuose aptiktas virusas: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Perkelkite į karantiną, neleisdami naudotojams prieiti prie failo. Administratoriai gali peržiūrėti ir ištrinti į karantiną patalpintus failus administravimo įrankiais.</li> <li><strong>%{delete_option}</strong>: Iškart ištrinti failą.</li> </ul>
+      modes:
+        clamav_socket_html: Įveskite clamd demono lizdą, pvz., %{example}
+        clamav_host_html: Įveskite kompiuterio pavadinimą ir prievadą clamd demonui, atskirti dvitaškiu. pvz., %{example}
+        description_html: >
+          Pasirinkite režimą, kuriuo turėtų veikti virusų tikrinimo integracija. <br/> <ul> <li><strong>%{disabled_option}</strong>: Įkelti failai nėra tikrinami dėl virusų.</li> <li><strong>%{socket_option}</strong>: Tame pačiame serveryje, kuriame yra „OpenProject“, įdiegėte "ClamAV" ir fone veikia skenavimo demonas clamd.</li> <li><strong>%{host_option}</strong>: Siunčiate failus į išorinį virusų skenavimo kompiuterį.</li> </ul>
     brute_force_prevention: "Automatinis vartotojų blokavimas"
     date_format:
       first_date_of_week_and_year_set: >

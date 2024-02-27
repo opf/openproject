@@ -97,7 +97,8 @@ module Admin::Settings
 
     def remaining_quarantine_warning
       flash[:info] = t('settings.antivirus.remaining_quarantined_files_html',
-                       link: helpers.link_to(t('antivirus_scan.quarantined_attachments.title'), admin_quarantined_attachments_path),
+                       link: helpers.link_to(t('antivirus_scan.quarantined_attachments.title'),
+                                             admin_quarantined_attachments_path),
                        file_count: t(:label_x_files, count: Attachment.status_quarantined.count))
       redirect_to action: :show
     end

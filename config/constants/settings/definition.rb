@@ -850,7 +850,7 @@ module Settings
       sendmail_arguments: {
         description: 'Arguments to call sendmail with in case it is configured as outgoing email setup',
         format: :string,
-        default: "-i",
+        default: "-i"
       },
       sendmail_location: {
         description: 'Location of sendmail to call if it is configured as outgoing email setup',

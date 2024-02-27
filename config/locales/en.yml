@@ -2049,6 +2049,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_member_new: "New member"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Members"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
   label_menu_badge:

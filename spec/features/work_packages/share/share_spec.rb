@@ -81,7 +81,6 @@ RSpec.describe 'Work package sharing',
   let(:columns) { Components::WorkPackages::Columns.new }
   let(:wp_modal) { Components::WorkPackages::TableConfigurationModal.new }
 
-
   current_user { create(:user, firstname: 'Signed in', lastname: 'User') }
 
   def shared_principals
@@ -303,7 +302,6 @@ RSpec.describe 'Work package sharing',
         columns.add 'Subject', save_changes: false
         columns.add 'Shared with', save_changes: false
         columns.apply
-
 
         wp_row = wp_table.row(work_package)
         expect(wp_row).to have_css('.wp-table--cell-td.sharedWithUsers .badge', text: '7')

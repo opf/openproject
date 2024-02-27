@@ -31,6 +31,7 @@ ca:
         Estàs segur que vols esborrar aquest fitxer adjunt? Aquesta acció és irreversible.
       draggable_hint: |
         Arrossega a l'editor per a pujar una imatge o referenciar un fitxer adjunt. Els camps tancats de l'editor seguiran oberts mentre se segueixi arrossegant.
+      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Afegeix element"
       clear_all: "Esborra-ho tot"

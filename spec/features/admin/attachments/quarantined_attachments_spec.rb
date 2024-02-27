@@ -61,7 +61,7 @@ RSpec.describe 'Quarantined attachments', :js, :with_cuprite do
       expect { quarantined_attachment.reload }.to raise_error(ActiveRecord::RecordNotFound)
     end
 
-    expect(page).not_to have_text 'other-1.txt'
+    expect(page).to have_no_text 'other-1.txt'
     expect(page).to have_text 'other-2.txt'
   end
 end

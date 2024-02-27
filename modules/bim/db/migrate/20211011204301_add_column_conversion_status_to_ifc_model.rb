@@ -30,6 +30,7 @@ class AddColumnConversionStatusToIfcModel < ActiveRecord::Migration[6.1]
   class MigrationAttachment < ApplicationRecord
     self.table_name = 'attachments'
   end
+
   # Note: rails 7.1 breaks the class' ancestor chain, and raises an error, when a class
   # with an enum definition without a database field is being referenced.
   # Re-defining the IfcModel class without the enum to avoid the issue.

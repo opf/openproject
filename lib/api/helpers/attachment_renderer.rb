@@ -46,7 +46,6 @@ module API
         }
       end
 
-
       ##
       # Render an attachment, either by redirecting
       # to the external storage,
