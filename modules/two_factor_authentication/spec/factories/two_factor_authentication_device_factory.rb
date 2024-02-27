@@ -3,11 +3,12 @@ FactoryBot.define do
     user
     channel { :sms }
     active { true }
+    default { true }
     phone_number { '+49 123456789' }
     identifier { 'Phone number (+49 123456789)' }
 
     transient do
-      make_default { true }
+      make_default { false }
     end
 
     callback(:after_create) do |device, evaluator|
@@ -19,10 +20,11 @@ FactoryBot.define do
     user
     channel { :totp }
     active { true }
+    default { true }
     identifier { 'TOTP device' }
 
     transient do
-      make_default { true }
+      make_default { false }
     end
 
     callback(:after_create) do |device, evaluator|
@@ -34,13 +36,14 @@ FactoryBot.define do
     user
     channel { :webauthn }
     active { true }
+    default { true }
     identifier { 'WebAuthn device' }
 
     webauthn_external_id { "foo" }
     webauthn_public_key { "bar" }
 
     transient do
-      make_default { true }
+      make_default { false }
     end
 
     callback(:after_create) do |device, evaluator|
