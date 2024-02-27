@@ -40,11 +40,16 @@ module Projects::ActsAsCustomizablePatches
     has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: 'ProjectCustomField'
 
     before_save :build_missing_project_custom_field_project_mappings
-
     after_save :reset_section_scoped_validation, :reset_query_available_custom_fields_on_global_level
 
-    before_create :reject_section_scoped_validation_for_creation
+    # we need to reset the query_available_custom_fields_on_global_level already after validation
+    # as the update service just calls .valid? and returns if invalid
+    # after_save is not touched in this case which causes the flag to stay active
+    after_validation :reset_query_available_custom_fields_on_global_level
 
+    before_update :query_available_custom_fields_on_global_level
+
+    before_create :reject_section_scoped_validation_for_creation
     after_create :disable_custom_fields_with_empty_values
 
     def build_missing_project_custom_field_project_mappings
@@ -64,6 +69,12 @@ module Projects::ActsAsCustomizablePatches
       # reset the section scope after saving
       # in order not to silently carry this setting in this instance
       self._limit_custom_fields_validation_to_section_id = nil
+    end
+
+    def query_available_custom_fields_on_global_level
+      # query the available custom fields on a global level when updating custom field values
+      # in order to support implicit activation of custom fields when values are provided during an update
+      self._query_available_custom_fields_on_global_level = true
     end
 
     def reset_query_available_custom_fields_on_global_level
@@ -105,7 +116,6 @@ module Projects::ActsAsCustomizablePatches
           .uniq
         # if for whatever reason a required custom field is not activated for this instance,
         # we need to make sure it's treated as activated especially in context of the validation
-        # relevant when a project is created with a section scoped
       end
     end
 
@@ -116,6 +126,10 @@ module Projects::ActsAsCustomizablePatches
       custom_fields = ProjectCustomField
         .includes(:project_custom_field_section)
 
+      # available_custom_fields is called from within the acts_as_customizable module
+      # we don't want to adjust these calls, but need a way to query the available custom fields on a global level in some cases
+      # thus we pass in this parameter as an instance flag implicitly here,
+      # which is not nice but helps us to touch acts_as_customizable as little as possible
       unless _query_available_custom_fields_on_global_level
         custom_fields = custom_fields.where(id: active_custom_field_ids_of_project)
       end
@@ -175,44 +189,11 @@ module Projects::ActsAsCustomizablePatches
       end
     end
 
-    # patching the update methods directly as rails before/after/around update hooks did not work in this context
-    #
-    # reason for the patch:
-    # we need to query the available custom fields on a global level when updating custom field values
-    # in order to support implicit activation of custom fields when values are provided during an update
-    # _query_available_custom_fields_on_global_level is used within the patched `available_custom_fields` method
-    #
-    # TODO: this patch seems far from ideal, find better solution for this
-    #
-    def update(attributes)
-      if attributes[:custom_field_values].present?
-        self._query_available_custom_fields_on_global_level = true
-        result = super(attributes)
-        self._query_available_custom_fields_on_global_level = false
-
-        result
-      else
-        super
-      end
-    end
-
-    def update!(attributes)
-      if attributes[:custom_field_values].present?
-        self._query_available_custom_fields_on_global_level = true
-        result = super(attributes)
-        self._query_available_custom_fields_on_global_level = false
-
-        result
-      else
-        super
-      end
-    end
-
     def custom_field_values=(values)
       # overrides acts_as_customizable
       # we need to query the available custom fields on a global level when updating custom field values
       # in order to support implicit activation of custom fields when values are provided during an update
-      self._query_available_custom_fields_on_global_level = true
+      self._query_available_custom_fields_on_global_level = true # set to false in after_save hook
       set_custom_field_values_method_from_acts_as_customizable_module(values)
     end
 

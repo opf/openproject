@@ -57,7 +57,7 @@ RSpec.describe Project, 'customizable' do
   end
 
   context 'when persisted' do
-    shared_let(:project) { create(:project) }
+    let(:project) { create(:project) }
 
     describe '#active_custom_field_ids_of_project' do
       it 'returns all active custom field ids of the project' do
@@ -217,7 +217,7 @@ RSpec.describe Project, 'customizable' do
 
         expect(project).to be_valid
 
-        # after a project is created, a new require custom field is added
+        # after a project is created, a new required custom field is added
         # which gets automatically activated for all projects
         create(:text_project_custom_field,
                is_required: true,
