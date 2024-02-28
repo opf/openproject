@@ -142,6 +142,12 @@ PATH
       openproject-webhooks
 
 PATH
+  remote: modules/gitlab_integration
+  specs:
+    openproject-gitlab_integration (2.1.6)
+      openproject-webhooks
+
+PATH
   remote: modules/grids
   specs:
     grids (1.0.0)
@@ -1225,6 +1231,7 @@ DEPENDENCIES
   openproject-documents!
   openproject-gantt!
   openproject-github_integration!
+  openproject-gitlab_integration!
   openproject-job_status!
   openproject-ldap_groups!
   openproject-meeting!
@@ -1323,4 +1330,4 @@ RUBY VERSION
    ruby 3.2.3p157
 
 BUNDLED WITH
-   2.5.5
+   2.4.22
