@@ -729,4 +729,16 @@ RSpec.describe CustomValue do
       expect(custom_value.value).to eql parsed_value
     end
   end
+
+  describe '#activate_custom_field_in_customized_project' do
+    let(:custom_field) { create(:project_custom_field) }
+    let(:project) { create(:project) }
+    let(:custom_value) { build(:custom_value, custom_field:, customized: project) }
+
+    it 'activates the custom field in the project after create if missing' do
+      expect(project.project_custom_fields).not_to include(custom_field)
+      custom_value.save!
+      expect(project.reload.project_custom_fields).to include(custom_field)
+    end
+  end
 end

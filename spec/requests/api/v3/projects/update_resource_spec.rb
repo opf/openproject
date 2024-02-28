@@ -106,6 +106,11 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
       expect(project.reload.send(custom_field.attribute_getter))
         .to eql("CF text")
     end
+
+    it 'automatically activates the cf for project if the value was provided' do
+      expect(project.project_custom_fields)
+        .to contain_exactly(custom_field)
+    end
   end
 
   context 'without permission to patch projects' do

@@ -296,4 +296,40 @@ RSpec.describe Project, 'customizable' do
       it_behaves_like 'implicitly enabled and saved custom values'
     end
   end
+
+  context 'when updating with custom field setter methods (API approach)' do
+    let(:project) { create(:project) }
+
+    shared_examples 'implicitly enabled and saved custom values' do
+      it 'enables fields with provided values' do
+        # list_custom_field is not provided, thus it should not be enabled
+        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
+            .to contain_exactly(text_custom_field.id, bool_custom_field.id)
+        expect(project.project_custom_fields)
+          .to contain_exactly(text_custom_field, bool_custom_field)
+      end
+
+      it 'saves the custom field values properly' do
+        expect(project.custom_value_for(text_custom_field).typed_value)
+          .to eq('foo')
+        expect(project.custom_value_for(bool_custom_field).typed_value)
+          .to be_truthy
+
+        # or via getter methods:
+
+        expect(project.send(:"custom_field_#{text_custom_field.id}")).to eq('foo')
+        expect(project.send(:"custom_field_#{bool_custom_field.id}")).to be_truthy
+      end
+    end
+
+    context 'when setting a value for a disabled custom field' do
+      before do
+        project.send(:"custom_field_#{text_custom_field.id}=", 'foo')
+        project.send(:"custom_field_#{bool_custom_field.id}=", true)
+        project.save!
+      end
+
+      it_behaves_like 'implicitly enabled and saved custom values'
+    end
+  end
 end

@@ -129,6 +129,11 @@ RSpec.describe 'API v3 Project resource create', content_type: :json do
         .to be_json_eql("CF text".to_json)
         .at_path("customField#{custom_field.id}/raw")
     end
+
+    it 'automatically activates the cf for project if the value was provided' do
+      expect(Project.last.project_custom_fields)
+        .to contain_exactly(custom_field)
+    end
   end
 
   context 'without permission to create projects' do
