@@ -37,7 +37,7 @@ module API
         include API::Caching::CachedRepresenter
 
         self_link id_attribute: :id,
-                  title_getter: ->(*) { nil }
+                  title_getter: ->(*) {}
 
         property :gitlab_name, as: :login
         property :gitlab_email, as: :email

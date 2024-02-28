@@ -50,7 +50,7 @@ class GitlabIssue < ApplicationRecord
                         unless: :partial?
   validate :validate_labels_schema
 
-  scope :without_work_package, -> { left_outer_joins(:work_packages).where(work_packages: { id: nil }) }
+  scope :without_work_package, -> { where.missing(:work_packages) }
 
   def self.find_by_gitlab_identifiers(id: nil, url: nil, initialize: false)
     raise ArgumentError, "needs an id or an url" if id.nil? && url.blank?
