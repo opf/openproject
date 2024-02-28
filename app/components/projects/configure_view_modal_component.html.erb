@@ -15,7 +15,7 @@
           data: {
             controller: "params-from-query",
             'application-target': "dynamic",
-            'params-from-query-allowed-value': '["filters", "query_id"]'
+            'params-from-query-allowed-value': '["filters", "query_id", "page", "per_page", "sortBy"]'
           }) do %>
           <%= helpers.angular_component_tag 'opce-draggable-autocompleter',
                                             inputs: {

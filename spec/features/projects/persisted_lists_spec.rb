@@ -62,7 +62,7 @@ RSpec.describe 'Persisted lists on projects index page',
 
   let(:projects_page) { Pages::Projects::Index.new }
   let(:my_projects_list) do
-    create(:project_query, name: 'My projects list', user:) do |query|
+    create(:project_query, name: 'My projects list', user:, select: %w[name]) do |query|
       query.where('member_of', '=', OpenProject::Database::DB_VALUE_TRUE)
 
       query.save!
@@ -288,7 +288,7 @@ RSpec.describe 'Persisted lists on projects index page',
       allow(Setting).to receive(:per_page_options_array).and_return([1, 2])
     end
 
-    it 'keep the query active when applying orders and page changes' do
+    it 'keep the query active when applying orders, page and column changes' do
       projects_page.visit!
 
       # The user can select the list but cannot see another user's list
@@ -298,15 +298,17 @@ RSpec.describe 'Persisted lists on projects index page',
       # Sorts ASC by name
       projects_page.sort_by('Name')
 
-      # Results should be filtered and ordered ASC by name and the user is still on the first page
+      # Results should be filtered and ordered ASC by name and the user is still on the first page.
+      # Column is kept.
       projects_page.expect_title(my_projects_list.name)
       projects_page.expect_projects_listed(another_project)
       projects_page.expect_projects_not_listed(development_project, # Because it is on the second page
                                                project,             # Because it is on the third page
                                                public_project)      # Because it is filtered out
       projects_page.expect_current_page_number(1)
+      projects_page.expect_columns('Name')
 
-      projects_page.got_to_page(2)
+      projects_page.go_to_page(2)
 
       # The title is kept
       projects_page.expect_title(my_projects_list.name)
@@ -315,8 +317,11 @@ RSpec.describe 'Persisted lists on projects index page',
       projects_page.expect_projects_not_listed(another_project,     # Because it is on the first page
                                                project,             # Because it is on the third page
                                                public_project)      # Because it is filtered out
+      # Columns are kept
+      projects_page.expect_columns('Name')
 
       # Sorts DESC by name
+      # Soon, a save icon should be displayed then.
       projects_page.sort_by('Name')
 
       # The title is kept
@@ -327,14 +332,18 @@ RSpec.describe 'Persisted lists on projects index page',
       projects_page.expect_projects_not_listed(development_project, # Because it is on the second page
                                                another_project,     # Because it is on the third page
                                                public_project)      # Because it is filtered out
+      # Columns are kept
+      projects_page.expect_columns('Name')
 
       # Move to the third page
-      projects_page.got_to_page(3)
+      projects_page.go_to_page(3)
 
       projects_page.expect_projects_listed(another_project)
       projects_page.expect_projects_not_listed(development_project, # Because it is on the second page
                                                project,             # Because it is on the first page
                                                public_project)      # Because it is filtered out
+      # Columns are kept
+      projects_page.expect_columns('Name')
 
       # Changing the page size
       projects_page.set_page_size(2)
@@ -345,17 +354,34 @@ RSpec.describe 'Persisted lists on projects index page',
                                            development_project) # Because of the increased page size, it is now displayed
       projects_page.expect_projects_not_listed(another_project,    # Because it is on the second page
                                                public_project)     # Because it is filtered out
+      # Columns are kept
+      projects_page.expect_columns('Name')
 
-      projects_page.got_to_page(2)
+      projects_page.go_to_page(2)
 
-      # But if filters are applied, the sort order is kept, the title is lost and the page number is reset
+      # Setting the columns will keep the filters, order and page number
+      # Soon, a save icon should be displayed then.
+      projects_page.set_columns('Name', 'Status')
+
+      projects_page.expect_current_page_number(2)
+
+      projects_page.expect_projects_listed(another_project)
+      projects_page.expect_projects_not_listed(project,             # Because it is on the first page
+                                               development_project, # Because it is on the first page
+                                               public_project)      # Because it is filtered out
+
+      projects_page.expect_columns('Name', 'Status')
+
+      # Setting filters, the sort order and columns and title is kept.
+      # The page number is reset.
+      # Soon, a save icon should be displayed then.
       projects_page.open_filters
       projects_page.remove_filter('member_of')
       projects_page.filter_by_active('yes')
+      projects_page.expect_title(my_projects_list.name)
 
-      # Using the default filter again
-      projects_page.expect_title('Projects')
       projects_page.expect_current_page_number(1)
+      projects_page.expect_columns('Name', 'Status')
 
       projects_page.expect_projects_listed(project,
                                            public_project) # Because it is now in the filter set

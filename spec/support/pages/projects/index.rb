@@ -333,7 +333,7 @@ module Pages
         find('.op-pagination--options .op-pagination--item', text: size).click
       end
 
-      def got_to_page(page_number)
+      def go_to_page(page_number)
         within '.op-pagination--pages' do
           find('.op-pagination--item-link', text: page_number).click
         end
