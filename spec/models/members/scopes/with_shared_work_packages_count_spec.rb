@@ -30,7 +30,6 @@ require 'spec_helper'
 
 RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
   let(:project) { create(:project) }
-  let(:other_project) { create(:project) }
   let(:role) { create(:project_role) }
 
   let(:work_package) { create(:work_package, project:) }
