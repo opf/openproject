@@ -33,7 +33,7 @@ module Members::Scopes
     class_methods do
       def with_shared_work_packages_count(only_role_id: nil)
         Member
-          .from("#{Member.table_name} members")
+          .from("#{Member.quoted_table_name} members")
           .joins(shared_work_packages_sql(only_role_id))
           .select('members.*')
           .select('members_sums.shared_work_packages_count AS shared_work_packages_count')
@@ -45,7 +45,7 @@ module Members::Scopes
         <<~SQL.squish
           LEFT JOIN (
             SELECT members_sums.user_id, members_sums.project_id, COUNT(*) AS shared_work_packages_count
-            FROM #{Member.table_name} members_sums
+            FROM #{Member.quoted_table_name} members_sums
             #{shared_work_packages_role_condition(only_role_id)}
             WHERE members_sums.entity_type = 'WorkPackage'
             GROUP BY members_sums.user_id, members_sums.project_id
@@ -57,7 +57,7 @@ module Members::Scopes
       def shared_work_packages_role_condition(only_role_id)
         if only_role_id.present?
           sql = <<~SQL.squish
-            INNER JOIN #{MemberRole.table_name} members_roles
+            INNER JOIN #{MemberRole.quoted_table_name} members_roles
             ON members_sums.id = members_roles.member_id
             AND members_roles.role_id = ?
           SQL
