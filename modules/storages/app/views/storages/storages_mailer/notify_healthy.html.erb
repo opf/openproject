@@ -27,6 +27,36 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<!--<p><%#= link_to(@storage.name, storage_url(@storage)) %> (<%#= @storage.provider_type %>)</p>-->
+<table <%= placeholder_table_styles(width: '100%', style: 'width:100%;max-width:700px') %>>
+  <tr>
+    <td>
+      <%= render(partial: 'mailer/mailer_header',
+                 locals: {
+                   user: @admin,
+                   summary: I18n.t("mail.storages.health.healthy.summary", storage_name: @storage.name),
+                   button_href: @url,
+                   button_text: I18n.t(:'mail.storages.health.see_storage_settings')
+                 }) %>
 
-<%= format_text @storage.health_reason %>
+      <%= render(partial: 'health_status_notification',
+                 locals: {
+                   state: :healthy,
+                   storage: @storage,
+                   url: @url,
+                   reason: "#{Storages::Storage.extract_part_from_piped_string(@reason, 0)} - #{Storages::Storage.extract_part_from_piped_string(@reason, 1)}"
+                 }) %>
+
+      <%#= render(partial: 'mailer/notification_settings_table',
+                 locals: {
+                   button_url: @url,
+                   button_text: I18n.t(:'mail.storages.health.email_notification_settings')
+                 }) %>
+
+      <table>
+        <tr>
+          <%= placeholder_cell('13px', vertical: false) %>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>

@@ -26,3 +26,17 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
+
+<%= I18n.t('mail.salutation', user: @admin.firstname) %>
+
+<%= "-" * 100 %>
+
+<%= I18n.t("mail.storages.health.unhealthy.summary", storage_name: @storage.name) %>
+
+<%= I18n.t("storages.provider_types.#{@storage.short_provider_type}.name") %> - <%= @storage.host %>
+
+<%= "#{@storage.health_reason_identifier} - #{@storage.health_reason_description}" %> <%= I18n.t('mail.storages.health.unhealthy.since') %> <%= format_time(@storage.health_changed_at) %>
+
+<%= @url %>
+
+<%= "-" * 100 %>

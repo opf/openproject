@@ -27,7 +27,16 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= @storage.name %> (<%= @storage.provider_type %>)
-<%#= storage_url(@storage) %>
+<%= I18n.t('mail.salutation', user: @admin.firstname) %>
 
-<%= @storage.health_reason %>
+<%= "-" * 100 %>
+
+<%= I18n.t("mail.storages.health.healthy.summary", storage_name: @storage.name) %>
+
+<%= I18n.t("storages.provider_types.#{@storage.short_provider_type}.name") %> - <%= @storage.host %>
+
+<%= "#{Storages::Storage.extract_part_from_piped_string(@reason, 0)} - #{Storages::Storage.extract_part_from_piped_string(@reason, 1)}" %> <%= I18n.t('mail.storages.health.healthy.solved_at') %> <%= format_time(@storage.health_changed_at) %>
+
+<%= @url %>
+
+<%= "-" * 100 %>

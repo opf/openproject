@@ -2423,9 +2423,19 @@ en:
           group: "%{user} shared a work package with the group %{group} you are a member of"
     storages:
       health:
+        email_notification_settings: "Storage email notification settings"
         see_storage_settings: "See storage settings"
+        healthy:
+          subject: "Storage \"%{name}\" is now healthy!"
+          solved_at: "solved at"
+          summary: "The problem with your %{storage_name} storage integration is now solved"
         unhealthy:
+          subject: "Storage \"%{name}\" is unhealthy!"
+          since: "since"
           summary: "There is a problem with your %{storage_name} storage integration"
+          troubleshooting:
+            text: "For more information, check file storages"
+            link_text: "troubleshooting documentation"
 
   mail_body_account_activation_request: "A new user (%{value}) has registered. The account is pending your approval:"
   mail_body_account_information: "Your account information"

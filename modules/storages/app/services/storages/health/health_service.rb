@@ -7,11 +7,12 @@ module Storages
 
       def healthy
         was_unhealthy = @storage.health_unhealthy?
+        reason = @storage.health_reason
 
         @storage.mark_as_healthy
 
         admin_users.each do |admin|
-          ::Storages::StoragesMailer.notify_healthy(admin, @storage).deliver_now if was_unhealthy
+          ::Storages::StoragesMailer.notify_healthy(admin, @storage, reason).deliver_now if was_unhealthy
         end
       end
 

@@ -9,13 +9,17 @@
               <table <%= placeholder_table_styles %>>
                 <tr>
                   <td>
-                    <%= render Mailer::LabelComponent.new(scheme: :danger, text: 'Error') %>
+                    <% if state == :unhealthy %>
+                      <%= render Mailer::LabelComponent.new(scheme: :danger, text: 'Error') %>
+                    <% else %>
+                      <%= render Mailer::LabelComponent.new(scheme: :success, text: 'Healthy') %>
+                    <% end %>
                   </td>
 
                   <%= placeholder_cell('8px', vertical: true) %>
 
                   <td style="color: #878787; font-size: 12px; font-weight: 700;">
-                    <%= storage_type %> - <%= storage_url %>
+                    <%= I18n.t("storages.provider_types.#{storage.short_provider_type}.name") %> - <%= storage.host %>
                   </td>
                 </tr>
               </table>
@@ -29,7 +33,7 @@
 
           <tr>
             <%= placeholder_cell('12px', vertical: true) %>
-            <td style="font-weight: 700; line-height: 20px; color: black;"><%= storage_name %></td>
+            <td style="font-weight: 700; line-height: 20px; color: black;"><%= storage.name %></td>
             <%= placeholder_cell('12px', vertical: true) %>
           </tr>
 
@@ -39,16 +43,25 @@
 
           <tr id="reason">
             <%= placeholder_cell('12px', vertical: true) %>
-            <td style="color: #878787; font-size: 12px; font-weight: 400; line-height: 16px;"><%= reason %></td>
+            <td style="color: #878787; font-size: 12px; font-weight: 400; line-height: 16px;">
+              <% if state == :unhealthy %>
+                <%= reason %> <%= I18n.t('mail.storages.health.unhealthy.since') %> <%= format_time(storage.health_changed_at) %>
+              <% else %>
+                <%= reason %> <%= I18n.t('mail.storages.health.healthy.solved_at') %> <%= format_time(storage.health_changed_at) %>
+              <% end %>
+            </td>
             <%= placeholder_cell('12px', vertical: true) %>
           </tr>
 
-          <% if is_nextcloud %>
+          <% if storage.provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD && state == :unhealthy %>
             <tr id="troubleshooting">
               <%= placeholder_cell('12px', vertical: true) %>
-              <td style="color: #878787; font-size: 12px; font-weight: 400; line-height: 16px;">For more information,
-                check file storages <a href="<%= troubleshooting_url %>">troubleshooting documentation</a>.
+
+              <td style="color: #878787; font-size: 12px; font-weight: 400; line-height: 16px;">
+                <%= I18n.t('mail.storages.health.unhealthy.troubleshooting.text') %>
+                <a href="<%= ::OpenProject::Static::Links[:storage_docs][:troubleshooting][:href] %>"><%= I18n.t('mail.storages.health.unhealthy.troubleshooting.link_text') %></a>.
               </td>
+
               <%= placeholder_cell('12px', vertical: true) %>
             </tr>
           <% end %>

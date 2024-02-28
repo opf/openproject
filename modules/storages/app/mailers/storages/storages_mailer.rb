@@ -43,15 +43,16 @@ module Storages
       @storage = storage
       @reason = storage.health_reason
       @url = edit_admin_settings_storage_url(storage)
-      subject = "Storage turned unhealthy!"
+      subject = I18n.t('mail.storages.health.unhealthy.subject', name: @storage.name)
       mail(to: admin.mail, subject:)
     end
 
-    def notify_healthy(admin, storage)
+    def notify_healthy(admin, storage, reason)
       @admin = admin
       @storage = storage
+      @reason = reason
       @url = edit_admin_settings_storage_url(storage)
-      subject = "Storage is back healthy!"
+      subject = I18n.t('mail.storages.health.healthy.subject', name: @storage.name)
       mail(to: admin.mail, subject:)
     end
   end

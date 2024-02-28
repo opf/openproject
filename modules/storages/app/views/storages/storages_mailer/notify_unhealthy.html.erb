@@ -40,14 +40,23 @@ See COPYRIGHT and LICENSE files for more details.
 
       <%= render(partial: 'health_status_notification',
                  locals: {
+                   state: :unhealthy,
+                   storage: @storage,
                    url: @url,
-                   storage_name: @storage.name,
-                   storage_type: I18n.t("storages.provider_types.#{@storage.short_provider_type}.name"),
-                   storage_url: @storage.host,
-                   reason: "#{@storage.health_reason_identifier} - #{@storage.health_reason_description}",
-                   is_nextcloud: @storage.provider_type == ::Storages::Storage::PROVIDER_TYPE_NEXTCLOUD,
-                   troubleshooting_url: ::OpenProject::Static::Links[:storage_docs][:troubleshooting][:href]
+                   reason: "#{@storage.health_reason_identifier} - #{@storage.health_reason_description}"
                  }) %>
+
+      <%#= render(partial: 'mailer/notification_settings_table',
+                 locals: {
+                   button_url: @url,
+                   button_text: I18n.t(:'mail.storages.health.email_notification_settings')
+                 }) %>
+
+      <table>
+        <tr>
+          <%= placeholder_cell('13px', vertical: false) %>
+        </tr>
+      </table>
     </td>
   </tr>
 </table>
