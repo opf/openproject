@@ -27,6 +27,8 @@
 #++
 
 class RemoveRenamedDateAlertJob < ActiveRecord::Migration[6.0]
+  include ::Migration::Utils
+
   def up
     # The job has been renamed to Notifications::ScheduleDateAlertsNotificationsJob.
     # The new job will be added on restarting the application.

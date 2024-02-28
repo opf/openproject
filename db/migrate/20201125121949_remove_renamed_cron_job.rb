@@ -27,6 +27,8 @@
 #++
 
 class RemoveRenamedCronJob < ActiveRecord::Migration[6.0]
+  include ::Migration::Utils
+
   def up
     # The job has been renamed to JobStatus::Cron::ClearOldJobStatusJob
     # the new job will be added on restarting the application but the old will still be in the database
