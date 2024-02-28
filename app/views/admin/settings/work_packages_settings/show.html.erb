@@ -66,15 +66,26 @@ See COPYRIGHT and LICENSE files for more details.
         %>
       </div>
     <% end %>
+
+    <hr class="form--separator -invisible"></hr>
+
+    <div class="form--field">
+      <%= setting_block(:work_package_list_default_columns) do %>
+        <div class="form--text-field-container -wide">
+          <%= angular_component_tag 'opce-draggable-autocompleter',
+                                    inputs: {
+                                      options: work_packages_columns_options,
+                                      selected: selected_work_packages_columns_options,
+                                      protected: protected_work_packages_columns_options,
+                                      name: 'settings[work_package_list_default_columns][]',
+                                      id: 'setting_column_options',
+                                      inputLabel: I18n.t(:'queries.configure_view.columns.input_label'),
+                                      inputPlaceholder: I18n.t(:'queries.configure_view.columns.input_placeholder'),
+                                      dragAreaLabel: I18n.t(:'queries.configure_view.columns.drag_area_label')
+                                    }%>
+        </div>
+      <% end %>
+    </div>
   </section>
-  <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_column_options) %></legend>
-    <%
-       column_choices = Query.new.displayable_columns.map { |column|
-         { caption: column.caption, value: column.name.to_s }
-       }
-    %>
-    <%= settings_matrix([:work_package_list_default_columns],
-                        column_choices, label_choices: :setting_work_package_properties) %>
-  </fieldset>
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

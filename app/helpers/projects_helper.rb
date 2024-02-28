@@ -51,12 +51,12 @@ module ProjectsHelper
   end
 
   def projects_columns_options
-    ::Queries::Projects::ProjectQuery
-      .new
-      .available_selects
-      .reject { |c| c.attribute == :hierarchy }
-      .sort_by(&:caption)
-      .map { |c| { id: c.attribute, name: c.caption } }
+    @projects_columns_options ||= ::Queries::Projects::ProjectQuery
+                                    .new
+                                    .available_selects
+                                    .reject { |c| c.attribute == :hierarchy }
+                                    .sort_by(&:caption)
+                                    .map { |c| { id: c.attribute, name: c.caption } }
   end
 
   def selected_projects_columns_options
