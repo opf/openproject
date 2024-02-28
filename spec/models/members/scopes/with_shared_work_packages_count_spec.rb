@@ -42,6 +42,8 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
   let(:shared_user) { create(:user, status: Principal.statuses[:active]) }
   let(:other_shared_user) { create(:user, status: Principal.statuses[:active]) }
 
+  let(:group) { create(:group, members: [other_shared_user]) }
+
   let!(:active_user_member) do
     create(:member,
            project:,
@@ -70,11 +72,27 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
            principal: other_shared_user)
   end
 
+  let!(:group_shared_member) do
+    create(:member,
+           project:,
+           roles: [view_work_package_role],
+           entity: work_package,
+           principal: group)
+  end
+
+  before do
+    Groups::CreateInheritedRolesService
+      .new(group, current_user: create(:admin))
+      .call(user_ids: group.user_ids,
+            send_notifications: false,
+            project_ids: [project.id])
+  end
+
   describe '.with_shared_work_packages_count' do
     subject do
       Member
         .with_shared_work_packages_count(only_role_id:)
-        .pluck(:id, :shared_work_packages_count)
+        .map{ |m| [m.id, m.shared_work_packages_count] }
     end
 
     context 'when only_role_ids is not set' do
@@ -84,7 +102,8 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
         expect(subject).to contain_exactly [active_user_member.id, nil],
                                            [active_user_shared_member_view.id, 2],
                                            [active_user_shared_member_comment.id, 2],
-                                           [other_shared_member.id, 1]
+                                           [other_shared_member.id, 1],
+                                           [group_shared_member.id, 1]
       end
     end
 
@@ -96,7 +115,8 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
                                            [active_user_shared_member_view.id, 1],
                                            # this is 1 due to it counting for the principal
                                            [active_user_shared_member_comment.id, 1],
-                                           [other_shared_member.id, 1]
+                                           [other_shared_member.id, 1],
+                                           [group_shared_member.id, 1]
       end
     end
 
@@ -108,7 +128,8 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
                                            # this is 1 due to it counting for the principal
                                            [active_user_shared_member_view.id, 1],
                                            [active_user_shared_member_comment.id, 1],
-                                           [other_shared_member.id, nil]
+                                           [other_shared_member.id, nil],
+                                           [group_shared_member.id, nil]
       end
     end
   end
