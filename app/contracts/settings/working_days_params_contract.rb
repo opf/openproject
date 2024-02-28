@@ -41,7 +41,6 @@ module Settings
       end
     end
 
-    # TODO: consider implementing using GoodJob concurrency control mechanisms
     def unique_job
       if GoodJob::Job
            .where(finished_at: nil)
