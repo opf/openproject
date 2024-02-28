@@ -126,6 +126,25 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
         end
       end
 
+      describe 'remaining hours' do
+        it { is_expected.to have_json_path('remainingTime') }
+
+        it do
+          expect(subject).to be_json_eql(work_package.estimated_hours.to_json)
+                               .at_path('estimatedTime')
+        end
+
+        context 'when not set' do
+          it { is_expected.to have_json_type(NilClass).at_path('estimatedTime') }
+        end
+
+        context 'when set' do
+          let(:work_package) { build(:work_package, estimated_hours: 7, remaining_hours: 5) }
+
+          it { is_expected.to have_json_type(String).at_path('estimatedTime') }
+        end
+      end
+
       describe 'startDate' do
         before do
           allow(work_package)

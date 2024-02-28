@@ -611,6 +611,17 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:required) { false }
         let(:writable) { true }
       end
+
+      context 'when on the "status-based" % complete mode',
+              with_settings: { work_package_done_ratio: 'status' } do
+        it_behaves_like 'has basic schema properties' do
+          let(:path) { 'remainingTime' }
+          let(:type) { 'Duration' }
+          let(:name) { I18n.t('activerecord.attributes.work_package.remaining_hours') }
+          let(:required) { false }
+          let(:writable) { false }
+        end
+      end
     end
 
     describe 'derivedRemainingTime' do
