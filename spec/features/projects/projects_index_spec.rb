@@ -202,21 +202,6 @@ RSpec.describe 'Projects index page',
         end
       end
 
-      specify 'long description is truncated' do
-        Setting.enabled_projects_columns += ['description']
-
-        development_project.update(
-          description: 'I am a nice project with a very long long long long long long long long long description'
-        )
-
-        login_as(admin)
-        projects_page.visit!
-        tr_project_development = page.first('tr', text: 'Development project')
-        expect(tr_project_development).to have_css('button', text: 'Expand')
-        tr_project_development.find('button', text: 'Expand').click
-        expect(page).to have_css('.Overlay-body', text: development_project.description)
-      end
-
       specify 'flash sortBy is being escaped' do
         login_as(admin)
         visit projects_path(sortBy: "[[\"><script src='/foobar.js'></script>\",\"\"]]")
@@ -243,6 +228,7 @@ RSpec.describe 'Projects index page',
   end
 
   context 'with valid Enterprise token', with_ee: %i[custom_fields_in_projects_list] do
+    shared_let(:long_text_custom_field) { create(:text_project_custom_field) }
     specify 'CF columns and filters are not visible by default' do
       load_and_open_filters admin
 
@@ -262,6 +248,40 @@ RSpec.describe 'Projects index page',
       # Admins shall be the only ones to see invisible CFs
       expect(page).to have_text(invisible_custom_field.name.upcase)
       expect(page).to have_select('add_filter_select', with_options: [invisible_custom_field.name])
+    end
+
+    specify 'long-text fields are truncated' do
+      development_project.update(
+        description: 'I am a nice project with a very long long long long long long long long long description',
+        status_explanation: '<figure>I am a nice project status description with a figure</figure>',
+        custom_field_values: { custom_field.id => 'This is a short value', long_text_custom_field.id => 'This is a very long long long long long long long value' }
+      )
+
+      development_project.save!
+      login_as(admin)
+      Setting.enabled_projects_columns += [custom_field.column_name, long_text_custom_field.column_name, 'description', 'status_explanation']
+      projects_page.visit!
+
+      tr_project_development = page.first('tr', text: 'Development project')
+
+      # Check if the description is truncated and shows the Expand button correctly
+      td_project_development_description = tr_project_development.first('td.description')
+      expect(td_project_development_description).to have_css('button', text: 'Expand')
+      td_project_development_description.find('button', text: 'Expand').click
+      expect(page).to have_css('.Overlay-body', text: development_project.description)
+
+      # Check if the status explanation with an html tag is truncated and shows the cell text and Expand button correctly
+      td_project_development_status_description = tr_project_development.first('td.status_explanation')
+      expect(td_project_development_status_description).to have_css('button', text: 'Expand')
+      expect(td_project_development_status_description).to have_text('Preview not available')
+
+      # Check if a long-text costum field which has a short text as value is not truncated and there is no Expand button there
+      td_project_development_short_cf = tr_project_development.first('td', text: 'This is a short value')
+      expect(td_project_development_short_cf).to have_no_css('button', text: 'Expand')
+
+      # Check if a long-text costum field which has a long text as value is truncated and there is an Expand button there
+      td_project_development_long_cf = tr_project_development.first('td', text: 'This is a very long long long long long long long value')
+      expect(td_project_development_long_cf).to have_css('button', text: 'Expand')
     end
   end
 
