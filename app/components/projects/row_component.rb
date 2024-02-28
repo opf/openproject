@@ -59,13 +59,7 @@ module Projects
       custom_value = project.formatted_custom_value_for(cf)
 
       if cf.field_format == 'text' && custom_value.present?
-
-        concat content_tag :p, Nokogiri::HTML(custom_value).text, class: 'project-long-text', id: "#{project.id}-cf-#{cf.id}"
-        render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-cf-#{cf.id}", title: cf.name, size: :large)) do |component|
-          component.with_show_button(scheme: :link, display: (show_expand_button(custom_value) ? :block : :none)) { I18n.t('js.label_expand') }
-          component.with_body(mt: 2) { helpers.format_text(custom_value.html_safe) } # rubocop:disable Rails/OutputSafety
-          component.with_header
-        end
+        render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-cf-#{cf.id}", cf.name, custom_value.html_safe) # rubocop:disable Rails/OutputSafety
       elsif custom_value.is_a?(Array)
         safe_join(Array(custom_value).compact_blank, ', ')
       else
@@ -120,21 +114,14 @@ module Projects
       return nil unless user_can_view_project?
 
       if project.status_explanation.present? && project.status_explanation
-        concat content_tag :p, Nokogiri::HTML(project.status_explanation).text, class: 'project-long-text', id: "#{project.id}-status-explanation"
-        render(Primer::Alpha::Dialog.new(id: "dialog-#{project.id}-status-explanation", title: I18n.t('activerecord.attributes.project.status_explanation'), size: :large)) do |component|
-          component.with_show_button(scheme: :link, display: (show_expand_button(project.status_explanation) ? :block : :none)) { I18n.t('js.label_expand') }
-          component.with_body(mt: 2) { helpers.format_text(project.status_explanation) }
-          component.with_header
-        end
+        render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-status-explanation", I18n.t('activerecord.attributes.project.status_explanation'), project.status_explanation)
       end
     end
 
     def description
       return nil unless user_can_view_project?
-
       if project.description.present?
-        concat content_tag :p, Nokogiri::HTML(project.description).text, class: 'project-long-text', id: "#{project.id}-description"
-        render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-description", I18n.t('activerecord.attributes.project.description'), helpers.format_text(project.description))
+        render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-description", I18n.t('activerecord.attributes.project.description'), project.description)
       end
     end
 

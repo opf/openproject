@@ -35,7 +35,8 @@ module OpenProject
         super
         @id = id
         @name = name
-        @description = Nokogiri::HTML(description).text
+        @description = description
+        @attr_value = Nokogiri::HTML(description).text
         @system_arguments = args
       end
 
