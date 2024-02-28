@@ -18,7 +18,7 @@
         [clearSearchOnAdd]="true"
         [closeOnSelect]="true"
         [searchFn]="searchFunction"
-        [appendTo]="'#op-draggable-autocomplete-container'"
+        [appendTo]="appendTo"
         (open)="opened()"
         (change)="select($event)"
       ></ng-select>
@@ -34,9 +34,9 @@
       <div
         class="op-draggable-autocomplete--selected"
         dragula="columns"
-        [(dragulaModel)]="selected"
+        [(dragulaModel)]="selectedOptions"
       >
-        <div class="op-draggable-autocomplete--item" *ngFor="let item of selected">
+        <div class="op-draggable-autocomplete--item" *ngFor="let item of selectedOptions">
           <span
             class="op-draggable-autocomplete--item-text"
             [textContent]="item.name"

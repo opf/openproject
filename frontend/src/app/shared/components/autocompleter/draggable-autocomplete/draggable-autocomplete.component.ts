@@ -36,7 +36,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   @Input() options:DraggableOption[];
 
   /** Order list of selected items */
-  @Input('selected') _selected:DraggableOption[] = [];
+  @Input() selected:DraggableOption[] = [];
 
   /** List of options that are protected from being deleted. They can still be moved. */
   @Input() protected:DraggableOption[] = [];
@@ -58,6 +58,10 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   /** Label to display drag&drop area */
   @Input() dragAreaLabel = '';
 
+  /** Decide whether to bind the component to the component or to the body */
+  /** Binding to the component in case the component is inside a Primer Dialog which uses popover */
+  @Input() appendToComponent = false;
+
   /** Output when autocompleter changes values or items removed */
   @Output() onChange = new EventEmitter<DraggableOption[]>();
 
@@ -70,6 +74,8 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
 
   @ViewChild('ngSelectComponent') public ngSelectComponent:NgSelectComponent;
   @ViewChild('input') inputElement:ElementRef;
+
+  public appendTo = 'body';
 
   constructor(
     readonly I18n:I18nService,
@@ -116,6 +122,8 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
         },
       },
     );
+
+    this.appendTo = this.appendToComponent ? '#op-draggable-autocomplete-container' : 'body';
   }
 
   ngAfterViewInit():void {
@@ -141,33 +149,33 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
       return;
     }
 
-    this.selected = [...this.selected, item];
+    this.selectedOptions = [...this.selectedOptions, item];
 
     // Remove selection
     this.ngSelectComponent.clearModel();
   }
 
   remove(item:DraggableOption) {
-    this.selected = this.selected.filter((selected) => selected.id !== item.id);
+    this.selectedOptions = this.selectedOptions.filter((selected) => selected.id !== item.id);
   }
 
   isRemovable(item:DraggableOption) {
     return !this.protected.find((protectedItem) => protectedItem.id === item.id);
   }
 
-  get selected() {
-    return this._selected;
+  get selectedOptions() {
+    return this.selected;
   }
 
-  set selected(val:DraggableOption[]) {
-    this._selected = val;
+  set selectedOptions(val:DraggableOption[]) {
+    this.selected = val;
     this.updateAvailableOptions();
 
-    this.onChange.emit(this.selected);
+    this.onChange.emit(this.selectedOptions);
   }
 
   get hiddenValue() {
-    return this.selected.map((item) => item.id).join(' ');
+    return this.selectedOptions.map((item) => item.id).join(' ');
   }
 
   opened() {
@@ -180,6 +188,6 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
 
   private updateAvailableOptions() {
     this.availableOptions = this.options
-      .filter((item) => !this.selected.find((selected) => selected.id === item.id));
+      .filter((item) => !this.selectedOptions.find((selected) => selected.id === item.id));
   }
 }
