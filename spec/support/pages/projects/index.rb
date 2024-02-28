@@ -277,7 +277,7 @@ module Pages
                               query: column
         end
 
-        within 'modal-dialog' do
+        within 'dialog' do
           click_on 'Apply'
         end
       end

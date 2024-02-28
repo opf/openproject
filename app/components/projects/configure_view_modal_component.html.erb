@@ -1,6 +1,10 @@
 <%= render(Primer::Alpha::Dialog.new(title: t(:'queries.configure_view.heading'),
                                      size: :large,
-                                     id: MODAL_ID)) do |d| %>
+                                     id: MODAL_ID,
+                                     # Hack to give the draggable autcompleter (ng-select) bound to the dialog
+                                     # enough height to display all options.
+                                     # This is necessary as long as ng-select does not support popovers.
+                                     style: "min-height: 430px")) do |d| %>
   <% d.with_header(variant: :large, mb: 3) %>
 
   <%= render(Primer::Alpha::Dialog::Body.new) do %>

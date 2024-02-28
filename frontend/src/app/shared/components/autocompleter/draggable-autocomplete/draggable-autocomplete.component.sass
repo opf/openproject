@@ -21,3 +21,10 @@
     color: #999
     padding-left: 5px
     cursor: pointer
+
+// Hack to allow the ng-select dropdown bound to this id to be positioned correctly.
+// The ng-select needs to be bound to the id because the component is currently used in a modal.
+// At least in the case of the Primer Dialog, that modal is a popover. Without binding, the dropdown
+// would be positioned behind the Dialog.
+#op-draggable-autocomplete-container
+  position: relative

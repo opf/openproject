@@ -51,11 +51,9 @@ class Queries::Projects::Selects::CustomField < Queries::Selects::Base
   end
 
   def custom_field
-    @custom_field ||= begin
-                        ProjectCustomField
-                          .visible
-                          .find_by_id(self.class.key.match(attribute)[1])
-                      end
+    @custom_field ||= ProjectCustomField
+                        .visible
+                        .find_by(id: self.class.key.match(attribute)[1])
   end
 
   def scope
