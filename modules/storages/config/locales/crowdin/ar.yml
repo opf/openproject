@@ -53,7 +53,8 @@ ar:
       complete_without_setup: Complete without it
       done_complete_setup: Done, complete setup
       done_continue: Done, continue
-      replace_provider_type_oauth: Replace %{provider_type} OAuth
+      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Save and continue
       select_folder: Select folder
     configuration_checks:
@@ -62,8 +63,8 @@ ar:
         one_drive: Allow OpenProject to access Azure data using OAuth to connect OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Complete the setup with the correct URI redirection.
-    confirm_replace_oauth_application: Are you sure? All users will have to authorize again against OpenProject.
-    confirm_replace_oauth_client: Are you sure? All users will have to authorize again against the storage.
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in the client at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Enter the file storage name %{file_storage} to confirm deletion.
       irreversible_notice: Deleting a file storage is an irreversible action.
@@ -144,7 +145,6 @@ ar:
     label_edit_storage: Edit storage
     label_edit_storage_automatically_managed_folders: Edit storage automatically managed folders
     label_edit_storage_host: Edit storage host
-    label_edit_storage_oauth_client: Edit storage OAuth client
     label_existing_manual_folder: Existing folder with manually managed permissions
     label_file_storage: File storage
     label_host: Host URL

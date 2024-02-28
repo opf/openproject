@@ -95,6 +95,10 @@ bg:
   label_time_zone: "Часова зона"
   label_start_date: "Начална дата"
   meeting:
+    copy:
+      title: "Copy meeting %{title}"
+      agenda: "Copy agenda"
+      agenda_text: "Copy the agenda of the old meeting"
     email:
       open_meeting_link: "Open meeting"
       invited:

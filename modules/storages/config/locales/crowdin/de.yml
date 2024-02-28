@@ -53,7 +53,8 @@ de:
       complete_without_setup: Ohne fortfahren
       done_complete_setup: Fertig, Einrichtung abgeschlossen
       done_continue: Fertig, Fortfahren
-      replace_provider_type_oauth: Ersetze %{provider_type} OAuth
+      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Speichern und fortsetzen
       select_folder: Ordner auswählen
     configuration_checks:
@@ -62,8 +63,8 @@ de:
         one_drive: Erlauben Sie OpenProject Zugriff auf Azure-Daten über OAuth, um OneDrive/Sharepoint zu verbinden.
       redirect_uri_incomplete:
         one_drive: Schließen Sie das Setup mit der korrekten Umleitungs-URI ab.
-    confirm_replace_oauth_application: Sind Sie sicher? Alle Benutzer müssen sich erneut gegen OpenProject autorisieren.
-    confirm_replace_oauth_client: Sind Sie sicher? Alle Benutzer müssen sich erneut gegen den Daten-Speicher autorisieren.
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in the client at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Geben Sie den Namen %{file_storage} ein, um mit der Löschung fortzufahren.
       irreversible_notice: Die Löschung des Projekts kann nicht rückgängig gemacht werden.
@@ -144,7 +145,6 @@ de:
     label_edit_storage: Dateispeicher bearbeiten
     label_edit_storage_automatically_managed_folders: Automatisch verwaltete Projektordner des Dateispeichers bearbeiten
     label_edit_storage_host: Dateispeicher-Host bearbeiten
-    label_edit_storage_oauth_client: Dateispeicher OAuth-Anwendung bearbeiten
     label_existing_manual_folder: Vorhandener Ordner mit manuell verwalteten Berechtigungen
     label_file_storage: Dateispeicher
     label_host: Host-URL

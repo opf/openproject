@@ -96,6 +96,10 @@ lv:
   label_time_zone: "Laika josla"
   label_start_date: "Sākuma datums"
   meeting:
+    copy:
+      title: "Copy meeting %{title}"
+      agenda: "Copy agenda"
+      agenda_text: "Copy the agenda of the old meeting"
     email:
       open_meeting_link: "Open meeting"
       invited:

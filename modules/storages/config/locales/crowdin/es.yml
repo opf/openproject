@@ -53,7 +53,8 @@ es:
       complete_without_setup: Completar sin usar
       done_complete_setup: Hecho, configuración completada
       done_continue: Hecho, continuar
-      replace_provider_type_oauth: Reemplazar %{provider_type} OAuth
+      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Guardar y continuar
       select_folder: Seleccionar carpeta
     configuration_checks:
@@ -62,8 +63,8 @@ es:
         one_drive: Permitir a OpenProject acceder a datos Azure usando OAuth para conectar OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Completa la configuración con la redirección URI correcta.
-    confirm_replace_oauth_application: '¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo contra OpenProject.'
-    confirm_replace_oauth_client: '¿Estás seguro? Todos los usuarios tendrán que autorizar de nuevo en el almacenamiento.'
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in the client at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Introduzca el nombre de almacenamiento de archivos %{file_storage} para confirmar la eliminación.
       irreversible_notice: Eliminar un archivo almacenado es una acción irreversible.
@@ -144,7 +145,6 @@ es:
     label_edit_storage: Editar almacenamiento
     label_edit_storage_automatically_managed_folders: Editar carpetas gestionadas automáticamente
     label_edit_storage_host: Editar host del almacenamiento
-    label_edit_storage_oauth_client: Editar OAuth client del almacenamiento
     label_existing_manual_folder: Carpeta existente con permisos gestionados manualmente
     label_file_storage: Almacenamiento de archivos
     label_host: URL del host

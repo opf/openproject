@@ -53,7 +53,8 @@
       complete_without_setup: Fullfør uten
       done_complete_setup: Ferdig, fullfør oppsett
       done_continue: Ferdig, fortsett
-      replace_provider_type_oauth: Erstatt %{provider_type} OAuth
+      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Lagre og fortsett
       select_folder: Velg mappe
     configuration_checks:
@@ -62,8 +63,8 @@
         one_drive: Gi OpenProject tilgang til Azure data med OAuth for å koble til OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Fullfør oppsettet med riktig URI omdirigering.
-    confirm_replace_oauth_application: Er du sikker? Alle brukere må autorisere igjen mot OpenProject.
-    confirm_replace_oauth_client: Er du sikker? Alle brukere må autorisere igjen mot lagringen.
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in the client at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Skriv inn navnet til lagringsstedet %{file_storage} for å bekrefte sletting.
       irreversible_notice: Sletting av fillager kan ikke angres.
@@ -144,7 +145,6 @@
     label_edit_storage: Redigere fillagring
     label_edit_storage_automatically_managed_folders: Rediger automatisk administrerte mapper
     label_edit_storage_host: Redigere lagringsvert
-    label_edit_storage_oauth_client: Rediger OAuth klient
     label_existing_manual_folder: Eksisterende mappe med manuelt administrerte tillatelser
     label_file_storage: Fillagring
     label_host: Vert URL
