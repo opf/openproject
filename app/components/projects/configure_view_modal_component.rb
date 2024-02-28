@@ -35,21 +35,9 @@ class Projects::ConfigureViewModalComponent < ApplicationComponent
 
   options :query
 
-  def all_columns
-    @all_columns ||= query
-                       .available_selects
-                       .reject { |c| c.attribute == :hierarchy }
-                       .sort_by(&:caption)
-                       .map { |c| { id: c.attribute, name: c.caption } }
-  end
-
   def selected_columns
     @selected_columns ||= query
                             .selects
                             .map { |c| { id: c.attribute, name: c.caption } }
-  end
-
-  def protected_columns
-    selected_columns.select { |c| c[:id] == :name }
   end
 end

@@ -50,15 +50,23 @@ module ProjectsHelper
     project.description.gsub(/\A(.{#{length}}[^\n\r]*).*\z/m, '\1...').strip
   end
 
-  def enabled_projects_columns_options
+  def projects_columns_options
     ::Queries::Projects::ProjectQuery
-      .new.available_selects
+      .new
+      .available_selects
+      .reject { |c| c.attribute == :hierarchy }
       .sort_by(&:caption)
-      .map do |s|
-      [s.caption,
-       s.attribute.to_s,
-       { checked: Setting.enabled_projects_columns.include?(s.attribute.to_s) || s.attribute == :name,
-         disabled: s.attribute == :name }]
-    end
+      .map { |c| { id: c.attribute, name: c.caption } }
+  end
+
+  def selected_projects_columns_options
+    Setting
+      .enabled_projects_columns
+      .map { |c| projects_columns_options.find { |o| o[:id].to_s == c } }
+  end
+
+  def protected_projects_columns_options
+    projects_columns_options
+      .select { |c| c[:id] == :name }
   end
 end

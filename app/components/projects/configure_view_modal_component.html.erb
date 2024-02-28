@@ -19,9 +19,9 @@
           }) do %>
           <%= helpers.angular_component_tag 'opce-draggable-autocompleter',
                                             inputs: {
-                                              options: all_columns,
+                                              options: helpers.projects_columns_options,
                                               selected: selected_columns,
-                                              protected: protected_columns,
+                                              protected: helpers.protected_projects_columns_options,
                                               name: COLUMN_HTML_NAME,
                                               id: 'columns-select',
                                               inputLabel: I18n.t(:'queries.configure_view.columns.input_label'),

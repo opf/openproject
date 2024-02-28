@@ -2928,7 +2928,7 @@ en:
   setting_emails_header: "Emails header"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Enabled SCM"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Enable Feeds"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Feed content limit"

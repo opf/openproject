@@ -61,12 +61,26 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
 
       <div class="form--field">
-        <%= setting_multiselect(:enabled_projects_columns, enabled_projects_columns_options) %>
+        <%= setting_block(:enabled_projects_columns) do %>
+          <div class="form--text-field-container -wide">
+            <%= angular_component_tag 'opce-draggable-autocompleter',
+                                      inputs: {
+                                        options: projects_columns_options,
+                                        selected: selected_projects_columns_options,
+                                        protected: protected_projects_columns_options,
+                                        name: 'settings[enabled_projects_columns][]',
+                                        id: 'settings_enabled_projects_columns',
+                                        inputLabel: I18n.t(:'queries.configure_view.columns.input_label'),
+                                        inputPlaceholder: I18n.t(:'queries.configure_view.columns.input_placeholder'),
+                                        dragAreaLabel: I18n.t(:'queries.configure_view.columns.drag_area_label')
+                                      }%>
+          </div>
+        <% end %>
       </div>
 
       <div class="form--field">
         <%= setting_block("project_gantt_query") do %>
-        <span class="form--check-box-field-container -slim">
+        <span class="form--text-field-container">
           <%= content_tag 'editable-query-props',
                           '',
                           data: {

@@ -48,7 +48,12 @@
           ></a>
         </div>
 
-        <input type="hidden" [name]="name" [value]="hiddenValue" />
+        <span *ngIf="!isArrayOfValues">
+          <input type="hidden" [name]="name" [value]="hiddenValue" />
+        </span>
+        <span *ngIf="isArrayOfValues">
+          <input *ngFor="let value of hiddenValues" type="hidden" [name]="name" [value]="value" />
+        </span>
       </div>
     </div>
   </div>

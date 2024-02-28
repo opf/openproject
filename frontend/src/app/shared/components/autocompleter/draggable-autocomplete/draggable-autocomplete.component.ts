@@ -178,6 +178,14 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
     return this.selectedOptions.map((item) => item.id).join(' ');
   }
 
+  get hiddenValues() {
+    return this.selectedOptions.map((item) => item.id);
+  }
+
+  get isArrayOfValues() {
+    return this.name.endsWith('[]');
+  }
+
   opened() {
     repositionDropdownBugfix(this.ngSelectComponent);
   }
