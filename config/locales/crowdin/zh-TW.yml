@@ -2216,7 +2216,7 @@ zh-TW:
       center: "顯示通知中心"
       see_in_center: "See comment in notification center"
       settings: "更改電子郵件設定"
-    salutation: "Hello %{user}"
+    salutation: "%{user} 您好"
     salutation_full_name: "Full name"
     work_packages:
       created_at: "Created at %{timestamp} by %{user} "
@@ -2240,14 +2240,14 @@ zh-TW:
       updated_at: "Updated at %{timestamp} by %{user}"
     sharing:
       work_packages:
-        allowed_actions: "You may %{allowed_actions} this work package. This can change depending on your project role and permissions."
+        allowed_actions: "您擁有這個工作項目的 %{allowed_actions} 權限. 這些權限將隨著您的角色不同而更改."
         create_account: "To access this work package, you will need to create and activate an account on %{instance}."
         open_work_package: "開啟工作項目"
-        subject: "Work package #%{id} was shared with you"
+        subject: "有個工作項目 #%{id} 分享給您"
         enterprise_text: "Share work packages with users who are not members of the project."
         summary:
-          user: "%{user} shared a work package with you with %{role_rights} rights"
-          group: "%{user} shared a work package with the group %{group} you are a member of"
+          user: "%{user} 分享一個工作項目給您，權限：%{role_rights}\""
+          group: "%{user} 分享一個工作項目給您所在的群組： %{group}"
   mail_body_account_activation_request: "一個新的使用者 (%{value}) 已註冊。該帳號正等您核准："
   mail_body_account_information: "您的帳號資訊"
   mail_body_account_information_external: "您可以使用您的帳號 %{value} 登錄。"

@@ -976,7 +976,7 @@ zh-TW:
         projectName: "專案"
         remainingWork: "Remaining work"
         remainingWorkAlternative: "Remaining hours"
-        responsible: "責任歸屬者"
+        responsible: "負責人"
         startDate: "起始日期"
         status: "狀態"
         subject: "主題"
