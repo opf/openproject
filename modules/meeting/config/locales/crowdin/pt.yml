@@ -95,6 +95,10 @@ pt:
   label_time_zone: "Fuso horário"
   label_start_date: "Data de início"
   meeting:
+    copy:
+      title: "Copy meeting %{title}"
+      agenda: "Copy agenda"
+      agenda_text: "Copy the agenda of the old meeting"
     email:
       open_meeting_link: "Abrir reunião"
       invited:

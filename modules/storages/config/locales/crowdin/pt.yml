@@ -53,7 +53,8 @@ pt:
       complete_without_setup: Concluir sem isso
       done_complete_setup: Pronto, concluir configuração
       done_continue: Pronto, continuar
-      replace_provider_type_oauth: Substituir OAuth %{provider_type}
+      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Salvar e continuar
       select_folder: Selecionar pastas
     configuration_checks:
@@ -62,8 +63,8 @@ pt:
         one_drive: Permitir que o OpenProject acesse os dados Azure utilizando o OAuth para conectar o OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Conclua a configuração com o redirecionamento correto do URI.
-    confirm_replace_oauth_application: Tem certeza? Todos os usuários terão que autorizar novamente com o OpenProject.
-    confirm_replace_oauth_client: Tem certeza? Todos os usuários terão que autorizar novamente no armazenamento.
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in the client at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Insira o nome do armazenamento de arquivos %{file_storage} para confirmar a exclusão.
       irreversible_notice: Excluir um armazenamento de arquivos é uma ação irreversível.
@@ -144,7 +145,6 @@ pt:
     label_edit_storage: Editar armazenamento
     label_edit_storage_automatically_managed_folders: Editar pastas gerencias automaticamente de armazenamento
     label_edit_storage_host: Editar host de armazenamento
-    label_edit_storage_oauth_client: Editar cliente OAuth de armazenamento
     label_existing_manual_folder: Pasta existente com permissões gerenciadas manualmente
     label_file_storage: Armazenamento de arquivos
     label_host: URL do host

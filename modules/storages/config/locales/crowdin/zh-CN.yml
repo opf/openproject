@@ -53,7 +53,8 @@ zh-CN:
       complete_without_setup: 没有它就完成
       done_complete_setup: 完成，完成设置
       done_continue: 完成, 继续
-      replace_provider_type_oauth: 替换 %{provider_type} OAuth
+      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: 保存并继续
       select_folder: 选择文件夹
     configuration_checks:
@@ -62,8 +63,8 @@ zh-CN:
         one_drive: 允许 OpenProject 使用 OAuth 访问Azure 数据来连接 OneDrive/SharePoint。
       redirect_uri_incomplete:
         one_drive: 使用正确的 URI 重定向完成设置。
-    confirm_replace_oauth_application: 确定吗？所有用户都必须再次针对 OpenProject 授权。
-    confirm_replace_oauth_client: 确定吗？所有用户都必须再次针对存储授权。
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in the client at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: 输入文件存储区名称 %{file_storage} 以确认删除。
       irreversible_notice: 删除文件存储区是不可逆转的操作。
@@ -144,7 +145,6 @@ zh-CN:
     label_edit_storage: 编辑存储
     label_edit_storage_automatically_managed_folders: 编辑存储自动管理的文件夹
     label_edit_storage_host: 编辑存储主机
-    label_edit_storage_oauth_client: 编辑存储 OAuth 客户端
     label_existing_manual_folder: 具有手动管理权限的现有文件夹
     label_file_storage: 文件存储
     label_host: 主机 URL

@@ -53,7 +53,8 @@ ko:
       complete_without_setup: 이것 없이 완료
       done_complete_setup: 완료, 설정 완료
       done_continue: 완료, 계속
-      replace_provider_type_oauth: '%{provider_type} OAuth 바꾸기'
+      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: 저장 및 계속
       select_folder: 폴더 선택
     configuration_checks:
@@ -62,8 +63,8 @@ ko:
         one_drive: OpenProject가 OAuth를 사용하여 Azure 데이터에 액세스하고 OneDrive/Sharepoint에 연결하도록 허용합니다.
       redirect_uri_incomplete:
         one_drive: 올바른 URI 리디렉션으로 설정을 완료합니다.
-    confirm_replace_oauth_application: 계속하시겠습니까? 모든 사용자는 OpenProject에 대해 다시 권한을 부여해야 합니다.
-    confirm_replace_oauth_client: 계속하시겠습니까? 모든 사용자는 저장소에 대해 다시 권한을 부여해야 합니다.
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in the client at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: 파일 저장소 이름 %{file_storage}을(를) 입력하여 삭제를 확인합니다.
       irreversible_notice: 파일 저장소를 삭제하면 되돌릴 수 없습니다.
@@ -144,7 +145,6 @@ ko:
     label_edit_storage: 저장소 편집
     label_edit_storage_automatically_managed_folders: 저장소 자동 관리 폴더 편집
     label_edit_storage_host: 저장소 호스트 편집
-    label_edit_storage_oauth_client: 저장소 OAuth 클라이언트 편집
     label_existing_manual_folder: 수동으로 관리되는 권한이 있는 기존 폴더
     label_file_storage: 파일 저장소
     label_host: 호스트 URL

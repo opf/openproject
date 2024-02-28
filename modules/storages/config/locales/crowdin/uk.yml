@@ -53,7 +53,8 @@ uk:
       complete_without_setup: Завершити без налаштування
       done_complete_setup: Готово – завершити налаштування
       done_continue: Виконано, продовжити
-      replace_provider_type_oauth: Замінити %{provider_type} OAuth
+      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Зберегти та продовжити
       select_folder: Вибрати папку
     configuration_checks:
@@ -62,8 +63,8 @@ uk:
         one_drive: Надайте OpenProject доступ до даних Azure із використанням OAuth для підключення OneDrive / Sharepoint.
       redirect_uri_incomplete:
         one_drive: Завершіть налаштування за допомогою правильного URI переспрямування.
-    confirm_replace_oauth_application: Ви впевнені? Усім користувачам знадобиться знову авторизуватися в OpenProject.
-    confirm_replace_oauth_client: Ви впевнені? Усім користувачам знадобиться знову авторизуватися в сховищі.
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in the client at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Введіть ім’я файлового сховища %{file_storage}, щоб підтвердити видалення.
       irreversible_notice: Видалення файлового сховища не можна скасувати.
@@ -144,7 +145,6 @@ uk:
     label_edit_storage: Редагувати сховище
     label_edit_storage_automatically_managed_folders: Редагувати папки сховища з автоматичним керуванням
     label_edit_storage_host: Редагувати хост сховища
-    label_edit_storage_oauth_client: Редагувати клієнта OAuth сховища
     label_existing_manual_folder: Наявна папка з ручним керуванням дозволами
     label_file_storage: Файлове сховище
     label_host: URL-адреса хосту

@@ -53,7 +53,8 @@ ru:
       complete_without_setup: Обходитесь без этого
       done_complete_setup: Готово, завершить установку
       done_continue: Готово, продолжить
-      replace_provider_type_oauth: Заменить %{provider_type} OAuth
+      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Сохранить и продолжить
       select_folder: Выберите папку
     configuration_checks:
@@ -62,8 +63,8 @@ ru:
         one_drive: Разрешить OpenProject доступ к данным Azure, используя OAuth для подключения OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Завершите установку с правильным перенаправлением URI.
-    confirm_replace_oauth_application: Вы уверены? Всем пользователям придется снова авторизоваться в OpenProject.
-    confirm_replace_oauth_client: Вы уверены? Все пользователи должны будут снова авторизоваться на хранилище.
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in the client at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Введите имя хранилища файлов %{file_storage} для подтверждения удаления.
       irreversible_notice: Удаление хранилища файлов является необратимым действием.
@@ -144,7 +145,6 @@ ru:
     label_edit_storage: Редактировать хранилище
     label_edit_storage_automatically_managed_folders: Редактирование хранилища автоматически управляемых папок
     label_edit_storage_host: Изменить узел хранения
-    label_edit_storage_oauth_client: Редактировать хранилище OAuth клиента
     label_existing_manual_folder: Существующая папка с разрешениями, управляемыми вручную
     label_file_storage: Файловое хранилище
     label_host: URL хоста
