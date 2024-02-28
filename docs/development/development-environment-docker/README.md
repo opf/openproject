@@ -421,6 +421,12 @@ Once the GitLab service is started and running, you can access the initial `root
 docker compose --project-directory docker/dev/gitlab exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
 ```
 
+Should you need to reset your root password, execute the following command:
+
+```shell
+docker compose --project-directory docker/dev/gitlab exec -it gitlab gitlab-rake "gitlab:password:reset[root]"
+```
+
 ## Local files
 
 Running the docker images will change some of your local files in the mounted code directory. The
