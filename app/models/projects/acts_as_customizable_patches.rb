@@ -56,7 +56,10 @@ module Projects::ActsAsCustomizablePatches
       # activate custom fields for this project (via mapping table) if values have been provided for custom_fields but no mapping exists
       # current shortcommings:
       # - boolean custom fields are always activated as a nil value is never provided (always true/false)
-      custom_field_ids = project.custom_values.reject { |cv| cv.value.blank? }.pluck(:custom_field_id).uniq
+      custom_field_ids = project.custom_values
+        .reject { |cv| cv.value.blank? }
+        .reject { |cv| cv.persisted? } # do not reactivate custom fields which have already been used and disabled
+        .pluck(:custom_field_id).uniq
       activated_custom_field_ids = project_custom_field_project_mappings.pluck(:custom_field_id).uniq
 
       mappings = (custom_field_ids - activated_custom_field_ids).uniq

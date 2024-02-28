@@ -295,6 +295,55 @@ RSpec.describe Project, 'customizable' do
 
       it_behaves_like 'implicitly enabled and saved custom values'
     end
+
+    it 'does not re-enable fields without new value which have been disabled in the past (regression)' do
+      project.update!(custom_field_values: {
+                        text_custom_field.id => 'foo',
+                        bool_custom_field.id => true
+                      })
+
+      expect(project.reload.project_custom_fields)
+        .to contain_exactly(text_custom_field, bool_custom_field)
+
+      project.project_custom_field_project_mappings.find_by(custom_field_id: text_custom_field.id).destroy
+
+      expect(project.reload.project_custom_fields)
+        .to contain_exactly(bool_custom_field)
+
+      project.update!(custom_field_values: {
+                        bool_custom_field.id => true
+                      })
+
+      expect(project.reload.project_custom_fields)
+        .to contain_exactly(bool_custom_field)
+    end
+
+    it 'does re-enable fields with new value which have been disabled in the past' do
+      pending "this is currently not working, not sure if it should be supported at all"
+
+      project.update!(custom_field_values: {
+                        text_custom_field.id => 'foo',
+                        bool_custom_field.id => true
+                      })
+
+      expect(project.reload.project_custom_fields)
+        .to contain_exactly(text_custom_field, bool_custom_field)
+
+      project.project_custom_field_project_mappings.find_by(custom_field_id: text_custom_field.id).destroy
+
+      expect(project.reload.project_custom_fields)
+        .to contain_exactly(bool_custom_field)
+
+      project.update!(custom_field_values: {
+                        text_custom_field.id => 'bar'
+                      })
+
+      expect(project.reload.project_custom_fields)
+        .to contain_exactly(text_custom_field, bool_custom_field)
+
+      expect(project.custom_value_for(text_custom_field).typed_value)
+        .to eq('bar')
+    end
   end
 
   context 'when updating with custom field setter methods (API approach)' do
