@@ -99,8 +99,8 @@ class WorkPackages::UpdateAncestorsService
       # or the derived remaining hours, depending on the % Complete mode
       # currently active.
       #
-      %i[estimated_hours] => :derive_estimated_hours,
-      %i[remaining_hours] => :derive_remaining_hours,
+      %i[estimated_hours remaining_hours] => :derive_estimated_hours,
+      %i[remaining_hours estimated_hours] => :derive_remaining_hours,
       %i[estimated_hours done_ratio status status_id] => :derive_done_ratio,
       %i[ignore_non_working_days] => :derive_ignore_non_working_days
     }.each do |derivative_attributes, method|
