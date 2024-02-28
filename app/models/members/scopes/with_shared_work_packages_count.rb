@@ -44,7 +44,10 @@ module Members::Scopes
       def shared_work_packages_sql(only_role_id)
         <<~SQL.squish
           LEFT JOIN (
-            SELECT members_sums.user_id, members_sums.project_id, COUNT(*) AS shared_work_packages_count
+            SELECT
+              members_sums.user_id,
+              members_sums.project_id,
+              COUNT(distinct entity_id) AS shared_work_packages_count
             FROM #{Member.quoted_table_name} members_sums
             #{shared_work_packages_role_condition(only_role_id)}
             WHERE members_sums.entity_type = 'WorkPackage'
