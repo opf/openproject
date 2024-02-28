@@ -36,13 +36,13 @@ module OpenProject
         @id = id
         @name = name
         @description = description
-        @attr_value = Nokogiri::HTML(description).text
+        @attr_value = is_multi_type(description) ? I18n.t('js.label_preview_not_available') : Nokogiri::HTML(description).text
         @system_arguments = args
       end
 
       private
 
-      def show_expand_button(text)
+      def is_multi_type(text)
         text.to_s.include?('figure') || text.to_s.include?('macro')
       end
     end

@@ -9,7 +9,7 @@
   </p>
 
   <%= render(Primer::Alpha::Dialog.new(id: @id, title: @name, size: :large)) do |component|
-    component.with_show_button(scheme: :link, display: (show_expand_button(@description) ? :block : :none), data: { 'attribute-target': 'expandButton' }) { I18n.t('js.label_expand') }
+    component.with_show_button(scheme: :link, display: (is_multi_type(@description) ? :block : :none), data: { 'attribute-target': 'expandButton' }) { I18n.t('js.label_expand') }
     component.with_body(mt: 2) { helpers.format_text(@description) }
     component.with_header
     end
