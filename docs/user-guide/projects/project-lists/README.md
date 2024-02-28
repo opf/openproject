@@ -1,33 +1,33 @@
 ---
 sidebar_navigation:
-  title: Projects lists
+  title: Project lists
   priority: 800
-description: Manage projects lists in OpenProject
-keywords: projects lists, project filters, project overview
+description: Manage project lists in OpenProject
+keywords: project lists, project filters, project overview
 
 ---
 
-# Projects lists
+# Project lists
 
 In OpenProject you can create projects to collaborate with your team members, track issues, document and share information with stakeholders and organize things. A project is a way to structure and organize your work in OpenProject.
 
 Your projects can be available publicly or internally. OpenProject does not limit the number of projects, neither in the Community edition nor in the Enterprise cloud or in Enterprise on-premises edition.
 
-| Topic                                                       | Content                                                             |
-|-------------------------------------------------------------|---------------------------------------------------------------------|
-| [Select projects lists](#select-projects-lists)             | Get an overview of all your projects in the projects list.          |
-| [Filter projects lists](#projects-lists-filters)            | Adjust filters in the projects list.                                |
-| [Export project list](#export-project-lists)                | You can export the project list to XLS or CSV.                      |
+| Topic                                                       | Content                                                      |
+| ----------------------------------------------------------- | ------------------------------------------------------------ |
+| [Select project lists](#select-project-lists)               | Get an overview of all your projects in the project lists.   |
+| [Filter project lists](#project-lists-filters)              | Adjust filters in the project lists.                         |
+| [Export project list](#export-project-lists)                | You can export the project list to XLS or CSV.               |
 | [Project overarching reports](#project-overarching-reports) | How to create project overarching reports across multiple projects. |
 
 
-## Select projects lists
+## Select project lists
 
-There are several ways to get an overview of all your projects. You can press the **Projects lists** button at the bottom of the **Select a project** menu in the top left header navigation. 
+There are several ways to get an overview of all your projects. You can press the **Project lists** button at the bottom of the **Select a project** menu in the top left header navigation. 
 
-![projects list button](Projects-list-button.png)
+![project lists button](Project-list-button.png)
 
-Alternatively, you can use the [**Global modules menu**](../../home/global-modules/#projects) and select *Projects*. You can access that menu either on the left side of the OpenProject application homepage or by using the grid menu icon in the top left corner.
+Alternatively, you can use the [**Global modules menu**](../../home/global-modules/#projects) and select *Projects*. You can access that menu either on the left side of the OpenProject application homepage or by using the grid menu icon in the top right corner.
 
 ![Select all projects from the global modules menu in OpenProject](view_all_projects_options.png)
 
@@ -35,7 +35,7 @@ You will then get a list of all your active projects in OpenProject.
 
 ![A list of all projects in OpenProject](projects-list.png)
 
-### Projects lists view explained
+### Project lists view explained
 
 You can use this projects overview to **create a multi project status dashboard** if you include your own [project custom fields](../../../system-admin-guide/custom-fields/custom-fields-projects/), e.g. custom status options, Accountable, Project duration, and more.
 
@@ -43,7 +43,7 @@ You can use this projects overview to **create a multi project status dashboard*
 
 With the **arrow** on the right you can display the **project description**.
 
-![Open a project description in the projects lists view in OpenProject](arrow-project-description.png)
+![Open a project description in the project lists view in OpenProject](arrow-project-description.png)
 
 With the horizontal **three dots** icon on the right side of the list you can open **further features**, such as [creating a new subproject](../#create-a-subproject), [project settings](../project-settings), [archiving a project](../#archive-a-project), [copying](../#copy-a-project) and [deleting a project](../#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features. Find out how to un-archive projects [here](../#archive-a-project).
 
@@ -53,7 +53,7 @@ You can choose the **columns displayed by default** in the [System settings](../
 
 To change the order of the displayed [custom fields](../../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](../../../system-admin-guide/custom-fields/custom-fields-projects/#display-project-custom-fields).
 
-### Projects lists filters
+### Project lists filters
 
 Projects can be filtered in OpenProject. The default view will list all currently active projects. Project filters include:
 
@@ -71,11 +71,9 @@ Projects can be filtered in OpenProject. The default view will list all currentl
 - **Off track** - returns all active projects with the project status *Off track*.
 - **At risk** - returns all active projects with the project status *At risk*.
 
-![Filters for projects lists in OpenProject](projects-lists-default-filters.png)
+![Filters for project lists in OpenProject](projects-lists-default-filters.png)
 
-To adjust the projects lists view use the **Filters** button, select the filtering criteria you require and click the blue **Apply** button.
-
-![Create personal projects lists in OpenProject](Filter-projects-list.png)
+To adjust the project lists view use the **Filters** button, select the filtering criteria you require and click the blue **Apply** button.
 
 If you want to save this filtered list use the menu in the far right corner (three dots) and click **Save**.
 
@@ -85,7 +83,7 @@ You will then need to enter the name for the filtered view and click the green *
 
 ![Name and save a private projects filter in OpenProject](Name-private-projects-filter.png)
 
-Your saved projects list filter will appear on the left side under **My private projects lists**.
+Your saved project lists filter will appear on the left side under **My private project lists**.
 
 ![Name and save a private projects filter in OpenProject](private-project-filter-saved.png)
 
@@ -105,7 +103,7 @@ Alternatively you can also select the [Gantt charts from the global modules menu
 
 ### Overall activity
 
-Besides the Gantt chart view and the filter function for the projects lists, you can also access the activity of all users in all active projects. 
+Besides the Gantt chart view and the filter function for the project lists, you can also access the activity of all users in all active projects. 
 
 ![overall activity button](overall-activity-link.png)
 
@@ -139,7 +137,7 @@ Click on the **Modules** icon with the nine squares in the header navigation. Th
 
 Here you will find global (project overarching) overviews of the following modules, including:
 
-- The global projects list
+- The global project lists
 - The global activity module
 - The global work package tables (see below)
 - The global Gantt charts module

@@ -977,7 +977,7 @@ ru:
         percentageDone: "Сделано в процентах"
         priority: "Приоритет"
         projectName: "Проект"
-        remainingWork: "Оставшаяся работа"
+        remainingWork: "Оставшиеся часы"
         remainingWorkAlternative: "Оставшиеся часы"
         responsible: "Ответственный"
         startDate: "Дата начала"
@@ -989,7 +989,7 @@ ru:
         updatedAt: "Обновлено"
         versionName: "Этап"
         version: "Этап"
-        work: "Работа"
+        work: "Часы"
         workAlternative: "Приблизительное время"
         remainingTime: "Оставшиеся часы"
       default_queries:

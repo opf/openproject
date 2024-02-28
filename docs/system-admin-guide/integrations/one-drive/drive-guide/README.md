@@ -1,12 +1,46 @@
 ---
 sidebar_navigation:
-  title: Drive ID Guide
+  title: Drive Guide
   priority: 600
-description: Drive ID guide for OneDrive/SharePoint integration setup in OpenProject
+description: Drive guide for OneDrive/SharePoint integration setup in OpenProject
 keywords: OneDrive/SharePoint file storage integration, OneDrive, SharePoint, DriveID, Azure, Drive ID
 ---
 
-# Drive ID Guide
+# Drive Guide
+
+## Configure drive for automatic management
+
+If you need a OneDrive/SharePoint drive configured for using the "Automatically managed project folders" file storage option, there are some
+preliminary steps to take. Otherwise, if the drive will to be used in a file storage with the permission
+management still based within OneDrive/SharePoint, you should skip these steps and continue
+with [obtaining the drive id](./#how-to-obtain-a-drive-id).
+
+> Disclaimer: Some of the following descriptions are very tightly connected to the current (2024-02-13) state of
+> SharePoint configuration. This may easily change in future, as we do not control nor foresee changes to the
+> configuration UI developed by Microsoft.
+
+### Break inheritance chain
+
+The first step to take is to interrupt the inheritance chain of SharePoint for this drive. By doing this, your
+OpenProject instance will be able to manage the permissions on the drive for the project folders, otherwise SharePoint
+will consistently override those permissions.
+
+To achieve that, you need to enter the *Library Settings* of the target drive. Those usually can get accessed by selecting
+the *Settings gear icon* to the top right, selecting *Library Settings* and finally selecting *More Library Settings*. In
+the category of *Permissions and Management*, there should be the option to select *Permissions for this document
+library*. Within the new page, in the top menu, you need to select the option *Stop Inheriting Permissions*.
+
+### Remove previously set permissions
+
+Once the inheritance chain is interrupted, the last remaining step is to prepare the drive for remote permissions management.
+
+In the last screen of the drive configuration (the one after clicking on *Permissions for this document library*
+in the *Library Settings*), you should be able to see a list of all currently set permissions. In a standard drive, where
+no custom permissions were set, this is usually restricted to the *Members*, *Visitors* and *Owners* (SharePoint groups
+that are linked to the parent site). Now, you need to remove all permissions except the ones for the group *Owners*. Keeping these
+is important for still being able to reconfigure the drive at a later point in time.
+
+Once this is done, there should be no permissions left assigned to the document library, except the *Owners* group.
 
 ## How to obtain a drive ID
 
@@ -21,7 +55,7 @@ To communicate with the GRAPH API you need to authenticate against it. This is d
 in the [Azure portal](https://portal.azure.com/) for your Microsoft Entra ID. In addition, the Azure application needs
 some API permissions. In general those permissions are given either of the `Delegated` type (in a user context) or of
 the `Application` type (for the whole application). To achieve the task of getting the desired drive ID, you will need
-an access token with the permission `Sites.Read.All`.
+an access token with the permission `Files.Read.All`.
 
 ### API endpoints
 
@@ -52,11 +86,14 @@ specific toolset.
 ### Example 1: Microsoft GRAPH explorer
 
 Microsoft provides a web application, which can browse the GRAPH API. This tool can be
-found [here](https://developer.microsoft.com/en-us/graph/graph-explorer).
+found [here](https://developer.microsoft.com/en-us/graph/graph-explorer). This method only works, if the drive is not
+configured as described in the section
+about [configuring a drive for automatic management](./#configure-drive-for-automatic-management), so the better
+alternative is [example 2](./#example-2-terminal).
 
 #### Preconditions
 
-- Azure application has the API permission `Sites.Read.All` of type `Delegated`
+- Azure application has the API permission `Files.Read.All` of type `Delegated`
 - Any browser
 
 #### How to
@@ -157,7 +194,7 @@ There is a way to get all necessary information by executing the web requests fr
 
 #### Preconditions
 
-- Azure application has the API permission `Sites.Read.All` of type `Application`
+- Azure application has the API permission `Files.Read.All` of type `Application`
 - `curl`
 - `jq` (You do not have to use this tool, but if you don't, you will have to take the information from the JSON HTTP
   responses by hand.)

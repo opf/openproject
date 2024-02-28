@@ -128,4 +128,18 @@ RSpec.describe Projects::DeleteService, type: :model do
       expect(Projects::DeleteProjectJob).not_to have_received(:new)
     end
   end
+
+  context 'with the seeded demo project' do
+    let(:demo_project) { create(:project, name: 'Demo project', identifier: 'demo-project', public: true) }
+    let(:instance) { described_class.new(user:, model: demo_project) }
+
+    it 'saves in a Setting that the demo project was deleted (regression #52826)' do
+      # Delete the demo project
+      expect(subject).to be_success
+      expect(demo_project.destroyed?).to be(true)
+
+      # Demo project is not available for the onboarding tour any more
+      expect(Setting.demo_projects_available).to be(false)
+    end
+  end
 end

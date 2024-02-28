@@ -77,7 +77,16 @@ class Role < ApplicationRecord
             inclusion: { in: ->(*) { Role.subclasses.map(&:to_s) } }
 
   def self.givable
-    where.not(builtin: [BUILTIN_NON_MEMBER, BUILTIN_ANONYMOUS])
+    where
+      .not(
+        builtin: [
+          Role::BUILTIN_NON_MEMBER,
+          Role::BUILTIN_ANONYMOUS,
+          Role::BUILTIN_WORK_PACKAGE_VIEWER,
+          Role::BUILTIN_WORK_PACKAGE_COMMENTER,
+          Role::BUILTIN_WORK_PACKAGE_EDITOR
+        ]
+      )
       .order(Arel.sql('position'))
   end
 

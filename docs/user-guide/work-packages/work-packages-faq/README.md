@@ -120,7 +120,7 @@ It is most likely that you did not save the view of your work package table afte
 
 ### In the global work package tables, not all custom fields are available for filters. Why?
 
-In the [global work package tables](../../projects/projects-lists/#global-work-package-tables), only the custom fields that apply to all projects are displayed in the filter area (setting "for all projects" in the administration). 
+In the [global work package tables](../../projects/project-lists/#global-work-package-tables), only the custom fields that apply to all projects are displayed in the filter area (setting "for all projects" in the administration). 
 There are two reasons for this: 1. Potentially, a lot of values are displayed in the global filter list - especially if a lot of custom fields are used in individual projects. This can impair usability and (in extreme cases) performance.  2. As the values in the filter area are displayed for all users, sensitive information (name of the custom fields and their values) could in principle be visible to users who do not have access to the respective project where the custom field is activated.
 
 ### I have a parent work package with multiple children. In the work package table I don't see all of the children below the parent. Why? How can I change this?

@@ -104,7 +104,7 @@ cs:
   ldap_auth_sources:
     ldap_error: "Chyba LDAP: %{error_message}"
     ldap_auth_failed: "Nelze autentizovat u serveru LDAP."
-    sync_failed: "Failed to synchronize from LDAP: %{message}."
+    sync_failed: "Nepodařilo se synchronizovat z LDAP: %{message}."
     back_to_index: "Kliknutím sem se vrátíte do seznamu připojení."
     technical_warning_html: |
       Tento LDAP formulář vyžaduje technické znalosti nastavení LDAP / Active Directory.
@@ -115,19 +115,19 @@ cs:
       host: LDAP název hostitele nebo IP adresa
       login_map: Atribut klíč v LDAP, který se používá k identifikaci jedinečného přihlášení uživatele. Obvykle se jedná o `uid` nebo `samAccountName`.
       generic_map: Klíč atributů v LDAP, který je namapován k atributu OpenProject `%{attribute}`
-      admin_map_html: "Optional: The attribute key in LDAP that <strong>if present</strong> marks the OpenProject user an admin. Leave empty when in doubt."
+      admin_map_html: "Volitelně: Atribut klíč v LDAP, který <strong>pokud je přítomen</strong> , označí uživatele OpenProject admin. Nechte prázdné, pokud máte pochybnosti."
       system_user_dn_html: |
         Zadejte DN systémového uživatele používaného pro přístup pouze ke čtení.
         <br/>
         Příklad: uid=openproject,ou=system,dc=example,dc=com
       system_user_password: Vložte vázané heslo systémového uživatele
       base_dn: |
-        Enter the Base DN of the subtree in LDAP you want OpenProject to look for users and groups.
-        OpenProject will filter for provided usernames in this subtree only.
-        Example: ou=users,dc=example,dc=com
+        Zadejte základní DN podstromu v LDAP chcete, aby OpenProject hledal uživatele a skupiny.
+        OpenProject bude filtrovat pouze pro zadaná uživatelská jména v tomto podstromku.
+        Příklad: ou=users,dc=example,dc=com
       filter_string: |
-        Add an optional RFC4515 filter to apply to the results returned for users filtered in the LDAP.
-        This can be used to restrict the set of users that are found by OpenProject for authentication and group synchronization.
+        Přidejte volitelný filtr RFC4515, který se použije na výsledky vrácené pro uživatele filtrované v LDAP.
+        Toto lze použít k omezení sady uživatelů, kteří jsou nalezeni v OpenProject pro ověřování a synchronizaci skupin.
       filter_string_concat: |
         OpenProject bude vždy filtrovat přihlašovací atribut, který poskytuje uživatel pro identifikaci záznamu. Pokud zde zadáte filtr,
         bude spojen s AND. Ve výchozím nastavení se jako filtr použije catch-all (objectClass=*).
@@ -192,7 +192,7 @@ cs:
     execute: "Spustit %{name}"
     upsale:
       title: "Vlastní akce"
-      description: "Custom actions are one-click shortcuts to a set of pre-defined actions that you can make available on certain work packages based on status, role, type or project."
+      description: "Vlastní akce jsou zkratky jedním kliknutím na sadu předem definovaných akcí, které můžete zpřístupnit na základě stavu některých pracovních balíčků. role, typ nebo projekt."
   custom_fields:
     text_add_new_custom_field: >
       Chcete-li přidat nová vlastní pole do projektu, musíte je nejprve vytvořit, než je budete moci přidat do tohoto projektu.
@@ -307,7 +307,7 @@ cs:
       no_results_title_text: V současné době nejsou k dispozici žádné přístupové tokeny.
       notice_api_token_revoked: "Token API byl odstraněn. Pro vytvoření nového tokenu použijte odkaz v sekci API."
       notice_rss_token_revoked: "Token API byl odstraněn. Pro vytvoření nového tokenu použijte odkaz v sekci API."
-      notice_ical_token_revoked: 'iCalendar token "%{token_name}" for calendar "%{calendar_name}" of project "%{project_name}" has been revoked. The iCalendar URL with this token is now invalid.'
+      notice_ical_token_revoked: 'token iCalendar "%{token_name}" pro kalendář "%{calendar_name}" projektu "%{project_name}" byl zrušen. URL iCalendar s tímto tokenem je nyní neplatná.'
   news:
     index:
       no_results_title_text: V současné době neexistují žádné zprávy k zobrazení.
@@ -392,7 +392,7 @@ cs:
         v Ganttových grafech nebo tabulkách pracovních balíčků. Proto se doporučuje použít kontrastní barvu.
   versions:
     overview:
-      work_packages_in_archived_projects: "The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views."
+      work_packages_in_archived_projects: "Verze je sdílena s archivovanými projekty, které mají stále pracovní balíčky přiřazené k této verzi. Ty jsou započítány, ale nebudou se objevovat v odkazovaných zobrazeních."
       no_results_title_text: Momentálně zde nejsou žádné pracovní balíčky přiřazené k této verzi.
   wiki:
     page_not_editable_index: Požadovaná stránka ještě neexistuje. Byli jste přesměrováni na index všech wiki stránek.
@@ -631,9 +631,9 @@ cs:
         begin_insertion: "Začátek vložení"
         begin_deletion: "Začátek odstranění"
         children: "Dílčí prvky"
-        derived_done_ratio: "Odvozeno % dokončeno"
-        derived_remaining_hours: "Odvozené zbývající práce"
-        derived_remaining_time: "Odvozené zbývající práce"
+        derived_done_ratio: "Celkem v % dokončeno"
+        derived_remaining_hours: "Celkem zbývající práce"
+        derived_remaining_time: "Celkem zbývající práce"
         done_ratio: "% Dokončeno"
         duration: "Doba trvání"
         end_insertion: "Konec vložení"
@@ -1083,7 +1083,7 @@ cs:
     default_columns: "Výchozí sloupce"
     description: "Popis"
     derived_due_date: "Derivované Datum ukončení "
-    derived_estimated_hours: "Odvozená práce"
+    derived_estimated_hours: "Celková práce"
     derived_start_date: "Derivované Datum zahájení "
     display_sums: "Zobrazit součty"
     due_date: "Datum dokončení"
@@ -1620,23 +1620,23 @@ cs:
       simple_revoke_confirmation: "Opravdu chcete zrušit tento token?"
       api:
         title: "API"
-        text_hint: "API tokens allow third-party applications to communicate with this OpenProject instance via REST APIs."
+        text_hint: "OAuth tokeny umožňují aplikacím třetích stran spojení s touto instancí OpenProjekt."
         static_token_name: "API Token"
         disabled_text: "API tokeny nejsou administrátorem povoleny. Pro použití této funkce kontaktujte svého správce."
       ical:
         title: "iCalendar"
         text_hint: 'iCalendar tokens allow users to <a href="%{path}" target="_blank">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients.'
         disabled_text: "iCalendar odběr není administrátorem povolen. Pro použití této funkce kontaktujte svého správce."
-        empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
+        empty_text_hint: "Chcete-li přidat token iCalendar, přihlaste se do nového nebo existujícího kalendáře v rámci modulu kalendáře projektu. Musíte mít potřebná oprávnění."
       oauth:
         title: "OAuth"
         text_hint: "OAuth tokeny umožňují aplikacím třetích stran spojení s touto instancí OpenProjekt."
         empty_text_hint: "Pro vás není nastaven a aktivní přístup třetí strany. Pro aktivaci této funkce kontaktujte svého správce."
       rss:
         title: "RSS"
-        text_hint: "RSS tokens allow users to keep up with the latest changes in this OpenProject instance via an external RSS reader."
+        text_hint: "RSS tokeny umožňují uživatelům držet krok s nejnovějšími změnami v této OpenProject instanci přes externí RSS čtečku."
         static_token_name: "RSS token"
-        disabled_text: "RSS tokens are not enabled by the administrator. Please contact your administrator to use this feature."
+        disabled_text: "API tokeny nejsou administrátorem povoleny. Pro použití této funkce kontaktujte svého správce."
       storages:
         title: "Úložiště souborů"
         text_hint: "Tokeny úložiště souborů připojují tuto OpenProject instanci s externím úložištěm souborů."
@@ -1875,7 +1875,7 @@ cs:
   label_force_user_language_to_default: "Nastavte jazyk uživatelů, kteří nemají povolený jazyk na výchozí"
   label_form_configuration: "Konfigurace formuláře"
   label_gantt_chart: "Ganttův diagram"
-  label_gantt_chart_plural: "Gantt charts"
+  label_gantt_chart_plural: "Ganttovi diagramy"
   label_general: "Obecné"
   label_generate_key: "Generovat klíč"
   label_git_path: "Cesta ke složce .git"
@@ -2618,7 +2618,7 @@ cs:
   project_module_news: "Novinky"
   project_module_repository: "Repozitář"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
+  permission_header_for_project_module_work_package_tracking: "Pracovní balíčky a Gantt diagramy"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2875,10 +2875,10 @@ cs:
       first_date_of_week_and_year_set: >
         Pokud jsou nastaveny možnosti buď "%{day_of_week_setting_name}" nebo "%{first_week_setting_name}", druhý je třeba nastavit také aby jste se vyhli nesrovnalostem na frontendu.
       first_week_of_year_text_html: >
-        Select the date of January that is contained in the first week of the year. This value together with first day of the week determines the total number of weeks in a year. For more information, please see our <a href="%{link}" target="_blank">documentation</a> on this topic.
+        Vyberte datum v lednu, které je obsaženo v prvním týdnu roku. Tato hodnota spolu s prvním dnem v týdnu určuje celkový počet týdnů v roce. Více informací naleznete v naší <a href="%{link}" target="_blank">dokumentaci</a> k tomuto tématu.
     experimental:
       save_confirmation: Pozor! Riziko ztráty dat! Aktivujte experimentální funkce, pokud vám nevadí rozbít instalaci OpenProject a ztratit všechna data.
-      warning_toast: Feature flags are settings that activate features that are still under development. They shall only be used for testing purposes. They shall never be activated on OpenProject installations holding important data. These features will very likely corrupt your data. Use them at your own risk.
+      warning_toast: Příznaky funkcí jsou nastavení, která aktivují funkce, které jsou stále ve vývoji. Používají se pouze pro testovací účely. Nikdy nebudou aktivovány v instalacích OpenProject s významnými daty. Tyto funkce pravděpodobně naruší vaše data. Použijte je na vlastní riziko.
       feature_flags: Značky funkcí
     general: "Obecné"
     highlighting:
@@ -2897,7 +2897,7 @@ cs:
     other: "Ostatní"
     passwords: "Hesla"
     projects:
-      missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
+      missing_dependencies: "Projektový modul %{module} byl zkontrolován, který závisí na %{dependencies}. Tyto závislosti musíte také zkontrolovat."
       section_new_projects: "Nastavení pro nové projekty"
       section_project_overview: "Nastavení přehledu seznamu  projektu"
     session: "Relace"
@@ -3038,7 +3038,7 @@ cs:
   help_texts:
     views:
       project: >
-        %{plural} are always attached to a project. You can only select projects here where the %{plural} module is active. After creating a %{singular} you can add work packages from other projects to it.
+        %{plural} jsou vždy připojeny k projektu. Projekty můžete vybrat pouze zde, kde je %{plural} modul aktivní. Po vytvoření %{singular} můžete přidat pracovní balíčky z jiných projektů.
       public: "Publikujte toto zobrazení, umožňující ostatním uživatelům přístup k vašemu zobrazení. Uživatelé s oprávněním 'Spravovat veřejné zobrazení' mohou upravit nebo odebrat veřejný dotaz. To nemá vliv na viditelnost výsledků pracovního balíčku v tomto zobrazení a v závislosti na jejich oprávněních mohou uživatelé vidět různé výsledky."
       favoured: "Označte toto zobrazení jako oblíbené a přidejte do postranního panelu vlevo."
   time:
@@ -3222,7 +3222,7 @@ cs:
       code_409: "Zdroj nelze aktualizovat kvůli konfliktním změnám."
       code_429: "Příliš mnoho dotazů, zkuste to znovu později"
       code_500: "Došlo k vnitřní chybě."
-      code_500_outbound_request_failure: "An outbound request to another resource has failed with status code %{status_code}."
+      code_500_outbound_request_failure: "Odchozí požadavek na jiný dokument selhal se stavovým kódem %{status_code}."
       code_500_missing_enterprise_token: "Požadavek nelze zpracovat kvůli neplatnému nebo chybějícímu tokenu Enterprise."
       not_found:
         work_package: "Pracovní balíček, který hledáte, nebyl nalezen nebo byl odstraněn."
@@ -3392,7 +3392,7 @@ cs:
       rack_oauth2:
         client_secret_invalid: "Tajný klíč klienta je neplatný (klient_secret_invalid)"
         invalid_request: >
-          OAuth2 Authorization Server responded with 'invalid_request'. This error appears if you try to authorize multiple times or in case of technical issues.
+          OAuth2 Authorization Server odpověděl s 'invalid_request'. Tato chyba se objeví, pokud se pokoušíte vícenásobně autorizovat nebo v případě technických problémů.
         invalid_response: "OAuth2 Authorization Server poskytl neplatnou odpověď (invalid_response)"
         invalid_grant: "Autorizační server OAuth2 vás žádá, abyste znovu autorizovali (invalid_grant)."
         invalid_client: "Autorizační server OAuth2 nerozpozná OpenProject (invalid_client)."

@@ -20,7 +20,7 @@ zh-TW:
           add: '成員'
           too_many: '正在顯示 %{count} 個成員，總共 %{total} 個。'
         news:
-          title: '新知'
+          title: '最新消息'
           at: '在'
           no_results: '沒有新的消息可以報告'
         project_description:

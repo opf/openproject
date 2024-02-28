@@ -20,7 +20,7 @@ bug fixes included.
   - The timeline zoom factor is now saved in queries: When you open a
     saved timeline query the same zoom level as before is shown
     ([#25318](https://community.openproject.org/wp/25318)).
-  - As a user of the [Enterprise cloud edition](https://www.openproject.org/hosting/) or 
+  - As a user of the [Enterprise cloud edition](https://www.openproject.org/enterprise-edition/#hosting-options) or 
     [Enterprise on-premises edition](https://www.openproject.org/enterprise-edition/), you can
     now upload a custom favicon which is shown in the browser. You can
     also set a touch icon which is shown on smartphones (e.g. when

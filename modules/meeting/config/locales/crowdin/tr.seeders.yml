@@ -12,17 +12,17 @@ tr:
               title: Haftalık
           meeting_agenda_items:
             item_0:
-              title: Good news
+              title: Güzel haberlerimiz var!
             item_1:
-              title: Updates from development team
+              title: Geliştirme ekibinden ilerlemeler
             item_2:
-              title: Updates from product team
+              title: Üretim ekibinden ilerlemeler
             item_3:
-              title: Updates from marketing team
+              title: Pazarlama ekibinden ilerlemeler
             item_4:
-              title: Updates from sales team
+              title: Satış ekibinden ilerlemeler
             item_5:
-              title: Review of quarterly goals
+              title: Çeyrek bazlı hedefleri gözden geçir
             item_6:
               title: Core values feedback
             item_7:

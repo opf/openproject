@@ -172,9 +172,9 @@ A forum in OpenProject is defined as a module used to display forums and forum m
 
 ## G
 
-### Gantt chart
+### Gantt charts
 
-The Gantt chart in OpenProject displays the work packages in a timeline. You can collaboratively create and manage your project plan. Have your project timelines available for all team [members](#member), and share up-to-date information with stakeholders. You can add start and finish dates and adapt it with drag and drop in the Gantt chart. Also, you can add dependencies, predecessor or follower within the Gantt chart. [Read more about how to activate and work with Gantt charts in OpenProject](../user-guide/gantt-chart/).
+The Gantt charts [module](#module) in OpenProject displays the work packages in a timeline. You can collaboratively create and manage your project plan. Have your project timelines available for all team [members](#member), and share up-to-date information with stakeholders. You can add start and finish dates and adapt it with drag and drop in the Gantt chart. Also, you can add dependencies, predecessor or follower within the Gantt chart. [Read more about how to activate and work with Gantt charts in OpenProject](../user-guide/gantt-chart/).
 
 ### Global modules
 
@@ -292,6 +292,10 @@ Project folders help collaborating in the most efficient way. They can be used w
 
 The project identifier is defined as the unique name used to identify and reference projects in the application as well as in the address bar of your browser. Project identifiers can be changed in the [project settings](#project-settings).
 
+### Project lists
+
+In OpenProject, project lists are very useful for project portfolio managers to get an overview of all their [projects](#project) on the instance. Access your project lists on OpenProject by either navigating to the "select a project" menu and clicking on the "Project list" button, or via the [Global modules](#global-modules). [Read more about project lists OpenProject](../user-guide/projects/project-lists/).
+
 ### Project navigation
 
 The project navigation is the side navigation within a project. Entries in the project navigation can be added and removed by activating and deactivating [modules](#module) in the [project settings](#project-settings).
@@ -320,7 +324,7 @@ In OpenProject, projects can be private or public. Public means that the project
 
 ### Quick context menu
 
-The quick context menu in OpenProject opens when you open a [work package table](#work-package-table) and then right-click on a single work package. It allows you to perform quick actions like *open details view*, *copy link to clipboard* or *create new child*. Please note that the quick context menu differs depending on whether you are in the [Gantt](#gantt-chart) view or not.
+The quick context menu in OpenProject opens when you open a [work package table](#work-package-table) and then right-click on a single work package. It allows you to perform quick actions like *open details view*, *copy link to clipboard* or *create new child*. Please note that the quick context menu differs depending on whether you are in the [Gantt charts](#gantt-charts) module or not.
 
 ## R
 
@@ -391,6 +395,10 @@ A widget in OpenProject is defined as a small and customizable element that prov
 In OpenProject, a wiki is defined as a [module](#module) that allows to use wiki pages. In order to use the wiki module, it has to be activated in the [project settings](#project-settings) by a project admin. [Read more about wikis in OpenProject](../user-guide/wiki/).
 
 ![A wiki module in OpenProject](glossary-openproject-wiki.png)
+
+### Work and Remaining Work
+
+In OpenProject, 'Work' refers to a work package attribute indicating the estimated hours needed to complete a task. You can edit the value for work manually, as well as the value for the work package attribute '**Remaining work**'. To make it easier for project managers to work with work package hierarchies, OpenProject also displays a value (in blue) for the total amount of work in the Work field for parent work packages – next to the value for the dedicated work package. This **total work value** is the sum of the work value of the parent work package and all the work values of its children. The same principle applies to the work package attribute Remaining Work. [Read in our user guide about how to configure a work package](../user-guide/work-packages/work-package-table-configuration/)
 
 ### Workflow
 

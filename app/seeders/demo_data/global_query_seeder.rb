@@ -33,6 +33,10 @@ module DemoData
       end
     end
 
+    def applicable?
+      Query.global.none?
+    end
+
     private
 
     def seed_global_queries
