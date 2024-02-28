@@ -134,6 +134,36 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
             .to contain_exactly(shared_work_package, other_shared_work_package)
         end
       end
+
+      context 'when the user does not have the :view_shared_work_packages permission' do
+        before do
+          # Remove all permissions
+          user.members.destroy_all
+
+          user.memberships << create(:member,
+                                     user:,
+                                     entity: shared_work_package,
+                                     project: project_with_types,
+                                     roles: [work_package_role])
+          user.save!
+        end
+
+        context 'and using `me` as the filter value' do
+          let(:values) { ['me'] }
+
+          it 'returns the work package shared with me' do
+            expect(subject).to contain_exactly(shared_work_package)
+          end
+        end
+
+        context 'and filtering for other users' do
+          let(:values) { [non_shared_with_user.id, shared_with_user.id] }
+
+          it 'returns the work package shared with me' do
+            expect(subject).to be_empty
+          end
+        end
+      end
     end
 
     context 'with a "&=" operator' do
@@ -216,6 +246,14 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
           end
 
           it { expect(instance).not_to be_available }
+
+          context 'and I have something shared with me' do
+            before do
+              create(:work_package_member, user:, roles: [create(:work_package_role)])
+            end
+
+            it { expect(instance).to be_available }
+          end
         end
       end
 
