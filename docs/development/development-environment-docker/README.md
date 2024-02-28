@@ -396,8 +396,8 @@ docker compose --project-directory docker/dev/tls up -d
 
 ## GitLab CE Service
 
-Within `docker/dev/gitlab` a compose file is provided for running local Gitlab instance with TLS support. The provides
-a production like environment for testing the OpenProject GitLab integration against a community edition gitlab instance
+Within `docker/dev/gitlab` a compose file is provided for running local Gitlab instance with TLS support. This provides
+a production like environment for testing the OpenProject GitLab integration against a community edition GitLab instance
 accessible on `https://gitlab.local`.
 
 > NOTE: Configure [TLS Support](#tls-support) first before starting the GitLab service
