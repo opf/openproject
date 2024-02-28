@@ -351,7 +351,7 @@ RSpec.describe Settings::Definition, :settings_reset do
           # override from env manually because these settings are added by plugin itself
           described_class.send(:override_value, all[:plugin_openproject_two_factor_authentication])
           expect(all[:plugin_openproject_two_factor_authentication].value).to eq(
-            'active_strategies' => %i[totp webauthn],
+            'active_strategies' => %i[totp],
             'enforced' => true,
             'allow_remember_for_days' => 15
           )
@@ -367,7 +367,7 @@ RSpec.describe Settings::Definition, :settings_reset do
           # override from env manually because these settings are added by plugin itself
           described_class.send(:override_value, all[:plugin_openproject_two_factor_authentication])
           expect(all[:plugin_openproject_two_factor_authentication].value)
-            .to eq({ 'active_strategies' => %i[totp webauthn], 'enforced' => true, 'allow_remember_for_days' => 15 })
+            .to eq({ 'active_strategies' => %i[totp], 'enforced' => true, 'allow_remember_for_days' => 15 })
         end
       end
 
