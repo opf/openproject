@@ -99,7 +99,7 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
       let(:only_role_id) { nil }
 
       it 'returns the total count of shared roles' do
-        expect(subject).to contain_exactly [active_user_member.id, nil],
+        expect(subject).to contain_exactly [active_user_member.id, 0],
                                            [active_user_shared_member_view.id, 2],
                                            [active_user_shared_member_comment.id, 2],
                                            [other_shared_member.id, 1],
@@ -111,7 +111,7 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
       let(:only_role_id) { view_work_package_role.id }
 
       it 'returns the total count of view roles' do
-        expect(subject).to contain_exactly [active_user_member.id, nil],
+        expect(subject).to contain_exactly [active_user_member.id, 0],
                                            [active_user_shared_member_view.id, 1],
                                            # this is 1 due to it counting for the principal
                                            [active_user_shared_member_comment.id, 1],
@@ -124,12 +124,12 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
       let(:only_role_id) { comment_work_package_role.id }
 
       it 'returns the total count of the comment roles' do
-        expect(subject).to contain_exactly [active_user_member.id, nil],
+        expect(subject).to contain_exactly [active_user_member.id, 0],
                                            # this is 1 due to it counting for the principal
                                            [active_user_shared_member_view.id, 1],
                                            [active_user_shared_member_comment.id, 1],
-                                           [other_shared_member.id, nil],
-                                           [group_shared_member.id, nil]
+                                           [other_shared_member.id, 0],
+                                           [group_shared_member.id, 0]
       end
     end
   end
