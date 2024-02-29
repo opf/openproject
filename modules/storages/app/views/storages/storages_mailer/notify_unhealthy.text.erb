@@ -27,16 +27,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= I18n.t('mail.salutation', user: @admin.firstname) %>
+<%= I18n.t('mail.salutation', user: @admin.firstname) %>,
 
-<%= "-" * 100 %>
+<%= I18n.t('mail.storages.health.plaintext.unhealthy.summary', storage_name: @storage.name) %>
 
-<%= I18n.t("mail.storages.health.unhealthy.summary", storage_name: @storage.name) %>
+<%= I18n.t('mail.storages.health.plaintext.storage') %>: <%= I18n.t("storages.provider_types.#{@storage.short_provider_type}.name") %> - <%= @storage.host %>
 
-<%= I18n.t("storages.provider_types.#{@storage.short_provider_type}.name") %> - <%= @storage.host %>
+<%= I18n.t('mail.storages.health.plaintext.unhealthy.error-details') %>:
+<%= "-" * 30 %>
+<%= I18n.t('mail.storages.health.plaintext.unhealthy.error-message') %>: <%= "#{@storage.health_reason_identifier} - #{@storage.health_reason_description}" %>
+<%= I18n.t('mail.storages.health.plaintext.unhealthy.error-occurred-on') %>: <%= format_time(@storage.health_changed_at) %>
 
-<%= "#{@storage.health_reason_identifier} - #{@storage.health_reason_description}" %> <%= I18n.t('mail.storages.health.unhealthy.since') %> <%= format_time(@storage.health_changed_at) %>
+<%= I18n.t('mail.storages.health.plaintext.unhealthy.recommendation') %>: <%= @url %>
 
-<%= @url %>
-
-<%= "-" * 100 %>
+<%#= I18n.t('mail.storages.health.plaintext.unhealthy.unsubscribe') %>: <%= @url %>

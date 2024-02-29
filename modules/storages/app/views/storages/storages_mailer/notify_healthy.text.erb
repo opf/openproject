@@ -27,16 +27,19 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= I18n.t('mail.salutation', user: @admin.firstname) %>
+<%= I18n.t('mail.salutation', user: @admin.firstname) %>,
 
-<%= "-" * 100 %>
+<%= I18n.t('mail.storages.health.plaintext.healthy.summary', storage_name: @storage.name) %>
 
-<%= I18n.t("mail.storages.health.healthy.summary", storage_name: @storage.name) %>
+<%= I18n.t('mail.storages.health.plaintext.storage') %>: <%= I18n.t("storages.provider_types.#{@storage.short_provider_type}.name") %> - <%= @storage.host %>
 
-<%= I18n.t("storages.provider_types.#{@storage.short_provider_type}.name") %> - <%= @storage.host %>
+<%= I18n.t('mail.storages.health.plaintext.unhealthy.error-details') %>:
+<%= "-" * 30 %>
+<%= I18n.t('mail.storages.health.plaintext.unhealthy.error-message') %>: <%= "#{Storages::Storage.extract_part_from_piped_string(@reason, 0)} - #{Storages::Storage.extract_part_from_piped_string(@reason, 1)}" %>
+<%= I18n.t('mail.storages.health.plaintext.healthy.error-solved-on') %>: <%= format_time(@storage.health_changed_at) %>
 
-<%= "#{Storages::Storage.extract_part_from_piped_string(@reason, 0)} - #{Storages::Storage.extract_part_from_piped_string(@reason, 1)}" %> <%= I18n.t('mail.storages.health.healthy.solved_at') %> <%= format_time(@storage.health_changed_at) %>
+<%= I18n.t('mail.storages.health.plaintext.healthy.details') %>: <%= @url %>
 
-<%= @url %>
+<%= I18n.t('mail.storages.health.plaintext.healthy.recommendation') %>
 
-<%= "-" * 100 %>
+<%#= I18n.t('mail.storages.health.plaintext.unhealthy.unsubscribe') %>: <%= @url %>
