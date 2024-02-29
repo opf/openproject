@@ -54,13 +54,10 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<div data-controller="project"
-     data-application-target="dynamic">
-  <%= render Projects::TableComponent.new(
-    query:,
-    current_user: current_user,
-    params:) %>
-</div>
+<%= render Projects::TableComponent.new(
+  query:,
+  current_user: current_user,
+  params:) %>
 
 <%= render Projects::StorageInformationComponent.new(
   current_user: current_user) %>
