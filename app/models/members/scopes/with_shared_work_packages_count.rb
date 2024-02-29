@@ -37,6 +37,8 @@ module Members::Scopes
           .joins(shared_work_packages_sql(only_role_id))
           .select('members.*')
           .select('COALESCE(members_sums.shared_work_packages_count, 0) AS shared_work_packages_count')
+          .select('COALESCE(members_sums.inherited_shared_work_packages_count, 0) AS inherited_shared_work_packages_count')
+          .select('COALESCE(members_sums.total_shared_work_packages_count, 0) AS total_shared_work_packages_count')
       end
 
       private
@@ -47,9 +49,11 @@ module Members::Scopes
             SELECT
               members_sums.user_id,
               members_sums.project_id,
-              COUNT(distinct entity_id) AS shared_work_packages_count
+              #{shared_work_packages_role_selectors(only_role_id)},
+              COUNT(distinct entity_id) AS total_shared_work_packages_count
             FROM #{Member.quoted_table_name} members_sums
-            #{shared_work_packages_role_condition(only_role_id)}
+            LEFT JOIN #{MemberRole.quoted_table_name} members_roles
+              ON members_sums.id = members_roles.member_id
             WHERE members_sums.entity_type = 'WorkPackage'
             GROUP BY members_sums.user_id, members_sums.project_id
           ) members_sums
@@ -57,15 +61,24 @@ module Members::Scopes
         SQL
       end
 
-      def shared_work_packages_role_condition(only_role_id)
-        if only_role_id.present?
-          sql = <<~SQL.squish
-            INNER JOIN #{MemberRole.quoted_table_name} members_roles
-            ON members_sums.id = members_roles.member_id
-            AND members_roles.role_id = ?
+      def shared_work_packages_role_selectors(only_role_id)
+        if only_role_id
+          OpenProject::SqlSanitization.sanitize <<~SQL.squish, only_role_id:
+            COUNT(distinct entity_id)
+              FILTER (WHERE members_roles.role_id = :only_role_id)
+                AS shared_work_packages_count,
+            COUNT(distinct entity_id)
+              FILTER (WHERE members_roles.role_id = :only_role_id AND members_roles.inherited_from IS NOT NULL)
+                AS inherited_shared_work_packages_count
           SQL
-
-          OpenProject::SqlSanitization.sanitize sql, only_role_id
+        else
+          <<~SQL.squish
+            COUNT(distinct entity_id)
+              AS shared_work_packages_count,
+            COUNT(distinct entity_id)
+              FILTER (WHERE members_roles.inherited_from IS NOT NULL)
+                AS inherited_shared_work_packages_count
+          SQL
         end
       end
     end

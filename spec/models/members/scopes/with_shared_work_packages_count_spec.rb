@@ -32,50 +32,53 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
   let(:project) { create(:project) }
   let(:role) { create(:project_role) }
 
-  let(:work_package) { create(:work_package, project:) }
-  let(:work_package2) { create(:work_package, project:) }
+  let(:work_package_a) { create(:work_package, project:) }
+  let(:work_package_b) { create(:work_package, project:) }
 
   let(:view_work_package_role) { create(:view_work_package_role) }
   let(:comment_work_package_role) { create(:comment_work_package_role) }
 
-  let(:shared_user) { create(:user, status: Principal.statuses[:active]) }
-  let(:other_shared_user) { create(:user, status: Principal.statuses[:active]) }
-
-  let(:group) { create(:group, members: [other_shared_user]) }
+  let(:user_a) { create(:user, lastname: 'a', status: Principal.statuses[:active]) }
+  let(:user_b) { create(:user, lastname: 'b', status: Principal.statuses[:active]) }
+  let(:user_c) { create(:user, lastname: 'c', status: Principal.statuses[:active]) }
+  let(:group) { create(:group, lastname: 'g', members: [user_b, user_c]) }
 
   let!(:active_user_member) do
     create(:member,
            project:,
            roles: [role],
-           principal: create(:user, status: Principal.statuses[:active]))
+           principal: create(:user, lastname: 'x', status: Principal.statuses[:active]))
   end
-  let!(:active_user_shared_member_view) do
+  let!(:user_a_view_member) do
     create(:member,
            project:,
            roles: [view_work_package_role],
-           entity: work_package,
-           principal: shared_user)
+           entity: work_package_a,
+           principal: user_a)
   end
-  let!(:active_user_shared_member_comment) do
+  let!(:user_a_comment_member) do
     create(:member,
            project:,
            roles: [comment_work_package_role],
-           entity: work_package2,
-           principal: shared_user)
+           entity: work_package_b,
+           principal: user_a)
   end
-  let!(:other_shared_member) do
+  let!(:user_b_view_member) do
     create(:member,
            project:,
            roles: [view_work_package_role],
-           entity: work_package,
-           principal: other_shared_user)
+           entity: work_package_a,
+           principal: user_b)
+  end
+  let(:user_c_inherited_member) do
+    Member.find_by(entity: work_package_a, principal: user_c)
   end
 
-  let!(:group_shared_member) do
+  let!(:group_comment_member) do
     create(:member,
            project:,
-           roles: [view_work_package_role],
-           entity: work_package,
+           roles: [comment_work_package_role],
+           entity: work_package_a,
            principal: group)
   end
 
@@ -91,18 +94,31 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
     subject do
       Member
         .with_shared_work_packages_count(only_role_id:)
-        .map{ |m| [m.id, m.shared_work_packages_count] }
+        .map do |m|
+          [
+            m.principal.lastname,
+            m.id,
+            {
+              count: m.shared_work_packages_count,
+              inherited: m.inherited_shared_work_packages_count,
+              total: m.total_shared_work_packages_count,
+            }
+          ]
+        end
     end
 
     context 'when only_role_ids is not set' do
       let(:only_role_id) { nil }
 
       it 'returns the total count of shared roles' do
-        expect(subject).to contain_exactly [active_user_member.id, 0],
-                                           [active_user_shared_member_view.id, 2],
-                                           [active_user_shared_member_comment.id, 2],
-                                           [other_shared_member.id, 1],
-                                           [group_shared_member.id, 1]
+        expect(subject).to match_array [
+          ['x', active_user_member.id, { count: 0, inherited: 0, total: 0 }],
+          ['a', user_a_view_member.id, { count: 2, inherited: 0, total: 2 }],
+          ['a', user_a_comment_member.id, { count: 2, inherited: 0, total: 2 }],
+          ['b', user_b_view_member.id, { count: 1, inherited: 1, total: 1 }],
+          ['g', group_comment_member.id, { count: 1, inherited: 0, total: 1 }],
+          ['c', user_c_inherited_member.id, { count: 1, inherited: 1, total: 1 }],
+        ]
       end
     end
 
@@ -110,12 +126,14 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
       let(:only_role_id) { view_work_package_role.id }
 
       it 'returns the total count of view roles' do
-        expect(subject).to contain_exactly [active_user_member.id, 0],
-                                           [active_user_shared_member_view.id, 1],
-                                           # this is 1 due to it counting for the principal
-                                           [active_user_shared_member_comment.id, 1],
-                                           [other_shared_member.id, 1],
-                                           [group_shared_member.id, 1]
+        expect(subject).to match_array [
+          ['x', active_user_member.id, { count: 0, inherited: 0, total: 0 }],
+          ['a', user_a_view_member.id, { count: 1, inherited: 0, total: 2 }],
+          ['a', user_a_comment_member.id, { count: 1, inherited: 0, total: 2 }],
+          ['b', user_b_view_member.id, { count: 1, inherited: 0, total: 1 }],
+          ['g', group_comment_member.id, { count: 0, inherited: 0, total: 1 }],
+          ['c', user_c_inherited_member.id, { count: 0, inherited: 0, total: 1 }],
+        ]
       end
     end
 
@@ -123,12 +141,14 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
       let(:only_role_id) { comment_work_package_role.id }
 
       it 'returns the total count of the comment roles' do
-        expect(subject).to contain_exactly [active_user_member.id, 0],
-                                           # this is 1 due to it counting for the principal
-                                           [active_user_shared_member_view.id, 1],
-                                           [active_user_shared_member_comment.id, 1],
-                                           [other_shared_member.id, 0],
-                                           [group_shared_member.id, 0]
+        expect(subject).to match_array [
+          ['x', active_user_member.id, { count: 0, inherited: 0, total: 0 }],
+          ['a', user_a_view_member.id, { count: 1, inherited: 0, total: 2 }],
+          ['a', user_a_comment_member.id, { count: 1, inherited: 0, total: 2 }],
+          ['b', user_b_view_member.id, { count: 1, inherited: 1, total: 1 }],
+          ['g', group_comment_member.id, { count: 1, inherited: 0, total: 1 }],
+          ['c', user_c_inherited_member.id, { count: 1, inherited: 1, total: 1 }],
+        ]
       end
     end
   end
