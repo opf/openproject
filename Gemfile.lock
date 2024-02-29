@@ -1115,7 +1115,7 @@ GEM
       zeitwerk (>= 2.6)
     xpath (3.2.0)
       nokogiri (~> 1.8)
-    yard (0.9.34)
+    yard (0.9.35)
     zeitwerk (2.6.13)
 
 PLATFORMS
