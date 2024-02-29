@@ -26,24 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module JobStatus
-  class Status < ApplicationRecord
-    self.table_name = 'job_statuses'
-
-    belongs_to :user
-    belongs_to :reference, polymorphic: true
-
-    enum status: {
-      in_queue: 'in_queue',
-      error: 'error',
-      in_process: 'in_process',
-      success: 'success',
-      failure: 'failure',
-      cancelled: 'cancelled'
-    }
-
-    def self.of_reference(reference)
-      where(reference:)
-    end
+class RenameDelayedJobStatuses < ActiveRecord::Migration[7.1]
+  def change
+    rename_table :delayed_job_statuses, :job_statuses
   end
 end

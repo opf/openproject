@@ -74,7 +74,7 @@ module JobStatus
         resource.attributes = build_status_attributes(args.merge(status:))
       end
 
-      # There is a possible race condition because of unique delayed_job_statuses.job_id
+      # There is a possible race condition because of unique job_statuses.job_id
       # Can't use upsert easily, because before updating we need to know user_id
       # to set proper locale. Probably, it is possible to get it from
       # a job's payload, then it would be possible to correctly prepare attributes before using upsert.
