@@ -231,6 +231,10 @@ group :test do
   gem 'rack-test', '~> 2.1.0'
   gem 'shoulda-context', '~> 2.0'
 
+  # Run specs with guard
+  gem "guard"
+  gem "guard-rspec"
+
   # Test prof provides factories from code
   # and other niceties
   gem 'test-prof', '~> 1.3.0'
