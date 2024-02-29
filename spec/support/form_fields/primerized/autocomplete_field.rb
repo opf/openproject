@@ -28,6 +28,10 @@ module FormFields
         field_container.find('.ng-select-container input').set text
       end
 
+      def open_options
+        field_container.find('.ng-select-container').click
+      end
+
       def clear
         field_container.find('.ng-clear-wrapper', visible: :all).click
       end
@@ -42,7 +46,7 @@ module FormFields
 
       def expect_not_selected(*values)
         values.each do |val|
-          expect(field_container).to have_no_css('.ng-value', text: val)
+          expect(field_container).to have_no_css('.ng-value', text: val, wait: 1)
         end
       end
 
@@ -52,7 +56,7 @@ module FormFields
 
       def expect_no_option(option)
         expect(page)
-          .to have_no_css('.ng-option', text: option, visible: :all)
+          .to have_no_css('.ng-option', text: option, visible: :all, wait: 1)
       end
 
       def expect_option(option)

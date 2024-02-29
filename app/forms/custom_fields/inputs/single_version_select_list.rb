@@ -27,6 +27,10 @@
 #++
 
 class CustomFields::Inputs::SingleVersionSelectList < CustomFields::Inputs::Base::Autocomplete::SingleValueInput
+  include AssignableCustomFieldValues
+
+  delegate :assignable_versions, to: :@object
+
   form do |custom_value_form|
     # autocompleter does not set key with blank value if nothing is selected or input is cleared
     # in order to let acts_as_customizable handle the clearing of the value, we need to set the value to blank via a hidden field
@@ -34,8 +38,7 @@ class CustomFields::Inputs::SingleVersionSelectList < CustomFields::Inputs::Base
     custom_value_form.hidden(**input_attributes.merge(value: ""))
 
     custom_value_form.autocompleter(**input_attributes) do |list|
-      # TODO: allow-non-open version setting is not yet respected!
-      @object.versions.each do |version|
+      assignable_custom_field_values(@custom_field).each do |version|
         list.option(
           label: version.name, value: version.id,
           selected: selected?(version)

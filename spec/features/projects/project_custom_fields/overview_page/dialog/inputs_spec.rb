@@ -295,17 +295,51 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
         it_behaves_like 'a autocomplete single select field'
 
         describe 'with correct version scoping' do
-          let!(:version_in_other_project) do
-            create(:version, name: 'Version 1 in other project', project: other_project)
+          context 'with a version on a different project' do
+            let!(:version_in_other_project) do
+              create(:version, name: 'Version 1 in other project', project: other_project)
+            end
+
+            it 'shows only versions that are associated with this project' do
+              overview_page.open_edit_dialog_for_section(section)
+
+              field.search('Version 1')
+
+              field.expect_option(first_version.name)
+              field.expect_no_option(version_in_other_project.name)
+            end
           end
 
-          it 'shows only versions that are associated with this project' do
-            overview_page.open_edit_dialog_for_section(section)
+          context 'with a closed version' do
+            let!(:closed_version) { create(:version, name: 'Closed version', project:, status: 'closed') }
 
-            field.search('Version 1')
+            before do
+              custom_field.update(allow_non_open_versions:)
+            end
 
-            field.expect_option(first_version.name)
-            field.expect_no_option(version_in_other_project.name)
+            context 'when non-open versions are not allowed' do
+              let(:allow_non_open_versions) { false }
+
+              it 'does not shows closed version option' do
+                overview_page.open_edit_dialog_for_section(section)
+                field.open_options
+
+                field.expect_option(first_version.name)
+                field.expect_no_option(closed_version.name)
+              end
+            end
+
+            context 'when non-open versions are allowed' do
+              let(:allow_non_open_versions) { true }
+
+              it 'shows closed version option' do
+                overview_page.open_edit_dialog_for_section(section)
+                field.open_options
+
+                field.expect_option(first_version.name)
+                field.expect_option(closed_version.name)
+              end
+            end
           end
         end
       end
