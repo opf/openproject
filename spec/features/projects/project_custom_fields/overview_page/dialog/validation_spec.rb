@@ -254,6 +254,28 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
       end
     end
 
+    describe 'editing multiple sections' do
+      let(:input_fields_dialog) do
+        Components::Projects::ProjectCustomFields::EditDialog.new(project, section_for_input_fields)
+      end
+      let(:select_fields_dialog) do
+        Components::Projects::ProjectCustomFields::EditDialog.new(project, section_for_select_fields)
+      end
+      let(:field) { FormFields::Primerized::AutocompleteField.new(list_project_custom_field) }
+
+      it 'displays validation errors, when the previous section modal was canceled (Regression)' do
+        list_project_custom_field.update!(is_required: true)
+        list_project_custom_field.custom_values.destroy_all
+
+        overview_page.open_edit_dialog_for_section(section_for_input_fields)
+        input_fields_dialog.close
+        overview_page.open_edit_dialog_for_section(section_for_select_fields)
+        select_fields_dialog.submit
+
+        field.expect_error(I18n.t('activerecord.errors.messages.blank'))
+      end
+    end
+
     describe 'with input fields' do
       let(:section) { section_for_input_fields }
       let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
