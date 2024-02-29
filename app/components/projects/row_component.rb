@@ -27,8 +27,6 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'nokogiri'
-
 module Projects
   class RowComponent < ::RowComponent
     def project
@@ -178,10 +176,6 @@ module Projects
 
     def user_can_view_project?
       User.current.allowed_in_project?(:view_project, project)
-    end
-
-    def show_expand_button(text)
-      text.to_s.include?('figure') || text.to_s.include?('macro')
     end
   end
 end
