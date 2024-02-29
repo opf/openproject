@@ -40,8 +40,8 @@ export default class AttributeController extends Controller {
   declare readonly descriptionTextTarget:HTMLParagraphElement;
   declare readonly expandButtonTarget:HTMLButtonElement;
 
-  connect():void {
-  if (this.isEllipssed(this.descriptionTextTarget)) {
+  descriptionTextTargetConnected(element:HTMLParagraphElement) {
+    if (this.isEllipssed(element)) {
       this.expandButtonTarget.classList.remove('d-none');
     }
   }
