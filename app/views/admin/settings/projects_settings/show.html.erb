@@ -60,38 +60,39 @@ See COPYRIGHT and LICENSE files for more details.
         </div>
       <% end %>
 
-      <div class="form--field">
-        <%= setting_block(:enabled_projects_columns) do %>
-          <div class="form--text-field-container -wide">
-            <%= angular_component_tag 'opce-draggable-autocompleter',
-                                      inputs: {
-                                        options: projects_columns_options,
-                                        selected: selected_projects_columns_options,
-                                        protected: protected_projects_columns_options,
-                                        name: 'settings[enabled_projects_columns][]',
-                                        id: 'settings_enabled_projects_columns',
-                                        inputLabel: I18n.t(:'queries.configure_view.columns.input_label'),
-                                        inputPlaceholder: I18n.t(:'queries.configure_view.columns.input_placeholder'),
-                                        dragAreaLabel: I18n.t(:'queries.configure_view.columns.drag_area_label')
-                                      }%>
-          </div>
-        <% end %>
+      <div class="form--field -full-width">
+        <div class="form--text-field-container -xwide">
+          <%= angular_component_tag 'opce-draggable-autocompleter',
+                                    inputs: {
+                                      options: projects_columns_options,
+                                      selected: selected_projects_columns_options,
+                                      protected: protected_projects_columns_options,
+                                      name: 'settings[enabled_projects_columns][]',
+                                      id: 'settings_enabled_projects_columns',
+                                      inputLabel: I18n.t(:'queries.configure_view.columns.input_label'),
+                                      inputPlaceholder: I18n.t(:'queries.configure_view.columns.input_placeholder'),
+                                      dragAreaLabel: I18n.t(:'queries.configure_view.columns.drag_area_label')
+                                    }%>
+        </div>
       </div>
 
-      <div class="form--field">
-        <%= setting_block("project_gantt_query") do %>
-        <span class="form--text-field-container">
-          <%= content_tag 'editable-query-props',
-                          '',
-                          data: {
-                            name: 'settings[project_gantt_query]',
-                            id: 'settings_project_gantt_query',
-                            query: ::Projects::GanttQueryGeneratorService.current_query,
-                            'url-params': 'true'
-                          }
-          %>
+      <div class="form--field -vertical">
+        <div class="form--label -bold">
+          <%= I18n.t(:setting_project_gantt_query) %>
+        </div>
+        <span class="form--field-container">
+          <span class="form--text-field-container">
+            <%= content_tag 'editable-query-props',
+                            '',
+                            data: {
+                              name: 'settings[project_gantt_query]',
+                              id: 'settings_project_gantt_query',
+                              query: ::Projects::GanttQueryGeneratorService.current_query,
+                              'url-params': 'true'
+                            }
+            %>
+          </span>
         </span>
-        <% end %>
         <div class="form--field-instructions">
           <%= I18n.t(:setting_project_gantt_query_text) %>
         </div>
