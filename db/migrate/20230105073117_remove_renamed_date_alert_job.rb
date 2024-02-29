@@ -27,11 +27,9 @@
 #++
 
 class RemoveRenamedDateAlertJob < ActiveRecord::Migration[6.0]
-  include ::Migration::Utils
-
   def up
     # The job has been renamed to Notifications::ScheduleDateAlertsNotificationsJob.
     # The new job will be added on restarting the application.
-    execute_sql("DELETE FROM delayed_jobs WHERE handler LIKE '%job_class: Notifications::CreateDateAlertsNotificationsJob%'")
+    execute("DELETE FROM delayed_jobs WHERE handler LIKE '%job_class: Notifications::CreateDateAlertsNotificationsJob%'")
   end
 end
