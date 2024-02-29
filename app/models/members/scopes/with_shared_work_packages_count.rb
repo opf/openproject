@@ -66,14 +66,5 @@ module Members::Scopes
         end
       end
     end
-
-    def shared_work_packages_count
-      @shared_work_packages_count ||= begin
-        value = read_attribute(:shared_work_packages_count) ||
-          self.class.with_shared_work_packages_count.where(id:).pick('members_sums.shared_work_packages_count')
-
-        value.to_i
-      end
-    end
   end
 end
