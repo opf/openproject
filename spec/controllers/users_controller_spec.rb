@@ -440,7 +440,7 @@ RSpec.describe UsersController do
       it 'sends an email to the correct user in the correct language' do
         perform_enqueued_jobs
         mail = ActionMailer::Base.deliveries.last
-        refute_nil mail
+        expect(mail).not_to be_nil
         expect([registered_user.mail]).to eq(mail.to)
         mail.parts.each do |part|
           expect(part.body.encoded).to include(I18n.t(:notice_account_activated, locale: 'de'))
