@@ -28,41 +28,45 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class FilesQuery
+    Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
+    def self.call(storage:, auth_strategy:, folder:)
+      new(storage).call(auth_strategy:, folder:)
+    end
+
     def initialize(storage)
-      @uri = storage.uri
-      @configuration = storage.oauth_configuration
+      @storage = storage
     end
 
-    def self.call(storage:, user:, folder:)
-      new(storage).call(user:, folder:)
-    end
-
-    def call(user:, folder:)
-      result = Util.token(user:, configuration: @configuration) do |token|
-        @location_prefix = Util.join_uri_path(@uri.path, "remote.php/dav/files", token.origin_user_id.gsub(' ', '%20'))
-
-        response = OpenProject
-                     .httpx
-                     .request(
-                       "PROPFIND",
-                       Util.join_uri_path(@uri,
-                                          "remote.php/dav/files",
-                                          CGI.escapeURIComponent(token.origin_user_id),
-                                          requested_folder(folder)),
-                       xml: requested_properties,
-                       headers: {
-                         'Depth' => '1',
-                         'Authorization' => "Bearer #{token.access_token}"
-                       }
-                     )
-
-        handle_response(response)
+    def call(auth_strategy:, folder:)
+      if auth_strategy.user.nil?
+        error_data = Storages::StorageErrorData.new(source: self)
+        return Util.error(:error, 'Cannot execute query without user context.', error_data)
       end
 
+      origin_user = origin_user_id(auth_strategy.user)
+      @location_prefix = Util.join_uri_path(@storage.uri.path,
+                                            "remote.php/dav/files",
+                                            origin_user.gsub(' ', '%20'))
+
+      result = make_request(auth_strategy:, folder:)
       storage_files(result)
     end
 
     private
+
+    def make_request(auth_strategy:, folder:)
+      Auth[auth_strategy].call(storage: @storage,
+                               http_options: Util.webdav_request_with_depth(1)) do |http|
+        response = http.request('PROPFIND',
+                                Util.join_uri_path(@storage.uri,
+                                                   'remote.php/dav/files',
+                                                   CGI.escapeURIComponent(origin_user),
+                                                   requested_folder(folder)),
+                                xml: requested_properties)
+        handle_response(response)
+      end
+    end
 
     def handle_response(response)
       error_data = Storages::StorageErrorData.new(source: self, payload: response)
@@ -77,6 +81,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       else
         Util.error(:error, 'Outbound request failed', error_data)
       end
+    end
+
+    def origin_user_id(user)
+      OAuthClientToken.find_by(user_id: user, oauth_client_id: @storage.oauth_client.id)&.origin_user_id || ''
     end
 
     def requested_folder(folder)

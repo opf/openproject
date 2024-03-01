@@ -30,24 +30,18 @@
 
 module Storages
   module Peripherals
-    module OAuthConfigurations
-      class ConfigurationInterface
-        def authorization_state_check(_) = raise ::Storages::Errors::SubclassResponsibility
+    module StorageInteraction
+      module AuthenticationStrategies
+        class Strategy
+          attr_reader :key, :user
 
-        def scope(*) = raise ::Storages::Errors::SubclassResponsibility
+          def initialize(key)
+            @key = key
+          end
 
-        def basic_rack_oauth_client = raise ::Storages::Errors::SubclassResponsibility
-
-        private
-
-        def authorization_check_wrapper
-          case yield
-          in { status: 200..299 }
-            :success
-          in { status: 401 | 403 }
-            :refresh_needed
-          else
-            :error
+          def with_user(user)
+            @user = user
+            self
           end
         end
       end

@@ -42,6 +42,10 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
       { headers: { 'OCS-APIRequest' => 'true' } }
     end
 
+    def webdav_request_with_depth(number)
+      { headers: { 'Depth' => number } }
+    end
+
     def error(code, log_message = nil, data = nil)
       ServiceResult.failure(
         result: code, # This is needed to work with the ConnectionManager token refresh mechanism.

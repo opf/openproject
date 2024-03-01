@@ -31,43 +31,35 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenStorageQuery, :webmock do
+# rubocop:disable RSpec/DescribeClass
+RSpec.describe 'network errors for storage interaction' do
   using Storages::Peripherals::ServiceResultRefinements
 
   let(:user) { create(:user) }
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
+  let(:folder) { Storages::Peripherals::ParentFolder.new('/') }
+  let(:auth_strategy) do
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
+  end
 
-  subject { described_class.new(storage) }
+  subject do
+    Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery.new(storage)
+  end
 
-  describe '#call' do
-    it 'responds with correct parameters' do
-      expect(described_class).to respond_to(:call)
-
-      method = described_class.method(:call)
-      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user])
+  context 'if a timeout happens' do
+    before do
+      request = HTTPX::Request.new(:get, 'https://my.timeout.org/')
+      httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
+      allow(httpx_double).to receive(:with).and_return(httpx_double)
+      allow(OpenProject).to receive(:httpx).and_return(httpx_double)
     end
 
-    context 'with outbound requests successful', vcr: 'one_drive/open_storage_query_success' do
-      it 'returns the url for opening the storage' do
-        call = subject.call(user:)
-        expect(call).to be_success
-        expect(call.result).to eq('https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR')
-      end
-    end
-
-    context 'with not existent oauth token' do
-      let(:user_without_token) { create(:user) }
-
-      it 'must return unauthorized when called' do
-        result = subject.call(user: user_without_token)
-        expect(result).to be_failure
-        expect(result.error_source).to be_a(OAuthClients::ConnectionManager)
-
-        result.match(
-          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-        )
-      end
+    it 'must return an error with wrapped network error response' do
+      error = subject.call(auth_strategy:, folder:)
+      expect(error).to be_failure
+      expect(error.result).to eq(:error)
+      expect(error.error_payload).to be_a(HTTPX::ErrorResponse)
     end
   end
 end
+# rubocop:enable RSpec/DescribeClass

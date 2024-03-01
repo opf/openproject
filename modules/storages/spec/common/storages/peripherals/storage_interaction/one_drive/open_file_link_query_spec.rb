@@ -37,6 +37,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenFileLink
   let(:user) { create(:user) }
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
   let(:file_id) { '01AZJL5PJTICED3C5YSVAY6NWTBNA2XERU' }
+  let(:auth_strategy) do
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
+  end
 
   subject { described_class.new(storage) }
 
@@ -45,13 +48,16 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenFileLink
       expect(described_class).to respond_to(:call)
 
       method = described_class.method(:call)
-      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[keyreq file_id], %i[key open_location])
+      expect(method.parameters).to contain_exactly(%i[keyreq storage],
+                                                   %i[keyreq auth_strategy],
+                                                   %i[keyreq file_id],
+                                                   %i[key open_location])
     end
 
     context 'with outbound requests successful' do
       context 'with open location flag not set', vcr: 'one_drive/open_file_link_query_success' do
         it 'returns the url for opening the file on storage' do
-          call = subject.call(user:, file_id:)
+          call = subject.call(auth_strategy:, file_id:)
           expect(call).to be_success
           expect(call.result).to eq('https://finn.sharepoint.com/sites/openprojectfilestoragetests/_layouts/15/Doc.aspx?sourcedoc=%7B3D884033-B88B-4195-8F36-D30B41AB9234%7D&file=Document.docx&action=default&mobileredirect=true')
         end
@@ -59,25 +65,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenFileLink
 
       context 'with open location flag set', vcr: 'one_drive/open_file_link_location_query_success' do
         it 'returns the url for opening the file on storage' do
-          call = subject.call(user:, file_id:, open_location: true)
+          call = subject.call(auth_strategy:, file_id:, open_location: true)
           expect(call).to be_success
           expect(call.result).to eq('https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/Folder')
         end
-      end
-    end
-
-    context 'with not existent oauth token' do
-      let(:user_without_token) { create(:user) }
-
-      it 'must return unauthorized when called' do
-        result = subject.call(user: user_without_token, file_id:)
-        expect(result).to be_failure
-        expect(result.error_source).to be_a(OAuthClients::ConnectionManager)
-
-        result.match(
-          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-        )
       end
     end
 
@@ -85,32 +76,12 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::OpenFileLink
       let(:file_id) { 'iamnotexistent' }
 
       it 'must return not found' do
-        result = subject.call(user:, file_id:)
+        result = subject.call(auth_strategy:, file_id:)
         expect(result).to be_failure
         expect(result.error_source).to be_a(Storages::Peripherals::StorageInteraction::OneDrive::Internal::DriveItemQuery)
 
         result.match(
           on_failure: ->(error) { expect(error.code).to eq(:not_found) },
-          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-        )
-      end
-    end
-
-    context 'with invalid oauth token', vcr: 'one_drive/open_file_link_query_invalid_token' do
-      before do
-        token = build_stubbed(:oauth_client_token, oauth_client: storage.oauth_client)
-        allow(Storages::Peripherals::StorageInteraction::OneDrive::Util)
-          .to receive(:using_user_token)
-                .and_yield(token)
-      end
-
-      it 'must return unauthorized' do
-        result = subject.call(user:, file_id:)
-        expect(result).to be_failure
-        expect(result.error_source).to be_a(Storages::Peripherals::StorageInteraction::OneDrive::Internal::DriveItemQuery)
-
-        result.match(
-          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
           on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
         )
       end

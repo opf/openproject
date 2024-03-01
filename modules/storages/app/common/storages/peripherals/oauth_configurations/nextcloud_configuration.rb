@@ -32,20 +32,21 @@ module Storages
   module Peripherals
     module OAuthConfigurations
       class NextcloudConfiguration < ConfigurationInterface
-        attr_reader :oauth_client
+        Util = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
+
+        attr_reader :oauth_client, :oauth_uri
 
         def initialize(storage)
           super()
           @uri = storage.uri
           @oauth_client = storage.oauth_client.freeze
+          @oauth_uri = URI(Util.join_uri_path(@uri, "/index.php/apps/oauth2/api/v1")).normalize
         end
 
         def authorization_state_check(token)
-          util = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
-
           authorization_check_wrapper do
             OpenProject.httpx.get(
-              util.join_uri_path(@uri, '/ocs/v1.php/cloud/user'),
+              Util.join_uri_path(@uri, '/ocs/v1.php/cloud/user'),
               headers: {
                 'Authorization' => "Bearer #{token}",
                 'OCS-APIRequest' => 'true',
@@ -59,7 +60,7 @@ module Storages
           rack_access_token.raw_attributes[:user_id]
         end
 
-        def scope(_user:)
+        def scope(*)
           []
         end
 
@@ -71,8 +72,8 @@ module Storages
             scheme: @uri.scheme,
             host: @uri.host,
             port: @uri.port,
-            authorization_endpoint: File.join(@uri.path, "/index.php/apps/oauth2/authorize"),
-            token_endpoint: File.join(@uri.path, "/index.php/apps/oauth2/api/v1/token")
+            authorization_endpoint: Util.join_uri_path(@uri.path, "/index.php/apps/oauth2/authorize"),
+            token_endpoint: Util.join_uri_path(@uri.path, "/index.php/apps/oauth2/api/v1/token")
           )
         end
       end

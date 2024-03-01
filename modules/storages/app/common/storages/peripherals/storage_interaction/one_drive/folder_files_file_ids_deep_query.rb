@@ -31,19 +31,21 @@
 module Storages::Peripherals::StorageInteraction::OneDrive
   class FolderFilesFileIdsDeepQuery
     FIELDS = %w[id name file folder parentReference].freeze
-    AUTH = ::Storages::Peripherals::StorageInteraction::Authentication
+    Auth = ::Storages::Peripherals::StorageInteraction::Authentication
 
-    def self.call(storage:, folder:)
-      new(storage).call(folder:)
+    def self.call(storage:, auth_strategy:, folder:)
+      new(storage).call(auth_strategy:, folder:)
     end
 
     def initialize(storage)
       @storage = storage
-      @delegate = Internal::ChildrenQuery.new(storage)
+      @children_query = Internal::ChildrenQuery.new(storage)
+      @drive_item_query = Internal::DriveItemQuery.new(storage)
     end
 
-    def call(folder:)
-      AUTH.with_client_credentials(storage: @storage, http_options: Util.accept_json) do |http|
+    # rubocop:disable Metrics/AbcSize
+    def call(auth_strategy:, folder:)
+      Auth[auth_strategy].call(storage: @storage, http_options: Util.accept_json) do |http|
         fetch_result = fetch_folder(http, folder)
         return fetch_result if fetch_result.failure?
 
@@ -65,10 +67,12 @@ module Storages::Peripherals::StorageInteraction::OneDrive
       end
     end
 
+    # rubocop:enable Metrics/AbcSize
+
     private
 
     def visit(http, folder)
-      call = @delegate.call(http:, folder:, fields: FIELDS)
+      call = @children_query.call(http:, folder:, fields: FIELDS)
       return call if call.failure?
 
       entry = {}
@@ -96,42 +100,13 @@ module Storages::Peripherals::StorageInteraction::OneDrive
       { entry:, folder: }
     end
 
-    # TODO: REMOVE WITH #51713, as this should be replaced by internal drive item query
-    # with harmonized interface for authentication
-
     def fetch_folder(http, folder)
-      uri_path = if folder.root?
-                   "/v1.0/drives/#{@storage.drive_id}/root"
-                 else
-                   "/v1.0/drives/#{@storage.drive_id}/items/#{folder}"
-                 end
-
-      response = http.get(Util.join_uri_path(@storage.uri, "#{uri_path}?$select=id,name,parentReference"))
-      handle_responses(response).map do |json|
+      @drive_item_query.call(http:, drive_item_id: folder.to_s, fields: %w[id name parentReference]).map do |json|
         if folder.root?
           { '/' => Storages::StorageFileInfo.from_id(json[:id]) }
         else
           parse_drive_item_info(json)[:entry]
         end
-      end
-    end
-
-    def handle_responses(response)
-      case response
-      in { status: 200..299 }
-        ServiceResult.success(result: response.json(symbolize_keys: true))
-      in { status: 404 }
-        ServiceResult.failure(result: :not_found,
-                              errors: Util.storage_error(response:, code: :not_found, source: self))
-      in { status: 403 }
-        ServiceResult.failure(result: :forbidden,
-                              errors: Util.storage_error(response:, code: :forbidden, source: self))
-      in { status: 401 }
-        ServiceResult.failure(result: :unauthorized,
-                              errors: Util.storage_error(response:, code: :unauthorized, source: self))
-      else
-        data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
-        ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
       end
     end
   end

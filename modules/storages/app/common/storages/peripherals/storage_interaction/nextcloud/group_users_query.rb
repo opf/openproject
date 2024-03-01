@@ -32,19 +32,19 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class GroupUsersQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    AUTH = ::Storages::Peripherals::StorageInteraction::Authentication
+    Auth = ::Storages::Peripherals::StorageInteraction::Authentication
 
     def initialize(storage)
       @storage = storage
     end
 
-    def self.call(storage:, group: storage.group)
-      new(storage).call(group:)
+    def self.call(storage:, auth_strategy:, group: storage.group)
+      new(storage).call(group:, auth_strategy:)
     end
 
-    def call(group:)
-      AUTH.with_basic_auth(storage: @storage, http_options: Util.ocs_api_request) do |http|
-        response = http.get(Util.join_uri_path(@storage.uri, "ocs/v1.php/cloud/groups", CGI.escapeURIComponent(group)))
+    def call(group:, auth_strategy:)
+      Auth[auth_strategy].call(storage: @storage, http_options: Util.ocs_api_request) do |http|
+        response = http.get(Util.join_uri_path(@storage.uri, 'ocs/v1.php/cloud/groups', CGI.escapeURIComponent(group)))
         handle_errors(response)
       end
     end
@@ -52,7 +52,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     private
 
     def handle_errors(response)
-      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
+      error_data = Storages::StorageErrorData.new(source: self, payload: response)
 
       case response
       in { status: 200..299 }

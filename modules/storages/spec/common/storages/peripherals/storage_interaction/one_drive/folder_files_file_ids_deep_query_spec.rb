@@ -37,18 +37,21 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FolderFilesF
   let(:user) { create(:user) }
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
   let(:folder) { Storages::Peripherals::ParentFolder.new('/') }
+  let(:auth_strategy) do
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
+  end
 
   describe '#call' do
     it 'responds with correct parameters' do
       expect(described_class).to respond_to(:call)
 
       method = described_class.method(:call)
-      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq folder])
+      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq auth_strategy], %i[keyreq folder])
     end
 
     context 'with outbound requests successful' do
       subject do
-        described_class.call(storage:, folder:).result
+        described_class.call(storage:, auth_strategy:, folder:).result
       end
 
       context 'with parent folder being root', vcr: 'one_drive/folder_files_file_ids_deep_query_root' do
@@ -103,51 +106,15 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FolderFilesF
       let(:folder) { Storages::Peripherals::ParentFolder.new('/I/just/made/that/up') }
 
       it 'must return not found' do
-        result = described_class.call(storage:, folder:)
+        result = described_class.call(storage:, auth_strategy:, folder:)
         expect(result).to be_failure
-        expect(result.error_source).to be_a(described_class)
+        expect(result.error_source)
+          .to be_a(Storages::Peripherals::StorageInteraction::OneDrive::Internal::DriveItemQuery)
 
         result.match(
           on_failure: ->(error) { expect(error.code).to eq(:not_found) },
           on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
         )
-      end
-    end
-
-    context 'with invalid oauth credentials', vcr: 'one_drive/folder_files_file_ids_deep_query_invalid_credentials' do
-      before do
-        unauthorized_http = OpenProject.httpx.with(headers: { authorization: "Bearer YouShallNotPass" })
-        allow(Storages::Peripherals::StorageInteraction::Authentication)
-          .to receive(:with_client_credentials)
-                .and_yield(unauthorized_http)
-      end
-
-      it 'must return unauthorized' do
-        result = described_class.call(storage:, folder:)
-        expect(result).to be_failure
-        expect(result.error_source).to be_a(described_class)
-
-        result.match(
-          on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-          on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-        )
-      end
-    end
-
-    context 'with network errors' do
-      before do
-        request = HTTPX::Request.new(:get, 'https://my.timeout.org/')
-        httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
-        allow(Storages::Peripherals::StorageInteraction::Authentication)
-          .to receive(:with_client_credentials)
-                .and_yield(httpx_double)
-      end
-
-      it 'must return an error with wrapped network error response' do
-        error = described_class.call(storage:, folder:)
-        expect(error).to be_failure
-        expect(error.result).to eq(:error)
-        expect(error.error_payload).to be_a(HTTPX::ErrorResponse)
       end
     end
   end

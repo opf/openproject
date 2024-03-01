@@ -36,6 +36,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
 
   let(:user) { create(:user) }
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
+  let(:auth_strategy) do
+    Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
+  end
 
   subject { described_class.new(storage) }
 
@@ -44,13 +47,13 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
       expect(described_class).to respond_to(:call)
 
       method = described_class.method(:call)
-      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq user], %i[keyreq file_id])
+      expect(method.parameters).to contain_exactly(%i[keyreq storage], %i[keyreq auth_strategy], %i[keyreq file_id])
     end
 
     context 'without outbound request involved' do
       context 'with nil' do
         it 'returns an error' do
-          result = subject.call(user:, file_id: nil)
+          result = subject.call(auth_strategy:, file_id: nil)
 
           expect(result).to be_failure
           expect(result.error_source).to eq(described_class)
@@ -66,7 +69,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
 
       # rubocop:disable RSpec/ExampleLength
       it 'must return the file information when called' do
-        result = subject.call(user:, file_id:)
+        result = subject.call(auth_strategy:, file_id:)
         expect(result).to be_success
 
         result.match(
@@ -102,7 +105,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
 
       # rubocop:disable RSpec/ExampleLength
       it 'must return the file information when called' do
-        result = subject.call(user:, file_id:)
+        result = subject.call(auth_strategy:, file_id:)
         expect(result).to be_success
 
         result.match(
@@ -138,7 +141,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
     let(:file_id) { 'not_existent' }
 
     it 'must return not found' do
-      result = subject.call(user:, file_id:)
+      result = subject.call(auth_strategy:, file_id:)
       expect(result).to be_failure
       expect(result.error_source).to be_a(Storages::Peripherals::StorageInteraction::OneDrive::Internal::DriveItemQuery)
 
@@ -146,62 +149,6 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::FileInfoQuer
         on_failure: ->(error) { expect(error.code).to eq(:not_found) },
         on_success: ->(file_info) { fail "Expected failure, got #{file_info}" }
       )
-    end
-  end
-
-  context 'with invalid oauth token', vcr: 'one_drive/file_info_query_invalid_token' do
-    let(:file_id) { '01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA' }
-
-    before do
-      token = build_stubbed(:oauth_client_token, oauth_client: storage.oauth_client)
-      allow(Storages::Peripherals::StorageInteraction::OneDrive::Util)
-        .to receive(:using_user_token)
-              .and_yield(token)
-    end
-
-    it 'must return unauthorized' do
-      result = subject.call(user:, file_id:)
-      expect(result).to be_failure
-      expect(result.error_source).to be_a(Storages::Peripherals::StorageInteraction::OneDrive::Internal::DriveItemQuery)
-
-      result.match(
-        on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-        on_success: ->(file_info) { fail "Expected failure, got #{file_info}" }
-      )
-    end
-  end
-
-  context 'with not existent oauth token' do
-    let(:file_id) { '01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA' }
-    let(:user_without_token) { create(:user) }
-
-    it 'must return unauthorized' do
-      result = subject.call(user: user_without_token, file_id:)
-      expect(result).to be_failure
-      expect(result.error_source).to be_a(OAuthClients::ConnectionManager)
-
-      result.match(
-        on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-        on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-      )
-    end
-  end
-
-  context 'with network errors' do
-    let(:file_id) { '01AZJL5PNCQCEBFI3N7JGZSX5AOX32Z3LA' }
-
-    before do
-      request = HTTPX::Request.new(:get, 'https://my.timeout.org/')
-      httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
-
-      allow(OpenProject).to receive(:httpx).and_return(httpx_double)
-    end
-
-    it 'must return an error with wrapped network error response' do
-      error = subject.call(user:, file_id:)
-      expect(error).to be_failure
-      expect(error.result).to eq(:error)
-      expect(error.error_payload).to be_a(HTTPX::ErrorResponse)
     end
   end
 end

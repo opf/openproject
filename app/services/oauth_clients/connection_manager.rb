@@ -98,7 +98,7 @@ module OAuthClients
     # @param scope (OAuth2 RFC) specifies the resources to access. Nextcloud has only one global scope.
     def get_authorization_uri(state: nil)
       client = rack_oauth_client # Configure and start the rack-oauth2 client
-      client.authorization_uri(scope: @config.scope, state:)
+      client.authorization_uri(scope: @config.scope(user: @user), state:)
     end
 
     # rubocop:disable Metrics/AbcSize
