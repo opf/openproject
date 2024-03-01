@@ -55,8 +55,4 @@ class Queries::Projects::Selects::CustomField < Queries::Selects::Base
                         .visible
                         .find_by(id: self.class.key.match(attribute)[1])
   end
-
-  def scope
-    super.select(custom_field.order_statements)
-  end
 end

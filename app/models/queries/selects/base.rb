@@ -55,8 +55,4 @@ class Queries::Selects::Base
   def initialize(attribute)
     self.attribute = attribute
   end
-
-  def scope
-    model.select(attribute)
-  end
 end
