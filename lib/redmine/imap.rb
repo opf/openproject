@@ -32,7 +32,7 @@ module Redmine
   module IMAP
     class << self
       def check(imap_options = {}, options = {})
-        folder = imap_options[:folder] || 'INBOX'
+        folder = imap_options[:folder].presence || 'INBOX'
         imap = connect_imap(imap_options)
 
         imap.select(folder)
