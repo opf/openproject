@@ -144,6 +144,16 @@ module Pages
         end
       end
 
+      def expect_no_save_as_notification
+        expect(page)
+          .to have_no_link('Save as')
+      end
+
+      def expect_save_as_notification
+        expect(page)
+          .to have_link('Save as')
+      end
+
       def filter_by_active(value)
         set_filter('active',
                    'Active',
@@ -310,7 +320,7 @@ module Pages
       end
 
       def save_query(name)
-        click_more_menu_item('Save')
+        click_more_menu_item('Save as')
 
         within '[data-test-selector="project-query-name"]' do
           fill_in 'Name', with: name
