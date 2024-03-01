@@ -665,7 +665,7 @@ GEM
     lefthook (1.6.4)
     letter_opener (1.9.0)
       launchy (>= 2.2, < 3)
-    listen (3.8.0)
+    listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
     lobby_boy (0.1.3)
@@ -1196,7 +1196,7 @@ DEPENDENCIES
   launchy (~> 2.5.0)
   lefthook
   letter_opener
-  listen (~> 3.8.0)
+  listen (~> 3.9.0)
   lograge (~> 0.14.0)
   lookbook (~> 2.2.1)
   mail (= 2.8.1)
