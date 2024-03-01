@@ -415,6 +415,7 @@ fr:
     label_email: "Courriel"
     label_equals: "est"
     label_expand: "développer"
+    label_preview_not_available: "Preview not available"
     label_expanded: "étendu"
     label_expand_all: "Tout déplier"
     label_expand_project_menu: "Déplier le menu du projet"

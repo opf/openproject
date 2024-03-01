@@ -566,6 +566,7 @@ zh-TW:
           false: "private"
         queries: "查詢"
         status_code: "專案狀態"
+        description: "Description"
         status_explanation: "專案描述"
         status_codes:
           not_started: "未開始"

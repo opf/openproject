@@ -567,6 +567,7 @@ et:
           false: "private"
         queries: "Päringuid"
         status_code: "Projekti olek"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"

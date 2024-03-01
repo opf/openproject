@@ -568,6 +568,7 @@ ru:
           false: "приватный"
         queries: "Запросы"
         status_code: "Статус проекта"
+        description: "Description"
         status_explanation: "Описание статуса проекта"
         status_codes:
           not_started: "Не начат"

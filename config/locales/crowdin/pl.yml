@@ -566,6 +566,7 @@ pl:
           false: "prywatne"
         queries: "Kwerendy"
         status_code: "Stan projektu"
+        description: "Description"
         status_explanation: "Opis statusu projektu"
         status_codes:
           not_started: "Nierozpoczęte"

@@ -63,7 +63,7 @@ it:
         one_drive: Consenti a OpenProject di accedere ai dati Azure utilizzando OAuth per collegare OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Completa la configurazione con il corretto reindirizzamento URI.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in the client at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
     confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Inserisci il nome del file di archiviazione %{file_storage} per confermare l'eliminazione.
@@ -179,9 +179,12 @@ it:
       di ciascun progetto desiderato per utilizzarlo.
     oauth_grant_nudge_modal:
       access_granted: Accesso autorizzato
+      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
       body: Per accedere alla cartella del progetto è necessario accedere a %{storage}.
       cancel_button_label: Lo farò più tardi
+      confirm_button_aria_label: Login to %{storage}
       confirm_button_label: Accedi
+      requesting_access_to: Requesting access to %{storage}
       storage_ready: Ora è possibile usare %{storage}
       title: Ancora un passo...
     open_project_storage_modal:

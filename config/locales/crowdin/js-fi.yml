@@ -415,6 +415,7 @@ fi:
     label_email: "Sähköposti"
     label_equals: "on"
     label_expand: "Laajenna"
+    label_preview_not_available: "Preview not available"
     label_expanded: "laajennettu"
     label_expand_all: "Laajenna kaikki"
     label_expand_project_menu: "Avaa projektivalikko"

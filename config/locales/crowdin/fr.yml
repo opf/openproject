@@ -567,6 +567,7 @@ fr:
           false: "privé"
         queries: "Requêtes"
         status_code: "Statut du projet"
+        description: "Description"
         status_explanation: "Description du statut du projet"
         status_codes:
           not_started: "Non démarré"

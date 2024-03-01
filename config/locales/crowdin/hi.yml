@@ -565,6 +565,7 @@ hi:
           false: "private"
         queries: "पूछताछ"
         status_code: "प्रोजेक्ट स्थिति"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"

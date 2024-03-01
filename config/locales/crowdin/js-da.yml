@@ -414,6 +414,7 @@ da:
     label_email: "E-mail"
     label_equals: "er"
     label_expand: "Udvid"
+    label_preview_not_available: "Preview not available"
     label_expanded: "udfoldet"
     label_expand_all: "Fold alle ud"
     label_expand_project_menu: "Expand project menu"

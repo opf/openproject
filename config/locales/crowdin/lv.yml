@@ -568,6 +568,7 @@ lv:
           false: "private"
         queries: "Vaicājumi"
         status_code: "Projekta statuss"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"

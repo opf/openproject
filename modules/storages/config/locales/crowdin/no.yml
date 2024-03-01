@@ -63,7 +63,7 @@
         one_drive: Gi OpenProject tilgang til Azure data med OAuth for å koble til OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Fullfør oppsettet med riktig URI omdirigering.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in the client at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
     confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Skriv inn navnet til lagringsstedet %{file_storage} for å bekrefte sletting.
@@ -179,9 +179,12 @@
       for hvert ønsket prosjekt for å bruke den.
     oauth_grant_nudge_modal:
       access_granted: Tilgang gitt
+      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
       body: For å få tilgang til prosjektmappen må du logge inn til %{storage}.
       cancel_button_label: Jeg gjør det senere
+      confirm_button_aria_label: Login to %{storage}
       confirm_button_label: Innlogging
+      requesting_access_to: Requesting access to %{storage}
       storage_ready: Du er nå klar til å bruke %{storage}
       title: Ett steg igjen...
     open_project_storage_modal:

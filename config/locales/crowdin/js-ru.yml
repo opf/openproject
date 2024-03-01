@@ -414,6 +414,7 @@ ru:
     label_email: "Эл. почта"
     label_equals: "это"
     label_expand: "Развернуть"
+    label_preview_not_available: "Preview not available"
     label_expanded: "развернуто"
     label_expand_all: "Развернуть все"
     label_expand_project_menu: "Развернуть меню проекта"

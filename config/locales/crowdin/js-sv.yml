@@ -414,6 +414,7 @@ sv:
     label_email: "E-post"
     label_equals: "är"
     label_expand: "Expandera"
+    label_preview_not_available: "Preview not available"
     label_expanded: "expanderade"
     label_expand_all: "Expandera alla"
     label_expand_project_menu: "Expandera projektmenyn"

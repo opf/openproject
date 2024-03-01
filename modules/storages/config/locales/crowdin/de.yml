@@ -63,7 +63,7 @@ de:
         one_drive: Erlauben Sie OpenProject Zugriff auf Azure-Daten über OAuth, um OneDrive/Sharepoint zu verbinden.
       redirect_uri_incomplete:
         one_drive: Schließen Sie das Setup mit der korrekten Umleitungs-URI ab.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in the client at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
     confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Geben Sie den Namen %{file_storage} ein, um mit der Löschung fortzufahren.
@@ -178,9 +178,12 @@ de:
       Dateispeicher erfolgreich verbunden! Denken Sie daran, das Modul und den spezifischen Dateispeicher in den Projekteinstellungen jedes gewünschten Projekts zu aktivieren, um ihn zu benutzen.
     oauth_grant_nudge_modal:
       access_granted: Zugriff gewährt
+      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
       body: Um Zugriff auf den Projektordner zu erhalten, müssen Sie sich bei %{storage} anmelden.
       cancel_button_label: Das mache ich später
+      confirm_button_aria_label: Login to %{storage}
       confirm_button_label: Anmelden
+      requesting_access_to: Requesting access to %{storage}
       storage_ready: '%{storage} kann jetzt verwendet werden'
       title: Ein weiterer Schritt...
     open_project_storage_modal:

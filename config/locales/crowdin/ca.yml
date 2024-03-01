@@ -563,6 +563,7 @@ ca:
           false: "privat"
         queries: "Consultes"
         status_code: "Estat del projecte"
+        description: "Description"
         status_explanation: "Descripció de l'estat del projecte"
         status_codes:
           not_started: "No començat"

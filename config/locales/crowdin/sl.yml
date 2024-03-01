@@ -566,6 +566,7 @@ sl:
           false: "private"
         queries: "Poizvedbe"
         status_code: "Status projekta"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Ni začeto"

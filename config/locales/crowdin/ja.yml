@@ -562,6 +562,7 @@ ja:
           false: "private"
         queries: "クエリ"
         status_code: "プロジェクトの進捗状況"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "未着手"

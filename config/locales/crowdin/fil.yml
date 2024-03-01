@@ -567,6 +567,7 @@ fil:
           false: "private"
         queries: "Mga query"
         status_code: "Estado ng proyekto"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
