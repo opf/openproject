@@ -569,6 +569,7 @@ he:
           false: "private"
         queries: "שאילתות"
         status_code: "מצב הפרוייקט"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1965,6 +1966,7 @@ he:
   label_member_new: "חבר חדש"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "חברים"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
   label_menu_badge:

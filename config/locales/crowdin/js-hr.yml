@@ -415,6 +415,7 @@ hr:
     label_email: "Email"
     label_equals: "je"
     label_expand: "Proširiti"
+    label_preview_not_available: "Preview not available"
     label_expanded: "proširen"
     label_expand_all: "Proširi sve"
     label_expand_project_menu: "Expand project menu"

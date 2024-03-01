@@ -568,6 +568,7 @@ ro:
           false: "privat"
         queries: "Interogări"
         status_code: "Stare proiect"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Neîncepută"
@@ -1938,6 +1939,7 @@ ro:
   label_member_new: "Membru nou"
   label_member_all_admin: "(Toate rolurile datorită statutului de administrator)"
   label_member_plural: "Membri"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Membru adăugat"
   lable_membership_updated: "Membru actualizat"
   label_menu_badge:

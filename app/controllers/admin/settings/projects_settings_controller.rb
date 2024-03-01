@@ -50,7 +50,7 @@ module Admin::Settings
           I18n.t(
             'settings.projects.missing_dependencies',
             module: I18n.t("project_module_#{m[:name]}"),
-            dependencies: m[:dependencies].map { |dep|I18n.t("project_module_#{dep}") }.join(', ')
+            dependencies: m[:dependencies].map { |dep| I18n.t("project_module_#{dep}") }.join(', ')
           )
         end
 

@@ -567,6 +567,7 @@ ka:
           false: "პირადი"
         queries: "მოთხოვნები"
         status_code: "პროექტის სტატუსი"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "დაწყებული არაა"
@@ -1911,6 +1912,7 @@ ka:
   label_member_new: "ახალი წევრი"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "წევრები"
+  label_membership_plural: "Memberships"
   lable_membership_added: "წევრი დაემატა"
   lable_membership_updated: "წევრი განახლდა"
   label_menu_badge:

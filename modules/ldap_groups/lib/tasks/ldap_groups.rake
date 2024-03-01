@@ -28,7 +28,7 @@
 
 namespace :ldap_groups do
   desc 'Synchronize groups and their users from the LDAP auth source.' \
-         'Will only synchronize for those users already present in the application.'
+       'Will only synchronize for those users already present in the application.'
   task synchronize: :environment do
     LdapGroups::SynchronizationService.synchronize!
   end
@@ -116,7 +116,7 @@ namespace :ldap_groups do
 
       filter.save!
 
-      ::LdapGroups::SynchronizationJob.perform_now
+      LdapGroups::SynchronizationJob.perform_now
 
       puts "Send CTRL+D to stop the server"
       require 'irb'

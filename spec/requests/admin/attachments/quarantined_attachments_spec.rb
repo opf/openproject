@@ -32,7 +32,6 @@ RSpec.describe 'Quarantined attachments',
                :skip_csrf,
                type: :rails_request,
                with_ee: %i[virus_scanning] do
-
   shared_let(:other_author) { create(:user) }
   shared_let(:admin) { create(:admin) }
 

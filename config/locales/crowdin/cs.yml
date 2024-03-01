@@ -569,6 +569,7 @@ cs:
           false: "soukromý"
         queries: "Dotazy"
         status_code: "Stav projektu"
+        description: "Description"
         status_explanation: "Popis stavu projektu"
         status_codes:
           not_started: "Nezahájeno"
@@ -1965,6 +1966,7 @@ cs:
   label_member_new: "Nový člen"
   label_member_all_admin: "(Všechny role z důvodu stavu správce)"
   label_member_plural: "Členové"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Člen přidán"
   lable_membership_updated: "Člen aktualizován"
   label_menu_badge:

@@ -564,6 +564,7 @@ nl:
           false: "Privé"
         queries: "Query 's"
         status_code: "Projectstatus"
+        description: "Description"
         status_explanation: "Beschrijving van projectstatus"
         status_codes:
           not_started: "Nog niet gestart"
@@ -1908,6 +1909,7 @@ nl:
   label_member_new: "Nieuw lid"
   label_member_all_admin: "(Alle rollen vanwege de admin status)"
   label_member_plural: "Leden"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Lid toegevoegd"
   lable_membership_updated: "Lid bijgewerkt"
   label_menu_badge:

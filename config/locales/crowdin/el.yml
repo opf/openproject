@@ -563,6 +563,7 @@ el:
           false: "private"
         queries: "Αναζητήσεις"
         status_code: "Κατάσταση έργου"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1907,6 +1908,7 @@ el:
   label_member_new: "Νέο μέλος"
   label_member_all_admin: "(Όλοι οι ρόλοι λόγω κατάστασης διαχειριστή)"
   label_member_plural: "Μέλη"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Το μέλος προστέθηκε"
   lable_membership_updated: "Το μέλος ενημερώθηκε"
   label_menu_badge:

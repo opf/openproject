@@ -33,7 +33,7 @@ require_module_spec_helper
 
 RSpec.describe Storages::ManageNextcloudIntegrationCronJob, :webmock, type: :job do
   it 'has a schedule set' do
-    expect(described_class.cron_expression).to eq('*/5 * * * *')
+    expect(described_class.cron_expression).to eq('1 * * * *')
   end
 
   describe '.ensure_scheduled!' do

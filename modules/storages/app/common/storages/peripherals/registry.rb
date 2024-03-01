@@ -37,26 +37,14 @@ module Storages
         def call(container, key)
           super
         rescue Dry::Container::KeyError
-          case key.split('.')
-          in ['contracts', storage]
-            raise ::Storages::Errors::MissingContract, "No contract defined for provider: #{storage}"
-          in [_, storage, operation]
-            raise ::Storages::Errors::OperationNotSupported, "Operation #{operation} not support by provider: #{storage}"
-          else
-            raise ::Storages::Errors::ResolverStandardError, "Cannot resolve key #{key}."
-          end
+          raise Errors.registry_error_for(key)
         end
       end
 
       config.resolver = Resolver.new
     end
 
-    Registry.import StorageInteraction::Nextcloud::Queries
-    Registry.import StorageInteraction::Nextcloud::Commands
-
-    Registry.import StorageInteraction::OneDrive::Queries
-    Registry.import StorageInteraction::OneDrive::Commands
-
-    Registry.import Contracts
+    Registry.import Nextcloud
+    Registry.import OneDrive
   end
 end

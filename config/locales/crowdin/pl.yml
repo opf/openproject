@@ -566,6 +566,7 @@ pl:
           false: "prywatne"
         queries: "Kwerendy"
         status_code: "Stan projektu"
+        description: "Description"
         status_explanation: "Opis statusu projektu"
         status_codes:
           not_started: "Nierozpoczęte"
@@ -1962,6 +1963,7 @@ pl:
   label_member_new: "Nowy członek"
   label_member_all_admin: "(Wszystkie role związane ze statusem administratora)"
   label_member_plural: "Członkowie"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Dodano członka"
   lable_membership_updated: "Zaktualizowano członka"
   label_menu_badge:

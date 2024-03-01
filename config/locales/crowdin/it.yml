@@ -564,6 +564,7 @@ it:
           false: "privato"
         queries: "Interrogazioni"
         status_code: "Stato del progetto"
+        description: "Description"
         status_explanation: "Descrizione dello stato del progetto"
         status_codes:
           not_started: "Non iniziato"
@@ -1908,6 +1909,7 @@ it:
   label_member_new: "Nuovo membro"
   label_member_all_admin: "(Tutti i ruoli a causa dello stato di admin)"
   label_member_plural: "Membri"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Membro aggiunto"
   lable_membership_updated: "Membro aggiornato"
   label_menu_badge:

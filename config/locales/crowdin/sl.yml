@@ -566,6 +566,7 @@ sl:
           false: "private"
         queries: "Poizvedbe"
         status_code: "Status projekta"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Ni začeto"
@@ -1962,6 +1963,7 @@ sl:
   label_member_new: "Nov član"
   label_member_all_admin: "(Vse vloge zaradi statusa skrbnika)"
   label_member_plural: "Člani"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Član dodan"
   lable_membership_updated: "Član posodobljen"
   label_menu_badge:

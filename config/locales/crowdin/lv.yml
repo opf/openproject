@@ -568,6 +568,7 @@ lv:
           false: "private"
         queries: "Vaicājumi"
         status_code: "Projekta statuss"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1938,6 +1939,7 @@ lv:
   label_member_new: "New member"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Dalībnieki"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
   label_menu_badge:

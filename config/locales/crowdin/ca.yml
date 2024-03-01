@@ -563,6 +563,7 @@ ca:
           false: "privat"
         queries: "Consultes"
         status_code: "Estat del projecte"
+        description: "Description"
         status_explanation: "Descripció de l'estat del projecte"
         status_codes:
           not_started: "No començat"
@@ -1907,6 +1908,7 @@ ca:
   label_member_new: "Nou membre"
   label_member_all_admin: "(Tots els rols a causa de l'estat d'administrador)"
   label_member_plural: "Membres"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Membre afegit"
   lable_membership_updated: "Membre actualitzat"
   label_menu_badge:

@@ -53,7 +53,8 @@ pl:
       complete_without_setup: Ukończ bez tego
       done_complete_setup: Gotowe, konfiguracja ukończona
       done_continue: Gotowe, kontynuuj
-      replace_provider_type_oauth: Zastąp %{provider_type} OAuth
+      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Zapisz i kontynuuj
       select_folder: Wybierz folder
     configuration_checks:
@@ -62,8 +63,8 @@ pl:
         one_drive: Zezwalaj OpenProject na dostęp do danych Azure przy użyciu OAuth w celu połączenia z usługą OneDrive lub SharePoint.
       redirect_uri_incomplete:
         one_drive: Ukończ konfigurację z poprawnym przekierowaniem identyfikatora URI.
-    confirm_replace_oauth_application: Na pewno? Wszyscy użytkownicy będą musieli dokonać ponownej autoryzacji w stosunku do OpenProject.
-    confirm_replace_oauth_client: Na pewno? Wszyscy użytkownicy będą musieli ponownie autoryzować swoje magazyny pamięci.
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Aby potwierdzić usunięcie, wprowadź nazwę magazynu plików %{file_storage}.
       irreversible_notice: Usunięcie magazynu plików jest działaniem nieodwracalnym.
@@ -144,7 +145,6 @@ pl:
     label_edit_storage: Edytuj magazyn
     label_edit_storage_automatically_managed_folders: Edytuj automatycznie zarządzane foldery magazynu
     label_edit_storage_host: Edytuj hosta magazynu
-    label_edit_storage_oauth_client: Edytuj klienta OAuth magazynu
     label_existing_manual_folder: Istniejący folder z ręcznie zarządzanymi uprawnieniami
     label_file_storage: Magazyn plików
     label_host: Adres URL hosta
@@ -178,9 +178,12 @@ pl:
       Magazyn został podłączony! Pamiętaj, aby aktywować moduł i konkretny magazyn w ustawieniach każdego żądanego projektu, aby móc z nich korzystać.
     oauth_grant_nudge_modal:
       access_granted: Udzielono dostępu
+      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
       body: Aby uzyskać dostęp do folderu projektu, musisz zalogować się do %{storage}.
       cancel_button_label: Zrobię to później
+      confirm_button_aria_label: Login to %{storage}
       confirm_button_label: Zaloguj się
+      requesting_access_to: Requesting access to %{storage}
       storage_ready: Możesz już używać %{storage}
       title: Jeszcze jeden krok...
     open_project_storage_modal:

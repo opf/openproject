@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -27,32 +25,25 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+require 'nokogiri'
 
-module Storages
-  module Peripherals
-    module StorageInteraction
-      module OneDrive
-        Queries = Dry::Container::Namespace.new('queries') do
-          namespace('one_drive') do
-            register(:download_link, DownloadLinkQuery)
-            register(:files, FilesQuery)
-            register(:file_info, FileInfoQuery)
-            register(:files_info, FilesInfoQuery)
-            register(:open_file_link, OpenFileLinkQuery)
-            register(:folder_files_file_ids_deep_query, FolderFilesFileIdsDeepQuery)
-            register(:open_storage, OpenStorageQuery)
-            register(:upload_link, UploadLinkQuery)
-          end
-        end
+module OpenProject
+  module Common
+    class AttributeComponent < Primer::Component
 
-        Commands = Dry::Container::Namespace.new('commands') do
-          namespace('one_drive') do
-            register(:create_folder, CreateFolderCommand)
-            register(:delete_folder, DeleteFolderCommand)
-            register(:rename_file, RenameFileCommand)
-            register(:set_permissions, SetPermissionsCommand)
-          end
-        end
+      def initialize(id, name, description, **args)
+        super
+        @id = id
+        @name = name
+        @description = description
+        @attr_value = is_multi_type(description) ? I18n.t('js.label_preview_not_available') : Nokogiri::HTML(description).text
+        @system_arguments = args
+      end
+
+      private
+
+      def is_multi_type(text)
+        text.to_s.include?('figure') || text.to_s.include?('macro')
       end
     end
   end

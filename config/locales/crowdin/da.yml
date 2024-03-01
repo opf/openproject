@@ -565,6 +565,7 @@ da:
           false: "private"
         queries: "Forespørgsler"
         status_code: "Projektstatus"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1909,6 +1910,7 @@ da:
   label_member_new: "Nyt medlem"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Medlemmer"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Medlem tilføjet"
   lable_membership_updated: "Medlem opdateret"
   label_menu_badge:

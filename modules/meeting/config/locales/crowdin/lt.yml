@@ -97,6 +97,10 @@ lt:
   label_time_zone: "Laiko juosta"
   label_start_date: "Pradžios data"
   meeting:
+    copy:
+      title: "Kopijuoti susitikimą %{title}"
+      agenda: "Kopijuoti dienotvarkę"
+      agenda_text: "Kopijuoti seno susitikimo darbotvarkę"
     email:
       open_meeting_link: "Atverti susitikimą"
       invited:

@@ -414,6 +414,7 @@ zh-CN:
     label_email: "电子邮件"
     label_equals: "是"
     label_expand: "展开"
+    label_preview_not_available: "Preview not available"
     label_expanded: "展开"
     label_expand_all: "全部展开"
     label_expand_project_menu: "展开项目菜单"

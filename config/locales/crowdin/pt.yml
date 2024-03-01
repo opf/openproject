@@ -566,6 +566,7 @@ pt:
           false: "privado"
         queries: "Consultas"
         status_code: "Status do projeto"
+        description: "Description"
         status_explanation: "Descrição do status do projeto"
         status_codes:
           not_started: "Não iniciado"
@@ -1910,6 +1911,7 @@ pt:
   label_member_new: "Novo membro"
   label_member_all_admin: "(Todos os papéis devidos ao status de administrador)"
   label_member_plural: "Membros"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Membro adicionado"
   lable_membership_updated: "Membro atualizado"
   label_menu_badge:

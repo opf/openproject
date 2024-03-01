@@ -414,6 +414,7 @@ el:
     label_email: "Email"
     label_equals: "είναι"
     label_expand: "Επέκταση"
+    label_preview_not_available: "Preview not available"
     label_expanded: "επεκταμένη"
     label_expand_all: "Ανάπτυξη όλων"
     label_expand_project_menu: "Επέκταση του μενού έργου"

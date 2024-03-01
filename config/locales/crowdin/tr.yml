@@ -566,6 +566,7 @@ tr:
           false: "özel"
         queries: "Sorgular"
         status_code: "Proje Durumu"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Başlatılmadı"
@@ -1910,6 +1911,7 @@ tr:
   label_member_new: "Yeni Üye"
   label_member_all_admin: "(Yönetici durumuna bağlı olarak tüm roller)"
   label_member_plural: "Üyeler"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Üye eklendi"
   lable_membership_updated: "Üye güncellendi"
   label_menu_badge:

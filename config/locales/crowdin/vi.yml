@@ -568,6 +568,7 @@ vi:
           false: "private"
         queries: "Truy vấn"
         status_code: "Tình trạng dự án"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1886,6 +1887,7 @@ vi:
   label_member_new: "Thành viên mới"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Thành viên"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Thành viên đã thêm"
   lable_membership_updated: "Thành viên đã cập nhật"
   label_menu_badge:

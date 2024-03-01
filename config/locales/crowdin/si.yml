@@ -567,6 +567,7 @@ si:
           false: "private"
         queries: "විමසුම්"
         status_code: "ව්යාපෘති තත්ත්වය"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1911,6 +1912,7 @@ si:
   label_member_new: "නව සාමාජිකයෙක්"
   label_member_all_admin: "(පරිපාලක තත්ත්වය නිසා සියලුම භූමිකාවන්)"
   label_member_plural: "සාමාජිකයන්"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
   label_menu_badge:

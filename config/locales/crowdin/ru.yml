@@ -568,6 +568,7 @@ ru:
           false: "приватный"
         queries: "Запросы"
         status_code: "Статус проекта"
+        description: "Description"
         status_explanation: "Описание статуса проекта"
         status_codes:
           not_started: "Не начат"
@@ -1964,6 +1965,7 @@ ru:
   label_member_new: "Новый участник"
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_plural: "Участники"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Участник добавлен"
   lable_membership_updated: "Участник обновлен"
   label_menu_badge:

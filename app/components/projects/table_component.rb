@@ -97,6 +97,7 @@ module Projects
         [:project_status, { caption: Project.human_attribute_name(:status) }],
         [:status_explanation, { caption: Project.human_attribute_name(:status_explanation) }],
         [:public, { caption: Project.human_attribute_name(:public) }],
+        [:description, { caption: Project.human_attribute_name(:description) }],
         *custom_field_columns,
         *admin_columns
       ]

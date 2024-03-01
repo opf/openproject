@@ -57,7 +57,7 @@ RSpec.describe 'projects/:project_id/project_storages/:id/open' do
           context 'when user is able to read project_folder' do
             before do
               Storages::Peripherals::Registry.stub(
-                'queries.nextcloud.file_info', ->(_) { ServiceResult.success }
+                'nextcloud.queries.file_info', ->(_) { ServiceResult.success }
               )
             end
 
@@ -85,7 +85,7 @@ RSpec.describe 'projects/:project_id/project_storages/:id/open' do
 
             before do
               Storages::Peripherals::Registry.stub(
-                'queries.nextcloud.file_info', ->(_) do
+                'nextcloud.queries.file_info', ->(_) do
                   ServiceResult.failure(result: code,
                                         errors: Storages::StorageError.new(code:))
                 end

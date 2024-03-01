@@ -567,6 +567,7 @@ fa:
           false: "private"
         queries: "پرس و جو ها"
         status_code: "وضعیت پروژه"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1911,6 +1912,7 @@ fa:
   label_member_new: "New member"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "اعضا"
+  label_membership_plural: "Memberships"
   lable_membership_added: "کاربر اضافه شد"
   lable_membership_updated: "اعضا بروزرسانی شدند."
   label_menu_badge:

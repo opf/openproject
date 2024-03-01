@@ -316,6 +316,30 @@ RSpec.describe WorkPackages::CopyService, 'integration', type: :model do
         end
       end
 
+      context 'when referencing the attachment in the description' do
+        let(:text) do
+          <<~MARKDOWN
+            # Some text here
+
+            ![attachment#{attachment.id}](/api/v3/attachments/#{attachment.id}/content)
+          MARKDOWN
+        end
+
+        before do
+          work_package.update_column(:description, text)
+        end
+
+        it 'updates the attachment reference' do
+          expect(work_package.description).to include "/api/v3/attachments/#{attachment.id}/content"
+
+          expect(copy.attachments.length).to eq 1
+          expect(copy.attachments.first.id).not_to eq attachment.id
+
+          expect(copy.description).not_to include "/api/v3/attachments/#{attachment.id}/content"
+          expect(copy.description).to include "/api/v3/attachments/#{copy.attachments.first.id}/content"
+        end
+      end
+
       context 'when specifying to not copy attachments' do
         let(:attributes) { { copy_attachments: false } }
 

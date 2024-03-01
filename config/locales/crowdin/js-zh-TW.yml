@@ -414,6 +414,7 @@ zh-TW:
     label_email: "電子郵件"
     label_equals: "是"
     label_expand: "展開"
+    label_preview_not_available: "Preview not available"
     label_expanded: "已展開"
     label_expand_all: "全部展開"
     label_expand_project_menu: "展開專案選單"
@@ -977,7 +978,7 @@ zh-TW:
         projectName: "專案"
         remainingWork: "Remaining work"
         remainingWorkAlternative: "Remaining hours"
-        responsible: "責任歸屬者"
+        responsible: "負責人"
         startDate: "起始日期"
         status: "狀態"
         subject: "主題"
@@ -1261,15 +1262,15 @@ zh-TW:
           group: 'The group is now a part of %{project}. Meanwhile you can already plan with that group and assign work packages for instance.'
         next_button: '繼續'
     include_projects:
-      toggle_title: 'Include projects'
+      toggle_title: '包含的專案'
       title: '專案'
-      clear_selection: 'Clear selection'
+      clear_selection: '清除選擇'
       apply: '套用'
       selected_filter:
         all: '所有專案'
-        selected: 'Only selected'
+        selected: '僅所選專案'
       search_placeholder: 'Search project...'
-      include_subprojects: 'Include all sub-projects'
+      include_subprojects: '包含子專案'
       tooltip:
         include_all_selected: 'Project already included since Include all sub-projects is enabled.'
         current_project: 'This is the current project you are in.'

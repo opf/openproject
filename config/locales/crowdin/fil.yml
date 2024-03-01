@@ -567,6 +567,7 @@ fil:
           false: "private"
         queries: "Mga query"
         status_code: "Estado ng proyekto"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -1911,6 +1912,7 @@ fil:
   label_member_new: "Bagong miyembro"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "Mga miyembro"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
   label_menu_badge:

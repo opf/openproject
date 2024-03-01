@@ -559,6 +559,7 @@ id:
           false: "pribadi"
         queries: "Query"
         status_code: "Project status"
+        description: "Description"
         status_explanation: "Deskripsi status proyek"
         status_codes:
           not_started: "Belum mulai"
@@ -1877,6 +1878,7 @@ id:
   label_member_new: "Member baru"
   label_member_all_admin: "(Semua peran karena status admin)"
   label_member_plural: "Member"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Anggota ditambahkan"
   lable_membership_updated: "Anggota diperbarui"
   label_menu_badge:

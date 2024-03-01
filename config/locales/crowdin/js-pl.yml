@@ -415,6 +415,7 @@ pl:
     label_email: "Adres e-mail"
     label_equals: "jest"
     label_expand: "Rozwiń"
+    label_preview_not_available: "Preview not available"
     label_expanded: "rozwinięty"
     label_expand_all: "Rozwiń wszystkie"
     label_expand_project_menu: "Rozwiń menu projektu"

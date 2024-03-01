@@ -415,6 +415,7 @@ sr:
     label_email: "Email"
     label_equals: "is"
     label_expand: "Expand"
+    label_preview_not_available: "Preview not available"
     label_expanded: "expanded"
     label_expand_all: "Expand all"
     label_expand_project_menu: "Expand project menu"

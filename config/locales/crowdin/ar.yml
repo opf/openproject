@@ -571,6 +571,7 @@ ar:
           false: "private"
         queries: "الاستفسارات"
         status_code: "حالة المشروع"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"
@@ -2019,6 +2020,7 @@ ar:
   label_member_new: "عضو جديد"
   label_member_all_admin: "(All roles due to admin status)"
   label_member_plural: "أعضاء"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
   label_menu_badge:

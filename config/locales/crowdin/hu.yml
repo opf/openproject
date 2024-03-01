@@ -564,6 +564,7 @@ hu:
           false: "private"
         queries: "Lekérdezések"
         status_code: "Projekt állapot"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "El nem kezdett"
@@ -1908,6 +1909,7 @@ hu:
   label_member_new: "Új tag"
   label_member_all_admin: "(Összes jogosultság az admin állapot végett)"
   label_member_plural: "Tagok"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Felhasználó hozzáadva"
   lable_membership_updated: "Felhasználó frissítve"
   label_menu_badge:

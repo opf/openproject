@@ -566,6 +566,7 @@ sv:
           false: "private"
         queries: "Frågor"
         status_code: "Projektstatus"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Inte påbörjad"
@@ -1910,6 +1911,7 @@ sv:
   label_member_new: "Ny medlem"
   label_member_all_admin: "(Alla roller på grund av admin status)"
   label_member_plural: "Medlemmar"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Member added"
   lable_membership_updated: "Member updated"
   label_menu_badge:
@@ -2213,8 +2215,8 @@ sv:
     other: "%{count} projekt"
     zero: "no projects"
   label_x_files:
-    one: "1 file"
-    other: "%{count} files"
+    one: "1 fil"
+    other: "%{count} filer"
     zero: "no files"
   label_yesterday: "igår"
   label_role_type: "Typ"

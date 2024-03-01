@@ -415,6 +415,7 @@ it:
     label_email: "Email"
     label_equals: "è"
     label_expand: "Espandi"
+    label_preview_not_available: "Preview not available"
     label_expanded: "espanso"
     label_expand_all: "Espandi tutto"
     label_expand_project_menu: "Espandi il menù di progetto"

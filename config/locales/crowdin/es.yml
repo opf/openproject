@@ -564,6 +564,7 @@ es:
           false: "privado"
         queries: "Consultas"
         status_code: "Estado del proyecto"
+        description: "Description"
         status_explanation: "Descripción del estado del proyecto"
         status_codes:
           not_started: "No iniciado"
@@ -1908,6 +1909,7 @@ es:
   label_member_new: "Nuevo miembro"
   label_member_all_admin: "(Todos los roles se deben al estado del administrador)"
   label_member_plural: "Miembros"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Miembro añadido"
   lable_membership_updated: "Miembro actualizado"
   label_menu_badge:

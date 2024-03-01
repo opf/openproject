@@ -403,7 +403,6 @@ RSpec.describe 'Manual sorting of WP table', :js do
         query
       end
 
-
       it 'reloads after drop' do
         wp_timeline.visit_query(query_tl)
         wp_timeline.expect_timeline!

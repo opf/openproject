@@ -30,8 +30,6 @@ module Admin::Settings
   class AttachmentsSettingsController < ::Admin::SettingsController
     menu_item :attachments_settings
 
-    before_action :check_clamav, only: %i[update]
-
     def default_breadcrumb
       t(:'attributes.attachments')
     end

@@ -27,7 +27,6 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
 module Projects
   class RowComponent < ::RowComponent
     def project
@@ -57,8 +56,8 @@ module Projects
       cf = custom_field(column)
       custom_value = project.formatted_custom_value_for(cf)
 
-      if cf.field_format == 'text'
-        custom_value.html_safe # rubocop:disable Rails/OutputSafety
+      if cf.field_format == 'text' && custom_value.present?
+        render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-cf-#{cf.id}", cf.name, custom_value.html_safe) # rubocop:disable Rails/OutputSafety
       elsif custom_value.is_a?(Array)
         safe_join(Array(custom_value).compact_blank, ', ')
       else
@@ -112,8 +111,15 @@ module Projects
     def status_explanation
       return nil unless user_can_view_project?
 
-      if project.status_explanation
-        content_tag :div, helpers.format_text(project.status_explanation), class: 'wiki'
+      if project.status_explanation.present? && project.status_explanation
+        render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-status-explanation", I18n.t('activerecord.attributes.project.status_explanation'), project.status_explanation)
+      end
+    end
+
+    def description
+      return nil unless user_can_view_project?
+      if project.description.present?
+        render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-description", I18n.t('activerecord.attributes.project.description'), project.description)
       end
     end
 
@@ -125,10 +131,6 @@ module Projects
       classes = %w[basics context-menu--reveal]
       classes << project_css_classes
       classes << row_css_level_classes
-
-      if params[:expand] == 'all' && project.description.present?
-        classes << ' -no-highlighting -expanded'
-      end
 
       classes.join(" ")
     end
@@ -163,11 +165,11 @@ module Projects
       case column
       when :name
         "project--hierarchy #{project.archived? ? 'archived' : ''}"
-      when :status_explanation
-        "-no-ellipsis"
+      when :status_explanation, :description
+        "project-long-text-container"
       when /\Acf_/
         cf = custom_field(column)
-        formattable = cf.field_format == 'text' ? ' -no-ellipsis' : ''
+        formattable = cf.field_format == 'text' ? ' project-long-text-container' : ''
         "format-#{cf.field_format}#{formattable}"
       end
     end
