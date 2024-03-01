@@ -464,8 +464,7 @@ GEM
     dotenv-rails (3.1.0)
       dotenv (= 3.1.0)
       railties (>= 6.1)
-    drb (2.2.0)
-      ruby2_keywords
+    drb (2.2.1)
     dry-container (0.11.0)
       concurrent-ruby (~> 1.0)
     dry-core (1.0.1)
