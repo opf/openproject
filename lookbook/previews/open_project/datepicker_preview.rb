@@ -1,5 +1,5 @@
 module OpenProject
-  # @logical_path OpenProject/common
+  # @logical_path OpenProject/Common
   class DatepickerPreview < Lookbook::Preview
     ##
     # **Single date picker**

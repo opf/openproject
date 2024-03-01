@@ -1,5 +1,5 @@
 module OpenProject
-  # @logical_path OpenProject/common
+  # @logical_path OpenProject/Common
   class LoadingIndicatorPreview < Lookbook::Preview
     def default; end
   end
