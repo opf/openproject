@@ -46,6 +46,12 @@ module Projects::Copy
     def copy_dependency(*)
       return unless state.copied_project_storages
 
+      GoodJob::Batches.enqueue(on_success: NotifyCopyCompletedJob, project_storages: state.copied_project_storages) do
+        state.copied_project_storages.each do |project_storages|
+          ::Storages::CopyProjectFoldersJob.enqueue(project_storages[:source], project_storages[:target])
+        end
+      end
+
       state.copied_project_storages.each do |copied_project_storage|
         source = copied_project_storage[:source]
         target = copied_project_storage[:target]
