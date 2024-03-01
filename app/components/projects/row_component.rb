@@ -112,14 +112,19 @@ module Projects
       return nil unless user_can_view_project?
 
       if project.status_explanation.present? && project.status_explanation
-        render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-status-explanation", I18n.t('activerecord.attributes.project.status_explanation'), project.status_explanation)
+        render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-status-explanation",
+                                                           I18n.t('activerecord.attributes.project.status_explanation'),
+                                                           project.status_explanation)
       end
     end
 
     def description
       return nil unless user_can_view_project?
+
       if project.description.present?
-        render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-description", I18n.t('activerecord.attributes.project.description'), project.description)
+        render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-description",
+                                                           I18n.t('activerecord.attributes.project.description'),
+                                                           project.description)
       end
     end
 
