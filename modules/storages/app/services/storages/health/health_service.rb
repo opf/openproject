@@ -40,7 +40,7 @@ module Storages
         @storage.mark_as_healthy
 
         admin_users.each do |admin|
-          ::Storages::StoragesMailer.notify_healthy(admin, @storage, reason).deliver_now if was_unhealthy
+          ::Storages::StoragesMailer.notify_healthy(admin, @storage, reason).deliver_later if was_unhealthy
         end
       end
 
@@ -50,7 +50,7 @@ module Storages
 
         if @storage.health_reason != last_reason
           admin_users.each do |admin|
-            ::Storages::StoragesMailer.notify_unhealthy(admin, @storage).deliver_now
+            ::Storages::StoragesMailer.notify_unhealthy(admin, @storage).deliver_later
           end
         end
 
