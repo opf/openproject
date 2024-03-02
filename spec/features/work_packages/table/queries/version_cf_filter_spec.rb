@@ -80,7 +80,7 @@ RSpec.describe 'Work package filtering by version custom field', :js do
            subject: "WP 1->1, 2->2").tap do |wp|
       wp.custom_field_values = {
         version_cf1.id => [version_1.id.to_s],
-        version_cf2.id => [version_2.id.to_s],
+        version_cf2.id => [version_2.id.to_s]
       }
       wp.save!
     end
