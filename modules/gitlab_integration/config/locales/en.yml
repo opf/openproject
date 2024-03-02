@@ -35,6 +35,10 @@ en:
           attributes:
             labels:
               invalid_schema: "must be an array of hashes with keys: color, title"
+        gitlab_merge_request:
+          attributes:
+            labels:
+              invalid_schema: "must be an array of hashes with keys: color, title"
 
   project_module_gitlab: "Gitlab"
   permission_show_gitlab_content: "Show Gitlab content"
