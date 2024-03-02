@@ -31,7 +31,7 @@ pl:
         Czy na pewno chcesz usunąć ten plik? Ta akcja nie jest odwracalna.
       draggable_hint: |
         Przeciągaj w polu edytora, aby wstawić obraz lub załącznik referencyjny. Zamknięte pola edytora zostaną otwarte podczas przeciągania.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "Plik został poddany kwarantannie, ponieważ wykryto w nim wirusa. Nie jest dostępny do pobrania."
     autocomplete_ng_select:
       add_tag: "Dodaj element"
       clear_all: "Wyczyść wszystko"
@@ -415,7 +415,7 @@ pl:
     label_email: "Adres e-mail"
     label_equals: "jest"
     label_expand: "Rozwiń"
-    label_preview_not_available: "Preview not available"
+    label_preview_not_available: "Podgląd niedostępny"
     label_expanded: "rozwinięty"
     label_expand_all: "Rozwiń wszystkie"
     label_expand_project_menu: "Rozwiń menu projektu"

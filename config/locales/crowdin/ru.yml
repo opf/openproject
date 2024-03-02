@@ -97,9 +97,9 @@ ru:
     deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
     overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
     quarantined_attachments:
-      container: "Container"
-      delete: "Delete the quarantined file"
-      title: "Quarantined attachments"
+      container: "Контейнер"
+      delete: "Удалите файл, помещенный в карантин"
+      title: "Вложения в карантине"
       error_cannot_act_self: "Cannot perform actions on your own uploaded files."
   attribute_help_texts:
     note_public: "Любой текст и изображения, которые вы добавляете в это поле, видны всем аутентифицированным пользователям!"
@@ -568,7 +568,7 @@ ru:
           false: "приватный"
         queries: "Запросы"
         status_code: "Статус проекта"
-        description: "Description"
+        description: "Описание"
         status_explanation: "Описание статуса проекта"
         status_codes:
           not_started: "Не начат"
@@ -643,8 +643,8 @@ ru:
         begin_deletion: "Начало удаления"
         children: "Вложенные элементы"
         derived_done_ratio: "Total % complete"
-        derived_remaining_hours: "Total remaining work"
-        derived_remaining_time: "Total remaining work"
+        derived_remaining_hours: "Всего оставшихся работ"
+        derived_remaining_time: "Всего оставшихся работ"
         done_ratio: "% Завершено"
         duration: "Продолжительность"
         end_insertion: "Завершение вставки"
@@ -1094,7 +1094,7 @@ ru:
     default_columns: "Столбцы по умолчанию"
     description: "Описание"
     derived_due_date: "Дата окончания производства"
-    derived_estimated_hours: "Total work"
+    derived_estimated_hours: "Общая работа"
     derived_start_date: "Дата начала производства"
     display_sums: "Отображение суммы"
     due_date: "Дата окончания"
@@ -1965,7 +1965,7 @@ ru:
   label_member_new: "Новый участник"
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_plural: "Участники"
-  label_membership_plural: "Memberships"
+  label_membership_plural: "Членство"
   lable_membership_added: "Участник добавлен"
   lable_membership_updated: "Участник обновлен"
   label_menu_badge:
@@ -2269,9 +2269,9 @@ ru:
     other: "%{count} проектов"
     zero: "нет проектов"
   label_x_files:
-    one: "1 file"
-    other: "%{count} files"
-    zero: "no files"
+    one: "1 файл"
+    other: "%{count} файлов"
+    zero: "нет файлов"
   label_yesterday: "вчера"
   label_role_type: "Тип"
   label_member_role: "Роль в проекте"
@@ -2785,8 +2785,8 @@ ru:
   setting_app_subtitle: "Второе название приложения"
   setting_app_title: "Название приложения"
   setting_attachment_max_size: "Максимальный размер вложения"
-  setting_antivirus_scan_mode: "Scan mode"
-  setting_antivirus_scan_action: "Infected file action"
+  setting_antivirus_scan_mode: "Режим сканирования"
+  setting_antivirus_scan_action: "Действие с зараженным файлом"
   setting_autofetch_changesets: "Автоматическое получение изменений репозитория"
   setting_autologin: "Автовход"
   setting_available_languages: "Доступные языки"
@@ -2887,7 +2887,7 @@ ru:
       whitelist_text_html: >
         Определите список допустимых расширений файлов и/или mime типов для загруженных файлов. <br/> Введите расширения файлов (например, <code>%{ext_example}</code>) или mime типы (e. ., <code>%{mime_example}</code>). <br/> Оставьте пустым, чтобы разрешить загрузку любого типа файла. Допустимы несколько значений (одна строка для каждого значения).
     antivirus:
-      title: "Virus scanning"
+      title: "Сканирование вирусов"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
       remaining_quarantined_files_html: >
         Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
@@ -2898,8 +2898,8 @@ ru:
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: 'Удалить файл'
+        quarantine: 'Поместите файл в карантин'
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
