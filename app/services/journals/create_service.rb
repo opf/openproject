@@ -48,13 +48,9 @@ module Journals
       self.journable = journable
     end
 
-    def call(notes: '', cause: {})
-      # JSON columns read from the database always have string keys. As we do not know what is passed in here,
-      # and we want to compare it to values read from the DB, we need to stringify the keys here as well
-      normalized_cause = cause.deep_stringify_keys
-
+    def call(notes: '', cause: CauseOfChange::NoCause.new)
       Journal.transaction do
-        journal = create_journal(notes, normalized_cause)
+        journal = create_journal(notes, cause)
 
         if journal
           reload_journals
@@ -874,7 +870,7 @@ module Journals
 
     def cause_sql(cause)
       # Using the same encoder mechanism that ActiveRecord uses for json/jsonb columns
-      ActiveSupport::JSON.encode(cause || {})
+      ActiveSupport::JSON.encode(cause&.to_h || {})
     end
 
     # Because we added the journal via bare metal sql, rails does not yet
@@ -910,7 +906,7 @@ module Journals
     end
 
     def same_cause?(predecessor, cause)
-      (predecessor.cause.blank? && cause.blank?) || predecessor.cause == cause
+      (predecessor.cause.blank? && cause.blank?) || predecessor.cause == cause.to_h
     end
 
     def log_journal_creation(predecessor)

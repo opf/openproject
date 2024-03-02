@@ -185,32 +185,19 @@ class WorkPackages::SetScheduleService
 
     if initiated_by.is_a?(WorkPackage)
       assign_cause_initiated_by_work_package(work_package, relation)
-    elsif initiated_by.is_a?(Journal::WorkingDayUpdate)
-      assign_cause_initiated_by_changed_working_days(work_package)
+    elsif initiated_by.is_a?(CauseOfChange::Base)
+      work_package.journal_cause = initiated_by
     end
   end
 
   def assign_cause_initiated_by_work_package(work_package, _relation)
     # For now we only track a generic cause, and not a specialized reason depending on the relation
-    #
-    # type_mapping = {
-    #   parent: 'work_package_parent_changed_times',
-    #   children: 'work_package_children_changed_times',
-    #   predecessor: 'work_package_predecessor_changed_times',
-    #   related: 'work_package_related_changed_times'
-    # }
-    # work_package.journal_cause = { "type" => type_mapping[relation], "work_package_id" => initiated_by.id }
+    # work_package.journal_cause = case relation
+    #                             when :parent then Journal::CausedByWorkPackageParentChange.new(initiated_by)
+    #                             when :children then Journal::CausedByWorkPackageChildChange.new(initiated_by)
+    #                             when :predecessor then Journal::CausedByWorkPackagePredecessorChange.new(initiated_by)
+    #                             end
 
-    work_package.journal_cause = {
-      "type" => "work_package_related_changed_times",
-      "work_package_id" => initiated_by.id
-    }
-  end
-
-  def assign_cause_initiated_by_changed_working_days(work_package)
-    work_package.journal_cause = {
-      "type" => 'working_days_changed',
-      "changed_days" => initiated_by.to_h
-    }
+    work_package.journal_cause = Journal::CausedByWorkPackageRelatedChange.new(work_package: initiated_by)
   end
 end

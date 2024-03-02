@@ -30,11 +30,11 @@ class WorkPackages::UpdateService < BaseServices::Update
   include ::WorkPackages::Shared::UpdateAncestors
   include Attachments::ReplaceAttachments
 
-  attr_accessor :cause_of_update
+  attr_accessor :cause_of_rescheduling
 
-  def initialize(user:, model:, contract_class: nil, contract_options: {}, cause_of_update: nil)
+  def initialize(user:, model:, contract_class: nil, contract_options: {}, cause_of_rescheduling: nil)
     super(user:, model:, contract_class:, contract_options:)
-    self.cause_of_update = cause_of_update || model
+    self.cause_of_rescheduling = cause_of_rescheduling || model
   end
 
   private
@@ -135,7 +135,7 @@ class WorkPackages::UpdateService < BaseServices::Update
 
   def reschedule(work_package, work_packages)
     WorkPackages::SetScheduleService
-      .new(user:, work_package: work_packages, initiated_by: cause_of_update)
+      .new(user:, work_package: work_packages, initiated_by: cause_of_rescheduling)
       .call(work_package.saved_changes.keys.map(&:to_sym))
   end
 
