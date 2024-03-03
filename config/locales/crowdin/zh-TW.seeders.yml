@@ -124,7 +124,7 @@ zh-TW:
         item_3:
           name: 功能
         item_4:
-          name: 篇章
+          name: 史詩等級
         item_5:
           name: 使用者需求
         item_6:
@@ -263,7 +263,7 @@ zh-TW:
                 In this module you can communicate project news to your team members.
           versions:
             item_0:
-              name: Bug Backlog
+              name: Bug的待辦事項
             item_1:
               name: Product Backlog
             item_2:

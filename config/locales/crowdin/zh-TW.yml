@@ -227,7 +227,7 @@ zh-TW:
   concatenation:
     single: "或者"
   global_search:
-    placeholder: "Search in %{app_title}"
+    placeholder: "在 %{app_title} 搜尋"
     overwritten_tabs:
       wiki_pages: "維基"
       messages: "討論區"
@@ -347,18 +347,18 @@ zh-TW:
     text: 'Text'
   placeholder_users:
     right_to_manage_members_missing: >
-      You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
-    delete_tooltip: "刪除「非專案成員」"
+      你不被允許刪除「虛擬暫用群組」(placeholder user)。您無權管理虛擬暫用群組所屬的所有專案成員。
+    delete_tooltip: "刪除「虛擬暫用群組」"
     deletion_info:
-      heading: "Delete placeholder user %{name}"
+      heading: "刪除虛擬暫用群組：%{name}"
       data_consequences: >
         All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
       irreversible: "This action is irreversible"
-      confirmation: "Enter the placeholder user name %{name} to confirm the deletion."
+      confirmation: "輸入「虛擬暫用群組」名稱： %{name} 來確認刪除"
     upsale:
-      title: 非專案成員
+      title: 虛擬暫用群組
       description: >
-        非專案成員是一種將工作包分配給不屬於您專案成員的方法。它們在一系列場景中十分有用；例如，如果您需要追蹤尚未命名或可用的資源的任務，或者如果您不想讓該人員存取 OpenProject 但仍希望追蹤分配給他們的任務。
+        「虛擬暫用群組」是一種將工作項目分配給不屬於您專案成員的方法。它們在一系列場景中十分有用；例如，如果您需要追蹤尚未命名或可用的資源的任務，或者如果您不想讓該人員存取 OpenProject 但仍希望追蹤分配給他們的任務。
   prioritiies:
     edit:
       priority_color_text: |
@@ -392,7 +392,7 @@ zh-TW:
       settings: "設定"
       form_configuration: "表單設置"
       more_info_text_html: >
-        企業版允許您使用以下附加組件自定義表單配置：<br> <ul class="%{list_styling_class}"> <li><b>添加新屬性組</b></li> <li><b>重命名屬性組</b></li> <li><b>添加相關工作包的表格</b></li> </ul>
+        企業版允許您使用以下附加組件自定義表單設定：<br> <ul class="%{list_styling_class}"> <li><b>添加新屬性組</b></li> <li><b>重命名屬性組</b></li> <li><b>添加相關工作項目表</b></li> </ul>
       projects: "專案"
       enabled_projects: "已啟用的專案"
       edit_query: "編輯表格"
@@ -855,10 +855,10 @@ zh-TW:
             circular_dependency: "無限迴圈的關聯。"
           attributes:
             to:
-              error_not_found: "“結束”位置中的工作包不存在或無法顯示"
+              error_not_found: "“結束”位置中的工作項目不存在或無法顯示"
               error_readonly: "您無法更改現有關係的“結束”連結"
             from:
-              error_not_found: "“開始”位置中的工作包不存在或無法顯示"
+              error_not_found: "“開始”位置中的工作項目不存在或無法顯示"
               error_readonly: "您無法更改現有關係的“開始”連結"
         repository:
           not_available: "版本控制無法使用"
@@ -1000,7 +1000,7 @@ zh-TW:
       news: "新知"
       notification:
         other: "通知"
-      placeholder_user: "非專案成員"
+      placeholder_user: "虛擬暫用群組"
       project: "專案"
       query: "自訂查詢"
       role:
@@ -1806,7 +1806,7 @@ zh-TW:
   label_force_user_language_to_default: "設置使用者使用預設語言"
   label_form_configuration: "表單設置"
   label_gantt_chart: "甘特圖"
-  label_gantt_chart_plural: "Gantt charts"
+  label_gantt_chart_plural: "甘特圖"
   label_general: "一般"
   label_generate_key: "產生一個金鑰"
   label_git_path: ".git 目錄的路徑"
@@ -1968,9 +1968,9 @@ zh-TW:
   label_permissions: "權限"
   label_permissions_report: "權限報表"
   label_personalize_page: "個人化本頁"
-  label_placeholder_user: "非專案成員"
-  label_placeholder_user_new: "新增「非專案成員」"
-  label_placeholder_user_plural: "非專案成員"
+  label_placeholder_user: "虛擬暫用群組"
+  label_placeholder_user_new: "虛擬暫用群組"
+  label_placeholder_user_plural: "虛擬暫用群組"
   label_planning: "計劃中"
   label_please_login: "請登入"
   label_plugins: "擴充套件"
@@ -2241,7 +2241,7 @@ zh-TW:
       mentioned: "您已在<b>評論中被提醒</b>"
       mentioned_by: "%{user} mentioned you in a comment"
       more_to_see:
-        other: "還有 1 個帶有通知的工作包\n\n還有 %{count} 個帶有通知的工作包"
+        other: "還有 1 個工作項目通知\n\n還有 %{count} 個工作項目通知"
       open_in_browser: "在瀏覽器中開啟"
       reason:
         watched: "監看"
@@ -2438,7 +2438,7 @@ zh-TW:
   permission_archive_project: "專案歸檔"
   permission_create_user: "Create users"
   permission_manage_user: "Edit users"
-  permission_manage_placeholder_user: "Create, edit, and delete placeholder users"
+  permission_manage_placeholder_user: "新增、修改、刪除「虛擬暫用群組」(placeholder users)"
   permission_add_subprojects: "建立子專案"
   permission_add_work_package_watchers: "新增監看者"
   permission_assign_versions: "指派版本"
@@ -2548,7 +2548,7 @@ zh-TW:
   project_module_news: "最新消息"
   project_module_repository: "版本庫"
   project_module_wiki: "維基"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
+  permission_header_for_project_module_work_package_tracking: "工作項目與甘特圖"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2747,7 +2747,7 @@ zh-TW:
   setting_work_package_list_default_columns: "預設顯示"
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
-  setting_work_packages_projects_export_limit: "工作包/專案導出限制"
+  setting_work_packages_projects_export_limit: "工作項目/專案導出限制"
   setting_journal_aggregation_time_minutes: "合併使用者操作"
   setting_log_requesting_user: "對所有的請求紀錄使用者登入名稱和郵件地址"
   setting_login_required: "需要身份驗證"
@@ -2842,7 +2842,7 @@ zh-TW:
         type: "按類型劃分的整行"
         priority: "按優先順序的整個行"
     icalendar:
-      enable_subscriptions_text_html: 允許具有必要權限的用戶通過外部日曆客戶端訂閱 OpenProject 日曆並訪問工作包信息。<strong>注意</strong>：在啓用此功能之前，請閱讀關於 <a href="%{link}" target="_blank">iCalendar 訂閱</a>的信息以瞭解潛在的安全風險。
+      enable_subscriptions_text_html: 允許有相關權限用戶通過外部日曆客戶端訂閱 OpenProject 日曆並存取工作項目信息。<strong>注意</strong>：在啓用此功能之前，請閱讀關於 <a href="%{link}" target="_blank">iCalendar 訂閱</a>的信息以瞭解潛在的安全風險。
     language_name_being_default: "%{language_name} (default)"
     notifications:
       events_explanation: "控制發送電子郵件的事件。工作包不包括在此列表中，因為可以為每個用戶專門配置它們的通知"
@@ -2895,7 +2895,7 @@ zh-TW:
   text_custom_field_hint_activate_per_project_and_type: >
     自訂欄位需要個別被工作項目類別和專案啟用。
   text_wp_status_read_only_html: >
-    企業版將為工作包的狀態字段添加以下其他附加組件：<br> <ul> <li><b>允許將工作包標記為特定狀態的只讀</b></li> </ul>
+    企業版將為工作項目的狀態字段添加以下其他附加組件：<br> <ul> <li><b>允許將工作項目標記為特定狀態的只讀</b></li> </ul>
   text_project_custom_field_html: >
     企業版將為項目的自定義字段添加以下其他附加組件：<br> <ul> <li><b>在項目列表中添加項目自定義字段，以創建項目組合視圖</b></li> </ul>
   text_custom_logo_instructions: >
