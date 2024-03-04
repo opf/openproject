@@ -94,7 +94,7 @@
         end
       end
     else
-      render(Primer::Beta::Flash.new(icon: :info)) { I18n.t('work_package.sharing.permissions.denied') }
+      render(Primer::Alpha::Banner.new(icon: :info)) { I18n.t('work_package.sharing.permissions.denied') }
     end
   end
 %>
