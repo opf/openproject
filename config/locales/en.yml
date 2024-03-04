@@ -719,6 +719,8 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
         redirect_existing_links: "Redirect existing links"
       planning_element_type_color:
         hexcode: Hex code
+      project_custom_field:
+        custom_field_section: Section
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"
