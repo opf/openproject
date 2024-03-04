@@ -415,6 +415,7 @@ fa:
     label_email: "Email"
     label_equals: "is"
     label_expand: "بست دادن"
+    label_preview_not_available: "Preview not available"
     label_expanded: "بست یافته"
     label_expand_all: "باز کردن همه"
     label_expand_project_menu: "بازکردن منوی پروژه"

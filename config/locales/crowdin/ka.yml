@@ -567,6 +567,7 @@ ka:
           false: "პირადი"
         queries: "მოთხოვნები"
         status_code: "პროექტის სტატუსი"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "დაწყებული არაა"

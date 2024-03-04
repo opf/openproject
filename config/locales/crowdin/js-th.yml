@@ -415,6 +415,7 @@ th:
     label_email: "อีเมล"
     label_equals: "เป็น"
     label_expand: "ขยาย"
+    label_preview_not_available: "Preview not available"
     label_expanded: "ขยาย"
     label_expand_all: "ขยายทั้งหมด"
     label_expand_project_menu: "Expand project menu"

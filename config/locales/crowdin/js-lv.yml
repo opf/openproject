@@ -415,6 +415,7 @@ lv:
     label_email: "E-Pasts"
     label_equals: "is"
     label_expand: "Izvērst"
+    label_preview_not_available: "Preview not available"
     label_expanded: "izvērsts"
     label_expand_all: "Expand all"
     label_expand_project_menu: "Expand project menu"

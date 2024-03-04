@@ -568,6 +568,7 @@ sr:
           false: "private"
         queries: "Queries"
         status_code: "Project status"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"

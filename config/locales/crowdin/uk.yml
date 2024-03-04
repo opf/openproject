@@ -564,6 +564,7 @@ uk:
           false: "приватний"
         queries: "Запити"
         status_code: "Статус Проекту"
+        description: "Description"
         status_explanation: "Опис стану проєкту"
         status_codes:
           not_started: "Не почато"

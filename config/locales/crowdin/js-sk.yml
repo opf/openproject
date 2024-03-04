@@ -415,6 +415,7 @@ sk:
     label_email: "E-mail"
     label_equals: "je"
     label_expand: "Rozbaliť"
+    label_preview_not_available: "Preview not available"
     label_expanded: "rozbalené"
     label_expand_all: "Rozbaliť všetko"
     label_expand_project_menu: "Rozbaliť ponuku projektu"

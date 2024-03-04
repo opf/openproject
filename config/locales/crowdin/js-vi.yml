@@ -414,6 +414,7 @@ vi:
     label_email: "Thư điện tử"
     label_equals: "là"
     label_expand: "Mở rộng"
+    label_preview_not_available: "Preview not available"
     label_expanded: "đã mở rộng"
     label_expand_all: "Mở rộng tất cả"
     label_expand_project_menu: "Mở rộng menu dự án"

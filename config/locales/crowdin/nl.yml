@@ -564,6 +564,7 @@ nl:
           false: "Privé"
         queries: "Query 's"
         status_code: "Projectstatus"
+        description: "Description"
         status_explanation: "Beschrijving van projectstatus"
         status_codes:
           not_started: "Nog niet gestart"

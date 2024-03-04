@@ -569,6 +569,7 @@ he:
           false: "private"
         queries: "שאילתות"
         status_code: "מצב הפרוייקט"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"

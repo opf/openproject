@@ -566,6 +566,7 @@ th:
           false: "private"
         queries: "การสอบถาม"
         status_code: "สถานะของโครงการ"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"

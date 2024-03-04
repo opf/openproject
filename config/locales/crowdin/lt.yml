@@ -566,6 +566,7 @@ lt:
           false: "privatus"
         queries: "Užklausos"
         status_code: "Projekto būsena"
+        description: "Aprašymas"
         status_explanation: "Projekto būsenos aprašymas"
         status_codes:
           not_started: "Nepradėta"

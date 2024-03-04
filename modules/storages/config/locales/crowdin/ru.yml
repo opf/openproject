@@ -53,7 +53,7 @@ ru:
       complete_without_setup: Обходитесь без этого
       done_complete_setup: Готово, завершить установку
       done_continue: Готово, продолжить
-      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_application: Заменить OAuth OpenProject
       replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Сохранить и продолжить
       select_folder: Выберите папку
@@ -63,7 +63,7 @@ ru:
         one_drive: Разрешить OpenProject доступ к данным Azure, используя OAuth для подключения OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Завершите установку с правильным перенаправлением URI.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in the client at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
     confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Введите имя хранилища файлов %{file_storage} для подтверждения удаления.
@@ -178,9 +178,12 @@ ru:
       Хранилище подключено успешно! Не забудьте активировать модуль и конкретное хранилище в настройках проекта для его дальнейшего использования.
     oauth_grant_nudge_modal:
       access_granted: Доступ предоставлен
+      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
       body: To get access to the project folder you need to login to %{storage}.
       cancel_button_label: Я сделаю это позже
+      confirm_button_aria_label: Login to %{storage}
       confirm_button_label: Login
+      requesting_access_to: Requesting access to %{storage}
       storage_ready: Теперь вы готовы к использованию %{storage}
       title: One more step...
     open_project_storage_modal:

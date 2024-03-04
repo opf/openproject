@@ -214,7 +214,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
     {
       type: 'Storages::Admin::OAuthAccessGrantNudgeModalComponent',
       parameters: {
-        project_storage_id: @project_storage.id,
+        project_storage: @project_storage.id,
         authorized:
       }
     }

@@ -1,5 +1,3 @@
-# frozen_string_literal:true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -27,12 +25,25 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+require 'nokogiri'
 
-module Storages
-  module Peripherals
-    Contracts = Dry::Container::Namespace.new('contracts') do
-      register(:nextcloud, ::Storages::Storages::NextcloudContract)
-      register(:one_drive, ::Storages::Storages::OneDriveContract)
+module OpenProject
+  module Common
+    class AttributeComponent < Primer::Component
+      def initialize(id, name, description, **args)
+        super
+        @id = id
+        @name = name
+        @description = description
+        @attr_value = is_multi_type(description) ? I18n.t('js.label_preview_not_available') : Nokogiri::HTML(description).text
+        @system_arguments = args
+      end
+
+      private
+
+      def is_multi_type(text)
+        text.to_s.include?('figure') || text.to_s.include?('macro')
+      end
     end
   end
 end

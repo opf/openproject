@@ -63,7 +63,7 @@ uk:
         one_drive: Надайте OpenProject доступ до даних Azure із використанням OAuth для підключення OneDrive / Sharepoint.
       redirect_uri_incomplete:
         one_drive: Завершіть налаштування за допомогою правильного URI переспрямування.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials in the client at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
     confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Введіть ім’я файлового сховища %{file_storage}, щоб підтвердити видалення.
@@ -179,9 +179,12 @@ uk:
       кожного потрібного проєкту.
     oauth_grant_nudge_modal:
       access_granted: Доступ надано
+      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
       body: Щоб отримати доступ до папки проєкту, потрібно ввійти в %{storage}.
       cancel_button_label: Я зроблю це пізніше
+      confirm_button_aria_label: Login to %{storage}
       confirm_button_label: Увійти
+      requesting_access_to: Requesting access to %{storage}
       storage_ready: Тепер ви можете використовувати сховище %{storage}
       title: Ще один крок...
     open_project_storage_modal:

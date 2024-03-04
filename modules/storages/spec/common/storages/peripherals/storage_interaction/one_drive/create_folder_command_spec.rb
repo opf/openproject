@@ -34,7 +34,7 @@ require_module_spec_helper
 RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolderCommand, :vcr, :webmock do
   shared_let(:storage) { create(:sharepoint_dev_drive_storage) }
 
-  let(:delete_command) { Storages::Peripherals::Registry.resolve('commands.one_drive.delete_folder') }
+  let(:delete_command) { Storages::Peripherals::Registry.resolve('one_drive.commands.delete_folder') }
   let(:folder_path) { 'Földer CreatedBy Çommand' }
 
   shared_let(:original_ids) do
@@ -52,7 +52,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CreateFolder
   end
 
   it 'is registered as create_folder' do
-    expect(Storages::Peripherals::Registry.resolve('commands.one_drive.create_folder')).to eq(described_class)
+    expect(Storages::Peripherals::Registry.resolve('one_drive.commands.create_folder')).to eq(described_class)
   end
 
   it 'creates a folder and responds with a success', vcr: 'one_drive/create_folder_base' do

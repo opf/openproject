@@ -120,7 +120,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def get_folder_id(destination_path)
       Storages::Peripherals::Registry
-        .resolve("queries.#{@storage.short_provider_type}.file_ids")
+        .resolve("#{@storage.short_provider_type}.queries.file_ids")
         .call(storage: @storage, path: destination_path)
     end
   end

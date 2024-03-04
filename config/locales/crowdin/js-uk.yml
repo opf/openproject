@@ -415,6 +415,7 @@ uk:
     label_email: "Електронна пошта"
     label_equals: "є"
     label_expand: "Розгорнути"
+    label_preview_not_available: "Preview not available"
     label_expanded: "розгорнуто"
     label_expand_all: "Розгорнути все"
     label_expand_project_menu: "Розгорніть меню проекту"

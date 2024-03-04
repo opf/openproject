@@ -571,6 +571,7 @@ ar:
           false: "private"
         queries: "الاستفسارات"
         status_code: "حالة المشروع"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"

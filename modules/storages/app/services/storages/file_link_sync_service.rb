@@ -54,7 +54,7 @@ class Storages::FileLinkSyncService
   def sync_storage_data(storage_id, file_links)
     storage = ::Storages::Storage.find(storage_id)
     ::Storages::Peripherals::Registry
-      .resolve("queries.#{storage.short_provider_type}.files_info")
+      .resolve("#{storage.short_provider_type}.queries.files_info")
       .call(storage:, user: @user, file_ids: file_links.map(&:origin_id))
       .map { |file_infos| to_hash(file_infos) }
       .match(

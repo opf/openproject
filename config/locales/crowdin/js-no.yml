@@ -415,6 +415,7 @@
     label_email: "E-post"
     label_equals: "er"
     label_expand: "Utvid"
+    label_preview_not_available: "Preview not available"
     label_expanded: "utvidet"
     label_expand_all: "Utvid alle"
     label_expand_project_menu: "Utvid prosjektmeny"

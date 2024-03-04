@@ -50,8 +50,8 @@ module BaseServices
     # Determine the type of context
     # this service is running in
     # e.g., within a resource lock or just executing as the given user
-    def service_context(send_notifications:, &block)
-      in_context(model, send_notifications:, &block)
+    def service_context(send_notifications:, &)
+      in_context(model, send_notifications:, &)
     end
 
     def perform(params = {})

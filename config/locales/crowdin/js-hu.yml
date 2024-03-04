@@ -415,6 +415,7 @@ hu:
     label_email: "Email"
     label_equals: "van"
     label_expand: "Kibont"
+    label_preview_not_available: "Preview not available"
     label_expanded: "kibontott"
     label_expand_all: "Az összes kibontása"
     label_expand_project_menu: "Project menü kibontása"

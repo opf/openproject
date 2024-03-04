@@ -415,6 +415,7 @@ ca:
     label_email: "Correu electrònic"
     label_equals: "és"
     label_expand: "Expandir"
+    label_preview_not_available: "Preview not available"
     label_expanded: "expandit"
     label_expand_all: "Expandir tot"
     label_expand_project_menu: "Expandieix el menú de projecte"

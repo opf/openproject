@@ -564,6 +564,7 @@ it:
           false: "privato"
         queries: "Interrogazioni"
         status_code: "Stato del progetto"
+        description: "Description"
         status_explanation: "Descrizione dello stato del progetto"
         status_codes:
           not_started: "Non iniziato"
