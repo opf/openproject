@@ -276,8 +276,8 @@ RSpec.describe 'Bulk update work packages through Rails view', :js, :with_cuprit
 
         it 'clears the chosen values' do
           # Required fields should not have a 'none' option
-          expect(page).to have_no_select(required_boolean_cf.name, options: ['none'])
-          expect(page).to have_no_select(required_list_cf.name, options: ['none'])
+          expect(page).to have_no_select(required_boolean_cf.name, with_options: ['none'])
+          expect(page).to have_no_select(required_list_cf.name, with_options: ['none'])
 
           # Unset any non-required fields
           select 'none', from: boolean_cf.name
