@@ -9,6 +9,8 @@ module ::Overviews
 
     def project_custom_fields_sidebar
       @eager_loaded_project_custom_field_sections = eager_loaded_project_custom_field_sections
+
+      render :project_custom_fields_sidebar, layout: false
     end
 
     def project_custom_field_section_dialog

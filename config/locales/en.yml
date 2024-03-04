@@ -2682,6 +2682,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   permission_save_queries: "Save views"
   permission_search_project: "Search project"
   permission_select_custom_fields: "Select custom fields"
+  permission_select_project_custom_fields: "Select project attributes"
   permission_select_project_modules: "Select project modules"
   permission_share_work_packages: "Share work packages"
   permission_manage_types: "Select types"
