@@ -43,8 +43,6 @@ FactoryBot.define do
     completed_at { nil }
 
     ci_details do
-      # ci_details_json_file_path = File.join(File.dirname(__FILE__), 'gitlab_pipelines', 'ci_details.json')
-      # JSON.parse(File.read(ci_details_json_file_path))
       build_list(:gitlab_pipeline_ci_detail, 3)
     end
 
