@@ -33,7 +33,8 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
 
   context 'with project description containing html' do
     before do
-      project.update(description: "This is an <p>html</p> description.")
+      project.description = "This is an <p>html</p> description."
+      project.save!(validate: false)
     end
 
     it 'performs a successful export' do
@@ -58,29 +59,36 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
 
   describe 'custom field columns selected' do
     before do
-      Setting.enabled_projects_columns += custom_fields.map(&:column_name)
+      Setting.enabled_projects_columns += global_project_custom_fields.map(&:column_name)
     end
 
     context 'when ee enabled', with_ee: %i[custom_fields_in_projects_list] do
       it 'renders all those columns' do
         expect(rows.count).to eq 1
 
-        cf_names = custom_fields.map(&:name)
+        cf_names = global_project_custom_fields.map(&:name)
         expect(header).to eq ['ID', 'Identifier', 'Name', 'Description', 'Status', 'Public', *cf_names]
 
-        custom_values = custom_fields.map do |cf|
+        custom_values = global_project_custom_fields.map do |cf|
           case cf
           when bool_cf
             'true'
           when text_cf
             project.typed_custom_value_for(cf)
+          when not_used_string_cf
+            nil
           else
             project.formatted_custom_value_for(cf)
           end
         end
 
         expect(sheet.row(1))
-          .to eq [project.id.to_s, project.identifier, project.name, project.description, 'Off track', 'false', *custom_values]
+          .to eq [project.id.to_s, project.identifier, project.name, project.description, 'Off track', 'false',
+                  *custom_values]
+
+        # The column for the project-level-disabled custom field is blank
+        expect(sheet.row(1)[header.index(not_used_string_cf.name)]).to be_nil
+        # TODO: CSV export renders "" instead of nil, why does XLS export render nil?
       end
     end
 
