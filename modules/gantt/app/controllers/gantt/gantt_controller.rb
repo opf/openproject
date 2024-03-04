@@ -1,6 +1,7 @@
 module ::Gantt
   class GanttController < ApplicationController
     include Layout
+    include QueriesHelper
     include WorkPackagesControllerHelper
 
     accept_key_auth :index
