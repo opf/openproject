@@ -31,6 +31,14 @@ class Members::DeleteService < BaseServices::Delete
 
   protected
 
+  def destroy(object)
+    if object.member_roles.where.not(inherited_from: nil).empty?
+      super
+    else
+      object.member_roles.where(inherited_from: nil).destroy_all
+    end
+  end
+
   def after_perform(service_call)
     super(service_call).tap do |call|
       member = call.result

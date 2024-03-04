@@ -90,6 +90,37 @@ RSpec.describe Members::DeleteService, type: :model do
           end
         end
       end
+
+      context 'when member has inherited member_roles' do
+        let(:direct_member_role_a) { build(:member_role) }
+        let(:direct_member_role_b) { build(:member_role) }
+        let(:inherited_member_role) { build(:member_role, inherited_from: 123) }
+        let(:member_roles) { [direct_member_role_a, direct_member_role_b, inherited_member_role] }
+        let!(:model_instance) { create(factory, member_roles:) }
+
+        it 'does not destroy the member' do
+          service_call
+
+          expect(model_instance).to_not have_received(:destroy)
+        end
+
+        it 'does not destroy inherited member roles' do
+          service_call
+
+          expect{ inherited_member_role.reload }.to_not raise_error
+        end
+
+        it 'destroys direct member roles' do
+          service_call
+
+          expect { direct_member_role_a.reload }.to raise_error(ActiveRecord::RecordNotFound)
+          expect { direct_member_role_b.reload }.to raise_error(ActiveRecord::RecordNotFound)
+        end
+
+        it 'is successful' do
+          expect(subject).to be_success
+        end
+      end
     end
   end
 end

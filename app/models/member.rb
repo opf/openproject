@@ -77,7 +77,7 @@ class Member < ApplicationRecord
   end
 
   def deletable?
-    member_roles.detect(&:inherited_from).nil?
+    !member_roles.all?(&:inherited_from?)
   end
 
   def project_role?
