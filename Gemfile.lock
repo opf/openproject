@@ -442,8 +442,8 @@ GEM
     debug (1.9.1)
       irb (~> 1.10)
       reline (>= 0.3.8)
-    deckar01-task_list (2.3.3)
-      html-pipeline
+    deckar01-task_list (2.3.4)
+      html-pipeline (~> 2.0)
     declarative (0.0.20)
     delayed_cron_job (0.9.0)
       fugit (>= 1.5)
