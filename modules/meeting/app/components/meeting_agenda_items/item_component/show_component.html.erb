@@ -67,6 +67,7 @@
             menu.with_show_button(icon: "kebab-horizontal",
                                   'aria-label': I18n.t(:label_agenda_item_actions),
                                   scheme: :invisible,
+                                  ml: 2,
                                   test_selector: 'op-meeting-agenda-actions')
             edit_action_item(menu) if @meeting_agenda_item.editable?
             add_note_action_item(menu) if @meeting_agenda_item.editable?
