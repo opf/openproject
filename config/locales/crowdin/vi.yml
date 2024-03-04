@@ -568,6 +568,7 @@ vi:
           false: "private"
         queries: "Truy vấn"
         status_code: "Tình trạng dự án"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"

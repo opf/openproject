@@ -97,6 +97,10 @@ pl:
   label_time_zone: "Strefa czasowa"
   label_start_date: "Data rozpoczęcia"
   meeting:
+    copy:
+      title: "Kopiuj spotkanie %{title}"
+      agenda: "Kopiuj agendę spotkania"
+      agenda_text: "Skopiuj agendę starego spotkania"
     email:
       open_meeting_link: "Spotkania otwarte"
       invited:

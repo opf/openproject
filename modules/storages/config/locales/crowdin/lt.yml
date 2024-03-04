@@ -53,7 +53,8 @@ lt:
       complete_without_setup: Baigti be jo
       done_complete_setup: Atlikta, baigti nustatymą
       done_continue: Baigta, tęsti
-      replace_provider_type_oauth: Keisti %{provider_type} OAuth
+      replace_oauth_application: Keisti OpenProject OAuth
+      replace_oauth_client: Keisti %{provider_type} OAuth
       save_and_continue: Įrašyti ir tęsti
       select_folder: Parinkti aplanką
     configuration_checks:
@@ -62,8 +63,8 @@ lt:
         one_drive: Leisti OpenProject prieigą prie Azure duomenų naudojant OAuth prisijungimui prie OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Baigti nustatymą su tinkamu URI peradresavimu.
-    confirm_replace_oauth_application: Ar jūs įsitikinę? Visi naudotojai turės iš naujo autorizuotis su OpenProject.
-    confirm_replace_oauth_client: Ar jūs įsitikinę? Visi naudotojai turės iš naujo autorizuotis su saugykla.
+    confirm_replace_oauth_application: Atlikus šį veiksmą bus iš naujo nustatyti dabartiniai OAuth įgaliojimai. Patvirtinę turėsite iš naujo įvesti įgaliojimus saugyklos teikėjo klientui, o visi nuotoliniai naudotojai turės iš naujo autorizuotis OpenProject. Ar tikrai norite tęsti?
+    confirm_replace_oauth_client: Atlikus šį veiksmą bus iš naujo nustatyti dabartiniai OAuth įgaliojimai. Patvirtinę turėsite įvesti naujus saugojimo paslaugų teikėjo įgaliojimus, o visi naudotojai turės iš naujo atlikti autorizaciją %{provider_type} . Ar tikrai norite tęsti?
     delete_warning:
       input_delete_confirmation: Įveskite failų saugyklos pavadinimą %{file_storage}, kad patvirtintumėte trynimą.
       irreversible_notice: Failų saugyklos trynimas yra neatstatomas veiksmas.
@@ -144,7 +145,6 @@ lt:
     label_edit_storage: Keisti saugyklą
     label_edit_storage_automatically_managed_folders: Keisti saugyklos automatiškai tvarkomus aplankus
     label_edit_storage_host: Keisti saugyklos adresą
-    label_edit_storage_oauth_client: Keisti saugyklos OAuth klientą
     label_existing_manual_folder: Esamas aplankas su rankiniu būdu valdomomis teisėmis
     label_file_storage: Failų saugykla
     label_host: Stoties URL
@@ -178,9 +178,12 @@ lt:
       Saugykla sėkmingai prijungta! Nepamirškite aktyvuoti modulį ir konkrečią saugyklą visų projektų, kuriuose norite ją naudoti, nustatymuose.
     oauth_grant_nudge_modal:
       access_granted: Prieiga suteikta
+      access_granted_screen_reader: Prieiga suteikta. Dabar galite naudotis %{storage}.
       body: Kad gautumėte prieigą prie projekto aplanko, jums reikia prisijungti prie %{storage}.
       cancel_button_label: Aš tai padarysiu vėliau
+      confirm_button_aria_label: Prisijungti prie %{storage}
       confirm_button_label: Prisijungti
+      requesting_access_to: Prašoma prieigos prie %{storage}
       storage_ready: Jūs dabar pasiruošę naudoti %{storage}
       title: Dar vienas žingsnis...
     open_project_storage_modal:

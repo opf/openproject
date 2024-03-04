@@ -565,6 +565,7 @@ da:
           false: "private"
         queries: "Forespørgsler"
         status_code: "Projektstatus"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"

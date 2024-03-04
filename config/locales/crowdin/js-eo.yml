@@ -415,6 +415,7 @@ eo:
     label_email: "Retpoŝto"
     label_equals: "estas"
     label_expand: "Etendi"
+    label_preview_not_available: "Preview not available"
     label_expanded: "etendita"
     label_expand_all: "Etendi ĉion"
     label_expand_project_menu: "Etendi projektan menuon"

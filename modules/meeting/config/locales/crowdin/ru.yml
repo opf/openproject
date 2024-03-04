@@ -97,6 +97,10 @@ ru:
   label_time_zone: "Часовой пояс"
   label_start_date: "Дата начала"
   meeting:
+    copy:
+      title: "Копировать встречу %{title}"
+      agenda: "Копировать повестку дня"
+      agenda_text: "Копировать повестку дня старой встречи"
     email:
       open_meeting_link: "Открыть совещание"
       invited:

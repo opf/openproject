@@ -568,6 +568,7 @@ ro:
           false: "privat"
         queries: "Interogări"
         status_code: "Stare proiect"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Neîncepută"

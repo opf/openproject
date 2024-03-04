@@ -35,7 +35,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::DeleteFolder
   let(:storage) { create(:sharepoint_dev_drive_storage) }
 
   it 'is registered as commands.one_drive.delete_folder' do
-    expect(Storages::Peripherals::Registry.resolve('commands.one_drive.delete_folder')).to eq(described_class)
+    expect(Storages::Peripherals::Registry.resolve('one_drive.commands.delete_folder')).to eq(described_class)
   end
 
   it '.call requires storage and location as keyword arguments' do
@@ -47,7 +47,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::DeleteFolder
 
   it 'deletes a folder', vcr: 'one_drive/delete_folder' do
     create_result = Storages::Peripherals::Registry
-               .resolve('commands.one_drive.create_folder')
+               .resolve('one_drive.commands.create_folder')
                .call(storage:, folder_path: 'To Be Deleted Soon')
 
     folder = create_result.result

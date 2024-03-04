@@ -567,6 +567,7 @@ eo:
           false: "private"
         queries: "Informpetoj"
         status_code: "Projekta stato"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Nekomencita"

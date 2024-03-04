@@ -53,7 +53,8 @@ it:
       complete_without_setup: Completa senza
       done_complete_setup: Fatto, configurazione completa
       done_continue: Fatto, continua
-      replace_provider_type_oauth: Sostituisci %{provider_type} OAuth
+      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Salva e continua
       select_folder: Seleziona cartella
     configuration_checks:
@@ -62,8 +63,8 @@ it:
         one_drive: Consenti a OpenProject di accedere ai dati Azure utilizzando OAuth per collegare OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Completa la configurazione con il corretto reindirizzamento URI.
-    confirm_replace_oauth_application: Procedere? Tutti gli utenti dovranno autorizzarsi nuovamente con OpenProject.
-    confirm_replace_oauth_client: Procedere? Tutti gli utenti dovranno autorizzarsi nuovamente con l'archivio.
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Inserisci il nome del file di archiviazione %{file_storage} per confermare l'eliminazione.
       irreversible_notice: L'eliminazione di un file di archiviazione è un'azione irreversibile.
@@ -144,7 +145,6 @@ it:
     label_edit_storage: Modifica archivio
     label_edit_storage_automatically_managed_folders: Modifica cartelle gestite automaticamente dall'archivio
     label_edit_storage_host: Modifica host dell'archivio
-    label_edit_storage_oauth_client: Modifica client OAuth di archiviazione
     label_existing_manual_folder: Cartella esistente con autorizzazioni gestite manualmente
     label_file_storage: Archiviazione file
     label_host: URL dell'host
@@ -179,9 +179,12 @@ it:
       di ciascun progetto desiderato per utilizzarlo.
     oauth_grant_nudge_modal:
       access_granted: Accesso autorizzato
+      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
       body: Per accedere alla cartella del progetto è necessario accedere a %{storage}.
       cancel_button_label: Lo farò più tardi
+      confirm_button_aria_label: Login to %{storage}
       confirm_button_label: Accedi
+      requesting_access_to: Requesting access to %{storage}
       storage_ready: Ora è possibile usare %{storage}
       title: Ancora un passo...
     open_project_storage_modal:

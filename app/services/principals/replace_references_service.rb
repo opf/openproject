@@ -93,6 +93,7 @@ module Principals
 
     def rewrite_user(from, to)
       [TimeEntry,
+       CostEntry,
        ::Query,
        Changeset,
        CostQuery,
@@ -126,7 +127,10 @@ module Principals
     end
 
     def rewrite_logged_by(from, to)
-      [TimeEntry].each do |klass|
+      [
+        TimeEntry,
+        CostEntry
+      ].each do |klass|
         rewrite(klass, :logged_by_id, from, to)
       end
     end

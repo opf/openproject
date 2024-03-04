@@ -564,6 +564,7 @@ hu:
           false: "private"
         queries: "Lekérdezések"
         status_code: "Projekt állapot"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "El nem kezdett"

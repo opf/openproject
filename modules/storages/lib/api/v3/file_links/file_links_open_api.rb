@@ -34,7 +34,7 @@ class API::V3::FileLinks::FileLinksOpenAPI < API::OpenProjectAPI
   resources :open do
     get do
       Storages::Peripherals::Registry
-        .resolve("queries.#{@file_link.storage.short_provider_type}.open_file_link")
+        .resolve("#{@file_link.storage.short_provider_type}.queries.open_file_link")
         .call(
           storage: @file_link.storage,
           user: current_user,

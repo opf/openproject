@@ -565,6 +565,7 @@ ko:
           false: "비공개"
         queries: "쿼리"
         status_code: "프로젝트 상태"
+        description: "Description"
         status_explanation: "프로젝트 상태 설명"
         status_codes:
           not_started: "시작되지 않음"

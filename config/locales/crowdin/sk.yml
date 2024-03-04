@@ -569,6 +569,7 @@ sk:
           false: "private"
         queries: "Požiadavky"
         status_code: "Stav projektu"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"

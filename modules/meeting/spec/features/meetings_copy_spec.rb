@@ -94,8 +94,6 @@ RSpec.describe 'Meetings copy', :js, :with_cuprite do
     expect(page)
       .to have_field 'Time',       with: start_time.strftime("%H:%M")
 
-    choose 'Classic'
-
     click_button "Create"
 
     # Be on the new meeting's page with copied over attributes

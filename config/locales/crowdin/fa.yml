@@ -567,6 +567,7 @@ fa:
           false: "private"
         queries: "پرس و جو ها"
         status_code: "وضعیت پروژه"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"

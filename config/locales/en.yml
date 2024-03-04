@@ -649,6 +649,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
           false: "private"
         queries: "Queries"
         status_code: "Project status"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"

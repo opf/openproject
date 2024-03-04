@@ -124,7 +124,7 @@ RSpec.describe Principals::DeleteJob, type: :model do
         entry.reload
       end
 
-      it { expect(entry.user_id).to eq(principal.id) }
+      it { expect(entry.user_id).to eq(deleted_user.id) }
     end
 
     shared_examples_for 'member handling' do
