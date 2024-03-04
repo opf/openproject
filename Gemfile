@@ -227,7 +227,7 @@ gem 'turbo-rails', '~> 2.0.0'
 gem 'httpx'
 
 group :test do
-  gem 'launchy', '~> 2.5.0'
+  gem 'launchy', '~> 3.0.0'
   gem 'rack-test', '~> 2.1.0'
   gem 'shoulda-context', '~> 2.0'
 
