@@ -150,7 +150,7 @@ RSpec.describe CustomValue do
     end
 
     context "for a string custom field without default value" do
-      shared_let(:custom_field) { create(:project_custom_field, :string) }
+      shared_let(:custom_field) { create(:project_custom_field, :string, projects: [project]) }
 
       include_examples 'returns true for generated custom value'
       include_examples 'returns false for custom value with value', value: 'Hello world!'
@@ -159,8 +159,8 @@ RSpec.describe CustomValue do
     context 'for a string custom field with default value' do
       describe 'for a generated custom value' do
         it 'returns true' do
-          create(:project_custom_field, :string, default_value: 'Hello world!')
-          create(:project_custom_field, :string, default_value: '')
+          create(:project_custom_field, :string, default_value: 'Hello world!', projects: [project])
+          create(:project_custom_field, :string, default_value: '', projects: [project])
 
           custom_values = project.custom_field_values
 
@@ -170,7 +170,7 @@ RSpec.describe CustomValue do
     end
 
     context 'for a text custom field without default value' do
-      shared_let(:custom_field) { create(:project_custom_field, :text) }
+      shared_let(:custom_field) { create(:project_custom_field, :text, projects: [project]) }
 
       include_examples 'returns true for generated custom value'
       include_examples 'returns false for custom value with value', value: "Hello world!"
@@ -180,8 +180,8 @@ RSpec.describe CustomValue do
     context 'for a text custom field with default value' do
       describe 'for a generated custom value' do
         it 'returns true' do
-          create(:project_custom_field, :text, default_value: 'Hello world!')
-          create(:project_custom_field, :text, default_value: '')
+          create(:project_custom_field, :text, default_value: 'Hello world!', projects: [project])
+          create(:project_custom_field, :text, default_value: '', projects: [project])
 
           custom_values = project.custom_field_values
 
@@ -191,7 +191,7 @@ RSpec.describe CustomValue do
     end
 
     context 'for an integer custom field without default value' do
-      shared_let(:custom_field) { create(:project_custom_field, :integer) }
+      shared_let(:custom_field) { create(:project_custom_field, :integer, projects: [project]) }
 
       include_examples 'returns true for generated custom value'
       include_examples 'returns false for custom value with value', value: 123
@@ -202,11 +202,11 @@ RSpec.describe CustomValue do
     context 'for an integer custom field with default value' do
       describe 'for a generated custom value' do
         it 'returns true' do
-          create(:project_custom_field, :integer, default_value: 0)
-          create(:project_custom_field, :integer, default_value: 123)
-          create(:project_custom_field, :integer, default_value: '456')
-          create(:project_custom_field, :integer, default_value: -987)
-          create(:project_custom_field, :integer, default_value: '-678')
+          create(:project_custom_field, :integer, default_value: 0, projects: [project])
+          create(:project_custom_field, :integer, default_value: 123, projects: [project])
+          create(:project_custom_field, :integer, default_value: '456', projects: [project])
+          create(:project_custom_field, :integer, default_value: -987, projects: [project])
+          create(:project_custom_field, :integer, default_value: '-678', projects: [project])
 
           custom_values = project.custom_field_values
 
@@ -216,7 +216,7 @@ RSpec.describe CustomValue do
     end
 
     context 'for a float custom field without default value' do
-      shared_let(:custom_field) { create(:project_custom_field, :float) }
+      shared_let(:custom_field) { create(:project_custom_field, :float, projects: [project]) }
 
       include_examples 'returns true for generated custom value'
       include_examples 'returns false for custom value with value', value: 3.14
@@ -227,11 +227,11 @@ RSpec.describe CustomValue do
     context 'for a float custom field with default value' do
       describe 'for a generated custom value' do
         it 'returns true' do
-          create(:project_custom_field, :float, default_value: 0.0)
-          create(:project_custom_field, :float, default_value: 12.3)
-          create(:project_custom_field, :float, default_value: '45.6')
-          create(:project_custom_field, :float, default_value: -98.7)
-          create(:project_custom_field, :float, default_value: '-67')
+          create(:project_custom_field, :float, default_value: 0.0, projects: [project])
+          create(:project_custom_field, :float, default_value: 12.3, projects: [project])
+          create(:project_custom_field, :float, default_value: '45.6', projects: [project])
+          create(:project_custom_field, :float, default_value: -98.7, projects: [project])
+          create(:project_custom_field, :float, default_value: '-67', projects: [project])
 
           custom_values = project.custom_field_values
 
@@ -241,7 +241,7 @@ RSpec.describe CustomValue do
     end
 
     context 'for a date custom field' do
-      shared_let(:custom_field) { create(:project_custom_field, :date) }
+      shared_let(:custom_field) { create(:project_custom_field, :date, projects: [project]) }
 
       include_examples 'returns true for generated custom value'
       include_examples 'returns false for custom value with value', value: "2023-08-08"
@@ -249,7 +249,7 @@ RSpec.describe CustomValue do
     end
 
     context 'for a list custom field without default value' do
-      shared_let(:custom_field) { create(:project_custom_field, :list) }
+      shared_let(:custom_field) { create(:project_custom_field, :list, projects: [project]) }
 
       include_examples 'returns true for generated custom value'
 
@@ -266,7 +266,7 @@ RSpec.describe CustomValue do
     context 'for a list custom field with default value' do
       describe 'for a generated custom value' do
         it 'returns true' do
-          create(:project_custom_field, :list, default_option: 'B')
+          create(:project_custom_field, :list, default_option: 'B', projects: [project])
 
           custom_values = project.custom_field_values
 
@@ -277,7 +277,7 @@ RSpec.describe CustomValue do
     end
 
     context 'for a multi-value list custom field without default value' do
-      shared_let(:custom_field) { create(:project_custom_field, :multi_list) }
+      shared_let(:custom_field) { create(:project_custom_field, :multi_list, projects: [project]) }
 
       include_examples 'returns true for generated custom value'
 
@@ -294,8 +294,8 @@ RSpec.describe CustomValue do
     context 'for a multi-value list custom field with default value' do
       describe 'for a generated custom value' do
         it 'returns true' do
-          create(:project_custom_field, :multi_list, default_options: ['B'])
-          create(:project_custom_field, :multi_list, default_options: ['G', 'B', 'C'])
+          create(:project_custom_field, :multi_list, default_options: ['B'], projects: [project])
+          create(:project_custom_field, :multi_list, default_options: ['G', 'B', 'C'], projects: [project])
 
           custom_values = project.custom_field_values
 
@@ -307,7 +307,7 @@ RSpec.describe CustomValue do
     end
 
     context 'for a version custom field' do
-      shared_let(:custom_field) { create(:project_custom_field, :version) }
+      shared_let(:custom_field) { create(:project_custom_field, :version, projects: [project]) }
 
       include_examples 'returns true for generated custom value'
 
@@ -325,7 +325,7 @@ RSpec.describe CustomValue do
     end
 
     context 'for a multi version custom field' do
-      shared_let(:custom_field) { create(:project_custom_field, :multi_version) }
+      shared_let(:custom_field) { create(:project_custom_field, :multi_version, projects: [project]) }
 
       include_examples 'returns true for generated custom value'
 
@@ -343,7 +343,7 @@ RSpec.describe CustomValue do
     end
 
     context 'for a user custom field' do
-      shared_let(:custom_field) { create(:project_custom_field, :user) }
+      shared_let(:custom_field) { create(:project_custom_field, :user, projects: [project]) }
 
       include_examples 'returns true for generated custom value'
 
@@ -363,7 +363,7 @@ RSpec.describe CustomValue do
     end
 
     context 'for a multi user custom field' do
-      shared_let(:custom_field) { create(:project_custom_field, :multi_user) }
+      shared_let(:custom_field) { create(:project_custom_field, :multi_user, projects: [project]) }
 
       include_examples 'returns true for generated custom value'
 
@@ -397,7 +397,9 @@ RSpec.describe CustomValue do
   end
 
   describe '#valid?' do
-    let(:custom_field) { build_stubbed(:custom_field, field_format:, is_required:, min_length:, max_length:, regexp:) }
+    let(:custom_field) do
+      build_stubbed(:custom_field, field_format:, is_required:, min_length:, max_length:, regexp:)
+    end
     let(:custom_value) { described_class.new(custom_field:, value:) }
     let(:is_required) { false }
     let(:min_length) { 0 }
@@ -551,7 +553,9 @@ RSpec.describe CustomValue do
     context 'for a list custom field' do
       let(:custom_option1) { build_stubbed(:custom_option, value: 'value1') }
       let(:custom_option2) { build_stubbed(:custom_option, value: 'value1') }
-      let(:custom_field) { build_stubbed(:custom_field, field_format: 'list', custom_options: [custom_option1, custom_option2]) }
+      let(:custom_field) do
+        build_stubbed(:custom_field, field_format: 'list', custom_options: [custom_option1, custom_option2])
+      end
 
       context 'with a value from the list' do
         let(:value) { custom_option1.id }
@@ -733,12 +737,25 @@ RSpec.describe CustomValue do
   describe '#activate_custom_field_in_customized_project' do
     let(:custom_field) { create(:project_custom_field) }
     let(:project) { create(:project) }
-    let(:custom_value) { build(:custom_value, custom_field:, customized: project) }
 
-    it 'activates the custom field in the project after create if missing' do
-      expect(project.project_custom_fields).not_to include(custom_field)
-      custom_value.save!
-      expect(project.reload.project_custom_fields).to include(custom_field)
+    context 'when a value is set' do
+      let(:custom_value) { build(:custom_value, custom_field:, customized: project, value: "foo") }
+
+      it 'activates the custom field in the project after create if missing' do
+        expect(project.project_custom_fields).not_to include(custom_field)
+        custom_value.save!
+        expect(project.reload.project_custom_fields).to include(custom_field)
+      end
+    end
+
+    context 'when a value is not set' do
+      let(:custom_value) { build(:custom_value, custom_field:, customized: project) }
+
+      it 'does not activate the custom field in the project after create if missing' do
+        expect(project.project_custom_fields).not_to include(custom_field)
+        custom_value.save!
+        expect(project.reload.project_custom_fields).not_to include(custom_field)
+      end
     end
   end
 end
