@@ -28,7 +28,7 @@
 
 module OpenProject
   module Common
-    # @logical_path OpenProject/Common
+    # @hidden
     class DialogPreview < Lookbook::Preview
       # @param button_text
       # @param dialog_title

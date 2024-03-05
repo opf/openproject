@@ -18,4 +18,24 @@ content by scrolling the body.
 In order for this to happen, the form should only be rendered inside the body. The submit button can be logically put inside
 the form via the `form` attribute.
 
+In pseudo html, the logical format is then like this:
+
+```html
+
+<dialog>
+  <dialog-header>
+    Dialog title
+  </dialog-header>
+  <dialog-body>
+    <form id='the-form-id'>
+      ... form content ...
+    </form>
+  </dialog-body>
+  <dialog-footer>
+    <input type="submit" form="the-form-id">Submit</button>
+  </dialog-footer>
+</dialog>
+
+```
+
 <%= embed OpenProject::Common::DialogPreview, :form %>
