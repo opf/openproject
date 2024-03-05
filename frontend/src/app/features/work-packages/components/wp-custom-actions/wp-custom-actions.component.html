@@ -1,6 +1,4 @@
-<ng-container
-  *ngIf="!this.bannersService.eeShowBanners"
->
+<ng-container>
   <wp-custom-action
       *ngFor="let action of actions; trackBy: trackByHref"
       [workPackage]="workPackage"
