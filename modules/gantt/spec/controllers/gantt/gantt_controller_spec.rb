@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -25,37 +27,29 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require File.dirname(__FILE__) + '/../spec_helper'
 
-RSpec.describe DocumentsMailer do
-  let(:user) do
-    create(:user, firstname: 'Test', lastname: "User", mail: 'test@test.com')
+require 'spec_helper'
+
+RSpec.describe Gantt::GanttController do
+  shared_let(:project) { create(:project, identifier: 'test_project', public: false) }
+
+  current_user do
+    create(:user,
+           member_with_permissions: { project => %i[view_work_packages export_work_packages] })
   end
-  let(:project) { create(:project, name: "TestProject") }
-  let(:document) do
-    create(:document, project:, description: "Test Description", title: "Test Title")
-  end
-  let(:mail) { DocumentsMailer.document_added(user, document) }
 
-  describe "document added-mail", with_settings: { host_name: 'my.openproject.com' } do
-    it "renders the subject" do
-      expect(mail.subject).to eql '[TestProject] New document: Test Title'
-    end
+  describe 'index' do
+    let(:default_gantt_params) { Gantt::DefaultQueryGeneratorService.new(with_project: project).call }
 
-    it "renders the receivers mail" do
-      expect(mail.to.count).to be 1
-      expect(mail.to.first).to eql user.mail
-    end
+    context 'for atom format' do
+      let(:params) { default_gantt_params.merge(project_id: project.id, format: 'atom') }
 
-    it "renders the document-info into the body" do
-      expect(mail.body.encoded).to match(document.description)
-      expect(mail.body.encoded).to match(document.title)
-    end
+      it 'returns the atom feed' do
+        get('index', params:)
 
-    it "renders the correct link to the document in every format" do
-      contents = mail.parts.map { |p| p.body.to_s }
-
-      expect(contents).to all include("http://my.openproject.com/documents/#{document.id}")
+        expect(response).to have_http_status(:success)
+        expect(response.content_type).to include('application/atom+xml')
+      end
     end
   end
 end
