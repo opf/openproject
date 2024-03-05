@@ -44,7 +44,7 @@
 
         menu.with_item(
           label: t('js.label_export'),
-          content_arguments: { 'data-show-dialog-id': EXPORT_MODAL_ID }
+          content_arguments: { 'data-show-dialog-id': Projects::ExportListModalComponent::MODAL_ID }
         ) do |item|
           item.with_leading_visual_icon(icon: 'sign-out')
         end
@@ -87,15 +87,7 @@
 <% end %>
 
 <% if show_state? %>
-  <%# TODO: move into a component %>
-  <%= render(Primer::Alpha::Dialog.new(title: t('js.label_export'),
-                                       id: EXPORT_MODAL_ID)) do |d|
-    d.with_header(variant: :large)
-    d.with_body do
-      render partial: '/projects/project_export_modal'
-    end
-  end %>
-
   <%= render(Projects::ConfigureViewModalComponent.new(query:)) %>
   <%= render(Projects::DeleteListModalComponent.new(query:)) if query.persisted? %>
+  <%= render(Projects::ExportListModalComponent.new(query:)) %>
 <% end %>
