@@ -47,31 +47,30 @@ Optional ENV variables:
 
 Available arguments for this rake task that specify the email behavior are
 
-|key | description|
-|----|------------|
-| `host` | address of the email server |
-| `username` | the name of the user that is used to connect to the email server|
-| `password` | the password of the user|
-| `port` | the port that is used to connect to the email server|
-| `ssl` | specifies if SSL should be used when connecting to the email server|
-| `folder` | the folder to fetch emails from (default: INBOX)|
-| `move_on_success` | the folder emails that were successfully parsed are moved to (instead of deleted)|
-| `move_on_failure` | the folder emails that were ignored are moved to|
+|key |Docker ENV variable | description|
+|----|------------|------------|
+| `host` | `IMAP_HOST` | address of the email server |
+| `username` | `IMAP_USERNAME` | the name of the user that is used to connect to the email server|
+| `password` | `IMAP_PASSWORd` | the password of the user|
+| `port` | `IMAP_PORT` | the port that is used to connect to the email server|
+| `ssl` | `IMAP_SSL` and ``IMAP_SSL_VERIFICATION` | specifies if SSL should be used when connecting to the email server|
+| `folder` | `IMAP_FOLDER` | the folder to fetch emails from (default: INBOX)|
+| `move_on_success` | `IMAP_MOVE_ON_SUCCESS` | the folder emails that were successfully parsed are moved to (instead of deleted)|
+| `move_on_failure` | `IMAP_MOVE_ON_FAILURE` | the folder emails that were ignored are moved to|
 
 Available arguments that change how the work packages are handled:
 
-| key | description |
-|---|---|
-| `project` | identifier of the target project |
-| `tracker` | name of the target tracker |
-| `category` | name of the target category |
-| `priority` | name of the target priority |
-| `status` | name of the target status |
-| `version` | name of the target version |
-| `type` | name of the target type |
-| `priority` | name of the target priority |
-| `unknown_user` | ignore: email is ignored (default), accept: accept as anonymous user, create: create a user account |
-| `allow_override` | specifies which attributes may be overwritten though specified by previous options. Comma separated list |
+| key | Docker ENV variable | description |
+|---|---|---|
+| `project` | `IMAP_ATTR_PROJECT` | identifier of the target project |
+| `category` | `IMAP_ATTR_CATEGORY` | name of the target category |
+| `priority` | `IMAP_ATTR_PRIORITY` | name of the target priority |
+| `status` | `IMAP_ATTR_STATUS` | name of the target status |
+| `version` | `IMAP_ATTR_VERSION` | name of the target version |
+| `type` | `IMAP_ATTR_TYPE` | name of the target type |
+| `assigned_to` | `IMAP_ATTR_ASSIGNED_TO` | name of the assigned user |
+| `unknown_user` | `IMAP_UNKNOWN_USER` | ignore: email is ignored (default), accept: accept as anonymous user, create: create a user account |
+| `allow_override` | `IMAP_ALLOW_OVERRIDE` | specifies which attributes may be overwritten though specified by previous options. Comma separated list |
 
 **Gmail API**
 
@@ -85,15 +84,15 @@ In order to use the more secure Gmail API method, some extra initial setup in go
 7. Give the service account editor permissions and click "Done"
 8. Click on the new service account, go to the "Keys" tab, and add a new key.
 9. Save the JSON key file
-  ***Note: Do not give anyone access to this JSON file as it contains the private key to your service account!***
+    ***Note: Do not give anyone access to this JSON file as it contains the private key to your service account!***
 10. Go to https://admin.google.com
 11. Select Security > Access and Data Control > API Controls
 12. Go to "Domain-Wide Delegation"
 13. Add new API Client
 14. Open JSON key file and copy "client_id" number
 15. Enter `https://www.googleapis.com/auth/gmail.modify` into the scopes
-  ***Note: Modify permissions are necessary here to mark emails as read***
-  ***This is so the service account can access all accounts in your Domain***
+    ***Note: Modify permissions are necessary here to mark emails as read***
+    ***This is so the service account can access all accounts in your Domain***
 
 Available arguments for the Gmail API rake task that specify the email behavior are
 

@@ -52,7 +52,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
 
   it 'is registered under commands.one_drive.copy_template_folder',
      skip: 'Skipped while we decide on what to do with the copy project folder' do
-    expect(Storages::Peripherals::Registry.resolve('commands.one_drive.copy_template_folder')).to eq(described_class)
+    expect(Storages::Peripherals::Registry.resolve('one_drive.commands.copy_template_folder')).to eq(described_class)
   end
 
   it 'responds to .call' do
@@ -141,7 +141,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
 
   def create_base_folder
     Storages::Peripherals::Registry
-      .resolve('commands.one_drive.create_folder')
+      .resolve('one_drive.commands.create_folder')
       .call(storage:, folder_path: 'Test Template Folder')
       .result
   end
@@ -150,7 +150,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
     raise if source_path.nil?
 
     command = Storages::Peripherals::Registry
-      .resolve('commands.one_drive.create_folder').new(storage)
+      .resolve('one_drive.commands.create_folder').new(storage)
     command.call(folder_path: 'Empty Subfolder', parent_location: source_path)
 
     subfolder = command.call(folder_path: 'Subfolder with File', parent_location: source_path).result
@@ -158,7 +158,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
     token = OAuthClientToken.last
 
     upload_link = Storages::Peripherals::Registry
-      .resolve('queries.one_drive.upload_link')
+      .resolve('one_drive.queries.upload_link')
       .call(storage:, user: token.user, data: { 'parent' => subfolder.id, 'file_name' => file_name })
       .result
 
@@ -174,7 +174,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
 
   def delete_template_folder
     Storages::Peripherals::Registry
-      .resolve('commands.one_drive.delete_folder')
+      .resolve('one_drive.commands.delete_folder')
       .call(storage:, location: base_template_folder.id)
   end
 
@@ -192,7 +192,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
 
   def delete_copied_folder(location)
     Storages::Peripherals::Registry
-      .resolve('commands.one_drive.delete_folder')
+      .resolve('one_drive.commands.delete_folder')
       .call(storage:, location:)
   end
 end

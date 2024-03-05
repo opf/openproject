@@ -134,10 +134,10 @@ zh-TW:
   permission_view_own_time_entries: "查看自己的耗時"
   project_module_costs: "時間與費用"
   text_assign_time_and_cost_entries_to_project: "將已回報的小時數和成本提交到專案中"
-  text_destroy_cost_entries_question: "您要刪除的工作包已經回報了 %{cost_entries}。您想如何進行？"
+  text_destroy_cost_entries_question: "您要刪除的工作項目已經回報了 %{cost_entries}。您想如何進行？"
   text_destroy_time_and_cost_entries: "刪除已回報的小時數和成本"
-  text_destroy_time_and_cost_entries_question: "您要刪除的工作包已回報了 %{hours} 小時的工作量、%{cost_entries} 的成本。您想如何進行？"
-  text_reassign_time_and_cost_entries: "將已回報的小時數和成本重新提交到工作包中："
+  text_destroy_time_and_cost_entries_question: "您要刪除的工作項目已回報了 %{hours} 小時的工作量、%{cost_entries} 的成本。您想如何進行？"
+  text_reassign_time_and_cost_entries: "將已回報的小時數和成本重新提交到工作項目中："
   text_warning_hidden_elements: "一些條目可能已排除在聚合之外。"
   week: "週"
   js:

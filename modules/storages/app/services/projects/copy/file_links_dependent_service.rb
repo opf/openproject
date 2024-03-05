@@ -115,7 +115,7 @@ module Projects::Copy
 
     def files_info_query(storage:, file_ids:)
       Storages::Peripherals::Registry
-        .resolve("queries.#{storage.short_provider_type}.files_info")
+        .resolve("#{storage.short_provider_type}.queries.files_info")
         .call(storage:, user: User.current, file_ids:)
         .on_failure { |r| add_error!("files_info_query", r.to_active_model_errors) }
         .result
@@ -123,7 +123,7 @@ module Projects::Copy
 
     def folder_files_file_ids_deep_query(storage:, location:)
       Storages::Peripherals::Registry
-        .resolve("queries.#{storage.short_provider_type}.folder_files_file_ids_deep_query")
+        .resolve("#{storage.short_provider_type}.queries.folder_files_file_ids_deep_query")
         .call(storage:, folder: Storages::Peripherals::ParentFolder.new(location))
         .on_failure { |r| add_error!("folder_files_file_ids_deep_query", r.to_active_model_errors) }
         .result

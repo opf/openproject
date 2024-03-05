@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    restart: no
+    volumes:
+      - gitlab-etc:/etc/gitlab
+      - gitlab-logs:/var/log/gitlab
+      - gitlab-opt:/var/opt/gitlab
+      # Linux
+      - /etc/ssl/certs:/etc/ssl/certs:ro
+      - /usr/local/share/ca-certificates:/usr/local/share/ca-certificates:ro
+      # In case of MacOS, you need to mount the certs from the host machine
+      # having them previously bundled via `sudo update-ca-certificates`
+      #
+      # - ~/.step/certs:/etc/ssl/certs
+      # - ~/.step/certs:/usr/local/share/ca-certificates
+    networks:
+      - external
+    extra_hosts:
+      - "openproject.local:host-gateway"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.gitlab.rule=Host(`gitlab.local`)"
+      - "traefik.http.routers.gitlab.entrypoints=websecure"
+      - "traefik.http.services.gitlab.loadbalancer.server.port=80"
+
+volumes:
+  gitlab-etc:
+  gitlab-logs:
+  gitlab-opt:
+
+networks:
+  external:
+    name: gateway
+    external: true

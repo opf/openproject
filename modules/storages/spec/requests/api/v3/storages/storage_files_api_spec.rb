@@ -105,7 +105,7 @@ RSpec.describe 'API v3 storage files', :webmock, content_type: :json do
     context 'with successful response' do
       before do
         Storages::Peripherals::Registry.stub(
-          'queries.nextcloud.files',
+          'nextcloud.queries.files',
           ->(_) { ServiceResult.success(result: response) }
         )
       end
@@ -128,7 +128,7 @@ RSpec.describe 'API v3 storage files', :webmock, content_type: :json do
     context 'with query failed' do
       before do
         Storages::Peripherals::Registry.stub(
-          'queries.nextcloud.files',
+          'nextcloud.queries.files',
           ->(_) { ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)) }
         )
       end
@@ -186,7 +186,7 @@ RSpec.describe 'API v3 storage files', :webmock, content_type: :json do
 
       before do
         files_info_query = ->(_) { ServiceResult.success(result: response) }
-        Storages::Peripherals::Registry.stub('queries.nextcloud.file_info', files_info_query)
+        Storages::Peripherals::Registry.stub('nextcloud.queries.file_info', files_info_query)
       end
 
       subject { last_response.body }
@@ -259,7 +259,7 @@ RSpec.describe 'API v3 storage files', :webmock, content_type: :json do
     describe 'with successful response' do
       before do
         Storages::Peripherals::Registry.stub(
-          'queries.nextcloud.upload_link',
+          'nextcloud.queries.upload_link',
           ->(_) { ServiceResult.success(result: upload_link) }
         )
       end
@@ -280,7 +280,7 @@ RSpec.describe 'API v3 storage files', :webmock, content_type: :json do
     context 'with query failed' do
       before do
         Storages::Peripherals::Registry.stub(
-          'queries.nextcloud.upload_link',
+          'nextcloud.queries.upload_link',
           ->(_) { ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)) }
         )
       end

@@ -258,7 +258,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   # The `created_at` column is not present in the `work_package_journals` table.
   #
   def add_join_on_journables_table_with_created_at_column(relation)
-    relation \
+    relation
         .joins("INNER JOIN (SELECT id, created_at " \
                "FROM \"#{model.table_name}\") AS journables " \
                "ON \"journables\".\"id\" = \"journals\".\"journable_id\"")
@@ -319,7 +319,7 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
       "journals.updated_at as updated_at",
       "CASE #{timestamp_case_when_statements} END as timestamp",
       "journals.id as journal_id"
-    ] + \
+    ] +
     model.column_names_missing_in_journal.collect do |missing_column_name|
       "null as #{missing_column_name}"
     end

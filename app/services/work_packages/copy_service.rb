@@ -107,9 +107,9 @@ class WorkPackages::CopyService
   def copy_work_package_attachments(copy)
     copy_attachments(
       'WorkPackage',
-       from: work_package,
-       to: copy,
-       references: %i[description]
-     )
+      from: work_package,
+      to: copy,
+      references: %i[description]
+    )
   end
 end

@@ -36,7 +36,7 @@ module Pages::StructuredMeeting
       expect(page).to have_no_css('[id^="meeting-agenda-items-item-component"]')
     end
 
-    def add_agenda_item(type: MeetingAgendaItem, &)
+    def add_agenda_item(type: MeetingAgendaItem, save: true, &)
       page.within("#meeting-agenda-items-new-button-component") do
         click_button I18n.t(:button_add)
         click_link type.model_name.human
@@ -44,7 +44,7 @@ module Pages::StructuredMeeting
 
       in_agenda_form do
         yield
-        click_button 'Save'
+        click_button('Save') if save
       end
     end
 
