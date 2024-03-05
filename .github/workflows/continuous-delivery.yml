@@ -4,6 +4,7 @@ on:
     branches:
       - dev
       - release/*
+      - stable/*
 permissions:
   contents: read
 
