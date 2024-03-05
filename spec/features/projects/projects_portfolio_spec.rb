@@ -30,6 +30,8 @@ require 'spec_helper'
 
 RSpec.describe 'Projects index page', :js, :with_cuprite,
                with_ee: %i[custom_fields_in_projects_list], with_settings: { login_required?: false } do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
+
   shared_let(:admin) { create(:admin) }
 
   let(:modal) { Components::WorkPackages::TableConfigurationModal.new }
@@ -83,22 +85,15 @@ RSpec.describe 'Projects index page', :js, :with_cuprite,
     it 'can manage and browse the project portfolio Gantt' do
       visit admin_settings_projects_path
 
-      # It has checked all selected settings
-      Setting.enabled_projects_columns.each do |name|
-        expect(page).to have_css(%(input[value="#{name}"]:checked))
+      page.all('.op-draggable-autocomplete--item', text: /^(?!Name).*$/).each do |item| # rubocop:disable Rails/FindEach
+        item.find('.op-draggable-autocomplete--remove-item').click
       end
 
-      # Uncheck all selected columns
-      page.all('.form--matrix input[type="checkbox"]').each do |el|
-        el.uncheck if el.checked?
+      ['Status', string_cf.name].each do |column|
+        select_autocomplete find('.op-draggable-autocomplete--input'),
+                            results_selector: '.ng-dropdown-panel-items',
+                            query: column
       end
-
-      # Check the status and custom field only
-      find('input[value="project_status"]').check
-      find(%(input[value="#{string_cf.column_name}"])).check
-
-      expect(page).to have_css('input[value="project_status"]:checked')
-      expect(page).to have_css(%(input[value="#{string_cf.column_name}"]:checked))
 
       # Edit the project gantt query
       scroll_to_and_click(find('button', text: 'Edit query'))

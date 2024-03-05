@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,18 +24,33 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module ::Bim::Queries::WorkPackages::Columns
-  class BcfThumbnailColumn < Queries::WorkPackages::Columns::WorkPackageColumn
-    def caption
-      I18n.t('attributes.bcf_thumbnail')
-    end
+module Queries
+  module Selects
+    module AvailableSelects
+      def select_for(key)
+        (find_available_select(key) || ::Queries::Selects::NotExistingSelect).new(key.to_sym)
+      end
 
-    def self.instances(_context = nil)
-      return [] unless OpenProject::Configuration.bim?
+      def available_selects
+        registered_and_available
+          .flat_map(&:all_available)
+      end
 
-      [new(:bcf_thumbnail, { summable: false, groupable: false, sortable: false })]
+      private
+
+      def find_available_select(key)
+        registered_and_available.detect do |s|
+          s.key === key.to_sym
+        end
+      end
+
+      def registered_and_available
+        ::Queries::Register
+          .selects[self.class]
+          .select(&:available?)
+      end
     end
   end
 end

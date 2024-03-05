@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,19 +24,22 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class Queries::WorkPackages::Columns::ManualSortingColumn < Queries::WorkPackages::Columns::WorkPackageColumn
-  include ::Queries::WorkPackages::Common::ManualSorting
-
-  def initialize
-    super(:manual_sorting,
-          default_order: 'asc',
-          displayable: false,
-          sortable: "#{OrderedWorkPackage.table_name}.position NULLS LAST, #{WorkPackage.table_name}.id")
-  end
-
-  def sortable_join_statement(query)
-    ordered_work_packages_join(query)
+module OpenProject
+  module Common
+    # @hidden
+    class DialogPreview < Lookbook::Preview
+      # @param button_text
+      # @param dialog_title
+      # @param dialog_id
+      # @param form_id
+      def form(button_text: 'Show form dialog',
+               dialog_title: 'Dialog title',
+               dialog_id: 'dialog-id',
+               form_id: 'form-id')
+        render_with_template(locals: { button_text:, dialog_title:, dialog_id:, form_id: })
+      end
+    end
   end
 end

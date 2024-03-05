@@ -1,6 +1,8 @@
-#-- copyright
+# frozen_string_literal: true
+
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,31 +26,18 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackages::Columns::RelationColumn
-  def initialize(type)
-    self.type = type
-    super(name)
-  end
+class Projects::ConfigureViewModalComponent < ApplicationComponent
+  MODAL_ID = 'op-project-list-configure-dialog'
+  COLUMN_FORM_ID = 'op-project-list-configure-columns-form'
+  COLUMN_HTML_NAME = 'columns'
 
-  def name
-    :"relations_of_type_#{type[:sym]}"
-  end
+  options :query
 
-  def sym
-    type[:sym]
-  end
-  alias :relation_type :sym
-
-  def caption
-    I18n.t(:'activerecord.attributes.query.relations_of_type_column',
-           type: I18n.t(type[:sym_name]).capitalize)
-  end
-
-  def self.instances(_context = nil)
-    return [] unless granted_by_enterprise_token
-
-    Relation::TYPES.map { |_key, type| new(type) }
+  def selected_columns
+    @selected_columns ||= query
+                            .selects
+                            .map { |c| { id: c.attribute, name: c.caption } }
   end
 end

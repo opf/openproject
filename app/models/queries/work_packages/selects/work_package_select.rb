@@ -26,7 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::Columns::Base
+class Queries::WorkPackages::Selects::WorkPackageSelect
+  attr_accessor :highlightable
+  alias_method :highlightable?, :highlightable
+
   attr_reader :groupable,
               :sortable,
               :displayable
@@ -41,29 +44,26 @@ class Queries::Columns::Base
               :summable_select,
               :summable_work_packages_select
 
-  def initialize(name, options = {})
-    self.name = name
+  def self.instances(_context = nil)
+    new
+  end
 
-    %i(sortable
-       sortable_join
-       displayable
-       groupable
-       summable
-       summable_select
-       summable_work_packages_select
-       association
-       null_handling
-       default_order).each do |attribute|
-      send(:"#{attribute}=", options[attribute])
+  def self.scoped_column_sum(scope, select, group_by)
+    scope = scope
+              .except(:order, :select)
+
+    if group_by
+      scope
+        .group(group_by)
+        .select("#{group_by} id", select)
+    else
+      scope
+        .select(select)
     end
   end
 
   def sortable_join_statement(_query)
     sortable_join
-  end
-
-  def caption
-    raise NotImplementedError
   end
 
   def null_handling(_asc)
@@ -120,8 +120,27 @@ class Queries::Columns::Base
     model.send name
   end
 
-  def self.instances(_context = nil)
-    new
+  def initialize(name, options = {})
+    self.name = name
+
+    %i(sortable
+       sortable_join
+       displayable
+       groupable
+       summable
+       summable_select
+       summable_work_packages_select
+       association
+       null_handling
+       default_order).each do |attribute|
+      send(:"#{attribute}=", options[attribute])
+    end
+
+    self.highlightable = !!options.fetch(:highlightable, false)
+  end
+
+  def caption
+    WorkPackage.human_attribute_name(name)
   end
 
   protected

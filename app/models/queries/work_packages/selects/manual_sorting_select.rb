@@ -26,12 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Columns::RelationColumn < Queries::WorkPackages::Columns::WorkPackageColumn
-  attr_accessor :type
+class Queries::WorkPackages::Selects::ManualSortingSelect < Queries::WorkPackages::Selects::WorkPackageSelect
+  include ::Queries::WorkPackages::Common::ManualSorting
 
-  def self.granted_by_enterprise_token
-    EnterpriseToken.allows_to?(:work_package_query_relation_columns)
+  def initialize
+    super(:manual_sorting,
+          default_order: 'asc',
+          displayable: false,
+          sortable: "#{OrderedWorkPackage.table_name}.position NULLS LAST, #{WorkPackage.table_name}.id")
   end
 
-  private_class_method :granted_by_enterprise_token
+  def sortable_join_statement(query)
+    ordered_work_packages_join(query)
+  end
 end

@@ -43,17 +43,17 @@ module Projects
     end
 
     def column_value(column)
-      if column.to_s.start_with? 'cf_'
+      if custom_field_column?(column)
         custom_field_column(column)
       else
-        super
+        send(column.attribute)
       end
     end
 
     def custom_field_column(column)
       return nil unless user_can_view_project?
 
-      cf = custom_field(column)
+      cf = column.custom_field
       custom_value = project.formatted_custom_value_for(cf)
 
       if cf.field_format == 'text' && custom_value.present?
@@ -159,28 +159,106 @@ module Projects
     end
 
     def column_css_class(column)
-      "#{super} #{additional_css_class(column)}"
-    end
-
-    def custom_field(name)
-      table.project_custom_fields.fetch(name)
+      "#{column.attribute} #{additional_css_class(column)}"
     end
 
     def additional_css_class(column)
-      case column
-      when :name
+      if column.attribute == :name
         "project--hierarchy #{project.archived? ? 'archived' : ''}"
-      when :status_explanation, :description
+      elsif [:status_explanation, :description].include?(column.attribute)
         "project-long-text-container"
-      when /\Acf_/
-        cf = custom_field(column)
+      elsif custom_field_column?(column)
+        cf = column.custom_field
         formattable = cf.field_format == 'text' ? ' project-long-text-container' : ''
         "format-#{cf.field_format}#{formattable}"
       end
     end
 
+    def more_menu_items
+      @more_menu_items ||= [more_menu_subproject_item,
+                            more_menu_settings_item,
+                            more_menu_activity_item,
+                            more_menu_archive_item,
+                            more_menu_unarchive_item,
+                            more_menu_copy_item,
+                            more_menu_delete_item].compact
+    end
+
+    def more_menu_subproject_item
+      if User.current.allowed_in_project?(:add_subprojects, project)
+        [t(:label_subproject_new),
+         new_project_path(parent_id: project.id),
+         { class: 'icon-context icon-add',
+           title: t(:label_subproject_new) }]
+      end
+    end
+
+    def more_menu_settings_item
+      if User.current.allowed_in_project?({ controller: '/projects/settings/general', action: 'show', project_id: project.id },
+                                          project)
+        [t(:label_project_settings),
+         project_settings_general_path(project),
+         { class: 'icon-context icon-settings',
+           title: t(:label_project_settings) }]
+      end
+    end
+
+    def more_menu_activity_item
+      if User.current.allowed_in_project?(:view_project_activity, project)
+        [
+          t(:label_project_activity),
+          project_activity_index_path(project, event_types: ['project_attributes']),
+          { class: 'icon-context icon-checkmark',
+            title: t(:label_project_activity) }
+        ]
+      end
+    end
+
+    def more_menu_archive_item
+      if User.current.allowed_in_project?(:archive_project, project) && project.active?
+        [t(:button_archive),
+         project_archive_path(project, status: params[:status]),
+         { data: { confirm: t('project.archive.are_you_sure', name: project.name) },
+           method: :post,
+           class: 'icon-context icon-locked',
+           title: t(:button_archive) }]
+      end
+    end
+
+    def more_menu_unarchive_item
+      if User.current.admin? && project.archived? && (project.parent.nil? || project.parent.active?)
+        [t(:button_unarchive),
+         project_archive_path(project, status: params[:status]),
+         { method: :delete,
+           class: 'icon-context icon-unlocked',
+           title: t(:button_unarchive) }]
+      end
+    end
+
+    def more_menu_copy_item
+      if User.current.allowed_in_project?(:copy_projects, project) && !project.archived?
+        [t(:button_copy),
+         copy_project_path(project),
+         { class: 'icon-context icon-copy',
+           title: t(:button_copy) }]
+      end
+    end
+
+    def more_menu_delete_item
+      if User.current.admin
+        [t(:button_delete),
+         confirm_destroy_project_path(project),
+         { class: 'icon-context icon-delete',
+           title: t(:button_delete) }]
+      end
+    end
+
     def user_can_view_project?
       User.current.allowed_in_project?(:view_project, project)
+    end
+
+    def custom_field_column?(column)
+      column.is_a?(Queries::Projects::Selects::CustomField)
     end
   end
 end

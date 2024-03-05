@@ -27,7 +27,7 @@
 #++
 
 module Costs
-  class QueryCurrencyColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+  class QueryCurrencySelect < Queries::WorkPackages::Selects::WorkPackageSelect
     include ActionView::Helpers::NumberHelper
     alias :super_value :value
 
@@ -43,9 +43,9 @@ module Costs
       super_value work_package
     end
 
-    class_attribute :currency_columns
+    class_attribute :currenty_selects
 
-    self.currency_columns = {
+    self.currenty_selects = {
       budget: {},
       material_costs: {
         summable: ->(query, grouped) {
@@ -54,7 +54,7 @@ module Costs
                   .add_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
                   .except(:order, :select)
 
-          Queries::WorkPackages::Columns::WorkPackageColumn
+          Queries::WorkPackages::Selects::WorkPackageSelect
             .scoped_column_sum(scope,
                                "COALESCE(ROUND(SUM(cost_entries_sum), 2)::FLOAT, 0.0) material_costs",
                                grouped && query.group_by_statement)
@@ -67,7 +67,7 @@ module Costs
                   .add_to_work_package_collection(WorkPackage.where(id: query.results.work_packages))
                   .except(:order, :select)
 
-          Queries::WorkPackages::Columns::WorkPackageColumn
+          Queries::WorkPackages::Selects::WorkPackageSelect
             .scoped_column_sum(scope,
                                "COALESCE(ROUND(SUM(time_entries_sum), 2)::FLOAT, 0.0) labor_costs",
                                grouped && query.group_by_statement)
@@ -83,7 +83,7 @@ module Costs
     def self.instances(context = nil)
       return [] if context && !context.costs_enabled?
 
-      currency_columns.map do |name, options|
+      currenty_selects.map do |name, options|
         new(name, options)
       end
     end

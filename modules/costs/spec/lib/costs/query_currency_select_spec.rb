@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Costs::QueryCurrencyColumn, type: :model do
+RSpec.describe Costs::QueryCurrencySelect, type: :model do
   let(:project) do
     build_stubbed(:project).tap do |p|
       allow(p)

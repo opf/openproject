@@ -27,65 +27,76 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared_query_column_specs'
+require_relative 'shared_query_select_specs'
 
-RSpec.describe Queries::WorkPackages::Columns::CustomFieldColumn do
+RSpec.describe Queries::WorkPackages::Selects::RelationToTypeSelect do
   let(:project) { build_stubbed(:project) }
-  let(:custom_field) { build_stubbed(:string_wp_custom_field) }
-  let(:instance) { described_class.new(custom_field) }
+  let(:type) { build_stubbed(:type) }
+  let(:instance) { described_class.new(type) }
+  let(:enterprise_token_allows) { true }
 
-  it_behaves_like 'query column', sortable_by_default: true
+  it_behaves_like 'query column'
 
   describe 'instances' do
-    let(:text_custom_field) do
-      create(:text_wp_custom_field)
-    end
-
-    let(:list_custom_field) do
-      create(:list_wp_custom_field)
+    before do
+      allow(EnterpriseToken)
+        .to receive(:allows_to?)
+        .with(:work_package_query_relation_columns)
+        .and_return(enterprise_token_allows)
     end
 
     context 'within project' do
       before do
         allow(project)
-          .to receive(:all_work_package_custom_fields)
-          .and_return([text_custom_field,
-                       list_custom_field])
+          .to receive(:types)
+          .and_return([type])
       end
 
-      it 'contains only non text cf columns' do
-        expect(described_class.instances(project).length)
-          .to eq 1
+      context 'with a valid enterprise token' do
+        it 'contains the type columns' do
+          expect(described_class.instances(project).length)
+            .to eq 1
 
-        expect(described_class.instances(project)[0].custom_field)
-          .to eq list_custom_field
+          expect(described_class.instances(project)[0].type)
+            .to eq type
+        end
+      end
+
+      context 'without a valid enterprise token' do
+        let(:enterprise_token_allows) { false }
+
+        it 'is empty' do
+          expect(described_class.instances)
+            .to be_empty
+        end
       end
     end
 
     context 'global' do
       before do
-        allow(WorkPackageCustomField)
+        allow(Type)
           .to receive(:all)
-          .and_return([text_custom_field,
-                       list_custom_field])
+          .and_return([type])
       end
 
-      it 'contains only non text cf columns' do
-        expect(described_class.instances.length)
-          .to eq 1
+      context 'with a valid enterprise token' do
+        it 'contains the type columns' do
+          expect(described_class.instances.length)
+            .to eq 1
 
-        expect(described_class.instances[0].custom_field)
-          .to eq list_custom_field
+          expect(described_class.instances[0].type)
+            .to eq type
+        end
       end
-    end
-  end
 
-  describe '#value' do
-    let(:mock) { instance_double(WorkPackage) }
+      context 'without a valid enterprise token' do
+        let(:enterprise_token_allows) { false }
 
-    it 'delegates to formatted_custom_value_for' do
-      expect(mock).to receive(:formatted_custom_value_for).with(custom_field.id)
-      instance.value(mock)
+        it 'is empty' do
+          expect(described_class.instances)
+            .to be_empty
+        end
+      end
     end
   end
 end

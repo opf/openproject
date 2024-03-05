@@ -1,6 +1,6 @@
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2024 the OpenProject GmbH
+# Copyright (C) 2010-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,32 +24,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-class Queries::WorkPackages::Columns::WorkPackageColumn < Queries::Columns::Base
-  attr_accessor :highlightable
-  alias_method :highlightable?, :highlightable
+class Queries::Projects::Selects::Default < Queries::Selects::Base
+  KEYS = %i[status_explanation hierarchy name public description].freeze
 
-  def initialize(name, options = {})
-    super(name, options)
-    self.highlightable = !!options.fetch(:highlightable, false)
+  def self.key
+    Regexp.new(KEYS.join('|'))
   end
 
-  def caption
-    WorkPackage.human_attribute_name(name)
-  end
-
-  def self.scoped_column_sum(scope, select, group_by)
-    scope = scope
-              .except(:order, :select)
-
-    if group_by
-      scope
-        .group(group_by)
-        .select("#{group_by} id", select)
-    else
-      scope
-        .select(select)
-    end
+  def self.all_available
+    KEYS.map { new(_1) }
   end
 end

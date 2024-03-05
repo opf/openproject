@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Selects::WorkPackageSelect
   def caption
     WorkPackage.human_attribute_name(name)
   end
 
-  class_attribute :property_columns
+  class_attribute :property_selects
 
-  self.property_columns = {
+  self.property_selects = {
     id: {
       sortable: "#{WorkPackage.table_name}.id",
       groupable: false
@@ -141,7 +141,7 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
   }
 
   def self.instances(_context = nil)
-    property_columns.filter_map do |name, options|
+    property_selects.filter_map do |name, options|
       next unless !options[:if] || options[:if].call
 
       new(name, options.except(:if))

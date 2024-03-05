@@ -26,30 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Queries::WorkPackages::Columns::RelationToTypeColumn < Queries::WorkPackages::Columns::RelationColumn
-  def initialize(type)
-    super
+require 'spec_helper'
 
-    set_name! type
-    self.type = type
+RSpec.describe Queries::WorkPackages::Selects::WorkPackageSelect do
+  it "allows to be constructed with attribute highlightable" do
+    expect(described_class.new('foo', highlightable: true).highlightable?).to be(true)
   end
 
-  def set_name!(type)
-    self.name = :"relations_to_type_#{type.id}"
-  end
-
-  def caption
-    I18n.t(:'activerecord.attributes.query.relations_to_type_column',
-           type: type.name)
-  end
-
-  def self.instances(context = nil)
-    if !granted_by_enterprise_token
-      []
-    elsif context
-      context.types
-    else
-      Type.all
-    end.map { |type| new(type) }
+  it "allows to be constructed without attribute highlightable" do
+    expect(described_class.new('foo').highlightable?).to be(false)
   end
 end

@@ -26,28 +26,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs
-  class QueryBacklogsColumn < Queries::WorkPackages::Columns::WorkPackageColumn
-    class_attribute :backlogs_columns
+class Queries::Selects::Base
+  include ActiveModel::Validations
 
-    self.backlogs_columns = {
-      story_points: {
-        sortable: "#{WorkPackage.table_name}.story_points",
-        summable: true
-      },
-      position: {
-        default_order: 'asc',
-        # Sort by position only, always show work_packages without a position at the end
-        sortable: "CASE WHEN #{WorkPackage.table_name}.position IS NULL THEN 1 ELSE 0 END ASC, #{WorkPackage.table_name}.position"
-      }
-    }
+  def self.key
+    raise NotImplementedError
+  end
 
-    def self.instances(context = nil)
-      return [] if context && !context.backlogs_enabled?
+  def self.available?
+    true
+  end
 
-      backlogs_columns.map do |name, options|
-        new(name, options)
-      end
+  def self.all_available
+    if available?
+      [new(key)]
+    else
+      []
     end
+  end
+
+  def caption
+    model = self.class.name.split('::')[1].singularize.constantize
+    model.human_attribute_name(attribute)
+  end
+
+  attr_accessor :attribute
+
+  def initialize(attribute)
+    self.attribute = attribute
   end
 end
