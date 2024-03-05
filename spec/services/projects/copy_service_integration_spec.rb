@@ -102,8 +102,6 @@ RSpec.describe(
           boards
           overview
           storages
-          storage_project_folders
-          file_links
         )
       )
     end
@@ -234,45 +232,6 @@ RSpec.describe(
       let(:storage1) { source_automatic_project_storage.storage }
       let(:storage2) { source_manual_project_storage.storage }
       # rubocop:enable RSpec/IndexedLet
-      let(:host) { storage1.host }
-      let!(:file_outside_project_folder_link) do
-        create(:file_link,
-               origin_id: "100",
-               origin_name: "file_name1.txt",
-               container: source_wp,
-               storage: storage1)
-      end
-      let!(:file_inside_automatic_project_folder_link) do
-        create(:file_link,
-               origin_id: "101",
-               origin_name: "file_name2.txt",
-               container: source_wp,
-               storage: storage1)
-      end
-      let!(:folder_inside_automatic_project_folder_link) do
-        create(:file_link,
-               origin_id: "103",
-               origin_name: "This is a folder",
-               container: source_wp,
-               storage: storage1)
-      end
-      let!(:file_inside_manual_project_folder_link) do
-        create(:file_link,
-               origin_id: "102",
-               origin_name: "file_name3.txt",
-               container: source_wp,
-               storage: storage2)
-      end
-      let!(:oauth_client) do
-        create(:oauth_client,
-               client_id: "nwz34rWsolvJvchfQ1bVHXfMb1ETK89lCBgzrLhWx3ACW5nKfmdcyf5ftlCyKGbk",
-               client_secret: "A08n6CRBOOr41iqkWRynnP6BbmEnau7LeP9t9xrIbiYX46iXgmIZgqhJoDFjUMEq",
-               integration: storage1)
-      end
-      let!(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
-      let(:destination_url) { %r{#{host}/remote.php/dav/files/OpenProject/OpenProject/Target%20Project%20Name%20} }
-      let(:source_url) { %r{#{host}/remote.php/dav/files/OpenProject/OpenProject/Source%20Project%20Name%20} }
-      let(:new_project_folder_id) { "819" }
 
       shared_let(:source_automatic_project_storage) do
         storage = create(:nextcloud_storage)
@@ -282,161 +241,6 @@ RSpec.describe(
       shared_let(:source_manual_project_storage) do
         storage = create(:nextcloud_storage)
         create(:project_storage, storage:, project: source, project_folder_id: '345', project_folder_mode: 'manual')
-      end
-
-      before do
-        stub_request(:head, destination_url).to_return(status: 404)
-        stub_request(:copy, source_url).to_return(status: 201)
-        stub_request(:propfind, destination_url).with(headers: { 'Depth' => '1' }).to_return do |_request|
-          project_id = Project.where(name: "Target Project Name").pick(:id)
-          body = <<~XML
-            <?xml version="1.0"?>
-            <d:multistatus
-              xmlns:d="DAV:"
-              xmlns:s="http://sabredav.org/ns"
-              xmlns:oc="http://owncloud.org/ns"
-              xmlns:nc="http://nextcloud.org/ns">
-              <d:response>
-                <d:href>/remote.php/dav/files/OpenProject/OpenProject/Target%20Project%20Name%20(#{project_id})/</d:href>
-                <d:propstat>
-                  <d:prop>
-                    <oc:fileid>#{new_project_folder_id}</oc:fileid>
-                  </d:prop>
-                  <d:status>HTTP/1.1 200 OK</d:status>
-                </d:propstat>
-              </d:response>
-            </d:multistatus>
-          XML
-          { status: 200, body:, headers: {} }
-        end
-        stub_request(:propfind, destination_url).with(headers: { 'Depth' => 'infinity' }).to_return do |_request|
-          project_id = Project.where(name: "Target Project Name").pick(:id)
-          body = <<~XML
-            <?xml version="1.0"?>
-            <d:multistatus
-              xmlns:d="DAV:"
-              xmlns:s="http://sabredav.org/ns"
-              xmlns:oc="http://owncloud.org/ns"
-              xmlns:nc="http://nextcloud.org/ns">
-              <d:response>
-                <d:href>/remote.php/dav/files/OpenProject/OpenProject/Target%20Project%20Name%20(#{project_id})/</d:href>
-                <d:propstat>
-                  <d:prop>
-                    <oc:fileid>#{new_project_folder_id}</oc:fileid>
-                  </d:prop>
-                  <d:status>HTTP/1.1 200 OK</d:status>
-                </d:propstat>
-                <d:propstat>
-                  <d:prop>
-                    <nc:acl-list/>
-                  </d:prop>
-                  <d:status>HTTP/1.1 404 Not Found</d:status>
-                </d:propstat>
-              </d:response>
-              <d:response>
-                <d:href>/remote.php/dav/files/OpenProject/OpenProject/Target%20Project%20Name%20(#{project_id})/#{file_inside_automatic_project_folder_link.origin_name}</d:href>
-                <d:propstat>
-                  <d:prop>
-                    <oc:fileid>430</oc:fileid>
-                  </d:prop>
-                  <d:status>HTTP/1.1 200 OK</d:status>
-                </d:propstat>
-                <d:propstat>
-                  <d:prop>
-                    <nc:acl-list/>
-                  </d:prop>
-                  <d:status>HTTP/1.1 404 Not Found</d:status>
-                </d:propstat>
-              </d:response>
-              <d:response>
-                <d:href>/remote.php/dav/files/OpenProject/OpenProject/Target%20Project%20Name%20(#{project_id})/#{folder_inside_automatic_project_folder_link.origin_name}/</d:href>
-                <d:propstat>
-                  <d:prop>
-                    <oc:fileid>431</oc:fileid>
-                  </d:prop>
-                  <d:status>HTTP/1.1 200 OK</d:status>
-                </d:propstat>
-                <d:propstat>
-                  <d:prop>
-                    <nc:acl-list/>
-                  </d:prop>
-                  <d:status>HTTP/1.1 404 Not Found</d:status>
-                </d:propstat>
-              </d:response>
-            </d:multistatus>
-          XML
-          { status: 200, body:, headers: {} }
-        end
-
-        filesinfo_response_body = <<~JSON
-          {
-            "ocs": {
-              "meta": {
-                "status": "ok",
-                "statuscode": 100,
-                "message": "OK",
-                "totalitems": "",
-                "itemsperpage": ""
-              },
-              "data": {
-                "#{file_outside_project_folder_link.origin_id}": {
-                  "status": "OK",
-                  "statuscode": 200,
-                  "id": #{file_outside_project_folder_link.origin_id},
-                  "name": "#{file_outside_project_folder_link.origin_name}",
-                  "mtime": 1688632254,
-                  "ctime": 0,
-                  "mimetype": "application\\/pdf",
-                  "size": 15181180,
-                  "owner_name": "admin",
-                  "owner_id": "admin",
-                  "trashed": false,
-                  "modifier_name": "admin",
-                  "modifier_id": "admin",
-                  "dav_permissions": "RGDNVW",
-                  "path": "files\\/#{file_outside_project_folder_link.origin_name}"
-                },
-                "#{file_inside_automatic_project_folder_link.origin_id}": {
-                  "status": "OK",
-                  "statuscode": 200,
-                  "id": #{file_inside_automatic_project_folder_link.origin_id},
-                  "name": "#{file_inside_automatic_project_folder_link.origin_name}",
-                  "mtime": 1689687843,
-                  "ctime": 0,
-                  "mimetype": "image\\/jpeg",
-                  "size": 94064,
-                  "owner_name": "admin",
-                  "owner_id": "admin",
-                  "trashed": false,
-                  "modifier_name": null,
-                  "modifier_id": null,
-                  "dav_permissions": "RMGDNVW",
-                  "path": "files\\/OpenProject\\/Source Project Name (#{source.id})\\/#{file_inside_automatic_project_folder_link.origin_name}"
-                },
-                "#{folder_inside_automatic_project_folder_link.origin_id}": {
-                  "status": "OK",
-                  "statuscode": 200,
-                  "id": #{folder_inside_automatic_project_folder_link.origin_id},
-                  "name": "#{folder_inside_automatic_project_folder_link.origin_name}",
-                  "mtime": 1689687111,
-                  "ctime": 0,
-                  "mimetype": "application\\/x-op-directory",
-                  "size": 0,
-                  "owner_name": "admin",
-                  "owner_id": "admin",
-                  "trashed": false,
-                  "modifier_name": null,
-                  "modifier_id": null,
-                  "dav_permissions": "RMGDNVCK",
-                  "path": "files\\/OpenProject\\/Source Project Name (#{source.id})\\/#{folder_inside_automatic_project_folder_link.origin_name}"
-                }
-              }
-            }
-          }
-        JSON
-        stub_request(:post, "#{host}/ocs/v1.php/apps/integration_openproject/filesinfo")
-          .with(body: '{"fileIds":["100","101","103"]}')
-          .to_return(status: 200, body: filesinfo_response_body, headers: { 'Content-Type' => 'application/json' })
       end
 
       # rubocop:disable RSpec/ExampleLength
@@ -483,36 +287,17 @@ RSpec.describe(
         expect(automatic_project_storage_copy.id).not_to eq(source_automatic_project_storage.id)
         expect(automatic_project_storage_copy.project_id).to eq(project_copy.id)
         expect(automatic_project_storage_copy.creator_id).to eq(current_user.id)
-        expect(automatic_project_storage_copy.project_folder_id).to eq("819")
-        expect(automatic_project_storage_copy.project_folder_mode).to eq('automatic')
+        expect(automatic_project_storage_copy.project_folder_id).to be_nil
+        expect(automatic_project_storage_copy.project_folder_mode).to eq('inactive')
 
         manual_project_storage_copy = project_copy.project_storages.find_by(storage: storage2)
         expect(manual_project_storage_copy.id).not_to eq(source_manual_project_storage.id)
         expect(manual_project_storage_copy.project_id).to eq(project_copy.id)
         expect(manual_project_storage_copy.creator_id).to eq(current_user.id)
-        expect(manual_project_storage_copy.project_folder_id).to eq("345")
-        expect(manual_project_storage_copy.project_folder_mode).to eq('manual')
+        expect(manual_project_storage_copy.project_folder_id).to be_nil
+        expect(manual_project_storage_copy.project_folder_mode).to eq('inactive')
 
-        wp_copy = project_copy.work_packages.where(subject: "source wp").first
-        expect(wp_copy.file_links.count).to eq(4)
-        file_outside_project_folder_link_copy = wp_copy.file_links.find_by(origin_name: "file_name1.txt")
-        file_inside_automatic_project_folder_link_copy = wp_copy.file_links.find_by(origin_name: "file_name2.txt")
-        file_inside_manual_project_folder_link_copy = wp_copy.file_links.find_by(origin_name: "file_name3.txt")
-        folder_inside_automatic_project_folder_link_copy = wp_copy.file_links.find_by(origin_name: "This is a folder")
-        expect(file_outside_project_folder_link_copy.id).not_to eq(file_outside_project_folder_link.id)
-        expect(file_outside_project_folder_link_copy.origin_id).to eq(file_outside_project_folder_link.origin_id)
-        expect(file_outside_project_folder_link_copy.storage_id).to eq(file_outside_project_folder_link.storage_id)
-        expect(file_inside_automatic_project_folder_link_copy.id).not_to eq(file_inside_automatic_project_folder_link.id)
-        expect(file_inside_automatic_project_folder_link_copy.origin_id).to eq("430")
-        expect(file_inside_automatic_project_folder_link_copy.storage_id)
-          .to eq(file_inside_automatic_project_folder_link.storage_id)
-        expect(folder_inside_automatic_project_folder_link_copy.id).not_to eq(folder_inside_automatic_project_folder_link.id)
-        expect(folder_inside_automatic_project_folder_link_copy.origin_id).to eq("431")
-        expect(folder_inside_automatic_project_folder_link_copy.storage_id)
-          .to eq(folder_inside_automatic_project_folder_link.storage_id)
-        expect(file_inside_manual_project_folder_link_copy.id).not_to eq(file_inside_manual_project_folder_link.id)
-        expect(file_inside_manual_project_folder_link_copy.origin_id).to eq("102")
-        expect(file_inside_manual_project_folder_link_copy.storage_id).to eq(file_inside_manual_project_folder_link.storage_id)
+        expect(Storages::CopyProjectFoldersJob).to have_been_enqueued.exactly(2).times
       end
       # rubocop:enable RSpec/ExampleLength
       # rubocop:enable RSpec/MultipleExpectations
