@@ -1,0 +1,21 @@
+As of now, this page is still a stub. In particular, the considerations on when and where to apply Dialogs are still missing.
+
+For now, it can be stated that OpenProject employs Dialogs for more purposes than GitHub Primer specifies.
+
+## Form dialogs
+
+Within the OpenProject application, forms are oftentimes rendered within a dialog. It is used e.g. for
+the creation of new models or for the modification of existing ones.
+
+Form dialogs consist of a header, a body where the form is rendered in and a footer with the buttons to submit
+or cancel the action.
+
+The primer specification [suggests a pattern](/lookbook/inspect/primer/alpha/dialog/with_form) for rendering such dialogs.
+It consists of a form spanning both the body as well as the footer of the dialog. This has the drawback of the footer
+potentially being rendered outside of the dialog. That behaviour is undesirable. Primer defines to cope with longer
+content by scrolling the body.
+
+In order for this to happen, the form should only be rendered inside the body. The submit button can be logically put inside
+the form via the `form` attribute.
+
+<%= embed OpenProject::Common::DialogPreview, :form %>
