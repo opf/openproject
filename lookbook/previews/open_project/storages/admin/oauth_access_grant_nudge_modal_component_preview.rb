@@ -1,6 +1,6 @@
-module Storages
+module OpenProject::Storages
   module Admin
-    # @logical_path Storages/Admin
+    # @hidden
     class OAuthAccessGrantNudgeModalComponentPreview < Lookbook::Preview
       # Renders a oauth access grant nudge modal component
       # @param authorized toggle Denotes whether access has been granted and renders a success state
