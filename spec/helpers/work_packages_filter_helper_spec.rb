@@ -90,6 +90,30 @@ RSpec.describe WorkPackagesFilterHelper do
     end
   end
 
+  describe '#project_work_packages_shared_with_path' do
+    it_behaves_like 'work package path with query_props' do
+      let(:principal) { build_stubbed(:user) }
+
+      let(:expected_json) do
+        {
+          f: [
+            {
+              n: 'status',
+              o: '*'
+            },
+            {
+              n: 'sharedWithUser',
+              o: '=',
+              v: principal.id.to_s
+            }
+          ]
+        }
+      end
+
+      let(:path) { helper.project_work_packages_shared_with_path(principal, project) }
+    end
+  end
+
   context 'project reports path helpers' do
     let(:property_name) { 'priority' }
     let(:property_id) { 5 }
