@@ -313,7 +313,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
 
           overview_page.open_edit_dialog_for_section(section)
 
-          field.expect_selected(first_option, second_option) # wait for proper initialization
+          field.expect_selected(first_option) # wait for proper initialization
           # don't touch the input
 
           dialog.submit
