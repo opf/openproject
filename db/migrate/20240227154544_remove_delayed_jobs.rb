@@ -28,6 +28,35 @@
 
 class RemoveDelayedJobs < ActiveRecord::Migration[7.1]
   def change
+    reversible do |direction|
+      direction.up do
+        tuples = execute <<~SQL
+          select * from delayed_jobs
+          where locked_by is null -- not in progress
+          and handler NOT LIKE '%job_class: Storages::ManageNextcloudIntegrationEventsJob%' -- no need to migrate. It will be run later with cron.
+          and cron is null; -- not cron scheduled
+        SQL
+        tuples.each do |tuple|
+          job_data = YAML.load(tuple['handler'],
+                               permitted_classes: [ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper])
+                      .job_data
+          new_uuid = SecureRandom.uuid
+          good_job_record = GoodJob::BaseExecution.new
+          good_job_record.id = new_uuid
+          good_job_record.serialized_params = job_data
+          good_job_record.serialized_params['job_id'] = new_uuid
+          good_job_record.queue_name = job_data['queue_name']
+          good_job_record.priority = job_data['priority']
+          good_job_record.scheduled_at = job_data['scheduled_at']
+          good_job_record.active_job_id = new_uuid
+          good_job_record.concurrency_key = nil
+          good_job_record.job_class = job_data['job_class']
+          good_job_record.save!
+        end
+      end
+      direction.down {}
+    end
+
     drop_table :delayed_jobs do |t|
       t.integer :priority, default: 0   # Allows some jobs to jump to the front of the queue
       t.integer :attempts, default: 0   # Provides for retries, but still fail eventually.

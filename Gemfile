@@ -124,7 +124,8 @@ gem 'multi_json', '~> 1.15.0'
 gem 'oj', '~> 3.16.0'
 
 gem 'daemons'
-gem 'good_job'
+gem 'delayed_job', require: false # only needed for ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper to be available in db/migrate/20240227154544_remove_delayed_jobs.rb
+gem 'good_job', '~> 3.26.1' # update should be done manually in sync with saas-openproject version.
 
 gem 'rack-protection', '~> 3.2.0'
 
