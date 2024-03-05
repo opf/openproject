@@ -27,19 +27,32 @@
 #++
 
 class RemoveDelayedJobs < ActiveRecord::Migration[7.1]
+  # it is needed, because ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper
+  # can not be used without required delayed_job
+  # See https://github.com/rails/rails/blob/6f0d1ad14b92b9f5906e44740fce8b4f1c7075dc/activejob/lib/active_job/queue_adapters/delayed_job_adapter.rb
+  class JobWrapperDeserializationMock
+    attr_accessor :job_data
+
+    def initialize(job_data)
+      @job_data = job_data
+    end
+  end
+
   def change
     reversible do |direction|
       direction.up do
         tuples = execute <<~SQL
           select * from delayed_jobs
-          where locked_by is null -- not in progress
-          and handler NOT LIKE '%job_class: Storages::ManageNextcloudIntegrationEventsJob%' -- no need to migrate. It will be run later with cron.
-          and cron is null; -- not cron scheduled
+            where locked_by is null -- not in progress
+            and handler NOT LIKE '%job_class: Storages::ManageNextcloudIntegrationEventsJob%' -- no need to migrate. It will be run later with cron.
+            and cron is null -- not cron schedule
+            FOR UPDATE; -- to prevent potentialy running delayed_job process working on these jobs(delayed_job uses SELECT FOR UPDATE to get workable jobs)
         SQL
         tuples.each do |tuple|
-          job_data = YAML.load(tuple['handler'],
-                               permitted_classes: [ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper])
-                      .job_data
+          handler = tuple['handler'].gsub('ruby/object:ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper',
+                                          "ruby/object:#{RemoveDelayedJobs::JobWrapperDeserializationMock.name}")
+          job_data = YAML.load(handler, permitted_classes: [RemoveDelayedJobs::JobWrapperDeserializationMock])
+                         .job_data
           new_uuid = SecureRandom.uuid
           good_job_record = GoodJob::BaseExecution.new
           good_job_record.id = new_uuid
@@ -58,14 +71,14 @@ class RemoveDelayedJobs < ActiveRecord::Migration[7.1]
     end
 
     drop_table :delayed_jobs do |t|
-      t.integer :priority, default: 0   # Allows some jobs to jump to the front of the queue
-      t.integer :attempts, default: 0   # Provides for retries, but still fail eventually.
-      t.text :handler                   # YAML-encoded string of the object that will do work
-      t.text :last_error                # reason for last failure (See Note below)
-      t.datetime :run_at                # When to run. Could be Time.zone.now for immediately, or sometime in the future.
-      t.datetime :locked_at             # Set when a client is working on this object
-      t.datetime :failed_at             # Set when all retries have failed (actually, by default, the record is deleted instead)
-      t.string :locked_by               # Who is working on this object (if locked)
+      t.integer :priority, default: 0
+      t.integer :attempts, default: 0
+      t.text :handler
+      t.text :last_error
+      t.datetime :run_at
+      t.datetime :locked_at
+      t.datetime :failed_at
+      t.string :locked_by
       t.timestamps null: true
       t.string :queue
       t.string :cron

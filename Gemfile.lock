@@ -445,8 +445,6 @@ GEM
     deckar01-task_list (2.3.4)
       html-pipeline (~> 2.0)
     declarative (0.0.20)
-    delayed_job (4.1.11)
-      activesupport (>= 3.0, < 8.0)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.5.1)
@@ -1162,7 +1160,6 @@ DEPENDENCIES
   date_validator (~> 0.12.0)
   debug
   deckar01-task_list (~> 2.3.1)
-  delayed_job
   disposable (~> 0.6.2)
   doorkeeper (~> 5.6.6)
   dotenv-rails
