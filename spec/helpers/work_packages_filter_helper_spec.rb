@@ -31,15 +31,10 @@ require 'spec_helper'
 RSpec.describe WorkPackagesFilterHelper do
   let(:project) { create(:project) }
   let(:version) { create(:version, project:) }
-  let(:global) { false }
 
   shared_examples_for 'work package path with query_props' do
     it 'is the expected path' do
-      path_regexp = if global
-                      Regexp.new("^#{work_packages_path}\\?query_props=(.*)")
-                    else
-                      Regexp.new("^#{project_work_packages_path(project.identifier)}\\?query_props=(.*)")
-                    end
+      path_regexp = Regexp.new("^#{project_work_packages_path(project.identifier)}\\?query_props=(.*)")
 
       expect(path)
         .to match path_regexp
