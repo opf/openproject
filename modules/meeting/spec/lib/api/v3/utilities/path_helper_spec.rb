@@ -1,5 +1,3 @@
-# frozen_string_literal:true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,11 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  module Peripherals
-    Contracts = Dry::Container::Namespace.new('contracts') do
-      register(:nextcloud, ::Storages::Storages::NextcloudContract)
-      register(:one_drive, ::Storages::Storages::OneDriveContract)
-    end
+require 'spec_helper'
+
+RSpec.describe API::V3::Utilities::PathHelper do
+  let(:helper) { Class.new.tap { |c| c.extend(described_class) }.api_v3_paths }
+
+  describe '#meeting' do
+    subject { helper.meeting 42 }
+
+    it { is_expected.to eql('/api/v3/meetings/42') }
+  end
+
+  describe '#attachments_by_meeting' do
+    subject { helper.attachments_by_meeting 42 }
+
+    it { is_expected.to eql('/api/v3/meetings/42/attachments') }
   end
 end

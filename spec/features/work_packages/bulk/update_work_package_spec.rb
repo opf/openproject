@@ -204,6 +204,101 @@ RSpec.describe 'Bulk update work packages through Rails view', :js, :with_cuprit
         end
       end
 
+      describe 'unsetting values for different fields' do
+        let(:boolean_cf) do
+          create(:boolean_wp_custom_field,
+                 name: 'Bool CF',
+                 types: [type],
+                 projects: [project])
+        end
+        let(:required_boolean_cf) do
+          create(:boolean_wp_custom_field,
+                 name: 'Required Bool CF',
+                 types: [type],
+                 projects: [project],
+                 is_required: true)
+        end
+        let(:list_cf) do
+          create(:list_wp_custom_field,
+                 name: 'List CF',
+                 types: [type],
+                 projects: [project],
+                 possible_values: %w[A B C])
+        end
+        let(:required_list_cf) do
+          create(:list_wp_custom_field,
+                 name: 'Required List CF',
+                 types: [type],
+                 projects: [project],
+                 possible_values: %w[A B C],
+                 is_required: true)
+        end
+        let(:multi_list_cf) do
+          create(:list_wp_custom_field, :multi_list,
+                 name: 'Multi select List CF',
+                 types: [type],
+                 projects: [project],
+                 possible_values: %w[A B C])
+        end
+        let(:user_cf) do
+          create(:user_wp_custom_field,
+                 name: 'User CF',
+                 types: [type],
+                 projects: [project])
+        end
+        let(:multi_user_cf) do
+          create(:user_wp_custom_field, :multi_user,
+                 name: 'Multi user CF',
+                 types: [type],
+                 projects: [project])
+        end
+
+        let(:default_cf_values) do
+          {
+            boolean_cf.id => true,
+            required_boolean_cf.id => false,
+            list_cf.id => list_cf.custom_options.find_by(value: "B"),
+            required_list_cf.id => required_list_cf.custom_options.find_by(value: "B"),
+            multi_list_cf.id => multi_list_cf.custom_options.find_by(value: "B"),
+            user_cf.id => dev,
+            multi_user_cf.id => [dev, mover]
+          }
+        end
+
+        before do
+          [work_package, work_package2].each do |wp|
+            wp.update!(custom_field_values: default_cf_values)
+          end
+
+          refresh
+          wait_for_reload
+        end
+
+        it 'clears the chosen values' do
+          # Required fields should not have a 'none' option
+          expect(page).to have_no_select(required_boolean_cf.name, with_options: ['none'])
+          expect(page).to have_no_select(required_list_cf.name, with_options: ['none'])
+
+          # Unset any non-required fields
+          select 'none', from: boolean_cf.name
+          select 'none', from: list_cf.name
+          select 'none', from: multi_list_cf.name
+          select 'nobody', from: user_cf.name
+          select 'nobody', from: multi_user_cf.name
+
+          click_on 'Submit'
+
+          expect_angular_frontend_initialized
+          wp_table.expect_work_package_count 2
+
+          # It clears all the values except the required fields
+          expect(work_package.reload.custom_field_values.pluck(:value).compact)
+            .to eq(['f', required_list_cf.custom_options.find_by(value: "B").id.to_s])
+          expect(work_package2.reload.custom_field_values.pluck(:value).compact)
+            .to eq(['f', required_list_cf.custom_options.find_by(value: "B").id.to_s])
+        end
+      end
+
       context 'when custom fields are removed from types' do
         it 'does not display them on the form' do
           expect(page).to have_field custom_field_removed.name

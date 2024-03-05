@@ -53,7 +53,7 @@ ru:
       complete_without_setup: Обходитесь без этого
       done_complete_setup: Готово, завершить установку
       done_continue: Готово, продолжить
-      replace_oauth_application: Replace OpenProject OAuth
+      replace_oauth_application: Заменить OAuth OpenProject
       replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Сохранить и продолжить
       select_folder: Выберите папку

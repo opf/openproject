@@ -220,6 +220,10 @@ paths:
     "$ref": "./paths/help_texts.yml"
   "/api/v3/help_texts/{id}":
     "$ref": "./paths/help_text.yml"
+  "/api/v3/meetings/{id}":
+    "$ref": "./paths/meeting.yml"
+  "/api/v3/meetings/{id}/attachments":
+    "$ref": "./paths/meeting_attachments.yml"
   "/api/v3/memberships":
     "$ref": "./paths/memberships.yml"
   "/api/v3/memberships/available_projects":
@@ -649,6 +653,8 @@ components:
       "$ref": "./components/schemas/list_of_news_model.yml"
     List_projects_by_versionModel:
       "$ref": "./components/schemas/list_projects_by_version_model.yml"
+    MeetingModel:
+      "$ref": "./components/schemas/meeting_model.yml"
     MarkdownModel:
       "$ref": "./components/schemas/markdown_model.yml"
     MembershipCollectionModel:

@@ -254,12 +254,14 @@ RSpec.describe 'Projects index page',
       development_project.update(
         description: 'I am a nice project with a very long long long long long long long long long description',
         status_explanation: '<figure>I am a nice project status description with a figure</figure>',
-        custom_field_values: { custom_field.id => 'This is a short value', long_text_custom_field.id => 'This is a very long long long long long long long value' }
+        custom_field_values: { custom_field.id => 'This is a short value',
+                               long_text_custom_field.id => 'This is a very long long long long long long long value' }
       )
 
       development_project.save!
       login_as(admin)
-      Setting.enabled_projects_columns += [custom_field.column_name, long_text_custom_field.column_name, 'description', 'status_explanation']
+      Setting.enabled_projects_columns += [custom_field.column_name, long_text_custom_field.column_name, 'description',
+                                           'status_explanation']
       projects_page.visit!
 
       tr_project_development = page.first('tr', text: 'Development project')
@@ -275,12 +277,15 @@ RSpec.describe 'Projects index page',
       expect(td_project_development_status_description).to have_css('button', text: 'Expand')
       expect(td_project_development_status_description).to have_text('Preview not available')
 
-      # Check if a long-text costum field which has a short text as value is not truncated and there is no Expand button there
+      # Check if a long-text custom field which has a short text as value is not truncated and there is no Expand button there
       td_project_development_short_cf = tr_project_development.first('td', text: 'This is a short value')
       expect(td_project_development_short_cf).to have_no_css('button', text: 'Expand')
 
-      # Check if a long-text costum field which has a long text as value is truncated and there is an Expand button there
-      td_project_development_long_cf = tr_project_development.first('td', text: 'This is a very long long long long long long long value')
+      # Check if a long-text custom field which has a long text as value is truncated and there is an Expand button there
+      td_project_development_long_cf = tr_project_development.first(
+        'td',
+        text: 'This is a very long long long long long long long value'
+      )
       expect(td_project_development_long_cf).to have_css('button', text: 'Expand')
     end
   end

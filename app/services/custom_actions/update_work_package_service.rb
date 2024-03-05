@@ -39,7 +39,7 @@ class CustomActions::UpdateWorkPackageService
     self.contract_class = ::WorkPackages::UpdateContract
   end
 
-  def call(work_package:, &block)
+  def call(work_package:, &)
     apply_actions(work_package, action.actions)
 
     result = ::WorkPackages::UpdateService
@@ -47,7 +47,7 @@ class CustomActions::UpdateWorkPackageService
                   model: work_package)
              .call
 
-    block_with_result(result, &block)
+    block_with_result(result, &)
   end
 
   private

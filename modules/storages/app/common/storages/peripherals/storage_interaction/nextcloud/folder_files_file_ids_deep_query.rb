@@ -32,7 +32,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class FolderFilesFileIdsDeepQuery
     def self.call(storage:, folder:)
       ::Storages::Peripherals::Registry
-        .resolve("queries.nextcloud.propfind")
+        .resolve("nextcloud.queries.propfind")
         .call(
           storage:,
           depth: 'infinity',

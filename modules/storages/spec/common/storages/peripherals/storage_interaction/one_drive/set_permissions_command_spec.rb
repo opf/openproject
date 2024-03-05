@@ -41,7 +41,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
 
   let(:folder) do
     Storages::Peripherals::Registry
-      .resolve('commands.one_drive.create_folder')
+      .resolve('one_drive.commands.create_folder')
       .call(storage:, folder_path: "Permission Test Folder")
       .result
   end
@@ -49,7 +49,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
   let(:path) { folder.id }
 
   it 'is registered at commands.one_drive.set_permissions' do
-    expect(Storages::Peripherals::Registry.resolve('commands.one_drive.set_permissions')).to eq(described_class)
+    expect(Storages::Peripherals::Registry.resolve('one_drive.commands.set_permissions')).to eq(described_class)
   end
 
   it 'responds to .call with storage, path and permissions keyword args' do
@@ -62,7 +62,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::SetPermissio
   describe '#call' do
     after do
       Storages::Peripherals::Registry
-        .resolve('commands.one_drive.delete_folder')
+        .resolve('one_drive.commands.delete_folder')
         .call(storage:, location: path)
     end
 

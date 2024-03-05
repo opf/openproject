@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,29 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  module Peripherals
-    module StorageInteraction
-      module OneDrive
-        Queries = Dry::Container::Namespace.new('queries') do
-          namespace('one_drive') do
-            register(:download_link, DownloadLinkQuery)
-            register(:files, FilesQuery)
-            register(:file_info, FileInfoQuery)
-            register(:files_info, FilesInfoQuery)
-            register(:open_file_link, OpenFileLinkQuery)
-            register(:folder_files_file_ids_deep_query, FolderFilesFileIdsDeepQuery)
-            register(:open_storage, OpenStorageQuery)
-            register(:upload_link, UploadLinkQuery)
+module API
+  module V3
+    module Meetings
+      class MeetingsAPI < ::API::OpenProjectAPI
+        resources :meetings do
+          helpers do
+            def meeting
+              MeetingContent.find params[:id]
+            end
           end
-        end
 
-        Commands = Dry::Container::Namespace.new('commands') do
-          namespace('one_drive') do
-            register(:create_folder, CreateFolderCommand)
-            register(:delete_folder, DeleteFolderCommand)
-            register(:rename_file, RenameFileCommand)
-            register(:set_permissions, SetPermissionsCommand)
+          route_param :id, type: Integer, desc: 'Activity ID' do
+            after_validation do
+              @meeting = Meeting.visible.find(declared_params[:id])
+            end
+
+            get &::API::V3::Utilities::Endpoints::Show
+              .new(model: ::Meeting)
+              .mount
+
+            mount ::API::V3::Attachments::AttachmentsByMeetingAPI
           end
         end
       end
