@@ -735,7 +735,6 @@ en:
         remaining_hours: "Remaining work"
         remaining_time: "Remaining work"
         shared_with_users: "Shared with"
-        shared_with_me: "Shared with me"
         schedule_manually: "Manual scheduling"
         spent_hours: "Spent time"
         spent_time: "Spent time"
@@ -2745,6 +2744,7 @@ en:
     name_or_identifier: "Name or identifier"
     only_subproject_id: "Only subproject"
     shared_with_user: "Shared with user"
+    shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
 
   repositories:
