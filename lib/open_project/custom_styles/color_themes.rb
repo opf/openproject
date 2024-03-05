@@ -38,7 +38,7 @@ module OpenProject::CustomStyles
         colors: {
           'primary-color' => "#1A67A3",
           'primary-color-dark' => "#175A8E",
-          'alternative-color' => "#35C53F",
+          'alternative-color' => "#1F883D",
           'content-link-color' => "#175A8E",
           'header-bg-color' => "#1A67A3",
           'header-item-bg-hover-color' => "#175A8E",
@@ -59,7 +59,7 @@ module OpenProject::CustomStyles
         colors: {
           'primary-color' => "#1A67A3",
           'primary-color-dark' => "#175A8E",
-          'alternative-color' => "#138E1B",
+          'alternative-color' => "#1F883D",
           'content-link-color' => "#175A8E",
           'header-bg-color' => "#FAFAFA",
           'header-item-bg-hover-color' => "#E1E1E1",
@@ -81,7 +81,7 @@ module OpenProject::CustomStyles
         colors: {
           'primary-color' => "#3270DB",
           'primary-color-dark' => "#163473",
-          'alternative-color' => "#349939",
+          'alternative-color' => "#1F883D",
           'content-link-color' => "#275BB5",
           'header-bg-color' => "#05002C",
           'header-item-bg-hover-color' => "#163473",
