@@ -80,15 +80,15 @@ RSpec.describe 'Projects', 'editing settings', :js, :with_cuprite do
 
   context 'with optional and required custom fields' do
     let!(:optional_custom_field) do
-      create(:custom_field, name: 'Optional Foo',
-                            type: ProjectCustomField,
-                            is_for_all: true)
+      create(:project_custom_field, name: 'Optional Foo',
+                                    is_for_all: true,
+                                    projects: [project])
     end
     let!(:required_custom_field) do
-      create(:custom_field, name: 'Required Foo',
-                            type: ProjectCustomField,
-                            is_for_all: true,
-                            is_required: true)
+      create(:project_custom_field, name: 'Required Foo',
+                                    is_for_all: true,
+                                    is_required: true,
+                                    projects: [project])
     end
 
     it 'shows optional and required custom fields for edit without a separation' do
@@ -106,10 +106,10 @@ RSpec.describe 'Projects', 'editing settings', :js, :with_cuprite do
     let!(:required_custom_field) do
       create(:string_project_custom_field,
              name: 'Foo',
-             type: ProjectCustomField,
              min_length: 1,
              max_length: 2,
-             is_for_all: true)
+             is_for_all: true,
+             projects: [project])
     end
     let(:foo_field) { FormFields::InputFormField.new required_custom_field }
 
@@ -133,7 +133,7 @@ RSpec.describe 'Projects', 'editing settings', :js, :with_cuprite do
   context 'with a multi-select custom field' do
     include_context 'ng-select-autocomplete helpers'
 
-    let!(:list_custom_field) { create(:list_project_custom_field, name: 'List CF', multi_value: true) }
+    let!(:list_custom_field) { create(:list_project_custom_field, name: 'List CF', multi_value: true, projects: [project]) }
     let(:form_field) { FormFields::SelectFormField.new list_custom_field }
 
     it 'can select multiple values' do
@@ -154,7 +154,7 @@ RSpec.describe 'Projects', 'editing settings', :js, :with_cuprite do
   end
 
   context 'with a date custom field' do
-    let!(:date_custom_field) { create(:date_project_custom_field, name: 'Date') }
+    let!(:date_custom_field) { create(:date_project_custom_field, name: 'Date', projects: [project]) }
     let(:form_field) { FormFields::InputFormField.new date_custom_field }
 
     it 'can save and remove the date (Regression #37459)' do
@@ -202,6 +202,25 @@ RSpec.describe 'Projects', 'editing settings', :js, :with_cuprite do
 
       expect(project.parent)
         .to eql parent_project
+    end
+  end
+
+  context 'with correct scoping of project custom fields' do
+    let!(:optional_custom_field_activated_in_project) do
+      create(:project_custom_field, name: 'Optional Foo',
+                                    is_for_all: true,
+                                    projects: [project])
+    end
+    let!(:optional_custom_field_not_activated_in_project) do
+      create(:project_custom_field, name: 'Optional Bar',
+                                    is_for_all: true)
+    end
+
+    it 'shows only the custom fields that are activated in the project' do
+      visit project_settings_general_path(project.id)
+
+      expect(page).to have_text 'Optional Foo'
+      expect(page).to have_no_text 'Optional Bar'
     end
   end
 end
