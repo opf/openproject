@@ -59,15 +59,8 @@
         if query.persisted?
           menu.with_item(
             label: t(:button_delete),
-            href: projects_query_path(query),
             scheme: :danger,
-            form_arguments: {
-              method: :delete,
-              data: {
-                confirm: t("text_are_you_sure"),
-                turbo: 'false'
-              }
-            }
+            content_arguments: { 'data-show-dialog-id': Projects::DeleteListModalComponent::MODAL_ID }
           ) do |item|
             item.with_leading_visual_icon(icon: 'trash')
           end
@@ -104,4 +97,5 @@
   end %>
 
   <%= render(Projects::ConfigureViewModalComponent.new(query:)) %>
+  <%= render(Projects::DeleteListModalComponent.new(query:)) if query.persisted? %>
 <% end %>

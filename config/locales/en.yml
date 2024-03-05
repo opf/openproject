@@ -303,6 +303,9 @@ en:
       my_private: 'My private project lists'
       new:
         placeholder: 'New project list'
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
 
     settings:
       change_identifier: Change identifier
@@ -3282,7 +3285,6 @@ en:
         input_label: 'Add columns'
         input_placeholder: 'Select a column'
         drag_area_label: 'Manage and reorder columns'
-
 
   top_menu:
     additional_resources: "Additional resources"

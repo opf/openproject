@@ -320,8 +320,10 @@ module Pages
       end
 
       def delete_query
-        accept_confirm do
-          click_more_menu_item('Delete')
+        click_more_menu_item('Delete')
+
+        within '[data-test-selector="op-project-list-delete-dialog"]' do
+          click_on 'Delete'
         end
       end
 
