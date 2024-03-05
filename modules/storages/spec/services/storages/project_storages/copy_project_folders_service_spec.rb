@@ -41,44 +41,22 @@ RSpec.describe Storages::ProjectStorages::CopyProjectFoldersService, :webmock do
   context "with automatically managed project folders" do
     let(:source) { create(:project_storage, :as_automatically_managed, storage:) }
 
-    it 'updates the target project storage to point to newly copied remote folder' do
+    it 'if polling is required, returns a nil id and an url' do
       Storages::Peripherals::Registry
         .stub("#{source.storage.short_provider_type}.commands.copy_template_folder",
-              ->(args) do
-                # Validating the arguments ensure that the call is correctly made
-                expect(args[:storage]).to eq(source.storage)
-                expect(args[:source_path]).to eq(source.project_folder_location)
-                expect(args[:destination_path]).to eq(target.managed_project_folder_path)
-
-                # Return a success for the provider copy with no polling required
-                ServiceResult.success(result: { id: 'newly_created_remote_folder', url: 'https://resource.url' })
-              end)
-
-      expect(service.call(source_id: source.id, target_id: target.id)).to be_success
-
-      target.reload
-      expect(target.project_folder_mode).to eq(source.project_folder_mode)
-      expect(target.project_folder_id).to eq('newly_created_remote_folder')
-    end
-
-    it 'if polling is required, returns an error with the polling url' do
-      Storages::Peripherals::Registry
-        .stub("#{source.storage.short_provider_type}.commands.copy_template_folder",
-              ->(args) do
-                # Validating the arguments ensure that the call is correctly made
-                expect(args[:storage]).to eq(source.storage)
-                expect(args[:source_path]).to eq(source.project_folder_location)
-                expect(args[:destination_path]).to eq(target.managed_project_folder_path)
+              ->(storage:, source_path:, destination_path:) do
+                expect(storage).to eq(source.storage)
+                expect(source_path).to eq(source.project_folder_location)
+                expect(destination_path).to eq(target.managed_project_folder_path)
 
                 # Return a success for the provider copy with no polling required
                 ServiceResult.success(result: { id: nil, url: 'https://polling.url.de/cool/subresources' })
               end)
 
-      result = service.call(source_id: source.id, target_id: target.id)
+      result = service.call(source:, target:)
 
-      expect(result).to be_failure
-      expect(result.result).to eq('https://polling.url.de/cool/subresources')
-      expect(result.errors).to eq(:polling_required)
+      expect(result).to be_success
+      expect(result.result).to eq({ id: nil, url: 'https://polling.url.de/cool/subresources' })
     end
   end
 
@@ -86,27 +64,28 @@ RSpec.describe Storages::ProjectStorages::CopyProjectFoldersService, :webmock do
     let(:source) { create(:project_storage, project_folder_id: 'this_is_a_unique_id', project_folder_mode: 'manual') }
 
     it "succeeds" do
-      expect(service.call(source_id: source.id, target_id: target.id)).to be_success
+      result = service.call(source:, target:)
+      expect(result).to be_success
     end
 
-    it "updates to the target project storage to point to the same project_folder_id than the source" do
-      expect { service.call(source_id: source.id, target_id: target.id) }
-        .to change { target.reload.project_folder_id }
-              .to(source.project_folder_id)
-              .and(change { target.reload.project_folder_mode }
-                     .to(source.project_folder_mode))
+    it 'returns the source folder id' do
+      result = service.call(source:, target:)
+
+      expect(result.result[:id]).to eq(source.project_folder_id)
     end
   end
 
   context "with non-managed project folders" do
-    let(:source) { create(:project_storage, project_folder_id: 'this_is_a_unique_id') }
+    let(:source) { create(:project_storage, project_folder_id: nil, project_folder_mode: 'inactive') }
 
     it "succeeds" do
-      expect(service.call(source_id: source.id, target_id: target.id)).to be_success
+      expect(service.call(source:, target:)).to be_success
     end
 
-    it "doesn't require any updates to the target project storage" do
-      expect { service.call(source_id: source.id, target_id: target.id) }.not_to change(target, :project_folder_id)
+    it 'returns the origin folder id (nil)' do
+      result = service.call(source:, target:)
+
+      expect(result.result[:id]).to eq(source.project_folder_id)
     end
   end
 end

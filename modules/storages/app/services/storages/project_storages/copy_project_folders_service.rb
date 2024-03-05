@@ -32,44 +32,19 @@ module Storages
   module ProjectStorages
     class CopyProjectFoldersService
       # We might need the User too
-      def self.call(source_id:, target_id:)
-        new(source_id, target_id).call
+      def self.call(source:, target:)
+        new.call(source, target)
       end
 
-      def initialize(source_id, target_id)
-        @source = get_project_storage(source_id)
-        @target = get_project_storage(target_id)
-      end
+      def call(source, target)
+        return ServiceResult.success(result: { id: nil }) if source.project_folder_inactive?
+        return ServiceResult.success(result: { id: source.project_folder_id }) if source.project_folder_manual?
 
-      def call
-        return ServiceResult.success if @source.project_folder_inactive?
-        return update_target(@source.project_folder_id) if @source.project_folder_manual?
-
-        copy_result = copy_project_folder.on_failure { |failed_result| return failed_result }.result
-
-        update_target(copy_result[:id]) if copy_result[:id]
-
-        ServiceResult.failure(result: copy_result[:url], errors: :polling_required)
-      end
-
-      private
-
-      def copy_project_folder
         Peripherals::Registry
-          .resolve("#{@source.storage.short_provider_type}.commands.copy_template_folder")
-          .call(storage: @source.storage,
-                source_path: @source.project_folder_location,
-                destination_path: @target.managed_project_folder_path)
-      end
-
-      def update_target(project_folder_id)
-        ProjectStorages::UpdateService
-          .new(user: User.system, model: @target)
-          .call({ project_folder_id:, project_folder_mode: @source.project_folder_mode })
-      end
-
-      def get_project_storage(id)
-        ProjectStorage.includes(:project, :storage).find(id)
+          .resolve("#{source.storage.short_provider_type}.commands.copy_template_folder")
+          .call(storage: source.storage,
+                source_path: source.project_folder_location,
+                destination_path: target.managed_project_folder_path)
       end
     end
   end

@@ -97,7 +97,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
       expect(command_result).to be_success
       expect(command_result.result[:url]).to match %r</drives/#{storage.drive_id}/items/.+\?.+$>
     ensure
-      delete_copied_folder(command_result.result[:id])
+      delete_copied_folder(command_result.result[:url])
     end
 
     describe 'error handling' do
@@ -190,7 +190,11 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
     end
   end
 
-  def delete_copied_folder(location)
+  def delete_copied_folder(url)
+    extractor_regex = /.+\/items\/(?<item_id>\w+)\?/
+    match_data = extractor_regex.match(url)
+    location = match_data[:item_id]
+
     Storages::Peripherals::Registry
       .resolve('one_drive.commands.delete_folder')
       .call(storage:, location:)
