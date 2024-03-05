@@ -106,7 +106,7 @@ module Projects::ActsAsCustomizablePatches
       project_custom_field_project_mappings.where(custom_field_id: custom_field_ids).destroy_all
     end
 
-    def query_available_custom_fields_on_global_level
+    def with_all_available_custom_fields
       # query the available custom fields on a global level when updating custom field values
       # in order to support implicit activation of custom fields when values are provided during an update
       self._query_available_custom_fields_on_global_level = true
@@ -114,22 +114,6 @@ module Projects::ActsAsCustomizablePatches
       self._query_available_custom_fields_on_global_level = false
 
       result
-    end
-
-    def active_custom_field_ids_of_project
-      # show all project custom fields in the project creation form
-      # later on, only those with values will be activated via before_save hook `build_missing_project_custom_field_project_mappings`
-      # a persisted project will then only show the activated custom fields
-      # this approach also supports project duplication based on project templates
-      if new_record?
-        ProjectCustomField.pluck(:id)
-      else
-        project_custom_field_project_mappings.pluck(:custom_field_id)
-          .concat(ProjectCustomField.required.pluck(:id))
-          .uniq
-        # if for whatever reason a required custom field is not activated for this instance,
-        # we need to make sure it's treated as activated especially in context of the validation
-      end
     end
 
     def available_custom_fields(global: false)
@@ -146,8 +130,10 @@ module Projects::ActsAsCustomizablePatches
       #
       # additionally we provide the `global` parameter to allow querying the available custom fields on a global level
       # when we have explicit control over the call of `available_custom_fields`
-      unless global || _query_available_custom_fields_on_global_level
-        custom_fields = custom_fields.where(id: active_custom_field_ids_of_project)
+      unless global || new_record? || _query_available_custom_fields_on_global_level
+        custom_fields = custom_fields
+          .where(id: project_custom_field_project_mappings.select(:custom_field_id))
+          .or(ProjectCustomField.required)
       end
 
       custom_fields
@@ -158,91 +144,38 @@ module Projects::ActsAsCustomizablePatches
         .group_by(&:custom_field_section_id)
     end
 
-    def available_custom_fields_by_section(section)
-      available_custom_fields
-        .where(custom_field_section_id: section.id)
-    end
-
     def sorted_available_custom_fields
       available_custom_fields
         .sort_by { |pcf| [pcf.project_custom_field_section.position, pcf.position_in_custom_field_section] }
     end
 
     def sorted_available_custom_fields_by_section(section)
-      available_custom_fields_by_section(section)
+      available_custom_fields
+        .where(custom_field_section_id: section.id)
         .sort_by(&:position_in_custom_field_section)
     end
 
-    def custom_field_section_ids
-      # we need to check if a project custom field belongs to a specific section when validating
-      # we need a mapping of custom_field_id => custom_field_section_id as we don't want to
-      # change the code of acts_as_customizable for `custom_field_values` which does not include the custom_field_section_id
-      # preloading a hash avoids n+1 queries while validating
-      CustomField
-        .where(id: custom_field_values.pluck(:custom_field_id))
-        .pluck(:id, :custom_field_section_id)
-        .to_h
-    end
-
     def validate_custom_values
-      # overrides acts_as_customizable
       # validate custom values only of a specified section
       # instead of validating ALL custom values like done in acts_as_customizable
-      set_default_values! if new_record?
+      custom_field_section_ids = CustomField
+        .where(id: custom_field_values.pluck(:custom_field_id))
+        .where(custom_field_section_id: _limit_custom_fields_validation_to_section_id)
+        .pluck(:id)
 
-      custom_field_values
-        .select { |custom_value| of_specified_custom_field_section?(custom_value) }
-        .reject(&:marked_for_destruction?)
-        .select(&:invalid?)
-        .each { |custom_value| add_custom_value_errors! custom_value }
+      super(custom_field_section_ids)
     end
 
-    def of_specified_custom_field_section?(custom_value)
-      if _limit_custom_fields_validation_to_section_id.present?
-        custom_field_section_ids[custom_value.custom_field_id] == _limit_custom_fields_validation_to_section_id
-      else
-        true # validate all custom values if no specific section was specified
-      end
-    end
-
+    # we need to query the available custom fields on a global level when updating custom field values
+    # in order to support implicit activation of custom fields when values are provided during an update
     def custom_field_values=(values)
-      # overrides acts_as_customizable
-      # we need to query the available custom fields on a global level when updating custom field values
-      # in order to support implicit activation of custom fields when values are provided during an update
-      self._query_available_custom_fields_on_global_level = true # set to false in after_save hook
-      set_custom_field_values_method_from_acts_as_customizable_module(values)
+      with_all_available_custom_fields { super }
     end
 
-    # we cannot call super as the code in acts_as_customizable is shipped in a module
-    # thus copy and pasted the code from acts_as_customizable here
-    def set_custom_field_values_method_from_acts_as_customizable_module(values)
-      return unless values.is_a?(Hash) && values.any?
-
-      values.with_indifferent_access.each do |custom_field_id, val|
-        existing_cv_by_value = custom_values_for_custom_field(id: custom_field_id)
-                                 .group_by(&:value)
-                                 .transform_values(&:first)
-        new_values = Array(val).map { |v| v.respond_to?(:id) ? v.id.to_s : v.to_s }
-
-        if existing_cv_by_value.any?
-          assign_new_values custom_field_id, existing_cv_by_value, new_values
-          delete_obsolete_custom_values existing_cv_by_value, new_values
-          handle_minimum_custom_value custom_field_id, existing_cv_by_value, new_values
-        end
-      end
-    end
-
-    # overrides acts_as_customizable
     # we need to query the available custom fields on a global level when
     # trying to set a custom field which is not enabled via e.g. custom_field_123="foo"
     def for_custom_field_accessor(method_symbol)
-      match = /\Acustom_field_(?<id>\d+)=?\z/.match(method_symbol.to_s)
-      if match
-        custom_field = available_custom_fields(global: true).find { |cf| cf.id.to_s == match[:id] }
-        if custom_field
-          yield custom_field
-        end
-      end
+      with_all_available_custom_fields { super }
     end
   end
 end

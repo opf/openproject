@@ -59,13 +59,6 @@ RSpec.describe Project, 'customizable' do
   context 'when persisted' do
     let(:project) { create(:project) }
 
-    describe '#active_custom_field_ids_of_project' do
-      it 'returns all active custom field ids of the project' do
-        expect(project.active_custom_field_ids_of_project)
-          .to be_empty
-      end
-    end
-
     describe '#available_custom_fields' do
       it 'returns only mapped project custom fields as available custom fields' do
         expect(project.project_custom_field_project_mappings)
