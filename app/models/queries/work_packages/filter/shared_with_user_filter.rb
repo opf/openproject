@@ -30,16 +30,8 @@
 
 class Queries::WorkPackages::Filter::SharedWithUserFilter <
   Queries::WorkPackages::Filter::PrincipalBaseFilter
-  def allowed_values
-    if view_shared_work_packages_allowed?
-      super
-    else
-      me_allowed_value
-    end
-  end
-
   def available?
-    super && (view_shared_work_packages_allowed? || User.current.members.of_any_entity.any?)
+    super && view_shared_work_packages_allowed?
   end
 
   def scope

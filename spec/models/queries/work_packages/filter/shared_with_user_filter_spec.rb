@@ -246,14 +246,6 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithUserFilter do
           end
 
           it { expect(instance).not_to be_available }
-
-          context 'and I have something shared with me' do
-            before do
-              create(:work_package_member, user:, roles: [create(:work_package_role)])
-            end
-
-            it { expect(instance).to be_available }
-          end
         end
       end
 
