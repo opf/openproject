@@ -26,28 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::Notes < ApplicationForm
-  delegate :object, to: :@builder
+module API
+  module V3
+    module Attachments
+      class AttachmentsByMeetingAPI < ::API::OpenProjectAPI
+        resources :attachments do
+          helpers API::V3::Attachments::AttachmentsByContainerAPI::Helpers
 
-  form do |agenda_item_form|
-    agenda_item_form.rich_text_area(
-      name: :notes,
-      label: MeetingAgendaItem.human_attribute_name(:notes),
-      disabled: @disabled,
-      rich_text_options: {
-        resource:,
-      }
-    )
-  end
+          helpers do
+            def container
+              @meeting
+            end
 
-  def initialize(disabled: false)
-    @disabled = disabled
-  end
+            def get_attachment_self_path
+              api_v3_paths.attachments_by_meeting_content @meeting.id
+            end
+          end
 
-  def resource
-    return unless object&.meeting
+          get &API::V3::Attachments::AttachmentsByContainerAPI.read
+          post &API::V3::Attachments::AttachmentsByContainerAPI.create
 
-    API::V3::Meetings::MeetingRepresenter
-      .new(object.meeting, current_user: User.current, embed_links: false)
+          namespace :prepare do
+            post &API::V3::Attachments::AttachmentsByContainerAPI.prepare
+          end
+        end
+      end
+    end
   end
 end

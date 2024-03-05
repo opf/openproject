@@ -26,28 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::Notes < ApplicationForm
-  delegate :object, to: :@builder
+require 'spec_helper'
 
-  form do |agenda_item_form|
-    agenda_item_form.rich_text_area(
-      name: :notes,
-      label: MeetingAgendaItem.human_attribute_name(:notes),
-      disabled: @disabled,
-      rich_text_options: {
-        resource:,
-      }
-    )
+RSpec.describe API::V3::Utilities::PathHelper do
+  let(:helper) { Class.new.tap { |c| c.extend(described_class) }.api_v3_paths }
+
+  describe '#meeting' do
+    subject { helper.meeting 42 }
+
+    it { is_expected.to eql('/api/v3/meetings/42') }
   end
 
-  def initialize(disabled: false)
-    @disabled = disabled
-  end
+  describe '#attachments_by_meeting' do
+    subject { helper.attachments_by_meeting 42 }
 
-  def resource
-    return unless object&.meeting
-
-    API::V3::Meetings::MeetingRepresenter
-      .new(object.meeting, current_user: User.current, embed_links: false)
+    it { is_expected.to eql('/api/v3/meetings/42/attachments') }
   end
 end

@@ -26,28 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::Notes < ApplicationForm
-  delegate :object, to: :@builder
+require 'spec_helper'
+require 'requests/api/v3/attachments/attachment_resource_shared_examples'
 
-  form do |agenda_item_form|
-    agenda_item_form.rich_text_area(
-      name: :notes,
-      label: MeetingAgendaItem.human_attribute_name(:notes),
-      disabled: @disabled,
-      rich_text_options: {
-        resource:,
-      }
-    )
-  end
+RSpec.describe "meetings attachments" do
+  it_behaves_like "an APIv3 attachment resource" do
+    let(:attachment_type) { :meeting }
 
-  def initialize(disabled: false)
-    @disabled = disabled
-  end
+    let(:create_permission) { :create_meetings }
+    let(:read_permission) { :view_meetings }
+    let(:update_permission) { :edit_meetings }
 
-  def resource
-    return unless object&.meeting
-
-    API::V3::Meetings::MeetingRepresenter
-      .new(object.meeting, current_user: User.current, embed_links: false)
+    shared_let(:meeting) { create(:meeting, project:) }
   end
 end

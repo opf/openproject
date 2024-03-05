@@ -1,0 +1,72 @@
+# /api/v3/meetings/{id}
+---
+get:
+  parameters:
+    - description: Meeting identifier
+      example: '1'
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      content:
+        application/hal+json:
+          examples:
+            response:
+              value:
+                _embedded:
+                  project:
+                    _type: Project...
+                    id: 12
+                  author:
+                    _type: User...
+                    id: 2
+                _links:
+                  addAttachment:
+                    href: "/api/v3/meetings/72/attachments"
+                    method: post
+                  attachments:
+                    href: "/api/v3/meetings/72/attachments"
+                  project:
+                    href: "/api/v3/projects/12"
+                    title: some project
+                  author:
+                    href: "/api/v3/users/2"
+                    title: Peggie Feeney
+                  self:
+                    href: "/api/v3/meetings/72"
+                _type: Meeting
+                id: 72
+                lockVersion: 5
+                title: A meeting
+                startTime: '2014-05-21T08:00:00.000Z'
+                duration: 120
+                createdAt: '2014-05-21T08:51:20.396Z'
+                updatedAt: '2014-05-21T09:14:02.776Z'
+          schema:
+            "$ref": "../components/schemas/meeting_model.yml"
+      description: OK
+      headers: { }
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the meeting does not exist or the client does not have sufficient permissions to see it.
+
+        **Required permission:** view meetings in the page's project
+      headers: { }
+  tags:
+    - Meetings
+  description: Retrieve an individual meeting as identified by the id parameter
+  operationId: View_Meeting
+  summary: View Meeting Page

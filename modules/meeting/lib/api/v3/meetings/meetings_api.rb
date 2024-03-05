@@ -26,28 +26,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class MeetingAgendaItem::Notes < ApplicationForm
-  delegate :object, to: :@builder
+module API
+  module V3
+    module Meetings
+      class MeetingsAPI < ::API::OpenProjectAPI
+        resources :meetings do
+          helpers do
+            def meeting
+              MeetingContent.find params[:id]
+            end
+          end
 
-  form do |agenda_item_form|
-    agenda_item_form.rich_text_area(
-      name: :notes,
-      label: MeetingAgendaItem.human_attribute_name(:notes),
-      disabled: @disabled,
-      rich_text_options: {
-        resource:,
-      }
-    )
-  end
+          route_param :id, type: Integer, desc: 'Activity ID' do
+            after_validation do
+              @meeting = Meeting.visible.find(declared_params[:id])
+            end
 
-  def initialize(disabled: false)
-    @disabled = disabled
-  end
+            get &::API::V3::Utilities::Endpoints::Show
+              .new(model: ::Meeting)
+              .mount
 
-  def resource
-    return unless object&.meeting
-
-    API::V3::Meetings::MeetingRepresenter
-      .new(object.meeting, current_user: User.current, embed_links: false)
+            mount ::API::V3::Attachments::AttachmentsByMeetingAPI
+          end
+        end
+      end
+    end
   end
 end

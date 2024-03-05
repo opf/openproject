@@ -70,6 +70,8 @@ export class CkeditorAugmentedTextareaComponent extends UntilDestroyedMixin impl
 
   @Input() public editorType:ICKEditorType = 'full';
 
+  @Input() public showAttachments = true;
+
   // Which template to include
   public element:HTMLElement;
 
