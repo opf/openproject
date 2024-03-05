@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/citizensadvice/capybara_accessible_selectors
-  revision: 67bbac702fd039a81ce858f1157701b5a5b70cd1
+  revision: 0c78a39ec6b8895858612896cc5695dcee0e6159
   branch: main
   specs:
     capybara_accessible_selectors (0.11.0)
@@ -25,16 +25,16 @@ GIT
 
 GIT
   remote: https://github.com/opf/md-to-pdf
-  revision: 82c2b5cc25a28fbd62cb05b17d9ba0f68d701109
-  ref: 82c2b5cc25a28fbd62cb05b17d9ba0f68d701109
+  revision: 8f14736a88ad0064d2a97be108fe7061ffbcee91
+  ref: 8f14736a88ad0064d2a97be108fe7061ffbcee91
   specs:
-    md_to_pdf (0.0.25)
+    md_to_pdf (0.0.26)
       color_conversion (~> 0.1)
       front_matter_parser (~> 1.0)
       json-schema (~> 4.1)
       markly (~> 0.10)
       matrix (~> 0.4)
-      nokogiri (~> 1.16)
+      nokogiri (~> 1.1)
       prawn (~> 2.4)
       prawn-table (~> 0.2)
       text-hyphen (~> 1.5)
@@ -412,6 +412,7 @@ GEM
       fog-aws
     cbor (0.5.9.8)
     cgi (0.4.1)
+    childprocess (5.0.0)
     climate_control (1.2.0)
     closure_tree (7.4.0)
       activerecord (>= 4.2.10)
@@ -449,8 +450,8 @@ GEM
     debug (1.9.1)
       irb (~> 1.10)
       reline (>= 0.3.8)
-    deckar01-task_list (2.3.3)
-      html-pipeline
+    deckar01-task_list (2.3.4)
+      html-pipeline (~> 2.0)
     declarative (0.0.20)
     delayed_cron_job (0.9.0)
       fugit (>= 1.5)
@@ -615,7 +616,7 @@ GEM
     http-2-next (1.0.3)
     http_parser.rb (0.6.0)
     httpclient (2.8.3)
-    httpx (1.2.2)
+    httpx (1.2.3)
       http-2-next (>= 1.0.3)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
@@ -645,7 +646,7 @@ GEM
     iso8601 (0.13.0)
     jmespath (1.6.2)
     json (2.7.1)
-    json-jwt (1.16.5)
+    json-jwt (1.16.6)
       activesupport (>= 4.2)
       aes_key_wrap
       base64
@@ -666,11 +667,12 @@ GEM
     ladle (1.0.1)
       open4 (~> 1.0)
     language_server-protocol (3.17.0.3)
-    launchy (2.5.2)
+    launchy (3.0.0)
       addressable (~> 2.8)
-    lefthook (1.6.4)
-    letter_opener (1.9.0)
-      launchy (>= 2.2, < 3)
+      childprocess (~> 5.0)
+    lefthook (1.6.5)
+    letter_opener (1.0.0)
+      launchy (>= 2.0.4)
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -764,7 +766,7 @@ GEM
       actionview
       openproject-octicons (= 19.8.0)
       railties
-    openproject-primer_view_components (0.22.2)
+    openproject-primer_view_components (0.23.0)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
       openproject-octicons (>= 19.8.0)
@@ -780,7 +782,7 @@ GEM
       activerecord (>= 6.1)
       request_store (~> 1.4)
     parallel (1.24.0)
-    parallel_tests (4.5.1)
+    parallel_tests (4.5.2)
       parallel
     parser (3.3.0.5)
       ast (~> 2.4.1)
@@ -794,7 +796,7 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
-    pg (1.5.5)
+    pg (1.5.6)
     plaintext (0.3.4)
       activesupport (> 2.2.1)
       nokogiri (~> 1.10, >= 1.10.4)
@@ -840,7 +842,7 @@ GEM
       rack (>= 0.4)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
-    rack-cors (2.0.1)
+    rack-cors (2.0.2)
       rack (>= 2.0.0)
     rack-mini-profiler (3.3.1)
       rack (>= 1.2.0)
@@ -982,12 +984,12 @@ GEM
     rubocop-performance (1.20.2)
       rubocop (>= 1.48.1, < 2.0)
       rubocop-ast (>= 1.30.0, < 2.0)
-    rubocop-rails (2.23.1)
+    rubocop-rails (2.24.0)
       activesupport (>= 4.2.0)
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
-      rubocop-ast (>= 1.30.0, < 2.0)
-    rubocop-rspec (2.27.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
+    rubocop-rspec (2.27.1)
       rubocop (~> 1.40)
       rubocop-capybara (~> 2.17)
       rubocop-factory_bot (~> 2.22)
@@ -1217,7 +1219,7 @@ DEPENDENCIES
   json_schemer (~> 2.1.0)
   json_spec (~> 1.1.4)
   ladle
-  launchy (~> 2.5.0)
+  launchy (~> 3.0.0)
   lefthook
   letter_opener
   listen (~> 3.9.0)
@@ -1254,7 +1256,7 @@ DEPENDENCIES
   openproject-octicons (~> 19.8.0)
   openproject-octicons_helper (~> 19.8.0)
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.22.2)
+  openproject-primer_view_components (~> 0.23.0)
   openproject-recaptcha!
   openproject-reporting!
   openproject-storages!
@@ -1279,7 +1281,7 @@ DEPENDENCIES
   puma (~> 6.4)
   puma-plugin-statsd (~> 2.0)
   rack-attack (~> 6.7.0)
-  rack-cors (~> 2.0.0)
+  rack-cors (~> 2.0.2)
   rack-mini-profiler
   rack-protection (~> 3.2.0)
   rack-test (~> 2.1.0)

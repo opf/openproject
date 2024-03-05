@@ -161,6 +161,7 @@ module OpenProject::Meeting
                         &::OpenProject::Meeting::Patches::API::WorkPackageRepresenter.extension)
 
     add_api_endpoint 'API::V3::Root' do
+      mount ::API::V3::Meetings::MeetingsAPI
       mount ::API::V3::Meetings::MeetingContentsAPI
     end
 
@@ -168,6 +169,10 @@ module OpenProject::Meeting
       OpenProject::ProjectLatestActivity.register on: 'Meeting'
 
       PermittedParams.permit(:search, :meetings)
+    end
+
+    add_api_path :meeting do |id|
+      "#{root}/meetings/#{id}"
     end
 
     add_api_path :meeting_content do |id|
@@ -180,6 +185,10 @@ module OpenProject::Meeting
 
     add_api_path :meeting_minutes do |id|
       meeting_content(id)
+    end
+
+    add_api_path :attachments_by_meeting do |id|
+      "#{meeting(id)}/attachments"
     end
 
     add_api_path :attachments_by_meeting_content do |id|

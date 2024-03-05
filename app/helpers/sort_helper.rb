@@ -284,7 +284,7 @@ module SortHelper
     sort_options = { sort_key => sort_param }
 
     # Don't lose other params.
-    link_to_content_update(h(caption), safe_query_params(%w{filters per_page expand}).merge(sort_options), html_options)
+    link_to_content_update(h(caption), safe_query_params(%w{filters per_page expand columns}).merge(sort_options), html_options)
   end
 
   # Returns a table header <th> tag with a sort link for the named column

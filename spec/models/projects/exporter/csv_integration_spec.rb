@@ -48,9 +48,7 @@ RSpec.describe Projects::Exports::CSV, 'integration' do
   end
 
   context 'with status_explanation enabled' do
-    before do
-      Setting.enabled_projects_columns += ["status_explanation"]
-    end
+    let(:query_columns) { %w[name description project_status status_explanation public] }
 
     it 'performs a successful export' do
       expect(parsed.size).to eq(2)
@@ -61,8 +59,8 @@ RSpec.describe Projects::Exports::CSV, 'integration' do
   end
 
   describe 'custom field columns selected' do
-    before do
-      Setting.enabled_projects_columns += custom_fields.map(&:column_name)
+    let(:query_columns) do
+      %w[name description project_status public] + custom_fields.map(&:column_name)
     end
 
     context 'when ee enabled', with_ee: %i[custom_fields_in_projects_list] do

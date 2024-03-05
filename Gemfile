@@ -156,7 +156,7 @@ gem 'structured_warnings', '~> 0.4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 13.0.0', require: false
 
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '82c2b5cc25a28fbd62cb05b17d9ba0f68d701109'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '8f14736a88ad0064d2a97be108fe7061ffbcee91'
 gem 'prawn', '~> 2.4'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
@@ -227,7 +227,7 @@ gem 'turbo-rails', '~> 2.0.0'
 gem 'httpx'
 
 group :test do
-  gem 'launchy', '~> 2.5.0'
+  gem 'launchy', '~> 3.0.0'
   gem 'rack-test', '~> 2.1.0'
   gem 'shoulda-context', '~> 2.0'
 
@@ -348,7 +348,7 @@ gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.2.0'
 
 # CORS for API
-gem 'rack-cors', '~> 2.0.0'
+gem 'rack-cors', '~> 2.0.2'
 
 # Gmail API
 gem 'google-apis-gmail_v1', require: false
@@ -384,4 +384,4 @@ end
 
 gem 'openproject-octicons', '~>19.8.0'
 gem 'openproject-octicons_helper', '~>19.8.0'
-gem 'openproject-primer_view_components', '~>0.22.2'
+gem 'openproject-primer_view_components', '~>0.23.0'

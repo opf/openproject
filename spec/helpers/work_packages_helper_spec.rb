@@ -273,4 +273,38 @@ RSpec.describe WorkPackagesHelper do
       expect(helper.work_package_css_classes(stub_work_package)).not_to include('assigned-to-me')
     end
   end
+
+  describe '#work_packages_columns_options' do
+    it 'returns the columns options' do
+      expect(helper.work_packages_columns_options)
+        .to include(
+          { name: 'Type', id: 'type' },
+          { name: 'Subject', id: 'subject' },
+          { name: 'Status', id: 'status' }
+        )
+    end
+  end
+
+  describe '#selected_project_columns_options',
+           with_settings: { work_package_list_default_columns: %w[id subject type status] } do
+    it 'returns the columns options currently persisted in the setting (in that order)' do
+      expect(helper.selected_work_packages_columns_options)
+        .to eql([
+                  { name: 'ID', id: 'id' },
+                  { name: 'Subject', id: 'subject' },
+                  { name: 'Type', id: 'type' },
+                  { name: 'Status', id: 'status' }
+                ])
+    end
+  end
+
+  describe '#protected_project_columns_options' do
+    it 'returns the columns options currently persisted in the setting (in that order)' do
+      expect(helper.protected_work_packages_columns_options)
+        .to eql([
+                  { name: 'ID', id: 'id' },
+                  { name: 'Subject', id: 'subject' }
+                ])
+    end
+  end
 end

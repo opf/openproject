@@ -79,11 +79,11 @@ module Queries::WorkPackages
     filter Filter::DurationFilter
     exclude Filter::RelatableFilter
 
-    column Columns::PropertyColumn
-    column Columns::CustomFieldColumn
-    column Columns::RelationToTypeColumn
-    column Columns::RelationOfTypeColumn
-    column Columns::ManualSortingColumn
-    column Columns::TypeaheadColumn
+    select Selects::PropertySelect
+    select Selects::CustomFieldSelect
+    select Selects::RelationToTypeSelect
+    select Selects::RelationOfTypeSelect
+    select Selects::ManualSortingSelect
+    select Selects::TypeaheadSelect
   end
 end

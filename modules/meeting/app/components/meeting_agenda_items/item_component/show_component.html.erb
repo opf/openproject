@@ -61,15 +61,21 @@
         end
       end
 
-    grid.with_area(:actions, tag: :div, justify_self: :end) do
-      render(Primer::Alpha::ActionMenu.new) do |menu|
-        menu.with_show_button(icon: "kebab-horizontal", 'aria-label': t("label_agenda_item_actions"), scheme: :invisible, test_selector: 'op-meeting-agenda-actions')
-        edit_action_item(menu) if @meeting_agenda_item.editable?
-        add_note_action_item(menu) if @meeting_agenda_item.editable?
-        move_actions(menu)
-        delete_action_item(menu)
-      end if edit_enabled?
-    end
+      grid.with_area(:actions, tag: :div, justify_self: :end) do
+        if edit_enabled?
+          render(Primer::Alpha::ActionMenu.new) do |menu|
+            menu.with_show_button(icon: "kebab-horizontal",
+                                  'aria-label': I18n.t(:label_agenda_item_actions),
+                                  scheme: :invisible,
+                                  ml: 2,
+                                  test_selector: 'op-meeting-agenda-actions')
+            edit_action_item(menu) if @meeting_agenda_item.editable?
+            add_note_action_item(menu) if @meeting_agenda_item.editable?
+            move_actions(menu)
+            delete_action_item(menu)
+          end
+        end
+      end
 
       grid.with_area(:notes, tag: :div) do
         if @meeting_agenda_item.notes.present?

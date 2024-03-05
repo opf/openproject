@@ -34,7 +34,7 @@
             data: {
               controller: "params-from-query",
               'application-target': "dynamic",
-              'params-from-query-allowed-value': '["filters"]'
+              'params-from-query-allowed-value': '["filters", "columns"]'
             }
           }
           ) do |item|
@@ -47,6 +47,13 @@
           content_arguments: { 'data-show-dialog-id': EXPORT_MODAL_ID }
         ) do |item|
           item.with_leading_visual_icon(icon: 'sign-out')
+        end
+
+        menu.with_item(
+          label: t(:'queries.configure_view.heading'),
+          content_arguments: { 'data-show-dialog-id': Projects::ConfigureViewModalComponent::MODAL_ID }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :gear)
         end
 
         if query.persisted?
@@ -77,7 +84,7 @@
                          data: {
                            controller: "params-from-query",
                            'application-target': "dynamic",
-                           'params-from-query-allowed-value': '["filters"]'
+                           'params-from-query-allowed-value': '["filters", "columns"]'
                          },
                          id: 'project-save-form') do |f|
           render(Queries::Projects::Create.new(f))
@@ -87,6 +94,7 @@
 <% end %>
 
 <% if show_state? %>
+  <%# TODO: move into a component %>
   <%= render(Primer::Alpha::Dialog.new(title: t('js.label_export'),
                                        id: EXPORT_MODAL_ID)) do |d|
     d.with_header(variant: :large)
@@ -94,4 +102,6 @@
       render partial: '/projects/project_export_modal'
     end
   end %>
+
+  <%= render(Projects::ConfigureViewModalComponent.new(query:)) %>
 <% end %>

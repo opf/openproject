@@ -54,7 +54,7 @@ module CustomFields
     def after_perform(call)
       cf = call.result
 
-      if cf.is_a?(ProjectCustomField)
+      if cf.is_a?(ProjectCustomField) && EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
         add_cf_to_visible_columns(cf)
       end
 

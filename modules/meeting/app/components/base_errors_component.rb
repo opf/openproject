@@ -43,7 +43,7 @@ class BaseErrorsComponent < ApplicationComponent
   end
 
   def call
-    render(Primer::Beta::Flash.new(scheme: :danger, icon: :stop, spacious: true)) do
+    render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, spacious: true)) do
       joined_messages
     end
   end

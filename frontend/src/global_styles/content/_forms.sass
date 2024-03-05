@@ -538,6 +538,10 @@ fieldset.form--fieldset
   &.-with-bottom-spacing
     margin-bottom: 1rem
 
+  .form--field.-vertical &
+    @include grid-size(12)
+    @include grid-offset(0)
+
 .form--field-error
   @extend %form--field-after-container
   font-style: italic
