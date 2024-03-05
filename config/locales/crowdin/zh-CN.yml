@@ -562,6 +562,7 @@ zh-CN:
           false: "私有"
         queries: "查询"
         status_code: "项目状态"
+        description: "Description"
         status_explanation: "项目状态描述"
         status_codes:
           not_started: "未开始"

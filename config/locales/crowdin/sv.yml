@@ -566,6 +566,7 @@ sv:
           false: "private"
         queries: "Frågor"
         status_code: "Projektstatus"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Inte påbörjad"

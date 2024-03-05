@@ -567,6 +567,7 @@
           false: "privat"
         queries: "Spørringer"
         status_code: "Prosjektstatus"
+        description: "Description"
         status_explanation: "Prosjekt statusbeskrivelse"
         status_codes:
           not_started: "Ikke påbegynt"

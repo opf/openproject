@@ -415,6 +415,7 @@ id:
     label_email: "Email"
     label_equals: "adalah"
     label_expand: "Expand"
+    label_preview_not_available: "Preview not available"
     label_expanded: "diperluas"
     label_expand_all: "Buka semua"
     label_expand_project_menu: "Expand project menu"

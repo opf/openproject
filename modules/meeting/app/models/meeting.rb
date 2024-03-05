@@ -28,6 +28,7 @@
 
 class Meeting < ApplicationRecord
   include VirtualAttribute
+  include OpenProject::Journal::AttachmentHelper
 
   self.table_name = 'meetings'
 
@@ -58,6 +59,16 @@ class Meeting < ApplicationRecord
       .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_meetings))
   }
+
+  acts_as_attachable(
+    after_remove: :attachments_changed,
+    order: "#{Attachment.table_name}.file",
+    add_on_new_permission: :create_meetings,
+    add_on_persisted_permission: :edit_meetings,
+    view_permission: :view_meetings,
+    delete_permission: :edit_meetings,
+    modification_blocked: ->(*) { false }
+  )
 
   acts_as_watchable permission: :view_meetings
 

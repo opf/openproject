@@ -66,7 +66,7 @@ module Projects::Copy
       destination_folder_name = destination_project_storage.managed_project_folder_path
 
       Storages::Peripherals::Registry
-        .resolve("commands.#{source_project_storage.storage.short_provider_type}.copy_template_folder")
+        .resolve("#{source_project_storage.storage.short_provider_type}.commands.copy_template_folder")
         .call(
           storage: source_project_storage.storage,
           source_path: source_folder_name,

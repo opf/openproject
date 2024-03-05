@@ -43,12 +43,12 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
 
   context 'when a key is not registered' do
     it "raises a OperationNotSupported for a non-existent command/query" do
-      expect { registry.resolve('commands.nextcloud.destroy_alderaan') }.to raise_error Storages::Errors::OperationNotSupported
-      expect { registry.resolve('queries.nextcloud.alderaan') }.to raise_error Storages::Errors::OperationNotSupported
+      expect { registry.resolve('nextcloud.commands.destroy_alderaan') }.to raise_error Storages::Errors::OperationNotSupported
+      expect { registry.resolve('nextcloud.queries.alderaan') }.to raise_error Storages::Errors::OperationNotSupported
     end
 
     it 'raises a MissingContract for a non-existent contract' do
-      expect { registry['contracts.warehouse'] }.to raise_error Storages::Errors::MissingContract
+      expect { registry["warehouse.contracts.storage"] }.to raise_error Storages::Errors::MissingContract
     end
 
     it 'raises a ResolverStandardError in all other cases' do
@@ -100,9 +100,9 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
     end
 
     it 'responds with a strings array with group users' do
-      result = registry.resolve('queries.nextcloud.group_users').call(storage:)
+      result = registry.resolve('nextcloud.queries.group_users').call(storage:)
       expect(result).to be_success
-      expect(result.result).to eq(["admin", "OpenProject", "reader", "TestUser", "TestUser34"])
+      expect(result.result).to eq(%w[admin OpenProject reader TestUser TestUser34])
     end
   end
 
@@ -142,7 +142,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
     end
 
     it 'adds user to the group' do
-      result = registry.resolve('commands.nextcloud.add_user_to_group').call(storage:, user: origin_user_id)
+      result = registry.resolve('nextcloud.commands.add_user_to_group').call(storage:, user: origin_user_id)
       expect(result).to be_success
       expect(result.message).to eq("User has been added successfully")
     end
@@ -184,7 +184,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
     end
 
     it 'removes user from the group' do
-      result = registry.resolve('commands.nextcloud.remove_user_from_group').call(storage:, user: origin_user_id)
+      result = registry.resolve('nextcloud.commands.remove_user_from_group').call(storage:, user: origin_user_id)
       expect(result).to be_success
       expect(result.message).to eq("User has been removed from group")
     end
@@ -207,7 +207,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
       end
 
       it 'responds with a failure and parses message from the xml response' do
-        result = registry.resolve('commands.nextcloud.remove_user_from_group').call(storage:, user: origin_user_id)
+        result = registry.resolve('nextcloud.commands.remove_user_from_group').call(storage:, user: origin_user_id)
         expect(result).to be_failure
         expect(result.errors.log_message).to eq(
           "Failed to remove user #{origin_user_id} from group OpenProject: " \
@@ -240,7 +240,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
       end
 
       it 'creates a folder and responds with a success' do
-        result = registry.resolve('commands.nextcloud.create_folder').call(storage:, folder_path:)
+        result = registry.resolve('nextcloud.commands.create_folder').call(storage:, folder_path:)
         expect(result).to be_success
         expect(result.message).to eq("Folder was successfully created.")
       end
@@ -265,7 +265,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
       end
 
       it 'does not create a folder and responds with a success' do
-        result = registry.resolve('commands.nextcloud.create_folder').call(storage:, folder_path:)
+        result = registry.resolve('nextcloud.commands.create_folder').call(storage:, folder_path:)
         expect(result).to be_success
         expect(result.message).to eq("Folder already exists.")
       end
@@ -290,7 +290,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
       end
 
       it 'does not create a folder and responds with a failure' do
-        result = registry.resolve('commands.nextcloud.create_folder').call(storage:, folder_path:)
+        result = registry.resolve('nextcloud.commands.create_folder').call(storage:, folder_path:)
         expect(result).to be_failure
         expect(result.result).to eq(:conflict)
         expect(result.errors.log_message).to eq('Parent node does not exist')
@@ -394,7 +394,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
           end
 
           it 'returns success when permissions can be set' do
-            result = registry.resolve('commands.nextcloud.set_permissions').call(storage:, path:, permissions:)
+            result = registry.resolve('nextcloud.commands.set_permissions').call(storage:, path:, permissions:)
             expect(result).to be_success
           end
         end
@@ -420,7 +420,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
           end
 
           it 'returns failure' do
-            result = registry.resolve('commands.nextcloud.set_permissions').call(storage:, path:, permissions:)
+            result = registry.resolve('nextcloud.commands.set_permissions').call(storage:, path:, permissions:)
             expect(result).to be_failure
           end
         end
@@ -446,7 +446,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
           end
 
           it 'returns failure' do
-            result = registry.resolve('commands.nextcloud.set_permissions').call(storage:, path:, permissions:)
+            result = registry.resolve('nextcloud.commands.set_permissions').call(storage:, path:, permissions:)
             expect(result).to be_failure
           end
         end
@@ -455,13 +455,13 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
       context 'when forbidden values are given as folder' do
         it 'raises an ArgumentError on nil' do
           expect do
-            registry.resolve('commands.nextcloud.set_permissions').call(storage:, path: nil, permissions:)
+            registry.resolve('nextcloud.commands.set_permissions').call(storage:, path: nil, permissions:)
           end.to raise_error(ArgumentError)
         end
 
         it 'raises an ArgumentError on empty string' do
           expect do
-            registry.resolve('commands.nextcloud.set_permissions').call(path: '', permissions:)
+            registry.resolve('nextcloud.commands.set_permissions').call(path: '', permissions:)
           end.to raise_error(ArgumentError)
         end
       end
@@ -568,7 +568,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
 
     shared_examples 'a file_ids_query response' do
       it 'responds with a list of paths and attributes for each of them' do
-        result = registry.resolve('queries.nextcloud.file_ids').call(storage:, path: 'OpenProject')
+        result = registry.resolve('nextcloud.queries.file_ids').call(storage:, path: 'OpenProject')
                    .result
         expect(result).to eq({ "OpenProject/" => { "fileid" => "349" },
                                "OpenProject/Project #2/" => { "fileid" => "381" },
@@ -602,7 +602,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
 
     describe 'with Nextcloud storage type selected' do
       it 'moves the file' do
-        result = registry.resolve('commands.nextcloud.rename_file').call(storage:, source: 'OpenProject/asd',
+        result = registry.resolve('nextcloud.commands.rename_file').call(storage:, source: 'OpenProject/asd',
                                                                          target: 'OpenProject/qwe')
         expect(result).to be_success
       end
@@ -618,7 +618,7 @@ RSpec.describe Storages::Peripherals::Registry, :webmock do
 
     describe 'with Nextcloud storage type selected' do
       it 'deletes the folder' do
-        result = registry.resolve('commands.nextcloud.delete_folder').call(storage:, location: 'OpenProject/Folder 1')
+        result = registry.resolve('nextcloud.commands.delete_folder').call(storage:, location: 'OpenProject/Folder 1')
         expect(result).to be_success
       end
     end

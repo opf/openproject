@@ -415,6 +415,7 @@ si:
     label_email: "ඊ-තැපැල්"
     label_equals: "වේ"
     label_expand: "පුළුල්"
+    label_preview_not_available: "Preview not available"
     label_expanded: "පුළුල්"
     label_expand_all: "සියල්ල පුළුල්"
     label_expand_project_menu: "ව්යාපෘති මෙනුව පුළුල් කරන්න"

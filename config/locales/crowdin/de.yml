@@ -562,6 +562,7 @@ de:
           false: "privat"
         queries: "Abfragen"
         status_code: "Projektstatus"
+        description: "Description"
         status_explanation: "Projektstatusbeschreibung"
         status_codes:
           not_started: "Nicht gestartet"

@@ -55,11 +55,19 @@ export default class BudgetSubformController extends Controller {
     this.submitButtons = this.form.querySelectorAll("button[type='submit']");
   }
 
+  private debounceTimers:{ [id:string]:ReturnType<typeof setTimeout> } = {};
+
   valueChanged(evt:Event) {
     const row = this.eventRow(evt.target);
 
     if (row) {
-      void this.refreshRow(row.getAttribute('id') as string);
+      const id:string = row.getAttribute('id') as string;
+
+      clearTimeout(this.debounceTimers[id]);
+
+      this.debounceTimers[id] = setTimeout(() => {
+        void this.refreshRow(id);
+      }, 100);
     }
   }
 

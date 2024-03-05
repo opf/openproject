@@ -563,6 +563,7 @@ el:
           false: "private"
         queries: "Αναζητήσεις"
         status_code: "Κατάσταση έργου"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"

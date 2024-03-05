@@ -94,6 +94,10 @@ zh-TW:
   label_time_zone: "時區"
   label_start_date: "開始日期"
   meeting:
+    copy:
+      title: "Copy meeting %{title}"
+      agenda: "Copy agenda"
+      agenda_text: "Copy the agenda of the old meeting"
     email:
       open_meeting_link: "打開會議"
       invited:
@@ -146,7 +150,7 @@ zh-TW:
   label_meeting_created_by: "建立者"
   label_meeting_last_updated: "最後更新於"
   label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
-  label_agenda_item_deleted_wp: "已刪除工作包引用"
+  label_agenda_item_deleted_wp: "已將工作項目的引用刪除"
   label_agenda_item_actions: "議程項目行動"
   label_agenda_item_move_to_top: "移到頂部"
   label_agenda_item_move_to_bottom: "移到底部"
@@ -168,12 +172,12 @@ zh-TW:
   label_meeting_add_participants: "新增參與者"
   text_meeting_not_editable_anymore: "本次會議已不可編輯。"
   text_meeting_not_present_anymore: "此次會議已被刪除。請選擇另一場會議。"
-  label_add_work_package_to_meeting_dialog_title: "將工作包添加到會議"
+  label_add_work_package_to_meeting_dialog_title: "將工作項目新增到到會議"
   label_add_work_package_to_meeting_dialog_button: "添加到會議"
   label_meeting_selection_caption: "It's only possible to add this work package to upcoming or ongoing open meetings."
-  text_add_work_package_to_meeting_description: "一個工作包可以添加到一個或多個會議供討論。與此相關的任何說明也可在這裡看到。"
+  text_add_work_package_to_meeting_description: "一個工作項目可以新增到一個或多個會議供討論。與此相關的說明也可在這裡看到。"
   text_agenda_item_no_notes: "未提供筆記"
   text_agenda_item_not_editable_anymore: "本次會議已不可編輯。"
-  text_work_package_has_no_upcoming_meeting_agenda_items: "該工作包尚未被安排到即將舉行的會議議程中。"
-  text_work_package_add_to_meeting_hint: "使用\"添加到會議\"按鈕將此工作包添加到即將舉行的會議。"
-  text_work_package_has_no_past_meeting_agenda_items: "在過往會議中沒有提及過該工作包。"
+  text_work_package_has_no_upcoming_meeting_agenda_items: "該工作項目尚未被安排到即將舉行的會議議程中。"
+  text_work_package_add_to_meeting_hint: "使用\"新增到會議\"按鈕將此工作項目新增到即將舉行的會議。"
+  text_work_package_has_no_past_meeting_agenda_items: "在過往會議中沒有提及過該工作項目。"

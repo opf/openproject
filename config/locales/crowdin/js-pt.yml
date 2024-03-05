@@ -414,6 +414,7 @@ pt:
     label_email: "E-mail"
     label_equals: "é"
     label_expand: "Expandir"
+    label_preview_not_available: "Preview not available"
     label_expanded: "expandido"
     label_expand_all: "Expandir todos"
     label_expand_project_menu: "Expandir menu do projeto"

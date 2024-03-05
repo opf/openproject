@@ -3,10 +3,12 @@
     <%= builder.text_area(@input.name, **@input.input_arguments) %>
   <% end %>
   <%= angular_component_tag 'opce-ckeditor-augmented-textarea',
-                            inputs: {
-                              textareaSelector: "##{builder.field_id(@input.name)}",
-                              macros: 'resource',
-                              turboMode: true
-                            }
+                            inputs: @rich_text_options.reverse_merge(
+                              {
+                                textareaSelector: "##{builder.field_id(@input.name)}",
+                                macros: 'resource',
+                                turboMode: true
+                              }
+                            )
   %>
 <% end %>

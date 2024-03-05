@@ -120,8 +120,9 @@ class ApplicationMailer < ActionMailer::Base
     format.text
   end
 
-  def send_mail(user, subject)
+  def send_localized_mail(user)
     with_locale_for(user) do
+      subject = yield
       mail to: user.mail, subject:
     end
   end

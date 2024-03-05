@@ -414,6 +414,7 @@ sl:
     label_email: "E-pošta"
     label_equals: "je"
     label_expand: "Razširi"
+    label_preview_not_available: "Preview not available"
     label_expanded: "Razširjen"
     label_expand_all: "Razširi vse"
     label_expand_project_menu: "Razširi projektni meni"

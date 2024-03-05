@@ -566,6 +566,7 @@ tr:
           false: "özel"
         queries: "Sorgular"
         status_code: "Proje Durumu"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Başlatılmadı"

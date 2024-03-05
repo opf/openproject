@@ -415,6 +415,7 @@ ar:
     label_email: "البريد الإكتروني"
     label_equals: "يكون"
     label_expand: "وسّع"
+    label_preview_not_available: "Preview not available"
     label_expanded: "تم التوسع"
     label_expand_all: "توسيع الجميع"
     label_expand_project_menu: "Expand project menu"

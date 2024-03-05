@@ -72,20 +72,18 @@ RSpec.describe 'OAuth Access Grant Nudge upon adding a storage to a project',
     expect(page).to have_select('Storage', options: ["#{storage.name} (nextcloud)"])
     click_on('Continue')
 
-    # by default automatic have to be choosen if storage has automatic management enabled
     expect(page).to have_checked_field("New folder with automatically managed permissions")
     click_on('Add')
 
-    # The list of enabled file storages should now contain Storage 1
     expect(page).to have_text('File storages available in this project')
     expect(page).to have_text(storage.name)
 
     within_test_selector('oauth-access-grant-nudge-modal') do
+      expect(page).to be_axe_clean
       expect(page).to have_text('One more step...')
-
       click_on('Login')
-      expect(page).to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
-                                        "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
+      wait_for(page).to have_current_path("/index.php/apps/oauth2/authorize?client_id=#{storage.oauth_client.client_id}&" \
+                                          "redirect_uri=#{redirect_uri}&response_type=code&state=#{nonce}")
     end
   end
 end

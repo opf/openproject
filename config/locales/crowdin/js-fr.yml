@@ -31,7 +31,7 @@ fr:
         Voulez-vous vraiment supprimer ce fichier ? Cette action est irréversible.
       draggable_hint: |
         Faites glisser le champ de l'éditeur pour incorporer une image ou une pièce jointe de référence. Les champs fermés de l'éditeur seront ouverts tant que vous continuer à faire glisser.
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "Le fichier est en quarantaine, car un virus a été détecté. Il ne peut pas être téléchargé."
     autocomplete_ng_select:
       add_tag: "Ajouter un élément"
       clear_all: "Tout réinitialiser"
@@ -415,6 +415,7 @@ fr:
     label_email: "Courriel"
     label_equals: "est"
     label_expand: "développer"
+    label_preview_not_available: "Aperçu indisponible."
     label_expanded: "étendu"
     label_expand_all: "Tout déplier"
     label_expand_project_menu: "Déplier le menu du projet"

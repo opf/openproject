@@ -153,6 +153,7 @@ module CustomFieldsHelper
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
     field_format = OpenProject::CustomFieldFormat.find_by_name(custom_field.field_format)
+
     case field_format.try(:edit_as)
     when 'date'
       angular_component_tag 'op-modal-single-date-picker',
@@ -164,12 +165,17 @@ module CustomFieldsHelper
       styled_text_area_tag(field_name, '', id: field_id, rows: 3, with_text_formatting: true)
     when 'bool'
       styled_select_tag(field_name, options_for_select([[I18n.t(:label_no_change_option), ''],
+                                                        ([I18n.t(:label_none), 'none'] unless custom_field.required?),
                                                         [I18n.t(:general_text_yes), '1'],
-                                                        [I18n.t(:general_text_no), '0']]), id: field_id)
+                                                        [I18n.t(:general_text_no), '0']].compact), id: field_id)
     when 'list'
+      base_options = [[I18n.t(:label_no_change_option), '']]
+      unless custom_field.required?
+        unset_label = custom_field.field_format == 'user' ? :label_nobody : :label_none
+        base_options << [I18n.t(unset_label), 'none']
+      end
       styled_select_tag(field_name,
-                        options_for_select([[I18n.t(:label_no_change_option),
-                                             '']] + custom_field.possible_values_options(project)),
+                        options_for_select(base_options + custom_field.possible_values_options(project)),
                         id: field_id,
                         multiple: custom_field.multi_value?)
     else

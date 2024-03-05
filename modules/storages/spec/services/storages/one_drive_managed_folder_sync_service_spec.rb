@@ -360,12 +360,12 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
   def create_folder_for(project_storage, folder_override = nil)
     folder_path = folder_override || project_storage.managed_project_folder_path
 
-    Storages::Peripherals::Registry.resolve('commands.one_drive.create_folder')
+    Storages::Peripherals::Registry.resolve('one_drive.commands.create_folder')
                                    .call(storage: project_storage.storage, folder_path:)
   end
 
   def set_permissions_on(item_id, permissions)
-    Storages::Peripherals::Registry.resolve('commands.one_drive.set_permissions')
+    Storages::Peripherals::Registry.resolve('one_drive.commands.set_permissions')
                                    .call(storage:, path: item_id, permissions:)
   end
 
@@ -377,6 +377,6 @@ RSpec.describe Storages::OneDriveManagedFolderSyncService, :webmock do
   end
 
   def delete_folder(item_id)
-    Storages::Peripherals::Registry.resolve('commands.one_drive.delete_folder').call(storage:, location: item_id)
+    Storages::Peripherals::Registry.resolve('one_drive.commands.delete_folder').call(storage:, location: item_id)
   end
 end

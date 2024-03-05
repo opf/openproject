@@ -567,6 +567,7 @@ bg:
           false: "private"
         queries: "Търсения"
         status_code: "Статус на проекта"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"

@@ -414,6 +414,7 @@ ro:
     label_email: "E-mail"
     label_equals: "este"
     label_expand: "Extindere"
+    label_preview_not_available: "Preview not available"
     label_expanded: "extins"
     label_expand_all: "Extindere totală"
     label_expand_project_menu: "Deschideți meniul proiectului"

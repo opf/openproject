@@ -45,7 +45,11 @@ class MeetingAgendaItem < ApplicationRecord
 
   scope :with_includes_to_render, -> { includes(:author, :meeting) }
 
-  validates :meeting_id, presence: true
+  # The primer form depends on meeting_id being validated, even though Rails pattern would suggest
+  # to validate only :meeting. When copying meetings however,
+  # we build meetings and agenda items together, so meeting_id will stay empty.
+  # We can use loaded? to check if the meeting has been provided
+  validates :meeting_id, presence: true, unless: Proc.new { |item| item.association(:meeting).loaded? && item.meeting }
   validates :title, presence: true, if: Proc.new { |item| item.simple? }
   validates :work_package_id, presence: true, if: Proc.new { |item| item.work_package? }, on: :create
   validates :work_package_id,
@@ -84,5 +88,9 @@ class MeetingAgendaItem < ApplicationRecord
 
   def modifiable?
     !(meeting&.closed? || (deleted_work_package? && work_package_id.present?))
+  end
+
+  def copy_attributes
+    attributes.except('id', 'meeting_id')
   end
 end

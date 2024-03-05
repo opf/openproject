@@ -233,7 +233,7 @@ namespace :redmine do
       { issue: {} }.tap do |options|
         default_fields = ENV.fetch('default_fields', '').split
         default_fields |= %w[project status type category priority assigned_to version]
-        default_fields.each { |field| options[:issue][field.to_sym] = ENV[field] if ENV[field] }
+        default_fields.each { |field| options[:issue][field.to_sym] = ENV[field] if ENV[field].present? }
 
         options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
         options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']

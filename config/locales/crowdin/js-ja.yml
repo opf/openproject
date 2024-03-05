@@ -416,6 +416,7 @@ ja:
     label_email: "電子メールアドレス"
     label_equals: "等しい"
     label_expand: "展開"
+    label_preview_not_available: "Preview not available"
     label_expanded: "展開"
     label_expand_all: "全てを展開"
     label_expand_project_menu: "プロジェクトメニューを展開"

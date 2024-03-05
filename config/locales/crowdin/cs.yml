@@ -569,6 +569,7 @@ cs:
           false: "soukromý"
         queries: "Dotazy"
         status_code: "Stav projektu"
+        description: "Description"
         status_explanation: "Popis stavu projektu"
         status_codes:
           not_started: "Nezahájeno"

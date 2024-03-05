@@ -75,8 +75,14 @@ RSpec.describe Workflows::BulkUpdateService, 'integration', type: :model do
         expect(Workflow.where(type_id: type.id, role_id: role.id).count)
           .to be 3
 
-        refute_nil Workflow.where(role_id: role.id, type_id: type.id, old_status_id: status3.id, new_status_id: status2.id).first
-        assert_nil Workflow.where(role_id: role.id, type_id: type.id, old_status_id: status5.id, new_status_id: status4.id).first
+        expect(Workflow.where(role_id: role.id,
+                              type_id: type.id,
+                              old_status_id: status3.id,
+                              new_status_id: status2.id).first).not_to be_nil
+        expect(Workflow.where(role_id: role.id,
+                              type_id: type.id,
+                              old_status_id: status5.id,
+                              new_status_id: status4.id).first).to be_nil
       end
     end
 

@@ -414,6 +414,7 @@ de:
     label_email: "E-Mail"
     label_equals: "ist"
     label_expand: "Aufklappen"
+    label_preview_not_available: "Preview not available"
     label_expanded: "aufgeklappt"
     label_expand_all: "Alle aufklappen"
     label_expand_project_menu: "Projektmenü aufklappen"

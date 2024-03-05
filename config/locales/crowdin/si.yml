@@ -567,6 +567,7 @@ si:
           false: "private"
         queries: "විමසුම්"
         status_code: "ව්යාපෘති තත්ත්වය"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Not started"

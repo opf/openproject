@@ -733,6 +733,34 @@ module Settings
         format: :string,
         default: nil
       },
+      httpx_connect_timeout: {
+        description: '',
+        format: :float,
+        writable: false,
+        allowed: (0..),
+        default: 3
+      },
+      httpx_read_timeout: {
+        description: '',
+        format: :float,
+        writable: false,
+        allowed: (0..),
+        default: 3
+      },
+      httpx_write_timeout: {
+        description: '',
+        format: :float,
+        writable: false,
+        allowed: (0..),
+        default: 3
+      },
+      httpx_keep_alive_timeout: {
+        description: '',
+        format: :float,
+        writable: false,
+        allowed: (0..),
+        default: 20
+      },
       rate_limiting: {
         default: {},
         description: 'Configure rate limiting for various endpoint rules. See configuration documentation for details.'
