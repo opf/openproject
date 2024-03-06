@@ -841,6 +841,10 @@ sl:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "\nse medsebojno izključuje s skupino '%{group_by}'. Ne morete aktivirati obeh."
           filters:
             custom_fields:
@@ -2795,7 +2799,7 @@ sl:
   setting_brute_force_block_minutes: "Čas za katerega je blokiran uporabnik"
   setting_cache_formatted_text: "Besedilo oblikovano v predpomnilniku"
   setting_use_wysiwyg_description: "Izberi, da privzeto omogočiš CKEditor5 WYSIWYG urejevalnik za vse uporabnike. CKEditor ima omejene funkcionalnosti za GFM Markdown"
-  setting_column_options: "Prilagodite izgled seznama delovnih paketov"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Urejanje ključne besede"
   setting_commit_logs_encoding: "Zaznaj kodiranje sporočil"
   setting_commit_logtime_activity_id: "Aktivnost uporabnika za čas prijave"
@@ -2817,7 +2821,7 @@ sl:
   setting_emails_header: "Glava e-pošte"
   setting_email_login: "Uporabite e-pošto kot prijavo"
   setting_enabled_scm: "Omogočen SCM"
-  setting_enabled_projects_columns: "Vidno na seznamu projektov"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Omogoči vire"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Omejitev vsebine vira"
@@ -2828,7 +2832,6 @@ sl:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Privzet prikaz"
   setting_work_package_properties: "Lastnosti delovnega paketa"
   setting_work_package_startdate_is_adddate: "52/5000\nUporabite trenutni datum kot datum začetka za nove delovne pakete"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2936,7 +2939,7 @@ sl:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Nastavitve za nove projekte"
-      section_project_overview: "Nastavitve za seznam pregleda projekta."
+      section_project_overview: "Settings for project lists"
     session: "Seja"
     user:
       default_preferences: "Privzete nastavitve"
@@ -3101,6 +3104,12 @@ sl:
       Če je omogočeno, uporabnik med registracijo ne bo mogel izbrati prijave. Namesto tega bo njihov e-poštni naslov služil kot prijava. Skrbnik lahko še vedno ločeno spremeni prijavo.
   queries:
     apply_filter: Uporabite predhodno konfiguriran filter
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Dodatna sredstva\n"
     getting_started: "Začnite"

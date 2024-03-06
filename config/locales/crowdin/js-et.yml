@@ -136,7 +136,6 @@ et:
     description_available_columns: "Saadaolevad väljad"
     description_current_position: "Oled siin: "
     description_select_work_package: "Select work package #%{id}"
-    description_selected_columns: "Valitud väljad"
     description_subwork_package: "Child of work package #%{id}"
     editor:
       preview: 'Toggle preview mode'
@@ -446,6 +445,7 @@ et:
     label_less_than_ago: "vähem kui päev tagasi"
     label_loading: "Laadimine..."
     label_mail_notification: "Eposti märguandmed"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "mina"
     label_meeting_agenda: "Päevakava"
     label_meeting_minutes: "Minutit"
@@ -484,6 +484,7 @@ et:
     label_report: "Aruanne"
     label_repository_plural: "Hoidlad"
     label_save_as: "Salvesta kui"
+    label_search_columns: "Search a column"
     label_select_project: "Vali projekt"
     label_select_watcher: "Vali jälgija..."
     label_selected_filter_list: "Valitud filtrid"

@@ -841,6 +841,10 @@ sv:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "är ömsesidigt uteslutande med grupperingen '%{group_by}'. Du kan inte aktivera båda."
           filters:
             custom_fields:
@@ -2738,7 +2742,7 @@ sv:
   setting_brute_force_block_minutes: "Tiden som användaren är blockerad"
   setting_cache_formatted_text: "Cache-formaterad text"
   setting_use_wysiwyg_description: "Välj för att aktivera CKEditor5 WYSIWYG editor för alla användare som standard. CKEditor har begränsad funktionalitet för GFM Markdown."
-  setting_column_options: "Anpassa utseendet på arbetspaketslistan"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Nyckelord för fixande"
   setting_commit_logs_encoding: "Kodning av incheckningsmeddelanden"
   setting_commit_logtime_activity_id: "Aktivitet för tidrapport"
@@ -2760,7 +2764,7 @@ sv:
   setting_emails_header: "E-post sidhuvud"
   setting_email_login: "Använd e-post som inloggning"
   setting_enabled_scm: "Aktiverade SCM"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Aktivera Flöden"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Innehållsbegränsning på Flöden"
@@ -2771,7 +2775,6 @@ sv:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Visa som standard"
   setting_work_package_properties: "Egenskaper för arbetspaket"
   setting_work_package_startdate_is_adddate: "Använda aktuellt datum som startdatum för nya arbetspaket"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2879,7 +2882,7 @@ sv:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_project_overview: "Settings for project lists"
     session: "Session"
     user:
       default_preferences: "Förvalda inställningar"
@@ -3044,6 +3047,12 @@ sv:
       Om inställningen aktiveras kan inte användare välja användarnamn och loggar istället in med sin e-postadress. En administratör kan däremot ändra användarnamnet separat.
   queries:
     apply_filter: Använd förkonfigurerade filter
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Ytterligare resurser"
     getting_started: "Komma igång"

@@ -843,6 +843,10 @@ ro:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "se exclude reciproc cu grupul de \"%{group_by}\". Nu le puteți activa pe amândouă."
           filters:
             custom_fields:
@@ -2769,7 +2773,7 @@ ro:
   setting_brute_force_block_minutes: "Durata pentru care utilizatorul este blocat"
   setting_cache_formatted_text: "Păstrare text formatat în memorie"
   setting_use_wysiwyg_description: "Selectați pentru a activa în mod implicit editorul CKEditor5 WYSIWYG pentru toți utilizatorii. CKEditor are o funcționalitate limitată pentru GFM Markdown."
-  setting_column_options: "Personalizați aspectul listelor cu pachete de lucru"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Cuvinte cheie pentru rezolvări"
   setting_commit_logs_encoding: "Encodare pentru mesajele la încărcare"
   setting_commit_logtime_activity_id: "Activitate la înregistrarea duratei de lucru"
@@ -2791,7 +2795,7 @@ ro:
   setting_emails_header: "Antet e-mail"
   setting_email_login: "Folosiți e-mailul ca autentificare"
   setting_enabled_scm: "SCM activat"
-  setting_enabled_projects_columns: "Vizibil în lista de proiecte"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Activare fluxuri"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Limită conținut flux"
@@ -2802,7 +2806,6 @@ ro:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Afișate implicit"
   setting_work_package_properties: "Proprietăți pachet de lucru"
   setting_work_package_startdate_is_adddate: "Folosire data curentă ca dată de început pentru pachetele de lucru noi"
   setting_work_packages_projects_export_limit: "Limita de export a pachetelor de lucru / proiectelor"
@@ -2910,7 +2913,7 @@ ro:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Setări pentru proiecte noi"
-      section_project_overview: "Setări pentru lista de prezentare generală a proiectului"
+      section_project_overview: "Settings for project lists"
     session: "Sesiune"
     user:
       default_preferences: "Preferințe implicite"
@@ -3075,6 +3078,12 @@ ro:
       Dacă această opțiune este activată, utilizatorul nu va putea alege un nume de utilizator în timpul înregistrării. În schimb, adresa de e-mail furnizată va fi folosită ca nume de utilizator. Un administrator poate schimba în continuare datele de conectare separat.
   queries:
     apply_filter: Aplicare filtru preconfigurat
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Resurse suplimentare"
     getting_started: "Noţiuni de bază"

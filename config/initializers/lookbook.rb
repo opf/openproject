@@ -17,6 +17,8 @@ Rails.application.configure do
     Primer::ViewComponents::Engine.root.join('previews').to_s
   ]
 
+  # Show pages first, then previews
+  config.lookbook.preview_inspector.sidebar_panels = [:pages, :previews]
   # Show notes first, all other panels next
   config.lookbook.preview_inspector.drawer_panels = [:notes, "*"]
   config.lookbook.ui_theme = "blue"

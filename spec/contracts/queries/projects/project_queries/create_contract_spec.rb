@@ -38,6 +38,8 @@ RSpec.describe Queries::Projects::ProjectQueries::CreateContract do
         query.change_by_system do
           query.user = query_user
         end
+
+        query.select(*query_selects)
       end
     end
 

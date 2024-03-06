@@ -32,7 +32,7 @@ RSpec.describe API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter d
   include API::V3::Utilities::PathHelper
 
   let(:type) { build_stubbed(:type) }
-  let(:column) { Queries::WorkPackages::Columns::RelationToTypeColumn.new(type) }
+  let(:column) { Queries::WorkPackages::Selects::RelationToTypeSelect.new(type) }
   let(:representer) { described_class.new(column) }
 
   subject { representer.to_json }

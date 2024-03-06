@@ -841,6 +841,10 @@ pt:
               invalid: "Os carimbos de data/hora contêm valores inválidos: %{values}"
               forbidden: "Os carimbos de data/hora contêm valores proibidos: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "é mutuamente exclusivo com o agrupamento por '%{group_by}'. Você não pode ativar os dois."
           filters:
             custom_fields:
@@ -2738,7 +2742,7 @@ pt:
   setting_brute_force_block_minutes: "Tempo que o usuário ficará bloqueado"
   setting_cache_formatted_text: "Texto formatado em cache"
   setting_use_wysiwyg_description: "Selecione para habilitar o CKEditor5 para todos os usuários por padrão. O CKEditor tem funcionalidades limitadas para o GFM Markdown."
-  setting_column_options: "Personalizar a aparência das listas de pacotes de trabalho"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Palavras-chave de correção"
   setting_commit_logs_encoding: "Codificação das mensagens de commit"
   setting_commit_logtime_activity_id: "Atividades durante o tempo conectado"
@@ -2760,7 +2764,7 @@ pt:
   setting_emails_header: "Cabeçalho de e-mails"
   setting_email_login: "Usar e-mail como login"
   setting_enabled_scm: "SCM habilitado"
-  setting_enabled_projects_columns: "Visível na lista de projetos"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Habilitar Feeds"
   setting_ical_enabled: "Habilitar assinaturas do iCalendar"
   setting_feeds_limit: "Limite de conteúdo de feed"
@@ -2771,7 +2775,6 @@ pt:
   setting_work_package_done_ratio_field: "O campo de pacote de trabalho"
   setting_work_package_done_ratio_status: "O estado do pacote de trabalho"
   setting_work_package_done_ratio_disabled: "Desativar (ocultar o campo % de conclusão)"
-  setting_work_package_list_default_columns: "Exibir por padrão"
   setting_work_package_properties: "Propriedades do pacote de trabalho"
   setting_work_package_startdate_is_adddate: "Usar a data atual como data para início dos novos pacotes de trabalho"
   setting_work_packages_projects_export_limit: "Limite de exportação de pacote de trabalho / projetos"
@@ -2879,7 +2882,7 @@ pt:
     projects:
       missing_dependencies: "Módulo de projeto %{module} foi verificado e depende de %{dependencies}. Você também precisa verificar estas dependências."
       section_new_projects: "Configurações para novos projetos"
-      section_project_overview: "Configurações para a lista de visão geral do projeto"
+      section_project_overview: "Settings for project lists"
     session: "Sessão"
     user:
       default_preferences: "Preferências padrão"
@@ -3044,6 +3047,12 @@ pt:
       Se habilitado, um usuário não poderá escolher um login durante o registro. Em vez disso, seu endereço de e-mail servirá como login. Um administrador ainda poderá mudar o login separadamente.
   queries:
     apply_filter: Aplicar filtro pré-configurado
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Recursos adicionais"
     getting_started: "Guia de introdução"

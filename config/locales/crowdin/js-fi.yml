@@ -136,7 +136,6 @@ fi:
     description_available_columns: "Käytettävissä olevat sarakkeet"
     description_current_position: "You are here: "
     description_select_work_package: "Valitse tehtävä #%{id}"
-    description_selected_columns: "Valitut sarakkeet"
     description_subwork_package: "Tehtävän #%{id} alitehtävä"
     editor:
       preview: 'Esikatselutila'
@@ -446,6 +445,7 @@ fi:
     label_less_than_ago: "vähemmän kuin päivää sitten"
     label_loading: "Lataa..."
     label_mail_notification: "Sähköposti-ilmoitukset"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "minä"
     label_meeting_agenda: "Esityslista"
     label_meeting_minutes: "Pöytäkirja"
@@ -484,6 +484,7 @@ fi:
     label_report: "Raportti"
     label_repository_plural: "Tietovarastot"
     label_save_as: "Tallenna nimellä"
+    label_search_columns: "Search a column"
     label_select_project: "Valitse projekti"
     label_select_watcher: "Valitse seuraaja..."
     label_selected_filter_list: "Valitut suodattimet"

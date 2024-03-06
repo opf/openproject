@@ -44,9 +44,7 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
   end
 
   context 'with status_explanation enabled' do
-    before do
-      Setting.enabled_projects_columns += ["status_explanation"]
-    end
+    let(:query_columns) { %w[name description project_status status_explanation public ] }
 
     it 'performs a successful export' do
       expect(rows.count).to eq(1)
@@ -57,14 +55,11 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
   end
 
   describe 'custom field columns selected' do
-    before do
-      Setting.enabled_projects_columns += custom_fields.map(&:column_name)
-    end
+    let(:query_columns) { %w[name description project_status public] + custom_fields.map(&:column_name) }
+    let(:current_user) { build_stubbed(:admin) }
 
     context 'when ee enabled', with_ee: %i[custom_fields_in_projects_list] do
       it 'renders all those columns' do
-        expect(rows.count).to eq 1
-
         cf_names = custom_fields.map(&:name)
         expect(header).to eq ['ID', 'Identifier', 'Name', 'Description', 'Status', 'Public', *cf_names]
 

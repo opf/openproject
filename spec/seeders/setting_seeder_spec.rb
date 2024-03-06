@@ -36,11 +36,6 @@ RSpec.describe BasicData::SettingSeeder do
   let(:new_project_role) { basic_seed_data.find_reference(:default_role_project_admin) }
   let(:closed_status) { basic_seed_data.find_reference(:default_status_closed) }
 
-  before do
-    allow(ActionMailer::Base).to receive(:perform_deliveries).and_return(false)
-    allow(Delayed::Worker).to receive(:delay_jobs).and_return(false)
-  end
-
   it 'applies initial settings' do
     expect(setting_seeder).to be_applicable
 

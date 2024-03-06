@@ -206,7 +206,7 @@ module OpenProject::Backlogs
       ::Queries::Register.register(::Query) do
         filter OpenProject::Backlogs::WorkPackageFilter
 
-        column OpenProject::Backlogs::QueryBacklogsColumn
+        select OpenProject::Backlogs::QueryBacklogsSelect
       end
     end
   end

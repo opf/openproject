@@ -94,7 +94,7 @@ zh-TW:
   backlogs_velocity_varies: "完成速度在不同進度中差異很大"
   backlogs_wiki_template: "進度的 Wiki 頁面樣板"
   backlogs_empty_title: "未定義要在積壓事項中使用的版本"
-  backlogs_empty_action_text: "要開始積壓事項, 請創建一個新版本並將其分配給積壓事項列。"
+  backlogs_empty_action_text: "要開始待辦事項, 請新增一個新版本並將其分配給待辦事項項欄位。"
   button_edit_wiki: "編輯 Wiki 頁面"
   error_backlogs_task_cannot_be_story: "設定無效。所選任務類型不能同時為使用者需求類型。"
   error_intro_plural: "發生以下的錯誤:"

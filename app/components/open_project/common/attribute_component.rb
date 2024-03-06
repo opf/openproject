@@ -30,7 +30,6 @@ require 'nokogiri'
 module OpenProject
   module Common
     class AttributeComponent < Primer::Component
-
       def initialize(id, name, description, **args)
         super
         @id = id

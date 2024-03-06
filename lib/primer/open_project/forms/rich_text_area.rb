@@ -9,9 +9,10 @@ module Primer
 
         delegate :builder, :form, to: :@input
 
-        def initialize(input:)
+        def initialize(input:, rich_text_options:)
           super()
           @input = input
+          @rich_text_options = rich_text_options
         end
       end
     end

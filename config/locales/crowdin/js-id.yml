@@ -136,7 +136,6 @@ id:
     description_available_columns: "Kolom tersedia"
     description_current_position: "Kamu di sini:"
     description_select_work_package: "Select work package #%{id}"
-    description_selected_columns: "Kolom dipilih"
     description_subwork_package: "Child of work package #%{id}"
     editor:
       preview: 'Beralih ke mode preview'
@@ -446,6 +445,7 @@ id:
     label_less_than_ago: "kemarin lusa"
     label_loading: "Loading..."
     label_mail_notification: "Notifikasi email"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "saya"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Laporan"
@@ -484,6 +484,7 @@ id:
     label_report: "Laporan"
     label_repository_plural: "Repositori"
     label_save_as: "Simpan sebagai"
+    label_search_columns: "Search a column"
     label_select_project: "Memilih sebuah proyek"
     label_select_watcher: "Pilih pemantau..."
     label_selected_filter_list: "Filter terpilih"

@@ -136,7 +136,6 @@ af:
     description_available_columns: "Kolomme beskikbaar"
     description_current_position: "You are here: "
     description_select_work_package: "Kies werkspakket #%{id}"
-    description_selected_columns: "Geselekteerde kolomme"
     description_subwork_package: "Kind van werkspakket #%{id}"
     editor:
       preview: 'Toggle preview mode'
@@ -446,6 +445,7 @@ af:
     label_less_than_ago: "minder as dae gelede"
     label_loading: "Laai tans..."
     label_mail_notification: "E-poskennisgewings"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "ek"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Minutes"
@@ -484,6 +484,7 @@ af:
     label_report: "Report"
     label_repository_plural: "Repositories"
     label_save_as: "Save as"
+    label_search_columns: "Search a column"
     label_select_project: "Select a project"
     label_select_watcher: "Select a watcher..."
     label_selected_filter_list: "Selected filters"

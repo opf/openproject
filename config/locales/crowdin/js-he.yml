@@ -136,7 +136,6 @@ he:
     description_available_columns: "עמודות זמינות"
     description_current_position: "You are here: "
     description_select_work_package: "Select work package #%{id}"
-    description_selected_columns: "עמודות נבחרות"
     description_subwork_package: "Child of work package #%{id}"
     editor:
       preview: 'Toggle preview mode'
@@ -446,6 +445,7 @@ he:
     label_less_than_ago: "less than days ago"
     label_loading: "טוען..."
     label_mail_notification: "התראות דוא\"ל"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "אני"
     label_meeting_agenda: "סדר היום"
     label_meeting_minutes: "דקות"
@@ -484,6 +484,7 @@ he:
     label_report: "דו״ח"
     label_repository_plural: "Repositories"
     label_save_as: "שמירה בשם"
+    label_search_columns: "Search a column"
     label_select_project: "Select a project"
     label_select_watcher: "בחר צופה..."
     label_selected_filter_list: "מסננים נבחרים: %s"
