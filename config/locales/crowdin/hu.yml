@@ -839,6 +839,10 @@ hu:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}\n"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "kölcsönösen kizárja a csoportot a '%{group_by}' csoporttal. Nem aktiválhatja mindkettőt."
           filters:
             custom_fields:
@@ -2737,7 +2741,7 @@ hu:
   setting_brute_force_block_minutes: "Mennyi időre tiltsa ki"
   setting_cache_formatted_text: "Gyorsítótárazott formázott szöveg"
   setting_use_wysiwyg_description: "Összes felhasználó CKEditor5 WYSIWYG szerkesztő alapértelmezés szerint. CKEditor tegye a GFM Markdown korlátozott funkcionalitással."
-  setting_column_options: "A feladatcsoport listák megjelenésének testreszabása"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Kulcsszavak rögzítése"
   setting_commit_logs_encoding: "Üzenetek kódolása"
   setting_commit_logtime_activity_id: "Tevékenységek a naplózott időben"
@@ -2759,7 +2763,7 @@ hu:
   setting_emails_header: "E-mailek fejléce"
   setting_email_login: "Használd az e-mail címet a bejellentkezéshez"
   setting_enabled_scm: "SCM engedélyezve"
-  setting_enabled_projects_columns: "Látható a projektlistában"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Hírcsatornák engedélyezése"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Tartalom szintjének a korlátja"
@@ -2770,7 +2774,6 @@ hu:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Alapértelmezés megjelenítése"
   setting_work_package_properties: "feladatcsoport tulajdonságok"
   setting_work_package_startdate_is_adddate: "Az aktuális dátum használata, mint kezdő dátuma az új feladatcsoportoknak"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2878,7 +2881,7 @@ hu:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Új projekt beállításai"
-      section_project_overview: "A projekt áttekintési lista beállítása"
+      section_project_overview: "Settings for project lists"
     session: "Munkamenet"
     user:
       default_preferences: "Alapértelmezett preferenciák"
@@ -3043,6 +3046,12 @@ hu:
       Ha engedélyezve van, a felhasználó nem tudja kiválasztani a bejelentkezést a regisztráció során. Ehelyett a megadott e-mail címet fogja bejelentkezésre használni. Az adminisztrátor továbbra is külön módosíthatja a bejelentkezést.
   queries:
     apply_filter: Előre beállított szűrő alkalmazása
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "További források"
     getting_started: "Kezdés"

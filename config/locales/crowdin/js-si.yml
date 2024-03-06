@@ -136,7 +136,6 @@ si:
     description_available_columns: "ලබා ගත හැකි තීරු"
     description_current_position: "ඔයා මෙහෙයි: "
     description_select_work_package: "වැඩ පැකේජය තෝරන්න #%{id}"
-    description_selected_columns: "තෝරාගත් තීරු"
     description_subwork_package: "වැඩ පැකේජය දරුවා #%{id}"
     editor:
       preview: 'පෙරදසුනෙහි මාදිලිය ටොගල් කරන්න'
@@ -446,6 +445,7 @@ si:
     label_less_than_ago: "දින ගණනකට පෙර"
     label_loading: "පැටවීම..."
     label_mail_notification: "වි-ල් ස්කිනිම්"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "මට"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Minutes"
@@ -484,6 +484,7 @@ si:
     label_report: "වාර්තාව"
     label_repository_plural: "ගබඩාවලදී"
     label_save_as: "ලෙස සුරකින්න"
+    label_search_columns: "Search a column"
     label_select_project: "ව්යාපෘතියක් තෝරන්න"
     label_select_watcher: "මුරකරුවෙකු තෝරන්න..."
     label_selected_filter_list: "තෝරාගත් පෙරහන්"

@@ -839,6 +839,10 @@ it:
               invalid: "Le marche orarie contengono valori non validi: %{values}"
               forbidden: "Le marche orarie contengono valori proibiti: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "è mutuamente esclusivo con il raggruppamento per '%{group_by}'. Non puoi attivare entrambi."
           filters:
             custom_fields:
@@ -2738,7 +2742,7 @@ it:
   setting_brute_force_block_minutes: "Durata del blocco utente"
   setting_cache_formatted_text: "Cache del testo formattato"
   setting_use_wysiwyg_description: "Seleziona questa opzione per abilitare l'editor CKEditor5 WYSIWYG per tutti gli utenti come impostazione predefinita. CKEditor ha funzionalità limitate per il GFM Markdown."
-  setting_column_options: "Personalizza l'aspetto degli elenchi di macro-attività"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Parole chiave di ripristino"
   setting_commit_logs_encoding: "Codifica dei messaggi di accettazione modifiche (commit)"
   setting_commit_logtime_activity_id: "Attività svolta durante l'orario registrato"
@@ -2760,7 +2764,7 @@ it:
   setting_emails_header: "Intestazione e-mail"
   setting_email_login: "Usa email come login"
   setting_enabled_scm: "SCM Abilitato"
-  setting_enabled_projects_columns: "Visibile nell'elenco dei progetti"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Abilita Feed"
   setting_ical_enabled: "Abilita iscrizioni di iCalendar"
   setting_feeds_limit: "Limite al contenuto del contributo"
@@ -2771,7 +2775,6 @@ it:
   setting_work_package_done_ratio_field: "Il campo della macro-attività"
   setting_work_package_done_ratio_status: "Lo stato della macro-attività"
   setting_work_package_done_ratio_disabled: "Disabilita (nascondi il campo % completamento)"
-  setting_work_package_list_default_columns: "Visualizza come impostazione predefinita"
   setting_work_package_properties: "Proprietà della macro-attività"
   setting_work_package_startdate_is_adddate: "Usa la data corrente come data di inizio per le nuove macro-attività"
   setting_work_packages_projects_export_limit: "Limite di esportazione di macro-attività/progetti"
@@ -2879,7 +2882,7 @@ it:
     projects:
       missing_dependencies: "È stato controllato il modulo del progetto %{module} che dipende da %{dependencies}. È necessario controllare anche queste dipendenze."
       section_new_projects: "Impostazioni per i nuovi progetti"
-      section_project_overview: "Impostazioni per l'elenco generale dei progetti"
+      section_project_overview: "Settings for project lists"
     session: "Sessione"
     user:
       default_preferences: "Preferenze predefinite"
@@ -3044,6 +3047,12 @@ it:
       Se attivato, un utente non potrà selezionare un login durante la registrazione. Utilizzerà il suo indirizzo di posta per l'accesso. Un amministratore potrà modificare il login separatamente.
   queries:
     apply_filter: Applica il filtro preconfigurato
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Risorse aggiuntive"
     getting_started: "Per cominciare"

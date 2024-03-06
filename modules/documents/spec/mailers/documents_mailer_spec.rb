@@ -37,7 +37,7 @@ RSpec.describe DocumentsMailer do
   end
   let(:mail) { DocumentsMailer.document_added(user, document) }
 
-  describe "document added-mail" do
+  describe "document added-mail", with_settings: { host_name: 'my.openproject.com' } do
     it "renders the subject" do
       expect(mail.subject).to eql '[TestProject] New document: Test Title'
     end
@@ -50,6 +50,12 @@ RSpec.describe DocumentsMailer do
     it "renders the document-info into the body" do
       expect(mail.body.encoded).to match(document.description)
       expect(mail.body.encoded).to match(document.title)
+    end
+
+    it "renders the correct link to the document in every format" do
+      contents = mail.parts.map { |p| p.body.to_s }
+
+      expect(contents).to all include("http://my.openproject.com/documents/#{document.id}")
     end
   end
 end

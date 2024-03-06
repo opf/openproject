@@ -844,6 +844,10 @@ sk:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "vzájomne sa vylučuje so skupinou podľa '%{group_by}'. Nemôžete aktivovať oboje."
           filters:
             custom_fields:
@@ -2798,7 +2802,7 @@ sk:
   setting_brute_force_block_minutes: "Doba, na ktorú bude používateľ zablokovaný"
   setting_cache_formatted_text: "Uložiť formátovaný text do vyrovnávacej pamäte"
   setting_use_wysiwyg_description: "Vyberte, ak chcete povoliť editor CKEditor5 WYSIWYG pre všetkých používateľov predvolene. CKEditor má obmedzené funkcie pre GFM Markdown."
-  setting_column_options: "Prispôsobenie vzhľadu zoznamov pracovného balíčka"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Kľúčové slová (stav)"
   setting_commit_logs_encoding: "Podrobnejšie vysvetľujúce texty kódovanie"
   setting_commit_logtime_activity_id: "Aktivita pre prihlásený čas"
@@ -2820,7 +2824,7 @@ sk:
   setting_emails_header: "E-mail záhlavie"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Povolené SCM"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Povoliť informačné kanály"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Limit obsahu informačných kanálov"
@@ -2831,7 +2835,6 @@ sk:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Predvolené zobrazenie"
   setting_work_package_properties: "Vlastnosti pracovného balíčka"
   setting_work_package_startdate_is_adddate: "Použiť aktuálny dátum ako počiatočný dátum pre nové pracovné balíčky"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2939,7 +2942,7 @@ sk:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_project_overview: "Settings for project lists"
     session: "Relácie"
     user:
       default_preferences: "Predvolené nastavenia"
@@ -3104,6 +3107,12 @@ sk:
       If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Aplikovať predkonfigurovaný filter
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Dodatočné zdroje"
     getting_started: "Začíname"

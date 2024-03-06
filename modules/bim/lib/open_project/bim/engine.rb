@@ -227,7 +227,7 @@ module OpenProject::Bim
       ::Queries::Register.register(::Query) do
         filter ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
 
-        column ::Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn
+        select ::Bim::Queries::WorkPackages::Selects::BcfThumbnailSelect
       end
 
       ::API::Root.class_eval do

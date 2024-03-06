@@ -841,6 +841,10 @@ lt:
               invalid: "Laiko žymėse yra netinkamos reikšmės: %{values}"
               forbidden: "Laiko žymėse yra uždraustos reikšmės: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "yra nesuderinamas su grupavimu pagal '%{group_by}'. Jūs negalite įjungti abiejų."
           filters:
             custom_fields:
@@ -2792,7 +2796,7 @@ lt:
   setting_brute_force_block_minutes: "Laikas, kuriam vartotojas yra blokuojamas"
   setting_cache_formatted_text: "Atmintyje laikyti formatuotą tekstą"
   setting_use_wysiwyg_description: "Parinkite, kad įjungtumėte CKEditor5 WYSIWYG redaktorių visiems naudotojams pagal nutylėjimą. CKEditor turi ribotą GFM Markdown funkcionalumą."
-  setting_column_options: "Pritaikyti sau darbų paketų sąrašų atvaizdavimą"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Reikšminių žodžių fiksavimas"
   setting_commit_logs_encoding: "Patvirtinti žinučių koduotę"
   setting_commit_logtime_activity_id: "Veiklos įrašai prisijungus"
@@ -2814,7 +2818,7 @@ lt:
   setting_emails_header: "El. laiškų antraštė"
   setting_email_login: "Naudokite e-paštą prisijungimui"
   setting_enabled_scm: "Įgalinti SCM"
-  setting_enabled_projects_columns: "Matomas projektų sąraše"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Leisti naujienų kanalus"
   setting_ical_enabled: "Įjungti iCalendar prenumeratas"
   setting_feeds_limit: "Naujienų kanalų turinio limitas"
@@ -2825,7 +2829,6 @@ lt:
   setting_work_package_done_ratio_field: "Darbo paketo lauku"
   setting_work_package_done_ratio_status: "Darbų paketo būsena"
   setting_work_package_done_ratio_disabled: "Išjungti (paslėpti lauką % baigta)"
-  setting_work_package_list_default_columns: "Pagal nutylėjimą rodyti"
   setting_work_package_properties: "Darbų paketo ypatybės"
   setting_work_package_startdate_is_adddate: "Naudoti dabartinę datą kaip naujų darbų paketų pradžios datą"
   setting_work_packages_projects_export_limit: "Darbo paketų / Projektų eksporto limitas"
@@ -2933,7 +2936,7 @@ lt:
     projects:
       missing_dependencies: "Parinktas projekto modulis %{module}, kuris priklauso nuo %{dependencies}. Jums reikia pažymėti ir šias priklausomybes."
       section_new_projects: "Naujų projektų nustatymai"
-      section_project_overview: "Nustatymai projektų apžvalgos sąrašui"
+      section_project_overview: "Settings for project lists"
     session: "Sesija"
     user:
       default_preferences: "Numatytosios parinktys"
@@ -3098,6 +3101,12 @@ lt:
       Įjungus, naudotojas negalės pasirinkti prisijungimo vardo registracijos metu. Jų nurodytas e-pašto adresas veiks kaip prisijungimas. Administratorius galės atskirai pakeisti prisijungimo vardą.
   queries:
     apply_filter: Pritaikyti iš anksto sukonfigūruotą filtrą
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Papildomi ištekliai"
     getting_started: "Darbo pradžia"

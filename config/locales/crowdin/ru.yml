@@ -843,6 +843,10 @@ ru:
               invalid: "Временные метки содержат недопустимые значения: %{values}"
               forbidden: "Временные метки содержат запрещенные значения: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
             custom_fields:
@@ -1098,8 +1102,8 @@ ru:
     derived_start_date: "Дата начала производства"
     display_sums: "Отображение суммы"
     due_date: "Дата окончания"
-    estimated_hours: "Часы"
-    estimated_time: "Часы"
+    estimated_hours: "Предполагаемое время"
+    estimated_time: "Предполагаемое время"
     expires_at: "Истекает в"
     firstname: "Имя"
     group: "Группа"
@@ -2795,7 +2799,7 @@ ru:
   setting_brute_force_block_minutes: "Время блокирования пользователя за"
   setting_cache_formatted_text: "Кэшировать форматированный текст"
   setting_use_wysiwyg_description: "Выберите включение CKEditor5 WYSIWYG редактора для всех пользователей по умолчанию. CKEditor обладает ограниченной функциональностью для GFM Markdown."
-  setting_column_options: "Настройка внешнего вида  списка пакетов работ"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Корректирующие ключевые слова"
   setting_commit_logs_encoding: "Зафиксировать кодировку сообщений"
   setting_commit_logtime_activity_id: "Деятельности с учетом времени"
@@ -2817,7 +2821,7 @@ ru:
   setting_emails_header: "Заголовок письма"
   setting_email_login: "Использовать email как логин"
   setting_enabled_scm: "Вклченные SCM (системы управления исходным кодом)"
-  setting_enabled_projects_columns: "Видимый в списке проектов"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Включить новостные ленты"
   setting_ical_enabled: "Включить подписку на iCalendar"
   setting_feeds_limit: "Предел содержимого новостной ленты"
@@ -2828,7 +2832,6 @@ ru:
   setting_work_package_done_ratio_field: "Поле пакета работ"
   setting_work_package_done_ratio_status: "Статус пакета работ"
   setting_work_package_done_ratio_disabled: "Отключить (скрыть % заполненное поле)"
-  setting_work_package_list_default_columns: "Отображать по умолчанию"
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"
   setting_work_packages_projects_export_limit: "Ограничение экспорта пакетов работ / проектов"
@@ -2936,7 +2939,7 @@ ru:
     projects:
       missing_dependencies: "Был проверен модуль проекта %{module}, который зависит от %{dependencies}. Вам также необходимо проверить эти зависимости."
       section_new_projects: "Настройки для новых проектов"
-      section_project_overview: "Настройки списка обзоров проекта"
+      section_project_overview: "Settings for project lists"
     session: "Сессия"
     user:
       default_preferences: "Предпочтения по умолчанию"
@@ -3101,6 +3104,12 @@ ru:
       Если включено, пользователь не сможет выбирать логин во время регистрации. Вместо этого именем для входа ему будет служить его e-mail. Администратор сможет изменить логин отдельно.
   queries:
     apply_filter: Применить ранее настроенный фильтр
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Дополнительные ресурсы"
     getting_started: "Приступая к работе"

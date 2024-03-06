@@ -136,7 +136,6 @@ fil:
     description_available_columns: "Ang mga hanay na magagamit"
     description_current_position: "You are here: "
     description_select_work_package: "Piliin ang work package #%{id}"
-    description_selected_columns: "Napiling mga hanay"
     description_subwork_package: "Bata ng work package #%{id}"
     editor:
       preview: 'Toggle preview mode'
@@ -446,6 +445,7 @@ fil:
     label_less_than_ago: "mas mababa kaysa sa mga araw na lumipas"
     label_loading: "Naglo-load..."
     label_mail_notification: "Mga abiso ng emailba"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "ako"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Minutes"
@@ -484,6 +484,7 @@ fil:
     label_report: "Ulat"
     label_repository_plural: "Mga repositoryo"
     label_save_as: "I-save bilang"
+    label_search_columns: "Search a column"
     label_select_project: "Pumili ng proyekto"
     label_select_watcher: "Pumili ng manunuod..."
     label_selected_filter_list: "Napiling mga filter"

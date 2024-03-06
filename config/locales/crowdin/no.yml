@@ -842,6 +842,10 @@
               invalid: "Tidsstempler inneholder ugyldige verdier: %{values}"
               forbidden: "Tidsstempler inneholder forbudte verdier: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "er gjensidig eksklusiv med grupper med '%{group_by}'. Du kan ikke aktivere begge."
           filters:
             custom_fields:
@@ -2741,7 +2745,7 @@
   setting_brute_force_block_minutes: "Tiden brukeren er blokkert for"
   setting_cache_formatted_text: "Mellomlagring av formattert tekst"
   setting_use_wysiwyg_description: "Velg for å aktivere CKEditor5 WYSIWYG editor for alle brukere som standard. CKEditor har begrenset funksjonalitet for GFM Markdown."
-  setting_column_options: "Tilpass utseendet for listen over arbeidspakker"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Retting av nøkkelord"
   setting_commit_logs_encoding: "Lagre meldingskoding"
   setting_commit_logtime_activity_id: "Aktivitet for tidsrapport"
@@ -2763,7 +2767,7 @@
   setting_emails_header: "Topptekst for e-post"
   setting_email_login: "Bruk e-post som innlogging"
   setting_enabled_scm: "SCM aktivert"
-  setting_enabled_projects_columns: "Synlig på prosjektlisten"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Aktiver Feeds"
   setting_ical_enabled: "Aktiver iCalendar abonnementer"
   setting_feeds_limit: "Innholdsgrense for Feed"
@@ -2774,7 +2778,6 @@
   setting_work_package_done_ratio_field: "Feltet arbeidspakke"
   setting_work_package_done_ratio_status: "Status for arbeidspakken"
   setting_work_package_done_ratio_disabled: "Deaktiver (skjul % komplette felt)"
-  setting_work_package_list_default_columns: "Vis som standard"
   setting_work_package_properties: "Egenskaper for arbeidspakke"
   setting_work_package_startdate_is_adddate: "Bruk gjeldende dato som startdato for nye arbeidspakker"
   setting_work_packages_projects_export_limit: "Eksportgrense for arbeidspakker/prosjekter"
@@ -2882,7 +2885,7 @@
     projects:
       missing_dependencies: "Prosjektmodul %{module} ble valgt, og denne avhenger av %{dependencies}. Du må også sjekke disse avhengighetene."
       section_new_projects: "Innstillinger for nye prosjekter"
-      section_project_overview: "Innstillinger for liste over prosjektoversikt"
+      section_project_overview: "Settings for project lists"
     session: "Sesjon"
     user:
       default_preferences: "Standardinnstillinger"
@@ -3047,6 +3050,12 @@
       Hvis aktivert vil en bruker ikke kunne velge pålogging under registrering. I stedet vil deres oppgitte e-postadresse fungere som innlogging. En administrator kan fortsatt endre innlogging separat.
   queries:
     apply_filter: Bruk forhåndskonfigurert filter
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Tilleggsressurser"
     getting_started: "Komme i gang"

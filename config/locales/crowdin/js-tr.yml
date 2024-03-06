@@ -136,7 +136,6 @@ tr:
     description_available_columns: "Kullanılabilir sütunlar"
     description_current_position: "Buradasınız:"
     description_select_work_package: "#%{id} nolu iş paketini seçin"
-    description_selected_columns: "Seçili Sütunlar"
     description_subwork_package: "#%{id} nolu iş paketinin alt parçası"
     editor:
       preview: 'Önizleme modunu aç/kapat'
@@ -445,6 +444,7 @@ tr:
     label_less_than_ago: "bir haftadan kısa bir süre önce"
     label_loading: "Yükleniyor..."
     label_mail_notification: "E-posta bildirimleri"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "ben"
     label_meeting_agenda: "Ajanda"
     label_meeting_minutes: "Dakika"
@@ -483,6 +483,7 @@ tr:
     label_report: "Rapor (bildiri)"
     label_repository_plural: "Depolar"
     label_save_as: "Farklı Kaydet"
+    label_search_columns: "Search a column"
     label_select_project: "Bir proje seçin"
     label_select_watcher: "Takipçi seç..."
     label_selected_filter_list: "Seçilen filtreler"

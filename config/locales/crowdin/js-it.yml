@@ -136,7 +136,6 @@ it:
     description_available_columns: "Colonne disponibili"
     description_current_position: "Sei qui: "
     description_select_work_package: "Seleziona la macro-attività #%{id}"
-    description_selected_columns: "Colonne selezionate"
     description_subwork_package: "Subordinata alla macro-attività #%{id}"
     editor:
       preview: 'Attiva/disattiva modalità anteprima'
@@ -446,6 +445,7 @@ it:
     label_less_than_ago: "meno di qualche giorno fa"
     label_loading: "Caricamento..."
     label_mail_notification: "Notifiche email"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "io"
     label_meeting_agenda: "Ordine del giorno"
     label_meeting_minutes: "Verbali"
@@ -484,6 +484,7 @@ it:
     label_report: "Segnalano"
     label_repository_plural: "Archivi"
     label_save_as: "Salva come"
+    label_search_columns: "Search a column"
     label_select_project: "Seleziona un progetto"
     label_select_watcher: "Seleziona un osservatore..."
     label_selected_filter_list: "Filtri selezionati"

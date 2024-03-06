@@ -136,7 +136,6 @@ zh-TW:
     description_available_columns: "可用欄"
     description_current_position: "你在這裡："
     description_select_work_package: "選取工作項目 #%{id}"
-    description_selected_columns: "所選的欄"
     description_subwork_package: "子工作項目 #%{id}"
     editor:
       preview: '切換預覽模式'
@@ -445,6 +444,7 @@ zh-TW:
     label_less_than_ago: "少於幾天前"
     label_loading: "讀取中..."
     label_mail_notification: "電子郵件通知"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "我"
     label_meeting_agenda: "會議大綱"
     label_meeting_minutes: "會議記錄"
@@ -483,6 +483,7 @@ zh-TW:
     label_report: "報表"
     label_repository_plural: "版本庫"
     label_save_as: "保存為"
+    label_search_columns: "Search a column"
     label_select_project: "選擇專案"
     label_select_watcher: "選擇一位關注者"
     label_selected_filter_list: "所選的篩選器"

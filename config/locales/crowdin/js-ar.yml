@@ -136,7 +136,6 @@ ar:
     description_available_columns: "الأعمدة المتوفرة"
     description_current_position: "You are here: "
     description_select_work_package: "اختر مجموعة العمل #%{id}"
-    description_selected_columns: "الاعمدة المحددة"
     description_subwork_package: "إنتاج مجموعة العمل #%{id}"
     editor:
       preview: 'Toggle preview mode'
@@ -446,6 +445,7 @@ ar:
     label_less_than_ago: "أقل من أيام"
     label_loading: "جاري التحميل..."
     label_mail_notification: "إشعارات البريد الإلكتروني"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "لي"
     label_meeting_agenda: "جدول الأعمال"
     label_meeting_minutes: "محضر الجلسة"
@@ -484,6 +484,7 @@ ar:
     label_report: "تقرير"
     label_repository_plural: "مستودعات البيانات"
     label_save_as: "احفظ بشكل"
+    label_search_columns: "Search a column"
     label_select_project: "Select a project"
     label_select_watcher: "اختر مراقبًا..."
     label_selected_filter_list: "عوامل التصفية المٌختارة"

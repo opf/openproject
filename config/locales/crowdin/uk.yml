@@ -839,6 +839,10 @@ uk:
               invalid: "Мітки часу містять неприпустимі значення: %{values}"
               forbidden: "Мітки часу містять заборонені значення: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "є взаємовиключним з групою %{group_by} Ви не можете активувати обидва."
           filters:
             custom_fields:
@@ -2791,7 +2795,7 @@ uk:
   setting_brute_force_block_minutes: "Час, коли користувач заблоковано"
   setting_cache_formatted_text: "Кешувати форматований текст"
   setting_use_wysiwyg_description: "Виберіть, щоб увімкнути редактор CKEditor5 WYSIWYG для всіх користувачів за умовчанням. CKEditor має обмежену функціональність для GFM Markdown."
-  setting_column_options: "Налаштовувати зовнішній вигляд списків пакетів роботи"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Призначення ключових слів"
   setting_commit_logs_encoding: "Кодування повідомлень"
   setting_commit_logtime_activity_id: "Активність для реєстрації часу"
@@ -2813,7 +2817,7 @@ uk:
   setting_emails_header: "Заголовок листа"
   setting_email_login: "Використовуйте електронну пошту як логін"
   setting_enabled_scm: "Увімкнені SCM"
-  setting_enabled_projects_columns: "Видимий у списку проєктів"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Увімкнути канали"
   setting_ical_enabled: "Дозволити підписки на iCalendar"
   setting_feeds_limit: "Обмеження вмісту каналу"
@@ -2824,7 +2828,6 @@ uk:
   setting_work_package_done_ratio_field: "Поле пакета робіт"
   setting_work_package_done_ratio_status: "Статус пакета робіт"
   setting_work_package_done_ratio_disabled: "Вимкнути (приховати поле «Відсоток завершення»)"
-  setting_work_package_list_default_columns: "Дисплей за замовчуванням"
   setting_work_package_properties: "Властивості робочого пакета"
   setting_work_package_startdate_is_adddate: "Використовувати поточну дату в якості дати початку роботи для нових пакетів"
   setting_work_packages_projects_export_limit: "Ліміт експорту пакетів робіт / проєктів"
@@ -2932,7 +2935,7 @@ uk:
     projects:
       missing_dependencies: "Перевірено модуль проєкту %{module}, який містить залежності від %{dependencies}. Ці залежності потрібно також перевірити."
       section_new_projects: "Налаштування нових проєктів"
-      section_project_overview: "Налаштування списку огляду проєктів"
+      section_project_overview: "Settings for project lists"
     session: "Сесія"
     user:
       default_preferences: "Параметри за умовчанням"
@@ -3097,6 +3100,12 @@ uk:
       Якщо увімкнено, користувач не зможе вибрати реєстраційний запис під час реєстрації. Замість цього їхня адреса електронної пошти слугуватиме логіном. Адміністратор може змінити вхід окремо.
   queries:
     apply_filter: Застосувати попередньо налаштований фільтр
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Додаткові ресурси"
     getting_started: "Починаємо"
