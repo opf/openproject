@@ -87,7 +87,7 @@ module Admin::Settings
     end
 
     def rescan_files
-      flash[:info] = t('settings.antivirus.remaining_rescanned_files',
+      flash[:notice] = t('settings.antivirus.remaining_rescanned_files',
                        file_count: t(:label_x_files, count: Attachment.status_uploaded.count))
       Attachment.status_uploaded.update_all(status: :rescan)
 
