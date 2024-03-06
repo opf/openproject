@@ -47,29 +47,30 @@ module Storages
           .includes(:creator)
           .where(container_id: @work_packages_map.keys, container_type: "WorkPackage")
 
-        return create_unmanaged_file_links(source_file_links) if @source.project_folder_manual?
-
-        create_managed_file_links(source_file_links)
+        if @source.project_folder_automatic?
+          create_managed_file_links(source_file_links)
+        else
+          create_unmanaged_file_links(source_file_links)
+        end
       end
 
       private
 
       def create_managed_file_links(source_file_links)
-        target_files = target_files_map.result
-        source_files = source_files_info(source_file_links).result
-
-        location_map = build_location_map(source_files, target_files)
+        location_map = build_location_map(
+          source_files_info(source_file_links).result,
+          target_files_map.result
+        )
 
         source_file_links.find_each do |source_link|
           attributes = source_link.dup.attributes
-
           attributes.merge!(
-            'creator_id' => @user.id,
-            'container_id' => @work_packages_map[source_link.container_id],
-            'origin_id' => location_map[source_link.origin_id]
+            "creator_id" => @user.id,
+            "container_id" => @work_packages_map[source_link.container_id],
+            "origin_id" => location_map[source_link.origin_id]
           )
 
-          FileLinks::CreateService.new(user: @user).call(attributes)
+          CreateService.new(user: @user).call(attributes).on_failure { |failed| log_errors(failed) }
         end
       end
 
@@ -99,12 +100,15 @@ module Storages
         source_file_links.find_each do |source_file_link|
           attributes = source_file_link.dup.attributes
 
-          attributes['creator_id'] = @user.id
-          attributes['container_id'] = @work_packages_map[source_file_link.container_id]
+          attributes["creator_id"] = @user.id
+          attributes["container_id"] = @work_packages_map[source_file_link.container_id]
 
-          # TODO: Do something when this fails
-          ::Storages::FileLinks::CreateService.new(user: @user).call(attributes)
+          FileLinks::CreateService.new(user: @user).call(attributes).on_failure { |failed| log_errors(failed) }
         end
+      end
+
+      def log_errors(failure)
+        OpenProject.logger.warn failure.errors.inspect
       end
     end
   end

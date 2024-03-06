@@ -38,7 +38,7 @@ module Storages
               return ServiceResult.failure(
                 result: :error,
                 errors: StorageError.new(code: :error,
-                                         log_message: 'Both source and destination paths need to be present')
+                                         log_message: "Both source and destination paths need to be present")
               )
             end
 
@@ -47,6 +47,7 @@ module Storages
 
           def initialize(storage)
             @storage = storage
+            @data = ResultData::CopyTemplateFolder.new(id: nil, polling_url: nil, requires_polling: true)
           end
 
           def call(source_location:, destination_name:)
@@ -62,15 +63,15 @@ module Storages
           def handle_response(response)
             case response
             in { status: 202 }
-              ServiceResult.success(result: { id: nil, url: response.headers[:location] })
+              ServiceResult.success(result: @data.with(polling_url: response.headers[:location]))
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized)
             in { status: 403 }
               ServiceResult.failure(result: :forbidden)
             in { status: 404 }
-              ServiceResult.failure(result: :not_found, message: 'Template folder not found')
+              ServiceResult.failure(result: :not_found, message: "Template folder not found")
             in { status: 409 }
-              ServiceResult.failure(result: :conflict, message: 'The copy would overwrite an already existing folder')
+              ServiceResult.failure(result: :conflict, message: "The copy would overwrite an already existing folder")
             else
               ServiceResult.failure(result: :error)
             end

@@ -35,6 +35,7 @@ RSpec.describe Storages::ProjectStorages::CopyProjectFoldersService, :webmock do
   let(:storage) { create(:nextcloud_storage, :as_automatically_managed) }
   let(:target) { create(:project_storage, storage:) }
   let(:system_user) { create(:system) }
+  let(:result_data) { Storages::Peripherals::StorageInteraction::ResultData::CopyTemplateFolder.new(nil, nil, false) }
 
   subject(:service) { described_class }
 
@@ -50,13 +51,14 @@ RSpec.describe Storages::ProjectStorages::CopyProjectFoldersService, :webmock do
                 expect(destination_path).to eq(target.managed_project_folder_path)
 
                 # Return a success for the provider copy with no polling required
-                ServiceResult.success(result: { id: nil, url: 'https://polling.url.de/cool/subresources' })
+                ServiceResult.success(result: result_data.with(polling_url: 'https://polling.url.de/cool/subresources'))
               end)
 
       result = service.call(source:, target:)
 
       expect(result).to be_success
-      expect(result.result).to eq({ id: nil, url: 'https://polling.url.de/cool/subresources' })
+      expect(result.result.to_h).to eq({ id: nil, polling_url: 'https://polling.url.de/cool/subresources',
+                                         requires_polling: false })
     end
   end
 
@@ -71,7 +73,7 @@ RSpec.describe Storages::ProjectStorages::CopyProjectFoldersService, :webmock do
     it 'returns the source folder id' do
       result = service.call(source:, target:)
 
-      expect(result.result[:id]).to eq(source.project_folder_id)
+      expect(result.result.id).to eq(source.project_folder_id)
     end
   end
 
@@ -85,7 +87,7 @@ RSpec.describe Storages::ProjectStorages::CopyProjectFoldersService, :webmock do
     it 'returns the origin folder id (nil)' do
       result = service.call(source:, target:)
 
-      expect(result.result[:id]).to eq(source.project_folder_id)
+      expect(result.result.id).to eq(source.project_folder_id)
     end
   end
 end
