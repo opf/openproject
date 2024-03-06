@@ -846,6 +846,10 @@ ar:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
@@ -2855,7 +2859,7 @@ ar:
   setting_brute_force_block_minutes: "المستخدم حظر لمدة"
   setting_cache_formatted_text: "نص منسق مسبقاً في ذاكرة الcache"
   setting_use_wysiwyg_description: "Select to enable CKEditor5 WYSIWYG editor for all users by default. CKEditor has limited functionality for GFM Markdown."
-  setting_column_options: "تخصيص ظهور قوائم مجموعة العمل"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "تثبيت الكلمات الرئيسية"
   setting_commit_logs_encoding: "القيام بترميز الرسائل"
   setting_commit_logtime_activity_id: "النشاط لوقت الدخول"
@@ -2877,7 +2881,7 @@ ar:
   setting_emails_header: "رأس البريد الإلكتروني"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "تمكين SCM"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "تمكين التغذية"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "حد محتوى تغذية"
@@ -2888,7 +2892,6 @@ ar:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "عرض بشكل افتراضي"
   setting_work_package_properties: "خصائص مجموعة العمل"
   setting_work_package_startdate_is_adddate: "استخدام التاريخ الحالي كتاريخ البدء لمجموعات العمل الجديدة"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2996,7 +2999,7 @@ ar:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_project_overview: "Settings for project lists"
     session: "الجلسة"
     user:
       default_preferences: "Default preferences"
@@ -3161,6 +3164,12 @@ ar:
       If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: تطبيق عامل التصفية الذي تم تكوينه مسبقاً
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "مصادر إضافية"
     getting_started: "الشروع في البدء"

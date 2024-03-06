@@ -136,7 +136,6 @@ ka:
     description_available_columns: "Available Columns"
     description_current_position: "თქვენ აქ ხართ: "
     description_select_work_package: "Select work package #%{id}"
-    description_selected_columns: "Selected Columns"
     description_subwork_package: "Child of work package #%{id}"
     editor:
       preview: 'Toggle preview mode'
@@ -446,6 +445,7 @@ ka:
     label_less_than_ago: "less than days ago"
     label_loading: "იტვირთება..."
     label_mail_notification: "Email notifications"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "მე"
     label_meeting_agenda: "დღის განრიგი"
     label_meeting_minutes: "წუთი"
@@ -484,6 +484,7 @@ ka:
     label_report: "ანგარიშები"
     label_repository_plural: "რეპოზიტორიები"
     label_save_as: "შენახვა, როგორც"
+    label_search_columns: "Search a column"
     label_select_project: "Select a project"
     label_select_watcher: "Select a watcher..."
     label_selected_filter_list: "Selected filters"

@@ -842,6 +842,10 @@ fr:
               invalid: "Les horodatages contiennent des valeurs non valides : %{values}"
               forbidden: "Les horodatages contiennent des valeurs interdites : %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "est mutuellement exclusif avec grouper par '%{group_by}'. Vous ne pouvez pas activer les deux."
           filters:
             custom_fields:
@@ -2741,7 +2745,7 @@ fr:
   setting_brute_force_block_minutes: "Temps de bloquage de l'utilisateur"
   setting_cache_formatted_text: "Mettre le texte formaté en mémoire cache"
   setting_use_wysiwyg_description: "Sélectionnez cette option pour activer l’éditeur CKEditor5 WYSIWYG pour tous les utilisateurs par défaut. CKEditor a des fonctionnalités limitées pour GFM Markdown."
-  setting_column_options: "Personnaliser l'apparence des listes de Lot de Travaux"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Réparer les mots clés"
   setting_commit_logs_encoding: "Encoding of the Commit messages"
   setting_commit_logtime_activity_id: "Activité pour les « Logged Time »"
@@ -2763,7 +2767,7 @@ fr:
   setting_emails_header: "En-tête des courriels"
   setting_email_login: "Utiliser l'adresse courriel comme login"
   setting_enabled_scm: "Permettre SCM"
-  setting_enabled_projects_columns: "Visible dans la liste des projets"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Permettre les flux"
   setting_ical_enabled: "Activer les abonnements iCalendar"
   setting_feeds_limit: "Limite du contenu du flux"
@@ -2774,7 +2778,6 @@ fr:
   setting_work_package_done_ratio_field: "Le champ du lot de travaux"
   setting_work_package_done_ratio_status: "Le statut du lot de travaux"
   setting_work_package_done_ratio_disabled: "Désactiver (masquer le champ % réalisé)"
-  setting_work_package_list_default_columns: "Afficher par défaut"
   setting_work_package_properties: "Propriétés du Lot de Travaux"
   setting_work_package_startdate_is_adddate: "Utiliser la date actuelle comme date de début des nouveaux lots de travaux"
   setting_work_packages_projects_export_limit: "Limite d'exportation des lots de travaux/projets"
@@ -2882,7 +2885,7 @@ fr:
     projects:
       missing_dependencies: "Le module de projet %{module} a été vérifié et dépend de %{dependencies}. Vous devez également vérifier ces dépendances."
       section_new_projects: "Paramètres pour les nouveaux projets"
-      section_project_overview: "Paramètres de la liste des projets"
+      section_project_overview: "Settings for project lists"
     session: "Session"
     user:
       default_preferences: "Préférences par défaut"
@@ -3047,6 +3050,12 @@ fr:
       Si activé, un utilisateur ne pourra choisir son login lors de son inscription. Dans ce cas, son adresse courriel servira de login. Un administrateur pourra néanmoins modifier le login par ailleurs.
   queries:
     apply_filter: Appliquer le filtre pré-configuré
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Ressources supplémentaires"
     getting_started: "Pour commencer"

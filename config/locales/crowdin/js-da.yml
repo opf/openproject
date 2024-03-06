@@ -136,7 +136,6 @@ da:
     description_available_columns: "Tilgængelige kolonner"
     description_current_position: "You are here: "
     description_select_work_package: "Vælg arbejds pakke #%{id}"
-    description_selected_columns: "Valgte kolonner"
     description_subwork_package: "Barn af arbejds-pakke #%{id}"
     editor:
       preview: 'Toggle forhåndsvisning'
@@ -445,6 +444,7 @@ da:
     label_less_than_ago: "mindre end dage siden"
     label_loading: "Henter..."
     label_mail_notification: "E-mail-påmindelser"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "mig"
     label_meeting_agenda: "Dagsorden"
     label_meeting_minutes: "Referat"
@@ -483,6 +483,7 @@ da:
     label_report: "Rapport"
     label_repository_plural: "Projektarkiver"
     label_save_as: "Gem som"
+    label_search_columns: "Search a column"
     label_select_project: "Select a project"
     label_select_watcher: "Vælg en tilsynsførende..."
     label_selected_filter_list: "Valgte filtre"

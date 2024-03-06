@@ -136,7 +136,6 @@ de:
     description_available_columns: "Verfügbare Spalten"
     description_current_position: "Sie sind hier: "
     description_select_work_package: "Arbeitspaket #%{id} auswählen"
-    description_selected_columns: "Ausgewählte Spalten"
     description_subwork_package: "Kind von Arbeitspaket #%{id}"
     editor:
       preview: 'Vorschau-Modus ein/aus'
@@ -445,6 +444,7 @@ de:
     label_less_than_ago: "vor weniger Tagen als"
     label_loading: "Wird geladen…"
     label_mail_notification: "Email-Benachrichtigungen"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "ich"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Protokoll"
@@ -483,6 +483,7 @@ de:
     label_report: "Auswertung"
     label_repository_plural: "Projektarchive"
     label_save_as: "Speichern unter"
+    label_search_columns: "Search a column"
     label_select_project: "Projekt auswählen"
     label_select_watcher: "Beobachter auswählen ..."
     label_selected_filter_list: "Ausgewählte Filter"

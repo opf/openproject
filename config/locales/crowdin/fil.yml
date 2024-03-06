@@ -842,6 +842,10 @@ fil:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "ay mutually wxclusive sa grupo ng '%{group_by}'. Hindi mo maaring i-aktibi ang dalawa."
           filters:
             custom_fields:
@@ -2739,7 +2743,7 @@ fil:
   setting_brute_force_block_minutes: "Oras ng user na na-block sa"
   setting_cache_formatted_text: "Tesktong naka-format na cache"
   setting_use_wysiwyg_description: "Select to enable CKEditor5 WYSIWYG editor for all users by default. CKEditor has limited functionality for GFM Markdown."
-  setting_column_options: "I-customize ang hitsura ng mga listahan ng work package"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Isinasaayos ang mga keyword"
   setting_commit_logs_encoding: "Paglalagay ng commit mensahe"
   setting_commit_logtime_activity_id: "Aktibidad para sa naka-log na oras"
@@ -2761,7 +2765,7 @@ fil:
   setting_emails_header: "Ang email ng header"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Paganahin ang SCM"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Paganahin ang mga feed"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Limitasyon ng nilalaman na feed"
@@ -2772,7 +2776,6 @@ fil:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Ipakiita sa pamamagitan ng default"
   setting_work_package_properties: "Ang mga property ng work package"
   setting_work_package_startdate_is_adddate: "Gamitin ang kasulukuyang petsa bilang pagsisimula ng petsa para sa mga bagong work package"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2880,7 +2883,7 @@ fil:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_project_overview: "Settings for project lists"
     session: "Sesyon"
     user:
       default_preferences: "Default preferences"
@@ -3045,6 +3048,12 @@ fil:
       If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Lapatan ng naka-preconfigure na filter
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Karagdagang pinagkukunan"
     getting_started: "Pagsisimula"

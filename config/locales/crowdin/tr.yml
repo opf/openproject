@@ -841,6 +841,10 @@ tr:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "grubu tarafından '%{group_by}' ile birlikte kullanılamaz. Her ikisi de etkinleştiremezsiniz."
           filters:
             custom_fields:
@@ -2737,7 +2741,7 @@ tr:
   setting_brute_force_block_minutes: "Kullanıcının engellediği süre"
   setting_cache_formatted_text: "Biçimlendirilmiş metni önbelleğe al"
   setting_use_wysiwyg_description: "Tüm kullanıcılar için varsayılan olarak CKEditor5 WYSIWYG düzenleyiciyi etkinleştirmek için seçin. GFM Markdown için CKEditor sınırlı işleve sahiptir."
-  setting_column_options: "İş paketi listelerinin görünümünü özelleştirme"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Anahtar kelimeleri düzeltme"
   setting_commit_logs_encoding: "İleti kodlamayı tamamla"
   setting_commit_logtime_activity_id: "Kaydedilen zaman için faaliyet"
@@ -2759,7 +2763,7 @@ tr:
   setting_emails_header: "E-posta üstbilgisi"
   setting_email_login: "Giriş olarak e-posta kullanın"
   setting_enabled_scm: "Etkinleştirilmiş SCM"
-  setting_enabled_projects_columns: "Proje listesinde görünür"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Yayınları Etkinleştir"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Besleme içeriği sınırı"
@@ -2770,7 +2774,6 @@ tr:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Varsayılan olarak göster"
   setting_work_package_properties: "İş paketi özellikleri"
   setting_work_package_startdate_is_adddate: "Yeni iş paketlerinde şu anki tarihi başlangıç tarihi olarak kullan"
   setting_work_packages_projects_export_limit: "İş paketleri / Projeler dışa aktarım limiti"
@@ -2878,7 +2881,7 @@ tr:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Yeni projeler için ayarlar"
-      section_project_overview: "Projeye genel bakış listesi ayarları"
+      section_project_overview: "Settings for project lists"
     session: "Oturum"
     user:
       default_preferences: "Varsayılan Tercihler"
@@ -3043,6 +3046,12 @@ tr:
       Etkinleştirildiğinde, kullanıcı kayıt sırasında bir giriş yapamaz. Bunun yerine verilen e-posta adresi giriş olarak görev yapacak. Bir yönetici hala girişi ayrı ayrı değiştirebilir.
   queries:
     apply_filter: Önceden yapılandırılmış filtre uygula
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Ek Kaynaklar"
     getting_started: "Başlarken"

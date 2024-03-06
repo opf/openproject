@@ -136,7 +136,6 @@ sk:
     description_available_columns: "Dostupné stĺpce"
     description_current_position: "You are here: "
     description_select_work_package: "Vyberte pracovný balík #%{id}"
-    description_selected_columns: "Vybraté stĺpce"
     description_subwork_package: "Podradený pracovný balík #%{id}"
     editor:
       preview: 'Prepnúť do režimu náhľadu'
@@ -446,6 +445,7 @@ sk:
     label_less_than_ago: "pred necelým dňom"
     label_loading: "Načítava sa..."
     label_mail_notification: "Upozornenia e-mailom"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "mňa"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "Zápisnica"
@@ -484,6 +484,7 @@ sk:
     label_report: "Report"
     label_repository_plural: "Repozitáre"
     label_save_as: "Uložiť ako"
+    label_search_columns: "Search a column"
     label_select_project: "Vybrať projekt"
     label_select_watcher: "Vybrať pozorovateľa ..."
     label_selected_filter_list: "Vybrané filtre"

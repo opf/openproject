@@ -838,6 +838,10 @@ el:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "είναι αμοιβαία αποκλειστικό με την ομαδοποίηση κατά '%{group_by}'. Δεν μπορείτε να ενεργοποιήσετε και τα δύο."
           filters:
             custom_fields:
@@ -2736,7 +2740,7 @@ el:
   setting_brute_force_block_minutes: "Χρόνος αποκλεισμού του χρήστη"
   setting_cache_formatted_text: "Μορφοποιημένο κείμενο cache"
   setting_use_wysiwyg_description: "Επιλέξτε για να ενεργοποιήσετε τον συντάκτη CKEditor5 WYSIWYG για όλους τους χρήστες από προεπιλογή. Ο CKEditor έχει περιορισμένη λειτουργικότητα για GFM Markdown."
-  setting_column_options: "Προσαρμόστε την εμφάνιση των λιστών πακέτων εργασίας"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Επιδιόρθωση λέξεων-κλειδιά"
   setting_commit_logs_encoding: "Κωδικοποίηση μηνυμάτων δέσμευσης"
   setting_commit_logtime_activity_id: "Δραστηριότητα για τον καταγεγραμμένο χρόνο"
@@ -2758,7 +2762,7 @@ el:
   setting_emails_header: "Επικεφαλίδα email"
   setting_email_login: "Χρησιμοποιήστε email για είσοδο"
   setting_enabled_scm: "Ενεργοποίηση SCM"
-  setting_enabled_projects_columns: "Ορατό στη λίστα έργων"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Ενεργοποίηση Τροφοδοσιών"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Όριο συγκατάθεσης τροφοδοσίας"
@@ -2769,7 +2773,6 @@ el:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Εμφάνιση από προεπιλογή"
   setting_work_package_properties: "Ιδιότητες πακέτου εργασίας"
   setting_work_package_startdate_is_adddate: "Χρήση σημερινής ημερομηνίας ως ημερομηνία έναρξης για νέα πακέτα εργασίας"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2877,7 +2880,7 @@ el:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Ρυθμίσεις για νέα έργα"
-      section_project_overview: "Ρυθμίσεις για τη λίστα επισκόπησης έργου"
+      section_project_overview: "Settings for project lists"
     session: "Συνεδρία"
     user:
       default_preferences: "Προεπιλεγμένες προτιμήσεις"
@@ -3042,6 +3045,12 @@ el:
       Εάν είναι ενεργοποιημένη, ο χρήστης δεν θα μπορεί να επιλέξει μια σύνδεση κατά την εγγραφή. Αντ 'αυτού η δεδομένη διεύθυνση ηλεκτρονικού ταχυδρομείου θα χρησιμεύσει ως σύνδεση. Ο διαχειριστής μπορεί να αλλάξει τη σύνδεση ξεχωριστά.
   queries:
     apply_filter: Εφαρμογή προδιαμορφωμένου φίλτρου
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Επιπλέον πόροι"
     getting_started: "Ξεκινώντας"

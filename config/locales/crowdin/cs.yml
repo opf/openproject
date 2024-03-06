@@ -844,6 +844,10 @@ cs:
               invalid: "Časová razítka obsahují neplatné hodnoty: %{values}"
               forbidden: "Časová razítka obsahují zakázané hodnoty: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "je vzájemně exkluzivní se skupinou od '%{group_by}'. Nelze aktivovat obojí."
           filters:
             custom_fields:
@@ -2798,7 +2802,7 @@ cs:
   setting_brute_force_block_minutes: "Čas, po který je uživatel zablokován"
   setting_cache_formatted_text: "Ukládat formátovaný text do vyrovnávací paměti"
   setting_use_wysiwyg_description: "Zaškrtnutím tohoto políčka povolíte CKEditor5 WYSIWYG editor pro všechny uživatele ve výchozím nastavení. Aplikaci CKEditor má omezenou funkčnost pro GFM Markdown."
-  setting_column_options: "Přizpůsobit vzhled seznamů pracovních balíčků"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Oprava klíčových slov"
   setting_commit_logs_encoding: "Kódování zpráv"
   setting_commit_logtime_activity_id: "Aktivita pro odpracovaný čas"
@@ -2820,7 +2824,7 @@ cs:
   setting_emails_header: "Záhlaví emailů"
   setting_email_login: "Použít e-mail jako přihlášení"
   setting_enabled_scm: "Povolit SCM"
-  setting_enabled_projects_columns: "Viditelné v seznamu projektů"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Povolit kanály"
   setting_ical_enabled: "Povolit odebírání iCalendar"
   setting_feeds_limit: "Limit obsahu kanálů"
@@ -2831,7 +2835,6 @@ cs:
   setting_work_package_done_ratio_field: "Pole pracovního balíčku"
   setting_work_package_done_ratio_status: "Stav pracovního balíčku"
   setting_work_package_done_ratio_disabled: "Zakázat (skrýt pole % Průběh )"
-  setting_work_package_list_default_columns: "Zobrazit ve výchozím nastavení"
   setting_work_package_properties: "Vlastnosti pracovního balíčku"
   setting_work_package_startdate_is_adddate: "Použít aktuální datum jako počáteční datum pro nové úkoly"
   setting_work_packages_projects_export_limit: "Limit exportu pracovních balíčků / projektů"
@@ -2939,7 +2942,7 @@ cs:
     projects:
       missing_dependencies: "Projektový modul %{module} byl zkontrolován, který závisí na %{dependencies}. Tyto závislosti musíte také zkontrolovat."
       section_new_projects: "Nastavení pro nové projekty"
-      section_project_overview: "Nastavení přehledu seznamu  projektu"
+      section_project_overview: "Settings for project lists"
     session: "Relace"
     user:
       default_preferences: "Výchozí předvolby"
@@ -3104,6 +3107,12 @@ cs:
       Pokud je povoleno, uživatel nebude schopen vybrat přihlášení během registrace. Namísto toho bude jejich e-mailová adresa sloužit jako přihlašovací jméno. Administrátor může stále měnit přihlašovací údaje zvlášť.
   queries:
     apply_filter: Použít přednastavený filtr
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Další zdroje"
     getting_started: "Začínáme"

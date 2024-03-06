@@ -839,6 +839,10 @@ nl:
               invalid: "Tijdstempels bevatten ongeldige waarden: %{values}"
               forbidden: "Tijdstempels bevatten verboden waarden: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is uitsluiten door samenvoeging, '%{group_by}'. U kunt beide niet activeren."
           filters:
             custom_fields:
@@ -2737,7 +2741,7 @@ nl:
   setting_brute_force_block_minutes: "De gebruiker is geblokkeerd voor tijd"
   setting_cache_formatted_text: "Cache opgemaakte tekst"
   setting_use_wysiwyg_description: "Wilt u CKEditor5 WYSIWYG editor voor alle gebruikers standaard ingeschakeld. CKEditor heeft een beperkte functionaliteit voor GFM Markdown."
-  setting_column_options: "Het uiterlijk van de werkpakketten lijsten aanpassen"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Vaststelling van trefwoorden"
   setting_commit_logs_encoding: "Commit berichten coderen"
   setting_commit_logtime_activity_id: "Activiteit voor geregistreerde tijd"
@@ -2759,7 +2763,7 @@ nl:
   setting_emails_header: "Koptekst e-mails"
   setting_email_login: "Gebruik e-mail als inlog"
   setting_enabled_scm: "SCM Ingeschakeld"
-  setting_enabled_projects_columns: "Zichtbaar in de projectlijst"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Feeds inschakelen"
   setting_ical_enabled: "iCalendar abonnementen inschakelen"
   setting_feeds_limit: "Feed inhoud limiet"
@@ -2770,7 +2774,6 @@ nl:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Standaard worden weergegeven"
   setting_work_package_properties: "Werkpakketeigenschappen"
   setting_work_package_startdate_is_adddate: "Huidige datum als begindatum voor nieuwe werkpakketten gebruiken"
   setting_work_packages_projects_export_limit: "Werkpakketten / Projecten exportlimiet"
@@ -2878,7 +2881,7 @@ nl:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Instellingen voor nieuwe projecten"
-      section_project_overview: "Instellingen voor project overzicht lijst"
+      section_project_overview: "Settings for project lists"
     session: "Sessie"
     user:
       default_preferences: "Standaardvoorkeuren"
@@ -3043,6 +3046,12 @@ nl:
       Indien ingeschakeld zal een gebruiker niet in staat zijn om een inlog te kiezen tijdens registratie. In plaats daarvan zal hun opgegeven e-mailadres dienen als inlog. Een beheerder kan de inlog nog steeds afzonderlijk wijzigen.
   queries:
     apply_filter: Vooraf geconfigureerde filter toepassen
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Extra middelen"
     getting_started: "Aan de slag"
