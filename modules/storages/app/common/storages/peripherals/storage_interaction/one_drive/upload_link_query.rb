@@ -33,26 +33,22 @@ module Storages
     module StorageInteraction
       module OneDrive
         class UploadLinkQuery
+          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
           def initialize(storage)
             @storage = storage
             @uri = storage.uri
           end
 
-          def self.call(storage:, user:, data:)
-            new(storage).call(user:, data:)
+          def self.call(storage:, auth_strategy:, data:)
+            new(storage).call(auth_strategy:, data:)
           end
 
-          def call(user:, data:)
+          def call(auth_strategy:, data:)
             folder, filename = data.slice('parent', 'file_name').values
 
-            Util.using_user_token(@storage, user) do |token|
-              response = OpenProject.httpx
-                           .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
-                                            'Content-Type' => 'application/json' })
-                           .post(
-                             Util.join_uri_path(@uri, uri_path_for(folder, filename)),
-                             json: payload(filename)
-                           )
+            Auth[auth_strategy].call(storage: @storage) do |http|
+              response = http.post(Util.join_uri_path(@uri, uri_path_for(folder, filename)), json: payload(filename))
 
               handle_response(response)
             end

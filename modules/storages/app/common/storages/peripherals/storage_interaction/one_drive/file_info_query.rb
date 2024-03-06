@@ -55,7 +55,7 @@ module Storages
               )
             end
 
-            Auth[auth_strategy].call(storage: @storage, http_options: Util.accept_json) do |http|
+            Auth[auth_strategy].call(storage: @storage) do |http|
               @delegate.call(http:, drive_item_id: file_id, fields: FIELDS).map(&storage_file_infos)
             end
           end

@@ -42,6 +42,7 @@ module Storages
             @user = user
           end
 
+          # rubocop:disable Metrics/AbcSize
           def call(storage:, http_options: {}, &)
             config = storage.oauth_configuration
             current_token = OAuthClientToken.find_by(user_id: @user, oauth_client_id: config.oauth_client.id)
@@ -58,25 +59,22 @@ module Storages
             if response_with_current_token.success? || response_with_current_token.result != :unauthorized
               response_with_current_token
             else
-              refresh_and_retry(config, http_options, current_token, &)
+              refresh_and_retry(config.to_httpx_oauth_config, http_options, current_token, &)
             end
           end
+
+          # rubocop:enable Metrics/AbcSize
 
           private
 
           # rubocop:disable Metrics/AbcSize
-          def refresh_and_retry(oauth_configuration, http_options, token, &)
-            issuer = oauth_configuration.oauth_uri
-            client_id = oauth_configuration.oauth_client.client_id
-            client_secret = oauth_configuration.oauth_client.client_secret
-            scope = oauth_configuration.scope(user: @user)
-
+          def refresh_and_retry(config, http_options, token, &)
             begin
               http_session = OpenProject.httpx
-                                        .oauth_auth(issuer:,
-                                                    client_id:,
-                                                    client_secret:,
-                                                    scope:,
+                                        .oauth_auth(issuer: config.issuer,
+                                                    client_id: config.client_id,
+                                                    client_secret: config.client_secret,
+                                                    scope: config.scope,
                                                     refresh_token: token.refresh_token,
                                                     token_endpoint_auth_method: 'client_secret_post')
                                         .with_access_token

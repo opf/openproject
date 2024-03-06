@@ -33,25 +33,20 @@ module Storages
     module StorageInteraction
       module OneDrive
         class DownloadLinkQuery
+          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
           def initialize(storage)
             @storage = storage
             @uri = storage.uri
           end
 
-          def self.call(storage:, user:, file_link:)
-            new(storage).call(user:, file_link:)
+          def self.call(storage:, auth_strategy:, file_link:)
+            new(storage).call(auth_strategy:, file_link:)
           end
 
-          def call(user:, file_link:)
-            Util.using_user_token(@storage, user) do |token|
-              response = OpenProject.httpx.get(
-                Util.join_uri_path(
-                  @uri,
-                  uri_path_for(file_link.origin_id)
-                ),
-                headers: { 'Authorization' => "Bearer #{token.access_token}" }
-              )
-
+          def call(auth_strategy:, file_link:)
+            Auth[auth_strategy].call(storage: @storage) do |http|
+              response = http.get(Util.join_uri_path(@uri, uri_path_for(file_link.origin_id)))
               handle_errors(response)
             end
           end

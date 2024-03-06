@@ -43,9 +43,8 @@ module Storages::Peripherals::StorageInteraction::OneDrive
       @drive_item_query = Internal::DriveItemQuery.new(storage)
     end
 
-    # rubocop:disable Metrics/AbcSize
     def call(auth_strategy:, folder:)
-      Auth[auth_strategy].call(storage: @storage, http_options: Util.accept_json) do |http|
+      Auth[auth_strategy].call(storage: @storage) do |http|
         fetch_result = fetch_folder(http, folder)
         return fetch_result if fetch_result.failure?
 
@@ -66,8 +65,6 @@ module Storages::Peripherals::StorageInteraction::OneDrive
         ServiceResult.success(result: file_ids_dictionary)
       end
     end
-
-    # rubocop:enable Metrics/AbcSize
 
     private
 

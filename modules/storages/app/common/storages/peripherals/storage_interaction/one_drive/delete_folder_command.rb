@@ -33,8 +33,10 @@ module Storages
     module StorageInteraction
       module OneDrive
         class DeleteFolderCommand
-          def self.call(storage:, location:)
-            new(storage).call(location:)
+          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
+          def self.call(storage:, auth_strategy:, location:)
+            new(storage).call(auth_strategy:, location:)
           end
 
           def initialize(storage)
@@ -42,8 +44,8 @@ module Storages
             @uri = storage.uri
           end
 
-          def call(location:)
-            Util.using_admin_token(@storage) do |http|
+          def call(auth_strategy:, location:)
+            Auth[auth_strategy].call(storage: @storage) do |http|
               response = http.delete("/v1.0/drives/#{@storage.drive_id}/items/#{location}")
 
               data = ::Storages::StorageErrorData.new(source: self.class, payload: response)

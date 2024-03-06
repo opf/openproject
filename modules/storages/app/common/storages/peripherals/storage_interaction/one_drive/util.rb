@@ -72,20 +72,22 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
       File.join(uri.to_s, *)
     end
 
+    # rubocop:disable Metrics/AbcSize
     def using_admin_token(storage)
       oauth_client = storage.oauth_configuration.basic_rack_oauth_client
 
-      token_result = begin
-        Rails.cache.fetch("storage.#{storage.id}.access_token", expires_in: 50.minutes) do
-          ServiceResult.success(result: oauth_client.access_token!(scope: 'https://graph.microsoft.com/.default'))
+      token_result =
+        begin
+          Rails.cache.fetch("storage.#{storage.id}.access_token", expires_in: 50.minutes) do
+            ServiceResult.success(result: oauth_client.access_token!(scope: 'https://graph.microsoft.com/.default'))
+          end
+        rescue Rack::OAuth2::Client::Error => e
+          ServiceResult.failure(errors: ::Storages::StorageError.new(
+            code: :unauthorized,
+            data: ::Storages::StorageErrorData.new(source: self.class),
+            log_message: e.message
+          ))
         end
-      rescue Rack::OAuth2::Client::Error => e
-        ServiceResult.failure(errors: ::Storages::StorageError.new(
-          code: :unauthorized,
-          data: ::Storages::StorageErrorData.new(source: self.class),
-          log_message: e.message
-        ))
-      end
 
       token_result.match(
         on_success: ->(token) do
@@ -98,9 +100,7 @@ module Storages::Peripherals::StorageInteraction::OneDrive::Util
       )
     end
 
-    def accept_json
-      { headers: { accept: 'application/json' } }
-    end
+    # rubocop:enable Metrics/AbcSize
 
     def extract_location(parent_reference, file_name = '')
       location = parent_reference[:path].gsub(/.*root:/, '')

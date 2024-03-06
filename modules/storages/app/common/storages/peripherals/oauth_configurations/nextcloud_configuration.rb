@@ -34,14 +34,15 @@ module Storages
       class NextcloudConfiguration < ConfigurationInterface
         Util = ::Storages::Peripherals::StorageInteraction::Nextcloud::Util
 
-        attr_reader :oauth_client, :oauth_uri
+        attr_reader :oauth_client
 
+        # rubocop:disable Lint/MissingSuper
         def initialize(storage)
-          super()
           @uri = storage.uri
           @oauth_client = storage.oauth_client.freeze
-          @oauth_uri = URI(Util.join_uri_path(@uri, "/index.php/apps/oauth2/api/v1")).normalize
         end
+
+        # rubocop:enable Lint/MissingSuper
 
         def authorization_state_check(token)
           authorization_check_wrapper do
@@ -58,6 +59,15 @@ module Storages
 
         def extract_origin_user_id(rack_access_token)
           rack_access_token.raw_attributes[:user_id]
+        end
+
+        def to_httpx_oauth_config
+          ::Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthConfiguration.new(
+            client_id: @oauth_client.client_id,
+            client_secret: @oauth_client.client_secret,
+            issuer: URI(Util.join_uri_path(@uri, "/index.php/apps/oauth2/api/v1")).normalize,
+            scope: []
+          )
         end
 
         def scope(*)

@@ -33,8 +33,10 @@ module Storages
     module StorageInteraction
       module OneDrive
         class RenameFileCommand
-          def self.call(storage:, source:, target:)
-            new(storage).call(source:, target:)
+          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
+          def self.call(storage:, auth_strategy:, source:, target:)
+            new(storage).call(auth_strategy:, source:, target:)
           end
 
           def initialize(storage)
@@ -42,8 +44,8 @@ module Storages
             @uri = storage.uri
           end
 
-          def call(source:, target:)
-            Util.using_admin_token(@storage) do |http|
+          def call(auth_strategy:, source:, target:)
+            Auth[auth_strategy].call(storage: @storage) do |http|
               response = http.patch(uri_path(source), body: { name: target }.to_json)
 
               handle_response(response)

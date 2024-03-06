@@ -34,15 +34,17 @@ module Storages
       class OneDriveConfiguration < ConfigurationInterface
         DEFAULT_SCOPES = %w[offline_access files.readwrite.all user.read sites.readwrite.all].freeze
 
-        attr_reader :oauth_client, :oauth_uri
+        attr_reader :oauth_client
 
+        # rubocop:disable Lint/MissingSuper
         def initialize(storage)
-          super()
           @storage = storage
           @uri = storage.uri
           @oauth_client = storage.oauth_client
           @oauth_uri = URI("https://login.microsoftonline.com/#{@storage.tenant_id}/oauth2/v2.0").normalize
         end
+
+        # rubocop:enable Lint/MissingSuper
 
         def authorization_state_check(access_token)
           util = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
@@ -62,6 +64,15 @@ module Storages
             util.join_uri_path(@uri, '/v1.0/me'),
             headers: { 'Authorization' => "Bearer #{rack_access_token.access_token}", 'Accept' => 'application/json' }
           ).raise_for_status.json['id']
+        end
+
+        def to_httpx_oauth_config
+          ::Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthConfiguration.new(
+            client_id: @oauth_client.client_id,
+            client_secret: @oauth_client.client_secret,
+            issuer: @oauth_uri,
+            scope: %w[https://graph.microsoft.com/.default]
+          )
         end
 
         def scope(user:)

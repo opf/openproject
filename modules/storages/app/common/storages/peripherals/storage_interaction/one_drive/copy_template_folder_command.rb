@@ -33,7 +33,9 @@ module Storages
     module StorageInteraction
       module OneDrive
         class CopyTemplateFolderCommand
-          def self.call(storage:, source_path:, destination_path:)
+          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
+          def self.call(storage:, auth_strategy:, source_path:, destination_path:)
             if source_path.blank? || destination_path.blank?
               return ServiceResult.failure(
                 result: :error,
@@ -42,18 +44,17 @@ module Storages
               )
             end
 
-            new(storage).call(source_location: source_path, destination_name: destination_path)
+            new(storage, auth_strategy).call(source_location: source_path, destination_name: destination_path)
           end
 
-          def initialize(storage)
+          def initialize(storage, auth_strategy)
             @storage = storage
+            @auth_strategy = auth_strategy
           end
 
           def call(source_location:, destination_name:)
-            Util.using_admin_token(@storage) do |httpx|
-              handle_response(
-                httpx.post(copy_path_for(source_location), json: { name: destination_name })
-              )
+            Auth[@auth_strategy].call(storage: @storage) do |http|
+              handle_response(http.post(copy_path_for(source_location), json: { name: destination_name }))
             end
           end
 

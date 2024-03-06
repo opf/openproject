@@ -56,8 +56,14 @@ module API::V3::StorageFiles
         ->(data) do
           Storages::Peripherals::Registry
             .resolve("#{@storage.short_provider_type}.queries.upload_link")
-            .call(storage: @storage, user: current_user, data:)
+            .call(storage: @storage, auth_strategy:, data:)
         end
+      end
+
+      def auth_strategy
+        Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
+          .strategy
+          .with_user(current_user)
       end
     end
 
@@ -65,10 +71,7 @@ module API::V3::StorageFiles
       get do
         Storages::Peripherals::Registry
           .resolve("#{@storage.short_provider_type}.queries.files")
-          .call(
-            storage: @storage,
-            user: current_user, folder: extract_parent_folder(params)
-          )
+          .call(storage: @storage, auth_strategy:, folder: extract_parent_folder(params))
           .match(
             on_success: ->(files) { API::V3::StorageFiles::StorageFilesRepresenter.new(files, @storage, current_user:) },
             on_failure: ->(error) { raise_error(error) }
@@ -79,7 +82,7 @@ module API::V3::StorageFiles
         get do
           Storages::Peripherals::Registry
             .resolve("#{@storage.short_provider_type}.queries.file_info")
-            .call(storage: @storage, user: current_user, file_id: params[:file_id])
+            .call(storage: @storage, auth_strategy:, file_id: params[:file_id])
             .map { |file_info| to_storage_file(file_info) }
             .match(
               on_success: ->(storage_file) {

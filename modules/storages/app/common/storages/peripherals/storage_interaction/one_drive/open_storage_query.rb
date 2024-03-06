@@ -33,8 +33,10 @@ module Storages
     module StorageInteraction
       module OneDrive
         class OpenStorageQuery
-          def self.call(storage:, user:)
-            new(storage).call(user:)
+          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
+          def self.call(storage:, auth_strategy:)
+            new(storage).call(auth_strategy:)
           end
 
           def initialize(storage)
@@ -42,19 +44,16 @@ module Storages
             @uri = storage.uri
           end
 
-          def call(user:)
-            Util.using_user_token(@storage, user) do |token|
-              request_drive(token).map(&web_url)
+          def call(auth_strategy:)
+            Auth[auth_strategy].call(storage: @storage) do |http|
+              request_drive(http).map(&web_url)
             end
           end
 
           private
 
-          def request_drive(token)
-            response = OpenProject.httpx.get(
-              Util.join_uri_path(@uri, drive_uri_path),
-              headers: { 'Authorization' => "Bearer #{token.access_token}" }
-            )
+          def request_drive(http)
+            response = http.get(Util.join_uri_path(@uri, drive_uri_path))
             handle_responses(response)
           end
 

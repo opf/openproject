@@ -35,6 +35,8 @@ module Storages
         class SetPermissionsCommand
           using ServiceResultRefinements
 
+          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
           PermissionUpdateData = Data.define(:role, :permission_ids, :user_ids, :drive_item_id) do
             def create? = permission_ids.empty? && user_ids.any?
 
@@ -43,12 +45,13 @@ module Storages
             def update? = permission_ids.any? && user_ids.any?
           end
 
-          def self.call(storage:, path:, permissions:)
-            new(storage).call(path:, permissions:)
+          def self.call(storage:, auth_strategy:, path:, permissions:)
+            new(storage, auth_strategy).call(path:, permissions:)
           end
 
-          def initialize(storage)
+          def initialize(storage, auth_strategy)
             @storage = storage
+            @auth_strategy = auth_strategy
           end
 
           def call(path:, permissions:)
@@ -72,11 +75,11 @@ module Storages
           private
 
           def item_exists?(item_id)
-            Util.using_admin_token(@storage) { |http| handle_response(http.get(item_path(item_id))) }
+            Auth[@auth_strategy].call(storage: @storage) { |http| handle_response(http.get(item_path(item_id))) }
           end
 
           def get_permissions(path)
-            Util.using_admin_token(@storage) { |http| handle_response(http.get(permissions_path(path))) }
+            Auth[@auth_strategy].call(storage: @storage) { |http| handle_response(http.get(permissions_path(path))) }
           end
 
           def apply_permission_changes(update_data)
@@ -94,7 +97,7 @@ module Storages
           def create_permissions(update_data)
             drive_recipients = update_data.user_ids.map { |id| { objectId: id } }
 
-            Util.using_admin_token(@storage) do |http|
+            Auth[@auth_strategy].call(storage: @storage) do |http|
               response = http.post(invite_path(update_data.drive_item_id),
                                    body: {
                                      requireSignIn: true,
@@ -108,7 +111,7 @@ module Storages
           end
 
           def delete_permissions(update_data)
-            Util.using_admin_token(@storage) do |http|
+            Auth[@auth_strategy].call(storage: @storage) do |http|
               update_data.permission_ids.each do |permission_id|
                 handle_response(
                   http.delete(permission_path(update_data.drive_item_id, permission_id))

@@ -38,19 +38,19 @@ module Storages
           end
 
           def call(storage:, http_options: {})
-            config = storage.oauth_configuration
-            client_id = config.oauth_client.client_id
-            client_secret = config.oauth_client.client_secret
-            issuer = config.oauth_uri
-            scope = config.scope(user: nil)
+            config = storage.oauth_configuration.to_httpx_oauth_config
 
-            if [client_id, client_secret, issuer, scope].any?(&:blank?)
+            if config.complete?
+              create_http_and_yield(issuer: config.issuer,
+                                    client_id: config.client_id,
+                                    client_secret: config.client_secret,
+                                    scope: config.scope,
+                                    http_options:)
+            else
               log_message = 'Cannot authenticate storage with client credential oauth flow. Storage not configured.'
               data = ::Storages::StorageErrorData.new(source: self, payload: storage)
-              return Error.create(code: :error, log_message:, data:)
+              Error.create(code: :error, log_message:, data:)
             end
-
-            create_http_and_yield(issuer:, client_id:, client_secret:, scope:, http_options:)
           end
 
           private

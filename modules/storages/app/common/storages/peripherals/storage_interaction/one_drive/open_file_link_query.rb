@@ -47,7 +47,7 @@ module Storages
           end
 
           def call(auth_strategy:, file_id:, open_location: false)
-            Auth[auth_strategy].call(storage: @storage, http_options: Util.accept_json) do |http|
+            Auth[auth_strategy].call(storage: @storage) do |http|
               if open_location
                 request_parent_id(http).call(file_id) >> request_web_url(http)
               else
