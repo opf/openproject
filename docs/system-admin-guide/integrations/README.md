@@ -21,9 +21,9 @@ Find out more about the [Excel synchronization with OpenProject](./excel-synchro
 
 OpenProject offers a basic GitHub integration. You will find more information about the GitHub integration in our [GitHub integration guideline](./github-integration/).
 
-## Gitlab
+## GitLab
 
-There is a Gitlab plugin from the community. You will find the README and the code [here](https://github.com/btey/openproject-gitlab-integration).
+There is a GitLab plugin from the Community. You will find the README and the code [here](https://github.com/btey/openproject-gitlab-integration). We are currently working on integrating the plugin into the OpenProject core with [#23673](https://community.openproject.org/projects/openproject/work_packages/23673/activity).
 
 ## Jira
 
