@@ -13,19 +13,20 @@ Introduced in OpenProject 13.1, dynamic meetings offer easier meeting management
 > **Note:** The **Meetings module needs to be activated** in the [Project Settings](../../projects/project-settings/modules/) to be able to create and edit meetings.
 
 
-| Topic                                                        | Content                                           |
-| ------------------------------------------------------------ | ------------------------------------------------- |
-| [Meetings in OpenProject](#meetings-in-openproject)          | How to open meetings in OpenProject.              |
-| [Create a new meeting](#create-a-new-meeting)                | How to create a new meeting in OpenProject.       |
-| [Edit a meeting](#edit-a-meeting)                            | How to edit an existing meeting.                  |
-| [Add a work package to the agenda](#add-a-work-package-to-the-agenda) | How to add a work package to a meeting agenda.    |
-| [Create or edit the meeting agenda](#create-or-edit-the-meeting-agenda) | How to create or edit the agenda.                 |
-| [Add meeting participants](#add-meeting-participants)        | How to invite people to a meeting.                |
-| [Send email to all participants](#send-email-to-all-participants) | How to send an email to all meeting participants. |
-| [Download a meeting as an iCalendar event](#download-a-meeting-as-an-icalendar-event) | How to download a meeting as an iCalendar event.  |
-| [Close a meeting](#close-a-meeting)                          | How to close a meeting in OpenProject.            |
-| [Re-open a meeting](#re-open-a-meeting)                      | How to re-open a meeting in OpenProject.          |
-| [Delete a meeting](#delete-a-meeting)                        | How to delete a meeting in OpenProject.           |
+| Topic                                                        | Content                                                    |
+| ------------------------------------------------------------ | ---------------------------------------------------------- |
+| [Meetings in OpenProject](#meetings-in-openproject)          | How to open meetings in OpenProject.                       |
+| [Create a new meeting](#create-a-new-meeting)                | How to create a new meeting in OpenProject.                |
+| [Edit a meeting](#edit-a-meeting)                            | How to edit an existing meeting.                           |
+| [Add a work package to the agenda](#add-a-work-package-to-the-agenda) | How to add a work package to a meeting agenda.             |
+| [Create or edit the meeting agenda](#create-or-edit-the-meeting-agenda) | How to create or edit the agenda.                          |
+| [Add meeting participants](#add-meeting-participants)        | How to invite people to a meeting.                         |
+| [Send email to all participants](#send-email-to-all-participants) | How to send an email to all meeting participants.          |
+| [Download a meeting as an iCalendar event](#download-a-meeting-as-an-icalendar-event) | How to download a meeting as an iCalendar event.           |
+| [Close a meeting](#close-a-meeting)                          | How to close a meeting in OpenProject.                     |
+| [Re-open a meeting](#re-open-a-meeting)                      | How to re-open a meeting in OpenProject.                   |
+| [Copy a meeting](#copy-a-meeting)                            | How to copy a meeting in OpenProject (recurring meetings). |
+| [Delete a meeting](#delete-a-meeting)                        | How to delete a meeting in OpenProject.                    |
 
 ## Meetings in OpenProject
 
@@ -78,11 +79,11 @@ In order to edit the title of the meeting select the dropdown menu behind the th
 
 After creating a meeting, you can set up a **meeting agenda**.
 
-You can add items to an agenda or directly link to existing work packages by selecting the desired option under the green **Add** button. 
+You can add items to an agenda or directly link to existing work packages by selecting the desired option under the green **Add** button. You can add notes and attachments to every agenda item.
 
 ![The add button with two choices: agenda item or work package](openproject_dynamic_meetings_add_agenda_item.png)
 
-After you have finalized the agenda, you can always edit the agenda items, add notes, move an item up or down or delete it. Clicking on the three dots on the right edge of each agenda item will display a menu with these options.
+After you have finalized the agenda, you can always edit the agenda items, add notes, move an item up or down or delete it. Clicking on the three dots on the right edge of each agenda item will display a menu with these options. 
 
 ![Edit agenda in OpenProject dynamic meetings](openproject_dynamic_meetings_edit_agenda.png)
 
@@ -141,6 +142,18 @@ Clicking on the **Close meeting** after the meeting is completed with lock the c
 Once a meeting has been closed, it can no longer be edited. Project members with the permission to edit and close meetings will, however, see a **Re-open meeting** option. Clicking on this re-opens a meeting and allows further editing.
 
 ![Re-open a meeting in OpenProject](openproject_dynmic_meetings_reopen_meeting.png)
+
+## Copy a meeting
+
+You can copy an existing meeting. This is useful if you have recurring meetings. To copy a meeting, click on the three dots in the top right corner and select **Copy**. 
+
+![Copy a dynamic meeting in OpenProject](openproject_dynamic_meetings_copy_meeting.png)
+
+A screen will open, which will allow you adjust the name, time, location and further details of the copied meeting. You also have an option of copying the agenda. Don't forget to **Save** the copied meeting.
+
+![Edit details of a copied dynamic meeting in OpenProject](openproject_dynamic_meetings_copy_meeting_details.png)
+
+
 
 ## Delete a meeting
 
