@@ -88,7 +88,7 @@ class GitlabMergeRequest < ApplicationRecord
     return if labels.nil?
     return if labels.all? { |label| label.keys.sort == LABEL_KEYS }
 
-    errors.add(:labels, 'invalid schema')
+    errors.add(:labels, :invalid_schema)
   end
 
   def with_logging
