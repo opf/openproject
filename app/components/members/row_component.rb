@@ -75,6 +75,8 @@ module Members
     end
 
     def shared
+      return unless may_view_shared_work_packages?
+
       count = member.shared_work_package_ids.length
       return if count.zero?
 
