@@ -136,7 +136,6 @@ el:
     description_available_columns: "Διαθέσιμες στήλες"
     description_current_position: "Είστε εδώ: "
     description_select_work_package: "Επιλέξτε πακέτο εργασίας #%{id}"
-    description_selected_columns: "Επιλεγμένες στήλες"
     description_subwork_package: "Παιδί του πακέτου εργασίας #%{id}"
     editor:
       preview: 'Ενεργοποίηση λειτουργίας προεπισκόπησης'
@@ -445,6 +444,7 @@ el:
     label_less_than_ago: "σε λιγότερο από ημέρες πριν"
     label_loading: "Φόρτωση..."
     label_mail_notification: "Ειδοποιήσεις email"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "εγώ"
     label_meeting_agenda: "Ατζέντα"
     label_meeting_minutes: "Πρακτικά"
@@ -483,6 +483,7 @@ el:
     label_report: "Αναφορά"
     label_repository_plural: "Αποθετήρια"
     label_save_as: "Αποθήκευση ως"
+    label_search_columns: "Search a column"
     label_select_project: "Επιλογή έργου"
     label_select_watcher: "Επιλέξτε έναν παρατηρητή..."
     label_selected_filter_list: "Επιλεγμένα φίλτρα"

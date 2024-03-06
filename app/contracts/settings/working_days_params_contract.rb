@@ -42,7 +42,9 @@ module Settings
     end
 
     def unique_job
-      if WorkPackages::ApplyWorkingDaysChangeJob.scheduled?
+      if GoodJob::Job
+           .where(finished_at: nil)
+           .exists?(job_class: WorkPackages::ApplyWorkingDaysChangeJob.name)
         errors.add :base, :previous_working_day_changes_unprocessed
       end
     end

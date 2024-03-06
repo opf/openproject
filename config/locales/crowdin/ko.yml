@@ -840,6 +840,10 @@ ko:
               invalid: "타임스탬프에 잘못된 값이 포함되어 있습니다: %{values}"
               forbidden: "타임스탬프에 금지된 값이 포함되어 있습니다: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "은(는) %{group_by} 에 의해 그룹과 상호배타적입니다. 당신은 둘 다 활성화할 수 없습니다."
           filters:
             custom_fields:
@@ -2708,7 +2712,7 @@ ko:
   setting_brute_force_block_minutes: "사용자가 다음 시간 동안 차단되었습니다."
   setting_cache_formatted_text: "캐시 서식 있는 텍스트"
   setting_use_wysiwyg_description: "기본적으로 모든 사용자에 대한 CKEditor5 WYSIWYG 편집기를 활성화하려면 선택하세요. CKEditor는 GFM Markdown용 기능을 제한했습니다."
-  setting_column_options: "작업 패키지 목록의 모양 사용자 지정"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "키워드 수정"
   setting_commit_logs_encoding: "커밋 메시지 인코딩"
   setting_commit_logtime_activity_id: "기록된 시간의 작업"
@@ -2730,7 +2734,7 @@ ko:
   setting_emails_header: "이메일 머리글"
   setting_email_login: "이메일로 로그인하기"
   setting_enabled_scm: "활성화된 SCM"
-  setting_enabled_projects_columns: "프로젝트 목록에 표시"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "피드 사용"
   setting_ical_enabled: "iCalendar 구독 활성화"
   setting_feeds_limit: "피드 콘텐츠 제한"
@@ -2741,7 +2745,6 @@ ko:
   setting_work_package_done_ratio_field: "작업 패키지 필드"
   setting_work_package_done_ratio_status: "작업 패키지 상태"
   setting_work_package_done_ratio_disabled: "비활성화(완료 % 필드 숨기기)"
-  setting_work_package_list_default_columns: "기본적으로 사용 안 함"
   setting_work_package_properties: "작업 패키지 속성"
   setting_work_package_startdate_is_adddate: "새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용"
   setting_work_packages_projects_export_limit: "작업 패키지/프로젝트 내보내기 제한"
@@ -2849,7 +2852,7 @@ ko:
     projects:
       missing_dependencies: "%{dependencies}에 의존하는 프로젝트 모듈 %{module}이(가) 확인되었습니다. 이러한 종속성도 확인해야 합니다."
       section_new_projects: "새 프로젝트의 설정"
-      section_project_overview: "프로젝트 개요 목록의 설정"
+      section_project_overview: "Settings for project lists"
     session: "세션"
     user:
       default_preferences: "기본 설정"
@@ -3014,6 +3017,12 @@ ko:
       활성화된 경우, 사용자는 등록 중에 로그인 방식을 선택할 수 없습니다. 대신 주어진 이메일 주소가 로그인 방식으로 사용됩니다. 관리자는 로그인 방식을 개별적으로 변경할 수 있습니다.
   queries:
     apply_filter: 미리 구성된 필터 적용
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "추가 리소스"
     getting_started: "시작하기"

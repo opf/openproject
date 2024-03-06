@@ -72,11 +72,8 @@ class DigestMailer < ApplicationMailer
 
     return if @aggregated_notifications.empty?
 
-    with_locale_for(recipient) do
-      subject = "#{Setting.app_title} - #{digest_summary_text(notification_ids.size, @mentioned_count)}"
-
-      mail to: recipient.mail,
-           subject:
+    send_localized_mail(recipient) do
+      "#{Setting.app_title} - #{digest_summary_text(notification_ids.size, @mentioned_count)}"
     end
   end
 

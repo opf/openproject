@@ -39,6 +39,7 @@ module Meetings
     attribute :duration
     attribute :state
     attribute :start_date
+    attribute :start_time
     attribute :start_time_hour
   end
 end

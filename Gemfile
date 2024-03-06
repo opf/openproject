@@ -124,8 +124,7 @@ gem 'multi_json', '~> 1.15.0'
 gem 'oj', '~> 3.16.0'
 
 gem 'daemons'
-gem 'delayed_cron_job', '~> 0.9.0'
-gem 'delayed_job_active_record', '~> 4.1.5'
+gem 'good_job', '~> 3.26.1' # update should be done manually in sync with saas-openproject version.
 
 gem 'rack-protection', '~> 3.2.0'
 
@@ -156,7 +155,7 @@ gem 'structured_warnings', '~> 0.4.0'
 # don't require by default, instead load on-demand when actually configured
 gem 'airbrake', '~> 13.0.0', require: false
 
-gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '82c2b5cc25a28fbd62cb05b17d9ba0f68d701109'
+gem 'md_to_pdf', git: 'https://github.com/opf/md-to-pdf', ref: '8f14736a88ad0064d2a97be108fe7061ffbcee91'
 gem 'prawn', '~> 2.4'
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem 'matrix', '~> 0.4.2'
@@ -227,7 +226,7 @@ gem 'turbo-rails', '~> 2.0.0'
 gem 'httpx'
 
 group :test do
-  gem 'launchy', '~> 2.5.0'
+  gem 'launchy', '~> 3.0.0'
   gem 'rack-test', '~> 2.1.0'
   gem 'shoulda-context', '~> 2.0'
 
@@ -291,7 +290,7 @@ group :ldap do
 end
 
 group :development do
-  gem 'listen', '~> 3.8.0' # Use for event-based reloaders
+  gem 'listen', '~> 3.9.0' # Use for event-based reloaders
 
   gem 'letter_opener'
 
@@ -348,7 +347,7 @@ gem 'grape_logging', '~> 1.8.4'
 gem 'roar', '~> 1.2.0'
 
 # CORS for API
-gem 'rack-cors', '~> 2.0.0'
+gem 'rack-cors', '~> 2.0.2'
 
 # Gmail API
 gem 'google-apis-gmail_v1', require: false
@@ -384,4 +383,4 @@ end
 
 gem 'openproject-octicons', '~>19.8.0'
 gem 'openproject-octicons_helper', '~>19.8.0'
-gem 'openproject-primer_view_components', '~>0.22.2'
+gem 'openproject-primer_view_components', '~>0.23.0'

@@ -45,7 +45,7 @@ end
 ##
 # Helper to pass options to retriable while logging
 # failures
-def retry_block(args: {}, screenshot: false, &block)
+def retry_block(args: {}, screenshot: false, &)
   if ENV["RSPEC_RETRY_RETRY_COUNT"] == "0"
     yield
     return
@@ -76,7 +76,7 @@ def retry_block(args: {}, screenshot: false, &block)
     end
   end
 
-  Retriable.retriable(on_retry: log_errors, **args, &block)
+  Retriable.retriable(on_retry: log_errors, **args, &)
 end
 
 def backtrace_up_to_spec_file(exception)

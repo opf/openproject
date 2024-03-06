@@ -842,6 +842,10 @@ si:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "'%{group_by}' විසින් කණ්ඩායම සමඟ අන්යෝන්ය වශයෙන් සුවිශේෂී වේ. ඔබට දෙකම සක්රිය කළ නොහැක."
           filters:
             custom_fields:
@@ -2741,7 +2745,7 @@ si:
   setting_brute_force_block_minutes: "පරිශීලකයා අවහිර කර ඇති කාලය"
   setting_cache_formatted_text: "හැඹිලි ආකෘතිගත පෙළ"
   setting_use_wysiwyg_description: "පෙරනිමියෙන් සියලුම පරිශීලකයින් සඳහා ckeditor5 WYSIWYG සංස්කාරකය සක්රීය කිරීමට තෝරන්න. Ckeditor GFM Markdown සඳහා සීමිත ක්රියාකාරිත්වයක් ඇත."
-  setting_column_options: "වැඩ පැකේජ ලැයිස්තු වල පෙනුම රිසිකරණය කරන්න"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "මූල පද සවි කිරීම"
   setting_commit_logs_encoding: "පණිවිඩ කේතනය කරන්න"
   setting_commit_logtime_activity_id: "ලඝු-සටහන් කාලය සඳහා ක්රියාකාරකම්"
@@ -2763,7 +2767,7 @@ si:
   setting_emails_header: "ඊමේල් ශීර්ෂකය"
   setting_email_login: "පිවිසුම් ලෙස විද්යුත් තැපෑල භාවිතා කරන්න"
   setting_enabled_scm: "සක්රීය SCM"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "පෝෂණය සක්රීය කරන්න"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "අන්තර්ගත සීමාව සංග්රහ"
@@ -2774,7 +2778,6 @@ si:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "පෙරනිමියෙන් දර්ශනය"
   setting_work_package_properties: "වැඩ පැකේජය ගුණ"
   setting_work_package_startdate_is_adddate: "නව වැඩ පැකේජ සඳහා ආරම්භක දිනය ලෙස වත්මන් දිනය භාවිතා කරන්න"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2882,7 +2885,7 @@ si:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_project_overview: "Settings for project lists"
     session: "සැසිය"
     user:
       default_preferences: "පෙරනිමි මනාප"
@@ -3047,6 +3050,12 @@ si:
       සක්රීය කර ඇත්නම් පරිශීලකයෙකුට ලියාපදිංචියේදී පිවිසුමක් තෝරා ගැනීමට නොහැකි වනු ඇත. ඒ වෙනුවට ඔවුන්ගේ විද්යුත් තැපැල් ලිපිනය පිවිසුම් ලෙස සේවය කරනු ඇත. පරිපාලකයෙකු තවමත් පිවිසුම වෙන වෙනම වෙනස් කළ හැකිය.
   queries:
     apply_filter: පෙර සැකසූ පෙරහන යොදන්න
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "අතිරේක සම්පත්"
     getting_started: "ආරම්භ කිරීම"

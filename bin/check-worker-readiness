@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if ps aux | grep 'rake jobs:work' | grep -v grep; then
+if ps aux | grep 'good_job start' | grep -v grep; then
   echo "background worker running"
   exit 0
 fi

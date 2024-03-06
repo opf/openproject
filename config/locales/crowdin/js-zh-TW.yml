@@ -119,7 +119,7 @@ zh-TW:
     chart:
       type: '圖表類型'
       axis_criteria: 'Axis criteria'
-      modal_title: '工作包表配置'
+      modal_title: '設定工作項目表'
       types:
         line: '折線'
         horizontal_bar: '水平分隔線'
@@ -136,7 +136,6 @@ zh-TW:
     description_available_columns: "可用欄"
     description_current_position: "你在這裡："
     description_select_work_package: "選取工作項目 #%{id}"
-    description_selected_columns: "所選的欄"
     description_subwork_package: "子工作項目 #%{id}"
     editor:
       preview: '切換預覽模式'
@@ -178,15 +177,15 @@ zh-TW:
           hint: |
             通過指定其標題或Slug, 包括另一個 Wiki 頁面的內容。您可以通過將另一個專案的 Wiki 頁與下面的示例類似的冒號進行分隔, 從而包括該頁面。
         work_package_button:
-          button: '插入創建工作包按鈕'
+          button: '插入「新增工作項目按鈕」'
           type: '工作項目類型'
           button_style: '使用按鈕樣式'
           button_style_hint: '可選: 檢查以使宏顯示為按鈕, 而不是連結。'
           without_type: '建立工作項目'
-          with_type: '創建工作包 (類型: %{typename})'
+          with_type: '新增工作項目 (類型: %{typename})'
         embedded_table:
-          button: '嵌入工作包表'
-          text: '[Placeholder] 嵌入式工作包表格'
+          button: '嵌入工作項目表'
+          text: '[暫用] 嵌入工作項目表'
         embedded_calendar:
           text: '[Placeholder] 嵌入式日曆'
     admin:
@@ -195,7 +194,7 @@ zh-TW:
         inactive: '未啟用'
         drag_to_activate: "從這裡拖曳欄位來啟用它們"
         add_group: "添加屬性組"
-        add_table: "添加相關工作包的表格"
+        add_table: "新增相關工作項目表"
         edit_query: '編輯查詢'
         new_group: '新增群組'
         reset_to_defaults: '重設為預設值'
@@ -445,6 +444,7 @@ zh-TW:
     label_less_than_ago: "少於幾天前"
     label_loading: "讀取中..."
     label_mail_notification: "電子郵件通知"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "我"
     label_meeting_agenda: "會議大綱"
     label_meeting_minutes: "會議記錄"
@@ -483,6 +483,7 @@ zh-TW:
     label_report: "報表"
     label_repository_plural: "版本庫"
     label_save_as: "保存為"
+    label_search_columns: "Search a column"
     label_select_project: "選擇專案"
     label_select_watcher: "選擇一位關注者"
     label_selected_filter_list: "所選的篩選器"
@@ -542,14 +543,14 @@ zh-TW:
     label_remove_all_files: 刪除所有檔案
     label_add_description: "添加 %{file} 的說明"
     label_upload_notification: "上傳檔案中..."
-    label_work_package_upload_notification: "上傳檔案到工作包 #%{id}: %{subject}"
+    label_work_package_upload_notification: "上傳檔案到工作項目 #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} 被 %{author} 新增"
     label_files_to_upload: "將上傳這些檔案:"
     label_rejected_files: "不能上傳這些檔案:"
     label_rejected_files_reason: "這些檔案不能上傳，因為它們的大小大於 %{maximumFilesize}"
     label_wait: "請等待配置..."
     label_upload_counter: "%{count} 個中的 %{done} 個文件已完成"
-    label_validation_error: "由於下列錯誤，無法儲存工作包:"
+    label_validation_error: "由於下列錯誤，無法儲存工作項目:"
     label_version_plural: "版本"
     label_view_has_changed: "變動未儲存，請點按儲存。"
     help_texts:
@@ -676,20 +677,20 @@ zh-TW:
           shared: '共享'
           watched: "關注者\n"
           work_package_commented: '新評論'
-          work_package_created: '新工作包'
+          work_package_created: '新增工作項目'
           work_package_processed: '全部狀態改變'
           work_package_prioritized: '全部優先級改變'
           work_package_scheduled: '全部日期改變'
         global:
           immediately:
             title: '參與中'
-            description: '你參與的工作包中所有活動的通知（執行人、責任人或監督人）。'
+            description: '你參與的工作項目中所有活動的通知（負責執行者、負責人或監督人）。'
           delayed:
             title: '非參與中'
             description: '所有項目活動的額外通知。'
           date_alerts:
             title: '日期提醒'
-            description: '當你涉及的打開的工作包（例如作為受讓人、負責人或觀察者）的重要日期臨近時，自動發出通知。'
+            description: '當進行中工作項目（例如作為負責執行者、負責人或觀察者）的重要日期臨近時，自動發出通知。'
             teaser_text: 'With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline.'
           overdue: When overdue
         project_specific:
@@ -819,7 +820,7 @@ zh-TW:
       remove_parent: "移除上一層"
       hierarchy_indent: "Indent hierarchy"
       hierarchy_outdent: "Outdent hierarchy"
-      group_by_wp_type: "按工作包類型分組"
+      group_by_wp_type: "依工作項目類型分組"
       group_by_relation_type: "按關聯類型分組"
       add_parent: "增加現有的上一層"
       add_new_child: "建立新子項"
@@ -894,16 +895,16 @@ zh-TW:
       comment_added: "成功添加注釋。"
       comment_send_failed: "發生錯誤。無法提交評論。"
       comment_updated: "注釋已成功更新。"
-      confirm_edit_cancel: "是否確定取消編輯中的工作包"
+      confirm_edit_cancel: "是否確定取消編輯中的工作項目"
       datepicker_modal:
         automatically_scheduled_parent: "Automatically scheduled. Dates are derived from relations."
         manually_scheduled: "Manual scheduling enabled, all relations ignored."
-        start_date_limited_by_relations: "Available start and finish dates are limited by relations."
-        changing_dates_affects_follow_relations: "Changing these dates will affect dates of related work packages."
-        click_on_show_relations_to_open_gantt: 'Click on "%{button_name}" for GANTT overview.'
-        show_relations: 'Show relations'
+        start_date_limited_by_relations: "因關聯工作項目原因，可選的起迄日期將被限制。"
+        changing_dates_affects_follow_relations: "更改這些日期將影響「關聯」的工作項目日期"
+        click_on_show_relations_to_open_gantt: '點選"%{button_name}" 依甘特圖查看'
+        show_relations: '顯示關聯'
         ignore_non_working_days:
-          title: 'Working days only'
+          title: '工作日'
       description_filter: "篩選器"
       description_enter_text: "輸入文字"
       description_options_hide: "隱藏選項"
@@ -917,10 +918,10 @@ zh-TW:
       label_options: "選項"
       label_column_multiselect: "組合的下拉欄位: 使用方向鍵選擇，用 enter 鍵確認，用backspace鍵刪除"
       message_error_during_bulk_delete: 刪除工作項目時發生錯誤
-      message_successful_bulk_delete: 成功刪除工作包
-      message_successful_show_in_fullscreen: "點擊此處以全螢幕開啟此工作包"
-      message_view_spent_time: "顯示這個工作包所花費的時間"
-      message_work_package_read_only: "工作包被鎖定在此狀態。任何屬性以外的狀態都不能更改。"
+      message_successful_bulk_delete: 成功刪除工作項目
+      message_successful_show_in_fullscreen: "點擊此處以全螢幕檢視此工作項目"
+      message_view_spent_time: "顯示這個工作項目所花費的時間"
+      message_work_package_read_only: "工作項目被鎖定在此狀態。任何屬性以外的狀態都不能更改。"
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
       placeholder_filter_by_text: "主旨, 描述, 評論 ..."
       baseline:
@@ -937,20 +938,20 @@ zh-TW:
       create:
         title: '新增工作項目'
         header: '新 %{type}'
-        header_no_type: '新工作包(類型尚未設置)'
+        header_no_type: '新增工作項目(類型尚未設置)'
         header_with_parent: '新 %{type} (%{parent_type}＃%{id} 子元素)'
         button: '建立'
       copy:
-        title: '複製工作包'
+        title: '複製工作項目'
       hierarchy:
         show: "顯示層次結構模式"
         hide: "隱藏層次結構模式"
         toggle_button: '點擊以切換層次結構模式。'
-        leaf: '工作包葉處於 %{level} 級別。'
+        leaf: '工作項目分支處於 %{level} 層級。'
         children_collapsed: '層次級別 %{level} 已收合。點擊以顯示篩選的子任務'
         children_expanded: '層次級別 %{level} 已展開。點擊以收合篩選的子任務'
       faulty_query:
-        title: 無法載入工作包。
+        title: 無法載入工作項目。
         description: 您的視圖是錯誤的, 無法處理。
       no_results:
         title: 無工作項目可顯示
@@ -1001,7 +1002,7 @@ zh-TW:
         shared_with_users: "分配給非專案成員"
       jump_marks:
         pagination: "跳轉至表格分頁"
-        label_pagination: "點擊此處跳過工作包表格並轉到分頁"
+        label_pagination: "點擊此處跳過工作項目表並轉到分頁"
         content: "跳到內容"
         label_content: "點擊此處跳過功能表直接轉到內容"
       placeholders:
@@ -1045,15 +1046,15 @@ zh-TW:
         upsale:
           description: "Share work packages with users who are not members of the project."
       table:
-        configure_button: '配置工作包表'
+        configure_button: '設定工作項目'
         summary: "由工作項目和工作項目屬性列組成的表格。"
         text_inline_edit: "該表中的大多數單元格都內嵌可以編輯屬性的按鈕。"
         text_sort_hint: "通過表格標題中的鏈接，您可以排序，分組，重新排序，刪除和添加表格列。"
         text_select_hint: "請使用Alt+方向鍵打開選擇框。"
       table_configuration:
-        button: '配置此工作包表'
-        choose_display_mode: '將工作包顯示為'
-        modal_title: '工作包表配置'
+        button: '設定此工作項目表'
+        choose_display_mode: '將工作項目顯示為'
+        modal_title: '工作項目表設定'
         embedded_tab_disabled: "This configuration tab is not available for the embedded view you are editing."
         default: "預設"
         display_settings: '顯示設定'
@@ -1079,7 +1080,7 @@ zh-TW:
           warning: 'You will lose your previous sorting when activating the automatic sorting mode.'
         columns_help_text: "Use the input field above to add columns to your table view. You can drag and drop the columns to reorder them."
         upsale:
-          attribute_highlighting: '需要某些工作包才能從大眾中脫穎而出？'
+          attribute_highlighting: '需要強調某些工作項目嗎？'
           relation_columns: '需要檢視工作項目清單的關係嗎'
           check_out_link: '請查閱企業版'
         relation_filters:
@@ -1204,7 +1205,7 @@ zh-TW:
         invite_to_project: 'Invite %{type} to %{project}'
         User: '使用者'
         Group: '群組'
-        PlaceholderUser: '非專案成員'
+        PlaceholderUser: '虛擬暫用群組'
         invite_principal_to_project: 'Invite %{principal} to %{project}'
       project:
         label: '專案'
@@ -1223,7 +1224,7 @@ zh-TW:
           title: '群組'
           description: 'Permissions based on the assigned role in the selected project'
         placeholder:
-          title: '非專案成員'
+          title: '虛擬暫用群組'
           title_no_ee: '非專案成員（Enterprise edition 附加功能）'
           description: 'Has no access to the project and no emails are sent out.'
           description_no_ee: '由於沒有訪問項目的權限，所以不會發送電子郵件。<br>請查看<a href="%{eeHref}" target="_blank">企業版</a>。'

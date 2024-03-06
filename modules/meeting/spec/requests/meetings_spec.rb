@@ -31,7 +31,6 @@ require 'spec_helper'
 RSpec.describe 'Meeting requests',
                :skip_csrf,
                type: :rails_request do
-
   shared_let(:project) { create(:project, enabled_module_names: %i[meetings]) }
   shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_meetings create_meetings] }) }
 
@@ -47,7 +46,7 @@ RSpec.describe 'Meeting requests',
         project_id: project.id,
         meeting: {
           title: 'Copied meeting',
-          type: :dynamic
+          type: 'StructuredMeeting'
         }
       }
     end

@@ -124,8 +124,10 @@ We provide the following health checks:
 
 - `https://your-hostname.example.tld/health_checks/default` - An application level check to ensure the web workers are running.
 - `https://your-hostname.example.tld/health_checks/database` - A database liveliness check.
-- `https://your-hostname.example.tld/health_checks/delayed_jobs_never_ran` - A check to ensure background jobs are being processed.
-- `https://your-hostname.example.tld/health_checks/delayed_jobs_backed_up` - A check to determine whether background workers are at capacity and might need to be scaled up to provide timely processing of mails and other background work.
+- `https://your-hostname.example.tld/health_checks/mail` - SMTP configuration check.
+- `https://your-hostname.example.tld/health_checks/puma` - A check on Puma web server.
+- `https://your-hostname.example.tld/health_checks/worker` - A check to ensure background jobs are being processed.
+- `https://your-hostname.example.tld/health_checks/worker_backed_up` - A check to determine whether background workers are at capacity and might need to be scaled up to provide timely processing of mails and other background work.
 - `https://your-hostname.example.tld/health_checks/all` - All of the above checks and additional checks combined as one. Not recommended as the liveliness check of a pod/container.
 
 ### Optional authentication

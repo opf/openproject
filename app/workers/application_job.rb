@@ -92,6 +92,10 @@ class ApplicationJob < ActiveJob::Base
     Setting.reload_mailer_settings!
   end
 
+  def job_scheduled_at
+    GoodJob::Job.where(id: job_id).pick(:scheduled_at)
+  end
+
   private
 
   def prepare_job_context

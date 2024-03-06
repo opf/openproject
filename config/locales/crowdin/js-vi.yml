@@ -136,7 +136,6 @@ vi:
     description_available_columns: "Cột có sẵn"
     description_current_position: "Bạn đang ở đây:"
     description_select_work_package: "Chọn work package #%{id}"
-    description_selected_columns: "Các cột được lựa chọn"
     description_subwork_package: "Con của work package #%{id}"
     editor:
       preview: 'Bật tắt chế độ xem trước'
@@ -445,6 +444,7 @@ vi:
     label_less_than_ago: "less than days ago"
     label_loading: "Loading..."
     label_mail_notification: "Thông báo qua email"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "me"
     label_meeting_agenda: "Các ý chính"
     label_meeting_minutes: "Phút"
@@ -483,6 +483,7 @@ vi:
     label_report: "Báo cáo"
     label_repository_plural: "Kho lưu trữ"
     label_save_as: "Lưu thành"
+    label_search_columns: "Search a column"
     label_select_project: "Chọn dự án"
     label_select_watcher: "Chọn một người theo dõi..."
     label_selected_filter_list: "Các bộ lọc đã chọn: %s"

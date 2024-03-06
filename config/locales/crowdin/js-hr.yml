@@ -136,7 +136,6 @@ hr:
     description_available_columns: "Dostupni stupci"
     description_current_position: "You are here: "
     description_select_work_package: "Odaberite radni paket #%{id}"
-    description_selected_columns: "Odabrani stupci"
     description_subwork_package: "Child of work package #%{id}"
     editor:
       preview: 'Toggle preview mode'
@@ -446,6 +445,7 @@ hr:
     label_less_than_ago: "manje od dana"
     label_loading: "Učitavanje..."
     label_mail_notification: "Obavijesti e-mailom"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "ja"
     label_meeting_agenda: "Dnevni red"
     label_meeting_minutes: "Minute"
@@ -484,6 +484,7 @@ hr:
     label_report: "Izvješće"
     label_repository_plural: "Repozitoriji"
     label_save_as: "Spremiti kao"
+    label_search_columns: "Search a column"
     label_select_project: "Odaberi projekt"
     label_select_watcher: "Odaberite nadglednika..."
     label_selected_filter_list: "Odabrani filteri"

@@ -19,7 +19,7 @@ zh-TW:
       status: 狀態
       version: 版本
       subproject: 子專案
-      subtasks: 父-子
+      subtasks: 主任務-子任務
       basic: 基本
     board_type_descriptions:
       basic: >
@@ -33,7 +33,7 @@ zh-TW:
       subproject: >
         具有子專案自動列的面板。將工作包拖動到其他列表會相應地更新（子）專案。
       subtasks: >
-        具有子元素自動列的面板。將工作包拖動到其他列表會相應地更新父項。
+        具有子元素自動列的看板。將工作項目移動到其他列表會相應地更新主工作項目。
     upsale:
       teaser_text: '你想用看板來自動化你的工作流程嗎？高級看板是一項企業功能。請升級到付費計劃。'
       upgrade: '立即升級'

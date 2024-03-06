@@ -123,7 +123,7 @@ RSpec.describe Meeting do
       let(:project_members) { { user1 => role, user2 => role2 } }
 
       it 'does not contain the user' do
-        expect(meeting.all_changeable_participants.include?(user2)).to be_falsey
+        expect(meeting.all_changeable_participants).not_to include(user2)
       end
     end
 
@@ -131,11 +131,11 @@ RSpec.describe Meeting do
       let(:locked_user) { create(:locked_user) }
 
       before do
-        meeting.participants_attributes = [{ 'user_id' => locked_user.id, 'invited' => 1 }]
+        meeting.participants_attributes = [{ user_id: locked_user.id, invited: 1 }]
       end
 
       it 'contains the user' do
-        expect(meeting.all_changeable_participants.include?(locked_user)).to be_truthy
+        expect(meeting.all_changeable_participants).to include(locked_user)
       end
     end
   end
@@ -163,7 +163,7 @@ RSpec.describe Meeting do
     end
 
     it 'closes the agenda' do
-      expect(meeting.agenda.locked?).to be_truthy
+      expect(meeting.agenda).to be_locked
     end
   end
 
@@ -191,48 +191,6 @@ RSpec.describe Meeting do
       end
 
       it_behaves_like 'uses that zone', 'EST'
-    end
-  end
-
-  describe 'Copied meetings' do
-    let(:project_members) { { user1 => role, user2 => role } }
-
-    before do
-      meeting.start_date = '2013-03-27'
-      meeting.start_time_hour = '15:35'
-      meeting.participants.build(user: user2)
-      meeting.save!
-    end
-
-    it 'has the same start_time as the original meeting' do
-      copy = meeting.copy({})
-      expect(copy.start_time).to eq(meeting.start_time)
-    end
-
-    it 'deletes the copied meeting author if no author is given as parameter' do
-      copy = meeting.copy({})
-      expect(copy.author).to be_nil
-    end
-
-    it 'sets the author to the provided author if one is given' do
-      copy = meeting.copy author: user2
-      expect(copy.author).to eq(user2)
-    end
-
-    it 'clears participant ids and attended flags for all copied attendees' do
-      copy = meeting.copy({})
-      expect(copy.participants.all? { |p| p.id.nil? && !p.attended }).to be_truthy
-    end
-
-    context 'when old meeting as user no longer in project' do
-      before do
-        user2.memberships.destroy_all
-      end
-
-      it 'does not copy that user' do
-        copy = meeting.copy({})
-        expect(copy.participants.map(&:user_id)).to eq [user1.id]
-      end
     end
   end
 

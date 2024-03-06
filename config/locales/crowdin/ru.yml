@@ -97,9 +97,9 @@ ru:
     deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
     overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
     quarantined_attachments:
-      container: "Container"
-      delete: "Delete the quarantined file"
-      title: "Quarantined attachments"
+      container: "Контейнер"
+      delete: "Удалите файл, помещенный в карантин"
+      title: "Вложения в карантине"
       error_cannot_act_self: "Cannot perform actions on your own uploaded files."
   attribute_help_texts:
     note_public: "Любой текст и изображения, которые вы добавляете в это поле, видны всем аутентифицированным пользователям!"
@@ -568,7 +568,7 @@ ru:
           false: "приватный"
         queries: "Запросы"
         status_code: "Статус проекта"
-        description: "Description"
+        description: "Описание"
         status_explanation: "Описание статуса проекта"
         status_codes:
           not_started: "Не начат"
@@ -643,8 +643,8 @@ ru:
         begin_deletion: "Начало удаления"
         children: "Вложенные элементы"
         derived_done_ratio: "Total % complete"
-        derived_remaining_hours: "Total remaining work"
-        derived_remaining_time: "Total remaining work"
+        derived_remaining_hours: "Всего оставшихся работ"
+        derived_remaining_time: "Всего оставшихся работ"
         done_ratio: "% Завершено"
         duration: "Продолжительность"
         end_insertion: "Завершение вставки"
@@ -842,6 +842,10 @@ ru:
             timestamps:
               invalid: "Временные метки содержат недопустимые значения: %{values}"
               forbidden: "Временные метки содержат запрещенные значения: %{values}"
+              format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
@@ -1094,12 +1098,12 @@ ru:
     default_columns: "Столбцы по умолчанию"
     description: "Описание"
     derived_due_date: "Дата окончания производства"
-    derived_estimated_hours: "Total work"
+    derived_estimated_hours: "Общая работа"
     derived_start_date: "Дата начала производства"
     display_sums: "Отображение суммы"
     due_date: "Дата окончания"
-    estimated_hours: "Часы"
-    estimated_time: "Часы"
+    estimated_hours: "Предполагаемое время"
+    estimated_time: "Предполагаемое время"
     expires_at: "Истекает в"
     firstname: "Имя"
     group: "Группа"
@@ -1965,7 +1969,7 @@ ru:
   label_member_new: "Новый участник"
   label_member_all_admin: "(Все роли из-за статуса администратора)"
   label_member_plural: "Участники"
-  label_membership_plural: "Memberships"
+  label_membership_plural: "Членство"
   lable_membership_added: "Участник добавлен"
   lable_membership_updated: "Участник обновлен"
   label_menu_badge:
@@ -2269,9 +2273,9 @@ ru:
     other: "%{count} проектов"
     zero: "нет проектов"
   label_x_files:
-    one: "1 file"
-    other: "%{count} files"
-    zero: "no files"
+    one: "1 файл"
+    other: "%{count} файлов"
+    zero: "нет файлов"
   label_yesterday: "вчера"
   label_role_type: "Тип"
   label_member_role: "Роль в проекте"
@@ -2785,8 +2789,8 @@ ru:
   setting_app_subtitle: "Второе название приложения"
   setting_app_title: "Название приложения"
   setting_attachment_max_size: "Максимальный размер вложения"
-  setting_antivirus_scan_mode: "Scan mode"
-  setting_antivirus_scan_action: "Infected file action"
+  setting_antivirus_scan_mode: "Режим сканирования"
+  setting_antivirus_scan_action: "Действие с зараженным файлом"
   setting_autofetch_changesets: "Автоматическое получение изменений репозитория"
   setting_autologin: "Автовход"
   setting_available_languages: "Доступные языки"
@@ -2795,7 +2799,7 @@ ru:
   setting_brute_force_block_minutes: "Время блокирования пользователя за"
   setting_cache_formatted_text: "Кэшировать форматированный текст"
   setting_use_wysiwyg_description: "Выберите включение CKEditor5 WYSIWYG редактора для всех пользователей по умолчанию. CKEditor обладает ограниченной функциональностью для GFM Markdown."
-  setting_column_options: "Настройка внешнего вида  списка пакетов работ"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Корректирующие ключевые слова"
   setting_commit_logs_encoding: "Зафиксировать кодировку сообщений"
   setting_commit_logtime_activity_id: "Деятельности с учетом времени"
@@ -2817,7 +2821,7 @@ ru:
   setting_emails_header: "Заголовок письма"
   setting_email_login: "Использовать email как логин"
   setting_enabled_scm: "Вклченные SCM (системы управления исходным кодом)"
-  setting_enabled_projects_columns: "Видимый в списке проектов"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Включить новостные ленты"
   setting_ical_enabled: "Включить подписку на iCalendar"
   setting_feeds_limit: "Предел содержимого новостной ленты"
@@ -2828,7 +2832,6 @@ ru:
   setting_work_package_done_ratio_field: "Поле пакета работ"
   setting_work_package_done_ratio_status: "Статус пакета работ"
   setting_work_package_done_ratio_disabled: "Отключить (скрыть % заполненное поле)"
-  setting_work_package_list_default_columns: "Отображать по умолчанию"
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"
   setting_work_packages_projects_export_limit: "Ограничение экспорта пакетов работ / проектов"
@@ -2887,7 +2890,7 @@ ru:
       whitelist_text_html: >
         Определите список допустимых расширений файлов и/или mime типов для загруженных файлов. <br/> Введите расширения файлов (например, <code>%{ext_example}</code>) или mime типы (e. ., <code>%{mime_example}</code>). <br/> Оставьте пустым, чтобы разрешить загрузку любого типа файла. Допустимы несколько значений (одна строка для каждого значения).
     antivirus:
-      title: "Virus scanning"
+      title: "Сканирование вирусов"
       clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
       remaining_quarantined_files_html: >
         Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
@@ -2898,8 +2901,8 @@ ru:
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: 'Удалить файл'
+        quarantine: 'Поместите файл в карантин'
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2936,7 +2939,7 @@ ru:
     projects:
       missing_dependencies: "Был проверен модуль проекта %{module}, который зависит от %{dependencies}. Вам также необходимо проверить эти зависимости."
       section_new_projects: "Настройки для новых проектов"
-      section_project_overview: "Настройки списка обзоров проекта"
+      section_project_overview: "Settings for project lists"
     session: "Сессия"
     user:
       default_preferences: "Предпочтения по умолчанию"
@@ -3101,6 +3104,12 @@ ru:
       Если включено, пользователь не сможет выбирать логин во время регистрации. Вместо этого именем для входа ему будет служить его e-mail. Администратор сможет изменить логин отдельно.
   queries:
     apply_filter: Применить ранее настроенный фильтр
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Дополнительные ресурсы"
     getting_started: "Приступая к работе"

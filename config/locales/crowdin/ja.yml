@@ -837,6 +837,10 @@ ja:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "'%{group_by}' でのグループ化は相互に排他的です。両方を有効にはできません。"
           filters:
             custom_fields:
@@ -2708,7 +2712,7 @@ ja:
   setting_brute_force_block_minutes: "ユーザーがロックされている期間"
   setting_cache_formatted_text: "書式化されたテキストをキャッシュする"
   setting_use_wysiwyg_description: "すべてのユーザーに対してデフォルトで CKEditor5 WYSIWYGエディタ を有効にする場合に選択します。 CKEditor は GFM Markdown の機能が制限されています。"
-  setting_column_options: "ワークパッケージの一覧表示をカスタマイズする"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "修正用キーワード"
   setting_commit_logs_encoding: "メッセージのエンコードをコミット"
   setting_commit_logtime_activity_id: "コミット時に作業時間を記録する"
@@ -2730,7 +2734,7 @@ ja:
   setting_emails_header: "電子メールのヘッダー"
   setting_email_login: "メールアドレスをログインに使用する"
   setting_enabled_scm: "使用するバージョン管理システム"
-  setting_enabled_projects_columns: "プロジェクトリストに表示する"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "フィードを有効にする"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "フィードの項目数の上限"
@@ -2741,7 +2745,6 @@ ja:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "デフォルトで表示する"
   setting_work_package_properties: "項目名"
   setting_work_package_startdate_is_adddate: "今日の日付を新しいワークパッケージの開始日とする"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2849,7 +2852,7 @@ ja:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "新規プロジェクトの設定"
-      section_project_overview: "プロジェクト概要リストの設定"
+      section_project_overview: "Settings for project lists"
     session: "セッション"
     user:
       default_preferences: "デフォルト設定"
@@ -3014,6 +3017,12 @@ ja:
       有効にした場合、登録時にユーザはログインを選択することができません。代わりに、指定されたメール アドレスがログインとして機能します。管理者はログインを個別に変更できます。
   queries:
     apply_filter: 構成済みのフィルタを適用する
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "追加リソース"
     getting_started: "はじめに"
