@@ -50,7 +50,7 @@ module OpenProject::GitlabIntegration
       Rails.logger.debug { "Received gitlab webhook #{event_type}" }
 
       return 404 unless KNOWN_EVENTS.include?(event_type)
-      return 403 unless user.present?
+      return 403 if user.blank?
 
       payload = params[:payload]
                 .permit!
@@ -58,7 +58,8 @@ module OpenProject::GitlabIntegration
                 .merge('open_project_user_id' => user.id,
                        'gitlab_event' => event_type)
 
-      OpenProject::Notifications.send(:"gitlab.#{event_type}", payload)
+      event_name = :"gitlab.#{event_type}"
+      OpenProject::Notifications.send(event_name, payload)
 
       200
     end
