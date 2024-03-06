@@ -136,7 +136,6 @@ zh-CN:
     description_available_columns: "可用的列"
     description_current_position: "您现在的位置："
     description_select_work_package: "选择工作包 #%{id}"
-    description_selected_columns: "选定的列"
     description_subwork_package: "子工作包 #%{id}"
     editor:
       preview: '切换预览模式'
@@ -445,6 +444,7 @@ zh-CN:
     label_less_than_ago: "小于数日前"
     label_loading: "正在加载..."
     label_mail_notification: "电子邮件通知"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "我"
     label_meeting_agenda: "议程"
     label_meeting_minutes: "会议记录"
@@ -483,6 +483,7 @@ zh-CN:
     label_report: "报告"
     label_repository_plural: "存储库"
     label_save_as: "另存为"
+    label_search_columns: "Search a column"
     label_select_project: "选择项目"
     label_select_watcher: "选择一个关注者..."
     label_selected_filter_list: "已选筛选器"

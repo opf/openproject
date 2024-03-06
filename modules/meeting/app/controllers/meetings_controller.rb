@@ -29,7 +29,7 @@
 class MeetingsController < ApplicationController
   around_action :set_time_zone
   before_action :find_optional_project, only: %i[index new create]
-  before_action :build_meeting, only: %i[new create]
+  before_action :build_meeting, only: %i[new]
   before_action :find_meeting, except: %i[index new create]
   before_action :find_copy_from_meeting, only: %i[create]
   before_action :convert_params, only: %i[create update update_participants]
@@ -71,12 +71,18 @@ class MeetingsController < ApplicationController
   end
 
   def create
-    @meeting.participants.clear # Start with a clean set of participants
-    @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
-    @meeting.attributes = @converted_params
-    copy_meeting_agenda
+    call =
+      if @copy_from
+        ::Meetings::CopyService
+          .new(user: current_user, model: @copy_from)
+          .call(attributes: @converted_params, copy_agenda: params[:copy_agenda] == '1')
+      else
+        ::Meetings::CreateService
+          .new(user: current_user)
+          .call(@converted_params)
+      end
 
-    if @meeting.save
+    if call.success?
       text = I18n.t(:notice_successful_create)
       if User.current.time_zone.nil?
         link = I18n.t(:notice_timezone_missing, zone: Time.zone)
@@ -84,8 +90,9 @@ class MeetingsController < ApplicationController
       end
       flash[:notice] = text.html_safe
 
-      redirect_to action: 'show', id: @meeting
+      redirect_to action: 'show', id: call.result
     else
+      @meeting = call.result
       render template: 'meetings/new', project_id: @project, locals: { copy_from: @copy_from }
     end
   end
@@ -98,7 +105,11 @@ class MeetingsController < ApplicationController
 
   def copy
     copy_from = @meeting
-    @meeting = @meeting.copy(author: User.current)
+    call = ::Meetings::CopyService
+      .new(user: current_user, model: copy_from)
+      .call(save: false)
+
+    @meeting = call.result
     render action: 'new', project_id: @project, locals: { copy_from: }
   end
 
@@ -269,8 +280,7 @@ class MeetingsController < ApplicationController
   end
 
   def build_meeting
-    cls = meeting_type(params.dig(:meeting, :type)).constantize
-    @meeting = cls.new
+    @meeting = Meeting.new
     @meeting.project = @project
     @meeting.author = User.current
   end
@@ -295,6 +305,7 @@ class MeetingsController < ApplicationController
     # instance variable.
     @converted_params = meeting_params.to_h
 
+    @converted_params[:project] = @project
     @converted_params[:duration] = @converted_params[:duration].to_hours if @converted_params[:duration].present?
     # Force defaults on participants
     @converted_params[:participants_attributes] ||= {}
@@ -304,7 +315,7 @@ class MeetingsController < ApplicationController
   def meeting_params
     if params[:meeting].present?
       params.require(:meeting).permit(:title, :location, :start_time,
-                                      :duration, :start_date, :start_time_hour,
+                                      :duration, :start_date, :start_time_hour, :type,
                                       participants_attributes: %i[email name invited attended user user_id meeting id])
     end
   end
@@ -317,35 +328,11 @@ class MeetingsController < ApplicationController
     end
   end
 
-  def meeting_type(given_type)
-    case given_type
-    when 'dynamic'
-      'StructuredMeeting'
-    else
-      'Meeting'
-    end
-  end
-
   def find_copy_from_meeting
     return unless params[:copied_from_meeting_id]
 
     @copy_from = Meeting.visible.find(params[:copied_from_meeting_id])
   rescue ActiveRecord::RecordNotFound
     render_404
-  end
-
-  def copy_meeting_agenda
-    return unless params[:copy_agenda] == '1' && @copy_from
-
-    if @meeting.is_a?(StructuredMeeting)
-      @meeting.agenda_items_attributes = @copy_from.agenda_items.map(&:copy_attributes)
-    else
-      @meeting.agenda = MeetingAgenda.new(
-        author: current_user,
-        text: @copy_from.agenda&.text,
-        journal_notes: I18n.t('meeting.copied', id: params[:copied_from_meeting_id])
-      )
-      @meeting.agenda.author = current_user
-    end
   end
 end

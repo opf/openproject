@@ -26,10 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CleanupWebhookLogsJob < Cron::CronJob
-  # runs at 5:28 on Sunday
-  self.cron_expression = '28 5 * * 7'
-
+class CleanupWebhookLogsJob < ApplicationJob
   # Clean any logs older than 7 days
   def perform
     ::Webhooks::Log

@@ -136,7 +136,6 @@ fa:
     description_available_columns: "Available Columns"
     description_current_position: "You are here: "
     description_select_work_package: "Select work package #%{id}"
-    description_selected_columns: "Selected Columns"
     description_subwork_package: "Child of work package #%{id}"
     editor:
       preview: 'Toggle preview mode'
@@ -446,6 +445,7 @@ fa:
     label_less_than_ago: "less than days ago"
     label_loading: "Loading..."
     label_mail_notification: "اعلان های ایمیل"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "me"
     label_meeting_agenda: "Agenda"
     label_meeting_minutes: "دقیقه ها"
@@ -484,6 +484,7 @@ fa:
     label_report: "Report"
     label_repository_plural: "Repositories"
     label_save_as: "ذخیره به عنوان"
+    label_search_columns: "Search a column"
     label_select_project: "Select a project"
     label_select_watcher: "یک ناظر را انتخاب کنید..."
     label_selected_filter_list: "فیلترهای انتخاب شده"

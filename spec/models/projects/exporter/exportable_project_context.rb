@@ -77,7 +77,10 @@ RSpec.shared_context 'with an instance of the described exporter' do
     create(:user,
            member_with_permissions: { project => %i(view_projects) })
   end
-  let(:query) { Queries::Projects::ProjectQuery.new }
+  let(:query_columns) { %w[name description project_status public] }
+  let(:query) do
+    build_stubbed(:project_query, select: query_columns)
+  end
   let(:instance) do
     described_class.new(query)
   end

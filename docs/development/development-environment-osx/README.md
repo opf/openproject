@@ -250,7 +250,7 @@ You can then access the application either through `localhost:3000` (Rails serve
 ### Delayed Job background worker
 
 ```shell
-RAILS_ENV=development bin/rails jobs:work
+RAILS_ENV=development bundle exec good_job start
 ```
 
 This will start a Delayed::Job worker to perform asynchronous jobs like sending emails.
@@ -297,12 +297,6 @@ brew install git
 ```
 
 ## Known issues
-
-### Memory management
-
-The delayed_job background worker reloads the application for every job in development mode. This is a know issue and documented here: https://github.com/collectiveidea/delayed_job/issues/823
-
-
 
 ### Spawning a lot of browser tabs
 

@@ -26,6 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
+<% html_title t(:label_administration), t('settings.antivirus.title') %>
+
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
   <% header.with_title do %>
     <%= t('settings.antivirus.title') %>
@@ -44,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field">
     <%= setting_select :antivirus_scan_mode,
                        [
-                         [t(:label_disabled), :disabled],
+                         [t(:label_disabled_uppercase), :disabled],
                          ['ClamAV (Socket)', :clamav_socket],
                          ['ClamAV (Host)', :clamav_host],
                        ],
@@ -55,7 +57,7 @@ See COPYRIGHT and LICENSE files for more details.
     %>
     <div class="form--field-instructions">
       <p><%= t('settings.antivirus.modes.description_html',
-               disabled_option: t(:label_disabled),
+               disabled_option: t(:label_disabled_uppercase),
                socket_option: 'ClamAV (Socket)',
                host_option: 'ClamAV (Host)',
              ) %></p>

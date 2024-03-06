@@ -33,9 +33,8 @@ class DocumentsMailer < UserMailer
     open_project_headers 'Project' => @document.project.identifier,
                          'Type' => 'Document'
 
-    with_locale_for(user) do
-      subject = "[#{@document.project.name}] #{t(:label_document_new)}: #{@document.title}"
-      mail to: user.mail, subject:
+    send_localized_mail(user) do
+      "[#{@document.project.name}] #{t(:label_document_new)}: #{@document.title}"
     end
   end
 

@@ -136,7 +136,6 @@ ko:
     description_available_columns: "사용 가능한 열"
     description_current_position: "사용자의 위치: "
     description_select_work_package: "작업 패키지 #%{id} 선택"
-    description_selected_columns: "선택된 열"
     description_subwork_package: "작업 패키지 #%{id}의 자식"
     editor:
       preview: '미리 보기 모드 토글'
@@ -446,6 +445,7 @@ ko:
     label_less_than_ago: "일 미만 전"
     label_loading: "로드 중..."
     label_mail_notification: "이메일 알림"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "나"
     label_meeting_agenda: "의제"
     label_meeting_minutes: "의사록"
@@ -484,6 +484,7 @@ ko:
     label_report: "보고서"
     label_repository_plural: "리포지토리"
     label_save_as: "다른 이름으로 저장"
+    label_search_columns: "Search a column"
     label_select_project: "프로젝트 선택"
     label_select_watcher: "주시하는 사람을 선택"
     label_selected_filter_list: "선택된 필터"

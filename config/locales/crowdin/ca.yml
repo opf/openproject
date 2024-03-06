@@ -838,6 +838,10 @@ ca:
               invalid: "La marca horària conté valors invàlids: %{values}"
               forbidden: "La marca horària conté valors prohibits: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "és mútuament exclusiu amb el grup per \"%{group_by}\". No pots activar els dos."
           filters:
             custom_fields:
@@ -2730,7 +2734,7 @@ ca:
   setting_brute_force_block_minutes: "Temps de bloqueig de l'usuari"
   setting_cache_formatted_text: "Text amb format de la caché"
   setting_use_wysiwyg_description: "Selecciona per activar l'editor CKEditor5 WYSIWYG per a tots els usuaris per defecte. CKEditor té funcionalitats limitades per a GFM Markdown."
-  setting_column_options: "Personalitzar l'aparença de les llistes de paquets de treball"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Paraules claus per a la correcció"
   setting_commit_logs_encoding: "Codificació dels missatges dels commits"
   setting_commit_logtime_activity_id: "Activitat dels temps registrats"
@@ -2752,7 +2756,7 @@ ca:
   setting_emails_header: "Encapçalament dels correus"
   setting_email_login: "Utilitza correu electrònic per l'inici de sessió"
   setting_enabled_scm: "Activar SCM"
-  setting_enabled_projects_columns: "Visible en la llista de projectes"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Habilita els canals"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Límit de contingut del canals"
@@ -2763,7 +2767,6 @@ ca:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Mostrar per defecte"
   setting_work_package_properties: "Propietats de paquet de treball"
   setting_work_package_startdate_is_adddate: "Utilitzar la data actual com a data d'inici dels paquets de treball nous"
   setting_work_packages_projects_export_limit: "Límit d'exportació de paquets de treball/projectes"
@@ -2871,7 +2874,7 @@ ca:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Configuració per a projectes nous"
-      section_project_overview: "Configuracions per a la llista de visió general del projecte"
+      section_project_overview: "Settings for project lists"
     session: "Sessió"
     user:
       default_preferences: "Preferències per defecte"
@@ -3036,6 +3039,12 @@ ca:
       Si s'activa els usuaris serà incapaços de triar inici de sessió durant el registre. En comptes, el seu correu electrònic servirà per a l'inici de sessió. Els administradors encara podran canviar l'inici de sessió per separat.
   queries:
     apply_filter: Aplicar filtre preconfigurat
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "Recursos addicionals"
     getting_started: "Primers passos"

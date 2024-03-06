@@ -837,6 +837,10 @@ zh-CN:
               invalid: "时间戳包含无效值: %{values}"
               forbidden: "时间戳包含禁用值: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "与按照“%{group_by}”分组的组互相排斥。您无法将它们都激活。"
           filters:
             custom_fields:
@@ -2702,7 +2706,7 @@ zh-CN:
   setting_brute_force_block_minutes: "账户锁定时长"
   setting_cache_formatted_text: "缓存带格式的文本"
   setting_use_wysiwyg_description: "选择为默认情况下为所有用户启用CKEditor5 所见即所得编辑器。 CKEditor对GFM Markdown的功能有限。"
-  setting_column_options: "自定义工作包列表的外观"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "固定的关键字"
   setting_commit_logs_encoding: "提交消息编码"
   setting_commit_logtime_activity_id: "记录时间的活动"
@@ -2724,7 +2728,7 @@ zh-CN:
   setting_emails_header: "电子邮件页眉"
   setting_email_login: "使用电子邮件作为登录名"
   setting_enabled_scm: "启用 SCM"
-  setting_enabled_projects_columns: "在项目列表中可见"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "启用Feeds"
   setting_ical_enabled: "启用 iCalendar 订阅"
   setting_feeds_limit: "Feed 内容限制"
@@ -2735,7 +2739,6 @@ zh-CN:
   setting_work_package_done_ratio_field: "工作包字段"
   setting_work_package_done_ratio_status: "工作包状态"
   setting_work_package_done_ratio_disabled: "禁用 (隐藏 % 已完成字段)"
-  setting_work_package_list_default_columns: "默认显示"
   setting_work_package_properties: "工作包属性"
   setting_work_package_startdate_is_adddate: "使用当前日期作为新工作包的开始日期"
   setting_work_packages_projects_export_limit: "工作包/项目导出限制"
@@ -2843,7 +2846,7 @@ zh-CN:
     projects:
       missing_dependencies: "已检查依赖于 %{dependencies} 的项目模块 %{module}。您也需要检查这些依赖项。"
       section_new_projects: "新项目的设置"
-      section_project_overview: "项目概览列表的设置"
+      section_project_overview: "Settings for project lists"
     session: "会话"
     user:
       default_preferences: "默认偏好设置"
@@ -3008,6 +3011,12 @@ zh-CN:
       如果启用，用户将无法在注册时选择登录名。将使用用户指定的电子邮件地址作为登录名。管理员仍然可以单独更改登录名。
   queries:
     apply_filter: 应用预配置筛选器
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: 'Add columns'
+        input_placeholder: 'Select a column'
+        drag_area_label: 'Manage and reorder columns'
   top_menu:
     additional_resources: "其他资源"
     getting_started: "入门指南"

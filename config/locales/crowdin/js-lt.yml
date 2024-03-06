@@ -136,7 +136,6 @@ lt:
     description_available_columns: "Galimi stulpeliai"
     description_current_position: "Jūs esate čia: "
     description_select_work_package: "Pasirinkite darbų paketą #%{id}"
-    description_selected_columns: "Parinkti stulpeliai"
     description_subwork_package: "Darbų paketo vaikas #%{id}"
     editor:
       preview: 'Perjungti peržiūros režimą'
@@ -415,7 +414,7 @@ lt:
     label_email: "E-paštas"
     label_equals: "yra"
     label_expand: "Išskleisti"
-    label_preview_not_available: "Preview not available"
+    label_preview_not_available: "Peržiūra negalima"
     label_expanded: "išskleistas"
     label_expand_all: "Išskleisti visus"
     label_expand_project_menu: "Išskleisti projekto meniu"
@@ -446,6 +445,7 @@ lt:
     label_less_than_ago: "mažiau nei prieš dieną"
     label_loading: "Įkeliama..."
     label_mail_notification: "El. pašto priminimai"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "aš"
     label_meeting_agenda: "Dienotvarkė"
     label_meeting_minutes: "Minutės"
@@ -484,6 +484,7 @@ lt:
     label_report: "Ataskaita"
     label_repository_plural: "Repozitorijos"
     label_save_as: "Įrašyti kaip"
+    label_search_columns: "Search a column"
     label_select_project: "Pasirinkti projektą"
     label_select_watcher: "Parinkti stebėtoją..."
     label_selected_filter_list: "Parinkti filtrus"

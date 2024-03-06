@@ -136,7 +136,6 @@ ro:
     description_available_columns: "Coloane disponibile"
     description_current_position: "Sunteți aici: "
     description_select_work_package: "Selectaţi pachetul de lucru #%{id}"
-    description_selected_columns: "Coloane selectate"
     description_subwork_package: "Fiu al pachetului de lucru #%{id}"
     editor:
       preview: 'Activaţi/Dezactivați previzualizarea'
@@ -445,6 +444,7 @@ ro:
     label_less_than_ago: "acum mai puțin de zile"
     label_loading: "Se încarcă..."
     label_mail_notification: "Notificări prin e-mail"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "eu"
     label_meeting_agenda: "Agendă"
     label_meeting_minutes: "Concluzii"
@@ -483,6 +483,7 @@ ro:
     label_report: "Raportare"
     label_repository_plural: "Repo-uri"
     label_save_as: "Salvare ca"
+    label_search_columns: "Search a column"
     label_select_project: "Selectați un proiect"
     label_select_watcher: "Selectaţi un observator..."
     label_selected_filter_list: "Filtre selectate"

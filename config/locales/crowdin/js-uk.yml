@@ -136,7 +136,6 @@ uk:
     description_available_columns: "Доступні стовпці"
     description_current_position: "Ви знаходитесь тут: "
     description_select_work_package: "Виберіть пакет робіт #%{id}"
-    description_selected_columns: "Вибрані колонки"
     description_subwork_package: "Нащадок пакету робіт #%{id}"
     editor:
       preview: 'Перемкнути режим попереднього перегляду'
@@ -446,6 +445,7 @@ uk:
     label_less_than_ago: "менше, ніж день тому"
     label_loading: "Завантаження..."
     label_mail_notification: "Email сповіщення"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "мені"
     label_meeting_agenda: "Порядок денний"
     label_meeting_minutes: "Хвилини"
@@ -484,6 +484,7 @@ uk:
     label_report: "Звіт"
     label_repository_plural: "Репозиторії"
     label_save_as: "Зберегти як"
+    label_search_columns: "Search a column"
     label_select_project: "Виберіть проєкт"
     label_select_watcher: "Виберіть спостерігача..."
     label_selected_filter_list: "Вибрані фільтри"

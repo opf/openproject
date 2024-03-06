@@ -137,7 +137,6 @@ ja:
     description_available_columns: "利用できる項目"
     description_current_position: "現在の位置: "
     description_select_work_package: "作業項目を選択 #%{id}"
-    description_selected_columns: "選択された項目"
     description_subwork_package: "作業項目の子 #%{id}"
     editor:
       preview: 'プレビューモードの切り替え'
@@ -447,6 +446,7 @@ ja:
     label_less_than_ago: "今日より○日前以降"
     label_loading: "読み込み中..."
     label_mail_notification: "電子メールの通知"
+    label_manage_columns: "Manage and reorder columns"
     label_me: "自分"
     label_meeting_agenda: "アジェンダ"
     label_meeting_minutes: "議事録"
@@ -485,6 +485,7 @@ ja:
     label_report: "レポート"
     label_repository_plural: "リポジトリ"
     label_save_as: "名前をつけて保存"
+    label_search_columns: "Search a column"
     label_select_project: "プロジェクトの選択"
     label_select_watcher: "ウォッチャーを選択..."
     label_selected_filter_list: "選択されたフィルタ"
