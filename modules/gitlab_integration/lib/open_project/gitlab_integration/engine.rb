@@ -100,9 +100,13 @@ module OpenProject::GitlabIntegration
       mount ::API::V3::GitlabIssues::GitlabIssuesByWorkPackageAPI
     end
 
-    config.to_prepare do
-      # Register the cron job to clean up old gitlab merge requests
-      ::Cron::CronJob.register! ::Cron::ClearOldMergeRequestsJob
+    add_cron_jobs do
+      {
+        'Cron::ClearOldMergeRequestsJob': {
+          cron: '25 1 * * *', # runs at 1:25 nightly
+          class: ::Cron::ClearOldMergeRequestsJob.name
+        }
+      }
     end
   end
 end
