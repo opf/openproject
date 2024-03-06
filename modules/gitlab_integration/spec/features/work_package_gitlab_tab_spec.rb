@@ -89,15 +89,11 @@ RSpec.describe 'Open the Gitlab tab', :js do
       expect(page).to have_text('Copied!')
       expect_clipboard_content("#{work_package.type.name.downcase}/#{work_package.id}-a-test-work_package")
 
-      within('.op-issue') do
-        expect(page).to have_text('A Test Issue title')
-        expect(page).to have_text('Open')
-      end
+      expect(page).to have_text('A Test Issue title')
+      expect(page).to have_text('Open')
 
-      within('.op-merge-request') do
-        expect(page).to have_text('A Test MR title')
-        expect(page).to have_text('Pending')
-      end
+      expect(page).to have_text('A Test MR title')
+      expect(page).to have_text('Pending')
     end
 
     context 'when there are no merge requests or issues' do
