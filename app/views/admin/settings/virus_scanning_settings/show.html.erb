@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field">
     <%= setting_select :antivirus_scan_mode,
                        [
-                         [t(:label_disabled), :disabled],
+                         [t(:label_disabled_uppercase), :disabled],
                          ['ClamAV (Socket)', :clamav_socket],
                          ['ClamAV (Host)', :clamav_host],
                        ],
@@ -57,7 +57,7 @@ See COPYRIGHT and LICENSE files for more details.
     %>
     <div class="form--field-instructions">
       <p><%= t('settings.antivirus.modes.description_html',
-               disabled_option: t(:label_disabled),
+               disabled_option: t(:label_disabled_uppercase),
                socket_option: 'ClamAV (Socket)',
                host_option: 'ClamAV (Host)',
              ) %></p>

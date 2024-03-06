@@ -1915,6 +1915,7 @@ en:
   label_diff_side_by_side: "side by side"
   label_digital_accessibility: "Digital accessibility (DE)"
   label_disabled: "disabled"
+  label_disabled_uppercase: "Disabled"
   label_display: "Display"
   label_display_per_page: "Per page: %{value}"
   label_display_used_statuses_only: "Only display statuses that are used by this type"
