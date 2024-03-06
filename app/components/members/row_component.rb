@@ -75,12 +75,16 @@ module Members
     end
 
     def shared
-      count = member.shared_work_packages_count
-      if count > 0
-        link_to I18n.t(:label_x_work_packages, count:),
-                helpers.project_work_packages_shared_with_path(principal, member.project),
-                target: "_blank", rel: "noopener"
+      count = member.shared_work_package_ids.length
+      return if count.zero?
+
+      path = if count == member.total_shared_work_package_ids.length
+        helpers.project_work_packages_shared_with_path(principal, member.project)
+      else
+        helpers.project_work_packages_with_ids_path(member.shared_work_package_ids, member.project)
       end
+
+      link_to I18n.t(:label_x_work_packages, count:), path, target: "_blank", rel: "noopener"
     end
 
     def roles_label
