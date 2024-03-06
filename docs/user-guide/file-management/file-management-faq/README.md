@@ -21,4 +21,4 @@ Yes, that is possible. If you work with automatically managed folders, the corre
 
 ## Is there a virus scanner for the files attachments in OpenProject?
 
-Yes, there is a virus scanner for attachments in OpenProject. At the moment it is only available for on-premises installations and is an Enterprise add-on. Your system administrator will need to [configure it first](../../../system-guide/attachments/virus-scanning). 
+Yes, there is a virus scanner for attachments in OpenProject. At the moment it is only available for on-premises installations and is an Enterprise add-on. Your system administrator will need to [configure it first](../../../system-admin-guide/attachments/virus-scanning). 
