@@ -41,6 +41,7 @@ FactoryBot.define do
     status { 'pending' }
     started_at { 1.hour.ago }
     completed_at { nil }
+    project_id { 1 }
 
     ci_details do
       build_list(:gitlab_pipeline_ci_detail, 3)
