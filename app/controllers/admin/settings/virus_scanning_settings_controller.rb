@@ -79,7 +79,7 @@ module Admin::Settings
     def success_callback(_call)
       if Setting.antivirus_scan_mode == :disabled && Attachment.status_quarantined.any?
         remaining_quarantine_warning
-      elsif scan_enabled?
+      elsif scan_enabled? && Attachment.status_uploaded.any?
         rescan_files
       else
         super
