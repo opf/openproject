@@ -149,7 +149,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
     it_behaves_like 'calls the issue upsert service'
 
     context 'when the work package is already known to the GitlabIssue' do
-      let!(:gitlab_issue) { create(:gitlab_issue, gitlab_id: 4, work_packages: [work_package]) }
+      let!(:gitlab_issue) { create(:gitlab_issue, gitlab_id: 5, work_packages: [work_package]) }
 
       it_behaves_like 'adding a comment'
 
@@ -163,6 +163,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
   end
 
   context 'with a labeled action' do
+    let!(:gitlab_issue) { create(:gitlab_issue, gitlab_id: 5, work_packages: [work_package]) }
     let(:gitlab_action) { 'update' }
     let(:issue_state) { 'opened' }
 
@@ -197,7 +198,10 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::IssueHook do
       ]
     end
 
-    it_behaves_like 'not adding a comment'
+    # No comment is added when the labels are updated as there is no UI yet for labels supported by the plugin
+    let(:comment) { nil }
+
+    it_behaves_like 'adding a comment'
 
     it 'calls the issue upsert service with all work_packages' do
       gitlab_issue = process.reload
