@@ -32,7 +32,11 @@ class Queries::WorkPackages::Filter::SharedWithMeFilter < Queries::WorkPackages:
   include Queries::Filters::Shared::BooleanFilter
 
   def available?
-    User.current.members.of_any_entity.any?
+    if project
+      User.current.members.of_any_entity.where(project:).any?
+    else
+      User.current.members.of_any_entity.any?
+    end
   end
 
   def dependency_class
@@ -59,9 +63,8 @@ class Queries::WorkPackages::Filter::SharedWithMeFilter < Queries::WorkPackages:
   private
 
   def shared_work_packages
-    WorkPackage
-      .joins("JOIN members ON members.entity_type = 'WorkPackage' AND members.entity_id = work_packages.id")
-      .where(members: { user_id: User.current.id })
-      .select('work_packages.id')
+    Member
+      .where(entity_type: WorkPackage.to_s, principal: User.current)
+      .select(:entity_id)
   end
 end
