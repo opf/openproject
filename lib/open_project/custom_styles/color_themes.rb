@@ -32,13 +32,16 @@ module OpenProject::CustomStyles
 
     OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME = 'OpenProject'.freeze
 
+    DEPRECATED_ALTERNATIVE_COLOR = '#35C53F'.freeze
+    PRIMER_PRIMARY_BUTTON_COLOR = '#1F883D'.freeze
+
     THEMES = [
       {
         theme: OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME,
         colors: {
           'primary-color' => "#1A67A3",
           'primary-color-dark' => "#175A8E",
-          'alternative-color' => "#1F883D",
+          'alternative-color' => PRIMER_PRIMARY_BUTTON_COLOR,
           'content-link-color' => "#175A8E",
           'header-bg-color' => "#1A67A3",
           'header-item-bg-hover-color' => "#175A8E",
@@ -59,7 +62,7 @@ module OpenProject::CustomStyles
         colors: {
           'primary-color' => "#1A67A3",
           'primary-color-dark' => "#175A8E",
-          'alternative-color' => "#1F883D",
+          'alternative-color' => PRIMER_PRIMARY_BUTTON_COLOR,
           'content-link-color' => "#175A8E",
           'header-bg-color' => "#FAFAFA",
           'header-item-bg-hover-color' => "#E1E1E1",
@@ -81,7 +84,7 @@ module OpenProject::CustomStyles
         colors: {
           'primary-color' => "#3270DB",
           'primary-color-dark' => "#163473",
-          'alternative-color' => "#1F883D",
+          'alternative-color' => PRIMER_PRIMARY_BUTTON_COLOR,
           'content-link-color' => "#275BB5",
           'header-bg-color' => "#05002C",
           'header-item-bg-hover-color' => "#163473",
