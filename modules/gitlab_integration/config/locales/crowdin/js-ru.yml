@@ -1,0 +1,56 @@
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) 2023 Ben Tey
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+# Copyright (C) 2012-2021 the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See docs/COPYRIGHT.rdoc for more details.
+#++
+ru:
+  js:
+    gitlab_integration:
+      work_packages:
+        tab_name: GitLab
+      tab_header_issue:
+        title: Обсуждения
+      tab_header_mr:
+        title: Запросы на слияние
+        create_mr:
+          label: Создать запрос на слияние
+          description: Создать запрос на слияние
+        copy_menu:
+          label: Git-подсказки
+          description: Скопипастить Git-подсказки
+        git_actions:
+          branch_name: Имя ветки
+          commit_message: Описание коммита
+          cmd: Создать ветку с пустым коммитом
+          title: Git-подсказки
+          copy_success: ✅ Скопировано
+          copy_error: ❌ Не получилось скопировать
+      tab_issue:
+        empty: Нет связанных обсуждений. Привязать обсуждение можно путём вставки кода <code>OP#%{wp_id}</code> (или <code>PP#%{wp_id}</code> для приватных ссылок) в заголовке/описании при создании/редактировании обсуждения.
+      tab_mrs:
+        empty: Нет связанных запросов на слияние. Привязать запрос на слияние можно путём вставки кода <code>OP#%{wp_id}</code> (или <code>PP#%{wp_id}</code> для приватных ссылок) в заголовке/описании при создании/редактировании запроса на слияние.
+      gitlab_pipelines: Сборочные линии (pipelines)
+      updated_on: Обновлено
