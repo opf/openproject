@@ -52,6 +52,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock do
   end
 
   let(:polling_url) { 'https://polling.url.de/cool/subresources' }
+  let(:copy_result) { Storages::Peripherals::StorageInteraction::ResultData::CopyTemplateFolder.new(nil, nil, false) }
 
   let(:target_deep_file_ids) do
     source_file_links.each_with_object({}) do |fl, hash|
@@ -129,7 +130,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock do
 
       Storages::Peripherals::Registry
         .stub("#{storage.short_provider_type}.commands.copy_template_folder", ->(storage:, source_path:, destination_path:) {
-          ServiceResult.success(result: { id: 'copied-folder', url: 'resource-url' })
+          ServiceResult.success(result: copy_result.with(id: 'copied-folder', polling_url:))
         })
     end
 
@@ -158,7 +159,7 @@ RSpec.describe Storages::CopyProjectFoldersJob, :job, :webmock do
     before do
       Storages::Peripherals::Registry
         .stub("#{storage.short_provider_type}.commands.copy_template_folder", ->(storage:, source_path:, destination_path:) {
-          ServiceResult.success(result: { id: nil, url: polling_url })
+          ServiceResult.success(result: copy_result.with(polling_url:, requires_polling: true))
         })
 
       Storages::Peripherals::Registry

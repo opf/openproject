@@ -31,14 +31,18 @@
 module Storages
   module ProjectStorages
     class CopyProjectFoldersService
-      # We might need the User too
       def self.call(source:, target:)
         new.call(source, target)
       end
 
+      def initialize
+        @data = Peripherals::StorageInteraction::ResultData::CopyTemplateFolder
+          .new(id: nil, polling_url: nil, requires_polling: false)
+      end
+
       def call(source, target)
-        return ServiceResult.success(result: { id: nil }) if source.project_folder_inactive?
-        return ServiceResult.success(result: { id: source.project_folder_id }) if source.project_folder_manual?
+        return ServiceResult.success(result: @data) if source.project_folder_inactive?
+        return ServiceResult.success(result: @data.with(id: source.project_folder_id)) if source.project_folder_manual?
 
         Peripherals::Registry
           .resolve("#{source.storage.short_provider_type}.commands.copy_template_folder")

@@ -115,8 +115,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::CopyTemplat
         result = subject.call(source_path:, destination_path:)
 
         expect(result).to be_success
-        expect(result.result[:id]).to eq('349')
-        expect(result.result[:url]).to eq(destination_url)
+        expect(result.result.id).to eq('349')
       end
     end
 
