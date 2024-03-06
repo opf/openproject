@@ -46,7 +46,7 @@ RSpec.describe 'Meeting requests',
         project_id: project.id,
         meeting: {
           title: 'Copied meeting',
-          type: :dynamic
+          type: 'StructuredMeeting'
         }
       }
     end

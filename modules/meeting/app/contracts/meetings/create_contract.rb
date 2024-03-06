@@ -27,24 +27,23 @@
 #++
 
 module Meetings
-  class SetAttributesService < ::BaseServices::SetAttributes
-    def set_attributes(params)
-      participants = params.delete(:participants_attributes)
+  class CreateContract < BaseContract
+    attribute :type
+    validate :user_allowed_to_add
+    validate :type_in_allowed
 
-      super
+    private
 
-      set_participants(participants) if participants
-    end
-
-    def set_default_attributes(_params)
-      model.change_by_system do
-        model.author = user
+    def type_in_allowed
+      unless [StructuredMeeting.name, Meeting.name].include?(model.type)
+        errors.add(:type, :inclusion)
       end
     end
 
-    def set_participants(participants_attributes)
-      model.participants.clear
-      model.participants_attributes = participants_attributes
+    def user_allowed_to_add
+      unless user.allowed_in_project?(:create_meetings, model.project)
+        errors.add :base, :error_unauthorized
+      end
     end
   end
 end

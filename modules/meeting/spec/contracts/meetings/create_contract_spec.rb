@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,25 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
-  class SetAttributesService < ::BaseServices::SetAttributes
-    def set_attributes(params)
-      participants = params.delete(:participants_attributes)
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
-      super
+RSpec.describe Meetings::CreateContract do
+  include_context 'ModelContract shared context'
 
-      set_participants(participants) if participants
+  shared_let(:project) { create(:project) }
+  let(:meeting) { build(:structured_meeting, project:) }
+  let(:contract) { described_class.new(meeting, user) }
+
+  context 'with permission' do
+    let(:user) do
+      create(:user, member_with_permissions: { project => %i[view_meetings create_meetings] })
     end
 
-    def set_default_attributes(_params)
-      model.change_by_system do
-        model.author = user
-      end
-    end
+    it_behaves_like 'contract is valid'
+  end
 
-    def set_participants(participants_attributes)
-      model.participants.clear
-      model.participants_attributes = participants_attributes
-    end
+  context 'without permission' do
+    let(:user) { build_stubbed(:user) }
+
+    it_behaves_like 'contract is invalid', base: :error_unauthorized
+  end
+
+  include_examples 'contract reuses the model errors' do
+    let(:user) { build_stubbed(:user) }
   end
 end
