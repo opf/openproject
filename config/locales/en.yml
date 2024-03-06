@@ -329,6 +329,9 @@ en:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
 
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
+
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -1283,6 +1286,7 @@ en:
   button_reset: "Reset"
   button_rollback: "Rollback to this version"
   button_save: "Save"
+  button_save_as: "Save as"
   button_apply_changes: "Apply changes"
   button_save_back: "Save and back"
   button_show: "Show"
