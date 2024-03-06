@@ -126,13 +126,13 @@ class RootSeeder < Seeder
     ActionMailer::Base.perform_deliveries = false
 
     # Avoid asynchronous DeliverWorkPackageCreatedJob
-    previous_delay_jobs = Delayed::Worker.delay_jobs
-    Delayed::Worker.delay_jobs = false
+    previous_execution_mode = Rails.configuration.good_job.execution_mode
+    Rails.configuration.good_job.execution_mode = :inline
 
     yield
   ensure
     ActionMailer::Base.perform_deliveries = previous_perform_deliveries
-    Delayed::Worker.delay_jobs = previous_delay_jobs
+    Rails.configuration.good_job.execution_mode = previous_execution_mode
   end
 
   def seed_basic_data

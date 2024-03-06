@@ -1811,26 +1811,4 @@ RSpec.describe WorkPackages::ApplyWorkingDaysChangeJob do
       end
     end
   end
-
-  describe '.scheduled?' do
-    context 'with a job already scheduled in the DB' do
-      before do
-        ActiveJob::QueueAdapters::DelayedJobAdapter
-          .new
-          .enqueue(described_class.new(user_id: 5, previous_non_working_days: [1, 2]))
-      end
-
-      it 'is true' do
-        expect(described_class)
-          .to be_scheduled
-      end
-    end
-
-    context 'without a job already scheduled in the DB' do
-      it 'is false' do
-        expect(described_class)
-          .not_to be_scheduled
-      end
-    end
-  end
 end

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -25,42 +23,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See COPYRIGHT and LICENSE files for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
+module OpenProject
+  module HealthChecks
+    class GoodJobCheck < OkComputer::Check
+      def check
+        count = GoodJob::Process.active.count
 
-module Storages
-  module ManageNextcloudIntegrationJobMixin
-    using Peripherals::ServiceResultRefinements
-
-    def perform
-      OpenProject::Mutex.with_advisory_lock(
-        ::Storages::NextcloudStorage,
-        'sync_all_group_folders',
-        timeout_seconds: 0,
-        transaction: false
-      ) do
-        ::Storages::Storage.automatic_management_enabled.includes(:oauth_client).find_each do |storage|
-          result = service_for(storage).call(storage)
-          result.match(
-            on_success: ->(_) do
-              storage.mark_as_healthy
-            end,
-            on_failure: ->(errors) do
-              storage.mark_as_unhealthy(reason: errors.to_s)
-            end
-          )
+        if count.zero?
+          mark_failure
+          mark_message "No good_job processes are active."
+        else
+          mark_message "#{count} good_job processes are active."
         end
-        true
       end
-    end
-
-    private
-
-    def service_for(storage)
-      return NextcloudGroupFolderPropertiesSyncService if storage.provider_type_nextcloud?
-      return OneDriveManagedFolderSyncService if storage.provider_type_one_drive?
-
-      raise 'Unknown Storage'
     end
   end
 end

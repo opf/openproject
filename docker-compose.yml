@@ -68,7 +68,7 @@ services:
 
   worker:
     <<: *backend
-    command: bundle exec rake jobs:work
+    command: bundle exec good_job start
     depends_on:
       - db
       - cache
