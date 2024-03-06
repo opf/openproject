@@ -9,7 +9,7 @@
 
     custom_field_value_container.with_row do
       if not_set?
-        render(Primer::Beta::Text.new()) { t('label_not_set_yet') }
+        render(Primer::Beta::Text.new()) { t('placeholders.default') }
       else
         render_value
       end

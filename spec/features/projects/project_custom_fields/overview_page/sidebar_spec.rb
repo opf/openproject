@@ -209,7 +209,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(boolean_project_custom_field) do
               expect(page).to have_text 'Boolean field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -222,7 +222,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(boolean_project_custom_field) do
               expect(page).to have_text 'Boolean field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
 
@@ -233,7 +233,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(boolean_project_custom_field) do
               expect(page).to have_text 'Boolean field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -265,7 +265,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(string_project_custom_field) do
               expect(page).to have_text 'String field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -282,7 +282,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(string_project_custom_field) do
               expect(page).to have_text 'String field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -295,7 +295,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(string_project_custom_field) do
               expect(page).to have_text 'String field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -327,7 +327,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(integer_project_custom_field) do
               expect(page).to have_text 'Integer field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -344,7 +344,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(integer_project_custom_field) do
               expect(page).to have_text 'Integer field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -357,7 +357,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(integer_project_custom_field) do
               expect(page).to have_text 'Integer field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -389,7 +389,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(date_project_custom_field) do
               expect(page).to have_text 'Date field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -406,7 +406,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(date_project_custom_field) do
               expect(page).to have_text 'Date field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -419,7 +419,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(date_project_custom_field) do
               expect(page).to have_text 'Date field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -451,7 +451,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(float_project_custom_field) do
               expect(page).to have_text 'Float field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -468,7 +468,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(float_project_custom_field) do
               expect(page).to have_text 'Float field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -481,7 +481,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(float_project_custom_field) do
               expect(page).to have_text 'Float field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -539,7 +539,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(text_project_custom_field) do
               expect(page).to have_text 'Text field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -556,7 +556,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(text_project_custom_field) do
               expect(page).to have_text 'Text field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -569,7 +569,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(text_project_custom_field) do
               expect(page).to have_text 'Text field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -601,7 +601,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(list_project_custom_field) do
               expect(page).to have_text 'List field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -618,7 +618,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(list_project_custom_field) do
               expect(page).to have_text 'List field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -631,7 +631,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(list_project_custom_field) do
               expect(page).to have_text 'List field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -663,7 +663,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(version_project_custom_field) do
               expect(page).to have_text 'Version field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -680,7 +680,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(version_project_custom_field) do
               expect(page).to have_text 'Version field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -713,7 +713,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(user_project_custom_field) do
               expect(page).to have_text 'User field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -730,7 +730,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(user_project_custom_field) do
               expect(page).to have_text 'User field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -770,7 +770,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(multi_list_project_custom_field) do
               expect(page).to have_text 'Multi list field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -784,7 +784,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(multi_list_project_custom_field) do
               expect(page).to have_text 'Multi list field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -816,7 +816,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(multi_version_project_custom_field) do
               expect(page).to have_text 'Multi version field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end
@@ -850,7 +850,7 @@ RSpec.describe 'Show project custom fields on project overview page', :js, :with
           overview_page.within_async_loaded_sidebar do
             overview_page.within_custom_field_container(multi_user_project_custom_field) do
               expect(page).to have_text 'Multi user field'
-              expect(page).to have_text 'Not set yet'
+              expect(page).to have_text I18n.t('placeholders.default')
             end
           end
         end

@@ -2113,7 +2113,6 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_no_data: "No data to display"
   label_no_parent_page: "No parent page"
   label_nothing_display: "Nothing to display"
-  label_not_set_yet: "Not set yet"
   label_nobody: "nobody"
   label_not_found: "not found"
   label_none: "none"
