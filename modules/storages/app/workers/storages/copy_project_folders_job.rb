@@ -30,41 +30,37 @@
 
 module Storages
   class CopyProjectFoldersJob < ApplicationJob
-    # include GoodJob::ActiveJobExtensions::Batches
-
-    retry_on Errors::PollingRequired, wait: 3, attempts: :unlimited
-    # discard_on HTTPX::HTTPError
+    retry_on Errors::PollingRequired, wait: 3, attempts: (Rails.env.test? ? 3 : :unlimited)
+    discard_on HTTPX::HTTPError
 
     def perform(user_id:, source_id:, target_id:, work_package_map:)
       target = ProjectStorage.find(target_id)
       source = ProjectStorage.find(source_id)
       user = User.find(user_id)
 
-      # TODO: Do Something when this fails
-      project_folder_result = if polling?
-                                results_from_polling
-                              else
-                                ProjectStorages::CopyProjectFoldersService
-                                  .call(source:, target:)
-                                  .on_success { |success| prepare_polling(success.result) }
-                              end
+      project_folder_result = results_from_polling || initiate_copy(source, target)
 
-      # TODO: Do Something when this fails
       ProjectStorages::UpdateService.new(user:, model: target)
-                                    .call(project_folder_id: project_folder_result.result[:id],
+                                    .call(project_folder_id: project_folder_result.result.id,
                                           project_folder_mode: source.project_folder_mode)
+                                    .on_failure { |failed| log_failure(failed) and return failed }
 
-      # TODO: Collect errors
       FileLinks::CopyFileLinksService.call(source:, target:, user:, work_packages_map: work_package_map)
     end
 
     private
 
-    def prepare_polling(result)
-      return if result[:id]
+    def initiate_copy(source, target)
+      ProjectStorages::CopyProjectFoldersService
+        .call(source:, target:)
+        .on_success { |success| prepare_polling(success.result, source) }
+    end
 
-      Thread.current[job_id] = result[:url]
-      raise Errors::PollingRequired, "#{job_id} Storage requires polling"
+    def prepare_polling(result, source)
+      return unless result.requires_polling?
+
+      Thread.current[job_id] = result.polling_url
+      raise Errors::PollingRequired, "Storage #{source.storage.name} requires polling"
     end
 
     def polling?
@@ -72,13 +68,23 @@ module Storages
     end
 
     def results_from_polling
-      # TODO: Maybe Transform this in a Query
+      return unless polling?
+
       response = OpenProject.httpx.get(Thread.current[job_id]).json(symbolize_keys: true)
 
-      raise(Errors::PollingRequired, "#{job_id} Polling not completed yet") if response[:status] != 'completed'
+      # FIXME: We may want to discard in case some other error is raised
+      raise(Errors::PollingRequired, "#{job_id} Polling not completed yet") if response[:status] != "completed"
 
       Thread.current[job_id] = nil
-      ServiceResult.success(result: { id: response[:resourceId] })
+      result = Peripherals::StorageInteraction::ResultData::CopyTemplateFolder.new(response[:resourceId], nil, false)
+
+      ServiceResult.success(result:)
+    end
+
+    def log_failure(failed)
+      return if failed.success?
+
+      OpenProject.logger.warn failed.errors.inspect.to_s
     end
   end
 end

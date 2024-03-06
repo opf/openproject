@@ -95,9 +95,10 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::CopyTemplate
       command_result = described_class.call(storage:, source_path:, destination_path: 'My New Folder')
 
       expect(command_result).to be_success
-      expect(command_result.result[:url]).to match %r</drives/#{storage.drive_id}/items/.+\?.+$>
+      expect(command_result.result.requires_polling?).to be_truthy
+      expect(command_result.result.polling_url).to match %r</drives/#{storage.drive_id}/items/.+\?.+$>
     ensure
-      delete_copied_folder(command_result.result[:url])
+      delete_copied_folder(command_result.result.polling_url)
     end
 
     describe 'error handling' do
