@@ -30,13 +30,32 @@ require 'nokogiri'
 module OpenProject
   module Common
     class AttributeComponent < Primer::Component
+      attr_reader :id,
+                  :name,
+                  :description
+
       def initialize(id, name, description, **args)
         super
         @id = id
         @name = name
         @description = description
-        @attr_value = is_multi_type(description) ? I18n.t('js.label_preview_not_available') : Nokogiri::HTML(description).text
         @system_arguments = args
+      end
+
+      def text
+        is_multi_type(description) ? I18n.t(:label_preview_not_available) : Nokogiri::HTML(description).text
+      end
+
+      def modal_body
+        helpers.format_text(description)
+      end
+
+      def display_expand_button_value
+        is_multi_type(description) ? :block : :none
+      end
+
+      def text_color
+        :muted if is_multi_type(description)
       end
 
       private
