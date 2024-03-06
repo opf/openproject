@@ -114,6 +114,30 @@ RSpec.describe WorkPackagesFilterHelper do
     end
   end
 
+  describe '#project_work_packages_with_ids_path' do
+    it_behaves_like 'work package path with query_props' do
+      let(:ids) { [13, 17, 42] }
+
+      let(:expected_json) do
+        {
+          f: [
+            {
+              n: 'status',
+              o: '*'
+            },
+            {
+              n: 'id',
+              o: '=',
+              v: ids.map(&:to_s)
+            }
+          ]
+        }
+      end
+
+      let(:path) { helper.project_work_packages_with_ids_path(ids, project) }
+    end
+  end
+
   context 'project reports path helpers' do
     let(:property_name) { 'priority' }
     let(:property_id) { 5 }

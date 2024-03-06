@@ -68,6 +68,16 @@ module WorkPackagesFilterHelper
     project_work_packages_with_query_path(project, query, options)
   end
 
+  def project_work_packages_with_ids_path(ids, project, options = {})
+    query = {
+      f: [
+        filter_object('status_id', '*'),
+        filter_object('id', '=', ids)
+      ]
+    }
+    project_work_packages_with_query_path(project, query, options)
+  end
+
   # Links for reports
 
   def project_report_property_path(project, property_name, property_id, options = {})
