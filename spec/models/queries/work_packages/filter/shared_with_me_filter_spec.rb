@@ -31,28 +31,25 @@ require 'spec_helper'
 RSpec.describe Queries::WorkPackages::Filter::SharedWithMeFilter do
   create_shared_association_defaults_for_work_package_factory
 
-  describe '#scope' do
-    shared_let(:work_package_role) { create(:work_package_role, permissions: %i[view_work_packages]) }
+  shared_let(:work_package_role) { create(:work_package_role, permissions: %i[view_work_packages]) }
 
-    shared_let(:shared_with_user) { create(:user) }
-    shared_let(:non_shared_with_user) { create(:user) }
+  shared_let(:shared_with_user) { create(:user) }
+  shared_let(:non_shared_with_user) { create(:user) }
 
-    shared_let(:shared_work_package) do
-      create(:work_package, project: project_with_types) do |wp|
-        create(:member, user: shared_with_user, project: project_with_types, entity: wp, roles: [work_package_role])
-      end
+  shared_let(:shared_work_package) do
+    create(:work_package, project: project_with_types) do |wp|
+      create(:member, user: shared_with_user, project: project_with_types, entity: wp, roles: [work_package_role])
     end
+  end
 
-    let(:instance) do
-      described_class.create!.tap do |filter|
-        filter.values = 't'
-        filter.operator = '='
-      end
-    end
+  let(:query) { Query.new }
 
-    subject { instance }
+  let(:instance) { described_class.create!(context: query, values: ['t'], operator: '=') }
 
-    describe '#available?' do
+  subject { instance }
+
+  describe '#available?' do
+    context 'when the query is not scoped to a project' do
       context 'when the user has work packages shared with them' do
         current_user { shared_with_user }
         it { is_expected.to be_available }
@@ -64,24 +61,40 @@ RSpec.describe Queries::WorkPackages::Filter::SharedWithMeFilter do
       end
     end
 
-    describe '#where' do
-      subject { WorkPackage.where(instance.where) }
+    context 'when the query is scoped to a project' do
+      current_user { shared_with_user }
 
-      context 'when the user has work packages shared with them' do
-        current_user { shared_with_user }
+      context 'and the user has work packages shared with them in the project' do
+        before { query.project = project_with_types }
 
-        let!(:other_work_package) do
-          create(:work_package, project: project_with_types)
-        end
-
-        it { is_expected.to contain_exactly(shared_work_package) }
+        it { is_expected.to be_available }
       end
 
-      context 'when the user has no work packages shared with them' do
-        current_user { non_shared_with_user }
+      context 'and the user does not have work packages shared with them in the project' do
+        before { query.project = create(:project) }
 
-        it { is_expected.to be_empty }
+        it { is_expected.not_to be_available }
       end
+    end
+  end
+
+  describe '#where' do
+    subject { WorkPackage.where(instance.where) }
+
+    context 'when the user has work packages shared with them' do
+      current_user { shared_with_user }
+
+      let!(:other_work_package) do
+        create(:work_package, project: project_with_types)
+      end
+
+      it { is_expected.to contain_exactly(shared_work_package) }
+    end
+
+    context 'when the user has no work packages shared with them' do
+      current_user { non_shared_with_user }
+
+      it { is_expected.to be_empty }
     end
   end
 end
