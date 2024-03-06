@@ -27,24 +27,19 @@
 #++
 
 module Meetings
-  class SetAttributesService < ::BaseServices::SetAttributes
-    def set_attributes(params)
-      participants = params.delete(:participants_attributes)
+  class CreateService < ::BaseServices::Create
+    protected
 
-      super
+    def instance(params)
 
-      set_participants(participants) if participants
-    end
-
-    def set_default_attributes(_params)
-      model.change_by_system do
-        model.author = user
+      # Setting the #type as attributes will not work
+      # as the STI instance is not changed without using e.g., +becomes!+
+      case params.delete(:type)
+      when 'StructuredMeeting'
+        StructuredMeeting.new
+      else
+        Meeting.new
       end
-    end
-
-    def set_participants(participants_attributes)
-      model.participants.clear
-      model.participants_attributes = participants_attributes
     end
   end
 end

@@ -26,25 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Meetings
-  class SetAttributesService < ::BaseServices::SetAttributes
-    def set_attributes(params)
-      participants = params.delete(:participants_attributes)
+require 'spec_helper'
+require 'services/base_services/behaves_like_create_service'
 
-      super
-
-      set_participants(participants) if participants
-    end
-
-    def set_default_attributes(_params)
-      model.change_by_system do
-        model.author = user
-      end
-    end
-
-    def set_participants(participants_attributes)
-      model.participants.clear
-      model.participants_attributes = participants_attributes
-    end
+RSpec.describe Meetings::CreateService, type: :model do
+  it_behaves_like 'BaseServices create service' do
+    let(:factory) { :meeting }
   end
 end
