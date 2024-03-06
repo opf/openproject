@@ -40,7 +40,7 @@ module Members
 
     def apply_member_scopes(model)
       model
-        .with_shared_work_packages_count(only_role_id:)
+        .with_shared_work_packages_info(only_role_id: shared_role_id)
         # This additional select is necessary for removing "duplicate" memberships in the members table
         # In reality, we want to show distinct principals in the members page, but are filtering on the members
         # table which now has multiplpe entries per user if they are the recipient of multiple shares,
@@ -57,7 +57,7 @@ module Members
         )
     end
 
-    def only_role_id
+    def shared_role_id
       case params[:shared_role_id]
       when 'all', nil
         nil

@@ -28,12 +28,16 @@
 
 require 'spec_helper'
 
-RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
+RSpec.describe Members::Scopes::WithSharedWorkPackagesInfo do
   let(:project) { create(:project) }
   let(:role) { create(:project_role) }
 
   let(:work_package_a) { create(:work_package, project:) }
   let(:work_package_b) { create(:work_package, project:) }
+
+  let(:only_wp_a) { [work_package_a.id] }
+  let(:only_wp_b) { [work_package_b.id] }
+  let(:both_wps) { contain_exactly(work_package_a.id, work_package_b.id) }
 
   let(:view_work_package_role) { create(:view_work_package_role) }
   let(:comment_work_package_role) { create(:comment_work_package_role) }
@@ -90,18 +94,20 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
             project_ids: [project.id])
   end
 
-  describe '.with_shared_work_packages_count' do
+  describe '.with_shared_work_packages_info' do
     subject do
       Member
-        .with_shared_work_packages_count(only_role_id:)
+        .with_shared_work_packages_info(only_role_id:)
         .map do |m|
           [
             m.principal.lastname,
             m.id,
             {
-              count: m.shared_work_packages_count,
+              ids: m.shared_work_package_ids,
+              other: m.other_shared_work_packages_count,
+              direct: m.direct_shared_work_packages_count,
               inherited: m.inherited_shared_work_packages_count,
-              total: m.total_shared_work_packages_count,
+              total: m.total_shared_work_packages_count
             }
           ]
         end
@@ -110,45 +116,45 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesCount do
     context 'when only_role_ids is not set' do
       let(:only_role_id) { nil }
 
-      it 'returns the total count of shared roles' do
-        expect(subject).to match_array [
-          ['x', active_user_member.id, { count: 0, inherited: 0, total: 0 }],
-          ['a', user_a_view_member.id, { count: 2, inherited: 0, total: 2 }],
-          ['a', user_a_comment_member.id, { count: 2, inherited: 0, total: 2 }],
-          ['b', user_b_view_member.id, { count: 1, inherited: 1, total: 1 }],
-          ['g', group_comment_member.id, { count: 1, inherited: 0, total: 1 }],
-          ['c', user_c_inherited_member.id, { count: 1, inherited: 1, total: 1 }],
-        ]
+      it 'returns info for all roles' do
+        expect(subject).to contain_exactly(
+          ['x', active_user_member.id,      { ids: [],        other: 0, direct: 0, inherited: 0, total: 0 }],
+          ['a', user_a_view_member.id,      { ids: both_wps,  other: 0, direct: 2, inherited: 0, total: 2 }],
+          ['a', user_a_comment_member.id,   { ids: both_wps,  other: 0, direct: 2, inherited: 0, total: 2 }],
+          ['b', user_b_view_member.id,      { ids: only_wp_a, other: 0, direct: 1, inherited: 1, total: 1 }],
+          ['g', group_comment_member.id,    { ids: only_wp_a, other: 0, direct: 1, inherited: 0, total: 1 }],
+          ['c', user_c_inherited_member.id, { ids: only_wp_a, other: 0, direct: 0, inherited: 1, total: 1 }]
+        )
       end
     end
 
     context 'when only_role_id is set to view' do
       let(:only_role_id) { view_work_package_role.id }
 
-      it 'returns the total count of view roles' do
-        expect(subject).to match_array [
-          ['x', active_user_member.id, { count: 0, inherited: 0, total: 0 }],
-          ['a', user_a_view_member.id, { count: 1, inherited: 0, total: 2 }],
-          ['a', user_a_comment_member.id, { count: 1, inherited: 0, total: 2 }],
-          ['b', user_b_view_member.id, { count: 1, inherited: 0, total: 1 }],
-          ['g', group_comment_member.id, { count: 0, inherited: 0, total: 1 }],
-          ['c', user_c_inherited_member.id, { count: 0, inherited: 0, total: 1 }],
-        ]
+      it 'returns info for view roles' do
+        expect(subject).to contain_exactly(
+          ['x', active_user_member.id,      { ids: [],        other: 0, direct: 0, inherited: 0, total: 0 }],
+          ['a', user_a_view_member.id,      { ids: only_wp_a, other: 1, direct: 1, inherited: 0, total: 2 }],
+          ['a', user_a_comment_member.id,   { ids: only_wp_a, other: 1, direct: 1, inherited: 0, total: 2 }],
+          ['b', user_b_view_member.id,      { ids: only_wp_a, other: 1, direct: 1, inherited: 0, total: 1 }],
+          ['g', group_comment_member.id,    { ids: [],        other: 1, direct: 0, inherited: 0, total: 1 }],
+          ['c', user_c_inherited_member.id, { ids: [],        other: 1, direct: 0, inherited: 0, total: 1 }]
+        )
       end
     end
 
     context 'when only_role_id is set to comment' do
       let(:only_role_id) { comment_work_package_role.id }
 
-      it 'returns the total count of the comment roles' do
-        expect(subject).to match_array [
-          ['x', active_user_member.id, { count: 0, inherited: 0, total: 0 }],
-          ['a', user_a_view_member.id, { count: 1, inherited: 0, total: 2 }],
-          ['a', user_a_comment_member.id, { count: 1, inherited: 0, total: 2 }],
-          ['b', user_b_view_member.id, { count: 1, inherited: 1, total: 1 }],
-          ['g', group_comment_member.id, { count: 1, inherited: 0, total: 1 }],
-          ['c', user_c_inherited_member.id, { count: 1, inherited: 1, total: 1 }],
-        ]
+      it 'returns info for comment roles' do
+        expect(subject).to contain_exactly(
+          ['x', active_user_member.id,      { ids: [],        other: 0, direct: 0, inherited: 0, total: 0 }],
+          ['a', user_a_view_member.id,      { ids: only_wp_b, other: 1, direct: 1, inherited: 0, total: 2 }],
+          ['a', user_a_comment_member.id,   { ids: only_wp_b, other: 1, direct: 1, inherited: 0, total: 2 }],
+          ['b', user_b_view_member.id,      { ids: only_wp_a, other: 1, direct: 0, inherited: 1, total: 1 }],
+          ['g', group_comment_member.id,    { ids: only_wp_a, other: 0, direct: 1, inherited: 0, total: 1 }],
+          ['c', user_c_inherited_member.id, { ids: only_wp_a, other: 0, direct: 0, inherited: 1, total: 1 }]
+        )
       end
     end
   end

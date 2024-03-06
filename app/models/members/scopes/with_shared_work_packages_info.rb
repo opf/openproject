@@ -27,18 +27,20 @@
 #++
 
 module Members::Scopes
-  module WithSharedWorkPackagesCount
+  module WithSharedWorkPackagesInfo
     extend ActiveSupport::Concern
 
     class_methods do
-      def with_shared_work_packages_count(only_role_id: nil)
+      def with_shared_work_packages_info(only_role_id: nil)
         Member
           .from("#{Member.quoted_table_name} members")
           .joins(shared_work_packages_sql(only_role_id))
           .select('members.*')
-          .select('COALESCE(members_sums.shared_work_packages_count, 0) AS shared_work_packages_count')
-          .select('COALESCE(members_sums.inherited_shared_work_packages_count, 0) AS inherited_shared_work_packages_count')
-          .select('COALESCE(members_sums.total_shared_work_packages_count, 0) AS total_shared_work_packages_count')
+          .select("COALESCE(members_sums.shared_work_package_ids, '{}') AS shared_work_package_ids")
+          .select("COALESCE(members_sums.other_shared_work_packages_count, 0) AS other_shared_work_packages_count")
+          .select("COALESCE(members_sums.direct_shared_work_packages_count, 0) AS direct_shared_work_packages_count")
+          .select("COALESCE(members_sums.inherited_shared_work_packages_count, 0) AS inherited_shared_work_packages_count")
+          .select("COALESCE(members_sums.total_shared_work_packages_count, 0) AS total_shared_work_packages_count")
       end
 
       private
@@ -64,17 +66,28 @@ module Members::Scopes
       def shared_work_packages_role_selectors(only_role_id)
         if only_role_id
           OpenProject::SqlSanitization.sanitize <<~SQL.squish, only_role_id:
-            COUNT(distinct entity_id)
+            ARRAY_AGG(distinct entity_id)
               FILTER (WHERE members_roles.role_id = :only_role_id)
-                AS shared_work_packages_count,
+                AS shared_work_package_ids,
+            COUNT(distinct entity_id)
+              FILTER (WHERE members_roles.role_id <> :only_role_id)
+                AS other_shared_work_packages_count,
+            COUNT(distinct entity_id)
+              FILTER (WHERE members_roles.role_id = :only_role_id AND members_roles.inherited_from IS NULL)
+                AS direct_shared_work_packages_count,
             COUNT(distinct entity_id)
               FILTER (WHERE members_roles.role_id = :only_role_id AND members_roles.inherited_from IS NOT NULL)
                 AS inherited_shared_work_packages_count
           SQL
         else
           <<~SQL.squish
+            ARRAY_AGG(distinct entity_id)
+              AS shared_work_package_ids,
+            0
+              AS other_shared_work_packages_count,
             COUNT(distinct entity_id)
-              AS shared_work_packages_count,
+              FILTER (WHERE members_roles.inherited_from IS NULL)
+                AS direct_shared_work_packages_count,
             COUNT(distinct entity_id)
               FILTER (WHERE members_roles.inherited_from IS NOT NULL)
                 AS inherited_shared_work_packages_count
