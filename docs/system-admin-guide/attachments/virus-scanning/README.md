@@ -8,19 +8,14 @@ keywords: Virus scanning, clamav
 
 ---
 
-# Virus scanning
+# Virus scanning (Enterprise add-on)
+> **Note**: This functionality is an Enterprise add-on. It is currently not available on the Hosted Enterprise Cloud.
 
 You can configure OpenProject to automatically scan uploaded attachments for viruses using the [ClamAV antivirus](https://www.clamav.net/) engine.
 
 ClamAV can detect different kinds of harmful software such as viruses and worms. It works on many types of files, such as those used in Windows, Linux, and Mac computers, as well as zipped files, program files, pictures, Flash, PDFs, and more.
 
 If you're using ClamAV locally, it comes with a helper tool called Freshclam that regularly updates its list of known threats to keep it current. It is crucial to keep the virus definitions updated for appropriate protection against malware.
-
-
-> **Note**: This functionality is an enterprise add-on. It is currently not available on the Hosted Enterprise Cloud.
-
-
-
 
 ## Installing ClamAV
 

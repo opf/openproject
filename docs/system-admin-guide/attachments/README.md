@@ -33,6 +33,6 @@ In OpenProject you can determine the maximum attachment size and activate the vi
 
 
 
-## Virus scanning
+## Virus scanning (Enterprise-add-on)
 
 For information about virus scanning, please see the [documentation on virus scanning](./virus-scanning/).
