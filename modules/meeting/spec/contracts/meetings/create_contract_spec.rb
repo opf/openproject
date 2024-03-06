@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,15 +28,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# This patch adds our job status extension to background jobs carried out when mailing with
-# perform_later.
+require 'spec_helper'
+require 'contracts/shared/model_contract_shared_context'
 
-module OpenProject
-  module Patches
-    module DeliveryJob
-      # include ::JobStatus::ApplicationJobWithStatus
+RSpec.describe Meetings::CreateContract do
+  include_context 'ModelContract shared context'
+
+  shared_let(:project) { create(:project) }
+  let(:meeting) { build(:structured_meeting, project:) }
+  let(:contract) { described_class.new(meeting, user) }
+
+  context 'with permission' do
+    let(:user) do
+      create(:user, member_with_permissions: { project => %i[view_meetings create_meetings] })
     end
+
+    it_behaves_like 'contract is valid'
+  end
+
+  context 'without permission' do
+    let(:user) { build_stubbed(:user) }
+
+    it_behaves_like 'contract is invalid', base: :error_unauthorized
+  end
+
+  include_examples 'contract reuses the model errors' do
+    let(:user) { build_stubbed(:user) }
   end
 end
-
-ActionMailer::MailDeliveryJob.include JobStatus::ApplicationJobWithStatus

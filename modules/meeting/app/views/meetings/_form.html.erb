@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
 
   <% copy_from = local_assigns[:copy_from] %>
   <% if copy_from.present? %>
-    <%= f.hidden_field :type, value: copy_from.is_a?(StructuredMeeting) ? 'dynamic' : 'classic' %>
+    <%= f.hidden_field :type, value: copy_from.type %>
     <%= hidden_field_tag "copied_from_meeting_id", copy_from.id %>
     <div class="form--field -required">
       <%= styled_label_tag 'copy_agenda', t('meeting.copy.agenda') %>
@@ -62,7 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
                  data-test-selector="op-tile-block">
             <div class="op-tile-block--content">
               <%= styled_radio_button_tag 'meeting[type]',
-                                          'dynamic',
+                                          'StructuredMeeting',
                                           true,
                                           no_label: true,
                                           class: 'radio-button' %>
@@ -85,7 +85,7 @@ See COPYRIGHT and LICENSE files for more details.
                  data-test-selector="op-tile-block">
             <div class="op-tile-block--content">
               <%= styled_radio_button_tag 'meeting[type]',
-                                          'classic',
+                                          'Meeting',
                                           false,
                                           no_label: true,
                                           class: 'radio-button' %>

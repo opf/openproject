@@ -23,41 +23,56 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See COPYRIGHT and LICENSE files for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
+module OpenProject
+  module HealthChecks
+    class PumaCheck < OkComputer::Check
+      attr_reader :threshold
 
-module Storages
-  class ManageNextcloudIntegrationEventsJob < ApplicationJob
-    include ManageNextcloudIntegrationJobMixin
+      def initialize(threshold = OpenProject::Configuration.health_checks_backlog_threshold)
+        @threshold = threshold.to_i
+        @applicable = Object.const_defined?("Puma::Server") && !Puma::Server.current.nil?
+        super()
+      end
 
-    SINGLE_THREAD_DEBOUNCE_TIME = 4.seconds.freeze
-    MULTI_THREAD_DEBOUNCE_TIME = 5.seconds.freeze
-    KEY = :manage_nextcloud_integration_events_job_debounce_happend_at
+      def check
+        stats = self.stats
 
-    queue_with_priority :above_normal
+        return mark_message "N/A as Puma is not used." if stats.nil?
 
-    class << self
-      def debounce
-        unless debounce_happend_in_current_thread_recently?
-          Rails.cache.fetch(KEY, expires_in: MULTI_THREAD_DEBOUNCE_TIME) do
-            set(wait: MULTI_THREAD_DEBOUNCE_TIME).perform_later
-            RequestStore.store[KEY] = Time.current
-          end
+        if stats[:running] > 0
+          mark_message "Puma is running"
+        else
+          mark_failure
+          mark_message "Puma is not running"
+        end
+
+        if stats[:backlog] < threshold
+          mark_message "Backlog ok"
+        else
+          mark_failure
+          mark_message "Backlog congested"
         end
       end
 
-      private
+      def stats
+        return nil unless applicable?
 
-      def debounce_happend_in_current_thread_recently?
-        timestamp = RequestStore.store[KEY]
-        timestamp.present? && (timestamp + SINGLE_THREAD_DEBOUNCE_TIME) > Time.current
+        server = Puma::Server.current
+        return nil if server.nil?
+
+        {
+          backlog: server.backlog || 0,
+          running: server.running || 0,
+          pool_capacity: server.pool_capacity || 0,
+          max_threads: server.max_threads || 0
+        }
       end
-    end
 
-    def perform
-      lock_obtained = super
-      self.class.debounce unless lock_obtained
-      lock_obtained
+      def applicable?
+        !!@applicable
+      end
     end
   end
 end

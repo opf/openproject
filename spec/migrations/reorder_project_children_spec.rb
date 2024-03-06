@@ -27,9 +27,11 @@
 #++
 
 require 'spec_helper'
+require Rails.root.join("db/migrate/20220202140507_reorder_project_children.rb")
 
-RSpec.describe Projects::ReorderHierarchyJob, type: :model do
-  subject(:job) { described_class.perform_now }
+RSpec.describe ReorderProjectChildren, type: :model do
+  # Silencing migration logs, since we are not interested in that during testing
+  subject(:run_migration) { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
 
   shared_let(:parent_project_a) { create(:project, name: 'ParentA') }
   shared_let(:parent_project_b) { create(:project, name: 'ParentB') }

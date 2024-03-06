@@ -71,7 +71,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   end
 
   def query_saveable?
-    query.name.blank?
+    current_user.logged? && query.name.blank?
   end
 
   def show_state?

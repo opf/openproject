@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -25,22 +23,20 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See COPYRIGHT and LICENSE files for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
+module OpenProject
+  module HealthChecks
+    class GoodJobCheck < OkComputer::Check
+      def check
+        count = GoodJob::Process.active.count
 
-module Storages
-  class ManageNextcloudIntegrationCronJob < Cron::CronJob
-    include ManageNextcloudIntegrationJobMixin
-
-    queue_with_priority :low
-
-    self.cron_expression = '1 * * * *'
-
-    def self.ensure_scheduled!
-      if ::Storages::ProjectStorage.active_automatically_managed.exists?
-        super
-      else
-        remove
+        if count.zero?
+          mark_failure
+          mark_message "No good_job processes are active."
+        else
+          mark_message "#{count} good_job processes are active."
+        end
       end
     end
   end

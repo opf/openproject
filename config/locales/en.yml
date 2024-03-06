@@ -328,6 +328,9 @@ en:
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
 
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
+
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -1282,6 +1285,7 @@ en:
   button_reset: "Reset"
   button_rollback: "Rollback to this version"
   button_save: "Save"
+  button_save_as: "Save as"
   button_apply_changes: "Apply changes"
   button_save_back: "Save and back"
   button_show: "Show"
@@ -1910,6 +1914,7 @@ en:
   label_diff_side_by_side: "side by side"
   label_digital_accessibility: "Digital accessibility (DE)"
   label_disabled: "disabled"
+  label_disabled_uppercase: "Disabled"
   label_display: "Display"
   label_display_per_page: "Per page: %{value}"
   label_display_used_statuses_only: "Only display statuses that are used by this type"
@@ -3015,7 +3020,8 @@ en:
         Remaining files have been scanned. There are %{file_count} in quarantine.
         You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned.
+        Virus scanning has been enabled successfuly.
+        There are %{file_count} that were uploaded previously and still need to be scanned.
         This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."

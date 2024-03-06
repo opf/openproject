@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,39 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Storages
-  module ManageNextcloudIntegrationJobMixin
-    using Peripherals::ServiceResultRefinements
+require 'spec_helper'
+require 'services/base_services/behaves_like_create_service'
 
-    def perform
-      OpenProject::Mutex.with_advisory_lock(
-        ::Storages::NextcloudStorage,
-        'sync_all_group_folders',
-        timeout_seconds: 0,
-        transaction: false
-      ) do
-        ::Storages::Storage.automatic_management_enabled.includes(:oauth_client).find_each do |storage|
-          result = service_for(storage).call(storage)
-          result.match(
-            on_success: ->(_) do
-              storage.mark_as_healthy
-            end,
-            on_failure: ->(errors) do
-              storage.mark_as_unhealthy(reason: errors.to_s)
-            end
-          )
-        end
-        true
-      end
-    end
-
-    private
-
-    def service_for(storage)
-      return NextcloudGroupFolderPropertiesSyncService if storage.provider_type_nextcloud?
-      return OneDriveManagedFolderSyncService if storage.provider_type_one_drive?
-
-      raise 'Unknown Storage'
-    end
+RSpec.describe Meetings::CreateService, type: :model do
+  it_behaves_like 'BaseServices create service' do
+    let(:factory) { :meeting }
   end
 end

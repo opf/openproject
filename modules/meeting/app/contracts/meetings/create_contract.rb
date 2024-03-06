@@ -26,23 +26,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# This patch adds our job status extension to background jobs carried out when mailing with
-# perform_later.
+module Meetings
+  class CreateContract < BaseContract
+    attribute :type
+    validate :user_allowed_to_add
+    validate :type_in_allowed
 
-module OpenProject
-  module Patches
-    module DelayedJobAdapter
-      module AllowNonExistingJobClass
-        def log_arguments?
-          super
-        rescue NameError
-          false
-        end
+    private
+
+    def type_in_allowed
+      unless [StructuredMeeting.name, Meeting.name].include?(model.type)
+        errors.add(:type, :inclusion)
+      end
+    end
+
+    def user_allowed_to_add
+      unless user.allowed_in_project?(:create_meetings, model.project)
+        errors.add :base, :error_unauthorized
       end
     end
   end
 end
-
-ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper.prepend(
-  OpenProject::Patches::DelayedJobAdapter::AllowNonExistingJobClass
-)

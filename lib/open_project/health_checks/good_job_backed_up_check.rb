@@ -23,53 +23,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See COPYRIGHT and LICENSE files for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
+module OpenProject
+  module HealthChecks
+    class GoodJobBackedUpCheck < OkComputer::Check
+      def initialize(threshold = OpenProject::Configuration.health_checks_jobs_never_ran_minutes_ago)
+        @threshold = threshold.to_i
+        super()
+      end
 
-module Cron
-  class CronJob < ApplicationJob
-    class_attribute :cron_expression
+      def check
+        count = GoodJob::Job.queued.where('scheduled_at < ?', @threshold.minutes.ago).count
 
-    # List of registered jobs, requires eager load in dev(!)
-    class_attribute :registered_jobs, default: []
-
-    include ScheduledJob
-
-    class << self
-      ##
-      # Register new job class(es)
-      def register!(*job_classes)
-        Array(job_classes).each do |clz|
-          raise ArgumentError, "Needs to be subclass of ::Cron::CronJob" unless clz.ancestors.include?(self)
-
-          registered_jobs << clz
+        if count > 0
+          mark_message "#{count} jobs are waiting to be picked up for more than #{@threshold} minutes."
+          mark_failure
+        else
+          mark_message "No jobs are waiting to be picked up."
         end
-      end
-
-      def schedule_registered_jobs!
-        registered_jobs.each do |job_class|
-          job_class.ensure_scheduled!
-        end
-      end
-
-      ##
-      # Ensure the job is scheduled unless it is already
-      def ensure_scheduled!
-        # Ensure scheduled only once
-        return if scheduled?
-
-        Rails.logger.info { "Scheduling #{name} recurrent background job." }
-        set(cron: cron_expression).perform_later
-      end
-
-      ##
-      # Remove the scheduled job, if any
-      def remove
-        delayed_job&.destroy
-      end
-
-      def delayed_job
-        delayed_job_query.first
       end
     end
   end
