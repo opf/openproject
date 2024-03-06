@@ -144,7 +144,7 @@ PATH
 PATH
   remote: modules/gitlab_integration
   specs:
-    openproject-gitlab_integration (2.1.6)
+    openproject-gitlab_integration (3.0.0)
       openproject-webhooks
 
 PATH

@@ -32,10 +32,10 @@
 
 Gem::Specification.new do |s|
   s.name        = 'openproject-gitlab_integration'
-  s.version     = '2.1.6'
-  s.authors     = 'Ben Tey'
-  s.email       = 'ben.tey@outlook.com'
-  s.homepage    = 'https://github.com/btey/openproject-gitlab-integration'
+  s.version     = '3.0.0'
+  s.authors     = 'OpenProject GmbH, Ben Tey'
+  s.email       = "info@openproject.com"
+  s.homepage    = "https://www.openproject.org/docs/system-admin-guide/integrations/gitlab-integration/"
   s.summary     = 'OpenProject GitLab Integration'
   s.description = 'Integrates OpenProject and GitLab for a better workflow'
   s.license     = 'GPLv3'
