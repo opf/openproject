@@ -1,0 +1,6 @@
+pt:
+  js:
+    queries:
+      all_open: 'Tudo aberto'
+      timeline: 'Cronograma'
+      milestones: 'Etapas'
