@@ -83,10 +83,6 @@ RSpec.describe 'Work package filtering by bool custom field', :js do
     # Add filtering by bool custom field which defaults to false
     filters.add_filter(bool_cf.name)
 
-    # Turn the added filter to the "true" value.
-    # Ideally this would be the default.
-    page.find("#div-values-customField#{bool_cf.id} #{test_selector('spot-switch-handle')}").click
-
     wp_table.ensure_work_package_not_listed!(work_package_false, work_package_without, work_package_other_type)
     wp_table.expect_work_package_listed(work_package_true)
 

@@ -4,10 +4,10 @@ ms:
       storages/file_link:
         origin_id: Origin Id
       storages/storage:
-        creator: Creator
+        creator: Pencipta
         drive: Drive ID
         host: Host
-        name: Name
+        name: Nama
         provider_type: Provider type
         tenant: Directory (tenant) ID
     errors:
@@ -34,17 +34,17 @@ ms:
               invalid_password: is not valid.
               unknown_error: could not be validated. Please check your storage connection and try again.
     models:
-      file_link: File
+      file_link: Fail
       storages/storage: Storage
   api_v3:
     errors:
       too_many_elements_created_at_once: Too many elements created at once. Expected %{max} at most, got %{actual}.
-  permission_create_files: Create files
-  permission_delete_files: Delete files
+  permission_create_files: Cipta fail
+  permission_delete_files: Padam fail
   permission_manage_file_links: Manage file links
   permission_manage_storages_in_project: Manage file storages in project
-  permission_read_files: Read files
-  permission_share_files: Share files
+  permission_read_files: Baca fail
+  permission_share_files: Kongsi fail
   permission_view_file_links: View file links
   permission_write_files: Write files
   project_module_storages: File storages
@@ -55,7 +55,7 @@ ms:
       done_continue: Done, continue
       replace_oauth_application: Replace OpenProject OAuth
       replace_oauth_client: Replace %{provider_type} OAuth
-      save_and_continue: Save and continue
+      save_and_continue: Simpan dan teruskan
       select_folder: Select folder
     configuration_checks:
       oauth_client_incomplete:

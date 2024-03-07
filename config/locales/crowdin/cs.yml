@@ -265,12 +265,15 @@ cs:
       no_results_title_text: V současné době nejsou žádné projekty
       no_results_content_text: Vytvořit nový projekt
     lists:
-      active: 'Aktivní projekty'
-      my: 'Moje projekty'
-      archived: 'Archivované projekty'
-      my_private: 'soukromé seznamy  projektů'
+      active: "Aktivní projekty"
+      my: "Moje projekty"
+      archived: "Archivované projekty"
+      my_private: "soukromé seznamy  projektů"
       new:
-        placeholder: 'Nový seznam projektů'
+        placeholder: "Nový seznam projektů"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Změnit identifikátor
       activities:
@@ -292,6 +295,8 @@ cs:
         no_results_content_text: Vytvořit novou verzi
       storage:
         no_results_title_text: Neexistuje žádné další diskové místo využívané tímto projektem.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: Momentálně nejsou žádní členové součástí tohoto projektu.
@@ -344,7 +349,7 @@ cs:
     memberships:
       no_results_title_text: Tento uživatel není v současné době členem projektu.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       Nemáte oprávnění odstranit zástupného uživatele. Nemáte právo spravovat členy pro všechny projekty, jejichž členem je zástupný uživatel.
@@ -1216,6 +1221,7 @@ cs:
   button_reset: "Obnovit"
   button_rollback: "Obnovit tuto verzi"
   button_save: "Uložit"
+  button_save_as: "Save as"
   button_apply_changes: "Použít změny"
   button_save_back: "Uložit a odejít"
   button_show: "Zobrazit"
@@ -1836,6 +1842,7 @@ cs:
   label_diff_side_by_side: "vedle sebe"
   label_digital_accessibility: "Digitální dostupnost (DE)"
   label_disabled: "zakázáno"
+  label_disabled_uppercase: "Disabled"
   label_display: "Zobrazit"
   label_display_per_page: "Na stránku: %{value}"
   label_display_used_statuses_only: "Zobrazit pouze stavy, které jsou tímto typem používány"
@@ -2063,6 +2070,7 @@ cs:
   label_precedes: "předchází"
   label_preferences: "Nastavení"
   label_preview: "Náhled"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Předchozí"
   label_previous_week: "Předchozí týden"
   label_principal_invite_via_email: " nebo pozvat nové uživatele e-mailem"
@@ -2652,6 +2660,7 @@ cs:
     name_or_identifier: "Jméno nebo identifikátor"
     only_subproject_id: "Pouze podprojekt"
     shared_with_user: "Sdíleno s uživatelem"
+    shared_with_me: "Shared with me"
     subproject_id: "Včetně podprojektu"
   repositories:
     at_identifier: "v %{identifier}"
@@ -2900,12 +2909,12 @@ cs:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -3110,9 +3119,9 @@ cs:
     configure_view:
       heading: Configure view
       columns:
-        input_label: 'Add columns'
-        input_placeholder: 'Select a column'
-        drag_area_label: 'Manage and reorder columns'
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Další zdroje"
     getting_started: "Začínáme"

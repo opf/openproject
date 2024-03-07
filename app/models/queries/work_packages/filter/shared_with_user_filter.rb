@@ -35,7 +35,7 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
   end
 
   def scope
-    query = visible_shared_work_packages
+    query = visible_shared_work_packages(scoped_to_visible_projects: !querying_for_self?)
 
     if operator == '='
       query = query.where(shared_with_any_of_condition)
@@ -69,9 +69,15 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
     end
   end
 
-  def visible_shared_work_packages
-    WorkPackage.joins("JOIN members ON members.entity_type = 'WorkPackage' AND members.entity_id = work_packages.id")
-               .where(members: { project: visible_projects })
+  def visible_shared_work_packages(scoped_to_visible_projects: true)
+    base = WorkPackage
+      .joins("JOIN members ON members.entity_type = 'WorkPackage' AND members.entity_id = work_packages.id")
+
+    if scoped_to_visible_projects
+      base.where(members: { project: visible_projects })
+    else
+      base
+    end
   end
 
   def visible_projects
@@ -96,5 +102,9 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
     end
 
     where_clauses.join(' AND ')
+  end
+
+  def querying_for_self?
+    values_replaced.size == 1 && values_replaced.first == User.current.id.to_s
   end
 end
