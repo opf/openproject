@@ -40,7 +40,6 @@ module OpenProject::CustomStyles
         theme: OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME,
         colors: {
           'primary-color' => "#1A67A3",
-          'primary-color-dark' => "#175A8E",
           'alternative-color' => PRIMER_PRIMARY_BUTTON_COLOR,
           'content-link-color' => "#175A8E",
           'header-bg-color' => "#1A67A3",
@@ -61,7 +60,6 @@ module OpenProject::CustomStyles
         theme: 'OpenProject Light',
         colors: {
           'primary-color' => "#1A67A3",
-          'primary-color-dark' => "#175A8E",
           'alternative-color' => PRIMER_PRIMARY_BUTTON_COLOR,
           'content-link-color' => "#175A8E",
           'header-bg-color' => "#FAFAFA",
@@ -83,7 +81,6 @@ module OpenProject::CustomStyles
         theme: 'OpenProject Dark',
         colors: {
           'primary-color' => "#3270DB",
-          'primary-color-dark' => "#163473",
           'alternative-color' => PRIMER_PRIMARY_BUTTON_COLOR,
           'content-link-color' => "#275BB5",
           'header-bg-color' => "#05002C",

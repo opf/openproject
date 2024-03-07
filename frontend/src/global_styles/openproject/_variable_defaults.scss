@@ -36,7 +36,6 @@
   --primary-color--major1: #155282;
   --primary-color--major2: #103e62;
   --primary-color--major3: #0a2941;
-  --primary-color-dark: #175A8E;
   --alternative-color: var(--button-primary-bgColor-rest, var(--color-btn-primary-bg));
 
   /**
@@ -59,7 +58,7 @@
   --base-line-height: 1.5;
   --base-text-weight-bold: 600;
   --secondary-color: #bfbfbf;
-  --content-link-color: var(--primary-color-dark);
+  --content-link-color: var(--primary-color--major1);
   --font-color-on-primary: #FFFFFF;
   --font-color-on-primary-dark: #FFFFFF;
   --font-color-on-secondary: #FFFFFF;
@@ -129,7 +128,7 @@
   --button--alt-highlight-background-hover-color: #227d28;
   --button--highlight-font-color: var(--font-color-on-primary);
   --button--highlight-background-color: var(--primary-color);
-  --button--highlight-background-hover-color: var(--primary-color-dark);
+  --button--highlight-background-hover-color: var(--primary-color--major1);
   --button--alt-highlight-font-color: var(--font-color-on-alternative);
   --generic-table--header-font-size: 0.875rem;
   --generic-table--header-height: 45px;
@@ -143,6 +142,6 @@
   --grid-background-color: #F3F6F8;
   --avatar-border-color: transparent;
   --list-item-hover--border-color: var(--color-canvas-default-transparent);
-  --list-item-hover--color: var(--primary-color-dark);
+  --list-item-hover--color: var(--primary-color--major1);
   --link-text-decoration: none;
 }
