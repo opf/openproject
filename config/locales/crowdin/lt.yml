@@ -269,8 +269,8 @@ lt:
       new:
         placeholder: "Naujas projektų sąrašas"
       delete_modal:
-        title: "Delete project list"
-        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
+        title: "Trinti projektų sąrašą"
+        text: "Atlikus šį veiksmą nebus ištrintas nė vienas sąraše esantis projektas. Ar tikrai norite ištrinti šį projektų sąrašą?"
     settings:
       change_identifier: Pokyčio identifikatorius
       activities:
@@ -293,7 +293,7 @@ lt:
       storage:
         no_results_title_text: Šis projektas papildomos vietos diske nenaudoja.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    can_be_saved_as: "Pakeitimus galima išsaugoti tik naujame sąraše."
   members:
     index:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
@@ -847,8 +847,8 @@ lt:
               forbidden: "Laiko žymėse yra uždraustos reikšmės: %{values}"
               format: "%{message}"
             selects:
-              name_not_included: "The 'Name' column needs to be included"
-              nonexistent: "The column '%{column}' does not exist."
+              name_not_included: "Būtina įtraukti stulpelį „Pavadinimas“"
+              nonexistent: "Stulpelis „%{column}“ neegzistuoja."
               format: "%{message}"
           group_by_hierarchies_exclusive: "yra nesuderinamas su grupavimu pagal '%{group_by}'. Jūs negalite įjungti abiejų."
           filters:
@@ -1218,7 +1218,7 @@ lt:
   button_reset: "Nustatyti iš naujo"
   button_rollback: "Grąžinti į šią versiją"
   button_save: "Išsaugoti"
-  button_save_as: "Save as"
+  button_save_as: "Įrašyti kaip"
   button_apply_changes: "Pritaikyti pakeitimus"
   button_save_back: "Įrašyti ir grįžti atgal"
   button_show: "Rodyti"
@@ -1839,7 +1839,7 @@ lt:
   label_diff_side_by_side: "šalia"
   label_digital_accessibility: "Skaitmeninis prieinamumas (DE)"
   label_disabled: "neleidžiama"
-  label_disabled_uppercase: "Disabled"
+  label_disabled_uppercase: "Išjungta"
   label_display: "Rodymas"
   label_display_per_page: "%{value} įrašų puslapyje"
   label_display_used_statuses_only: "Rodyti tik tas būsenas, kurias naudoja šis tipas"
@@ -2067,7 +2067,7 @@ lt:
   label_precedes: "ankstesnis"
   label_preferences: "Parinktys"
   label_preview: "Peržiūra"
-  label_preview_not_available: "(Preview not available)"
+  label_preview_not_available: "(peržiūra negalima)"
   label_previous: "Ankstesnis"
   label_previous_week: "Ankstesnė savaitė"
   label_principal_invite_via_email: " arba pakviesti naujus vartotojus naudojant el. paštą"
@@ -2656,7 +2656,7 @@ lt:
     name_or_identifier: "Pavadinimas arba identifikatorius"
     only_subproject_id: "Tik sub-projektai"
     shared_with_user: "Bendrinamas su naudotoju"
-    shared_with_me: "Shared with me"
+    shared_with_me: "Bendrinama su manimi"
     subproject_id: "Įtraukti sub-projektus"
   repositories:
     at_identifier: "%{identifier}"
@@ -2805,7 +2805,7 @@ lt:
   setting_brute_force_block_minutes: "Laikas, kuriam vartotojas yra blokuojamas"
   setting_cache_formatted_text: "Atmintyje laikyti formatuotą tekstą"
   setting_use_wysiwyg_description: "Parinkite, kad įjungtumėte CKEditor5 WYSIWYG redaktorių visiems naudotojams pagal nutylėjimą. CKEditor turi ribotą GFM Markdown funkcionalumą."
-  setting_column_options: "Default work package lists columns"
+  setting_column_options: "Numatyti darbų paketų sąrašo stulpeliai"
   setting_commit_fix_keywords: "Reikšminių žodžių fiksavimas"
   setting_commit_logs_encoding: "Patvirtinti žinučių koduotę"
   setting_commit_logtime_activity_id: "Veiklos įrašai prisijungus"
@@ -2827,7 +2827,7 @@ lt:
   setting_emails_header: "El. laiškų antraštė"
   setting_email_login: "Naudokite e-paštą prisijungimui"
   setting_enabled_scm: "Įgalinti SCM"
-  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
+  setting_enabled_projects_columns: "Stulpeliai projektų sąraše rodomi pagal nutylėjimą"
   setting_feeds_enabled: "Leisti naujienų kanalus"
   setting_ical_enabled: "Įjungti iCalendar prenumeratas"
   setting_feeds_limit: "Naujienų kanalų turinio limitas"
@@ -2903,7 +2903,7 @@ lt:
       remaining_scan_complete_html: >
         Likę failai buvo patikrinti. Karantine yra %{file_count} . Esate nukreipiami į karantino puslapį. Naudokitės šiuo puslapiu norėdami ištrinti arba pakeisti karantine esančius failus.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virusų skenavimas sėkmingai įjungtas. Yra %{file_count}, kurie buvo įkelti anksčiau ir turi būti patikrinti. Šis darbas suplanuotas fone. Failai liks prieinami tikrinimo metu.
       upsale:
         description: "Užtikrinkite, kad į OpenProject įkelti failai būtų patikrinti nuo virusų prieš padarant juos prieinamus kitiems naudotojams."
       actions:
@@ -2945,7 +2945,7 @@ lt:
     projects:
       missing_dependencies: "Parinktas projekto modulis %{module}, kuris priklauso nuo %{dependencies}. Jums reikia pažymėti ir šias priklausomybes."
       section_new_projects: "Naujų projektų nustatymai"
-      section_project_overview: "Settings for project lists"
+      section_project_overview: "Projektų sąrašų nustatymai"
     session: "Sesija"
     user:
       default_preferences: "Numatytosios parinktys"
@@ -3111,11 +3111,11 @@ lt:
   queries:
     apply_filter: Pritaikyti iš anksto sukonfigūruotą filtrą
     configure_view:
-      heading: Configure view
+      heading: Konfigūruoti vaizdą
       columns:
-        input_label: "Add columns"
-        input_placeholder: "Select a column"
-        drag_area_label: "Manage and reorder columns"
+        input_label: "Pridėti stulpelių"
+        input_placeholder: "Parinkti stulpelį"
+        drag_area_label: "Tvarkyti ir perrikiuoti stulpelius"
   top_menu:
     additional_resources: "Papildomi ištekliai"
     getting_started: "Darbo pradžia"

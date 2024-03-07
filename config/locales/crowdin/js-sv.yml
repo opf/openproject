@@ -34,7 +34,7 @@ sv:
       quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
       add_tag: "Add item"
-      clear_all: "Clear all"
+      clear_all: "Rensa alla"
       loading: "Laddar..."
       not_found: "Inga objekt hittades"
       type_to_search: "Skriv för att söka"
@@ -73,7 +73,7 @@ sv:
     button_continue: "Fortsätt"
     button_copy: "Kopiera"
     button_copy_to_clipboard: "Kopiera till Urklipp"
-    button_copy_link_to_clipboard: "Copy link to clipboard"
+    button_copy_link_to_clipboard: "Kopiera länk till urklipp"
     button_copy_to_other_project: "Copy to other project"
     button_custom-fields: "Anpassade fält"
     button_delete: "Radera"
@@ -718,7 +718,7 @@ sv:
         Välj ett projekt för att skapa arbetspaketet för att se alla attribut. Du kan bara välja projekt som har typen ovan aktiverad.
       details_activity: "Project details activity"
       context: "Projektsammanhang"
-      click_to_switch_to_project: "Project: %{projectname}"
+      click_to_switch_to_project: "Projekt: %{projectname}"
       confirm_template_load: "Switching the template will reload the page and you will lose all input to this form. Continue?"
       use_template: "Use template"
       no_template_selected: "(None)"
