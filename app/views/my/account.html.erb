@@ -49,19 +49,31 @@ See COPYRIGHT and LICENSE files for more details.
       </div>
     </div>
     <% login_via_provider = !!@user.identity_url %>
+    <% login_via_ldap = !!@user.ldap_auth_source_id %>
     <div class="form--field -required">
-      <%= f.text_field :firstname, required: true, container_class: '-middle', disabled: login_via_provider %>
+      <%= f.text_field :firstname, required: true, container_class: '-middle', disabled: login_via_provider || login_via_ldap %>
       <% if login_via_provider %>
         <span class="form--field-instructions"><%= t('user.text_change_disabled_for_provider_login') %></span>
       <% end %>
+      <% if login_via_ldap %>
+        <span class="form--field-instructions"><%= t('user.text_change_disabled_for_ldap_login') %></span>
+      <% end %>
     </div>
     <div class="form--field -required">
-      <%= f.text_field :lastname, required: true, container_class: '-middle', disabled: login_via_provider %>
+      <%= f.text_field :lastname, required: true, container_class: '-middle', disabled: login_via_provider || login_via_ldap %>
       <% if login_via_provider %>
         <span class="form--field-instructions"><%= t('user.text_change_disabled_for_provider_login') %></span>
       <% end %>
+      <% if login_via_ldap %>
+        <span class="form--field-instructions"><%= t('user.text_change_disabled_for_ldap_login') %></span>
+      <% end %>
     </div>
-    <div class="form--field -required"><%= f.text_field :mail, required: true, container_class: '-middle' %></div>
+    <div class="form--field -required">
+      <%= f.text_field :mail, required: true, container_class: '-middle', disabled: login_via_ldap %>
+      <% if login_via_ldap %>
+        <span class="form--field-instructions"><%= t('user.text_change_disabled_for_ldap_login') %></span>
+      <% end %>
+    </div>
 
     <%= fields_for :pref, @user.pref, builder: TabularFormBuilder, lang: current_language do |pref_fields| %>
       <div class="form--field"><%= pref_fields.check_box :hide_mail %></div>
