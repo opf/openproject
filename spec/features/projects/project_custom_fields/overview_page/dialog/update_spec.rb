@@ -51,7 +51,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           overview_page.visit_page
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content "Not set yet"
+            expect(page).to have_content I18n.t('placeholders.default')
           end
 
           overview_page.open_edit_dialog_for_section(section)
@@ -108,7 +108,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           overview_page.visit_page
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content "Not set yet"
+            expect(page).to have_content I18n.t('placeholders.default')
           end
 
           overview_page.open_edit_dialog_for_section(section)
@@ -155,7 +155,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           dialog.expect_closed
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content "Not set yet"
+            expect(page).to have_content I18n.t('placeholders.default')
           end
         end
       end
