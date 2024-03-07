@@ -35,6 +35,7 @@ RSpec.describe ReduceConfigurableDesignVariables, type: :model do
       create(:design_color, variable: 'alternative-color')
       create(:design_color, variable: 'primary-color')
       create(:design_color, variable: 'primary-color-dark')
+      create(:design_color, variable: 'content-link-color')
     end
 
     # Silencing migration logs, since we are not interested in that during testing
@@ -42,16 +43,21 @@ RSpec.describe ReduceConfigurableDesignVariables, type: :model do
 
     it "removes the obsolete variables and renames 'alternative-color'" do
       expect { subject }
-        .to change(DesignColor, :count).from(3).to(1)
+        .to change(DesignColor, :count).from(4).to(2)
 
-      expect(DesignColor.first)
-        .to have_attributes(variable: 'primary-button-color')
+      expect(DesignColor.find_by(variable: 'primary-button-color')).not_to be_nil
+      expect(DesignColor.find_by(variable: 'accent-color')).not_to be_nil
+      expect(DesignColor.find_by(variable: 'primary-color')).to be_nil
+      expect(DesignColor.find_by(variable: 'primary-color-dark')).to be_nil
+      expect(DesignColor.find_by(variable: 'alternative-color')).to be_nil
+      expect(DesignColor.find_by(variable: 'content-link-color')).to be_nil
     end
   end
 
   context 'when migrating down' do
     before do
       create(:design_color, variable: 'primary-button-color')
+      create(:design_color, variable: 'accent-color')
     end
 
     # Silencing migration logs, since we are not interested in that during testing
@@ -59,12 +65,14 @@ RSpec.describe ReduceConfigurableDesignVariables, type: :model do
 
     it "re-creates the removed variables and reverts the renaming" do
       expect { subject }
-        .to change(DesignColor, :count).from(1).to(3)
+        .to change(DesignColor, :count).from(2).to(4)
 
       expect(DesignColor.find_by(variable: 'primary-button-color')).to be_nil
+      expect(DesignColor.find_by(variable: 'accent-color')).to be_nil
       expect(DesignColor.find_by(variable: 'primary-color')).not_to be_nil
       expect(DesignColor.find_by(variable: 'primary-color-dark')).not_to be_nil
       expect(DesignColor.find_by(variable: 'alternative-color')).not_to be_nil
+      expect(DesignColor.find_by(variable: 'content-link-color')).not_to be_nil
 
     end
   end

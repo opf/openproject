@@ -27,7 +27,7 @@ module OpenProject::Bim
               'primary-button-color' => OpenProject::CustomStyles::ColorThemes::PRIMER_PRIMARY_BUTTON_COLOR,
               'header-bg-color' => "#05002C",
               'header-item-bg-hover-color' => "#163473",
-              'content-link-color' => "#275BB5",
+              'accent-color' => "#275BB5",
               'main-menu-bg-color' => "#0E2045",
               'main-menu-bg-selected-background' => "#3270DB",
               'main-menu-bg-hover-background' => "#163473"

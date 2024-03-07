@@ -13,6 +13,11 @@ class ReduceConfigurableDesignVariables < ActiveRecord::Migration[7.1]
     MigrationDesignColor
       .where(variable: 'alternative-color')
       .update(variable: 'primary-button-color')
+
+    # Rename "content-link-color" to "accent-color"
+    MigrationDesignColor
+      .where(variable: 'content-link-color')
+      .update(variable: 'accent-color')
   end
 
   def down
@@ -24,5 +29,9 @@ class ReduceConfigurableDesignVariables < ActiveRecord::Migration[7.1]
     MigrationDesignColor
       .where(variable: 'primary-button-color')
       .update(variable: 'alternative-color')
+
+    MigrationDesignColor
+      .where(variable: 'accent-color')
+      .update(variable: 'content-link-color')
   end
 end

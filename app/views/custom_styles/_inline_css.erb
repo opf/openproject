@@ -40,11 +40,11 @@ See COPYRIGHT and LICENSE files for more details.
     <% if design_color.variable == "primary-button-color" %>
         --primary-button-color--major1: <%= design_color.darken 0.18 %>;
     <% end %>
-    <% if design_color.variable == "content-link-color" %>
-        --content-link-color--major1: <%= design_color.darken 0.2 %>;
-        --content-link-color--major2: <%= design_color.darken 0.4 %>;
-        --content-link-color--minor1: <%= design_color.lighten 0.8 %>;
-        --content-link-color--minor2: <%= design_color.lighten 0.6 %>;
+    <% if design_color.variable == "accent-color" %>
+        --accent-color--major1: <%= design_color.darken 0.2 %>;
+        --accent-color--major2: <%= design_color.darken 0.4 %>;
+        --accent-color--minor1: <%= design_color.lighten 0.8 %>;
+        --accent-color--minor2: <%= design_color.lighten 0.6 %>;
     <% end %>
     <% end %>
     }
