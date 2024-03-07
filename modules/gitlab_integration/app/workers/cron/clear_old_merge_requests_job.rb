@@ -30,9 +30,7 @@
 #++
 
 module Cron
-  class ClearOldMergeRequestsJob < CronJob
-    self.cron_expression = '25 1 * * *' # runs at 1:25 nightly
-
+  class ClearOldMergeRequestsJob < ApplicationJob
     priority_number :low
 
     def perform
