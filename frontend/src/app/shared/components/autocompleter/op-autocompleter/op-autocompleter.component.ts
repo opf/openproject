@@ -106,7 +106,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @Input() public inputValue?:string|string[];
 
-  @Input() public multipleAsSeparateInputs:boolean = true;
+  @Input() public multipleAsSeparateInputs = true;
 
   @Input() public inputBindValue = 'id';
 
@@ -143,7 +143,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @Input() public classes?:string;
 
-  @Input() public multiple:boolean = false;
+  @Input() public multiple = false;
 
   @Input() public openDirectly?:boolean = false;
 

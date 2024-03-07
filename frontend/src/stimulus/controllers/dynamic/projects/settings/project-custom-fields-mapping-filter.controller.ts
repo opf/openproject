@@ -34,26 +34,26 @@ export default class ProjectCustomFieldsMappingFilterController extends Controll
   static targets = [
     'filter',
     'searchItem',
-    'bulkActionContainer'
+    'bulkActionContainer',
   ];
 
   declare readonly filterTarget:HTMLInputElement;
   declare readonly searchItemTargets:HTMLInputElement[];
   declare readonly bulkActionContainerTargets:HTMLInputElement[];
 
-  connect(): void {
+  connect():void {
     this.element.querySelector('#project-custom-fields-mapping-filter-clear-button')?.addEventListener('click', () => {
       this.resetFilterViaClearButton();
     });
   }
 
-  disconnect(): void {
+  disconnect():void {
     this.element.querySelector('#project-custom-fields-mapping-filter-clear-button')?.removeEventListener('click', () => {
       this.resetFilterViaClearButton();
     });
   }
 
-  filterLists(event: Event) {
+  filterLists() {
     const query = this.filterTarget.value.toLowerCase();
 
     if (query.length > 0) {
@@ -63,12 +63,12 @@ export default class ProjectCustomFieldsMappingFilterController extends Controll
     }
 
     this.searchItemTargets.forEach((item) => {
-      const text = item.textContent!.toLowerCase();
+      const text = item.textContent?.toLowerCase();
 
-      if (text.includes(query)) {
-        (item as HTMLElement).style.display = "block";
+      if (text?.includes(query)) {
+        (item as HTMLElement).style.display = 'block';
       } else {
-        (item as HTMLElement).style.display = "none";
+        (item as HTMLElement).style.display = 'none';
       }
     });
   }
@@ -77,19 +77,19 @@ export default class ProjectCustomFieldsMappingFilterController extends Controll
     this.showBulkActionContainers();
 
     this.searchItemTargets.forEach((item) => {
-      (item as HTMLElement).style.display = "block";
+      (item as HTMLElement).style.display = 'block';
     });
   }
 
   hideBulkActionContainers() {
     this.bulkActionContainerTargets.forEach((item) => {
-      (item as HTMLElement).style.display = "none";
+      (item as HTMLElement).style.display = 'none';
     });
   }
 
   showBulkActionContainers() {
     this.bulkActionContainerTargets.forEach((item) => {
-      (item as HTMLElement).style.display = "block";
+      (item as HTMLElement).style.display = 'block';
     });
   }
 }

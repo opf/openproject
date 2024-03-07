@@ -18,7 +18,8 @@ export abstract class GridPageComponent implements OnInit, OnDestroy {
     html_title: this.i18n.t(`js.${this.i18nNamespace()}.label`),
   };
 
-  constructor(readonly gridInitialization:GridInitializationService,
+  constructor(
+    readonly gridInitialization:GridInitializationService,
     // not used in the base class but will be used throughout the subclasses
     readonly pathHelper:PathHelperService,
     readonly currentProject:CurrentProjectService,
@@ -28,8 +29,9 @@ export abstract class GridPageComponent implements OnInit, OnDestroy {
     readonly addWidget:GridAddWidgetService,
     readonly renderer:Renderer2,
     readonly areas:GridAreaService,
-    readonly configurationService:ConfigurationService) {}
-    
+    readonly configurationService:ConfigurationService,
+  ) {}
+
   public grid:GridResource;
 
   protected isTurboFrameSidebarEnabled():boolean {
