@@ -31,6 +31,8 @@ require 'support/pages/page'
 module Pages
   module Projects
     class Index < ::Pages::Page
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+
       def path
         "/projects"
       end
@@ -128,6 +130,28 @@ module Pages
         else
           expect(page).to have_no_link('Open as Gantt view')
         end
+      end
+
+      def expect_columns(*column_names)
+        column_names.each do |column_name|
+          expect(page).to have_css('th', text: column_name.upcase)
+        end
+      end
+
+      def expect_no_columns(*column_names)
+        column_names.each do |column_name|
+          expect(page).to have_no_css('th', text: column_name.upcase)
+        end
+      end
+
+      def expect_no_save_as_notification
+        expect(page)
+          .to have_no_link('Save as')
+      end
+
+      def expect_save_as_notification
+        expect(page)
+          .to have_link('Save as')
       end
 
       def filter_by_active(value)
@@ -239,6 +263,35 @@ module Pages
         end
       end
 
+      def set_columns(*columns)
+        click_more_menu_item(I18n.t(:'queries.configure_view.heading'))
+
+        # Assumption: there is always one item selected, the 'Name' column
+        # That column can currently not be removed.
+        # Serves as a safeguard
+        page.find('.op-draggable-autocomplete--item', text: 'Name')
+
+        not_protected_columns = Regexp.new("^(?!#{(columns + ['Name']).join('$|')}$).*$")
+
+        while (item = page.all('.op-draggable-autocomplete--item', text: not_protected_columns)[0])
+          item.find('.op-draggable-autocomplete--remove-item').click
+        end
+
+        remaining_columns = page.all('.op-draggable-autocomplete--item').map { |i| i.text.downcase }
+
+        columns.each do |column|
+          next if remaining_columns.include?(column.downcase)
+
+          select_autocomplete find('.op-draggable-autocomplete--input'),
+                              results_selector: '.ng-dropdown-panel-items',
+                              query: column
+        end
+
+        within 'dialog' do
+          click_on 'Apply'
+        end
+      end
+
       def click_more_menu_item(item)
         page.find('[data-test-selector="project-more-dropdown-menu"]').click
 
@@ -267,7 +320,7 @@ module Pages
       end
 
       def save_query(name)
-        click_more_menu_item('Save')
+        click_more_menu_item('Save as')
 
         within '[data-test-selector="project-query-name"]' do
           fill_in 'Name', with: name
@@ -277,8 +330,10 @@ module Pages
       end
 
       def delete_query
-        accept_confirm do
-          click_more_menu_item('Delete')
+        click_more_menu_item('Delete')
+
+        within '[data-test-selector="op-project-list-delete-dialog"]' do
+          click_on 'Delete'
         end
       end
 
@@ -290,7 +345,7 @@ module Pages
         find('.op-pagination--options .op-pagination--item', text: size).click
       end
 
-      def got_to_page(page_number)
+      def go_to_page(page_number)
         within '.op-pagination--pages' do
           find('.op-pagination--item-link', text: page_number).click
         end
@@ -300,18 +355,18 @@ module Pages
         within '#project-table', &
       end
 
-      private
-
-      def boolean_filter?(filter)
-        %w[active member_of public templated].include?(filter.to_s)
-      end
-
       def within_row(project)
         row = page.find('#project-table tr', text: project.name)
 
         within row do
           yield row
         end
+      end
+
+      private
+
+      def boolean_filter?(filter)
+        %w[active member_of public templated].include?(filter.to_s)
       end
     end
   end

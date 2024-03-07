@@ -36,17 +36,13 @@ class UserMailer < ApplicationMailer
 
     open_project_headers 'Type' => 'Test'
 
-    send_mail(user,
-              'OpenProject Test')
+    send_localized_mail(user) { "#{Setting.app_title} Test" }
   end
 
   def backup_ready(user)
-    User.execute_as user do
-      @download_url = admin_backups_url
+    @download_url = admin_backups_url
 
-      send_mail(user,
-                I18n.t("mail_subject_backup_ready"))
-    end
+    send_localized_mail(user) { I18n.t(:mail_subject_backup_ready) }
   end
 
   def backup_token_reset(recipient, user:, waiting_period: OpenProject::Configuration.backup_initial_waiting_period)
@@ -54,10 +50,7 @@ class UserMailer < ApplicationMailer
     @user_login = user.login
     @waiting_period = waiting_period
 
-    User.execute_as recipient do
-      send_mail(recipient,
-                I18n.t("mail_subject_backup_token_reset"))
-    end
+    send_localized_mail(recipient) { I18n.t(:mail_subject_backup_token_reset) }
   end
 
   def password_lost(token)
@@ -70,8 +63,7 @@ class UserMailer < ApplicationMailer
 
     open_project_headers 'Type' => 'Account'
 
-    send_mail(token.user,
-              t(:mail_subject_lost_password, value: Setting.app_title))
+    send_localized_mail(token.user) { I18n.t(:mail_subject_lost_password, value: Setting.app_title) }
   end
 
   def password_change_not_possible(user)
@@ -84,7 +76,7 @@ class UserMailer < ApplicationMailer
       end
     open_project_headers 'Type' => 'Account'
 
-    send_mail(user, t('mail_password_change_not_possible.title'))
+    send_localized_mail(user) { I18n.t('mail_password_change_not_possible.title') }
   end
 
   def news_added(user, news)
@@ -96,10 +88,8 @@ class UserMailer < ApplicationMailer
     message_id @news, user
     references @news
 
-    subject = "#{News.model_name.human}: #{@news.title}"
-    subject = "[#{@news.project.name}] #{subject}" if @news.project
-
-    send_mail(user, subject)
+    project = @news.project ? "#{@news.project.name}] " : ''
+    send_localized_mail(user) { "#{project}#{News.model_name.human}: #{@news.title}" }
   end
 
   def user_signed_up(token)
@@ -113,8 +103,7 @@ class UserMailer < ApplicationMailer
 
     open_project_headers 'Type' => 'Account'
 
-    send_mail(token.user,
-              t(:mail_subject_register, value: Setting.app_title))
+    send_localized_mail(token.user) { I18n.t(:mail_subject_register, value: Setting.app_title) }
   end
 
   def news_comment_added(user, comment)
@@ -127,9 +116,11 @@ class UserMailer < ApplicationMailer
     references @news, @comment
 
     subject = "#{News.model_name.human}: #{@news.title}"
-    subject = "Re: [#{@news.project.name}] #{subject}" if @news.project
 
-    send_mail(user, subject)
+    project = @news.project ? "#{@news.project.name}] " : ''
+    send_localized_mail(user) do
+      "Re: #{project}#{subject}"
+    end
   end
 
   def wiki_page_added(user, wiki_page)
@@ -138,8 +129,9 @@ class UserMailer < ApplicationMailer
     open_project_wiki_headers @wiki_page
     message_id @wiki_page, user
 
-    send_mail(user,
-              "[#{@wiki_page.project.name}] #{t(:mail_subject_wiki_content_added, id: @wiki_page.title)}")
+    send_localized_mail(user) do
+      "[#{@wiki_page.project.name}] #{t(:mail_subject_wiki_content_added, id: @wiki_page.title)}"
+    end
   end
 
   def wiki_page_updated(user, wiki_page)
@@ -153,8 +145,9 @@ class UserMailer < ApplicationMailer
     open_project_wiki_headers @wiki_page
     message_id @wiki_page, user
 
-    send_mail(user,
-              "[#{@wiki_page.project.name}] #{t(:mail_subject_wiki_content_updated, id: @wiki_page.title)}")
+    send_localized_mail(user) do
+      "[#{@wiki_page.project.name}] #{t(:mail_subject_wiki_content_updated, id: @wiki_page.title)}"
+    end
   end
 
   def message_posted(user, message)
@@ -164,8 +157,9 @@ class UserMailer < ApplicationMailer
     message_id @message, user
     references *[@message.parent, @message].compact
 
-    send_mail(user,
-              "[#{@message.forum.project.name} - #{@message.forum.name} - msg#{@message.root.id}] #{@message.subject}")
+    send_localized_mail(user) do
+      "[#{@message.forum.project.name} - #{@message.forum.name} - msg#{@message.root.id}] #{@message.subject}"
+    end
   end
 
   def account_activated(user)
@@ -173,8 +167,7 @@ class UserMailer < ApplicationMailer
 
     open_project_headers 'Type' => 'Account'
 
-    send_mail(user,
-              t(:mail_subject_register, value: Setting.app_title))
+    send_localized_mail(user) { t(:mail_subject_register, value: Setting.app_title) }
   end
 
   def account_information(user, password)
@@ -183,8 +176,7 @@ class UserMailer < ApplicationMailer
 
     open_project_headers 'Type' => 'Account'
 
-    send_mail(user,
-              t(:mail_subject_register, value: Setting.app_title))
+    send_localized_mail(user) { t(:mail_subject_register, value: Setting.app_title) }
   end
 
   def account_activation_requested(admin, user)
@@ -196,8 +188,7 @@ class UserMailer < ApplicationMailer
 
     open_project_headers 'Type' => 'Account'
 
-    send_mail(admin,
-              t(:mail_subject_account_activation_request, value: Setting.app_title))
+    send_localized_mail(admin) { t(:mail_subject_account_activation_request, value: Setting.app_title) }
   end
 
   ##
@@ -208,7 +199,7 @@ class UserMailer < ApplicationMailer
   def activation_limit_reached(user_email, admin)
     @email = user_email
 
-    send_mail(admin, t("mail_user_activation_limit_reached.subject"))
+    send_localized_mail(admin) { t("mail_user_activation_limit_reached.subject") }
   end
 
   ##
@@ -229,7 +220,9 @@ class UserMailer < ApplicationMailer
     headers['References'] = ["<#{mail[:message_id]}>"]
     headers['In-Reply-To'] = ["<#{mail[:message_id]}>"]
 
-    send_mail user, mail[:subject].present? ? "Re: #{mail[:subject]}" : I18n.t("mail_subject_incoming_email_error")
+    send_localized_mail(user) do
+      mail[:subject].present? ? "Re: #{mail[:subject]}" : I18n.t("mail_subject_incoming_email_error")
+    end
   end
 
   private

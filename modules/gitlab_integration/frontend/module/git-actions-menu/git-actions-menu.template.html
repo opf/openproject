@@ -1,0 +1,22 @@
+<div class="git-actions-menu dropdown-relative dropdown -overflow-in-view dropdown-anchor-right">
+  <h3 class="title">{{text.title}}</h3>
+
+  <div class="copy-wrapper op-form-field" *ngFor="let snippet of snippets">
+    <label class="op-form-field--label-wrap">
+      <div class="op-form-field--label">{{ snippet.name }}</div>
+      <div class="op-form-field--input">
+        <input type="text" class="copy-content op-input" readonly="true" [value]="snippet.textToCopy()">
+        <button class="button copy-button"
+            type="button"
+            [attr.aria-label]="text.copyButtonHelpText"
+            (click)="onCopyButtonClick(snippet)">
+          <op-icon icon-classes="button--icon icon-copy"></op-icon>
+        </button>
+        <div class="copy-result-message" *ngIf="showCopyResult && snippet.id === copiedSnippetId" [textContent]="lastCopyResult"></div>
+      </div>
+    </label>
+  </div>
+
+</div>
+
+

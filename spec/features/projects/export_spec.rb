@@ -30,8 +30,8 @@ require 'spec_helper'
 require 'features/work_packages/work_packages_page'
 
 RSpec.describe 'project export', :js, :with_cuprite do
-  shared_let(:important_project) { create(:project, name: 'Important schedule plan') }
-  shared_let(:party_project) { create(:project, name: 'Christmas party') }
+  shared_let(:important_project) { create(:project, name: 'Important schedule plan', description: 'Important description') }
+  shared_let(:party_project) { create(:project, name: 'Christmas party', description: 'Christmas description') }
   shared_let(:user) do
     create(:user, member_with_permissions: {
              important_project => %i[view_project edit_project view_work_packages],
@@ -80,7 +80,7 @@ RSpec.describe 'project export', :js, :with_cuprite do
     let(:export_type) { 'CSV' }
 
     it 'exports the visible projects' do
-      expect(page).to have_css('td.name', text: important_project.name)
+      index_page.expect_projects_listed(important_project)
 
       export!
 
@@ -89,8 +89,7 @@ RSpec.describe 'project export', :js, :with_cuprite do
 
     context 'with a filter set to match only one project' do
       it 'exports with that filter' do
-        expect(page).to have_text(important_project.name)
-        expect(page).to have_text(party_project.name)
+        index_page.expect_projects_listed(important_project, party_project)
 
         index_page.open_filters
 
@@ -100,13 +99,18 @@ RSpec.describe 'project export', :js, :with_cuprite do
                               ['Important'])
 
         click_on 'Apply'
-        expect(page).to have_text(important_project.name)
-        expect(page).to have_no_text(party_project.name)
+
+        index_page.set_columns('Name', 'Description')
+
+        index_page.expect_projects_listed(important_project)
+        index_page.expect_projects_not_listed(party_project)
 
         export!
 
         expect(subject).to have_text(important_project.name)
+        expect(subject).to have_text(important_project.description)
         expect(subject).to have_no_text(party_project.name)
+        expect(subject).to have_no_text(party_project.description)
       end
     end
 
@@ -114,6 +118,7 @@ RSpec.describe 'project export', :js, :with_cuprite do
       let(:my_projects_list) do
         create(:project_query, name: 'My projects list', user:) do |query|
           query.where('name_and_identifier', '~', ['Important'])
+          query.select('name', 'description')
 
           query.save!
         end
@@ -128,13 +133,15 @@ RSpec.describe 'project export', :js, :with_cuprite do
 
         index_page.set_sidebar_filter(my_projects_list.name)
 
-        expect(page).to have_text(important_project.name)
-        expect(page).to have_no_text(party_project.name)
+        index_page.expect_projects_listed(important_project)
+        index_page.expect_projects_not_listed(party_project)
 
         export!
 
         expect(subject).to have_text(important_project.name)
+        expect(subject).to have_text(important_project.description)
         expect(subject).to have_no_text(party_project.name)
+        expect(subject).to have_no_text(party_project.description)
       end
     end
   end

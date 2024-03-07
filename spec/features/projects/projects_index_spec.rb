@@ -59,6 +59,7 @@ RSpec.describe 'Projects index page',
            name: 'Development project',
            identifier: 'development-project')
   end
+
   let(:news) { create(:news, project:) }
   let(:projects_page) { Pages::Projects::Index.new }
 
@@ -308,12 +309,12 @@ RSpec.describe 'Projects index page',
     end
   end
 
-  context 'when paginating' do
+  context 'when paginating', with_settings: { enabled_projects_columns: %w[name project_status] } do
     before do
       allow(Setting).to receive(:per_page_options_array).and_return([1, 5])
     end
 
-    it 'keeps applying filters and orders' do
+    it 'keeps applied filters, orders and columns' do
       load_and_open_filters admin
 
       projects_page.set_filter('name_and_identifier',
@@ -324,14 +325,19 @@ RSpec.describe 'Projects index page',
       click_on 'Apply'
       wait_for_reload
 
+      projects_page.set_columns('Name')
+      projects_page.expect_columns('Name')
+
       # Sorts ASC by name
       projects_page.sort_by('Name')
       wait_for_reload
 
-      # Results should be filtered and ordered ASC by name
+      # Results should be filtered and ordered ASC by name and only the selected columns should be present
       projects_page.expect_projects_listed(development_project)
       projects_page.expect_projects_not_listed(project,        # as it is filtered out
                                                public_project) # as it is on the second page
+      projects_page.expect_columns('Name')
+      projects_page.expect_no_columns('Status')
       expect(page).to have_text('Next') # as the result set is larger than 1
 
       # Changing the page size to 5 and back to 1 should not change the filters (which we test later on the second page)
@@ -341,10 +347,12 @@ RSpec.describe 'Projects index page',
       wait_for_reload
       click_on '2' # Go to pagination page 2
 
-      # On page 2 you should see the second page of the filtered set ordered ASC by name
+      # On page 2 you should see the second page of the filtered set ordered ASC by name and only the selected columns exist
       projects_page.expect_projects_listed(public_project)
       projects_page.expect_projects_not_listed(project,             # Filtered out
                                                development_project) # Present on page 1
+      projects_page.expect_columns('Name')
+      projects_page.expect_no_columns('Status')
       projects_page.expect_total_pages(2) # Filters kept active, so there is no third page.
 
       # Sorts DESC by name
@@ -361,6 +369,8 @@ RSpec.describe 'Projects index page',
 
       projects_page.expect_total_pages(2) # Filters kept active, so there is no third page.
       expect(page).to have_css('.sort.desc', text: 'NAME')
+      projects_page.expect_columns('Name')
+      projects_page.expect_no_columns('Status')
 
       # Sending the filter form again what implies to compose the request freshly
       click_on 'Apply'
@@ -373,6 +383,8 @@ RSpec.describe 'Projects index page',
                                                project)             # as it filtered out
       projects_page.expect_total_pages(2) # as the result set is larger than 1
       expect(page).to have_css('.sort.desc', text: 'NAME')
+      projects_page.expect_columns('Name')
+      projects_page.expect_no_columns('Status')
     end
   end
 
@@ -1047,13 +1059,82 @@ RSpec.describe 'Projects index page',
     end
   end
 
-  describe 'blacklisted filter' do
+  describe 'blocked filter' do
     it 'is not visible' do
       load_and_open_filters admin
 
       expect(page).to have_no_select('add_filter_select', with_options: ["Principal"])
       expect(page).to have_no_select('add_filter_select', with_options: ["ID"])
       expect(page).to have_no_select('add_filter_select', with_options: ["Subproject of"])
+    end
+  end
+
+  describe 'column selection',
+           with_ee: %i[custom_fields_in_projects_list], with_settings: { enabled_projects_columns: %w[name created_at] } do
+    # Will still receive the :view_project permission
+    shared_let(:user) do
+      create(:user, member_with_permissions: { project => [],
+                                               development_project => [] })
+    end
+
+    shared_let(:integer_custom_field) { create(:integer_project_custom_field) }
+
+    shared_let(:non_member) { create(:non_member) }
+
+    current_user { user }
+
+    before do
+      public_project.custom_field_values = { integer_custom_field.id => 1 }
+      public_project.save!
+      project.custom_field_values = { integer_custom_field.id => 2 }
+      project.save!
+      development_project.custom_field_values = { integer_custom_field.id => 3 }
+      development_project.save!
+
+      public_project.on_track!
+      project.off_track!
+      development_project.at_risk!
+    end
+
+    it 'allows to select columns to be displayed' do
+      projects_page.visit!
+
+      projects_page.set_columns('Name', 'Status', integer_custom_field.name)
+
+      projects_page.expect_no_columns('Public', 'Description', 'Project status description')
+
+      projects_page.within_row(project) do
+        expect(page)
+          .to have_css('.name', text: project.name)
+        expect(page)
+          .to have_css(".cf_#{integer_custom_field.id}", text: 2)
+        expect(page)
+          .to have_css('.project_status', text: 'OFF TRACK')
+        expect(page)
+          .to have_no_css('.created_at ')
+      end
+
+      projects_page.within_row(public_project) do
+        expect(page)
+          .to have_css('.name', text: public_project.name)
+        expect(page)
+          .to have_css(".cf_#{integer_custom_field.id}", text: 1)
+        expect(page)
+          .to have_css('.project_status', text: 'ON TRACK')
+        expect(page)
+          .to have_no_css('.created_at ')
+      end
+
+      projects_page.within_row(development_project) do
+        expect(page)
+          .to have_css('.name', text: development_project.name)
+        expect(page)
+          .to have_css(".cf_#{integer_custom_field.id}", text: 3)
+        expect(page)
+          .to have_css('.project_status', text: 'AT RISK')
+        expect(page)
+          .to have_no_css('.created_at ')
+      end
     end
   end
 

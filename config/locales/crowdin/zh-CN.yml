@@ -262,12 +262,15 @@ zh-CN:
       no_results_title_text: 目前没有项目。
       no_results_content_text: 创建一个新的项目
     lists:
-      active: '有效项目'
-      my: '我的项目'
-      archived: '归档项目'
-      my_private: '我的私有项目列表'
+      active: "有效项目"
+      my: "我的项目"
+      archived: "归档项目"
+      my_private: "我的私有项目列表"
       new:
-        placeholder: '新项目列表'
+        placeholder: "新项目列表"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: 更改标识符
       activities:
@@ -289,6 +292,8 @@ zh-CN:
         no_results_content_text: 创建一个新的版本
       storage:
         no_results_title_text: 此项目没有已记录的额外磁盘空间消耗。
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: 目前这个项目没有成员。
@@ -341,7 +346,7 @@ zh-CN:
     memberships:
       no_results_title_text: 该用户当前非项目成员。
   page:
-    text: '文本'
+    text: "文本"
   placeholder_users:
     right_to_manage_members_missing: >
       不允许删除占位符用户。您无权管理任何成员包含占位符用户的项目中的成员。
@@ -837,6 +842,10 @@ zh-CN:
               invalid: "时间戳包含无效值: %{values}"
               forbidden: "时间戳包含禁用值: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "与按照“%{group_by}”分组的组互相排斥。您无法将它们都激活。"
           filters:
             custom_fields:
@@ -1181,6 +1190,7 @@ zh-CN:
   button_reset: "重置"
   button_rollback: "回滚到此版本"
   button_save: "保存"
+  button_save_as: "Save as"
   button_apply_changes: "应用更改"
   button_save_back: "保存并返回"
   button_show: "显示"
@@ -1747,6 +1757,7 @@ zh-CN:
   label_diff_side_by_side: "并排"
   label_digital_accessibility: "数字可访问性 (DE)"
   label_disabled: "已禁用"
+  label_disabled_uppercase: "Disabled"
   label_display: "显示"
   label_display_per_page: "每页: %{value}"
   label_display_used_statuses_only: "仅显示该类型使用的状态"
@@ -1974,6 +1985,7 @@ zh-CN:
   label_precedes: "之前"
   label_preferences: "首选项"
   label_preview: "预览"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "上一个"
   label_previous_week: "前一周"
   label_principal_invite_via_email: " 或通过电子邮件邀请新用户"
@@ -2554,6 +2566,7 @@ zh-CN:
     name_or_identifier: "名称或标识符"
     only_subproject_id: "仅子项目"
     shared_with_user: "与用户共享"
+    shared_with_me: "Shared with me"
     subproject_id: "包括子项目"
   repositories:
     at_identifier: "在 %{identifier}"
@@ -2702,7 +2715,7 @@ zh-CN:
   setting_brute_force_block_minutes: "账户锁定时长"
   setting_cache_formatted_text: "缓存带格式的文本"
   setting_use_wysiwyg_description: "选择为默认情况下为所有用户启用CKEditor5 所见即所得编辑器。 CKEditor对GFM Markdown的功能有限。"
-  setting_column_options: "自定义工作包列表的外观"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "固定的关键字"
   setting_commit_logs_encoding: "提交消息编码"
   setting_commit_logtime_activity_id: "记录时间的活动"
@@ -2724,7 +2737,7 @@ zh-CN:
   setting_emails_header: "电子邮件页眉"
   setting_email_login: "使用电子邮件作为登录名"
   setting_enabled_scm: "启用 SCM"
-  setting_enabled_projects_columns: "在项目列表中可见"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "启用Feeds"
   setting_ical_enabled: "启用 iCalendar 订阅"
   setting_feeds_limit: "Feed 内容限制"
@@ -2735,7 +2748,6 @@ zh-CN:
   setting_work_package_done_ratio_field: "工作包字段"
   setting_work_package_done_ratio_status: "工作包状态"
   setting_work_package_done_ratio_disabled: "禁用 (隐藏 % 已完成字段)"
-  setting_work_package_list_default_columns: "默认显示"
   setting_work_package_properties: "工作包属性"
   setting_work_package_startdate_is_adddate: "使用当前日期作为新工作包的开始日期"
   setting_work_packages_projects_export_limit: "工作包/项目导出限制"
@@ -2801,12 +2813,12 @@ zh-CN:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2843,7 +2855,7 @@ zh-CN:
     projects:
       missing_dependencies: "已检查依赖于 %{dependencies} 的项目模块 %{module}。您也需要检查这些依赖项。"
       section_new_projects: "新项目的设置"
-      section_project_overview: "项目概览列表的设置"
+      section_project_overview: "Settings for project lists"
     session: "会话"
     user:
       default_preferences: "默认偏好设置"
@@ -3008,6 +3020,12 @@ zh-CN:
       如果启用，用户将无法在注册时选择登录名。将使用用户指定的电子邮件地址作为登录名。管理员仍然可以单独更改登录名。
   queries:
     apply_filter: 应用预配置筛选器
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "其他资源"
     getting_started: "入门指南"

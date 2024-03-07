@@ -32,10 +32,11 @@ class ProjectMailer < ApplicationMailer
                          Author: user.login
 
     message_id project, user
-    with_locale_for(user) do
-      @project = project
-      @dependent_projects = dependent_projects
-      mail to: user.mail, subject: I18n.t('projects.delete.completed', name: project.name)
+    @project = project
+    @dependent_projects = dependent_projects
+
+    send_localized_mail(user) do
+      I18n.t('projects.delete.completed', name: project.name)
     end
   end
 
@@ -44,10 +45,10 @@ class ProjectMailer < ApplicationMailer
                          Author: user.login
 
     message_id project, user
-    with_locale_for(user) do
-      @project = project
+    @project = project
 
-      mail to: user.mail, subject: I18n.t('projects.delete.failed', name: project.name)
+    send_localized_mail(user) do
+      I18n.t('projects.delete.failed', name: project.name)
     end
   end
 
@@ -61,10 +62,8 @@ class ProjectMailer < ApplicationMailer
 
     message_id source_project, user
 
-    with_locale_for(user) do
-      subject = I18n.t('copy_project.failed', source_project_name: source_project.name)
-
-      mail to: user.mail, subject:
+    send_localized_mail(user) do
+      I18n.t('copy_project.failed', source_project_name: source_project.name)
     end
   end
 
@@ -79,10 +78,8 @@ class ProjectMailer < ApplicationMailer
 
     message_id target_project, user
 
-    with_locale_for(user) do
-      subject = I18n.t('copy_project.succeeded', target_project_name: target_project.name)
-
-      mail to: user.mail, subject:
+    send_localized_mail(user) do
+      I18n.t('copy_project.succeeded', target_project_name: target_project.name)
     end
   end
 end
