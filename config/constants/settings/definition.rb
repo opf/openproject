@@ -147,7 +147,9 @@ module Settings
       },
       available_languages: {
         format: :array,
-        default: %w[en de fr es pt it zh-CN ko ru].freeze,
+        # Manually managed list with languages that have ~50+ translation ratio in Crowdin
+        # https://crowdin.com/project/openproject
+        default: %w[ca cs de el en es fr hu id it ja ko ko lt nl no pl pt-BR pt-PT ro ru sk sl sv tr uk zh-CN zh-TW].freeze,
         allowed: -> { Redmine::I18n.all_languages }
       },
       avatar_link_expiry_seconds: {
