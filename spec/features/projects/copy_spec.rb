@@ -58,14 +58,15 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
              roles: [role])
       project
     end
+    let!(:project_custom_field_section) { create(:project_custom_field_section, name: 'Section A') }
     let!(:project_custom_field) do
-      create(:text_project_custom_field, is_required: true)
+      create(:text_project_custom_field, is_required: true, project_custom_field_section:)
     end
     let!(:optional_project_custom_field) do
-      create(:text_project_custom_field, is_required: false)
+      create(:text_project_custom_field, is_required: false, project_custom_field_section:)
     end
     let!(:optional_project_custom_field_with_default) do
-      create(:text_project_custom_field, is_required: false, default_value: 'foo')
+      create(:text_project_custom_field, is_required: false, default_value: 'foo', project_custom_field_section:)
     end
     let!(:wp_custom_field) do
       create(:text_wp_custom_field)
@@ -242,10 +243,10 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
 
       context 'with project custom fields with default values, which are disabled in source project' do
         let!(:optional_boolean_project_custom_field_with_default) do
-          create(:boolean_project_custom_field, is_required: false, default_value: true)
+          create(:boolean_project_custom_field, is_required: false, default_value: true, project_custom_field_section:)
         end
         let!(:optional_string_project_custom_field_with_default) do
-          create(:string_project_custom_field, is_required: false, default_value: 'bar')
+          create(:string_project_custom_field, is_required: false, default_value: 'bar', project_custom_field_section:)
         end
 
         # TBD: Is this intended from a conceptial point of view?

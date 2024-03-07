@@ -32,6 +32,7 @@ RSpec.describe 'Projects', 'creation',
                :js,
                :with_cuprite do
   shared_let(:name_field) { FormFields::InputFormField.new :name }
+  shared_let(:project_custom_field_section) { create(:project_custom_field_section, name: 'Section A') }
 
   current_user { create(:admin) }
 
@@ -74,7 +75,9 @@ RSpec.describe 'Projects', 'creation',
   end
 
   context 'with a multi-select custom field' do
-    let!(:list_custom_field) { create(:list_project_custom_field, name: 'List CF', multi_value: true) }
+    let!(:list_custom_field) do
+      create(:list_project_custom_field, name: 'List CF', multi_value: true, project_custom_field_section:)
+    end
     let(:list_field) { FormFields::SelectFormField.new list_custom_field }
 
     it 'can create a project' do
@@ -110,17 +113,17 @@ RSpec.describe 'Projects', 'creation',
 
   context 'with optional and required custom fields' do
     let!(:optional_custom_field) do
-      create(:custom_field, name: 'Optional Foo',
-                            field_format: 'string',
-                            type: ProjectCustomField,
-                            is_for_all: true)
+      create(:project_custom_field, name: 'Optional Foo',
+                                    field_format: 'string',
+                                    is_for_all: true,
+                                    project_custom_field_section:)
     end
     let!(:required_custom_field) do
-      create(:custom_field, name: 'Required Foo',
-                            field_format: 'string',
-                            type: ProjectCustomField,
-                            is_for_all: true,
-                            is_required: true)
+      create(:project_custom_field, name: 'Required Foo',
+                                    field_format: 'string',
+                                    is_for_all: true,
+                                    is_required: true,
+                                    project_custom_field_section:)
     end
 
     it 'separates optional and required custom fields for new' do
@@ -151,10 +154,10 @@ RSpec.describe 'Projects', 'creation',
 
     context 'with correct custom field activation' do
       let!(:unused_custom_field) do
-        create(:custom_field, name: 'Unused Foo',
-                              field_format: 'string',
-                              type: ProjectCustomField,
-                              is_for_all: true)
+        create(:project_custom_field, name: 'Unused Foo',
+                                      field_format: 'string',
+                                      is_for_all: true,
+                                      project_custom_field_section:)
       end
 
       before do
@@ -183,11 +186,11 @@ RSpec.describe 'Projects', 'creation',
 
       context 'with correct handling of default values' do
         let!(:custom_field_with_default_value) do
-          create(:custom_field, name: 'Foo with default value',
-                                field_format: 'string',
-                                default_value: 'Default value',
-                                type: ProjectCustomField,
-                                is_for_all: true)
+          create(:project_custom_field, name: 'Foo with default value',
+                                        field_format: 'string',
+                                        default_value: 'Default value',
+                                        is_for_all: true,
+                                        project_custom_field_section:)
         end
 
         before do
@@ -251,18 +254,18 @@ RSpec.describe 'Projects', 'creation',
 
       context 'with correct handling of optional boolean values' do
         let!(:custom_boolean_field_default_true) do
-          create(:custom_field, name: 'Boolean with default true',
-                                field_format: 'bool',
-                                default_value: true,
-                                type: ProjectCustomField,
-                                is_for_all: true)
+          create(:project_custom_field, name: 'Boolean with default true',
+                                        field_format: 'bool',
+                                        default_value: true,
+                                        is_for_all: true,
+                                        project_custom_field_section:)
         end
 
         let!(:custom_boolean_field_with_no_default) do
-          create(:custom_field, name: 'Boolean with no default',
-                                field_format: 'bool',
-                                type: ProjectCustomField,
-                                is_for_all: true)
+          create(:project_custom_field, name: 'Boolean with no default',
+                                        field_format: 'bool',
+                                        is_for_all: true,
+                                        project_custom_field_section:)
         end
 
         before do
