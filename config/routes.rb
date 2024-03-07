@@ -524,6 +524,8 @@ Rails.application.routes.draw do
       end
     end
 
+    resource :progress, only: %i[edit update], controller: 'work_packages/progress'
+
     # states managed by client-side (angular) routing on work_package#show
     get "/" => "work_packages#index", on: :collection, as: "index"
     get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
