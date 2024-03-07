@@ -1,0 +1,7 @@
+<%= turbo_frame_tag "work_package_progress_modal" do %>
+  <%= flex_layout do |modal_body| %>
+    <%= modal_body.with_row do %>
+      <%= render Primer::Beta::Text.new { 'hello' } %>
+    <% end %>
+  <% end %>
+<% end %>

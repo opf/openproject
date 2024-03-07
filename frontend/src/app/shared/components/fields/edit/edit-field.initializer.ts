@@ -48,6 +48,9 @@ import { ProjectEditFieldComponent } from './field-types/project-edit-field.comp
 import { HoursDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/hours-duration-edit-field.component';
 import { UserEditFieldComponent } from './field-types/user-edit-field.component';
 import { DaysDurationEditFieldComponent } from 'core-app/shared/components/fields/edit/field-types/days-duration-edit-field.component';
+import {
+  ProgressPopoverEditFieldComponent
+} from 'core-app/shared/components/fields/edit/field-types/progress-popover-edit-field.component';
 
 export function initializeCoreEditFields(editFieldService:EditFieldService, selectAutocompleterRegisterService:SelectAutocompleterRegisterService) {
   return ():void => {
@@ -55,7 +58,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
     editFieldService
       .addFieldType(TextEditFieldComponent, 'text', ['String'])
       .addFieldType(IntegerEditFieldComponent, 'integer', ['Integer'])
-      .addFieldType(HoursDurationEditFieldComponent, 'estimatedTime', ['estimatedTime'])
+      .addFieldType(ProgressPopoverEditFieldComponent, 'remainingTime', ['estimatedTime'])
       .addFieldType(ProjectEditFieldComponent, 'project', ['Project'])
       .addFieldType(UserEditFieldComponent, 'user', ['User'])
       .addFieldType(SelectEditFieldComponent, 'select', [
@@ -80,17 +83,23 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
       .addFieldType(WorkPackageCommentFieldComponent, '_comment', ['comment']);
 
     editFieldService
-      .addSpecificFieldType('WorkPackage', CombinedDateEditFieldComponent,
+      .addSpecificFieldType(
+        'WorkPackage',
+        CombinedDateEditFieldComponent,
         'date',
-        ['combinedDate', 'startDate', 'dueDate', 'date'])
-      .addSpecificFieldType('WorkPackage', DaysDurationEditFieldComponent,
+        ['combinedDate', 'startDate', 'dueDate', 'date'],
+      )
+      .addSpecificFieldType(
+        'WorkPackage',
+        DaysDurationEditFieldComponent,
         'duration',
-        ['duration'])
+        ['duration'],
+      )
       .addSpecificFieldType('Project', ProjectStatusEditFieldComponent, 'status', ['status'])
       .addSpecificFieldType('TimeEntry', PlainFormattableEditFieldComponent, 'comment', ['comment'])
       .addSpecificFieldType('TimeEntry', TimeEntryWorkPackageEditFieldComponent, 'workPackage', ['WorkPackage'])
       .addSpecificFieldType('TimeEntry', HoursDurationEditFieldComponent, 'hours', ['hours'])
-      .addSpecificFieldType('WorkPackage', HoursDurationEditFieldComponent, 'remainingTime', ['remainingTime']);
+      .addSpecificFieldType('WorkPackage', ProgressPopoverEditFieldComponent, 'remainingTime', ['remainingTime'])
 
     selectAutocompleterRegisterService.register(VersionAutocompleterComponent, 'Version');
     selectAutocompleterRegisterService.register(WorkPackageAutocompleterComponent, 'WorkPackage');
