@@ -650,8 +650,4 @@ Rails.application.routes.draw do
   if OpenProject::Configuration.lookbook_enabled?
     mount Lookbook::Engine, at: "/lookbook"
   end
-
-  if Rails.env.development?
-    mount GoodJob::Engine => 'good_job'
-  end
 end

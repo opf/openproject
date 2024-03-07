@@ -37,7 +37,7 @@ RSpec.describe OpenProject::Events do
   end
 
   before do
-    allow(Storages::ManageNextcloudIntegrationJob).to receive(:debounce)
+    allow(Storages::ManageNextcloudIntegrationEventsJob).to receive(:debounce)
   end
 
   %w[
@@ -53,7 +53,7 @@ RSpec.describe OpenProject::Events do
 
         it do
           subject
-          expect(Storages::ManageNextcloudIntegrationJob).not_to have_received(:debounce)
+          expect(Storages::ManageNextcloudIntegrationEventsJob).not_to have_received(:debounce)
         end
       end
 
@@ -62,13 +62,16 @@ RSpec.describe OpenProject::Events do
 
         it do
           subject
-          expect(Storages::ManageNextcloudIntegrationJob).to have_received(:debounce)
+          expect(Storages::ManageNextcloudIntegrationEventsJob).to have_received(:debounce)
         end
 
         it do
-          allow(Storages::ManageNextcloudIntegrationJob).to receive(:disable_cron_job_if_needed)
+          # Check for message being called instead of checking the job arrival to the queue
+          # because it is not simple adding to the queue in ::Storages::ManageNextcloudIntegrationCronJob.ensure_scheduled!
+          # With this method cron_job can be actually removed if not needed.
+          allow(Storages::ManageNextcloudIntegrationCronJob).to receive(:ensure_scheduled!)
           subject
-          expect(Storages::ManageNextcloudIntegrationJob).to have_received(:disable_cron_job_if_needed)
+          expect(Storages::ManageNextcloudIntegrationCronJob).to have_received(:ensure_scheduled!)
         end
       end
     end
@@ -90,7 +93,7 @@ RSpec.describe OpenProject::Events do
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationJob).to have_received(:debounce)
+        expect(Storages::ManageNextcloudIntegrationEventsJob).to have_received(:debounce)
       end
     end
   end
@@ -103,7 +106,7 @@ RSpec.describe OpenProject::Events do
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationJob).not_to have_received(:debounce)
+        expect(Storages::ManageNextcloudIntegrationEventsJob).not_to have_received(:debounce)
       end
     end
 
@@ -112,7 +115,7 @@ RSpec.describe OpenProject::Events do
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationJob).to have_received(:debounce)
+        expect(Storages::ManageNextcloudIntegrationEventsJob).to have_received(:debounce)
       end
     end
   end
@@ -125,7 +128,7 @@ RSpec.describe OpenProject::Events do
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationJob).not_to have_received(:debounce)
+        expect(Storages::ManageNextcloudIntegrationEventsJob).not_to have_received(:debounce)
       end
     end
 
@@ -134,7 +137,7 @@ RSpec.describe OpenProject::Events do
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationJob).to have_received(:debounce)
+        expect(Storages::ManageNextcloudIntegrationEventsJob).to have_received(:debounce)
       end
     end
   end
@@ -147,7 +150,7 @@ RSpec.describe OpenProject::Events do
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationJob).not_to have_received(:debounce)
+        expect(Storages::ManageNextcloudIntegrationEventsJob).not_to have_received(:debounce)
       end
     end
 
@@ -156,7 +159,7 @@ RSpec.describe OpenProject::Events do
 
       it do
         subject
-        expect(Storages::ManageNextcloudIntegrationJob).to have_received(:debounce)
+        expect(Storages::ManageNextcloudIntegrationEventsJob).to have_received(:debounce)
       end
     end
   end

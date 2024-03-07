@@ -23,22 +23,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Notifications
-  class ScheduleReminderMailsJob < Cron::CronJob
-    # runs every quarter of an hour, so 00:00, 00:15...
-    self.cron_expression = '*/15 * * * *'
-
-    def perform
-      User.having_reminder_mail_to_send(run_at).pluck(:id).each do |user_id|
-        Mails::ReminderJob.perform_later(user_id)
-      end
-    end
-
-    def run_at
-      self.class.delayed_job.run_at
-    end
-  end
+##
+# Enhance the delayed_job prerequisites rake task to load the environment
+unless Rake::Task.task_defined?('jobs:environment_options') &&
+       Rake::Task['jobs:work'].prerequisites == %w(environment_options)
+  raise "Trying to load the full environment for delayed_job, but jobs:work seems to have changed."
 end
+
+Rake::Task['jobs:environment_options']
+  .clear_prerequisites
+  .enhance(['environment:full'])
+
+# Enhance delayed job workers to use cron
+load 'lib/tasks/cron.rake'
+Rake::Task["jobs:work"].enhance [:'openproject:cron:schedule']
+Rake::Task["jobs:workoff"].enhance [:'openproject:cron:schedule']

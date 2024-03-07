@@ -483,36 +483,6 @@ module Settings
         description: 'Forced page size for manually sorted work package views',
         default: 250
       },
-      good_job_queues: {
-        description: '',
-        format: :string,
-        writable: false,
-        default: '*'
-      },
-      good_job_max_threads: {
-        description: '',
-        format: :integer,
-        writable: false,
-        default: 20
-      },
-      good_job_max_cache: {
-        description: '',
-        format: :integer,
-        writable: false,
-        default: 10_000
-      },
-      good_job_enable_cron: {
-        description: '',
-        format: :boolean,
-        writable: false,
-        default: true
-      },
-      good_job_cleanup_preserved_jobs_before_seconds_ago: {
-        description: '',
-        format: :integer,
-        writable: false,
-        default: 7.days
-      },
       host_name: {
         default: "localhost:3000"
       },
@@ -521,6 +491,13 @@ module Settings
         description: 'Add an authentication challenge for the /health_check endpoint',
         format: :string,
         default: nil
+      },
+      # Maximum number of backed up jobs (that are not yet executed)
+      # before health check fails
+      health_checks_jobs_queue_count_threshold: {
+        description: 'Set threshold of backed up background jobs to fail health check',
+        format: :integer,
+        default: 50
       },
       ## Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
       health_checks_jobs_never_ran_minutes_ago: {

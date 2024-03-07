@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -23,22 +25,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Notifications
-  class ScheduleReminderMailsJob < Cron::CronJob
-    # runs every quarter of an hour, so 00:00, 00:15...
-    self.cron_expression = '*/15 * * * *'
+module Storages
+  class ManageNextcloudIntegrationCronJob < Cron::CronJob
+    include ManageNextcloudIntegrationJobMixin
 
-    def perform
-      User.having_reminder_mail_to_send(run_at).pluck(:id).each do |user_id|
-        Mails::ReminderJob.perform_later(user_id)
+    queue_with_priority :low
+
+    self.cron_expression = '1 * * * *'
+
+    def self.ensure_scheduled!
+      if ::Storages::ProjectStorage.active_automatically_managed.exists?
+        super
+      else
+        remove
       end
-    end
-
-    def run_at
-      self.class.delayed_job.run_at
     end
   end
 end

@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class RenameDelayedJobStatuses < ActiveRecord::Migration[7.1]
-  def change
-    rename_table :delayed_job_statuses, :job_statuses
+class ActiveSupport::TimeWithZone
+  def as_json(_options = {})
+    time.strftime('%m/%d/%Y/ %H:%M %p').to_s
   end
 end

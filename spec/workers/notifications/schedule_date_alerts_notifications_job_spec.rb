@@ -32,30 +32,42 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
   include ActiveSupport::Testing::TimeHelpers
 
   shared_let(:project) { create(:project, name: 'main') }
+
   # Paris and Berlin are both UTC+01:00 (CET) or UTC+02:00 (CEST)
   shared_let(:timezone_paris) { ActiveSupport::TimeZone['Europe/Paris'] }
   # Kathmandu is UTC+05:45 (no DST)
   shared_let(:timezone_kathmandu) { ActiveSupport::TimeZone['Asia/Kathmandu'] }
+
   shared_let(:user_paris) do
-    create(:user,
-           firstname: 'Paris',
-           preferences: { time_zone: timezone_paris.name })
+    create(
+      :user,
+      firstname: 'Paris',
+      preferences: { time_zone: timezone_paris.name }
+    )
   end
   shared_let(:user_kathmandu) do
-    create(:user,
-           firstname: 'Kathmandu',
-           preferences: { time_zone: timezone_kathmandu.name })
+    create(
+      :user,
+      firstname: 'Kathmandu',
+      preferences: { time_zone: timezone_kathmandu.name }
+    )
   end
 
-  let(:scheduled_job) { described_class.perform_later }
+  let(:schedule_job) do
+    described_class.ensure_scheduled!
+    described_class.delayed_job
+  end
 
   before do
-    ActiveJob::Base.disable_test_adapter
-    scheduled_job
+    # We need to access the job as stored in the database to get at the run_at time persisted there
+    allow(ActiveJob::Base)
+      .to receive(:queue_adapter)
+            .and_return(ActiveJob::QueueAdapters::DelayedJobAdapter.new)
+    schedule_job
   end
 
-  def set_scheduled_time(scheduled_at)
-    GoodJob::Job.where(id: scheduled_job.job_id).update_all(scheduled_at:)
+  def set_scheduled_time(run_at)
+    schedule_job.update_column(:run_at, run_at)
   end
 
   # Converts "hh:mm" into { hour: h, min: m }
@@ -70,25 +82,28 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
   def run_job(scheduled_at: '1:00', local_time: '1:04', timezone: timezone_paris)
     set_scheduled_time(timezone_time(scheduled_at, timezone))
     travel_to(timezone_time(local_time, timezone)) do
-      GoodJob.perform_inline
-      # scheduled_job.reload.invoke_job
+      schedule_job.reload.invoke_job
 
       yield if block_given?
     end
   end
 
-  def deserialize_job(job)
-    deserializer_class = Class.new { include(ActiveJob::Arguments) }
-    deserializer_class.new
-                      .deserialize(job.serialized_params)
-                      .to_h
+  def deserialized_of_job(job)
+    deserializer_class = Class.new do
+      include(ActiveJob::Arguments)
+    end
+
+    deserializer = deserializer_class.new
+
+    deserializer.deserialize(job.payload_object.job_data).to_h
   end
 
-  def expect_job(job, *arguments)
-    job_data = deserialize_job(job)
-    expect(job_data['job_class']).to eql(job.job_class)
-    expect(job_data['arguments']).to match_array arguments
-    expect(job_data['executions']).to eq 0
+  def expect_job(job, klass, *arguments)
+    job_data = deserialized_of_job(job)
+    expect(job_data['job_class'])
+      .to eql klass
+    expect(job_data['arguments'])
+      .to match_array arguments
   end
 
   shared_examples_for 'job execution creates date alerts creation job' do
@@ -100,12 +115,9 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
     it 'creates the job for the user' do
       expect do
         run_job(timezone:, scheduled_at:, local_time:) do
-          j = GoodJob::Job.where(job_class: "Notifications::CreateDateAlertsNotificationsJob")
-                          .order(created_at: :desc)
-                          .last
-          expect_job(j, user)
+          expect_job(Delayed::Job.last, "Notifications::CreateDateAlertsNotificationsJob", user)
         end
-      end.to change(GoodJob::Job, :count).by 1
+      end.to change(Delayed::Job, :count).by 1
     end
   end
 
@@ -117,7 +129,7 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
     it 'creates no job' do
       expect do
         run_job(timezone:, scheduled_at:, local_time:)
-      end.not_to change(GoodJob::Job, :count)
+      end.not_to change(Delayed::Job, :count)
     end
   end
 

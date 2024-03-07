@@ -28,11 +28,15 @@
 
 module Notifications
   # Creates date alert jobs for users whose local time is 1:00 am.
-  class ScheduleDateAlertsNotificationsJob < ApplicationJob
+  class ScheduleDateAlertsNotificationsJob < Cron::CronJob
+    # runs every quarter of an hour, so 00:00, 00:15,..., 15:30, 15:45, 16:00, ...
+    self.cron_expression = '*/15 * * * *'
+
     def perform
       return unless EnterpriseToken.allows_to?(:date_alerts)
 
-      Service.new(times_from_scheduled_to_execution).call
+      service = Service.new(times_from_scheduled_to_execution)
+      service.call
     end
 
     # Returns times from scheduled execution time to current time in 15 minutes
@@ -53,7 +57,7 @@ module Notifications
     end
 
     def scheduled_time
-      job_scheduled_at.then { |t| t.change(min: t.min / 15 * 15) }
+      self.class.delayed_job.run_at.then { |t| t.change(min: t.min / 15 * 15) }
     end
   end
 end

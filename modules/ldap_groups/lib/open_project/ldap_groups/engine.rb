@@ -19,14 +19,7 @@ module OpenProject::LdapGroups
            enterprise_feature: 'ldap_groups'
     end
 
-    add_cron_jobs do
-      {
-        'Ldap::SynchronizationJob': {
-          cron: '30 23 * * *', # Run once per night at 11:30pm
-          class: Ldap::SynchronizationJob.name
-        }
-      }
-    end
+    add_cron_jobs { LdapGroups::SynchronizationJob }
 
     patches %i[LdapAuthSource Group User]
   end
