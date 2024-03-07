@@ -42,7 +42,6 @@ en:
       colors:
         primary-button-color: "Primary button"
         content-link-color: "Link font"
-        primary-color: "Primary"
         header-bg-color: "Header background"
         header-item-bg-hover-color: "Header background on hover"
         header-item-font-color: "Header font"
@@ -63,7 +62,6 @@ en:
       instructions:
         primary-button-color: "Strong accent color, used for the most important button on a screen."
         content-link-color: "Font color of most of the links."
-        primary-color: "Main color."
         header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
         header-item-font-color: "Font color of clickable header items."
         header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
