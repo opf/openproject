@@ -106,13 +106,13 @@ module OpenProject::Storages
         OpenProject::Notifications.subscribe(
           ::OpenProject::Events::STORAGE_TURNED_UNHEALTHY
         ) do |payload|
-          Storages::Health::HealthService.new(storage: payload[:storage]).unhealthy(reason: payload[:reason])
+          Storages::HealthService.new(storage: payload[:storage]).unhealthy(reason: payload[:reason])
         end
 
         OpenProject::Notifications.subscribe(
           ::OpenProject::Events::STORAGE_TURNED_HEALTHY
         ) do |payload|
-          Storages::Health::HealthService.new(storage: payload[:storage]).healthy
+          Storages::HealthService.new(storage: payload[:storage]).healthy
         end
       end
     end

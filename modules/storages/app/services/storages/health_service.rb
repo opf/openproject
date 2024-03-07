@@ -27,50 +27,48 @@
 #++
 
 module Storages
-  module Health
-    class HealthService
-      def initialize(storage:)
-        @storage = storage
+  class HealthService
+    def initialize(storage:)
+      @storage = storage
+    end
+
+    def healthy
+      was_unhealthy = @storage.health_unhealthy?
+      reason = @storage.health_reason
+
+      @storage.mark_as_healthy
+
+      admin_users.each do |admin|
+        ::Storages::StoragesMailer.notify_healthy(admin, @storage, reason).deliver_later if was_unhealthy
       end
+    end
 
-      def healthy
-        was_unhealthy = @storage.health_unhealthy?
-        reason = @storage.health_reason
+    def unhealthy(reason:)
+      last_reason = @storage.health_reason
+      @storage.mark_as_unhealthy(reason:)
 
-        @storage.mark_as_healthy
-
+      if @storage.health_reason != last_reason
         admin_users.each do |admin|
-          ::Storages::StoragesMailer.notify_healthy(admin, @storage, reason).deliver_later if was_unhealthy
+          ::Storages::StoragesMailer.notify_unhealthy(admin, @storage).deliver_later
         end
       end
 
-      def unhealthy(reason:)
-        last_reason = @storage.health_reason
-        @storage.mark_as_unhealthy(reason:)
+      schedule_mail_job(@storage) unless mail_job_exists?
+    end
 
-        if @storage.health_reason != last_reason
-          admin_users.each do |admin|
-            ::Storages::StoragesMailer.notify_unhealthy(admin, @storage).deliver_later
-          end
-        end
+    private
 
-        schedule_mail_job(@storage) unless mail_job_exists?
-      end
+    def admin_users
+      User.where(admin: true)
+          .where.not(mail: [nil, ''])
+    end
 
-      private
+    def schedule_mail_job(storage)
+      ::Storages::HealthStatusMailerJob.schedule(admins: admin_users, storage:)
+    end
 
-      def admin_users
-        User.where(admin: true)
-            .where.not(mail: [nil, ''])
-      end
-
-      def schedule_mail_job(storage)
-        ::Storages::HealthStatusMailerJob.schedule(admins: admin_users, storage:)
-      end
-
-      def mail_job_exists?
-        Delayed::Job.where('handler LIKE ?', "%job_class: Storages::HealthStatusMailerJob%").any?
-      end
+    def mail_job_exists?
+      Delayed::Job.where('handler LIKE ?', "%job_class: Storages::HealthStatusMailerJob%").any?
     end
   end
 end
