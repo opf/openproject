@@ -1,0 +1,3 @@
+<%= turbo_stream.update "work_package_progress_modal" do %>
+  <%= render WorkPackages::Progress::ModalBodyComponent.new(@work_package) %>
+<% end %>

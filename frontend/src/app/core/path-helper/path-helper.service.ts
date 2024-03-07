@@ -264,6 +264,10 @@ export class PathHelperService {
     return `${this.workPackagePath(workPackageId)}/shares`;
   }
 
+  public workPackageProgressModalPath(workPackageId:string|number) {
+    return `${this.workPackagePath(workPackageId)}/progress/edit`;
+  }
+
   // Work Package Bulk paths
 
   public workPackagesBulkEditPath() {
