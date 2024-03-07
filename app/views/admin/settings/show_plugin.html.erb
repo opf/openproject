@@ -30,6 +30,6 @@ See COPYRIGHT and LICENSE files for more details.
 <div id="settings">
   <%= styled_form_tag({controller: '/admin/settings', action: 'update_plugin' }) do %>
     <%= render partial: @partial, locals: {settings: @settings}%>
-    <%= styled_submit_tag t(:button_apply), class: '-highlight' %>
+    <%= styled_submit_tag t(:button_apply), class: '-primary' %>
   <% end %>
 </div>

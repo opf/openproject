@@ -71,7 +71,7 @@ class AddButtonComponent < ApplicationComponent
   end
 
   def link_css_class
-    'button -alt-highlight'
+    'button -primary'
   end
 
   def icon

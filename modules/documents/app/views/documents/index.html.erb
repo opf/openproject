@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if authorize_for(:documents, :new) %>
     <li class="toolbar-item">
       <%= link_to({:controller => '/documents', :action => 'new', :project_id => @project},
-                  { class: 'button -alt-highlight',
+                  { class: 'button -primary',
                     aria: {label: t(:label_document_new)},
                     title: t(:label_document_new)}) do %>
         <%= op_icon('button--icon icon-add') %>
