@@ -156,7 +156,6 @@ RSpec.describe 'Projects', 'creation',
       let!(:unused_custom_field) do
         create(:project_custom_field, name: 'Unused Foo',
                                       field_format: 'string',
-                                      is_for_all: true,
                                       project_custom_field_section:)
       end
 
@@ -189,7 +188,6 @@ RSpec.describe 'Projects', 'creation',
           create(:project_custom_field, name: 'Foo with default value',
                                         field_format: 'string',
                                         default_value: 'Default value',
-                                        is_for_all: true,
                                         project_custom_field_section:)
         end
 
@@ -257,14 +255,19 @@ RSpec.describe 'Projects', 'creation',
           create(:project_custom_field, name: 'Boolean with default true',
                                         field_format: 'bool',
                                         default_value: true,
-                                        is_for_all: true,
+                                        project_custom_field_section:)
+        end
+
+        let!(:custom_boolean_field_default_false) do
+          create(:project_custom_field, name: 'Boolean with default false',
+                                        field_format: 'bool',
+                                        default_value: false,
                                         project_custom_field_section:)
         end
 
         let!(:custom_boolean_field_with_no_default) do
           create(:project_custom_field, name: 'Boolean with no default',
                                         field_format: 'bool',
-                                        is_for_all: true,
                                         project_custom_field_section:)
         end
 
@@ -284,12 +287,14 @@ RSpec.describe 'Projects', 'creation',
 
           project = Project.last
 
-          # custom_field_with_default_value should be activated and contain the overwritten value
           expect(project.project_custom_field_ids).to contain_exactly(
-            required_custom_field.id, custom_boolean_field_default_true.id
+            required_custom_field.id,
+            custom_boolean_field_default_true.id,
+            custom_boolean_field_default_false.id
           )
 
           expect(project.custom_value_for(custom_boolean_field_default_true).typed_value).to be_truthy
+          expect(project.custom_value_for(custom_boolean_field_default_false).typed_value).to be_falsy
         end
 
         it 'enables boolean custom fields without default values if set to true explicitly' do
@@ -301,12 +306,13 @@ RSpec.describe 'Projects', 'creation',
 
           project = Project.last
 
-          # custom_field_with_default_value should be activated and contain the overwritten value
           expect(project.project_custom_field_ids).to contain_exactly(
-            required_custom_field.id, custom_boolean_field_default_true.id, custom_boolean_field_with_no_default.id
+            required_custom_field.id,
+            custom_boolean_field_default_true.id,
+            custom_boolean_field_default_false.id,
+            custom_boolean_field_with_no_default.id
           )
 
-          expect(project.custom_value_for(custom_boolean_field_default_true).typed_value).to be_truthy
           expect(project.custom_value_for(custom_boolean_field_with_no_default).typed_value).to be_truthy
         end
 
@@ -319,12 +325,67 @@ RSpec.describe 'Projects', 'creation',
 
           project = Project.last
 
-          # custom_field_with_default_value should be activated and contain the overwritten value
           expect(project.project_custom_field_ids).to contain_exactly(
-            required_custom_field.id, custom_boolean_field_default_true.id
+            required_custom_field.id,
+            custom_boolean_field_default_true.id,
+            custom_boolean_field_default_false.id
           )
 
           expect(project.custom_value_for(custom_boolean_field_default_true).typed_value).to be_falsy
+        end
+      end
+    end
+
+    context 'with correct handling of invisible values' do
+      let!(:invisible_field) do
+        create(:string_project_custom_field, name: 'Text for Admins only',
+                                             visible: false,
+                                             project_custom_field_section:)
+      end
+
+      before do
+        visit new_project_path
+        fill_in 'Name', with: 'Foo bar'
+        fill_in 'Required Foo', with: 'Required value'
+
+        click_on 'Advanced settings'
+      end
+
+      context 'with an admin user' do
+        it 'shows invisible fields in the form and allows their activation' do
+          expect(page).to have_content 'Text for Admins only'
+
+          fill_in 'Text for Admins only', with: 'foo'
+
+          click_on 'Save'
+
+          expect(page).to have_current_path /\/projects\/foo-bar\/?/
+
+          project = Project.last
+
+          expect(project.project_custom_field_ids).to contain_exactly(
+            required_custom_field.id, invisible_field.id
+          )
+
+          expect(project.custom_value_for(invisible_field).typed_value).to eq('foo')
+        end
+      end
+
+      context 'with a non-admin user' do
+        current_user { create(:user, global_permissions: %i[add_project]) }
+
+        it 'does not show invisible fields in the form and thus not activates the invisible field' do
+          expect(page).to have_no_content 'Text for Admins only'
+
+          click_on 'Save'
+
+          expect(page).to have_current_path /\/projects\/foo-bar\/?/
+
+          project = Project.last
+
+          expect(project.project_custom_field_ids).to contain_exactly(
+            required_custom_field.id
+          )
         end
       end
     end
