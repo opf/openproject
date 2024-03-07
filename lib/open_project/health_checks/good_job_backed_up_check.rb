@@ -23,33 +23,26 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See COPYRIGHT and LICENSE files for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
+module OpenProject
+  module HealthChecks
+    class GoodJobBackedUpCheck < OkComputer::Check
+      def initialize(threshold = OpenProject::Configuration.health_checks_jobs_never_ran_minutes_ago)
+        @threshold = threshold.to_i
+        super()
+      end
 
-# Disable delayed_job's own logging as we have activejob
-Delayed::Worker.logger = nil
+      def check
+        count = GoodJob::Job.queued.where('scheduled_at < ?', @threshold.minutes.ago).count
 
-# By default bypass worker queue and execute asynchronous tasks at once
-Delayed::Worker.delay_jobs = true
-
-# Prevent loading ApplicationJob during initialization
-Rails.application.reloader.to_prepare do
-  # Set default priority (lower = higher priority)
-  # Example ordering, see ApplicationJob.priority_number
-  Delayed::Worker.default_priority = ApplicationJob.priority_number(:default)
-end
-
-# Do not retry jobs from delayed_job
-# instead use 'retry_on' activejob functionality
-Delayed::Worker.max_attempts = 1
-
-# Remember DJ id in the payload object
-class Delayed::ProviderJobIdPlugin < Delayed::Plugin
-  callbacks do |lifecycle|
-    lifecycle.before(:invoke_job) do |job|
-      job.payload_object.job_data['provider_job_id'] = job.id if job.payload_object.respond_to?(:job_data)
+        if count > 0
+          mark_message "#{count} jobs are waiting to be picked up for more than #{@threshold} minutes."
+          mark_failure
+        else
+          mark_message "No jobs are waiting to be picked up."
+        end
+      end
     end
   end
 end
-
-Delayed::Worker.plugins << Delayed::ProviderJobIdPlugin

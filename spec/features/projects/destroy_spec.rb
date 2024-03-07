@@ -35,26 +35,17 @@ RSpec.describe 'Projects#destroy', :js, :with_cuprite do
 
   current_user { create(:admin) }
 
-  before do
-    # Disable background worker
-    allow(Delayed::Worker)
-      .to receive(:delay_jobs)
-      .and_return(false)
-
-    project_page.visit!
-  end
+  before { project_page.visit! }
 
   it 'destroys the project' do
     # Confirm the deletion
     # Without confirmation, the button is disabled
-    expect(danger_zone)
-      .to be_disabled
+    expect(danger_zone).to be_disabled
 
     # With wrong confirmation, the button is disabled
     danger_zone.confirm_with("#{project.identifier}_wrong")
 
-    expect(danger_zone)
-      .to be_disabled
+    expect(danger_zone).to be_disabled
 
     # With correct confirmation, the button is enabled
     # and the project can be deleted
@@ -63,6 +54,7 @@ RSpec.describe 'Projects#destroy', :js, :with_cuprite do
     danger_zone.danger_button.click
 
     expect(page).to have_css '.op-toast.-success', text: I18n.t('projects.delete.scheduled')
+    expect(project.reload).to eq(project)
 
     perform_enqueued_jobs
 

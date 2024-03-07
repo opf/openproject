@@ -28,7 +28,6 @@
 
 class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
   queue_with_priority :above_normal
-  include ::ScheduledJob
 
   def perform(user_id:, previous_working_days:, previous_non_working_days:)
     user = User.find(user_id)

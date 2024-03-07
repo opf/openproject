@@ -23,26 +23,23 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See COPYRIGHT and LICENSE files for more details.
+# See docs/COPYRIGHT.rdoc for more details.
 #++
-
-# This patch adds our job status extension to background jobs carried out when mailing with
-# perform_later.
-
 module OpenProject
-  module Patches
-    module DelayedJobAdapter
-      module AllowNonExistingJobClass
-        def log_arguments?
-          super
-        rescue NameError
-          false
+  module HealthChecks
+    class SmtpCheck < OkComputer::ActionMailerCheck
+      def check
+        unless Setting.email_delivery_method == :smtp
+          mark_message "Mail delivery method is not SMTP"
+          return
         end
+
+        # settings might change between calls
+        @host = Setting.smtp_address
+        @port = Setting.smtp_port
+
+        super
       end
     end
   end
 end
-
-ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper.prepend(
-  OpenProject::Patches::DelayedJobAdapter::AllowNonExistingJobClass
-)
