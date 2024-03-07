@@ -170,14 +170,6 @@ See COPYRIGHT and LICENSE files for more details.
               %>
             </div>
           </div>
-          <% if WorkPackage.use_field_for_done_ratio? %>
-            <div class="form--field">
-              <%= styled_label_tag :work_package_done_ratio, WorkPackage.human_attribute_name(:done_ratio) %>
-              <div class="form--field-container">
-                <%= styled_select_tag 'work_package[done_ratio]', options_for_select([[t(:label_no_change_option), '']] + (0..10).to_a.collect {|r| ["#{r*10} %", r*10] }) %>
-              </div>
-            </div>
-          <% end %>
         </div>
       </div>
     </fieldset>
