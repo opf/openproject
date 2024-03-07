@@ -28,22 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CreateGoodJobLabelsIndex < ActiveRecord::Migration[7.1]
-  disable_ddl_transaction!
+module Storages
+  class ManageNextcloudIntegrationCronJob < Cron::CronJob
+    include ManageNextcloudIntegrationJobMixin
 
-  def change
-    reversible do |dir|
-      dir.up do
-        unless connection.index_name_exists?(:good_jobs, :index_good_jobs_on_labels)
-          add_index :good_jobs, :labels, using: :gin, where: "(labels IS NOT NULL)",
-            name: :index_good_jobs_on_labels, algorithm: :concurrently
-        end
-      end
+    queue_with_priority :low
 
-      dir.down do
-        if connection.index_name_exists?(:good_jobs, :index_good_jobs_on_labels)
-          remove_index :good_jobs, name: :index_good_jobs_on_labels
-        end
+    self.cron_expression = '1 * * * *'
+
+    def self.ensure_scheduled!
+      if ::Storages::ProjectStorage.active_automatically_managed.exists?
+        super
+      else
+        remove
       end
     end
   end

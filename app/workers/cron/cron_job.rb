@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,21 +26,50 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class RemoveGoodJobActiveIdIndex < ActiveRecord::Migration[7.1]
-  disable_ddl_transaction!
+module Cron
+  class CronJob < ApplicationJob
+    class_attribute :cron_expression
 
-  def change
-    reversible do |dir|
-      dir.up do
-        if connection.index_name_exists?(:good_jobs, :index_good_jobs_on_active_job_id)
-          remove_index :good_jobs, name: :index_good_jobs_on_active_job_id
+    # List of registered jobs, requires eager load in dev(!)
+    class_attribute :registered_jobs, default: []
+
+    include ScheduledJob
+
+    class << self
+      ##
+      # Register new job class(es)
+      def register!(*job_classes)
+        Array(job_classes).each do |clz|
+          raise ArgumentError, "Needs to be subclass of ::Cron::CronJob" unless clz.ancestors.include?(self)
+
+          registered_jobs << clz
         end
       end
 
-      dir.down do
-        unless connection.index_name_exists?(:good_jobs, :index_good_jobs_on_active_job_id)
-          add_index :good_jobs, :active_job_id, name: :index_good_jobs_on_active_job_id
+      def schedule_registered_jobs!
+        registered_jobs.each do |job_class|
+          job_class.ensure_scheduled!
         end
+      end
+
+      ##
+      # Ensure the job is scheduled unless it is already
+      def ensure_scheduled!
+        # Ensure scheduled only once
+        return if scheduled?
+
+        Rails.logger.info { "Scheduling #{name} recurrent background job." }
+        set(cron: cron_expression).perform_later
+      end
+
+      ##
+      # Remove the scheduled job, if any
+      def remove
+        delayed_job&.destroy
+      end
+
+      def delayed_job
+        delayed_job_query.first
       end
     end
   end

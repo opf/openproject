@@ -23,21 +23,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
-module OpenProject
-  module HealthChecks
-    class GoodJobCheck < OkComputer::Check
-      def check
-        count = GoodJob::Process.active.count
 
-        if count.zero?
-          mark_failure
-          mark_message "No good_job processes are active."
-        else
-          mark_message "#{count} good_job processes are active."
-        end
-      end
-    end
-  end
+##
+# Enhance the delayed_job prerequisites rake task to load the environment
+unless Rake::Task.task_defined?('jobs:environment_options') &&
+       Rake::Task['jobs:work'].prerequisites == %w(environment_options)
+  raise "Trying to load the full environment for delayed_job, but jobs:work seems to have changed."
 end
+
+Rake::Task['jobs:environment_options']
+  .clear_prerequisites
+  .enhance(['environment:full'])
+
+# Enhance delayed job workers to use cron
+load 'lib/tasks/cron.rake'
+Rake::Task["jobs:work"].enhance [:'openproject:cron:schedule']
+Rake::Task["jobs:workoff"].enhance [:'openproject:cron:schedule']

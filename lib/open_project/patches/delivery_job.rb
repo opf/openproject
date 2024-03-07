@@ -23,26 +23,18 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
+
+# This patch adds our job status extension to background jobs carried out when mailing with
+# perform_later.
+
 module OpenProject
-  module HealthChecks
-    class GoodJobBackedUpCheck < OkComputer::Check
-      def initialize(threshold = OpenProject::Configuration.health_checks_jobs_never_ran_minutes_ago)
-        @threshold = threshold.to_i
-        super()
-      end
-
-      def check
-        count = GoodJob::Job.queued.where('scheduled_at < ?', @threshold.minutes.ago).count
-
-        if count > 0
-          mark_message "#{count} jobs are waiting to be picked up for more than #{@threshold} minutes."
-          mark_failure
-        else
-          mark_message "No jobs are waiting to be picked up."
-        end
-      end
+  module Patches
+    module DeliveryJob
+      # include ::JobStatus::ApplicationJobWithStatus
     end
   end
 end
+
+ActionMailer::MailDeliveryJob.include JobStatus::ApplicationJobWithStatus

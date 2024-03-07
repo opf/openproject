@@ -23,23 +23,33 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
-module OpenProject
-  module HealthChecks
-    class SmtpCheck < OkComputer::ActionMailerCheck
-      def check
-        unless Setting.email_delivery_method == :smtp
-          mark_message "Mail delivery method is not SMTP"
-          return
-        end
 
-        # settings might change between calls
-        @host = Setting.smtp_address
-        @port = Setting.smtp_port
+# Disable delayed_job's own logging as we have activejob
+Delayed::Worker.logger = nil
 
-        super
-      end
+# By default bypass worker queue and execute asynchronous tasks at once
+Delayed::Worker.delay_jobs = true
+
+# Prevent loading ApplicationJob during initialization
+Rails.application.reloader.to_prepare do
+  # Set default priority (lower = higher priority)
+  # Example ordering, see ApplicationJob.priority_number
+  Delayed::Worker.default_priority = ApplicationJob.priority_number(:default)
+end
+
+# Do not retry jobs from delayed_job
+# instead use 'retry_on' activejob functionality
+Delayed::Worker.max_attempts = 1
+
+# Remember DJ id in the payload object
+class Delayed::ProviderJobIdPlugin < Delayed::Plugin
+  callbacks do |lifecycle|
+    lifecycle.before(:invoke_job) do |job|
+      job.payload_object.job_data['provider_job_id'] = job.id if job.payload_object.respond_to?(:job_data)
     end
   end
 end
+
+Delayed::Worker.plugins << Delayed::ProviderJobIdPlugin

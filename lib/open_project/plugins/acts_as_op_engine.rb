@@ -293,9 +293,13 @@ module OpenProject::Plugins
         OpenProject::Activity.register(event_type, options)
       end
 
-      def add_cron_jobs(&block)
+      ##
+      # Register a "cron"-like background job
+      def add_cron_jobs
         config.to_prepare do
-          Rails.application.config.good_job.cron.merge!(block.call)
+          Array(yield).each do |clz|
+            ::Cron::CronJob.register!(clz.is_a?(Class) ? clz : clz.to_s.constantize)
+          end
         end
       end
 

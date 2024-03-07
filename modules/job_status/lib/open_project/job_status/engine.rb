@@ -46,16 +46,10 @@ module OpenProject::JobStatus
       "#{root}/job_statuses/#{uuid}"
     end
 
-    add_cron_jobs do
-      {
-        'JobStatus::Cron::ClearOldJobStatusJob': {
-          cron: '15 4 * * *', # runs at 4:15 nightly
-          class: ::JobStatus::Cron::ClearOldJobStatusJob.name
-        }
-      }
-    end
-
     config.to_prepare do
+      # Register the cron job to clear statuses periodically
+      ::Cron::CronJob.register! ::JobStatus::Cron::ClearOldJobStatusJob
+
       # Extends the ActiveJob adapter in use (DelayedJob) by a Status which lives
       # indenpendently from the job itself (which is deleted once successful or after max attempts).
       # That way, the result of a background job is available even after the original job is gone.

@@ -85,13 +85,9 @@ module OpenProject::GithubIntegration
       mount ::API::V3::GithubPullRequests::GithubPullRequestsAPI
     end
 
-    add_cron_jobs do
-      {
-        'Cron::ClearOldPullRequestsJob': {
-          cron: '25 1 * * *', # runs at 1:25 nightly
-          class: ::Cron::ClearOldPullRequestsJob.name
-        }
-      }
+    config.to_prepare do
+      # Register the cron job to clean up old github pull requests
+      ::Cron::CronJob.register! ::Cron::ClearOldPullRequestsJob
     end
   end
 end

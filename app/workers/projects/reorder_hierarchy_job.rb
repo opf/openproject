@@ -23,22 +23,51 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Notifications
-  class ScheduleReminderMailsJob < Cron::CronJob
-    # runs every quarter of an hour, so 00:00, 00:15...
-    self.cron_expression = '*/15 * * * *'
-
+module Projects
+  class ReorderHierarchyJob < ApplicationJob
     def perform
-      User.having_reminder_mail_to_send(run_at).pluck(:id).each do |user_id|
-        Mails::ReminderJob.perform_later(user_id)
-      end
+      Rails.logger.info { "Resorting siblings by name in the project's nested set." }
+      Project.transaction { reorder! }
     end
 
-    def run_at
-      self.class.delayed_job.run_at
+    private
+
+    def reorder!
+      # Reorder the project roots
+      reorder_siblings Project.roots
+
+      # Reorder every project hierarchy
+      Project
+        .where(id: unique_parent_ids)
+        .find_each { |project| reorder_siblings(project.children) }
+    end
+
+    def unique_parent_ids
+      Project
+        .where.not(parent_id: nil)
+        .select(:parent_id)
+        .distinct
+    end
+
+    def reorder_siblings(siblings)
+      return unless siblings.many?
+
+      # Resort children manually
+      sorted = siblings.sort_by { |project| project.name.downcase }
+
+      # Get the current first child
+      first = siblings.first
+
+      sorted.each_with_index do |child, i|
+        if i == 0
+          child.move_to_left_of(first) unless child == first
+        else
+          child.move_to_right_of(sorted[i - 1])
+        end
+      end
     end
   end
 end

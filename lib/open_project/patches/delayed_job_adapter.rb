@@ -26,8 +26,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class RenameDelayedJobStatuses < ActiveRecord::Migration[7.1]
-  def change
-    rename_table :delayed_job_statuses, :job_statuses
+# This patch adds our job status extension to background jobs carried out when mailing with
+# perform_later.
+
+module OpenProject
+  module Patches
+    module DelayedJobAdapter
+      module AllowNonExistingJobClass
+        def log_arguments?
+          super
+        rescue NameError
+          false
+        end
+      end
+    end
   end
 end
+
+ActiveJob::QueueAdapters::DelayedJobAdapter::JobWrapper.prepend(
+  OpenProject::Patches::DelayedJobAdapter::AllowNonExistingJobClass
+)

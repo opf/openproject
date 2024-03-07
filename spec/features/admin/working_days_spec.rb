@@ -163,8 +163,11 @@ RSpec.describe 'Working Days', :js, :with_cuprite do
 
     it 'shows an error when a previous change to the working days configuration isn\'t processed yet' do
       # Have a job already scheduled
-      ActiveJob::Base.disable_test_adapter
-      WorkPackages::ApplyWorkingDaysChangeJob.perform_later(user_id: 5)
+      # Attempting to set the job via simply using the UI would require to change the test setup of how
+      # delayed jobs are handled.
+      ActiveJob::QueueAdapters::DelayedJobAdapter
+        .new
+        .enqueue(WorkPackages::ApplyWorkingDaysChangeJob.new(user_id: 5))
 
       uncheck 'Tuesday'
       click_on 'Apply changes'
