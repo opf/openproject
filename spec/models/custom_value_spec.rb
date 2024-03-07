@@ -126,7 +126,7 @@ RSpec.describe CustomValue do
     end
 
     context 'for a boolean custom field without default value' do
-      shared_let(:custom_field) { create(:project_custom_field, :boolean) }
+      shared_let(:custom_field) { create(:project_custom_field, :boolean, projects: [project]) }
 
       include_examples 'returns true for generated custom value'
       include_examples 'returns false for custom value with value', value: false
