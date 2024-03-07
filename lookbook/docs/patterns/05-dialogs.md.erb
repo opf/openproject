@@ -2,6 +2,18 @@ As of now, this page is still a stub. In particular, the considerations on when 
 
 For now, it can be stated that OpenProject employs Dialogs for more purposes than GitHub Primer specifies.
 
+## Confirmation dialogs
+
+Whenever a user is about to perform an action that has a significant impact, a confirmation dialog is shown.
+
+This can come in the form of a positive confirmation where a user is asked to e.g. confirm the creation of a new model.
+
+<%= embed OpenProject::Common::DialogPreview, :confirmation %>
+
+Or it can be to ascertain the user actually wants to destroy a model.
+
+<%= embed OpenProject::Common::DialogPreview, :confirm_deletion %>
+
 ## Form dialogs
 
 Within the OpenProject application, forms are oftentimes rendered within a dialog. It is used e.g. for

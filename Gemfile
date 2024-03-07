@@ -124,8 +124,7 @@ gem 'multi_json', '~> 1.15.0'
 gem 'oj', '~> 3.16.0'
 
 gem 'daemons'
-gem 'delayed_cron_job', '~> 0.9.0'
-gem 'delayed_job_active_record', '~> 4.1.5'
+gem 'good_job', '~> 3.26.1' # update should be done manually in sync with saas-openproject version.
 
 gem 'rack-protection', '~> 3.2.0'
 

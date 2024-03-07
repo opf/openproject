@@ -262,12 +262,15 @@ ca:
       no_results_title_text: Actualment no hi ha projectes
       no_results_content_text: Crear un nou projecte
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: "Active projects"
+      my: "My projects"
+      archived: "Archived projects"
+      my_private: "My private project lists"
       new:
-        placeholder: 'New project list'
+        placeholder: "New project list"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Canvia l'identificador
       activities:
@@ -289,6 +292,8 @@ ca:
         no_results_content_text: Crear una nova versió
       storage:
         no_results_title_text: No hi ha espai addicional de disc gravat consumit per aquest projecte.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: Actualment no hi ha cap membre que formi part d'aquest projecte.
@@ -341,7 +346,7 @@ ca:
     memberships:
       no_results_title_text: Aquest usuari no és actualment membre de cap projecte.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       No pots eliminar un usuari de marcador de posició. No tens permís per administrar membres per tots els projectes dels quals l'usuari de marcador de posició és membre.
@@ -838,6 +843,10 @@ ca:
               invalid: "La marca horària conté valors invàlids: %{values}"
               forbidden: "La marca horària conté valors prohibits: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "és mútuament exclusiu amb el grup per \"%{group_by}\". No pots activar els dos."
           filters:
             custom_fields:
@@ -1190,6 +1199,7 @@ ca:
   button_reset: "Restablir"
   button_rollback: "Tornar a aquesta versió"
   button_save: "Desa"
+  button_save_as: "Save as"
   button_apply_changes: "Aplicar canvis"
   button_save_back: "Desar i tornar"
   button_show: "Mostra"
@@ -1774,6 +1784,7 @@ ca:
   label_diff_side_by_side: "costat per costat"
   label_digital_accessibility: "Accessibilitat digital (DE)"
   label_disabled: "desactivada"
+  label_disabled_uppercase: "Disabled"
   label_display: "Mostrar"
   label_display_per_page: "Per pàgina: %{value}"
   label_display_used_statuses_only: "Mostra només els estats que utilitza aquest tipus"
@@ -2001,6 +2012,7 @@ ca:
   label_precedes: "precedeix"
   label_preferences: "Preferències"
   label_preview: "Previsualitzar"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Anterior"
   label_previous_week: "Setmana anterior"
   label_principal_invite_via_email: " o convidar a nous usuaris per correu electrònic"
@@ -2582,6 +2594,7 @@ ca:
     name_or_identifier: "Nom o identificador"
     only_subproject_id: "Només subprojecte"
     shared_with_user: "Shared with user"
+    shared_with_me: "Shared with me"
     subproject_id: "Incloent subprojectes"
   repositories:
     at_identifier: "a %{identifier}"
@@ -2730,7 +2743,7 @@ ca:
   setting_brute_force_block_minutes: "Temps de bloqueig de l'usuari"
   setting_cache_formatted_text: "Text amb format de la caché"
   setting_use_wysiwyg_description: "Selecciona per activar l'editor CKEditor5 WYSIWYG per a tots els usuaris per defecte. CKEditor té funcionalitats limitades per a GFM Markdown."
-  setting_column_options: "Personalitzar l'aparença de les llistes de paquets de treball"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Paraules claus per a la correcció"
   setting_commit_logs_encoding: "Codificació dels missatges dels commits"
   setting_commit_logtime_activity_id: "Activitat dels temps registrats"
@@ -2752,7 +2765,7 @@ ca:
   setting_emails_header: "Encapçalament dels correus"
   setting_email_login: "Utilitza correu electrònic per l'inici de sessió"
   setting_enabled_scm: "Activar SCM"
-  setting_enabled_projects_columns: "Visible en la llista de projectes"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Habilita els canals"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Límit de contingut del canals"
@@ -2763,7 +2776,6 @@ ca:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Mostrar per defecte"
   setting_work_package_properties: "Propietats de paquet de treball"
   setting_work_package_startdate_is_adddate: "Utilitzar la data actual com a data d'inici dels paquets de treball nous"
   setting_work_packages_projects_export_limit: "Límit d'exportació de paquets de treball/projectes"
@@ -2829,12 +2841,12 @@ ca:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2871,7 +2883,7 @@ ca:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Configuració per a projectes nous"
-      section_project_overview: "Configuracions per a la llista de visió general del projecte"
+      section_project_overview: "Settings for project lists"
     session: "Sessió"
     user:
       default_preferences: "Preferències per defecte"
@@ -3036,6 +3048,12 @@ ca:
       Si s'activa els usuaris serà incapaços de triar inici de sessió durant el registre. En comptes, el seu correu electrònic servirà per a l'inici de sessió. Els administradors encara podran canviar l'inici de sessió per separat.
   queries:
     apply_filter: Aplicar filtre preconfigurat
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Recursos addicionals"
     getting_started: "Primers passos"
