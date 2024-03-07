@@ -265,12 +265,15 @@
       no_results_title_text: Det er for tiden ingen prosjekter
       no_results_content_text: Opprett nytt prosjekt
     lists:
-      active: 'Aktive prosjekter'
-      my: 'Mine prosjekter'
-      archived: 'Arkiverte prosjekter'
-      my_private: 'Mine private prosjektlister'
+      active: "Aktive prosjekter"
+      my: "Mine prosjekter"
+      archived: "Arkiverte prosjekter"
+      my_private: "Mine private prosjektlister"
       new:
-        placeholder: 'Ny prosjektliste'
+        placeholder: "Ny prosjektliste"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Endre identifier
       activities:
@@ -292,6 +295,8 @@
         no_results_content_text: Lag en ny versjon
       storage:
         no_results_title_text: Det er ingen ekstra registrert diskplass brukt av dette prosjektet.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: Det er ingen medlemmer i prosjektet.
@@ -344,7 +349,7 @@
     memberships:
       no_results_title_text: Denne brukeren er for øyeblikket ikke medlem av et prosjekt.
   page:
-    text: 'Tekst'
+    text: "Tekst"
   placeholder_users:
     right_to_manage_members_missing: >
       Du har ikke tilgang til å slette plassholderbrukeren. Du har ikke rettigheter til å administrere medlemmer i alle prosjekter som plassholderen er medlem av.
@@ -1198,6 +1203,7 @@
   button_reset: "Nullstill"
   button_rollback: "Rull tilbake til denne versjonen"
   button_save: "Lagre"
+  button_save_as: "Save as"
   button_apply_changes: "Bruk endringer"
   button_save_back: "Lagre og tilbake"
   button_show: "Vis"
@@ -1782,6 +1788,7 @@
   label_diff_side_by_side: "side ved side"
   label_digital_accessibility: "Digital tilgjengelighet (DE)"
   label_disabled: "deaktivert"
+  label_disabled_uppercase: "Disabled"
   label_display: "Vis"
   label_display_per_page: "Pr. side: %{value}"
   label_display_used_statuses_only: "Bare vis statuser som brukes av denne typen"
@@ -2009,6 +2016,7 @@
   label_precedes: "kommer før"
   label_preferences: "Innstillinger"
   label_preview: "Forhåndsvis"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Forrige"
   label_previous_week: "Forrige uke"
   label_principal_invite_via_email: " eller inviter nye brukere via e-post"
@@ -2595,6 +2603,7 @@
     name_or_identifier: "Navn eller identifikator"
     only_subproject_id: "Bare underprosjekt"
     shared_with_user: "Delt med bruker"
+    shared_with_me: "Shared with me"
     subproject_id: "Inkludert underprosjekt"
   repositories:
     at_identifier: "%{identifier}"
@@ -2843,12 +2852,12 @@
       remaining_scan_complete_html: >
         Gjenværende filer er skannet. Det er %{file_count} i karantene. Du blir omdirigert til karantensiden. Bruk denne siden til å slette eller overstyre karantenes filer.
       remaining_rescanned_files: >
-        Med virusskanning aktivert, er det %{file_count} som må skannes. Prosessen er planlagt i bakgrunnen. Filene forblir tilgjengelige under skanningen.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Sikre at opplastede filer i OpenProject blir skannet for virus før de er tilgjengelige for andre brukere."
       actions:
-        delete: 'Slett filen'
-        quarantine: 'Sett filen i karantene'
+        delete: "Slett filen"
+        quarantine: "Sett filen i karantene"
         instructions_html: >
           Velg hvilken handling som skal utføres for filer der et virus er oppdaget: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Sett filen i karantene og forhindre brukere i å få tilgang til den. Administratorer kan gjennomgå og slette filer i karantene i administrasjonen.</li> <li><strong>%{delete_option}</strong>: Slett filen umiddelbart.</li> </ul>
       modes:
@@ -3053,9 +3062,9 @@
     configure_view:
       heading: Configure view
       columns:
-        input_label: 'Add columns'
-        input_placeholder: 'Select a column'
-        drag_area_label: 'Manage and reorder columns'
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Tilleggsressurser"
     getting_started: "Komme i gang"
