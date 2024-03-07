@@ -1,0 +1,6 @@
+<%= turbo_frame_tag "work_package_#{@work_package.id}_progress_edit_form" do %>
+  <%= render Primer::Beta::Popover.new do |popover| %>
+    <% popover.with_heading { "Progress" } %>
+    <% popover.with_body(caret: :top_right) { "Hello!" } %>
+  <% end %>
+<% end %>

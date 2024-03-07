@@ -268,6 +268,8 @@ Rails.application.routes.draw do
         get '/report' => 'work_packages/reports#report'
       end
 
+      resource :progress, only: :edit, controller: 'work_packages/progress'
+
       # states managed by client-side routing on work_package#index
       get '(/*state)' => 'work_packages#index', on: :collection, as: ''
       get '/create_new' => 'work_packages#index', on: :collection, as: 'new_split'
