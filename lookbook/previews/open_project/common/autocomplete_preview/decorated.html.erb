@@ -1,0 +1,39 @@
+<%
+  the_form = Class.new(ApplicationForm) do
+    form do |f|
+      f.autocompleter(
+        name: :foobar,
+        required: true,
+        include_blank: false,
+        label: 'Foobar',
+        caption: 'Caption here',
+        autocomplete_options: {
+          multiple: false,
+          decorated: true,
+          openDirectly: false
+        }
+      ) do |select|
+        select.option(
+          label: "First option",
+          value: "first"
+        )
+        select.option(
+          label: "Second option",
+          value: "secondj"
+        )
+        select.option(
+          label: "Third option",
+          value: "third"
+        )
+      end
+    end
+  end
+%>
+
+
+<%= primer_form_with(
+      url: '/abc',
+      id: 'asdf') do |f|
+  render(the_form.new(f))
+end
+%>
