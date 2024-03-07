@@ -90,6 +90,7 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
 
   def eager_load_project_custom_fields
     @project_custom_fields_grouped_by_section = ProjectCustomField
+      .visible
       .includes(:project_custom_field_section)
       .sort_by { |pcf| pcf.project_custom_field_section.position }
       .group_by(&:custom_field_section_id)

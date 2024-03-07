@@ -121,6 +121,7 @@ module Projects::ActsAsCustomizablePatches
       # in contrast to acts_as_customizable, custom_fields are enabled per project
       # thus we need to check the project_custom_field_project_mappings
       custom_fields = ProjectCustomField
+        .visible
         .includes(:project_custom_field_section)
 
       # available_custom_fields is called from within the acts_as_customizable module

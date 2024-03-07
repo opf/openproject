@@ -139,4 +139,58 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
       expect(containers[5].text).to include('Boolean field')
     end
   end
+
+  context 'with visibility of project custom fields' do
+    let!(:section_with_invisible_fields) { create(:project_custom_field_section, name: 'Section with invisible fields') }
+
+    let!(:visible_project_custom_field) do
+      create(:project_custom_field,
+             name: 'Normal field',
+             visible: true,
+             projects: [project],
+             project_custom_field_section: section_with_invisible_fields)
+    end
+
+    let!(:invisible_project_custom_field) do
+      create(:project_custom_field,
+             name: 'Admin only field',
+             visible: false,
+             projects: [project],
+             project_custom_field_section: section_with_invisible_fields)
+    end
+
+    let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section_with_invisible_fields) }
+
+    context 'with admin permissions' do
+      before do
+        login_as admin
+        overview_page.visit_page
+      end
+
+      it 'shows all project custom fields' do
+        overview_page.open_edit_dialog_for_section(section_with_invisible_fields)
+
+        dialog.within_async_content(close_after_yield: true) do
+          expect(page).to have_content('Normal field')
+          expect(page).to have_content('Admin only field')
+        end
+      end
+    end
+
+    context 'with non-admin permissions' do
+      before do
+        login_as member_with_project_edit_permissions
+        overview_page.visit_page
+      end
+
+      it 'shows only visible project custom fields' do
+        overview_page.open_edit_dialog_for_section(section_with_invisible_fields)
+
+        dialog.within_async_content(close_after_yield: true) do
+          expect(page).to have_content('Normal field')
+          expect(page).to have_no_content('Admin only field')
+        end
+      end
+    end
+  end
 end

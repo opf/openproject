@@ -36,6 +36,9 @@ RSpec.describe 'API v3 Project resource create', content_type: :json do
   let(:custom_field) do
     create(:text_project_custom_field)
   end
+  let(:invisible_custom_field) do
+    create(:text_project_custom_field, visible: false)
+  end
   let(:custom_value) do
     CustomValue.create(custom_field:,
                        value: '1234',
@@ -113,7 +116,7 @@ RSpec.describe 'API v3 Project resource create', content_type: :json do
     end
   end
 
-  context 'with a custom field' do
+  context 'with a visible custom field' do
     let(:body) do
       {
         identifier: 'new_project_identifier',
@@ -133,6 +136,45 @@ RSpec.describe 'API v3 Project resource create', content_type: :json do
     it 'automatically activates the cf for project if the value was provided' do
       expect(Project.last.project_custom_fields)
         .to contain_exactly(custom_field)
+    end
+  end
+
+  context 'with an invisible custom field' do
+    let(:body) do
+      {
+        identifier: 'new_project_identifier',
+        name: 'Project name',
+        invisible_custom_field.attribute_name(:camel_case) => {
+          raw: "CF text"
+        }
+      }.to_json
+    end
+
+    context 'with admin permissions' do
+      current_user { create(:admin) }
+
+      it 'sets the cf value' do
+        expect(last_response.body)
+          .to be_json_eql("CF text".to_json)
+          .at_path("customField#{invisible_custom_field.id}/raw")
+      end
+
+      it 'automatically activates the cf for project if the value was provided' do
+        expect(Project.last.project_custom_fields)
+          .to contain_exactly(invisible_custom_field)
+      end
+    end
+
+    context 'with non-admin permissions' do
+      it 'does not set the cf value' do
+        expect(last_response.body)
+          .not_to have_json_path("customField#{invisible_custom_field.id}/raw")
+      end
+
+      it 'does not activate the cf for project' do
+        expect(Project.last.project_custom_fields)
+          .to be_empty
+      end
     end
   end
 

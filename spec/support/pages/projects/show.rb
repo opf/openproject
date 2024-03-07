@@ -72,6 +72,7 @@ module Pages
 
       def open_edit_dialog_for_section(section)
         within_async_loaded_sidebar do
+          scroll_to_element(page.find("[data-qa-selector='project-custom-field-section-#{section.id}']"))
           within_custom_field_section_container(section) do
             page.find("[data-qa-selector='project-custom-field-section-edit-button']").click
           end

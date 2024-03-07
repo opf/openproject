@@ -323,6 +323,105 @@ RSpec.describe 'Projects custom fields mapping via project settings', :js, :with
         expect(custom_fields[1].text).to include('Boolean field')
       end
     end
+
+    context 'with visibility of project custom fields' do
+      let!(:section_with_invisible_fields) { create(:project_custom_field_section, name: 'Section with invisible fields') }
+
+      let!(:visible_project_custom_field) do
+        create(:project_custom_field,
+               name: 'Normal field',
+               visible: true,
+               projects: [project],
+               project_custom_field_section: section_with_invisible_fields)
+      end
+
+      let!(:invisible_project_custom_field) do
+        create(:project_custom_field,
+               name: 'Admin only field',
+               visible: false,
+               projects: [project],
+               project_custom_field_section: section_with_invisible_fields)
+      end
+
+      context 'with admin permissions' do
+        let!(:admin) do
+          create(:admin)
+        end
+
+        before do
+          login_as admin
+          visit project_settings_project_custom_fields_path(project)
+        end
+
+        it 'shows the invisible project custom fields' do
+          within_custom_field_section_container(section_with_invisible_fields) do
+            expect(page).to have_content('Normal field')
+            expect(page).to have_content('Admin only field')
+          end
+        end
+
+        it 'includeds the invisible project custom fields in the bulk actions' do
+          within_custom_field_section_container(section_with_invisible_fields) do
+            page.find("[data-qa-selector='disable-all-project-custom-field-mappings-#{section_with_invisible_fields.id}']").click
+
+            within_custom_field_container(visible_project_custom_field) do
+              expect_unchecked_state
+            end
+            within_custom_field_container(invisible_project_custom_field) do
+              expect_unchecked_state
+            end
+
+            page.find("[data-qa-selector='enable-all-project-custom-field-mappings-#{section_with_invisible_fields.id}']").click
+
+            within_custom_field_container(visible_project_custom_field) do
+              expect_checked_state
+            end
+            within_custom_field_container(invisible_project_custom_field) do
+              expect_checked_state
+            end
+          end
+        end
+      end
+
+      context 'with non-admin permissions' do
+        before do
+          login_as user_with_sufficient_permissions
+          visit project_settings_project_custom_fields_path(project)
+        end
+
+        it 'does not show the invisible project custom fields' do
+          within_custom_field_section_container(section_with_invisible_fields) do
+            expect(page).to have_content('Normal field')
+            expect(page).to have_no_content('Admin only field')
+          end
+        end
+
+        it 'does not include the invisible project custom fields in the bulk actions' do
+          within_custom_field_section_container(section_with_invisible_fields) do
+            page.find("[data-qa-selector='disable-all-project-custom-field-mappings-#{section_with_invisible_fields.id}']").click
+
+            within_custom_field_container(visible_project_custom_field) do
+              expect_unchecked_state
+            end
+
+            # the invisible field is not affected by the bulk action
+            expect(project.project_custom_fields).to include(invisible_project_custom_field)
+
+            # disable manually
+            project.project_custom_field_project_mappings.find_by(custom_field_id: invisible_project_custom_field.id).destroy!
+
+            page.find("[data-qa-selector='enable-all-project-custom-field-mappings-#{section_with_invisible_fields.id}']").click
+
+            within_custom_field_container(visible_project_custom_field) do
+              expect_checked_state
+            end
+
+            # the invisible field is not affected by the bulk action
+            expect(project.project_custom_fields).not_to include(invisible_project_custom_field)
+          end
+        end
+      end
+    end
   end
 
   def expect_type(type)

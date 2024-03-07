@@ -33,6 +33,7 @@ module ProjectCustomFieldProjectMappings
 
     validate :validate_has_select_project_custom_fields_permission
     validate :validate_is_not_required
+    validate :validate_is_visbile_to_user
 
     def validate_has_select_project_custom_fields_permission
       return if user.allowed_in_project?(:select_project_custom_fields, model.project)
@@ -44,6 +45,14 @@ module ProjectCustomFieldProjectMappings
       # only mappings of custom fields which are not required can be manipulated by the user
       # enabling a custom field which is required happens in an after_save hook within the custom field model itself
       return if model.project_custom_field.nil? || !model.project_custom_field.required?
+
+      errors.add :custom_field_id, :invalid
+    end
+
+    def validate_is_visbile_to_user
+      # "invisible" custom fields can only be seen and edited by admins
+      # using visible scope to check if the custom field is actually visible to the user
+      return if model.project_custom_field.nil? || ProjectCustomField.visible.pluck(:id).include?(model.project_custom_field.id)
 
       errors.add :custom_field_id, :invalid
     end

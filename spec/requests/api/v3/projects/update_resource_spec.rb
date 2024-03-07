@@ -44,6 +44,9 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
   let(:custom_field) do
     create(:text_project_custom_field)
   end
+  let(:invisible_custom_field) do
+    create(:text_project_custom_field, visible: false)
+  end
   let(:custom_value) do
     CustomValue.create(custom_field:,
                        value: '1234',
@@ -89,7 +92,7 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
             .at_path('name')
   end
 
-  context 'with a custom field' do
+  context 'with a visible custom field' do
     let(:body) do
       {
         custom_field.attribute_name(:camel_case) => {
@@ -110,6 +113,51 @@ RSpec.describe 'API v3 Project resource update', content_type: :json do
     it 'automatically activates the cf for project if the value was provided' do
       expect(project.project_custom_fields)
         .to contain_exactly(custom_field)
+    end
+  end
+
+  context 'with an invisible custom field' do
+    let(:body) do
+      {
+        invisible_custom_field.attribute_name(:camel_case) => {
+          raw: "CF text"
+        }
+      }
+    end
+
+    context 'with admin permissions' do
+      let(:current_user) { create(:admin) }
+
+      it 'responds with 200 OK' do
+        expect(last_response.status).to eq(200)
+      end
+
+      it 'sets the cf value' do
+        expect(project.reload.send(invisible_custom_field.attribute_getter))
+          .to eql("CF text")
+      end
+
+      it 'automatically activates the cf for project if the value was provided' do
+        expect(project.reload.project_custom_fields)
+          .to contain_exactly(invisible_custom_field)
+      end
+    end
+
+    context 'with non-admin permissions' do
+      it 'responds with 200 OK' do
+        # TBD: trying to set a not accessible custom field is silently ignored
+        expect(last_response.status).to eq(200)
+      end
+
+      it 'does not set the cf value' do
+        expect(project.reload.custom_values)
+          .to be_empty
+      end
+
+      it 'does not activate the cf for project' do
+        expect(project.reload.project_custom_fields)
+          .to be_empty
+      end
     end
   end
 
