@@ -44,7 +44,7 @@ module API
             end
 
             module CustomFieldAccessorPatch
-              def available_custom_fields(global: false)
+              def available_custom_fields
                 @available_custom_fields
               end
 
