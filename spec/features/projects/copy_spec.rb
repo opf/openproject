@@ -245,16 +245,14 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
         let!(:optional_boolean_project_custom_field_with_default) do
           create(:boolean_project_custom_field, is_required: false, default_value: true, project_custom_field_section:)
         end
+        let!(:optional_boolean_project_custom_field_with_no_default) do
+          create(:boolean_project_custom_field, is_required: false, project_custom_field_section:)
+        end
         let!(:optional_string_project_custom_field_with_default) do
           create(:string_project_custom_field, is_required: false, default_value: 'bar', project_custom_field_section:)
         end
 
-        # TBD: Is this intended from a conceptial point of view?
-        #
-        # If not, I don't know how to change this behavior while keeping the behavior specified in the creation spec where
-        # optional custom fields with default values are activated if the value is untouched in the form (which seems to be desired from
-        # a concpetional point of view)
-        it 'does enable optional project custom fields with default values although not enabled in source project' do
+        it 'does not enable optional project custom fields with default values when not enabled in source project' do
           # the optional boolean and string fields are not activated in the source project
           expect(project.project_custom_field_ids).to contain_exactly(
             project_custom_field.id,
@@ -268,17 +266,82 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
 
           copied_project = Project.find_by(name: 'Copied project')
 
-          # the optional boolean and string fields are activated in the copied project with their default values
+          # the optional boolean and string fields are not activated in the target project, although they have a default value
+          expect(copied_project.project_custom_field_ids).to contain_exactly(
+            project_custom_field.id,
+            optional_project_custom_field.id,
+            optional_project_custom_field_with_default.id
+          )
+        end
+      end
+    end
+
+    context 'with correct handling of invisible values' do
+      let!(:invisible_field) do
+        create(:string_project_custom_field, name: 'Text for Admins only',
+                                             visible: false,
+                                             project_custom_field_section:,
+                                             projects: [project])
+      end
+      let!(:source_custom_value_for_invisible_field) do
+        create(:custom_value, customized: project, custom_field: invisible_field, value: 'foo')
+      end
+
+      before do
+        original_settings_page = Pages::Projects::Settings.new(project)
+        original_settings_page.visit!
+
+        find('.toolbar a', text: 'Copy').click
+
+        expect(page).to have_text "Copy project \"#{project.name}\""
+
+        fill_in 'Name', with: 'Copied project'
+        click_on 'Advanced settings'
+      end
+
+      context 'with an admin user' do
+        let(:user) { create(:admin) }
+
+        it 'shows invisible fields in the form and allows their activation' do
+          expect(page).to have_content 'Text for Admins only'
+
+          # don't touch the source value
+
+          click_button 'Save'
+
+          wait_for_copy_to_finish
+
+          copied_project = Project.find_by(name: 'Copied project')
+
           expect(copied_project.project_custom_field_ids).to contain_exactly(
             project_custom_field.id,
             optional_project_custom_field.id,
             optional_project_custom_field_with_default.id,
-            optional_boolean_project_custom_field_with_default.id,
-            optional_string_project_custom_field_with_default.id
+            invisible_field.id
           )
 
-          expect(copied_project.custom_value_for(optional_boolean_project_custom_field_with_default).typed_value).to be_truthy
-          expect(copied_project.custom_value_for(optional_string_project_custom_field_with_default).typed_value).to eq('bar')
+          expect(copied_project.custom_value_for(invisible_field).typed_value).to eq('foo')
+        end
+      end
+
+      context 'with non-admin user' do
+        # TBD: Not sure if this is the desired behavior, but would be a bit tricky to change
+        it 'does not show invisible fields in the form and thus do not activate them' do
+          expect(page).to have_no_content 'Text for Admins only'
+
+          click_button 'Save'
+
+          wait_for_copy_to_finish
+
+          copied_project = Project.find_by(name: 'Copied project')
+
+          expect(copied_project.project_custom_field_ids).to contain_exactly(
+            project_custom_field.id,
+            optional_project_custom_field.id,
+            optional_project_custom_field_with_default.id
+          )
+
+          expect(copied_project.custom_value_for(invisible_field)).to be_nil
         end
       end
     end

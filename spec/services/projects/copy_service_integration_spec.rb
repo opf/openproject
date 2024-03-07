@@ -157,6 +157,8 @@ RSpec.describe(
           it 'copies the custom_field' do
             expect(subject).to be_success
 
+            expect(project_copy.project_custom_fields).to contain_exactly(user_custom_field)
+
             cv = project_copy.custom_values.reload.find_by(custom_field: user_custom_field)
             expect(cv).to be_present
             expect(cv.value).to eq user_value.id.to_s
@@ -177,10 +179,23 @@ RSpec.describe(
           it 'copies the custom_field' do
             expect(subject).to be_success
 
+            expect(project_copy.project_custom_fields).to contain_exactly(list_custom_field)
+
             cv = project_copy.custom_values.reload.where(custom_field: list_custom_field).to_a
             expect(cv).to be_a Array
             expect(cv.count).to eq 2
             expect(cv.map(&:formatted_value)).to contain_exactly('A', 'B')
+          end
+        end
+
+        context 'with disabled project custom fields with default value' do
+          it 'is still disabled in the copy' do
+            create(:text_project_custom_field, default_value: 'default value')
+
+            expect(subject).to be_success
+
+            expect(source.project_custom_fields).to eq([])
+            expect(project_copy.project_custom_fields).to match_array(source.project_custom_fields)
           end
         end
 

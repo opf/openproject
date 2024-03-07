@@ -80,6 +80,27 @@ module Projects
       end
     end
 
+    def after_perform(call)
+      remove_custom_fields_not_activated_in_source(call)
+
+      super
+    end
+
+    def remove_custom_fields_not_activated_in_source(call)
+      # TODO: seems a bit too hacky to me, find better solution
+      # remove custom fields from target project which are not activated in source project
+      # this is required in cases, when
+      # a custom field with a default value exists but is not activated in the source project
+      # this custom field is then not shown in the copy form (which is desired)
+      # but the custom field would be activated in the target project with its default value (which is hard to prevent)
+      # thus we clean them up here:
+      custom_fields_activated_in_source = source.project_custom_fields.pluck(:id)
+      custom_fields_activated_in_target = call.result.project_custom_fields.pluck(:id)
+
+      custom_fields_to_remove = custom_fields_activated_in_target - custom_fields_activated_in_source
+      call.result.project_custom_fields.where(id: custom_fields_to_remove).destroy_all
+    end
+
     def contract_options
       { copy_source: source, validate_model: true }
     end
