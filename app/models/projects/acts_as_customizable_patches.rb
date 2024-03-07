@@ -147,7 +147,7 @@ module Projects::ActsAsCustomizablePatches
 
     def sorted_available_custom_fields
       available_custom_fields
-        .sort_by { |pcf| [pcf.project_custom_field_section.position, pcf.position_in_custom_field_section] }
+        .sort_by { |pcf| [pcf.project_custom_field_section&.position, pcf.position_in_custom_field_section] }
     end
 
     def sorted_available_custom_fields_by_section(section)
