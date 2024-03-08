@@ -56,7 +56,6 @@ class RootSeeder < Seeder
   end
 
   def seed_data!
-    reset_active_record!
     set_locale! do
       print_status "*** Seeding for locale: '#{I18n.locale}'"
       prepare_seed! do
@@ -97,18 +96,6 @@ class RootSeeder < Seeder
 
   def rails_engines
     ::Rails::Engine.subclasses.map(&:instance)
-  end
-
-  ##
-  # Clears some schema caches and column information.
-  def reset_active_record!
-    ActiveRecord::Base
-      .descendants
-      .reject(&:abstract_class?)
-      .each do |klass|
-      klass.connection.schema_cache.clear!
-      klass.reset_column_information
-    end
   end
 
   def set_locale!
