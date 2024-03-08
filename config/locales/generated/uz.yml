@@ -3,12 +3,12 @@
 #
 # To update this file, run script/i18n/generate_languages_translations.
 #
-# The translations come from version 42 of the Unicode CLDR project .
+# The translations come from version 44 of the Unicode CLDR project.
 #
 # The Unicode Common Locale Data Repository (CLDR) provides key building
 # blocks for software to support the world's languages, with the largest
 # and most extensive standard repository of locale data available.
 ---
-pt:
+uz:
   cldr:
-    language_name: Português
+    language_name: O‘zbek
