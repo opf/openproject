@@ -39,7 +39,7 @@ module Projects::ActsAsCustomizablePatches
                                                      dependent: :destroy, inverse_of: :project
     has_many :project_custom_fields, through: :project_custom_field_project_mappings, class_name: 'ProjectCustomField'
 
-    before_save :build_missing_project_custom_field_project_mappings
+    before_create :build_missing_project_custom_field_project_mappings
     after_save :reset_section_scoped_validation, :set_query_available_custom_fields_to_project_level
 
     # we need to reset the query_available_custom_fields_on_global_level already after validation
@@ -57,8 +57,7 @@ module Projects::ActsAsCustomizablePatches
       # current shortcommings:
       # - boolean custom fields are always activated as a nil value is never provided (always true/false)
       custom_field_ids = project.custom_values
-        .reject { |cv| cv.value.blank? }
-        .reject { |cv| cv.persisted? } # do not reactivate custom fields which have already been used and disabled
+        .select { |cv| cv.value.present? }
         .pluck(:custom_field_id).uniq
       activated_custom_field_ids = project_custom_field_project_mappings.pluck(:custom_field_id).uniq
 

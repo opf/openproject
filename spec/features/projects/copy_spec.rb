@@ -184,7 +184,7 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
         )
       end
 
-      it 'disables optional project custom fields if explicitly set to blank' do
+      it 'does not disable optional project custom fields if explicitly set to blank' do
         # Expand advanced settings
         click_on 'Advanced settings'
 
@@ -199,8 +199,12 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
 
         expect(copied_project.project_custom_field_ids).to contain_exactly(
           project_custom_field.id,
+          optional_project_custom_field.id,
           optional_project_custom_field_with_default.id
         )
+
+        # the optional custom field is activated, but set to blank value
+        expect(copied_project.custom_value_for(optional_project_custom_field).typed_value).to eq('')
       end
 
       # TBD: Is this intended from a conceptial point of view?
@@ -208,7 +212,7 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
       # If not, I don't know how to change this behavior while keeping the behavior specified in the creation spec where
       # optional custom fields are not activated if the value is set to blank in the form (which seems to be desired from
       # a concpetional point of view)
-      it 'does not enable project custom fields (with default values) if set to blank in source project' do
+      it 'does enable project custom fields if set to blank in source project' do
         project.update!(custom_field_values: {
                           optional_project_custom_field.id => '',
                           optional_project_custom_field_with_default.id => ''
@@ -237,8 +241,14 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
         copied_project = Project.find_by(name: 'Copied project')
 
         expect(copied_project.project_custom_field_ids).to contain_exactly(
-          project_custom_field.id
+          project_custom_field.id,
+          optional_project_custom_field.id,
+          optional_project_custom_field_with_default.id
         )
+
+        # the optional custom fields are activated, but set to blank values as seen in source project
+        expect(copied_project.custom_value_for(optional_project_custom_field).typed_value).to eq('')
+        expect(copied_project.custom_value_for(optional_project_custom_field_with_default).typed_value).to eq('')
       end
 
       context 'with project custom fields with default values, which are disabled in source project' do
@@ -326,7 +336,7 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
 
       context 'with non-admin user' do
         # TBD: Not sure if this is the desired behavior, but would be a bit tricky to change
-        it 'does not show invisible fields in the form and thus do not activate them' do
+        it 'does not show invisible fields in the form and but still activates them' do
           expect(page).to have_no_content 'Text for Admins only'
 
           click_button 'Save'
@@ -338,10 +348,9 @@ RSpec.describe 'Projects copy', :js, :with_cuprite do
           expect(copied_project.project_custom_field_ids).to contain_exactly(
             project_custom_field.id,
             optional_project_custom_field.id,
-            optional_project_custom_field_with_default.id
+            optional_project_custom_field_with_default.id,
+            invisible_field.id
           )
-
-          expect(copied_project.custom_value_for(invisible_field)).to be_nil
         end
       end
     end

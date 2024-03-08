@@ -232,10 +232,37 @@ RSpec.describe Project, 'customizable' do
         expect { project.save! }.to raise_error(ActiveRecord::RecordInvalid)
       end
     end
+
+    context 'with correct handling of custom fields with default values' do
+      let!(:text_custom_field_with_default) do
+        create(:text_project_custom_field,
+               default_value: 'default',
+               project_custom_field_section: section)
+      end
+
+      it 'activates custom fields with default values if not explicitly set to blank' do
+        project = create(:project, custom_field_values: {
+                           text_custom_field.id => 'foo',
+                           bool_custom_field.id => true
+                         })
+        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
+          .to contain_exactly(text_custom_field.id, bool_custom_field.id, text_custom_field_with_default.id)
+      end
+
+      it 'does not activate custom fields with default values if explicitly set to blank' do
+        project = create(:project, custom_field_values: {
+                           text_custom_field.id => 'foo',
+                           bool_custom_field.id => true,
+                           text_custom_field_with_default.id => ''
+                         })
+        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
+          .to contain_exactly(text_custom_field.id, bool_custom_field.id)
+      end
+    end
   end
 
   context 'when updating with custom field values' do
-    let(:project) { create(:project) }
+    let!(:project) { create(:project) }
 
     shared_examples 'implicitly enabled and saved custom values' do
       it 'enables fields with provided values' do
@@ -311,9 +338,38 @@ RSpec.describe Project, 'customizable' do
         .to contain_exactly(bool_custom_field)
     end
 
-    it 'does re-enable fields with new value which have been disabled in the past' do
-      pending "this is currently not working, not sure if it should be supported at all"
+    context 'with correct handling of custom fields with default values' do
+      let!(:text_custom_field_with_default) do
+        create(:text_project_custom_field,
+               default_value: 'default',
+               project_custom_field_section: section)
+      end
 
+      it 'does not activate custom fields with default values if not explicitly set to a value' do
+        project.update!(custom_field_values: {
+                          text_custom_field.id => 'bar',
+                          bool_custom_field.id => false
+                        })
+
+        # text_custom_field_with_default is not provided, thus it should not be enabled (in contrast to creation)
+        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
+          .to contain_exactly(text_custom_field.id, bool_custom_field.id)
+      end
+
+      it 'does activate custom fields with default values if explicitly set to a value' do
+        project.update!(custom_field_values: {
+                          text_custom_field.id => 'bar',
+                          bool_custom_field.id => false,
+                          text_custom_field_with_default.id => 'overwritten default'
+                        })
+
+        # text_custom_field_with_default is not provided, thus it should not be enabled (in contrast to creation)
+        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
+          .to contain_exactly(text_custom_field.id, bool_custom_field.id, text_custom_field_with_default.id)
+      end
+    end
+
+    it 'does re-enable fields with new value which have been disabled in the past' do
       project.update!(custom_field_values: {
                         text_custom_field.id => 'foo',
                         bool_custom_field.id => true
