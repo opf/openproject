@@ -49,7 +49,7 @@ de:
         main-menu-border-color: "Rahmenfarbe des Hauptmenüs"
       custom_colors: "Benutzerdefinierte Farben"
       customize: "Passen Sie Ihre OpenProject Installation mit Ihrem eigenen Logo und eigenen Farben an."
-      enterprise_notice: "Diese kleine Erweiterung steht den Abonnenten der Enterprise edition ganz exklusiv als kleines Dankeschön für deren finanzielle Unterstützung zur Verfügung."
+      enterprise_notice: "Dieses kleine Add-on steht den Abonnenten der Enterprise-Edition ganz exklusiv als kleines Dankeschön für deren finanzielle Unterstützung zur Verfügung."
       enterprise_more_info: "Hinweis: Das verwendete Logo wird öffentlich zugänglich sein."
       manage_colors: "Farbauswahloptionen bearbeiten"
       instructions:
@@ -64,15 +64,15 @@ de:
         main-menu-bg-color: "Hintergrundfarbe des Menüs in der linken Seitenleiste."
       theme_warning: Das Ändern des Themes wird Ihr benutzerdefiniertes Design überschreiben. Alle Änderungen werden dann verloren gehen. Sind Sie sicher, dass Sie fortfahren möchten?
     enterprise:
-      upgrade_to_ee: "Auf Enterprise edition upgraden"
-      add_token: "Enterprise edition Support Token hochladen"
+      upgrade_to_ee: "Auf Enterprise-Edition upgraden"
+      add_token: "Enterprise-Edition Support Token hochladen"
       delete_token_modal:
-        text: "Sind Sie sicher, dass Sie das aktuelle Enterprise edition token entfernen möchten?"
+        text: "Sind Sie sicher, dass Sie das aktuelle Enterprise Edition-Token entfernen möchten?"
         title: "Token löschen"
       replace_token: "Aktuellen Enterprise edition Support Token ersetzen"
       order: "Enterprise on-premises bestellen"
-      paste: "Enterprise edition Support Token hier einfügen"
-      required_for_feature: "Dieses Add-on ist nur mit einem aktiven Enterprise edition Support-Token verfügbar."
+      paste: "Enterprise-Edition Support Token hier einfügen"
+      required_for_feature: "Dieses Add-on ist nur mit einem aktiven Enterprise-Edition Support-Token verfügbar."
       enterprise_link: "Klicken Sie hier für weitere Informationen."
       start_trial: "Kostenlose Testversion starten"
       book_now: "Jetzt buchen"
@@ -262,12 +262,15 @@ de:
       no_results_title_text: Es gibt aktuell keine Projekte
       no_results_content_text: Neues Projekt erstellen
     lists:
-      active: 'Aktive Projekte'
-      my: 'Meine Projekte'
-      archived: 'Archivierte Projekte'
-      my_private: 'Meine privaten Projektlisten'
+      active: "Aktive Projekte"
+      my: "Meine Projekte"
+      archived: "Archivierte Projekte"
+      my_private: "Meine privaten Projektlisten"
       new:
-        placeholder: 'Neue Projektliste'
+        placeholder: "Neue Projektliste"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Kennung ändern
       activities:
@@ -289,6 +292,8 @@ de:
         no_results_content_text: Neue Version erstellen
       storage:
         no_results_title_text: Durch dieses Projekt wird kein zusätzlicher erfasster Speicherplatz verbraucht.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: Zur Zeit hat dieses Projekt keine Mitglieder.
@@ -341,7 +346,7 @@ de:
     memberships:
       no_results_title_text: Dieser Nutzer ist derzeit in keinem Projekt Mitglied.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       Sie sind nicht berechtigt, diesen Platzhalter zu löschen. Sie haben nicht das Recht, Mitglieder für alle Projekte zu verwalten, in denen der Platzhalter Mitglied ist.
@@ -427,8 +432,8 @@ de:
     sharing:
       missing_workflow_waring:
         title: "Der Workflow für das Teilen von Arbeitspaketen fehlt"
-        message: "Es ist kein Arbeitsablauf (Workflow) für die Rolle ‚Arbeitspaket-Editor‘ konfiguriert. Ohne einen Arbeitsablauf kann der gemeinsam mit dem Benutzer den Status des Arbeitspakets nicht ändern. Arbeitsabläufe können kopiert werden. Wählen Sie einen Quelltyp (z. B. ‚Task‘) und eine Quell-Rolle (z. B. 'Member'). Wählen Sie dann die Zieltypen aus, um alle Typen als Ziele auszuwählen und schließlich die Rolle ‚Arbeitspaket-Editor‘ als Ziel aus und drücken Sie ‚Kopieren‘. Nachdem Sie die Standardeinstellungen erstellt haben, können Sie die Arbeitsabläufe so einstellen, wie Sie es für jede andere Rolle tun."
-        link_message: "Konfigurieren Sie die Arbeitsabläufe in der Administration."
+        message: "Es ist kein Workflow für die Rolle ‚Work package editor‘ konfiguriert. Nur mit einem solchen Workflow können Benutzer, mit denen ein Arbeitspaket geteilt wurde, den Status des Arbeitspakets ändern. Workflows lassen sich einfach kopieren. Wählen Sie dazu einen Quell-Typ (z. B. ‚Task‘) und eine Quell-Rolle (z. B. 'Member') aus. Wählen Sie dann die Ziel-Typen aus. Als ersten Schritt können Sie alle Typen als Ziel-Typen auswählen. Danach wählen Sie die Ziel-Rolle ‚Work package editor‘ aus und drücken Sie auf den Knopf ‚Kopieren‘. Nachdem Sie hiermit eine Grundlage geschaffen haben, können Sie danach diese Workflows weiter anpassen, ganz genau wie Sie es für jede andere Rolle bereits getan haben."
+        link_message: "Konfigurieren Sie die Workflows in der Administration."
     summary:
       reports:
         category:
@@ -837,6 +842,10 @@ de:
               invalid: "Zeitstempel enthalten ungültige Werte: %{values}"
               forbidden: "Zeitstempel enthalten ungültige Werte: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "schließt sich gegenseitig mit der Gruppierung nach \"%{group_by}\" aus. Beide können nicht zeitgleich aktiv sein."
           filters:
             custom_fields:
@@ -1189,6 +1198,7 @@ de:
   button_reset: "Zurücksetzen"
   button_rollback: "Auf diese Version zurücksetzen"
   button_save: "Speichern"
+  button_save_as: "Save as"
   button_apply_changes: "Änderungen anwenden"
   button_save_back: "Speichern und zurück"
   button_show: "Anzeigen"
@@ -1414,7 +1424,7 @@ de:
   error_cookie_missing: "Das OpenProject Cookie fehlt. Bitte stellen Sie sicher, dass Cookies aktiviert sind, da diese Applikation ohne aktivierte Cookies nicht korrekt funktioniert."
   error_custom_option_not_found: "Option ist nicht vorhanden."
   error_enterprise_activation_user_limit: "Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten."
-  error_enterprise_token_invalid_domain: "Die Enterprise edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected})."
+  error_enterprise_token_invalid_domain: "Die Enterprise-Edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected})."
   error_failed_to_delete_entry: "Fehler beim Löschen dieses Eintrags."
   error_in_dependent: "Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}"
   error_in_new_dependent: "Fehler beim Versuch, abhängiges Objekt zu erstellen: %{dependent_class} - %{related_subject}: %{error}"
@@ -1510,10 +1520,10 @@ de:
     blocks:
       community: "OpenProject Community"
       upsale:
-        title: "Auf Enterprise edition upgraden"
+        title: "Auf Enterprise-Edition upgraden"
         more_info: "Weitere Informationen"
     links:
-      upgrade_enterprise_edition: "Auf Enterprise edition upgraden"
+      upgrade_enterprise_edition: "Auf Enterprise-Edition upgraden"
       postgres_migration: "Migration Ihrer Installation zu PostgreSQL"
       user_guides: "Benutzerhandbuch"
       faq: "Häufig gestellte Fragen"
@@ -1773,6 +1783,7 @@ de:
   label_diff_side_by_side: "nebeneinander"
   label_digital_accessibility: "Erklärung zur digitalen Barrierefreiheit"
   label_disabled: "deaktiviert"
+  label_disabled_uppercase: "Disabled"
   label_display: "Anzeige"
   label_display_per_page: "Pro Seite: %{value}"
   label_display_used_statuses_only: "Zeige nur Status an, die von diesem Typ verwendet werden"
@@ -1795,7 +1806,7 @@ de:
   label_enumerations: "Aufzählungen"
   label_enterprise: "Enterprise"
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
-  label_enterprise_edition: "Enterprise edition"
+  label_enterprise_edition: "Enterprise Edition"
   label_enterprise_support: "Enterprise Support"
   label_enterprise_addon: "Enterprise Add-on"
   label_environment: "Umgebung"
@@ -2000,6 +2011,7 @@ de:
   label_precedes: "Vorgänger von"
   label_preferences: "Präferenzen"
   label_preview: "Vorschau"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Zurück"
   label_previous_week: "Woche zurück"
   label_principal_invite_via_email: " oder Nutzer per E-Mail einladen"
@@ -2586,6 +2598,7 @@ de:
     name_or_identifier: "Name oder Kennung"
     only_subproject_id: "Nur Unterprojekt"
     shared_with_user: "Mit Benutzer geteilt"
+    shared_with_me: "Shared with me"
     subproject_id: "Einschließlich Unterprojekt"
   repositories:
     at_identifier: "auf %{identifier}"
@@ -2674,8 +2687,8 @@ de:
       update_timeout: "Speichere die Informationen bzgl. des genutzten Festplattenspeichers eines Projektarchivs für N Minuten.\nErhöhen Sie diesen Wert zur Verbesserung der Performance, da die Erfassung des genutzten Festplattenspeichers Ressourcen-intensiv ist."
       oauth_application_details: "Der Client Geheimcode wird nach dem Schließen dieses Fensters nicht mehr zugänglich sein. Bitte kopieren Sie diese Werte in die Nextcloud OpenProject Integrationseinstellungen:"
       oauth_application_details_link_text: "Zu den Einstellungen gehen"
-      setup_documentation_details: "Wenn Sie Hilfe bei der Konfiguration eines neuen Datei-Speichers benötigen, konsultieren Sie bitte die Dokumentation: "
-      setup_documentation_details_link_text: "Datei-Speicher einrichten"
+      setup_documentation_details: "Wenn Sie Hilfe bei der Konfiguration eines neuen Dateispeichers benötigen, konsultieren Sie bitte die Dokumentation: "
+      setup_documentation_details_link_text: "Dateispeicher einrichten"
       show_warning_details: "Um diesen Dateispeicher nutzen zu können, müssen Sie das Modul und den spezifischen Speicher in den Projekteinstellungen jedes gewünschten Projekts aktivieren."
     subversion:
       existing_title: "Vorhandenes Subversion Projektarchiv"
@@ -2736,7 +2749,7 @@ de:
   setting_brute_force_block_minutes: "Sperre Benutzer für Dauer von"
   setting_cache_formatted_text: "Formatierten Text im Cache speichern"
   setting_use_wysiwyg_description: "Aktivieren, um den CKEditor5 WYSIWYG-Editor für alle Nutzer zu aktivieren. CKEditor hat aktuell eingeschränkte Formatierungsfunktionen für Markdown."
-  setting_column_options: "Anpassen der Darstellung der Arbeitspaketlisten"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Schlüsselwörter (Status)"
   setting_commit_logs_encoding: "Codierung der Commit-Log-Meldungen"
   setting_commit_logtime_activity_id: "Aktivität für die Zeiterfassung"
@@ -2758,7 +2771,7 @@ de:
   setting_emails_header: "E-Mail-Kopfzeile"
   setting_email_login: "E-Mail als Benutzername verwenden"
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
-  setting_enabled_projects_columns: "In der Projektliste sichtbar"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Feeds aktiviert"
   setting_ical_enabled: "iCalendar-Abonnements aktivieren"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
@@ -2769,7 +2782,6 @@ de:
   setting_work_package_done_ratio_field: "Das Arbeitspaket-Feld"
   setting_work_package_done_ratio_status: "Arbeitspaket-Status"
   setting_work_package_done_ratio_disabled: "Deaktivieren (Verstecke das % abgeschlossen-Feld)"
-  setting_work_package_list_default_columns: "Standardmäßig anzeigen"
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
   setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
   setting_work_packages_projects_export_limit: "Arbeitspakete / Exportlimit für Projekte"
@@ -2835,12 +2847,12 @@ de:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2877,7 +2889,7 @@ de:
     projects:
       missing_dependencies: "Projektmodul %{module} wurde aktiviert, hängt aber ab von %{dependencies}. Sie müssen diese Module ebenfalls aktivieren."
       section_new_projects: "Einstellungen für neue Projekte"
-      section_project_overview: "Einstellungen für Projektliste"
+      section_project_overview: "Settings for project lists"
     session: "Sitzung"
     user:
       default_preferences: "Standardeinstellungen"
@@ -3042,6 +3054,12 @@ de:
       Wenn aktiviert, kann ein Nutzer seinen Benutzernamen bei der Registrierung nicht selbst wählen. Stattdessen wird dessen E-Mail-Adresse als Benutzername verwendet. Ein Administrator kann unabhängig davon den Benutzernamen weiterhin ändern.
   queries:
     apply_filter: vorkonfigurierten Filter anwenden
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Weitere Ressourcen"
     getting_started: "Erste Schritte"
@@ -3094,7 +3112,7 @@ de:
   warning_user_limit_reached_admin: >
     Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte <a href="%{upgrade_url}">aktualisieren Sie Ihr Abonnement</a> um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.
   warning_user_limit_reached_instructions: >
-    Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise edition Plan upzugraden und weitere Nutzer hinzuzufügen.
+    Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition Plan upzugraden und weitere Nutzer hinzuzufügen.
   warning_protocol_mismatch_html: >
 
   warning_bar:

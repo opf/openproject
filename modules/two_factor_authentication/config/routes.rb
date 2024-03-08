@@ -8,14 +8,20 @@ Rails.application.routes.draw do
 
     get :settings, to: 'two_factor_settings#show', as: 'settings_2fa'
     post :settings, to: 'two_factor_settings#update', as: 'update_settings_2fa'
+
+    # Request a challenge for WebAuthn
+    get :webauthn_challenge, to: 'authentication#webauthn_challenge', as: 'webauthn_challenge'
   end
 
   scope 'two_factor_authentication' do # Avoids adding the namespace prefix
-    scope 'device_registration',
-          controller: 'two_factor_authentication/forced_registration/two_factor_devices' do
+    # forced registration
+    scope 'device_registration', controller: 'two_factor_authentication/forced_registration/two_factor_devices' do
       get :new, action: :new, as: 'new_forced_2fa_device'
       post :register, action: :register, as: 'register_forced_2fa_device'
       match '/:device_id/confirm', action: :confirm, via: %i[get post], as: 'confirm_forced_2fa_device'
+
+      # Request a challenge for WebAuthn
+      get :webauthn_challenge
     end
   end
 
@@ -63,6 +69,9 @@ Rails.application.routes.draw do
 
       # Make a device a default
       post :make_default, on: :member
+
+      # Request a challenge for WebAuthn
+      get :webauthn_challenge, on: :collection
     end
   end
 end

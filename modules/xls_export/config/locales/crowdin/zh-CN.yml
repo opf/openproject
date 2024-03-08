@@ -13,4 +13,4 @@ zh-CN:
       xls_with_relations: "带关系的 XLS"
   xls_export:
     child_of: 此项的子项
-    parent_of: 此项的父项
+    parent_of: 此项的父级

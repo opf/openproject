@@ -38,7 +38,6 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
                 :params
 
   BUTTON_MARGIN_RIGHT = 2
-  EXPORT_MODAL_ID = 'op-project-list-export-dialog'
 
   STATE_DEFAULT = :show
   STATE_EDIT = :edit
@@ -72,7 +71,7 @@ class Projects::IndexPageHeaderComponent < ApplicationComponent
   end
 
   def query_saveable?
-    query.name.blank?
+    current_user.logged? && query.name.blank?
   end
 
   def show_state?

@@ -251,6 +251,7 @@ RSpec.describe 'Search', :js, with_settings: { per_page_options: '5' } do
         context 'when submitting without autocomplete' do
           it 'loads the WP in full view' do
             global_search.search "##{work_package.id}"
+            global_search.expect_work_package_marked(work_package)
             global_search.submit_with_enter
 
             wp_page = Pages::FullWorkPackage.new(work_package)

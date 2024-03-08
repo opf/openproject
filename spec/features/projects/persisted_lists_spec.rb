@@ -219,6 +219,8 @@ RSpec.describe 'Persisted lists on projects index page',
 
       # The default filter is active
       projects_page.expect_title('Active projects')
+      # Since the page is unchanged, no save as button is shown
+      projects_page.expect_no_save_as_notification
 
       # Adding some filters
       projects_page.open_filters
@@ -226,6 +228,7 @@ RSpec.describe 'Persisted lists on projects index page',
 
       # By applying another filter, the title is changed as it does not longer match the default filter
       projects_page.expect_title('Projects')
+      projects_page.expect_save_as_notification
 
       # The filters are applied
       projects_page.expect_projects_listed(project, development_project)

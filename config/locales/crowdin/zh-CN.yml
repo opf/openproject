@@ -70,7 +70,7 @@ zh-CN:
         text: "您确定要删除当前使用的企业版令牌吗？"
         title: "删除令牌"
       replace_token: "替换您当前的支持令牌"
-      order: "订购本地部署的 Enterprise edition"
+      order: "订购本地部署版的 Enterprise edition"
       paste: "粘贴您企业版的支持令牌"
       required_for_feature: "此功能仅限具激活的企业版支持令牌的订阅者使用。"
       enterprise_link: "如需了解详细信息，请单击此处。"
@@ -262,12 +262,15 @@ zh-CN:
       no_results_title_text: 目前没有项目。
       no_results_content_text: 创建一个新的项目
     lists:
-      active: '有效项目'
-      my: '我的项目'
-      archived: '归档项目'
-      my_private: '我的私有项目列表'
+      active: "有效项目"
+      my: "我的项目"
+      archived: "归档项目"
+      my_private: "我的私有项目列表"
       new:
-        placeholder: '新项目列表'
+        placeholder: "新项目列表"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: 更改标识符
       activities:
@@ -289,6 +292,8 @@ zh-CN:
         no_results_content_text: 创建一个新的版本
       storage:
         no_results_title_text: 此项目没有已记录的额外磁盘空间消耗。
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: 目前这个项目没有成员。
@@ -341,7 +346,7 @@ zh-CN:
     memberships:
       no_results_title_text: 该用户当前非项目成员。
   page:
-    text: '文本'
+    text: "文本"
   placeholder_users:
     right_to_manage_members_missing: >
       不允许删除占位符用户。您无权管理任何成员包含占位符用户的项目中的成员。
@@ -837,6 +842,10 @@ zh-CN:
               invalid: "时间戳包含无效值: %{values}"
               forbidden: "时间戳包含禁用值: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "与按照“%{group_by}”分组的组互相排斥。您无法将它们都激活。"
           filters:
             custom_fields:
@@ -1181,6 +1190,7 @@ zh-CN:
   button_reset: "重置"
   button_rollback: "回滚到此版本"
   button_save: "保存"
+  button_save_as: "Save as"
   button_apply_changes: "应用更改"
   button_save_back: "保存并返回"
   button_show: "显示"
@@ -1747,6 +1757,7 @@ zh-CN:
   label_diff_side_by_side: "并排"
   label_digital_accessibility: "数字可访问性 (DE)"
   label_disabled: "已禁用"
+  label_disabled_uppercase: "Disabled"
   label_display: "显示"
   label_display_per_page: "每页: %{value}"
   label_display_used_statuses_only: "仅显示该类型使用的状态"
@@ -1974,6 +1985,7 @@ zh-CN:
   label_precedes: "之前"
   label_preferences: "首选项"
   label_preview: "预览"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "上一个"
   label_previous_week: "前一周"
   label_principal_invite_via_email: " 或通过电子邮件邀请新用户"
@@ -2033,7 +2045,7 @@ zh-CN:
   label_revision_id: "修订版本 %{value}"
   label_revision_plural: "修订"
   label_roadmap: "路线图"
-  label_roadmap_edit: "编辑路线图 %{name}"
+  label_roadmap_edit: "编辑路线图%{name}"
   label_roadmap_due_in: "%{value} 到期"
   label_roadmap_no_work_packages: "该版本没有工作包。"
   label_roadmap_overdue: "%{value} 超时"
@@ -2554,6 +2566,7 @@ zh-CN:
     name_or_identifier: "名称或标识符"
     only_subproject_id: "仅子项目"
     shared_with_user: "与用户共享"
+    shared_with_me: "Shared with me"
     subproject_id: "包括子项目"
   repositories:
     at_identifier: "在 %{identifier}"
@@ -2637,7 +2650,7 @@ zh-CN:
       managed: "在 OpenProject 中创建新的存储库"
     storage:
       not_available: "磁盘存储开销不可用于此存储库。"
-      update_timeout: "在 N 分钟内保留存储库最后所需磁盘空间的信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
+      update_timeout: "在 N 分钟内保留存储库最后所需的磁盘空间信息。由于计算存储库所需的磁盘空间可能增加系统开销，增加该值可以减少性能影响。"
       oauth_application_details: "关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 Nextcloud OpenProject 集成设置中："
       oauth_application_details_link_text: "转到设置页面"
       setup_documentation_details: "如果您在配置新文件存储方面需要帮助，请查看文档："
@@ -2702,7 +2715,7 @@ zh-CN:
   setting_brute_force_block_minutes: "账户锁定时长"
   setting_cache_formatted_text: "缓存带格式的文本"
   setting_use_wysiwyg_description: "选择为默认情况下为所有用户启用CKEditor5 所见即所得编辑器。 CKEditor对GFM Markdown的功能有限。"
-  setting_column_options: "自定义工作包列表的外观"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "固定的关键字"
   setting_commit_logs_encoding: "提交消息编码"
   setting_commit_logtime_activity_id: "记录时间的活动"
@@ -2724,7 +2737,7 @@ zh-CN:
   setting_emails_header: "电子邮件页眉"
   setting_email_login: "使用电子邮件作为登录名"
   setting_enabled_scm: "启用 SCM"
-  setting_enabled_projects_columns: "在项目列表中可见"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "启用Feeds"
   setting_ical_enabled: "启用 iCalendar 订阅"
   setting_feeds_limit: "Feed 内容限制"
@@ -2735,7 +2748,6 @@ zh-CN:
   setting_work_package_done_ratio_field: "工作包字段"
   setting_work_package_done_ratio_status: "工作包状态"
   setting_work_package_done_ratio_disabled: "禁用 (隐藏 % 已完成字段)"
-  setting_work_package_list_default_columns: "默认显示"
   setting_work_package_properties: "工作包属性"
   setting_work_package_startdate_is_adddate: "使用当前日期作为新工作包的开始日期"
   setting_work_packages_projects_export_limit: "工作包/项目导出限制"
@@ -2775,7 +2787,7 @@ zh-CN:
   setting_session_ttl_hint: "当设置的值低于5时，其作用类似于禁用。"
   setting_session_ttl_enabled: "会话过期"
   setting_start_of_week: "一周起始日"
-  setting_sys_api_enabled: "启用版本库管理 web 服务"
+  setting_sys_api_enabled: "启用存储库管理网页服务"
   setting_sys_api_description: "存储库管理网页服务提供了集成的，用户授权的存储库访问。"
   setting_time_format: "时间"
   setting_accessibility_mode_for_anonymous: "为匿名用户启用辅助功能模式"
@@ -2801,12 +2813,12 @@ zh-CN:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2843,7 +2855,7 @@ zh-CN:
     projects:
       missing_dependencies: "已检查依赖于 %{dependencies} 的项目模块 %{module}。您也需要检查这些依赖项。"
       section_new_projects: "新项目的设置"
-      section_project_overview: "项目概览列表的设置"
+      section_project_overview: "Settings for project lists"
     session: "会话"
     user:
       default_preferences: "默认偏好设置"
@@ -3008,6 +3020,12 @@ zh-CN:
       如果启用，用户将无法在注册时选择登录名。将使用用户指定的电子邮件地址作为登录名。管理员仍然可以单独更改登录名。
   queries:
     apply_filter: 应用预配置筛选器
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "其他资源"
     getting_started: "入门指南"
@@ -3059,7 +3077,7 @@ zh-CN:
   warning_user_limit_reached_admin: >
     添加额外的用户将超出当前限制。请<a href="%{upgrade_url}">升级您的计划</a>，以确保外部用户能够访问此实例。
   warning_user_limit_reached_instructions: >
-    您达到了用户限制（%{current}/%{max}活跃用户）。 请联系sales@openproject.com以升级您的Enterprise edition计划并添加其他用户。
+    您已达到用户限制（%{current}/%{max} 活跃用户）。请联系 sales@openproject.com 升级您的企业版计划以添加额外用户。
   warning_protocol_mismatch_html: >
 
   warning_bar:

@@ -41,7 +41,7 @@
                                      size: :large,
                                      id: dialog_id)) do |d| %>
   <% d.with_show_button { button_text } %>
-  <% d.with_header(variant: :large, mb: 3) %>
+  <% d.with_header(variant: :large) %>
 
   <%= render(Primer::Alpha::Dialog::Body.new) do
     primer_form_with(
@@ -51,8 +51,8 @@
     end
   end %>
 
-  <%= render(Primer::Alpha::Dialog::Footer.new) do %>
-    <%= render(Primer::ButtonComponent.new(data: { "close-dialog-id": dialog_id })) { I18n.t(:button_cancel) } %>
-    <%= render(Primer::ButtonComponent.new(scheme: :primary, type: :submit, form: form_id)) { I18n.t(:button_apply) } %>
+  <%= d.with_footer do %>
+    <%= render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { I18n.t(:button_cancel) } %>
+    <%= render(Primer::Beta::Button.new(scheme: :primary, type: :submit, form: form_id)) { I18n.t(:button_apply) } %>
   <% end %>
 <% end %>
