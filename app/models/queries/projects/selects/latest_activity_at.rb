@@ -27,8 +27,14 @@
 # ++
 
 class Queries::Projects::Selects::LatestActivityAt < Queries::Selects::Base
+  TABLE_NAME = 'latest_activity'.freeze
+
   def self.key
     :latest_activity_at
+  end
+
+  def self.column_sql
+    "#{TABLE_NAME}.#{key}"
   end
 
   def self.available?
@@ -37,8 +43,8 @@ class Queries::Projects::Selects::LatestActivityAt < Queries::Selects::Base
 
   def scope
     Project
-      .with(latest_activity: Arel::Nodes::SqlLiteral.new(Project.latest_activity_sql))
-      .select('latest_activity.latest_activity_at')
-      .joins("LEFT JOIN latest_activity ON projects.id = latest_activity.project_id")
+      .with(TABLE_NAME => Arel::Nodes::SqlLiteral.new(Project.latest_activity_sql))
+      .select(self.class.column_sql)
+      .joins("LEFT JOIN #{TABLE_NAME} ON projects.id = #{TABLE_NAME}.project_id")
   end
 end
