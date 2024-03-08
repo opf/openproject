@@ -41,5 +41,5 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render partial: 'users/preferences', locals: { input_size: :middle } %>
   </fieldset>
   <%= call_hook(:view_my_settings, user: @user, form: f) %>
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
 <% end %>

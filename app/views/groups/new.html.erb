@@ -33,5 +33,5 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= labelled_tabular_form_for(@group) do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
-  <div><%= f.button t(:button_create), class: 'button -highlight -with-icon icon-checkmark' %></div>
+  <div><%= f.button t(:button_create), class: 'button -primary -with-icon icon-checkmark' %></div>
 <% end %>

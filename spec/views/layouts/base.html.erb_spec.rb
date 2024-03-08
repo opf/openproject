@@ -190,7 +190,7 @@ RSpec.describe 'layouts/base' do
 
     context "EE is active and styles are present" do
       let(:custom_style) { create(:custom_style) }
-      let(:primary_color) { create(:'design_color_primary-color') }
+      let(:primary_color) { create(:'design_color_primary-button-color') }
 
       before do
         allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
@@ -206,7 +206,7 @@ RSpec.describe 'layouts/base' do
         primary_color
         render
         expect(rendered).to render_template partial: 'custom_styles/_inline_css'
-        expect(rendered).to match /--primary-color:\s*#{primary_color.hexcode}/
+        expect(rendered).to match /--primary-button-color:\s*#{primary_color.hexcode}/
       end
     end
 

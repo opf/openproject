@@ -68,7 +68,7 @@ See COPYRIGHT and LICENSE files for more details.
     <% if (@project && User.current.allowed_in_project?(:create_meetings, @project)) || (@project.nil? && User.current.allowed_in_any_project?(:create_meetings)) %>
       <%= button_to polymorphic_path([:new, @project, :meeting]),
                     { method: :get,
-                      class: 'button -alt-highlight -expand',
+                      class: 'button -primary -expand',
                       aria: { label: t(:label_meeting_new) },
                       title: t(:label_meeting_new) } do %>
         <%= spot_icon('add') %>
