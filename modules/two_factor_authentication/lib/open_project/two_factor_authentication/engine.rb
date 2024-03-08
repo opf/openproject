@@ -1,4 +1,5 @@
 require 'open_project/plugins'
+require 'webauthn'
 
 module OpenProject::TwoFactorAuthentication
   class Engine < ::Rails::Engine
@@ -59,6 +60,12 @@ module OpenProject::TwoFactorAuthentication
                                                             ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.enabled?
                                                           }) do
         two_factor_authentication_request_path
+      end
+
+      WebAuthn.configure do |config|
+        # TODO: Real settings here
+        config.origin = "http://localhost:3000"
+        config.rp_name = "Example Inc."
       end
     end
   end

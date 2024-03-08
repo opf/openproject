@@ -7,6 +7,9 @@ module ::TwoFactorAuthentication
       # Ensure where not the user under edit
       before_action :require_not_self
 
+      # Ensure that only mobile devices are added for other users
+      before_action :ensure_only_sms_type, only: :new
+
       # Password confirmation helpers and actions
       include PasswordConfirmation
       before_action :check_password_confirmation,
@@ -76,6 +79,12 @@ module ::TwoFactorAuthentication
       end
 
       private
+
+      def ensure_only_sms_type
+        return if params[:type] == 'sms'
+
+        render_400(message: I18n.t('two_factor_authentication.admin.only_sms_allowed'))
+      end
 
       def new_device_params
         # Overrides the base controller to active the device

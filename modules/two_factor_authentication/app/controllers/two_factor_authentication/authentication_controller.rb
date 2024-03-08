@@ -15,7 +15,7 @@ module ::TwoFactorAuthentication
 
     # Require authenticated user from the core to be present
     before_action :require_authenticated_user,
-                  only: %i(request_otp enter_backup_code verify_backup_code confirm_otp retry)
+                  only: %i(request_otp enter_backup_code verify_backup_code confirm_otp retry webauthn_challenge)
 
     before_action :ensure_valid_configuration, only: [:request_otp]
 
@@ -41,7 +41,11 @@ module ::TwoFactorAuthentication
     ##
     # Verify the validity of the entered token
     def confirm_otp
-      login_if_otp_token_valid(@authenticated_user, params[:otp])
+      login_if_otp_token_valid(
+        user: @authenticated_user,
+        otp_token: params[:otp],
+        webauthn_credential: params[:webauthn_credential]
+      )
     end
 
     ##
@@ -49,6 +53,15 @@ module ::TwoFactorAuthentication
     def retry
       service = service_from_resend_params
       perform_2fa_authentication service
+    end
+
+    def webauthn_challenge
+      device = otp_service(@authenticated_user).device
+
+      webauthn_options = device.options_for_get
+      session[:webauthn_challenge] = webauthn_options.challenge
+
+      render json: webauthn_options
     end
 
     private
@@ -137,9 +150,14 @@ module ::TwoFactorAuthentication
 
     ##
     # Check OTP string and login if valid
-    def login_if_otp_token_valid(user, token_string)
+    def login_if_otp_token_valid(user:, otp_token:, webauthn_credential:)
       service = otp_service_for_verification(user)
-      result = service.verify(token_string)
+
+      result = if service.device.class.device_type == :webauthn
+                 service.verify(webauthn_credential, webauthn_challenge: session[:webauthn_challenge])
+               else
+                 service.verify(otp_token)
+               end
 
       if result.success?
         set_remember_token!
