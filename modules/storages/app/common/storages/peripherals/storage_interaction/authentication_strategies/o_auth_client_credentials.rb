@@ -37,20 +37,17 @@ module Storages
             Strategy.new(:oauth_client_credentials)
           end
 
-          def call(storage:, http_options: {})
+          def call(storage:, http_options: {}, &)
             config = storage.oauth_configuration.to_httpx_oauth_config
 
-            if config.complete?
-              create_http_and_yield(issuer: config.issuer,
-                                    client_id: config.client_id,
-                                    client_secret: config.client_secret,
-                                    scope: config.scope,
-                                    http_options:)
-            else
-              log_message = 'Cannot authenticate storage with client credential oauth flow. Storage not configured.'
-              data = ::Storages::StorageErrorData.new(source: self, payload: storage)
-              Error.create(code: :error, log_message:, data:)
-            end
+            return build_failure(storage) unless config.complete?
+
+            create_http_and_yield(issuer: config.issuer,
+                                  client_id: config.client_id,
+                                  client_secret: config.client_secret,
+                                  scope: config.scope,
+                                  http_options:,
+                                  &)
           end
 
           private
@@ -67,12 +64,18 @@ module Storages
                                 .with(http_options)
             rescue HTTPX::HTTPError => e
               data = ::Storages::StorageErrorData.new(source: self, payload: e.response.json)
-              return Error.create(code: :unauthorized,
-                                  log_message: 'Error while fetching OAuth access token.',
-                                  data:)
+              return Failures::Builder.call(code: :unauthorized,
+                                            log_message: 'Error while fetching OAuth access token.',
+                                            data:)
             end
 
             yield http
+          end
+
+          def build_failure(storage)
+            log_message = 'Cannot authenticate storage with client credential oauth flow. Storage not configured.'
+            data = ::Storages::StorageErrorData.new(source: self, payload: storage)
+            Failures::Builder.call(code: :error, log_message:, data:)
           end
         end
       end

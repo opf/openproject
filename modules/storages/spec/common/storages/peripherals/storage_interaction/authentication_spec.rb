@@ -36,26 +36,41 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
 
   let(:user) { create(:user) }
 
+  shared_examples_for 'successful response' do |refreshed: false|
+    it "must #{refreshed ? 'refresh token and ' : ''}return success" do
+      result = described_class[auth_strategy].call(storage:, http_options:) { |http| make_request(http) }
+      expect(result).to be_success
+
+      result.match(
+        on_failure: ->(error) { fail "Expected success, got #{error}" },
+        on_success: ->(r) { expect(r).to eq('EXPECTED_RESULT') }
+      )
+    end
+  end
+
   context 'with a Nextcloud storage' do
     let(:storage) do
       create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)
     end
-    let(:folder) { Storages::Peripherals::ParentFolder.new('/') }
-
-    subject do
-      Storages::Peripherals::StorageInteraction::Nextcloud::FilesQuery.new(storage)
-    end
+    let(:request_url) { "#{storage.uri}ocs/v1.php/cloud/user" }
+    let(:http_options) { { headers: { 'OCS-APIRequest' => 'true', 'Accept' => 'application/json' } } }
 
     context 'with basic auth strategy' do
       let(:auth_strategy) { Storages::Peripherals::StorageInteraction::AuthenticationStrategies::BasicAuth.strategy }
 
-      subject do
-        Storages::Peripherals::StorageInteraction::Nextcloud::GroupUsersQuery.new(storage)
+      context 'with valid credentials', vcr: 'auth/nextcloud/basic_auth' do
+        before do
+          # Those values are only used to record the vcr cassette
+          storage.username = 'admin'
+          storage.password = 'admin'
+        end
+
+        it_behaves_like 'successful response'
       end
 
       context 'with empty username and password' do
         it 'must return error' do
-          result = subject.call(auth_strategy:, group: storage.group)
+          result = described_class[auth_strategy].call(storage:, http_options:) { |http| make_request(http) }
           expect(result).to be_failure
           expect(result.error_source)
             .to be_a(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::BasicAuth)
@@ -67,16 +82,17 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
         end
       end
 
-      context 'with invalid username and password', vcr: 'auth/nextcloud/storage_query_basic_auth_password_invalid' do
+      context 'with invalid username and/or password', vcr: 'auth/nextcloud/basic_auth_password_invalid' do
         before do
-          storage.password = 'IAmInvalid'
+          # Those values are only used to record the vcr cassette
+          storage.username = 'admin'
+          storage.password = 'YouShallNot(Multi)Pass'
         end
 
         it 'must return unauthorized' do
-          result = subject.call(auth_strategy:, group: storage.group)
+          result = described_class[auth_strategy].call(storage:, http_options:) { |http| make_request(http) }
           expect(result).to be_failure
-          expect(result.error_source)
-            .to be_a(Storages::Peripherals::StorageInteraction::Nextcloud::GroupUsersQuery)
+          expect(result.error_source).to eq('EXECUTING_QUERY')
 
           result.match(
             on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
@@ -100,7 +116,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
         end
 
         it 'must return unauthorized' do
-          result = subject.call(auth_strategy:, folder:)
+          result = described_class[auth_strategy].call(storage:, http_options:) { |http| make_request(http) }
           expect(result).to be_failure
           expect(result.error_source)
             .to be_a(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
@@ -112,9 +128,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
         end
       end
 
-      context 'with invalid oauth refresh token', vcr: 'auth/nextcloud/storage_query_user_token_refresh_token_invalid' do
+      context 'with invalid oauth refresh token', vcr: 'auth/nextcloud/user_token_refresh_token_invalid' do
         it 'must return unauthorized' do
-          result = subject.call(auth_strategy:, folder:)
+          result = described_class[auth_strategy].call(storage:, http_options:) { |http| make_request(http) }
           expect(result).to be_failure
           expect(result.error_source)
             .to be_a(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
@@ -126,36 +142,43 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
         end
       end
 
-      context 'with invalid oauth access token', vcr: 'auth/nextcloud/storage_query_user_token_access_token_invalid' do
-        it 'must refresh token and return success' do
-          result = subject.call(auth_strategy:, folder:)
-          expect(result).to be_success
-
-          result.match(
-            on_failure: ->(error) { fail "Expected success, got #{error}" },
-            on_success: ->(file_infos) { expect(file_infos).to be_a(Storages::StorageFiles) }
-          )
-        end
+      context 'with invalid oauth access token', vcr: 'auth/nextcloud/user_token_access_token_invalid' do
+        it_behaves_like 'successful response', refreshed: true
       end
     end
   end
 
   context 'with a OneDrive/SharePoint storage' do
     let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
-    let(:folder) { Storages::Peripherals::ParentFolder.new('/') }
-
-    subject do
-      Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery.new(storage)
-    end
+    let(:http_options) { {} }
 
     context 'with client credentials strategy' do
+      let(:request_url) { "#{storage.uri}v1.0/drives" }
       let(:auth_strategy) do
         Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials.strategy
       end
 
-      context 'with invalid oauth credentials', vcr: 'auth/one_drive/storage_query_client_credentials_invalid' do
+      context 'with valid oauth credentials', vcr: 'auth/one_drive/client_credentials' do
+        it_behaves_like 'successful response'
+      end
+
+      context 'with invalid client secret', vcr: 'auth/one_drive/client_credentials_invalid_client_secret' do
         it 'must return unauthorized' do
-          result = subject.call(auth_strategy:, folder:)
+          result = described_class[auth_strategy].call(storage:) { |http| make_request(http) }
+          expect(result).to be_failure
+          expect(result.error_source)
+            .to be_a(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials)
+
+          result.match(
+            on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
+            on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
+          )
+        end
+      end
+
+      context 'with invalid client id', vcr: 'auth/one_drive/client_credentials_invalid_client_id' do
+        it 'must return unauthorized' do
+          result = described_class[auth_strategy].call(storage:) { |http| make_request(http) }
           expect(result).to be_failure
           expect(result.error_source)
             .to be_a(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthClientCredentials)
@@ -169,8 +192,13 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
     end
 
     context 'with user token strategy' do
+      let(:request_url) { "#{storage.uri}v1.0/me" }
       let(:auth_strategy) do
         Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
+      end
+
+      context 'with valid access token', vcr: 'auth/one_drive/user_token' do
+        it_behaves_like 'successful response'
       end
 
       context 'with not existent oauth token' do
@@ -182,7 +210,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
         end
 
         it 'must return unauthorized' do
-          result = subject.call(auth_strategy:, folder:)
+          result = described_class[auth_strategy].call(storage:) { |http| make_request(http) }
           expect(result).to be_failure
           expect(result.error_source)
             .to be_a(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
@@ -194,9 +222,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
         end
       end
 
-      context 'with invalid oauth refresh token', vcr: 'auth/one_drive/storage_query_user_token_refresh_token_invalid' do
+      context 'with invalid oauth refresh token', vcr: 'auth/one_drive/user_token_refresh_token_invalid' do
         it 'must return unauthorized' do
-          result = subject.call(auth_strategy:, folder:)
+          result = described_class[auth_strategy].call(storage:) { |http| make_request(http) }
           expect(result).to be_failure
           expect(result.error_source)
             .to be_a(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
@@ -208,19 +236,35 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Authentication, :webmo
         end
       end
 
-      context 'with invalid oauth access token', vcr: 'auth/one_drive/storage_query_user_token_access_token_invalid' do
-        it 'must return unauthorized' do
-          result = subject.call(auth_strategy:, folder:)
-          expect(result).to be_failure
-          expect(result.error_source)
-            .to be_a(Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken)
-
-          result.match(
-            on_failure: ->(error) { expect(error.code).to eq(:unauthorized) },
-            on_success: ->(file_infos) { fail "Expected failure, got #{file_infos}" }
-          )
-        end
+      context 'with invalid oauth access token', vcr: 'auth/one_drive/user_token_access_token_invalid' do
+        it_behaves_like 'successful response', refreshed: true
       end
     end
+  end
+
+  private
+
+  def make_request(http)
+    handle_response http.get(request_url)
+  end
+
+  def handle_response(response)
+    case response
+    in { status: 200..299 }
+      ServiceResult.success(result: 'EXPECTED_RESULT')
+    in { status: 401 }
+      error(:unauthorized)
+    in { status: 403 }
+      error(:forbidden)
+    in { status: 404 }
+      error(:not_found)
+    else
+      error(:error)
+    end
+  end
+
+  def error(code)
+    data = Storages::StorageErrorData.new(source: 'EXECUTING_QUERY')
+    ServiceResult.failure(result: code, errors: Storages::StorageError.new(code:, data:))
   end
 end

@@ -41,13 +41,17 @@ module Storages
             username = storage.username
             password = storage.password
 
-            if username.blank? || password.blank?
-              log_message = 'Cannot authenticate storage with basic auth. Password or username not configured.'
-              data = ::Storages::StorageErrorData.new(source: self, payload: storage)
-              return Error.create(code: :error, log_message:, data:)
-            end
+            return build_failure(storage) if username.blank? || password.blank?
 
             yield OpenProject.httpx.basic_auth(username, password).with(http_options)
+          end
+
+          private
+
+          def build_failure(storage)
+            log_message = 'Cannot authenticate storage with basic auth. Password or username not configured.'
+            data = ::Storages::StorageErrorData.new(source: self, payload: storage)
+            Failures::Builder.call(code: :error, log_message:, data:)
           end
         end
       end

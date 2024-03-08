@@ -32,8 +32,8 @@ module Storages
   module Peripherals
     module StorageInteraction
       module AuthenticationStrategies
-        class Error
-          def self.create(code:, log_message:, data:)
+        module Failures
+          Builder = ->(code:, log_message:, data:) do
             storage_error = ::Storages::StorageError.new(code:, log_message:, data:)
             ServiceResult.failure(result: code, errors: storage_error)
           end

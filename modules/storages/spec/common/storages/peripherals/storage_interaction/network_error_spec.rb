@@ -37,29 +37,54 @@ RSpec.describe 'network errors for storage interaction' do
 
   let(:user) { create(:user) }
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
-  let(:folder) { Storages::Peripherals::ParentFolder.new('/') }
+  let(:request_url) { 'https://my.timeout.org/' }
   let(:auth_strategy) do
     Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
   end
 
-  subject do
-    Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery.new(storage)
-  end
-
   context 'if a timeout happens' do
     before do
-      request = HTTPX::Request.new(:get, 'https://my.timeout.org/')
+      request = HTTPX::Request.new(:get, request_url)
       httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
       allow(httpx_double).to receive(:with).and_return(httpx_double)
       allow(OpenProject).to receive(:httpx).and_return(httpx_double)
     end
 
     it 'must return an error with wrapped network error response' do
-      error = subject.call(auth_strategy:, folder:)
-      expect(error).to be_failure
-      expect(error.result).to eq(:error)
-      expect(error.error_payload).to be_a(HTTPX::ErrorResponse)
+      result = Storages::Peripherals::StorageInteraction::Authentication[auth_strategy].call(storage:) do |http|
+        make_request(http)
+      end
+
+      expect(result).to be_failure
+      expect(result.result).to eq(:error)
+      expect(result.error_payload).to be_a(HTTPX::ErrorResponse)
     end
+  end
+
+  private
+
+  def make_request(http)
+    handle_response http.get(request_url)
+  end
+
+  def handle_response(response)
+    case response
+    in { status: 200..299 }
+      ServiceResult.success(result: 'EXPECTED_RESULT')
+    in { status: 401 }
+      error(:unauthorized)
+    in { status: 403 }
+      error(:forbidden)
+    in { status: 404 }
+      error(:not_found)
+    else
+      error(:error, response)
+    end
+  end
+
+  def error(code, payload = nil)
+    data = Storages::StorageErrorData.new(source: 'EXECUTING_QUERY', payload:)
+    ServiceResult.failure(result: code, errors: Storages::StorageError.new(code:, data:))
   end
 end
 # rubocop:enable RSpec/DescribeClass

@@ -48,9 +48,9 @@ module Storages
             current_token = OAuthClientToken.find_by(user_id: @user, oauth_client_id: config.oauth_client.id)
             if current_token.nil?
               data = ::Storages::StorageErrorData.new(source: self)
-              return Error.create(code: :unauthorized,
-                                  log_message: 'Authorization failed. No user access token found.',
-                                  data:)
+              return Failures::Builder.call(code: :unauthorized,
+                                            log_message: 'Authorization failed. No user access token found.',
+                                            data:)
             end
 
             opts = http_options.merge({ headers: { 'Authorization' => "Bearer #{current_token.access_token}" } })
@@ -81,9 +81,9 @@ module Storages
                                         .with(http_options)
             rescue HTTPX::HTTPError => e
               data = ::Storages::StorageErrorData.new(source: self, payload: e.response.json)
-              return Error.create(code: :unauthorized,
-                                  log_message: 'Error while refreshing OAuth token.',
-                                  data:)
+              return Failures::Builder.call(code: :unauthorized,
+                                            log_message: 'Error while refreshing OAuth token.',
+                                            data:)
             end
 
             response = yield http_session
@@ -92,9 +92,9 @@ module Storages
               success = update_refreshed_token(token, http_session)
               unless success
                 data = ::Storages::StorageErrorData.new(source: self)
-                return Error.create(code: :error,
-                                    log_message: 'Error while persisting updated access token.',
-                                    data:)
+                return Failures::Builder.call(code: :error,
+                                              log_message: 'Error while persisting updated access token.',
+                                              data:)
               end
             end
 
