@@ -333,77 +333,57 @@ RSpec.describe WorkPackage do
              is_closed: false,
              default_done_ratio: 0)
     end
-    shared_let(:work_package1) do
+    shared_let(:work_package_new) do
       create(:work_package,
              status: status_new)
     end
-    shared_let(:work_package2) do
+    shared_let(:work_package_assigned) do
       create(:work_package,
-             project: work_package1.project,
+             project: work_package_new.project,
              status: status_assigned,
              done_ratio: 30)
     end
 
     describe '#value' do
-      context 'work package field' do
-        before { allow(Setting).to receive(:work_package_done_ratio).and_return 'field' }
-
-        context 'work package 1' do
-          subject { work_package1.done_ratio }
-
-          it { is_expected.to eq(0) }
-        end
-
-        context 'work package 2' do
-          subject { work_package2.done_ratio }
-
-          it { is_expected.to eq(30) }
+      context 'for work-based mode',
+              with_settings: { work_package_done_ratio: 'field' } do
+        it 'returns the value from work package field' do
+          expect(work_package_new.done_ratio).to be_nil
+          expect(work_package_assigned.done_ratio).to eq(30)
         end
       end
 
-      context 'work package status' do
-        before { allow(Setting).to receive(:work_package_done_ratio).and_return 'status' }
-
-        context 'work package 1' do
-          subject { work_package1.done_ratio }
-
-          it { is_expected.to eq(50) }
-        end
-
-        context 'work package 2' do
-          subject { work_package2.done_ratio }
-
-          it { is_expected.to eq(0) }
+      context 'for status-based mode',
+              with_settings: { work_package_done_ratio: 'status' } do
+        it 'uses the % Complete value from the work package status' do
+          expect(work_package_new.done_ratio).to eq(status_new.default_done_ratio)
+          expect(work_package_assigned.done_ratio).to eq(status_assigned.default_done_ratio)
         end
       end
     end
 
     describe '#update_done_ratio_from_status' do
-      context 'work package field' do
-        before do
-          allow(Setting).to receive(:work_package_done_ratio).and_return 'field'
-
-          work_package1.update_done_ratio_from_status
-          work_package2.update_done_ratio_from_status
-        end
-
+      context 'for work-based mode',
+              with_settings: { work_package_done_ratio: 'field' } do
         it 'does not update the done ratio' do
-          expect(work_package1.done_ratio).to eq(0)
-          expect(work_package2.done_ratio).to eq(30)
+          expect { work_package_new.update_done_ratio_from_status }
+            .not_to change { work_package_new[:done_ratio] }
+          expect { work_package_assigned.update_done_ratio_from_status }
+            .not_to change { work_package_assigned[:done_ratio] }
         end
       end
 
-      context 'work package status' do
-        before do
-          allow(Setting).to receive(:work_package_done_ratio).and_return 'status'
+      context 'for status-based mode',
+              with_settings: { work_package_done_ratio: 'status' } do
+        it 'updates the done ratio without saving it' do
+          expect { work_package_new.update_done_ratio_from_status }
+            .to change { work_package_new[:done_ratio] }
+            .from(nil).to(50)
+          expect { work_package_assigned.update_done_ratio_from_status }
+            .to change { work_package_assigned[:done_ratio] }
+            .from(30).to(0)
 
-          work_package1.update_done_ratio_from_status
-          work_package2.update_done_ratio_from_status
-        end
-
-        it 'updates the done ratio' do
-          expect(work_package1.done_ratio).to eq(50)
-          expect(work_package2.done_ratio).to eq(0)
+          expect(work_package_new).to have_changes_to_save
         end
       end
     end

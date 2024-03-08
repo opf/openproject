@@ -1088,7 +1088,7 @@ RSpec.describe MailHandler do
             .to be_nil
 
           expect(subject.done_ratio)
-            .to be 0
+            .to be_nil
 
           expect(subject.priority)
             .to eql priority_low

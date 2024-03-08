@@ -495,7 +495,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       # unchanged
       sibling1_work_package.reload
       expect(sibling1_work_package.done_ratio)
-        .to eq(0)
+        .to be_nil
 
       sibling2_work_package.reload
       expect(sibling2_work_package.done_ratio)
