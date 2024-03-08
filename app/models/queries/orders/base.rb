@@ -44,7 +44,7 @@ module Queries
                     :attribute
 
       def initialize(attribute)
-        self.attribute = attribute
+        self.attribute = attribute.to_sym
       end
 
       def self.key
@@ -56,6 +56,14 @@ module Queries
         query_scope = query_scope.joins(joins) if joins
         query_scope = query_scope.left_outer_joins(left_outer_joins) if left_outer_joins
         query_scope
+      end
+
+      def asc?
+        direction == :asc
+      end
+
+      def desc?
+        direction == :desc
       end
 
       def name

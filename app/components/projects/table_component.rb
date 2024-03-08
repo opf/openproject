@@ -29,22 +29,16 @@
 #++
 
 module Projects
-  class TableComponent < ::TableComponent
+  # Not inheriting from TableComponent as that is AR scope based and here the model
+  # is an OP query.
+  class TableComponent < ::ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     options :params # We read collapsed state from params
     options :current_user # adds this option to those of the base class
     options :query
 
-    def initialize(**)
-      super(rows: [], **)
-    end
-
     def before_render
       @model = projects(query)
       super
-    end
-
-    def initial_sort
-      %i[lft asc]
     end
 
     def table_id
@@ -53,12 +47,6 @@ module Projects
 
     def container_class
       "generic-table--container_visible-overflow generic-table--container_height-100"
-    end
-
-    ##
-    # The project sort by is handled differently
-    def build_sort_header(column, options)
-      helpers.projects_sort_header_tag(column, **options, param: :json)
     end
 
     # We don't return the project row
@@ -165,6 +153,88 @@ module Projects
 
     def sorted_by_lft?
       query.orders.first&.attribute == :lft
+    end
+
+    # TODO: copied from ::TableComponent
+    def render_collection(rows)
+      render(self.class.row_class.with_collection(rows, table: self))
+    end
+
+    def inline_create_link
+      nil
+    end
+
+    class << self
+      def row_class
+        mod = name.split("::")[0..-2].join("::").presence || "Table"
+
+        "#{mod}::RowComponent".constantize
+      rescue NameError
+        raise(
+          NameError,
+          "#{mod}::RowComponent required by #{mod}::TableComponent not defined. " +
+            "Expected to be defined in `app/components/#{mod.underscore}/row_component.rb`."
+        )
+      end
+    end
+
+    # END copied from ::TableComponent
+
+    # TODO: copied from sort_helper.rb
+
+    def sort_link(column, options)
+      order = order_string(column, inverted: true) || 'asc'
+
+      orders = [[column.attribute, order]] + ordered_by
+                                               .reject { |o| [column.attribute, :lft].include?(o.attribute) }
+                                               .map { |o| [o.attribute, o.direction] }
+
+      link_to(column.caption, { sortBy: JSON::dump(orders[0..2]) }, options)
+    end
+
+    # Returns a table header <th> tag with a sort link for the named column
+    # attribute.
+    def sort_header_tag(column, options)
+      options[:title] = sort_header_title(column)
+
+      helpers.within_sort_header_tag_hierarchy(options, sort_class(column)) do
+        sort_link(column, options)
+      end
+    end
+
+    def sort_class(column)
+      order = order_string(column)
+
+      order.nil? ? nil : "sort #{order}"
+    end
+
+    def order_string(column, inverted: false)
+      if column.attribute == first_order_by.attribute
+        if first_order_by.asc?
+          inverted ? 'desc' : 'asc'
+        else
+          inverted ? 'asc' : 'desc'
+        end
+      end
+    end
+
+    def sort_header_title(column)
+      if column.attribute == first_order_by.attribute
+        order = first_order_by.asc? ? t(:label_ascending) : t(:label_descending)
+        order + " #{t(:label_sorted_by, value: "\"#{column.caption}\"")}"
+      else
+        t(:label_sort_by, value: "\"#{column.caption}\"")
+      end
+    end
+
+    # END copied from sort_helper.rb
+
+    def first_order_by
+      ordered_by.first
+    end
+
+    def ordered_by
+      @ordered_by ||= query.orders.select(&:valid?)
     end
   end
 end

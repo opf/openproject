@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
             <% columns.each do |column| %>
               <col <%= "opHighlightCol" unless column.attribute == :hierarchy %> >
             <% end %>
-            <col>
+            <col opHighlightCol>
           </colgroup>
           <thead class="-sticky">
           <tr>
@@ -54,8 +54,8 @@ See COPYRIGHT and LICENSE files for more details.
                   </div>
                 </th>
               <% elsif sortable_column?(column) %>
-                <%= build_sort_header column.attribute,
-                                      order_options(column) %>
+                <%= sort_header_tag column,
+                                    order_options(column) %>
               <% elsif column.attribute == :favored %>
                 <th>
                   <div class="generic-table--header-outer">
