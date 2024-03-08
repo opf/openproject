@@ -60,7 +60,7 @@ RSpec.describe Members::DeleteContract do
 
   context 'when member is not deletable' do
     before do
-      allow(member).to receive(:deletable?).and_return(false)
+      allow(member).to receive(:some_roles_deletable?).and_return(false)
     end
 
     context 'for admin' do

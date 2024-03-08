@@ -77,6 +77,10 @@ class Member < ApplicationRecord
   end
 
   def deletable?
+    member_roles.none?(&:inherited_from?)
+  end
+
+  def some_roles_deletable?
     !member_roles.all?(&:inherited_from?)
   end
 

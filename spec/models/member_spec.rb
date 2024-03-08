@@ -55,14 +55,36 @@ RSpec.describe Member do
   end
 
   describe '#deletable?' do
-    it 'is deletable, when no roles are inherited' do
+    it 'is true, when no roles are inherited' do
       member.member_roles.first.inherited_from = nil
       expect(member).to be_deletable
     end
 
-    it 'is not deletable, when roles are inherited' do
+    it 'is false, when roles are inherited' do
       member.member_roles.first.inherited_from = 1
       expect(member).not_to be_deletable
+    end
+  end
+
+  describe '#some_roles_deletable?' do
+    before do
+      member.roles << project_role
+    end
+
+    it 'is true, when no roles are inherited' do
+      member.member_roles.first.inherited_from = nil
+      expect(member).to be_some_roles_deletable
+    end
+
+    it 'is true, when not all roles are inherited' do
+      member.member_roles.first.inherited_from = 1
+      expect(member).to be_some_roles_deletable
+    end
+
+    it 'is false, when all roles are inherited' do
+      member.member_roles.first.inherited_from = 1
+      member.member_roles.second.inherited_from = 1
+      expect(member).not_to be_some_roles_deletable
     end
   end
 
