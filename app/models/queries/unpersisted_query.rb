@@ -31,12 +31,14 @@ module Queries::UnpersistedQuery
 
   included do
     attr_accessor :filters,
-                  :orders
+                  :orders,
+                  :selects
     attr_reader :group_by
 
     def initialize(*args)
       @filters = []
       @orders = []
+      @selects = []
       @group_by = nil
       @user = args.first[:user] if args&.first
     end

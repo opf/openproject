@@ -133,9 +133,7 @@ module Projects
     def projects(query)
       query
         .results
-        .with_required_storage
-        .with_latest_activity
-        .includes(:custom_values, :enabled_modules)
+        .includes(:enabled_modules)
         .paginate(page: helpers.page_param(params), per_page: helpers.per_page_param(params))
     end
 

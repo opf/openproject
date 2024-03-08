@@ -38,4 +38,11 @@ class Queries::Projects::Selects::RequiredDiskSpace < Queries::Selects::Base
   def caption
     I18n.t(:label_required_disk_storage)
   end
+
+  def scope
+    Project
+      .with(required_space: Project.with_required_storage)
+      .joins("LEFT JOIN required_space ON projects.id = required_space.id")
+      .select("required_space.required_disk_space")
+  end
 end

@@ -63,7 +63,18 @@ module Queries::BaseQuery
 
   def results
     if valid?
-      apply_orders(apply_filters(default_scope))
+      scope = if selects.any?
+                apply_selects(apply_orders(apply_filters(default_scope.select("#{self.class.model.table_name}.*"))))
+              else
+                apply_orders(apply_filters(default_scope))
+              end
+
+      if scope.with_values.any?
+        merged_with = scope.with_values.each_with_object({}) { |v, hash| hash.merge!(v) }
+        scope.with_values = [merged_with]
+      end
+
+      scope
     else
       empty_scope
     end
@@ -209,6 +220,14 @@ module Queries::BaseQuery
 
     group_by.apply_to(query_scope)
       .order(group_by.name)
+  end
+
+  def apply_selects(scope)
+    selects.select { _1.respond_to?(:scope) }.each do |select|
+      scope = scope.merge(select.scope)
+    end
+
+    scope
   end
 
   def build_orders
