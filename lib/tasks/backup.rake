@@ -26,7 +26,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'tempfile'
 require 'pathname'
 
 namespace :backup do
