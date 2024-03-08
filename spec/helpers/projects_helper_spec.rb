@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ProjectsHelper do
   include ApplicationHelper
@@ -47,53 +47,53 @@ RSpec.describe ProjectsHelper do
             .and_return(query_instance)
   end
 
-  describe '#short_project_description' do
+  describe "#short_project_description" do
     let(:project) { build_stubbed(:project, description: "#{'Abcd ' * 5}\n" * 11) }
 
-    it 'returns shortened description' do
+    it "returns shortened description" do
       expect(helper.short_project_description(project))
         .to eql("#{("#{'Abcd ' * 5}\n" * 10)[0..-2]}...")
     end
   end
 
-  describe '#projects_columns_options' do
+  describe "#projects_columns_options" do
     before do
       project_selects
     end
 
-    it 'returns the columns options' do
+    it "returns the columns options" do
       expect(helper.projects_columns_options)
         .to eql([
-                  { name: 'Description', id: :description },
-                  { name: 'Name', id: :name },
-                  { name: 'Status', id: :project_status }
+                  { name: "Description", id: :description },
+                  { name: "Name", id: :name },
+                  { name: "Status", id: :project_status }
                 ])
     end
   end
 
-  describe '#selected_project_columns_options', with_settings: { enabled_projects_columns: %w[name description] } do
+  describe "#selected_project_columns_options", with_settings: { enabled_projects_columns: %w[name description] } do
     before do
       project_selects
     end
 
-    it 'returns the columns options currently persisted in the setting (in that order)' do
+    it "returns the columns options currently persisted in the setting (in that order)" do
       expect(helper.selected_projects_columns_options)
         .to eql([
-                  { name: 'Name', id: :name },
-                  { name: 'Description', id: :description }
+                  { name: "Name", id: :name },
+                  { name: "Description", id: :description }
                 ])
     end
   end
 
-  describe '#protected_project_columns_options' do
+  describe "#protected_project_columns_options" do
     before do
       project_selects
     end
 
-    it 'returns the columns options currently persisted in the setting (in that order)' do
+    it "returns the columns options currently persisted in the setting (in that order)" do
       expect(helper.protected_projects_columns_options)
         .to eql([
-                  { name: 'Name', id: :name }
+                  { name: "Name", id: :name }
                 ])
     end
   end

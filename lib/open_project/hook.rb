@@ -32,7 +32,7 @@ module OpenProject
       # Adds a listener class.
       # Automatically called when a class inherits from OpenProject::Hook::Listener.
       def add_listener(klass)
-        raise ArgumentError, 'Hooks must include Singleton module.' unless klass.included_modules.include?(Singleton)
+        raise ArgumentError, "Hooks must include Singleton module." unless klass.included_modules.include?(Singleton)
 
         listener_classes << klass
         clear_listeners_instances

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Projects::Copy::ProjectCopySchemaRepresenter do
   include API::V3::Utilities::PathHelper
@@ -37,41 +37,41 @@ RSpec.describe API::V3::Projects::Copy::ProjectCopySchemaRepresenter do
 
   shared_let(:representer, reload: false) do
     described_class.create(contract,
-                           self_link: '/a/self/link',
+                           self_link: "/a/self/link",
                            form_embedded: true,
                            current_user:)
   end
 
   shared_let(:subject, reload: false) { representer.to_json }
 
-  describe '_type' do
-    it 'is indicated as Schema' do
-      expect(subject).to be_json_eql('Schema'.to_json).at_path('_type')
+  describe "_type" do
+    it "is indicated as Schema" do
+      expect(subject).to be_json_eql("Schema".to_json).at_path("_type")
     end
   end
 
-  describe 'send_notifications' do
-    it_behaves_like 'has basic schema properties' do
+  describe "send_notifications" do
+    it_behaves_like "has basic schema properties" do
       let(:path) { "sendNotifications" }
-      let(:type) { 'Boolean' }
+      let(:type) { "Boolean" }
       let(:name) { I18n.t(:label_project_copy_notifications) }
       let(:required) { false }
       let(:has_default) { true }
       let(:writable) { true }
-      let(:location) { '_meta' }
+      let(:location) { "_meta" }
     end
   end
 
-  describe 'copy properties' do
+  describe "copy properties" do
     Projects::CopyService.copyable_dependencies.each do |dep|
-      it_behaves_like 'has basic schema properties' do
+      it_behaves_like "has basic schema properties" do
         let(:path) { "copy#{dep[:identifier].camelize}" }
-        let(:type) { 'Boolean' }
+        let(:type) { "Boolean" }
         let(:name) { dep[:name_source].call }
         let(:required) { false }
         let(:has_default) { true }
         let(:writable) { true }
-        let(:location) { '_meta' }
+        let(:location) { "_meta" }
         let(:description) { "No objects of this type" }
       end
     end

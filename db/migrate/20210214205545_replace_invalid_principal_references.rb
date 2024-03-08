@@ -34,7 +34,7 @@ class ReplaceInvalidPrincipalReferences < ActiveRecord::Migration[6.1]
     say "Replacing invalid custom value user references"
     CustomValue
       .joins(:custom_field)
-      .where("#{CustomField.table_name}.field_format" => 'user')
+      .where("#{CustomField.table_name}.field_format" => "user")
       .where("value NOT IN (SELECT id::text FROM users)")
       .update_all(value: deleted_user_id)
 

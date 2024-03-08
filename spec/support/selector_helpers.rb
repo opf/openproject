@@ -30,7 +30,7 @@ module SelectorHelpers
   module_function
 
   def get_pseudo_class_property(page, node, pseudo_class, property)
-    page.evaluate_script('window.getComputedStyle(' + element_by_node(node) + ', "' +
+    page.evaluate_script("window.getComputedStyle(" + element_by_node(node) + ', "' +
                                                   pseudo_class +
                          '").getPropertyValue("' + property + '")')
   end

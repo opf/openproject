@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'OpenID Google provider callback', with_ee: %i[openid_providers] do
+RSpec.describe "OpenID Google provider callback", with_ee: %i[openid_providers] do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -41,12 +41,12 @@ RSpec.describe 'OpenID Google provider callback', with_ee: %i[openid_providers] 
       "prompt" => "none" }
   end
   let(:uri) do
-    uri = URI('/auth/google/callback')
-    uri.query = URI.encode_www_form([['code', auth_hash['code']],
-                                     ['state', auth_hash['state']],
-                                     ['scope', auth_hash['scope']],
-                                     ['authuser', auth_hash['authuser']],
-                                     ['prompt', auth_hash['prompt']]])
+    uri = URI("/auth/google/callback")
+    uri.query = URI.encode_www_form([["code", auth_hash["code"]],
+                                     ["state", auth_hash["state"]],
+                                     ["scope", auth_hash["scope"]],
+                                     ["authuser", auth_hash["authuser"]],
+                                     ["prompt", auth_hash["prompt"]]])
     uri
   end
 
@@ -86,11 +86,11 @@ RSpec.describe 'OpenID Google provider callback', with_ee: %i[openid_providers] 
     )
 
     allow_any_instance_of(OmniAuth::Strategies::OpenIDConnect).to receive(:session) {
-      { 'omniauth.state' => auth_hash['state'] }
+      { "omniauth.state" => auth_hash["state"] }
     }
   end
 
-  it 'redirects user without errors', :webmock, with_settings: {
+  it "redirects user without errors", :webmock, with_settings: {
     plugin_openproject_openid_connect: {
       "providers" => { "google" => { "identifier" => "identifier", "secret" => "secret" } }
     }

@@ -30,7 +30,7 @@ class Journal::BaseJournal < ApplicationRecord
   self.abstract_class = true
 
   has_one :journal, as: :data, inverse_of: :data, dependent: :destroy
-  belongs_to :author, class_name: 'User'
+  belongs_to :author, class_name: "User"
 
   def journaled_attributes
     attributes.symbolize_keys.select { |k, _| self.class.journaled_attributes.include? k }

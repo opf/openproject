@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Projects::Filters::PrincipalFilter do
   let(:group1) { build_stubbed(:group) }
@@ -44,13 +44,13 @@ RSpec.describe Queries::Projects::Filters::PrincipalFilter do
                    user2.id])
   end
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :principal }
     let(:type) { :list_optional }
     let(:name) { Principal.model_name.human }
 
-    describe '#allowed_values' do
-      it 'is a list of the possible values' do
+    describe "#allowed_values" do
+      it "is a list of the possible values" do
         expected = [[group1.id, group1.id.to_s],
                     [group2.id, group2.id.to_s],
                     [user1.id, user1.id.to_s],

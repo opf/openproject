@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackage do
-  describe 'acts_as_event' do
+  describe "acts_as_event" do
     let(:stub_work_package) { build_stubbed(:work_package) }
 
-    describe '#event_url' do
+    describe "#event_url" do
       let(:expected_url) { { controller: :work_packages, action: :show, id: stub_work_package.id } }
 
       it { expect(stub_work_package.event_url).to eq(expected_url) }

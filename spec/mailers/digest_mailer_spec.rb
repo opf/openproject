@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe DigestMailer do
   include OpenProject::ObjectLinking
@@ -50,7 +50,7 @@ RSpec.describe DigestMailer do
   end
   let(:journal) do
     build_stubbed(:work_package_journal,
-                  notes: 'Some notes').tap do |j|
+                  notes: "Some notes").tap do |j|
       allow(j)
         .to receive(:details)
               .and_return({ "subject" => ["old subject", "new subject"] })
@@ -72,22 +72,22 @@ RSpec.describe DigestMailer do
     end
   end
 
-  describe '#work_packages' do
+  describe "#work_packages" do
     subject(:mail) { described_class.work_packages(recipient.id, notifications.map(&:id)) }
 
-    let(:mail_body) { mail.body.parts.detect { |part| part['Content-Type'].value == 'text/html' }.body.to_s }
+    let(:mail_body) { mail.body.parts.detect { |part| part["Content-Type"].value == "text/html" }.body.to_s }
 
-    it 'notes the day and the number of notifications in the subject' do
+    it "notes the day and the number of notifications in the subject" do
       expect(mail.subject)
         .to eql "OpenProject - 1 unread notification"
     end
 
-    it 'sends to the recipient' do
+    it "sends to the recipient" do
       expect(mail.to)
         .to contain_exactly(recipient.mail)
     end
 
-    it 'sets the expected message_id header' do
+    it "sets the expected message_id header" do
       allow(Time)
         .to receive(:current)
               .and_return(Time.current)
@@ -96,13 +96,13 @@ RSpec.describe DigestMailer do
         .to eql "op.digest.#{Time.current.strftime('%Y%m%d%H%M%S')}.#{recipient.id}@example.net"
     end
 
-    it 'sets the expected openproject headers' do
-      expect(mail['X-OpenProject-User']&.value)
+    it "sets the expected openproject headers" do
+      expect(mail["X-OpenProject-User"]&.value)
         .to eql recipient.name
     end
 
-    it 'includes the notifications grouped by work package' do
-      time_stamp = journal.created_at.strftime('%m/%d/%Y, %I:%M %p')
+    it "includes the notifications grouped by work package" do
+      time_stamp = journal.created_at.strftime("%m/%d/%Y, %I:%M %p")
       expect(mail_body)
         .to have_text("Hello #{recipient.firstname}")
 
@@ -119,12 +119,12 @@ RSpec.describe DigestMailer do
         .to have_text(expected_text, normalize_ws: true)
     end
 
-    context 'with only a deleted work package for the digest' do
+    context "with only a deleted work package for the digest" do
       let(:work_package) { nil }
 
       it "is a NullMail which isn't sent" do
         expect(mail.body)
-          .to eql ''
+          .to eql ""
 
         expect(mail.header)
           .to eql({})
@@ -136,9 +136,9 @@ RSpec.describe DigestMailer do
       let!(:recipient) { create(:user) }
       let(:notifications) { [notification] }
 
-      context 'when notification_wp_start_past' do
+      context "when notification_wp_start_past" do
         let(:work_package) do
-          create(:work_package, subject: 'WP start past', project: project1, start_date: 1.day.ago, type: Type.first)
+          create(:work_package, subject: "WP start past", project: project1, start_date: 1.day.ago, type: Type.first)
         end
         let(:notification) do
           create(:notification,
@@ -148,14 +148,14 @@ RSpec.describe DigestMailer do
                  project: project1)
         end
 
-        it 'matches generated text' do
-          expect(mail_body).to have_text('Start date was 1 day ago')
+        it "matches generated text" do
+          expect(mail_body).to have_text("Start date was 1 day ago")
         end
       end
 
-      context 'when notification_wp_start_future' do
+      context "when notification_wp_start_future" do
         let(:work_package) do
-          create(:work_package, subject: 'WP start future', project: project1, start_date: 2.days.from_now, type: Type.first)
+          create(:work_package, subject: "WP start future", project: project1, start_date: 2.days.from_now, type: Type.first)
         end
         let(:notification) do
           create(:notification,
@@ -165,14 +165,14 @@ RSpec.describe DigestMailer do
                  project: project1)
         end
 
-        it 'matches generated text' do
-          expect(mail_body).to have_text('Start date is in 2 days')
+        it "matches generated text" do
+          expect(mail_body).to have_text("Start date is in 2 days")
         end
       end
 
-      context 'when notification_wp_due_past' do
+      context "when notification_wp_due_past" do
         let(:work_package) do
-          create(:work_package, subject: 'WP due past', project: project1, due_date: 3.days.ago, type: Type.first)
+          create(:work_package, subject: "WP due past", project: project1, due_date: 3.days.ago, type: Type.first)
         end
         let(:notification) do
           create(:notification,
@@ -182,14 +182,14 @@ RSpec.describe DigestMailer do
                  project: project1)
         end
 
-        it 'matches generated text' do
-          expect(mail_body).to have_text('Overdue since 3 days')
+        it "matches generated text" do
+          expect(mail_body).to have_text("Overdue since 3 days")
         end
       end
 
-      context 'when notification_wp_due_future' do
+      context "when notification_wp_due_future" do
         let(:work_package) do
-          create(:work_package, subject: 'WP due future', project: project1, due_date: 3.days.from_now, type: Type.first)
+          create(:work_package, subject: "WP due future", project: project1, due_date: 3.days.from_now, type: Type.first)
         end
         let(:notification) do
           create(:notification,
@@ -199,15 +199,15 @@ RSpec.describe DigestMailer do
                  project: project1)
         end
 
-        it 'matches generated text' do
-          expect(mail_body).to have_text('Finish date is in 3 days')
+        it "matches generated text" do
+          expect(mail_body).to have_text("Finish date is in 3 days")
         end
       end
 
-      context 'when notification_milestone_past' do
+      context "when notification_milestone_past" do
         let(:milestone_type) { create(:type_milestone) }
         let(:work_package) do
-          create(:work_package, subject: 'Milestone WP past', project: project1, type: milestone_type, due_date: 2.days.ago)
+          create(:work_package, subject: "Milestone WP past", project: project1, type: milestone_type, due_date: 2.days.ago)
         end
         let(:notification) do
           create(:notification,
@@ -217,15 +217,15 @@ RSpec.describe DigestMailer do
                  project: project1)
         end
 
-        it 'matches generated text' do
+        it "matches generated text" do
           expect(mail_body).to include('<span style="color: #C92A2A">Overdue since 2 days</span>')
         end
       end
 
-      context 'when notification_milestone_future' do
+      context "when notification_milestone_future" do
         let(:milestone_type) { create(:type_milestone) }
         let(:work_package) do
-          create(:work_package, subject: 'Milestone WP future', project: project1, type: milestone_type, due_date: 1.day.from_now)
+          create(:work_package, subject: "Milestone WP future", project: project1, type: milestone_type, due_date: 1.day.from_now)
         end
         let(:notification) do
           create(:notification,
@@ -235,13 +235,13 @@ RSpec.describe DigestMailer do
                  project: project1)
         end
 
-        it 'matches generated text' do
-          expect(mail_body).to have_text('Milestone date is in 1 day')
+        it "matches generated text" do
+          expect(mail_body).to have_text("Milestone date is in 1 day")
         end
       end
 
-      context 'when notification_wp_unset_date' do
-        let(:work_package) { create(:work_package, subject: 'Unset date', project: project1, due_date: nil, type: Type.first) }
+      context "when notification_wp_unset_date" do
+        let(:work_package) { create(:work_package, subject: "Unset date", project: project1, due_date: nil, type: Type.first) }
         let(:notification) do
           create(:notification,
                  reason: :date_alert_due_date,
@@ -250,14 +250,14 @@ RSpec.describe DigestMailer do
                  project: project1)
         end
 
-        it 'matches generated text' do
-          expect(mail_body).to have_text('Finish date is deleted')
+        it "matches generated text" do
+          expect(mail_body).to have_text("Finish date is deleted")
         end
       end
 
-      context 'when notification_wp_due_today' do
+      context "when notification_wp_due_today" do
         let(:work_package) do
-          create(:work_package, subject: 'Due today', project: project1, due_date: Time.zone.today, type: Type.first)
+          create(:work_package, subject: "Due today", project: project1, due_date: Time.zone.today, type: Type.first)
         end
         let(:notification) do
           create(:notification,
@@ -267,14 +267,14 @@ RSpec.describe DigestMailer do
                  project: project1)
         end
 
-        it 'matches generated text' do
-          expect(mail_body).to have_text('Finish date is today')
+        it "matches generated text" do
+          expect(mail_body).to have_text("Finish date is today")
         end
       end
 
-      context 'when notification_wp_double_date_alert' do
+      context "when notification_wp_double_date_alert" do
         let(:work_package) do
-          create(:work_package, subject: 'Alert + Mention', project: project1, due_date: 1.day.from_now, type: Type.first)
+          create(:work_package, subject: "Alert + Mention", project: project1, due_date: 1.day.from_now, type: Type.first)
         end
         let(:notification) do
           create(:notification,
@@ -284,13 +284,13 @@ RSpec.describe DigestMailer do
                  project: project1)
         end
 
-        it 'matches generated text' do
-          expect(mail_body).to have_text('Finish date is in 1 day')
+        it "matches generated text" do
+          expect(mail_body).to have_text("Finish date is in 1 day")
         end
       end
 
-      context 'when notification is mentioned and no journal' do
-        let(:work_package) { create(:work_package, subject: 'Unset date', project: project1, due_date: nil, type: Type.first) }
+      context "when notification is mentioned and no journal" do
+        let(:work_package) { create(:work_package, subject: "Unset date", project: project1, due_date: nil, type: Type.first) }
         let(:notification) do
           create(:notification,
                  reason: :mentioned,
@@ -300,7 +300,7 @@ RSpec.describe DigestMailer do
                  journal: nil)
         end
 
-        it 'does not send the email' do
+        it "does not send the email" do
           expect(mail.body).to eq("")
         end
       end

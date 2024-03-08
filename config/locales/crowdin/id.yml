@@ -26,15 +26,14 @@ id:
       no_results_title_text: Belum ada kegiatan untuk proyek dalam jangka waktu ini.
   admin:
     plugins:
-      no_results_title_text: Tidak ada plugin yang tersedia saat ini.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Warna tema"
       color_theme_custom: "Kustomisasi"
       colors:
-        alternative-color: "Alternatif"
-        content-link-color: "Tautan huruf"
-        primary-color: "Primer"
-        primary-color-dark: "Primer (gelap)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Latar Belakang Header"
         header-item-bg-hover-color: "Latar belakang header melayang"
         header-item-font-color: "Bentuk huruf Judul"
@@ -53,10 +52,8 @@ id:
       enterprise_more_info: "Catatan: logo yang digunakan akan dapat diakses publik."
       manage_colors: "Edit warna pilih opsi"
       instructions:
-        alternative-color: "Warna cerah, umumnya dipakai sebagai penanda tombol penting pada layar monitor."
-        content-link-color: "Warna font sebagian besar tautan."
-        primary-color: "Warna utama."
-        primary-color-dark: "Warna yang lebih gelap dari warna utama biasanya dipakai sebagai efek lintasan kursor."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Warna latar belakang \"item header\" yang bisa di klik ketika ditunjuk dengan mouse."
         header-item-font-color: "Warna font item header yang bisa diklik."
         header-item-font-hover-color: "Warna font \"item header\" yang bisa di klik ketika ditunjuk dengan mouse."
@@ -259,12 +256,15 @@ id:
       no_results_title_text: Tidak ada proyek saat ini
       no_results_content_text: Buat proyek baru
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: "Active projects"
+      my: "My projects"
+      archived: "Archived projects"
+      my_private: "My private project lists"
       new:
-        placeholder: 'New project list'
+        placeholder: "New project list"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Ubah pengenal
       activities:
@@ -286,6 +286,8 @@ id:
         no_results_content_text: Create a new version
       storage:
         no_results_title_text: Tidak ada ruang disk terekam tambahan yang digunakan oleh proyek ini.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: There are currently no members part of this project.
@@ -338,7 +340,7 @@ id:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       Anda tidak diizinkan untuk menghapus pengguna placeholder. Anda tidak memiliki hak untuk mengelola anggota untuk semua proyek yang menjadi anggota pengguna placeholder.
@@ -834,6 +836,10 @@ id:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "saling ekslusif bersama kelompok dengan '%{group_by}'. Anda tidak dapat mengaktifkan keduanya."
           filters:
             custom_fields:
@@ -1178,6 +1184,7 @@ id:
   button_reset: "Reset"
   button_rollback: "Kembali ke versi ini"
   button_save: "Simpan"
+  button_save_as: "Save as"
   button_apply_changes: "Menerapkan perubahan"
   button_save_back: "Save and back"
   button_show: "Tampilkan"
@@ -1488,6 +1495,7 @@ id:
       postgres_migration: "Migrasi instalasi anda ke PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
+      impressum: "Legal notice"
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       blog: "OpenProject blog"
@@ -1744,6 +1752,7 @@ id:
   label_diff_side_by_side: "berdampingan"
   label_digital_accessibility: "Digital accessibility (DE)"
   label_disabled: "disabled"
+  label_disabled_uppercase: "Disabled"
   label_display: "Tampilkan"
   label_display_per_page: "Per halaman: %{value}"
   label_display_used_statuses_only: "Hanya tampilkan status yang digunakan oleh Tipe ini"
@@ -1818,7 +1827,6 @@ id:
   label_subject_or_id: "Subyek atau ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Pernyataan hukum"
   label_in: "dalam"
   label_in_less_than: "kurang dari"
   label_in_more_than: "lebih dari"
@@ -1971,6 +1979,7 @@ id:
   label_precedes: "mendahului"
   label_preferences: "Preferensi"
   label_preview: "Preview"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Sebelumnya"
   label_previous_week: "Minggu sebelumnya"
   label_principal_invite_via_email: " or invite new users via email"
@@ -2553,6 +2562,7 @@ id:
     name_or_identifier: "Nama atau pengenal"
     only_subproject_id: "Hanya subproyek"
     shared_with_user: "Shared with user"
+    shared_with_me: "Shared with me"
     subproject_id: "Termasuk subproyek"
   repositories:
     at_identifier: "at %{identifier}"
@@ -2701,7 +2711,7 @@ id:
   setting_brute_force_block_minutes: "Waktu tunggu blokir"
   setting_cache_formatted_text: "Cache teks yang diformat"
   setting_use_wysiwyg_description: "Select to enable CKEditor5 WYSIWYG editor for all users by default. CKEditor has limited functionality for GFM Markdown."
-  setting_column_options: "Sesuaikan tampilan daftar Paket-Penugasan"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Perbaiki kata kunci"
   setting_commit_logs_encoding: "Commit pesan enkoding"
   setting_commit_logtime_activity_id: "Aktifitas selama waktu login"
@@ -2723,7 +2733,7 @@ id:
   setting_emails_header: "Email header"
   setting_email_login: "Use email as login"
   setting_enabled_scm: "Aktifkan SCM"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Aktifkan Feed"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Batasan konten feed"
@@ -2734,7 +2744,6 @@ id:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Tampilkan secara default"
   setting_work_package_properties: "Properti Paket-Penugasan"
   setting_work_package_startdate_is_adddate: "Gunakan tanggal sekarang untuk start Paket-Penugasan"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2800,12 +2809,12 @@ id:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2842,7 +2851,7 @@ id:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_project_overview: "Settings for project lists"
     session: "Sesi"
     user:
       default_preferences: "Default preferences"
@@ -3007,6 +3016,12 @@ id:
       Jika diaktifkan, pengguna tidak akan dapat memilih login saat pendaftaran. Sebaliknya alamat email yang diberikan akan berfungsi sebagai login. Administrator masih dapat mengubah login secara terpisah.
   queries:
     apply_filter: Terapkan Filter yang telah dikonfigurasikan
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Additional resources"
     getting_started: "Getting started"

@@ -1,12 +1,12 @@
 FactoryBot.define do
-  factory :dashboard, class: 'Grids::Dashboard' do
+  factory :dashboard, class: "Grids::Dashboard" do
     project
     row_count { 7 }
     column_count { 4 }
     widgets do
       [
         Grids::Widget.new(
-          identifier: 'work_packages_table',
+          identifier: "work_packages_table",
           start_row: 1,
           end_row: 7,
           start_column: 1,
@@ -16,7 +16,7 @@ FactoryBot.define do
     end
   end
 
-  factory :dashboard_with_table, class: 'Grids::Dashboard' do
+  factory :dashboard_with_table, class: "Grids::Dashboard" do
     project
     row_count { 7 }
     column_count { 4 }
@@ -25,13 +25,13 @@ FactoryBot.define do
       query = create(:query, project: dashboard.project, public: true)
 
       widget = build(:grid_widget,
-                     identifier: 'work_packages_table',
+                     identifier: "work_packages_table",
                      start_row: 1,
                      end_row: 7,
                      start_column: 1,
                      end_column: 3,
                      options: {
-                       name: 'Work package table',
+                       name: "Work package table",
                        queryId: query.id
                      })
 
@@ -39,21 +39,21 @@ FactoryBot.define do
     end
   end
 
-  factory :dashboard_with_custom_text, class: 'Grids::Dashboard' do
+  factory :dashboard_with_custom_text, class: "Grids::Dashboard" do
     project
     row_count { 7 }
     column_count { 4 }
 
     callback(:after_build) do |dashboard|
       widget = build(:grid_widget,
-                     identifier: 'custom_text',
+                     identifier: "custom_text",
                      start_row: 1,
                      end_row: 7,
                      start_column: 1,
                      end_column: 3,
                      options: {
-                       name: 'Custom text',
-                       text: 'Lorem ipsum'
+                       name: "Custom text",
+                       text: "Lorem ipsum"
                      })
 
       dashboard.widgets = [widget]

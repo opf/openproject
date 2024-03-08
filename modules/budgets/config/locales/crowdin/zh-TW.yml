@@ -32,10 +32,10 @@ zh-TW:
         description: "說明"
         spent: "花費"
         status: "狀態"
-        subject: "主題"
+        subject: "名稱"
         type: "費用類別"
-        labor_budget: "計劃勞力成本"
-        material_budget: "計畫單位成本"
+        labor_budget: "規劃人工成本"
+        material_budget: "規畫單位成本"
       work_package:
         budget_subject: "預算標題"
     models:

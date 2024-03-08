@@ -28,16 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe BasicData::ModelSeeder do
   subject(:seeder) { described_class.new }
 
-  describe '#true?' do
+  describe "#true?" do
     {
-      'true' => true,
-      'false' => false,
-      '' => false,
+      "true" => true,
+      "false" => false,
+      "" => false,
       nil => false
     }.each do |value, expected|
       it "returns #{expected} when value is #{value.inspect}" do

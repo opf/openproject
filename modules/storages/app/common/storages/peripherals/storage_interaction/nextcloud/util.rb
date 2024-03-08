@@ -38,10 +38,12 @@ module Storages::Peripherals::StorageInteraction::Nextcloud::Util
       escaped_path
     end
 
-    def basic_auth_header(username, password)
-      {
-        'Authorization' => "Basic #{Base64::strict_encode64("#{username}:#{password}")}"
-      }
+    def ocs_api_request
+      { headers: { 'OCS-APIRequest' => 'true' } }
+    end
+
+    def webdav_request_with_depth(number)
+      { headers: { 'Depth' => number } }
     end
 
     def error(code, log_message = nil, data = nil)

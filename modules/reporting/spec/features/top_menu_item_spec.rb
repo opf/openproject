@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Top menu items', :js do
+RSpec.describe "Top menu items", :js do
   let(:user) { create(:user) }
   let(:open_menu) { true }
 
   def has_menu_items?(*labels)
-    within '.op-app-header' do
+    within ".op-app-header" do
       labels.each do |l|
         expect(page).to have_link(l)
       end
@@ -41,7 +41,7 @@ RSpec.describe 'Top menu items', :js do
   end
 
   def expect_no_menu_item(*labels)
-    within '.op-app-header' do
+    within ".op-app-header" do
       labels.each do |l|
         expect(page).to have_no_link(l)
       end
@@ -52,8 +52,8 @@ RSpec.describe 'Top menu items', :js do
     # if the menu is not completely expanded (e.g. if the frontend thread is too fast),
     # the click might be ignored
 
-    within '.op-app-menu--item_has-dropdown .op-app-menu--dropdown[aria-expanded=true]' do
-      expect(page).to have_no_css('[style~=overflow]')
+    within ".op-app-menu--item_has-dropdown .op-app-menu--dropdown[aria-expanded=true]" do
+      expect(page).to have_no_css("[style~=overflow]")
 
       page.click_link(title)
     end
@@ -72,32 +72,32 @@ RSpec.describe 'Top menu items', :js do
     top_menu.click if open_menu
   end
 
-  describe 'Modules' do
+  describe "Modules" do
     let!(:top_menu) { find(:css, "[title=#{I18n.t('label_modules')}]") }
 
-    let(:reporting_item) { I18n.t('cost_reports_title') }
+    let(:reporting_item) { I18n.t("cost_reports_title") }
 
-    context 'as an admin' do
+    context "as an admin" do
       let(:user) { create(:admin) }
 
-      it 'displays reporting item' do
+      it "displays reporting item" do
         has_menu_items?(reporting_item)
       end
 
-      it 'visits the reporting page' do
+      it "visits the reporting page" do
         click_link_in_open_menu(reporting_item)
-        expect(page).to have_current_path(url_for(controller: '/cost_reports', action: 'index', project_id: nil, only_path: true))
+        expect(page).to have_current_path(url_for(controller: "/cost_reports", action: "index", project_id: nil, only_path: true))
       end
     end
 
-    context 'as a regular user' do
-      it 'has no menu item' do
+    context "as a regular user" do
+      it "has no menu item" do
         expect_no_menu_item reporting_item
       end
     end
 
-    context 'as a user with permissions', :allow_all_permissions do
-      it 'displays all options' do
+    context "as a user with permissions", :allow_all_permissions do
+      it "displays all options" do
         has_menu_items?(reporting_item)
       end
     end

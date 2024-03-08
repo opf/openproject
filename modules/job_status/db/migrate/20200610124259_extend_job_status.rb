@@ -50,8 +50,8 @@ class ExtendJobStatus < ActiveRecord::Migration[6.0]
 
       reversible do |dir|
         dir.up do
-          change_column_default :delayed_job_statuses, :created_at, -> { 'CURRENT_TIMESTAMP' }
-          change_column_default :delayed_job_statuses, :updated_at, -> { 'CURRENT_TIMESTAMP' }
+          change_column_default :delayed_job_statuses, :created_at, -> { "CURRENT_TIMESTAMP" }
+          change_column_default :delayed_job_statuses, :updated_at, -> { "CURRENT_TIMESTAMP" }
         end
       end
 

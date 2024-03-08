@@ -59,7 +59,7 @@ module API
                              }
 
         def _type
-          'TimeEntriesActivity'
+          "TimeEntriesActivity"
         end
 
         def active_projects

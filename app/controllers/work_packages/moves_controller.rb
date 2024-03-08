@@ -104,7 +104,7 @@ class WorkPackages::MovesController < ApplicationController
   def check_project_uniqueness
     unless @project
       # TODO: let users bulk move/copy work packages from different projects
-      render_error message: :'work_packages.move.unsupported_for_multiple_projects', status: 400
+      render_error message: :"work_packages.move.unsupported_for_multiple_projects", status: 400
       false
     end
   end
@@ -118,7 +118,7 @@ class WorkPackages::MovesController < ApplicationController
     @target_type = @types.find { |t| t.id.to_s == params[:new_type_id].to_s }
     @available_versions = @target_project.assignable_versions
     @available_statuses = Workflow.available_statuses(@project)
-    @notes = params[:notes] || ''
+    @notes = params[:notes] || ""
   end
 
   def attributes_for_create
@@ -126,7 +126,7 @@ class WorkPackages::MovesController < ApplicationController
       .move_work_package
       .compact_blank
       # 'none' is used in the frontend as a value to unset the property, e.g. the assignee.
-      .transform_values { |v| v == 'none' ? nil : v }
+      .transform_values { |v| v == "none" ? nil : v }
       .to_h
   end
 end

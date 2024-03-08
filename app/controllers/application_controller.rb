@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'uri'
-require 'cgi'
+require "uri"
+require "cgi"
 
-require 'doorkeeper/dashboard_helper'
+require "doorkeeper/dashboard_helper"
 
 class ApplicationController < ActionController::Base
   class_attribute :_model_object
@@ -51,7 +51,7 @@ class ApplicationController < ActionController::Base
   include AdditionalUrlHelpers
   include OpenProjectErrorHelper
 
-  layout 'base'
+  layout "base"
 
   protect_from_forgery
   # CSRF protection prevents two things. It prevents an attacker from using a
@@ -74,7 +74,7 @@ class ApplicationController < ActionController::Base
   # Thus, we show an error message unless the request probably is an API
   # request.
   def handle_unverified_request
-    cookies.delete(OpenProject::Configuration['autologin_cookie_name'])
+    cookies.delete(OpenProject::Configuration["autologin_cookie_name"])
     self.logged_user = nil
 
     # Don't render an error message for requests that appear to be API requests.
@@ -105,7 +105,7 @@ class ApplicationController < ActionController::Base
       # Check whether user have cookies enabled, otherwise they'll only be
       # greeted with the CSRF error upon login.
       message = I18n.t(:error_token_authenticity)
-      message << (' ' + I18n.t(:error_cookie_missing)) if openproject_cookie_missing?
+      message << (" " + I18n.t(:error_cookie_missing)) if openproject_cookie_missing?
 
       log_csrf_failure
 
@@ -148,7 +148,7 @@ class ApplicationController < ActionController::Base
 
   def default_url_options(_options = {})
     {
-      layout: params['layout'],
+      layout: params["layout"],
       protocol: Setting.protocol
     }
   end
@@ -159,7 +159,7 @@ class ApplicationController < ActionController::Base
   # https://websecuritytool.codeplex.com/wikipage?title=Checks#http-cache-control-header-no-store
   # http://stackoverflow.com/questions/711418/how-to-prevent-browser-page-caching-in-rails
   def set_cache_buster
-    if OpenProject::Configuration['disable_browser_cache']
+    if OpenProject::Configuration["disable_browser_cache"]
       response.cache_control.merge!(
         max_age: 0,
         public: false,
@@ -179,7 +179,7 @@ class ApplicationController < ActionController::Base
   # Checks if the session cookie is missing.
   # This is useful only on a second request
   def openproject_cookie_missing?
-    request.cookies[OpenProject::Configuration['session_cookie_name']].nil?
+    request.cookies[OpenProject::Configuration["session_cookie_name"]].nil?
   end
 
   helper_method :openproject_cookie_missing?
@@ -187,8 +187,8 @@ class ApplicationController < ActionController::Base
   ##
   # Create CSRF issue
   def log_csrf_failure
-    message = 'CSRF validation error'
-    message << ' (No session cookie present)' if openproject_cookie_missing?
+    message = "CSRF validation error"
+    message << " (No session cookie present)" if openproject_cookie_missing?
 
     op_handle_error message, reference: :csrf_validation_failed
   end
@@ -208,7 +208,7 @@ class ApplicationController < ActionController::Base
   # replaces all invalid characters with #
   def escape_for_logging(string)
     # only allow numbers, ASCII letters, space and the following characters: @.-"'!?=/
-    string.gsub(/[^0-9a-zA-Z@._\-"'!?=\/ ]{1}/, '#')
+    string.gsub(/[^0-9a-zA-Z@._\-"'!?=\/ ]{1}/, "#")
   end
 
   def reset_i18n_fallbacks
@@ -228,7 +228,7 @@ class ApplicationController < ActionController::Base
     user = RequestStore[:current_user] ||
            (session[:authenticated_user_id].present? && User.find_by(id: session[:authenticated_user_id])) ||
            User.anonymous
-    SetLocalizationService.new(user, request.env['HTTP_ACCEPT_LANGUAGE']).call
+    SetLocalizationService.new(user, request.env["HTTP_ACCEPT_LANGUAGE"]).call
   end
 
   def deny_access(not_found: false)
@@ -413,7 +413,7 @@ class ApplicationController < ActionController::Base
     associated = find_belongs_to_chained_objects(associations, model_object)
 
     associated.each do |a|
-      instance_variable_set('@' + a.class.to_s.downcase, a)
+      instance_variable_set("@" + a.class.to_s.downcase, a)
     end
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -452,7 +452,7 @@ class ApplicationController < ActionController::Base
   def find_work_packages
     @work_packages = WorkPackage.includes(:project)
                                 .where(id: params[:work_package_id] || params[:ids])
-                                .order('id ASC')
+                                .order("id ASC")
     fail ActiveRecord::RecordNotFound if @work_packages.empty?
 
     @projects = @work_packages.filter_map(&:project).uniq
@@ -479,7 +479,7 @@ class ApplicationController < ActionController::Base
   end
 
   def back_url
-    params[:back_url] || request.env['HTTP_REFERER']
+    params[:back_url] || request.env["HTTP_REFERER"]
   end
 
   def redirect_back_or_default(default, use_escaped = true)
@@ -497,7 +497,7 @@ class ApplicationController < ActionController::Base
   #
   # @return [boolean, string] name of the layout to use or false for no layout
   def use_layout
-    request.xhr? ? false : 'no_menu'
+    request.xhr? ? false : "no_menu"
   end
 
   def render_feed(items, options = {})
@@ -505,7 +505,7 @@ class ApplicationController < ActionController::Base
     @items = @items.sort { |x, y| y.event_datetime <=> x.event_datetime }
     @items = @items.slice(0, Setting.feeds_limit.to_i)
     @title = options[:title] || Setting.app_title
-    render template: 'common/feed', layout: false, content_type: 'application/atom+xml'
+    render template: "common/feed", layout: false, content_type: "application/atom+xml"
   end
 
   def self.accept_key_auth(*actions)
@@ -519,7 +519,7 @@ class ApplicationController < ActionController::Base
 
   # Returns a string that can be used as filename value in Content-Disposition header
   def filename_for_content_disposition(name)
-    %r{(MSIE|Trident)}.match?(request.env['HTTP_USER_AGENT']) ? ERB::Util.url_encode(name) : name
+    %r{(MSIE|Trident)}.match?(request.env["HTTP_USER_AGENT"]) ? ERB::Util.url_encode(name) : name
   end
 
   def api_request?
@@ -534,8 +534,8 @@ class ApplicationController < ActionController::Base
   def api_key_from_request
     if params[:key].present?
       params[:key]
-    elsif request.headers['X-OpenProject-API-Key'].present?
-      request.headers['X-OpenProject-API-Key']
+    elsif request.headers["X-OpenProject-API-Key"].present?
+      request.headers["X-OpenProject-API-Key"]
     end
   end
 
@@ -550,10 +550,10 @@ class ApplicationController < ActionController::Base
   def render_validation_errors(object)
     options = { status: :unprocessable_entity, layout: false }
     errors = case params[:format]
-             when 'xml'
+             when "xml"
                { xml: object.errors }
-             when 'json'
-               { json: { 'errors' => object.errors } } # ActiveResource client compliance
+             when "json"
+               { json: { "errors" => object.errors } } # ActiveResource client compliance
              else
                fail "Unknown format #{params[:format]} in #render_validation_errors"
              end
@@ -566,7 +566,7 @@ class ApplicationController < ActionController::Base
   def default_template(action_name = self.action_name)
     if api_request?
       begin
-        return view_paths.find_template(default_template_name(action_name), 'api')
+        return view_paths.find_template(default_template_name(action_name), "api")
       rescue ::ActionView::MissingTemplate
         # the api template was not found
         # fallback to the default behaviour
@@ -584,7 +584,7 @@ class ApplicationController < ActionController::Base
   def default_breadcrumb
     label = "label_#{controller_name.singularize}"
 
-    I18n.t(label + '_plural',
+    I18n.t(label + "_plural",
            default: label.to_sym)
   end
 
@@ -607,8 +607,8 @@ class ApplicationController < ActionController::Base
     if session_expired?
       self.logged_user = nil
 
-      flash[:warning] = I18n.t('notice_forced_logout', ttl_time: Setting.session_ttl)
-      redirect_to(controller: '/account', action: 'login', back_url: login_back_url)
+      flash[:warning] = I18n.t("notice_forced_logout", ttl_time: Setting.session_ttl)
+      redirect_to(controller: "/account", action: "login", back_url: login_back_url)
     end
     session[:updated_at] = Time.now
   end
@@ -623,7 +623,7 @@ class ApplicationController < ActionController::Base
 
   def stop_if_feeds_disabled
     if feed_request? && !Setting.feeds_enabled?
-      render_404(message: I18n.t('label_disabled'))
+      render_404(message: I18n.t("label_disabled"))
     end
   end
 
@@ -649,7 +649,7 @@ class ApplicationController < ActionController::Base
     else
       url_params = params.permit(:action, :id, :project_id, :controller)
 
-      unless url_params[:controller].to_s.starts_with?('/')
+      unless url_params[:controller].to_s.starts_with?("/")
         url_params[:controller] = "/#{url_params[:controller]}"
       end
 

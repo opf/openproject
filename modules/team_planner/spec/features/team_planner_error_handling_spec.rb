@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-RSpec.describe 'Team planner error handling', :js,
+RSpec.describe "Team planner error handling", :js,
                with_settings: { start_of_week: 1 } do
-  include_context 'with team planner full access'
+  include_context "with team planner full access"
 
   let!(:work_package) do
     create(:work_package,
@@ -51,7 +51,7 @@ RSpec.describe 'Team planner error handling', :js,
 
   let(:type) { create(:type, custom_fields: [custom_field]) }
 
-  context 'with full permissions', with_ee: %i[team_planner_view] do
+  context "with full permissions", with_ee: %i[team_planner_view] do
     before do
       project.types << type
       project.save!
@@ -65,7 +65,7 @@ RSpec.describe 'Team planner error handling', :js,
       end
     end
 
-    it 'cannot change the wp because of required fields not being set' do
+    it "cannot change the wp because of required fields not being set" do
       custom_field.is_required = true
       custom_field.save!
 
@@ -80,10 +80,10 @@ RSpec.describe 'Team planner error handling', :js,
       end
     end
 
-    it 'cannot change the wp because of conflicting modifications' do
+    it "cannot change the wp because of conflicting modifications" do
       # Try to move the wp
       retry_block do
-        wp_strip = page.find('.fc-event', text: work_package.subject)
+        wp_strip = page.find(".fc-event", text: work_package.subject)
 
         page
           .driver
@@ -105,7 +105,7 @@ RSpec.describe 'Team planner error handling', :js,
           .perform
       end
 
-      team_planner.expect_toast(type: :error, message: I18n.t('api_v3.errors.code_409'))
+      team_planner.expect_toast(type: :error, message: I18n.t("api_v3.errors.code_409"))
 
       work_package.reload
       expect(work_package.start_date).to eq(Time.zone.today.beginning_of_week.next_occurring(:tuesday))

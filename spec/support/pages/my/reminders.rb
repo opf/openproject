@@ -26,7 +26,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/reminders/settings'
+require "support/pages/reminders/settings"
 
 module Pages
   module My

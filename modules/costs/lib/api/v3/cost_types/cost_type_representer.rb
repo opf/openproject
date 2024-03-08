@@ -41,7 +41,7 @@ module API
                  getter: ->(*) { default }
 
         def _type
-          'CostType'
+          "CostType"
         end
       end
     end

@@ -45,7 +45,7 @@ RSpec.configure do |config|
   config.after(pry: true) do |example|
     if example.exception
       exception_message = example.exception.message
-      backtrace_locations = example.exception.backtrace_locations.filter { _1.to_s.include? '/spec/' }
+      backtrace_locations = example.exception.backtrace_locations.filter { _1.to_s.include? "/spec/" }
 
       puts
       puts exception_message
@@ -53,7 +53,7 @@ RSpec.configure do |config|
       puts
 
       # rubocop:disable Lint/Debugger
-      require 'pry'
+      require "pry"
       binding.pry
       # rubocop:enable Lint/Debugger
     end

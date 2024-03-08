@@ -49,13 +49,13 @@ module Queries::Storages::ProjectStorages::Filter
     end
 
     def where
-      operator_strategy.sql_for_field(unescape_hosts(values), Storages::Storage.table_name, 'host')
+      operator_strategy.sql_for_field(unescape_hosts(values), Storages::Storage.table_name, "host")
     end
 
     private
 
     def unescape_hosts(hosts)
-      hosts.map { |host| CGI.unescape(host).gsub(/\/+$/, '') }
+      hosts.map { |host| CGI.unescape(host).gsub(/\/+$/, "") }
     end
   end
 end

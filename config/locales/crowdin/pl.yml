@@ -26,15 +26,14 @@ pl:
       no_results_title_text: W tym okresie nie było żadnych działań związanych z projektem.
   admin:
     plugins:
-      no_results_title_text: Aktualnie nie ma dostępnych żadnych dodatków.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Kolor motywu"
       color_theme_custom: "(Niestandardowe)"
       colors:
-        alternative-color: "Alternatywny"
-        content-link-color: "Czcionka linków"
-        primary-color: "Główny"
-        primary-color-dark: "Główny (ciemny)"
+        primary-button-color: "Przycisk główny"
+        accent-color: "Akcent"
         header-bg-color: "Tło nagłówka"
         header-item-bg-hover-color: "Tło nagłowka po najechaniu myszą"
         header-item-font-color: "Czcionka nagłówka"
@@ -53,10 +52,8 @@ pl:
       enterprise_more_info: "Uwaga: użyte logo będzie ogólnodostępne."
       manage_colors: "Edytuj kolor wybranych opcji"
       instructions:
-        alternative-color: "Silnie zaakcentowany kolor, zazwyczaj stosowany do najważniejszego przycisku na ekranie."
-        content-link-color: "Kolor czcionki większości linków."
-        primary-color: "Główny kolor."
-        primary-color-dark: "Zwykle ciemniejsza wersja głównego koloru, używana dla efektów po najechaniu kursorem."
+        primary-button-color: "Silnie zaakcentowany kolor, stosowany do najważniejszego przycisku na ekranie."
+        accent-color: "Kolor linków i innych ostatnio wyróżnionych elementów."
         header-item-bg-hover-color: "Kolor tła nagłówkowych elementów po najechaniu myszą."
         header-item-font-color: "Kolor czcionki elementów nagłówkowych."
         header-item-font-hover-color: "Kolor czcionki elementów nagłówkowych po najechaniu myszą."
@@ -262,12 +259,15 @@ pl:
       no_results_title_text: Nie ma jeszcze żadnego projektu
       no_results_content_text: Utwórz nowy projekt
     lists:
-      active: 'Aktywne projekty'
-      my: 'Moje projekty'
-      archived: 'Zarchiwizowane projekty'
-      my_private: 'Moje prywatne listy projektów'
+      active: "Aktywne projekty"
+      my: "Moje projekty"
+      archived: "Zarchiwizowane projekty"
+      my_private: "Moje prywatne listy projektów"
       new:
-        placeholder: 'Nowa lista projektów'
+        placeholder: "Nowa lista projektów"
+      delete_modal:
+        title: "Usuń listę projektów"
+        text: "To działanie nie spowoduje usunięcia żadnego projektu znajdującego się na liście. Czy na pewno chcesz usunąć tę listę projektów?"
     settings:
       change_identifier: Identyfikator zmiany
       activities:
@@ -289,6 +289,8 @@ pl:
         no_results_content_text: Utwórz nową wersję projektu
       storage:
         no_results_title_text: Nie ma dodatkowego zarejestrowanego miejsca na dysku zużytego przez ten projekt.
+  lists:
+    can_be_saved_as: "Modyfikacje można zapisać tylko na nowej liście."
   members:
     index:
       no_results_title_text: Nie ma jeszcze żadnych członków projektu.
@@ -341,7 +343,7 @@ pl:
     memberships:
       no_results_title_text: Użytkownik jeszcze nie jest członkiem projektu.
   page:
-    text: 'Tekst'
+    text: "Tekst"
   placeholder_users:
     right_to_manage_members_missing: >
       Nie masz uprawnień do usunięcia użytkownika zastępczego. Nie masz uprawnień do zarządzania członkami niektórych projektów, których użytkownik zastępczy jest członkiem.
@@ -841,6 +843,10 @@ pl:
               invalid: "Znaczniki czasu zawierają nieprawidłowe wartości: %{values}"
               forbidden: "Znaczniki czasu zawierają niedozwolone wartości: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "Należy uwzględnić kolumnę „Nazwa”"
+              nonexistent: "Kolumna „%{column}” nie istnieje."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "wzajemnie się wykluczają w ramach grupowania wg \"%{group_by}\". Nie można aktywować równocześnie."
           filters:
             custom_fields:
@@ -1209,6 +1215,7 @@ pl:
   button_reset: "Reset"
   button_rollback: "Wycofaj do tej wersji"
   button_save: "Zapisz"
+  button_save_as: "Zapisz jako"
   button_apply_changes: "Zastosuj zmiany"
   button_save_back: "Zapisz i wróć"
   button_show: "Pokaż"
@@ -1573,6 +1580,7 @@ pl:
       postgres_migration: "Migrowanie instalacji do PostgreSQL"
       user_guides: "Przewodniki"
       faq: "Najczęściej Zadawane Pytania"
+      impressum: "Informacje prawne"
       glossary: "Słownik"
       shortcuts: "Podpowiedzi"
       blog: "Blog OpenProject"
@@ -1829,6 +1837,7 @@ pl:
   label_diff_side_by_side: "Obok siebie"
   label_digital_accessibility: "Dostępność cyfrowa (DE)"
   label_disabled: "wyłączone"
+  label_disabled_uppercase: "Wyłączono"
   label_display: "Wyświetlanie"
   label_display_per_page: "Na stronę: %{value}"
   label_display_used_statuses_only: "Tylko wyświetla statusy, które są używane przez ten typ"
@@ -1903,7 +1912,6 @@ pl:
   label_subject_or_id: "Temat lub identyfikator"
   label_calendar_subscriptions: "Subskrypcje Kalendarza"
   label_identifier: "Identyfikator"
-  label_impressum: "Informacje prawne"
   label_in: "w"
   label_in_less_than: "w mniej niż"
   label_in_more_than: "w ponad"
@@ -2056,6 +2064,7 @@ pl:
   label_precedes: "Poprzedza"
   label_preferences: "Preferencje"
   label_preview: "Podgląd"
+  label_preview_not_available: "(Podgląd niedostępny)"
   label_previous: "Poprzedni"
   label_previous_week: "Poprzedni tygodzień"
   label_principal_invite_via_email: " lub zaproś nowych użytkowników przez email"
@@ -2645,6 +2654,7 @@ pl:
     name_or_identifier: "Nazwa lub identyfikator"
     only_subproject_id: "Tylko podprojekt"
     shared_with_user: "Udostępniono użytkownikowi"
+    shared_with_me: "Udostępnione dla mnie"
     subproject_id: "Uwzględniając podprojekt"
   repositories:
     at_identifier: "w %{identifier}"
@@ -2793,7 +2803,7 @@ pl:
   setting_brute_force_block_minutes: "Czas, kiedy użytkownik jest zablokowany"
   setting_cache_formatted_text: "Tekst sformatowany w pamięci podręcznej"
   setting_use_wysiwyg_description: "Wybierz, aby włączyć edytor WYSIWYG CKEditor5 domyślnie dla wszystkich użytkowników. CKEditor ma ograniczną funkcjonalność w przypadku dialektu GFM Markdown."
-  setting_column_options: "Dostosuj wygląd list pakietów roboczych"
+  setting_column_options: "Domyślne kolumny listy pakietów roboczych"
   setting_commit_fix_keywords: "Stałe słowa kluczowe"
   setting_commit_logs_encoding: "Commit messages encoding"
   setting_commit_logtime_activity_id: "Aktywność dla logowania czasu pracy"
@@ -2815,7 +2825,7 @@ pl:
   setting_emails_header: "Nagłówek wiadomości e-mail"
   setting_email_login: "Użyj adresu e-mail jako loginu"
   setting_enabled_scm: "Włączone SCM"
-  setting_enabled_projects_columns: "Widoczny na liście projektów"
+  setting_enabled_projects_columns: "Kolumny wyświetlane domyślnie na liście projektów"
   setting_feeds_enabled: "Włącz kanały"
   setting_ical_enabled: "Włącz subskrypcje iCalendar"
   setting_feeds_limit: "Feed content limit"
@@ -2826,7 +2836,6 @@ pl:
   setting_work_package_done_ratio_field: "Pole pakietu roboczego"
   setting_work_package_done_ratio_status: "Status pakietu roboczego"
   setting_work_package_done_ratio_disabled: "Wyłącz (ukryj pole % ukończenia)"
-  setting_work_package_list_default_columns: "Wyświetlane domyślnie"
   setting_work_package_properties: "Właściwości pakietu roboczego"
   setting_work_package_startdate_is_adddate: "Użyj bieżącej daty jako daty początkowej dla nowych pakietów roboczych"
   setting_work_packages_projects_export_limit: "Limit eksportu pakietów roboczych / projektów"
@@ -2892,12 +2901,12 @@ pl:
       remaining_scan_complete_html: >
         Pozostałe pliki zostały przeskanowane. W kwarantannie znajduje się %{file_count} plików. Zostaną Państwo przekierowani na stronę kwarantanny. Proszę użyć tej strony, aby usunąć lub zastąpić pliki poddane kwarantannie.
       remaining_rescanned_files: >
-        Ponieważ skanowanie antywirusowe jest teraz aktywne, %{file_count} plików wymaga ponownego przeskanowania. Proces ten został zaplanowany w tle. Pliki pozostaną dostępne podczas skanowania.
+        Skanowanie antywirusowe zostało włączone. Niektóre pliki (%{file_count}) zostały przesłane wcześniej i nadal wymagają skanowania. Proces ten został zaplanowany w tle. Pliki pozostaną dostępne podczas skanowania.
       upsale:
         description: "Upewnij się, że przesłane do OpenProject pliki  są przeskanowane pod kątem wirusów, zanim będą dostępne dla innych użytkowników."
       actions:
-        delete: 'Usuń plik'
-        quarantine: 'Poddaj plik kwarantannie'
+        delete: "Usuń plik"
+        quarantine: "Poddaj plik kwarantannie"
         instructions_html: >
           Wybierz akcję do wykonania dla plików, w których wykryto wirus: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Poddaj plik kwarantannie, uniemożliwiając użytkownikom dostęp do niego. Administratorzy mogą przeglądać i usuwać pliki poddane kwarantannie w administracji.</li> <li><strong>%{delete_option}</strong>Natychmiast usuń plik.</li> </ul>
       modes:
@@ -2934,7 +2943,7 @@ pl:
     projects:
       missing_dependencies: "Sprawdzono moduł projektu %{module}, który zależy od %{dependencies}. Musisz sprawdzić również te zależności."
       section_new_projects: "Ustawienia nowych projektów"
-      section_project_overview: "Ustawienia listy przeglądu projektu"
+      section_project_overview: "Ustawienia list projektów"
     session: "Sesja"
     user:
       default_preferences: "Ustawienia domyślne"
@@ -3099,6 +3108,12 @@ pl:
       Jeśli włączone, użytkownik nie będzie mógł wybrać loginu podczas rejestracji. Zamiast tego jako identyfikator logowania będzie służyć jego adres e-mail. Administrator może zmienić login oddzielnie.
   queries:
     apply_filter: Zastosuj wstępny filtr
+    configure_view:
+      heading: Konfiguruj widok
+      columns:
+        input_label: "Dodaj kolumny"
+        input_placeholder: "Wybierz kolumnę"
+        drag_area_label: "Zarządzaj kolumnami i zmieniaj ich kolejność"
   top_menu:
     additional_resources: "Dodatkowe zasoby"
     getting_started: "Pierwsze kroki"

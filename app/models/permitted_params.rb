@@ -187,8 +187,13 @@ class PermittedParams
   end
 
   def user(additional_params = [])
-    permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user] + additional_params)
-    permitted_params.merge(custom_field_values(:user))
+    if params[:user].present?
+      permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user] + additional_params)
+      permitted_params.merge(custom_field_values(:user))
+    else
+      # This happens on the Profile page for LDAP user, no "user" hash is sent.
+      {}.merge(custom_field_values(:user, required: false))
+    end
   end
 
   def placeholder_user

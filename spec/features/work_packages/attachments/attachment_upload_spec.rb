@@ -65,7 +65,7 @@ RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
         # Activate the edit field
         field.activate!
 
-        editor.expect_button 'Insert image'
+        editor.expect_button 'Upload image from computer'
 
         editor.drag_attachment image_fixture.path, 'Some image caption'
 
@@ -95,7 +95,7 @@ RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
             comment_field.activate!
 
             # Button should be hidden
-            editor.expect_no_button 'Insert image'
+            editor.expect_no_button 'Upload image from computer'
 
             editor.click_and_type_slowly 'this is a comment!1'
             comment_field.submit_by_click
@@ -113,7 +113,7 @@ RSpec.describe 'Upload attachment to work package', :js, :with_cuprite do
           it 'can open the editor and image upload is shown' do
             comment_field.activate!
 
-            editor.expect_button 'Insert image'
+            editor.expect_button 'Upload image from computer'
 
             editor.click_and_type_slowly 'this is a comment!2'
             editor.drag_attachment image_fixture.path, 'Some image caption'

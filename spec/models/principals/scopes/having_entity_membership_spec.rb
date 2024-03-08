@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Principals::Scopes::HavingEntityMembership do
   shared_association_default(:status) { create(:status) }
   shared_association_default(:priority) { create(:priority) }
   shared_association_default(:author, factory_name: :user) { create(:user) }
 
-  describe '.having_entity_membership' do
+  describe ".having_entity_membership" do
     subject { Principal.having_entity_membership(work_package) }
 
-    context 'with some sharing' do
+    context "with some sharing" do
       let(:project_role) { create(:project_role) }
       let(:view_work_package_role) { create(:view_work_package_role) }
       let(:comment_work_package_role) { create(:comment_work_package_role) }
@@ -63,7 +63,7 @@ RSpec.describe Principals::Scopes::HavingEntityMembership do
       let!(:non_shared_project_user) { create(:user) }
       let!(:shared_project_user) { create(:user) }
 
-      it 'returns all those users having an entity membership' do
+      it "returns all those users having an entity membership" do
         expect(subject)
           .to contain_exactly(view_user,
                               comment_user,
@@ -73,13 +73,13 @@ RSpec.describe Principals::Scopes::HavingEntityMembership do
       end
     end
 
-    context 'without any sharing' do
+    context "without any sharing" do
       let(:project) { create(:project) }
       let(:work_package) { create(:work_package, project:) }
 
       let!(:user) { create(:user) }
 
-      it 'is empty' do
+      it "is empty" do
         expect(subject).to be_empty
       end
     end

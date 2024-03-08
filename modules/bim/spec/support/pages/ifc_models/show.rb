@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'show_default'
+require_relative "show_default"
 
 module Pages
   module IfcModels

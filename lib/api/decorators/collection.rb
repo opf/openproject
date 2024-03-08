@@ -52,7 +52,7 @@ module API
       def deduce_element_decorator
         name = self.class.name
 
-        unless name.end_with?('CollectionRepresenter')
+        unless name.end_with?("CollectionRepresenter")
           raise ArgumentError, "Can't deduce representer name from #{name}, please specify it with `element_decorator ClassName`"
         end
 
@@ -82,7 +82,7 @@ module API
                  embedded: true
 
       def _type
-        'Collection'
+        "Collection"
       end
 
       attr_reader :groups

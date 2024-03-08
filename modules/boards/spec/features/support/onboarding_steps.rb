@@ -29,23 +29,23 @@
 module OnboardingSteps
   def step_through_onboarding_board_tour(with_ee_token: true)
     next_button.click
-    expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.overview')), normalize_ws: true
+    expect(page).to have_text sanitize_string(I18n.t("js.onboarding.steps.boards.overview")), normalize_ws: true
 
     next_button.click
     if with_ee_token
       expect(page)
-        .to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.lists_kanban')), normalize_ws: true, wait: 20
+        .to have_text sanitize_string(I18n.t("js.onboarding.steps.boards.lists_kanban")), normalize_ws: true, wait: 20
     else
       expect(page)
-        .to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.lists_basic')), normalize_ws: true, wait: 20
+        .to have_text sanitize_string(I18n.t("js.onboarding.steps.boards.lists_basic")), normalize_ws: true, wait: 20
     end
 
     next_button.click
-    expect(page).to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.add')), normalize_ws: true
+    expect(page).to have_text sanitize_string(I18n.t("js.onboarding.steps.boards.add")), normalize_ws: true
 
     next_button.click
     expect(page)
-      .to have_text sanitize_string(I18n.t('js.onboarding.steps.boards.drag')), normalize_ws: true
+      .to have_text sanitize_string(I18n.t("js.onboarding.steps.boards.drag")), normalize_ws: true
   end
 end
 

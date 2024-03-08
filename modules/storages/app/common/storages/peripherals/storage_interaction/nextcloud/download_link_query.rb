@@ -46,7 +46,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         direct_download_request(token, file_link).bind do |resp|
           # The nextcloud API returns a successful response with empty body if the authorization is missing or expired
           if resp.body.blank?
-            Util.error(:unauthorized, 'Outbound request not authorized!')
+            Util.error(:unauthorized, "Outbound request not authorized!")
           else
             ServiceResult.success(result: resp.body.to_s)
           end
@@ -64,29 +64,29 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       response = OpenProject
                    .httpx
                    .post(
-                     Util.join_uri_path(@uri, '/ocs/v2.php/apps/dav/api/v1/direct'),
+                     Util.join_uri_path(@uri, "/ocs/v2.php/apps/dav/api/v1/direct"),
                      json: { fileId: file_link.origin_id },
                      headers: {
-                       'Authorization' => "Bearer #{token.access_token}",
-                       'OCS-APIRequest' => 'true',
-                       'Accept' => 'application/json',
-                       'Content-Type' => 'application/json'
+                       "Authorization" => "Bearer #{token.access_token}",
+                       "OCS-APIRequest" => "true",
+                       "Accept" => "application/json",
+                       "Content-Type" => "application/json"
                      }
                    )
       case response
       in { status: 200..299 }
         ServiceResult.success(result: response)
       in { status: 404 }
-        Util.error(:not_found, 'Outbound request destination not found!', response)
+        Util.error(:not_found, "Outbound request destination not found!", response)
       in { status: 401 }
-        Util.error(:unauthorized, 'Outbound request not authorized!', response)
+        Util.error(:unauthorized, "Outbound request not authorized!", response)
       else
-        Util.error(:error, 'Outbound request failed!')
+        Util.error(:error, "Outbound request failed!")
       end
     end
 
     def download_link(token, origin_name)
-      Util.join_uri_path(@uri, 'index.php/apps/integration_openproject/direct', token, CGI.escape(origin_name))
+      Util.join_uri_path(@uri, "index.php/apps/integration_openproject/direct", token, CGI.escape(origin_name))
     end
 
     def direct_download_token(body:)
@@ -105,13 +105,13 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
         return nil
       end
 
-      direct_download_url = json.dig('ocs', 'data', 'url')
+      direct_download_url = json.dig("ocs", "data", "url")
       return nil if direct_download_url.blank?
 
       path = URI.parse(direct_download_url).path
       return nil if path.blank?
 
-      path.split('/').last
+      path.split("/").last
     end
   end
 end

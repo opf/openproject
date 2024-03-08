@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Authorization::UserGlobalRolesQuery do
   let(:user) { build(:user) }
@@ -65,79 +65,79 @@ RSpec.describe Authorization::UserGlobalRolesQuery do
     build(:member, entity: work_package, project: work_package.project, roles: [work_package_editor_role], principal: user)
   end
 
-  describe '.query' do
+  describe ".query" do
     before do
       non_member.save!
       anonymous_role.save!
       user.save!
     end
 
-    it 'is a user relation' do
+    it "is a user relation" do
       expect(described_class.query(user, project)).to be_a ActiveRecord::Relation
     end
 
-    context 'with the user being a member in a project' do
+    context "with the user being a member in a project" do
       before do
         member.save!
       end
 
-      it 'is the member and non member role' do
+      it "is the member and non member role" do
         expect(described_class.query(user)).to contain_exactly(role, non_member)
       end
     end
 
-    context 'with the user being a member in two projects' do
+    context "with the user being a member in two projects" do
       before do
         member.save!
         member2.save!
       end
 
-      it 'is both member and the non member role' do
+      it "is both member and the non member role" do
         expect(described_class.query(user)).to contain_exactly(role, role2, non_member)
       end
     end
 
-    context 'without the user being a member in a project' do
-      it 'is the non member role' do
+    context "without the user being a member in a project" do
+      it "is the non member role" do
         expect(described_class.query(user)).to contain_exactly(non_member)
       end
     end
 
-    context 'with the user being anonymous' do
-      it 'is the anonymous role' do
+    context "with the user being anonymous" do
+      it "is the anonymous role" do
         expect(described_class.query(anonymous)).to contain_exactly(anonymous_role)
       end
     end
 
-    context 'with the user having a global role' do
+    context "with the user having a global role" do
       before do
         global_member.save!
       end
 
-      it 'is the global role and non member role' do
+      it "is the global role and non member role" do
         expect(described_class.query(user)).to contain_exactly(global_role, non_member)
       end
     end
 
-    context 'with the user having a global role and a member role' do
+    context "with the user having a global role and a member role" do
       before do
         member.save!
         global_member.save!
       end
 
-      it 'is the global role, member role and non member role' do
+      it "is the global role, member role and non member role" do
         expect(described_class.query(user)).to contain_exactly(global_role, role, non_member)
       end
     end
 
-    context 'with the user having a global role, a member role and a work package role' do
+    context "with the user having a global role, a member role and a work package role" do
       before do
         member.save!
         global_member.save!
         work_package_member.save!
       end
 
-      it 'is the global role, member role and non member role' do
+      it "is the global role, member role and non member role" do
         expect(described_class.query(user)).to contain_exactly(global_role, role, non_member)
       end
     end

@@ -9,11 +9,11 @@ class WorkPackage
     end
 
     def costs_sum_alias
-      'time_entries_sum'
+      "time_entries_sum"
     end
 
     def subselect_alias
-      'time_entries'
+      "time_entries"
     end
 
     def sum_subselect(base_scope)

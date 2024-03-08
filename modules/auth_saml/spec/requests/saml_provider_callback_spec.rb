@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'SAML provider callback', with_ee: %i[openid_providers] do
+RSpec.describe "SAML provider callback", with_ee: %i[openid_providers] do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -42,32 +42,32 @@ RSpec.describe 'SAML provider callback', with_ee: %i[openid_providers] do
     { SAMLResponse: saml_response }
   end
 
-  let(:issuer) { 'https://foobar.org' }
-  let(:fingerprint) { 'b711a422a0579da630063cbfac448f90be5ae23f' }
+  let(:issuer) { "https://foobar.org" }
+  let(:fingerprint) { "b711a422a0579da630063cbfac448f90be5ae23f" }
 
   let(:config) do
     {
-      'name' => 'saml',
-      'display_name' => 'SAML',
-      'assertion_consumer_service_url' => 'http://localhost:3000/auth/saml/callback',
-      'issuer' => issuer,
-      'idp_cert_fingerprint' => fingerprint,
-      'idp_sso_target_url' => 'https://foobar.org/login',
-      'idp_slo_target_url' => 'https://foobar.org/logout',
-      'security' => {
-        'digest_method' => 'http://www.w3.org/2001/04/xmlenc#sha256',
-        'check_idp_cert_expiration' => false
+      "name" => "saml",
+      "display_name" => "SAML",
+      "assertion_consumer_service_url" => "http://localhost:3000/auth/saml/callback",
+      "issuer" => issuer,
+      "idp_cert_fingerprint" => fingerprint,
+      "idp_sso_target_url" => "https://foobar.org/login",
+      "idp_slo_target_url" => "https://foobar.org/logout",
+      "security" => {
+        "digest_method" => "http://www.w3.org/2001/04/xmlenc#sha256",
+        "check_idp_cert_expiration" => false
       },
-      'attribute_statements' => {
-        'email' => ['email', 'urn:oid:0.9.2342.19200300.100.1.3'],
-        'login' => ['uid', 'email', 'urn:oid:0.9.2342.19200300.100.1.3'],
-        'first_name' => ['givenName', 'urn:oid:2.5.4.42'],
-        'last_name' => ['sn', 'urn:oid:2.5.4.4']
+      "attribute_statements" => {
+        "email" => ["email", "urn:oid:0.9.2342.19200300.100.1.3"],
+        "login" => ["uid", "email", "urn:oid:0.9.2342.19200300.100.1.3"],
+        "first_name" => ["givenName", "urn:oid:2.5.4.42"],
+        "last_name" => ["sn", "urn:oid:2.5.4.4"]
       }
     }
   end
 
-  let(:request) { post '/auth/saml/callback', body }
+  let(:request) { post "/auth/saml/callback", body }
 
   subject do
     Timecop.freeze("2023-04-19T09:37:00Z".to_datetime) { request }
@@ -79,31 +79,31 @@ RSpec.describe 'SAML provider callback', with_ee: %i[openid_providers] do
     }
   end
 
-  shared_examples 'request fails' do
-    it 'redirects to the failure page' do
+  shared_examples "request fails" do
+    it "redirects to the failure page" do
       expect(subject.status).to eq(302)
-      expect(subject.headers['Location']).to eq("/auth/failure?message=invalid_ticket&strategy=saml")
+      expect(subject.headers["Location"]).to eq("/auth/failure?message=invalid_ticket&strategy=saml")
     end
   end
 
-  it 'redirects user when no errors occured' do
+  it "redirects user when no errors occured" do
     expect(subject.status).to eq(302)
-    expect(subject.headers['Location']).to eq("http://example.org/two_factor_authentication/request")
+    expect(subject.headers["Location"]).to eq("http://example.org/two_factor_authentication/request")
   end
 
-  context 'with an invalid timestamp' do
+  context "with an invalid timestamp" do
     subject do
       Timecop.freeze("2023-04-15T09:37:00Z".to_datetime) do
         request
       end
     end
 
-    it_behaves_like 'request fails'
+    it_behaves_like "request fails"
   end
 
-  context 'with an invalid fingerprint' do
-    let(:fingerprint) { 'invalid' }
+  context "with an invalid fingerprint" do
+    let(:fingerprint) { "invalid" }
 
-    it_behaves_like 'request fails'
+    it_behaves_like "request fails"
   end
 end

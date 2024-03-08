@@ -26,19 +26,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe API::V3::Values::Schemas::PropertySchemaRepresenter, 'rendering' do
+RSpec.describe API::V3::Values::Schemas::PropertySchemaRepresenter, "rendering" do
   include API::V3::Utilities::PathHelper
 
   let(:current_user) { build_stubbed(:user) }
 
-  let(:self_link) { '/a/self/link' }
+  let(:self_link) { "/a/self/link" }
 
   let(:model) do
     API::V3::Values::Schemas::Model
-      .new('The start date to that object',
-           'ADate')
+      .new("The start date to that object",
+           "ADate")
   end
 
   let(:representer) do
@@ -49,29 +49,29 @@ RSpec.describe API::V3::Values::Schemas::PropertySchemaRepresenter, 'rendering' 
 
   subject(:generated) { representer.to_json }
 
-  describe '_type' do
-    it 'is indicated as Schema' do
+  describe "_type" do
+    it "is indicated as Schema" do
       expect(subject)
-        .to be_json_eql('Schema'.to_json)
-              .at_path('_type')
+        .to be_json_eql("Schema".to_json)
+              .at_path("_type")
     end
   end
 
-  describe 'property' do
-    let(:path) { 'property' }
+  describe "property" do
+    let(:path) { "property" }
 
-    it_behaves_like 'has basic schema properties' do
-      let(:type) { 'String' }
-      let(:name) { I18n.t(:'api_v3.attributes.property') }
+    it_behaves_like "has basic schema properties" do
+      let(:type) { "String" }
+      let(:name) { I18n.t(:"api_v3.attributes.property") }
       let(:required) { true }
       let(:writable) { false }
     end
   end
 
-  describe 'value' do
-    let(:path) { 'value' }
+  describe "value" do
+    let(:path) { "value" }
 
-    it_behaves_like 'has basic schema properties' do
+    it_behaves_like "has basic schema properties" do
       let(:type) { model.type }
       let(:name) { model.name }
       let(:required) { true }
@@ -79,10 +79,10 @@ RSpec.describe API::V3::Values::Schemas::PropertySchemaRepresenter, 'rendering' 
     end
   end
 
-  describe '_links' do
-    describe 'self' do
-      it_behaves_like 'has an untitled link' do
-        let(:link) { 'self' }
+  describe "_links" do
+    describe "self" do
+      it_behaves_like "has an untitled link" do
+        let(:link) { "self" }
         let(:href) { self_link }
       end
     end

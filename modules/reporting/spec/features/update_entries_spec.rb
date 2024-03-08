@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'support/pages/cost_report_page'
-require_relative 'support/components/cost_reports_base_table'
+require "spec_helper"
+require_relative "support/pages/cost_report_page"
+require_relative "support/components/cost_reports_base_table"
 
-RSpec.describe 'Updating entries within the cost report', :js do
+RSpec.describe "Updating entries within the cost report", :js do
   let(:project) { create(:project) }
   let(:user) { create(:admin, member_with_permissions: { project => %i[work_package_assigned] }) }
   let(:work_package) { create(:work_package, project:) }
@@ -44,7 +44,7 @@ RSpec.describe 'Updating entries within the cost report', :js do
   end
 
   let(:cost_type) do
-    type = create(:cost_type, name: 'My cool type')
+    type = create(:cost_type, name: "My cool type")
     create(:cost_rate, cost_type: type, rate: 7.00)
     type
   end
@@ -69,11 +69,11 @@ RSpec.describe 'Updating entries within the cost report', :js do
     report_page.show_loading_indicator present: false
   end
 
-  it 'can edit and delete time entries' do
+  it "can edit and delete time entries" do
     table.rows_count 1
 
-    table.expect_action_icon 'edit', 1
-    table.expect_action_icon 'delete', 1
+    table.expect_action_icon "edit", 1
+    table.expect_action_icon "delete", 1
 
     table.edit_time_entry 2, 1
 
@@ -81,16 +81,16 @@ RSpec.describe 'Updating entries within the cost report', :js do
     table.rows_count 0
   end
 
-  it 'can edit and delete cost entries' do
+  it "can edit and delete cost entries" do
     table.rows_count 1
 
-    report_page.switch_to_type 'My cool type'
+    report_page.switch_to_type "My cool type"
     report_page.show_loading_indicator present: false
 
     table.rows_count 1
 
-    table.expect_action_icon 'edit', 1
-    table.expect_action_icon 'delete', 1
+    table.expect_action_icon "edit", 1
+    table.expect_action_icon "delete", 1
 
     table.edit_cost_entry 2, 1, cost_entry_user.id.to_s
     visit cost_reports_path(project)
@@ -100,11 +100,11 @@ RSpec.describe 'Updating entries within the cost report', :js do
     table.rows_count 0
   end
 
-  it 'shows the action icons after a table refresh' do
+  it "shows the action icons after a table refresh" do
     table.rows_count 1
 
-    table.expect_action_icon 'edit', 1
-    table.expect_action_icon 'delete', 1
+    table.expect_action_icon "edit", 1
+    table.expect_action_icon "delete", 1
 
     # Force a reload of the table (although nothing has changed)
     report_page.apply
@@ -113,22 +113,22 @@ RSpec.describe 'Updating entries within the cost report', :js do
 
     table.rows_count 1
 
-    table.expect_action_icon 'edit', 1
-    table.expect_action_icon 'delete', 1
+    table.expect_action_icon "edit", 1
+    table.expect_action_icon "delete", 1
   end
 
-  context 'as user without permissions' do
+  context "as user without permissions" do
     let(:role) { create(:project_role, permissions: %i(view_time_entries)) }
     let!(:user) do
       create(:user,
              member_with_roles: { project => role })
     end
 
-    it 'cannot edit or delete' do
+    it "cannot edit or delete" do
       table.rows_count 1
 
-      table.expect_action_icon 'edit', 1, present: false
-      table.expect_action_icon 'delete', 1, present: false
+      table.expect_action_icon "edit", 1, present: false
+      table.expect_action_icon "delete", 1, present: false
     end
   end
 end

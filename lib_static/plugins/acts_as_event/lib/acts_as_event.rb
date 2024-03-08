@@ -45,8 +45,8 @@ module Redmine
                               title: :title,
                               description: :description,
                               author: :author,
-                              url: { controller: '/welcome' },
-                              name: Proc.new { ::I18n.t(name.underscore, scope: 'events') },
+                              url: { controller: "/welcome" },
+                              name: Proc.new { ::I18n.t(name.underscore, scope: "events") },
                               type: name.underscore.dasherize }
 
           cattr_accessor :event_options

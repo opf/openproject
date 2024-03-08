@@ -96,9 +96,9 @@ es:
   label_start_date: "Fecha de inicio"
   meeting:
     copy:
-      title: "Copy meeting %{title}"
-      agenda: "Copy agenda"
-      agenda_text: "Copy the agenda of the old meeting"
+      title: "Copiar reunión %{title}"
+      agenda: "Copiar agenda"
+      agenda_text: "Copiar la agenda de la reunión anterior"
     email:
       open_meeting_link: "Abrir reunión"
       invited:

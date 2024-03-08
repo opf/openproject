@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Users::RegisterUserService do
   let(:user) { build(:user) }
@@ -41,8 +41,8 @@ RSpec.describe Users::RegisterUserService do
     end
   end
 
-  describe '#register_invited_user' do
-    it 'tries to activate that user regardless of settings' do
+  describe "#register_invited_user" do
+    it "tries to activate that user regardless of settings" do
       with_all_registration_options do |_type|
         user = User.new(status: Principal.statuses[:invited])
         instance = described_class.new(user)
@@ -58,8 +58,8 @@ RSpec.describe Users::RegisterUserService do
     end
   end
 
-  describe '#register_ldap_user' do
-    it 'tries to activate that user regardless of settings' do
+  describe "#register_ldap_user" do
+    it "tries to activate that user regardless of settings" do
       with_all_registration_options do |_type|
         user = User.new(status: Principal.statuses[:registered])
         instance = described_class.new(user)
@@ -76,8 +76,8 @@ RSpec.describe Users::RegisterUserService do
     end
   end
 
-  describe '#register_omniauth_user' do
-    let(:user) { User.new(status: Principal.statuses[:registered], identity_url: 'azure:1234') }
+  describe "#register_omniauth_user" do
+    let(:user) { User.new(status: Principal.statuses[:registered], identity_url: "azure:1234") }
     let(:instance) { described_class.new(user) }
 
     before do
@@ -88,7 +88,7 @@ RSpec.describe Users::RegisterUserService do
       allow(EnterpriseToken).to receive(:show_banners?).and_return false
     end
 
-    it 'tries to activate that user regardless of settings' do
+    it "tries to activate that user regardless of settings" do
       with_all_registration_options do |_type|
         call = instance.call
         expect(call).to be_success
@@ -97,7 +97,7 @@ RSpec.describe Users::RegisterUserService do
       end
     end
 
-    context 'with limit_self_registration enabled and self_registration disabled',
+    context "with limit_self_registration enabled and self_registration disabled",
             with_settings: {
               self_registration: 0,
               plugin_openproject_openid_connect: {
@@ -106,15 +106,15 @@ RSpec.describe Users::RegisterUserService do
                 }
               }
             } do
-      it 'fails to activate due to disabled self registration' do
+      it "fails to activate due to disabled self registration" do
         call = instance.call
         expect(call).not_to be_success
         expect(call.result).to eq user
-        expect(call.message).to eq I18n.t('account.error_self_registration_limited_provider', name: 'azure')
+        expect(call.message).to eq I18n.t("account.error_self_registration_limited_provider", name: "azure")
       end
     end
 
-    context 'with limit_self_registration enabled and self_registration manual',
+    context "with limit_self_registration enabled and self_registration manual",
             with_settings: {
               self_registration: 2,
               plugin_openproject_openid_connect: {
@@ -123,7 +123,7 @@ RSpec.describe Users::RegisterUserService do
                 }
               }
             } do
-      it 'registers the user, but does not activate it' do
+      it "registers the user, but does not activate it" do
         call = instance.call
         expect(call).to be_success
         expect(call.result).to eq user
@@ -133,7 +133,7 @@ RSpec.describe Users::RegisterUserService do
       end
     end
 
-    context 'with limit_self_registration enabled and self_registration email',
+    context "with limit_self_registration enabled and self_registration email",
             with_settings: {
               self_registration: 1,
               plugin_openproject_openid_connect: {
@@ -142,7 +142,7 @@ RSpec.describe Users::RegisterUserService do
                 }
               }
             } do
-      it 'registers the user, but does not activate it' do
+      it "registers the user, but does not activate it" do
         call = instance.call
         expect(call).to be_success
         expect(call.result).to eq user
@@ -152,7 +152,7 @@ RSpec.describe Users::RegisterUserService do
       end
     end
 
-    context 'with limit_self_registration enabled and self_registration automatic',
+    context "with limit_self_registration enabled and self_registration automatic",
             with_settings: {
               self_registration: 3,
               plugin_openproject_openid_connect: {
@@ -161,7 +161,7 @@ RSpec.describe Users::RegisterUserService do
                 }
               }
             } do
-      it 'activates the user' do
+      it "activates the user" do
         call = instance.call
         expect(call).to be_success
         expect(call.result).to eq user
@@ -171,8 +171,8 @@ RSpec.describe Users::RegisterUserService do
     end
   end
 
-  describe '#ensure_registration_allowed!' do
-    it 'returns an error for disabled' do
+  describe "#ensure_registration_allowed!" do
+    it "returns an error for disabled" do
       allow(Setting).to receive(:self_registration).and_return(0)
 
       user = User.new
@@ -184,10 +184,10 @@ RSpec.describe Users::RegisterUserService do
       call = instance.call
 
       expect(call.result).to eq user
-      expect(call.message).to eq I18n.t('account.error_self_registration_disabled')
+      expect(call.message).to eq I18n.t("account.error_self_registration_disabled")
     end
 
-    it 'does not return an error for all cases except disabled' do
+    it "does not return an error for all cases except disabled" do
       with_all_registration_options(except: :disabled) do |_type|
         user = User.new
         instance = described_class.new(user)
@@ -195,19 +195,19 @@ RSpec.describe Users::RegisterUserService do
         # Assuming the next returns a result
         expect(instance)
           .to(receive(:ensure_user_limit_not_reached!))
-          .and_return(ServiceResult.failure(result: user, message: 'test stop'))
+          .and_return(ServiceResult.failure(result: user, message: "test stop"))
 
         expect(user).not_to receive(:activate)
         expect(user).not_to receive(:save)
 
         call = instance.call
         expect(call.result).to eq user
-        expect(call.message).to eq 'test stop'
+        expect(call.message).to eq "test stop"
       end
     end
   end
 
-  describe 'ensure_user_limit_not_reached!',
+  describe "ensure_user_limit_not_reached!",
            with_settings: { self_registration: 1 } do
     before do
       expect(OpenProject::Enterprise)
@@ -215,34 +215,34 @@ RSpec.describe Users::RegisterUserService do
         .and_return(limit_reached)
     end
 
-    context 'when limited' do
+    context "when limited" do
       let(:limit_reached) { true }
 
-      it 'returns an error at that step' do
+      it "returns an error at that step" do
         expect(call).to be_failure
         expect(call.result).to eq user
         expect(call.message).to eq I18n.t(:error_enterprise_activation_user_limit)
       end
     end
 
-    context 'when not limited' do
+    context "when not limited" do
       let(:limit_reached) { false }
 
-      it 'returns no error' do
+      it "returns no error" do
         # Assuming the next returns a result
         expect(instance)
           .to(receive(:register_by_email_activation))
-          .and_return(ServiceResult.failure(result: user, message: 'test stop'))
+          .and_return(ServiceResult.failure(result: user, message: "test stop"))
 
         call = instance.call
         expect(call.result).to eq user
-        expect(call.message).to eq 'test stop'
+        expect(call.message).to eq "test stop"
       end
     end
   end
 
-  describe '#register_by_email_activation' do
-    it 'activates the user with mail' do
+  describe "#register_by_email_activation" do
+    it "activates the user with mail" do
       allow(Setting).to receive(:self_registration).and_return(1)
 
       user = User.new
@@ -260,7 +260,7 @@ RSpec.describe Users::RegisterUserService do
       expect(call.message).to eq I18n.t(:notice_account_register_done)
     end
 
-    it 'does not return an error for all cases except disabled' do
+    it "does not return an error for all cases except disabled" do
       with_all_registration_options(except: %i[disabled activation_by_email]) do
         user = User.new
         instance = described_class.new(user)
@@ -268,20 +268,20 @@ RSpec.describe Users::RegisterUserService do
         # Assuming the next returns a result
         expect(instance)
           .to(receive(:register_automatically))
-          .and_return(ServiceResult.failure(result: user, message: 'test stop'))
+          .and_return(ServiceResult.failure(result: user, message: "test stop"))
 
         expect(user).not_to receive(:activate)
         expect(user).not_to receive(:save)
 
         call = instance.call
         expect(call.result).to eq user
-        expect(call.message).to eq 'test stop'
+        expect(call.message).to eq "test stop"
       end
     end
   end
 
-  describe '#register_automatically' do
-    it 'activates the user with mail' do
+  describe "#register_automatically" do
+    it "activates the user with mail" do
       allow(Setting).to receive(:self_registration).and_return(3)
 
       user = User.new
@@ -297,7 +297,7 @@ RSpec.describe Users::RegisterUserService do
       expect(call.message).to eq I18n.t(:notice_account_activated)
     end
 
-    it 'does not return an error if manual' do
+    it "does not return an error if manual" do
       allow(Setting).to receive(:self_registration).and_return(2)
 
       user = User.new
@@ -306,21 +306,21 @@ RSpec.describe Users::RegisterUserService do
       # Assuming the next returns a result
       expect(instance)
         .to(receive(:register_manually))
-        .and_return(ServiceResult.failure(result: user, message: 'test stop'))
+        .and_return(ServiceResult.failure(result: user, message: "test stop"))
 
       expect(user).not_to receive(:activate)
       expect(user).not_to receive(:save)
 
       call = instance.call
       expect(call.result).to eq user
-      expect(call.message).to eq 'test stop'
+      expect(call.message).to eq "test stop"
     end
   end
 
-  describe '#register_manually' do
+  describe "#register_manually" do
     let(:admin_stub) { build_stubbed(:admin) }
 
-    it 'activates the user with mail' do
+    it "activates the user with mail" do
       allow(User).to receive_message_chain(:admin, :active).and_return([admin_stub])
       allow(Setting).to receive(:self_registration).and_return(2)
 
@@ -331,7 +331,7 @@ RSpec.describe Users::RegisterUserService do
       expect(user).not_to receive(:activate)
       expect(user).to receive(:save).and_return true
 
-      mail_stub = double('Mail', deliver_later: true)
+      mail_stub = double("Mail", deliver_later: true)
       expect(UserMailer)
         .to(receive(:account_activation_requested))
         .with(admin_stub, user)
@@ -346,9 +346,9 @@ RSpec.describe Users::RegisterUserService do
     end
   end
 
-  describe 'error handling' do
-    it 'turns it into a service result' do
-      allow(instance).to receive(:ensure_registration_allowed!).and_raise 'FOO!'
+  describe "error handling" do
+    it "turns it into a service result" do
+      allow(instance).to receive(:ensure_registration_allowed!).and_raise "FOO!"
       expect(call).to be_failure
 
       # Does not include the internal error message itself
@@ -356,6 +356,6 @@ RSpec.describe Users::RegisterUserService do
     end
   end
 
-  describe '#with_saved_user_result' do
+  describe "#with_saved_user_result" do
   end
 end

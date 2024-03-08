@@ -28,11 +28,11 @@
 
 module Queries::Filters::Strategies
   class IntegerList < ::Queries::Filters::Strategies::Integer
-    self.supported_operators = ['!', '=']
+    self.supported_operators = ["!", "="]
 
     def operator_map
       super_value = super.dup
-      super_value['='] = ::Queries::Operators::EqualsOr
+      super_value["="] = ::Queries::Operators::EqualsOr
 
       super_value
     end

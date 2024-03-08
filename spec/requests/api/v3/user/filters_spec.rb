@@ -25,15 +25,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'GET /api/v3/users' do
+RSpec.describe "GET /api/v3/users" do
   let!(:users) do
     [
-      create(:admin, login: 'admin', status: :active),
-      create(:user, login: 'h.wurst', status: :active),
-      create(:user, login: 'h.heine', status: :locked),
-      create(:user, login: 'm.mario', status: :active)
+      create(:admin, login: "admin", status: :active),
+      create(:user, login: "h.wurst", status: :active),
+      create(:user, login: "h.heine", status: :locked),
+      create(:user, login: "m.mario", status: :active)
     ]
   end
 
@@ -59,30 +59,30 @@ RSpec.describe 'GET /api/v3/users' do
     Array(Hash(json).dig("_embedded", "elements")).map { |e| e["login"] }
   end
 
-  describe 'status filter' do
-    it '=' do
+  describe "status filter" do
+    it "=" do
       expect(filter_users("status", "=", :active)).to contain_exactly("admin", "h.wurst", "m.mario")
     end
 
-    it '!' do
+    it "!" do
       expect(filter_users("status", "!", :active)).to contain_exactly("h.heine")
     end
   end
 
-  describe 'login filter' do
-    it '=' do
+  describe "login filter" do
+    it "=" do
       expect(filter_users("login", "=", "admin")).to contain_exactly("admin")
     end
 
-    it '!' do
+    it "!" do
       expect(filter_users("login", "!", "admin")).to contain_exactly("h.wurst", "h.heine", "m.mario")
     end
 
-    it '~' do
+    it "~" do
       expect(filter_users("login", "~", "h.")).to contain_exactly("h.wurst", "h.heine")
     end
 
-    it '!~' do
+    it "!~" do
       expect(filter_users("login", "!~", "h.")).to contain_exactly("admin", "m.mario")
     end
   end

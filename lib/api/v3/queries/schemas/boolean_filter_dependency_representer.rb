@@ -37,7 +37,7 @@ module API
           private
 
           def type
-            '[1]Boolean'
+            "[1]Boolean"
           end
         end
       end

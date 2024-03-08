@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'active_job'
+require "active_job"
 
 class ApplicationJob < ActiveJob::Base
   include ::JobStatus::ApplicationJobWithStatus
@@ -90,6 +90,10 @@ class ApplicationJob < ActiveJob::Base
   # by the background jobs at runtime.
   def reload_mailer_settings!
     Setting.reload_mailer_settings!
+  end
+
+  def job_scheduled_at
+    GoodJob::Job.where(id: job_id).pick(:scheduled_at)
   end
 
   private

@@ -28,13 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Update ancestors', :js, :with_cuprite do
+RSpec.describe "Update ancestors", :js, :with_cuprite do
   shared_let(:user) { create(:admin) }
   shared_let(:priority) { create(:default_priority) }
-  shared_let(:new_status) { create(:default_status, name: 'New') }
-  shared_let(:closed_status) { create(:closed_status, name: 'Closed') }
+  shared_let(:new_status) { create(:default_status, name: "New") }
+  shared_let(:closed_status) { create(:closed_status, name: "Closed") }
   shared_let(:type) { create(:type_task) }
   shared_let(:project_role) { create(:project_role) }
   shared_let(:project) { create(:project, types: [type]) }
@@ -63,14 +63,14 @@ RSpec.describe 'Update ancestors', :js, :with_cuprite do
 
   shared_let(:parent) do
     create(:work_package,
-           subject: 'parent',
+           subject: "parent",
            estimated_hours: 2,
            remaining_hours: 1)
   end
   shared_let(:child) do
     create(:work_package,
            parent:,
-           subject: 'child',
+           subject: "child",
            estimated_hours: 6,
            remaining_hours: 3,
            done_ratio: 50)
@@ -78,7 +78,7 @@ RSpec.describe 'Update ancestors', :js, :with_cuprite do
   shared_let(:second_child) do
     create(:work_package,
            parent:,
-           subject: 'second child',
+           subject: "second child",
            estimated_hours: 3,
            remaining_hours: 3,
            done_ratio: 0)
@@ -101,7 +101,7 @@ RSpec.describe 'Update ancestors', :js, :with_cuprite do
     wp_table.visit_query query
   end
 
-  context 'when changing a child work and remaining work values', retry: 2 do
+  context "when changing a child work and remaining work values", retry: 2 do
     it "updates the derived parent work, remaining work, and % complete values" do
       expect do
         wp_table.update_work_package_attributes(child, estimatedTime: child.estimated_hours + 1)
@@ -115,8 +115,8 @@ RSpec.describe 'Update ancestors', :js, :with_cuprite do
     end
   end
 
-  context 'when changing a child % complete value' do
-    it 'updates the derived parent % complete value' do
+  context "when changing a child % complete value" do
+    it "updates the derived parent % complete value" do
       expect do
         wp_table.update_work_package_attributes(child, percentageDone: 100)
         parent.reload
@@ -124,17 +124,17 @@ RSpec.describe 'Update ancestors', :js, :with_cuprite do
     end
   end
 
-  context 'when setting a child status to closed' do
-    it 'considers child % complete to be 100% and updates the derived parent % complete value accordingly' do
+  context "when setting a child status to closed" do
+    it "considers child % complete to be 100% and updates the derived parent % complete value accordingly" do
       expect do
-        wp_table.update_work_package_attributes(child, status: 'Closed')
+        wp_table.update_work_package_attributes(child, status: "Closed")
         parent.reload
       end.to change(parent, :derived_done_ratio).to(67) # 6h at 100% and 3h at 0% => 67% complete for 9h
     end
   end
 
-  context 'when deleting a child' do
-    it 'updates the derived parent work, remaining work, and % complete values' do
+  context "when deleting a child" do
+    it "updates the derived parent work, remaining work, and % complete values" do
       context_menu = wp_table.open_context_menu_for(second_child)
       context_menu.choose_delete_and_confirm_deletion
 
@@ -145,15 +145,15 @@ RSpec.describe 'Update ancestors', :js, :with_cuprite do
     end
   end
 
-  context 'when adding a new child' do
-    it 'updates the derived parent work, remaining work, and % complete values' do
+  context "when adding a new child" do
+    it "updates the derived parent work, remaining work, and % complete values" do
       context_menu = wp_table.open_context_menu_for(parent)
-      context_menu.choose(I18n.t('js.relation_buttons.add_new_child'))
+      context_menu.choose(I18n.t("js.relation_buttons.add_new_child"))
 
       split_view_create = Pages::SplitWorkPackageCreate.new(project:)
-      split_view_create.set_attributes({ subject: 'new child', estimatedTime: 1, remainingTime: 3 })
+      split_view_create.set_attributes({ subject: "new child", estimatedTime: 1, remainingTime: 3 })
       split_view_create.save!
-      split_view_create.expect_and_dismiss_toaster message: 'Successful creation'
+      split_view_create.expect_and_dismiss_toaster message: "Successful creation"
 
       parent.reload
       new_child = WorkPackage.last
@@ -165,11 +165,11 @@ RSpec.describe 'Update ancestors', :js, :with_cuprite do
     end
   end
 
-  context 'when outdenting and indenting hierarchy of a child' do
-    it 'updates the parent work and remaining work values' do
+  context "when outdenting and indenting hierarchy of a child" do
+    it "updates the parent work and remaining work values" do
       context_menu = wp_table.open_context_menu_for(second_child)
-      context_menu.choose(I18n.t('js.relation_buttons.hierarchy_outdent'))
-      wp_table.expect_and_dismiss_toaster message: 'Successful update'
+      context_menu.choose(I18n.t("js.relation_buttons.hierarchy_outdent"))
+      wp_table.expect_and_dismiss_toaster message: "Successful update"
 
       parent.reload
       expect(parent.derived_estimated_hours).to eq([parent, child].pluck(:estimated_hours).sum)
@@ -177,8 +177,8 @@ RSpec.describe 'Update ancestors', :js, :with_cuprite do
       expect(parent.derived_done_ratio).to eq(child.done_ratio)
 
       context_menu = wp_table.open_context_menu_for(second_child)
-      context_menu.choose(I18n.t('js.relation_buttons.hierarchy_indent'))
-      wp_table.expect_and_dismiss_toaster message: 'Successful update'
+      context_menu.choose(I18n.t("js.relation_buttons.hierarchy_indent"))
+      wp_table.expect_and_dismiss_toaster message: "Successful update"
 
       parent.reload
       expect(parent.derived_estimated_hours).to eq([parent, child, second_child].pluck(:estimated_hours).sum)

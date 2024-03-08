@@ -33,7 +33,7 @@ class AddButtonComponent < ApplicationComponent
   options :current_project
 
   def render?
-    raise 'Implement the conditions for which the component should render or not'
+    raise "Implement the conditions for which the component should render or not"
   end
 
   def dynamic_path
@@ -45,7 +45,7 @@ class AddButtonComponent < ApplicationComponent
   end
 
   def li_css_class
-    'toolbar-item'
+    "toolbar-item"
   end
 
   def title
@@ -55,7 +55,7 @@ class AddButtonComponent < ApplicationComponent
   def label
     content_tag(:span,
                 label_text,
-                class: 'button--text')
+                class: "button--text")
   end
 
   def aria_label
@@ -71,10 +71,10 @@ class AddButtonComponent < ApplicationComponent
   end
 
   def link_css_class
-    'button -alt-highlight'
+    "button -primary"
   end
 
   def icon
-    helpers.op_icon('button--icon icon-add')
+    helpers.op_icon("button--icon icon-add")
   end
 end

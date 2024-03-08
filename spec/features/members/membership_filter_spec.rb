@@ -26,26 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'group memberships through groups page', :js do
+RSpec.describe "group memberships through groups page", :js do
   shared_let(:admin) { create(:admin) }
-  let!(:project) { create(:project, name: 'Project 1', identifier: 'project1') }
+  let!(:project) { create(:project, name: "Project 1", identifier: "project1") }
 
   let!(:peter) do
     create(:user,
-           firstname: 'Peter',
-           lastname: 'Pan',
-           mail: 'foo@example.org',
+           firstname: "Peter",
+           lastname: "Pan",
+           mail: "foo@example.org",
            member_with_roles: { project => role },
            preferences: { hide_mail: false })
   end
 
   let!(:hannibal) do
     create(:user,
-           firstname: 'Pan',
-           lastname: 'Hannibal',
-           mail: 'foo@example.com',
+           firstname: "Pan",
+           lastname: "Hannibal",
+           mail: "foo@example.com",
            member_with_roles: { project => role },
            preferences: { hide_mail: true })
   end
@@ -58,24 +58,24 @@ RSpec.describe 'group memberships through groups page', :js do
     expect_angular_frontend_initialized
   end
 
-  it 'filters users based on some name attribute' do
+  it "filters users based on some name attribute" do
     members_page.open_filters!
 
-    members_page.search_for_name 'pan'
-    members_page.find_user 'Pan Hannibal'
-    expect(page).to have_no_css('td.mail', text: hannibal.mail)
-    members_page.find_user 'Peter Pan'
+    members_page.search_for_name "pan"
+    members_page.find_user "Pan Hannibal"
+    expect(page).to have_no_css("td.mail", text: hannibal.mail)
+    members_page.find_user "Peter Pan"
     members_page.find_mail peter.mail
 
-    members_page.search_for_name '@example'
-    members_page.find_user 'Pan Hannibal'
-    expect(page).to have_no_css('td.mail', text: hannibal.mail)
-    members_page.find_user 'Peter Pan'
+    members_page.search_for_name "@example"
+    members_page.find_user "Pan Hannibal"
+    expect(page).to have_no_css("td.mail", text: hannibal.mail)
+    members_page.find_user "Peter Pan"
     members_page.find_mail peter.mail
 
-    members_page.search_for_name '@example.org'
-    members_page.find_user 'Peter Pan'
+    members_page.search_for_name "@example.org"
+    members_page.find_user "Peter Pan"
     members_page.find_mail peter.mail
-    expect(page).to have_no_css('td.mail', text: hannibal.mail)
+    expect(page).to have_no_css("td.mail", text: hannibal.mail)
   end
 end

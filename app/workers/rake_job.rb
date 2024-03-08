@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'rake'
+require "rake"
 
 ##
 # Invoke a rake task while safely loading the tasks only once

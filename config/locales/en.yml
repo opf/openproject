@@ -35,15 +35,14 @@ en:
 
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins available.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Color theme"
       color_theme_custom: "(Custom)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Header background"
         header-item-bg-hover-color: "Header background on hover"
         header-item-font-color: "Header font"
@@ -62,10 +61,8 @@ en:
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Edit color select options"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
-        content-link-color: "Font color of most of the links."
-        primary-color: "Main color."
-        primary-color-dark: "Typically a darker version of the main color used for hover effects."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
         header-item-font-color: "Font color of clickable header items."
         header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
@@ -297,13 +294,15 @@ en:
       no_results_title_text: There are currently no projects
       no_results_content_text: Create a new project
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: "Active projects"
+      my: "My projects"
+      archived: "Archived projects"
+      my_private: "My private project lists"
       new:
-        placeholder: 'New project list'
-
+        placeholder: "New project list"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Change identifier
       activities:
@@ -325,6 +324,9 @@ en:
         no_results_content_text: Create a new version
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
+
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
 
   members:
     index:
@@ -381,7 +383,7 @@ en:
     memberships:
       no_results_title_text: This user is currently not a member of a project.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user.
@@ -1283,6 +1285,7 @@ en:
   button_reset: "Reset"
   button_rollback: "Rollback to this version"
   button_save: "Save"
+  button_save_as: "Save as"
   button_apply_changes: "Apply changes"
   button_save_back: "Save and back"
   button_show: "Show"
@@ -1632,6 +1635,7 @@ en:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
+      impressum: "Legal notice"
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       blog: "OpenProject blog"
@@ -1645,6 +1649,7 @@ en:
     changes_retracted: "The changes were retracted."
 
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
       system_update: "OpenProject system update:"
 
@@ -1911,6 +1916,7 @@ en:
   label_diff_side_by_side: "side by side"
   label_digital_accessibility: "Digital accessibility (DE)"
   label_disabled: "disabled"
+  label_disabled_uppercase: "Disabled"
   label_display: "Display"
   label_display_per_page: "Per page: %{value}"
   label_display_used_statuses_only: "Only display statuses that are used by this type"
@@ -1985,7 +1991,6 @@ en:
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Legal notice"
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"
@@ -2138,6 +2143,7 @@ en:
   label_precedes: "precedes"
   label_preferences: "Preferences"
   label_preview: "Preview"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Previous"
   label_previous_week: "Previous week"
   label_principal_invite_via_email: " or invite new users via email"
@@ -2745,6 +2751,7 @@ en:
     name_or_identifier: "Name or identifier"
     only_subproject_id: "Only subproject"
     shared_with_user: "Shared with user"
+    shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
 
   repositories:
@@ -2870,6 +2877,16 @@ en:
     If CORS is enabled, these are the origins that are allowed to access OpenProject API.
     <br/>
     Please check the <a href="%{origin_link}" target="_blank">Documentation on the Origin header</a> on how to specify the expected values.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation,
+    such as createdAt and updatedAt timestamps.
+    <br/>
+    <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows
+    administrators to impersonate the creation of items as other users. All creation requests are being
+    logged however with the true author.
+    </br>
+    For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Maximum API page size"
   setting_apiv3_max_page_instructions_html: >
     Set the maximum page size the API will respond with.
@@ -3015,13 +3032,14 @@ en:
         Remaining files have been scanned. There are %{file_count} in quarantine.
         You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. 
+        Virus scanning has been enabled successfuly.
+        There are %{file_count} that were uploaded previously and still need to be scanned.
         This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected:
           <br/>
@@ -3282,10 +3300,9 @@ en:
     configure_view:
       heading: Configure view
       columns:
-        input_label: 'Add columns'
-        input_placeholder: 'Select a column'
-        drag_area_label: 'Manage and reorder columns'
-
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
 
   top_menu:
     additional_resources: "Additional resources"
@@ -3324,6 +3341,7 @@ en:
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: "Status change"
     text_change_disabled_for_provider_login: "The name is set by your login provider and can thus not be changed."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Unlock"
     unlock_and_reset_failed_logins: "Unlock and reset failed logins"
 

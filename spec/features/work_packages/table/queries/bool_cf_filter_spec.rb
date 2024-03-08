@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package filtering by bool custom field', :js do
+RSpec.describe "Work package filtering by bool custom field", :js do
   let(:project) { create(:project) }
   let(:type) { project.types.first }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
@@ -74,7 +74,7 @@ RSpec.describe 'Work package filtering by bool custom field', :js do
            member_with_permissions: { project => %i[view_work_packages save_queries] })
   end
 
-  it 'shows the work package matching the bool cf filter' do
+  it "shows the work package matching the bool cf filter" do
     wp_table.visit!
     wp_table.expect_work_package_listed(work_package_true, work_package_false, work_package_without, work_package_other_type)
 
@@ -83,16 +83,12 @@ RSpec.describe 'Work package filtering by bool custom field', :js do
     # Add filtering by bool custom field which defaults to false
     filters.add_filter(bool_cf.name)
 
-    # Turn the added filter to the "true" value.
-    # Ideally this would be the default.
-    page.find("#div-values-customField#{bool_cf.id} #{test_selector('spot-switch-handle')}").click
-
     wp_table.ensure_work_package_not_listed!(work_package_false, work_package_without, work_package_other_type)
     wp_table.expect_work_package_listed(work_package_true)
 
-    wp_table.save_as('Saved query')
+    wp_table.save_as("Saved query")
 
-    wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
+    wp_table.expect_and_dismiss_toaster(message: "Successful creation.")
 
     # Revisit query
     wp_table.visit_query Query.last

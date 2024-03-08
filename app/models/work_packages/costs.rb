@@ -90,22 +90,22 @@ module WorkPackages::Costs
   class_methods do
     protected
 
-    def cleanup_cost_entries_before_destruction_of(work_packages, user, to_do = { action: 'destroy' })
+    def cleanup_cost_entries_before_destruction_of(work_packages, user, to_do = { action: "destroy" })
       work_packages = Array(work_packages)
 
       return false unless to_do.present?
 
       case to_do[:action]
-      when 'destroy'
+      when "destroy"
         true
         # nothing to do
-      when 'nullify'
+      when "nullify"
         work_packages.each do |wp|
           wp.errors.add(:base, :nullify_is_not_valid_for_cost_entries)
         end
 
         false
-      when 'reassign'
+      when "reassign"
         reassign_cost_entries_before_destruction(work_packages, user, to_do[:reassign_to_id])
       else
         false

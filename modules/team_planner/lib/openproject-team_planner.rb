@@ -1,1 +1,1 @@
-require 'open_project/team_planner'
+require "open_project/team_planner"

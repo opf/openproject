@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'notification_handler/helper'
-require_relative 'notification_handler/issue_comment'
-require_relative 'notification_handler/pull_request'
+require_relative "notification_handler/helper"
+require_relative "notification_handler/issue_comment"
+require_relative "notification_handler/pull_request"
 
 module OpenProject::GithubIntegration
   ##

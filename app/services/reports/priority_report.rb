@@ -28,11 +28,11 @@
 
 class Reports::PriorityReport < Reports::Report
   def self.report_type
-    'priority'
+    "priority"
   end
 
   def field
-    'priority_id'
+    "priority_id"
   end
 
   def rows

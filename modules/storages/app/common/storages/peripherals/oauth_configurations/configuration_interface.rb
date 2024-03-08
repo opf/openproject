@@ -38,6 +38,8 @@ module Storages
 
         def basic_rack_oauth_client = raise ::Storages::Errors::SubclassResponsibility
 
+        def to_httpx_oauth_config = raise ::Storages::Errors::SubclassResponsibility
+
         private
 
         def authorization_check_wrapper

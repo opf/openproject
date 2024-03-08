@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/admin/system_settings/page'
+require "support/pages/admin/system_settings/page"
 
 module Pages::Admin::SystemSettings
   class Languages < Page

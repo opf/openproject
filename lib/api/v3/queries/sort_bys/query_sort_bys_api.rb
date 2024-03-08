@@ -47,15 +47,15 @@ module API
             end
 
             params do
-              requires :id, desc: 'Group by id'
-              requires :direction, desc: 'Direction of sorting'
+              requires :id, desc: "Group by id"
+              requires :direction, desc: "Direction of sorting"
             end
 
             after_validation do
               authorize_in_any_work_package(:view_work_packages)
             end
 
-            namespace ':id-:direction' do
+            namespace ":id-:direction" do
               get do
                 column = find_column(params[:id])
 

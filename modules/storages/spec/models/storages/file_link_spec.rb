@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::FileLink do
@@ -50,7 +50,7 @@ RSpec.describe Storages::FileLink do
     }
   end
 
-  describe '#create' do
+  describe "#create" do
     it "creates an instance" do
       file_link = described_class.create attributes
       expect(file_link).to be_valid
@@ -67,7 +67,7 @@ RSpec.describe Storages::FileLink do
     end
   end
 
-  describe '#destroy' do
+  describe "#destroy" do
     let(:file_link_to_destroy) { described_class.create(attributes) }
 
     before do

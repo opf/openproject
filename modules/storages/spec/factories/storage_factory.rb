@@ -33,32 +33,16 @@ FactoryBot.define do
     sequence(:name) { |n| "Storage #{n}" }
     creator factory: :user
 
-    # rubocop:disable FactoryBot/FactoryAssociationWithStrategy
-    # For some reason the order of saving breaks STI
     trait :with_oauth_client do
-      oauth_client { build(:oauth_client) }
-    end
-    # rubocop:enable FactoryBot/FactoryAssociationWithStrategy
-
-    trait :as_generic do
-      provider_type { 'Storages::Storage' }
+      oauth_client
     end
 
     trait :as_generic do
       provider_type { 'Storages::Storage' }
     end
-  end
 
-  factory :nextcloud_storage,
-          parent: :storage,
-          class: '::Storages::NextcloudStorage' do
-    provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
-    sequence(:host) { |n| "https://host#{n}.example.com" }
-
-    trait :as_automatically_managed do
-      automatically_managed { true }
-      username { 'OpenProject' }
-      password { 'Password123' }
+    trait :as_generic do
+      provider_type { 'Storages::Storage' }
     end
 
     trait :as_not_automatically_managed do
@@ -91,6 +75,19 @@ FactoryBot.define do
       health_reason { nil }
       health_changed_at { Time.now.utc }
       health_checked_at { Time.now.utc }
+    end
+  end
+
+  factory :nextcloud_storage,
+          parent: :storage,
+          class: '::Storages::NextcloudStorage' do
+    provider_type { Storages::Storage::PROVIDER_TYPE_NEXTCLOUD }
+    sequence(:host) { |n| "https://host#{n}.example.com" }
+
+    trait :as_automatically_managed do
+      automatically_managed { true }
+      username { 'OpenProject' }
+      password { 'Password123' }
     end
   end
 
@@ -158,6 +155,10 @@ FactoryBot.define do
     host { nil }
     tenant_id { SecureRandom.uuid }
     drive_id { SecureRandom.uuid }
+
+    trait :as_automatically_managed do
+      automatically_managed { true }
+    end
   end
 
   factory :sharepoint_dev_drive_storage,

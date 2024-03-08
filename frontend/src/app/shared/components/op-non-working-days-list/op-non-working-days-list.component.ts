@@ -16,11 +16,7 @@ import { OpModalService } from '../modal/modal.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { FullCalendarComponent } from '@fullcalendar/angular';
-import {
-  EventInput,
-  CalendarOptions,
-  EventSourceFuncArg,
-} from '@fullcalendar/core';
+import { CalendarOptions, EventInput, EventSourceFuncArg } from '@fullcalendar/core';
 import listPlugin from '@fullcalendar/list';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
@@ -31,6 +27,7 @@ import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-
 import { ConfirmDialogOptions } from '../modals/confirm-dialog/confirm-dialog.modal';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import * as moment from 'moment-timezone';
+import allLocales from '@fullcalendar/core/locales-all';
 
 export const nonWorkingDaysListSelector = 'op-non-working-days-list';
 
@@ -79,6 +76,8 @@ export class OpNonWorkingDaysListComponent implements OnInit {
   selectedNonWorkingDayName= '';
 
   calendarOptions:CalendarOptions = {
+    locales: allLocales,
+    locale: this.I18n.locale,
     plugins: [listPlugin],
     initialView: 'listYear',
     contentHeight: 'auto',

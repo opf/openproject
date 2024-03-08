@@ -29,8 +29,8 @@
 FactoryBot.define do
   factory :task do
     association :type, factory: :type_task
-    subject { 'Printing Recipes' }
-    description { 'Just printing recipes' }
+    subject { "Printing Recipes" }
+    description { "Just printing recipes" }
     association :priority
     association :author, factory: :user
   end

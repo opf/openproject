@@ -53,8 +53,8 @@ cs:
       complete_without_setup: Dokončit bez něj
       done_complete_setup: Hotovo, kompletní nastavení
       done_continue: Hotovo, pokračovat
-      replace_oauth_application: Replace OpenProject OAuth
-      replace_oauth_client: Replace %{provider_type} OAuth
+      replace_oauth_application: Nahradit OpenProject OAuth
+      replace_oauth_client: Nahradit %{provider_type} OAuth
       save_and_continue: Uložit a pokračovat
       select_folder: Vyberte složku
     configuration_checks:
@@ -178,12 +178,12 @@ cs:
       Pro použití tohoto úložiště souborů nezapomeňte aktivovat modul a konkrétní úložiště v nastavení projektu každého požadovaného projektu.
     oauth_grant_nudge_modal:
       access_granted: Přístup udělen
-      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
+      access_granted_screen_reader: Přístup je povolen. Nyní jste připraveni použít %{storage}.
       body: Chcete-li získat přístup ke složce projektu, musíte se přihlásit do %{storage}.
       cancel_button_label: Udělám to později
-      confirm_button_aria_label: Login to %{storage}
+      confirm_button_aria_label: Přihlásit se do %{storage}
       confirm_button_label: Přihlášení
-      requesting_access_to: Requesting access to %{storage}
+      requesting_access_to: Žádost o přístup na %{storage}
       storage_ready: Nyní jste připraveni použít %{storage}
       title: Ještě jeden krok...
     open_project_storage_modal:

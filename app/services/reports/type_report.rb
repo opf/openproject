@@ -28,11 +28,11 @@
 
 class Reports::TypeReport < Reports::Report
   def self.report_type
-    'type'
+    "type"
   end
 
   def field
-    @field || 'type_id'
+    @field || "type_id"
   end
 
   def rows

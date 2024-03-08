@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Principals::Scopes::Human do
-  describe '.human' do
+  describe ".human" do
     let!(:anonymous_user) { create(:anonymous) }
     let!(:system_user) { create(:system) }
     let!(:deleted_user) { create(:deleted_user) }
@@ -39,7 +39,7 @@ RSpec.describe Principals::Scopes::Human do
 
     subject { Principal.human }
 
-    it 'returns only actual users and groups' do
+    it "returns only actual users and groups" do
       expect(subject)
         .to contain_exactly(user, group)
     end

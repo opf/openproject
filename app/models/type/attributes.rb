@@ -77,10 +77,10 @@ module Type::Attributes
     # @return [Hash{String => Hash}] Map from attribute names to options.
     def all_work_package_form_attributes(merge_date: false)
       wp_cf_cache_parts = RequestStore.fetch(:wp_cf_max_updated_at_and_count) do
-        WorkPackageCustomField.pluck(Arel.sql('max(updated_at), count(id)')).flatten
+        WorkPackageCustomField.pluck(Arel.sql("max(updated_at), count(id)")).flatten
       end
 
-      OpenProject::Cache.fetch('all_work_package_form_attributes',
+      OpenProject::Cache.fetch("all_work_package_form_attributes",
                                *wp_cf_cache_parts,
                                EXCLUDED.length,
                                merge_date) do
@@ -134,15 +134,15 @@ module Type::Attributes
 
     def skipped_attribute?(key, definition)
       # We always want to include the priority even if its required
-      return false if key == 'priority'
+      return false if key == "priority"
 
       EXCLUDED.include?(key) || definition[:required]
     end
 
     def merge_date_for_form_attributes(attributes)
-      attributes['date'] = { required: false, has_default: false }
-      attributes.delete 'due_date'
-      attributes.delete 'start_date'
+      attributes["date"] = { required: false, has_default: false }
+      attributes.delete "due_date"
+      attributes.delete "start_date"
     end
 
     def add_custom_fields_to_form_attributes(attributes)
@@ -157,19 +157,19 @@ module Type::Attributes
     end
 
     def attr_i18n_key(name)
-      if name == 'percentage_done'
-        'done_ratio'
+      if name == "percentage_done"
+        "done_ratio"
       else
         name
       end
     end
 
     def attr_translate(name)
-      if name == 'date'
-        I18n.t('label_date')
+      if name == "date"
+        I18n.t("label_date")
       else
         key = attr_i18n_key(name)
-        I18n.t("activerecord.attributes.work_package.#{key}", fallback: false, default: '')
+        I18n.t("activerecord.attributes.work_package.#{key}", fallback: false, default: "")
           .presence || I18n.t("attributes.#{key}")
       end
     end

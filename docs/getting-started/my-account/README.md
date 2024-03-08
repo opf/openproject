@@ -104,21 +104,32 @@ Press the blue **Save** button in order to confirm the password changes.
 
 ## Two-factor authentication
 
-In order to activate the two-factor authentication for your OpenProject installation, navigate to your **My account** and choose the **Two-factor authentication** in the menu.
+In order to activate the two-factor authentication for your OpenProject installation, navigate to your **My account** and choose the **Two-factor authentication** in the menu. If you have not added any device yet, this list will be empty. 
 
 ![OpenProject my account two_factor authentication](openproject_my_account_two_factor_authentication.png)
 
-In order to register a new device for two-factor authentication, click the green button to add a **new 2FA device**.
+If you have already registered one or multiple 2FA devices, you will see the list of all activated 2FA devices here. You can change, which of them you prefer to have set a a default option.
+
+![List of all registered 2FA devices in OpenProject](openproject_my_account_2fa_overview.png)
+
+In order to register a new device for two-factor authentication, click the green button to add a **new 2FA device**. You will see the screen, where you will be able to see one or multiple of the following options, depending on what your system administrator has [activated for your instance](../../system-admin-guide/authentication/two-factor-authentication/): 
+
+- Mobile phone
+- App-based authenticator
+- WebAuthn
+
+![](openproject_my_account_authentication_options.png)
 
 To receive the second factor, you can use an authentication app on your mobile phone, such as Google Authenticator or Authy. You have to enter the code that is displayed in the authentication app to your login.
 
 You can remove or approve 2FA applications by confirming your password. Note that this applies only to internally authenticated users.
 
-### Backup codes
+### Use your mobile phone
 
-If you are unable to access your two-factor devices, you can use a backup code to regain access to your account. Use the grey button **Generate backup codes** to generate a new set of backup codes.
+You can use your mobile phone as a 2FA device. The field *Identifier* will be pre-filled out, you will need to add your phone number and click the green **Continue** button. 
 
-If you have created backup codes before, they will be invalidated and will no longer work.
+![Add a new mobile phone as a 2FA device in OpenProject](openproject_my_account_two_factor_authentication_mobile.png)
+
 
 ### Use your app-based authenticator
 
@@ -126,9 +137,23 @@ Register an application authenticator for use with OpenProject using the time-ba
 
 Click the grey **Register device** button to register an authentication app. Open your app and follow the instructions to add a new application. The easiest way is to scan the QR code. Otherwise, you can register the application manually by entering the displayed details.
 
-Click the blue **Continue** button to finish the registration.
+Click the green **Continue** button to finish the registration.
 
 ![openproject_my_account_authenticator_app](openproject_my_account_authenticator_app.png)
+
+### Use the WebAuth authentication
+
+Use Web Authentication to register a FIDO2 device (like a YubiKey) or  the secure enclave of your mobile device as a second factor. After you have chosen a name, you can click the green **Continue**  button. 
+
+![](openproject_my_account_authenticator_webauth.png)
+
+Your  browser will prompt you to present your WebAuthn device (depending on your operational system and your browser, your options may vary). When you have  done so, you are done registering the device.
+
+### Backup codes
+
+If you are unable to access your two-factor devices, you can use a backup code to regain access to your account. Use the grey button **Generate backup codes** to generate a new set of backup codes.
+
+If you have created backup codes before, they will be invalidated and will no longer work.
 
 ## Access tokens
 To view and manage your OpenProject access tokens navigate to **My account** and choose **Access tokens** from the menu. 

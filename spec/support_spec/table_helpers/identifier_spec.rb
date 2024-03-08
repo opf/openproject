@@ -28,19 +28,19 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 module TableHelpers
   RSpec.describe Identifier do
-    shared_examples 'an identifier' do |name:, expected_identifier:|
+    shared_examples "an identifier" do |name:, expected_identifier:|
       it "converts #{name.inspect} to identifier #{expected_identifier.inspect}" do
         expect(described_class.to_identifier(name)).to eq(expected_identifier)
       end
     end
 
-    include_examples 'an identifier', name: 'Subject', expected_identifier: :subject
-    include_examples 'an identifier', name: 'Work package', expected_identifier: :work_package
-    include_examples 'an identifier', name: 'grand-child', expected_identifier: :grand_child
-    include_examples 'an identifier', name: 'Child 1', expected_identifier: :child1
+    include_examples "an identifier", name: "Subject", expected_identifier: :subject
+    include_examples "an identifier", name: "Work package", expected_identifier: :work_package
+    include_examples "an identifier", name: "grand-child", expected_identifier: :grand_child
+    include_examples "an identifier", name: "Child 1", expected_identifier: :child1
   end
 end

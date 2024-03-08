@@ -28,8 +28,8 @@
 
 module Queries::Operators
   class ThisWeek < Base
-    label 'this_week'
-    set_symbol 'w'
+    label "this_week"
+    set_symbol "w"
     require_value false
 
     def self.sql_for_field(_values, db_table, db_field)
@@ -40,7 +40,7 @@ module Queries::Operators
     end
 
     def self.begin_of_week
-      if I18n.t(:general_first_day_of_week) == '7'
+      if I18n.t(:general_first_day_of_week) == "7"
         # week starts on sunday
         if Date.today.cwday == 7
           Time.now.at_beginning_of_day

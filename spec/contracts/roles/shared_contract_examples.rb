@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.shared_examples_for 'roles contract' do
+RSpec.shared_examples_for "roles contract" do
   let(:current_user) do
     build_stubbed(:admin)
   end
   let(:role_instance) { Role.new }
-  let(:role_name) { 'A role name' }
+  let(:role_name) { "A role name" }
   let(:role_permissions) { [:view_work_packages] }
 
   def expect_valid(valid, symbols = {})
@@ -44,33 +44,33 @@ RSpec.shared_examples_for 'roles contract' do
     end
   end
 
-  shared_examples 'is valid' do
-    it 'is valid' do
+  shared_examples "is valid" do
+    it "is valid" do
       expect_valid(true)
     end
   end
 
-  describe 'validation' do
-    it_behaves_like 'is valid'
+  describe "validation" do
+    it_behaves_like "is valid"
 
-    context 'if the name is nil' do
+    context "if the name is nil" do
       let(:role_name) { nil }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect_valid(false, name: %i(blank))
       end
     end
 
-    context 'if the permissions do not include their dependency' do
+    context "if the permissions do not include their dependency" do
       let(:role_permissions) { [:manage_members] }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect_valid(false, permissions: %i(dependency_missing))
       end
     end
   end
 
-  describe '#assignable_permissions' do
+  describe "#assignable_permissions" do
     let(:permission1) { instance_double(OpenProject::AccessControl::Permission, name: :perm1, public?: false) }
     let(:permission2) { instance_double(OpenProject::AccessControl::Permission, name: :perm2, public?: true) }
     let(:permission3) { instance_double(OpenProject::AccessControl::Permission, name: :perm3, public?: false) }
@@ -78,36 +78,36 @@ RSpec.shared_examples_for 'roles contract' do
     let(:all_permissions) { [permission1, permission2, permission3] }
     let(:public_permissions) { [permission2] }
 
-    context 'for a project role' do
+    context "for a project role" do
       before do
         allow(OpenProject::AccessControl).to receive_messages(project_permissions: all_permissions, public_permissions:)
       end
 
-      it 'is all project permissions' do
+      it "is all project permissions" do
         expect(contract.assignable_permissions).to match_array(all_permissions - public_permissions)
       end
     end
 
-    context 'for a work package role' do
+    context "for a work package role" do
       let(:role) { work_package_role }
 
       before do
         allow(OpenProject::AccessControl).to receive(:work_package_permissions).and_return(all_permissions)
       end
 
-      it 'is all work package permissions' do
+      it "is all work package permissions" do
         expect(contract.assignable_permissions).to match_array(all_permissions - public_permissions)
       end
     end
 
-    context 'for a global role' do
+    context "for a global role" do
       let(:role) { global_role }
 
       before do
         allow(OpenProject::AccessControl).to receive(:global_permissions).and_return(all_permissions)
       end
 
-      it 'is all the global permissions' do
+      it "is all the global permissions" do
         expect(contract.assignable_permissions).to match_array(all_permissions - public_permissions)
       end
     end

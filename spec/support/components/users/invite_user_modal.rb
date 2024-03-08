@@ -25,8 +25,8 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require_relative '../common/modal'
-require_relative '../autocompleter/ng_select_autocomplete_helpers'
+require_relative "../common/modal"
+require_relative "../autocompleter/ng_select_autocomplete_helpers"
 
 module Components
   module Users
@@ -35,7 +35,7 @@ module Components
 
       attr_accessor :project, :principal, :role, :invite_message
 
-      def initialize(project:, principal:, role:, invite_message: 'Welcome!')
+      def initialize(project:, principal:, role:, invite_message: "Welcome!")
         self.project = project
         self.principal = principal
         self.role = role
@@ -57,7 +57,7 @@ module Components
         confirmation_step
 
         # Step 4: Perform invite
-        click_modal_button 'Send invitation'
+        click_modal_button "Send invitation"
 
         expect_text "#{principal_name} was invited!"
 
@@ -76,24 +76,24 @@ module Components
         expect_text text
 
         # Close
-        click_modal_button 'Continue'
+        click_modal_button "Continue"
         expect_closed
       end
 
       def project_step(next_step: true, skip_autocomplete: false)
-        expect_title 'Invite user'
-        autocomplete '.ng-select-container', project.name unless skip_autocomplete
+        expect_title "Invite user"
+        autocomplete ".ng-select-container", project.name unless skip_autocomplete
         select_type type
 
         click_next if next_step
       end
 
-      def open_select_in_step(selector, query = '')
+      def open_select_in_step(selector, query = "")
         select_field = modal_element.find(selector)
 
         search_autocomplete select_field,
                             query:,
-                            results_selector: 'body'
+                            results_selector: "body"
       end
 
       def principal_step(next_step: true)
@@ -102,22 +102,22 @@ module Components
             autocomplete "op-ium-principal-search", principal_name, select_text: "Invite: #{principal_name}"
           end
         else
-          autocomplete 'op-ium-principal-search', principal_name
+          autocomplete "op-ium-principal-search", principal_name
         end
-        autocomplete 'op-ium-role-search', role.name
+        autocomplete "op-ium-role-search", role.name
         invitation_message invite_message unless placeholder?
         click_next if next_step
       end
 
       def role_step(next_step: true)
-        autocomplete 'op-ium-role-search', role.name
+        autocomplete "op-ium-role-search", role.name
 
         click_next if next_step
       end
 
       def invitation_step(next_step: true)
         invitation_message invite_message
-        click_modal_button 'Review invitation' if next_step
+        click_modal_button "Review invitation" if next_step
       end
 
       def confirmation_step
@@ -135,23 +135,23 @@ module Components
         select_autocomplete select_field,
                             query:,
                             select_text:,
-                            results_selector: 'body'
+                            results_selector: "body"
       end
 
       def select_type(type)
         within_modal do
-          page.find('.op-option-list--item', text: type).click
+          page.find(".op-option-list--item", text: type).click
         end
       end
 
       def click_next
-        click_modal_button 'Next'
+        click_modal_button "Next"
         wait_for_reload
       end
 
       def invitation_message(text)
         within_modal do
-          find('textarea').set text
+          find("textarea").set text
         end
       end
 
@@ -178,7 +178,7 @@ module Components
       def expect_error_displayed(message)
         within_modal do
           expect(page)
-            .to have_css('.spot-form-field--error', text: message)
+            .to have_css(".spot-form-field--error", text: message)
         end
       end
 

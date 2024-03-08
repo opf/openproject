@@ -49,7 +49,7 @@ module OpenProject::TextFormatting
 
         html.gsub(self.class.regexp) do |matched_string|
           variable = ($1.presence || $2.presence).dup
-          variable.delete!('\\')
+          variable.delete!("\\")
 
           if ALLOWED_SETTINGS.include?(variable)
             send variable
@@ -66,7 +66,7 @@ module OpenProject::TextFormatting
       end
 
       def base_url
-        url_helpers.root_url.chomp('/')
+        url_helpers.root_url.chomp("/")
       end
 
       def url_helpers
@@ -76,7 +76,7 @@ module OpenProject::TextFormatting
       ##
       # Faster inclusion check before the regex is being applied
       def applicable?
-        html.include?('{{opSetting:') || html.include?('%7B%7BopSetting:')
+        html.include?("{{opSetting:") || html.include?("%7B%7BopSetting:")
       end
     end
   end

@@ -26,26 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../../../../spec/seeders/root_seeder_shared_examples'
+require "spec_helper"
+require_relative "../../../../spec/seeders/root_seeder_shared_examples"
 
 RSpec::Matchers.define_negated_matcher :not_start_with, :start_with
 
 RSpec.describe RootSeeder,
-               'BIM edition',
-               with_config: { edition: 'bim' } do
+               "BIM edition",
+               with_config: { edition: "bim" } do
   include RootSeederTestHelpers
 
-  shared_examples 'creates BIM demo data' do
+  shared_examples "creates BIM demo data" do
     def group_name(reference)
-      root_seeder.seed_data.find_reference(reference)['name']
+      root_seeder.seed_data.find_reference(reference)["name"]
     end
 
-    it 'creates an admin user' do
+    it "creates an admin user" do
       expect(User.not_builtin.where(admin: true).count).to eq 1
     end
 
-    it 'creates the BIM demo data' do
+    it "creates the BIM demo data" do
       expect(Project.count).to eq 4
       expect(EnabledModule.count).to eq 23
       expect(WorkPackage.count).to eq 76
@@ -60,12 +60,12 @@ RSpec.describe RootSeeder,
       expect(Boards::Grid.count).to eq 2
     end
 
-    it 'creates follows and parent-child relations' do
+    it "creates follows and parent-child relations" do
       expect(Relation.follows.count).to eq 35
       expect(WorkPackage.where.not(parent: nil).count).to eq 55
     end
 
-    it 'assigns work packages to groups' do
+    it "assigns work packages to groups" do
       count_by_assignee =
         WorkPackage
           .joins(:assigned_to)
@@ -83,7 +83,7 @@ RSpec.describe RootSeeder,
       )
     end
 
-    it 'adds additional permissions from modules' do
+    it "adds additional permissions from modules" do
       # do not test for all permissions but only some of them to ensure the ones
       # for BIM got processed
       member_role = root_seeder.seed_data.find_reference(:default_role_member)
@@ -93,35 +93,35 @@ RSpec.describe RootSeeder,
       )
     end
 
-    include_examples 'it creates records', model: Color, expected_count: 144
-    include_examples 'it creates records', model: DocumentCategory, expected_count: 3
-    include_examples 'it creates records', model: IssuePriority, expected_count: 4
-    include_examples 'it creates records', model: Status, expected_count: 4
-    include_examples 'it creates records', model: TimeEntryActivity, expected_count: 3
-    include_examples 'it creates records', model: Workflow, expected_count: 273
+    include_examples "it creates records", model: Color, expected_count: 144
+    include_examples "it creates records", model: DocumentCategory, expected_count: 3
+    include_examples "it creates records", model: IssuePriority, expected_count: 4
+    include_examples "it creates records", model: Status, expected_count: 4
+    include_examples "it creates records", model: TimeEntryActivity, expected_count: 3
+    include_examples "it creates records", model: Workflow, expected_count: 273
   end
 
-  describe 'demo data' do
+  describe "demo data" do
     shared_let(:root_seeder) { described_class.new }
 
     before_all do
-      with_edition('bim') do
+      with_edition("bim") do
         root_seeder.seed_data!
       end
     end
 
-    include_examples 'creates BIM demo data'
+    include_examples "creates BIM demo data"
 
-    include_examples 'no email deliveries'
+    include_examples "no email deliveries"
 
-    context 'when run a second time' do
+    context "when run a second time" do
       before_all do
-        with_edition('bim') do
+        with_edition("bim") do
           described_class.new.seed_data!
         end
       end
 
-      it 'does not create additional data' do
+      it "does not create additional data" do
         expect(Project.count).to eq 4
         expect(WorkPackage.count).to eq 76
         expect(Wiki.count).to eq 3
@@ -137,11 +137,11 @@ RSpec.describe RootSeeder,
     end
   end
 
-  describe 'demo data mock-translated in another language' do
+  describe "demo data mock-translated in another language" do
     shared_let(:root_seeder) { described_class.new }
 
     before_all do
-      with_edition('bim') do
+      with_edition("bim") do
         # simulate a translation by changing the returned string on `I18n#t` calls
         allow(I18n).to receive(:t).and_wrap_original do |m, *args, **kw|
           original_translation = m.call(*args, **kw)
@@ -152,43 +152,43 @@ RSpec.describe RootSeeder,
       end
     end
 
-    include_examples 'creates BIM demo data'
+    include_examples "creates BIM demo data"
 
-    it 'has all Query.name translated' do
-      expect(Query.pluck(:name)).to all(start_with('tr: '))
+    it "has all Query.name translated" do
+      expect(Query.pluck(:name)).to all(start_with("tr: "))
     end
 
-    context 'for work packages NOT related to a BCF issue' do
-      let(:work_packages) { WorkPackage.left_joins(:bcf_issue).where('bcf_issues.id': nil) }
+    context "for work packages NOT related to a BCF issue" do
+      let(:work_packages) { WorkPackage.left_joins(:bcf_issue).where("bcf_issues.id": nil) }
 
       %w[subject description].each do |field|
         it "have their #{field} field translated" do
-          expect(work_packages.pluck(:subject)).to all(start_with('tr: '))
+          expect(work_packages.pluck(:subject)).to all(start_with("tr: "))
         end
       end
     end
 
     # TODO: the data coming from BCF files should be translated too
     # This is recorded in the implementation work package 47998
-    context 'for work packages related to a BCF issue' do
-      let(:work_packages) { WorkPackage.joins(:bcf_issue).where.not('bcf_issues.id': nil) }
+    context "for work packages related to a BCF issue" do
+      let(:work_packages) { WorkPackage.joins(:bcf_issue).where.not("bcf_issues.id": nil) }
 
       %w[subject description].each do |field|
         it "have NOT their #{field} field translated" do
-          expect(work_packages.pluck(:subject)).to all(not_start_with('tr: '))
+          expect(work_packages.pluck(:subject)).to all(not_start_with("tr: "))
         end
       end
     end
   end
 
-  describe 'demo data with a non-English language set with OPENPROJECT_DEFAULT__LANGUAGE',
+  describe "demo data with a non-English language set with OPENPROJECT_DEFAULT__LANGUAGE",
            :settings_reset do
     shared_let(:root_seeder) { described_class.new }
 
     before_all do
-      with_env('OPENPROJECT_DEFAULT__LANGUAGE' => 'de') do
+      with_env("OPENPROJECT_DEFAULT__LANGUAGE" => "de") do
         reset(:default_language) # Settings are a pain to reset
-        with_edition('bim') do
+        with_edition("bim") do
           root_seeder.seed_data!
         end
       ensure
@@ -196,46 +196,46 @@ RSpec.describe RootSeeder,
       end
     end
 
-    it 'seeds with the specified language' do
-      expect(Status.where(name: 'Neu')).to exist
-      expect(Type.where(name: 'Meilenstein')).to exist
-      expect(Color.where(name: 'Gelb')).to exist
+    it "seeds with the specified language" do
+      expect(Status.where(name: "Neu")).to exist
+      expect(Type.where(name: "Meilenstein")).to exist
+      expect(Color.where(name: "Gelb")).to exist
     end
 
-    include_examples 'creates BIM demo data'
+    include_examples "creates BIM demo data"
   end
 
-  describe 'demo data with development data' do
+  describe "demo data with development data" do
     shared_let(:root_seeder) { described_class.new(seed_development_data: true) }
 
     before_all do
-      with_edition('bim') do
+      with_edition("bim") do
         root_seeder.seed_data!
       end
     end
 
-    it 'creates 1 additional admin user with German locale' do
+    it "creates 1 additional admin user with German locale" do
       admins = User.not_builtin.where(admin: true)
       expect(admins.count).to eq 2
       expect(admins.pluck(:language)).to match_array(%w[en de])
     end
 
-    it 'creates 5 additional projects for development' do
+    it "creates 5 additional projects for development" do
       expect(Project.count).to eq 9
     end
 
-    it 'creates 4 additional work packages for development' do
+    it "creates 4 additional work packages for development" do
       expect(WorkPackage.count).to eq 80
     end
 
-    it 'creates 1 project with custom fields' do
+    it "creates 1 project with custom fields" do
       expect(CustomField.count).to eq 12
     end
 
-    it 'creates 2 additional types for development' do
+    it "creates 2 additional types for development" do
       expect(Type.count).to eq 9
     end
 
-    include_examples 'no email deliveries'
+    include_examples "no email deliveries"
   end
 end

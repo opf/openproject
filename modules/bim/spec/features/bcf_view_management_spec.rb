@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/ifc_models/show_default'
-require_relative '../../../../spec/features/views/shared_examples'
+require_relative "../support/pages/ifc_models/show_default"
+require_relative "../../../../spec/features/views/shared_examples"
 
-RSpec.describe 'bcf view management', :js, with_config: { edition: 'bim' } do
+RSpec.describe "bcf view management", :js, with_config: { edition: "bim" } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:bcf_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:role) do
@@ -63,9 +63,9 @@ RSpec.describe 'bcf view management', :js, with_config: { edition: 'bim' } do
     bcf_page.visit_and_wait_until_finished_loading!
   end
 
-  it_behaves_like 'module specific query view management' do
+  it_behaves_like "module specific query view management" do
     let(:module_page) { bcf_page }
-    let(:default_name) { 'All open' }
+    let(:default_name) { "All open" }
     let(:initial_filter_count) { 0 }
   end
 end

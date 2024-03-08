@@ -29,11 +29,11 @@
 module API
   module Errors
     class InternalError < ErrorBase
-      identifier 'InternalServerError'
+      identifier "InternalServerError"
       code 500
 
       def initialize(error_message = nil, exception: nil, **)
-        error = I18n.t('api_v3.errors.code_500')
+        error = I18n.t("api_v3.errors.code_500")
 
         if error_message && visible_exception?(exception)
           error += " #{error_message}"

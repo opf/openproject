@@ -4,7 +4,7 @@ module LdapGroups
     before_action :check_ee
     before_action :find_group, only: %i(show destroy_info destroy)
 
-    layout 'admin'
+    layout "admin"
     menu_item :plugin_ldap_groups
     include PaginationHelper
 
@@ -58,7 +58,7 @@ module LdapGroups
 
     def check_ee
       unless EnterpriseToken.allows_to?(:ldap_groups)
-        render template: 'ldap_groups/synchronized_groups/upsale'
+        render template: "ldap_groups/synchronized_groups/upsale"
         false
       end
     end
@@ -70,10 +70,10 @@ module LdapGroups
     end
 
     def default_breadcrumb
-      if action_name == 'index'
-        t('ldap_groups.synchronized_groups.plural')
+      if action_name == "index"
+        t("ldap_groups.synchronized_groups.plural")
       else
-        ActionController::Base.helpers.link_to(t('ldap_groups.synchronized_groups.plural'), ldap_groups_synchronized_groups_path)
+        ActionController::Base.helpers.link_to(t("ldap_groups.synchronized_groups.plural"), ldap_groups_synchronized_groups_path)
       end
     end
 

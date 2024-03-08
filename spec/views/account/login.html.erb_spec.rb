@@ -26,27 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'account/login' do
-  context 'with password login enabled' do
+RSpec.describe "account/login" do
+  context "with password login enabled" do
     before do
       render
     end
 
-    it 'shows a login field' do
-      expect(rendered).to include 'Password'
+    it "shows a login field" do
+      expect(rendered).to include "Password"
     end
   end
 
-  context 'with password login disabled' do
+  context "with password login disabled" do
     before do
       allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
       render
     end
 
-    it 'does not show a login field' do
-      expect(rendered).not_to include 'Password'
+    it "does not show a login field" do
+      expect(rendered).not_to include "Password"
     end
   end
 end

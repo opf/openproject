@@ -28,11 +28,11 @@
 
 class RenameFixedVersionInCostQuery < ActiveRecord::Migration[6.0]
   def up
-    rename_query_attributes('FixedVersion', 'Version')
+    rename_query_attributes("FixedVersion", "Version")
   end
 
   def down
-    rename_query_attributes('Version', 'FixedVersion')
+    rename_query_attributes("Version", "FixedVersion")
   end
 
   def rename_query_attributes(from, to)

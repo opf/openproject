@@ -43,7 +43,7 @@ module API
           if represented.persisted? && current_user.allowed_globally?(:edit_attribute_help_texts)
             {
               href: edit_attribute_help_text_path(represented.id),
-              type: 'text/html'
+              type: "text/html"
             }
           end
         end
@@ -64,7 +64,7 @@ module API
                  }
 
         def _type
-          'HelpText'
+          "HelpText"
         end
       end
     end

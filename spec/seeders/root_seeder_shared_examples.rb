@@ -28,8 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples 'no email deliveries' do
-  it 'does not perform any email deliveries' do
+RSpec.shared_examples "no email deliveries" do
+  it "does not perform any email deliveries" do
     perform_enqueued_jobs
 
     expect(ActionMailer::Base.deliveries)
@@ -37,7 +37,7 @@ RSpec.shared_examples 'no email deliveries' do
   end
 end
 
-RSpec.shared_examples 'it creates records' do |model:, expected_count:|
+RSpec.shared_examples "it creates records" do |model:, expected_count:|
   it "creates #{expected_count} records of #{model}" do
     expect(model.count).to eq(expected_count)
   end

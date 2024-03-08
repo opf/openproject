@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :oauth_access_token, class: '::Doorkeeper::AccessToken' do
+  factory :oauth_access_token, class: "::Doorkeeper::AccessToken" do
     transient do
       resource_owner { create(:user) }
     end
@@ -39,7 +39,7 @@ FactoryBot.define do
     application factory: :oauth_application
 
     expires_in { 2.hours }
-    scopes { 'api_v3' }
+    scopes { "api_v3" }
 
     factory :clientless_access_token do
       application { nil }

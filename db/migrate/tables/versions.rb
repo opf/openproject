@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
+require_relative "base"
 
 class Tables::Versions < Tables::Base
   def self.table(migration)
     create_table migration do |t|
       t.integer :project_id, default: 0, null: false
-      t.string :name, default: '', null: false
-      t.string :description, default: ''
+      t.string :name, default: "", null: false
+      t.string :description, default: ""
       t.date :effective_date
       t.datetime :created_on
       t.datetime :updated_on
@@ -42,8 +42,8 @@ class Tables::Versions < Tables::Base
       t.string :sharing, default: :none, null: false
       t.date :start_date
 
-      t.index :project_id, name: 'versions_project_id'
-      t.index :sharing, name: 'index_versions_on_sharing'
+      t.index :project_id, name: "versions_project_id"
+      t.index :sharing, name: "index_versions_on_sharing"
     end
   end
 end

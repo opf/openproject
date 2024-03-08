@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Members::Scopes::OfAnythingInProject do
   let(:project) { create(:project) }
@@ -82,10 +82,10 @@ RSpec.describe Members::Scopes::OfAnythingInProject do
            principal: create(:user, status: Principal.statuses[:active]))
   end
 
-  describe '.of_anything_in_project' do
+  describe ".of_anything_in_project" do
     subject { Member.of_anything_in_project(project) }
 
-    it 'returns all members including those of entities in the project' do
+    it "returns all members including those of entities in the project" do
       expect(subject)
         .to contain_exactly(active_user_member,
                             invited_user_member,

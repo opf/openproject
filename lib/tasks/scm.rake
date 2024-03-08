@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'pathname'
+require "pathname"
 
 def scan_repositories(path)
   repositories = Pathname.new(path).children.select(&:directory?)
@@ -34,7 +34,7 @@ def scan_repositories(path)
 
   repositories.each do |repo|
     # Repository may be suffixed by '.git' and the like
-    identifier = repo.basename.to_s.split('.')[0]
+    identifier = repo.basename.to_s.split(".")[0]
     missing << identifier if Project.find_by(identifier:).nil?
   end
 
@@ -42,9 +42,9 @@ def scan_repositories(path)
 end
 
 namespace :scm do
-  desc 'List repositories in the current managed path that do not have an associated project'
+  desc "List repositories in the current managed path that do not have an associated project"
   task find_unassociated: :environment do
-    scm = OpenProject::Configuration['scm']
+    scm = OpenProject::Configuration["scm"]
     if scm.nil?
       abort "No repository configuration is set.\n" \
             "(Configuration resides under key 'scm' in `config/configuration.yaml`)"
@@ -52,7 +52,7 @@ namespace :scm do
 
     scm.each_pair do |vendor, config|
       vendor = vendor.to_s.classify
-      managed = config['manages']
+      managed = config["manages"]
       repo_class = Repository.const_get(vendor)
 
       if managed.nil?
@@ -100,30 +100,30 @@ namespace :scm do
     end
   end
 
-  desc 'Setup a repository checkout base URL for the given vendor: rake scm:set_checkout_url[git=<url>, subversion=<url>]'
+  desc "Setup a repository checkout base URL for the given vendor: rake scm:set_checkout_url[git=<url>, subversion=<url>]"
   task set_checkout_url: :environment do |_t, args|
     checkout_data = Setting.repository_checkout_data
     args.extras.each do |tuple|
-      vendor, base_url = tuple.split('=')
+      vendor, base_url = tuple.split("=")
 
       unless OpenProject::SCM::Manager.enabled?(vendor.to_sym)
         puts "Vendor #{vendor} is not enabled, skipping."
         next
       end
 
-      checkout_data[vendor] = { 'enabled' => 1, 'base_url' => base_url }
+      checkout_data[vendor] = { "enabled" => 1, "base_url" => base_url }
     end
     Setting.repository_checkout_data = checkout_data
   end
 
   namespace :migrate do
-    desc 'Migrate existing repositories to managed for a given URL prefix'
+    desc "Migrate existing repositories to managed for a given URL prefix"
     task managed: :environment do |_task, args|
       urls = args.extras
       abort "Requires at least one URL prefix to identify existing repositories" if urls.length < 1
 
       urls.each do |url|
-        Repository.where('url LIKE ?', "#{url}%").update_all(scm_type: :managed)
+        Repository.where("url LIKE ?", "#{url}%").update_all(scm_type: :managed)
       end
     end
   end

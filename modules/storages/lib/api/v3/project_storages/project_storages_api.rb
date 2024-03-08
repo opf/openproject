@@ -39,7 +39,7 @@ module API::V3::ProjectStorages
                   .call(params)
 
         unless query.valid?
-          message = I18n.t('api_v3.errors.missing_or_malformed_parameter', parameter: 'filters')
+          message = I18n.t("api_v3.errors.missing_or_malformed_parameter", parameter: "filters")
           raise ::API::Errors::InvalidQuery.new(message)
         end
 
@@ -53,7 +53,7 @@ module API::V3::ProjectStorages
         )
       end
 
-      route_param :id, type: Integer, desc: 'ProjectStorage id' do
+      route_param :id, type: Integer, desc: "ProjectStorage id" do
         after_validation do
           @project_storage = Storages::ProjectStorage.find(params[:id])
 

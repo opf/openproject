@@ -95,9 +95,9 @@ ko:
   label_start_date: "시작일"
   meeting:
     copy:
-      title: "Copy meeting %{title}"
-      agenda: "Copy agenda"
-      agenda_text: "Copy the agenda of the old meeting"
+      title: "미팅 %{title} 복사"
+      agenda: "의제 복사"
+      agenda_text: "이전 미팅의 의제 복사"
     email:
       open_meeting_link: "미팅 열기"
       invited:

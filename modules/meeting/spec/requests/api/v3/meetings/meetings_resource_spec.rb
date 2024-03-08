@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Meeting resource' do
+RSpec.describe "API v3 Meeting resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -42,45 +42,45 @@ RSpec.describe 'API v3 Meeting resource' do
            member_with_permissions: { project => permissions })
   end
 
-  describe 'meetings/:id' do
+  describe "meetings/:id" do
     let(:get_path) { api_v3_paths.meeting meeting.id }
 
-    context 'with logged in user' do
+    context "with logged in user" do
       before do
         allow(User).to receive(:current).and_return current_user
 
         get get_path
       end
 
-      context 'when valid id' do
-        it 'returns HTTP 200' do
+      context "when valid id" do
+        it "returns HTTP 200" do
           expect(last_response.status).to eq 200
         end
       end
 
-      context 'when valid id, but not visible' do
+      context "when valid id, but not visible" do
         let(:permissions) { [:view_work_packages] }
 
-        it 'returns HTTP 404' do
+        it "returns HTTP 404" do
           expect(last_response.status).to eq 404
         end
       end
 
-      context 'when invalid id' do
-        let(:get_path) { api_v3_paths.budget 'bogus' }
+      context "when invalid id" do
+        let(:get_path) { api_v3_paths.budget "bogus" }
 
-        it_behaves_like 'param validation error' do
-          let(:id) { 'bogus' }
+        it_behaves_like "param validation error" do
+          let(:id) { "bogus" }
         end
       end
     end
 
-    context 'with not logged in user' do
+    context "with not logged in user" do
       before do
         get get_path
       end
 
-      it_behaves_like 'not found response based on login_required'
+      it_behaves_like "not found response based on login_required"
     end
   end
 end

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'GET /api/v3/relations' do
+RSpec.describe "GET /api/v3/relations" do
   let(:user) { create(:admin) }
 
   let(:work_package) { create(:work_package) }
@@ -47,10 +47,10 @@ RSpec.describe 'GET /api/v3/relations' do
     end
 
     [
-      new_relation(from: work_package, to: other_work_package, type: 'follows'),
-      new_relation(from: work_package, to: new_work_package, type: 'blocks'),
-      new_relation(from: new_work_package, to: work_package, type: 'follows'),
-      new_relation(from: new_work_package, to: new_work_package, type: 'blocks')
+      new_relation(from: work_package, to: other_work_package, type: "follows"),
+      new_relation(from: work_package, to: new_work_package, type: "blocks"),
+      new_relation(from: new_work_package, to: work_package, type: "follows"),
+      new_relation(from: new_work_package, to: new_work_package, type: "blocks")
     ]
   end
 
@@ -83,7 +83,7 @@ RSpec.describe 'GET /api/v3/relations' do
     # Initializing the relations takes very long (about 2s) and it's unnecessary
     # to repeat that step for every example as we are not mutating anything.
     # This saves about 75% on the runtime (6s vs 24s on this machine) of the spec.
-    it 'work' do
+    it "work" do
       expect(filter_relations("id", "=", [relations[0], relations[2]]))
         .to contain_exactly(relations[0], relations[2])
       expect(filter_relations("id", "!", [relations[0], relations[2]]))

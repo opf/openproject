@@ -38,7 +38,7 @@ class Queries::WorkPackages::Filter::MilestoneFilter < Queries::WorkPackages::Fi
   end
 
   def dependency_class
-    '::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter'
+    "::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
   end
 
   def where
@@ -50,18 +50,18 @@ class Queries::WorkPackages::Filter::MilestoneFilter < Queries::WorkPackages::Fi
   end
 
   def positive?
-    (operator == '=' && values == [OpenProject::Database::DB_VALUE_TRUE]) ||
-      (operator == '!' && values == [OpenProject::Database::DB_VALUE_FALSE])
+    (operator == "=" && values == [OpenProject::Database::DB_VALUE_TRUE]) ||
+      (operator == "!" && values == [OpenProject::Database::DB_VALUE_FALSE])
   end
 
   def human_name
-    I18n.t('activerecord.attributes.type.is_milestone')
+    I18n.t("activerecord.attributes.type.is_milestone")
   end
 
   private
 
   def types
-    project.nil? ? ::Type.order(Arel.sql('position')) : project.rolled_up_types
+    project.nil? ? ::Type.order(Arel.sql("position")) : project.rolled_up_types
   end
 
   def milestone_subselect

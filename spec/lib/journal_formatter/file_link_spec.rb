@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::JournalFormatter::FileLink do
   let(:work_package) { build(:work_package) }
@@ -40,11 +40,11 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
 
   subject(:instance) { described_class.new(journal) }
 
-  describe '#render' do
-    context 'having the origin_name as nil' do
+  describe "#render" do
+    context "having the origin_name as nil" do
       let(:changes) { { "link_name" => file_link.origin_name, "storage_name" => nil } }
 
-      it 'if the storage name is nil it tries to find it out looking at the file link' do
+      it "if the storage name is nil it tries to find it out looking at the file link" do
         link = "#{Setting.protocol}://#{Setting.host_name}/api/v3/file_links/#{file_link.id}/open"
 
         expect(instance.render(key, [nil, changes]))
@@ -55,20 +55,20 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
       end
 
       it 'if the storage name is nil and the file link does not exist, "Unknown storage" is used' do
-        expect(instance.render('file_links_12', [changes, nil]))
+        expect(instance.render("file_links_12", [changes, nil]))
           .to eq(I18n.t(:text_journal_file_link_deleted,
                         label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
                         old: "<strike><i>#{file_link.origin_name}</i></strike>",
                         storage: I18n.t(
-                          'unknown_storage',
-                          scope: 'my_account.access_tokens.storages'
+                          "unknown_storage",
+                          scope: "my_account.access_tokens.storages"
                         )))
       end
     end
 
-    context 'having the first value being nil, and the second an hash of properties' do
-      context 'as HTML' do
-        it 'adds a file link added text' do
+    context "having the first value being nil, and the second an hash of properties" do
+      context "as HTML" do
+        it "adds a file link added text" do
           link = "#{Setting.protocol}://#{Setting.host_name}/api/v3/file_links/#{file_link.id}/open"
           expect(instance.render(key, [nil, changes]))
             .to eq(I18n.t(:text_journal_file_link_added,
@@ -77,10 +77,10 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
                           storage: file_link.storage.name))
         end
 
-        context 'with a configured relative url root' do
-          before { allow(OpenProject::Configuration).to receive(:rails_relative_url_root).and_return('/blubs') }
+        context "with a configured relative url root" do
+          before { allow(OpenProject::Configuration).to receive(:rails_relative_url_root).and_return("/blubs") }
 
-          it 'adds an file link added text' do
+          it "adds an file link added text" do
             link = "#{Setting.protocol}://#{Setting.host_name}/blubs/api/v3/file_links/#{file_link.id}/open"
             expect(instance.render(key, [nil, changes]))
               .to eq(I18n.t(:text_journal_file_link_added,
@@ -91,10 +91,10 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
         end
       end
 
-      context 'as plain text' do
-        it 'adds a file link added text' do
+      context "as plain text" do
+        it "adds a file link added text" do
           message = I18n.t(:text_journal_file_link_added,
-                           label: I18n.t('activerecord.models.file_link'),
+                           label: I18n.t("activerecord.models.file_link"),
                            value: file_link.origin_name,
                            storage: file_link.storage.name)
 
@@ -103,9 +103,9 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
       end
     end
 
-    context 'having the first value being an props hash, and the second nil' do
-      context 'as HTML' do
-        it 'adds a file link remove text' do
+    context "having the first value being an props hash, and the second nil" do
+      context "as HTML" do
+        it "adds a file link remove text" do
           message = I18n.t(:text_journal_file_link_deleted,
                            label: "<strong>#{I18n.t('activerecord.models.file_link')}</strong>",
                            old: "<strike><i>#{file_link.origin_name}</i></strike>",
@@ -115,10 +115,10 @@ RSpec.describe OpenProject::JournalFormatter::FileLink do
         end
       end
 
-      context 'as plain text' do
-        it 'adds a file link removed' do
+      context "as plain text" do
+        it "adds a file link removed" do
           message = I18n.t(:text_journal_file_link_deleted,
-                           label: I18n.t('activerecord.models.file_link'),
+                           label: I18n.t("activerecord.models.file_link"),
                            old: file_link.origin_name,
                            storage: file_link.storage.name)
 

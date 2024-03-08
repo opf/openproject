@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::TimeEntries::Filters::OngoingFilter do
-  it_behaves_like 'boolean query filter' do
+  it_behaves_like "boolean query filter" do
     let(:model) { TimeEntry }
     let(:attribute) { :ongoing }
   end

@@ -26,15 +26,14 @@ nl:
       no_results_title_text: Er is geen activiteit voor deze projecten binnen deze periode.
   admin:
     plugins:
-      no_results_title_text: Er zijn momenteel geen plugins beschikbaar.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Kleurenschema"
       color_theme_custom: "(Custom)"
       colors:
-        alternative-color: "Alternatief"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (Donker)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Koptekst achtergrond"
         header-item-bg-hover-color: "Header background on hover"
         header-item-font-color: "Lettertype koptekst"
@@ -53,10 +52,8 @@ nl:
       enterprise_more_info: "Opmerking: het gebruikte logo is openbaar toegankelijk."
       manage_colors: "Bewerk de kleur selectie opties"
       instructions:
-        alternative-color: "Sterke accentkleur, meestal gebruikt voor de belangrijkste knop op een scherm."
-        content-link-color: "De kleur van het lettertype van de meeste van de links."
-        primary-color: "Hoofdkleur."
-        primary-color-dark: "Meestal een donkere versie van de belangrijkste kleur die gebruikt wordt voor hover-effecten."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "De achtergrondkleur van klikbare header items wanneer deze aangewezen door de muis."
         header-item-font-color: "De lettertypekleur van klikbare header items."
         header-item-font-hover-color: "De achtergrondkleur van klikbare header items wanneer deze aangewezen worden door de muis."
@@ -262,12 +259,15 @@ nl:
       no_results_title_text: Er zijn momenteel geen projecten
       no_results_content_text: Maak een nieuw project
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: "Active projects"
+      my: "My projects"
+      archived: "Archived projects"
+      my_private: "My private project lists"
       new:
-        placeholder: 'New project list'
+        placeholder: "New project list"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Change identifier
       activities:
@@ -289,6 +289,8 @@ nl:
         no_results_content_text: Maak een nieuwe versie
       storage:
         no_results_title_text: Er is geen extra opgenomen schijfruimte verbruikt door dit project.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: Er zijn momenteel geen leden onderdeel van dit project.
@@ -341,7 +343,7 @@ nl:
     memberships:
       no_results_title_text: Deze gebruiker is momenteel geen lid van een project.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       U heeft geen toestemming om de placeholder gebruiker te verwijderen. U heeft niet het recht om deelnemers te beheren voor alle projecten waarvan de placeholder gebruiker lid is.
@@ -839,6 +841,10 @@ nl:
               invalid: "Tijdstempels bevatten ongeldige waarden: %{values}"
               forbidden: "Tijdstempels bevatten verboden waarden: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is uitsluiten door samenvoeging, '%{group_by}'. U kunt beide niet activeren."
           filters:
             custom_fields:
@@ -1191,6 +1197,7 @@ nl:
   button_reset: "Herstel"
   button_rollback: "Terugdraaien naar deze versie"
   button_save: "Opslaan"
+  button_save_as: "Save as"
   button_apply_changes: "Veranderingen doorvoeren"
   button_save_back: "Opslaan en terug"
   button_show: "Toon"
@@ -1519,6 +1526,7 @@ nl:
       postgres_migration: "Uw installatie overzetten naar PostgreSQL"
       user_guides: "Gebruikershandleidingen"
       faq: "Veelgestelde vragen (FAQ)"
+      impressum: "Legal notice"
       glossary: "Woordenlijst"
       shortcuts: "Snelkoppelingen"
       blog: "OpenProject blog"
@@ -1775,6 +1783,7 @@ nl:
   label_diff_side_by_side: "Naast elkaar"
   label_digital_accessibility: "Digitale toegankelijkheid (DE)"
   label_disabled: "uitgeschakeld"
+  label_disabled_uppercase: "Disabled"
   label_display: "Weergave"
   label_display_per_page: "Per pagina: %{value}"
   label_display_used_statuses_only: "Enkel statussen die worden gebruikt door dit type weergeven"
@@ -1849,7 +1858,6 @@ nl:
   label_subject_or_id: "Onderwerp of ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Juridische mededeling"
   label_in: "in"
   label_in_less_than: "in minder dan"
   label_in_more_than: "in meer dan"
@@ -2002,6 +2010,7 @@ nl:
   label_precedes: "voorafgaand aan"
   label_preferences: "Voorkeuren"
   label_preview: "Voorbeeld"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Vorige"
   label_previous_week: "Vorige week"
   label_principal_invite_via_email: " of nieuwe gebruikers uitnodigen via e-mail"
@@ -2587,6 +2596,7 @@ nl:
     name_or_identifier: "Naam of id"
     only_subproject_id: "Alleen subproject"
     shared_with_user: "Shared with user"
+    shared_with_me: "Shared with me"
     subproject_id: "Inclusief subproject"
   repositories:
     at_identifier: "op %{identifier}"
@@ -2737,7 +2747,7 @@ nl:
   setting_brute_force_block_minutes: "De gebruiker is geblokkeerd voor tijd"
   setting_cache_formatted_text: "Cache opgemaakte tekst"
   setting_use_wysiwyg_description: "Wilt u CKEditor5 WYSIWYG editor voor alle gebruikers standaard ingeschakeld. CKEditor heeft een beperkte functionaliteit voor GFM Markdown."
-  setting_column_options: "Het uiterlijk van de werkpakketten lijsten aanpassen"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Vaststelling van trefwoorden"
   setting_commit_logs_encoding: "Commit berichten coderen"
   setting_commit_logtime_activity_id: "Activiteit voor geregistreerde tijd"
@@ -2759,7 +2769,7 @@ nl:
   setting_emails_header: "Koptekst e-mails"
   setting_email_login: "Gebruik e-mail als inlog"
   setting_enabled_scm: "SCM Ingeschakeld"
-  setting_enabled_projects_columns: "Zichtbaar in de projectlijst"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Feeds inschakelen"
   setting_ical_enabled: "iCalendar abonnementen inschakelen"
   setting_feeds_limit: "Feed inhoud limiet"
@@ -2770,7 +2780,6 @@ nl:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Standaard worden weergegeven"
   setting_work_package_properties: "Werkpakketeigenschappen"
   setting_work_package_startdate_is_adddate: "Huidige datum als begindatum voor nieuwe werkpakketten gebruiken"
   setting_work_packages_projects_export_limit: "Werkpakketten / Projecten exportlimiet"
@@ -2836,12 +2845,12 @@ nl:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2878,7 +2887,7 @@ nl:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Instellingen voor nieuwe projecten"
-      section_project_overview: "Instellingen voor project overzicht lijst"
+      section_project_overview: "Settings for project lists"
     session: "Sessie"
     user:
       default_preferences: "Standaardvoorkeuren"
@@ -3043,6 +3052,12 @@ nl:
       Indien ingeschakeld zal een gebruiker niet in staat zijn om een inlog te kiezen tijdens registratie. In plaats daarvan zal hun opgegeven e-mailadres dienen als inlog. Een beheerder kan de inlog nog steeds afzonderlijk wijzigen.
   queries:
     apply_filter: Vooraf geconfigureerde filter toepassen
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Extra middelen"
     getting_started: "Aan de slag"

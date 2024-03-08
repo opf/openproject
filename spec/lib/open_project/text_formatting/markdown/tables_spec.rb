@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'expected_markdown'
+require "spec_helper"
+require_relative "expected_markdown"
 
 RSpec.describe OpenProject::TextFormatting,
-               'tables' do
-  include_context 'expected markdown modules'
+               "tables" do
+  include_context "expected markdown modules"
 
-  context 'for a markdown table' do
-    it_behaves_like 'format_text produces' do
+  context "for a markdown table" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           This is a table with header cells:
@@ -81,8 +81,8 @@ RSpec.describe OpenProject::TextFormatting,
     end
   end
 
-  context 'for an html table' do
-    it_behaves_like 'format_text produces' do
+  context "for an html table" do
+    it_behaves_like "format_text produces" do
       let(:raw) do
         <<~RAW
           <table>
@@ -142,8 +142,8 @@ RSpec.describe OpenProject::TextFormatting,
       end
     end
 
-    context 'already having a figure parent element' do
-      it_behaves_like 'format_text produces' do
+    context "already having a figure parent element" do
+      it_behaves_like "format_text produces" do
         let(:raw) do
           <<~RAW
             <figure>

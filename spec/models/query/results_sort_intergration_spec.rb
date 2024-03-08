@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Query::Results, 'sorting and grouping' do
+RSpec.describe Query::Results, "sorting and grouping" do
   create_shared_association_defaults_for_work_package_factory
 
   let(:query) do
@@ -46,25 +46,25 @@ RSpec.describe Query::Results, 'sorting and grouping' do
   let(:project1) { create(:project) }
   let(:user1) do
     create(:user,
-           firstname: 'user',
-           lastname: '1',
+           firstname: "user",
+           lastname: "1",
            member_with_permissions: { project1 => [:view_work_packages] })
   end
-  let(:user_a) { create(:user, firstname: 'AAA', lastname: 'AAA') }
-  let(:user_m) { create(:user, firstname: 'mmm', lastname: 'mmm') }
-  let(:user_z) { create(:user, firstname: 'ZZZ', lastname: 'ZZZ') }
+  let(:user_a) { create(:user, firstname: "AAA", lastname: "AAA") }
+  let(:user_m) { create(:user, firstname: "mmm", lastname: "mmm") }
+  let(:user_z) { create(:user, firstname: "ZZZ", lastname: "ZZZ") }
 
   let(:work_package1) { create(:work_package, project: project1, id: 1) }
   let(:work_package2) { create(:work_package, project: project1, id: 2) }
   let(:work_package3) { create(:work_package, project: project1, id: 3) }
   let(:sort_by) { [%w[id asc]] }
   let(:columns) { %i(id subject) }
-  let(:group_by) { '' }
+  let(:group_by) { "" }
 
   current_user { user1 }
 
-  context 'when grouping by assigned_to, having the author column selected' do
-    let(:group_by) { 'assigned_to' }
+  context "when grouping by assigned_to, having the author column selected" do
+    let(:group_by) { "assigned_to" }
     let(:columns) { %i(id subject author) }
 
     before do
@@ -84,7 +84,7 @@ RSpec.describe Query::Results, 'sorting and grouping' do
       work_package3.save(validate: false)
     end
 
-    it 'sorts case insensitive first by assigned_to (group by), then by sort criteria' do
+    it "sorts case insensitive first by assigned_to (group by), then by sort criteria" do
       # Would look like this in the table
       #
       # user_m
@@ -97,9 +97,9 @@ RSpec.describe Query::Results, 'sorting and grouping' do
     end
   end
 
-  context 'when sorting by author, grouping by assigned_to' do
-    let(:group_by) { 'assigned_to' }
-    let(:sort_by) { [['author', 'asc']] }
+  context "when sorting by author, grouping by assigned_to" do
+    let(:group_by) { "assigned_to" }
+    let(:sort_by) { [["author", "asc"]] }
 
     before do
       work_package1.assigned_to = user_m
@@ -118,7 +118,7 @@ RSpec.describe Query::Results, 'sorting and grouping' do
       work_package3.save(validate: false)
     end
 
-    it 'sorts case insensitive first by group by, then by assigned_to' do
+    it "sorts case insensitive first by group by, then by assigned_to" do
       # Would look like this in the table
       #
       # user_m
@@ -129,7 +129,7 @@ RSpec.describe Query::Results, 'sorting and grouping' do
       expect(query_results.work_packages)
         .to match [work_package3, work_package1, work_package2]
 
-      query.sort_criteria = [['author', 'desc']]
+      query.sort_criteria = [["author", "desc"]]
 
       # Would look like this in the table
       #
@@ -143,10 +143,10 @@ RSpec.describe Query::Results, 'sorting and grouping' do
     end
   end
 
-  context 'when sorting and grouping by priority' do
+  context "when sorting and grouping by priority" do
     let(:prio_low) { create(:issue_priority, position: 1) }
     let(:prio_high) { create(:issue_priority, position: 0) }
-    let(:group_by) { 'priority' }
+    let(:group_by) { "priority" }
 
     before do
       work_package1.priority = prio_low
@@ -156,23 +156,23 @@ RSpec.describe Query::Results, 'sorting and grouping' do
       work_package2.save(validate: false)
     end
 
-    it 'respects the sorting (Regression #29689)' do
-      query.sort_criteria = [['priority', 'asc']]
+    it "respects the sorting (Regression #29689)" do
+      query.sort_criteria = [["priority", "asc"]]
 
       expect(query_results.work_packages)
         .to match [work_package1, work_package2]
 
-      query.sort_criteria = [['priority', 'desc']]
+      query.sort_criteria = [["priority", "desc"]]
 
       expect(query_results.work_packages)
         .to match [work_package2, work_package1]
     end
   end
 
-  context 'when sorting by priority, grouping by project' do
+  context "when sorting by priority, grouping by project" do
     let(:prio_low) { create(:issue_priority, position: 1) }
     let(:prio_high) { create(:issue_priority, position: 0) }
-    let(:group_by) { 'project' }
+    let(:group_by) { "project" }
 
     before do
       work_package1.priority = prio_low
@@ -182,13 +182,13 @@ RSpec.describe Query::Results, 'sorting and grouping' do
       work_package2.save(validate: false)
     end
 
-    it 'properly selects project_id (Regression #31667)' do
-      query.sort_criteria = [['priority', 'asc']]
+    it "properly selects project_id (Regression #31667)" do
+      query.sort_criteria = [["priority", "asc"]]
 
       expect(query_results.work_packages)
         .to match [work_package1, work_package2]
 
-      query.sort_criteria = [['priority', 'desc']]
+      query.sort_criteria = [["priority", "desc"]]
 
       expect(query_results.work_packages)
         .to match [work_package2, work_package1]
@@ -199,9 +199,9 @@ RSpec.describe Query::Results, 'sorting and grouping' do
     end
   end
 
-  context 'when sorting by author and responsible, grouping by assigned_to' do
-    let(:group_by) { 'assigned_to' }
-    let(:sort_by) { [['author', 'asc'], ['responsible', 'desc']] }
+  context "when sorting by author and responsible, grouping by assigned_to" do
+    let(:group_by) { "assigned_to" }
+    let(:sort_by) { [["author", "asc"], ["responsible", "desc"]] }
 
     before do
       work_package1.assigned_to = user_m
@@ -223,7 +223,7 @@ RSpec.describe Query::Results, 'sorting and grouping' do
       work_package3.save(validate: false)
     end
 
-    it 'sorts case insensitive first by group by, then by assigned_to (neutral as equal), then by responsible' do
+    it "sorts case insensitive first by group by, then by assigned_to (neutral as equal), then by responsible" do
       # Would look like this in the table
       #
       # user_m
@@ -248,7 +248,7 @@ RSpec.describe Query::Results, 'sorting and grouping' do
     end
   end
 
-  context 'when sorting by project' do
+  context "when sorting by project" do
     let(:user1) { create(:admin) }
     let(:query) do
       build_stubbed(:query,
@@ -257,54 +257,54 @@ RSpec.describe Query::Results, 'sorting and grouping' do
                     sort_criteria: sort_by)
     end
 
-    let(:project1) { create(:project, name: 'Project A') }
-    let(:project2) { create(:project, name: 'Project b')  }
-    let(:project3) { create(:project, name: 'Project C')  }
+    let(:project1) { create(:project, name: "Project A") }
+    let(:project2) { create(:project, name: "Project b")  }
+    let(:project3) { create(:project, name: "Project C")  }
     let(:work_package1) { create(:work_package, project: project1) }
     let(:work_package2) { create(:work_package, project: project2) }
     let(:work_package3) { create(:work_package, project: project3) }
 
     before { [work_package1, work_package2, work_package3] }
 
-    context 'when ascending' do
+    context "when ascending" do
       let(:sort_by) { [%w[project asc]] }
 
-      it 'sorts case insensitive' do
+      it "sorts case insensitive" do
         expect(query_results.work_packages)
           .to match [work_package1, work_package2, work_package3]
       end
     end
 
-    context 'when descending' do
+    context "when descending" do
       let(:sort_by) { [%w[project desc]] }
 
-      it 'sorts case insensitive' do
+      it "sorts case insensitive" do
         expect(query_results.work_packages)
           .to match [work_package3, work_package2, work_package1]
       end
     end
   end
 
-  context 'when sorting by category' do
+  context "when sorting by category" do
     let(:query) do
       build_stubbed(:query,
                     show_hierarchies: false,
                     project: nil,
                     sort_criteria: sort_by)
     end
-    let(:category1) { create(:category, project: project1, name: 'Category A') }
-    let(:category2) { create(:category, project: project1, name: 'Category b') }
-    let(:category3) { create(:category, project: project1, name: 'Category C') }
+    let(:category1) { create(:category, project: project1, name: "Category A") }
+    let(:category2) { create(:category, project: project1, name: "Category b") }
+    let(:category3) { create(:category, project: project1, name: "Category C") }
     let(:work_package1) { create(:work_package, project: project1, category: category1) }
     let(:work_package2) { create(:work_package, project: project1, category: category2) }
     let(:work_package3) { create(:work_package, project: project1, category: category3) }
 
     before { [work_package1, work_package2, work_package3] }
 
-    context 'when ascending' do
+    context "when ascending" do
       let(:sort_by) { [%w[category asc]] }
 
-      it 'sorts case insensitive' do
+      it "sorts case insensitive" do
         query_results.work_packages
         [work_package1, work_package2, work_package3]
 
@@ -313,33 +313,33 @@ RSpec.describe Query::Results, 'sorting and grouping' do
       end
     end
 
-    context 'when descending' do
+    context "when descending" do
       let(:sort_by) { [%w[category desc]] }
 
-      it 'sorts case insensitive' do
+      it "sorts case insensitive" do
         expect(query_results.work_packages)
           .to match [work_package3, work_package2, work_package1]
       end
     end
   end
 
-  context 'when sorting by subject' do
+  context "when sorting by subject" do
     let(:query) do
       build_stubbed(:query,
                     show_hierarchies: false,
                     project: nil,
                     sort_criteria: sort_by)
     end
-    let(:work_package1) { create(:work_package, project: project1, subject: 'WorkPackage A') }
-    let(:work_package2) { create(:work_package, project: project1, subject: 'WorkPackage b') }
-    let(:work_package3) { create(:work_package, project: project1, subject: 'WorkPackage C') }
+    let(:work_package1) { create(:work_package, project: project1, subject: "WorkPackage A") }
+    let(:work_package2) { create(:work_package, project: project1, subject: "WorkPackage b") }
+    let(:work_package3) { create(:work_package, project: project1, subject: "WorkPackage C") }
 
     before { [work_package1, work_package2, work_package3] }
 
-    context 'when ascending' do
+    context "when ascending" do
       let(:sort_by) { [%w[subject asc]] }
 
-      it 'sorts case insensitive' do
+      it "sorts case insensitive" do
         query_results.work_packages
         [work_package1, work_package2, work_package3]
 
@@ -348,17 +348,17 @@ RSpec.describe Query::Results, 'sorting and grouping' do
       end
     end
 
-    context 'when descending' do
+    context "when descending" do
       let(:sort_by) { [%w[subject desc]] }
 
-      it 'sorts case insensitive' do
+      it "sorts case insensitive" do
         expect(query_results.work_packages)
           .to match [work_package3, work_package2, work_package1]
       end
     end
   end
 
-  context 'when sorting by finish date' do
+  context "when sorting by finish date" do
     let(:query) do
       build_stubbed(:query,
                     show_hierarchies: false,
@@ -371,26 +371,26 @@ RSpec.describe Query::Results, 'sorting and grouping' do
 
     before { [work_package1, work_package2, work_package3] }
 
-    context 'when ascending' do
+    context "when ascending" do
       let(:sort_by) { [%w[due_date asc]] }
 
-      it 'sorts case insensitive' do
+      it "sorts case insensitive" do
         expect(query_results.work_packages)
           .to match [work_package1, work_package2, work_package3]
       end
     end
 
-    context 'when descending' do
+    context "when descending" do
       let(:sort_by) { [%w[due_date desc]] }
 
-      it 'sorts case insensitive' do
+      it "sorts case insensitive" do
         expect(query_results.work_packages)
           .to match [work_package3, work_package2, work_package1]
       end
     end
   end
 
-  context 'when sorting by string custom field' do
+  context "when sorting by string custom field" do
     let(:query) do
       build_stubbed(:query,
                     show_hierarchies: false,
@@ -406,20 +406,20 @@ RSpec.describe Query::Results, 'sorting and grouping' do
       create(:custom_value,
              custom_field: string_cf,
              customized: work_package1,
-             value: 'String A')
+             value: "String A")
     end
     let!(:custom_value2) do
       create(:custom_value,
              custom_field: string_cf,
              customized: work_package2,
-             value: 'String b')
+             value: "String b")
     end
 
     let!(:custom_value3) do
       create(:custom_value,
              custom_field: string_cf,
              customized: work_package3,
-             value: 'String C')
+             value: "String C")
     end
 
     before do
@@ -432,26 +432,26 @@ RSpec.describe Query::Results, 'sorting and grouping' do
       project1.reload
     end
 
-    context 'when ascending' do
-      let(:sort_by) { [[string_cf.column_name, 'asc']] }
+    context "when ascending" do
+      let(:sort_by) { [[string_cf.column_name, "asc"]] }
 
-      it 'sorts case insensitive' do
+      it "sorts case insensitive" do
         expect(query_results.work_packages)
           .to match [work_package1, work_package2, work_package3]
       end
     end
 
-    context 'when descending' do
-      let(:sort_by) { [["assigned_to", 'desc']] }
+    context "when descending" do
+      let(:sort_by) { [["assigned_to", "desc"]] }
 
-      it 'sorts case insensitive' do
+      it "sorts case insensitive" do
         expect(query_results.work_packages)
           .to match [work_package3, work_package2, work_package1]
       end
     end
   end
 
-  context 'when sorting by integer custom field' do
+  context "when sorting by integer custom field" do
     let(:query) do
       build_stubbed(:query,
                     show_hierarchies: false,
@@ -493,26 +493,26 @@ RSpec.describe Query::Results, 'sorting and grouping' do
       project1.reload
     end
 
-    context 'when ascending' do
-      let(:sort_by) { [[int_cf.column_name, 'asc']] }
+    context "when ascending" do
+      let(:sort_by) { [[int_cf.column_name, "asc"]] }
 
-      it 'sorts case insensitive' do
+      it "sorts case insensitive" do
         expect(query_results.work_packages)
           .to match [work_package1, work_package2, work_package3]
       end
     end
 
-    context 'when descending' do
-      let(:sort_by) { [[int_cf.column_name, 'desc']] }
+    context "when descending" do
+      let(:sort_by) { [[int_cf.column_name, "desc"]] }
 
-      it 'sorts case insensitive' do
+      it "sorts case insensitive" do
         expect(query_results.work_packages)
           .to match [work_package3, work_package2, work_package1]
       end
     end
   end
 
-  context 'when sorting by typeahead' do
+  context "when sorting by typeahead" do
     before do
       work_package1.update_column(:updated_at, 5.days.ago)
       work_package2.update_column(:updated_at, Time.current)
@@ -523,7 +523,7 @@ RSpec.describe Query::Results, 'sorting and grouping' do
 
     current_user { user1 }
 
-    it 'sorts by updated_at desc' do
+    it "sorts by updated_at desc" do
       expect(query_results.work_packages)
         .to match [work_package2, work_package1, work_package3]
     end

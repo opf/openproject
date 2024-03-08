@@ -67,7 +67,7 @@ module Bim::Bcf::API::V2_1
                     .mount
 
           get :bitmaps do
-            raise NotImplementedError, 'Bitmaps are not yet implemented.'
+            raise NotImplementedError, "Bitmaps are not yet implemented."
           end
 
           namespace :snapshot, &::API::Helpers::AttachmentRenderer.content_endpoint(&-> {

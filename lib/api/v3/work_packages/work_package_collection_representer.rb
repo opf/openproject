@@ -91,7 +91,7 @@ module API
           next unless current_user_allowed_to_edit_work_packages?
 
           {
-            href: api_v3_paths.work_package_form('{work_package_id}'),
+            href: api_v3_paths.work_package_form("{work_package_id}"),
             method: :post,
             templated: true
           }
@@ -128,8 +128,8 @@ module API
             current_user.allowed_in_project?(:select_custom_fields, project)
             {
               href: project_settings_custom_fields_path(project.identifier),
-              type: 'text/html',
-              title: I18n.t('label_custom_field_plural')
+              type: "text/html",
+              title: I18n.t("label_custom_field_plural")
             }
           end
         end
@@ -227,7 +227,7 @@ module API
         end
 
         def _type
-          'WorkPackageCollection'
+          "WorkPackageCollection"
         end
 
         def representation_formats
@@ -266,56 +266,56 @@ module API
         end
 
         def representation_format_pdf
-          representation_format 'pdf',
-                                i18n_key: 'pdf_overview_table',
-                                mime_type: 'application/pdf'
+          representation_format "pdf",
+                                i18n_key: "pdf_overview_table",
+                                mime_type: "application/pdf"
         end
 
         def representation_format_pdf_report_with_images
-          representation_format 'pdf-with-descriptions',
-                                format: 'pdf',
-                                i18n_key: 'pdf_report_with_images',
-                                mime_type: 'application/pdf',
-                                url_query_extras: 'show_images=true&show_report=true'
+          representation_format "pdf-with-descriptions",
+                                format: "pdf",
+                                i18n_key: "pdf_report_with_images",
+                                mime_type: "application/pdf",
+                                url_query_extras: "show_images=true&show_report=true"
         end
 
         def representation_format_pdf_report
-          representation_format 'pdf-descr',
-                                format: 'pdf',
-                                i18n_key: 'pdf_report',
-                                mime_type: 'application/pdf',
-                                url_query_extras: 'show_report=true'
+          representation_format "pdf-descr",
+                                format: "pdf",
+                                i18n_key: "pdf_report",
+                                mime_type: "application/pdf",
+                                url_query_extras: "show_report=true"
         end
 
         def representation_format_xls
-          representation_format 'xls',
-                                mime_type: 'application/vnd.ms-excel'
+          representation_format "xls",
+                                mime_type: "application/vnd.ms-excel"
         end
 
         def representation_format_xls_descriptions
-          representation_format 'xls-with-descriptions',
-                                i18n_key: 'xls_with_descriptions',
-                                mime_type: 'application/vnd.ms-excel',
-                                format: 'xls',
-                                url_query_extras: 'show_descriptions=true'
+          representation_format "xls-with-descriptions",
+                                i18n_key: "xls_with_descriptions",
+                                mime_type: "application/vnd.ms-excel",
+                                format: "xls",
+                                url_query_extras: "show_descriptions=true"
         end
 
         def representation_format_xls_relations
-          representation_format 'xls-with-relations',
-                                i18n_key: 'xls_with_relations',
-                                mime_type: 'application/vnd.ms-excel',
-                                format: 'xls',
-                                url_query_extras: 'show_relations=true'
+          representation_format "xls-with-relations",
+                                i18n_key: "xls_with_relations",
+                                mime_type: "application/vnd.ms-excel",
+                                format: "xls",
+                                url_query_extras: "show_relations=true"
         end
 
         def representation_format_csv
-          representation_format 'csv',
-                                mime_type: 'text/csv'
+          representation_format "csv",
+                                mime_type: "text/csv"
         end
 
         def representation_format_atom
-          representation_format 'atom',
-                                mime_type: 'application/atom+xml'
+          representation_format "atom",
+                                mime_type: "application/atom+xml"
         end
 
         def timestamps_active?

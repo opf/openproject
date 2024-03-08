@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Queries::TimeEntries::TimeEntryQuery, 'integration' do
+RSpec.describe Queries::TimeEntries::TimeEntryQuery, "integration" do
   let(:instance) { described_class.new(user:) }
 
   before do
     login_as(user)
   end
 
-  context 'when using ongoing filter' do
+  context "when using ongoing filter" do
     let(:project) { create(:project, enabled_module_names: %w[costs]) }
     let(:user) { create(:user, member_with_permissions: { project => %i[log_own_time] }) }
     let(:work_package) { create(:work_package, project:) }
@@ -45,15 +45,23 @@ RSpec.describe Queries::TimeEntries::TimeEntryQuery, 'integration' do
     let!(:user_timer) { create(:time_entry, user:, work_package:, ongoing: true) }
     let!(:other_user_timer) { create(:time_entry, user: other_user, work_package: other_work_package, ongoing: true) }
 
-    describe '#results' do
+    describe "#results" do
       subject { instance.results }
 
       before do
-        instance.where('ongoing', '=', ['t'])
+        instance.where("ongoing", "=", ["t"])
       end
 
-      it 'only returns the users own time entries' do
+      it "only returns the users own time entries" do
         expect(subject).to contain_exactly(user_timer)
+      end
+
+      context "when user has log_time permission" do
+        let(:user) { create(:user, member_with_permissions: { project => %i[log_time] }) }
+
+        it "still returns the users own time entries" do
+          expect(subject).to contain_exactly(user_timer)
+        end
       end
     end
   end

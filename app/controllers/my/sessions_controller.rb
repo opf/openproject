@@ -6,7 +6,7 @@ module My
     before_action :find_model_object, only: %i(show destroy)
     before_action :prevent_current_session_deletion, only: %i(destroy)
 
-    layout 'my'
+    layout "my"
     menu_item :sessions
 
     def index
@@ -18,7 +18,7 @@ module My
         .for_user(current_user)
         .order(expires_on: :asc)
 
-      token = cookies[OpenProject::Configuration['autologin_cookie_name']]
+      token = cookies[OpenProject::Configuration["autologin_cookie_name"]]
       if token
         @current_token = @autologin_tokens.find_by_plaintext_value(token) # rubocop:disable Rails/DynamicFindBy
       end
@@ -37,7 +37,7 @@ module My
 
     def prevent_current_session_deletion
       if @session.current?(session)
-        render_400 message: I18n.t('users.sessions.may_not_delete_current')
+        render_400 message: I18n.t("users.sessions.may_not_delete_current")
       end
     end
   end

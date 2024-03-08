@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'creating a cost type', :js do
+RSpec.describe "creating a cost type", :js do
   let!(:user) { create(:admin) }
   let!(:cost_type) do
-    type = create(:cost_type, name: 'Translations')
+    type = create(:cost_type, name: "Translations")
     create(:cost_rate, cost_type: type, rate: 1.00)
     type
   end
@@ -40,61 +40,61 @@ RSpec.describe 'creating a cost type', :js do
     login_as user
   end
 
-  it 'can create a cost type' do
+  it "can create a cost type" do
     visit "/cost_types/new"
 
-    fill_in 'cost_type_name', with: 'Test day rate'
-    fill_in 'cost_type_unit', with: 'dayUnit'
-    fill_in 'cost_type_unit_plural', with: 'dayUnitPlural'
-    fill_in 'cost_type_new_rate_attributes_0_rate', with: '1,000.25'
+    fill_in "cost_type_name", with: "Test day rate"
+    fill_in "cost_type_unit", with: "dayUnit"
+    fill_in "cost_type_unit_plural", with: "dayUnitPlural"
+    fill_in "cost_type_new_rate_attributes_0_rate", with: "1,000.25"
 
     sleep 1
 
-    scroll_to_and_click(find('button.-with-icon.icon-checkmark'))
+    scroll_to_and_click(find("button.-with-icon.icon-checkmark"))
 
     expect_angular_frontend_initialized
-    expect(page).to have_css '.generic-table', wait: 10
+    expect(page).to have_css ".generic-table", wait: 10
 
-    cost_type_row = find('tr', text: 'Test day rate')
+    cost_type_row = find("tr", text: "Test day rate")
 
-    expect(cost_type_row).to have_css('td a', text: 'Test day rate')
-    expect(cost_type_row).to have_css('td', text: 'dayUnit')
-    expect(cost_type_row).to have_css('td', text: 'dayUnitPlural')
-    expect(cost_type_row).to have_css('td.currency', text: '1,000.25')
+    expect(cost_type_row).to have_css("td a", text: "Test day rate")
+    expect(cost_type_row).to have_css("td", text: "dayUnit")
+    expect(cost_type_row).to have_css("td", text: "dayUnitPlural")
+    expect(cost_type_row).to have_css("td.currency", text: "1,000.25")
 
     cost_type = CostType.last
-    expect(cost_type.name).to eq 'Test day rate'
+    expect(cost_type.name).to eq "Test day rate"
     cost_rate = cost_type.rates.last
     expect(cost_rate.rate).to eq 1000.25
   end
 
-  context 'with german locale' do
+  context "with german locale" do
     let(:user) { create(:admin, language: :de) }
 
-    it 'creates the entry with german number separators' do
+    it "creates the entry with german number separators" do
       visit "/cost_types/new"
 
-      fill_in 'cost_type_name', with: 'Test day rate'
-      fill_in 'cost_type_unit', with: 'dayUnit'
-      fill_in 'cost_type_unit_plural', with: 'dayUnitPlural'
-      fill_in 'cost_type_new_rate_attributes_0_rate', with: '1.000,25'
+      fill_in "cost_type_name", with: "Test day rate"
+      fill_in "cost_type_unit", with: "dayUnit"
+      fill_in "cost_type_unit_plural", with: "dayUnitPlural"
+      fill_in "cost_type_new_rate_attributes_0_rate", with: "1.000,25"
 
       sleep 1
 
-      scroll_to_and_click(find('button.-with-icon.icon-checkmark'))
+      scroll_to_and_click(find("button.-with-icon.icon-checkmark"))
 
       expect_angular_frontend_initialized
-      expect(page).to have_css '.generic-table', wait: 10
+      expect(page).to have_css ".generic-table", wait: 10
 
-      cost_type_row = find('tr', text: 'Test day rate')
+      cost_type_row = find("tr", text: "Test day rate")
 
-      expect(cost_type_row).to have_css('td a', text: 'Test day rate')
-      expect(cost_type_row).to have_css('td', text: 'dayUnit')
-      expect(cost_type_row).to have_css('td', text: 'dayUnitPlural')
-      expect(cost_type_row).to have_css('td.currency', text: '1.000,25')
+      expect(cost_type_row).to have_css("td a", text: "Test day rate")
+      expect(cost_type_row).to have_css("td", text: "dayUnit")
+      expect(cost_type_row).to have_css("td", text: "dayUnitPlural")
+      expect(cost_type_row).to have_css("td.currency", text: "1.000,25")
 
       cost_type = CostType.last
-      expect(cost_type.name).to eq 'Test day rate'
+      expect(cost_type.name).to eq "Test day rate"
       cost_rate = cost_type.rates.last
       expect(cost_rate.rate).to eq 1000.25
     end

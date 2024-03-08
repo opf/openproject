@@ -25,10 +25,10 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Notifications::NotificationsAPI,
-               'update read status',
+               "update read status",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
@@ -59,10 +59,10 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
     login_as current_user
   end
 
-  describe 'recipient user' do
+  describe "recipient user" do
     let(:current_user) { recipient }
 
-    it 'can read and unread' do
+    it "can read and unread" do
       send_read
       expect(last_response.status).to eq(204)
       expect(notification.reload.read_ian).to be_truthy
@@ -73,10 +73,10 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
     end
   end
 
-  describe 'admin user' do
+  describe "admin user" do
     let(:current_user) { build(:admin) }
 
-    it 'returns a 404 response' do
+    it "returns a 404 response" do
       send_read
       expect(last_response.status).to eq(404)
 

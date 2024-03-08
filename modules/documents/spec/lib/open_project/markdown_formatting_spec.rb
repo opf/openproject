@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::TextFormatting,
-               'Document links' do
+               "Document links" do
   include ActionView::Helpers::UrlHelper # soft-dependency
   include ActionView::Context
   include OpenProject::StaticRouting::UrlHelpers
@@ -43,7 +43,7 @@ RSpec.describe OpenProject::TextFormatting,
   end
 
   shared_let(:document) do
-    create(:document, project:, title: 'My document')
+    create(:document, project:, title: "My document")
   end
 
   subject do
@@ -62,7 +62,7 @@ RSpec.describe OpenProject::TextFormatting,
     TEXT
   end
 
-  context 'when visible' do
+  context "when visible" do
     let(:role) { create(:project_role, permissions: %i[view_documents view_project]) }
     let(:user) { create(:user, member_with_roles: { project => role }) }
 
@@ -76,19 +76,19 @@ RSpec.describe OpenProject::TextFormatting,
 
     let(:document_link) do
       link_to(
-        'My document',
-        { controller: '/documents', action: 'show', id: document.id, only_path: true },
-        class: 'document op-uc-link',
-        target: '_top'
+        "My document",
+        { controller: "/documents", action: "show", id: document.id, only_path: true },
+        class: "document op-uc-link",
+        target: "_top"
       )
     end
 
-    it 'renders the links' do
+    it "renders the links" do
       expect(subject).to be_html_eql(expected)
     end
   end
 
-  context 'when not visible' do
+  context "when not visible" do
     let(:user) { create(:user) }
 
     let(:expected) do
@@ -99,7 +99,7 @@ RSpec.describe OpenProject::TextFormatting,
       HTML
     end
 
-    it 'renders the raw text' do
+    it "renders the raw text" do
       expect(subject).to be_html_eql(expected)
     end
   end

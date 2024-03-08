@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe DeprecatedAlias do
   let(:clazz) do
@@ -34,7 +34,7 @@ RSpec.describe DeprecatedAlias do
       extend DeprecatedAlias
 
       def secret_key
-        'happiness'
+        "happiness"
       end
       deprecated_alias :special_key, :secret_key
     end
@@ -55,7 +55,7 @@ RSpec.describe DeprecatedAlias do
       .with(deprecation_warning, an_instance_of(Array))
   end
 
-  it 'aliases the method' do
-    expect(object.special_key).to eq('happiness')
+  it "aliases the method" do
+    expect(object.special_key).to eq("happiness")
   end
 end

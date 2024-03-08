@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'OpenProject include wiki page macro' do
+RSpec.describe "OpenProject include wiki page macro" do
   include ActionView::Helpers::UrlHelper
   include OpenProject::StaticRouting::UrlHelpers
   include OpenProject::TextFormatting
@@ -50,13 +50,13 @@ RSpec.describe 'OpenProject include wiki page macro' do
       "Error executing the macro include_wiki_page (#{exception_msg})</macro></p>"
   end
 
-  context 'old macro syntax no longer works' do
-    let(:input) { '{{include(whatever)}}' }
+  context "old macro syntax no longer works" do
+    let(:input) { "{{include(whatever)}}" }
 
     it { is_expected.to be_html_eql("<p class=\"op-uc-p\">#{input}</p>") }
   end
 
-  context 'with the new but also no longer supported syntax' do
+  context "with the new but also no longer supported syntax" do
     let(:input) { '<macro class="include_wiki_page" data-page="included"></macro>' }
 
     it { is_expected.to be_html_eql(error_html("The macro does no longer exist.")) }

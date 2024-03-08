@@ -96,10 +96,10 @@ class WithDirectUploads
   end
 
   def stub_frontend(redirect: false)
-    proxy.stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: 'options').and_return(
+    proxy.stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: "options").and_return(
       headers: {
-        'Access-Control-Allow-Methods' => 'POST',
-        'Access-Control-Allow-Origin' => '*'
+        "Access-Control-Allow-Methods" => "POST",
+        "Access-Control-Allow-Origin" => "*"
       },
       code: 200
     )
@@ -113,18 +113,18 @@ class WithDirectUploads
 
   def stub_with_redirect
     proxy
-      .stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: 'post')
+      .stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: "post")
       .and_return(Proc.new do |_params, _headers, body, _url, _method|
         key = body.scan(/key"\s*([^\s]+)\s/m).flatten.first
         redirect_url = body.scan(/success_action_redirect"\s*(http[^\s]+)\s/m).flatten.first
-        ok = body.include?('X-Amz-Signature') # check that the expected post to AWS was made with the form fields
+        ok = body.include?("X-Amz-Signature") # check that the expected post to AWS was made with the form fields
 
         {
           code: ok ? 302 : 403,
           headers: {
-            'Location' => ok ? redirect_url + '?key=' + CGI.escape(key) : nil,
-            'Access-Control-Allow-Methods' => 'POST',
-            'Access-Control-Allow-Origin' => '*'
+            "Location" => ok ? redirect_url + "?key=" + CGI.escape(key) : nil,
+            "Access-Control-Allow-Methods" => "POST",
+            "Access-Control-Allow-Origin" => "*"
           }
         }
       end)
@@ -132,13 +132,13 @@ class WithDirectUploads
 
   def stub_with_status
     proxy
-      .stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: 'post')
+      .stub("https://" + OpenProject::Configuration.remote_storage_upload_host + ":443/", method: "post")
       .and_return(Proc.new do |_params, _headers, body, _url, _method|
         {
-          code: body.include?('X-Amz-Signature') ? 201 : 403, # check that the expected post to AWS was made with the form fields
+          code: body.include?("X-Amz-Signature") ? 201 : 403, # check that the expected post to AWS was made with the form fields
           headers: {
-            'Access-Control-Allow-Methods' => 'POST',
-            'Access-Control-Allow-Origin' => '*'
+            "Access-Control-Allow-Methods" => "POST",
+            "Access-Control-Allow-Origin" => "*"
           }
         }
       end)

@@ -36,8 +36,8 @@ module Meetings
 
     def wrapper_data_attributes
       {
-        controller: 'meetings-sidebar-participants',
-        'application-target': 'dynamic'
+        controller: "meetings-sidebar-participants",
+        "application-target": "dynamic"
       }
     end
 
@@ -55,10 +55,10 @@ module Meetings
 
     def render_participant(participant)
       flex_layout(align_items: :center) do |flex|
-        flex.with_column(classes: 'ellipsis') do
+        flex.with_column(classes: "ellipsis") do
           render(Users::AvatarComponent.new(user: participant.user,
                                             size: :medium,
-                                            classes: 'op-principal_flex'))
+                                            classes: "op-principal_flex"))
         end
         render_participant_state(participant, flex)
       end
