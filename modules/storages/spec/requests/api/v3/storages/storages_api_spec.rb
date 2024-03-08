@@ -43,20 +43,23 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
   shared_let(:user_without_project) { create(:user) }
   shared_let(:admin) { create(:admin) }
   shared_let(:oauth_application) { create(:oauth_application) }
-  shared_let(:storage) { create(:nextcloud_storage, creator: user_with_permissions, oauth_application:) }
+  shared_let(:oauth_client) { create(:oauth_client) }
+  shared_let(:storage) { create(:nextcloud_storage, creator: user_with_permissions, oauth_application:, oauth_client:) }
   shared_let(:project_storage) { create(:project_storage, project:, storage:) }
 
-  let(:authorize_url) { 'https://example.com/authorize' }
-  let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
   let(:current_user) { user_with_permissions }
+  let(:auth_check_result) { ServiceResult.success }
 
   subject(:last_response) do
     get path
   end
 
   before do
-    allow(connection_manager).to receive_messages(get_authorization_uri: authorize_url, authorization_state: :connected)
-    allow(OAuthClients::ConnectionManager).to receive(:new).and_return(connection_manager)
+    Storages::Peripherals::Registry.stub(
+      "#{storage.short_provider_type}.queries.auth_check",
+      ->(_) { auth_check_result }
+    )
+
     login_as current_user
   end
 
@@ -233,17 +236,13 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
       shared_examples 'a storage authorization result' do |expected:, has_authorize_link:|
         subject { last_response.body }
 
-        before do
-          allow(connection_manager).to receive(:authorization_state).and_return(authorization_state)
-        end
-
         it "returns #{expected}" do
           expect(subject).to be_json_eql(expected.to_json).at_path('_links/authorizationState/href')
         end
 
         it "has #{has_authorize_link ? '' : 'no'} authorize link" do
           if has_authorize_link
-            expect(subject).to be_json_eql(authorize_url.to_json).at_path('_links/authorize/href')
+            expect(subject).to have_json_path('_links/authorize/href')
           else
             expect(subject).not_to have_json_path('_links/authorize/href')
           end
@@ -251,7 +250,7 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
       end
 
       context 'when authorization succeeds and storage is connected' do
-        let(:authorization_state) { :connected }
+        let(:auth_check_result) { ServiceResult.success }
 
         include_examples 'a storage authorization result',
                          expected: API::V3::Storages::URN_CONNECTION_CONNECTED,
@@ -259,7 +258,7 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
       end
 
       context 'when authorization fails' do
-        let(:authorization_state) { :failed_authorization }
+        let(:auth_check_result) { ServiceResult.failure(errors: Storages::StorageError.new(code: :unauthorized)) }
 
         include_examples 'a storage authorization result',
                          expected: API::V3::Storages::URN_CONNECTION_AUTH_FAILED,
@@ -267,7 +266,7 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
       end
 
       context 'when authorization fails with an error' do
-        let(:authorization_state) { :error }
+        let(:auth_check_result) { ServiceResult.failure(errors: Storages::StorageError.new(code: :error)) }
 
         include_examples 'a storage authorization result',
                          expected: API::V3::Storages::URN_CONNECTION_ERROR,

@@ -46,15 +46,6 @@ module Storages
 
         # rubocop:enable Lint/MissingSuper
 
-        def authorization_state_check(access_token)
-          authorization_check_wrapper do
-            OpenProject.httpx.get(
-              Util.join_uri_path(@uri, "/v1.0/me"),
-              headers: { "Authorization" => "Bearer #{access_token}", "Accept" => "application/json" }
-            )
-          end
-        end
-
         def extract_origin_user_id(rack_access_token)
           OpenProject.httpx.get(
             Util.join_uri_path(@uri, "/v1.0/me"),

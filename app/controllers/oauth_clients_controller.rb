@@ -70,6 +70,7 @@ class OAuthClientsController < ApplicationController
     end
   end
 
+  # rubocop:disable Metrics/AbcSize
   def ensure_connection
     client_id = params.fetch(:oauth_client_id)
     storage_id = params.fetch(:storage_id)
@@ -88,7 +89,9 @@ class OAuthClientsController < ApplicationController
                       else
                         root_url
                       end
-    if connection_manager.authorization_state_connected?
+    auth_state = ::Storages::Peripherals::StorageInteraction::Authentication
+                   .authorization_state(storage: oauth_client.integration, user: User.current)
+    if auth_state == :connected
       redirect_to(destination_url)
     else
       nonce = SecureRandom.uuid
@@ -96,6 +99,8 @@ class OAuthClientsController < ApplicationController
       redirect_to(connection_manager.get_authorization_uri(state: nonce))
     end
   end
+
+  # rubocop:enable Metrics/AbcSize
 
   private
 
