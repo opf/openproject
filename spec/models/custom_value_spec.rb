@@ -735,26 +735,63 @@ RSpec.describe CustomValue do
   end
 
   describe '#activate_custom_field_in_customized_project' do
-    let(:custom_field) { create(:project_custom_field) }
     let(:project) { create(:project) }
 
-    context 'when a value is set' do
-      let(:custom_value) { build(:custom_value, custom_field:, customized: project, value: "foo") }
+    context 'with a given default value' do
+      let(:custom_field) { create(:string_project_custom_field, default_value: "foo") }
 
-      it 'activates the custom field in the project after create if missing' do
-        expect(project.project_custom_fields).not_to include(custom_field)
-        custom_value.save!
-        expect(project.reload.project_custom_fields).to include(custom_field)
+      context 'when a value other than the default value is set' do
+        let(:custom_value) { build(:custom_value, custom_field:, customized: project, value: "bar") }
+
+        it 'activates the custom field in the project after create if missing' do
+          expect(project.project_custom_fields).not_to include(custom_field)
+          custom_value.save!
+          expect(project.reload.project_custom_fields).to include(custom_field)
+        end
+      end
+
+      context 'when a value equal to the default value is set' do
+        let(:custom_value) { build(:custom_value, custom_field:, customized: project, value: "foo") }
+
+        it 'activates the custom field in the project after create if missing' do
+          expect(project.project_custom_fields).not_to include(custom_field)
+          custom_value.save!
+          expect(project.reload.project_custom_fields).not_to include(custom_field)
+        end
+      end
+
+      context 'when a value is not set' do
+        let(:custom_value) { build(:custom_value, custom_field:, customized: project) }
+
+        it 'does not activate the custom field in the project after create if missing' do
+          expect(project.project_custom_fields).not_to include(custom_field)
+          custom_value.save!
+          expect(project.reload.project_custom_fields).not_to include(custom_field)
+        end
       end
     end
 
-    context 'when a value is not set' do
-      let(:custom_value) { build(:custom_value, custom_field:, customized: project) }
+    context 'with no default value given' do
+      let(:custom_field) { create(:string_project_custom_field) }
 
-      it 'does not activate the custom field in the project after create if missing' do
-        expect(project.project_custom_fields).not_to include(custom_field)
-        custom_value.save!
-        expect(project.reload.project_custom_fields).not_to include(custom_field)
+      context 'when a value is set' do
+        let(:custom_value) { build(:custom_value, custom_field:, customized: project, value: "bar") }
+
+        it 'activates the custom field in the project after create if missing' do
+          expect(project.project_custom_fields).not_to include(custom_field)
+          custom_value.save!
+          expect(project.reload.project_custom_fields).to include(custom_field)
+        end
+      end
+
+      context 'when a value is not set' do
+        let(:custom_value) { build(:custom_value, custom_field:, customized: project) }
+
+        it 'does not activate the custom field in the project after create if missing' do
+          expect(project.project_custom_fields).not_to include(custom_field)
+          custom_value.save!
+          expect(project.reload.project_custom_fields).not_to include(custom_field)
+        end
       end
     end
   end
