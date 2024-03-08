@@ -31,9 +31,8 @@
 :root {
   --primary-button-color: var(--button-primary-bgColor-rest, var(--color-btn-primary-bg));
   --primary-button-color--major1: #197032;
-  // TODO: Really?
+
   --control-checked-color: var(--accent-color--major1);
-  //--control-checked-color: var(--control-checked-bgColor-rest, var(--color-accent-fg));
   --control-checked-color--major1: var(--accent-color--major2);
   --control-checked-color--minor1: var(--accent-color--minor1);
 
