@@ -494,7 +494,7 @@ cs:
     label_sort_lower: "Přesunout níž"
     label_sorting: "Řazení"
     label_spent_time: "Strávený čas"
-    label_star_query: "Oblíbené"
+    label_star_query: "Oblíbená"
     label_press_enter_to_save: "Stiskněte Enter pro uložení."
     label_public_query: "Veřejné"
     label_sum: "Suma"
@@ -756,7 +756,7 @@ cs:
           membership_updated: "Členství bylo aktualizováno"
         title: "E-mail upozornění "
         pause:
-          label: "Dočasně pozastavit denní posílání oznámení e-mailem"
+          label: "Dočasně pozastavit denní připomenutí e-mailem"
           first_day: "První den"
           last_day: "Poslední den"
     text_are_you_sure: "Jste si jisti?"

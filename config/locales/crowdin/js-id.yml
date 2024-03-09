@@ -102,7 +102,7 @@ id:
     button_save: "Simpan"
     button_settings: "Pengaturan"
     button_uncheck_all: "Uncek semua"
-    button_update: "Perbarui"
+    button_update: "Update"
     button_export-pdf: "Download PDF"
     button_export-atom: "Download Atom"
     button_create: "Buat baru"
