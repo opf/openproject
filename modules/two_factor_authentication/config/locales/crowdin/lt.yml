@@ -115,10 +115,10 @@ lt:
       is_default_cannot_delete: "Šis įrenginys pažymėtas kaip numatytasis ir todėl negali būti ištrintas dėl aktyvios saugumo politikos. Prieš trindami pažymėkite kitą įrenginį kaip numatytąjį."
       not_existing: "Jūsų paskyrai nėra priregistruotas joks 2FA įrenginys."
       2fa_from_input: Jūsų asmenybės identifikavimui prašome įvesti kodą iš jūsų <strong>%{device_name}</strong>.
-      2fa_from_webauthn: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      2fa_from_webauthn: Prašome pateikti WebAuthn rrenginį <strong>%{device_name}</strong>. Jei tai USB įrenginys, įsitikinkite, kad jis įjungtas ir jį palieskite. Tada paspauskite prisijungimo mygtuką.
       webauthn:
         title: "WebAuthn"
-        description: Use Web Authentication to register a FIDO2 device (like a YubiKey) or the secure enclave of your mobile device as a second factor.
+        description: Naudokite žiniatinklio autentifikavimą, kad priregistruotumėte FID02 įrenginį (kaip YubiKey) arba saugų jūsų mobilaus įrengnio enklavą kaip antrinį veiksnį.
         further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
       totp:
         title: "Naudoti jūsų aplikacija paremtą autentifikatorių"

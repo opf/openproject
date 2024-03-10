@@ -216,7 +216,7 @@ zh-TW:
         members_connection_status: 成員連接狀態
         new: 增加一個儲存區至此專案
       project_storage_members:
-        subtitle: 檢查所有項目成員的存儲區 %{storage_name_link} 的連線狀態。
+        subtitle: 檢查所有專案成員存儲區 %{storage_name_link} 的連線狀態。
         title: 成員連線狀態
     provider_types:
       label: 提供者類型
@@ -229,7 +229,7 @@ zh-TW:
         label_oauth_client_id: Azure OAuth Application (client) ID
         label_oauth_client_secret: Azure OAuth Client Secret Value
         name: OneDrive/SharePoint
-        name_placeholder: e.g. OneDrive
+        name_placeholder: 例如 OneDrive
     storage_list_blank_slate:
       description: Add a storage to see them here.
       heading: You don't have any storages yet.

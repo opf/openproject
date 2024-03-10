@@ -4,7 +4,7 @@ zh-TW:
     label_preview: '預覽'
     button_update: '更新'
     avatars:
-      label_choose_avatar: "選擇頭像"
+      label_choose_avatar: "選擇大頭貼"
       uploading_avatar: "上傳您的頭像。"
       text_upload_instructions: |
         上傳您自己的 128 x 128 像素自定義頭像。 較大的文件將被調整大小和裁剪。
