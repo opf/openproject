@@ -93,9 +93,9 @@ zh-TW:
     deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
     overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
     quarantined_attachments:
-      container: "Container"
-      delete: "Delete the quarantined file"
-      title: "Quarantined attachments"
+      container: "隔離區容器"
+      delete: "刪除隔離區文件"
+      title: "隔離區文件"
       error_cannot_act_self: "Cannot perform actions on your own uploaded files."
   attribute_help_texts:
     note_public: "Any text and images you add to this field is publicly visible to all logged in users!"
@@ -118,7 +118,7 @@ zh-TW:
       <br/>
       <a href="https://www.openproject.org/help/administration/manage-ldap-authentication/">Please visit our documentation for detailed instructions</a>.
     attribute_texts:
-      name: LDAP 連接的任意名稱
+      name: LDAP 連線名稱
       host: LDAP 主機名稱或 IP 位址
       login_map: The attribute key in LDAP that is used to identify the unique user login. Usually, this will be `uid` or `samAccountName`.
       generic_map: The attribute key in LDAP that is mapped to the OpenProject `%{attribute}` attribute
@@ -139,9 +139,9 @@ zh-TW:
         OpenProject will always filter for the login attribute provided by the user to identify the record. If you provide a filter here,
         it will be concatenated with an AND. By default, a catch-all (objectClass=*) will be used as a filter.
       onthefly_register: |
-        If you check this box, OpenProject will automatically create new users from their LDAP entries
-        when they first authenticate with OpenProject.
-        Leave this unchecked to only allow existing accounts in OpenProject to authenticate through LDAP!
+        如果勾選此方框，OpenProject 將在使用者"首次"登入時，自動根據 LDAP 資料創建新的使用者帳戶。
+
+        保持此方框不勾選，則僅限於 OpenProject 已有帳戶可以使用 LDAP 驗證登入。
     connection_encryption: "連線加密"
     encryption_details: "LDAPS / STARTTLS 選項"
     system_account: "系統帳戶"
@@ -151,13 +151,12 @@ zh-TW:
     ldap_details: "LDAP 詳細資料"
     user_settings: "屬性對應"
     user_settings_legend: |
-      The following fields are related to how users are created in OpenProject from LDAP entries and
-      what LDAP attributes are used to define the attributes of an OpenProject user (attribute mapping).
+      以下欄位說明了 OpenProject 如何從 LDAP 資料自動建立使用者帳戶，以及如何使用 LDAP 屬性對應到OpenProject的使用者的屬性 (屬性映射)。
     tls_mode:
       plain: "無"
       simple_tls: "LDAPS"
       start_tls: "STARTTLS"
-      plain_description: "打開到LDAP服務器的非加密連接。不建議在生產環境中使用。"
+      plain_description: "開啟未加密連線到LDAP服務器。不建議正式使用。"
       simple_tls_description: "若要使用LDAPS。需要LDAP服務器上的單獨端口。此模式常被棄用，我們建議最好使用STARTTLS。"
       start_tls_description: "連接到標準LDAP端口後發送STARTTLS命令。推薦用於加密連接。"
       section_more_info_link_html: >
@@ -176,9 +175,9 @@ zh-TW:
       no_results_content_text: 建立一個新顏色
       label_new_color: "新顏色"
     new:
-      label_new_color: "New Color"
+      label_new_color: "新增顏色"
     edit:
-      label_edit_color: "Edit Color"
+      label_edit_color: "編輯色彩"
     form:
       label_new_color: "新顏色"
       label_edit_color: "編輯顏色"
@@ -213,10 +212,10 @@ zh-TW:
       is_required: "Mark the custom field as required. This will make it mandatory to fill in the field when creating new or updating existing resources."
       is_for_all: "Mark the custom field as available in all existing and new projects."
       searchable: "Include the field values when using the global search functionality."
-      editable: "Allow the field to be editable by users themselves."
+      editable: "允許使用者自行編輯此欄位"
       visible: "Make field visible for all users (non-admins) in the project overview and displayed in the project details widget on the Project Overview."
       is_filter: >
-        Allow the custom field to be used in a filter in work package views. Note that only with 'For all projects' selected, the custom field will show up in global views.
+        允許在工作項目檢視中的篩選條件使用客製欄位。請注意，僅在選擇「所有專案」的情況下，客製欄位才會出現在所有檢視中。
     tab:
       no_results_title_text: 目前沒有自定義的欄位
       no_results_content_text: 建立一個新的自定義欄位
@@ -241,13 +240,13 @@ zh-TW:
   projects:
     copy:
       #Contains custom strings for options when copying a project that cannot be found elsewhere.
-      members: "Project members"
-      overviews: "Project overview"
-      queries: "Work packages: saved views"
-      wiki_page_attachments: "Wiki pages: attachments"
-      work_package_attachments: "Work packages: attachments"
-      work_package_categories: "Work packages: categories"
-      work_package_file_links: "Work packages: file links"
+      members: "專案成員"
+      overviews: "專案總覽"
+      queries: "工作項目：儲存的檢視"
+      wiki_page_attachments: "Wiki 頁面附件"
+      work_package_attachments: "工作項目：附件"
+      work_package_categories: "工作項目：類別"
+      work_package_file_links: "工作項目：檔案連結"
     delete:
       scheduled: "Deletion has been scheduled and is performed in the background. You will be notified of the result."
       schedule_failed: "專案無法刪除: %{errors}"
@@ -261,10 +260,10 @@ zh-TW:
       no_results_title_text: 目前沒有專案
       no_results_content_text: 建立新專案
     lists:
-      active: "Active projects"
-      my: "My projects"
+      active: "啟用中的專案"
+      my: "我的專案"
       archived: "歸檔專案"
-      my_private: "My private project lists"
+      my_private: "我的私人專案"
       new:
         placeholder: "New project list"
       delete_modal:
@@ -298,14 +297,14 @@ zh-TW:
       no_results_title_text: 目前這個專案沒有成員
       no_results_content_text: 新增一個成員到這個專案
     invite_by_mail: "Send invite to %{mail}"
-    send_invite_to: "Send invite to"
+    send_invite_to: "寄送邀請"
     no_modify_on_shared: "You currently cannot modify or remove shared memberships through the member page. Use the sharing modal instead."
     columns:
       shared: "共享"
     filters:
-      all_shares: "All shares"
+      all_shares: "所有分享的"
     menu:
-      all: "All"
+      all: "全部"
       invited: "已邀請"
       locked: "Locked"
       project_roles: "Project roles"
@@ -349,12 +348,12 @@ zh-TW:
   placeholder_users:
     right_to_manage_members_missing: >
       你不被允許刪除「虛擬暫用群組」(placeholder user)。您無權管理虛擬暫用群組所屬的所有專案成員。
-    delete_tooltip: "刪除「虛擬暫用群組」"
+    delete_tooltip: "刪除「非專案成員」"
     deletion_info:
       heading: "刪除虛擬暫用群組：%{name}"
       data_consequences: >
         All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
-      irreversible: "This action is irreversible"
+      irreversible: "這一行動是不可還原的"
       confirmation: "輸入「虛擬暫用群組」名稱： %{name} 來確認刪除"
     upsale:
       title: 虛擬暫用群組
@@ -508,9 +507,9 @@ zh-TW:
         port: "埠"
         tls_certificate_string: "LDAP server SSL certificate"
       changeset:
-        repository: "Repository"
+        repository: "版本庫"
       color:
-        hexcode: "十六進位碼"
+        hexcode: "Hex code"
       comment:
         commented: "已評論" #an object that this comment belongs to
       custom_action:
@@ -520,7 +519,7 @@ zh-TW:
         default_value: "預設值"
         editable: "可編輯"
         field_format: "格式"
-        is_filter: "慣用篩選器"
+        is_filter: "作為篩選條件"
         is_required: "必填"
         max_length: "最大長度"
         min_length: "最小長度"
@@ -563,7 +562,7 @@ zh-TW:
         parent: "上層專案"
         public_value:
           title: "可見度"
-          true: "public"
+          true: "公開"
           false: "private"
         queries: "查詢"
         status_code: "專案狀態"
@@ -573,7 +572,7 @@ zh-TW:
           not_started: "未開始"
           on_track: "進度良好"
           at_risk: "存在風險"
-          off_track: "進度脫軌"
+          off_track: "進度落後"
           finished: "已完成"
           discontinued: "已中止"
         templated: "範本專案"
@@ -588,7 +587,7 @@ zh-TW:
         relations_to_type_column: "與 %{type} 的關連"
         relations_of_type_column: "%{type} 關係"
         group_by: "分組依據"
-        filters: "篩選器"
+        filters: "篩選條件"
         timeline_labels: "時間軸標籤"
       repository:
         url: "URL"
@@ -717,7 +716,7 @@ zh-TW:
         less_than_or_equal_to: "必須少於或者等於 %{count}。"
         not_available: "由於系統配置所以不可用"
         not_deletable: "無法刪除"
-        not_current_user: "不是當前用戶。"
+        not_current_user: "不是目前使用者。"
         not_a_date: "不是有效的日期。"
         not_a_datetime: "不是有效的日期時間。"
         not_a_number: "不是數字"
@@ -783,7 +782,7 @@ zh-TW:
           unreadable: "無法讀取，確定是一個 support token?"
         grids/grid:
           overlaps: "重疊"
-          outside: "不在網格內。"
+          outside: "不在網格(grid)內。"
           end_before_start: "結束值必須大於開始值。"
         ical_token_query_assignment:
           attributes:
@@ -798,7 +797,7 @@ zh-TW:
             mail_reminder_sent:
               set_on_creation: "在創建通知時不能設置為 true"
             reason:
-              no_notification_reason: "當 IAN 被選為管道時不能為空"
+              no_notification_reason: "當 IAN 被選為頻道時不能為空"
             reason_mail_digest:
               no_notification_reason: "當郵件摘要被選為管道時不能為空"
         non_working_day:
@@ -810,8 +809,8 @@ zh-TW:
           attributes:
             base:
               unsupported_operator: "不支援此操作"
-              invalid_values: "值無效。"
-              id_filter_required: "An 'id' filter is required."
+              invalid_values: "數值無效。"
+              id_filter_required: "'id' 篩選條件是必要的"
         project:
           archived_ancestor: "The project has an archived ancestor."
           foreign_wps_reference_version: "Work packages in non descendant projects reference versions of the project or its descendants."
@@ -839,31 +838,31 @@ zh-TW:
               invalid: "無法按照 %{value} 排序"
               format: "%{message}"
             timestamps:
-              invalid: "Timestamps contain invalid values: %{values}"
-              forbidden: "Timestamps contain forbidden values: %{values}"
+              invalid: "時間值錯誤"
+              forbidden: "時間值錯誤: %{values}"
               format: "%{message}"
             selects:
-              name_not_included: "The 'Name' column needs to be included"
-              nonexistent: "The column '%{column}' does not exist."
+              name_not_included: "需要包含欄位名稱"
+              nonexistent: "無此欄位 '%{column}'"
               format: "%{message}"
           group_by_hierarchies_exclusive: "與按照 \"%{group_by}\" 分組的群組相互排斥。不能同時啟動兩者。"
           filters:
             custom_fields:
-              inexistent: "篩選器沒有自訂欄位。"
+              inexistent: "篩選條件沒有自訂欄位。"
         queries/filters/base:
           attributes:
             values:
-              inclusion: "filter has invalid values."
+              inclusion: "過濾條件錯誤"
               format: "%{message}"
         relation:
           typed_dag:
             circular_dependency: "無限迴圈的關聯。"
           attributes:
             to:
-              error_not_found: "“結束”位置中的工作項目不存在或無法顯示"
+              error_not_found: "“結束”的工作項目不存在或無法顯示"
               error_readonly: "您無法更改現有關係的“結束”連結"
             from:
-              error_not_found: "“開始”位置中的工作項目不存在或無法顯示"
+              error_not_found: "“開始”的工作項目不存在或無法顯示"
               error_readonly: "您無法更改現有關係的“開始”連結"
         repository:
           not_available: "版本控制無法使用"
@@ -899,7 +898,7 @@ zh-TW:
           attributes:
             user_id:
               not_allowed_to_view: "is not allowed to view this resource."
-              locked: "is locked."
+              locked: "已被鎖定。"
         wiki_page:
           error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
@@ -911,7 +910,7 @@ zh-TW:
             assigned_to:
               format: " %訊息"
             due_date:
-              not_start_date: "不在開始的日期，儘管它是里程碑所必需的。"
+              not_start_date: "儘管日期是里程碑所必需的，但不是開始日期。"
               cannot_be_null: "can not be set to null as start date and duration are known."
             duration:
               larger_than_dates: "is larger than the interval between the start and the finish date."
@@ -921,7 +920,7 @@ zh-TW:
             parent:
               cannot_be_milestone: "不可以成為一個里程碑"
               cannot_be_self_assigned: "不能指派給自己"
-              cannot_be_in_another_project: "不可以存在於另外一個專案中"
+              cannot_be_in_another_project: "不能在另一個專案中"
               not_a_valid_parent: "不正確。"
             start_date:
               violates_relationships: "只能設置為 %{soonest_start} 或更晚，才不會違反工作包的關聯。"
@@ -962,7 +961,7 @@ zh-TW:
               numeric: "數字（例如：「1」）"
               special: "特別（例如：「%」）"
               reused:
-                other: "先前已被使用，請選擇不同於您最後 %{count} 個的"
+                other: "先前%{count} 個已被使用，請改用別的"
               match:
                 confirm: "確認新密碼"
                 description: "‘確認密碼’ 應該要符合 '新密碼'"
@@ -971,7 +970,7 @@ zh-TW:
             ldap_auth_source:
               error_not_found: "未找到"
             auth_source:
-              error_not_found: "not found"
+              error_not_found: "未找到"
         member:
           principal_blank: "請至少選擇一個使用者或群組。"
           role_blank: "需要被指定"
@@ -989,7 +988,7 @@ zh-TW:
       template:
         body: "請檢查下列欄位："
         header:
-          other: "%{count} 個錯誤導致 %{model} 被禁止儲存"
+          other: "有 %{count} 個錯誤發生導致「%{model}」無法被保存。"
     models:
       attachment: "檔案"
       attribute_help_text: "屬性說明文字"
@@ -1032,7 +1031,7 @@ zh-TW:
       created_on_time_entry: "time logged on %{datetime}"
       updated_by_on: "由 %{user} 於 %{datetime} 更新"
       updated_by_on_time_entry: "logged time updated by %{user} on %{datetime}"
-      updated_on: "updated on %{datetime}"
+      updated_on: "於%{datetime}更新"
       updated_on_time_entry: "logged time updated on %{datetime}"
       parent_without_of: "子專案"
       parent_no_longer: "No longer subproject of"
@@ -1044,8 +1043,8 @@ zh-TW:
         updated: "changed from %{old_value} to %{value}"
         logged_for: "Logged for"
     filter:
-      changeset: "變更項目"
-      message: "論壇"
+      changeset: "變更集"
+      message: "討論區"
       news: "最新消息"
       project_attribute: "專案屬性"
       subproject: "Include subprojects"
@@ -1061,9 +1060,9 @@ zh-TW:
     author: "作者"
     base: "一般錯誤:"
     blocks_ids: "已被限制的工作項目 IDs"
-    category: "類別"
+    category: "分類"
     comment: "評論"
-    comments: "評論"
+    comments: "留言"
     content: "內容"
     color: "顏色"
     created_at: "建立於"
@@ -1123,15 +1122,15 @@ zh-TW:
       action_create: 建立
       action_reset: 重置
       heading_reset: "Reset backup token"
-      heading_create: "Create backup token"
+      heading_create: "產生備份用的token"
       implications: >
         Enabling backups will allow any user with the required permissions and this backup token to download a backup containing all data of this OpenProject installation. This includes the data of all other users.
       info: >
         You will need to generate a backup token to be able to create a backup. Each time you want to request a backup you will have to provide this token. You can delete the backup token to disable backups for this user.
       verification: >
         Enter %{word} to confirm you want to %{action} the backup token.
-      verification_word_reset: reset
-      verification_word_create: create
+      verification_word_reset: 重置
+      verification_word_create: 建立
       warning: >
         When you create a new token you will only be allowed to request a backup after 24 hours. This is a safety measure. After that you can request a backup any time using that token.
     text_token_deleted: Backup token deleted. Backups are now disabled.
@@ -1173,7 +1172,7 @@ zh-TW:
   button_edit: "編輯"
   button_edit_associated_wikipage: "編輯關聯的維基頁面：%{page_title}"
   button_expand_all: "全部展開"
-  button_filter: "篩選器"
+  button_filter: "篩選條件"
   button_generate: "產生"
   button_list: "清單"
   button_lock: "鎖定"
@@ -1190,8 +1189,8 @@ zh-TW:
   button_reset: "重置"
   button_rollback: "回復到此版本"
   button_save: "儲存"
-  button_save_as: "Save as"
-  button_apply_changes: "Apply changes"
+  button_save_as: "保存為"
+  button_apply_changes: "套用設定"
   button_save_back: "儲存並返回"
   button_show: "顯示"
   button_sort: "排序"
@@ -1301,7 +1300,7 @@ zh-TW:
       about_x_hours:
         other: "大約 %{count} 小時"
       about_x_months:
-        other: "大約 %{count} 月"
+        other: "大約 %{count} 個月"
       about_x_years:
         other: "大約 %{count} 年"
       almost_x_years:
@@ -1326,7 +1325,7 @@ zh-TW:
       x_weeks:
         other: "%{count} weeks"
       x_months:
-        other: "%{count} 月"
+        other: "%{count} 個月"
       x_years:
         other: "%{count} years"
       x_seconds:
@@ -1349,8 +1348,8 @@ zh-TW:
   description_date_to: "輸入結束日期"
   description_enter_number: "輸入數字"
   description_enter_text: "輸入文字"
-  description_filter: "篩選器"
-  description_filter_toggle: "顯示/隱藏篩選器"
+  description_filter: "篩選條件"
+  description_filter_toggle: "顯示/隱藏篩選條件"
   description_category_reassign: "選擇類別"
   description_message_content: "訊息內容"
   description_my_project: "您是專案成員"
@@ -1457,9 +1456,9 @@ zh-TW:
       atom: "Atom"
       csv: "CSV"
       pdf: "PDF"
-      pdf_overview_table: "PDF Table"
-      pdf_report_with_images: "PDF Report with images"
-      pdf_report: "PDF Report"
+      pdf_overview_table: "PDF(表格)"
+      pdf_report_with_images: "PDF報表(含圖)"
+      pdf_report: "PDF 報表"
     image:
       omitted: "影像沒有匯出。"
     units:
@@ -1504,7 +1503,7 @@ zh-TW:
       glossary: "術語表 "
       shortcuts: "快捷鍵"
       blog: "Openproject 部落格"
-      forums: "社群論壇"
+      forums: "社群討論區"
       newsletter: "安全警報 / 消息"
   image_conversion:
     imagemagick: "Imagemagick"
@@ -1541,7 +1540,7 @@ zh-TW:
       mail_notification: "電子郵件通知"
       mails_and_notifications: "郵件與通知"
       aggregation: "合併"
-      api_and_webhooks: "API and webhooks"
+      api_and_webhooks: "API 和 Webhook"
     quick_add:
       label: "Open quick add menu"
   my_account:
@@ -1561,7 +1560,7 @@ zh-TW:
         static_token_name: "API token"
         disabled_text: "API tokens are not enabled by the administrator. Please contact your administrator to use this feature."
       ical:
-        title: "iCalendar"
+        title: "iCalendar "
         text_hint: 'iCalendar tokens allow users to <a href="%{path}" target="_blank">subscribe to OpenProject calendars</a> and view up-to-date work package information from external clients.'
         disabled_text: "iCalendar subscriptions are not enabled by the administrator. Please contact your administrator to use this feature."
         empty_text_hint: "To add an iCalendar token, subscribe to a new or existing calendar from within the Calendar module of a project. You must have the necessary permissions."
@@ -1669,9 +1668,9 @@ zh-TW:
   label_blocks: "區塊"
   label_blog: "日誌"
   label_forums_locked: "鎖定"
-  label_forum_new: "新增論壇"
-  label_forum_plural: "論壇"
-  label_forum_sticky: "附著"
+  label_forum_new: "新增討論區"
+  label_forum_plural: "討論區"
+  label_forum_sticky: "釘選"
   label_boolean: "布林值"
   label_board_plural: "看板"
   label_branch: "分支"
@@ -1803,10 +1802,10 @@ zh-TW:
   label_feeds_access_key_created_on: "RSS 金鑰在 %{value} 前已建立"
   label_feeds_access_key_type: "RSS訂閱"
   label_file_plural: "檔案"
-  label_filter_add: "新增篩選器"
+  label_filter_add: "新增條件"
   label_filter: "Filters"
   label_filter_plural: "篩選器"
-  label_filters_toggle: "顯示/隱藏篩選器"
+  label_filters_toggle: "顯示/隱藏篩選條件"
   label_float: "浮點數"
   label_folder: "資料夾"
   label_follows: "關注"
@@ -1918,7 +1917,7 @@ zh-TW:
   label_more_than_ago: "很多天之前"
   label_move_work_package: "移動工作項目"
   label_my_account: "我的帳號"
-  label_my_activity: "我的活動"
+  label_my_activity: "我的活動紀錄"
   label_my_account_data: "我的帳號資料"
   label_my_avatar: "My avatar"
   label_my_queries: "我的自訂查詢"
@@ -1946,7 +1945,7 @@ zh-TW:
   label_none: "無"
   label_none_parentheses: "（無）"
   label_not_contains: "不包含"
-  label_not_equals: "不是"
+  label_not_equals: "不包含"
   label_on: "開啟"
   label_operator_all: "全部"
   label_operator_none: "is empty"
@@ -1973,10 +1972,10 @@ zh-TW:
   label_per_page: "每頁"
   label_people: "人員"
   label_permissions: "權限"
-  label_permissions_report: "權限報表"
+  label_permissions_report: "權限列表"
   label_personalize_page: "個人化本頁"
   label_placeholder_user: "虛擬暫用群組"
-  label_placeholder_user_new: "虛擬暫用群組"
+  label_placeholder_user_new: "新增虛擬暫用群組"
   label_placeholder_user_plural: "虛擬暫用群組"
   label_planning: "計劃中"
   label_please_login: "請登入"
@@ -2302,7 +2301,7 @@ zh-TW:
   mail_body_register_ending: "Stay connected! Kind regards,"
   mail_body_reminder: "%{count} 個指派給您的工作項目將在 %{days} 天後到期"
   mail_body_group_reminder: '%{count} work package(s) that are assigned to group "%{group}" are due in the next %{days} days:'
-  mail_body_wiki_page_added: "Wiki 頁面 '%{id}' 已經被 %{author} 增加"
+  mail_body_wiki_page_added: "Wiki 頁面 '%{id}' 已經被 %{author} 新增"
   mail_body_wiki_page_updated: "Wiki 頁面 '%{id}' 已經被 %{author} 更新"
   mail_subject_account_activation_request: "帳號 %{value} 啟用請求"
   mail_subject_backup_ready: "Your backup is ready"
@@ -2440,12 +2439,12 @@ zh-TW:
   permission_add_work_package_notes: "增加註釋"
   permission_add_work_packages: "新增工作項目"
   permission_add_messages: "張貼訊息"
-  permission_add_project: "Create projects"
+  permission_add_project: "建立專案"
   permission_add_work_package_attachments: "新增附件"
   permission_add_work_package_attachments_explanation: "Allows adding attachments without Edit work packages permission"
   permission_archive_project: "專案歸檔"
-  permission_create_user: "Create users"
-  permission_manage_user: "Edit users"
+  permission_create_user: "新增使用者"
+  permission_manage_user: "編輯使用者"
   permission_manage_placeholder_user: "新增、修改、刪除「虛擬暫用群組」(placeholder users)"
   permission_add_subprojects: "建立子專案"
   permission_add_work_package_watchers: "新增監看者"
@@ -2458,7 +2457,7 @@ zh-TW:
   permission_commit_access: "讀/寫 權限版本庫 (Commit)"
   permission_copy_projects: "複製專案"
   permission_copy_work_packages: "複製工作項目"
-  permission_create_backup: "Create backups"
+  permission_create_backup: "建立備份"
   permission_delete_work_package_watchers: "刪除監看者"
   permission_delete_work_packages: "刪除工作項目"
   permission_delete_messages: "刪除訊息"
@@ -2483,7 +2482,7 @@ zh-TW:
   permission_list_attachments: "列出附件"
   permission_log_own_time: "記錄個人耗時"
   permission_log_time: "紀錄他人耗時"
-  permission_manage_forums: "管理論壇"
+  permission_manage_forums: "管理討論區"
   permission_manage_categories: "管理工作項目類別"
   permission_manage_dashboards: "Manage dashboards"
   permission_manage_work_package_relations: "管理工作項目關聯"
@@ -2499,11 +2498,11 @@ zh-TW:
   permission_move_work_packages: "移動工作項目"
   permission_protect_wiki_pages: "專案維基頁面"
   permission_rename_wiki_pages: "重新命名維基頁面"
-  permission_save_queries: "保存視圖"
+  permission_save_queries: "儲存版面"
   permission_search_project: "Search project"
-  permission_select_custom_fields: "Select custom fields"
+  permission_select_custom_fields: "選擇客製欄位"
   permission_select_project_modules: "選擇專案的模組"
-  permission_share_work_packages: "Share work packages"
+  permission_share_work_packages: "分享工作項目"
   permission_manage_types: "選擇類型"
   permission_view_project: "View projects"
   permission_view_changesets: "在 OpenProject 檢視版本庫修訂"
@@ -2515,7 +2514,7 @@ zh-TW:
   permission_view_news: "View news"
   permission_view_members: "檢視成員"
   permission_view_reportings: "檢視報表"
-  permission_view_shared_work_packages: "View work package shares"
+  permission_view_shared_work_packages: "檢視分享的工作項目"
   permission_view_time_entries: "檢視耗時"
   permission_view_timelines: "檢視時間軸"
   permission_view_wiki_edits: "檢視維基歷史"
@@ -2525,7 +2524,7 @@ zh-TW:
   permission_view_project_activity: "View project activity"
   permission_save_bcf_queries: "Save BCF queries"
   permission_manage_public_bcf_queries: "Manage public BCF queries"
-  permission_edit_attribute_help_texts: "Edit attribute help texts"
+  permission_edit_attribute_help_texts: "編輯屬性說明文字"
   placeholders:
     default: "-"
   project:
@@ -2551,7 +2550,7 @@ zh-TW:
       are_you_sure: "是否確定要 archive 專案 '%{name}'？"
       archived: "封存"
   project_module_activity: "活動"
-  project_module_forums: "論壇"
+  project_module_forums: "討論區"
   project_module_work_package_tracking: "工作項目"
   project_module_news: "最新消息"
   project_module_repository: "版本庫"
@@ -2568,7 +2567,7 @@ zh-TW:
     member_of_group: "負責執行者的群組"
     name_or_identifier: "名稱或識別碼"
     only_subproject_id: "Only subproject"
-    shared_with_user: "分配給非專案成員"
+    shared_with_user: "分配給成員"
     shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
@@ -2636,13 +2635,13 @@ zh-TW:
       local_introduction: "如果你已經有一個現有的本機 Git 版本庫，你可以連結它以便在 OpenProject 中存取"
       managed_introduction: "讓 OpenProject 自動建立和製作一個本機 Git 版本庫"
       managed_title: "Git 版本庫套用到 OpenProject"
-      managed_url: "託管的 URL"
+      managed_url: "管理 URL"
       path: "Git 版本庫路徑"
-      path_encoding: "路徑編碼"
+      path_encoding: "Path encoding"
     go_to_revision: "前往修訂"
     managed_remote: "此版本控制託管的版本庫已經由遠端處理了"
     managed_remote_note: "此版本庫的 URL 和檔案路徑資訊在版本庫建立前無法使用"
-    managed_url: "託管的 URL"
+    managed_url: "管理 URL"
     settings:
       automatic_managed_repos_disabled: "停用自動建立"
       automatic_managed_repos: "自動建立託管的版本庫"
@@ -2693,7 +2692,7 @@ zh-TW:
   setting_apiv3_docs: "說明文件"
   setting_apiv3_docs_enabled: "啟用文件頁面"
   setting_apiv3_docs_enabled_instructions_html: >
-    如果啟用了文件頁面，您可以在 <a href="%{link}" target="_blank">%{link}</a> 下獲得 APIv3 文檔的互動式視圖
+    如果啟用了文件頁面，您可以在 <a href="%{link}" target="_blank">%{link}</a> 下看到互動式 APIv3 文件
   setting_attachment_whitelist: "附件上傳白名單"
   setting_email_delivery_method: "電子郵件傳遞方法"
   setting_emails_salutation: "Address user in emails with"
@@ -2755,7 +2754,7 @@ zh-TW:
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
   setting_work_package_properties: "工作項目屬性"
   setting_work_package_startdate_is_adddate: "使用目前日期作為新工作項目的開始日期"
-  setting_work_packages_projects_export_limit: "工作項目/專案導出限制"
+  setting_work_packages_projects_export_limit: "工作項目/專案匯出數量限制"
   setting_journal_aggregation_time_minutes: "合併使用者操作"
   setting_log_requesting_user: "對所有的請求紀錄使用者登入名稱和郵件地址"
   setting_login_required: "需要身份驗證"
@@ -2845,12 +2844,12 @@ zh-TW:
     highlighting:
       mode_long:
         inline: "顯示內聯屬性"
-        none: "無突顯"
+        none: "沒有強調"
         status: "按狀態的整個行"
         type: "按類型劃分的整行"
         priority: "按優先順序的整個行"
     icalendar:
-      enable_subscriptions_text_html: 允許有相關權限用戶通過外部日曆客戶端訂閱 OpenProject 日曆並存取工作項目信息。<strong>注意</strong>：在啓用此功能之前，請閱讀關於 <a href="%{link}" target="_blank">iCalendar 訂閱</a>的信息以瞭解潛在的安全風險。
+      enable_subscriptions_text_html: 允許有相關權限用戶通過外部日曆客戶端訂閱 OpenProject 日曆並存取工作項目訊息。<strong>注意</strong>：在啓用此功能之前，請閱讀關於 <a href="%{link}" target="_blank">iCalendar 訂閱</a>的信息以瞭解潛在的安全風險。
     language_name_being_default: "%{language_name} (default)"
     notifications:
       events_explanation: "控制發送電子郵件的事件。工作包不包括在此列表中，因為可以為每個用戶專門配置它們的通知"
@@ -2903,7 +2902,7 @@ zh-TW:
   text_custom_field_hint_activate_per_project_and_type: >
     自訂欄位需要個別被工作項目類別和專案啟用。
   text_wp_status_read_only_html: >
-    企業版將為工作項目的狀態字段添加以下其他附加組件：<br> <ul> <li><b>允許將工作項目標記為特定狀態的只讀</b></li> </ul>
+    企業版將提供額外模組到工作項目：<br> <ul> <li><b>允許將特定狀態的工作項目標記唯讀</b></li> </ul>
   text_project_custom_field_html: >
     企業版將為項目的自定義字段添加以下其他附加組件：<br> <ul> <li><b>在項目列表中添加項目自定義字段，以創建項目組合視圖</b></li> </ul>
   text_custom_logo_instructions: >
@@ -3024,7 +3023,7 @@ zh-TW:
     setting_email_login: >
       If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
-    apply_filter: 應用預配置的篩選器
+    apply_filter: 套用篩選條件
     configure_view:
       heading: Configure view
       columns:
@@ -3068,7 +3067,7 @@ zh-TW:
     unlock_and_reset_failed_logins: "解除鎖定並重置失敗的登錄"
   version_status_closed: "已關閉"
   version_status_locked: "已鎖定"
-  version_status_open: "打開"
+  version_status_open: "開啟"
   note: 注意
   note_password_login_disabled: "密碼登錄已被 %{configuration} 禁用。"
   warning: 警告

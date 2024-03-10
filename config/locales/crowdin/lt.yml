@@ -31,8 +31,8 @@ lt:
       color_theme: "Spalvų tema"
       color_theme_custom: "(Pasirinktinis)"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
+        primary-button-color: "Pagrindinis mygtukas"
+        accent-color: "Akcentas"
         header-bg-color: "Antraštės fonas"
         header-item-bg-hover-color: "Atraštės fonas užvedus pelę"
         header-item-font-color: "Antraštės šriftas"
@@ -51,8 +51,8 @@ lt:
       enterprise_more_info: "Pastaba: panaudotas logotipas bus viešai prieinamas."
       manage_colors: "Redaguoti spalvos pasirinkimo variantus"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
+        primary-button-color: "Stipraus akcento spalva, naudojama svarbiausiam ekrano mygtukui."
+        accent-color: "Spalvos nuorodoms ir kitiems dalinai paryškintiems elementams."
         header-item-bg-hover-color: "Antraštės fono spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
         header-item-font-color: "Šrifto spalva galimiems paspausti antraštės įrašams."
         header-item-font-hover-color: "Šrifto spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
