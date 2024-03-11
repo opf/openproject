@@ -26,22 +26,22 @@ lt:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "Problemos"
       tab_header_mr:
-        title: "Merge requests"
+        title: "Suliejimo prašymai"
         create_mr:
-          label: Create MR
-          description: Create a Merge Request
+          label: Kurti MR
+          description: Kurti suliejimo prašymą
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Git gabaliukai
+          description: Kopijuoti git gabaliukus į iškarpinę
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: Šakos pavadinimas
+          commit_message: Pakeitimo pranešimas
+          cmd: Kurti šaką su tuščiu pakeitimu
+          title: Greiti Git gabaliukai
+          copy_success: '✅ Nukopijuota!'
+          copy_error: '❌ Kopijavimas nepavyko!'
       tab_issue:
         empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
       tab_mrs:
