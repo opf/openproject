@@ -10,15 +10,54 @@ release_date: 2024-03-20
 
 Release date: 2024-03-20
 
-We released [OpenProject 13.4.0](https://community.openproject.org/versions/1984).
-The release contains several bug fixes and we recommend updating to the newest version.
+We released [OpenProject 13.4.0](https://community.openproject.org/versions/1984). The release contains several bug fixes as well as great new features and we recommend updating to the newest version.
 
+Read more about the [new features](#important-updates-and-new-features) and get an [overview as a list of all bug fixes and changes](#bug-fixes-and-changes) at the end of these release notes.
 
-## Important updates and breaking changes
+## Important updates and new features
 
-<!-- Remove this section if empty, add to it in pull requests linking to tickets and provide information -->
+The release contains various new features and improvements:
 
-<!--more-->
+- GitLab integration (originally developed by Community contributors)
+- Advanced features for custom project lists
+- Advanced features for the Meetings module
+- Admin are nudged to go through OAuth flow when activating a storage
+- Virus scanning functionality with ClamAV
+- PDF Export: Lists in table cells are supported
+- WebAuthn/FIDO/U2F is added as a second factor
+- More languages added to the default available set
+
+### GitLab integration
+
+Text 
+
+### Advanced features for custom project lists
+
+Text 
+
+### Advanced features for the Meetings module
+
+Text 
+
+### Admin are nudged to go through OAuth flow when activating a storage
+
+Text 
+
+### Virus scanning functionality with ClamAV
+
+Text 
+
+### PDF Export: Lists in table cells are supported
+
+Text 
+
+### WebAuthn/FIDO/U2F is added as a second factor
+
+Text
+
+### More languages added to the default available set
+
+Text
 
 ## Bug fixes and changes
 
@@ -59,6 +98,4 @@ The release contains several bug fixes and we recommend updating to the newest v
 #### Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
 
-Special thanks for reporting and finding bugs go to
-
-Andreas H., Diego Liberman, Andreas G, Mario Zeppin, Arved Kampe, Richard Richter
+Special thanks for reporting and finding bugs go to Andreas H., Diego Liberman, Andreas G, Mario Zeppin, Arved Kampe, and Richard Richter.
