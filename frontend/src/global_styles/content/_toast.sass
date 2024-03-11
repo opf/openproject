@@ -57,6 +57,7 @@ $nm-pb-regress-color: whiteSmoke
 $nm-pb-regress-fill-color: #00558b
 $nm-pb-border-radius: rem-calc(6)
 $nm-pb-height: rem-calc(20)
+$nm-pb-background-color: #155282
 
 $nm-upload-status-font-size: rem-calc(18)
 $nm-upload-file-status-icon-size: rem-calc(12)
@@ -70,6 +71,10 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 %nm-icon-success
   @include icon-mixin-checkmark
   color: $nm-color-success-icon
+
+%nm-icon-notification
+  @include icon-mixin-bell
+  color: $nm-pb-background-color
 
 %nm-icon-warning
   @include icon-mixin-warning
@@ -130,7 +135,8 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-success,
   &.-warning,
   &.-info,
-  &.-loading
+  &.-loading,
+  &.-notification
     padding: $nm-box-padding
 
   &.-ee-upsale
@@ -169,6 +175,13 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
       @include messages-icon
       @extend %nm-icon-info
 
+  &.-notification
+    @extend %info-placeholder
+
+    &::before
+      @include messages-icon
+      @extend %nm-icon-notification
+
   &.-loading
     @extend %info-placeholder
 
@@ -202,6 +215,9 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     color: $nm-color-warning-icon
 
   &.-info
+    color: $nm-color-info-icon
+
+  &.-notification
     color: $nm-color-info-icon
 
 .op-toast--wrapper,
