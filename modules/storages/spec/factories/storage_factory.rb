@@ -37,10 +37,6 @@ FactoryBot.define do
       oauth_client
     end
 
-    trait :with_oauth_application do
-      oauth_application
-    end
-
     trait :as_generic do
       provider_type { 'Storages::Storage' }
     end
@@ -64,11 +60,6 @@ FactoryBot.define do
 
     trait :as_not_automatically_managed do
       automatically_managed { false }
-    end
-
-    trait :configured do
-      with_oauth_application
-      with_oauth_client
     end
 
     trait :as_healthy do

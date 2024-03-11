@@ -85,7 +85,7 @@ RSpec.describe Storages::ManageNextcloudIntegrationCronJob, :webmock, type: :job
     subject { described_class.new.perform }
 
     context 'when lock is free' do
-      let(:storage1) { create(:nextcloud_storage, :as_automatically_managed, :configured) }
+      let(:storage1) { create(:nextcloud_storage_configured, :as_automatically_managed) }
 
       it 'responds with true' do
         expect(subject).to be(true)
@@ -93,6 +93,7 @@ RSpec.describe Storages::ManageNextcloudIntegrationCronJob, :webmock, type: :job
 
       it 'calls GroupFolderPropertiesSyncService for each automatically managed storage' do
         storage2 = create(:nextcloud_storage, :as_not_automatically_managed)
+        storage3 = create(:nextcloud_storage, :as_automatically_managed)
 
         allow(Storages::NextcloudGroupFolderPropertiesSyncService)
           .to receive(:call).with(storage1).and_return(ServiceResult.success)
@@ -101,6 +102,7 @@ RSpec.describe Storages::ManageNextcloudIntegrationCronJob, :webmock, type: :job
 
         expect(Storages::NextcloudGroupFolderPropertiesSyncService).to have_received(:call).with(storage1).once
         expect(Storages::NextcloudGroupFolderPropertiesSyncService).not_to have_received(:call).with(storage2)
+        expect(Storages::NextcloudGroupFolderPropertiesSyncService).not_to have_received(:call).with(storage3)
       end
 
       it 'marks storage as healthy if sync was successful' do
