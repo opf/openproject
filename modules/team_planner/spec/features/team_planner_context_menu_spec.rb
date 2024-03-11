@@ -43,9 +43,7 @@ RSpec.describe 'Work package table context menu',
         team_planner.visit!
         loading_indicator_saveguard
 
-        retry_block do
-          team_planner.add_assignee user
-        end
+        team_planner.add_assignee user
 
         team_planner.within_lane(user) do
           team_planner.expect_event work_package

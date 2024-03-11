@@ -155,19 +155,11 @@ RSpec.describe 'Team planner',
       team_planner.expect_assignee(user, present: false)
       team_planner.expect_assignee(other_user, present: false)
 
-      retry_block do
-        team_planner.click_add_user
-        page.find("#{test_selector('tp-add-assignee')} input")
-        team_planner.select_user_to_add user.name
-      end
+      team_planner.add_assignee user.name
 
       team_planner.expect_empty_state(present: false)
 
-      retry_block do
-        team_planner.click_add_user
-        page.find("#{test_selector('tp-add-assignee')} input")
-        team_planner.select_user_to_add other_user.name
-      end
+      team_planner.add_assignee other_user.name
 
       team_planner.expect_assignee user
       team_planner.expect_assignee other_user
@@ -249,21 +241,13 @@ RSpec.describe 'Team planner',
       team_planner.expect_assignee(user, present: false)
       team_planner.expect_assignee(other_user, present: false)
 
-      retry_block do
-        team_planner.click_add_user
-        page.find("#{test_selector('tp-add-assignee')} input")
-        team_planner.select_user_to_add user.name
-      end
+      team_planner.add_assignee user.name
 
       team_planner.expect_empty_state(present: false)
       team_planner.expect_assignee(user)
       team_planner.expect_assignee(other_user, present: false)
 
-      retry_block do
-        team_planner.click_add_user
-        page.find("#{test_selector('tp-add-assignee')} input")
-        team_planner.select_user_to_add other_user.name
-      end
+      team_planner.add_assignee other_user.name
 
       team_planner.expect_assignee(user)
       team_planner.expect_assignee(other_user)
@@ -280,11 +264,7 @@ RSpec.describe 'Team planner',
       team_planner.expect_empty_state
 
       # Try one more time to make sure deleting the full filter didn't kill the functionality
-      retry_block do
-        team_planner.click_add_user
-        page.find("#{test_selector('tp-add-assignee')} input")
-        team_planner.select_user_to_add user.name
-      end
+      team_planner.add_assignee user.name
 
       team_planner.expect_assignee(user)
       team_planner.expect_assignee(other_user, present: false)
@@ -293,11 +273,7 @@ RSpec.describe 'Team planner',
     it 'filters possible assignees correctly' do
       team_planner.visit!
 
-      retry_block do
-        team_planner.click_add_user
-        page.find("#{test_selector('tp-add-assignee')} input")
-        team_planner.search_user_to_add user_outside_project.name
-      end
+      team_planner.add_assignee user_outside_project.name
 
       expect(page).to have_css('.ng-option-disabled', text: "No items found")
 
@@ -307,11 +283,7 @@ RSpec.describe 'Team planner',
 
       team_planner.expect_assignee(user)
 
-      retry_block do
-        team_planner.click_add_user
-        page.find("#{test_selector('tp-add-assignee')} input")
-        team_planner.search_user_to_add user.name
-      end
+      team_planner.add_assignee user.name
 
       expect(page).to have_css('.ng-option-disabled', text: "No items found")
     end
@@ -372,11 +344,7 @@ RSpec.describe 'Team planner',
       team_planner.expect_empty_state
       team_planner.expect_assignee(user, present: false)
 
-      retry_block do
-        team_planner.click_add_user
-        page.find("#{test_selector('tp-add-assignee')} input")
-        team_planner.select_user_to_add user.name
-      end
+      team_planner.add_assignee user.name
 
       team_planner.expect_empty_state(present: false)
       team_planner.expect_assignee user

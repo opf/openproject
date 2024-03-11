@@ -36,11 +36,7 @@ RSpec.describe 'Team planner', :js, with_ee: %i[team_planner_view] do
     team_planner.visit!
 
     team_planner.expect_empty_state
-    retry_block do
-      team_planner.click_add_user
-      page.find("#{test_selector('tp-add-assignee')} input")
-      team_planner.select_user_to_add user.name
-    end
+    team_planner.add_assignee user.name
 
     team_planner.expect_view_mode 'Work week'
     expect(page).to have_css('.fc-timeline-slot-frame', count: 5)
