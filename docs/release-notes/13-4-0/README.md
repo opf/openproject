@@ -21,8 +21,8 @@ The release contains various new features and improvements:
 - [GitLab integration (originally developed by Community contributors)](#gitlab-integration)
 - [Advanced features for custom project lists](#advanced-features-for-custom-project-lists)
 - [Advanced features for the Meetings module](#advanced-features-for-the-meetings-module)
-- [Admins are nudged to go through OAuth flow when activating a storage](#admin-are-nudged-to-go-through-oauth-flow-when-activating-a-storage)
-- [Virus scanning functionality with ClamAV](#virus-scanning-functionality-with-clamav)
+- [Admins are nudged to go through OAuth flow when activating a storage](#admins-are-nudged-to-go-through-oauth-flow-when-activating-a-storage)
+- [Virus scanning functionality with ClamAV](#virus-scanning-functionality-with-clamav-enterprise-add-on)
 - [PDF Export: Lists in table cells are supported](#pdf-export-lists-in-table-cells-are-supported)
 - [WebAuthn/FIDO/U2F is added as a second factor](#webauthnfidou2f-is-added-as-a-second-factor)
 - [More languages added to the default available set](#more-languages-added-to-the-default-available-set)
@@ -67,23 +67,23 @@ Stay tuned: Further advanced features for our Meeting module are planned for upc
 
 If you are a project adminstrator and activate a storage on a project, you now get nudged to pass the OAuth flow, if you don't have an access token for that storage yet:
 
-![Message showing: You have successfully added a storage to this project. Would you like to login in the storage and authenticate your user to start using the storage?](oopenproject-13-4-nudge-oauth.png){:style="max-width:400px;"}{: .image-screenshot }
+![Message showing: You have successfully added a storage to this project. Would you like to login in the storage and authenticate your user to start using the storage?](openproject-13-4-nudge-oauth.jpg){:style="max-width:400px;"}{: .image-screenshot }
 
 This way, the background job can setup the project folder. You will then get a feedback that everything is setup and working.
 
 ### Virus scanning functionality with ClamAV (Enterprise add-on)
 
-Another important step towards data security: With OpenProject 13.4, users' uploaded files can be scanned for viruses, using the ClamAV antivirus engine. To do so, a new attachment menu item is created with Antivirus settings. Read more about virus scanning using ClamAV in our [system admin guide](/docs/system-admin-guide/attachments/virus-scanning/#virus-scanning).
+Another important step towards data security: With OpenProject 13.4, users' uploaded files can be scanned for viruses, using the ClamAV antivirus engine. To do so, a new attachment menu item is created with Antivirus settings. Read more about virus scanning using ClamAV in our [system admin guide](https://www.openproject.org/docs/system-admin-guide/attachments/virus-scanning/#virus-scanning).
 
-![OpenProject's admin settings for virus scanning with ClamAV](/docs/system-admin-guide-attachments/virus-scanning/openproject_system_settings_virus_scanning.png){:style="max-width:400px;"}{: .image-screenshot }
+![OpenProject's admin settings for virus scanning with ClamAV](openproject_system_settings_virus_scanning.png){:style="max-width:400px;"}{: .image-screenshot }
 
 ### PDF Export: Lists in table cells are supported
 
-Text 
+OpenProject version 13.4 now supports PDF exports with lists in table cells that are displayed correctly.
 
 ### WebAuthn/FIDO/U2F is added as a second factor
 
-Text
+Two-factor authentication (2FA) is a key factor in data security. With OpenProjet 13.4, OpenProject offers WebAuthn/FIDO/U2F as a second factor.  
 
 ### More languages added to the default available set
 
