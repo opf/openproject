@@ -28,6 +28,7 @@
 
 module OpenProject
   module Common
+    # @logical_path OpenProject/Common
     class AutocompletePreview < Lookbook::Preview
 
       # @display min_height 250px
