@@ -101,6 +101,10 @@ class Version < ApplicationRecord
     effective_date && (effective_date <= Date.today) && open_issues_count.zero?
   end
 
+  def systemwide?
+    sharing == 'system'
+  end
+
   # Returns the completion percentage of this version based on the amount of open/closed issues
   # and the time spent on the open issues.
   def completed_percent

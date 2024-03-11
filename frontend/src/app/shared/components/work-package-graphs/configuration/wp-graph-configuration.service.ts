@@ -24,6 +24,8 @@ import {
 export class WpGraphConfigurationService {
   private _configuration:WpGraphConfiguration;
 
+  private _globalScope = false;
+
   private _forms:{ [id:string]:QueryFormResource } = {};
 
   private _formsPromise:Promise<unknown>|null;
@@ -81,8 +83,8 @@ export class WpGraphConfigurationService {
       .loadWithParams(
         { pageSize: 0 },
         undefined,
-        this.currentProject.identifier,
-        WpGraphConfiguration.queryCreationParams(this.I18n, !!this.currentProject.identifier),
+        this.projectIdentifier(),
+        WpGraphConfiguration.queryCreationParams(this.I18n, this.isPublicQuery()),
       )
       .pipe(
         switchMap(([form, query]) => this.apiv3Service.queries.post(query, form)),
@@ -100,9 +102,10 @@ export class WpGraphConfigurationService {
       .apiv3Service
       .queries
       .find(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         { pageSize: 0, ...params.props },
         params.id,
-        this.currentProject.identifier,
+        this.projectIdentifier(),
       ))
       .then((query) => {
         if (params.name) {
@@ -123,12 +126,29 @@ export class WpGraphConfigurationService {
         .toPromise());
   }
 
+  private projectIdentifier() {
+    return this.globalScope ? null : this.currentProject.identifier;
+  }
+
+  private isPublicQuery() {
+    return !!this.projectIdentifier();
+  }
+
   public get configuration() {
     return this._configuration;
   }
 
   public set configuration(config:WpGraphConfiguration) {
     this._configuration = config;
+    this._formsPromise = null;
+  }
+
+  public get globalScope() {
+    return this._globalScope;
+  }
+
+  public set globalScope(value:boolean) {
+    this._globalScope = value;
     this._formsPromise = null;
   }
 

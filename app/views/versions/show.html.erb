@@ -110,7 +110,8 @@ See COPYRIGHT and LICENSE files for more details.
   <% if @version.work_packages.count > 0 %>
     <div class="widget-box -thin -wider">
       <wp-overview-graph
-        additional-filter='{ "version": { "operator": "=", "values": [<%= @version.id %>] }}'>
+        global-scope='<%= @version.systemwide? %>'
+        initial-filters='<%= version_wp_overview_graph_initial_filters(@version) %>'>
       </wp-overview-graph>
     </div>
   <% end %>

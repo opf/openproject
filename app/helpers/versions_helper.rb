@@ -85,4 +85,17 @@ module VersionsHelper
       hash
     end
   end
+
+  def version_wp_overview_graph_initial_filters(version)
+    filters = []
+    case version.sharing
+    when 'hierarchy', 'tree'
+      filters << { project: { operator: '=', values: version.projects.visible.ids } }
+    when 'descendants'
+      filters << { subprojectId: { operator: '*', values: [] } }
+    end
+    filters << { version: { operator: '=', values: [version.id] } }
+
+    JSON.dump(filters)
+  end
 end
