@@ -39,7 +39,7 @@ The release contains several bug fixes and we recommend updating to the newest v
 - Feature: Virus scanning functionality with ClamAV \[[#52909](https://community.openproject.org/wp/52909)\]
 - Feature: Use primer modal for project list deletion \[[#53022](https://community.openproject.org/wp/53022)\]
 - Feature: Optimize column truncation for text that is not previewable \[[#53203](https://community.openproject.org/wp/53203)\]
-- Feature: [POST FREEZE FEATURE]: Warn admins to remove .git traces of previous external gitlab plugin installation \[[#53297](https://community.openproject.org/wp/53297)\]
+- Feature: \[POST FREEZE FEATURE\]: Warn admins to remove .git traces of previous external gitlab plugin installation \[[#53297](https://community.openproject.org/wp/53297)\]
 - Feature: Add more languages to the default available set \[[#53378](https://community.openproject.org/wp/53378)\]
 - Bugfix: Images and links of copied wiki pages not updated to new page \[[#38319](https://community.openproject.org/wp/38319)\]
 - Bugfix: Error when displaying embedded work package list filtered by subproject on "View all projects" page \[[#41338](https://community.openproject.org/wp/41338)\]
@@ -61,4 +61,4 @@ A big thanks to community members for reporting bugs and helping us identifying 
 
 Special thanks for reporting and finding bugs go to
 
-Andreas H., Diego Liberman, Andreas G, Mario Zeppin, Arved Kampe, Cécile Guiot, Richard Richter
+Andreas H., Diego Liberman, Andreas G, Mario Zeppin, Arved Kampe, Richard Richter
