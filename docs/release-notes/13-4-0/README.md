@@ -33,6 +33,12 @@ We are delighted about the GitLab integration, which is officially available wit
 
 With this integration, you can manage GitLab's units of work (merge requests and issues) from within OpenProject by linking them with work packages. Read more about OpenProject's GitLab integration in our user guide.
 
+<div class="blog-box-info">	
+
+**Already using the user-generated GitLab plugin?** With OpenProject 13.4, the existing plugin will be replaced by the new integration. We recommend removing the plugin and replacing it with the GitLab integration.
+
+</div>
+
 ### Advanced features for custom project lists
 
 With OpenProject 13.4 we are again releasing further features for custom [project lists](https://www.openproject.org/docs/user-guide/projects/project-lists/). The most important update here is that columns can now be changed in selection and order and then saved in a new configured view – just as you're probably used to do with a work package list.
