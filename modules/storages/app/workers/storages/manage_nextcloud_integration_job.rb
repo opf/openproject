@@ -81,6 +81,7 @@ module Storages
 
     def perform
       find_storages do |storage|
+        next unless storage.configured?
         result = service_for(storage).call(storage)
         result.match(
           on_success: ->(_) { storage.mark_as_healthy },
