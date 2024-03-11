@@ -149,7 +149,7 @@ You can copy an existing meeting. This is useful if you have recurring meetings.
 
 ![Copy a dynamic meeting in OpenProject](openproject_dynamic_meetings_copy_meeting.png)
 
-A screen will open, which will allow you adjust the name, time, location and further details of the copied meeting. You also have an option of copying the agenda. Don't forget to **Save** the copied meeting.
+A screen will open, which will allow you adjust the name, time, location and further details of the copied meeting. By default, the date for the copied meeting will be moved forward by one week from the original meeting's date. You also have an option of copying the agenda. Don't forget to **Save** the copied meeting.
 
 ![Edit details of a copied dynamic meeting in OpenProject](openproject_dynamic_meetings_copy_meeting_details.png)
 
