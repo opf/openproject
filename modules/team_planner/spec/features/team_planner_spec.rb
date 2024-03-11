@@ -315,6 +315,41 @@ RSpec.describe 'Team planner',
 
       expect(page).to have_css('.ng-option-disabled', text: "No items found")
     end
+
+    context 'when the page size is smaller than the number of assignees' do
+      before do
+        allow(Setting)
+          .to receive(:per_page_options_array)
+          .and_return([1])
+      end
+
+      it 'renders assignees and assignee dropdown correctly' do
+        team_planner.visit!
+        team_planner.wait_for_loaded
+
+        # Render all the available users in the select dropdown regardless of the page size
+        team_planner.click_add_user
+
+        team_planner.expect_user_selectable user
+        team_planner.expect_user_selectable other_user
+
+        team_planner.add_assignee user
+        team_planner.add_assignee other_user
+
+        team_planner.save_as('TP1')
+        page.refresh
+        team_planner.wait_for_loaded
+
+        # Render all the available users in the team planner regardless of the page size
+        team_planner.expect_assignee user
+        team_planner.expect_assignee other_user
+
+        # Do not render any available users in the select
+        team_planner.click_add_user
+        team_planner.expect_user_selectable user, present: false
+        team_planner.expect_user_selectable other_user, present: false
+      end
+    end
   end
 
   context 'with a readonly work package' do
