@@ -18,18 +18,20 @@ Read more about the [new features](#important-updates-and-new-features) and get 
 
 The release contains various new features and improvements:
 
-- GitLab integration (originally developed by Community contributors)
-- Advanced features for custom project lists
-- Advanced features for the Meetings module
-- Admin are nudged to go through OAuth flow when activating a storage
-- Virus scanning functionality with ClamAV
-- PDF Export: Lists in table cells are supported
-- WebAuthn/FIDO/U2F is added as a second factor
-- More languages added to the default available set
+- [GitLab integration (originally developed by Community contributors)](#gitlab-integration)
+- [Advanced features for custom project lists](#advanced-features-for-custom-project-lists)
+- [Advanced features for the Meetings module](#advanced-features-for-the-meetings-module)
+- [Admin are nudged to go through OAuth flow when activating a storage](#admin-are-nudged-to-go-through-oauth-flow-when-activating-a-storage)
+- [Virus scanning functionality with ClamAV](#virus-scanning-functionality-with-clamav)
+- [PDF Export: Lists in table cells are supported](#pdf-export-lists-in-table-cells-are-supported)
+- [WebAuthn/FIDO/U2F is added as a second factor](#webauthnfidou2f-is-added-as-a-second-factor)
+- [More languages added to the default available set](#more-languages-added-to-the-default-available-set)
 
 ### GitLab integration
 
-Text 
+We are delighted about the GitLab integration, which is officially available with 13.4. It goes back to the plugin that Community contributor [Benjamin Tey](https://community.openproject.org/users/69094) created 3 years ago. Many thanks at this point to everyone who worked on the GitLab integration and the plugin – inside and outside of OpenProject's core development team! Such projects are a great example of the power of open source collaboration.💙
+
+With this integration, you can manage GitLab's units of work (merge requests and issues) from within OpenProject by linking them with work packages. Read more about OpenProject's GitLab integration in our user guide.
 
 ### Advanced features for custom project lists
 
@@ -96,6 +98,11 @@ Text
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
 #### Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes.
+A big thanks to community members for reporting bugs and helping us identifying and providing fixes. Special thanks for reporting and finding bugs go to Andreas H., Diego Liberman, Andreas G, Mario Zeppin, Arved Kampe, and Richard Richter.
 
-Special thanks for reporting and finding bugs go to Andreas H., Diego Liberman, Andreas G, Mario Zeppin, Arved Kampe, and Richard Richter.
+We are always thankful for our great Community. If you are thinking about contributing to OpenProject yourself, we would like to encourage you to do so! An important part is also the translations, for which we thank the following contributors in particular for this release: 
+- [Syvert Fossdal](https://crowdin.com/profile/syvert), who translated a lot of OpenProject strings into Norwegian
+- [WilliamfromTW](https://crowdin.com/profile/williamfromtw), who translated to Traditional Chinese
+- [Tomas S](https://crowdin.com/profile/tomass), who translated to Lithuanian
+- [Marek Bajon](https://crowdin.com/profile/mbajon), who translated to Polish
+- [Vlastislav Dockal](https://crowdin.com/profile/vdockal), who translated to Czech
