@@ -39,6 +39,8 @@ With this integration, you can manage GitLab's units of work (merge requests and
 
 </div>
 
+![OpenProject's GitLab integration](GitLab_integration.png){:style="max-width:400px;"}{: .image-screenshot }
+
 ### Advanced features for custom project lists
 
 With OpenProject 13.4 we are again releasing further features for custom [project lists](https://www.openproject.org/docs/user-guide/projects/project-lists/). The most important update here is that columns can now be changed in selection and order and then saved in a new configured view – just as you're probably used to do with a work package list.
@@ -87,7 +89,7 @@ Two-factor authentication (2FA) is a key factor in data security. With OpenProje
 
 ### More languages added to the default available set
 
-Text
+Thanks to our great Community we can continuously offer more languages for OpenProject. With OpenProject 13.4, users now have over 50 languages at their disposal. Previously there were less than 10, which is a considerable step forward. Please note, however, that only a few languages are officially reviewed and updated by OpenProject. This currently applies to English, German, French and Spanish. For all others, we ask for your patience and [thank all Community contributors](#translation-contributors) from the bottom of our hearts.
 
 ## Bug fixes and changes
 
