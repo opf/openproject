@@ -288,7 +288,7 @@ zh-TW:
     filter:
       more_values_not_shown: "There are %{total} more results, search to filter results."
       description:
-        text_open_filter: "使用 ALT 和方向鍵打開此篩選器。"
+        text_open_filter: "使用 ALT 和方向鍵打開此篩選條件。"
         text_close_filter: "要選擇條目離開焦點例如按輸入。離開沒有篩選器的情況下選擇的第一個 （空） 條目。"
       noneElement: "（無）"
       time_zone_converted:

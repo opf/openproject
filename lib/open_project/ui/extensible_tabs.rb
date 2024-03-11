@@ -63,7 +63,7 @@ module OpenProject
               path: ->(params) { edit_user_path(params[:user], tab: :general) },
               label: :label_general,
               only_if: ->(context) {
-                         Users::UpdateContract.new(context[:user], context[:current_user]).allowed_to_update?
+                         ::Users::UpdateContract.new(context[:user], context[:current_user]).allowed_to_update?
                        }
             },
             {
