@@ -50,7 +50,7 @@ RSpec.describe Queries::Users::UserQuery do
         expected = base_scope
                    .merge(User
                           .user
-                          .where(["LOWER(CONCAT(users.firstname, CONCAT(' ', users.lastname))) LIKE ?",
+                          .where(["unaccent(LOWER(CONCAT(users.firstname, ' ', users.lastname))) LIKE unaccent(?)",
                                   "%a user%"]))
 
         expect(instance.results.to_sql).to eql expected.to_sql
