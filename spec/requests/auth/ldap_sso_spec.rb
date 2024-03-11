@@ -28,22 +28,21 @@
 
 require 'spec_helper'
 
-RSpec.describe AuthSourceSSO, :skip_2fa_stage, # Prevent redirects to 2FA stage
+RSpec.describe 'LDAP authentication',
+               :skip_2fa_stage,
+               :skip_csrf,
                type: :rails_request do
-  let(:sso_config) do
-    {
-      header: "X-Remote-User",
-      optional: true
-    }
-  end
-
-  before do
-    allow(OpenProject::Configuration)
-      .to receive(:auth_source_sso)
-            .and_return(sso_config)
-  end
 
   include_context 'with temporary LDAP'
+
+  let(:username) { 'aa729' }
+  let(:password) { 'smada' }
+  let(:params) { { username:, password: } }
+
+  subject do
+    post(signin_path, params:)
+    response
+  end
 
   context 'when LDAP is onthefly_register' do
     let(:onthefly_register) { true }
@@ -51,51 +50,47 @@ RSpec.describe AuthSourceSSO, :skip_2fa_stage, # Prevent redirects to 2FA stage
     it 'creates the user on the fly' do
       expect(User.find_by(login: 'aa729')).to be_nil
 
-      expect do
-        get '/projects', headers: { 'X-Remote-User' => 'aa729' }
-      end.to change(User.not_builtin, :count).by(1)
+      expect { subject }.to change(User.not_builtin.active, :count).by(1)
 
       user = User.find_by(login: 'aa729')
       expect(user).to be_present
       expect(user).to be_active
       expect(session[:user_id]).to eq user.id
-      expect(session[:user_from_auth_header]).to eq true
-      expect(response).to redirect_to '/projects'
-    end
-  end
-
-  context 'when LDAP is not onthefly_register' do
-    let(:onthefly_register) { false }
-
-    it 'returns an error when the user does not exist' do
-      get '/projects', headers: { 'X-Remote-User' => 'nonexistent' }
-
-      expect(response).to redirect_to '/sso'
-      expect(session[:auth_source_sso_failure]).to be_present
+      expect(subject).to redirect_to '/?first_time_user=true'
     end
 
-    context 'when the user exists, but is outdated' do
-      let(:user) { create(:user, login: 'ldap_admin', admin: false, ldap_auth_source:) }
+    context 'when not all attributes present' do
+      let(:attr_mail) { nil }
 
-      it 'redirects the user to that URL' do
-        expect(user).not_to be_admin
-        get '/projects?foo=bar', headers: { 'X-Remote-User' => user.login }
-        expect(response).to redirect_to '/projects?foo=bar'
+      it 'does not save the user, but forwards to registration form' do
+        expect(User.find_by(login: 'aa729')).to be_nil
 
-        user.reload
-        expect(user).to be_admin
+        expect { subject }.not_to change(User.not_builtin.active, :count)
+        expect(subject).to render_template 'account/register'
+        expect(subject.body).to have_text "Email can't be blank"
       end
     end
 
-    context 'when the user exists in another auth source that is inaccessible' do
-      let(:other_ldap) { create(:ldap_auth_source, name: 'other_ldap') }
-      let(:user) { create(:user, login: 'ldap_admin', admin: false, ldap_auth_source: other_ldap) }
+    context 'with user limit reached' do
+      before do
+        allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
+      end
 
-      it 'returns an error when the user does not exist' do
-        get '/projects', headers: { 'X-Remote-User' => 'nonexistent' }
+      it 'shows the user limit error' do
+        expect(subject.body).to have_text "User limit reached"
+        expect(subject.body).to include "/account/register"
+      end
+    end
 
-        expect(response).to redirect_to '/sso'
-        expect(session[:auth_source_sso_failure]).to be_present
+    context 'with password login disabled' do
+      before do
+        allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
+      end
+
+      describe 'login' do
+        it 'is not found' do
+          expect(subject).to have_http_status :not_found
+        end
       end
     end
   end
