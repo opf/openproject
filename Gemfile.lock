@@ -646,7 +646,7 @@ GEM
     ice_nine (0.11.2)
     interception (0.5)
     io-console (0.7.2)
-    irb (1.11.2)
+    irb (1.12.0)
       rdoc
       reline (>= 0.4.2)
     iso8601 (0.13.0)
