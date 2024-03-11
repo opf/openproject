@@ -30,6 +30,7 @@ require 'spec_helper'
 
 RSpec.describe 'my', :js, :with_cuprite do
   let(:user_password) { 'bob' * 4 }
+  let!(:string_cf) { create(:user_custom_field, :string, name: 'Hobbies', is_required: false) }
   let(:user) do
     create(:user,
            mail: 'old@mail.com',
@@ -435,7 +436,7 @@ RSpec.describe 'my', :js, :with_cuprite do
         visit my_account_path
       end
 
-      it 'does not allow change of name and email but hide email can be changed' do
+      it 'does not allow change of name and email but other fields can be changed' do
         email_field = find_field('user[mail]', disabled: true)
         firstname_field = find_field('user[firstname]', disabled: true)
         lastname_field = find_field('user[lastname]', disabled: true)
@@ -446,12 +447,14 @@ RSpec.describe 'my', :js, :with_cuprite do
 
         expect(page).to have_text(I18n.t('user.text_change_disabled_for_ldap_login'), count: 3)
 
+        fill_in 'Hobbies', with: 'Ruby, DCS'
         uncheck 'pref[hide_mail]'
         click_on 'Save'
 
         expect(page).to have_content I18n.t(:notice_account_updated)
 
         user.reload
+        expect(user.custom_values.find_by(custom_field_id: string_cf).value).to eql 'Ruby, DCS'
         expect(user.pref.hide_mail).to be false
       end
     end
