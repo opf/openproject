@@ -85,12 +85,13 @@ RSpec.describe Storages::ManageNextcloudIntegrationCronJob, :webmock, type: :job
     subject { described_class.new.perform }
 
     context 'when lock is free' do
+      let(:storage1) { create(:nextcloud_storage, :as_automatically_managed, :configured) }
+
       it 'responds with true' do
         expect(subject).to be(true)
       end
 
       it 'calls GroupFolderPropertiesSyncService for each automatically managed storage' do
-        storage1 = create(:nextcloud_storage, :as_automatically_managed)
         storage2 = create(:nextcloud_storage, :as_not_automatically_managed)
 
         allow(Storages::NextcloudGroupFolderPropertiesSyncService)
@@ -103,8 +104,6 @@ RSpec.describe Storages::ManageNextcloudIntegrationCronJob, :webmock, type: :job
       end
 
       it 'marks storage as healthy if sync was successful' do
-        storage1 = create(:nextcloud_storage, :as_automatically_managed)
-
         allow(Storages::NextcloudGroupFolderPropertiesSyncService)
           .to receive(:call).with(storage1).and_return(ServiceResult.success)
 
@@ -120,10 +119,10 @@ RSpec.describe Storages::ManageNextcloudIntegrationCronJob, :webmock, type: :job
       end
 
       it 'marks storage as unhealthy if sync was unsuccessful' do
-        storage1 = create(:nextcloud_storage, :as_automatically_managed)
-
         allow(Storages::NextcloudGroupFolderPropertiesSyncService)
-          .to receive(:call).with(storage1).and_return(ServiceResult.failure(errors: Storages::StorageError.new(code: :not_found)))
+          .to receive(:call)
+                .with(storage1)
+                .and_return(ServiceResult.failure(errors: Storages::StorageError.new(code: :not_found)))
 
         Timecop.freeze('2023-03-14T15:17:00Z') do
           expect do
