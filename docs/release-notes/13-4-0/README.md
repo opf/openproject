@@ -39,23 +39,23 @@ With this integration, you can manage GitLab's units of work (merge requests and
 
 </div>
 
-![OpenProject's GitLab integration](GitLab_integration.png){:style="max-width:400px;"}{: .image-screenshot }
+![OpenProject's GitLab integration](GitLab_integration.png){:style="max-width:600px;"}{: .image-screenshot }
 
 ### Advanced features for custom project lists
 
-With OpenProject 13.4 we are again releasing further features for custom [project lists](https://www.openproject.org/docs/user-guide/projects/project-lists/). The most important update here is that columns can now be changed in selection and order and then saved in a new configured view – just as you're probably used to do with a work package list.
+With OpenProject 13.4 we are again releasing further features for custom [project lists](https://www.openproject.org/docs/user-guide/projects/project-lists/). The most important update here is that **columns can now be changed in selection and order and then saved in a new configured view** – just as you're probably used to do with a work package list.
 
-In addition, you will now be reminded to save changes to your project list in the form of a Save button on the top left toolbar. This helps users to remember to save the view and not lose their work when they leave the page.
+In addition, you will now be reminded to save changes to your project list in the form of a **Save button** on the top left toolbar. This helps users to remember to save the view and not lose their work when they leave the page.
 
 ### Advanced features for the Meetings module
 
 We also worked intensively on the Meetings module for 13.4: From now on, you can also **attach files (e.g. images) to OpenProject's dynamic meetings**. This will look like this, for example:
 
-![Add images and other files to your Meetings](meetings-openproject-13-4-files.png){: .image-screenshot }{:style="max-width:400px;"}{: .image-screenshot }
+![Add images and other files to your Meetings](meetings-openproject-13-4-files.png){:style="max-width:600px;"}{: .image-screenshot }
 
 Another long-awaited improvement: When you copy a dynamic meeting, **existing agenda items are now also copied**. This saves a lot of time and work for recurring meetings.
 
-![Copy a meeting with agenda](openproject-13-4-meetings-copy-agenda-highlighted.png){:style="max-width:400px;"}{: .image-screenshot }
+![Copy a meeting with agenda](openproject-13-4-meetings-copy-agenda-highlighted.png){:style="max-width:600px;"}{: .image-screenshot }
 
 And finally, the .ics file now also contains information about the (dynamic) meeting attendees - in addition to other existing information such as PARTSTAT. This now allows you to **confirm or decline invitations to a meeting directly in your calendar software**. 
 
@@ -69,7 +69,7 @@ Stay tuned: Further advanced features for our Meeting module are planned for upc
 
 If you are a project adminstrator and activate a storage on a project, you now get nudged to pass the OAuth flow, if you don't have an access token for that storage yet:
 
-![Message showing: You have successfully added a storage to this project. Would you like to login in the storage and authenticate your user to start using the storage?](openproject-13-4-nudge-oauth.jpg){:style="max-width:400px;"}{: .image-screenshot }
+![Message showing: You have successfully added a storage to this project. Would you like to login in the storage and authenticate your user to start using the storage?](openproject-13-4-nudge-oauth.jpg){:style="max-width:600px;"}{: .image-screenshot }
 
 This way, the background job can setup the project folder. You will then get a feedback that everything is setup and working.
 
@@ -77,7 +77,7 @@ This way, the background job can setup the project folder. You will then get a f
 
 Another important step towards data security: With OpenProject 13.4, users' uploaded files can be scanned for viruses, using the ClamAV antivirus engine. To do so, a new attachment menu item is created with Antivirus settings. Read more about virus scanning using ClamAV in our [system admin guide](https://www.openproject.org/docs/system-admin-guide/attachments/virus-scanning/#virus-scanning).
 
-![OpenProject's admin settings for virus scanning with ClamAV](openproject_system_settings_virus_scanning.png){:style="max-width:400px;"}{: .image-screenshot }
+![OpenProject's admin settings for virus scanning with ClamAV](openproject_system_settings_virus_scanning.png){:style="max-width:600px;"}{: .image-screenshot }
 
 ### PDF Export: Lists in table cells are supported
 
@@ -85,11 +85,12 @@ OpenProject version 13.4 now supports PDF exports with lists in table cells that
 
 ### WebAuthn/FIDO/U2F is added as a second factor
 
-Two-factor authentication (2FA) is a key factor in data security. With OpenProjet 13.4, OpenProject offers WebAuthn/FIDO/U2F as a second factor.  
+Two-factor authentication (2FA) is a key factor in data security. With OpenProjet 13.4, OpenProject offers 
+a new method as a second fector. You can now use hardware tokens such as Yubikeys, browser or password manager passkeys that use the WebAuthn/FIDO/U2F standards.
 
 ### More languages added to the default available set
 
-Thanks to our great Community we can continuously offer more languages for OpenProject. With OpenProject 13.4, users now have over 50 languages at their disposal. Previously there were less than 10, which is a considerable step forward. Please note, however, that only a few languages are officially reviewed and updated by OpenProject. This currently applies to English, German, French and Spanish. For all others, we ask for your patience and [thank all Community contributors](#translation-contributors) from the bottom of our hearts.
+Thanks to our great Community we can continuously offer more languages for OpenProject. With OpenProject 13.4, users now have over 50 languages at their disposal. Previously there were less than ten, which is a considerable step forward. Please note, however, that only a few languages are officially reviewed and updated by OpenProject. This currently applies to English, German, French and Spanish. Regarding all other languages, we ask for your patience and [thank all Community contributors](#translation-contributors) from the bottom of our hearts.
 
 ## Bug fixes and changes
 
@@ -128,9 +129,9 @@ Thanks to our great Community we can continuously offer more languages for OpenP
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
 ## Contributions
-A big thanks to community members for reporting bugs and helping us identifying and providing fixes. Special thanks for reporting and finding bugs go to Andreas H., Diego Liberman, Andreas G, Mario Zeppin, Arved Kampe, and Richard Richter.
+A big thanks to Community members for reporting bugs and helping us identifying and providing fixes. Special thanks for reporting and finding bugs go to Andreas H., Diego Liberman, Andreas G, Mario Zeppin, Arved Kampe, and Richard Richter.
 
-We are always thankful for our great Community. If you are thinking about contributing to OpenProject yourself, we would like to encourage you to do so! 
+We are always thankful for our great [Community](https://www.openproject.org/blog/community-instance/). If you are thinking about contributing to OpenProject yourself, we would like to encourage you to do so! 
 
 ### Translation contributors
 
