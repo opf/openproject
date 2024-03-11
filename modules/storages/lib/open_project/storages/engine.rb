@@ -153,21 +153,18 @@ module OpenProject::Storages
            caption: :project_module_storages,
            parent: :settings
 
-      configure_menu :project_menu do |menu, project|
-        user = User.current
-        if project.present? &&
-           user.logged? &&
-           user.member_of?(project) &&
-           user.allowed_in_project?(:view_file_links, project)
-          project.project_storages.each do |project_storage|
-            storage = project_storage.storage
+      configure_menu :project_menu do |menu, prj|
+        u = User.current
+        if prj.present? && u.logged? && u.member_of?(prj) && u.allowed_in_project?(:view_file_links, prj)
+          prj.project_storages.each do |prj_storage|
+            storage = prj_storage.storage
             next unless storage.configured?
-            next if project_storage.project_folder_automatic? && !user.allowed_in_project?(:read_files, project)
+            next if prj_storage.project_folder_automatic? && !u.allowed_in_project?(:read_files, prj)
 
             icon = storage.provider_type_nextcloud? ? 'nextcloud-circle' : 'hosting'
             menu.push(
               :"storage_#{storage.id}",
-              project_storage.open_with_connection_ensured,
+              prj_storage.open_with_connection_ensured,
               caption: storage.name,
               before: :members,
               icon:,
