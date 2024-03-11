@@ -119,7 +119,7 @@ lt:
       webauthn:
         title: "WebAuthn"
         description: Naudokite žiniatinklio autentifikavimą, kad priregistruotumėte FID02 įrenginį (kaip YubiKey) arba saugų jūsų mobilaus įrengnio enklavą kaip antrinį veiksnį.
-        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
+        further_steps: Pasirinkę pavadinimą galite spausti mygtką Tęsti. Jūsų naršyklė paprašys pateikti jūsų WebAuthn įrenginį. Tai padarius, įrenginio registravimas bus baigtas.
       totp:
         title: "Naudoti jūsų aplikacija paremtą autentifikatorių"
         provisioning_uri: "Įtraukimo URI"

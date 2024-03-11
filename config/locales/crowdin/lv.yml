@@ -543,10 +543,10 @@ lv:
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
       grids/grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        page: "Lapa"
+        row_count: "Rindu skaits"
+        column_count: "Kolonnu skaits"
+        widgets: "Logrīki"
       oauth_client:
         client: "Client ID"
       relation:
@@ -788,8 +788,8 @@ lv:
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         grids/grid:
-          overlaps: "overlap."
-          outside: "is outside of the grid."
+          overlaps: "pārklājas."
+          outside: "atrodas ārpus režģa."
           end_before_start: "end value needs to be larger than the start value."
         ical_token_query_assignment:
           attributes:
@@ -1926,7 +1926,7 @@ lv:
   label_latest_revision: "Latest revision"
   label_latest_revision_plural: "Latest revisions"
   label_ldap_authentication: "LDAP authentication"
-  label_less_or_equal: "<="
+  label_less_or_equal: "mazāks vai vienāds"
   label_less_than_ago: "less than days ago"
   label_list: "List"
   label_loading: "Notiek ielāde..."
@@ -2169,7 +2169,7 @@ lv:
   label_used_by: "Used by"
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
-  label_user: "User"
+  label_user: "Lietotāji"
   label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "%{value}'s activity"
