@@ -12,7 +12,7 @@ Release date: 2024-03-20
 
 We released [OpenProject 13.4.0](https://community.openproject.org/versions/1984). The release contains several bug fixes as well as great new features and we recommend updating to the newest version.
 
-Read more about the [new features](#important-updates-and-new-features) and get an [overview as a list of all bug fixes and changes](#bug-fixes-and-changes) at the end of these release notes.
+Read more about the [new features](#important-updates-and-new-features) and see an [overview as a list of all bug fixes and changes](#bug-fixes-and-changes) at the end of these release notes.
 
 ## Important updates and new features
 
@@ -35,11 +35,25 @@ With this integration, you can manage GitLab's units of work (merge requests and
 
 ### Advanced features for custom project lists
 
-Text 
+With OpenProject 13.4 we are again releasing further features for custom [project lists](https://www.openproject.org/docs/user-guide/projects/project-lists/). The most important update here is that columns can now be changed in selection and order and then saved in a new configured view – just as you're probably used to do with a work package list.
+
+In addition, you will now be reminded to save changes to your project list in the form of a Save button on the top left toolbar. This helps users to remember to save the view and not lose their work when they leave the page.
 
 ### Advanced features for the Meetings module
 
-Text 
+We also worked intensively on the Meetings module for 13.4: From now on, you can also **attach files (e.g. images) to OpenProject's dynamic meetings**. This will look like this, for example:
+
+![Add images and other files to your Meetings](meetings-openproject-13-4-files.png)
+
+Another long-awaited improvement: When you copy a dynamic meeting, **existing agenda items are now also copied**. This saves a lot of time and work for recurring meetings. 
+
+And finally, the .ics file now also contains information about the (dynamic) meeting attendees - in addition to other existing information such as PARTSTAT. This now allows you to **confirm or decline invitations to a meeting directly in your calendar software**. 
+
+<div class="blog-box-info">
+
+Stay tuned: Further advanced features for our Meeting module are planned for upcoming releases – take a look at [this EPIC](https://community.openproject.org/projects/openproject/work_packages/52820/activity?query_id=4929) for detailed information.
+
+</div>
 
 ### Admin are nudged to go through OAuth flow when activating a storage
 
@@ -97,12 +111,18 @@ Text
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
-#### Contributions
+## Contributions
 A big thanks to community members for reporting bugs and helping us identifying and providing fixes. Special thanks for reporting and finding bugs go to Andreas H., Diego Liberman, Andreas G, Mario Zeppin, Arved Kampe, and Richard Richter.
 
-We are always thankful for our great Community. If you are thinking about contributing to OpenProject yourself, we would like to encourage you to do so! An important part is also the translations, for which we thank the following contributors in particular for this release: 
+We are always thankful for our great Community. If you are thinking about contributing to OpenProject yourself, we would like to encourage you to do so! 
+
+### Translation contributors
+
+An important part is also the translations, for which we thank the following contributors in particular for this release: 
 - [Syvert Fossdal](https://crowdin.com/profile/syvert), who translated a lot of OpenProject strings into Norwegian
 - [WilliamfromTW](https://crowdin.com/profile/williamfromtw), who translated to Traditional Chinese
 - [Tomas S](https://crowdin.com/profile/tomass), who translated to Lithuanian
 - [Marek Bajon](https://crowdin.com/profile/mbajon), who translated to Polish
 - [Vlastislav Dockal](https://crowdin.com/profile/vdockal), who translated to Czech
+
+Would you like to help out with translations yourself? Then take a look at our [translation guide](https://www.openproject.org/docs/development/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
