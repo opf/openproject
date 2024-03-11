@@ -183,11 +183,11 @@ class EditField
     end
   end
 
-  def autocomplete(query, select: true)
+  def autocomplete(query, select: true, select_text: query)
     raise ArgumentError.new('Is not an autocompleter field') unless autocompleter_field?
 
     if select
-      select_autocomplete field_container, query:, results_selector: 'body'
+      select_autocomplete field_container, query:, select_text:, results_selector: 'body'
     else
       search_autocomplete field_container, query:, results_selector: 'body'
     end
