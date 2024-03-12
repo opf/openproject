@@ -27,12 +27,12 @@ pt:
         gitlab_issue:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
+              invalid_schema: "deve ser um conjunto de hashes com as chaves: cor, título"
         gitlab_merge_request:
           attributes:
             labels:
-              invalid_schema: "must be an array of hashes with keys: color, title"
-  project_module_gitlab: "Gitlab"
+              invalid_schema: "deve ser um conjunto de hashes com as chaves: cor, título"
+  project_module_gitlab: "GitLab"
   permission_show_gitlab_content: "Mostre o conteúdo do Gitlab"
   gitlab_integration:
     merge_request_opened_comment: >
