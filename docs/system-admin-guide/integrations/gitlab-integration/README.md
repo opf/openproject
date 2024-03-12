@@ -13,7 +13,7 @@ OpenProject offers an integration with GitLab merge requests to link software de
 
 OpenProject work packages will directly display information from GitLab in a separate tab.
 
-![GitHub-tab](Gitlab-tab.png)
+![GitHub-tab](gitlab-tab.png)
 
 The tab shows all merge requests (MR) linked to a work package with the corresponding status (e.g. 'Ready' or 'Merged') as well as the state (e.g. 'success' or 'queued') of the GitLab actions configured to run for a MR. MRs and work packages are in an n:m relationship, so a work package can be linked to multiple merge requests and a merge request can be linked to multiple work packages.
 
