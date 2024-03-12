@@ -273,7 +273,7 @@ RSpec.describe 'Team planner',
     it 'filters possible assignees correctly' do
       team_planner.visit!
 
-      team_planner.add_assignee user_outside_project.name
+      team_planner.search_assignee(user_outside_project.name)
 
       expect(page).to have_css('.ng-option-disabled', text: "No items found")
 
@@ -283,7 +283,7 @@ RSpec.describe 'Team planner',
 
       team_planner.expect_assignee(user)
 
-      team_planner.add_assignee user.name
+      team_planner.search_assignee user.name
 
       expect(page).to have_css('.ng-option-disabled', text: "No items found")
     end

@@ -226,9 +226,21 @@ module Pages
 
     def add_assignee(name)
       retry_block do
+        return if page.has_selector?('.fc-resource', text: name, wait: 0)
+
         click_add_user
         page.find("#{page.test_selector('tp-add-assignee')} input")
-        select_user_to_add name
+        select_user_to_add(name)
+      end
+    end
+
+    def search_assignee(name)
+      retry_block do
+        click_add_user
+        page.find("#{page.test_selector('tp-add-assignee')} input")
+        search_autocomplete page.find('[data-test-selector="tp-add-assignee"]'),
+                            query: name,
+                            results_selector: 'body'
       end
     end
 
