@@ -39,8 +39,8 @@ module Projects
       model.last
     end
 
-    # Hierarchy cell is just a placeholder
-    def hierarchy
+    # lft (hierarchy) cell is just a placeholder
+    def lft
       ""
     end
 

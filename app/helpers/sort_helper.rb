@@ -322,7 +322,8 @@ module SortHelper
 
     options[:title] = sort_header_title(column, caption, options)
 
-    within_sort_header_tag_hierarchy(options, sort_class(column)) do
+    within_sort_header_tag_hierarchy(head_options: options,
+                                     content_classes: sort_class(column)) do
       sort_link(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title])
     end
   end
@@ -343,11 +344,14 @@ module SortHelper
     end
   end
 
-  def within_sort_header_tag_hierarchy(options, classes, &)
-    content_tag "th", options do
-      content_tag "div", class: "generic-table--sort-header-outer" do
+  def within_sort_header_tag_hierarchy(head_options:,
+                                       content_classes:,
+                                       sort_header_outer_classes: '',
+                                       &)
+    content_tag "th", head_options do
+      content_tag "div", class: "generic-table--sort-header-outer #{Array(sort_header_outer_classes).join()}" do
         content_tag "div", class: "generic-table--sort-header" do
-          content_tag("span", class: classes, &)
+          content_tag("span", class: content_classes, &)
         end
       end
     end

@@ -34,55 +34,18 @@ See COPYRIGHT and LICENSE files for more details.
         <table class="generic-table" <%= table_id ? "id=\"#{table_id}\"".html_safe : '' %>>
           <colgroup>
             <% columns.each do |column| %>
-              <col <%= "opHighlightCol" unless column.attribute == :hierarchy %> >
+              <col <%= "opHighlightCol" unless column.attribute == :lft %> >
             <% end %>
             <col opHighlightCol>
           </colgroup>
           <thead class="-sticky">
-          <tr>
-            <% columns.each do |column| %>
-              <% if column.attribute == :hierarchy %>
-                <th id="project-table--hierarchy-header">
-                  <div class="generic-table--sort-header-outer generic-table--sort-header-outer_no-highlighting">
-                    <div class="generic-table--sort-header">
-                      <%= content_tag :a,
-                                      helpers.op_icon("icon-hierarchy"),
-                                      href: href_only_when_not_sort_lft,
-                                      class: "spot-link #{deactivate_class_on_lft_sort}",
-                                      title: t(:label_sort_by, value: %("#{t(:label_project_hierarchy)}")) %>
-                    </div>
-                  </div>
-                </th>
-              <% elsif sortable_column?(column) %>
-                <%= sort_header_tag column,
-                                    order_options(column) %>
-              <% elsif column.attribute == :favored %>
-                <th>
-                  <div class="generic-table--header-outer">
-                    <div class="generic-table--header generic-table--header_centered generic-table--header_no-min-width">
-                      <span>
-                        <%= render(Primer::Beta::Octicon.new(icon: "star-fill", color: :subtle, "aria-label": I18n.t(:label_favorite))) %>
-                      </span>
-                    </div>
-                  </div>
-                </th>
-              <% else %>
-                <th>
-                  <div class="generic-table--sort-header-outer">
-                    <div class="generic-table--sort-header">
-                      <span>
-                          <%= column.caption %>
-                      </span>
-                    </div>
-                  </div>
-                </th>
-              <% end %>
-            <% end %>
-            <th>
-              <div class="generic-table--empty-header">
-              </div>
-            </th>
-          </tr>
+            <tr>
+              <%= render_column_headers %>
+              <th class="-right">
+                <div class="generic-table--header-outer">
+                </div>
+              </th>
+            </tr>
           </thead>
           <tbody>
           <% if rows.empty? %>
@@ -90,9 +53,10 @@ See COPYRIGHT and LICENSE files for more details.
               <td colspan="<%= columns.length + 1 %>"><%= empty_row_message %></td>
             </tr>
           <% end %>
-          <%= render_collection rows %>
+          <%= render_rows %>
           </tbody>
         </table>
+
         <% if inline_create_link && show_inline_create %>
           <div class="wp-inline-create-button">
             <%= inline_create_link %>

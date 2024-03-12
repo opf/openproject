@@ -35,7 +35,7 @@ RSpec.describe ProjectsHelper do
   let(:project_selects) do
     selects = [
       Queries::Projects::Selects::Default.new(:name),
-      Queries::Projects::Selects::Default.new(:hierarchy),
+      Queries::Projects::Selects::Default.new(:lft),
       Queries::Projects::Selects::Default.new(:description),
       Queries::Projects::Selects::Status.new(:project_status)
     ]

@@ -136,7 +136,7 @@ RSpec.describe ProjectQuery do
                             favored
                             public
                             description
-                            hierarchy
+                            lft
                             project_status
                             status_explanation
                             cf_23
@@ -155,7 +155,7 @@ RSpec.describe ProjectQuery do
                             favored
                             public
                             description
-                            hierarchy
+                            lft
                             project_status
                             status_explanation
                             created_at
@@ -166,7 +166,6 @@ RSpec.describe ProjectQuery do
                           ])
       end
     end
-    # rubocop:enable Naming/VariableNumber
   end
 
   describe "#valid_subset!" do

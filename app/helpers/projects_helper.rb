@@ -43,7 +43,7 @@ module ProjectsHelper
     @projects_columns_options ||= ::ProjectQuery
                                     .new
                                     .available_selects
-                                    .reject { |c| c.attribute == :hierarchy }
+                                    .reject { |c| c.attribute == :lft }
                                     .sort_by(&:caption)
                                     .map { |c| { id: c.attribute, name: c.caption } }
   end
@@ -59,8 +59,6 @@ module ProjectsHelper
     projects_columns_options
       .select { |c| c[:id] == :name }
   end
-
-  def projects_query_param_names_for_sort = PROJECTS_QUERY_PARAM_NAMES - %i[sortBy page]
 
   def projects_query_params
     safe_query_params(PROJECTS_QUERY_PARAM_NAMES)

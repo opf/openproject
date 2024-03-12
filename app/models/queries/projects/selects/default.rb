@@ -27,7 +27,7 @@
 # ++
 
 class Queries::Projects::Selects::Default < Queries::Selects::Base
-  KEYS = %i[status_explanation hierarchy name public description].freeze
+  KEYS = %i[status_explanation lft name public description].freeze
 
   def self.key
     Regexp.new(KEYS.join("|"))

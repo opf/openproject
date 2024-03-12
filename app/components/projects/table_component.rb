@@ -30,7 +30,8 @@
 
 module Projects
   # Not inheriting from TableComponent as that is AR scope based and here the model
-  # is an OP query.
+  # is an OP query. The intend is to distill the common parts into an abstract TableComponent again once
+  # another table is implemented with the same pattern.
   class TableComponent < ::ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     options :params # We read collapsed state from params
     options :current_user # adds this option to those of the base class
@@ -58,14 +59,6 @@ module Projects
       end
     end
 
-    def initialize_sorted_model
-      helpers.sort_clear
-
-      orders = query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
-      helpers.sort_init orders
-      helpers.sort_update orders.map(&:first)
-    end
-
     def paginated?
       true
     end
@@ -80,27 +73,6 @@ module Projects
 
     def optional_pagination_options
       {}
-    end
-
-    def deactivate_class_on_lft_sort
-      if sorted_by_lft?
-        "spot-link_inactive"
-      end
-    end
-
-    def href_only_when_not_sort_lft
-      unless sorted_by_lft?
-        projects_path(
-          sortBy: JSON.dump([%w[lft asc]]),
-          **helpers.projects_query_params.slice(*helpers.projects_query_param_names_for_sort)
-        )
-      end
-    end
-
-    def order_options(select)
-      {
-        caption: select.caption
-      }
     end
 
     def sortable_column?(select)
@@ -151,13 +123,12 @@ module Projects
       @favored_project_ids ||= Favorite.where(user: current_user, favored_type: "Project").pluck(:favored_id)
     end
 
-    def sorted_by_lft?
-      query.orders.first&.attribute == :lft
+    def render_rows
+      render(self.class.row_class.with_collection(rows, table: self))
     end
 
-    # TODO: copied from ::TableComponent
-    def render_collection(rows)
-      render(self.class.row_class.with_collection(rows, table: self))
+    def render_column_headers
+      render(Projects::ColumnHeaderComponent.with_collection(columns, query:))
     end
 
     def inline_create_link
@@ -166,7 +137,7 @@ module Projects
 
     class << self
       def row_class
-        mod = name.split("::")[0..-2].join("::").presence || "Table"
+        mod = name.deconstantize
 
         "#{mod}::RowComponent".constantize
       rescue NameError
@@ -178,63 +149,8 @@ module Projects
       end
     end
 
-    # END copied from ::TableComponent
-
-    # TODO: copied from sort_helper.rb
-
-    def sort_link(column, options)
-      order = order_string(column, inverted: true) || 'asc'
-
-      orders = [[column.attribute, order]] + ordered_by
-                                               .reject { |o| [column.attribute, :lft].include?(o.attribute) }
-                                               .map { |o| [o.attribute, o.direction] }
-
-      link_to(column.caption, { sortBy: JSON::dump(orders[0..2]) }, options)
-    end
-
-    # Returns a table header <th> tag with a sort link for the named column
-    # attribute.
-    def sort_header_tag(column, options)
-      options[:title] = sort_header_title(column)
-
-      helpers.within_sort_header_tag_hierarchy(options, sort_class(column)) do
-        sort_link(column, options)
-      end
-    end
-
-    def sort_class(column)
-      order = order_string(column)
-
-      order.nil? ? nil : "sort #{order}"
-    end
-
-    def order_string(column, inverted: false)
-      if column.attribute == first_order_by.attribute
-        if first_order_by.asc?
-          inverted ? 'desc' : 'asc'
-        else
-          inverted ? 'asc' : 'desc'
-        end
-      end
-    end
-
-    def sort_header_title(column)
-      if column.attribute == first_order_by.attribute
-        order = first_order_by.asc? ? t(:label_ascending) : t(:label_descending)
-        order + " #{t(:label_sorted_by, value: "\"#{column.caption}\"")}"
-      else
-        t(:label_sort_by, value: "\"#{column.caption}\"")
-      end
-    end
-
-    # END copied from sort_helper.rb
-
-    def first_order_by
-      ordered_by.first
-    end
-
-    def ordered_by
-      @ordered_by ||= query.orders.select(&:valid?)
+    def sorted_by_lft?
+      query.orders.first&.attribute == :lft
     end
   end
 end
