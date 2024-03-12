@@ -13,7 +13,7 @@ OpenProject offers an integration with GitLab merge requests to link software de
 
 OpenProject work packages will directly display information from GitLab in a separate tab.
 
-![GitHub-tab](gitlab-tab.png)
+![Gitlab tab in an OpenProject work package](gitlab-tab.png)
 
 The tab shows all merge requests (MR) linked to a work package with the corresponding status (e.g. 'Ready' or 'Merged') as well as the state (e.g. 'success' or 'queued') of the GitLab actions configured to run for a MR. MRs and work packages are in an n:m relationship, so a work package can be linked to multiple merge requests and a merge request can be linked to multiple work packages.
 
@@ -30,7 +30,7 @@ Merge request activities will also show up in the Activity tab when the merge re
 ![GitLab comments on work package activity tab](openproject-system-guide-gitlab-integration-activity-tab.png)
 
 ## Configuration
-You will first have to configure both OpenProject and GitHub for the integration to work.
+You will first have to configure both OpenProject and GitLab for the integration to work.
 
 ### OpenProject
 First you will need to create a user in OpenProject that has the permission to make comments. This role only requires two permissions, *View work packages* and *Add notes*, which you will find in the **Work packages and Gantt charts** section under  [**Roles and Permissions**](../../users-permissions/roles-permissions/).
@@ -100,7 +100,7 @@ You can now publish your branch (you can also do this later, after making the ch
 
 With the branch opened, you can start the actual development work using your preferred tool to alter your codebase.
 
-![GitHub-changes](GitHub-changes.png)
+![Gitlab changes in a merge request changes](gitlab-changes.png)
 
 Once you are satisfied with the changes you can create a commit. Within the 'Git snippets' menu, OpenProject suggests a commit message for you based on the title and the URL of the work package.
 
