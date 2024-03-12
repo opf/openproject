@@ -29,9 +29,6 @@
 module Settings
   module ProjectCustomFields
     class EditFormHeaderComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpPrimer::ComponentHelpers
-
       def initialize(custom_field:)
         super
 

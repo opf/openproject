@@ -29,12 +29,6 @@
 module Settings
   module ProjectCustomFields
     class NewFormHeaderComponent < ApplicationComponent
-      include ApplicationHelper
-      include OpPrimer::ComponentHelpers
-
-      def initialize
-        super
-      end
     end
   end
 end
