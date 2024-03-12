@@ -32,10 +32,7 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
 
   menu_item :settings_project_custom_fields
 
-  before_action :eager_load_project_custom_field_sections, only: %i[show toggle enable_all_of_section disable_all_of_section]
-  before_action :eager_load_project_custom_fields, only: %i[show toggle enable_all_of_section disable_all_of_section]
-  before_action :eager_load_project_custom_field_project_mappings,
-                only: %i[show toggle enable_all_of_section disable_all_of_section]
+  before_action :eager_load_project_custom_field_data, only: %i[show toggle enable_all_of_section disable_all_of_section]
 
   before_action :set_project_custom_field_section, only: %i[enable_all_of_section disable_all_of_section]
 
@@ -58,7 +55,7 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
     call = bulk_edit_service.call(action: :enable)
 
     if call.success?
-      eager_load_project_custom_field_project_mappings # reload mappings
+      eager_load_project_custom_field_data # reload mappings
 
       update_sections_via_turbo_stream # update all sections in order not to mess with stimulus target references
     else
@@ -72,7 +69,7 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
     call = bulk_edit_service.call(action: :disable)
 
     if call.success?
-      eager_load_project_custom_field_project_mappings # reload mappings
+      eager_load_project_custom_field_data # reload mappings
 
       update_sections_via_turbo_stream # update all sections in order not to mess with stimulus target references
     else
@@ -84,19 +81,15 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
 
   private
 
-  def eager_load_project_custom_field_sections
+  def eager_load_project_custom_field_data
     @project_custom_field_sections = ProjectCustomFieldSection.all.to_a
-  end
 
-  def eager_load_project_custom_fields
     @project_custom_fields_grouped_by_section = ProjectCustomField
       .visible
       .includes(:project_custom_field_section)
       .sort_by { |pcf| pcf.project_custom_field_section.position }
       .group_by(&:custom_field_section_id)
-  end
 
-  def eager_load_project_custom_field_project_mappings
     @project_custom_field_project_mappings = ProjectCustomFieldProjectMapping
       .where(project_id: @project.id)
       .to_a
