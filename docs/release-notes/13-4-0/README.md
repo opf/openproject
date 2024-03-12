@@ -29,7 +29,7 @@ The release contains various new features and improvements:
 
 ### GitLab integration
 
-We are delighted about the GitLab integration, which is officially available with 13.4. It goes back to the plugin that Community contributor [Benjamin Tey](https://community.openproject.org/users/69094) created 3 years ago. Many thanks at this point to everyone who worked on the GitLab integration and the plugin – inside and outside of OpenProject's core development team! Such projects are a great example of the power of open source collaboration.💙
+We are delighted about the GitLab integration, which is officially available with OpenProject 13.4. It goes back to the plugin that Community contributor [Benjamin Tey](https://community.openproject.org/users/69094) created 3 years ago. Many thanks at this point to everyone who worked on the GitLab integration and the plugin – inside and outside of OpenProject's core development team! Such projects are a great example of the power of open source collaboration.💙
 
 With this integration, you can manage GitLab's units of work (merge requests and issues) from within OpenProject by linking them with work packages. Read more about OpenProject's GitLab integration in our user guide.
 
@@ -39,7 +39,7 @@ With this integration, you can manage GitLab's units of work (merge requests and
 
 </div>
 
-![OpenProject's GitLab integration](GitLab_integration.png){:style="max-width:600px;"}{: .image-screenshot }
+![OpenProject's GitLab integration](GitLab_integration.png)
 
 ### Advanced features for custom project lists
 
@@ -51,11 +51,11 @@ In addition, you will now be reminded to save changes to your project list in th
 
 We also worked intensively on the Meetings module for 13.4: From now on, you can also **attach files (e.g. images) to OpenProject's dynamic meetings**. This will look like this, for example:
 
-![Add images and other files to your Meetings](meetings-openproject-13-4-files.png){:style="max-width:600px;"}{: .image-screenshot }
+![Add images and other files to your Meetings](meetings-openproject-13-4-files.png)
 
 Another long-awaited improvement: When you copy a dynamic meeting, **existing agenda items are now also copied**. This saves a lot of time and work for recurring meetings.
 
-![Copy a meeting with agenda](openproject-13-4-meetings-copy-agenda-highlighted.png){:style="max-width:600px;"}{: .image-screenshot }
+![Copy a meeting with agenda](openproject-13-4-meetings-copy-agenda-highlighted.png)
 
 And finally, the .ics file now also contains information about the (dynamic) meeting attendees - in addition to other existing information such as PARTSTAT. This now allows you to **confirm or decline invitations to a meeting directly in your calendar software**. 
 
@@ -69,7 +69,7 @@ Stay tuned: Further advanced features for our Meeting module are planned for upc
 
 If you are a project adminstrator and activate a storage on a project, you now get nudged to pass the OAuth flow, if you don't have an access token for that storage yet:
 
-![Message showing: You have successfully added a storage to this project. Would you like to login in the storage and authenticate your user to start using the storage?](openproject-13-4-nudge-oauth.jpg){:style="max-width:600px;"}{: .image-screenshot }
+![Message showing: You have successfully added a storage to this project. Would you like to login in the storage and authenticate your user to start using the storage?](openproject-13-4-nudge-oauth.jpg)
 
 This way, the background job can setup the project folder. You will then get a feedback that everything is setup and working.
 
@@ -77,16 +77,17 @@ This way, the background job can setup the project folder. You will then get a f
 
 Another important step towards data security: With OpenProject 13.4, users' uploaded files can be scanned for viruses, using the ClamAV antivirus engine. To do so, a new attachment menu item is created with Antivirus settings. Read more about virus scanning using ClamAV in our [system admin guide](https://www.openproject.org/docs/system-admin-guide/attachments/virus-scanning/#virus-scanning).
 
-![OpenProject's admin settings for virus scanning with ClamAV](openproject_system_settings_virus_scanning.png){:style="max-width:600px;"}{: .image-screenshot }
+![OpenProject's admin settings for virus scanning with ClamAV](openproject_system_settings_virus_scanning.png)
 
 ### PDF Export: Lists in table cells are supported
 
-OpenProject version 13.4 now supports PDF exports with lists in table cells that are displayed correctly.
+OpenProject version 13.4 now supports PDF exports with lists in table cells that are displayed correctly. Export a work package that contains a table with lists in it into a PDF. Here is an example of how this looks from now on:
+
+![Work package with a table in the description field and how it looks when exportet as PDF](openproject-13-4-PDF-export-table-lists.png)
 
 ### WebAuthn/FIDO/U2F is added as a second factor
 
-Two-factor authentication (2FA) is a key factor in data security. With OpenProjet 13.4, OpenProject offers 
-a new method as a second fector. You can now use hardware tokens such as Yubikeys, browser or password manager passkeys that use the WebAuthn/FIDO/U2F standards.
+Two-factor authentication (2FA) is a key factor in data security. With OpenProjet 13.4, OpenProject offers a new method as a second fector. You can now use hardware tokens such as Yubikeys, browser or password manager passkeys that use the WebAuthn/FIDO/U2F standards.
 
 ### More languages added to the default available set
 
@@ -129,7 +130,14 @@ Thanks to our great Community we can continuously offer more languages for OpenP
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
 ## Contributions
-A big thanks to Community members for reporting bugs and helping us identifying and providing fixes. Special thanks for reporting and finding bugs go to Andreas H., Diego Liberman, Andreas G, Mario Zeppin, Arved Kampe, and Richard Richter.
+
+A very special thank you goes to our sponsors for features and improvements:
+
+- City of Cologne for sponsoring new features for the project lists
+- BMI for sponsoring features on progress reporting and Gantt charts
+- Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
+
+Another big thanks goes to our Community members for reporting bugs and helping us identifying and providing fixes. Special thanks for reporting and finding bugs go to Andreas H., Diego Liberman, Andreas G, Mario Zeppin, Arved Kampe, and Richard Richter.
 
 We are always thankful for our great [Community](https://www.openproject.org/blog/community-instance/). If you are thinking about contributing to OpenProject yourself, we would like to encourage you to do so! 
 
