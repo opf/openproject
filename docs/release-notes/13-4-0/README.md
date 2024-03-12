@@ -35,7 +35,12 @@ With this integration, you can manage GitLab's units of work (merge requests and
 
 <div class="blog-box-info">	
 
-**Already using the user-generated GitLab plugin?** With OpenProject 13.4, the existing plugin will be replaced by the new integration. We recommend removing the plugin and replacing it with the GitLab integration.
+**Already using the user-generated GitLab plugin?** With OpenProject 13.4, the existing plugin will be replaced by the new integration. We recommend removing the plugin module folder and bundler references before upgrading to openproject. Your historical dataset will remain unaffected within OpenProject as there were no changes to the data model.
+
+Before upgrading, please do the following:
+
+1. Remove traces of the gitlab integration in your **Gemfile.lock** and **Gemfile.modules** See [btey/openproject-gitlab-integration#configuration](https://github.com/btey/openproject-gitlab-integration?tab=readme-ov-file#configuration)
+2. Remove the module code traces of the gitlab integration. `rm -rf /path/to/openproject/modules/gitlab_integration` 
 
 </div>
 
