@@ -82,6 +82,7 @@ import {
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { MAGIC_PAGE_NUMBER } from 'core-app/core/apiv3/helpers/get-paginated-results';
 import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
@@ -223,7 +224,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
         return this
           .capabilitiesResourceService
-          .fetchCapabilities({ pageSize: -1, filters });
+          .fetchCapabilities({ pageSize: MAGIC_PAGE_NUMBER, filters });
       }),
       map((result) => result
         ._embedded
@@ -250,6 +251,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
       filter((ids) => ids.length > 0),
       map((ids) => ({
         filters: [['id', '=', ids]],
+        pageSize: MAGIC_PAGE_NUMBER,
       }) as ApiV3ListParameters),
     );
 
