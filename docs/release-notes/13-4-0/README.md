@@ -21,7 +21,6 @@ The release contains various new features and improvements:
 - [GitLab integration (originally developed by Community contributors)](#gitlab-integration)
 - [Advanced features for custom project lists](#advanced-features-for-custom-project-lists)
 - [Advanced features for the Meetings module](#advanced-features-for-the-meetings-module)
-- [Admins are nudged to go through OAuth flow when activating a storage](#admins-are-nudged-to-go-through-oauth-flow-when-activating-a-storage)
 - [Virus scanning functionality with ClamAV](#virus-scanning-functionality-with-clamav-enterprise-add-on)
 - [PDF Export: Lists in table cells are supported](#pdf-export-lists-in-table-cells-are-supported)
 - [WebAuthn/FIDO/U2F is added as a second factor](#webauthnfidou2f-is-added-as-a-second-factor)
@@ -69,14 +68,6 @@ And finally, the .ics file now also contains information about the (dynamic) mee
 Stay tuned: Further advanced features for our Meeting module are planned for upcoming releases – take a look at [this EPIC](https://community.openproject.org/projects/openproject/work_packages/52820/activity?query_id=4929) for detailed information.
 
 </div>
-
-### Admins are nudged to go through OAuth flow when activating a storage
-
-If you are a project adminstrator and activate a storage on a project, you now get nudged to pass the OAuth flow, if you don't have an access token for that storage yet:
-
-![Message showing: You have successfully added a storage to this project. Would you like to login in the storage and authenticate your user to start using the storage?](openproject-13-4-nudge-oauth.jpg)
-
-This way, the background job can setup the project folder. You will then get a feedback that everything is setup and working.
 
 ### Virus scanning functionality with ClamAV (Enterprise add-on)
 
