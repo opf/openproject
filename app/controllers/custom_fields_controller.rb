@@ -38,9 +38,7 @@ class CustomFieldsController < ApplicationController
   def index
     # loading wp cfs exclicity to allow for eager loading
     @custom_fields_by_type = CustomField.all
-      .where.not(type: 'WorkPackageCustomField')
-      # ProjectCustomFields now managed in a different UI
-      .tap { |query| query.where.not(type: 'ProjectCustomField') }
+      .where.not(type: ['WorkPackageCustomField', 'ProjectCustomField'])
       .group_by { |f| f.class.name }
 
     @custom_fields_by_type['WorkPackageCustomField'] = WorkPackageCustomField.includes(:types).all
