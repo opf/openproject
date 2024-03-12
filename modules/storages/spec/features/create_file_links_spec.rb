@@ -129,7 +129,7 @@ RSpec.describe 'Managing file links in work package', :js, :webmock do
   end
 
   it 'must enable the user to remove a file link' do
-    within_test_selector('op-tab-content--tab-section', text: 'MY STORAGE', wait: 25) do
+    within_test_selector('op-tab-content--tab-section', text: 'MY STORAGE') do
       within(:list_item, text: 'jingle.ogg') do
         page.find('span', text: 'jingle.ogg').hover
         page.click_on('Remove file link')

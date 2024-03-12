@@ -58,9 +58,7 @@ RSpec.describe 'Team planner constraints for a subproject',
     team_planner.visit!
 
     team_planner.add_assignee user
-    retry_block do
-      team_planner.add_assignee other_user
-    end
+    team_planner.add_assignee other_user
 
     # Include the subproject
     project_include.toggle!

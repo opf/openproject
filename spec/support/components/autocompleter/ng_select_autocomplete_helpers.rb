@@ -45,9 +45,9 @@ module Components::Autocompleter
       end
     end
 
-    def expect_ng_option(element, option, results_selector: nil)
+    def expect_ng_option(element, option, results_selector: nil, present: true)
       within(ng_find_dropdown(element, results_selector:)) do
-        expect(page).to have_css('.ng-option', text: option)
+        expect(page).to have_conditional_selector(present, '.ng-option', text: option)
       end
     end
 
