@@ -109,7 +109,7 @@ class Projects::Settings::ProjectCustomFieldsController < Projects::SettingsCont
   end
 
   def bulk_edit_service
-    ProjectCustomFieldProjectMappings::BulkEditService
+    ProjectCustomFieldProjectMappings::BulkUpdateService
       .new(
         user: current_user,
         project: @project,

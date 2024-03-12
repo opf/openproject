@@ -27,7 +27,7 @@
 #++
 
 module ProjectCustomFieldProjectMappings
-  class BulkEditService < ::BaseServices::BaseCallable
+  class BulkUpdateService < ::BaseServices::BaseCallable
     def initialize(user:, project:, project_custom_field_section:)
       super()
       @user = user

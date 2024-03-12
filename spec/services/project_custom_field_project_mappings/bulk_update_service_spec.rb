@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-RSpec.describe ProjectCustomFieldProjectMappings::BulkEditService do
+RSpec.describe ProjectCustomFieldProjectMappings::BulkUpdateService do
   let!(:project) { create(:project) }
   let!(:section_with_invisible_fields) { create(:project_custom_field_section, name: 'Section with invisible fields') }
 
