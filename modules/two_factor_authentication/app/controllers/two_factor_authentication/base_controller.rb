@@ -75,7 +75,7 @@ module ::TwoFactorAuthentication
 
       ensure_user_has_webauthn_id!
 
-      webauthn_options = device.options_for_create
+      webauthn_options = device.options_for_create(webauthn_relying_party)
       session[:webauthn_challenge] = webauthn_options.challenge
 
       render json: webauthn_options
@@ -177,16 +177,29 @@ module ::TwoFactorAuthentication
     end
 
     def webauthn_credential
-      @webauthn_credential ||= WebAuthn::Credential.from_create(JSON.parse(params[:device][:webauthn_credential]))
+      @webauthn_credential ||= webauthn_relying_party.verify_registration(
+        JSON.parse(params[:device][:webauthn_credential]),
+        session[:webauthn_challenge]
+      )
     end
 
     def verify_webauthn_credential
-      webauthn_credential.verify(session[:webauthn_challenge])
-      session.delete(:webauthn_challenge)
-      true
+      if webauthn_credential
+        session.delete(:webauthn_challenge)
+        true
+      else
+        false
+      end
     rescue WebAuthn::Error => e
       Rails.logger.error "Failed to verify WebAuthn credential for registration. #{e}"
       false
+    end
+
+    def webauthn_relying_party
+      @webauthn_relying_party ||= WebAuthn::RelyingParty.new(
+        origin: "#{Setting.protocol}://#{Setting.host_name}",
+        name: Setting.app_title
+      )
     end
 
     def logout_other_sessions

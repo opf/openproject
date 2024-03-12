@@ -58,7 +58,7 @@ module ::TwoFactorAuthentication
     def webauthn_challenge
       device = otp_service(@authenticated_user).device
 
-      webauthn_options = device.options_for_get
+      webauthn_options = device.options_for_get(webauthn_relying_party)
       session[:webauthn_challenge] = webauthn_options.challenge
 
       render json: webauthn_options
@@ -154,7 +154,11 @@ module ::TwoFactorAuthentication
       service = otp_service_for_verification(user)
 
       result = if service.device.class.device_type == :webauthn
-                 service.verify(webauthn_credential, webauthn_challenge: session[:webauthn_challenge])
+                 service.verify(
+                   JSON.parse(webauthn_credential),
+                   webauthn_challenge: session[:webauthn_challenge],
+                   webauthn_relying_party:
+                 )
                else
                  service.verify(otp_token)
                end
@@ -216,6 +220,13 @@ module ::TwoFactorAuthentication
 
     def failure_stage_redirect
       redirect_to authentication_stage_failure_path :two_factor_authentication
+    end
+
+    def webauthn_relying_party
+      @webauthn_relying_party ||= WebAuthn::RelyingParty.new(
+        origin: "#{Setting.protocol}://#{Setting.host_name}",
+        name: Setting.app_title
+      )
     end
   end
 end
