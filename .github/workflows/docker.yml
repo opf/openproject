@@ -82,6 +82,7 @@ jobs:
           images: |
             ${{ env.REGISTRY_IMAGE }}
       - name: Build image
+        id: build
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -104,7 +105,7 @@ jobs:
             -e SUPERVISORD_LOG_LEVEL=debug \
             -e OPENPROJECT_LOGIN__REQUIRED=false \
             -e OPENPROJECT_HTTPS=false \
-            ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+            ${{ steps.build.outputs.imageid }}
 
           sleep 60
 
