@@ -77,11 +77,7 @@ RSpec.describe 'Team planner create new work package', :js, with_ee: %i[team_pla
 
       team_planner.expect_assignee(user, present: false)
 
-      retry_block do
-        team_planner.click_add_user
-        page.find("#{test_selector('tp-add-assignee')} input")
-        team_planner.select_user_to_add user.name
-      end
+      team_planner.add_assignee user.name
     end
 
     it_behaves_like 'can create a new work package'
@@ -119,23 +115,9 @@ RSpec.describe 'Team planner create new work package', :js, with_ee: %i[team_pla
       team_planner.expect_assignee(other_user, present: false)
       team_planner.expect_assignee(third_user, present: false)
 
-      retry_block do
-        team_planner.click_add_user
-        page.find("#{test_selector('tp-add-assignee')} input")
-        team_planner.select_user_to_add other_user.name
-      end
-
-      retry_block do
-        team_planner.click_add_user
-        page.find("#{test_selector('tp-add-assignee')} input")
-        team_planner.select_user_to_add third_user.name
-      end
-
-      retry_block do
-        team_planner.click_add_user
-        page.find("#{test_selector('tp-add-assignee')} input")
-        team_planner.select_user_to_add user.name
-      end
+      team_planner.add_assignee other_user.name
+      team_planner.add_assignee third_user.name
+      team_planner.add_assignee user.name
     end
 
     it_behaves_like 'can create a new work package'
