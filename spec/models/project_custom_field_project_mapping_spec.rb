@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,10 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ProjectCustomFieldProjectMapping < ApplicationRecord
-  belongs_to :project
-  belongs_to :project_custom_field, class_name: 'ProjectCustomField', foreign_key: 'custom_field_id',
-                                    inverse_of: :project_custom_field_project_mappings
+require 'spec_helper'
 
-  validates :custom_field_id, uniqueness: { scope: :project_id }
+RSpec.describe ProjectCustomFieldProjectMapping do
+  describe 'uniqueness by project' do
+    let!(:project) { create(:project) }
+    let!(:project_custom_field) { create(:project_custom_field) }
+
+    it 'a project custom field can only be mapped to a project once' do
+      project.project_custom_fields << project_custom_field
+
+      expect(described_class).to exist(custom_field_id: project_custom_field.id,
+                                       project_id: project.id)
+
+      expect do
+        project.project_custom_fields << project_custom_field
+      end.to raise_error(ActiveRecord::RecordInvalid, /Custom field has already been taken/)
+    end
+  end
 end
