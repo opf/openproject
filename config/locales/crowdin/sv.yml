@@ -31,10 +31,8 @@ sv:
       color_theme: "Färgtema"
       color_theme_custom: "(Anpassad)"
       colors:
-        alternative-color: "Alternativ"
-        content-link-color: "Link font"
-        primary-color: "Primär"
-        primary-color-dark: "Primär (mörk)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Rubrikbakgrund"
         header-item-bg-hover-color: "Rubrikbakgrund vid hovring"
         header-item-font-color: "Rubriktypsnitt"
@@ -53,10 +51,8 @@ sv:
       enterprise_more_info: "Obs: logotypen som används kommer att vara allmänt tillgänglig."
       manage_colors: "Redigera alternativ för valbara färger"
       instructions:
-        alternative-color: "Stark accentfärg som brukar användas för de viktigaste knapparna på skärmen."
-        content-link-color: "Teckenfärg på de flesta länkarna."
-        primary-color: "Huvudfärg."
-        primary-color-dark: "Vanligtvis en mörkare version av huvudfärgen som används för hover-effekter."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Bakgrundsfärg på klickbara objekt i sidhuvudet när man hovrar med muspekaren."
         header-item-font-color: "Teckenfärg på klickbara objekt i sidhuvudet."
         header-item-font-hover-color: "Teckenfärg på klickbara objekt i sidhuvudet när man hovrar med muspekaren."
@@ -272,7 +268,7 @@ sv:
       new:
         placeholder: "Ny projektlista"
       delete_modal:
-        title: "Delete project list"
+        title: "Radera projektlista"
         text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Change identifier
@@ -309,10 +305,10 @@ sv:
     filters:
       all_shares: "All shares"
     menu:
-      all: "All"
+      all: "Alla"
       invited: "Invited"
       locked: "Locked"
-      project_roles: "Project roles"
+      project_roles: "Projektroller"
       wp_shares: "Work package shares"
       groups: "Groups"
   my:
@@ -386,7 +382,7 @@ sv:
       no_results_title_text: Det finns för närvarande inga statusar för arbetspaket.
       no_results_content_text: Lägg till ny status
   themes:
-    light: "Light"
+    light: "Ljust"
     light_high_contrast: "Light high contrast"
   types:
     index:
@@ -1173,7 +1169,7 @@ sv:
   button_continue: "Fortsätt"
   button_copy: "Kopiera"
   button_copy_to_clipboard: "Kopiera till Urklipp"
-  button_copy_link_to_clipboard: "Copy link to clipboard"
+  button_copy_link_to_clipboard: "Kopiera länk till urklipp"
   button_copy_and_follow: "Kopiera och följ"
   button_create: "Skapa"
   button_create_and_continue: "Skapa och fortsätt"
@@ -1202,7 +1198,7 @@ sv:
   button_reset: "Återställ"
   button_rollback: "Återgå till denna version"
   button_save: "Spara"
-  button_save_as: "Save as"
+  button_save_as: "Spara som"
   button_apply_changes: "Apply changes"
   button_save_back: "Spara och återgå"
   button_show: "Visa"
@@ -1477,7 +1473,7 @@ sv:
     work_package_edit: "Arbetspaket redigerades"
     work_package_note: "Anteckning lades till arbetspaketet"
     title:
-      project: "Project: %{name}"
+      project: "Projekt: %{name}"
       subproject: "Subproject: %{name}"
   export:
     your_work_packages_export: "Your work packages export"
@@ -1909,7 +1905,7 @@ sv:
   label_custom_export_logo: "Custom export logo"
   label_custom_export_cover: "Custom export cover background"
   label_custom_export_cover_overlay: "Custom export cover background overlay"
-  label_custom_export_cover_text_color: "Text color"
+  label_custom_export_cover_text_color: "Textfärg"
   label_custom_pdf_export_settings: "Custom PDF export settings"
   label_custom_favicon: "Anpassad favicon"
   label_custom_touch_icon: "Anpassad touch-ikon"
@@ -2232,7 +2228,7 @@ sv:
     zero: "no files"
   label_yesterday: "igår"
   label_role_type: "Typ"
-  label_member_role: "Project role"
+  label_member_role: "Projektroll"
   label_global_role: "Global role"
   label_not_changeable: "(kan inte ändras)"
   label_global: "Global"
@@ -3059,7 +3055,7 @@ sv:
     configure_view:
       heading: Configure view
       columns:
-        input_label: "Add columns"
+        input_label: "Lägg till kolumner"
         input_placeholder: "Select a column"
         drag_area_label: "Manage and reorder columns"
   top_menu:
@@ -3153,7 +3149,7 @@ sv:
         role: "Roll"
         type: "Typ"
       label_search: "Search for users to invite"
-      label_search_placeholder: "Search by user or email address"
+      label_search_placeholder: "Sök efter användare eller e-postadress"
       label_toggle_all: "Toggle all shares"
       permissions:
         comment: "Kommentar"

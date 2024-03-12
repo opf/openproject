@@ -28,7 +28,7 @@ RSpec.describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
 
   describe 'accessing' do
     before do
-      get :new, params: { id: user.id }
+      get :new, params: { id: user.id, type: :sms }
     end
 
     context 'when the same user' do
@@ -52,7 +52,7 @@ RSpec.describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
 
       it 'renders the page' do
         expect(response).to be_successful
-        expect(response).to render_template 'new_type'
+        expect(response).to render_template 'new'
       end
 
       context 'when no active strategies' do
@@ -74,9 +74,18 @@ RSpec.describe TwoFactorAuthentication::Users::TwoFactorDevicesController do
           get :new, params: { id: user.id }
         end
 
-        it 'renders the new form' do
-          expect(response).to be_successful
-          expect(response).to render_template 'new_type'
+        it 'shows an error' do
+          expect(response).to have_http_status(:bad_request)
+        end
+      end
+
+      context 'with unsupported type' do
+        before do
+          get :new, params: { id: user.id, type: :totp }
+        end
+
+        it 'shows an error' do
+          expect(response).to have_http_status(:bad_request)
         end
       end
 

@@ -31,10 +31,8 @@ lv:
       color_theme: "Color theme"
       color_theme_custom: "(Custom)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Link font"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Header background"
         header-item-bg-hover-color: "Header background on hover"
         header-item-font-color: "Header font"
@@ -53,10 +51,8 @@ lv:
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Edit color select options"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
-        content-link-color: "Font color of most of the links."
-        primary-color: "Main color."
-        primary-color-dark: "Typically a darker version of the main color used for hover effects."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
         header-item-font-color: "Font color of clickable header items."
         header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
@@ -543,10 +539,10 @@ lv:
         encoded_token: "Enterprise support token"
         active_user_count_restriction: "Maximum active users"
       grids/grid:
-        page: "Page"
-        row_count: "Number of rows"
-        column_count: "Number of columns"
-        widgets: "Widgets"
+        page: "Lapa"
+        row_count: "Rindu skaits"
+        column_count: "Kolonnu skaits"
+        widgets: "Logrīki"
       oauth_client:
         client: "Client ID"
       relation:
@@ -788,8 +784,8 @@ lv:
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         grids/grid:
-          overlaps: "overlap."
-          outside: "is outside of the grid."
+          overlaps: "pārklājas."
+          outside: "atrodas ārpus režģa."
           end_before_start: "end value needs to be larger than the start value."
         ical_token_query_assignment:
           attributes:
@@ -1926,7 +1922,7 @@ lv:
   label_latest_revision: "Latest revision"
   label_latest_revision_plural: "Latest revisions"
   label_ldap_authentication: "LDAP authentication"
-  label_less_or_equal: "<="
+  label_less_or_equal: "mazāks vai vienāds"
   label_less_than_ago: "less than days ago"
   label_list: "List"
   label_loading: "Notiek ielāde..."
@@ -2169,7 +2165,7 @@ lv:
   label_used_by: "Used by"
   label_used_by_types: "Used by types"
   label_used_in_projects: "Used in projects"
-  label_user: "User"
+  label_user: "Lietotāji"
   label_user_and_permission: "Users and permissions"
   label_user_named: "User %{name}"
   label_user_activity: "%{value}'s activity"

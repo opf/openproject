@@ -537,7 +537,7 @@ RSpec.describe CustomStylesController do
     describe "#update_colors", with_ee: %i[define_custom_style] do
       let(:params) do
         {
-          design_colors: [{ "primary-color" => "#990000" }]
+          design_colors: [{ "primary-button-color" => "#990000" }]
         }
       end
 
@@ -553,7 +553,7 @@ RSpec.describe CustomStylesController do
       end
 
       it "updates DesignColor instances" do
-        post :update_colors, params: { design_colors: [{ "primary-color" => "#110000" }] }
+        post :update_colors, params: { design_colors: [{ "primary-button-color" => "#110000" }] }
         design_colors = DesignColor.all
         expect(design_colors.size).to eq(1)
         expect(design_colors.first.hexcode).to eq("#110000")
@@ -562,7 +562,7 @@ RSpec.describe CustomStylesController do
 
       it "deletes DesignColor instances for each param" do
         expect(DesignColor.count).to eq(1)
-        post :update_colors, params: { design_colors: [{ "primary-color" => "" }] }
+        post :update_colors, params: { design_colors: [{ "primary-button-color" => "" }] }
         expect(DesignColor.count).to eq(0)
         expect(response).to redirect_to action: :show
       end

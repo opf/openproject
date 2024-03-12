@@ -62,8 +62,6 @@ fi
 # And we can use it for backend precompilation
 ${CLI} config:set EXECJS_RUNTIME="Node"
 
-rake_commands="db:migrate db:seed"
-
 # set rails_cache_store
 memcached_servers="$(${CLI} config:get MEMCACHED_SERVERS || echo "")"
 if [ -z "$memcached_servers" ]; then
@@ -104,8 +102,9 @@ fi
 # Allow other tasks to run before the environment is loaded
 ${CLI} run rake "packager:before_postinstall"
 
-# Use the OpenProject internal setup in one environment task
-${CLI} run rake "${rake_commands} packager:postinstall"
+# Use the OpenProject internal setup
+${CLI} run rake "db:migrate"
+${CLI} run rake "db:seed packager:postinstall"
 
 # For some reason RHEL8 creates files with chmod 0600
 find "${APP_HOME}/public" -type f -exec chmod 0644 {} \;

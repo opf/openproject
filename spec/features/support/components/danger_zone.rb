@@ -48,7 +48,7 @@ class DangerZone
 
   def danger_button
     page.within container_selector do
-      find('button.-highlight')
+      find('button.-primary')
     end
   end
 

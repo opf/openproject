@@ -33,16 +33,16 @@ module OpenProject::CustomStyles
     OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME = 'OpenProject'.freeze
 
     DEPRECATED_ALTERNATIVE_COLOR = '#35C53F'.freeze
+    DEPRECATED_PRIMARY_COLOR = '#1A67A3'.freeze
+    DEPRECATED_PRIMARY_DARK_COLOR = '#175A8E'.freeze
     PRIMER_PRIMARY_BUTTON_COLOR = '#1F883D'.freeze
 
     THEMES = [
       {
         theme: OpenProject::CustomStyles::ColorThemes::DEFAULT_THEME_NAME,
         colors: {
-          'primary-color' => "#1A67A3",
-          'primary-color-dark' => "#175A8E",
-          'alternative-color' => PRIMER_PRIMARY_BUTTON_COLOR,
-          'content-link-color' => "#175A8E",
+          'primary-button-color' => PRIMER_PRIMARY_BUTTON_COLOR,
+          'accent-color' => "#175A8E",
           'header-bg-color' => "#1A67A3",
           'header-item-bg-hover-color' => "#175A8E",
           'header-item-font-color' => "#FFFFFF",
@@ -60,10 +60,8 @@ module OpenProject::CustomStyles
       {
         theme: 'OpenProject Light',
         colors: {
-          'primary-color' => "#1A67A3",
-          'primary-color-dark' => "#175A8E",
-          'alternative-color' => PRIMER_PRIMARY_BUTTON_COLOR,
-          'content-link-color' => "#175A8E",
+          'primary-button-color' => PRIMER_PRIMARY_BUTTON_COLOR,
+          'accent-color' => "#175A8E",
           'header-bg-color' => "#FAFAFA",
           'header-item-bg-hover-color' => "#E1E1E1",
           'header-item-font-color' => "#313131",
@@ -82,10 +80,8 @@ module OpenProject::CustomStyles
       {
         theme: 'OpenProject Dark',
         colors: {
-          'primary-color' => "#3270DB",
-          'primary-color-dark' => "#163473",
-          'alternative-color' => PRIMER_PRIMARY_BUTTON_COLOR,
-          'content-link-color' => "#275BB5",
+          'primary-button-color' => PRIMER_PRIMARY_BUTTON_COLOR,
+          'accent-color' => "#275BB5",
           'header-bg-color' => "#05002C",
           'header-item-bg-hover-color' => "#163473",
           'header-item-font-color' => "#FFFFFF",

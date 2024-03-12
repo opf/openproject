@@ -42,7 +42,7 @@ class Widget::Controls::Delete < Widget::Controls
       opt1 = link_to I18n.t(:button_delete),
                      url_for(url_opts),
                      method: :delete,
-                     class: 'button -highlight icon-context icon-delete'
+                     class: 'button -primary icon-context icon-delete'
       opt2 = link_to I18n.t(:button_cancel),
                      '#',
                      id: 'query-icon-delete-cancel',
