@@ -22,6 +22,7 @@ The release contains various new features and improvements:
 - [Advanced features for custom project lists](#advanced-features-for-custom-project-lists)
 - [Advanced features for the Meetings module](#advanced-features-for-the-meetings-module)
 - [Virus scanning functionality with ClamAV](#virus-scanning-functionality-with-clamav-enterprise-add-on)
+- [Intermediate loading modal during the OAuth nudge](#intermediate-loading-modal-during-the-oauth-nudge)
 - [PDF Export: Lists in table cells are supported](#pdf-export-lists-in-table-cells-are-supported)
 - [WebAuthn/FIDO/U2F is added as a second factor](#webauthnfidou2f-is-added-as-a-second-factor)
 - [More languages added to the default available set](#more-languages-added-to-the-default-available-set)
@@ -74,6 +75,14 @@ Stay tuned: Further advanced features for our Meetings module are planned for up
 Another important step towards data security: With OpenProject 13.4, users' uploaded files can be scanned for viruses, using the ClamAV antivirus engine. To do so, a new attachment menu item is created with Antivirus settings. Read more about virus scanning using ClamAV in our [system admin guide](https://www.openproject.org/docs/system-admin-guide/attachments/virus-scanning/#virus-scanning).
 
 ![OpenProject's admin settings for virus scanning with ClamAV](openproject_system_settings_virus_scanning.png)
+
+### Intermediate loading modal during the OAuth nudge
+
+Admins are now shown an intermediate loading modal during the OAuth nudge follow when the redirect to the storage provider takes time.
+
+![Intermediate loading modal during the OAuth nudge](openproject-13-4-intermediate-modal-nudging.jpg)
+
+Accessibility functionality: Convey to screenreaders when OAuth login has started, while it's in progress, and when it's completed or failed.
 
 ### PDF Export: Lists in table cells are supported
 
