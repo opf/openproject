@@ -44,7 +44,7 @@ import {
   UserAutocompleterTemplateComponent,
 } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter-template.component';
 import { IUser } from 'core-app/core/state/principals/user.model';
-import { compareByAttribute, trackByProperty } from 'core-app/shared/helpers/angular/tracking-functions';
+import { compareByAttribute } from 'core-app/shared/helpers/angular/tracking-functions';
 
 export const usersAutocompleterSelector = 'op-user-autocompleter';
 
@@ -136,8 +136,8 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
     };
   }
 
-  protected defaultTrackByFunction():(i:number, item:{ href:unknown }) => unknown|null {
-    return trackByProperty('href');
+  protected defaultTrackByFunction():(item:{ href:unknown }) => unknown|null {
+    return (item) => item.href;
   }
 
   protected defaultCompareWithFunction():(a:unknown, b:unknown) => boolean {

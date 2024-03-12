@@ -545,7 +545,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     return this.bindLabel ? { [this.bindLabel]: searchTerm } : searchTerm;
   }
 
-  protected defaultTrackByFunction():((i:number, x:unknown) => unknown)|null {
+  protected defaultTrackByFunction():((x:unknown) => unknown)|null {
     return null;
   }
 
