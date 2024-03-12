@@ -23,7 +23,7 @@ env:
 jobs:
   build:
     if: github.repository == 'opf/openproject'
-    runs-on: [ self-hosted, aws, ubuntu22, x64, L, run-id=${{ github.run_id }} ]
+    runs-on: [ self-hosted, aws, ubuntu22, x64, L, "run-id=${{ github.run_id }}" ]
     strategy:
       matrix:
         include:
