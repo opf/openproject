@@ -1164,7 +1164,7 @@ zh-TW:
   button_continue: "繼續"
   button_copy: "複製"
   button_copy_to_clipboard: "複製到剪貼簿"
-  button_copy_link_to_clipboard: "Copy link to clipboard"
+  button_copy_link_to_clipboard: "複製到剪貼簿"
   button_copy_and_follow: "複製並跟隨"
   button_create: "建立"
   button_create_and_continue: "建立並繼續"
@@ -2952,8 +2952,8 @@ zh-TW:
   text_journal_deleted: "%{label}已刪除 (%{old})"
   text_journal_deleted_subproject: "%{label} %{old}"
   text_journal_deleted_with_diff: "%{label}已刪除 (%{link})"
-  text_journal_file_link_added: "%{label} link to %{value} (%{storage}) added"
-  text_journal_file_link_deleted: "%{label} link to %{old} (%{storage}) removed"
+  text_journal_file_link_added: "新增%{label} ，連結：  %{value} (%{storage}) "
+  text_journal_file_link_deleted: "移除%{label} ，連結：  %{old} (%{storage}) "
   text_journal_of: "%{label} %{value}"
   text_journal_set_to: "%{label} 設定為 %{value}"
   text_journal_set_with_diff: "%{label} 設定 (%{link})"
@@ -3371,7 +3371,7 @@ zh-TW:
     response:
       unexpected: "Unexpected response received."
   you: you
-  link: link
+  link: 連結
   plugin_openproject_auth_plugins:
     name: "OpenProject Auth Plugins"
     description: "Integration of OmniAuth strategy providers for authentication in Openproject."
