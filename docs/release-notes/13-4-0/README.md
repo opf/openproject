@@ -83,7 +83,7 @@ Another important step towards data security: With OpenProject 13.4, users' uplo
 
 OpenProject version 13.4 now supports PDF exports with lists in table cells that are displayed correctly. Export a work package that contains a table with lists in it into a PDF. Here is an example of how this looks from now on:
 
-![Work package with a table in the description field and how it looks when exportet as PDF](openproject-13-4-PDF-export-table-lists.png)
+![Work package with a table in the description field and how it looks when exportet as PDF](openproject-13-4-pdf-export-table-lists.png)
 
 ### WebAuthn/FIDO/U2F is added as a second factor
 
