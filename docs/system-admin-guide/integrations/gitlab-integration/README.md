@@ -50,7 +50,7 @@ Once the user is created you need to generate an OpenProject API token for this 
 
 > Make sure you copy the generated key an securely save it, as you will not be able to retrieve it later. 
 
-You can then configure the necessary webhook in [GitLab](#/gitlab).
+You can then configure the necessary webhook in [GitLab](#gitlab).
 
 Finally you will need to activate the GitLabmodule under [Project settings](../../../user-guide/projects/project-settings/modules/) so that all information pulling through from GitLab will be shown in the work packages.
 
