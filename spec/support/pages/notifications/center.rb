@@ -143,15 +143,15 @@ module Pages
       end
 
       def expect_no_toaster
-        expect(page).to have_no_css('.op-toast.-info', wait: 10)
+        expect(page).to have_no_css('.op-toast.-notification', wait: 10)
       end
 
       def expect_toast
-        expect(page).to have_css('.op-toast.-info', wait: 10)
+        expect(page).to have_css('.op-toast.-notification', wait: 10)
       end
 
       def update_via_toaster
-        page.find('.op-toast.-info a', wait: 10).click
+        page.find('.op-toast.-notification a', wait: 10).click
       end
     end
   end
