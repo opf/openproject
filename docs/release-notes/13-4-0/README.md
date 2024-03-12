@@ -34,12 +34,12 @@ With this integration, you can manage GitLab's units of work (merge requests and
 
 <div class="blog-box-info">	
 
-**Already using the user-generated GitLab plugin?** With OpenProject 13.4, the existing plugin will be replaced by the new integration. We recommend removing the plugin module folder and bundler references before upgrading to openproject. Your historical dataset will remain unaffected within OpenProject as there were no changes to the data model.
+**Already using the user-generated GitLab plugin?** With OpenProject 13.4, the existing plugin will be replaced by the new integration. We recommend removing the plugin module folder and bundler references before upgrading to OpenProject. Your historical dataset will remain unaffected within OpenProject as there were no changes to the data model.
 
 Before upgrading, please do the following:
 
-1. Remove traces of the gitlab integration in your **Gemfile.lock** and **Gemfile.modules** See [btey/openproject-gitlab-integration#configuration](https://github.com/btey/openproject-gitlab-integration?tab=readme-ov-file#configuration)
-2. Remove the module code traces of the gitlab integration. `rm -rf /path/to/openproject/modules/gitlab_integration` 
+1. Remove traces of the GitLab integration in your **Gemfile.lock** and **Gemfile.modules**. See [btey/openproject-gitlab-integration#configuration](https://github.com/btey/openproject-gitlab-integration?tab=readme-ov-file#configuration)
+2. Remove the module code traces of the GitLab integration. `rm -rf /path/to/openproject/modules/gitlab_integration` 
 
 </div>
 
@@ -65,7 +65,7 @@ And finally, the .ics file now also contains information about the (dynamic) mee
 
 <div class="blog-box-info">
 
-Stay tuned: Further advanced features for our Meeting module are planned for upcoming releases – take a look at [this EPIC](https://community.openproject.org/projects/openproject/work_packages/52820/activity?query_id=4929) for detailed information.
+Stay tuned: Further advanced features for our Meetings module are planned for upcoming releases – take a look at [this EPIC](https://community.openproject.org/projects/openproject/work_packages/52820/activity?query_id=4929) for detailed information.
 
 </div>
 
@@ -83,7 +83,7 @@ OpenProject version 13.4 now supports PDF exports with lists in table cells that
 
 ### WebAuthn/FIDO/U2F is added as a second factor
 
-Two-factor authentication (2FA) is a key factor in data security. With OpenProjet 13.4, OpenProject offers a new method as a second fector. You can now use hardware tokens such as Yubikeys, browser or password manager passkeys that use the WebAuthn/FIDO/U2F standards.
+Two-factor authentication (2FA) is a key factor in data security. With OpenProject 13.4, OpenProject offers a new method as a second factor. You can now use hardware tokens such as Yubikeys, browser or password manager passkeys that use the WebAuthn/FIDO/U2F standards.
 
 ### More languages added to the default available set
 
@@ -133,7 +133,7 @@ A very special thank you goes to our sponsors for features and improvements:
 - BMI for sponsoring features on progress reporting and Gantt charts
 - Deutsche Bahn for sponsoring the OneDrive/SharePoint integration
 
-Another big thanks goes to our Community members for reporting bugs and helping us identifying and providing fixes. Special thanks for reporting and finding bugs go to Andreas H., Diego Liberman, Andreas G, Mario Zeppin, Arved Kampe, and Richard Richter.
+Another big thanks goes to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Andreas H., Diego Liberman, Andreas G, Mario Zeppin, Arved Kampe, and Richard Richter.
 
 We are always thankful for our great [Community](https://www.openproject.org/blog/community-instance/). If you are thinking about contributing to OpenProject yourself, we would like to encourage you to do so! 
 
