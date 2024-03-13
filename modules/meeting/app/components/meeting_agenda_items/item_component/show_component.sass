@@ -1,23 +1,23 @@
 @import 'helpers'
 
-$meeting-agenda-item--author-width: 300px
+$meeting-agenda-item--responsible-width: 300px
 
 .op-meeting-agenda-item
   display: grid
-  grid-template-columns: 20px auto 1fr fit-content($meeting-agenda-item--author-width) fit-content(40px)
-  grid-template-areas: "drag-handle content duration author actions" ". notes notes notes notes"
+  grid-template-columns: 20px auto 1fr fit-content($meeting-agenda-item--responsible-width) fit-content(40px)
+  grid-template-areas: "drag-handle content duration responsible actions" ". notes notes notes notes"
 
   &--drag-handle,
   &--duration,
   &--content,
-  &--author
+  &--responsible
     align-self: center
 
   &--actions
     justify-self: end
 
-  &--author
-    max-width: $meeting-agenda-item--author-width
+  &--responsbile
+    max-width: $meeting-agenda-item--responsible-width
     justify-self: end
 
   &--duration
@@ -28,7 +28,7 @@ $meeting-agenda-item--author-width: 300px
 
   @media screen and (max-width: $breakpoint-lg)
     grid-template-columns: 20px auto 1fr 50px
-    grid-template-areas: "drag-handle content content actions" ". author author duration" ". notes notes notes"
+    grid-template-areas: "drag-handle content content actions" ". responsible responsible duration" ". notes notes notes"
 
     &--author
       justify-self: stretch

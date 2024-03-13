@@ -26,21 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module MeetingAgendaItems
-  class BaseContract < ::ModelContract
-    include ModifiableItem
+class MeetingAgendaItem::Responsible < ApplicationForm
+  form do |f|
+    f.user_autocompleter(
+      name: :responsible_id,
+      label: I18n.t("attributes.responsible"),
+      visually_hide_label: true,
+      autocomplete_options: {
+        url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
+        filters: [{ name: "type", operator: "=", values: %w[User Group] },
+                  { name: "member", operator: "=", values: [@builder.object.meeting.project_id] },
+                  { name: "status", operator: "=", values: [Principal.statuses[:active], Principal.statuses[:invited]] }],
+        searchKey: "any_name_attribute",
+        multiple: false,
+        focusDirectly: false,
+        appendTo: "body",
+        disabled: @disabled
+      }
+    )
+  end
 
-    def self.model
-      MeetingAgendaItem
-    end
-
-    attribute :meeting
-    attribute :work_package
-
-    attribute :position
-    attribute :title
-    attribute :duration_in_minutes
-    attribute :notes
-    attribute :responsible
+  def initialize(disabled: false)
+    @disabled = disabled
   end
 end
