@@ -40,7 +40,7 @@ With this integration, you can manage GitLab's units of work (merge requests and
 Before upgrading, please do the following:
 
 1. Remove traces of the GitLab integration in your **Gemfile.lock** and **Gemfile.modules**. See [btey/openproject-gitlab-integration#configuration](https://github.com/btey/openproject-gitlab-integration?tab=readme-ov-file#configuration)
-2. Remove the module code traces of the GitLab integration. `rm -rf /path/to/openproject/modules/gitlab_integration` 
+2. Remove the module code traces of the GitLab integration by running this command: `rm -rf /path/to/openproject/modules/gitlab_integration` 
 
 </div>
 
