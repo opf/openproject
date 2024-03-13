@@ -40,10 +40,10 @@ module Admin::Settings
     before_action :find_custom_option, only: :delete_option
 
     def default_breadcrumb
-      if action_name == 'index'
-        t('label_project_attribute_plural')
+      if action_name == "index"
+        t("label_project_attribute_plural")
       else
-        ActionController::Base.helpers.link_to(t('label_project_attribute_plural'), admin_settings_project_custom_fields_path)
+        ActionController::Base.helpers.link_to(t("label_project_attribute_plural"), admin_settings_project_custom_fields_path)
       end
     end
 
@@ -70,36 +70,29 @@ module Admin::Settings
     def edit; end
 
     def move
-      # prototyopical implementation
-      # needs refactoring via update service
-      @custom_field.move_to = params[:move_to]&.to_sym
+      call = CustomFields::UpdateService.new(user: current_user, model: @custom_field).call(
+        move_to: params[:move_to]&.to_sym
+      )
 
-      update_sections_via_turbo_stream(project_custom_field_sections: @project_custom_field_sections)
+      if call.success?
+        update_sections_via_turbo_stream(project_custom_field_sections: @project_custom_field_sections)
+      else
+        # TODO: handle error
+      end
 
       respond_with_turbo_streams
     end
 
     def drop
-      # prototyopical implementation
-      # needs refactoring via update service
-      current_section = @custom_field.project_custom_field_section
-      current_section_id = current_section.id
-      new_section_id = params[:target_id].to_i
+      call = ::ProjectCustomFields::DropService.new(user: current_user, project_custom_field: @custom_field).call(
+        target_id: params[:target_id],
+        position: params[:position]
+      )
 
-      if current_section_id != new_section_id
-        section_changed = true
-        old_section = current_section
-        current_section = ProjectCustomFieldSection.find(params[:target_id].to_i)
-        @custom_field.remove_from_list
-        @custom_field.update(project_custom_field_section: current_section)
-      end
-
-      @custom_field.insert_at(params[:position].to_i)
-
-      update_section_via_turbo_stream(project_custom_field_section: current_section)
-
-      if section_changed
-        update_section_via_turbo_stream(project_custom_field_section: old_section)
+      if call.success?
+        drop_success_streams(call)
+      else
+        # TODO: handle error
       end
 
       respond_with_turbo_streams
@@ -125,6 +118,13 @@ module Admin::Settings
       @custom_field = ProjectCustomField.find(params[:id])
     rescue ActiveRecord::RecordNotFound
       render_404
+    end
+
+    def drop_success_streams(call)
+      update_section_via_turbo_stream(project_custom_field_section: call.result[:current_section])
+      if call.result[:section_changed]
+        update_section_via_turbo_stream(project_custom_field_section: call.result[:old_section])
+      end
     end
   end
 end
