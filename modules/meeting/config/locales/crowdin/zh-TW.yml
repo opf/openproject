@@ -30,7 +30,7 @@ zh-TW:
       meeting:
         type: "會議類型"
         location: "地點"
-        duration: "會議長度"
+        duration: "天數"
         notes: "備註"
         participants: "參加人員"
         participant:
@@ -95,9 +95,9 @@ zh-TW:
   label_start_date: "開始日期"
   meeting:
     copy:
-      title: "Copy meeting %{title}"
-      agenda: "Copy agenda"
-      agenda_text: "Copy the agenda of the old meeting"
+      title: "複製會議 %{title}"
+      agenda: "複製議程"
+      agenda_text: "複製舊會議之議程"
     email:
       open_meeting_link: "打開會議連結"
       invited:
