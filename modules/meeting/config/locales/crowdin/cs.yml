@@ -98,9 +98,9 @@ cs:
   label_start_date: "Datum zahájení"
   meeting:
     copy:
-      title: "Copy meeting %{title}"
-      agenda: "Copy agenda"
-      agenda_text: "Copy the agenda of the old meeting"
+      title: "Kopírování schůzky %{title}"
+      agenda: "Kopírovat program"
+      agenda_text: "Zkopírujte program staré schůzky"
     email:
       open_meeting_link: "Otevřít schůzku"
       invited:

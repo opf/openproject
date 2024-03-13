@@ -172,12 +172,12 @@ zh-TW:
               name: 團隊規劃
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban看板
             basic:
-              name: Basic board
+              name: 基本看板
               lists:
                 item_0:
-                  name: Wish list
+                  name: 願望清單
                 item_1:
                   name: Short list
                 item_2:
@@ -399,7 +399,7 @@ zh-TW:
             item_5:
               subject: Wrong hover color
             item_6:
-              subject: SSL certificate
+              subject: SSL 憑證
             item_7:
               subject: Set-up Staging environment
             item_8:

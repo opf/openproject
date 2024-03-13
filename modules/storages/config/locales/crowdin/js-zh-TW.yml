@@ -11,8 +11,8 @@ zh-TW:
       login_to: "Login to %{storageType}"
       no_connection: "No %{storageType} connection"
       open_storage: "Open %{storageType}"
-      select_location: "Select location"
-      choose_location: "Choose location"
+      select_location: "選擇位置"
+      choose_location: "選擇位置"
       types:
         nextcloud: "Nextcloud"
         one_drive: "OneDrive/SharePoint"
@@ -33,7 +33,7 @@ zh-TW:
         directory_not_writeable: "You do not have permission to add files to this folder."
         dragging_many_files: "The upload to %{storageType} supports only one file at once."
         dragging_folder: "The upload to %{storageType} does not support folders."
-        empty_folder: "This folder is empty."
+        empty_folder: "這個資料夾是空的。"
         empty_folder_location_hint: "Click the button below to upload the file to this location."
         file_not_selectable_location: "Selecting a file is not possible in the process of choosing a location."
         project_folder_no_access: >
@@ -48,13 +48,13 @@ zh-TW:
         empty: >
           Currently there are no linked files to this work package. Start linking files with the action below or from within %{storageType}.
         download: "下載 %{fileName}"
-        open: "Open file on storage"
-        open_location: "Open file in location"
+        open: "開啟儲存區檔案"
+        open_location: "打開文件"
         remove: "移除檔案連結"
         remove_confirmation: >
           Are you sure you want to unlink the file from this work package? Unlinking does not affect the original file and only removes the connection to this work package.
         remove_short: "移除連結"
-        select: "Select files"
+        select: "選擇檔案"
         select_all: "全選"
         selection:
           zero: "Select files to link"

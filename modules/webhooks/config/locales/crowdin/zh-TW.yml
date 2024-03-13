@@ -15,7 +15,7 @@ zh-TW:
         response_code: '回應代碼'
         response_body: '回應'
     models:
-      webhooks/outgoing_webhook: "Outgoing webhook"
+      webhooks/outgoing_webhook: "外部webhook"
   webhooks:
     singular: Webhook
     plural: Webhooks
@@ -23,7 +23,7 @@ zh-TW:
       time_entry:
         name: "Time entry"
     outgoing:
-      no_results_table: No webhooks have been defined yet.
+      no_results_table: 尚未定義任何webhooks 。
       label_add_new: 新增 Webhook
       label_edit: 編輯 Webhook
       label_event_resources: Event resources
@@ -41,7 +41,7 @@ zh-TW:
         disabled_text: '點擊編輯按鈕以啟用 Webhook。'
       deliveries:
         no_results_table: No deliveries have been made for this webhook in the past days.
-        title: 'Recent deliveries'
+        title: '最近推送記錄'
         time: 'Delivery time'
       form:
         introduction: >
