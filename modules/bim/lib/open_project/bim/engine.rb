@@ -36,6 +36,7 @@ module OpenProject::Bim
 
     register 'openproject-bim',
              author_url: 'https://www.openproject.org',
+             bundled: true,
              settings: {
                default: {}
              } do
