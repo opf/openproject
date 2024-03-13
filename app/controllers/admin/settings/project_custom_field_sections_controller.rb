@@ -31,61 +31,74 @@ module Admin::Settings
     include OpTurbo::ComponentStream
     include Admin::Settings::ProjectCustomFields::ComponentStreams
 
-    before_action :set_project_custom_field_section, only: %i[move drop]
+    before_action :set_project_custom_field_section, only: %i[update move drop destroy]
 
     def create
-      @project_custom_field_section = ProjectCustomFieldSection.new(
-        name: project_custom_field_section_params[:name],
-        position: 1 # show new sections at the top of the list, otherwise might not be visible to user
+      # show new sections at the top of the list, otherwise might not be visible to user
+      call = ::ProjectCustomFieldSections::CreateService.new(user: current_user).call(
+        project_custom_field_section_params.merge(position: 1)
       )
 
-      if @project_custom_field_section.save
+      if call.success?
         update_header_via_turbo_stream # required to closed the dialog
         update_sections_via_turbo_stream(project_custom_field_sections: ProjectCustomFieldSection.all)
       else
-        update_section_dialog_body_form_via_turbo_stream(project_custom_field_section: @project_custom_field_section)
+        update_section_dialog_body_form_via_turbo_stream(project_custom_field_section: call.result)
       end
 
       respond_with_turbo_streams
     end
 
     def update
-      @project_custom_field_section = ProjectCustomFieldSection.find(params[:id])
+      call = ::ProjectCustomFieldSections::UpdateService.new(user: current_user, model: @project_custom_field_section).call(
+        project_custom_field_section_params
+      )
 
-      if @project_custom_field_section.update(project_custom_field_section_params)
-        update_section_via_turbo_stream(project_custom_field_section: @project_custom_field_section)
+      if call.success?
+        update_section_via_turbo_stream(project_custom_field_section: call.result)
       else
-        update_section_dialog_body_form_via_turbo_stream(project_custom_field_section: @project_custom_field_section)
+        update_section_dialog_body_form_via_turbo_stream(project_custom_field_section: call.result)
       end
 
       respond_with_turbo_streams
     end
 
     def destroy
-      @project_custom_field_section = ProjectCustomFieldSection.find(params[:id])
+      call = ::ProjectCustomFieldSections::DeleteService.new(user: current_user, model: @project_custom_field_section).call
 
-      if @project_custom_field_section.destroy
+      if call.success?
         update_sections_via_turbo_stream(project_custom_field_sections: ProjectCustomFieldSection.all)
+      else
+        # TODO: show error message
       end
 
       respond_with_turbo_streams
     end
 
     def move
-      @project_custom_field_section.move_to = params[:move_to]&.to_sym
+      call = ::ProjectCustomFieldSections::UpdateService.new(user: current_user, model: @project_custom_field_section).call(
+        move_to: params[:move_to]&.to_sym
+      )
 
-      if @project_custom_field_section.save
+      if call.success?
         update_sections_via_turbo_stream(project_custom_field_sections: ProjectCustomFieldSection.all)
+      else
+        # TODO: show error message
       end
 
       respond_with_turbo_streams
     end
 
     def drop
-      @project_custom_field_section.insert_at(params[:position].to_i)
+      call = ::ProjectCustomFieldSections::UpdateService.new(user: current_user, model: @project_custom_field_section).call(
+        position: params[:position].to_i
+      )
 
-      update_sections_via_turbo_stream(project_custom_field_sections: ProjectCustomFieldSection.all)
-
+      if call.success?
+        update_sections_via_turbo_stream(project_custom_field_sections: ProjectCustomFieldSection.all)
+      else
+        # TODO: show error message
+      end
       respond_with_turbo_streams
     end
 
