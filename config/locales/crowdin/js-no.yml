@@ -348,11 +348,11 @@
           learn_about: "Lær mer om de nye funksjonene"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_3":
+          "13_4":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                Denne versjonen inneholder ulike nye funksjoner og forbedringer: <br> <ul class="%{list_styling_class}"> <li>Filtrer og lagre egendefinerte prosjektlister.</li> <li>Separat Gantt-diagram-modul med nye standardvisninger.</li> <li>Automatisk administrerte prosjektmapper for OneDrive/SharePoint integrasjon.</li> <li>Vis antall "Delte brukere" i knappen Deling og vis dem i listen over arbeidspakker.</li> <li>Forbedrede beregninger og oppdateringer for fremdriftsrapportering for arbeidspakkehierarkier.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
     ical_sharing_modal:
       title: "Abonner på kalender"
       inital_setup_error_message: "En feil oppstod under henting av data."

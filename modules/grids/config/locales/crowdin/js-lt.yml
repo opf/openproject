@@ -8,6 +8,7 @@ lt:
         text: "Kai kurie valdikliai, pavyzdžiui darbo paketų grafo valdiklis, galimi tik Enterprise versijoje."
         link: 'Enterprise versija.'
       widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
         custom_text:
           title: 'Pritaikytas tekstas'
         documents:

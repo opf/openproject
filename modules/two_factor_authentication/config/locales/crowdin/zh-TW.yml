@@ -88,8 +88,8 @@ zh-TW:
         If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
         Use the following button to generate a new set of backup codes.
       generate:
-        title: Generate backup codes
-        keep_safe_as_password: "Important! Treat these codes as passwords."
+        title: 產生備用驗證碼
+        keep_safe_as_password: "請把這些值視為密碼一樣重要!"
         keep_safe_warning: "Either save them in your password manager, or print this page and put in a safe place."
         regenerate_warning: "Warning: If you have created backup codes before, they will be invalidated and will no longer work."
     devices:

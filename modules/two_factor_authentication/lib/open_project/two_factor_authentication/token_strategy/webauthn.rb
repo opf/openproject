@@ -3,14 +3,13 @@ require 'webauthn'
 module OpenProject::TwoFactorAuthentication
   module TokenStrategy
     class Webauthn < Base
-      def verify(webauthn_credential, webauthn_challenge:)
-        credential = WebAuthn::Credential.from_get(JSON.parse(webauthn_credential))
-
+      def verify(webauthn_credential, webauthn_challenge:, webauthn_relying_party:)
         # This will raise WebAuthn::Error
-        credential.verify(
+        credential = webauthn_relying_party.verify_authentication(
+          webauthn_credential,
           webauthn_challenge,
-          public_key: device.webauthn_public_key,
-          sign_count: device.webauthn_sign_count
+          sign_count: device.webauthn_sign_count,
+          public_key: device.webauthn_public_key
         )
 
         device.update!(webauthn_sign_count: credential.sign_count)
