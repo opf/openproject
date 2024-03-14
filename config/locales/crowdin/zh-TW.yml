@@ -2258,7 +2258,7 @@ zh-TW:
         watched: "監看"
         assigned: "指派"
         responsible: "負責人"
-        mentioned: "提醒"
+        mentioned: "被提及"
         shared: "共享"
         subscribed: "所有"
         prefix: "因為通知設定而收到：%{reason}"
@@ -2877,7 +2877,7 @@ zh-TW:
     plain: "純文字"
   status_active: "啟用"
   status_archived: "已封存"
-  status_blocked: "blocked"
+  status_blocked: "已封鎖"
   status_invited: 已邀請
   status_locked: 已鎖定
   status_registered: 已註冊
@@ -3052,14 +3052,14 @@ zh-TW:
     assign_random_password: "指定亂數密碼 (通過電子郵件寄送給使用者)"
     blocked: "暫時鎖定"
     blocked_num_failed_logins:
-      other: "臨時鎖定 (%{count} 登錄嘗試失敗)"
+      other: "暫時鎖定 (%{count} 登錄失敗)"
     confirm_status_change: "您將更改 \"%{name}\" 的狀態。是否確實要繼續？"
     deleted: "刪除使用者"
     error_status_change_failed: "由於以下錯誤, 更改使用者狀態失敗: %{errors}"
     invite: 透過電子郵件邀請使用者
     invited: 已邀請
-    lock: "永久鎖定"
-    locked: "永久鎖定"
+    lock: "按此停用"
+    locked: "停用"
     no_login: "此使用者通過登錄密碼進行身份驗證。由於已禁用, 因此無法登錄。"
     password_change_unsupported: 不支援更改密碼。
     registered: "已註冊"
@@ -3067,8 +3067,8 @@ zh-TW:
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     status_change: "狀態變更"
     text_change_disabled_for_provider_login: "該名稱由賬戶提供者設定，因此無法更改。"
-    unlock: "解除鎖定"
-    unlock_and_reset_failed_logins: "解除鎖定並重置失敗的登錄"
+    unlock: "按此啟用"
+    unlock_and_reset_failed_logins: "啟用並清除登入紀錄"
   version_status_closed: "已關閉"
   version_status_locked: "已鎖定"
   version_status_open: "開啟"

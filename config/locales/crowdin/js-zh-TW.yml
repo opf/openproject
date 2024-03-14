@@ -77,7 +77,7 @@ zh-TW:
     button_copy_to_other_project: "複製到其他專案"
     button_custom-fields: "自訂欄位"
     button_delete: "删除"
-    button_delete_watcher: "刪除關注者"
+    button_delete_watcher: "刪除監看者"
     button_details_view: "詳細檢視"
     button_duplicate: "複本"
     button_edit: "編輯"
@@ -351,7 +351,7 @@ zh-TW:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
     ical_sharing_modal:
       title: "Subscribe to calendar"
       inital_setup_error_message: "An error occured while fetching data."
@@ -484,7 +484,7 @@ zh-TW:
     label_save_as: "保存為"
     label_search_columns: "Search a column"
     label_select_project: "選擇專案"
-    label_select_watcher: "選擇一位關注者"
+    label_select_watcher: "選擇監看者"
     label_selected_filter_list: "所選的篩選條件"
     label_show_attributes: "顯示所有屬性"
     label_show_in_menu: "在選單中顯示版面"
@@ -519,8 +519,8 @@ zh-TW:
     label_work_package_plural: "工作項目"
     label_watch: "監看"
     label_watch_work_package: "關注工作項目"
-    label_watcher_added_successfully: "已成功新增關注者！"
-    label_watcher_deleted_successfully: "已成功刪除關注者！"
+    label_watcher_added_successfully: "已成功新增監看者！"
+    label_watcher_deleted_successfully: "已成功刪除監看者！"
     label_work_package_details_you_are_here: "You are on the %{tab} tab for %{type} %{subject}."
     label_work_package_context_menu: "Work package context menu"
     label_unwatch: "取消監看"
@@ -538,7 +538,7 @@ zh-TW:
     label_add_attachments: "附加檔案"
     label_formattable_attachment_hint: "藉由拖放或從剪貼簿貼上至此欄位來附加和連結檔案。"
     label_remove_file: "刪除 %{fileName}"
-    label_remove_watcher: "刪除關注者 %{name}"
+    label_remove_watcher: "刪除監看者 %{name}"
     label_remove_all_files: 刪除所有檔案
     label_add_description: "添加 %{file} 的說明"
     label_upload_notification: "上傳檔案中..."
@@ -596,8 +596,8 @@ zh-TW:
       title: "通知"
       no_unread: "無未讀通知"
       reasons:
-        mentioned: "被標記"
-        watched: "關注者"
+        mentioned: "被提及"
+        watched: "監看者"
         assigned: "執行者"
         responsible: "負責人"
         created: "已建立"
@@ -645,10 +645,10 @@ zh-TW:
       menu:
         accountable: "負責人"
         by_project: "未讀(依專案)"
-        by_reason: "Reason"
+        by_reason: "原由"
         inbox: "收件匣"
         mentioned: "被標記"
-        watched: "關注者\n"
+        watched: "監看者\n"
         date_alert: "日期提醒"
         shared: "共享"
       settings:
@@ -669,17 +669,17 @@ zh-TW:
               P7D: 每週
         reasons:
           mentioned:
-            title: "被標記"
-            description: "Receive a notification every time someone mentions me anywhere"
+            title: "被提及"
+            description: "每當有人提及我時都收到通知"
           assignee: "執行者"
           responsible: "負責人"
           shared: "共享"
-          watched: "關注者\n"
+          watched: "監看者\n"
           work_package_commented: "有新評論"
           work_package_created: "新增工作項目"
-          work_package_processed: "所有狀態改變"
-          work_package_prioritized: "優先順序已變更"
-          work_package_scheduled: "所有日期變更"
+          work_package_processed: "狀態改變(所有)"
+          work_package_prioritized: "更改優先順序"
+          work_package_scheduled: "日期變更(所有)"
         global:
           immediately:
             title: "參與中"
@@ -689,7 +689,7 @@ zh-TW:
             description: "所有項目活動的額外通知。"
           date_alerts:
             title: "日期提醒"
-            description: "當進行中工作項目（例如作為執行者、負責人或觀察者）的重要日期臨近時，自動發出通知。"
+            description: "當「執行者、負責人或監看者」進行中的工作項目，其重要日期臨近時，自動發出通知。"
             teaser_text: "With date alerts, you will be notified of upcoming start or finish dates so that you never miss or forget an important deadline."
           overdue: 逾期
         project_specific:
@@ -788,12 +788,12 @@ zh-TW:
     two_factor_authentication:
       label_two_factor_authentication: "雙重身分驗證"
     watchers:
-      label_loading: 正在載入關注者...
-      label_error_loading: 而發生錯誤裝載的觀察家
-      label_search_watchers: 搜尋關注者
+      label_loading: 正在載入監看者...
+      label_error_loading: 載入監看者時發生錯誤
+      label_search_watchers: 搜尋監看者
       label_add: 新增監看者
       label_discard: 放棄選擇
-      typeahead_placeholder: 尋找可能的觀察者
+      typeahead_placeholder: 尋找可能的監看者
     relation_labels:
       parent: "上層目錄："
       children: "子項目"
