@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/dashboard'
+require_relative "../support/pages/dashboard"
 
-RSpec.describe 'Project details widget on dashboard', :js do
-  let(:system_version) { create(:version, sharing: 'system') }
+RSpec.describe "Project details widget on dashboard", :js do
+  let(:system_version) { create(:version, sharing: "system") }
 
   let!(:project) do
     create(:project, members: { other_user => role })
@@ -58,13 +58,13 @@ RSpec.describe 'Project details widget on dashboard', :js do
   let(:editing_user) do
     create(:user,
            member_with_permissions: { project => editing_permissions },
-           firstname: 'Cool',
-           lastname: 'Guy')
+           firstname: "Cool",
+           lastname: "Guy")
   end
   let(:other_user) do
     create(:user,
-           firstname: 'Other',
-           lastname: 'User')
+           firstname: "Other",
+           lastname: "User")
   end
 
   let(:dashboard_page) do
@@ -75,7 +75,7 @@ RSpec.describe 'Project details widget on dashboard', :js do
     dashboard_page.visit!
     dashboard_page.add_widget(1, 1, :within, "Project details")
 
-    dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+    dashboard_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
   end
 
   before do
@@ -83,19 +83,19 @@ RSpec.describe 'Project details widget on dashboard', :js do
     add_project_details_widget
   end
 
-  context 'without editing permissions' do
+  context "without editing permissions" do
     let(:current_user) { read_only_user }
 
-    it 'displays the deprecated message' do
+    it "displays the deprecated message" do
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
-      details_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+      details_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
       within(details_widget.area) do
         expect(page)
           .to have_content("Project details have now moved to a column on the right edge of this page.")
         expect(page).to have_content(
           <<~TEXT.strip
-            Starting with version 13.4, project attributes can be grouped \
+            Starting with version 13.5, project attributes can be grouped \
             in sections and enabled and disabled at a project level.
           TEXT
         )
@@ -109,19 +109,19 @@ RSpec.describe 'Project details widget on dashboard', :js do
     end
   end
 
-  context 'with editing permissions' do
+  context "with editing permissions" do
     let(:current_user) { editing_user }
 
-    it 'displays the deprecated message' do
+    it "displays the deprecated message" do
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
-      details_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+      details_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
       within(details_widget.area) do
         expect(page)
           .to have_content("Project details have now moved to a column on the right edge of this page.")
         expect(page).to have_content(
           <<~TEXT.strip
-            Starting with version 13.4, project attributes can be grouped \
+            Starting with version 13.5, project attributes can be grouped \
             in sections and enabled and disabled at a project level.
           TEXT
         )
@@ -135,17 +135,17 @@ RSpec.describe 'Project details widget on dashboard', :js do
     end
   end
 
-  context 'when project has Activity module enabled' do
+  context "when project has Activity module enabled" do
     let(:current_user) { read_only_user }
 
     it 'has a "Project activity" entry in More menu linking to the project activity page' do
-      details_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+      details_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
-      details_widget.expect_menu_item('Project details activity')
+      details_widget.expect_menu_item("Project details activity")
 
-      details_widget.click_menu_item('Project details activity')
+      details_widget.click_menu_item("Project details activity")
       expect(page).to have_current_path(project_activity_index_path(project), ignore_query: true)
-      expect(page).to have_checked_field(id: 'event_types_project_attributes')
+      expect(page).to have_checked_field(id: "event_types_project_attributes")
     end
   end
 end
