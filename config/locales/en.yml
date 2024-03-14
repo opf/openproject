@@ -431,6 +431,7 @@ en:
       no_results_content_text: Add a new status
 
   themes:
+    dark: "Dark"
     light: "Light"
     light_high_contrast: "Light high contrast"
 

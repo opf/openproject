@@ -279,8 +279,9 @@ module ApplicationHelper
 
   def theme_options_for_select
     [
-      [t('themes.light'), 'light'],
-      [t('themes.light_high_contrast'), 'light_high_contrast']
+      [t("themes.light"), "light"],
+      [t("themes.light_high_contrast"), "light_high_contrast"],
+      [t("themes.dark"), "dark"]
     ]
   end
 
