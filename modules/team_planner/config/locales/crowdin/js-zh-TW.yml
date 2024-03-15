@@ -12,6 +12,8 @@ zh-TW:
       remove_assignee: 'Remove assignee'
       two_weeks: '兩週'
       one_week: '1週'
+      four_weeks: '四周'
+      eight_weeks: '八週'
       work_week: '工作週'
       today: '今日'
       drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
