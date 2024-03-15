@@ -31,7 +31,7 @@ zh-CN:
         确定要删除此规则吗？此操作无法撤消。
       draggable_hint: |
         将图片或附件拖到编辑区内即可添加。鼠标在关闭的编辑区上停留将打开这个编辑区。
-      quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
+      quarantined_hint: "该文件由于发现了病毒已被隔离。该文件不可下载。"
     autocomplete_ng_select:
       add_tag: "添加项目"
       clear_all: "全部清除"
@@ -351,7 +351,7 @@ zh-CN:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                该版本包含各种新功能和改进： <br> <ul class="%{list_styling_class}"> <li>GitLab 集成（最初由社区贡献者开发）</li> <li>自定义项目列表的高级功能</li> <li>会议模块的高级功能</li> <li>在激活存储时提示管理员通过 OAuth 流程</li> <li>使用 ClamAV（企业插件）的病毒扫描功能</li> <li>PDF 导出：支持表格单元格中的列表</li> <li>添加 WebAuthn/FIDO/U2F 作为第二因子</li> <li>在默认可用语言集中添加了更多语言</li> </ul>
     ical_sharing_modal:
       title: "订阅日历"
       inital_setup_error_message: "获取数据时发生错误。"
@@ -364,7 +364,7 @@ zh-CN:
       ical_generation_error_text: "生成日历 URL 时出错。"
       success_message: 'URL“%{name}”已成功复制到剪贴板。请将其粘贴到日历客户端中以完成订阅。'
     label_activate: "激活"
-    label_assignee: "受理人"
+    label_assignee: "指定"
     label_add_column_after: "之后添加列"
     label_add_column_before: "在之前添加列"
     label_add_columns: "添加列"
@@ -443,7 +443,7 @@ zh-CN:
     label_less_than_ago: "小于数日前"
     label_loading: "正在加载..."
     label_mail_notification: "电子邮件通知"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "管理和重新排序列"
     label_me: "我"
     label_meeting_agenda: "议程"
     label_meeting_minutes: "会议记录"
@@ -482,7 +482,7 @@ zh-CN:
     label_report: "报告"
     label_repository_plural: "存储库"
     label_save_as: "另存为"
-    label_search_columns: "Search a column"
+    label_search_columns: "搜索列"
     label_select_project: "选择项目"
     label_select_watcher: "选择一个关注者..."
     label_selected_filter_list: "已选筛选器"
@@ -999,7 +999,7 @@ zh-CN:
         all_open: "全部打开"
         summary: "摘要"
         shared_with_users: "与用户共享"
-        shared_with_me: "Shared with me"
+        shared_with_me: "与我分享"
       jump_marks:
         pagination: "跳转到表格分页"
         label_pagination: "单击此处跳过工作包表格并转到分页"

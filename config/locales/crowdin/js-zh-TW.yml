@@ -384,7 +384,7 @@ zh-TW:
     label_avatar: "頭像分身"
     label_between: "介於"
     label_board: "面板"
-    label_board_locked: "鎖定"
+    label_board_locked: "停用"
     label_board_plural: "看板"
     label_board_sticky: "附著"
     label_change: "變更"
