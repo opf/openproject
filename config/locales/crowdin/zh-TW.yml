@@ -115,7 +115,7 @@ zh-TW:
   ldap_auth_sources:
     ldap_error: "LDAP 錯誤: %{error_message}"
     ldap_auth_failed: "無法在 LDAP 伺服器上驗證"
-    sync_failed: "Failed to synchronize from LDAP: %{message}."
+    sync_failed: "LDAP同步失敗：%{message} 。"
     back_to_index: "Click here to go back to the list of connection."
     technical_warning_html: |
       This LDAP form requires technical knowledge of your LDAP / Active Directory setup.
@@ -310,7 +310,7 @@ zh-TW:
     menu:
       all: "全部"
       invited: "已邀請"
-      locked: "已鎖定"
+      locked: "停用"
       project_roles: "專案角色"
       wp_shares: "Work package shares"
       groups: "群組"
@@ -902,7 +902,7 @@ zh-TW:
           attributes:
             user_id:
               not_allowed_to_view: "is not allowed to view this resource."
-              locked: "已被鎖定。"
+              locked: "已停用。"
         wiki_page:
           error_conflict: "The wiki page has been updated by someone else while you were editing it."
           attributes:
@@ -1325,7 +1325,7 @@ zh-TW:
       x_hours:
         other: "%{count} 一個小時"
       x_hours_abbreviated:
-        other: "%{count} hrs"
+        other: "%{count} 小時"
       x_weeks:
         other: "%{count} weeks"
       x_months:
@@ -1671,7 +1671,7 @@ zh-TW:
   label_blocked_by: "標示禁止者"
   label_blocks: "區塊"
   label_blog: "日誌"
-  label_forums_locked: "鎖定"
+  label_forums_locked: "停用"
   label_forum_new: "新增討論區"
   label_forum_plural: "討論區"
   label_forum_sticky: "釘選"
@@ -2879,7 +2879,7 @@ zh-TW:
   status_archived: "已封存"
   status_blocked: "已封鎖"
   status_invited: 已邀請
-  status_locked: 已鎖定
+  status_locked: 已停用
   status_registered: 已註冊
   #Used in array.to_sentence.
   support:
@@ -3050,7 +3050,7 @@ zh-TW:
       此使用者通過外部身份檢查器提供者進行身份驗證, 因此 OpenProject 中沒有要更改的密碼。
     authorization_rejected: "你不被允許登入。"
     assign_random_password: "指定亂數密碼 (通過電子郵件寄送給使用者)"
-    blocked: "暫時鎖定"
+    blocked: "暫時停用"
     blocked_num_failed_logins:
       other: "暫時鎖定 (%{count} 登錄失敗)"
     confirm_status_change: "您將更改 \"%{name}\" 的狀態。是否確實要繼續？"
@@ -3070,7 +3070,7 @@ zh-TW:
     unlock: "按此啟用"
     unlock_and_reset_failed_logins: "啟用並清除登入紀錄"
   version_status_closed: "已關閉"
-  version_status_locked: "已鎖定"
+  version_status_locked: "已停用"
   version_status_open: "開啟"
   note: 注意
   note_password_login_disabled: "密碼登錄已被 %{configuration} 禁用。"
@@ -3148,9 +3148,9 @@ zh-TW:
       warning_user_limit_reached_admin: >
         Adding additional users will exceed the current limit. Please <a href="%{upgrade_url}">upgrade your plan</a> to be able to ensure external users are able to access this work package.
       warning_no_selected_user: "Please select users to share this work package with"
-      warning_locked_user: "The user %{user} is locked and cannot be shared with"
+      warning_locked_user: "使用者 %{user} 已停用，無法共享"
       user_details:
-        locked: "鎖定使用者"
+        locked: "使用者已停用"
         invited: "已傳送邀請"
         resend_invite: "重新傳送"
         invite_resent: "已重傳邀請"

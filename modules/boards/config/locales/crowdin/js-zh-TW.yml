@@ -20,7 +20,7 @@ zh-TW:
         unlock_version: '解除鎖定'
         edit_version: '編輯版本'
         show_version: '顯示版本'
-        locked: '鎖定'
+        locked: '停用'
         closed: '已關閉'
       new_board: '新增看板'
       add_list: '新增列表至看板'
