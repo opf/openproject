@@ -27,7 +27,7 @@ zh-TW:
     text_upload_instructions: |
       上傳您自己的 128 x 128 像素自定義頭像。 較大的文件將被調整大小和裁剪。
       選擇了圖像後，在上傳之前將顯示您的頭像預覽。
-    text_change_gravatar_html: '欲為您的郵件地址更改或添加Gravatar, 請轉到%{gravatar_url}。'
+    text_change_gravatar_html: '請轉到%{gravatar_url}，將您的郵件設定進去。'
     text_your_local_avatar: |
       OpenProject 允許你上傳自己定義的頭像
     text_local_avatar_over_gravatar: |

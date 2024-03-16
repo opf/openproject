@@ -51,8 +51,8 @@ cs:
       enterprise_more_info: "Poznámka: použité logo bude veřejně přístupné."
       manage_colors: "Upravit možnosti výběru barvy"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
+        primary-button-color: "Výrazná akcentní barva, která se používá pro nejdůležitější tlačítko na obrazovce."
+        accent-color: "Barva pro odkazy a další decentně zvýrazněné prvky."
         header-item-bg-hover-color: "Barva pozadí klikacích položek záhlaví při najetí myší."
         header-item-font-color: "Barva pozadí klikacích položek záhlaví."
         header-item-font-hover-color: "Barva pozadí klikacích položek záhlaví při najetí myší."
@@ -87,16 +87,16 @@ cs:
     is_active: aktuálně zobrazené
     is_inactive: v současné době nejsou zobrazeny
   antivirus_scan:
-    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
-    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
-    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
-    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
-    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    not_processed_yet_message: "Stahování je zablokováno, protože soubor ještě nebyl zkontrolován na přítomnost virů. Zkuste to prosím později."
+    quarantined_message: "V souboru '%{filename}' byl zjištěn virus. Byl umístěn do karantény a není k dispozici ke stažení."
+    deleted_message: "V souboru '%{filename}' byl zjištěn virus. Soubor byl smazán."
+    deleted_by_admin: "Soubor v karanténě '%{filename}' byl odstraněn správcem."
+    overridden_by_admin: "Karanténa pro soubor '%{filename}' byla odstraněna %{user}. Soubor je přístupný."
     quarantined_attachments:
       container: "Kontejner"
       delete: "Odstranit soubor karantény"
       title: "Přílohy v karanténě"
-      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
+      error_cannot_act_self: "Nelze provádět akce s vlastními nahranými soubory."
   attribute_help_texts:
     note_public: "Jakýkoliv text a obrázky, které přidáte do tohoto pole, jsou veřejně přístupné všem přihlášeným uživatelům!"
     text_overview: "V tomto zobrazení můžete vytvořit vlastní nápovědné texty pro zobrazení atributů. Pokud je definováno, mohou být tyto texty zobrazeny klepnutím na ikonu nápovědy vedle jejího atributu."
@@ -269,7 +269,7 @@ cs:
         placeholder: "Nový seznam projektů"
       delete_modal:
         title: "Odstranit seznam projektů"
-        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
+        text: "Tato akce neodstraní žádný projekt, který seznam obsahuje. Opravdu chcete tento seznam projektů smazat?"
     settings:
       change_identifier: Změnit identifikátor
       activities:
@@ -292,7 +292,7 @@ cs:
       storage:
         no_results_title_text: Neexistuje žádné další diskové místo využívané tímto projektem.
   lists:
-    can_be_saved_as: "The modifications can only be saved in a new list."
+    can_be_saved_as: "Úpravy lze uložit pouze v novém seznamu."
   members:
     index:
       no_results_title_text: Momentálně nejsou žádní členové součástí tohoto projektu.
@@ -918,7 +918,7 @@ cs:
               cannot_be_null: "nelze nastavit na null, protože datum zahájení a trvání je známo "
             duration:
               larger_than_dates: "je větší než interval mezi datem zahájení a datem ukončení."
-              smaller_than_dates: "je mwnší než interval mezi datem zahájení a datem ukončení."
+              smaller_than_dates: "je menší než interval mezi datem zahájení a datem ukončení."
               not_available_for_milestones: "není k dispozici pro pracovní balíčky uvedené v milnících."
               cannot_be_null: "nelze nastavit na null jako datum zahájení a datum dokončení je známé."
             parent:
@@ -2829,7 +2829,7 @@ cs:
   setting_emails_header: "Záhlaví emailů"
   setting_email_login: "Použít e-mail jako přihlášení"
   setting_enabled_scm: "Povolit SCM"
-  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
+  setting_enabled_projects_columns: "Sloupce v seznamu projektů zobrazené ve výchozím nastavení"
   setting_feeds_enabled: "Povolit kanály"
   setting_ical_enabled: "Povolit odebírání iCalendar"
   setting_feeds_limit: "Limit obsahu kanálů"
@@ -2899,20 +2899,20 @@ cs:
         Definujte seznam platných přípon souborů a/nebo mime typů pro nahrané soubory. <br/> Zadejte přípony souborů (např. <code>%{ext_example}</code>) nebo mime typy (např. ., <code>%{mime_example}</code>). <br/> Ponechte prázdné pro nahrání jakéhokoli typu souboru. Povoleno více hodnot (jeden řádek pro každou hodnotu).
     antivirus:
       title: "Antivirová kontrola"
-      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      clamav_ping_failed: "Nepodařilo se připojit k ClamAV démonu. Zkontroluj konfiguraci a zkus to znovu."
       remaining_quarantined_files_html: >
-        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+        Antivirová kontrola byla zrušena. %{file_count} zůstává v karanténě. Chcete-li si prohlédnout soubory v karanténě, navštivte tento odkaz: %{link}
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus byl úspěšně aktivován. Existuje %{file_count} , které byly nahrány dříve a stále je třeba skenovat. Tento proces byl naplánován na pozadí. Soubory zůstanou přístupné během skenování.
       upsale:
-        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+        description: "Zajistěte, aby nahrané soubory v OpenProjectu byly před zpřístupněním ostatním uživatelům zkontrolovány na přítomnost virů."
       actions:
         delete: "Smazat soubor"
         quarantine: "Umístění souboru do karantény"
         instructions_html: >
-          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+          Vyberte akci, která se má provést u souborů, u nichž byl zjištěn virus: <br/>. <ul> <li><strong>%{quarantine_option}</strong>: Umístěte soubor do karantény a zabraňte uživatelům v přístupu k němu. Správci mohou soubory v karanténě kontrolovat a odstraňovat v administraci.</li> <li><strong>%{delete_option}</strong>: Okamžité odstranění souboru.</li> </ul>
       modes:
         clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
         clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
@@ -2947,7 +2947,7 @@ cs:
     projects:
       missing_dependencies: "Projektový modul %{module} byl zkontrolován, který závisí na %{dependencies}. Tyto závislosti musíte také zkontrolovat."
       section_new_projects: "Nastavení pro nové projekty"
-      section_project_overview: "Settings for project lists"
+      section_project_overview: "Nastavení pro seznamy projektů"
     session: "Relace"
     user:
       default_preferences: "Výchozí předvolby"
@@ -3437,10 +3437,10 @@ cs:
       refresh_token_updated_failed: "Chyba při aktualizaci OAuthClientTokenu"
       oauth_client_not_found_explanation: >
         Tato chyba se objeví po aktualizaci klient_id a klient_tajného v OpenProject, ale neaktualizovali pole 'Vrátit URI' v OAuth2.
-      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present: "OAuth2 'code' nebyl nalezen v koncovém bodě 'callback' (redirect_uri)."
       oauth_code_not_present_explanation: >
         This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
-      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present: "OAuth2 'state' nebylo nalezeno v koncovém bodě 'callback' (redirect_uri)."
       oauth_state_not_present_explanation: >
         The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
       rack_oauth2:

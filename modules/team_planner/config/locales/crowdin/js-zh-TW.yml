@@ -2,7 +2,7 @@
 zh-TW:
   js:
     team_planner:
-      add_existing: '添加現有的'
+      add_existing: '增加已有的'
       add_existing_title: 'Add existing work packages'
       create_label: '團隊規劃'
       create_title: 'Create new team planner'

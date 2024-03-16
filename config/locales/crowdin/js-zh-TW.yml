@@ -193,7 +193,7 @@ zh-TW:
         custom_field: "自訂欄位"
         inactive: "未啟用"
         drag_to_activate: "從這裡拖曳欄位來啟用它們"
-        add_group: "添加屬性組"
+        add_group: "增加群組屬性"
         add_table: "新增相關工作項目表"
         edit_query: "編輯查詢"
         new_group: "新增群組"
@@ -369,7 +369,7 @@ zh-TW:
     label_add_column_before: "在前面增加一欄"
     label_add_columns: "增加欄"
     label_add_comment: "新增評論"
-    label_add_comment_title: "註解並輸入 @ 來標記其他人"
+    label_add_comment_title: "點此發表意見，可輸入「 @使用者」，系統立即發郵件通知該成員"
     label_add_row_after: "在後面增加一列"
     label_add_row_before: "在前面增加一列"
     label_add_selected_columns: "新增所選欄"
@@ -540,7 +540,7 @@ zh-TW:
     label_remove_file: "刪除 %{fileName}"
     label_remove_watcher: "刪除監看者 %{name}"
     label_remove_all_files: 刪除所有檔案
-    label_add_description: "添加 %{file} 的說明"
+    label_add_description: "增加 %{file} 的說明"
     label_upload_notification: "上傳檔案中..."
     label_work_package_upload_notification: "上傳檔案到工作項目 #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} 被 %{author} 新增"
@@ -728,7 +728,7 @@ zh-TW:
     reminders:
       settings:
         daily:
-          add_time: "添加時間"
+          add_time: "加入時間"
           enable: "啟用每日電子郵件提醒"
           explanation: "只有當未讀取通知時，您才會在指定的時間收到這些提醒。%{no_time_zone}"
           no_time_zone: "Until you configure a time zone for your account, the times will be interpreted to be in UTC."
@@ -828,7 +828,7 @@ zh-TW:
       add_existing_child: "加入現有子項目"
       remove_child: "移除子項目"
       add_new_relation: "建立新關聯"
-      add_existing_relation: "添加現有關系"
+      add_existing_relation: "增加現有關系"
       update_description: "設置或更新此關聯的說明"
       toggle_description: "切換關係描述"
       update_relation: "按一下此處以更改關聯類型"
@@ -891,7 +891,7 @@ zh-TW:
         copy: "整批複製"
         delete: "整批刪除"
       button_clear: "清除"
-      comment_added: "成功添加注釋。"
+      comment_added: "成功發表意見。"
       comment_send_failed: "發生錯誤。無法提交評論。"
       comment_updated: "注釋已成功更新。"
       confirm_edit_cancel: "是否確定取消編輯中的工作項目"
@@ -933,7 +933,7 @@ zh-TW:
         baseline_incompatible: "This filter attribute is not taken into consideration in Baseline mode."
         baseline_warning: "Baseline mode is on but some of your active filters are not included in the comparison."
       inline_create:
-        title: "點擊添加新的工作項目到此清單"
+        title: "點擊增加新工作項目到此清單"
       create:
         title: "新增工作項目"
         header: "新 %{type}"
@@ -1049,7 +1049,7 @@ zh-TW:
         configure_button: "設定工作項目"
         summary: "由工作項目和工作項目屬性列組成的表格。"
         text_inline_edit: "該表中的大多數單元格都內嵌可以編輯屬性的按鈕。"
-        text_sort_hint: "通過表格標題中的鏈接，您可以排序，分組，重新排序，刪除和添加表格列。"
+        text_sort_hint: "通過表格標題中的鏈接，您可以排序，分組，重新排序，刪除和增加表格列。"
         text_select_hint: "請使用Alt+方向鍵打開選擇框。"
       table_configuration:
         button: "設定此工作項目表"
