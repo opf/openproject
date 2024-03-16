@@ -169,7 +169,7 @@ zh-TW:
       verify_peer: "驗證SSL證書"
       verify_peer_description_html: >
         啓用對受信任鏈證書的嚴格SSL驗證。<br/> <strong>警告：</strong>取消選中此選項會禁用LDAP服務器證書的SSL驗證。這將使您的連接暴露於中間人攻擊。
-      tls_certificate_description: "如果LDAP服務器證書不在此系統的信任源中，您可以在此手動添加它。輸入PEM X509證書字符串。"
+      tls_certificate_description: "如果LDAP服務器證書不在此系統中，您可以在此手動增加它。輸入PEM X509證書字符串。"
   forums:
     show:
       no_results_title_text: 論壇上目前沒有任何貼文。
@@ -1592,7 +1592,7 @@ zh-TW:
         created: "工作項目已建立"
         assigned: "您已被指派到 %{work_package}"
         subscribed: "您訂閱了 %{work_package}"
-        mentioned: "您已在 %{work_package} 中被提醒"
+        mentioned: "您在工作項目「%{work_package}」中被提到"
         responsible: "您已對 %{work_package} 負責"
         watched: "您正在監看 %{work_package}"
     update_info_mail:
@@ -2239,7 +2239,7 @@ zh-TW:
       you_have: "你擁有"
     logo_alt_text: "商標"
     mention:
-      subject: "%{user_name} 在 #%{id} - %{subject} 提到您"
+      subject: "%{user_name} 在「 #%{id} - %{subject} 」提到您"
     notification:
       center: "顯示通知中心"
       see_in_center: "See comment in notification center"
@@ -2249,8 +2249,8 @@ zh-TW:
     work_packages:
       created_at: "%{user} 在 %{timestamp} 新增"
       login_to_see_all: "登入以查看所有通知"
-      mentioned: "您已在<b>評論中被提醒</b>"
-      mentioned_by: "%{user} 在評論裡提到您。"
+      mentioned: "您在<b>討論中被cue到</b>"
+      mentioned_by: "%{user} 發表意見時提到您。"
       more_to_see:
         other: "還有 1 個工作項目通知\n\n還有 %{count} 個工作項目通知"
       open_in_browser: "在瀏覽器中開啟"

@@ -36,7 +36,7 @@ zh-TW:
         free: '基本'
         select_board_type: '選擇您需要的看板類型'
         free_text: >
-          從空白看板開始使用，添加新的卡片和列表到這個看板
+          啟用空白看板。手動增加新卡片和列表到這個看板。
         action: '行動項看板'
         action_by_attribute: '行動項看板 (%{attribute})'
         action_text: >
