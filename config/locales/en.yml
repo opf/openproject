@@ -1644,6 +1644,7 @@ en:
     changes_retracted: "The changes were retracted."
 
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
       system_update: "OpenProject system update:"
 
