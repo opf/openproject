@@ -48,9 +48,9 @@ Before upgrading, please do the following:
 
 ### Advanced features for custom project lists
 
-With OpenProject 13.4 we are again releasing further features for custom [project lists](https://www.openproject.org/docs/user-guide/projects/project-lists/). The most important update here is that **columns can now be changed in selection and order and then saved in a new configured view** – just as you're probably used to do with a work package list.
+With OpenProject 13.4 we are again releasing further features for custom [project lists](https://www.openproject.org/docs/user-guide/projects/project-lists/). The most important update here is that you can now modify the selection and order of columns, then save them in a  newly configured view, much like how you typically manage a work package list.
 
-In addition, you will now be reminded to save changes to your project list in the form of a **Save button** on the top left toolbar. This helps users to remember to save the view and not lose their work when they leave the page.
+In addition, you will now be reminded to save changes to your project list in the form of a **Save link** in the top right corner. This helps users remember to save the view and not lose their work when they leave the page.
 
 ### Advanced features for the Meetings module
 
