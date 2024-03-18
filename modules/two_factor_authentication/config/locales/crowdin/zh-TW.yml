@@ -94,9 +94,9 @@ zh-TW:
         regenerate_warning: "Warning: If you have created backup codes before, they will be invalidated and will no longer work."
     devices:
       add_new: "Add new 2FA device"
-      register: "Register device"
+      register: "註冊裝置"
       confirm_default: "Confirm changing default device"
-      confirm_device: "Confirm device"
+      confirm_device: "確認設備"
       confirm_now: "Not confirmed, click here to activate"
       cannot_delete_default: "Cannot delete default device"
       make_default_are_you_sure: "Are you sure you want to make this 2FA device your default?"
@@ -122,8 +122,8 @@ zh-TW:
       totp:
         title: "Use your app-based authenticator"
         provisioning_uri: "Provisioning URI"
-        secret_key: "Secret key"
-        time_based: "Time based"
+        secret_key: "密鑰"
+        time_based: "基於時間"
         account: "Account name / Issuer"
         setup: |
           For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.

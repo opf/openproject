@@ -21,7 +21,7 @@
 #++
 zh-TW:
   plugin_openproject_backlogs:
-    name: "OpenProject Backlogs"
+    name: "OpenProject待辦事項"
     description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
   activerecord:
     attributes:
@@ -54,7 +54,7 @@ zh-TW:
     generating_chart: "產生圖表中"
     hours: "小時"
     impediment: "阻礙"
-    label_versions_default_fold_state: "顯示精簡版本"
+    label_versions_default_fold_state: "顯示合攏的待辦事項"
     work_package_is_closed: "視為工作項目已完成"
     label_is_done_status: "狀態 %{status_name} 表示完成"
     no_burndown_data: "沒有未完成的資料。起始和結束日期在進度中是必須的"
