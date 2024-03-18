@@ -130,13 +130,12 @@ module Pages
       find("dialog") { |d| d.find("h1", text: title) }
     end
 
-    def has_added_user?(name, visible: true, css: "tr")
-      has_text?("Added #{name} to the project") and ((not visible) or
-        has_css?(css, text: name))
+    def has_added_user?(name, group: false)
+      has_text?("Added #{name} to the project") && has_user?(name, group:)
     end
 
-    def has_added_group?(name, visible: true)
-      has_added_user? name, visible:, css: "tr.group"
+    def has_added_group?(name)
+      has_added_user? name, group: true
     end
 
     ##
@@ -263,8 +262,7 @@ module Pages
     end
 
     def select_role!(role_name)
-      select = find("select#member_role_ids")
-      select.select role_name
+      find("select#member_role_ids").select role_name
     end
 
     def expect_role(role_name, present: true)
