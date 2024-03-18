@@ -26,38 +26,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+# Disable the test adapter for the given classes
+# allowing GoodJob to handle execution and scheduling,
+# which in turn allows us to check concurrency controls etc.
+RSpec.configure do |config|
+  config.around(:example, :with_good_job) do |example|
+    original_adapter = ActiveJob::Base.queue_adapter
+    good_job_adapter = GoodJob::Adapter.new(execution_mode: :inline)
 
-RSpec.describe Settings::WorkingDaysParamsContract do
-  include_context 'ModelContract shared context'
-  shared_let(:current_user) { create(:admin) }
-  let(:setting) { Setting }
-  let(:params) { { working_days: [1] } }
-  let(:contract) do
-    described_class.new(setting, current_user, params:)
-  end
+    begin
+      classes = Array(example.metadata[:with_good_job])
+      unless classes.all? { |cls| cls <= ApplicationJob }
+        raise ArgumentError.new("Pass the ApplicationJob subclasses you want to disable the test adapter on.")
+      end
 
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+      classes.each(&:disable_test_adapter)
+      ActiveJob::Base.queue_adapter = good_job_adapter
+      example.run
 
-  context 'without working days' do
-    let(:params) { { working_days: [] } }
-
-    include_examples 'contract is invalid', base: :working_days_are_missing
-  end
-
-  context 'with an ApplyWorkingDaysChangeJob already existing',
-          with_good_job: WorkPackages::ApplyWorkingDaysChangeJob do
-    let(:params) { { working_days: [1, 2, 3] } }
-
-    before do
-      WorkPackages::ApplyWorkingDaysChangeJob
-        .set(wait: 10.minutes) # GoodJob executes inline job without wait immediately
-        .perform_later(user_id: current_user.id,
-                       previous_non_working_days: [],
-                       previous_working_days: [1, 2, 3, 4])
+    ensure
+      ActiveJob::Base.queue_adapter = original_adapter
+      classes.each { |cls| cls.enable_test_adapter(original_adapter) }
+      good_job_adapter&.shutdown
     end
-
-    include_examples 'contract is invalid', base: :previous_working_day_changes_unprocessed
   end
 end

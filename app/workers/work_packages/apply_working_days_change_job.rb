@@ -27,7 +27,12 @@
 #++
 
 class WorkPackages::ApplyWorkingDaysChangeJob < ApplicationJob
+  include JobConcurrency
   queue_with_priority :above_normal
+
+  good_job_control_concurrency_with(
+    total_limit: 1
+  )
 
   def perform(user_id:, previous_working_days:, previous_non_working_days:)
     user = User.find(user_id)
