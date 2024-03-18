@@ -37,10 +37,11 @@ module Queries
     def user_allowed_to_change
       # Check user self-saving their own queries
       # or user saving public queries
-      if model.public?
+      if model.public_was
         user_allowed_to_change_public
       else
         user_allowed_to_change_query
+        user_allowed_to_change_public if model.public?
       end
     end
 
