@@ -196,11 +196,15 @@ module ::TwoFactorAuthentication
     end
 
     def webauthn_relying_party
-      @webauthn_relying_party ||= WebAuthn::RelyingParty.new(
-        origin: "#{Setting.protocol}://#{Setting.host_name}",
-        id: Setting.host_name,
-        name: Setting.app_title
-      )
+      @webauthn_relying_party ||= begin
+        origin = "#{Setting.protocol}://#{Setting.host_name}"
+
+        WebAuthn::RelyingParty.new(
+          origin:,
+          id: URI(origin).host,
+          name: Setting.app_title
+        )
+      end
     end
 
     def logout_other_sessions
