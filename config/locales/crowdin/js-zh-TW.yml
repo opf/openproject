@@ -33,10 +33,10 @@ zh-TW:
         將圖片或附件拖曳到編輯區內即可新增。 滑鼠移到關閉的編輯區將會開啟這個編輯區。
       quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
-      add_tag: "Add item"
-      clear_all: "Clear all"
+      add_tag: "新增項目"
+      clear_all: "清空"
       loading: "讀取中..."
-      not_found: "No items found"
+      not_found: "找不到任何項目"
       type_to_search: "搜尋"
     autocomplete_select:
       placeholder:
@@ -241,7 +241,7 @@ zh-TW:
             description: "本地部署的 Enterprise edition 具有哪些優勢？"
             high_security: "Security features"
             high_security_text: "單點登錄（SAML，OpenID Connect，CAS），LDAP 群組。\n"
-            installation: "Installation support"
+            installation: "安裝說明"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
             premium_features: "企業版附加插件"
             premium_features_text: "敏捷看板、客製化主題與標誌、圖表、具備客製化動作的智慧工作流程、支援全文檢索工作項目文件及複選客製欄位。"
@@ -360,7 +360,7 @@ zh-TW:
       token_name_label: "Where will you be using this?"
       token_name_placeholder: 'Type a name, e.g. "Phone"'
       token_name_description_text: 'If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="my/access_token", target="_blank">access tokens</a> list.'
-      copy_url_label: "Copy URL"
+      copy_url_label: "複製URL"
       ical_generation_error_text: "An error occured while generating the calendar URL."
       success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
     label_activate: "啟用"
@@ -421,7 +421,7 @@ zh-TW:
     label_filename: "檔案"
     label_filesize: "檔案大小"
     label_general: "一般"
-    label_global_roles: "Global roles"
+    label_global_roles: "全域角色"
     label_greater_or_equal: ">="
     label_group: "群組"
     label_group_by: "分組依據"
@@ -656,10 +656,10 @@ zh-TW:
         title: "通知設定"
         notify_me: "通知我"
         reminders:
-          no_notification: No notification
+          no_notification: 无通知
           timeframes:
             normal:
-              PT0S: same day
+              PT0S: 當日
               P1D: 一天前
               P3D: 3 天前
               P7D: a week before
@@ -754,10 +754,10 @@ zh-TW:
         title: "電子郵件提醒"
         pause:
           label: "Temporarily pause daily email reminders"
-          first_day: "First day"
-          last_day: "Last day"
+          first_day: "第一天"
+          last_day: "最後一天"
     text_are_you_sure: "是否確定？"
-    text_data_lost: "All entered data will be lost."
+    text_data_lost: "所有資料將遺失"
     text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
@@ -968,7 +968,7 @@ zh-TW:
         description: "說明"
         date: "日期"
         percentComplete: "完成度(%)"
-        percentCompleteAlternative: "Progress"
+        percentCompleteAlternative: "進度"
         dueDate: "完成日期"
         duration: "天數"
         spentTime: "耗時"
@@ -996,7 +996,7 @@ zh-TW:
         created_by_me: "由我創建"
         assigned_to_me: "分配給我"
         recently_created: "最近創建的"
-        all_open: "所有「開啟中」工作"
+        all_open: "所有「進行中」工作"
         summary: "大綱"
         shared_with_users: "分配給成員"
         shared_with_me: "分享給我的"
@@ -1172,13 +1172,13 @@ zh-TW:
       child_work_packages:
         other: "%{count} 個子工作項目"
       hour:
-        one: "1 h"
+        one: "1 小時"
         other: "%{count} 小時"
-        zero: "0 h"
+        zero: "0 小時"
       day:
-        one: "1 day"
+        one: "1 天"
         other: "%{count} 天"
-        zero: "0 days"
+        zero: "0 天"
     zen_mode:
       button_activate: "啟動 zen 模式"
       button_deactivate: "停用 zen 模式"
@@ -1191,7 +1191,7 @@ zh-TW:
       search: "搜尋"
       title:
         all_projects: "所有專案"
-        project_and_subprojects: "和所有的子專案"
+        project_and_subprojects: "含子專案"
         search_for: "搜尋"
     views:
       card: "卡片"
@@ -1209,11 +1209,11 @@ zh-TW:
         invite_principal_to_project: "Invite %{principal} to %{project}"
       project:
         label: "專案"
-        required: "Please select a project"
+        required: "請選擇一個專案"
         lacking_permission: "Please select a different project since you lack permissions to assign users to the currently selected."
         lacking_permission_info: "You lack the permission to assign users to the project you are currently in. You need to select a different one."
         next_button: "下一個"
-        no_results: "No projects were found"
+        no_results: "找不到專案"
         no_invite_rights: "You are not allowed to invite members to this project"
       type:
         required: "Please select the type to be invited"
@@ -1232,25 +1232,25 @@ zh-TW:
         label:
           name_or_email: "Name or email address"
           name: "名稱"
-        already_member_message: "Already a member of %{project}"
-        no_results_user: "No users were found"
+        already_member_message: "已是「 %{project} 」成員"
+        no_results_user: "找不到使用者。"
         invite_user: "Invite:"
         no_results_placeholder: "No placeholders were found"
         create_new_placeholder: "Create new placeholder:"
-        no_results_group: "No groups were found"
+        no_results_group: "找不到群組。"
         next_button: "下一個"
         required:
-          user: "Please select a user"
+          user: "請選擇一個使用者"
           placeholder: "請選擇一個「虛擬暫用群組」"
-          group: "Please select a group"
+          group: "請選擇一個群組"
       role:
-        label: "Role in %{project}"
-        no_roles_found: "No roles were found"
+        label: "%{project} 中的角色"
+        no_roles_found: "找不到角色。"
         description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
-        required: "Please select a role"
+        required: "請選擇一個角色： "
         next_button: "下一個"
       message:
-        label: "Invitation message"
+        label: "邀請訊息"
         description: "We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started."
         next_button: "下一個"
       summary:
@@ -1265,7 +1265,7 @@ zh-TW:
     include_projects:
       toggle_title: "包含的專案"
       title: "專案"
-      clear_selection: "清除選擇"
+      clear_selection: "清除"
       apply: "套用"
       selected_filter:
         all: "所有專案"
@@ -1275,8 +1275,8 @@ zh-TW:
       tooltip:
         include_all_selected: "Project already included since Include all sub-projects is enabled."
         current_project: "This is the current project you are in."
-        does_not_match_search: "Project does not match the search criteria."
-      no_results: "No project matches your search criteria."
+        does_not_match_search: "沒有符合搜尋條件"
+      no_results: "沒有符合搜尋條件"
     baseline:
       toggle_title: "基準日期"
       clear: "清除"
@@ -1284,7 +1284,7 @@ zh-TW:
       header_description: "基準日期開始，突顯修改過的資料"
       enterprise_header_description: "Highlight changes made to this list since any point in the past with Enterprise edition."
       show_changes_since: "顯示差異"
-      baseline_comparison: "Baseline comparison"
+      baseline_comparison: "基準日比較"
       help_description: "Reference time zone for the baseline."
       time_description: "In your local time: %{datetime}"
       time: "時間"
@@ -1293,10 +1293,10 @@ zh-TW:
       drop_down:
         none: "-"
         yesterday: "昨天"
-        last_working_day: "last working day"
+        last_working_day: "最後工作日"
         last_week: "上週"
         last_month: "上個月"
-        a_specific_date: "a specific date"
+        a_specific_date: "特定日期"
         between_two_specific_dates: "between two specific dates"
       legends:
         changes_since: "顯示差異，時間從："

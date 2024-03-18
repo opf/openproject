@@ -331,14 +331,14 @@ zh-TW:
               name: 任務
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban看板
             basic:
               name: 任務看板
               lists:
                 item_0:
-                  name: Wish list
+                  name: 願望清單
                 item_1:
-                  name: Short list
+                  name: 短清單
                 item_2:
                   name: Priority list for today
                 item_3:

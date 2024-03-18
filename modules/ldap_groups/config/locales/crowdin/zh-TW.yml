@@ -1,6 +1,6 @@
 zh-TW:
   plugin_openproject_ldap_groups:
-    name: "OpenProject LDAP groups"
+    name: "OpenProject LDAP 群組"
     description: "Synchronization of LDAP group memberships."
   activerecord:
     attributes:

@@ -9,7 +9,7 @@ zh-TW:
       unsaved_title: 'Unnamed team planner'
       no_data: 'Add assignees to set up your team planner.'
       add_assignee: '增加「執行者」'
-      remove_assignee: 'Remove assignee'
+      remove_assignee: '刪除執行者'
       two_weeks: '兩週'
       one_week: '1週'
       work_week: '工作週'
