@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackagesFilterHelper do
   let(:project) { create(:project) }
   let(:version) { create(:version, project:) }
 
-  shared_examples_for 'work package path with query_props' do
-    it 'is the expected path' do
+  shared_examples_for "work package path with query_props" do
+    it "is the expected path" do
       path_regexp = Regexp.new("^#{project_work_packages_path(project.identifier)}\\?query_props=(.*)")
 
       expect(path)
@@ -46,18 +46,18 @@ RSpec.describe WorkPackagesFilterHelper do
     end
   end
 
-  describe '#project_work_packages_closed_version_path' do
-    it_behaves_like 'work package path with query_props' do
+  describe "#project_work_packages_closed_version_path" do
+    it_behaves_like "work package path with query_props" do
       let(:expected_json) do
         {
           f: [
             {
-              n: 'status',
-              o: 'c'
+              n: "status",
+              o: "c"
             },
             {
-              n: 'version',
-              o: '=',
+              n: "version",
+              o: "=",
               v: version.id.to_s
             }
           ]
@@ -68,18 +68,18 @@ RSpec.describe WorkPackagesFilterHelper do
     end
   end
 
-  describe '#project_work_packages_open_version_path' do
-    it_behaves_like 'work package path with query_props' do
+  describe "#project_work_packages_open_version_path" do
+    it_behaves_like "work package path with query_props" do
       let(:expected_json) do
         {
           f: [
             {
-              n: 'status',
-              o: 'o'
+              n: "status",
+              o: "o"
             },
             {
-              n: 'version',
-              o: '=',
+              n: "version",
+              o: "=",
               v: version.id.to_s
             }
           ]
@@ -90,20 +90,20 @@ RSpec.describe WorkPackagesFilterHelper do
     end
   end
 
-  describe '#project_work_packages_shared_with_path' do
-    it_behaves_like 'work package path with query_props' do
+  describe "#project_work_packages_shared_with_path" do
+    it_behaves_like "work package path with query_props" do
       let(:principal) { build_stubbed(:user) }
 
       let(:expected_json) do
         {
           f: [
             {
-              n: 'status',
-              o: '*'
+              n: "status",
+              o: "*"
             },
             {
-              n: 'sharedWithUser',
-              o: '=',
+              n: "sharedWithUser",
+              o: "=",
               v: principal.id.to_s
             }
           ]
@@ -114,20 +114,20 @@ RSpec.describe WorkPackagesFilterHelper do
     end
   end
 
-  describe '#project_work_packages_with_ids_path' do
-    it_behaves_like 'work package path with query_props' do
+  describe "#project_work_packages_with_ids_path" do
+    it_behaves_like "work package path with query_props" do
       let(:ids) { [13, 17, 42] }
 
       let(:expected_json) do
         {
           f: [
             {
-              n: 'status',
-              o: '*'
+              n: "status",
+              o: "*"
             },
             {
-              n: 'id',
-              o: '=',
+              n: "id",
+              o: "=",
               v: ids.map(&:to_s)
             }
           ]
@@ -138,30 +138,30 @@ RSpec.describe WorkPackagesFilterHelper do
     end
   end
 
-  context 'project reports path helpers' do
-    let(:property_name) { 'priority' }
+  describe "project reports path helpers" do
+    let(:property_name) { "priority" }
     let(:property_id) { 5 }
 
-    describe '#project_report_property_path' do
-      it_behaves_like 'work package path with query_props' do
+    describe "#project_report_property_path" do
+      it_behaves_like "work package path with query_props" do
         let(:expected_json) do
           {
             f: [
               {
-                n: 'status',
-                o: '*'
+                n: "status",
+                o: "*"
               },
               {
-                n: 'subprojectId',
-                o: '!*'
+                n: "subprojectId",
+                o: "!*"
               },
               {
                 n: property_name,
-                o: '=',
+                o: "=",
                 v: property_id.to_s
               }
             ],
-            t: 'updated_at:desc'
+            t: "updated_at:desc"
           }
         end
 
@@ -169,28 +169,28 @@ RSpec.describe WorkPackagesFilterHelper do
       end
     end
 
-    describe '#project_report_property_status_path' do
-      it_behaves_like 'work package path with query_props' do
+    describe "#project_report_property_status_path" do
+      it_behaves_like "work package path with query_props" do
         let(:status_id) { 2 }
         let(:expected_json) do
           {
             f: [
               {
-                n: 'status',
-                o: '=',
+                n: "status",
+                o: "=",
                 v: status_id.to_s
               },
               {
-                n: 'subprojectId',
-                o: '!*'
+                n: "subprojectId",
+                o: "!*"
               },
               {
                 n: property_name,
-                o: '=',
+                o: "=",
                 v: property_id.to_s
               }
             ],
-            t: 'updated_at:desc'
+            t: "updated_at:desc"
           }
         end
 
@@ -198,26 +198,26 @@ RSpec.describe WorkPackagesFilterHelper do
       end
     end
 
-    describe '#project_report_property_open_path' do
-      it_behaves_like 'work package path with query_props' do
+    describe "#project_report_property_open_path" do
+      it_behaves_like "work package path with query_props" do
         let(:expected_json) do
           {
             f: [
               {
-                n: 'status',
-                o: 'o'
+                n: "status",
+                o: "o"
               },
               {
-                n: 'subprojectId',
-                o: '!*'
+                n: "subprojectId",
+                o: "!*"
               },
               {
                 n: property_name,
-                o: '=',
+                o: "=",
                 v: property_id.to_s
               }
             ],
-            t: 'updated_at:desc'
+            t: "updated_at:desc"
           }
         end
 
@@ -225,26 +225,26 @@ RSpec.describe WorkPackagesFilterHelper do
       end
     end
 
-    describe '#project_report_property_closed_path' do
-      it_behaves_like 'work package path with query_props' do
+    describe "#project_report_property_closed_path" do
+      it_behaves_like "work package path with query_props" do
         let(:expected_json) do
           {
             f: [
               {
-                n: 'status',
-                o: 'c'
+                n: "status",
+                o: "c"
               },
               {
-                n: 'subprojectId',
-                o: '!*'
+                n: "subprojectId",
+                o: "!*"
               },
               {
                 n: property_name,
-                o: '=',
+                o: "=",
                 v: property_id.to_s
               }
             ],
-            t: 'updated_at:desc'
+            t: "updated_at:desc"
           }
         end
 
@@ -252,27 +252,27 @@ RSpec.describe WorkPackagesFilterHelper do
       end
     end
 
-    describe '#project_version_property_path' do
-      it_behaves_like 'work package path with query_props' do
+    describe "#project_version_property_path" do
+      it_behaves_like "work package path with query_props" do
         let(:expected_json) do
           {
             f: [
               {
-                n: 'status',
-                o: '*'
+                n: "status",
+                o: "*"
               },
               {
-                n: 'version',
-                o: '=',
+                n: "version",
+                o: "=",
                 v: version.id.to_s
               },
               {
                 n: property_name,
-                o: '=',
+                o: "=",
                 v: property_id.to_s
               }
             ],
-            t: 'updated_at:desc'
+            t: "updated_at:desc"
           }
         end
 

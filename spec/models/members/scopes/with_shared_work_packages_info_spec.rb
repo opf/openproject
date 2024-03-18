@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Members::Scopes::WithSharedWorkPackagesInfo do
   let(:project) { create(:project) }
@@ -42,16 +42,16 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesInfo do
   let(:view_work_package_role) { create(:view_work_package_role) }
   let(:comment_work_package_role) { create(:comment_work_package_role) }
 
-  let(:user_a) { create(:user, lastname: 'a', status: Principal.statuses[:active]) }
-  let(:user_b) { create(:user, lastname: 'b', status: Principal.statuses[:active]) }
-  let(:user_c) { create(:user, lastname: 'c', status: Principal.statuses[:active]) }
-  let(:group) { create(:group, lastname: 'g', members: [user_b, user_c]) }
+  let(:user_a) { create(:user, lastname: "a", status: Principal.statuses[:active]) }
+  let(:user_b) { create(:user, lastname: "b", status: Principal.statuses[:active]) }
+  let(:user_c) { create(:user, lastname: "c", status: Principal.statuses[:active]) }
+  let(:group) { create(:group, lastname: "g", members: [user_b, user_c]) }
 
   let!(:active_user_member) do
     create(:member,
            project:,
            roles: [role],
-           principal: create(:user, lastname: 'x', status: Principal.statuses[:active]))
+           principal: create(:user, lastname: "x", status: Principal.statuses[:active]))
   end
   let!(:user_a_view_member) do
     create(:member,
@@ -94,7 +94,7 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesInfo do
             project_ids: [project.id])
   end
 
-  describe '.with_shared_work_packages_info' do
+  describe ".with_shared_work_packages_info" do
     subject do
       Member
         .with_shared_work_packages_info(only_role_id:)
@@ -113,47 +113,47 @@ RSpec.describe Members::Scopes::WithSharedWorkPackagesInfo do
         end
     end
 
-    context 'when only_role_ids is not set' do
+    context "when only_role_ids is not set" do
       let(:only_role_id) { nil }
 
-      it 'returns info for all roles' do
+      it "returns info for all roles" do
         expect(subject).to contain_exactly(
-          ['x', active_user_member.id,      { ids: [],        other: 0, direct: 0, inherited: 0, total: 0 }],
-          ['a', user_a_view_member.id,      { ids: both_wps,  other: 0, direct: 2, inherited: 0, total: 2 }],
-          ['a', user_a_comment_member.id,   { ids: both_wps,  other: 0, direct: 2, inherited: 0, total: 2 }],
-          ['b', user_b_view_member.id,      { ids: only_wp_a, other: 0, direct: 1, inherited: 1, total: 1 }],
-          ['g', group_comment_member.id,    { ids: only_wp_a, other: 0, direct: 1, inherited: 0, total: 1 }],
-          ['c', user_c_inherited_member.id, { ids: only_wp_a, other: 0, direct: 0, inherited: 1, total: 1 }]
+          ["x", active_user_member.id,      { ids: [],        other: 0, direct: 0, inherited: 0, total: 0 }],
+          ["a", user_a_view_member.id,      { ids: both_wps,  other: 0, direct: 2, inherited: 0, total: 2 }],
+          ["a", user_a_comment_member.id,   { ids: both_wps,  other: 0, direct: 2, inherited: 0, total: 2 }],
+          ["b", user_b_view_member.id,      { ids: only_wp_a, other: 0, direct: 1, inherited: 1, total: 1 }],
+          ["g", group_comment_member.id,    { ids: only_wp_a, other: 0, direct: 1, inherited: 0, total: 1 }],
+          ["c", user_c_inherited_member.id, { ids: only_wp_a, other: 0, direct: 0, inherited: 1, total: 1 }]
         )
       end
     end
 
-    context 'when only_role_id is set to view' do
+    context "when only_role_id is set to view" do
       let(:only_role_id) { view_work_package_role.id }
 
-      it 'returns info for view roles' do
+      it "returns info for view roles" do
         expect(subject).to contain_exactly(
-          ['x', active_user_member.id,      { ids: [],        other: 0, direct: 0, inherited: 0, total: 0 }],
-          ['a', user_a_view_member.id,      { ids: only_wp_a, other: 1, direct: 1, inherited: 0, total: 2 }],
-          ['a', user_a_comment_member.id,   { ids: only_wp_a, other: 1, direct: 1, inherited: 0, total: 2 }],
-          ['b', user_b_view_member.id,      { ids: only_wp_a, other: 1, direct: 1, inherited: 0, total: 1 }],
-          ['g', group_comment_member.id,    { ids: [],        other: 1, direct: 0, inherited: 0, total: 1 }],
-          ['c', user_c_inherited_member.id, { ids: [],        other: 1, direct: 0, inherited: 0, total: 1 }]
+          ["x", active_user_member.id,      { ids: [],        other: 0, direct: 0, inherited: 0, total: 0 }],
+          ["a", user_a_view_member.id,      { ids: only_wp_a, other: 1, direct: 1, inherited: 0, total: 2 }],
+          ["a", user_a_comment_member.id,   { ids: only_wp_a, other: 1, direct: 1, inherited: 0, total: 2 }],
+          ["b", user_b_view_member.id,      { ids: only_wp_a, other: 1, direct: 1, inherited: 0, total: 1 }],
+          ["g", group_comment_member.id,    { ids: [],        other: 1, direct: 0, inherited: 0, total: 1 }],
+          ["c", user_c_inherited_member.id, { ids: [],        other: 1, direct: 0, inherited: 0, total: 1 }]
         )
       end
     end
 
-    context 'when only_role_id is set to comment' do
+    context "when only_role_id is set to comment" do
       let(:only_role_id) { comment_work_package_role.id }
 
-      it 'returns info for comment roles' do
+      it "returns info for comment roles" do
         expect(subject).to contain_exactly(
-          ['x', active_user_member.id,      { ids: [],        other: 0, direct: 0, inherited: 0, total: 0 }],
-          ['a', user_a_view_member.id,      { ids: only_wp_b, other: 1, direct: 1, inherited: 0, total: 2 }],
-          ['a', user_a_comment_member.id,   { ids: only_wp_b, other: 1, direct: 1, inherited: 0, total: 2 }],
-          ['b', user_b_view_member.id,      { ids: only_wp_a, other: 1, direct: 0, inherited: 1, total: 1 }],
-          ['g', group_comment_member.id,    { ids: only_wp_a, other: 0, direct: 1, inherited: 0, total: 1 }],
-          ['c', user_c_inherited_member.id, { ids: only_wp_a, other: 0, direct: 0, inherited: 1, total: 1 }]
+          ["x", active_user_member.id,      { ids: [],        other: 0, direct: 0, inherited: 0, total: 0 }],
+          ["a", user_a_view_member.id,      { ids: only_wp_b, other: 1, direct: 1, inherited: 0, total: 2 }],
+          ["a", user_a_comment_member.id,   { ids: only_wp_b, other: 1, direct: 1, inherited: 0, total: 2 }],
+          ["b", user_b_view_member.id,      { ids: only_wp_a, other: 1, direct: 0, inherited: 1, total: 1 }],
+          ["g", group_comment_member.id,    { ids: only_wp_a, other: 0, direct: 1, inherited: 0, total: 1 }],
+          ["c", user_c_inherited_member.id, { ids: only_wp_a, other: 0, direct: 0, inherited: 1, total: 1 }]
         )
       end
     end

@@ -35,7 +35,7 @@ module Members::Scopes
         Member
           .from("#{Member.quoted_table_name} members")
           .joins(shared_work_packages_sql(only_role_id))
-          .select('members.*')
+          .select("members.*")
           .select("COALESCE(members_sums.shared_work_package_ids, '{}') AS shared_work_package_ids")
           .select("COALESCE(members_sums.other_shared_work_packages_count, 0) AS other_shared_work_packages_count")
           .select("COALESCE(members_sums.direct_shared_work_packages_count, 0) AS direct_shared_work_packages_count")

@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/components/autocompleter/ng_select_autocomplete_helpers'
-require 'support/pages/page'
+require "support/components/autocompleter/ng_select_autocomplete_helpers"
+require "support/pages/page"
 
 module Pages
   class Members < Page
@@ -36,12 +36,13 @@ module Pages
     attr_reader :project_identifier
 
     def initialize(project_identifier)
+      super()
       @project_identifier = project_identifier
     end
 
     def visit!
       super
-      expect(page).to have_css('h2', text: I18n.t(:label_member_plural))
+      expect(page).to have_css("h2", text: I18n.t(:label_member_plural))
 
       self
     end
@@ -55,25 +56,25 @@ module Pages
     end
 
     def open_filters!
-      find_by_id('filter-member-button').click
+      find_by_id("filter-member-button").click
     end
 
     def search_for_name(name)
-      fill_in 'name', with: name
-      find('.simple-filters--controls input[type=submit]').click
+      fill_in "name", with: name
+      find(".simple-filters--controls input[type=submit]").click
     end
 
     def expect_menu_item(text, selected: false)
       if selected
-        expect(page).to have_css('.op-sidemenu--item-action.selected', text:)
+        expect(page).to have_css(".op-sidemenu--item-action.selected", text:)
       else
-        expect(page).to have_css('.op-sidemenu--item-action', text:)
+        expect(page).to have_css(".op-sidemenu--item-action", text:)
       end
     end
 
     def click_menu_item(text)
-      page.within('#menu-sidebar') do
-        click_link text
+      page.within("#menu-sidebar") do
+        click_on text
       end
     end
 
@@ -93,7 +94,7 @@ module Pages
         select_principal! user_name if user_name
         select_role! as if as
 
-        click_on 'Add'
+        click_on "Add"
       end
     end
 
@@ -158,15 +159,15 @@ module Pages
     end
 
     def find_user(name)
-      find('tr', text: name)
+      find("tr", text: name)
     end
 
     def find_mail(mail)
-      find('td.email', text: mail)
+      find("td.email", text: mail)
     end
 
     def find_group(name)
-      find('tr.group', text: name)
+      find("tr.group", text: name)
     end
 
     ##
@@ -188,7 +189,7 @@ module Pages
       Array(add_roles).each { |role| check role }
       Array(remove_roles).each { |role| uncheck role }
 
-      click_on 'Change'
+      click_on "Change"
     end
 
     def has_group_membership?(user_name)
@@ -208,7 +209,7 @@ module Pages
     def select_principal!(principal_name)
       select_autocomplete page.find("opce-members-autocompleter"),
                           query: principal_name,
-                          results_selector: '.ng-dropdown-panel-items'
+                          results_selector: ".ng-dropdown-panel-items"
     end
 
     ##
@@ -225,31 +226,31 @@ module Pages
     def search_principal!(query)
       search_autocomplete page.find("opce-members-autocompleter"),
                           query:,
-                          results_selector: '.ng-dropdown-panel-items'
+                          results_selector: ".ng-dropdown-panel-items"
     end
 
     def select_search_result!(value)
-      find('.ng-option', text: value).click
+      find(".ng-option", text: value).click
     end
 
     def has_search_result?(value)
-      page.has_selector?('.ng-option', text: value)
+      page.has_selector?(".ng-option", text: value)
     end
 
     def has_no_search_results?
-      page.has_selector?('.ng-option', text: 'No items found')
+      page.has_selector?(".ng-option", text: "No items found")
     end
 
     def sort_by(column)
-      find('.generic-table--sort-header a', text: column.upcase).click
+      find(".generic-table--sort-header a", text: column.upcase).click
     end
 
     def expect_sorted_by(column, desc: false)
-      page.within('.generic-table--sort-header', text: column.upcase) do
+      page.within(".generic-table--sort-header", text: column.upcase) do
         if desc
-          expect(page).to have_css('.sort.desc')
+          expect(page).to have_css(".sort.desc")
         else
-          expect(page).to have_css('.sort.asc')
+          expect(page).to have_css(".sort.asc")
         end
       end
     end
@@ -258,20 +259,20 @@ module Pages
     # Indicates whether the given principal has been selected as one
     # of the users to be added to the project in the 'New member' dialogue.
     def has_selected_new_principal?(name)
-      has_selector? '.ng-value', text: name
+      has_selector? ".ng-value", text: name
     end
 
     def select_role!(role_name)
-      select = find('select#member_role_ids')
+      select = find("select#member_role_ids")
       select.select role_name
     end
 
     def expect_role(role_name, present: true)
-      expect(page).to have_conditional_selector(present, '#member_role_ids option', text: role_name)
+      expect(page).to have_conditional_selector(present, "#member_role_ids option", text: role_name)
     end
 
     def go_to_page!(number)
-      find('.op-pagination--pages a', text: number.to_s).click
+      find(".op-pagination--pages a", text: number.to_s).click
     end
   end
 end

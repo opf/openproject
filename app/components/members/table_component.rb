@@ -29,7 +29,7 @@
 #++
 
 module Members
-  class TableComponent < ::TableComponent
+  class TableComponent < ::TableComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
     options :authorize_update,
             :authorize_delete,
             :authorize_work_package_shares_view,
@@ -59,8 +59,8 @@ module Members
       Member
         .where(
           id: model
-            .reselect('DISTINCT ON (members.user_id) members.id')
-            .reorder('members.user_id, members.entity_type NULLS FIRST')
+            .reselect("DISTINCT ON (members.user_id) members.id")
+            .reorder("members.user_id, members.entity_type NULLS FIRST")
         )
     end
 
@@ -92,7 +92,7 @@ module Members
       caption =
         case name
         when :shared
-          I18n.t('members.columns.shared')
+          I18n.t("members.columns.shared")
         else
           User.human_attribute_name(name)
         end
@@ -115,7 +115,7 @@ module Members
       if is_filtered
         I18n.t :notice_no_principals_found
       else
-        I18n.t :'members.index.no_results_title_text'
+        I18n.t :"members.index.no_results_title_text"
       end
     end
   end

@@ -53,11 +53,11 @@ See COPYRIGHT and LICENSE files for more details.
   <p>
     <%= f.submit t(member.new_record? ? :button_add : :button_change), class: "button -primary -small" %>
     <%= link_to t(:button_cancel),
-                '#',
+                "#",
                 data: {
-                  action: 'members-form#toggleMembershipEdit',
-                  'members-form-toggling-class-param': row.toggle_item_class_name
+                  action: "members-form#toggleMembershipEdit",
+                  "members-form-toggling-class-param": row.toggle_item_class_name
                 },
-                class: 'button -small toggle-membership-button' %>
+                class: "button -small toggle-membership-button" %>
   </p>
 <% end %>
