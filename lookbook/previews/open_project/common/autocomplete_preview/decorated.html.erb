@@ -1,0 +1,40 @@
+<%
+  the_form = Class.new(ApplicationForm) do
+    form do |f|
+      f.autocompleter(
+        name: :foobar,
+        required: true,
+        include_blank: false,
+        label: 'Foobar',
+        caption: 'Caption: The dropdown might be offset due to the iFrame around it. This will not happen in production.',
+        autocomplete_options: {
+          multiple: false,
+          decorated: true,
+          openDirectly: false,
+          focusDirectly: false
+        }
+      ) do |select|
+        select.option(
+          label: "First option",
+          value: "first"
+        )
+        select.option(
+          label: "Second option",
+          value: "secondj"
+        )
+        select.option(
+          label: "Third option",
+          value: "third"
+        )
+      end
+    end
+  end
+%>
+
+
+<%= primer_form_with(
+      url: '/abc',
+      id: 'asdf') do |f|
+  render(the_form.new(f))
+end
+%>

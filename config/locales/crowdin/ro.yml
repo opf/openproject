@@ -31,10 +31,8 @@ ro:
       color_theme: "Culoarea temei"
       color_theme_custom: "(Personalizat)"
       colors:
-        alternative-color: "Logo-ul alternativ"
-        content-link-color: "Font Legături"
-        primary-color: "Primar"
-        primary-color-dark: "Primară (închisă)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Fundal antet"
         header-item-bg-hover-color: "Fundal antet la plutire"
         header-item-font-color: "Font Antet"
@@ -53,10 +51,8 @@ ro:
       enterprise_more_info: "Notă: logo-ul utilizat va fi accesibil publicului."
       manage_colors: "Modificați opțiunile de selecție ale culorilor"
       instructions:
-        alternative-color: "Culoare accentuată puternică, folosită de obicei pentru cel mai important buton de pe un ecran."
-        content-link-color: "Culoarea fontului pentru majoritatea link-urilor."
-        primary-color: "Culoarea principală."
-        primary-color-dark: "De obicei, o versiune mai închisă a culorii principale, utilizată pentru efectele hover."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Culoarea de fundal a obiectelor care pot fi selectate când cursorului se află deasupra lor."
         header-item-font-color: "Culoare fontului pentru elementele selectabile din antet."
         header-item-font-hover-color: "Culoarea fontului pentru elementele selectabile din antet când cursorul se află deasupra lor."
@@ -265,12 +261,15 @@ ro:
       no_results_title_text: În acest moment nu există proiecte
       no_results_content_text: Creare proiect nou
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: "Active projects"
+      my: "My projects"
+      archived: "Archived projects"
+      my_private: "My private project lists"
       new:
-        placeholder: 'New project list'
+        placeholder: "New project list"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Schimbă identificatorul
       activities:
@@ -292,6 +291,8 @@ ro:
         no_results_content_text: Creare versiune nouă
       storage:
         no_results_title_text: Acest proiect nu consumă spațiu suplimentar pe disc înregistrat.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: În acest moment nu există niciun participant la acest proiect.
@@ -344,7 +345,7 @@ ro:
     memberships:
       no_results_title_text: Acest utilizator nu este în acest moment participant în vreun proiect.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       Nu aveți permisiunea de a șterge utilizatorul de tip placeholder. Nu aveți dreptul de a gestiona membrii pentru toate proiectele din care face parte utilizatorul de tip placeholder.
@@ -843,6 +844,10 @@ ro:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "se exclude reciproc cu grupul de \"%{group_by}\". Nu le puteți activa pe amândouă."
           filters:
             custom_fields:
@@ -1203,6 +1208,7 @@ ro:
   button_reset: "Resetare"
   button_rollback: "Revenire la această versiune"
   button_save: "Salvare"
+  button_save_as: "Save as"
   button_apply_changes: "Aplica modificariile"
   button_save_back: "Salvare și înapoi"
   button_show: "Afişare"
@@ -1805,6 +1811,7 @@ ro:
   label_diff_side_by_side: "în paralel"
   label_digital_accessibility: "Accesibilitate digitală (DE)"
   label_disabled: "dezactivat"
+  label_disabled_uppercase: "Disabled"
   label_display: "Afișare"
   label_display_per_page: "Pe pagină: %{value}"
   label_display_used_statuses_only: "Afişează doar stările folosite de acest tip"
@@ -2032,6 +2039,7 @@ ro:
   label_precedes: "precede"
   label_preferences: "Preferinţe"
   label_preview: "Previzualizare"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Înapoi"
   label_previous_week: "Săptămâna trecută"
   label_principal_invite_via_email: " sau invită utilizatori folosind email"
@@ -2619,6 +2627,7 @@ ro:
     name_or_identifier: "Nume sau identificator"
     only_subproject_id: "Numai subproiect"
     shared_with_user: "Shared with user"
+    shared_with_me: "Shared with me"
     subproject_id: "Inclusiv subproiectul"
   repositories:
     at_identifier: "la %{identifier}"
@@ -2769,7 +2778,7 @@ ro:
   setting_brute_force_block_minutes: "Durata pentru care utilizatorul este blocat"
   setting_cache_formatted_text: "Păstrare text formatat în memorie"
   setting_use_wysiwyg_description: "Selectați pentru a activa în mod implicit editorul CKEditor5 WYSIWYG pentru toți utilizatorii. CKEditor are o funcționalitate limitată pentru GFM Markdown."
-  setting_column_options: "Personalizați aspectul listelor cu pachete de lucru"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Cuvinte cheie pentru rezolvări"
   setting_commit_logs_encoding: "Encodare pentru mesajele la încărcare"
   setting_commit_logtime_activity_id: "Activitate la înregistrarea duratei de lucru"
@@ -2791,7 +2800,7 @@ ro:
   setting_emails_header: "Antet e-mail"
   setting_email_login: "Folosiți e-mailul ca autentificare"
   setting_enabled_scm: "SCM activat"
-  setting_enabled_projects_columns: "Vizibil în lista de proiecte"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Activare fluxuri"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Limită conținut flux"
@@ -2802,7 +2811,6 @@ ro:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Afișate implicit"
   setting_work_package_properties: "Proprietăți pachet de lucru"
   setting_work_package_startdate_is_adddate: "Folosire data curentă ca dată de început pentru pachetele de lucru noi"
   setting_work_packages_projects_export_limit: "Limita de export a pachetelor de lucru / proiectelor"
@@ -2868,12 +2876,12 @@ ro:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2910,7 +2918,7 @@ ro:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Setări pentru proiecte noi"
-      section_project_overview: "Setări pentru lista de prezentare generală a proiectului"
+      section_project_overview: "Settings for project lists"
     session: "Sesiune"
     user:
       default_preferences: "Preferințe implicite"
@@ -3075,6 +3083,12 @@ ro:
       Dacă această opțiune este activată, utilizatorul nu va putea alege un nume de utilizator în timpul înregistrării. În schimb, adresa de e-mail furnizată va fi folosită ca nume de utilizator. Un administrator poate schimba în continuare datele de conectare separat.
   queries:
     apply_filter: Aplicare filtru preconfigurat
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Resurse suplimentare"
     getting_started: "Noţiuni de bază"

@@ -55,6 +55,14 @@ RSpec.describe Queries::TimeEntries::TimeEntryQuery, 'integration' do
       it 'only returns the users own time entries' do
         expect(subject).to contain_exactly(user_timer)
       end
+
+      context 'when user has log_time permission' do
+        let(:user) { create(:user, member_with_permissions: { project => %i[log_time] }) }
+
+        it 'still returns the users own time entries' do
+          expect(subject).to contain_exactly(user_timer)
+        end
+      end
     end
   end
 end

@@ -56,15 +56,11 @@ RSpec.describe 'Team planner project include', :js, with_ee: %i[team_planner_vie
       work_package_view.expect_assignee(other_user, present: false)
 
       retry_block do
-        work_package_view.click_add_user
-        page.find("#{test_selector('tp-add-assignee')} input")
-        work_package_view.select_user_to_add user.name
+        work_package_view.add_assignee user.name
       end
 
       retry_block do
-        work_package_view.click_add_user
-        page.find("#{test_selector('tp-add-assignee')} input")
-        work_package_view.select_user_to_add other_user.name
+        work_package_view.add_assignee other_user.name
       end
 
       work_package_view.expect_assignee user

@@ -31,10 +31,8 @@ si:
       color_theme: "වර්ණ තේමාව"
       color_theme_custom: "(අභිරුචි)"
       colors:
-        alternative-color: "විකල්ප"
-        content-link-color: "ලින්ක් ෆොන්ටය"
-        primary-color: "ප්රාථමික"
-        primary-color-dark: "ප්රාථමික (අඳුරු)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "පසුබිම ශීර්ෂකය"
         header-item-bg-hover-color: "හැවර් මත ශීර්ෂකය පසුබිම"
         header-item-font-color: "අකුරු ශීර්ෂකය"
@@ -53,10 +51,8 @@ si:
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "වර්ණ තෝරා ගැනීමේ විකල්ප සංස්කරණය කරන්න"
       instructions:
-        alternative-color: "Strong අවධාරණය වර්ණ, සාමාන්යයෙන් තිරය මත වඩාත් වැදගත් බොත්තම සඳහා භාවිතා."
-        content-link-color: "සබැඳි බොහෝ අකුරු වර්ණය."
-        primary-color: "ප්රධාන වර්ණය."
-        primary-color-dark: "සාමාන්යයෙන් සැරිසරන බලපෑම් සඳහා භාවිතා කරන ප්රධාන වර්ණ වඩා තද වර්ණයෙන් දැක්වෙන අනුවාදය."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "මූසිකය සමඟ සැරිසැරූ විට ක්ලික් කළ හැකි ශීර්ෂ අයිතමවල පසුබිම් වර්ණය."
         header-item-font-color: "ක්ලික් කළ හැකි ශීර්ෂ අයිතමවල අකුරු වර්ණය."
         header-item-font-hover-color: "මූසිකය සමඟ සැරිසැරූ විට ක්ලික් කළ හැකි ශීර්ෂ අයිතමවල අකුරු වර්ණය."
@@ -265,12 +261,15 @@ si:
       no_results_title_text: දැනට ව්යාපෘති නොමැත
       no_results_content_text: නව ව්‍යාපෘතියක් සාදන්න
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: "Active projects"
+      my: "My projects"
+      archived: "Archived projects"
+      my_private: "My private project lists"
       new:
-        placeholder: 'New project list'
+        placeholder: "New project list"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Change identifier
       activities:
@@ -292,6 +291,8 @@ si:
         no_results_content_text: නව අනුවාදයක් සාදන්න
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: මෙම ව්යාපෘතියේ සාමාජිකයන් කොටසක් දැනට නොමැත.
@@ -344,7 +345,7 @@ si:
     memberships:
       no_results_title_text: මෙම පරිශීලකයා දැනට ව්යාපෘතියක සාමාජිකයෙකු නොවේ.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -842,6 +843,10 @@ si:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "'%{group_by}' විසින් කණ්ඩායම සමඟ අන්යෝන්ය වශයෙන් සුවිශේෂී වේ. ඔබට දෙකම සක්රිය කළ නොහැක."
           filters:
             custom_fields:
@@ -1194,6 +1199,7 @@ si:
   button_reset: "යළි පිහිටුවීම"
   button_rollback: "මෙම අනුවාදය වෙත ආපසු යන්න"
   button_save: "සුරකින්න"
+  button_save_as: "Save as"
   button_apply_changes: "Apply changes"
   button_save_back: "සුරකින්න සහ නැවත"
   button_show: "පෙන්වන්න"
@@ -1778,6 +1784,7 @@ si:
   label_diff_side_by_side: "පැත්තේ පැත්තේ"
   label_digital_accessibility: "Digital accessibility (DE)"
   label_disabled: "ආබාධිත"
+  label_disabled_uppercase: "Disabled"
   label_display: "සංදර්ශකය"
   label_display_per_page: "එක් පිටුවක්: %{value}"
   label_display_used_statuses_only: "මෙම වර්ගයේ භාවිතා කරන දර්ශණ තත්වයන් පමණි"
@@ -2005,6 +2012,7 @@ si:
   label_precedes: "පෙර"
   label_preferences: "මනාප"
   label_preview: "පෙරදසුන"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "පසුගිය"
   label_previous_week: "පසුගිය සතියේ"
   label_principal_invite_via_email: " හෝ විද්යුත් තැපෑල හරහා නව පරිශීලකයින්ට ආරාධනා කරන්න"
@@ -2591,6 +2599,7 @@ si:
     name_or_identifier: "නම හෝ හඳුනාගැනීමේ"
     only_subproject_id: "Only subproject"
     shared_with_user: "Shared with user"
+    shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
     at_identifier: "%{identifier}දී"
@@ -2741,7 +2750,7 @@ si:
   setting_brute_force_block_minutes: "පරිශීලකයා අවහිර කර ඇති කාලය"
   setting_cache_formatted_text: "හැඹිලි ආකෘතිගත පෙළ"
   setting_use_wysiwyg_description: "පෙරනිමියෙන් සියලුම පරිශීලකයින් සඳහා ckeditor5 WYSIWYG සංස්කාරකය සක්රීය කිරීමට තෝරන්න. Ckeditor GFM Markdown සඳහා සීමිත ක්රියාකාරිත්වයක් ඇත."
-  setting_column_options: "වැඩ පැකේජ ලැයිස්තු වල පෙනුම රිසිකරණය කරන්න"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "මූල පද සවි කිරීම"
   setting_commit_logs_encoding: "පණිවිඩ කේතනය කරන්න"
   setting_commit_logtime_activity_id: "ලඝු-සටහන් කාලය සඳහා ක්රියාකාරකම්"
@@ -2763,7 +2772,7 @@ si:
   setting_emails_header: "ඊමේල් ශීර්ෂකය"
   setting_email_login: "පිවිසුම් ලෙස විද්යුත් තැපෑල භාවිතා කරන්න"
   setting_enabled_scm: "සක්රීය SCM"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "පෝෂණය සක්රීය කරන්න"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "අන්තර්ගත සීමාව සංග්රහ"
@@ -2774,7 +2783,6 @@ si:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "පෙරනිමියෙන් දර්ශනය"
   setting_work_package_properties: "වැඩ පැකේජය ගුණ"
   setting_work_package_startdate_is_adddate: "නව වැඩ පැකේජ සඳහා ආරම්භක දිනය ලෙස වත්මන් දිනය භාවිතා කරන්න"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2840,12 +2848,12 @@ si:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2882,7 +2890,7 @@ si:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_project_overview: "Settings for project lists"
     session: "සැසිය"
     user:
       default_preferences: "පෙරනිමි මනාප"
@@ -3047,6 +3055,12 @@ si:
       සක්රීය කර ඇත්නම් පරිශීලකයෙකුට ලියාපදිංචියේදී පිවිසුමක් තෝරා ගැනීමට නොහැකි වනු ඇත. ඒ වෙනුවට ඔවුන්ගේ විද්යුත් තැපැල් ලිපිනය පිවිසුම් ලෙස සේවය කරනු ඇත. පරිපාලකයෙකු තවමත් පිවිසුම වෙන වෙනම වෙනස් කළ හැකිය.
   queries:
     apply_filter: පෙර සැකසූ පෙරහන යොදන්න
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "අතිරේක සම්පත්"
     getting_started: "ආරම්භ කිරීම"

@@ -44,13 +44,13 @@ module Queries::Filters::Shared::UserNameFilter
     def where
       case operator
       when '='
-        ["#{sql_concat_name} IN (?)", sql_value]
+        ["#{sql_concat_name} IN (:s) OR unaccent(#{sql_concat_name}) IN (:s)", { s: sql_value }]
       when '!'
-        ["#{sql_concat_name} NOT IN (?)", sql_value]
+        ["#{sql_concat_name} NOT IN (:s) AND unaccent(#{sql_concat_name}) NOT IN (:s)", { s: sql_value }]
       when '~', '**'
-        ["#{sql_concat_name} LIKE ?", "%#{sql_value}%"]
+        ["unaccent(#{sql_concat_name}) LIKE unaccent(:s)", { s: "%#{sql_value}%" }]
       when '!~'
-        ["#{sql_concat_name} NOT LIKE ?", "%#{sql_value}%"]
+        ["unaccent(#{sql_concat_name}) NOT LIKE unaccent(:s)", { s: "%#{sql_value}%" }]
       end
     end
 
@@ -68,7 +68,7 @@ module Queries::Filters::Shared::UserNameFilter
     def sql_concat_name
       case Setting.user_format
       when :firstname_lastname
-        "LOWER(CONCAT(users.firstname, CONCAT(' ', users.lastname)))"
+        "LOWER(CONCAT(users.firstname, ' ', users.lastname))"
       when :firstname
         'LOWER(users.firstname)'
       when :lastname_firstname, :lastname_coma_firstname

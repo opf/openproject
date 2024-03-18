@@ -28,48 +28,48 @@ lv:
   activerecord:
     attributes:
       meeting:
-        type: "Meeting type"
-        location: "Location"
-        duration: "Duration"
+        type: "Sanāksmes veids"
+        location: "Atrašanās vieta"
+        duration: "Ilgums"
         notes: "Piezīmes"
-        participants: "Participants"
+        participants: "Dalībnieki"
         participant:
           zero: "%{count} Participants"
           one: "1 Participant"
           other: "%{count} Participants"
-        participants_attended: "Attendees"
-        participants_invited: "Invitees"
+        participants_attended: "Apmeklētāji"
+        participants_invited: "Ielūgumu saņēmēji"
         project: "Projekts"
         start_date: "Datums"
-        start_time: "Time"
-        start_time_hour: "Starting time"
+        start_time: "Laiks"
+        start_time_hour: "Sākuma laiks"
       meeting_agenda_items:
-        title: "Title"
+        title: "Virsraksts"
         author: "Atbildīgais"
-        duration_in_minutes: "Duration (min)"
+        duration_in_minutes: "Ilgums (min)"
         description: "Piezīmes"
     errors:
       messages:
-        invalid_time_format: "is not a valid time. Required format: HH:MM"
+        invalid_time_format: "nav derīgs laiks. Vajadzīgais formāts: HH:MM"
     models:
-      structured_meeting: "Meeting (dynamic)"
-      meeting_agenda_item: "Agenda item"
-      meeting_agenda: "Agenda"
-      meeting_minutes: "Minutes"
+      structured_meeting: "Sanāksme (dinamiska)"
+      meeting_agenda_item: "Darba kārtības punkts"
+      meeting_agenda: "Darba kārtība"
+      meeting_minutes: "Protokols"
   activity:
     filter:
-      meeting: "Meetings"
-  description_attended: "attended"
+      meeting: "Sanāksmes"
+  description_attended: "apmeklēja"
   description_invite: "uzaicināts"
   events:
-    meeting: Meeting edited
-    meeting_agenda: Meeting agenda edited
-    meeting_agenda_closed: Meeting agenda closed
-    meeting_agenda_opened: Meeting agenda opened
-    meeting_minutes: Meeting minutes edited
-    meeting_minutes_created: Meeting minutes created
+    meeting: Sanāksme rediģēta
+    meeting_agenda: Rediģēta sanāksmes darba kārtība
+    meeting_agenda_closed: Sanāksmes darba kārtība slēgta
+    meeting_agenda_opened: Sanāksmes darba kārtības atklāšana
+    meeting_minutes: Sanāksmju protokolu rediģēšana
+    meeting_minutes_created: Izveidots sanāksmes protokols
   error_notification_with_errors: "Failed to send notification. The following recipients could not be notified: %{recipients}"
-  label_meeting: "Meeting"
+  label_meeting: "Sanāksmes"
   label_meeting_plural: "Meetings"
   label_meeting_new: "New Meeting"
   label_meeting_edit: "Edit Meeting"

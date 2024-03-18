@@ -134,7 +134,7 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = I18n.t(:notice_successful_update)
-          redirect_back(fallback_location: edit_user_path(@user))
+          render action: :edit
         end
       end
     else

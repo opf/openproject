@@ -79,9 +79,7 @@ RSpec.describe 'Team planner drag&dop and resizing',
       team_planner.visit!
 
       team_planner.add_assignee user
-      retry_block do
-        team_planner.add_assignee other_user
-      end
+      team_planner.add_assignee other_user
 
       team_planner.within_lane(user) do
         team_planner.expect_event first_wp, present: false
@@ -247,9 +245,7 @@ RSpec.describe 'Team planner drag&dop and resizing',
       team_planner.visit!
 
       team_planner.add_assignee user
-      retry_block do
-        team_planner.add_assignee other_user
-      end
+      team_planner.add_assignee other_user
     end
 
     it 'allows neither dragging nor resizing any wp' do

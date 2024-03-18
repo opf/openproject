@@ -32,7 +32,7 @@ class MeetingsController < ApplicationController
   before_action :verify_activities_module_activated, only: %i[history]
   before_action :determine_date_range, only: %i[history]
   before_action :determine_author, only: %i[history]
-  before_action :build_meeting, only: %i[new create]
+  before_action :build_meeting, only: %i[new]
   before_action :find_meeting, except: %i[index new create]
   before_action :set_activity, only: %i[history]
   before_action :find_copy_from_meeting, only: %i[create]
@@ -74,13 +74,19 @@ class MeetingsController < ApplicationController
     end
   end
 
-  def create # rubocop:disable Metrics/AbcSize
-    @meeting.participants.clear # Start with a clean set of participants
-    @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
-    @meeting.attributes = @converted_params
-    copy_meeting_agenda
+  def create
+    call =
+      if @copy_from
+        ::Meetings::CopyService
+          .new(user: current_user, model: @copy_from)
+          .call(attributes: @converted_params, copy_agenda: params[:copy_agenda] == '1')
+      else
+        ::Meetings::CreateService
+          .new(user: current_user)
+          .call(@converted_params)
+      end
 
-    if @meeting.save
+    if call.success?
       text = I18n.t(:notice_successful_create)
       if User.current.time_zone.nil?
         link = I18n.t(:notice_timezone_missing, zone: Time.zone)
@@ -88,8 +94,9 @@ class MeetingsController < ApplicationController
       end
       flash[:notice] = text.html_safe # rubocop:disable Rails/OutputSafety
 
-      redirect_to action: 'show', id: @meeting
+      redirect_to action: 'show', id: call.result
     else
+      @meeting = call.result
       render template: 'meetings/new', project_id: @project, locals: { copy_from: @copy_from }
     end
   end
@@ -102,7 +109,11 @@ class MeetingsController < ApplicationController
 
   def copy
     copy_from = @meeting
-    @meeting = @meeting.copy(author: User.current)
+    call = ::Meetings::CopyService
+      .new(user: current_user, model: copy_from)
+      .call(save: false)
+
+    @meeting = call.result
     render action: 'new', project_id: @project, locals: { copy_from: }
   end
 
@@ -283,8 +294,7 @@ class MeetingsController < ApplicationController
   end
 
   def build_meeting
-    cls = meeting_type(params.dig(:meeting, :type)).constantize
-    @meeting = cls.new
+    @meeting = Meeting.new
     @meeting.project = @project
     @meeting.author = User.current
   end
@@ -309,6 +319,7 @@ class MeetingsController < ApplicationController
     # instance variable.
     @converted_params = meeting_params.to_h
 
+    @converted_params[:project] = @project
     @converted_params[:duration] = @converted_params[:duration].to_hours if @converted_params[:duration].present?
     # Force defaults on participants
     @converted_params[:participants_attributes] ||= {}
@@ -318,7 +329,7 @@ class MeetingsController < ApplicationController
   def meeting_params
     if params[:meeting].present?
       params.require(:meeting).permit(:title, :location, :start_time,
-                                      :duration, :start_date, :start_time_hour,
+                                      :duration, :start_date, :start_time_hour, :type,
                                       participants_attributes: %i[email name invited attended user user_id meeting id])
     end
   end

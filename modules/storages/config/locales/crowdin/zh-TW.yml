@@ -52,7 +52,7 @@ zh-TW:
     buttons:
       complete_without_setup: Complete without it
       done_complete_setup: 完成。完成設置
-      done_continue: Done, continue
+      done_continue: 完成，繼續
       replace_oauth_application: Replace OpenProject OAuth
       replace_oauth_client: Replace %{provider_type} OAuth
       save_and_continue: Save and continue
@@ -77,23 +77,23 @@ zh-TW:
       storage_delete_result_3: In case this storage has automatically managed project folders, those and their contained files will be deleted forever.
     error_invalid_provider_type: Please select a valid storage provider.
     file_storage_view:
-      automatically_managed_folders: Automatically managed folders
-      general_information: General information
+      automatically_managed_folders: 自動管理文件夾
+      general_information: 基本資訊
       nextcloud_oauth: NextCloud 開放授權 (OAuth)
       oauth_applications: Oauth 應用程式
       one_drive_oauth: Azure OAuth
       openproject_oauth: OpenProject 開放授權 (OAuth)
-      project_folders: Project folders
+      project_folders: 專案資料夾
       redirect_uri: 轉址 uri
       storage_provider: Storage provider
     health:
       checked: Last checked %{datetime}
       label_error: 錯誤
-      label_healthy: Healthy
+      label_healthy: 健康的
       label_pending: 待處理
-      since: since %{datetime}
+      since: 自從{{datetime}}開始
       subtitle: Automatic managed project folders
-      title: Health status
+      title: 健康狀態
     help_texts:
       project_folder: The project folder is the default folder for file uploads for this project. Users can nevertheless still upload files to other locations.
     instructions:
@@ -111,7 +111,7 @@ zh-TW:
         integration: Nextcloud Administration / OpenProject
         oauth_configuration: Copy these values from %{application_link_text}.
         provider_configuration: Please make sure you have administration privileges in your Nextcloud instance and the %{application_link_text} is installed before doing the setup.
-      no_specific_folder: By default, each user will start at their own home folder when they upload a file.
+      no_specific_folder: 預設情況下，每個使用者上傳檔案時都會從自己的主資料夾開始。
       no_storage_set_up: There are no file storages set up yet.
       not_logged_into_storage: To select a project folder, please first login
       oauth_application_details: The client secret value will not be accessible again after you close this window. Please copy these values into the %{oauth_application_details_link}.
@@ -128,7 +128,7 @@ zh-TW:
         oauth_configuration: Copy these values from the desired application in the %{application_link_text}.
         provider_configuration: Please make sure you have administration privileges in the %{application_link_text} or contact your Microsoft administrator before doing the setup. In the portal, you also need to register an Azure application or use an existing one for authentication.
         tenant_id: Please copy the Directory (tenant) ID from the desired application and App registrations in the %{application_link_text}.
-        tenant_id_placeholder: Name or UUID
+        tenant_id_placeholder: 姓名或UUID
       setting_up_additional_storages: For setting up additional file storages, please visit
       setting_up_additional_storages_non_admin: Administrators can set up additional file storages in Administration / File Storages.
       setting_up_storages: For setting up file storages, please visit
@@ -136,18 +136,18 @@ zh-TW:
       type: '請確保您在 Nextcloud 實例中具有管理權限，並在進行設置之前安裝了以下應用程序：'
       type_link_text: "“整合 OpenProject”"
     label_active: 啟用
-    label_add_new_storage: Add new storage
-    label_automatic_folder: New folder with automatically managed permissions
+    label_add_new_storage: 新增檔案儲存空間
+    label_automatic_folder: 自動管理資料夾權限
     label_completed: 已完成
-    label_creation_time: Creation time
+    label_creation_time: 建立時間
     label_creator: 建立者
-    label_delete_storage: Delete storage
+    label_delete_storage: 刪除儲存區
     label_edit_storage: Edit storage
     label_edit_storage_automatically_managed_folders: Edit storage automatically managed folders
-    label_edit_storage_host: Edit storage host
+    label_edit_storage_host: 編輯儲存主機
     label_existing_manual_folder: Existing folder with manually managed permissions
-    label_file_storage: File storage
-    label_host: Host URL
+    label_file_storage: 文件儲存空間
+    label_host: 主機 URL
     label_inactive: 未啟用
     label_incomplete: Incomplete
     label_managed_project_folders:
@@ -156,12 +156,12 @@ zh-TW:
     label_name: 名稱
     label_new_file_storage: New %{provider} storage
     label_new_storage: New storage
-    label_no_selected_folder: No selected folder
+    label_no_selected_folder: 沒有設定資料夾
     label_no_specific_folder: No specific folder
     label_oauth_client_id: OAuth Client ID
     label_openproject_oauth_application_id: OpenProject OAuth Client ID
     label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
-    label_project_folder: Project folder
+    label_project_folder: 專案資料夾
     label_provider: Provider
     label_redirect_uri: 轉址 uri
     label_show_storage_redirect_uri: Show redirect URI
@@ -169,7 +169,7 @@ zh-TW:
     label_storage: 儲存空間
     label_uri: URI
     member_connection_status:
-      connected: Connected
+      connected: 已連線
       connected_no_permissions: User role has no storages permissions
       not_connected: Not connected. The user should login to the storage via the following %{link}.
     members_no_results: No members to display.
@@ -183,7 +183,7 @@ zh-TW:
       body: To get access to the project folder you need to login to %{storage}.
       cancel_button_label: I will do it later
       confirm_button_aria_label: Login to %{storage}
-      confirm_button_label: Login
+      confirm_button_label: 登入
       requesting_access_to: Requesting access to %{storage}
       storage_ready: You are now ready to use %{storage}
       title: One more step...
@@ -216,7 +216,7 @@ zh-TW:
         members_connection_status: 成員連接狀態
         new: 增加一個儲存區至此專案
       project_storage_members:
-        subtitle: 檢查所有項目成員的存儲區 %{storage_name_link} 的連線狀態。
+        subtitle: 檢查所有專案成員存儲區 %{storage_name_link} 的連線狀態。
         title: 成員連線狀態
     provider_types:
       label: 提供者類型
@@ -229,7 +229,7 @@ zh-TW:
         label_oauth_client_id: Azure OAuth Application (client) ID
         label_oauth_client_secret: Azure OAuth Client Secret Value
         name: OneDrive/SharePoint
-        name_placeholder: e.g. OneDrive
+        name_placeholder: 例如 OneDrive
     storage_list_blank_slate:
       description: Add a storage to see them here.
       heading: You don't have any storages yet.

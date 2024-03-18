@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= labelled_tabular_form_for @news, html: { id: 'news-form' } do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
   <hr class="form--separator" />
-  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
   <%= link_to t(:button_cancel), news_path(@news), class: 'button -with-icon icon-cancel' %>
 <% end %>
 <div id="preview"></div>

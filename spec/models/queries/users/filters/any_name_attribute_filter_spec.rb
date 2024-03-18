@@ -60,7 +60,7 @@ RSpec.describe Queries::Users::Filters::AnyNameAttributeFilter do
       let(:operator) { '~' }
 
       it 'is the same as handwriting the query' do
-        expected = model.where("#{filter_str} LIKE '%#{values.first.downcase}%'")
+        expected = model.where("unaccent(#{filter_str}) LIKE unaccent('%#{values.first.downcase}%')")
 
         expect(instance.scope.to_sql).to eql expected.to_sql
       end
@@ -70,7 +70,7 @@ RSpec.describe Queries::Users::Filters::AnyNameAttributeFilter do
       let(:operator) { '!~' }
 
       it 'is the same as handwriting the query' do
-        expected = model.where("#{filter_str} NOT LIKE '%#{values.first.downcase}%'")
+        expected = model.where("unaccent(#{filter_str}) NOT LIKE unaccent('%#{values.first.downcase}%')")
 
         expect(instance.scope.to_sql).to eql expected.to_sql
       end

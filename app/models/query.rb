@@ -221,7 +221,7 @@ class Query < ApplicationRecord
 
   def self.available_columns(project = nil)
     Queries::Register
-      .columns[self]
+      .selects[self]
       .map { |col| col.instances(project) }
       .flatten
   end

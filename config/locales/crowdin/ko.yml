@@ -31,10 +31,8 @@ ko:
       color_theme: "컬러 테마"
       color_theme_custom: "(사용자 지정)"
       colors:
-        alternative-color: "대안"
-        content-link-color: "링크 글꼴"
-        primary-color: "기본"
-        primary-color-dark: "기본(진함)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "헤더 배경"
         header-item-bg-hover-color: "가리킬 때 헤더 배경"
         header-item-font-color: "헤더 글꼴"
@@ -53,10 +51,8 @@ ko:
       enterprise_more_info: "참고: 사용된 로그는 공개적으로 액세스 가능합니다."
       manage_colors: "색상 선택 옵션 편집"
       instructions:
-        alternative-color: "강한 강조 색은 일반적으로 화면의 가장 중요한 버튼에 사용됩니다."
-        content-link-color: "대부분 링크의 글꼴색입니다."
-        primary-color: "주 색상"
-        primary-color-dark: "일반적으로 메인 색상의 어두운 버전은 호버 효과에 사용됩니다."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "마우스로 가리킬 때 클릭 가능한 헤더 항목의 배경색입니다."
         header-item-font-color: "클릭 가능한 헤더 항목의 글꼴색입니다."
         header-item-font-hover-color: "마우스로 가리킬 때 클릭 가능한 헤더 항목의 글꼴색입니다."
@@ -265,12 +261,15 @@ ko:
       no_results_title_text: 프로젝트가 없습니다.
       no_results_content_text: 새 프로젝트 생성
     lists:
-      active: '활성 프로젝트'
-      my: '내 프로젝트'
-      archived: '보관된 프로젝트'
-      my_private: '내 비공개 프로젝트 목록'
+      active: "활성 프로젝트"
+      my: "내 프로젝트"
+      archived: "보관된 프로젝트"
+      my_private: "내 비공개 프로젝트 목록"
       new:
-        placeholder: '새 프로젝트 목록'
+        placeholder: "새 프로젝트 목록"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: 식별자 변경
       activities:
@@ -292,6 +291,8 @@ ko:
         no_results_content_text: 새 버전 생성
       storage:
         no_results_title_text: 이 프로젝트에서 사용하는 추가 기록 디스크 공간이 없습니다.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: 프로젝트에 멤버 파트가 없습니다.
@@ -344,7 +345,7 @@ ko:
     memberships:
       no_results_title_text: 이 사용자는 프로젝트의 멤버가 아닙니다.
   page:
-    text: '텍스트'
+    text: "텍스트"
   placeholder_users:
     right_to_manage_members_missing: >
       플레이스홀더 사용자를 삭제할 수 없습니다. 플레이스홀더 사용자가 멤버로 들어가 있는 모든 프로젝트의 구성원을 관리할 권한이 없습니다.
@@ -840,6 +841,10 @@ ko:
               invalid: "타임스탬프에 잘못된 값이 포함되어 있습니다: %{values}"
               forbidden: "타임스탬프에 금지된 값이 포함되어 있습니다: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "은(는) %{group_by} 에 의해 그룹과 상호배타적입니다. 당신은 둘 다 활성화할 수 없습니다."
           filters:
             custom_fields:
@@ -1184,6 +1189,7 @@ ko:
   button_reset: "재설정"
   button_rollback: "이 버전으로 롤백"
   button_save: "저장"
+  button_save_as: "Save as"
   button_apply_changes: "변경 사항 적용"
   button_save_back: "저장하고 돌아가기"
   button_show: "표시"
@@ -1750,6 +1756,7 @@ ko:
   label_diff_side_by_side: "나란히"
   label_digital_accessibility: "디지털 접근성(DE)"
   label_disabled: "사용 안 함"
+  label_disabled_uppercase: "Disabled"
   label_display: "표시"
   label_display_per_page: "페이지당: %{value}"
   label_display_used_statuses_only: "이 유형에 사용되는 상태만 표시"
@@ -1977,6 +1984,7 @@ ko:
   label_precedes: "선행"
   label_preferences: "기본 설정"
   label_preview: "미리 보기"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "이전"
   label_previous_week: "이전 주"
   label_principal_invite_via_email: " 또는 이메일을 통해 새 사용자 초대하기"
@@ -2560,6 +2568,7 @@ ko:
     name_or_identifier: "이름 또는 식별자"
     only_subproject_id: "하위 프로젝트만"
     shared_with_user: "사용자와 공유됨"
+    shared_with_me: "Shared with me"
     subproject_id: "하위 프로젝트 포함"
   repositories:
     at_identifier: "- %{identifier}"
@@ -2708,7 +2717,7 @@ ko:
   setting_brute_force_block_minutes: "사용자가 다음 시간 동안 차단되었습니다."
   setting_cache_formatted_text: "캐시 서식 있는 텍스트"
   setting_use_wysiwyg_description: "기본적으로 모든 사용자에 대한 CKEditor5 WYSIWYG 편집기를 활성화하려면 선택하세요. CKEditor는 GFM Markdown용 기능을 제한했습니다."
-  setting_column_options: "작업 패키지 목록의 모양 사용자 지정"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "키워드 수정"
   setting_commit_logs_encoding: "커밋 메시지 인코딩"
   setting_commit_logtime_activity_id: "기록된 시간의 작업"
@@ -2730,7 +2739,7 @@ ko:
   setting_emails_header: "이메일 머리글"
   setting_email_login: "이메일로 로그인하기"
   setting_enabled_scm: "활성화된 SCM"
-  setting_enabled_projects_columns: "프로젝트 목록에 표시"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "피드 사용"
   setting_ical_enabled: "iCalendar 구독 활성화"
   setting_feeds_limit: "피드 콘텐츠 제한"
@@ -2741,7 +2750,6 @@ ko:
   setting_work_package_done_ratio_field: "작업 패키지 필드"
   setting_work_package_done_ratio_status: "작업 패키지 상태"
   setting_work_package_done_ratio_disabled: "비활성화(완료 % 필드 숨기기)"
-  setting_work_package_list_default_columns: "기본적으로 사용 안 함"
   setting_work_package_properties: "작업 패키지 속성"
   setting_work_package_startdate_is_adddate: "새 작업 패키지에 대한 시작 날짜로 현재 날짜 사용"
   setting_work_packages_projects_export_limit: "작업 패키지/프로젝트 내보내기 제한"
@@ -2807,12 +2815,12 @@ ko:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2849,7 +2857,7 @@ ko:
     projects:
       missing_dependencies: "%{dependencies}에 의존하는 프로젝트 모듈 %{module}이(가) 확인되었습니다. 이러한 종속성도 확인해야 합니다."
       section_new_projects: "새 프로젝트의 설정"
-      section_project_overview: "프로젝트 개요 목록의 설정"
+      section_project_overview: "Settings for project lists"
     session: "세션"
     user:
       default_preferences: "기본 설정"
@@ -3014,6 +3022,12 @@ ko:
       활성화된 경우, 사용자는 등록 중에 로그인 방식을 선택할 수 없습니다. 대신 주어진 이메일 주소가 로그인 방식으로 사용됩니다. 관리자는 로그인 방식을 개별적으로 변경할 수 있습니다.
   queries:
     apply_filter: 미리 구성된 필터 적용
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "추가 리소스"
     getting_started: "시작하기"

@@ -31,10 +31,8 @@ el:
       color_theme: "Χρωματικό θέμα"
       color_theme_custom: "(Προσαρμοσμένο)"
       colors:
-        alternative-color: "Εναλλακτικό"
-        content-link-color: "Γραμματοσειρά συνδέσμου"
-        primary-color: "Κύριο"
-        primary-color-dark: "Κύριο (σκούρο)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Φόντο κεφαλίδας"
         header-item-bg-hover-color: "Φόντο κεφαλίδας κατά το πέρασμα του ποντικιού"
         header-item-font-color: "Γραμματοσειρά κεφαλίδας"
@@ -53,10 +51,8 @@ el:
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Επεξεργαστείτε τις επιλογές επιλογής χρώματος"
       instructions:
-        alternative-color: "Ισχυρός τόνος χρώματος, το οποίο συνήθως χρησιμοποιείται για το πιο σημαντικό κουμπί σε μια οθόνη."
-        content-link-color: "Χρώμα γραμματοσειράς των περισσότερων συνδέσμων."
-        primary-color: "Κύριο χρώμα."
-        primary-color-dark: "Συνήθως μια πιο σκούρα εκδοχή του κύριου χρώματος που χρησιμοποιείται για τα εφέ του hover."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Χρώμα φόντου στοιχείων κεφαλίδας με δυνατότητα κλικ, όταν ο δείκτης βρίσκεται πάνω."
         header-item-font-color: "Χρώμα γραμματοσειράς στοιχείων κεφαλίδας με δυνατότητα κλικ."
         header-item-font-hover-color: "Χρώμα γραμματοσειράς στοιχείων κεφαλίδας με δυνατότητα κλικ, όταν ο δείκτης βρίσκεται πάνω."
@@ -261,12 +257,15 @@ el:
       no_results_title_text: Προς το παρόν δεν υπάρχουν έργα
       no_results_content_text: Δημιουργία νέου έργου
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: "Active projects"
+      my: "My projects"
+      archived: "Archived projects"
+      my_private: "My private project lists"
       new:
-        placeholder: 'New project list'
+        placeholder: "New project list"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Αλλαγή αναγνωριστικού
       activities:
@@ -288,6 +287,8 @@ el:
         no_results_content_text: Δημιουργήστε μια νέα έκδοση
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: Αυτή τη στιγμή δεν υπάρχουν μέλη που να αποτελούν μέρος αυτού του έργου.
@@ -340,7 +341,7 @@ el:
     memberships:
       no_results_title_text: Αυτός ο χρήστης δεν είναι προς το παρόν μέλος κάποιου έργου.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -838,6 +839,10 @@ el:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "είναι αμοιβαία αποκλειστικό με την ομαδοποίηση κατά '%{group_by}'. Δεν μπορείτε να ενεργοποιήσετε και τα δύο."
           filters:
             custom_fields:
@@ -1190,6 +1195,7 @@ el:
   button_reset: "Επαναφορά"
   button_rollback: "Επαναφορά σε αυτή την έκδοση"
   button_save: "Αποθήκευση"
+  button_save_as: "Save as"
   button_apply_changes: "Apply changes"
   button_save_back: "Αποθήκευση και επιστροφή"
   button_show: "Εμφάνιση"
@@ -1774,6 +1780,7 @@ el:
   label_diff_side_by_side: "αντικριστά"
   label_digital_accessibility: "Digital accessibility (DE)"
   label_disabled: "απενεργοποιημένο"
+  label_disabled_uppercase: "Disabled"
   label_display: "Εμφάνιση"
   label_display_per_page: "Ανά σελίδα: %{value}"
   label_display_used_statuses_only: "Εμφάνιση μόνο καταστάσεων που χρησιμοποιούνται από αυτόν τον τύπο"
@@ -2001,6 +2008,7 @@ el:
   label_precedes: "προηγείται"
   label_preferences: "Προτιμήσεις"
   label_preview: "Προεπισκόπηση"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Προηγούμενο"
   label_previous_week: "Προηγούμενη εβδομάδα"
   label_principal_invite_via_email: " ή προσκαλέστε καινούργιους χρήστες μέσω email"
@@ -2586,6 +2594,7 @@ el:
     name_or_identifier: "Όνομα ή αναγνωριστικό"
     only_subproject_id: "Μόνο υποέργο"
     shared_with_user: "Shared with user"
+    shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
     at_identifier: "στο %{identifier}"
@@ -2736,7 +2745,7 @@ el:
   setting_brute_force_block_minutes: "Χρόνος αποκλεισμού του χρήστη"
   setting_cache_formatted_text: "Μορφοποιημένο κείμενο cache"
   setting_use_wysiwyg_description: "Επιλέξτε για να ενεργοποιήσετε τον συντάκτη CKEditor5 WYSIWYG για όλους τους χρήστες από προεπιλογή. Ο CKEditor έχει περιορισμένη λειτουργικότητα για GFM Markdown."
-  setting_column_options: "Προσαρμόστε την εμφάνιση των λιστών πακέτων εργασίας"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Επιδιόρθωση λέξεων-κλειδιά"
   setting_commit_logs_encoding: "Κωδικοποίηση μηνυμάτων δέσμευσης"
   setting_commit_logtime_activity_id: "Δραστηριότητα για τον καταγεγραμμένο χρόνο"
@@ -2758,7 +2767,7 @@ el:
   setting_emails_header: "Επικεφαλίδα email"
   setting_email_login: "Χρησιμοποιήστε email για είσοδο"
   setting_enabled_scm: "Ενεργοποίηση SCM"
-  setting_enabled_projects_columns: "Ορατό στη λίστα έργων"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Ενεργοποίηση Τροφοδοσιών"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Όριο συγκατάθεσης τροφοδοσίας"
@@ -2769,7 +2778,6 @@ el:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Εμφάνιση από προεπιλογή"
   setting_work_package_properties: "Ιδιότητες πακέτου εργασίας"
   setting_work_package_startdate_is_adddate: "Χρήση σημερινής ημερομηνίας ως ημερομηνία έναρξης για νέα πακέτα εργασίας"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2835,12 +2843,12 @@ el:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2877,7 +2885,7 @@ el:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Ρυθμίσεις για νέα έργα"
-      section_project_overview: "Ρυθμίσεις για τη λίστα επισκόπησης έργου"
+      section_project_overview: "Settings for project lists"
     session: "Συνεδρία"
     user:
       default_preferences: "Προεπιλεγμένες προτιμήσεις"
@@ -3042,6 +3050,12 @@ el:
       Εάν είναι ενεργοποιημένη, ο χρήστης δεν θα μπορεί να επιλέξει μια σύνδεση κατά την εγγραφή. Αντ 'αυτού η δεδομένη διεύθυνση ηλεκτρονικού ταχυδρομείου θα χρησιμεύσει ως σύνδεση. Ο διαχειριστής μπορεί να αλλάξει τη σύνδεση ξεχωριστά.
   queries:
     apply_filter: Εφαρμογή προδιαμορφωμένου φίλτρου
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Επιπλέον πόροι"
     getting_started: "Ξεκινώντας"

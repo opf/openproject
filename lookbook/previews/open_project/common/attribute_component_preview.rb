@@ -4,9 +4,11 @@ module OpenProject
     class AttributeComponentPreview < Lookbook::Preview
       # @param id
       # @param name
-      # @param description
-      def default(id: 'attribute_modal', name: 'Description', description: '<figure>This button is only visible when the description is truncated or it includes a figure or macro</figure>')
-        render OpenProject::Common::AttributeComponent.new(id, name, description)
+      # @param text
+      def default(id: 'attribute_modal',
+                  name: 'Description',
+                  text: '<figure>This button is only visible when the text is truncated or includes a figure or macro.</figure>')
+        render OpenProject::Common::AttributeComponent.new(id, name, text)
       end
     end
   end

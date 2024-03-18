@@ -31,10 +31,8 @@ ru:
       color_theme: "Цветовая тема"
       color_theme_custom: "(Пользовательская)"
       colors:
-        alternative-color: "Альтернативная"
-        content-link-color: "Шрифт ссылки"
-        primary-color: "Основной"
-        primary-color-dark: "Основной (темный)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Фон заголовка"
         header-item-bg-hover-color: "Фон заголовка при наведении курсора"
         header-item-font-color: "Шрифт заголовка"
@@ -53,10 +51,8 @@ ru:
       enterprise_more_info: "Примечание: используемый логотип будет общедоступным."
       manage_colors: "Изменить цвет выбранных опций"
       instructions:
-        alternative-color: "Яркий контрастный цвет, который обычно используют для важных кнопок на экране."
-        content-link-color: "Цвет шрифта большинства ссылок."
-        primary-color: "Основной цвет."
-        primary-color-dark: "Для эффекта наведения обычно используется более темная версия основного цвета."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Цвет фона в заголовках интерактивных элементов при наведении мыши."
         header-item-font-color: "Цвет шрифта в заголовках интерактивных элементов."
         header-item-font-hover-color: "Цвет шрифта в заголовках интерактивных элементов при наведении мыши."
@@ -264,12 +260,15 @@ ru:
       no_results_title_text: На данный момент проектов нет
       no_results_content_text: Создать новый проект
     lists:
-      active: 'Активные проекты'
-      my: 'Мои проекты'
-      archived: 'Архивные проекты'
-      my_private: 'Списки моих личных проектов'
+      active: "Активные проекты"
+      my: "Мои проекты"
+      archived: "Архивные проекты"
+      my_private: "Списки моих личных проектов"
       new:
-        placeholder: 'Список новых проектов'
+        placeholder: "Список новых проектов"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Идентификатор изменений
       activities:
@@ -291,6 +290,8 @@ ru:
         no_results_content_text: Создать новую версию
       storage:
         no_results_title_text: Для этого проекта дополнительного дискового пространства не требуется.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: На данный момент у этого проекта нет участников.
@@ -343,7 +344,7 @@ ru:
     memberships:
       no_results_title_text: Этот пользователь в данный момент в проекте не участвует.
   page:
-    text: 'Текст'
+    text: "Текст"
   placeholder_users:
     right_to_manage_members_missing: >
       Вы не можете удалить пользователя-заполнителя. Вы не имеете права управлять участниками проектов, в которых состоит заполнитель.
@@ -843,6 +844,10 @@ ru:
               invalid: "Временные метки содержат недопустимые значения: %{values}"
               forbidden: "Временные метки содержат запрещенные значения: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "является взаимоисключающим при группировке «%{group_by}». Вы не можете активировать оба."
           filters:
             custom_fields:
@@ -1211,6 +1216,7 @@ ru:
   button_reset: "Сброс"
   button_rollback: "Откатиться до этого этапа"
   button_save: "Сохранить"
+  button_save_as: "Save as"
   button_apply_changes: "Применить изменения"
   button_save_back: "Сохранить и вернуться"
   button_show: "Показать"
@@ -1831,6 +1837,7 @@ ru:
   label_diff_side_by_side: "Рядом"
   label_digital_accessibility: "Цифровая доступность (DE)"
   label_disabled: "отключено"
+  label_disabled_uppercase: "Disabled"
   label_display: "Отображение"
   label_display_per_page: "На странице: %{value}"
   label_display_used_statuses_only: "Отображать только используемые этим типом  состояния"
@@ -2058,6 +2065,7 @@ ru:
   label_precedes: "Предшествует"
   label_preferences: "Предпочтения"
   label_preview: "Предварительный просмотр"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Предыдущие"
   label_previous_week: "Предыдущая неделя"
   label_principal_invite_via_email: " или пригласить новых пользователей по электронной почте"
@@ -2647,6 +2655,7 @@ ru:
     name_or_identifier: "Имя или идентификатор"
     only_subproject_id: "Только подпроект"
     shared_with_user: "Доступно пользователю"
+    shared_with_me: "Shared with me"
     subproject_id: "Включая подпроект"
   repositories:
     at_identifier: "в %{identifier}"
@@ -2795,7 +2804,7 @@ ru:
   setting_brute_force_block_minutes: "Время блокирования пользователя за"
   setting_cache_formatted_text: "Кэшировать форматированный текст"
   setting_use_wysiwyg_description: "Выберите включение CKEditor5 WYSIWYG редактора для всех пользователей по умолчанию. CKEditor обладает ограниченной функциональностью для GFM Markdown."
-  setting_column_options: "Настройка внешнего вида  списка пакетов работ"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Корректирующие ключевые слова"
   setting_commit_logs_encoding: "Зафиксировать кодировку сообщений"
   setting_commit_logtime_activity_id: "Деятельности с учетом времени"
@@ -2817,7 +2826,7 @@ ru:
   setting_emails_header: "Заголовок письма"
   setting_email_login: "Использовать email как логин"
   setting_enabled_scm: "Вклченные SCM (системы управления исходным кодом)"
-  setting_enabled_projects_columns: "Видимый в списке проектов"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Включить новостные ленты"
   setting_ical_enabled: "Включить подписку на iCalendar"
   setting_feeds_limit: "Предел содержимого новостной ленты"
@@ -2828,7 +2837,6 @@ ru:
   setting_work_package_done_ratio_field: "Поле пакета работ"
   setting_work_package_done_ratio_status: "Статус пакета работ"
   setting_work_package_done_ratio_disabled: "Отключить (скрыть % заполненное поле)"
-  setting_work_package_list_default_columns: "Отображать по умолчанию"
   setting_work_package_properties: "Свойства пакета работ"
   setting_work_package_startdate_is_adddate: "Использовать текущую дату как дату начала для новых пакетов работ"
   setting_work_packages_projects_export_limit: "Ограничение экспорта пакетов работ / проектов"
@@ -2894,12 +2902,12 @@ ru:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Удалить файл'
-        quarantine: 'Поместите файл в карантин'
+        delete: "Удалить файл"
+        quarantine: "Поместите файл в карантин"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2936,7 +2944,7 @@ ru:
     projects:
       missing_dependencies: "Был проверен модуль проекта %{module}, который зависит от %{dependencies}. Вам также необходимо проверить эти зависимости."
       section_new_projects: "Настройки для новых проектов"
-      section_project_overview: "Настройки списка обзоров проекта"
+      section_project_overview: "Settings for project lists"
     session: "Сессия"
     user:
       default_preferences: "Предпочтения по умолчанию"
@@ -3101,6 +3109,12 @@ ru:
       Если включено, пользователь не сможет выбирать логин во время регистрации. Вместо этого именем для входа ему будет служить его e-mail. Администратор сможет изменить логин отдельно.
   queries:
     apply_filter: Применить ранее настроенный фильтр
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Дополнительные ресурсы"
     getting_started: "Приступая к работе"

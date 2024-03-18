@@ -44,7 +44,7 @@ module WorkPackage::Exports
     def get_columns
       query
         .columns
-        .reject { |c| c.is_a?(Queries::WorkPackages::Columns::RelationColumn) }
+        .reject { |c| c.is_a?(Queries::WorkPackages::Selects::RelationSelect) }
     end
 
     def page

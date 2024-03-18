@@ -197,7 +197,6 @@ class CustomStylesController < ApplicationController
     end
 
     @custom_style.send(remove_method)
-    @custom_style.save
     redirect_to custom_style_path
   end
 end

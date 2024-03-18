@@ -26,9 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
@@ -36,6 +34,7 @@ import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/que
 @Component({
   selector: 'op-filter-boolean-value',
   templateUrl: './filter-boolean-value.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterBooleanValueComponent {
   @Input() public shouldFocus = false;
@@ -48,6 +47,11 @@ export class FilterBooleanValueComponent {
   }
 
   public get value():HalResource | string {
+    // Boolean fields should be initialized as true by default
+    if (this.filter.values.length === 0) {
+      this.filter.values[0] = 't';
+      this.filterChanged.emit(this.filter);
+     }
     return this.filter.values[0];
   }
 

@@ -31,10 +31,8 @@ uk:
       color_theme: "Колірна тема"
       color_theme_custom: "(Власний)"
       colors:
-        alternative-color: "Альтернативний"
-        content-link-color: "Шрифт посилання"
-        primary-color: "Основний"
-        primary-color-dark: "Основний (темний)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Фон заголовка"
         header-item-bg-hover-color: "Фон заголовка в разі наведення курсора"
         header-item-font-color: "Шрифт заголовка"
@@ -53,10 +51,8 @@ uk:
       enterprise_more_info: "Примітка: використаний логотип буде загальнодоступний."
       manage_colors: "Редагувати параметри вибору кольору"
       instructions:
-        alternative-color: "Насичений акцентний колір зазвичай використовується для більшості важливих кнопок на екрані."
-        content-link-color: "Колір шрифту більшості посилань."
-        primary-color: "Основний колір."
-        primary-color-dark: "Зазвичай темний варіант основного кольору, який використовується для ефектів наведення."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Колір фону в заголовках інтерактивних елементів під курсором миші."
         header-item-font-color: "Колір шрифту в заголовках інтерактивних елементів."
         header-item-font-hover-color: "Колір шрифту в заголовках інтерактивних елементів під курсором миші."
@@ -260,12 +256,15 @@ uk:
       no_results_title_text: Наразі немає проектів
       no_results_content_text: Створіть новий проект
     lists:
-      active: 'Активні проєкти'
-      my: 'Мої проєкти'
-      archived: 'Заархівовані проєкти'
-      my_private: 'Особисті списки проєктів'
+      active: "Активні проєкти"
+      my: "Мої проєкти"
+      archived: "Заархівовані проєкти"
+      my_private: "Особисті списки проєктів"
       new:
-        placeholder: 'Новий список проєктів'
+        placeholder: "Новий список проєктів"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Ідентифікатор змін
       activities:
@@ -287,6 +286,8 @@ uk:
         no_results_content_text: Створіть нову версію
       storage:
         no_results_title_text: Цей проєкт не потребує додаткового дискового простору.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: Наразі учасників цього проекту немає.
@@ -339,7 +340,7 @@ uk:
     memberships:
       no_results_title_text: Цей користувач наразі не є учасником проекту.
   page:
-    text: 'Текст'
+    text: "Текст"
   placeholder_users:
     right_to_manage_members_missing: >
       Ви не можете видалити прототип користувача. У вас немає права керувати учасниками для всіх проєктів, до яких належить прототип користувача.
@@ -839,6 +840,10 @@ uk:
               invalid: "Мітки часу містять неприпустимі значення: %{values}"
               forbidden: "Мітки часу містять заборонені значення: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "є взаємовиключним з групою %{group_by} Ви не можете активувати обидва."
           filters:
             custom_fields:
@@ -1207,6 +1212,7 @@ uk:
   button_reset: "Скинути"
   button_rollback: "Відкотити до даної версії"
   button_save: "Зберегти"
+  button_save_as: "Save as"
   button_apply_changes: "Застосувати зміни"
   button_save_back: "Зберегти та повернутися назад"
   button_show: "Показати"
@@ -1827,6 +1833,7 @@ uk:
   label_diff_side_by_side: "поряд"
   label_digital_accessibility: "Цифрова доступність (ЦД)"
   label_disabled: "Вимкнено"
+  label_disabled_uppercase: "Disabled"
   label_display: "Дисплей"
   label_display_per_page: "На сторінку: %{value}"
   label_display_used_statuses_only: "Відображати тільки ті статуси, які використовуються в цьому трекері"
@@ -2054,6 +2061,7 @@ uk:
   label_precedes: "переважати"
   label_preferences: "Налаштування"
   label_preview: "Попередній перегляд"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Попередній"
   label_previous_week: "Попередній тиждень"
   label_principal_invite_via_email: "або запрошувати нових користувачів електронною поштою"
@@ -2641,6 +2649,7 @@ uk:
     name_or_identifier: "Ім'я або ідентифікатор"
     only_subproject_id: "Лише підпроєкт"
     shared_with_user: "Надано доступ користувачу"
+    shared_with_me: "Shared with me"
     subproject_id: "Включно з підпроєктом"
   repositories:
     at_identifier: "на %{identifier}"
@@ -2791,7 +2800,7 @@ uk:
   setting_brute_force_block_minutes: "Час, коли користувач заблоковано"
   setting_cache_formatted_text: "Кешувати форматований текст"
   setting_use_wysiwyg_description: "Виберіть, щоб увімкнути редактор CKEditor5 WYSIWYG для всіх користувачів за умовчанням. CKEditor має обмежену функціональність для GFM Markdown."
-  setting_column_options: "Налаштовувати зовнішній вигляд списків пакетів роботи"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Призначення ключових слів"
   setting_commit_logs_encoding: "Кодування повідомлень"
   setting_commit_logtime_activity_id: "Активність для реєстрації часу"
@@ -2813,7 +2822,7 @@ uk:
   setting_emails_header: "Заголовок листа"
   setting_email_login: "Використовуйте електронну пошту як логін"
   setting_enabled_scm: "Увімкнені SCM"
-  setting_enabled_projects_columns: "Видимий у списку проєктів"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Увімкнути канали"
   setting_ical_enabled: "Дозволити підписки на iCalendar"
   setting_feeds_limit: "Обмеження вмісту каналу"
@@ -2824,7 +2833,6 @@ uk:
   setting_work_package_done_ratio_field: "Поле пакета робіт"
   setting_work_package_done_ratio_status: "Статус пакета робіт"
   setting_work_package_done_ratio_disabled: "Вимкнути (приховати поле «Відсоток завершення»)"
-  setting_work_package_list_default_columns: "Дисплей за замовчуванням"
   setting_work_package_properties: "Властивості робочого пакета"
   setting_work_package_startdate_is_adddate: "Використовувати поточну дату в якості дати початку роботи для нових пакетів"
   setting_work_packages_projects_export_limit: "Ліміт експорту пакетів робіт / проєктів"
@@ -2890,12 +2898,12 @@ uk:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2932,7 +2940,7 @@ uk:
     projects:
       missing_dependencies: "Перевірено модуль проєкту %{module}, який містить залежності від %{dependencies}. Ці залежності потрібно також перевірити."
       section_new_projects: "Налаштування нових проєктів"
-      section_project_overview: "Налаштування списку огляду проєктів"
+      section_project_overview: "Settings for project lists"
     session: "Сесія"
     user:
       default_preferences: "Параметри за умовчанням"
@@ -3097,6 +3105,12 @@ uk:
       Якщо увімкнено, користувач не зможе вибрати реєстраційний запис під час реєстрації. Замість цього їхня адреса електронної пошти слугуватиме логіном. Адміністратор може змінити вхід окремо.
   queries:
     apply_filter: Застосувати попередньо налаштований фільтр
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Додаткові ресурси"
     getting_started: "Починаємо"

@@ -12,7 +12,7 @@ on:
     inputs:
       tag:
         description: "The tag to release. Note that this happens by default on the tag push. Only run this action when something went wrong!"
-        required: true
+        required: false
 
 permissions:
   contents: read # to fetch code (actions/checkout)
@@ -23,7 +23,7 @@ env:
 jobs:
   build:
     if: github.repository == 'opf/openproject'
-    runs-on: [ self-hosted, aws, ubuntu22, x64, 2XL ]
+    runs-on: [ self-hosted, aws, ubuntu22, x64, L, "run-id=${{ github.run_id }}" ]
     strategy:
       matrix:
         include:
@@ -45,21 +45,31 @@ jobs:
         run: |
           if [[ ${{ github.event_name }} == 'push' ]]; then
             TAG_REF=${GITHUB_REF#refs/tags/}
+            CHECKOUT_REF=$GITHUB_REF
+          elif [[ ${{ github.event_name }} == 'schedule' ]]; then
+            TAG_REF=dev
+            CHECKOUT_REF=refs/heads/dev
           elif [[ ${{ github.event_name }} == 'workflow_dispatch' ]]; then
             TAG_REF=${{ inputs.tag }}
+            CHECKOUT_REF=${{ inputs.tag }}
+          else
+            echo "Unsupported event"
+            exit 1
+          fi
+          
+          if [ -z "$TAG_REF" ] || [ -z "$CHECKOUT_REF" ]; then
+            echo "No TAG_REF or CHECKOUT_REF set. Aborting"
+            exit 1
           fi
           
           VERSION=${TAG_REF#v}
           echo "Version: $VERSION"
           echo "::set-output name=version::$VERSION"
-      - name: Checkout current release
-        if: ${{ github.event_name == 'push' }}
-        uses: actions/checkout@v3
-      - name: Checkout specific version
-        if: ${{ github.event_name != 'push' }}
+          echo "::set-output name=checkout_ref::$CHECKOUT_REF"
+      - name: Checkout
         with:
-          ref: ${{ inputs.tag }}
-        uses: actions/checkout@v3
+          ref: ${{ steps.extract_version.outputs.checkout_ref }}
+        uses: actions/checkout@v4
       - name: Prepare docker files
         run: |
           cp ./docker/prod/Dockerfile ./Dockerfile
@@ -82,6 +92,7 @@ jobs:
           images: |
             ${{ env.REGISTRY_IMAGE }}
       - name: Build image
+        id: build
         uses: docker/build-push-action@v4
         with:
           context: .
@@ -104,7 +115,7 @@ jobs:
             -e SUPERVISORD_LOG_LEVEL=debug \
             -e OPENPROJECT_LOGIN__REQUIRED=false \
             -e OPENPROJECT_HTTPS=false \
-            ${{ fromJSON(steps.meta.outputs.json).tags[0] }}
+            ${{ steps.build.outputs.imageid }}
 
           sleep 60
 

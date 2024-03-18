@@ -41,7 +41,7 @@ RSpec.describe 'Add an attachment to a meeting (agenda)', :js, with_cuprite: fal
       it 'can upload an image via drag & drop' do
         find('.ck-content')
 
-        editor.expect_button 'Insert image'
+        editor.expect_button 'Upload image from computer'
 
         editor.drag_attachment image_fixture.path, 'Some image caption'
 

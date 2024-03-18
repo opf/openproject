@@ -60,7 +60,7 @@ module Gantt
 
         menu_item(
           params,
-          Gantt::DefaultQueryGeneratorService::QUERY_MAPPINGS[query_key]
+          I18n.t("js.queries.#{query_key.to_s}"),
         )
       end
     end

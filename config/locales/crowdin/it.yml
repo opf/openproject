@@ -31,10 +31,8 @@ it:
       color_theme: "Tema a colori"
       color_theme_custom: "(Personalizzato)"
       colors:
-        alternative-color: "Alternativa"
-        content-link-color: "Collega font"
-        primary-color: "Primario"
-        primary-color-dark: "Primario (scuro)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Sfondo intestazione"
         header-item-bg-hover-color: "Sfondo intestazione al passaggio del mouse"
         header-item-font-color: "Font intestazione"
@@ -53,10 +51,8 @@ it:
       enterprise_more_info: "Nota: il logo utilizzato sarà accessibile al pubblico."
       manage_colors: "Modifica opzioni di selezione del colore"
       instructions:
-        alternative-color: "Colore forte, utilizzato di solito per far risaltare il tasto principale sullo schermo."
-        content-link-color: "Colore del carattere della maggior parte dei collegamenti."
-        primary-color: "Colore principale."
-        primary-color-dark: "In genere una versione più scura del colore principale utilizzato per effetti hover."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Colore dello sfondo degli elementi cliccabili nelle intestazioni al passaggio del mouse."
         header-item-font-color: "Colore del carattere degli elementi cliccabili nelle intestazioni."
         header-item-font-hover-color: "Colore del carattere degli elementi cliccabili nelle intestazioni al passaggio del mouse."
@@ -262,12 +258,15 @@ it:
       no_results_title_text: Al momento non esistono progetti
       no_results_content_text: Crea un nuovo progetto
     lists:
-      active: 'Progetti attivi'
-      my: 'I miei progetti'
-      archived: 'Progetti archiviati'
-      my_private: 'I miei elenchi di progetti privati'
+      active: "Progetti attivi"
+      my: "I miei progetti"
+      archived: "Progetti archiviati"
+      my_private: "I miei elenchi di progetti privati"
       new:
-        placeholder: 'Nuovo elenco progetti'
+        placeholder: "Nuovo elenco progetti"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Cambia identificatore
       activities:
@@ -289,6 +288,8 @@ it:
         no_results_content_text: Crea una nuova versione
       storage:
         no_results_title_text: Nessuno spazio su disco registrato aggiuntivo consumato da questo progetto.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: Al momento non vi sono partecipanti a questo progetto.
@@ -341,7 +342,7 @@ it:
     memberships:
       no_results_title_text: Questo utente non è attualmente membro di alcun progetto.
   page:
-    text: 'Testo'
+    text: "Testo"
   placeholder_users:
     right_to_manage_members_missing: >
       Non è consentito eliminare l'utente segnaposto. Non hai il permesso per gestire i membri per tutti i progetti di cui l'utente segnaposto è membro.
@@ -839,6 +840,10 @@ it:
               invalid: "Le marche orarie contengono valori non validi: %{values}"
               forbidden: "Le marche orarie contengono valori proibiti: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "è mutuamente esclusivo con il raggruppamento per '%{group_by}'. Non puoi attivare entrambi."
           filters:
             custom_fields:
@@ -1191,6 +1196,7 @@ it:
   button_reset: "Reimposta"
   button_rollback: "Ripristina a questa versione"
   button_save: "Salva"
+  button_save_as: "Save as"
   button_apply_changes: "Applica modifiche"
   button_save_back: "Salva e ritorna"
   button_show: "Mostra"
@@ -1775,6 +1781,7 @@ it:
   label_diff_side_by_side: "Affiancate"
   label_digital_accessibility: "Accessibilità digitale (DE)"
   label_disabled: "disabilitato"
+  label_disabled_uppercase: "Disabled"
   label_display: "Visualizza"
   label_display_per_page: "Per pagina: %{value}"
   label_display_used_statuses_only: "Visualizza solo stati utilizzati da questo tipo"
@@ -2002,6 +2009,7 @@ it:
   label_precedes: "precede"
   label_preferences: "Preferenze"
   label_preview: "Anteprima"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Precedente"
   label_previous_week: "Settimana precedente"
   label_principal_invite_via_email: " o invita nuovi utenti via e-mail"
@@ -2588,6 +2596,7 @@ it:
     name_or_identifier: "Nome o identificativo"
     only_subproject_id: "Solo sottoprogetto"
     shared_with_user: "Condivisa con l'utente"
+    shared_with_me: "Shared with me"
     subproject_id: "Sottoprogetto incluso"
   repositories:
     at_identifier: "presso %{identifier}"
@@ -2738,7 +2747,7 @@ it:
   setting_brute_force_block_minutes: "Durata del blocco utente"
   setting_cache_formatted_text: "Cache del testo formattato"
   setting_use_wysiwyg_description: "Seleziona questa opzione per abilitare l'editor CKEditor5 WYSIWYG per tutti gli utenti come impostazione predefinita. CKEditor ha funzionalità limitate per il GFM Markdown."
-  setting_column_options: "Personalizza l'aspetto degli elenchi di macro-attività"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Parole chiave di ripristino"
   setting_commit_logs_encoding: "Codifica dei messaggi di accettazione modifiche (commit)"
   setting_commit_logtime_activity_id: "Attività svolta durante l'orario registrato"
@@ -2760,7 +2769,7 @@ it:
   setting_emails_header: "Intestazione e-mail"
   setting_email_login: "Usa email come login"
   setting_enabled_scm: "SCM Abilitato"
-  setting_enabled_projects_columns: "Visibile nell'elenco dei progetti"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Abilita Feed"
   setting_ical_enabled: "Abilita iscrizioni di iCalendar"
   setting_feeds_limit: "Limite al contenuto del contributo"
@@ -2771,7 +2780,6 @@ it:
   setting_work_package_done_ratio_field: "Il campo della macro-attività"
   setting_work_package_done_ratio_status: "Lo stato della macro-attività"
   setting_work_package_done_ratio_disabled: "Disabilita (nascondi il campo % completamento)"
-  setting_work_package_list_default_columns: "Visualizza come impostazione predefinita"
   setting_work_package_properties: "Proprietà della macro-attività"
   setting_work_package_startdate_is_adddate: "Usa la data corrente come data di inizio per le nuove macro-attività"
   setting_work_packages_projects_export_limit: "Limite di esportazione di macro-attività/progetti"
@@ -2837,12 +2845,12 @@ it:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2879,7 +2887,7 @@ it:
     projects:
       missing_dependencies: "È stato controllato il modulo del progetto %{module} che dipende da %{dependencies}. È necessario controllare anche queste dipendenze."
       section_new_projects: "Impostazioni per i nuovi progetti"
-      section_project_overview: "Impostazioni per l'elenco generale dei progetti"
+      section_project_overview: "Settings for project lists"
     session: "Sessione"
     user:
       default_preferences: "Preferenze predefinite"
@@ -3044,6 +3052,12 @@ it:
       Se attivato, un utente non potrà selezionare un login durante la registrazione. Utilizzerà il suo indirizzo di posta per l'accesso. Un amministratore potrà modificare il login separatamente.
   queries:
     apply_filter: Applica il filtro preconfigurato
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Risorse aggiuntive"
     getting_started: "Per cominciare"

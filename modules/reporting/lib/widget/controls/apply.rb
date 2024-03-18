@@ -31,7 +31,7 @@ class Widget::Controls::Apply < Widget::Controls
     write link_to(I18n.t(:button_apply),
                   '#',
                   id: 'query-icon-apply-button',
-                  class: 'button -highlight',
+                  class: 'button -primary',
                   'data-target': url_for(action: 'index', set_filter: '1'))
   end
 end

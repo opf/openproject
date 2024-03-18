@@ -110,7 +110,7 @@ module OpenProject::Bim
 
     class_inflection_override('v2_1' => 'V2_1')
 
-    assets %w(bim/logo_openproject_bim_big.png)
+    assets %w(bim/logo_openproject_bim_big.png bim/logo_openproject_bim_big_coloured.png)
 
     patches %i[Attachment WorkPackage Type Journal RootSeeder Project FogFileUploader]
 
@@ -227,7 +227,7 @@ module OpenProject::Bim
       ::Queries::Register.register(::Query) do
         filter ::Bim::Queries::WorkPackages::Filter::BcfIssueAssociatedFilter
 
-        column ::Bim::Queries::WorkPackages::Columns::BcfThumbnailColumn
+        select ::Bim::Queries::WorkPackages::Selects::BcfThumbnailSelect
       end
 
       ::API::Root.class_eval do

@@ -26,31 +26,20 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostListener,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostListener, Input } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import {
-  from,
-  Observable,
-  of,
-} from 'rxjs';
-import {
-  catchError,
-  map,
-} from 'rxjs/operators';
+import { from, Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/wp-collection-resource';
-import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import {
-  ApiV3Filter,
-  ApiV3FilterBuilder,
-} from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
+  OpAutocompleterComponent,
+} from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { ApiV3Filter, ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import {
+  WorkPackageNotificationService,
+} from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export interface IWorkPackageAutocompleteItem extends WorkPackageResource {
@@ -124,7 +113,7 @@ export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterCo
         query,
         filters: JSON.stringify(this.createFilters()),
         type: this.filterCandidatesFor || this.selectedRelationType,
-        sortBy: JSON.stringify([['typeahead', 'asc']]),
+        sortBy: JSON.stringify([['updatedAt', 'desc']]),
       }) as Promise<WorkPackageCollectionResource>,
     )
       .pipe(

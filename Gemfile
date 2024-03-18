@@ -107,7 +107,7 @@ gem 'svg-graph', '~> 2.2.0'
 
 gem 'date_validator', '~> 0.12.0'
 gem 'email_validator', '~> 2.2.3'
-gem 'json_schemer', '~> 2.1.0'
+gem 'json_schemer', '~> 2.2.0'
 gem 'ruby-duration', '~> 3.2.0'
 
 # `config/initializers/mail_starttls_patch.rb` has also been patched to
@@ -124,8 +124,7 @@ gem 'multi_json', '~> 1.15.0'
 gem 'oj', '~> 3.16.0'
 
 gem 'daemons'
-gem 'delayed_cron_job', '~> 0.9.0'
-gem 'delayed_job_active_record', '~> 4.1.5'
+gem 'good_job', '~> 3.26.1' # update should be done manually in sync with saas-openproject version.
 
 gem 'rack-protection', '~> 3.2.0'
 
@@ -384,4 +383,4 @@ end
 
 gem 'openproject-octicons', '~>19.8.0'
 gem 'openproject-octicons_helper', '~>19.8.0'
-gem 'openproject-primer_view_components', '~>0.22.2'
+gem 'openproject-primer_view_components', '~>0.23.0'
