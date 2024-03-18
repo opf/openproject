@@ -185,6 +185,8 @@ en:
   label_agenda_item_move_down: "Move down"
   label_agenda_item_add_notes: "Add notes"
 
+  text_agenda_item_title: 'Agenda item "%{title}"'
+
   label_meeting_details: "Meeting details"
   label_meeting_details_edit: "Edit meeting details"
 

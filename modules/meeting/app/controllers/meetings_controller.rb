@@ -74,7 +74,7 @@ class MeetingsController < ApplicationController
     end
   end
 
-  def create
+  def create # rubocop:disable Metrics/AbcSize
     @meeting.participants.clear # Start with a clean set of participants
     @meeting.participants_attributes = @converted_params.delete(:participants_attributes)
     @meeting.attributes = @converted_params
@@ -86,7 +86,7 @@ class MeetingsController < ApplicationController
         link = I18n.t(:notice_timezone_missing, zone: Time.zone)
         text += " #{view_context.link_to(link, { controller: '/my', action: :account }, class: 'link_to_profile')}"
       end
-      flash[:notice] = text.html_safe
+      flash[:notice] = text.html_safe # rubocop:disable Rails/OutputSafety
 
       redirect_to action: 'show', id: @meeting
     else
@@ -421,6 +421,8 @@ class MeetingsController < ApplicationController
 
         agenda_item_only_check(event, events_dup, details_count)
       end
+
+      event.controller_flag = true
     end
 
     @events = events_dup
@@ -450,7 +452,7 @@ class MeetingsController < ApplicationController
     render_404
   end
 
-  def copy_meeting_agenda
+  def copy_meeting_agenda # rubocop:disable Metrics/AbcSize
     return unless params[:copy_agenda] == '1' && @copy_from
 
     if @meeting.is_a?(StructuredMeeting)

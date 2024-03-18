@@ -106,8 +106,7 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
   end
 
   def meeting_activity?
-    # need to check if the activities are coming from the meetings controller and not the activities controller
-    # event.provider?
+    @event.controller_flag && !@event.journal.initial?
   end
 
   def initial_agenda_item?
@@ -153,13 +152,14 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
     if agenda_item.item_type == "work_package"
       link_to agenda_item.work_package.to_s, agenda_item.work_package
     else
-      "Agenda item \"#{agenda_item.title}\"" # needs i18n
+      I18n.t("text_agenda_item_title", title: agenda_item.title)
     end
   rescue ActiveRecord::RecordNotFound
-    "Agenda item \"#{@event.meeting_agenda_item_data.last['title'].last || @event.meeting_agenda_item_data.last['title'].first}\""
+    agenda_item_title_field = @event.meeting_agenda_item_data.last['title']
+    I18n.t("text_agenda_item_title", title: agenda_item_title_field.last || agenda_item_title_field.first)
   end
 
   def meeting_activity_title
-    "Meeting details"
+    I18n.t("label_meeting_details")
   end
 end
