@@ -90,7 +90,7 @@ type Controller = {
  */
 type XeokitBimViewer = Controller&{
   loadProject:(projectId:string) => void,
-  saveBCFViewpoint:(options:BCFCreationOptions) => CreateBcfViewpointData,
+  saveBCFViewpoint:(options:BCFCreationOptions) => unknown,
   loadBCFViewpoint:(bcfViewpoint:BcfViewpointData, options:BCFLoadOptions) => void,
   setKeyboardEnabled:(enabled:boolean) => true,
   destroy:() => void
@@ -154,9 +154,7 @@ export class IFCViewerService extends ViewerBridgeService {
       );
 
       this.httpClient.post(
-        this.pathHelper.ifcModelsDeletePath(
-          this.currentProjectService.identifier as string, event.modelId,
-        ),
+        this.pathHelper.ifcModelsDeletePath(this.currentProjectService.identifier as string, event.modelId),
         formData,
       )
         .subscribe()
@@ -200,12 +198,35 @@ export class IFCViewerService extends ViewerBridgeService {
     }
 
     const opts:BCFCreationOptions = { spacesVisible: true, reverseClippingPlanes: true };
-    const viewpoint = this.viewer.saveBCFViewpoint(opts);
+    const viewpoint = this.viewer.saveBCFViewpoint(opts) as CreateBcfViewpointData;
 
-    // The backend rejects viewpoints with bitmaps
-    viewpoint.bitmaps = null;
+    // project output of viewer to ensured BCF viewpoint format
+    const bcfViewpoint:CreateBcfViewpointData = {
+      // The backend currently rejects viewpoints with bitmaps
+      bitmaps: null,
+      clipping_planes: viewpoint.clipping_planes,
+      index: viewpoint.index,
+      guid: viewpoint.guid,
+      components: {
+        selection: viewpoint.components.selection,
+        coloring: viewpoint.components.coloring,
+        visibility: {
+          default_visibility: viewpoint.components.visibility.default_visibility,
+          exceptions: viewpoint.components.visibility.exceptions,
+          view_setup_hints: {
+            openings_visible: viewpoint.components.visibility.view_setup_hints?.openings_visible || false,
+            space_boundaries_visible: viewpoint.components.visibility.view_setup_hints?.space_boundaries_visible || false,
+            spaces_visible: viewpoint.components.visibility.view_setup_hints?.spaces_visible || false,
+          },
+        },
+      },
+      lines: viewpoint.lines,
+      orthogonal_camera: viewpoint.orthogonal_camera,
+      perspective_camera: viewpoint.perspective_camera,
+      snapshot: viewpoint.snapshot,
+    };
 
-    return of(viewpoint);
+    return of(bcfViewpoint);
   }
 
   public showViewpoint(workPackage:WorkPackageResource, index:number):void {
