@@ -6,6 +6,7 @@
           [type]="mappedChartType"
           [options]="internalChartOptions"
           *ngIf="hasDataToDisplay">
+    {{chartDescription}}
   </canvas>
   <op-no-results *ngIf="!hasDataToDisplay && initialized"
               [title]="text.noResults">
