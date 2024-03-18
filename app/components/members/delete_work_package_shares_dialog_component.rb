@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,38 +28,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Members::DeleteService < BaseServices::Delete
-  include Members::Concerns::CleanedUp
+module Members
+  class DeleteWorkPackageSharesDialogComponent < ::ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+    options :row
 
-  def destroy(object)
-    if object.member_roles.where.not(inherited_from: nil).empty?
-      super
-    else
-      object.member_roles.where(inherited_from: nil).destroy_all
+    delegate :table,
+             :shared_work_packages_link,
+             :all_shared_work_packages_link,
+             :administration_settings_link,
+             to: :row
+
+    delegate :shared_role_id,
+             :shared_role_name,
+             to: :table
+
+    delegate :principal,
+             :other_shared_work_packages_count?,
+             :direct_shared_work_packages_count?,
+             :inherited_shared_work_packages_count?,
+             to: :model
+
+    def scoped_t(key, **)
+      t(key, scope: "members.delete_work_package_shares_dialog", **)
     end
-  end
 
-  protected
-
-  def after_perform(service_call)
-    super(service_call).tap do |call|
-      member = call.result
-
-      cleanup_for_group(member)
-      send_notification(member)
+    def id
+      "principal-#{principal.id}-delete-work-package-shares-dialog"
     end
-  end
 
-  def send_notification(member)
-    ::OpenProject::Notifications.send(OpenProject::Events::MEMBER_DESTROYED,
-                                      member:)
-  end
-
-  def cleanup_for_group(member)
-    return unless member.principal.is_a?(Group)
-
-    Groups::CleanupInheritedRolesService
-      .new(member.principal, current_user: user, contract_class: EmptyContract)
-      .call
+    def delete_url(work_package_shares_role_id: nil)
+      url_for(controller: "/members", action: "destroy_by_principal", principal_id: principal, work_package_shares_role_id:)
+    end
   end
 end

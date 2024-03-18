@@ -98,11 +98,35 @@ module Pages
     end
 
     def remove_user!(user_name)
-      find_user(user_name).find('a[data-method=delete]').click
+      click_row_action!(find_user(user_name), "Remove member")
+
+      find_dialog("Remove member").click_on("Remove")
     end
 
     def remove_group!(group_name)
-      find_group(group_name).find('a[data-method=delete]').click
+      click_row_action!(find_group(group_name), "Remove member")
+
+      find_dialog("Remove member").click_on("Remove")
+    end
+
+    def click_row_action!(row, action)
+      action_menu_button = row.find(:link_or_button) { _1.has_selector?("svg.octicon-kebab-horizontal") }
+
+      action_menu_button.click
+
+      # quick and dirty fix for popover element not recognised as visible (and then as interactible)
+      # https://github.com/teamcapybara/capybara/issues/2755
+      # https://github.com/SeleniumHQ/selenium/issues/13700
+      anchored_position = action_menu_button.find(:xpath, "./ancestor::action-menu//anchored-position")
+      anchored_position.execute_script("this.removeAttribute('popover')")
+
+      row.click_on(action)
+
+      anchored_position.execute_script("this.setAttribute('popover', 'auto')")
+    end
+
+    def find_dialog(title)
+      find("dialog") { |d| d.find("h1", text: title) }
     end
 
     def has_added_user?(name, visible: true, css: "tr")
@@ -159,8 +183,7 @@ module Pages
     end
 
     def edit_user!(name, add_roles: [], remove_roles: [])
-      user = find_user(name)
-      user.find('a[title=Edit]').click
+      click_row_action!(find_user(name), "Manage roles")
 
       Array(add_roles).each { |role| check role }
       Array(remove_roles).each { |role| uncheck role }
@@ -171,8 +194,9 @@ module Pages
     def has_group_membership?(user_name)
       user = find_user(user_name)
 
-      user.has_selector?('a[title=Edit]') &&
-        user.has_no_selector?('a[title=Delete]')
+      remove_dialog_id = user.find(:link_or_button, "Remove member", visible: false)["data-show-dialog-id"]
+      user.has_selector?(:link_or_button, "Manage roles", visible: false) &&
+        page.find("dialog##{remove_dialog_id}", visible: false).has_no_selector?(:button, "Remove", visible: false)
     end
 
     def has_roles?(user_name, roles, group: false)

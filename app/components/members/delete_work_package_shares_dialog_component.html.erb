@@ -1,0 +1,112 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) 2012-2024 the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(Primer::Alpha::Dialog.new(id:, title: scoped_t(:title), size: :large)) do |dialog| %>
+  <% dialog.with_header(variant: :large) %>
+
+  <% if other_shared_work_packages_count? %>
+    <% if direct_shared_work_packages_count? %>
+      <% if inherited_shared_work_packages_count? %>
+        <% dialog.with_body do %>
+          <%= render(Primer::Beta::Text.new(tag: "p")) do %>
+            <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:) %>
+            <%= scoped_t(:shared_with_permission_html, shared_work_packages_link:, shared_role_name:) %>
+          <% end %>
+          <%= render(Primer::Beta::Text.new(tag: "p")) do %>
+            <%= scoped_t(:revoke_all_or_with_role, shared_role_name:) %>
+            <%= scoped_t(:will_not_affect_inherited_shares) %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <% dialog.with_body do %>
+          <%= render(Primer::Beta::Text.new(tag: "p")) do %>
+            <% if principal.is_a?(Group) %>
+              <%= scoped_t(:shared_with_this_group_html, all_shared_work_packages_link:) %>
+            <% else %>
+              <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:) %>
+            <% end %>
+            <%= scoped_t(:shared_with_permission_html, shared_work_packages_link:, shared_role_name:) %>
+          <% end %>
+          <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:revoke_all_or_with_role, shared_role_name:) } %>
+        <% end %>
+      <% end %>
+
+      <% dialog.with_footer do %>
+        <%= render(Primer::Beta::Button.new(data: { close_dialog_id: id })) { t(:button_cancel) } %>
+        <%= render(Primer::Beta::Button.new(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: "all"), data: { method: :delete })) { t(:button_revoke_all) } %>
+        <%= render(Primer::Beta::Button.new(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: shared_role_id), data: { method: :delete })) { t(:button_revoke_only, shared_role_name:) } %>
+      <% end %>
+    <% else %>
+      <% dialog.with_body do %>
+        <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:cannot_remove_inherited_with_role, shared_role_name:) } %>
+        <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:cannot_remove_inherited_note_html, administration_settings_link:) } %>
+      <% end %>
+
+      <% dialog.with_footer do %>
+        <%= render(Primer::Beta::Button.new(data: { close_dialog_id: id })) { t(:button_cancel) } %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% if direct_shared_work_packages_count? %>
+      <% if inherited_shared_work_packages_count? %>
+        <% dialog.with_body do %>
+          <%= render(Primer::Beta::Text.new(tag: "p")) do %>
+            <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:) %>
+            <%= scoped_t(:will_revoke_access_but_for_inherited) %>
+          <% end %>
+        <% end %>
+      <% else %>
+        <% dialog.with_body do %>
+          <%= render(Primer::Beta::Text.new(tag: "p")) do %>
+            <% if principal.is_a?(Group) %>
+              <%= scoped_t(:shared_with_this_group_html, all_shared_work_packages_link:) %>
+            <% else %>
+              <%= scoped_t(:shared_with_this_user_html, all_shared_work_packages_link:) %>
+            <% end %>
+            <%= scoped_t(:will_revoke_access_to_all) %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% dialog.with_footer do %>
+        <%= render(Primer::Beta::Button.new(data: { close_dialog_id: id })) { t(:button_cancel) } %>
+        <%= render(Primer::Beta::Button.new(scheme: :danger, tag: :a, href: delete_url(work_package_shares_role_id: "all"), data: { method: :delete })) { t(:button_revoke_access) } %>
+      <% end %>
+    <% else %>
+      <% dialog.with_body do %>
+        <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:cannot_remove_inherited, shared_role_name:) } %>
+        <%= render(Primer::Beta::Text.new(tag: "p")) { scoped_t(:cannot_remove_inherited_note_html, administration_settings_link:) } %>
+      <% end %>
+
+      <% dialog.with_footer do %>
+        <%= render(Primer::Beta::Button.new(data: { close_dialog_id: id })) { t(:button_cancel) } %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

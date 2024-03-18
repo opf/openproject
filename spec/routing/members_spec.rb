@@ -51,8 +51,9 @@ RSpec.describe MembersController do
   }
 
   it {
-    expect(subject).to route(:delete, '/members/5234').to(controller: 'members',
-                                                          action: 'destroy',
-                                                          id: '5234')
+    expect(subject).to route(:delete, "/projects/5234/members/by_principal/8158").to(controller: "members",
+                                                                                     action: "destroy_by_principal",
+                                                                                     project_id: "5234",
+                                                                                     principal_id: "8158")
   }
 end

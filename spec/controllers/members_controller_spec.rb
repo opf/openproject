@@ -234,17 +234,61 @@ RSpec.describe MembersController do
     end
   end
 
-  describe '#destroy' do
-    let(:action) { post :destroy, params: { id: member.id } }
-
-    before do
-      member
+  describe "#destroy_by_principal" do
+    let(:action) do
+      delete :destroy_by_principal, params: { project_id: project.id, principal_id: user.id, **more_params }
     end
 
-    it 'destroys a member' do
-      expect { action }.to change { Member.count }.by(-1)
-      expect(response).to redirect_to '/projects/pet_project/members'
-      expect(user).not_to be_member_of(project)
+    let(:role) { create(:project_role, permissions: %i[manage_members share_work_packages]) }
+    let!(:project_role_member) do
+      create(:member, project:,
+                      user:,
+                      roles: [role])
+    end
+
+    let(:work_package_role) { create(:view_work_package_role) }
+    let!(:work_packages_shares) do
+      Array.new(2) do
+        create(:member,
+               project:,
+               roles: [work_package_role],
+               entity: create(:work_package, project:),
+               principal: user)
+      end
+    end
+
+    before do
+      allow(User).to receive(:current).and_return(user)
+    end
+
+    context "when requested to delete only project role member" do
+      let(:more_params) { { project: "✓" } }
+
+      it "destroys the project role member" do
+        expect { action }.to change(Member, :count).by(-1)
+        expect(response).to redirect_to "/projects/pet_project/members"
+        expect(user).not_to be_member_of(project)
+      end
+    end
+
+    context "when requested to delete only work packages shares" do
+      let(:more_params) { { work_package_shares_role_id: "all" } }
+
+      it "destroys the project role member" do
+        expect { action }.to change(Member, :count).by(-2)
+        expect(response).to redirect_to "/projects/pet_project/members"
+        expect(user).to be_member_of(project)
+      end
+    end
+
+    context "when requested to delete both project role member and work packages shares" do
+      let(:more_params) { { project: "✓", work_package_shares_role_id: "all" } }
+
+      it "destroys the project role member" do
+        expect { action }.to change(Member, :count).by(-3)
+        expect(response).to redirect_to "/projects/pet_project/members"
+        expect(user).not_to be_member_of(project)
+      end
     end
   end
 

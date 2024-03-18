@@ -29,8 +29,6 @@
 class WorkPackageMembers::DeleteService < BaseServices::Delete
   include Members::Concerns::CleanedUp
 
-  protected
-
   def destroy(object)
     if object.member_roles.where.not(inherited_from: nil).empty?
       super
@@ -38,6 +36,8 @@ class WorkPackageMembers::DeleteService < BaseServices::Delete
       object.member_roles.where(inherited_from: nil).destroy_all
     end
   end
+
+  protected
 
   def after_perform(service_call)
     super(service_call).tap do |call|

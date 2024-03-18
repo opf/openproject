@@ -29,8 +29,8 @@
 class MembersController < ApplicationController
   include MemberHelper
   model_object Member
-  before_action :find_model_object_and_project, except: [:autocomplete_for_member]
-  before_action :find_project_by_project_id, only: [:autocomplete_for_member]
+  before_action :find_model_object_and_project, except: %i[autocomplete_for_member destroy_by_principal]
+  before_action :find_project_by_project_id, only: %i[autocomplete_for_member destroy_by_principal]
   before_action :authorize
 
   def index
@@ -82,13 +82,17 @@ class MembersController < ApplicationController
                                      per_page: params[:per_page])
   end
 
-  def destroy
-    service_call = Members::DeleteService
-      .new(user: current_user, model: @member)
-      .call
+  def destroy_by_principal
+    principal = Principal.find(params[:principal_id])
+
+    service_call = Members::DeleteByPrincipalService
+      .new(user: current_user, project: @project, principal:)
+      .call(params.permit(:project, :work_package_shares_role_id))
 
     if service_call.success?
-      display_success(I18n.t(:notice_member_removed, user: @member.principal.name))
+      flash[:notice] = I18n.t(:notice_member_removed, user: principal.name)
+    else
+      display_error(service_call)
     end
 
     redirect_to project_members_path(project_id: @project)
@@ -132,11 +136,18 @@ class MembersController < ApplicationController
   end
 
   def members_table_options(roles)
+    shared_role = WorkPackageRole.find_by(id: params[:shared_role_id])
+    shared_role_name = shared_role && Members::UserFilterComponent.mapped_shared_role_name(shared_role)
+
     {
       project: @project,
       available_roles: roles,
-      authorize_update: authorize_for('members', 'update'),
-      is_filtered: Members::UserFilterComponent.filtered?(params)
+      authorize_update: authorize_for("members", :update),
+      authorize_delete: authorize_for("members", :destroy_by_principal),
+      authorize_work_package_shares_view: authorize_for("work_packages/shares", :update),
+      authorize_work_package_shares_delete: authorize_for("work_packages/shares/bulk", :destroy),
+      is_filtered: Members::UserFilterComponent.filtered?(params),
+      shared_role_name:
     }
   end
 

@@ -30,7 +30,14 @@
 
 module Members
   class TableComponent < ::TableComponent
-    options :authorize_update, :available_roles, :is_filtered, :project
+    options :authorize_update,
+            :authorize_delete,
+            :authorize_work_package_shares_view,
+            :authorize_work_package_shares_delete,
+            :available_roles,
+            :is_filtered,
+            :shared_role_name,
+            :project
     columns :name, :mail, :roles, :groups, :shared, :status
     sortable_columns :name, :mail, :status
 
@@ -58,16 +65,21 @@ module Members
     end
 
     def shared_role_id
-      case params[:shared_role_id]
-      when 'all', nil
-        nil
-      else
-        params[:shared_role_id]
-      end
+      params[:shared_role_id] if params[:shared_role_id].present? && params[:shared_role_id] != "all"
     end
 
     def initial_sort
       %i[name asc]
+    end
+
+    def hide_roles? = params[:shared_role_id].present?
+
+    def columns
+      if hide_roles?
+        super - [:roles]
+      else
+        super
+      end
     end
 
     def headers
