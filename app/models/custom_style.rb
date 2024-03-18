@@ -35,7 +35,7 @@ class CustomStyle < ApplicationRecord
       image = send(name)
       image&.remove!
 
-      update_column name, nil
+      update_columns(name => nil, updated_at: Time.zone.now)
     end
   end
 end
