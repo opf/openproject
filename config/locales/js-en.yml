@@ -393,7 +393,6 @@ en:
                   <li>GitLab integration (originally developed by Community contributors)</li>
                   <li>Advanced features for custom project lists</li>
                   <li>Advanced features for the Meetings module</li>
-                  <li>Admins are nudged to go through OAuth flow when activating a storage</li>
                   <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li>
                   <li>PDF Export: Lists in table cells are supported</li>
                   <li>WebAuthn/FIDO/U2F is added as a second factor</li>
