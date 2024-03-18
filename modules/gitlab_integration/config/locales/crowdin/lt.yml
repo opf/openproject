@@ -32,7 +32,7 @@ lt:
           attributes:
             labels:
               invalid_schema: "turi būti masyvas raktų: spalva, antraštė"
-  project_module_gitlab: "Gitlab"
+  project_module_gitlab: "GitLab"
   permission_show_gitlab_content: "Rodyti Gitlab turinį"
   gitlab_integration:
     merge_request_opened_comment: >
