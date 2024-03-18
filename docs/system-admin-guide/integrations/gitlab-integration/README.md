@@ -56,7 +56,7 @@ Finally you will need to activate the GitLabmodule under [Project settings](../.
 
 ![Activate a GitLab module in OpenProject](openproject-system-guide-gitlab-integration-project-modules.png)
 
-Seeing the **GitLab** tab requires permission (WHAT PERMISSION? PLEASE UPDATE) so the permission needs to be granted to all roles in a project allowed to see the tab. 
+Seeing the **GitLab** tab requires **Show GitLab content** permission, so this permission needs to be granted to all roles in a project allowed to see the tab. 
 
 ### GitLab
 
