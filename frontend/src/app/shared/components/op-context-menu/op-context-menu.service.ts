@@ -68,6 +68,12 @@ export class OPContextMenuService {
         that.close();
       }
     }, true);
+    // Listen if it scrolles then close the active context menu
+    document.getElementById('wrapper')!.addEventListener('scroll', (evt:Event) => {
+      if (that.active && !that.portalHostElement.contains(evt.target as Element)) {
+        that.close();
+      }
+    }, true);
   }
 
   /**
