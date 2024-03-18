@@ -57,7 +57,7 @@ You can add the columns, as well as define the order of the columns by using the
 
 ![Configure view of project lists in OpenProject](configure-view-project-list.png)
 
-A window will open, allowing you to manage and reorder columns. Don't forget to click **Apply** to see the changes. 
+A dialogue will open, allowing you to manage and reorder columns. Click **Apply** to see the changes. 
 
 ![Configuration form for project lists in OpenProject](configure-view-form-project-list.png)
 
@@ -85,7 +85,7 @@ Projects can be filtered in OpenProject. The default view will list all currentl
 
 To adjust the project lists view use the **Filters** button, select the filtering criteria you require and click the blue **Apply** button.
 
-If you want to save this filtered list use the menu in the far right corner (three dots) and click **Save as**. Alternatively you can also use **Save as link** next to the warning message.
+If you want to save this filtered list use the **Save as** link next to the information message in the page header or alternatively click on the menu (three dots) and click **Save as**.
 
 ![Save a filtered project list](save-button-filtered-view.png)
 
