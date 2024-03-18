@@ -518,7 +518,7 @@ GEM
       tzinfo
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
-    excon (0.109.0)
+    excon (0.110.0)
     factory_bot (6.4.6)
       activesupport (>= 5.0.0)
     factory_bot_rails (6.4.3)
@@ -538,7 +538,7 @@ GEM
       websocket-driver (>= 0.6, < 0.8)
     ffi (1.16.3)
     flamegraph (0.9.5)
-    fog-aws (3.21.0)
+    fog-aws (3.21.1)
       fog-core (~> 2.1)
       fog-json (~> 1.1)
       fog-xml (~> 0.1)
