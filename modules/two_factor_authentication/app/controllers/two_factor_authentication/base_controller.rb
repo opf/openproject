@@ -198,6 +198,7 @@ module ::TwoFactorAuthentication
     def webauthn_relying_party
       @webauthn_relying_party ||= WebAuthn::RelyingParty.new(
         origin: "#{Setting.protocol}://#{Setting.host_name}",
+        id: Setting.host_name,
         name: Setting.app_title
       )
     end
