@@ -126,7 +126,7 @@ class MeetingsController < ApplicationController
   end
 
   def history
-    @events = @activity.events(from: @date_from.to_datetime, to: @date_to.to_datetime)
+    @events = get_events
     separate_events_for_history
 
     render :history
@@ -353,6 +353,20 @@ class MeetingsController < ApplicationController
                                         meeting: @meeting)
   end
 
+  def get_events
+    Activities::EventMapper.map_to_events(
+      @meeting,
+      ->(journal) do
+        {
+          meeting_title: journal.data.title,
+          meeting_start_time: journal.data.start_time,
+          meeting_duration: journal.data.duration,
+          project_id: journal.data.project_id
+        }
+      end
+    )
+  end
+
   def activity_scope
     ["meetings", "meeting_agenda_items"]
   end
@@ -401,7 +415,7 @@ class MeetingsController < ApplicationController
         results[:agenda_items].each do |item_data|
           copy = event.clone
           copy.meeting_agenda_item_data = item_data
-          events_dup << copy
+          events_dup << copy if work_package_agenda_item_exists?(copy)
           details_count += item_data.last.count
         end
 
@@ -419,7 +433,15 @@ class MeetingsController < ApplicationController
       events_dup
     end
   end
-  
+
+  def work_package_agenda_item_exists?(event)
+    return true if event.meeting_agenda_item_data.last["title"]&.last || event.meeting_agenda_item_data.last["title"]&.first
+
+    MeetingAgendaItem.find(event.meeting_agenda_item_data.first)
+  rescue ActiveRecord::RecordNotFound
+    false
+  end
+
   def find_copy_from_meeting
     return unless params[:copied_from_meeting_id]
 

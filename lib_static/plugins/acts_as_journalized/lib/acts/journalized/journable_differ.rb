@@ -45,7 +45,6 @@ module Acts::Journalized
     def association_changes_multiple_attributes(original, changed, association, association_name, key, values)
         list = {}
         values.each do |value|
-          binding.pry
           list.store(value, get_association_changes(original, changed, association, association_name, key, value))
         end
 

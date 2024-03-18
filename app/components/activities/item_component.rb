@@ -147,18 +147,16 @@ class Activities::ItemComponent < ViewComponent::Base # rubocop:disable OpenProj
     rendered_details
   end
 
-  def agenda_item_title
+  def agenda_item_title # rubocop:disable Metrics/AbcSize
     agenda_item = MeetingAgendaItem.find(@event.meeting_agenda_item_data.first)
 
     if agenda_item.item_type == "work_package"
       link_to agenda_item.work_package.to_s, agenda_item.work_package
-    elsif initial_agenda_item?
-      agenda_item.title.to_s
     else
       "Agenda item \"#{agenda_item.title}\"" # needs i18n
     end
-  rescue ActiveRecord::RecordNotFound # rework to remove dependence on rescue
-    @event.meeting_agenda_item_data.last["title"].last || @event.meeting_agenda_item_data.last["title"].first
+  rescue ActiveRecord::RecordNotFound
+    "Agenda item \"#{@event.meeting_agenda_item_data.last['title'].last || @event.meeting_agenda_item_data.last['title'].first}\""
   end
 
   def meeting_activity_title
