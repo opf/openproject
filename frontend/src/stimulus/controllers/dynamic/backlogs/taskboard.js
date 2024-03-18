@@ -43,16 +43,17 @@ RB.Taskboard = (function ($) {
       this.$.data('this', this);
 
       // Initialize column widths
-      this.colWidthUnit = $(".swimlane").width();
+      this.colWidthUnit = 107;
       this.defaultColWidth = 1;
       this.loadColWidthPreference();
       this.updateColWidths();
 
-      $("#col_width input").keyup(function (e) {
-        if (e.which === 13) {
-          self.updateColWidths();
-        }
-      });
+      $('#col_width_input')
+        .on('keyup', function (evt) {
+          if (evt.which === 13) {
+            self.updateColWidths();
+          }
+        });
 
       this.initializeTasks();
       this.initializeImpediments();
@@ -181,12 +182,12 @@ RB.Taskboard = (function ($) {
     },
 
     updateColWidths: function () {
-      var w = parseInt($("#col_width input").val(), 10);
+      var w = parseInt($("#col_width_input").val(), 10);
 
       if (isNaN(w) || w <= 0) {
         w = this.defaultColWidth;
       }
-      $("#col_width input").val(w);
+      $("#col_width_input").val(w);
       RB.UserPreferences.set('taskboardColWidth', w);
       $(".swimlane").width(this.colWidthUnit * w).css('min-width', this.colWidthUnit * w);
     }
