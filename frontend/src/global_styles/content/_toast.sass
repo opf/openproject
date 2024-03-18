@@ -175,13 +175,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
       @include messages-icon
       @extend %nm-icon-info
 
-  &.-notification
-    @extend %info-placeholder
-
-    &::before
-      @include messages-icon
-      @extend %nm-icon-notification
-
   &.-loading
     @extend %info-placeholder
 
@@ -194,6 +187,13 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
   &.-upload
     @extend %info-placeholder
     padding: $nm-upload-box-padding
+
+  &.-notification
+    @extend %info-placeholder
+
+    &::before
+      @include messages-icon
+      @extend %nm-icon-notification
 
   //@hack adapting to provided styles
   //messy I dont have all the details for a magic resolve, this might change
@@ -215,9 +215,6 @@ $nm-upload-box-padding: rem-calc(15) rem-calc(25)
     color: $nm-color-warning-icon
 
   &.-info
-    color: $nm-color-info-icon
-
-  &.-notification
     color: $nm-color-info-icon
 
 .op-toast--wrapper,

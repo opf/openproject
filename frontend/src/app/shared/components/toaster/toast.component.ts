@@ -57,7 +57,7 @@ export class ToastComponent implements OnInit {
     close_popup: this.I18n.t('js.close_popup_title'),
   };
 
-  public type:ToastType;
+  public type:ToastType|string;
 
   public uploadCount = 0;
 
@@ -76,7 +76,7 @@ export class ToastComponent implements OnInit {
   }
 
   ngOnInit():void {
-    this.type = this.toast.type;
+    this.type = this.toast.icon || this.toast.type;;
 
     this.removable = !['upload', 'loading'].includes(this.type);
 

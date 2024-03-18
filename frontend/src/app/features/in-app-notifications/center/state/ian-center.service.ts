@@ -329,7 +329,8 @@ export class IanCenterService extends UntilDestroyedMixin {
       }
 
       this.activeReloadToast = this.toastService.add({
-        type: 'notification',
+        type: 'info',
+        icon: 'notification',
         message: this.I18n.t('js.notifications.center.new_notifications.message'),
         link: {
           text: this.I18n.t('js.notifications.center.new_notifications.link_text'),
