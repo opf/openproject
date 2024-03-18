@@ -5,3 +5,5 @@
 21a696ef9b170e14ad2daf53364a4c2113822c2f
 # Update copyright information for 2023
 c795874f7f281297bbd3bad2fdb58b24cb4ce624
+# rubocop Style/StringLiterals enforcing double_quotes
+f3c99ee5dded81ad55f2b6f3706216d5fa765677
