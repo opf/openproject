@@ -59,8 +59,8 @@ RSpec.describe "version show graph", :js do
 
   def expect_work_packages_visible_in_graph
     expect(page).to have_css(".work-packages-embedded-view--container", wait: 20)
-    expect(page).to have_css(".op-wp-embeded-graph", visible: :all, wait: 20)
-    canvas = find(".op-wp-embeded-graph canvas")
+    expect(page).to have_css(".op-wp-embedded-graph", visible: :all, wait: 20)
+    canvas = find(".op-wp-embedded-graph canvas")
     expect(canvas.text).to eq("1 Control; 1 Subject under test")
   end
 
