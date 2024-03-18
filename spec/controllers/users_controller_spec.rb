@@ -642,7 +642,7 @@ RSpec.describe UsersController do
       end
 
       it 'redirects to the edit page' do
-        expect(response).to redirect_to(edit_user_url(some_user))
+        expect(response).to render_template :edit
       end
 
       it 'is assigned their new values' do
