@@ -90,13 +90,30 @@ namespace :ldap_groups do
 
       puts <<~INFO
         LDAP server ready at localhost:12389
-        Users Base dn: ou=people,dc=example,dc=com
-        Admin account: uid=admin,ou=system
-        Admin password: secret
+
+        Connection details
+
+        Host: localhost
+        Port: 12389
+        No encryption
 
         --------------------------------------------------------
 
-        Attributes
+        System account
+
+        Account: uid=admin,ou=system
+        Password: secret
+
+        --------------------------------------------------------
+
+        LDAP details
+
+        Base DN: ou=people,dc=example,dc=com
+
+        --------------------------------------------------------
+
+        Attribute mapping
+
         Login: uid
         First name: givenName
         Last name: sn
@@ -106,16 +123,19 @@ namespace :ldap_groups do
 
         --------------------------------------------------------
 
-        Users:
+        Users
+
         uid=aa729,ou=people,dc=example,dc=com (Password: smada)
         uid=bb459,ou=people,dc=example,dc=com (Password: niwdlab)
         uid=cc414,ou=people,dc=example,dc=com (Password: retneprac)
 
         --------------------------------------------------------
 
-        Groups:
+        Groups
+
         cn=foo,ou=groups,dc=example,dc=com (Members: aa729)
         cn=bar,ou=groups,dc=example,dc=com (Members: aa729, bb459, cc414)
+
       INFO
 
       puts "Send CTRL+D to stop the server"
