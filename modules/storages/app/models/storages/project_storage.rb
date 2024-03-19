@@ -92,7 +92,7 @@ module Storages
     def open_with_connection_ensured
       return unless storage.configured?
 
-      url_helpers = Rails.application.routes.url_helpers
+      url_helpers = OpenProject::StaticRouting::StaticRouter.new.url_helpers
       open_project_storage_url = url_helpers.open_project_storage_url(
         host: Setting.host_name,
         protocol: 'https',
