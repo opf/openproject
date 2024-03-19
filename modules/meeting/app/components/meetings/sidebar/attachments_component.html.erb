@@ -1,0 +1,28 @@
+<%=
+  flex_layout(classes: 'hidden-for-mobile') do |attachments_container|
+    attachments_container.with_row do
+      render(Primer::Beta::Heading.new(tag: :h4)) { I18n.t(:label_attachment_plural) }
+    end
+
+    attachments_container.with_row(mt: 2) do
+      resource = ::API::V3::Meetings::MeetingRepresenter.new(@meeting, current_user: User.current, embed_links: false)
+      helpers.list_attachments(resource,
+                               'data-allow-uploading': true,
+                               'data-show-timestamp': false,
+                               'data-external-upload-button': "#meetings-add-attachments".to_json)
+    end
+
+    attachments_container.with_row(mt: 1) do
+      render(Primer::Beta::Button.new(
+        scheme: :link,
+        color: :default,
+        underline: false,
+        font_weight: :bold,
+        id: "meetings-add-attachments"
+      )) do |button|
+        button.with_leading_visual_icon(icon: "op-attachmentadd")
+        t("js.label_add_attachments")
+      end
+    end
+  end
+%>
