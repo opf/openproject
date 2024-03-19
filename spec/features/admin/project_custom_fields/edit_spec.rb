@@ -32,7 +32,7 @@ require_relative 'shared_context'
 RSpec.describe 'Edit project custom fields', :js do
   include_context 'with seeded project custom fields'
 
-  context 'with unsufficient permissions' do
+  context 'with insufficient permissions' do
     it 'is not accessible' do
       login_as(non_admin)
       visit edit_admin_settings_project_custom_field_path(boolean_project_custom_field)
