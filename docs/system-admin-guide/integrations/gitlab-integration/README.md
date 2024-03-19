@@ -106,12 +106,7 @@ Once you are satisfied with the changes you can create a commit. Within the 'Git
 
 ![Copy a Git commit message in OpenProject](openproject-system-guide-gitlab-integration-git-snippets-commit-message.png)
 
-A URL pointing to a work package in the merge request description or a comment will link the two. The link needs to be in the MR and not in a commit, but GitLab will use the first commit message as the proposed branch description (as long as there is only one commit).
-
-!!DO NOT MERGE!! 
-
-Should we already mentioned that OP# as a reference in an Issue or MR title works too? When I first read the documentation I missed the part about it later in the text and I thought only linking does work.
-!!DO NOT MERGE END!!
+A URL pointing to a work package in the merge request description or a comment will link the two. The link needs to be in the MR and not in a commit, but GitLab will use the first commit message as the proposed branch description (as long as there is only one commit). Alternatively you can also use 'OP#' as a work package reference in an issue or a MR title, in this case "OP#388", where 388 is the ID of the work package. 
 
 ![Commit message in a Git client](openproject-system-guide-gitlab-integration-commit-message-in-client.png)
 
@@ -121,18 +116,7 @@ Once the changes are made, you can create your merge request. Title and comment 
 
 The branch description can be amended before a MR is created giving the opportunity to further describe the changes. To help with that, it is also possible to copy parts of the work package description since the description can be displayed in the markdown format. Links to additional work packages can also be included in the MR description.
 
-Rather than inserting a link to the work package you can also reference it just by adding "OP#388" to the pull request's description where 388 is the ID of the work package
-
-!!DO NOT MERGE!!
-
-Maybe interesting for our docu too?
-From https://github.com/btey/openproject-gitlab-integration?tab=readme-ov-file#difference-between-op-and-pp
-
-Difference between OP and PP
-
-If you use OP# as a reference in an Issue or MR title, all comments will be replicated in OpenProject. However, sometimes you may only want to keep information about the status of an Issue/MR in OpenProject, but you don't want your comments to be published. In this case, you can use PP# as a reference. This way the comments will not be published in OpenProject. But if at any time one of your comments in a private Issue/MR is of interest to you to be published in OpenProject you can use OP# directly in that comment. So only that comment will be published in OpenProject. The rest of the comments will remain private and will not be published.
-
-!!DO NOT MERGE END!!
+If you use OP# as a reference in an Issue or MR title, all comments will be replicated in OpenProject. However, sometimes you may only want to keep information about the status of an Issue/MR in OpenProject without your comments being published. In this case, you can use "PP#" as a reference. For example "PR#388".  This way the comments will not be published in OpenProject. If you only want to publish one of the comments from a private Issue/MR, you can use "OP#" directly in that comment. This way only that specific comment will be published in OpenProject, but the rest of the comments will remain private. [Read more](https://github.com/btey/openproject-gitlab-integration?tab=readme-ov-file#difference-between-op-and-pp).
 
 ![Open a GitLab merge request](openproject-system-guide-gitlab-integration-create-mr-detail.png)
 
