@@ -50,6 +50,12 @@ class MeetingContent < ApplicationRecord
                 title: Proc.new { |o| "#{o.class.model_name.human}: #{o.meeting.title}" },
                 url: Proc.new { |o| { controller: '/meetings', action: 'show', id: o.meeting } }
 
+  scope :visible, ->(*args) {
+    includes(meeting: :project)
+      .references(:projects)
+      .merge(Project.allowed_to(args.first || User.current, :view_meetings))
+  }
+
   def editable?
     true
   end
