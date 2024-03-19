@@ -152,17 +152,17 @@ zh-TW:
     label_incomplete: Incomplete
     label_managed_project_folders:
       application_password: Application password
-      automatically_managed_folders: Automatically managed folders
+      automatically_managed_folders: 自動管理文件夾
     label_name: 名稱
     label_new_file_storage: New %{provider} storage
     label_new_storage: New storage
     label_no_selected_folder: 沒有設定資料夾
     label_no_specific_folder: No specific folder
-    label_oauth_client_id: OAuth Client ID
+    label_oauth_client_id: OAuth 客戶端 ID
     label_openproject_oauth_application_id: OpenProject OAuth Client ID
     label_openproject_oauth_application_secret: OpenProject OAuth Client Secret
     label_project_folder: 專案資料夾
-    label_provider: Provider
+    label_provider: 供應商
     label_redirect_uri: 轉址 uri
     label_show_storage_redirect_uri: Show redirect URI
     label_status: 狀態
@@ -181,7 +181,7 @@ zh-TW:
       access_granted: Access granted
       access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
       body: To get access to the project folder you need to login to %{storage}.
-      cancel_button_label: I will do it later
+      cancel_button_label: 稍後再做
       confirm_button_aria_label: Login to %{storage}
       confirm_button_label: 登入
       requesting_access_to: Requesting access to %{storage}
@@ -221,7 +221,7 @@ zh-TW:
     provider_types:
       label: 提供者類型
       nextcloud:
-        label_oauth_client_id: Nextcloud OAuth Client ID
+        label_oauth_client_id: Nextcloud OAuth 客户端 ID
         label_oauth_client_secret: Nextcloud OAuth Client Secret
         name: Nextcloud
         name_placeholder: 例如 Nextcloud

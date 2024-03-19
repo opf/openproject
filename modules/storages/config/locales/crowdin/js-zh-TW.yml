@@ -78,6 +78,6 @@ zh-TW:
         tooltip:
           not_logged_in: "Please log in to the storage to access this file."
           view_not_allowed: "您無權查看此文件。"
-          not_found: "This file cannot be found."
+          not_found: "找不到檔案。"
         already_linked_file: "This file is already linked to this work package."
         already_linked_directory: "This directory is already linked to this work package."

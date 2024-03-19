@@ -1582,6 +1582,7 @@ cs:
       postgres_migration: "Migrujte vaši instalaci na PostgreSQL"
       user_guides: "Uživatelské příručky"
       faq: "FAQ - často kladené dotazy"
+      impressum: "Legal notice"
       glossary: "Glossary"
       shortcuts: "Klávesové zkratky"
       blog: "OpenProject blog"
@@ -1913,7 +1914,6 @@ cs:
   label_subject_or_id: "Předmět nebo ID"
   label_calendar_subscriptions: "Předplatné kalendáře"
   label_identifier: "Identifikátor"
-  label_impressum: "Právní oznámení"
   label_in: "v"
   label_in_less_than: "za méně než"
   label_in_more_than: "za více než"
@@ -2914,7 +2914,7 @@ cs:
         instructions_html: >
           Vyberte akci, která se má provést u souborů, u nichž byl zjištěn virus: <br/>. <ul> <li><strong>%{quarantine_option}</strong>: Umístěte soubor do karantény a zabraňte uživatelům v přístupu k němu. Správci mohou soubory v karanténě kontrolovat a odstraňovat v administraci.</li> <li><strong>%{delete_option}</strong>: Okamžité odstranění souboru.</li> </ul>
       modes:
-        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
+        clamav_socket_html: Zadejte soket démona clamd, např. %{example}.
         clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
         description_html: >
           Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
