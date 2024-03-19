@@ -21,12 +21,14 @@ module TwoFactorAuthentication
     def options_for_create(relying_party)
       @options_for_create ||= relying_party.options_for_registration(
         user: { id: user.webauthn_id, name: user.name },
-        exclude: TwoFactorAuthentication::Device::Webauthn.where(user:).pluck(:webauthn_external_id)
+        exclude: TwoFactorAuthentication::Device::Webauthn.where(user:).pluck(:webauthn_external_id),
+        authenticator_selection: { user_verification: 'discouraged' }
       )
     end
 
     def options_for_get(relying_party)
       @options_for_get ||= relying_party.options_for_authentication(
+        user_verification: 'discouraged', # we do not require user verification
         allow: webauthn_external_id # TODO: Maybe also allow all other tokens? Let's see
       )
     end
