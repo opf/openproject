@@ -182,3 +182,17 @@ mail: xara@example.org
 uid: xx396
 userpassword:: e1NIQX1ZYzJFbjJSL3NiZGpsRU9pdGtMbGt3WTRqQVk9
 
+dn: uid=bölle,ou=people,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: simulatedMicrosoftSecurityPrincipal
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Bölle Büllendorf
+sn: Büllendorf
+givenName: Bölle
+mail: boelle@example.org
+uid: bölle
+samAccountName: bölle
+# Password is "bólle"
+userpassword:: e1NIQX1rNDBGWHRYQ3RFL3l2cENhblRpQmZ2cE1ON1k9Cg==
