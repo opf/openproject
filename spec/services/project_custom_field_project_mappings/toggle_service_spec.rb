@@ -178,7 +178,7 @@ RSpec.describe ProjectCustomFieldProjectMappings::ToggleService do
              })
     end
 
-    it 'toggles visible, non-required fields' do
+    it 'does not toggle visible, non-required fields' do
       expect(project.project_custom_fields).to contain_exactly(
         visible_required_project_custom_field
       )
