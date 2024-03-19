@@ -84,7 +84,7 @@ module ::TwoFactorAuthentication
     ##
     # Create a token service for the current user
     # with an optional override to use a non-default channel
-    def otp_service(user, use_channel: nil, use_device: remembered_device)
+    def otp_service(user, use_channel: nil, use_device: remembered_device(user))
       session[:two_factor_authentication_device_id] = use_device.try(:id)
       ::TwoFactorAuthentication::TokenService.new user:, use_channel:, use_device:
     end
@@ -92,13 +92,13 @@ module ::TwoFactorAuthentication
     ##
     # Get the used device for verification
     def otp_service_for_verification(user)
-      otp_service(user, use_device: remembered_device)
+      otp_service(user, use_device: remembered_device(user))
     rescue ActiveRecord::RecordNotFound
       render_404
       false
     end
 
-    def remembered_device
+    def remembered_device(user)
       if session[:two_factor_authentication_device_id]
         user.otp_devices.find(session[:two_factor_authentication_device_id])
       end
