@@ -36,6 +36,7 @@ module OpenProject::Bim
 
     register 'openproject-bim',
              author_url: 'https://www.openproject.org',
+             bundled: true,
              settings: {
                default: {}
              } do
@@ -110,7 +111,7 @@ module OpenProject::Bim
 
     class_inflection_override('v2_1' => 'V2_1')
 
-    assets %w(bim/logo_openproject_bim_big.png)
+    assets %w(bim/logo_openproject_bim_big.png bim/logo_openproject_bim_big_coloured.png)
 
     patches %i[Attachment WorkPackage Type Journal RootSeeder Project FogFileUploader]
 

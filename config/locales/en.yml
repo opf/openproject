@@ -35,7 +35,8 @@ en:
 
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins available.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Color theme"
       color_theme_custom: "(Custom)"
@@ -1645,6 +1646,7 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
+      impressum: "Legal notice"
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       blog: "OpenProject blog"
@@ -2000,7 +2002,6 @@ Project attributes and sections are defined in the <a href=%{admin_settings_url}
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Legal notice"
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"

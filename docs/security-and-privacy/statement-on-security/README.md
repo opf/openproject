@@ -80,7 +80,7 @@ Admins can set a specific session duration in the system administration, so that
 
 ### Two-factor authentication
 
-Secure your authentication mechanisms with a second factor by TOTP standard (or SMS, depending on your instance) to be entered by users upon logging in.
+Secure your authentication mechanisms with a second factor by TOTP and WebAuthn standards (or SMS, depending on your instance) to be provided by users upon logging in.
 
 ### Security badge
 

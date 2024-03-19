@@ -95,9 +95,9 @@ zh-CN:
   label_start_date: "开始日期"
   meeting:
     copy:
-      title: "Copy meeting %{title}"
-      agenda: "Copy agenda"
-      agenda_text: "Copy the agenda of the old meeting"
+      title: "复制会议 %{title}"
+      agenda: "复制议程"
+      agenda_text: "复制之前会议的议程"
     email:
       open_meeting_link: "打开会议"
       invited:

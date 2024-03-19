@@ -33,10 +33,10 @@ zh-TW:
         將圖片或附件拖曳到編輯區內即可新增。 滑鼠移到關閉的編輯區將會開啟這個編輯區。
       quarantined_hint: "The file is quarantined, as a virus was found. It is not available for download."
     autocomplete_ng_select:
-      add_tag: "Add item"
-      clear_all: "Clear all"
+      add_tag: "新增項目"
+      clear_all: "清空"
       loading: "讀取中..."
-      not_found: "No items found"
+      not_found: "找不到任何項目"
       type_to_search: "搜尋"
     autocomplete_select:
       placeholder:
@@ -193,7 +193,7 @@ zh-TW:
         custom_field: "自訂欄位"
         inactive: "未啟用"
         drag_to_activate: "從這裡拖曳欄位來啟用它們"
-        add_group: "添加屬性組"
+        add_group: "增加群組屬性"
         add_table: "新增相關工作項目表"
         edit_query: "編輯查詢"
         new_group: "新增群組"
@@ -241,7 +241,7 @@ zh-TW:
             description: "本地部署的 Enterprise edition 具有哪些優勢？"
             high_security: "Security features"
             high_security_text: "單點登錄（SAML，OpenID Connect，CAS），LDAP 群組。\n"
-            installation: "Installation support"
+            installation: "安裝說明"
             installation_text: "Experienced software engineers guide you through the complete installation and setup process in your own infrastructure."
             premium_features: "企業版附加插件"
             premium_features_text: "敏捷看板、客製化主題與標誌、圖表、具備客製化動作的智慧工作流程、支援全文檢索工作項目文件及複選客製欄位。"
@@ -351,16 +351,16 @@ zh-TW:
             standard:
               learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Admins are nudged to go through OAuth flow when activating a storage</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
     ical_sharing_modal:
-      title: "Subscribe to calendar"
+      title: "訂閱日曆"
       inital_setup_error_message: "An error occured while fetching data."
       description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
       token_name_label: "Where will you be using this?"
       token_name_placeholder: 'Type a name, e.g. "Phone"'
       token_name_description_text: 'If you subscribe to this calendar from multiple devices, this name will help you distinguish between them in your <a href="my/access_token", target="_blank">access tokens</a> list.'
-      copy_url_label: "Copy URL"
+      copy_url_label: "複製URL"
       ical_generation_error_text: "An error occured while generating the calendar URL."
       success_message: 'The URL "%{name}" was successfully copied to your clipboard. Paste it in your calendar client to complete the subscription.'
     label_activate: "啟用"
@@ -368,8 +368,8 @@ zh-TW:
     label_add_column_after: "在後面增加一欄"
     label_add_column_before: "在前面增加一欄"
     label_add_columns: "增加欄"
-    label_add_comment: "新增評論"
-    label_add_comment_title: "註解並輸入 @ 來標記其他人"
+    label_add_comment: "新增留言"
+    label_add_comment_title: "點此留言，可輸入「 @使用者」，系統立即發郵件通知該成員"
     label_add_row_after: "在後面增加一列"
     label_add_row_before: "在前面增加一列"
     label_add_selected_columns: "新增所選欄"
@@ -384,7 +384,7 @@ zh-TW:
     label_avatar: "頭像分身"
     label_between: "介於"
     label_board: "面板"
-    label_board_locked: "鎖定"
+    label_board_locked: "停用"
     label_board_plural: "看板"
     label_board_sticky: "附著"
     label_change: "變更"
@@ -403,12 +403,12 @@ zh-TW:
     label_collapse: "折疊"
     label_collapsed: "已收合"
     label_collapse_all: "全部摺疊"
-    label_comment: "評論"
+    label_comment: "留言"
     label_committed_at: "在 %{date} %{committed_revision_link}"
     label_committed_link: "上傳修訂的 %{revision_identifier}"
     label_contains: "包含"
     label_created_on: "建立於"
-    label_edit_comment: "編輯此評論"
+    label_edit_comment: "編輯此留言"
     label_edit_status: "修改工作項目的狀態"
     label_email: "電子郵件"
     label_equals: "是"
@@ -421,7 +421,7 @@ zh-TW:
     label_filename: "檔案"
     label_filesize: "檔案大小"
     label_general: "一般"
-    label_global_roles: "Global roles"
+    label_global_roles: "全域角色"
     label_greater_or_equal: ">="
     label_group: "群組"
     label_group_by: "分組依據"
@@ -472,7 +472,7 @@ zh-TW:
     label_project_list: "列出專案"
     label_project_plural: "專案"
     label_visibility_settings: "可見度設定"
-    label_quote_comment: "引述這個評論"
+    label_quote_comment: "引述這個留言"
     label_recent: "最近"
     label_reset: "重置"
     label_remove: "刪除"
@@ -482,7 +482,7 @@ zh-TW:
     label_report: "報表"
     label_repository_plural: "版本庫"
     label_save_as: "保存為"
-    label_search_columns: "Search a column"
+    label_search_columns: "選取欄位"
     label_select_project: "選擇專案"
     label_select_watcher: "選擇監看者"
     label_selected_filter_list: "所選的篩選條件"
@@ -506,7 +506,7 @@ zh-TW:
     label_time_entry_plural: "耗時"
     label_up: "向上"
     label_user_plural: "使用者"
-    label_activity_show_only_comments: "只顯示活動和其評論"
+    label_activity_show_only_comments: "只顯示活動與留言"
     label_activity_show_all: "顯示所有的活動"
     label_total_progress: "%{percent}%總進度"
     label_total_amount: "總計: %{amount}"
@@ -540,7 +540,7 @@ zh-TW:
     label_remove_file: "刪除 %{fileName}"
     label_remove_watcher: "刪除監看者 %{name}"
     label_remove_all_files: 刪除所有檔案
-    label_add_description: "添加 %{file} 的說明"
+    label_add_description: "增加 %{file} 的說明"
     label_upload_notification: "上傳檔案中..."
     label_work_package_upload_notification: "上傳檔案到工作項目 #%{id}: %{subject}"
     label_wp_id_added_by: "#%{id} 被 %{author} 新增"
@@ -602,7 +602,7 @@ zh-TW:
         responsible: "負責人"
         created: "已建立"
         scheduled: "已排程"
-        commented: "已評論"
+        commented: "已留言"
         processed: "已處理"
         prioritized: "優先"
         dateAlert: "日期提醒"
@@ -656,10 +656,10 @@ zh-TW:
         title: "通知設定"
         notify_me: "通知我"
         reminders:
-          no_notification: No notification
+          no_notification: 无通知
           timeframes:
             normal:
-              PT0S: same day
+              PT0S: 當日
               P1D: 一天前
               P3D: 3 天前
               P7D: a week before
@@ -675,7 +675,7 @@ zh-TW:
           responsible: "負責人"
           shared: "共享"
           watched: "監看者\n"
-          work_package_commented: "有新評論"
+          work_package_commented: "有新留言"
           work_package_created: "新增工作項目"
           work_package_processed: "所有狀態改變"
           work_package_prioritized: "優先順序已變更"
@@ -728,7 +728,7 @@ zh-TW:
     reminders:
       settings:
         daily:
-          add_time: "添加時間"
+          add_time: "加入時間"
           enable: "啟用每日電子郵件提醒"
           explanation: "只有當未讀取通知時，您才會在指定的時間收到這些提醒。%{no_time_zone}"
           no_time_zone: "Until you configure a time zone for your account, the times will be interpreted to be in UTC."
@@ -744,7 +744,7 @@ zh-TW:
           explanation: >
             Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications:
           news_added: "已新增最新消息"
-          news_commented: "最新消息有評論"
+          news_commented: "最新消息有留言"
           document_added: "文件已新增"
           forum_messages: "有新的討論區訊息"
           wiki_page_added: "維基頁面已新增"
@@ -754,10 +754,10 @@ zh-TW:
         title: "電子郵件提醒"
         pause:
           label: "Temporarily pause daily email reminders"
-          first_day: "First day"
-          last_day: "Last day"
+          first_day: "第一天"
+          last_day: "最後一天"
     text_are_you_sure: "是否確定？"
-    text_data_lost: "All entered data will be lost."
+    text_data_lost: "所有資料將遺失"
     text_user_wrote: "%{value} wrote:"
     types:
       attribute_groups:
@@ -828,7 +828,7 @@ zh-TW:
       add_existing_child: "加入現有子項目"
       remove_child: "移除子項目"
       add_new_relation: "建立新關聯"
-      add_existing_relation: "添加現有關系"
+      add_existing_relation: "增加現有關系"
       update_description: "設置或更新此關聯的說明"
       toggle_description: "切換關係描述"
       update_relation: "按一下此處以更改關聯類型"
@@ -891,8 +891,8 @@ zh-TW:
         copy: "整批複製"
         delete: "整批刪除"
       button_clear: "清除"
-      comment_added: "成功添加注釋。"
-      comment_send_failed: "發生錯誤。無法提交評論。"
+      comment_added: "成功發表意見。"
+      comment_send_failed: "發生錯誤。無法留言。"
       comment_updated: "注釋已成功更新。"
       confirm_edit_cancel: "是否確定取消編輯中的工作項目"
       datepicker_modal:
@@ -922,7 +922,7 @@ zh-TW:
       message_view_spent_time: "顯示這個工作項目所花費的時間"
       message_work_package_read_only: "工作項目被鎖定在此狀態。任何屬性以外的狀態都不能更改。"
       message_work_package_status_blocked: "Work package status is not writable due to closed status and closed version being assigned."
-      placeholder_filter_by_text: "主旨, 描述, 評論 ..."
+      placeholder_filter_by_text: "主旨, 描述, 留言 ..."
       baseline:
         addition_label: "Added to view within the comparison time period"
         removal_label: "Removed from view within the comparison time period"
@@ -933,7 +933,7 @@ zh-TW:
         baseline_incompatible: "This filter attribute is not taken into consideration in Baseline mode."
         baseline_warning: "Baseline mode is on but some of your active filters are not included in the comparison."
       inline_create:
-        title: "點擊添加新的工作項目到此清單"
+        title: "點擊增加新工作項目到此清單"
       create:
         title: "新增工作項目"
         header: "新 %{type}"
@@ -968,7 +968,7 @@ zh-TW:
         description: "說明"
         date: "日期"
         percentComplete: "完成度(%)"
-        percentCompleteAlternative: "Progress"
+        percentCompleteAlternative: "進度"
         dueDate: "完成日期"
         duration: "天數"
         spentTime: "耗時"
@@ -996,7 +996,7 @@ zh-TW:
         created_by_me: "由我創建"
         assigned_to_me: "分配給我"
         recently_created: "最近創建的"
-        all_open: "所有「開啟中」工作"
+        all_open: "所有「進行中」工作"
         summary: "大綱"
         shared_with_users: "分配給成員"
         shared_with_me: "分享給我的"
@@ -1038,9 +1038,9 @@ zh-TW:
         is_switched_from_manual_to_automatic: "The dates of this work package may need to be recalculated after switching from manual to automatic scheduling due to relationships with other work packages."
       sharing:
         share: "分享"
-        title: "Share work package"
+        title: "分享工作項目"
         show_all_users: "顯示所有使用者"
-        selected_count: "%{count} selected"
+        selected_count: "已選取 %{count} 個"
         selection:
           mixed: "Mixed"
         upsale:
@@ -1049,7 +1049,7 @@ zh-TW:
         configure_button: "設定工作項目"
         summary: "由工作項目和工作項目屬性列組成的表格。"
         text_inline_edit: "該表中的大多數單元格都內嵌可以編輯屬性的按鈕。"
-        text_sort_hint: "通過表格標題中的鏈接，您可以排序，分組，重新排序，刪除和添加表格列。"
+        text_sort_hint: "通過表格標題中的鏈接，您可以排序，分組，重新排序，刪除和增加表格列。"
         text_select_hint: "請使用Alt+方向鍵打開選擇框。"
       table_configuration:
         button: "設定此工作項目表"
@@ -1097,7 +1097,7 @@ zh-TW:
         months: "月"
     toolbar:
       settings:
-        configure_view: "Configure view"
+        configure_view: "版面設定"
         columns: "欄"
         sort_by: "排序方式"
         group_by: "分組依據"
@@ -1109,7 +1109,7 @@ zh-TW:
         save_as: "保存為"
         export: "匯出"
         visibility_settings: "可見度設定"
-        share_calendar: "Subscribe to calendar"
+        share_calendar: "訂閱日曆"
         page_settings: "重新命名版面"
         delete: "删除"
       filter: "篩選條件"
@@ -1172,13 +1172,13 @@ zh-TW:
       child_work_packages:
         other: "%{count} 個子工作項目"
       hour:
-        one: "1 h"
+        one: "1 小時"
         other: "%{count} 小時"
-        zero: "0 h"
+        zero: "0 小時"
       day:
-        one: "1 day"
+        one: "1 天"
         other: "%{count} 天"
-        zero: "0 days"
+        zero: "0 天"
     zen_mode:
       button_activate: "啟動 zen 模式"
       button_deactivate: "停用 zen 模式"
@@ -1191,7 +1191,7 @@ zh-TW:
       search: "搜尋"
       title:
         all_projects: "所有專案"
-        project_and_subprojects: "和所有的子專案"
+        project_and_subprojects: "含子專案"
         search_for: "搜尋"
     views:
       card: "卡片"
@@ -1209,11 +1209,11 @@ zh-TW:
         invite_principal_to_project: "Invite %{principal} to %{project}"
       project:
         label: "專案"
-        required: "Please select a project"
+        required: "請選擇一個專案"
         lacking_permission: "Please select a different project since you lack permissions to assign users to the currently selected."
         lacking_permission_info: "You lack the permission to assign users to the project you are currently in. You need to select a different one."
         next_button: "下一個"
-        no_results: "No projects were found"
+        no_results: "找不到專案"
         no_invite_rights: "You are not allowed to invite members to this project"
       type:
         required: "Please select the type to be invited"
@@ -1232,25 +1232,25 @@ zh-TW:
         label:
           name_or_email: "Name or email address"
           name: "名稱"
-        already_member_message: "Already a member of %{project}"
-        no_results_user: "No users were found"
+        already_member_message: "已是「 %{project} 」成員"
+        no_results_user: "找不到使用者。"
         invite_user: "Invite:"
         no_results_placeholder: "No placeholders were found"
         create_new_placeholder: "Create new placeholder:"
-        no_results_group: "No groups were found"
+        no_results_group: "找不到群組。"
         next_button: "下一個"
         required:
-          user: "Please select a user"
+          user: "請選擇一個使用者"
           placeholder: "請選擇一個「虛擬暫用群組」"
-          group: "Please select a group"
+          group: "請選擇一個群組"
       role:
-        label: "Role in %{project}"
-        no_roles_found: "No roles were found"
+        label: "%{project} 中的角色"
+        no_roles_found: "找不到角色。"
         description: 'This is the role that the user will receive when they join your project. The role defines which actions they are allowed to take and which information they are allowed to see. <a href="https://www.openproject.org/docs/system-admin-guide/users-permissions/roles-permissions/#roles-and-permissions" target="_blank"> Learn more about roles and permissions. </a>'
-        required: "Please select a role"
+        required: "請選擇一個角色： "
         next_button: "下一個"
       message:
-        label: "Invitation message"
+        label: "邀請訊息"
         description: "We will send an email to the user, to which you can add a personal message here. An explanation for the invitation could be useful, or prehaps a bit of information regarding the project to help them get started."
         next_button: "下一個"
       summary:
@@ -1265,7 +1265,7 @@ zh-TW:
     include_projects:
       toggle_title: "包含的專案"
       title: "專案"
-      clear_selection: "清除選擇"
+      clear_selection: "清除"
       apply: "套用"
       selected_filter:
         all: "所有專案"
@@ -1275,8 +1275,8 @@ zh-TW:
       tooltip:
         include_all_selected: "Project already included since Include all sub-projects is enabled."
         current_project: "This is the current project you are in."
-        does_not_match_search: "Project does not match the search criteria."
-      no_results: "No project matches your search criteria."
+        does_not_match_search: "沒有符合搜尋條件"
+      no_results: "沒有符合搜尋條件"
     baseline:
       toggle_title: "基準日期"
       clear: "清除"
@@ -1284,7 +1284,7 @@ zh-TW:
       header_description: "基準日期開始，突顯修改過的資料"
       enterprise_header_description: "Highlight changes made to this list since any point in the past with Enterprise edition."
       show_changes_since: "顯示差異"
-      baseline_comparison: "Baseline comparison"
+      baseline_comparison: "基準日比較"
       help_description: "Reference time zone for the baseline."
       time_description: "In your local time: %{datetime}"
       time: "時間"
@@ -1293,10 +1293,10 @@ zh-TW:
       drop_down:
         none: "-"
         yesterday: "昨天"
-        last_working_day: "last working day"
+        last_working_day: "最後工作日"
         last_week: "上週"
         last_month: "上個月"
-        a_specific_date: "a specific date"
+        a_specific_date: "特定日期"
         between_two_specific_dates: "between two specific dates"
       legends:
         changes_since: "顯示差異，時間從："

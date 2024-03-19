@@ -54,7 +54,7 @@ cs:
       done_complete_setup: Hotovo, kompletní nastavení
       done_continue: Hotovo, pokračovat
       replace_oauth_application: Nahradit OpenProject OAuth
-      replace_oauth_client: Replace %{provider_type} OAuth
+      replace_oauth_client: Nahradit %{provider_type} OAuth
       save_and_continue: Uložit a pokračovat
       select_folder: Vyberte složku
     configuration_checks:

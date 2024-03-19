@@ -181,6 +181,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
 
   private initializeCalendar() {
     const additionalOptions:{ [key:string]:unknown } = {
+      locale: this.I18n.locale,
       height: '100%',
       headerToolbar: this.buildHeader(),
       eventSources: [

@@ -58,12 +58,12 @@ zh-TW:
         select_all: "全選"
         selection:
           zero: "Select files to link"
-          other: "Link %{count} files"
+          other: "連結 %{count} 個檔案"
         success_create:
-          other: "Successfully created %{count} file links."
+          other: "成功新增1個檔案連結"
         upload_error:
           default: >
-            Your file (%{fileName}) could not be uploaded.
+            您的檔案 (%{fileName}) 無法被上傳。
           403: >
             Your file (%{fileName}) could not be uploaded due to system restrictions. Please contact your administrator for more information.
           413: >
@@ -77,7 +77,7 @@ zh-TW:
           An error occurred linking the recently uploaded file '%{fileName}' to the work package %{workPackageId}.
         tooltip:
           not_logged_in: "Please log in to the storage to access this file."
-          view_not_allowed: "You have no permission to see this file."
-          not_found: "This file cannot be found."
+          view_not_allowed: "您無權查看此文件。"
+          not_found: "找不到檔案。"
         already_linked_file: "This file is already linked to this work package."
         already_linked_directory: "This directory is already linked to this work package."

@@ -12,6 +12,8 @@ hu:
       remove_assignee: 'Megbízott eltávolítása'
       two_weeks: '2 hét'
       one_week: '1 hét'
+      four_weeks: '4-week'
+      eight_weeks: '8-week'
       work_week: 'Work week'
       today: 'Ma'
       drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
