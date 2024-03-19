@@ -678,7 +678,7 @@ GEM
     launchy (3.0.0)
       addressable (~> 2.8)
       childprocess (~> 5.0)
-    lefthook (1.6.5)
+    lefthook (1.6.7)
     letter_opener (1.0.0)
       launchy (>= 2.0.4)
     listen (3.9.0)
