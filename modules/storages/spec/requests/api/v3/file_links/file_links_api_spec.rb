@@ -42,7 +42,7 @@ RSpec.describe 'API v3 file links resource' do
   def disable_module(project, modul)
     # Avoid project.enabled_module_names and a subsequent save as that would create an AnonymousUser in an
     # after(:all) block, which persists the user in the RequestStore.
-    project.enabled_modules.detect { |m| m.name == modul }.destroy
+    project.enabled_modules.where(name: modul).destroy_all
   end
 
   shared_association_default(:priority) { create(:priority) }
