@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Ng2StateDeclaration, UIRouter } from '@uirouter/angular';
+import type { Ng2StateDeclaration, UIRouter } from '@uirouter/angular';
 import { BoardsRootComponent } from 'core-app/features/boards/boards-root/boards-root.component';
 import { BoardPartitionedPageComponent } from 'core-app/features/boards/board/board-partitioned-page/board-partitioned-page.component';
 import { BoardListContainerComponent } from 'core-app/features/boards/board/board-partitioned-page/board-list-container.component';
