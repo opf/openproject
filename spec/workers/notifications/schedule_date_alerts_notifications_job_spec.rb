@@ -100,7 +100,7 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
                           .last
           expect_job(j, user)
         end
-      end.to change(GoodJob::Job, :count).by 1
+      end.to change { GoodJob::Job.where(job_class: "Notifications::CreateDateAlertsNotificationsJob").count }.by 1
     end
   end
 
