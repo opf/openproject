@@ -72,9 +72,9 @@ Stay tuned: Further advanced features for our Meetings module are planned for up
 
 ### Virus scanning functionality with ClamAV (Enterprise add-on)
 
-Another important step towards data security: With OpenProject 13.4, users' uploaded files can be scanned for viruses, using the ClamAV antivirus engine. To do so, a new attachment menu item is created with Antivirus settings. Read more about virus scanning using ClamAV in our [system admin guide](https://www.openproject.org/docs/system-admin-guide/attachments/virus-scanning/#virus-scanning).
+Another important step towards data security: With OpenProject 13.4, users' uploaded files can be scanned for viruses, using the ClamAV antivirus engine. To do so, a new attachment menu item is created with Antivirus settings. Read more about virus scanning using ClamAV in our [system admin guide](https://www.openproject.org/docs/system-admin-guide/attachments/virus-scanning).
 
-![OpenProject's admin settings for virus scanning with ClamAV](openproject_system_settings_virus_scanning.png)
+![OpenProject's admin settings for virus scanning with ClamAV](openproject_virus_scanning.png)
 
 ### Intermediate loading modal during the OAuth nudge
 
