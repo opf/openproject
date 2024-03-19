@@ -84,7 +84,7 @@ RSpec.describe 'Edit project custom fields', :js do
       fill_in('custom_field_name', with: '')
       click_on('Save')
 
-      # no server side validation shown, html5 validation is used
+     expect(page).to have_field 'custom_field_name', validation_message: 'Please fill in this field.'
 
       expect(page).to have_no_text('Successful update')
 
