@@ -33,8 +33,7 @@ RSpec.describe XlsExport::Project::Exporter::XLS do
 
   context 'with project description containing html' do
     before do
-      project.description = "This is an <p>html</p> description."
-      project.save!(validate: false)
+      project.update_column(:description, "This is an <p>html</p> description.")
     end
 
     it 'performs a successful export' do
