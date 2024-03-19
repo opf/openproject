@@ -116,7 +116,7 @@ In order to register a new device for two-factor authentication, click the green
 
 - Mobile phone
 - App-based authenticator
-- WebAuth
+- WebAuthn
 
 ![](openproject_my_account_authentication_options.png)
 
