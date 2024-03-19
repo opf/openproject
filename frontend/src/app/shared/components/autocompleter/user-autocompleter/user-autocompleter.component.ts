@@ -136,11 +136,11 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
     };
   }
 
-  protected defaultTrackByFunction():(item:{ href:unknown }) => unknown|null {
-    return (item) => item.href;
+  protected defaultTrackByFunction():(item:{ href:unknown, name:unknown }) => unknown|null {
+    return (item) => item.href || item.name;
   }
 
   protected defaultCompareWithFunction():(a:unknown, b:unknown) => boolean {
-    return compareByAttribute('href');
+    return compareByAttribute('href', 'name');
   }
 }
