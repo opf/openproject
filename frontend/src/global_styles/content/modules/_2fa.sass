@@ -38,6 +38,11 @@
   flex-direction: row
   width: 75%
 
+  @media screen and (max-width: $breakpoint-sm)
+    flex-direction: column
+    gap: 1rem
+    width: 100%
+
 .mobile-otp-new-device
   border: 1px solid #f1f1f1
   padding: 20px
@@ -54,42 +59,14 @@
 .mobile-otp-new-device--body
   flex: 1
 
-#login-form input[type=radio]
-  float: left
-
 #resend_otp_container
   margin-top: 30px
-
-#resend_otp_container input[type=radio]
-  margin-right: 8px
-
-#resend_otp_container label
-  margin-right: 10px
 
 #resend_otp_container .resend-header
   font-size: 14px
   font-weight: var(--base-text-weight-bold)
   margin-bottom: 10px
 
-#resend_otp_container .radios-wrapper
-  padding-top: 7px
-  float: left
-  border: none
-  overflow: hidden
-  clear: none
-
-
-#resend_otp_container .radios-wrapper label
-  float: left
-  clear: none
-  display: block
-  padding: 2px 1em 0 0
-
-
-#resend_otp_container .radios-wrapper input[type=radio]
-  float: left
-  clear: none
-  margin: 2px 0 15px 2px
 
 // Add some paddings to action links
 .mobile-otp--two-factor-device-row td.buttons

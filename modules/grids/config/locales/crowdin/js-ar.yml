@@ -8,6 +8,7 @@ ar:
         text: "بعض الأدوات، مثل أداة الرسم البياني لحزمة العمل، متوفرة فقط في النسخة المدفوعة."
         link: 'طبعة المؤسسة.'
       widgets:
+        missing_permission: "You don't have the necessary permissions to view this widget."
         custom_text:
           title: 'نص مخصص'
         documents:

@@ -13,7 +13,7 @@ zh-TW:
       response_limit: 'Response limit for HCaptcha'
       response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
       website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
-      secret_key: 'Secret key'
+      secret_key: '密鑰'
       secret_key_text: 'Enter the secret key you created on the reCAPTCHA admin console.'
       type: '使用 reCAPTCHA'
       type_disabled: '停用 reCAPTCHA'

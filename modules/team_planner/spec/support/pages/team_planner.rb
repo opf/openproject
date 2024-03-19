@@ -225,9 +225,23 @@ module Pages
     end
 
     def add_assignee(name)
-      click_add_user
-      page.find("#{page.test_selector('tp-add-assignee')} input")
-      select_user_to_add name
+      retry_block do
+        return if page.has_selector?('.fc-resource', text: name, wait: 0)
+
+        click_add_user
+        page.find("#{page.test_selector('tp-add-assignee')} input")
+        select_user_to_add(name)
+      end
+    end
+
+    def search_assignee(name)
+      retry_block do
+        click_add_user
+        page.find("#{page.test_selector('tp-add-assignee')} input")
+        search_autocomplete page.find('[data-test-selector="tp-add-assignee"]'),
+                            query: name,
+                            results_selector: 'body'
+      end
     end
 
     def click_add_user
@@ -243,10 +257,13 @@ module Pages
                           results_selector: 'body'
     end
 
-    def search_user_to_add(name)
-      search_autocomplete page.find('[data-test-selector="tp-add-assignee"]'),
-                          query: name,
-                          results_selector: 'body'
+    def expect_user_selectable(user, present: true)
+      name = user.is_a?(User) ? user.name : user.to_s
+
+      expect_ng_option page.find('[data-test-selector="tp-add-assignee"]'),
+                       name,
+                       results_selector: 'body',
+                       present:
     end
 
     def change_wp_date_by_resizing(work_package, number_of_days:, is_start_date:)

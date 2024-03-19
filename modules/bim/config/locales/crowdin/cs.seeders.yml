@@ -376,7 +376,7 @@ cs:
                     *   Electrical installation
                     *   ...
                 item_5:
-                  subject: Final touches
+                  subject: Závěrečné úpravy
                   description: |-
                     ## Goal
 
@@ -599,7 +599,7 @@ cs:
                 item_1:
                   subject: Issue management, first cycle
                 item_2:
-                  subject: Finishing coordination, first cycle
+                  subject: Dokončování koordinace, první cyklus
                   description: Tento typ je hierarchicky nadřazeným typem &quot;Clash&quot; a &quot;Request&quot;, proto představuje obecnou poznámku.
             item_6:
               subject: Modelování a koordinace, druhý cyklus

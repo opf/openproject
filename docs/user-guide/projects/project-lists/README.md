@@ -41,15 +41,25 @@ You can use this projects overview to **create a multi project status dashboard*
 
 > **Please note:** Project custom fields are an Enterprise add-on and will only be displayed here for Enterprise on-premises and Enterprise cloud.
 
-With the **arrow** on the right you can display the **project description**.
+Each project is displayed in a single line. For the the fields where the text is too long to be displayed completely please use the **Expand** link. 
 
-![Open a project description in the project lists view in OpenProject](arrow-project-description.png)
+
+
+![Open a project description in the project lists view in OpenProject](expand-link-project-description.png)
 
 With the horizontal **three dots** icon on the right side of the list you can open **further features**, such as [creating a new subproject](../#create-a-subproject), [project settings](../project-settings), [archiving a project](../#archive-a-project), [copying](../#copy-a-project) and [deleting a project](../#delete-a-project). Please note that you have to be a System Administrator in OpenProject to access these features. Find out how to un-archive projects [here](../#archive-a-project).
 
 ![new subproject project list](new-subproject-project-list.png)
 
 You can choose the **columns displayed by default** in the [System settings](../../../system-admin-guide/system-settings/project-system-settings) in the Administration. 
+
+You can add the columns, as well as define the order of the columns by using the **Configure view** modal. Navigate to it via the menu in the far right corner (three dots) and click **Configure view**.
+
+![Configure view of project lists in OpenProject](configure-view-project-list.png)
+
+A dialogue will open, allowing you to manage and reorder columns. Click **Apply** to see the changes. 
+
+![Configuration form for project lists in OpenProject](configure-view-form-project-list.png)
 
 To change the order of the displayed [custom fields](../../../system-admin-guide/custom-fields) (columns) follow the instructions here: [Displaying a project custom field](../../../system-admin-guide/custom-fields/custom-fields-projects/#display-project-custom-fields).
 
@@ -75,7 +85,7 @@ Projects can be filtered in OpenProject. The default view will list all currentl
 
 To adjust the project lists view use the **Filters** button, select the filtering criteria you require and click the blue **Apply** button.
 
-If you want to save this filtered list use the menu in the far right corner (three dots) and click **Save**.
+If you want to save this filtered list use the **Save as** link next to the information message in the page header or alternatively click on the menu (three dots) and click **Save as**.
 
 ![Save a filtered project list](save-button-filtered-view.png)
 
@@ -114,6 +124,8 @@ Alternatively you can also use the **Activity module** from the [global modules 
 By selecting *Overall activity* you can open a view in which all the latest global project activities are documented. In the menu on the left side you can filter the activity by different areas to control e.g. the activity of work packages, wiki pages or meetings.
 
 ![overall activity meeting filter](actvity-global-filter.png)
+
+
 
 ## Export project lists
 

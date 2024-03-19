@@ -2,17 +2,17 @@
 zh-TW:
   js:
     team_planner:
-      add_existing: '添加現有的'
+      add_existing: '增加已有的'
       add_existing_title: 'Add existing work packages'
       create_label: '團隊規劃'
       create_title: 'Create new team planner'
       unsaved_title: 'Unnamed team planner'
       no_data: 'Add assignees to set up your team planner.'
-      add_assignee: 'Add assignee'
-      remove_assignee: 'Remove assignee'
-      two_weeks: '2-week'
-      one_week: '1-week'
-      work_week: 'Work week'
+      add_assignee: '增加「執行者」'
+      remove_assignee: '刪除執行者'
+      two_weeks: '兩週'
+      one_week: '1週'
+      work_week: '工作週'
       today: '今日'
       drag_here_to_remove: 'Drag here to remove assignee and start and end dates.'
       cannot_drag_here: 'Cannot remove the work package due to permissions or editing restrictions.'

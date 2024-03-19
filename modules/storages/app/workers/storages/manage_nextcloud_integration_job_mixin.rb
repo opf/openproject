@@ -40,6 +40,8 @@ module Storages
         transaction: false
       ) do
         ::Storages::Storage.automatic_management_enabled.includes(:oauth_client).find_each do |storage|
+          next unless storage.configured?
+
           result = service_for(storage).call(storage)
           result.match(
             on_success: ->(_) do

@@ -348,11 +348,11 @@ pt:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_3":
+          "13_4":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                A versão contém várias funcionalidades novas e melhorias: <br> <ul class="%{list_styling_class}"> <li>Filtrar e guardar listas de projetos personalizadas.</li> <li>Módulo separado de gráficos de Gantt com novas visualizações predefinidas.</li> <li>Pastas de projeto geridas automaticamente para integração com o OneDrive/SharePoint.</li> <li>Mostrar o número de "Utilizadores partilhados" no botão de partilha e apresentá-los na lista de pacotes de trabalho.</li> <li>Cálculos e atualizações melhorados para relatórios de progresso para hierarquias de pacotes de trabalho.</li> </ul>
+                The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
     ical_sharing_modal:
       title: "Subscrever o calendário"
       inital_setup_error_message: "Ocorreu um erro ao recuperar os dados."

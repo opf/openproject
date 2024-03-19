@@ -43,8 +43,8 @@ lt:
           copy_success: '✅ Nukopijuota!'
           copy_error: '❌ Kopijavimas nepavyko!'
       tab_issue:
-        empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
+        empty: 'Dar nėra susietų problemų. Susiekite esamą problemą naudodami kodą <code>OP#%{wp_id}</code> (arba <code>PP#%{wp_id}</code> privačioms nuorodoms) problemos antraštėje/aprašyme, arba sukurkite naują problemą.'
       tab_mrs:
-        empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
-      gitlab_pipelines: Pipelines
-      updated_on: Updated on
+        empty: 'Dar nėra susietų suliejimo prašymų. Susiekite esamą MR naudodami kodą <code>OP#%{wp_id}</code> (arba <code>PP#%{wp_id}</code> privačioms nuorodoms) MR antraštėje/aprašyme arba sukurkite naują MR.'
+      gitlab_pipelines: Sąsajos
+      updated_on: Atnaujinta
