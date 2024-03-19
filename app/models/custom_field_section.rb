@@ -27,8 +27,6 @@
 #++
 
 class CustomFieldSection < ApplicationRecord
-  has_many :custom_fields, dependent: :destroy
-
   acts_as_list scope: [:type]
 
   validates :name, presence: true

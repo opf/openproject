@@ -27,4 +27,5 @@
 #++
 
 class ProjectCustomFieldSection < CustomFieldSection
+  has_many :custom_fields, class_name: "ProjectCustomField", dependent: :destroy
 end

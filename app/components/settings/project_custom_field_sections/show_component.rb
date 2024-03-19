@@ -37,7 +37,7 @@ module Settings
         super
 
         @project_custom_field_section = project_custom_field_section
-        @project_custom_fields = project_custom_field_section.custom_fields.reorder(position_in_custom_field_section: :asc)
+        @project_custom_fields = project_custom_field_section.custom_fields
       end
 
       private
