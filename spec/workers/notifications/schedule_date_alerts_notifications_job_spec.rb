@@ -26,24 +26,24 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, with_ee: %i[date_alerts] do
   include ActiveSupport::Testing::TimeHelpers
 
-  shared_let(:project) { create(:project, name: 'main') }
+  shared_let(:project) { create(:project, name: "main") }
   # Paris and Berlin are both UTC+01:00 (CET) or UTC+02:00 (CEST)
-  shared_let(:timezone_paris) { ActiveSupport::TimeZone['Europe/Paris'] }
+  shared_let(:timezone_paris) { ActiveSupport::TimeZone["Europe/Paris"] }
   # Kathmandu is UTC+05:45 (no DST)
-  shared_let(:timezone_kathmandu) { ActiveSupport::TimeZone['Asia/Kathmandu'] }
+  shared_let(:timezone_kathmandu) { ActiveSupport::TimeZone["Asia/Kathmandu"] }
   shared_let(:user_paris) do
     create(:user,
-           firstname: 'Paris',
+           firstname: "Paris",
            preferences: { time_zone: timezone_paris.name })
   end
   shared_let(:user_kathmandu) do
     create(:user,
-           firstname: 'Kathmandu',
+           firstname: "Kathmandu",
            preferences: { time_zone: timezone_kathmandu.name })
   end
 
@@ -60,7 +60,7 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
 
   # Converts "hh:mm" into { hour: h, min: m }
   def time_hash(time)
-    %i[hour min].zip(time.split(':', 2).map(&:to_i)).to_h
+    %i[hour min].zip(time.split(":", 2).map(&:to_i)).to_h
   end
 
   def timezone_time(time, timezone)
@@ -86,13 +86,13 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
 
   def expect_job(job, *arguments)
     job_data = deserialize_job(job)
-    expect(job_data['job_class']).to eql(job.job_class)
-    expect(job_data['arguments']).to match_array arguments
-    expect(job_data['executions']).to eq 0
+    expect(job_data["job_class"]).to eql(job.job_class)
+    expect(job_data["arguments"]).to match_array arguments
+    expect(job_data["executions"]).to eq 0
   end
 
-  shared_examples_for 'job execution creates date alerts creation job' do
-    it 'creates the job for the user' do
+  shared_examples_for "job execution creates date alerts creation job" do
+    it "creates the job for the user" do
       expect do
         run_job(timezone:, scheduled_at:, local_time:) do
           j = GoodJob::Job.where(job_class: "Notifications::CreateDateAlertsNotificationsJob")
@@ -104,77 +104,77 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
     end
   end
 
-  shared_examples_for 'job execution creates no date alerts creation job' do
-    it 'creates no job' do
+  shared_examples_for "job execution creates no date alerts creation job" do
+    it "creates no job" do
       expect do
         run_job(timezone:, scheduled_at:, local_time:)
       end.not_to change(GoodJob::Job, :count)
     end
   end
 
-  describe '#perform' do
-    context 'for users whose local time is 1:00 am (UTC+1) when the job is executed' do
-      it_behaves_like 'job execution creates date alerts creation job' do
+  describe "#perform" do
+    context "for users whose local time is 1:00 am (UTC+1) when the job is executed" do
+      it_behaves_like "job execution creates date alerts creation job" do
         let(:timezone) { timezone_paris }
-        let(:scheduled_at) { '1:00' }
-        let(:local_time) { '1:04' }
+        let(:scheduled_at) { "1:00" }
+        let(:local_time) { "1:04" }
         let(:user) { user_paris }
       end
     end
 
-    context 'for users whose local time is 1:00 am (UTC+05:45) when the job is executed' do
-      it_behaves_like 'job execution creates date alerts creation job' do
+    context "for users whose local time is 1:00 am (UTC+05:45) when the job is executed" do
+      it_behaves_like "job execution creates date alerts creation job" do
         let(:timezone) { timezone_kathmandu }
-        let(:scheduled_at) { '1:00' }
-        let(:local_time) { '1:04' }
+        let(:scheduled_at) { "1:00" }
+        let(:local_time) { "1:04" }
         let(:user) { user_kathmandu }
       end
     end
 
-    context 'without enterprise token', with_ee: false do
-      it_behaves_like 'job execution creates no date alerts creation job' do
+    context "without enterprise token", with_ee: false do
+      it_behaves_like "job execution creates no date alerts creation job" do
         let(:timezone) { timezone_paris }
-        let(:scheduled_at) { '1:00' }
-        let(:local_time) { '1:04' }
+        let(:scheduled_at) { "1:00" }
+        let(:local_time) { "1:04" }
       end
     end
 
-    context 'when scheduled and executed at 01:00 am local time' do
-      it_behaves_like 'job execution creates date alerts creation job' do
+    context "when scheduled and executed at 01:00 am local time" do
+      it_behaves_like "job execution creates date alerts creation job" do
         let(:timezone) { timezone_paris }
-        let(:scheduled_at) { '1:00' }
-        let(:local_time) { '1:00' }
+        let(:scheduled_at) { "1:00" }
+        let(:local_time) { "1:00" }
         let(:user) { user_paris }
       end
     end
 
-    context 'when scheduled and executed at 01:14 am local time' do
-      it_behaves_like 'job execution creates date alerts creation job' do
+    context "when scheduled and executed at 01:14 am local time" do
+      it_behaves_like "job execution creates date alerts creation job" do
         let(:timezone) { timezone_paris }
-        let(:scheduled_at) { '1:14' }
-        let(:local_time) { '1:14' }
+        let(:scheduled_at) { "1:14" }
+        let(:local_time) { "1:14" }
         let(:user) { user_paris }
       end
     end
 
-    context 'when scheduled and executed at 01:15 am local time' do
-      it_behaves_like 'job execution creates no date alerts creation job' do
+    context "when scheduled and executed at 01:15 am local time" do
+      it_behaves_like "job execution creates no date alerts creation job" do
         let(:timezone) { timezone_paris }
-        let(:scheduled_at) { '1:15' }
-        let(:local_time) { '1:15' }
+        let(:scheduled_at) { "1:15" }
+        let(:local_time) { "1:15" }
       end
     end
 
-    context 'when scheduled at 01:00 am local time and executed at 01:37 am local time' do
-      it_behaves_like 'job execution creates date alerts creation job' do
+    context "when scheduled at 01:00 am local time and executed at 01:37 am local time" do
+      it_behaves_like "job execution creates date alerts creation job" do
         let(:timezone) { timezone_paris }
-        let(:scheduled_at) { '1:00' }
-        let(:local_time) { '1:37' }
+        let(:scheduled_at) { "1:00" }
+        let(:local_time) { "1:37" }
         let(:user) { user_paris }
       end
     end
 
-    context 'with a user having only due_date active in notification settings' do
+    context "with a user having only due_date active in notification settings" do
       before do
         NotificationSetting
           .where(user: user_paris)
@@ -183,15 +183,15 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
                       overdue: nil)
       end
 
-      it_behaves_like 'job execution creates date alerts creation job' do
+      it_behaves_like "job execution creates date alerts creation job" do
         let(:timezone) { timezone_paris }
-        let(:scheduled_at) { '1:00' }
-        let(:local_time) { '1:00' }
+        let(:scheduled_at) { "1:00" }
+        let(:local_time) { "1:00" }
         let(:user) { user_paris }
       end
     end
 
-    context 'with a user having only start_date active in notification settings' do
+    context "with a user having only start_date active in notification settings" do
       before do
         NotificationSetting
           .where(user: user_paris)
@@ -200,15 +200,15 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
                       overdue: nil)
       end
 
-      it_behaves_like 'job execution creates date alerts creation job' do
+      it_behaves_like "job execution creates date alerts creation job" do
         let(:timezone) { timezone_paris }
-        let(:scheduled_at) { '1:00' }
-        let(:local_time) { '1:00' }
+        let(:scheduled_at) { "1:00" }
+        let(:local_time) { "1:00" }
         let(:user) { user_paris }
       end
     end
 
-    context 'with a user having only overdue active in notification settings' do
+    context "with a user having only overdue active in notification settings" do
       before do
         NotificationSetting
           .where(user: user_paris)
@@ -217,15 +217,15 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
                       overdue: 1)
       end
 
-      it_behaves_like 'job execution creates date alerts creation job' do
+      it_behaves_like "job execution creates date alerts creation job" do
         let(:timezone) { timezone_paris }
-        let(:scheduled_at) { '1:00' }
-        let(:local_time) { '1:00' }
+        let(:scheduled_at) { "1:00" }
+        let(:local_time) { "1:00" }
         let(:user) { user_paris }
       end
     end
 
-    context 'without a user having notification settings' do
+    context "without a user having notification settings" do
       before do
         NotificationSetting
           .where(user: user_paris)
@@ -234,14 +234,14 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
                       overdue: nil)
       end
 
-      it_behaves_like 'job execution creates no date alerts creation job' do
+      it_behaves_like "job execution creates no date alerts creation job" do
         let(:timezone) { timezone_paris }
-        let(:scheduled_at) { '1:00' }
-        let(:local_time) { '1:00' }
+        let(:scheduled_at) { "1:00" }
+        let(:local_time) { "1:00" }
       end
     end
 
-    context 'with a user having only a project active notification settings' do
+    context "with a user having only a project active notification settings" do
       before do
         NotificationSetting
           .where(user: user_paris)
@@ -257,23 +257,23 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
                   overdue: nil)
       end
 
-      it_behaves_like 'job execution creates date alerts creation job' do
+      it_behaves_like "job execution creates date alerts creation job" do
         let(:timezone) { timezone_paris }
-        let(:scheduled_at) { '1:00' }
-        let(:local_time) { '1:00' }
+        let(:scheduled_at) { "1:00" }
+        let(:local_time) { "1:00" }
         let(:user) { user_paris }
       end
     end
 
-    context 'with a locked user' do
+    context "with a locked user" do
       before do
         user_paris.locked!
       end
 
-      it_behaves_like 'job execution creates no date alerts creation job' do
+      it_behaves_like "job execution creates no date alerts creation job" do
         let(:timezone) { timezone_paris }
-        let(:scheduled_at) { '1:00' }
-        let(:local_time) { '1:00' }
+        let(:scheduled_at) { "1:00" }
+        let(:local_time) { "1:00" }
       end
     end
   end
