@@ -84,7 +84,7 @@ The Nextcloud file storage is now available to all work packages in this project
 
 > **Note:** For information on how to use the file storage (link Nextcloud user accounts at a user level, link files to a work package, view and download linked files, unlink files), please read our [Nextcloud integration user guide](../../../file-management/nextcloud-integration/). 
 
-If you have not yet have access token for the file storage in a project, you will be nudged to log into your file storage. You can choose to login immediately to establish the connection or to do it later.
+If you do not yet have an access token for the file storage in a project, you will be prompted to log into your file storage. You can choose to login immediately to establish the connection or to do it later.
 
 ![OAuth for file storages in OpenProject project settings](file-storages-oauth-nudge-nextcloud.png)
 
