@@ -67,7 +67,7 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
     timezone.now.change(time_hash(time))
   end
 
-  def run_job(scheduled_at: '1:00', local_time: '1:04', timezone: timezone_paris)
+  def run_job(scheduled_at:, local_time:, timezone:)
     set_scheduled_time(timezone_time(scheduled_at, timezone))
     travel_to(timezone_time(local_time, timezone)) do
       GoodJob.perform_inline
@@ -92,11 +92,6 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
   end
 
   shared_examples_for 'job execution creates date alerts creation job' do
-    let(:timezone) { timezone_paris }
-    let(:scheduled_at) { '1:00' }
-    let(:local_time) { '1:04' }
-    let(:user) { user_paris }
-
     it 'creates the job for the user' do
       expect do
         run_job(timezone:, scheduled_at:, local_time:) do
@@ -110,10 +105,6 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
   end
 
   shared_examples_for 'job execution creates no date alerts creation job' do
-    let(:timezone) { timezone_paris }
-    let(:scheduled_at) { '1:00' }
-    let(:local_time) { '1:04' }
-
     it 'creates no job' do
       expect do
         run_job(timezone:, scheduled_at:, local_time:)
