@@ -27,14 +27,18 @@
 #++
 
 class CustomActions::Actions::Responsible < CustomActions::Actions::Base
-  include CustomActions::Actions::Strategies::Associated
+  include CustomActions::Actions::Strategies::MeAssociated
 
-  def associated
+  def available_principles
     User
       .not_locked
       .select(:id, :firstname, :lastname, :type)
       .ordered_by_name
       .map { |u| [u.id, u.name] }
+  end
+
+  def apply(work_package)
+    work_package.responsible_id = transformed_value(values.first)
   end
 
   def required?
