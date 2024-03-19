@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_context 'with a project with an arrangement of custom fields' do
+RSpec.shared_context "with a project with an arrangement of custom fields" do
   shared_let(:version_cf) { create(:version_project_custom_field, position: 1) }
   shared_let(:bool_cf) { create(:boolean_project_custom_field, position: 2) }
   shared_let(:user_cf) { create(:user_project_custom_field, position: 3) }
@@ -35,10 +35,11 @@ RSpec.shared_context 'with a project with an arrangement of custom fields' do
   shared_let(:text_cf) { create(:text_project_custom_field, position: 6) }
   shared_let(:string_cf) { create(:string_project_custom_field, position: 7) }
   shared_let(:date_cf) { create(:date_project_custom_field, position: 8) }
+  shared_let(:hidden_cf) { create(:string_project_custom_field, position: 9, visible: false) }
 
-  let!(:not_used_string_cf) { create(:string_project_custom_field, position: 9) }
+  let!(:not_used_string_cf) { create(:string_project_custom_field, position: 10) }
 
-  shared_let(:system_version) { create(:version, sharing: 'system') }
+  shared_let(:system_version) { create(:version, sharing: "system") }
 
   shared_let(:role) do
     create(:project_role)
@@ -46,14 +47,16 @@ RSpec.shared_context 'with a project with an arrangement of custom fields' do
 
   shared_let(:other_user) do
     create(:user,
-           firstname: 'Other',
-           lastname: 'User')
+           firstname: "Other",
+           lastname: "User")
   end
 
-  shared_let(:project) do
+  # project needs to be reevaluted before every example as the creation behaves differently from different user contexts
+  # shared_let cannot be used here as it would create the project only once
+  let(:project) do
     project = build(:project,
-                    status_code: 'off_track',
-                    status_explanation: 'some explanation',
+                    status_code: "off_track",
+                    status_explanation: "some explanation",
                     members: { other_user => role },
                     description: "The description of the project",
                     custom_field_values: {
@@ -61,10 +64,11 @@ RSpec.shared_context 'with a project with an arrangement of custom fields' do
                       bool_cf.id => true,
                       version_cf.id => system_version,
                       float_cf.id => 4.5,
-                      text_cf.id => 'Some **long** text',
-                      string_cf.id => 'Some small text',
+                      text_cf.id => "Some **long** text",
+                      string_cf.id => "Some small text",
                       date_cf.id => Time.zone.today,
-                      user_cf.id => other_user.id
+                      user_cf.id => other_user.id,
+                      hidden_cf.id => "hidden"
                     })
     project.save!(validate: false)
 
@@ -72,7 +76,7 @@ RSpec.shared_context 'with a project with an arrangement of custom fields' do
   end
 end
 
-RSpec.shared_context 'with an instance of the described exporter' do
+RSpec.shared_context "with an instance of the described exporter" do
   before do
     login_as current_user
   end
@@ -89,7 +93,7 @@ RSpec.shared_context 'with an instance of the described exporter' do
     described_class.new(query)
   end
 
-  let(:global_project_custom_fields) { ProjectCustomField.all }
+  let(:global_project_custom_fields) { ProjectCustomField.visible }
   let(:custom_fields_of_project) { project.available_custom_fields }
 
   let(:output) do

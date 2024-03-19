@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-RSpec.describe Project, 'customizable' do
+require "spec_helper"
+RSpec.describe Project, "customizable" do
   let!(:section) { create(:project_custom_field_section) }
 
   let!(:bool_custom_field) do
@@ -40,11 +40,11 @@ RSpec.describe Project, 'customizable' do
     create(:list_project_custom_field, project_custom_field_section: section)
   end
 
-  context 'when not persisted' do
+  context "when not persisted" do
     let(:project) { build(:project) }
 
-    describe '#available_custom_fields' do
-      it 'returns all existing project custom fields as available custom fields' do
+    describe "#available_custom_fields" do
+      it "returns all existing project custom fields as available custom fields" do
         expect(project.project_custom_field_project_mappings)
           .to be_empty
         expect(project.project_custom_fields)
@@ -56,11 +56,11 @@ RSpec.describe Project, 'customizable' do
     end
   end
 
-  context 'when persisted' do
+  context "when persisted" do
     let(:project) { create(:project) }
 
-    describe '#available_custom_fields' do
-      it 'returns only mapped project custom fields as available custom fields' do
+    describe "#available_custom_fields" do
+      it "returns only mapped project custom fields as available custom fields" do
         expect(project.project_custom_field_project_mappings)
           .to be_empty
         expect(project.project_custom_fields)
@@ -76,9 +76,9 @@ RSpec.describe Project, 'customizable' do
       end
     end
 
-    describe '#custom_field_values and #custom_value_for' do
-      context 'when no custom fields are mapped to this project' do
-        it '#custom_value_for returns nil' do
+    describe "#custom_field_values and #custom_value_for" do
+      context "when no custom fields are mapped to this project" do
+        it "#custom_value_for returns nil" do
           expect(project.custom_value_for(text_custom_field))
             .to be_nil
           expect(project.custom_value_for(bool_custom_field))
@@ -87,19 +87,19 @@ RSpec.describe Project, 'customizable' do
             .to be_nil
         end
 
-        it '#custom_field_values returns an empty hash' do
+        it "#custom_field_values returns an empty hash" do
           expect(project.custom_field_values)
             .to be_empty
         end
       end
 
-      context 'when custom fields are mapped to this project' do
+      context "when custom fields are mapped to this project" do
         before do
           project.project_custom_fields << [text_custom_field, bool_custom_field]
           project.reload # TODO: why is this necessary?
         end
 
-        it '#custom_field_values returns a hash of mapped custom fields with nil values' do
+        it "#custom_field_values returns a hash of mapped custom fields with nil values" do
           text_custom_field_custom_field_value = project.custom_field_values.find do |custom_value|
             custom_value.custom_field_id == text_custom_field.id
           end
@@ -115,28 +115,28 @@ RSpec.describe Project, 'customizable' do
           expect(bool_custom_field_custom_field_value.value).to be_nil
         end
 
-        context 'when values are set for mapped custom fields' do
+        context "when values are set for mapped custom fields" do
           before do
             project.custom_field_values = {
-              text_custom_field.id => 'foo',
+              text_custom_field.id => "foo",
               bool_custom_field.id => true
             }
           end
 
-          it '#custom_value_for returns the set custom values' do
+          it "#custom_value_for returns the set custom values" do
             expect(project.custom_value_for(text_custom_field).typed_value)
-              .to eq('foo')
+              .to eq("foo")
             expect(project.custom_value_for(bool_custom_field).typed_value)
               .to be_truthy
             expect(project.custom_value_for(list_custom_field).typed_value)
               .to be_nil
           end
 
-          it '#custom_field_values returns a hash of mapped custom fields with their set values' do
+          it "#custom_field_values returns a hash of mapped custom fields with their set values" do
             expect(project.custom_field_values.find do |custom_value|
                      custom_value.custom_field_id == text_custom_field.id
                    end.typed_value)
-              .to eq('foo')
+              .to eq("foo")
 
             expect(project.custom_field_values.find do |custom_value|
                      custom_value.custom_field_id == bool_custom_field.id
@@ -148,22 +148,22 @@ RSpec.describe Project, 'customizable' do
     end
   end
 
-  context 'when creating with custom field values' do
+  context "when creating with custom field values" do
     let(:project) do
       create(:project, custom_field_values: {
-               text_custom_field.id => 'foo',
+               text_custom_field.id => "foo",
                bool_custom_field.id => true
              })
     end
 
-    it 'saves the custom field values properly' do
+    it "saves the custom field values properly" do
       expect(project.custom_value_for(text_custom_field).typed_value)
-        .to eq('foo')
+        .to eq("foo")
       expect(project.custom_value_for(bool_custom_field).typed_value)
         .to be_truthy
     end
 
-    it 'enables fields with provided values and disables fields with none' do
+    it "enables fields with provided values and disables fields with none" do
       # list_custom_field is not provided, thus it should not be enabled
       expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
           .to contain_exactly(text_custom_field.id, bool_custom_field.id)
@@ -171,7 +171,7 @@ RSpec.describe Project, 'customizable' do
         .to contain_exactly(text_custom_field, bool_custom_field)
     end
 
-    context 'with correct validation' do
+    context "with correct validation" do
       let(:another_section) { create(:project_custom_field_section) }
 
       let!(:required_text_custom_field) do
@@ -180,9 +180,9 @@ RSpec.describe Project, 'customizable' do
                project_custom_field_section: another_section)
       end
 
-      it 'validates all custom values if not scoped to a section' do
+      it "validates all custom values if not scoped to a section" do
         project = build(:project, custom_field_values: {
-                          text_custom_field.id => 'foo',
+                          text_custom_field.id => "foo",
                           bool_custom_field.id => true
                         })
 
@@ -191,9 +191,9 @@ RSpec.describe Project, 'customizable' do
         expect { project.save! }.to raise_error(ActiveRecord::RecordInvalid)
       end
 
-      it 'rejects section validation scoping for project creation' do
+      it "rejects section validation scoping for project creation" do
         project = build(:project, custom_field_values: {
-                                    text_custom_field.id => 'foo',
+                                    text_custom_field.id => "foo",
                                     bool_custom_field.id => true
                                   },
                                   _limit_custom_fields_validation_to_section_id: section.id)
@@ -201,11 +201,11 @@ RSpec.describe Project, 'customizable' do
         expect { project.save! }.to raise_error(ArgumentError)
       end
 
-      it 'temporarly validates only custom values of a section if section scope is provided while updating' do
+      it "temporarly validates only custom values of a section if section scope is provided while updating" do
         project = create(:project, custom_field_values: {
-                           text_custom_field.id => 'foo',
+                           text_custom_field.id => "foo",
                            bool_custom_field.id => true,
-                           required_text_custom_field.id => 'bar'
+                           required_text_custom_field.id => "bar"
                          })
 
         expect(project).to be_valid
@@ -233,27 +233,27 @@ RSpec.describe Project, 'customizable' do
       end
     end
 
-    context 'with correct handling of custom fields with default values' do
+    context "with correct handling of custom fields with default values" do
       let!(:text_custom_field_with_default) do
         create(:text_project_custom_field,
-               default_value: 'default',
+               default_value: "default",
                project_custom_field_section: section)
       end
 
-      it 'activates custom fields with default values if not explicitly set to blank' do
+      it "activates custom fields with default values if not explicitly set to blank" do
         project = create(:project, custom_field_values: {
-                           text_custom_field.id => 'foo',
+                           text_custom_field.id => "foo",
                            bool_custom_field.id => true
                          })
         expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
           .to contain_exactly(text_custom_field.id, bool_custom_field.id, text_custom_field_with_default.id)
       end
 
-      it 'does not activate custom fields with default values if explicitly set to blank' do
+      it "does not activate custom fields with default values if explicitly set to blank" do
         project = create(:project, custom_field_values: {
-                           text_custom_field.id => 'foo',
+                           text_custom_field.id => "foo",
                            bool_custom_field.id => true,
-                           text_custom_field_with_default.id => ''
+                           text_custom_field_with_default.id => ""
                          })
         expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
           .to contain_exactly(text_custom_field.id, bool_custom_field.id)
@@ -261,11 +261,11 @@ RSpec.describe Project, 'customizable' do
     end
   end
 
-  context 'when updating with custom field values' do
+  context "when updating with custom field values" do
     let!(:project) { create(:project) }
 
-    shared_examples 'implicitly enabled and saved custom values' do
-      it 'enables fields with provided values' do
+    shared_examples "implicitly enabled and saved custom values" do
+      it "enables fields with provided values" do
         # list_custom_field is not provided, thus it should not be enabled
         expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
             .to contain_exactly(text_custom_field.id, bool_custom_field.id)
@@ -273,52 +273,52 @@ RSpec.describe Project, 'customizable' do
           .to contain_exactly(text_custom_field, bool_custom_field)
       end
 
-      it 'saves the custom field values properly' do
+      it "saves the custom field values properly" do
         expect(project.custom_value_for(text_custom_field).typed_value)
-          .to eq('foo')
+          .to eq("foo")
         expect(project.custom_value_for(bool_custom_field).typed_value)
           .to be_truthy
       end
     end
 
-    context 'with #update method' do
+    context "with #update method" do
       before do
         project.update(custom_field_values: {
-                         text_custom_field.id => 'foo',
+                         text_custom_field.id => "foo",
                          bool_custom_field.id => true
                        })
       end
 
-      it_behaves_like 'implicitly enabled and saved custom values'
+      it_behaves_like "implicitly enabled and saved custom values"
     end
 
-    context 'with #update! method' do
+    context "with #update! method" do
       before do
         project.update!(custom_field_values: {
-                          text_custom_field.id => 'foo',
+                          text_custom_field.id => "foo",
                           bool_custom_field.id => true
                         })
       end
 
-      it_behaves_like 'implicitly enabled and saved custom values'
+      it_behaves_like "implicitly enabled and saved custom values"
     end
 
-    context 'with #custom_field_values= method' do
+    context "with #custom_field_values= method" do
       before do
         project.custom_field_values = {
-          text_custom_field.id => 'foo',
+          text_custom_field.id => "foo",
           bool_custom_field.id => true
         }
 
         project.save!
       end
 
-      it_behaves_like 'implicitly enabled and saved custom values'
+      it_behaves_like "implicitly enabled and saved custom values"
     end
 
-    it 'does not re-enable fields without new value which have been disabled in the past (regression)' do
+    it "does not re-enable fields without new value which have been disabled in the past (regression)" do
       project.update!(custom_field_values: {
-                        text_custom_field.id => 'foo',
+                        text_custom_field.id => "foo",
                         bool_custom_field.id => true
                       })
 
@@ -338,16 +338,16 @@ RSpec.describe Project, 'customizable' do
         .to contain_exactly(bool_custom_field)
     end
 
-    context 'with correct handling of custom fields with default values' do
+    context "with correct handling of custom fields with default values" do
       let!(:text_custom_field_with_default) do
         create(:text_project_custom_field,
-               default_value: 'default',
+               default_value: "default",
                project_custom_field_section: section)
       end
 
-      it 'does not activate custom fields with default values if not explicitly set to a value' do
+      it "does not activate custom fields with default values if not explicitly set to a value" do
         project.update!(custom_field_values: {
-                          text_custom_field.id => 'bar',
+                          text_custom_field.id => "bar",
                           bool_custom_field.id => false
                         })
 
@@ -356,11 +356,11 @@ RSpec.describe Project, 'customizable' do
           .to contain_exactly(text_custom_field.id, bool_custom_field.id)
       end
 
-      it 'does activate custom fields with default values if explicitly set to a value' do
+      it "does activate custom fields with default values if explicitly set to a value" do
         project.update!(custom_field_values: {
-                          text_custom_field.id => 'bar',
+                          text_custom_field.id => "bar",
                           bool_custom_field.id => false,
-                          text_custom_field_with_default.id => 'overwritten default'
+                          text_custom_field_with_default.id => "overwritten default"
                         })
 
         # text_custom_field_with_default is not provided, thus it should not be enabled (in contrast to creation)
@@ -369,9 +369,9 @@ RSpec.describe Project, 'customizable' do
       end
     end
 
-    it 'does re-enable fields with new value which have been disabled in the past' do
+    it "does re-enable fields with new value which have been disabled in the past" do
       project.update!(custom_field_values: {
-                        text_custom_field.id => 'foo',
+                        text_custom_field.id => "foo",
                         bool_custom_field.id => true
                       })
 
@@ -384,22 +384,22 @@ RSpec.describe Project, 'customizable' do
         .to contain_exactly(bool_custom_field)
 
       project.update!(custom_field_values: {
-                        text_custom_field.id => 'bar'
+                        text_custom_field.id => "bar"
                       })
 
       expect(project.reload.project_custom_fields)
         .to contain_exactly(text_custom_field, bool_custom_field)
 
       expect(project.custom_value_for(text_custom_field).typed_value)
-        .to eq('bar')
+        .to eq("bar")
     end
   end
 
-  context 'when updating with custom field setter methods (API approach)' do
+  context "when updating with custom field setter methods (API approach)" do
     let(:project) { create(:project) }
 
-    shared_examples 'implicitly enabled and saved custom values' do
-      it 'enables fields with provided values' do
+    shared_examples "implicitly enabled and saved custom values" do
+      it "enables fields with provided values" do
         # list_custom_field is not provided, thus it should not be enabled
         expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
             .to contain_exactly(text_custom_field.id, bool_custom_field.id)
@@ -407,27 +407,68 @@ RSpec.describe Project, 'customizable' do
           .to contain_exactly(text_custom_field, bool_custom_field)
       end
 
-      it 'saves the custom field values properly' do
+      it "saves the custom field values properly" do
         expect(project.custom_value_for(text_custom_field).typed_value)
-          .to eq('foo')
+          .to eq("foo")
         expect(project.custom_value_for(bool_custom_field).typed_value)
           .to be_truthy
 
         # or via getter methods:
 
-        expect(project.send(:"custom_field_#{text_custom_field.id}")).to eq('foo')
+        expect(project.send(:"custom_field_#{text_custom_field.id}")).to eq("foo")
         expect(project.send(:"custom_field_#{bool_custom_field.id}")).to be_truthy
       end
     end
 
-    context 'when setting a value for a disabled custom field' do
+    context "when setting a value for a disabled custom field" do
       before do
-        project.send(:"custom_field_#{text_custom_field.id}=", 'foo')
+        project.send(:"custom_field_#{text_custom_field.id}=", "foo")
         project.send(:"custom_field_#{bool_custom_field.id}=", true)
         project.save!
       end
 
-      it_behaves_like 'implicitly enabled and saved custom values'
+      it_behaves_like "implicitly enabled and saved custom values"
+    end
+  end
+
+  context "with hidden custom fields" do
+    let!(:hidden_custom_field) do
+      create(:text_project_custom_field, project_custom_field_section: section, visible: false)
+    end
+    let(:project) do
+      create(:project, custom_field_values: {
+               text_custom_field.id => "foo",
+               bool_custom_field.id => true,
+               hidden_custom_field.id => "hidden"
+             })
+    end
+
+    before do
+      User.current = user # needs to be executed before project creation!
+    end
+
+    context "with admin permission" do
+      let(:user) { create(:admin) }
+
+      it "does activate hidden custom fields" do
+        # project creation happens with an admin user as let(:project) called after setting the current user to an admin
+        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
+          .to contain_exactly(text_custom_field.id, bool_custom_field.id, hidden_custom_field.id)
+
+        expect(project.custom_value_for(hidden_custom_field)).to eq("hidden")
+      end
+    end
+
+    context "without admin permission" do
+      let(:user) { create(:user) }
+
+      it "does not activate hidden custom fields" do
+        # project creation happens with an non-admin user as let(:project) called after setting the current user to an non-admin
+        expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
+          .to contain_exactly(text_custom_field.id, bool_custom_field.id)
+
+        expect(project.custom_value_for(hidden_custom_field)).to be_nil
+      end
     end
   end
 end
