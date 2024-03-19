@@ -56,7 +56,7 @@ module ::TwoFactorAuthentication
     end
 
     def webauthn_challenge
-      device = otp_service(@authenticated_user).device
+      device = otp_service_for_verification(@authenticated_user).device
 
       webauthn_options = device.options_for_get(webauthn_relying_party)
       session[:webauthn_challenge] = webauthn_options.challenge
