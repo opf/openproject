@@ -55,12 +55,12 @@ class Version < ApplicationRecord
       .merge(Project.allowed_to(args.first || User.current, :view_work_packages))
   }
 
-  scope :systemwide, -> { where(sharing: 'system') }
+  scope :systemwide, -> { where(sharing: "system") }
 
   scope :order_by_name, -> { order(Arel.sql("LOWER(#{Version.table_name}.name) ASC")) }
 
   def self.with_status_open
-    where(status: 'open')
+    where(status: "open")
   end
 
   # Returns true if +user+ or current user is allowed to view the version
@@ -89,16 +89,20 @@ class Version < ApplicationRecord
   end
 
   def closed?
-    status == 'closed'
+    status == "closed"
   end
 
   def open?
-    status == 'open'
+    status == "open"
   end
 
   # Returns true if the version is completed: finish date reached and no open issues
   def completed?
     effective_date && (effective_date <= Date.today) && open_issues_count.zero?
+  end
+
+  def systemwide?
+    sharing == "system"
   end
 
   # Returns the completion percentage of this version based on the amount of open/closed issues
@@ -209,7 +213,7 @@ class Version < ApplicationRecord
       progress = 0
 
       if issues_count > 0
-        ratio = open ? 'done_ratio' : 100
+        ratio = open ? "done_ratio" : 100
         sum_sql = self.class.sanitize_sql_array(
           ["COALESCE(#{WorkPackage.table_name}.estimated_hours, ?) * #{ratio}", estimated_average]
         )

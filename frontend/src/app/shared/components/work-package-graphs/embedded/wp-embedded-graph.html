@@ -1,4 +1,4 @@
-<div class="op-wp-embeded-graph work-packages-embedded-view--container loading-indicator--location" #graphContainer [ngStyle]="{height: chartHeight}">
+<div class="op-wp-embedded-graph work-packages-embedded-view--container loading-indicator--location" #graphContainer [ngStyle]="{height: chartHeight}">
   <canvas baseChart
           [datasets]="chartData"
           [labels]="chartLabels"
@@ -6,6 +6,7 @@
           [type]="mappedChartType"
           [options]="internalChartOptions"
           *ngIf="hasDataToDisplay">
+    {{chartDescription}}
   </canvas>
   <op-no-results *ngIf="!hasDataToDisplay && initialized"
               [title]="text.noResults">

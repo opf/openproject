@@ -128,6 +128,19 @@ export class WorkPackageEmbeddedGraphComponent {
     return this.chartType === 'horizontalBar' ? 'bar' : this.chartType;
   }
 
+  public get chartDescription():string {
+    const chartDataDescriptions = _.map(this.chartLabels, (label, index) => {
+      if (this.chartData.length === 1) {
+        const allCount = this.chartData[0].data[index];
+        return `${allCount} ${label}`;
+      }
+      const labelCounts = _.map(this.chartData, (dataset) => `${dataset.data[index]} ${dataset.label}`);
+      return `${label}: ${labelCounts.join(', ')}`;
+    });
+
+    return chartDataDescriptions.join('; ');
+  }
+
   private setHeight() {
     if (this.chartType === 'horizontalBar' && this.datasets && this.datasets[0]) {
       const labels:string[] = [];
