@@ -96,7 +96,7 @@ RSpec.describe 'Create project custom fields', :js do
     it 'prevents creating a new project custom field with an empty name' do
       click_on('Save')
 
-      # no server side validation shown, html5 validation is used
+      expect(page).to have_field 'custom_field_name', validation_message: 'Please fill in this field.'
 
       # expect no redirect
       expect(page).to have_no_current_path(admin_settings_project_custom_fields_path(tab: 'ProjectCustomField'))
