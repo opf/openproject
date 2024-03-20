@@ -27,6 +27,7 @@ import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-
 import { ConfirmDialogOptions } from '../modals/confirm-dialog/confirm-dialog.modal';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import * as moment from 'moment-timezone';
+import allLocales from '@fullcalendar/core/locales-all';
 
 export const nonWorkingDaysListSelector = 'op-non-working-days-list';
 
@@ -75,6 +76,7 @@ export class OpNonWorkingDaysListComponent implements OnInit {
   selectedNonWorkingDayName= '';
 
   calendarOptions:CalendarOptions = {
+    locales: allLocales,
     locale: this.I18n.locale,
     plugins: [listPlugin],
     initialView: 'listYear',
