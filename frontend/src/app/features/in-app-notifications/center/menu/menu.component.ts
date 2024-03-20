@@ -172,3 +172,4 @@ export class IanMenuComponent implements OnInit {
   ngOnInit():void {
     this.ianMenuService.reload();
   }
+}
