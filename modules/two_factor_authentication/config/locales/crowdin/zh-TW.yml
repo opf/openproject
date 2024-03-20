@@ -1,7 +1,7 @@
 #English strings go here for Rails i18n
 zh-TW:
   plugin_openproject_two_factor_authentication:
-    name: "OpenProject Two-factor authentication"
+    name: "OpenProject 兩階段認證(Two-factor authentication)"
     description: >-
       This OpenProject plugin authenticates your users using two-factor authentication by means of one-time password through the TOTP standard (Google Authenticator) or sent to the user's cell phone via SMS or voice call.
   activerecord:
@@ -98,7 +98,7 @@ zh-TW:
       confirm_default: "Confirm changing default device"
       confirm_device: "確認設備"
       confirm_now: "Not confirmed, click here to activate"
-      cannot_delete_default: "Cannot delete default device"
+      cannot_delete_default: "無法刪除預設設備"
       make_default_are_you_sure: "Are you sure you want to make this 2FA device your default?"
       make_default_failed: "Failed to update the default 2FA device."
       deletion_are_you_sure: "Are you sure you want to delete this 2FA device?"
@@ -106,7 +106,7 @@ zh-TW:
       registration_failed_token_invalid: "2FA device registration failed, the token was invalid."
       registration_failed_update: "2FA device registration failed, the token was valid but the device could not be updated."
       confirm_send_failed: "Confirmation of your 2FA device failed."
-      button_complete_registration: "Complete 2FA registration"
+      button_complete_registration: "完成兩階段驗證(2FA)註冊"
       text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
       text_identifier: "You can give the device a custom identifier using this field."
@@ -136,7 +136,7 @@ zh-TW:
           Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
           Common examples are Google Authenticator or Authy.
       sms:
-        title: "Use your mobile phone"
+        title: "使用您的手機"
         redacted_identifier: "Mobile device (%{redacted_number})"
         request_2fa_identifier: "%{redacted_identifier}, we sent you an authentication code via %{delivery_channel}"
         description: |
