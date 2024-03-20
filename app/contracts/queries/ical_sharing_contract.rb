@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'queries/base_contract'
+require "queries/base_contract"
 
 module Queries
   class ICalSharingContract < BaseContract

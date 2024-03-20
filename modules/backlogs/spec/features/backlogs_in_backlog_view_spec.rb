@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support/pages/backlogs'
+require "spec_helper"
+require_relative "../support/pages/backlogs"
 
-RSpec.describe 'Backlogs in backlog view', :js,
+RSpec.describe "Backlogs in backlog view", :js,
                with_cuprite: false do
   let!(:project) do
     create(:project,
@@ -82,7 +82,7 @@ RSpec.describe 'Backlogs in backlog view', :js,
   let!(:other_project_sprint) do
     create(:version,
            project: other_project,
-           sharing: 'system',
+           sharing: "system",
            start_date: Date.today - 10.days,
            effective_date: Date.today + 10.days)
   end
@@ -101,11 +101,11 @@ RSpec.describe 'Backlogs in backlog view', :js,
     login_as current_user
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
-            .and_return('story_types' => [story.id.to_s],
-                        'task_type' => task.id.to_s)
+            .and_return("story_types" => [story.id.to_s],
+                        "task_type" => task.id.to_s)
   end
 
-  it 'displays stories which are editable' do
+  it "displays stories which are editable" do
     backlogs_page.visit!
 
     backlogs_page
@@ -132,9 +132,9 @@ RSpec.describe 'Backlogs in backlog view', :js,
     # The backlogs can be folded by default
     visit my_settings_path
 
-    check 'Show versions folded'
+    check "Show versions folded"
 
-    click_button 'Save'
+    click_button "Save"
 
     backlogs_page.visit!
 
@@ -150,7 +150,7 @@ RSpec.describe 'Backlogs in backlog view', :js,
     # Alter the attributes of the sprint
     sleep(0.5)
     backlogs_page
-      .edit_backlog(sprint, name: '')
+      .edit_backlog(sprint, name: "")
 
     backlogs_page
       .expect_and_dismiss_error("Name can't be blank.")
@@ -159,7 +159,7 @@ RSpec.describe 'Backlogs in backlog view', :js,
 
     backlogs_page
       .edit_backlog(sprint,
-                    name: 'New sprint name',
+                    name: "New sprint name",
                     start_date: Date.today + 5.days,
                     effective_date: Date.today + 20.days)
 
@@ -168,7 +168,7 @@ RSpec.describe 'Backlogs in backlog view', :js,
     sprint.reload
 
     expect(sprint.name)
-      .to eql 'New sprint name'
+      .to eql "New sprint name"
 
     expect(sprint.start_date)
       .to eql Date.today + 5.days
@@ -179,11 +179,11 @@ RSpec.describe 'Backlogs in backlog view', :js,
     # Alter displaying a sprints as a backlog
 
     backlogs_page
-      .click_in_backlog_menu(sprint, 'Properties')
+      .click_in_backlog_menu(sprint, "Properties")
 
-    select 'right', from: 'Column in backlog'
+    select "right", from: "Column in backlog"
 
-    click_button 'Save'
+    click_button "Save"
 
     backlogs_page
       .expect_and_dismiss_toaster(message: "Successful update.")
@@ -200,11 +200,11 @@ RSpec.describe 'Backlogs in backlog view', :js,
 
     # Alter displaying a backlog as a sprint
     backlogs_page
-      .click_in_backlog_menu(backlog, 'Properties')
+      .click_in_backlog_menu(backlog, "Properties")
 
-    select 'left', from: 'Column in backlog'
+    select "left", from: "Column in backlog"
 
-    click_button 'Save'
+    click_button "Save"
 
     backlogs_page
       .expect_and_dismiss_toaster(message: "Successful update.")
@@ -222,11 +222,11 @@ RSpec.describe 'Backlogs in backlog view', :js,
 
     # Alter displaying a version not at all
     backlogs_page
-      .click_in_backlog_menu(backlog, 'Properties')
+      .click_in_backlog_menu(backlog, "Properties")
 
-    select 'none', from: 'Column in backlog'
+    select "none", from: "Column in backlog"
 
-    click_button 'Save'
+    click_button "Save"
 
     backlogs_page
       .expect_and_dismiss_toaster(message: "Successful update.")
@@ -244,11 +244,11 @@ RSpec.describe 'Backlogs in backlog view', :js,
 
     # Inherited versions can also be modified
     backlogs_page
-      .click_in_backlog_menu(other_project_sprint, 'Properties')
+      .click_in_backlog_menu(other_project_sprint, "Properties")
 
-    select 'none', from: 'Column in backlog'
+    select "none", from: "Column in backlog"
 
-    click_button 'Save'
+    click_button "Save"
 
     backlogs_page
       .expect_and_dismiss_toaster(message: "Successful update.")

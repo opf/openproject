@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'rb_master_backlogs/index' do
+RSpec.describe "rb_master_backlogs/index" do
   let(:user) { create(:user) }
   let(:role_allowed) do
     create(:project_role,
@@ -72,8 +72,8 @@ RSpec.describe 'rb_master_backlogs/index' do
   let(:sprint) { create(:sprint, project:) }
 
   before do
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [type_feature.id],
-                                                                         'task_type' => type_task.id })
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "story_types" => [type_feature.id],
+                                                                         "task_type" => type_task.id })
     view.extend RbCommonHelper
     view.extend RbMasterBacklogsHelper
     allow(view).to receive(:current_user).and_return(user)

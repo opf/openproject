@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
 RSpec.describe CostEntry do
   include Cost::PluginSpecHelper
@@ -54,7 +54,7 @@ RSpec.describe CostEntry do
                        spent_on: date,
                        units:,
                        user:,
-                       comments: 'lorem')
+                       comments: "lorem")
   end
 
   let(:cost_entry2) do
@@ -64,7 +64,7 @@ RSpec.describe CostEntry do
                        spent_on: date,
                        units:,
                        user:,
-                       comments: 'lorem')
+                       comments: "lorem")
   end
 
   let(:cost_type) do
@@ -97,8 +97,8 @@ RSpec.describe CostEntry do
   let(:units) { 5.0 }
   let(:date) { Date.today }
 
-  describe 'class' do
-    describe '#visible' do
+  describe "class" do
+    describe "#visible" do
       describe "WHEN having the view_cost_entries permission
                 WHEN querying for a project
                 WHEN a cost entry from another user is defined" do
@@ -149,20 +149,20 @@ RSpec.describe CostEntry do
     end
   end
 
-  describe 'instance' do
-    describe '#costs' do
+  describe "instance" do
+    describe "#costs" do
       let(:fourth_rate) do
         build(:cost_rate, valid_from: date - 1.day,
                           rate: 10000.0,
                           cost_type:)
       end
 
-      describe 'WHEN updating the number of units' do
+      describe "WHEN updating the number of units" do
         before do
           cost_entry.spent_on = first_rate.valid_from + 1.day
         end
 
-        it 'updates costs' do
+        it "updates costs" do
           6.times do |units|
             cost_entry.units = units
             cost_entry.save!
@@ -171,7 +171,7 @@ RSpec.describe CostEntry do
         end
       end
 
-      describe 'WHEN a new rate is added at the end' do
+      describe "WHEN a new rate is added at the end" do
         before do
           cost_entry.save!
           fourth_rate.save!
@@ -181,7 +181,7 @@ RSpec.describe CostEntry do
         it { expect(cost_entry.costs).to eq(fourth_rate.rate * cost_entry.units) }
       end
 
-      describe 'WHEN a new rate is added for the future' do
+      describe "WHEN a new rate is added for the future" do
         before do
           cost_entry.save!
           fourth_rate.valid_from = date + 1.day
@@ -192,7 +192,7 @@ RSpec.describe CostEntry do
         it { expect(cost_entry.costs).to eq(third_rate.rate * cost_entry.units) }
       end
 
-      describe 'WHEN a new rate is added in between' do
+      describe "WHEN a new rate is added in between" do
         before do
           cost_entry.save!
           fourth_rate.valid_from = date - 3.days
@@ -203,7 +203,7 @@ RSpec.describe CostEntry do
         it { expect(cost_entry.costs).to eq(third_rate.rate * cost_entry.units) }
       end
 
-      describe 'WHEN a rate is destroyed' do
+      describe "WHEN a rate is destroyed" do
         before do
           cost_entry.save!
           third_rate.destroy
@@ -223,29 +223,29 @@ RSpec.describe CostEntry do
         it { expect(cost_entry.costs).to eq(cost_entry.units * first_rate.rate) }
       end
 
-      describe 'WHEN spent on is changed' do
+      describe "WHEN spent on is changed" do
         before do
           cost_type.save!
           cost_entry.save!
         end
 
-        it 'takes the then active rate to calculate' do
+        it "takes the then active rate to calculate" do
           (5.days.ago.to_date..Date.today).each do |time|
             cost_entry.spent_on = time
             cost_entry.save!
 
             rate = CostRate
-                   .where(['cost_type_id = ? AND valid_from <= ?',
+                   .where(["cost_type_id = ? AND valid_from <= ?",
                            cost_entry.cost_type.id, cost_entry.spent_on])
-                   .order(Arel.sql('valid_from DESC')).first.rate
+                   .order(Arel.sql("valid_from DESC")).first.rate
             expect(cost_entry.costs).to eq(cost_entry.units * rate)
           end
         end
       end
     end
 
-    describe '#overridden_costs' do
-      describe 'WHEN overridden costs are seet' do
+    describe "#overridden_costs" do
+      describe "WHEN overridden costs are seet" do
         let(:value) { rand(500) }
 
         before do
@@ -256,8 +256,8 @@ RSpec.describe CostEntry do
       end
     end
 
-    describe '#real_costs' do
-      describe 'WHEN overridden cost are set' do
+    describe "#real_costs" do
+      describe "WHEN overridden cost are set" do
         let(:value) { rand(500) }
 
         before do
@@ -268,20 +268,20 @@ RSpec.describe CostEntry do
       end
     end
 
-    describe '#valid' do
+    describe "#valid" do
       before do
         cost_entry.save!
       end
 
       it { expect(cost_entry).to be_valid }
 
-      describe 'WHEN no cost_type is provided' do
+      describe "WHEN no cost_type is provided" do
         before { cost_entry.cost_type = nil }
 
         it { expect(cost_entry).not_to be_valid }
       end
 
-      describe 'WHEN no project is provided' do
+      describe "WHEN no project is provided" do
         before do
           cost_entry.project = nil
           # unfortunately the project get's set to the work_package's project if no project is provided
@@ -292,31 +292,31 @@ RSpec.describe CostEntry do
         it { expect(cost_entry).not_to be_valid }
       end
 
-      describe 'WHEN no work_package is provided' do
+      describe "WHEN no work_package is provided" do
         before { cost_entry.work_package = nil }
 
         it { expect(cost_entry).not_to be_valid }
       end
 
-      describe 'WHEN the work_package is not in the project' do
+      describe "WHEN the work_package is not in the project" do
         before { cost_entry.work_package = work_package2 }
 
         it { expect(cost_entry).not_to be_valid }
       end
 
-      describe 'WHEN no units are provided' do
+      describe "WHEN no units are provided" do
         before { cost_entry.units = nil }
 
         it { expect(cost_entry).not_to be_valid }
       end
 
-      describe 'WHEN no spent_on is provided' do
+      describe "WHEN no spent_on is provided" do
         before { cost_entry.spent_on = nil }
 
         it { expect(cost_entry).not_to be_valid }
       end
 
-      describe 'WHEN no user is provided' do
+      describe "WHEN no user is provided" do
         before { cost_entry.user = nil }
 
         it { expect(cost_entry).not_to be_valid }
@@ -339,15 +339,15 @@ RSpec.describe CostEntry do
         it { expect(cost_entry).not_to be_valid }
       end
 
-      describe 'WHEN the cost_type is deleted' do
+      describe "WHEN the cost_type is deleted" do
         before { cost_type.deleted_at = Date.new }
 
         it { expect(cost_entry).not_to be_valid }
       end
     end
 
-    describe '#user' do
-      describe 'WHEN a non existing user is provided (i.e. the user has been deleted)' do
+    describe "#user" do
+      describe "WHEN a non existing user is provided (i.e. the user has been deleted)" do
         before do
           cost_entry.save!
           user.destroy
@@ -356,25 +356,25 @@ RSpec.describe CostEntry do
         it { expect(cost_entry.reload.user).to eq(DeletedUser.first) }
       end
 
-      describe 'WHEN an existing user is provided' do
+      describe "WHEN an existing user is provided" do
         it { expect(cost_entry.user).to eq(user) }
       end
     end
 
-    describe '#logged_by' do
-      it 'validates' do
+    describe "#logged_by" do
+      it "validates" do
         cost_entry.logged_by = nil
         expect(cost_entry).not_to be_valid
         expect(cost_entry.errors[:logged_by_id]).to be_present
       end
 
-      it 'sets logged_by from current user' do
+      it "sets logged_by from current user" do
         entry = User.execute_as(user2) { described_class.new logged_by: user }
         expect(entry.logged_by).to eq(user2)
       end
     end
 
-    describe '#editable_by?' do
+    describe "#editable_by?" do
       describe "WHEN the user has the edit_cost_entries permission
                 WHEN the cost entry is not created by the user" do
         before do
@@ -429,7 +429,7 @@ RSpec.describe CostEntry do
       end
     end
 
-    describe '#creatable_by?' do
+    describe "#creatable_by?" do
       describe "WHEN the user has the log costs permission
                 WHEN the cost entry is not associated to the user" do
         before do
@@ -476,7 +476,7 @@ RSpec.describe CostEntry do
       end
     end
 
-    describe '#costs_visible_by?' do
+    describe "#costs_visible_by?" do
       describe "WHEN the user has the view_cost_rates permission
                 WHEN the cost entry is not associated to the user" do
         before do

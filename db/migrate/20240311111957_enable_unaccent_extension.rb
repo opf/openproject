@@ -30,7 +30,7 @@
     def up
       ActiveRecord::Base.connection.execute("CREATE EXTENSION IF NOT EXISTS unaccent WITH SCHEMA pg_catalog;")
     rescue StandardError => e
-      raise unless e.message.include?('unaccent')
+      raise unless e.message.include?("unaccent")
 
       raise <<~MESSAGE
         \e[33mWARNING:\e[0m Could not find or enable the `unaccent` extension for PostgreSQL.

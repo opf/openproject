@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe API::V3::UserPreferences::NotificationSettingRepresenter, 'rendering' do
+RSpec.describe API::V3::UserPreferences::NotificationSettingRepresenter, "rendering" do
   include API::V3::Utilities::PathHelper
 
   subject(:generated) { representer.to_json }
@@ -46,73 +46,73 @@ RSpec.describe API::V3::UserPreferences::NotificationSettingRepresenter, 'render
 
   current_user { build_stubbed(:user) }
 
-  describe '_links' do
-    describe 'self' do
+  describe "_links" do
+    describe "self" do
       # No self link as the representer is rendered as part of the user preferences.
-      it_behaves_like 'has no link' do
-        let(:link) { 'self' }
+      it_behaves_like "has no link" do
+        let(:link) { "self" }
       end
     end
 
-    describe 'project' do
-      it_behaves_like 'has a titled link' do
-        let(:link) { 'project' }
+    describe "project" do
+      it_behaves_like "has a titled link" do
+        let(:link) { "project" }
         let(:href) { api_v3_paths.project(project.id) }
         let(:title) { project.name }
       end
     end
   end
 
-  describe 'properties' do
-    it 'has no _type' do
+  describe "properties" do
+    it "has no _type" do
       expect(generated)
-        .not_to have_json_path('_type')
+        .not_to have_json_path("_type")
     end
 
     (NotificationSetting.all_settings - NotificationSetting.date_alert_settings).each do |property|
-      it_behaves_like 'property', property.to_s.camelize(:lower) do
+      it_behaves_like "property", property.to_s.camelize(:lower) do
         let(:value) do
           notification_setting.send property
         end
       end
     end
 
-    context 'without enterprise' do
-      it 'does not have the date alert settings in the resulting json' do
+    context "without enterprise" do
+      it "does not have the date alert settings in the resulting json" do
         expect(subject).not_to have_json_path("startDate")
         expect(subject).not_to have_json_path("dueDate")
         expect(subject).not_to have_json_path("overdue")
       end
     end
 
-    context 'with enterprise', with_ee: %i[date_alerts] do
-      it_behaves_like 'property', :startDate do
-        let(:value) { 'P1D' }
+    context "with enterprise", with_ee: %i[date_alerts] do
+      it_behaves_like "property", :startDate do
+        let(:value) { "P1D" }
       end
-      it_behaves_like 'property', :dueDate do
-        let(:value) { 'P1D' }
+      it_behaves_like "property", :dueDate do
+        let(:value) { "P1D" }
       end
-      it_behaves_like 'property', :overdue do
-        let(:value) { 'P3D' }
+      it_behaves_like "property", :overdue do
+        let(:value) { "P3D" }
       end
     end
   end
 
-  describe '_embedded' do
-    describe 'project' do
-      it 'skips embedding the project' do
+  describe "_embedded" do
+    describe "project" do
+      it "skips embedding the project" do
         expect(generated)
-          .not_to have_json_path('_embedded/project')
+          .not_to have_json_path("_embedded/project")
       end
     end
   end
 
-  context 'when duration settings are all nil' do
+  context "when duration settings are all nil" do
     let(:notification_setting) do
       build_stubbed(:notification_setting, project:, start_date: nil, due_date: nil, overdue: nil)
     end
 
-    it 'does not represent them in the resulting json' do
+    it "does not represent them in the resulting json" do
       expect(subject).not_to have_json_path("startDate")
       expect(subject).not_to have_json_path("dueDate")
       expect(subject).not_to have_json_path("overdue")

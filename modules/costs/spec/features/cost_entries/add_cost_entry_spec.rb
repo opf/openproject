@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../../spec_helper'
+require_relative "../../spec_helper"
 
-RSpec.describe 'Work Package cost fields', :js do
+RSpec.describe "Work Package cost fields", :js do
   shared_let(:type_task) { create(:type_task) }
   shared_let(:status) { create(:status, is_default: true) }
   shared_let(:priority) { create(:priority, is_default: true) }
@@ -50,13 +50,13 @@ RSpec.describe 'Work Package cost fields', :js do
            member_with_roles: { project => role })
   end
   shared_let(:cost_type1) do
-    type = create(:cost_type, name: 'A', unit: 'A single', unit_plural: 'A plural')
+    type = create(:cost_type, name: "A", unit: "A single", unit_plural: "A plural")
     create(:cost_rate, cost_type: type, rate: 1.00)
     type
   end
 
   shared_let(:cost_type2) do
-    type = create(:cost_type, name: 'B', unit: 'B single', unit_plural: 'B plural')
+    type = create(:cost_type, name: "B", unit: "B single", unit_plural: "B plural")
     create(:cost_rate, cost_type: type, rate: 2.00)
     type
   end
@@ -68,38 +68,38 @@ RSpec.describe 'Work Package cost fields', :js do
     login_as user
   end
 
-  it 'does not show read-only fields' do
+  it "does not show read-only fields" do
     full_view.visit!
     # Go to add cost entry page
     SeleniumHubWaiter.wait
-    find('#action-show-more-dropdown-menu .button').click
-    find('.menu-item', text: 'Log unit costs').click
+    find("#action-show-more-dropdown-menu .button").click
+    find(".menu-item", text: "Log unit costs").click
 
     SeleniumHubWaiter.wait
     # Set single value, should update suffix
-    select 'A', from: 'cost_entry_cost_type_id'
-    fill_in 'cost_entry_units', with: '1'
-    expect(page).to have_css('#cost_entry_unit_name', text: 'A single')
-    expect(page).to have_css('#cost_entry_costs', text: '1.00 EUR')
+    select "A", from: "cost_entry_cost_type_id"
+    fill_in "cost_entry_units", with: "1"
+    expect(page).to have_css("#cost_entry_unit_name", text: "A single")
+    expect(page).to have_css("#cost_entry_costs", text: "1.00 EUR")
 
-    fill_in 'cost_entry_units', with: '2'
-    expect(page).to have_css('#cost_entry_unit_name', text: 'A plural')
-    expect(page).to have_css('#cost_entry_costs', text: '2.00 EUR')
+    fill_in "cost_entry_units", with: "2"
+    expect(page).to have_css("#cost_entry_unit_name", text: "A plural")
+    expect(page).to have_css("#cost_entry_costs", text: "2.00 EUR")
 
     # Switch cost type
-    select 'B', from: 'cost_entry_cost_type_id'
-    expect(page).to have_css('#cost_entry_unit_name', text: 'B plural')
-    expect(page).to have_css('#cost_entry_costs', text: '4.00 EUR')
+    select "B", from: "cost_entry_cost_type_id"
+    expect(page).to have_css("#cost_entry_unit_name", text: "B plural")
+    expect(page).to have_css("#cost_entry_costs", text: "4.00 EUR")
 
     # Override costs
-    find_by_id('cost_entry_costs').click
+    find_by_id("cost_entry_costs").click
     SeleniumHubWaiter.wait
-    fill_in 'cost_entry_overridden_costs', with: '15.52'
+    fill_in "cost_entry_overridden_costs", with: "15.52"
 
-    click_on 'Save'
+    click_on "Save"
 
     # Expect correct costs
-    expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_cost_logged_successfully))
+    expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_cost_logged_successfully))
     entry = CostEntry.last
     expect(entry.cost_type_id).to eq(cost_type2.id)
     expect(entry.units).to eq(2.0)
@@ -107,11 +107,11 @@ RSpec.describe 'Work Package cost fields', :js do
     expect(entry.real_costs).to eq(15.52)
 
     visit edit_cost_entry_path(entry)
-    expect(page).to have_css('#cost_entry_costs', text: '15.52 EUR')
+    expect(page).to have_css("#cost_entry_costs", text: "15.52 EUR")
   end
 
-  context 'with german locale' do
-    it 'creates the budget including the given cost items with german locale' do
+  context "with german locale" do
+    it "creates the budget including the given cost items with german locale" do
       user.update!(language: :de)
       I18n.locale = :de
 
@@ -119,24 +119,24 @@ RSpec.describe 'Work Package cost fields', :js do
 
       # Go to add cost entry page
       SeleniumHubWaiter.wait
-      find('#action-show-more-dropdown-menu .button').click
-      find('.menu-item', text: I18n.t(:button_log_costs)).click
+      find("#action-show-more-dropdown-menu .button").click
+      find(".menu-item", text: I18n.t(:button_log_costs)).click
 
       SeleniumHubWaiter.wait
-      fill_in 'cost_entry_units', with: '1,42'
-      select 'B', from: 'cost_entry_cost_type_id'
-      expect(page).to have_css('#cost_entry_unit_name', text: 'B plural')
-      expect(page).to have_css('#cost_entry_costs', text: '2,84 EUR')
+      fill_in "cost_entry_units", with: "1,42"
+      select "B", from: "cost_entry_cost_type_id"
+      expect(page).to have_css("#cost_entry_unit_name", text: "B plural")
+      expect(page).to have_css("#cost_entry_costs", text: "2,84 EUR")
 
       # Override costs
-      find_by_id('cost_entry_costs').click
+      find_by_id("cost_entry_costs").click
       SeleniumHubWaiter.wait
-      fill_in 'cost_entry_overridden_costs', with: '1.350,25'
+      fill_in "cost_entry_overridden_costs", with: "1.350,25"
 
       click_on I18n.t(:button_save)
 
       # Expect correct costs
-      expect(page).to have_css('.op-toast.-success', text: I18n.t(:notice_cost_logged_successfully))
+      expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_cost_logged_successfully))
       entry = CostEntry.last
       expect(entry.cost_type_id).to eq(cost_type2.id)
       expect(entry.units).to eq(1.42)
@@ -145,18 +145,18 @@ RSpec.describe 'Work Package cost fields', :js do
 
       # Can edit the costs again
       visit edit_cost_entry_path(entry)
-      expect(page).to have_css('#cost_entry_costs', text: '1.350,25 EUR')
+      expect(page).to have_css("#cost_entry_costs", text: "1.350,25 EUR")
 
       # Toggle the cost button
       SeleniumHubWaiter.wait
-      find_by_id('cost_entry_costs').click
+      find_by_id("cost_entry_costs").click
 
       # Update the costs in german locale
       SeleniumHubWaiter.wait
-      fill_in 'cost_entry_overridden_costs', with: '55.000,55'
+      fill_in "cost_entry_overridden_costs", with: "55.000,55"
       click_on I18n.t(:button_save)
 
-      expect(page).to have_css('#cost_entry_costs', text: '55.000,55 EUR')
+      expect(page).to have_css("#cost_entry_costs", text: "55.000,55 EUR")
       entry.reload
       expect(entry.units).to eq(1.42)
       expect(entry.costs).to eq(2.84)
@@ -164,25 +164,25 @@ RSpec.describe 'Work Package cost fields', :js do
     end
   end
 
-  context 'with an additional placeholder user in the project' do
+  context "with an additional placeholder user in the project" do
     let!(:placeholder_user) do
       create(:placeholder_user,
              member_with_roles: { project => role })
     end
 
-    it 'does not allow to select them (Regression #36353)' do
+    it "does not allow to select them (Regression #36353)" do
       expect(placeholder_user).to be_present
       expect(Principal.possible_assignee(project).to_a).to include placeholder_user
       full_view.visit!
 
       # Go to add cost entry page
       SeleniumHubWaiter.wait
-      find('#action-show-more-dropdown-menu .button').click
-      find('.menu-item', text: I18n.t(:button_log_costs)).click
+      find("#action-show-more-dropdown-menu .button").click
+      find(".menu-item", text: I18n.t(:button_log_costs)).click
 
       SeleniumHubWaiter.wait
-      expect(page).to have_no_css('#cost_entry_user_id option', text: placeholder_user.name, visible: :all)
-      expect(page).to have_css('#cost_entry_user_id option', text: user.name, visible: :all)
+      expect(page).to have_no_css("#cost_entry_user_id option", text: placeholder_user.name, visible: :all)
+      expect(page).to have_css("#cost_entry_user_id option", text: user.name, visible: :all)
     end
   end
 end

@@ -28,10 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package filtering',
-               'by shared with user',
+RSpec.describe "Work package filtering",
+               "by shared with user",
                :js,
                :with_cuprite do
   shared_let(:visible_project) do
@@ -58,26 +58,26 @@ RSpec.describe 'Work package filtering',
 
   shared_let(:user_with_sufficient_permissions) do
     create(:user,
-           firstname: 'Bruce',
-           lastname: 'Wayne',
+           firstname: "Bruce",
+           lastname: "Wayne",
            member_with_roles: { visible_project => project_role_with_sufficient_permissions })
   end
   shared_let(:user_with_insufficient_permissions) do
     create(:user,
-           firstname: 'Alfred',
-           lastname: 'Pennyworth',
+           firstname: "Alfred",
+           lastname: "Pennyworth",
            member_with_roles: { visible_project => project_role_with_insufficient_permissions })
   end
   shared_let(:user_with_shared_work_package) do
     create(:user,
-           firstname: 'Clark',
-           lastname: 'Kent',
+           firstname: "Clark",
+           lastname: "Kent",
            member_with_roles: { visible_project => project_role_with_insufficient_permissions })
   end
   shared_let(:invisible_user) do
     create(:user,
-           firstname: 'Salvatore',
-           lastname: 'Maroni',
+           firstname: "Salvatore",
+           lastname: "Maroni",
            member_with_roles: { invisible_project => project_role_with_insufficient_permissions })
   end
 
@@ -102,32 +102,32 @@ RSpec.describe 'Work package filtering',
   context 'when I have sufficient permissions for the "Shared with user" filter' do
     current_user { user_with_sufficient_permissions }
 
-    it 'filters work packages by their shared status' do
+    it "filters work packages by their shared status" do
       wp_table.visit!
       wp_table.expect_work_package_listed(shared_work_package, non_shared_work_package)
       filters.open
 
       aggregate_failures "Members of a Project I'm not a member of are invisible" do
-        filters.expect_missing_filter_value_by('Shared with user',
-                                               'is (OR)',
+        filters.expect_missing_filter_value_by("Shared with user",
+                                               "is (OR)",
                                                [invisible_user.name],
-                                               'sharedWithUser')
+                                               "sharedWithUser")
       end
 
-      aggregate_failures 'operator filtering' do
-        filters.add_filter_by('Shared with user',
-                              'is (OR)',
+      aggregate_failures "operator filtering" do
+        filters.add_filter_by("Shared with user",
+                              "is (OR)",
                               [user_with_shared_work_package.name],
-                              'sharedWithUser')
+                              "sharedWithUser")
 
         wp_table.ensure_work_package_not_listed!(non_shared_work_package)
         wp_table.expect_work_package_listed(shared_work_package)
       end
 
-      aggregate_failures 'Filters persist on saved query' do
-        wp_table.save_as('Non shared work packages')
+      aggregate_failures "Filters persist on saved query" do
+        wp_table.save_as("Non shared work packages")
 
-        wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
+        wp_table.expect_and_dismiss_toaster(message: "Successful creation.")
 
         wp_table.visit_query Query.last
         wp_table.ensure_work_package_not_listed!(non_shared_work_package)
@@ -143,7 +143,7 @@ RSpec.describe 'Work package filtering',
       wp_table.visit!
       wp_table.expect_work_package_listed(shared_work_package, non_shared_work_package)
       filters.open
-      filters.expect_missing_filter('Shared with user')
+      filters.expect_missing_filter("Shared with user")
     end
   end
 end

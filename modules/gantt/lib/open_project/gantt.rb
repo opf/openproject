@@ -28,6 +28,6 @@
 
 module OpenProject
   module Gantt
-    require 'open_project/gantt/engine'
+    require "open_project/gantt/engine"
   end
 end

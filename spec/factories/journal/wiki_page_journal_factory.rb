@@ -27,5 +27,5 @@
 #++
 
 FactoryBot.define do
-  factory :journal_wiki_page_journal, class: 'Journal::WikiPageJournal'
+  factory :journal_wiki_page_journal, class: "Journal::WikiPageJournal"
 end

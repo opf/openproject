@@ -33,7 +33,7 @@ module Components
     include RSpec::Matchers
 
     def container
-      '.spot-modal'
+      ".spot-modal"
     end
 
     def expect_open

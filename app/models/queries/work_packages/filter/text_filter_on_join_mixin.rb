@@ -29,12 +29,12 @@
 module Queries::WorkPackages::Filter::TextFilterOnJoinMixin
   def where
     case operator
-    when '~'
+    when "~"
       "EXISTS (#{where_condition})"
-    when '!~'
+    when "!~"
       "NOT EXISTS (#{where_condition})"
     else
-      raise 'Unsupported operator'
+      raise "Unsupported operator"
     end
   end
 end

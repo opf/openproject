@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'bundler'
-require 'fileutils'
+require "bundler"
+require "fileutils"
 
 module ::OpenProject::Plugins
   module FrontendLinking
@@ -67,7 +67,7 @@ module ::OpenProject::Plugins
           FileUtils.mkdir_p(target_dir)
 
           plugins.each do |name, path|
-            source = File.join(path, 'frontend', 'module')
+            source = File.join(path, "frontend", "module")
             target = File.join(target_dir, name)
 
             puts "Linking frontend of OpenProject plugin #{name} to #{target}."
@@ -81,21 +81,21 @@ module ::OpenProject::Plugins
 
       def all_frontend_plugins
         openproject_plugins.select do |_, path|
-          frontend_entry = File.join(path, 'frontend', 'module')
+          frontend_entry = File.join(path, "frontend", "module")
           File.directory? frontend_entry
         end
       end
 
       def all_angular_frontend_plugins
         openproject_plugins.select do |_, path|
-          frontend_entry = File.join(path, 'frontend', 'module', 'main.ts')
+          frontend_entry = File.join(path, "frontend", "module", "main.ts")
           File.readable? frontend_entry
         end
       end
 
       def all_plugins_with_global_styles
         openproject_plugins.select do |_, path|
-          style_file = File.join(path, 'frontend', 'module', 'global_styles.*')
+          style_file = File.join(path, "frontend", "module", "global_styles.*")
           !Dir.glob(style_file).empty?
         end
       end
@@ -104,8 +104,8 @@ module ::OpenProject::Plugins
       # Regenerate the frontend plugin module orchestrating the linked frontends
       def generate_plugin_module(plugins)
         file_register = Rails.root.join("frontend/src/app/features/plugins/linked-plugins.module.ts")
-        template_file = File.read(File.expand_path('linked-plugins.module.ts.erb', __dir__))
-        template = ::ERB.new template_file, trim_mode: '-'
+        template_file = File.read(File.expand_path("linked-plugins.module.ts.erb", __dir__))
+        template = ::ERB.new template_file, trim_mode: "-"
 
         puts "Regenerating frontend plugin registry #{file_register}."
         context = ::OpenProject::Plugins::FrontendLinking::ErbContext.new plugins
@@ -117,8 +117,8 @@ module ::OpenProject::Plugins
       # Regenerate the frontend plugin sass files
       def generate_plugin_sass(plugins)
         file_register = Rails.root.join("frontend/src/app/features/plugins/linked-plugins.styles.sass")
-        template_file = File.read(File.expand_path('linked-plugins.styles.sass.erb', __dir__))
-        template = ::ERB.new template_file, trim_mode: '-'
+        template_file = File.read(File.expand_path("linked-plugins.styles.sass.erb", __dir__))
+        template = ::ERB.new template_file, trim_mode: "-"
 
         puts "Regenerating frontend plugin sass #{file_register}."
         context = ::OpenProject::Plugins::FrontendLinking::ErbContext.new plugins
@@ -131,9 +131,9 @@ module ::OpenProject::Plugins
       # from the :opf_plugins group.
       def load_known_opf_plugins
         bundler_groups = %i[opf_plugins]
-        gemfile_path = Rails.root.join('Gemfile')
+        gemfile_path = Rails.root.join("Gemfile")
 
-        gems = Bundler::Dsl.evaluate(gemfile_path, '_temp_lockfile', true)
+        gems = Bundler::Dsl.evaluate(gemfile_path, "_temp_lockfile", true)
 
         gems.dependencies
           .each_with_object({}) do |dep, l|

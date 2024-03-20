@@ -76,7 +76,7 @@ module Users
 
     def type_is_user
       unless model.type == User.name
-        errors.add(:type, 'Type and class mismatch')
+        errors.add(:type, "Type and class mismatch")
       end
     end
   end

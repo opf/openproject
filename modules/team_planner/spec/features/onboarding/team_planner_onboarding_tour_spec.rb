@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../../support/onboarding/onboarding_steps'
+require "spec_helper"
+require_relative "../../support/onboarding/onboarding_steps"
 
-RSpec.describe 'team planner onboarding tour',
+RSpec.describe "team planner onboarding tour",
                :js,
                with_cuprite: false,
                with_ee: %i[team_planner_view],
@@ -37,12 +37,12 @@ RSpec.describe 'team planner onboarding tour',
                # of the JS code rely on something triggering the Angular change detection.
                # This is usually done by the notification polling, but we don't want to wait
                with_settings: { notifications_polling_interval: 1_000 } do
-  let(:next_button) { find('.enjoyhint_next_btn') }
+  let(:next_button) { find(".enjoyhint_next_btn") }
 
   let(:demo_project) do
     create(:project,
-           name: 'Demo project',
-           identifier: 'demo-project',
+           name: "Demo project",
+           identifier: "demo-project",
            public: true,
            enabled_module_names: %w[work_package_tracking gantt wiki team_planner_view])
   end
@@ -62,7 +62,7 @@ RSpec.describe 'team planner onboarding tour',
            due_date: Time.zone.today)
   end
 
-  let(:query) { create(:query, user:, project: demo_project, public: true, name: 'Team planner') }
+  let(:query) { create(:query, user:, project: demo_project, public: true, name: "Team planner") }
   let(:team_plan) do
     create(:view_team_planner,
            query:,
@@ -83,8 +83,8 @@ RSpec.describe 'team planner onboarding tour',
     page.execute_script("window.sessionStorage.clear();")
   end
 
-  context 'as a new user' do
-    it 'I see the team planner onboarding tour in the demo project' do
+  context "as a new user" do
+    it "I see the team planner onboarding tour in the demo project" do
       # Set the tour parameter so that we can start on the wp page
       visit "/projects/#{demo_project.identifier}/work_packages?start_onboarding_tour=true"
 

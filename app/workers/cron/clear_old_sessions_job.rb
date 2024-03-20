@@ -31,7 +31,7 @@ module Cron
     include ::RakeJob
 
     def perform
-      super('db:sessions:expire', 7)
+      super("db:sessions:expire", 7)
     end
   end
 end

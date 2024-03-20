@@ -81,9 +81,9 @@ module API
 
             def link_value_path_method(custom_field, custom_value)
               case custom_field.field_format
-              when 'user'
+              when "user"
                 derive_principal_path_method(custom_value)
-              when 'list'
+              when "list"
                 :custom_option
               else
                 custom_field.field_format

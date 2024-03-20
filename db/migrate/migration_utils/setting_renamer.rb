@@ -41,7 +41,7 @@ module Migration::MigrationUtils
       private
 
       def settings_table
-        @settings_table ||= ActiveRecord::Base.connection.quote_table_name('settings')
+        @settings_table ||= ActiveRecord::Base.connection.quote_table_name("settings")
       end
 
       def quote_value(s)

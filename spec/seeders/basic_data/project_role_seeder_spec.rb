@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe BasicData::ProjectRoleSeeder do
   subject(:seeder) { described_class.new(seed_data) }
@@ -40,7 +40,7 @@ RSpec.describe BasicData::ProjectRoleSeeder do
     seeder.seed!
   end
 
-  context 'with some builtin roles defined' do
+  context "with some builtin roles defined" do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
         project_roles:
@@ -58,25 +58,25 @@ RSpec.describe BasicData::ProjectRoleSeeder do
       SEEDING_DATA_YAML
     end
 
-    it 'creates the corresponding builtin roles with the given attributes' do
+    it "creates the corresponding builtin roles with the given attributes" do
       expect(Role.count).to eq(2)
-      expect(Role.find_by(name: 'Non member')).to have_attributes(
+      expect(Role.find_by(name: "Non member")).to have_attributes(
         builtin: Role::BUILTIN_NON_MEMBER,
         permissions: %i[view_status view_presentations] + public_permissions
       )
-      expect(Role.find_by(name: 'Anonymous')).to have_attributes(
+      expect(Role.find_by(name: "Anonymous")).to have_attributes(
         builtin: Role::BUILTIN_ANONYMOUS,
         permissions: %i[read_information] + public_permissions
       )
     end
 
-    it 'references the role in the seed data' do
-      role = Role.find_by(name: 'Anonymous')
+    it "references the role in the seed data" do
+      role = Role.find_by(name: "Anonymous")
       expect(seed_data.find_reference(:role_anonymous)).to eq(role)
     end
   end
 
-  context 'with some non-builtin roles defined' do
+  context "with some non-builtin roles defined" do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
         project_roles:
@@ -89,22 +89,22 @@ RSpec.describe BasicData::ProjectRoleSeeder do
       SEEDING_DATA_YAML
     end
 
-    it 'creates the corresponding roles with the given attributes' do
+    it "creates the corresponding roles with the given attributes" do
       expect(Role.count).to eq(1)
-      expect(Role.find_by(name: 'Member')).to have_attributes(
+      expect(Role.find_by(name: "Member")).to have_attributes(
         position: 5,
         builtin: Role::NON_BUILTIN,
         permissions: %i[view_movies eat_popcorn] + public_permissions
       )
     end
 
-    it 'references the role in the seed data' do
-      member_role = Role.find_by(name: 'Member')
+    it "references the role in the seed data" do
+      member_role = Role.find_by(name: "Member")
       expect(seed_data.find_reference(:role_member)).to eq(member_role)
     end
   end
 
-  context 'with permissions: :all_assignable_permissions' do
+  context "with permissions: :all_assignable_permissions" do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
         project_roles:
@@ -115,13 +115,13 @@ RSpec.describe BasicData::ProjectRoleSeeder do
       SEEDING_DATA_YAML
     end
 
-    it 'gives all assignable permissions to the role' do
-      expect(Role.find_by(name: 'Project admin').permissions)
+    it "gives all assignable permissions to the role" do
+      expect(Role.find_by(name: "Project admin").permissions)
         .to match_array(Roles::CreateContract.new(Role.new, nil).assignable_permissions(keep_public: true).map { _1.name.to_sym })
     end
   end
 
-  context 'with some permissions added and removed by modules in a modules_permissions section' do
+  context "with some permissions added and removed by modules in a modules_permissions section" do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
         project_roles:
@@ -149,8 +149,8 @@ RSpec.describe BasicData::ProjectRoleSeeder do
       SEEDING_DATA_YAML
     end
 
-    it 'applies the permissions as specified' do
-      expect(Role.find_by(name: 'Member').permissions)
+    it "applies the permissions as specified" do
+      expect(Role.find_by(name: "Member").permissions)
         .to match_array(
           %i[
             view_movies

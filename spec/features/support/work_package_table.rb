@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_context 'work package table helpers' do
+RSpec.shared_context "work package table helpers" do
   def expect_work_packages_to_be_in_order(order)
     within_wp_table do
       preceeding_elements = order[0..-2]
@@ -41,6 +41,6 @@ RSpec.shared_context 'work package table helpers' do
   end
 
   def within_wp_table(&)
-    within('.work-package-table--container', &)
+    within(".work-package-table--container", &)
   end
 end

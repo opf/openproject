@@ -30,7 +30,7 @@ module OpenProject::Deprecation
   class << self
     def deprecator
       @@deprecator ||= ActiveSupport::Deprecation
-                        .new('in a future major upgrade', 'OpenProject')
+                        .new("in a future major upgrade", "OpenProject")
     end
 
     delegate :warn, to: :deprecator

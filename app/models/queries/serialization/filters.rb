@@ -34,9 +34,9 @@ class Queries::Serialization::Filters
     return [] if serialized_filter_hash.nil?
 
     serialized_filter_hash.map do |serialized_filter|
-      filter = filter_for(serialized_filter['attribute'], no_memoization: true)
-      filter.operator = serialized_filter['operator']
-      filter.values = serialized_filter['values']
+      filter = filter_for(serialized_filter["attribute"], no_memoization: true)
+      filter.operator = serialized_filter["operator"]
+      filter.values = serialized_filter["values"]
 
       filter
     end

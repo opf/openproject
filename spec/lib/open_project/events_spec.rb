@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::Events do
   def fire_event(event_constant_name)
@@ -48,7 +48,7 @@ RSpec.describe OpenProject::Events do
     describe(event) do
       subject { fire_event(event) }
 
-      context 'when payload is empty' do
+      context "when payload is empty" do
         let(:payload) { {} }
 
         it do
@@ -57,7 +57,7 @@ RSpec.describe OpenProject::Events do
         end
       end
 
-      context 'when payload contains automatic project_folder_mode' do
+      context "when payload contains automatic project_folder_mode" do
         let(:payload) { { project_folder_mode: :automatic } }
 
         it do
@@ -95,10 +95,10 @@ RSpec.describe OpenProject::Events do
     end
   end
 
-  describe 'OAUTH_CLIENT_TOKEN_CREATED' do
-    subject { fire_event('OAUTH_CLIENT_TOKEN_CREATED') }
+  describe "OAUTH_CLIENT_TOKEN_CREATED" do
+    subject { fire_event("OAUTH_CLIENT_TOKEN_CREATED") }
 
-    context 'when payload is empty' do
+    context "when payload is empty" do
       let(:payload) { {} }
 
       it do
@@ -107,8 +107,8 @@ RSpec.describe OpenProject::Events do
       end
     end
 
-    context 'when payload contains storage integration type' do
-      let(:payload) { { integration_type: 'Storages::Storage' } }
+    context "when payload contains storage integration type" do
+      let(:payload) { { integration_type: "Storages::Storage" } }
 
       it do
         subject
@@ -117,10 +117,10 @@ RSpec.describe OpenProject::Events do
     end
   end
 
-  describe 'ROLE_UPDATED' do
-    subject { fire_event('ROLE_UPDATED') }
+  describe "ROLE_UPDATED" do
+    subject { fire_event("ROLE_UPDATED") }
 
-    context 'when payload is empty' do
+    context "when payload is empty" do
       let(:payload) { {} }
 
       it do
@@ -129,7 +129,7 @@ RSpec.describe OpenProject::Events do
       end
     end
 
-    context 'when payload contains some nextcloud related permissions as a diff' do
+    context "when payload contains some nextcloud related permissions as a diff" do
       let(:payload) { { permissions_diff: [:read_files] } }
 
       it do
@@ -139,10 +139,10 @@ RSpec.describe OpenProject::Events do
     end
   end
 
-  describe 'ROLE_DESTROYED' do
-    subject { fire_event('ROLE_DESTROYED') }
+  describe "ROLE_DESTROYED" do
+    subject { fire_event("ROLE_DESTROYED") }
 
-    context 'when payload is empty' do
+    context "when payload is empty" do
       let(:payload) { {} }
 
       it do
@@ -151,7 +151,7 @@ RSpec.describe OpenProject::Events do
       end
     end
 
-    context 'when payload contains some nextcloud related permissions' do
+    context "when payload contains some nextcloud related permissions" do
       let(:payload) { { permissions: [:read_files] } }
 
       it do

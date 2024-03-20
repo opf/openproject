@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'sys/filesystem'
+require "sys/filesystem"
 module OpenProject
   module Storage
     class << self
@@ -54,7 +54,7 @@ module OpenProject
         # Attachments
         paths[:attachments] = {
           path: OpenProject::Configuration.attachments_storage_path.to_s,
-          label: I18n.t('attributes.attachments')
+          label: I18n.t("attributes.attachments")
         }
 
         paths

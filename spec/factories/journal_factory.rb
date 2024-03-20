@@ -41,12 +41,12 @@ FactoryBot.define do
         .where(journable_id: journal.journable_id,
                journable_type: journal.journable_type,
                version: journal.version - 1)
-        .where('upper(validity_period) IS NULL')
-        .update_all(['validity_period = tstzrange(journals.created_at, ?)', journal.created_at])
+        .where("upper(validity_period) IS NULL")
+        .update_all(["validity_period = tstzrange(journals.created_at, ?)", journal.created_at])
     end
 
-    factory :work_package_journal, class: 'Journal' do
-      journable_type { 'WorkPackage' }
+    factory :work_package_journal, class: "Journal" do
+      journable_type { "WorkPackage" }
       data { build(:journal_work_package_journal) }
 
       callback(:after_stub) do |journal, options|
@@ -54,8 +54,8 @@ FactoryBot.define do
       end
     end
 
-    factory :wiki_page_journal, class: 'Journal' do
-      journable_type { 'WikiPage' }
+    factory :wiki_page_journal, class: "Journal" do
+      journable_type { "WikiPage" }
       data { build(:journal_wiki_page_journal) }
 
       callback(:after_stub) do |journal, options|
@@ -63,23 +63,23 @@ FactoryBot.define do
       end
     end
 
-    factory :message_journal, class: 'Journal' do
-      journable_type { 'Message' }
+    factory :message_journal, class: "Journal" do
+      journable_type { "Message" }
       data { build(:journal_message_journal) }
     end
 
-    factory :news_journal, class: 'Journal' do
-      journable_type { 'News' }
+    factory :news_journal, class: "Journal" do
+      journable_type { "News" }
       data { build(:journal_message_journal) }
     end
 
-    factory :project_journal, class: 'Journal' do
+    factory :project_journal, class: "Journal" do
       journable factory: :project
       data { build(:journal_project_journal) }
     end
 
-    factory :time_entry_journal, class: 'Journal' do
-      journable_type { 'TimeEntry' }
+    factory :time_entry_journal, class: "Journal" do
+      journable_type { "TimeEntry" }
       data { association(:journal_time_entry_journal) }
     end
   end

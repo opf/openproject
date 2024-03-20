@@ -48,7 +48,7 @@ module API
             next if represented.new_record?
 
             {
-              href: attachments_by_resource + '/prepare',
+              href: attachments_by_resource + "/prepare",
               method: :post
             }
           end

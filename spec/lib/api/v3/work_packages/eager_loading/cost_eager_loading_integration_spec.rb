@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe API::V3::WorkPackages::WorkPackageEagerLoadingWrapper, 'cost eager loading', type: :model do
+RSpec.describe API::V3::WorkPackages::WorkPackageEagerLoadingWrapper, "cost eager loading", type: :model do
   let(:project) do
     work_package.project
   end
@@ -105,15 +105,15 @@ RSpec.describe API::V3::WorkPackages::WorkPackageEagerLoadingWrapper, 'cost eage
       time_entry2
     end
 
-    it 'correctly calculates spent time' do
+    it "correctly calculates spent time" do
       expect(scope.to_a.first.hours).to eql time_entry1.hours + time_entry2.hours
     end
 
-    it 'correctly calculates labor costs' do
+    it "correctly calculates labor costs" do
       expect(scope.first.labor_costs).to eql (user_rates.rate * (time_entry1.hours + time_entry2.hours)).to_f
     end
 
-    it 'correctly calculates material costs' do
+    it "correctly calculates material costs" do
       expect(scope.first.material_costs).to eql (cost_entry1.costs + cost_entry2.costs).to_f
     end
   end

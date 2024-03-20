@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Backlogs', :js, :with_cuprite do
+RSpec.describe "Backlogs", :js, :with_cuprite do
   let(:story_type) do
     create(:type_feature)
   end
@@ -93,57 +93,57 @@ RSpec.describe 'Backlogs', :js, :with_cuprite do
 
     allow(Setting)
       .to receive(:plugin_openproject_backlogs)
-            .and_return('story_types' => [story_type.id.to_s,
+            .and_return("story_types" => [story_type.id.to_s,
                                           story_type2.id.to_s,
                                           inactive_story_type.id.to_s],
-                        'task_type' => task_type.id.to_s)
+                        "task_type" => task_type.id.to_s)
   end
 
-  it 'allows creating a new story' do
+  it "allows creating a new story" do
     visit backlogs_project_backlogs_path(project)
 
     within("#backlog_#{backlog_version.id}", wait: 10) do
-      menu = find('.backlog-menu')
+      menu = find(".backlog-menu")
       menu.click
-      click_link 'New Story'
-      fill_in 'Subject', with: "The new story"
-      fill_in 'Story Points', with: "5"
+      click_link "New Story"
+      fill_in "Subject", with: "The new story"
+      fill_in "Story Points", with: "5"
 
       # inactive types should not be selectable
       # but the user can choose from the active types
       expect(page)
-        .to have_no_css('option', text: inactive_story_type.name)
+        .to have_no_css("option", text: inactive_story_type.name)
 
-      select story_type2.name, from: 'Type'
+      select story_type2.name, from: "Type"
 
       # saving the new story
-      find(:css, 'input[name=subject]').native.send_key :return
+      find(:css, "input[name=subject]").native.send_key :return
 
       # velocity should be summed up immediately
       expect(page)
-        .to have_css('.velocity', text: "12")
+        .to have_css(".velocity", text: "12")
 
       # this will ensure that the page refresh is through before we check the order
       menu.click
-      click_link 'New Story'
-      fill_in 'Subject', with: "Another story"
+      click_link "New Story"
+      fill_in "Subject", with: "Another story"
     end
 
     # the order is kept even after a page refresh -> it is persisted in the db
     page.driver.refresh
 
     expect(page)
-      .to have_no_content 'Another story'
+      .to have_no_content "Another story"
 
     expect(page)
-      .to have_css '.story:nth-of-type(1)', text: 'The new story'
+      .to have_css ".story:nth-of-type(1)", text: "The new story"
     expect(page)
-      .to have_css '.story:nth-of-type(2)', text: existing_story1.subject
+      .to have_css ".story:nth-of-type(2)", text: existing_story1.subject
     expect(page)
-      .to have_css '.story:nth-of-type(3)', text: existing_story2.subject
+      .to have_css ".story:nth-of-type(3)", text: existing_story2.subject
 
     # created with the selected type
     expect(page)
-      .to have_css '.story:nth-of-type(1) .type_id', text: story_type2.name
+      .to have_css ".story:nth-of-type(1) .type_id", text: story_type2.name
   end
 end

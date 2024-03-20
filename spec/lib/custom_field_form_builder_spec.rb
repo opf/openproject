@@ -25,13 +25,13 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
-require 'ostruct'
+require "spec_helper"
+require "ostruct"
 
 RSpec.describe CustomFieldFormBuilder do
   include Capybara::RSpecMatchers
 
-  let(:helper) { ActionView::Base.new(ActionView::LookupContext.new(''), {}, @controller) }
+  let(:helper) { ActionView::Base.new(ActionView::LookupContext.new(""), {}, @controller) }
   let(:builder) { described_class.new(:user, resource, helper, builder_options) }
   let(:builder_options) do
     {
@@ -40,8 +40,8 @@ RSpec.describe CustomFieldFormBuilder do
     }
   end
 
-  describe '#custom_field' do
-    let(:options) { { class: 'custom-class' } }
+  describe "#custom_field" do
+    let(:options) { { class: "custom-class" } }
 
     let(:custom_field) do
       build_stubbed(:custom_field)
@@ -67,37 +67,37 @@ RSpec.describe CustomFieldFormBuilder do
       builder.cf_form_field options
     end
 
-    it_behaves_like 'labelled by default'
-    it_behaves_like 'wrapped in field-container by default' do
+    it_behaves_like "labelled by default"
+    it_behaves_like "wrapped in field-container by default" do
       let(:container_count) { 2 }
     end
 
-    context 'for a bool custom field' do
-      it_behaves_like 'wrapped in container', 'check-box-container' do
+    context "for a bool custom field" do
+      it_behaves_like "wrapped in container", "check-box-container" do
         let(:container_count) { 2 }
       end
 
-      it 'outputs element' do
+      it "outputs element" do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--check-box"
                  id="user#{custom_field.id}"
                  name="user[#{custom_field.id}]"
                  type="checkbox"
                  value="1" />
-        }).at_path('input:nth-of-type(2)')
+        }).at_path("input:nth-of-type(2)")
       end
     end
 
-    context 'for a date custom field' do
+    context "for a date custom field" do
       before do
-        custom_field.field_format = 'date'
+        custom_field.field_format = "date"
       end
 
-      it_behaves_like 'wrapped in container', 'field-container' do
+      it_behaves_like "wrapped in container", "field-container" do
         let(:container_count) { 2 }
       end
 
-      it 'outputs element' do
+      it "outputs element" do
         expect(output).to be_html_eql(
           <<~HTML
             <op-basic-single-date-picker
@@ -107,20 +107,20 @@ RSpec.describe CustomFieldFormBuilder do
               data-name='"user[custom_field_#{custom_field.id}]"'
             ></op-basic-single-date-picker>
           HTML
-        ).at_path('op-basic-single-date-picker')
+        ).at_path("op-basic-single-date-picker")
       end
     end
 
-    context 'for a text custom field' do
+    context "for a text custom field" do
       before do
-        custom_field.field_format = 'text'
+        custom_field.field_format = "text"
       end
 
-      it_behaves_like 'wrapped in container', 'text-area-container' do
+      it_behaves_like "wrapped in container", "text-area-container" do
         let(:container_count) { 2 }
       end
 
-      it 'outputs element' do
+      it "outputs element" do
         expect(output).to be_html_eql(%{
           <textarea class="custom-class form--text-area"
                     id="user#{custom_field.id}"
@@ -129,81 +129,81 @@ RSpec.describe CustomFieldFormBuilder do
                     editor_type="constrained"
                     macros="false">
           </textarea>
-        }).at_path('textarea')
+        }).at_path("textarea")
       end
     end
 
-    context 'for a string custom field' do
+    context "for a string custom field" do
       before do
-        custom_field.field_format = 'string'
+        custom_field.field_format = "string"
       end
 
-      it_behaves_like 'wrapped in container', 'text-field-container' do
+      it_behaves_like "wrapped in container", "text-field-container" do
         let(:container_count) { 2 }
       end
 
-      it 'outputs element' do
+      it "outputs element" do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{custom_field.id}"
                  name="user[#{custom_field.id}]"
                  type="text" />
-        }).at_path('input')
+        }).at_path("input")
       end
     end
 
-    context 'for an int custom field' do
+    context "for an int custom field" do
       before do
-        custom_field.field_format = 'int'
+        custom_field.field_format = "int"
       end
 
-      it_behaves_like 'wrapped in container', 'text-field-container' do
+      it_behaves_like "wrapped in container", "text-field-container" do
         let(:container_count) { 2 }
       end
 
-      it 'outputs element' do
+      it "outputs element" do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{custom_field.id}"
                  name="user[#{custom_field.id}]"
                  type="text" />
-        }).at_path('input')
+        }).at_path("input")
       end
     end
 
-    context 'for a float custom field' do
+    context "for a float custom field" do
       before do
-        custom_field.field_format = 'float'
+        custom_field.field_format = "float"
       end
 
-      it_behaves_like 'wrapped in container', 'text-field-container' do
+      it_behaves_like "wrapped in container", "text-field-container" do
         let(:container_count) { 2 }
       end
 
-      it 'outputs element' do
+      it "outputs element" do
         expect(output).to be_html_eql(%{
           <input class="custom-class form--text-field"
                  id="user#{custom_field.id}"
                  name="user[#{custom_field.id}]"
                  type="text" />
-        }).at_path('input')
+        }).at_path("input")
       end
     end
 
-    context 'for a list custom field' do
+    context "for a list custom field" do
       let(:custom_field) do
         create(:list_wp_custom_field,
                custom_options: [custom_option])
       end
       let(:custom_option) do
-        create(:custom_option, value: 'my_option')
+        create(:custom_option, value: "my_option")
       end
 
-      it_behaves_like 'wrapped in container', 'select-container' do
+      it_behaves_like "wrapped in container", "select-container" do
         let(:container_count) { 2 }
       end
 
-      it 'outputs element' do
+      it "outputs element" do
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{custom_field.id}"
@@ -211,15 +211,15 @@ RSpec.describe CustomFieldFormBuilder do
                   no_label="true"><option
                   value="" label=" "></option>
                   <option value="#{custom_option.id}">my_option</option></select>
-        }).at_path('select')
+        }).at_path("select")
       end
 
-      context 'which is required and has no default value' do
+      context "which is required and has no default value" do
         before do
           custom_field.update(is_required: true)
         end
 
-        it 'outputs element' do
+        it "outputs element" do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{custom_field.id}"
@@ -227,29 +227,29 @@ RSpec.describe CustomFieldFormBuilder do
                     no_label="true"><option value="">---
                     Please select ---</option>
                     <option value="#{custom_option.id}">my_option</option></select>
-          }).at_path('select')
+          }).at_path("select")
         end
       end
 
-      context 'which is required and a default value' do
+      context "which is required and a default value" do
         before do
           custom_field.update(is_required: true)
           custom_option.update(default_value: true)
         end
 
-        it 'outputs element' do
+        it "outputs element" do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{custom_field.id}"
                     name="user[#{custom_field.id}]"
                     no_label="true"><option
                     value="#{custom_option.id}">my_option</option></select>
-          }).at_path('select')
+          }).at_path("select")
         end
       end
     end
 
-    context 'for a user custom field' do
+    context "for a user custom field" do
       let(:project) { build_stubbed(:project) }
       let(:user1) { build_stubbed(:user) }
       let(:user2) { build_stubbed(:user) }
@@ -257,7 +257,7 @@ RSpec.describe CustomFieldFormBuilder do
       let(:resource) { project }
 
       before do
-        custom_field.field_format = 'user'
+        custom_field.field_format = "user"
 
         allow(project)
           .to receive(custom_field.attribute_getter)
@@ -268,11 +268,11 @@ RSpec.describe CustomFieldFormBuilder do
           .and_return([user1, user2])
       end
 
-      it_behaves_like 'wrapped in container', 'select-container' do
+      it_behaves_like "wrapped in container", "select-container" do
         let(:container_count) { 2 }
       end
 
-      it 'outputs element' do
+      it "outputs element" do
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{custom_field.id}"
@@ -282,15 +282,15 @@ RSpec.describe CustomFieldFormBuilder do
             <option value="#{user1.id}">#{user1.name}</option>
             <option value="#{user2.id}">#{user2.name}</option>
           </select>
-        }).at_path('select')
+        }).at_path("select")
       end
 
-      context 'which is required and has no default value' do
+      context "which is required and has no default value" do
         before do
           custom_field.is_required = true
         end
 
-        it 'outputs element' do
+        it "outputs element" do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{custom_field.id}"
@@ -300,12 +300,12 @@ RSpec.describe CustomFieldFormBuilder do
               <option value="#{user1.id}">#{user1.name}</option>
               <option value="#{user2.id}">#{user2.name}</option>
             </select>
-          }).at_path('select')
+          }).at_path("select")
         end
       end
     end
 
-    context 'for a version custom field' do
+    context "for a version custom field" do
       let(:project) { build_stubbed(:project) }
       let(:version1) { build_stubbed(:version) }
       let(:version2) { build_stubbed(:version) }
@@ -313,7 +313,7 @@ RSpec.describe CustomFieldFormBuilder do
       let(:resource) { project }
 
       before do
-        custom_field.field_format = 'version'
+        custom_field.field_format = "version"
         allow(project)
           .to receive(custom_field.attribute_getter)
                 .and_return typed_value
@@ -323,11 +323,11 @@ RSpec.describe CustomFieldFormBuilder do
                 .and_return([version1, version2])
       end
 
-      it_behaves_like 'wrapped in container', 'select-container' do
+      it_behaves_like "wrapped in container", "select-container" do
         let(:container_count) { 2 }
       end
 
-      it 'outputs element' do
+      it "outputs element" do
         expect(output).to be_html_eql(%{
           <select class="custom-class form--select"
                   id="user#{custom_field.id}"
@@ -337,15 +337,15 @@ RSpec.describe CustomFieldFormBuilder do
             <option value="#{version1.id}">#{version1.name}</option>
             <option value="#{version2.id}">#{version2.name}</option>
           </select>
-        }).at_path('select')
+        }).at_path("select")
       end
 
-      context 'which is required and has no default value' do
+      context "which is required and has no default value" do
         before do
           custom_field.is_required = true
         end
 
-        it 'outputs element' do
+        it "outputs element" do
           expect(output).to be_html_eql(%{
             <select class="custom-class form--select"
                     id="user#{custom_field.id}"
@@ -355,7 +355,7 @@ RSpec.describe CustomFieldFormBuilder do
               <option value="#{version1.id}">#{version1.name}</option>
               <option value="#{version2.id}">#{version2.name}</option>
             </select>
-          }).at_path('select')
+          }).at_path("select")
         end
       end
     end

@@ -26,80 +26,80 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe CustomValue::StringStrategy do
   let(:instance) { described_class.new(custom_value) }
   let(:custom_value) do
-    double('CustomValue',
+    double("CustomValue",
            value:)
   end
 
-  describe '#typed_value' do
+  describe "#typed_value" do
     subject { instance.typed_value }
 
-    context 'value is some string' do
-      let(:value) { 'foo bar!' }
+    context "value is some string" do
+      let(:value) { "foo bar!" }
 
       it { is_expected.to eql(value) }
     end
 
-    context 'value is blank' do
-      let(:value) { '' }
+    context "value is blank" do
+      let(:value) { "" }
 
       it { is_expected.to eql(value) }
     end
 
-    context 'value is nil' do
+    context "value is nil" do
       let(:value) { nil }
 
       it { is_expected.to be_nil }
     end
   end
 
-  describe '#formatted_value' do
+  describe "#formatted_value" do
     subject { instance.formatted_value }
 
-    context 'value is some string' do
-      let(:value) { 'foo bar!' }
+    context "value is some string" do
+      let(:value) { "foo bar!" }
 
-      it 'is the string' do
+      it "is the string" do
         expect(subject).to eql value
       end
     end
 
-    context 'value is blank' do
-      let(:value) { '' }
+    context "value is blank" do
+      let(:value) { "" }
 
-      it 'is a blank string' do
+      it "is a blank string" do
         expect(subject).to eql value
       end
     end
 
-    context 'value is nil' do
+    context "value is nil" do
       let(:value) { nil }
 
-      it 'is a blank string' do
-        expect(subject).to eql ''
+      it "is a blank string" do
+        expect(subject).to eql ""
       end
     end
   end
 
-  describe '#validate_type_of_value' do
+  describe "#validate_type_of_value" do
     subject { instance.validate_type_of_value }
 
-    context 'value is some string' do
-      let(:value) { 'foo bar!' }
+    context "value is some string" do
+      let(:value) { "foo bar!" }
 
-      it 'accepts' do
+      it "accepts" do
         expect(subject).to be_nil
       end
     end
 
-    context 'value is empty string' do
-      let(:value) { '' }
+    context "value is empty string" do
+      let(:value) { "" }
 
-      it 'accepts' do
+      it "accepts" do
         expect(subject).to be_nil
       end
     end

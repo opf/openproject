@@ -33,7 +33,7 @@ module API
         class QueryColumnRepresenter < ::API::Decorators::Single
           include API::Utilities::RepresenterToJsonCache
 
-          self_link path: 'query_column',
+          self_link path: "query_column",
                     id_attribute: ->(*) { converted_name },
                     title_getter: ->(*) { represented.caption }
 

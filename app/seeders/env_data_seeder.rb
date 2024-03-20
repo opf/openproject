@@ -32,6 +32,6 @@ class EnvDataSeeder < CompositeSeeder
   end
 
   def namespace
-    'EnvData'
+    "EnvData"
   end
 end

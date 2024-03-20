@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Wiki page - restoring main wiki item' do
+RSpec.describe "Wiki page - restoring main wiki item" do
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:user) do
     create(:user, member_with_permissions: { project => %i[view_wiki_pages rename_wiki_pages] })
@@ -38,14 +38,14 @@ RSpec.describe 'Wiki page - restoring main wiki item' do
     login_as(user)
   end
 
-  it 'restores the main item on start' do
+  it "restores the main item on start" do
     # For some reason, a customer had deleted their wiki start page
     # even though it should be recreated on destruction of the last item
     # This spec ensure the wiki main item is rendered even if no menu item is saved.
     visit project_path(project)
 
     expect(page)
-      .to have_css('.wiki-menu--main-item')
+      .to have_css(".wiki-menu--main-item")
 
     # Delete all items for some reason
     MenuItems::WikiMenuItem.main_items(project.wiki).destroy_all
@@ -55,7 +55,7 @@ RSpec.describe 'Wiki page - restoring main wiki item' do
     visit project_path(project)
 
     expect(page)
-      .to have_css('.wiki-menu--main-item')
+      .to have_css(".wiki-menu--main-item")
 
     expect(MenuItems::WikiMenuItem.main_items(project.wiki).count).to eq 1
   end

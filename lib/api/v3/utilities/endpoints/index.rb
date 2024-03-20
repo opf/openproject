@@ -110,7 +110,7 @@ module API
           end
 
           def calculate_resulting_params(query, provided_params)
-            calculate_default_params(query).merge(provided_params.slice('offset', 'pageSize').symbolize_keys).tap do |params|
+            calculate_default_params(query).merge(provided_params.slice("offset", "pageSize").symbolize_keys).tap do |params|
               params[:offset] = to_i_or_nil(params[:offset])
               params[:pageSize] = resolve_page_size(params[:pageSize])
             end

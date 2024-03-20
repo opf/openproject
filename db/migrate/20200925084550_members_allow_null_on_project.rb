@@ -30,7 +30,7 @@ class MembersAllowNullOnProject < ActiveRecord::Migration[6.0]
   def change
     change_column_null :members, :project_id, true
     change_column_default :members, :project_id, from: 0, to: nil
-    add_column :members, :updated_at, :timestamp, default: -> { 'CURRENT_TIMESTAMP' }
+    add_column :members, :updated_at, :timestamp, default: -> { "CURRENT_TIMESTAMP" }
 
     reversible do |rev|
       rev.up do
@@ -66,8 +66,8 @@ class MembersAllowNullOnProject < ActiveRecord::Migration[6.0]
 
   def migrate_principal_roles_data
     fetch_principal_roles.each do |principal_id, records|
-      member_id = insert_into_members(principal_id, records.first['created_at'], records.first['updated_at'])
-      insert_into_member_roles(member_id, records.pluck('role_id'))
+      member_id = insert_into_members(principal_id, records.first["created_at"], records.first["updated_at"])
+      insert_into_member_roles(member_id, records.pluck("role_id"))
     end
   end
 
@@ -85,7 +85,7 @@ class MembersAllowNullOnProject < ActiveRecord::Migration[6.0]
       RETURNING id
     SQL
 
-    member_id.to_a.first['id']
+    member_id.to_a.first["id"]
   end
 
   def insert_into_member_roles(member_id, role_ids)

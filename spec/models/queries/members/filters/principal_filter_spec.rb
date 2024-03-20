@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Members::Filters::PrincipalFilter do
   let(:user) { build_stubbed(:user) }
@@ -35,7 +35,7 @@ RSpec.describe Queries::Members::Filters::PrincipalFilter do
 
   before do
     login_as(current_user)
-    principal_scope = double('principal scope')
+    principal_scope = double("principal scope")
 
     allow(Principal)
       .to receive(:not_locked)
@@ -46,13 +46,13 @@ RSpec.describe Queries::Members::Filters::PrincipalFilter do
       .and_return([user, group, current_user])
   end
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :principal_id }
     let(:type) { :list_optional }
     let(:name) { Member.human_attribute_name(:principal) }
 
-    describe '#allowed_values' do
-      it 'is a list of the possible values' do
+    describe "#allowed_values" do
+      it "is a list of the possible values" do
         expected = [[user.name, user.id.to_s],
                     [group.name, group.id.to_s],
                     [current_user.name, current_user.id.to_s],
@@ -63,7 +63,7 @@ RSpec.describe Queries::Members::Filters::PrincipalFilter do
     end
   end
 
-  it_behaves_like 'list_optional query filter' do
+  it_behaves_like "list_optional query filter" do
     let(:attribute) { :user_id }
     let(:model) { Member }
     let(:valid_values) { [user.id.to_s, group.id.to_s, current_user.id.to_s] }

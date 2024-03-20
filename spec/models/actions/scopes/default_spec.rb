@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Actions::Scopes::Default do
   subject(:scope) { Action.default }
 
-  describe '.default' do
+  describe ".default" do
     let(:expected) do
       # This complicated and programmatic way is chosen so that the test can deal with additional actions being defined
       format_action = ->(namespace, action, permission, global, module_name) do
@@ -59,7 +59,7 @@ RSpec.describe Actions::Scopes::Default do
         end
     end
 
-    it 'contains all actions' do
+    it "contains all actions" do
       expect(scope.pluck(:id, :permission, :global, :module))
         .to match_array(expected)
     end

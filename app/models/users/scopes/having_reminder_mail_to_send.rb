@@ -86,7 +86,7 @@ module Users::Scopes
         # to Friday.
         times_sql = arel_table
                       .grouping(Arel::Nodes::ValuesList.new(local_times))
-                      .as('t(today_local, hours, zone, workday)')
+                      .as("t(today_local, hours, zone, workday)")
 
         default_timezone = Arel::Nodes::build_quoted(Setting.user_default_timezone.presence)
 
@@ -160,7 +160,7 @@ module Users::Scopes
 
           [
             local_date,
-            local_time.strftime('%H:00:00+00:00'),
+            local_time.strftime("%H:00:00+00:00"),
             zone.tzinfo.canonical_zone.name,
             workday
           ]

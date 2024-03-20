@@ -31,11 +31,11 @@ module Storages::Admin
     form do |storage_form|
       storage_form.text_field(
         name: :tenant_id,
-        label: I18n.t('activerecord.attributes.storages/storage.tenant'),
+        label: I18n.t("activerecord.attributes.storages/storage.tenant"),
         visually_hide_label: false,
         required: true,
         caption: caption.html_safe, # rubocop:disable Rails/OutputSafety
-        placeholder: I18n.t('storages.instructions.one_drive.tenant_id_placeholder'),
+        placeholder: I18n.t("storages.instructions.one_drive.tenant_id_placeholder"),
         input_width: :large
       )
     end
@@ -44,9 +44,9 @@ module Storages::Admin
 
     def caption
       href = ::OpenProject::Static::Links[:storage_docs][:one_drive_oauth_application][:href]
-      I18n.t('storages.instructions.one_drive.tenant_id',
-             application_link_text: render(Primer::Beta::Link.new(href:, target: '_blank')) do
-               I18n.t('storages.instructions.one_drive.application_link_text')
+      I18n.t("storages.instructions.one_drive.tenant_id",
+             application_link_text: render(Primer::Beta::Link.new(href:, target: "_blank")) do
+               I18n.t("storages.instructions.one_drive.application_link_text")
              end)
     end
   end

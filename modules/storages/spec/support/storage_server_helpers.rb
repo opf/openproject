@@ -35,7 +35,7 @@ module StorageServerHelpers
                                         response_nextcloud_major_version: 22)
     response_code ||= 200
     response_headers ||= {
-      'Content-Type' => 'application/json; charset=utf-8'
+      "Content-Type" => "application/json; charset=utf-8"
     }
     response_body ||=
       %{
@@ -56,7 +56,7 @@ module StorageServerHelpers
       }
     stub = stub_request(
       :get,
-      File.join(nextcloud_host, '/ocs/v2.php/cloud/capabilities')
+      File.join(nextcloud_host, "/ocs/v2.php/cloud/capabilities")
     )
     if timeout
       stub.to_timeout
@@ -76,7 +76,7 @@ module StorageServerHelpers
                                         response_body: nil)
     response_code ||= 200
     response_headers ||= {
-      'Content-Type' => 'application/json; charset=utf-8'
+      "Content-Type" => "application/json; charset=utf-8"
     }
 
     response_body ||=
@@ -88,7 +88,7 @@ module StorageServerHelpers
       }
     stub = stub_request(
       :get,
-      File.join(nextcloud_host, 'index.php/apps/integration_openproject/check-config')
+      File.join(nextcloud_host, "index.php/apps/integration_openproject/check-config")
     )
     if timeout
       stub.to_timeout
@@ -102,21 +102,21 @@ module StorageServerHelpers
   end
 
   def mock_nextcloud_application_credentials_validation(nextcloud_host,
-                                                        username: 'OpenProject',
-                                                        password: 'Password123',
+                                                        username: "OpenProject",
+                                                        password: "Password123",
                                                         timeout: false,
                                                         response_code: nil,
                                                         response_headers: nil,
                                                         response_body: nil)
     response_code ||= 200
     response_headers ||= {
-      'Content-Type' => 'text/html; charset=UTF-8',
-      'Authorization' => "Basic #{Base64::strict_encode64("#{username}:#{password}")}"
+      "Content-Type" => "text/html; charset=UTF-8",
+      "Authorization" => "Basic #{Base64::strict_encode64("#{username}:#{password}")}"
     }
 
     stub = stub_request(
       :head,
-      File.join(nextcloud_host, 'remote.php/dav')
+      File.join(nextcloud_host, "remote.php/dav")
     )
     if timeout
       stub.to_timeout

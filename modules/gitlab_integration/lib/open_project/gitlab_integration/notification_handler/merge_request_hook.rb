@@ -48,15 +48,15 @@ module OpenProject::GitlabIntegration
         return unless (accepted_actions.include? payload.object_attributes.action) || (accepted_states.include? payload.object_attributes.state)
 
         user = User.find_by_id(payload.open_project_user_id)
-        text = payload.object_attributes.title + ' - ' + payload.object_attributes.description
+        text = payload.object_attributes.title + " - " + payload.object_attributes.description
         work_packages = find_mentioned_work_packages(text, user)
         notes = generate_notes(payload)
 
         if (accepted_actions_for_comments.include? payload.object_attributes.action) || (accepted_states.include? payload.object_attributes.state)
           comment_on_referenced_work_packages(work_packages, user, notes)
-          if payload.object_attributes.state == 'opened' && update_status_on_new_mr
+          if payload.object_attributes.state == "opened" && update_status_on_new_mr
             status_on_referenced_work_packages(work_packages, user, wp_status_id_on_new_mr)
-          elsif payload.object_attributes.state == 'merged' && update_status_on_merged
+          elsif payload.object_attributes.state == "merged" && update_status_on_merged
             status_on_referenced_work_packages(work_packages, user, wp_status_id_on_merged)
           end
         end
@@ -69,16 +69,16 @@ module OpenProject::GitlabIntegration
 
       def generate_notes(payload)
         key = {
-          'opened' => 'opened',
-          'reopened' => 'reopened',
-          'closed' => 'closed',
-          'merged' => 'merged',
-          'edited' => 'referenced',
-          'referenced' => 'referenced'
+          "opened" => "opened",
+          "reopened" => "reopened",
+          "closed" => "closed",
+          "merged" => "merged",
+          "edited" => "referenced",
+          "referenced" => "referenced"
         }[payload.object_attributes.state]
 
         key_action = {
-          'reopen' => 'reopened'
+          "reopen" => "reopened"
         }[payload.object_attributes.action]
 
         return nil unless key

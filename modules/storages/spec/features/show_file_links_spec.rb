@@ -28,21 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe 'Showing of file links in work package', :js do
+RSpec.describe "Showing of file links in work package", :js do
   let(:permissions) { %i(view_work_packages edit_work_packages view_file_links manage_file_links) }
   let(:project) { create(:project) }
   let(:current_user) { create(:user, member_with_permissions: { project => permissions }) }
-  let(:work_package) { create(:work_package, project:, description: 'Initial description') }
+  let(:work_package) { create(:work_package, project:, description: "Initial description") }
 
   let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:nextcloud_storage, name: 'My storage', oauth_application:) }
+  let(:storage) { create(:nextcloud_storage, name: "My storage", oauth_application:) }
   let(:oauth_client) { create(:oauth_client, integration: storage) }
   let(:oauth_client_token) { create(:oauth_client_token, oauth_client:, user: current_user) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
-  let(:file_link) { create(:file_link, container: work_package, storage:, origin_id: '42', origin_name: 'logo.png') }
+  let(:file_link) { create(:file_link, container: work_package, storage:, origin_id: "42", origin_name: "logo.png") }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
 
   let(:connection_manager) { instance_double(OAuthClients::ConnectionManager) }
@@ -71,57 +71,57 @@ RSpec.describe 'Showing of file links in work package', :js do
     wp_page.visit_tab! :files
   end
 
-  context 'if work package has associated file links' do
-    it 'must show associated file links' do
-      expect(page).to have_test_selector('op-tab-content--tab-section', count: 2)
-      within_test_selector('op-tab-content--tab-section', text: 'MY STORAGE') do
+  context "if work package has associated file links" do
+    it "must show associated file links" do
+      expect(page).to have_test_selector("op-tab-content--tab-section", count: 2)
+      within_test_selector("op-tab-content--tab-section", text: "MY STORAGE") do
         expect(page).to have_list_item(count: 1)
-        expect(page).to have_list_item(text: 'logo.png')
+        expect(page).to have_list_item(text: "logo.png")
       end
     end
   end
 
-  context 'if user has no permission to see file links' do
+  context "if user has no permission to see file links" do
     let(:permissions) { %i(view_work_packages edit_work_packages) }
 
-    it 'must not show a file links section' do
-      expect(page).to have_test_selector('op-tab-content--tab-section', count: 1)
+    it "must not show a file links section" do
+      expect(page).to have_test_selector("op-tab-content--tab-section", count: 1)
     end
   end
 
-  context 'if project has no storage' do
+  context "if project has no storage" do
     let(:project_storage) { {} }
 
-    it 'must not show a file links section' do
-      expect(page).to have_test_selector('op-tab-content--tab-section', count: 1)
+    it "must not show a file links section" do
+      expect(page).to have_test_selector("op-tab-content--tab-section", count: 1)
     end
   end
 
-  context 'if user is not authorized in Nextcloud' do
+  context "if user is not authorized in Nextcloud" do
     before do
       allow(connection_manager).to receive_messages(authorization_state: :failed_authorization,
-                                                    get_authorization_uri: 'https://example.com/authorize')
+                                                    get_authorization_uri: "https://example.com/authorize")
     end
 
-    it 'must show storage information box with login button' do
-      within_test_selector('op-tab-content--tab-section', text: 'MY STORAGE', wait: 25) do
-        expect(page).to have_button('Nextcloud login')
-        expect(page).to have_text('Login to Nextcloud')
-        expect(page).to have_list_item(text: 'logo.png')
+    it "must show storage information box with login button" do
+      within_test_selector("op-tab-content--tab-section", text: "MY STORAGE", wait: 25) do
+        expect(page).to have_button("Nextcloud login")
+        expect(page).to have_text("Login to Nextcloud")
+        expect(page).to have_list_item(text: "logo.png")
       end
     end
   end
 
-  context 'if an error occurred while authorizing to Nextcloud' do
+  context "if an error occurred while authorizing to Nextcloud" do
     before do
       allow(connection_manager).to receive(:authorization_state).and_return(:error)
     end
 
-    it 'must show storage information box' do
-      within_test_selector('op-tab-content--tab-section', text: 'MY STORAGE', wait: 25) do
+    it "must show storage information box" do
+      within_test_selector("op-tab-content--tab-section", text: "MY STORAGE", wait: 25) do
         expect(page).to have_no_button
-        expect(page).to have_text('No Nextcloud connection')
-        expect(page).to have_list_item(text: 'logo.png')
+        expect(page).to have_text("No Nextcloud connection")
+        expect(page).to have_list_item(text: "logo.png")
       end
     end
   end

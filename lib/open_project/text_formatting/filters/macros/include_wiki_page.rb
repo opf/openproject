@@ -28,7 +28,7 @@
 
 module OpenProject::TextFormatting::Filters::Macros
   module IncludeWikiPage
-    HTML_CLASS = 'include_wiki_page'.freeze
+    HTML_CLASS = "include_wiki_page".freeze
 
     module_function
 
@@ -37,7 +37,7 @@ module OpenProject::TextFormatting::Filters::Macros
     end
 
     def apply(*)
-      raise I18n.t('macros.include_wiki_page.removed')
+      raise I18n.t("macros.include_wiki_page.removed")
     end
   end
 end

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'backup', :js do
+RSpec.describe "backup", :js do
   let(:current_user) do
     create(:user,
            global_permissions: [:create_backup],
@@ -51,12 +51,12 @@ RSpec.describe 'backup', :js do
   subject { @download_list.refresh_from(page).latest_download.to_s }
 
   it "can be downloaded" do
-    visit '/admin/backups'
+    visit "/admin/backups"
 
-    fill_in 'backupToken', with: backup_token.plain_value
+    fill_in "backupToken", with: backup_token.plain_value
     click_on "Request backup"
 
-    expect(page).to have_content I18n.t('js.job_status.generic_messages.in_queue'), wait: 10
+    expect(page).to have_content I18n.t("js.job_status.generic_messages.in_queue"), wait: 10
 
     begin
       perform_enqueued_jobs
@@ -92,7 +92,7 @@ RSpec.describe 'backup', :js do
       click_on "Reset"
     end
 
-    it 'works given the correct password' do
+    it "works given the correct password" do
       dialog.confirm_flow_with(user_password)
 
       new_token = Token::Backup.find_by(user: current_user)
@@ -101,8 +101,8 @@ RSpec.describe 'backup', :js do
       expect(page).to have_content new_token.plain_value
     end
 
-    it 'declines the change when an invalid password is given' do
-      dialog.confirm_flow_with(user_password + 'INVALID', should_fail: true)
+    it "declines the change when an invalid password is given" do
+      dialog.confirm_flow_with(user_password + "INVALID", should_fail: true)
 
       new_token = Token::Backup.find_by_plaintext_value backup_token.plain_value
 

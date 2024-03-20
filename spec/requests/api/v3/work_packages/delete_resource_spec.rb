@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Work package resource',
+RSpec.describe "API v3 Work package resource",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:work_package) do
     create(:work_package,
            project_id: project.id,
-           description: 'lorem ipsum')
+           description: "lorem ipsum")
   end
   let(:project) do
-    create(:project, identifier: 'test_project', public: false)
+    create(:project, identifier: "test_project", public: false)
   end
   let(:role) { create(:project_role, permissions:) }
   let(:permissions) { %i[view_work_packages edit_work_packages assign_versions] }
@@ -52,7 +52,7 @@ RSpec.describe 'API v3 Work package resource',
     user
   end
 
-  describe 'DELETE /api/v3/work_packages/:id' do
+  describe "DELETE /api/v3/work_packages/:id" do
     subject { last_response }
 
     let(:path) { api_v3_paths.work_package work_package.id }
@@ -61,38 +61,38 @@ RSpec.describe 'API v3 Work package resource',
       delete path
     end
 
-    context 'with required permissions' do
+    context "with required permissions" do
       let(:permissions) { %i[view_work_packages delete_work_packages] }
 
-      it 'responds with HTTP No Content' do
+      it "responds with HTTP No Content" do
         expect(subject.status).to eq 204
       end
 
-      it 'deletes the work package' do
+      it "deletes the work package" do
         expect(WorkPackage.exists?(work_package.id)).to be_falsey
       end
 
-      context 'for a non-existent work package' do
+      context "for a non-existent work package" do
         let(:path) { api_v3_paths.work_package 1337 }
 
-        it_behaves_like 'not found',
-                        I18n.t('api_v3.errors.not_found.work_package')
+        it_behaves_like "not found",
+                        I18n.t("api_v3.errors.not_found.work_package")
       end
     end
 
-    context 'without permission to see work packages' do
+    context "without permission to see work packages" do
       let(:permissions) { [] }
 
-      it_behaves_like 'not found',
-                      I18n.t('api_v3.errors.not_found.work_package')
+      it_behaves_like "not found",
+                      I18n.t("api_v3.errors.not_found.work_package")
     end
 
-    context 'without permission to delete work packages' do
+    context "without permission to delete work packages" do
       let(:permissions) { %i[view_work_packages add_work_package_attachments] }
 
-      it_behaves_like 'unauthorized access'
+      it_behaves_like "unauthorized access"
 
-      it 'does not delete the work package' do
+      it "does not delete the work package" do
         expect(WorkPackage.exists?(work_package.id)).to be_truthy
       end
     end

@@ -55,39 +55,39 @@ module WorkPackages
       end
 
       def insert_target_modifier_id
-        'op-share-wp-active-shares'
+        "op-share-wp-active-shares"
       end
 
       def blankslate_config
         @blankslate_config ||= {}.tap do |config|
           if params[:filters].blank?
             config[:icon] = :people
-            config[:heading_text] = I18n.t('work_package.sharing.text_empty_state_header')
-            config[:description_text] = I18n.t('work_package.sharing.text_empty_state_description')
+            config[:heading_text] = I18n.t("work_package.sharing.text_empty_state_header")
+            config[:description_text] = I18n.t("work_package.sharing.text_empty_state_description")
           else
             config[:icon] = :search
-            config[:heading_text] = I18n.t('work_package.sharing.text_empty_search_header')
-            config[:description_text] = I18n.t('work_package.sharing.text_empty_search_description')
+            config[:heading_text] = I18n.t("work_package.sharing.text_empty_search_header")
+            config[:description_text] = I18n.t("work_package.sharing.text_empty_search_description")
           end
         end
       end
 
       def type_filter_options
         [
-          { label: I18n.t('work_package.sharing.filter.project_member'),
-            value: { principal_type: 'User', project_member: true } },
-          { label: I18n.t('work_package.sharing.filter.not_project_member'),
-            value: { principal_type: 'User', project_member: false } },
-          { label: I18n.t('work_package.sharing.filter.project_group'),
-            value: { principal_type: 'Group', project_member: true } },
-          { label: I18n.t('work_package.sharing.filter.not_project_group'),
-            value: { principal_type: 'Group', project_member: false } }
+          { label: I18n.t("work_package.sharing.filter.project_member"),
+            value: { principal_type: "User", project_member: true } },
+          { label: I18n.t("work_package.sharing.filter.not_project_member"),
+            value: { principal_type: "User", project_member: false } },
+          { label: I18n.t("work_package.sharing.filter.project_group"),
+            value: { principal_type: "Group", project_member: true } },
+          { label: I18n.t("work_package.sharing.filter.not_project_group"),
+            value: { principal_type: "Group", project_member: false } }
         ]
       end
 
       def type_filter_option_active?(_option)
-        principal_type_filter_value = current_filter_value(params[:filters], 'principal_type')
-        project_member_filter_value = current_filter_value(params[:filters], 'also_project_member')
+        principal_type_filter_value = current_filter_value(params[:filters], "principal_type")
+        project_member_filter_value = current_filter_value(params[:filters], "also_project_member")
 
         return false if principal_type_filter_value.nil? || project_member_filter_value.nil?
 
@@ -100,7 +100,7 @@ module WorkPackages
       end
 
       def role_filter_option_active?(_option)
-        role_filter_value = current_filter_value(params[:filters], 'role_id')
+        role_filter_value = current_filter_value(params[:filters], "role_id")
 
         return false if role_filter_value.nil?
 
@@ -122,7 +122,7 @@ module WorkPackages
       end
 
       def apply_role_filter(_option)
-        current_role_filter_value = current_filter_value(params[:filters], 'role_id')
+        current_role_filter_value = current_filter_value(params[:filters], "role_id")
         filter = []
 
         if _option.nil? && current_role_filter_value.present?
@@ -141,8 +141,8 @@ module WorkPackages
       end
 
       def apply_type_filter(_option)
-        current_type_filter_value = current_filter_value(params[:filters], 'principal_type')
-        current_member_filter_value = current_filter_value(params[:filters], 'also_project_member')
+        current_type_filter_value = current_filter_value(params[:filters], "principal_type")
+        current_member_filter_value = current_filter_value(params[:filters], "also_project_member")
         filter = []
 
         if _option.nil? && current_type_filter_value.present? && current_member_filter_value.present?
@@ -173,7 +173,7 @@ module WorkPackages
         return nil if filters.nil?
 
         given_filters = JSON.parse(filters).find { |key| key.key?(filter_key) }
-        given_filters ? given_filters[filter_key]['values'].first : nil
+        given_filters ? given_filters[filter_key]["values"].first : nil
       end
     end
   end

@@ -47,21 +47,21 @@ module Components
 
       def expect_visible(visible: true)
         if visible
-          expect(page).to have_css('op-wp-timer-button')
+          expect(page).to have_css("op-wp-timer-button")
         else
-          expect(page).to have_no_css('op-wp-timer-button')
+          expect(page).to have_no_css("op-wp-timer-button")
         end
       end
 
       def start
         close_dropdown
-        page.within('op-wp-timer-button') do
+        page.within("op-wp-timer-button") do
           find('[data-test-selector="timer-inactive"]').click
         end
       end
 
       def stop
-        page.within('op-wp-timer-button') do
+        page.within("op-wp-timer-button") do
           find('[data-test-selector="timer-active"]').click
         end
       end

@@ -29,7 +29,7 @@
 class LdapAuthSourcesController < ApplicationController
   menu_item :ldap_authentication
   include PaginationHelper
-  layout 'admin'
+  layout "admin"
 
   before_action :require_admin
   before_action :block_if_password_login_disabled
@@ -55,9 +55,9 @@ class LdapAuthSourcesController < ApplicationController
     @ldap_auth_source = LdapAuthSource.new permitted_params.ldap_auth_source
     if @ldap_auth_source.save
       flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to action: 'index'
+      redirect_to action: "index"
     else
-      render 'new'
+      render "new"
     end
   end
 
@@ -68,9 +68,9 @@ class LdapAuthSourcesController < ApplicationController
 
     if @ldap_auth_source.update updated
       flash[:notice] = I18n.t(:notice_successful_update)
-      redirect_to action: 'index'
+      redirect_to action: "index"
     else
-      render 'edit'
+      render "edit"
     end
   end
 
@@ -82,7 +82,7 @@ class LdapAuthSourcesController < ApplicationController
     rescue StandardError => e
       flash[:error] = I18n.t(:error_unable_to_connect, value: e.message)
     end
-    redirect_to action: 'index'
+    redirect_to action: "index"
   end
 
   def destroy
@@ -94,7 +94,7 @@ class LdapAuthSourcesController < ApplicationController
     else
       flash[:warning] = t(:notice_wont_delete_auth_source)
     end
-    redirect_to action: 'index'
+    redirect_to action: "index"
   end
 
   protected
@@ -107,7 +107,7 @@ class LdapAuthSourcesController < ApplicationController
   end
 
   def default_breadcrumb
-    if action_name == 'index'
+    if action_name == "index"
       t(:label_ldap_auth_source_plural)
     else
       ActionController::Base.helpers.link_to(t(:label_ldap_auth_source_plural), ldap_auth_sources_path)

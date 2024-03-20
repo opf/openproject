@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
-require_relative 'form'
+require_relative "form"
 
 module Pages
   module Admin
     module CustomActions
       class New < Form
         def create
-          click_button 'Create'
+          click_button "Create"
         end
 
         def path

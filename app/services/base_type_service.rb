@@ -112,7 +112,7 @@ class BaseTypeService
 
   def transform_attribute_groups(groups)
     groups.map do |group|
-      if group['type'] == 'query'
+      if group["type"] == "query"
         transform_query_group(group)
       else
         transform_attribute_group(group)
@@ -122,21 +122,21 @@ class BaseTypeService
 
   def transform_attribute_group(group)
     name =
-      if group['key']
-        group['key'].to_sym
+      if group["key"]
+        group["key"].to_sym
       else
-        group['name']
+        group["name"]
       end
 
     [
       name,
-      group['attributes'].pluck('key')
+      group["attributes"].pluck("key")
     ]
   end
 
   def transform_query_group(group)
-    name = group['name']
-    props = JSON.parse group['query']
+    name = group["name"]
+    props = JSON.parse group["query"]
 
     query = Query.new_default(name: "Embedded table: #{name}")
 
@@ -175,7 +175,7 @@ class BaseTypeService
       type.attribute_groups.each do |group|
         group.members.each do |attribute|
           if CustomField.custom_field_attribute? attribute
-            active_cf_ids << attribute.gsub(/^custom_field_/, '').to_i
+            active_cf_ids << attribute.gsub(/^custom_field_/, "").to_i
           end
         end
       end

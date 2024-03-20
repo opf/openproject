@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'configuration/helpers'
-require_relative 'configuration/asset_host'
+require_relative "configuration/helpers"
+require_relative "configuration/asset_host"
 
 module OpenProject
   module Configuration
     extend Helpers
 
-    TRUE_VALUES = ['true', true, '1'].freeze
+    TRUE_VALUES = ["true", true, "1"].freeze
 
     class << self
       # Returns a configuration setting
@@ -49,7 +49,7 @@ module OpenProject
       def cache_store_configuration
         # rails defaults to :file_store, use :mem_cache_store when :memcache is configured in configuration.yml
         # Also use :mem_cache_store for when :dalli_store is configured
-        cache_store = self['rails_cache_store'].try(:to_sym)
+        cache_store = self["rails_cache_store"].try(:to_sym)
 
         cache_config =
           case cache_store
@@ -59,7 +59,7 @@ module OpenProject
             memcache_configuration
             # default to :file_store
           when NilClass, :file_store
-            [:file_store, Rails.root.join('tmp/cache')]
+            [:file_store, Rails.root.join("tmp/cache")]
           else
             [cache_store]
           end
@@ -72,8 +72,8 @@ module OpenProject
 
       def cache_store_parameters
         mapping = {
-          'cache_expires_in_seconds' => %i[expires_in to_i],
-          'cache_namespace' => %i[namespace to_s]
+          "cache_expires_in_seconds" => %i[expires_in to_i],
+          "cache_namespace" => %i[namespace to_s]
         }
         parameters = {}
         mapping.each_pair do |from, to|
@@ -89,12 +89,12 @@ module OpenProject
 
       def memcache_configuration
         cache_config = [:mem_cache_store]
-        cache_config << self['cache_memcache_server'] if self['cache_memcache_server']
+        cache_config << self["cache_memcache_server"] if self["cache_memcache_server"]
         cache_config
       end
 
       def redis_cache_configuration
-        url = String(self['cache_redis_url']).split(",").map(&:strip)
+        url = String(self["cache_redis_url"]).split(",").map(&:strip)
         raise ArgumentError, "CACHE_SERVER is set to redis, but CACHE_REDIS_URL is not set." if url.blank?
 
         [
@@ -109,7 +109,7 @@ module OpenProject
       end
 
       def method_missing(name, *, &)
-        setting_name = name.to_s.sub(/\?$/, '')
+        setting_name = name.to_s.sub(/\?$/, "")
 
         definition = Settings::Definition[setting_name]
 
@@ -123,7 +123,7 @@ module OpenProject
       end
 
       def respond_to_missing?(name, include_private = false)
-        Settings::Definition.exists?(name.to_s.sub(/\?$/, '')) || super
+        Settings::Definition.exists?(name.to_s.sub(/\?$/, "")) || super
       end
 
       def define_config_methods(definition)

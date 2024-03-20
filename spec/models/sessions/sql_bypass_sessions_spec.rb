@@ -26,29 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Sessions::SqlBypass do
   subject { build(:user_session, user:) }
 
-  shared_examples 'augments the user_id attribute' do
+  shared_examples "augments the user_id attribute" do
     it do
       subject.save
-      expect(subject.data['user_id']).to eq(user_id)
+      expect(subject.data["user_id"]).to eq(user_id)
     end
   end
 
-  describe 'when user_id is present' do
+  describe "when user_id is present" do
     let(:user) { build_stubbed(:user) }
     let(:user_id) { user.id }
 
-    it_behaves_like 'augments the user_id attribute'
+    it_behaves_like "augments the user_id attribute"
   end
 
-  describe 'when user_id is nil' do
+  describe "when user_id is nil" do
     let(:user) { nil }
     let(:user_id) { nil }
 
-    it_behaves_like 'augments the user_id attribute'
+    it_behaves_like "augments the user_id attribute"
   end
 end

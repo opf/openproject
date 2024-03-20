@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Users::Scopes::Newest do
-  describe '.newest' do
+  describe ".newest" do
     let!(:anonymous_user) { create(:anonymous) }
     let!(:system_user) { create(:system) }
     let!(:deleted_user) { create(:deleted_user) }
@@ -41,7 +41,7 @@ RSpec.describe Users::Scopes::Newest do
 
     subject { User.newest }
 
-    it 'returns only actual users ordered by creation date desc' do
+    it "returns only actual users ordered by creation date desc" do
       expect(subject.to_a)
         .to eql [user3, user2, user1]
     end

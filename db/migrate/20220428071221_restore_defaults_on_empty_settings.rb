@@ -28,7 +28,7 @@
 
 class RestoreDefaultsOnEmptySettings < ActiveRecord::Migration[6.1]
   def up
-    settings = Setting.where(value: '')
+    settings = Setting.where(value: "")
 
     settings.find_each do |setting|
       definition = Settings::Definition[setting.name]
@@ -38,7 +38,7 @@ class RestoreDefaultsOnEmptySettings < ActiveRecord::Migration[6.1]
         next
       end
 
-      next if definition.value == ''
+      next if definition.value == ""
 
       if definition.writable?
         setting.update_attribute(:value, definition.value)

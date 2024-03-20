@@ -34,7 +34,7 @@ FactoryBot.define do
   end
 
   factory :view_work_package_role, parent: :work_package_role do
-    name { 'Work package viewer' }
+    name { "Work package viewer" }
     builtin { Role::BUILTIN_WORK_PACKAGE_VIEWER }
     permissions do
       %i(view_work_packages
@@ -44,7 +44,7 @@ FactoryBot.define do
   end
 
   factory :comment_work_package_role, parent: :work_package_role do
-    name { 'Work package commenter' }
+    name { "Work package commenter" }
     builtin { Role::BUILTIN_WORK_PACKAGE_COMMENTER }
     permissions do
       %i(view_work_packages
@@ -62,7 +62,7 @@ FactoryBot.define do
   end
 
   factory :edit_work_package_role, parent: :work_package_role do
-    name { |_n| 'Work package editor' }
+    name { |_n| "Work package editor" }
     builtin { Role::BUILTIN_WORK_PACKAGE_EDITOR }
     permissions do
       %i(view_work_packages

@@ -55,14 +55,14 @@ module DemoData
 
     def version
       version = Version.create!(
-        name: config['name'],
-        status: config['status'],
-        sharing: config['sharing'],
+        name: config["name"],
+        status: config["status"],
+        sharing: config["sharing"],
         project:
       )
-      seed_data.store_reference(config['reference'], version)
+      seed_data.store_reference(config["reference"], version)
 
-      set_wiki! version, config['wiki']
+      set_wiki! version, config["wiki"]
 
       version
     end
@@ -70,13 +70,13 @@ module DemoData
     def set_wiki!(version, config)
       return unless config
 
-      version.wiki_page_title = config['title']
+      version.wiki_page_title = config["title"]
 
       Journal::NotificationConfiguration.with false do
         WikiPage.create! wiki: version.project.wiki,
                          title: version.wiki_page_title,
                          author: User.admin.first,
-                         text: with_references(config['content'])
+                         text: with_references(config["content"])
       end
 
       version.save!

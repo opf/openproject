@@ -59,7 +59,7 @@ class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::Se
   def set_default_filter
     return if model.filters.any?
 
-    model.where('active', '=', OpenProject::Database::DB_VALUE_TRUE)
+    model.where("active", "=", OpenProject::Database::DB_VALUE_TRUE)
   end
 
   def set_default_selects
@@ -92,6 +92,6 @@ class Queries::Projects::ProjectQueries::SetAttributesService < BaseServices::Se
   end
 
   def default_columns
-    (['name'] + Setting.enabled_projects_columns).uniq
+    (["name"] + Setting.enabled_projects_columns).uniq
   end
 end

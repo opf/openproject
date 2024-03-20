@@ -34,7 +34,7 @@ module TeamPlanner
       private
 
       def view_type
-        'team_planner'
+        "team_planner"
       end
     end
   end

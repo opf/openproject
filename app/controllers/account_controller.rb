@@ -42,7 +42,7 @@ class AccountController < ApplicationController
   before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
   before_action :check_internal_login_enabled, only: :internal_login
 
-  layout 'no_menu'
+  layout "no_menu"
 
   # Login request and validation
   def login
@@ -58,7 +58,7 @@ class AccountController < ApplicationController
   end
 
   def internal_login
-    render 'account/login'
+    render "account/login"
   end
 
   # Log out current user and redirect to welcome page
@@ -88,12 +88,12 @@ class AccountController < ApplicationController
 
         if call.success?
           @token.destroy
-          redirect_to action: 'login'
+          redirect_to action: "login"
           return
         end
       end
 
-      render template: 'account/password_recovery'
+      render template: "account/password_recovery"
     elsif request.post?
       mail = params[:mail]
       user = User.find_by_mail(mail) if mail.present?
@@ -120,7 +120,7 @@ class AccountController < ApplicationController
       if token.save
         UserMailer.password_lost(token).deliver_later
         flash[:notice] = I18n.t(:notice_account_lost_email_sent)
-        redirect_to action: 'login', back_url: home_url
+        redirect_to action: "login", back_url: home_url
         nil
       end
     end
@@ -235,7 +235,7 @@ class AccountController < ApplicationController
     if omniauth_direct_login?
       direct_login user
     elsif OpenProject::Configuration.disable_password_login?
-      flash[:notice] = I18n.t('account.omniauth_login')
+      flash[:notice] = I18n.t("account.omniauth_login")
 
       redirect_to signin_path
     else
@@ -249,7 +249,7 @@ class AccountController < ApplicationController
       ldap_auth_source_id: user.ldap_auth_source_id
     }
 
-    flash[:notice] = I18n.t('account.auth_source_login', login: user.login).html_safe
+    flash[:notice] = I18n.t("account.auth_source_login", login: user.login).html_safe
 
     redirect_to signin_path(username: user.login)
   end
@@ -283,7 +283,7 @@ class AccountController < ApplicationController
     flash.now[:error] = I18n.t(:error_auth_source_sso_failed, value: failure[:login]) +
                         ": " + String(flash.now[:error])
 
-    render action: 'login', back_url: failure[:back_url]
+    render action: "login", back_url: failure[:back_url]
   end
 
   private
@@ -470,11 +470,11 @@ class AccountController < ApplicationController
   def onthefly_creation_failed(user, auth_source_options = {})
     @user = user
     session[:auth_source_registration] = auth_source_options unless auth_source_options.empty?
-    render action: 'register'
+    render action: "register"
   end
 
   def self_registration_disabled
-    flash[:error] = I18n.t('account.error_self_registration_disabled')
+    flash[:error] = I18n.t("account.error_self_registration_disabled")
     redirect_to signin_url
   end
 
@@ -489,18 +489,18 @@ class AccountController < ApplicationController
 
   # Log an attempt to log in to an account in "registered" state and show a flash message.
   def account_not_activated(flash_now: true)
-    flash_error_message(log_reason: 'NOT ACTIVATED', flash_now:) do
+    flash_error_message(log_reason: "NOT ACTIVATED", flash_now:) do
       if Setting::SelfRegistration.by_email?
-        'account.error_inactive_activation_by_mail'
+        "account.error_inactive_activation_by_mail"
       else
-        'account.error_inactive_manual_activation'
+        "account.error_inactive_manual_activation"
       end
     end
   end
 
   def invited_account_not_activated(_user)
-    flash_error_message(log_reason: 'invited, NOT ACTIVATED', flash_now: false) do
-      'account.error_inactive_activation_by_mail'
+    flash_error_message(log_reason: "invited, NOT ACTIVATED", flash_now: false) do
+      "account.error_inactive_activation_by_mail"
     end
   end
 

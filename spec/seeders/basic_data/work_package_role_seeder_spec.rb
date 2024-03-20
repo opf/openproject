@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe BasicData::WorkPackageRoleSeeder do
   subject(:seeder) { described_class.new(seed_data) }
@@ -39,7 +39,7 @@ RSpec.describe BasicData::WorkPackageRoleSeeder do
     seeder.seed!
   end
 
-  context 'with some work package roles defined' do
+  context "with some work package roles defined" do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
         work_package_roles:
@@ -65,33 +65,33 @@ RSpec.describe BasicData::WorkPackageRoleSeeder do
       SEEDING_DATA_YAML
     end
 
-    it 'creates the corresponding work package roles with the given attributes', :aggregate_failures do
+    it "creates the corresponding work package roles with the given attributes", :aggregate_failures do
       expect(WorkPackageRole.count)
         .to eq(3)
-      expect(WorkPackageRole.find_by(name: 'Edit work package'))
+      expect(WorkPackageRole.find_by(name: "Edit work package"))
         .to have_attributes(
           builtin: Role::BUILTIN_WORK_PACKAGE_EDITOR,
           permissions: %i[become_assignee log_time]
         )
-      expect(WorkPackageRole.find_by(name: 'Comment work package'))
+      expect(WorkPackageRole.find_by(name: "Comment work package"))
         .to have_attributes(
           builtin: Role::BUILTIN_WORK_PACKAGE_COMMENTER,
           permissions: %i[add_comment]
         )
-      expect(WorkPackageRole.find_by(name: 'View work package'))
+      expect(WorkPackageRole.find_by(name: "View work package"))
         .to have_attributes(
           builtin: Role::BUILTIN_WORK_PACKAGE_VIEWER,
           permissions: %i[view_work_packages]
         )
     end
 
-    it 'references the role in the seed data' do
-      role = WorkPackageRole.find_by(name: 'Comment work package')
+    it "references the role in the seed data" do
+      role = WorkPackageRole.find_by(name: "Comment work package")
       expect(seed_data.find_reference(:role_work_package_comment)).to eq(role)
     end
   end
 
-  context 'with permissions: :all_assignable_permissions' do
+  context "with permissions: :all_assignable_permissions" do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
         work_package_roles:
@@ -101,14 +101,14 @@ RSpec.describe BasicData::WorkPackageRoleSeeder do
       SEEDING_DATA_YAML
     end
 
-    it 'gives all assignable permissions to the role' do
-      expect(Role.find_by(name: 'Edit work package').permissions)
+    it "gives all assignable permissions to the role" do
+      expect(Role.find_by(name: "Edit work package").permissions)
         .to match_array(Roles::CreateContract.new(WorkPackageRole.new, nil)
                                              .assignable_permissions.map { _1.name.to_sym })
     end
   end
 
-  context 'with some permissions added and removed by modules in a modules_permissions section' do
+  context "with some permissions added and removed by modules in a modules_permissions section" do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
         work_package_roles:
@@ -136,8 +136,8 @@ RSpec.describe BasicData::WorkPackageRoleSeeder do
       SEEDING_DATA_YAML
     end
 
-    it 'applies the permissions as specified' do
-      expect(Role.find_by(name: 'Edit work package').permissions)
+    it "applies the permissions as specified" do
+      expect(Role.find_by(name: "Edit work package").permissions)
         .to match_array(
           %i[
             view_movies

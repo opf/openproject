@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe Members::UpdateContract do
-  include_context 'ModelContract shared context'
+  include_context "ModelContract shared context"
 
-  it_behaves_like 'member contract' do
+  it_behaves_like "member contract" do
     let(:member) do
       build_stubbed(:member,
                     project: member_project,
@@ -42,27 +42,27 @@ RSpec.describe Members::UpdateContract do
 
     let(:contract) { described_class.new(member, current_user) }
 
-    describe 'validation' do
-      context 'if the principal is changed' do
+    describe "validation" do
+      context "if the principal is changed" do
         before do
           member.principal = build_stubbed(:user)
         end
 
-        it_behaves_like 'contract is invalid', user_id: :error_readonly
+        it_behaves_like "contract is invalid", user_id: :error_readonly
       end
 
-      context 'if the project is changed' do
+      context "if the project is changed" do
         before do
           member.project = build_stubbed(:project)
         end
 
-        it_behaves_like 'contract is invalid', project_id: :error_readonly
+        it_behaves_like "contract is invalid", project_id: :error_readonly
       end
 
-      context 'if the principal is a locked user' do
+      context "if the principal is a locked user" do
         let(:member_principal) { build_stubbed(:locked_user) }
 
-        it_behaves_like 'contract is valid'
+        it_behaves_like "contract is valid"
       end
     end
   end

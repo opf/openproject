@@ -1,13 +1,13 @@
-require_relative '../spec_helper'
+require_relative "../spec_helper"
 
 RSpec.describe TwoFactorAuthentication::TokenService do
-  describe 'sending messages' do
+  describe "sending messages" do
     let(:user) { create(:user) }
     let(:dev_strategy) { OpenProject::TwoFactorAuthentication::TokenStrategy::Developer }
     let(:configuration) do
       {
-        'active_strategies' => active_strategies,
-        'enforced' => enforced
+        "active_strategies" => active_strategies,
+        "enforced" => enforced
       }
     end
     let(:enforced) { false }
@@ -16,7 +16,7 @@ RSpec.describe TwoFactorAuthentication::TokenService do
 
     subject { described_class.new user: }
 
-    include_context 'with settings' do
+    include_context "with settings" do
       let(:settings) do
         {
           plugin_openproject_two_factor_authentication: configuration
@@ -24,10 +24,10 @@ RSpec.describe TwoFactorAuthentication::TokenService do
       end
     end
 
-    context 'when no strategy is set' do
+    context "when no strategy is set" do
       let(:active_strategies) { [] }
 
-      context 'when enforced' do
+      context "when enforced" do
         let(:enforced) { true }
 
         before do
@@ -36,17 +36,17 @@ RSpec.describe TwoFactorAuthentication::TokenService do
             .and_return false
         end
 
-        it 'requires a token' do
+        it "requires a token" do
           expect(subject).to be_requires_token
         end
 
-        it 'returns error when requesting' do
+        it "returns error when requesting" do
           expect(result).not_to be_success
-          expect(result.errors.full_messages).to eq [I18n.t('two_factor_authentication.error_2fa_disabled')]
+          expect(result.errors.full_messages).to eq [I18n.t("two_factor_authentication.error_2fa_disabled")]
         end
       end
 
-      context 'when not enforced' do
+      context "when not enforced" do
         let(:enforced) { false }
 
         before do
@@ -55,59 +55,59 @@ RSpec.describe TwoFactorAuthentication::TokenService do
             .and_return false
         end
 
-        it 'requires no token' do
+        it "requires no token" do
           expect(subject).not_to be_requires_token
         end
 
-        it 'returns error when requesting' do
+        it "returns error when requesting" do
           expect(result).not_to be_success
-          expect(result.errors.full_messages).to eq [I18n.t('two_factor_authentication.error_2fa_disabled')]
+          expect(result.errors.full_messages).to eq [I18n.t("two_factor_authentication.error_2fa_disabled")]
         end
       end
     end
 
-    context 'when developer strategy is set' do
+    context "when developer strategy is set" do
       let(:active_strategies) { [:developer] }
 
-      context 'when no device exists' do
-        it 'returns an error' do
+      context "when no device exists" do
+        it "returns an error" do
           expect(result).not_to be_success
-          expect(result.errors.full_messages).to eq [I18n.t('two_factor_authentication.error_no_device')]
+          expect(result.errors.full_messages).to eq [I18n.t("two_factor_authentication.error_no_device")]
         end
       end
 
-      context 'when matching device exists' do
+      context "when matching device exists" do
         let!(:device) { create(:two_factor_authentication_device_sms, user:, default: true) }
 
-        it 'submits the request' do
+        it "submits the request" do
           expect(subject).to be_requires_token
           expect(result).to be_success
           expect(result.errors).to be_empty
         end
       end
 
-      context 'when non-matching device exists' do
+      context "when non-matching device exists" do
         let!(:device) { create(:two_factor_authentication_device_totp, user:, default: true) }
 
-        it 'submits the request' do
+        it "submits the request" do
           expect(subject).to be_requires_token
           expect(result).not_to be_success
-          expect(result.errors.full_messages).to eq [I18n.t('two_factor_authentication.error_no_matching_strategy')]
+          expect(result.errors.full_messages).to eq [I18n.t("two_factor_authentication.error_no_matching_strategy")]
         end
       end
     end
 
-    context 'when developer and totp strategies are set' do
+    context "when developer and totp strategies are set" do
       let(:active_strategies) { %i[developer totp] }
       let!(:totp_device) { create(:two_factor_authentication_device_totp, user:, default: true) }
       let!(:sms_device) { create(:two_factor_authentication_device_sms, user:, default: false) }
 
       subject { described_class.new user:, use_device: }
 
-      context 'with default device/channel' do
+      context "with default device/channel" do
         let(:use_device) { nil }
 
-        it 'uses the totp device' do
+        it "uses the totp device" do
           expect(subject).to be_requires_token
           expect(result).to be_success
           expect(result.errors).to be_empty
@@ -117,10 +117,10 @@ RSpec.describe TwoFactorAuthentication::TokenService do
         end
       end
 
-      context 'with overridden device' do
+      context "with overridden device" do
         let(:use_device) { sms_device }
 
-        it 'uses the overridden device' do
+        it "uses the overridden device" do
           expect(subject).to be_requires_token
           expect(result).to be_success
           expect(result.errors).to be_empty

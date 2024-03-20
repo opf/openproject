@@ -34,15 +34,15 @@ module API
         link :self,
              path: { api: :work_package, params: %w(id) },
              column: -> { :id },
-             title: -> { 'subject' }
+             title: -> { "subject" }
 
         link :project,
              path: { api: :project, params: %w(id) },
              column: -> { :project_id },
-             title: -> { 'project_name' },
+             title: -> { "project_name" },
              join: { table: :projects,
-                     condition: 'projects.id = work_packages.project_id',
-                     select: ['projects.name project_name'] }
+                     condition: "projects.id = work_packages.project_id",
+                     select: ["projects.name project_name"] }
 
         associated_user_link :author
 
@@ -61,22 +61,22 @@ module API
         property :startDate, column: :start_date,
                              render_if: ->(*) { "is_milestone != true" },
                              join: { table: :types,
-                                     condition: 'types.id = work_packages.type_id',
-                                     select: 'types.is_milestone is_milestone',
+                                     condition: "types.id = work_packages.type_id",
+                                     select: "types.is_milestone is_milestone",
                                      alias: :types }
 
         property :dueDate, column: :due_date,
                            render_if: ->(*) { "is_milestone != true" },
                            join: { table: :types,
-                                   condition: 'types.id = work_packages.type_id',
-                                   select: 'types.is_milestone is_milestone',
+                                   condition: "types.id = work_packages.type_id",
+                                   select: "types.is_milestone is_milestone",
                                    alias: :types }
 
         property :date, column: :start_date,
                         render_if: ->(*) { "is_milestone = true" },
                         join: { table: :types,
-                                condition: 'types.id = work_packages.type_id',
-                                select: 'types.is_milestone is_milestone',
+                                condition: "types.id = work_packages.type_id",
+                                select: "types.is_milestone is_milestone",
                                 alias: :types }
       end
     end

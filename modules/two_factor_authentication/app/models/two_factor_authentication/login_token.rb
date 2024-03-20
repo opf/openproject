@@ -8,7 +8,7 @@ module TwoFactorAuthentication
 
     def self.generate_token_value
       chars = ("0".."9").to_a
-      password = ''
+      password = ""
       6.times { |_i| password << chars[rand(chars.size - 1)] }
       password
     end

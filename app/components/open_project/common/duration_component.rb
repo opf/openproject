@@ -32,7 +32,7 @@ module OpenProject
       VALID_TYPES = %i[seconds minutes hours days weeks months years].freeze
       attr_reader :duration, :abbreviated, :separator
 
-      def initialize(duration, type = :seconds, separator: ', ', abbreviated: false, **args)
+      def initialize(duration, type = :seconds, separator: ", ", abbreviated: false, **args)
         super
 
         @duration = parse_duration(duration, type)

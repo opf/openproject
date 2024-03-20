@@ -28,7 +28,7 @@
 
 module Queries::Operators
   class Relates < Base
-    label 'relates'
+    label "relates"
     set_symbol ::Relation::TYPE_RELATES
   end
 end

@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.dirname(__FILE__) + '/../spec_helper'
+require File.dirname(__FILE__) + "/../spec_helper"
 
 RSpec.describe BudgetsHelper do
   let(:project) { build(:project) }
   let(:budget) { build(:budget, project:) }
 
-  describe '#budgets_to_csv' do
-    describe 'WITH a list of one cost object' do
-      it 'outputs the cost objects attributes' do
+  describe "#budgets_to_csv" do
+    describe "WITH a list of one cost object" do
+      it "outputs the cost objects attributes" do
         expected = [
           budget.id,
           budget.project.name,
@@ -52,9 +52,9 @@ RSpec.describe BudgetsHelper do
         expect(budgets_to_csv([budget]).include?(expected)).to be_truthy
       end
 
-      it 'starts with a header explaining the fields' do
+      it "starts with a header explaining the fields" do
         expected = [
-          '#',
+          "#",
           Project.model_name.human,
           Budget.human_attribute_name(:subject),
           Budget.human_attribute_name(:author),

@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Relation resource' do
+RSpec.describe "API v3 Relation resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -71,10 +71,10 @@ RSpec.describe 'API v3 Relation resource' do
 
   subject(:response) { last_response }
 
-  describe '#get' do
+  describe "#get" do
     let(:path) { api_v3_paths.work_package_relations(work_package.id) }
 
-    context 'when having the view_work_packages permission' do
+    context "when having the view_work_packages permission" do
       let(:permissions) { [:view_work_packages] }
 
       before do
@@ -84,20 +84,20 @@ RSpec.describe 'API v3 Relation resource' do
         get path
       end
 
-      it_behaves_like 'API V3 collection response', 1, 1, 'Relation' do
+      it_behaves_like "API V3 collection response", 1, 1, "Relation" do
         let(:elements) { [visible_relation] }
       end
     end
 
-    context 'when not having view_work_packages' do
+    context "when not having view_work_packages" do
       let(:permissions) { [] }
 
       before do
         get path
       end
 
-      it_behaves_like 'not found',
-                      I18n.t('api_v3.errors.not_found.work_package')
+      it_behaves_like "not found",
+                      I18n.t("api_v3.errors.not_found.work_package")
     end
   end
 end

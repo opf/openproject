@@ -46,7 +46,7 @@ module API
 
         resources :users do
           # The namespace only exists to add the after_validation callback
-          namespace '' do
+          namespace "" do
             after_validation do
               authorize_globally(:create_user)
             end
@@ -55,7 +55,7 @@ module API
           end
 
           # The namespace only exists to add the after_validation callback
-          namespace '' do
+          namespace "" do
             after_validation do
               authorize_globally(:manage_user)
             end
@@ -70,12 +70,12 @@ module API
           mount ::API::V3::Users::CreateFormAPI
 
           params do
-            requires :id, desc: 'User\'s id'
+            requires :id, desc: "User's id"
           end
           route_param :id do
             after_validation do
               @user =
-                if params[:id] == 'me'
+                if params[:id] == "me"
                   User.current
                 else
                   User.find_by_unique!(params[:id])
@@ -95,14 +95,14 @@ module API
                 authorize_admin
               end
 
-              desc 'Set lock on user account'
+              desc "Set lock on user account"
               post do
                 user_transition(@user.active? || @user.locked?) do
                   @user.lock! unless @user.locked?
                 end
               end
 
-              desc 'Remove lock on user account'
+              desc "Remove lock on user account"
               delete do
                 user_transition(@user.locked? || @user.active?) do
                   @user.activate! unless @user.active?

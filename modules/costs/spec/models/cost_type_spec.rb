@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
+require File.expand_path(File.dirname(__FILE__) + "/../spec_helper.rb")
 
 RSpec.describe CostType do
   let(:klass) { CostType }
   let(:cost_type) do
-    klass.new name: 'ct1',
-              unit: 'singular',
-              unit_plural: 'plural'
+    klass.new name: "ct1",
+              unit: "singular",
+              unit_plural: "plural"
   end
 
   before do
@@ -44,9 +44,9 @@ RSpec.describe CostType do
     CostType.destroy_all
   end
 
-  describe 'class' do
-    describe 'active' do
-      describe 'WHEN a CostType instance is deleted' do
+  describe "class" do
+    describe "active" do
+      describe "WHEN a CostType instance is deleted" do
         before do
           cost_type.deleted_at = Time.now
           cost_type.save!
@@ -55,7 +55,7 @@ RSpec.describe CostType do
         it { expect(klass.active.size).to eq(0) }
       end
 
-      describe 'WHEN a CostType instance is not deleted' do
+      describe "WHEN a CostType instance is not deleted" do
         before do
           cost_type.save!
         end

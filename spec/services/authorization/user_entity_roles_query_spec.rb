@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Authorization::UserEntityRolesQuery do
   let(:user) { build(:user) }
@@ -41,48 +41,48 @@ RSpec.describe Authorization::UserEntityRolesQuery do
   let(:project_member) { build(:member, project:, roles: [role], principal: user) }
   let(:other_member) { build(:member, project:, roles: [other_wp_role], principal: user, entity: work_package2) }
 
-  describe '.query' do
+  describe ".query" do
     before do
       non_member.save!
       user.save!
     end
 
-    it 'is a relation' do
+    it "is a relation" do
       expect(described_class.query(user, work_package)).to be_a ActiveRecord::Relation
     end
 
-    context 'with the user being a member of the work package' do
+    context "with the user being a member of the work package" do
       before do
         member.save!
       end
 
-      it 'returns the work package role' do
+      it "returns the work package role" do
         expect(described_class.query(user, work_package)).to contain_exactly(wp_role)
       end
 
-      context 'when the user also has a membership with a different role on another work package' do
+      context "when the user also has a membership with a different role on another work package" do
         before do
           other_member.save!
         end
 
-        it 'does not include the second role' do
+        it "does not include the second role" do
           expect(described_class.query(user, work_package)).not_to include(other_wp_role)
         end
       end
 
-      context 'when the user also has a membership with a different role on the project' do
+      context "when the user also has a membership with a different role on the project" do
         before do
           project_member.save!
         end
 
-        it 'does not include the second role' do
+        it "does not include the second role" do
           expect(described_class.query(user, work_package)).not_to include(role)
         end
       end
     end
 
-    context 'without the user being member in the work package' do
-      it 'is empty' do
+    context "without the user being member in the work package" do
+      it "is empty" do
         expect(described_class.query(user, work_package)).to be_empty
       end
     end

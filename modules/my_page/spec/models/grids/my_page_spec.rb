@@ -26,26 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative 'shared_model'
+require_relative "shared_model"
 
 RSpec.describe Grids::MyPage do
   let(:instance) { described_class.new(row_count: 5, column_count: 5) }
   let(:user) { build_stubbed(:user) }
 
-  it_behaves_like 'grid attributes'
+  it_behaves_like "grid attributes"
 
-  context 'attributes' do
-    it '#user' do
+  context "attributes" do
+    it "#user" do
       instance.user = user
       expect(instance.user)
         .to eql user
     end
   end
 
-  context 'altering widgets' do
-    context 'when removing a work_packages_table widget' do
+  context "altering widgets" do
+    context "when removing a work_packages_table widget" do
       let(:user) { create(:user) }
       let(:query) do
         create(:query,
@@ -53,7 +53,7 @@ RSpec.describe Grids::MyPage do
       end
 
       before do
-        widget = Grids::Widget.new(identifier: 'work_packages_table',
+        widget = Grids::Widget.new(identifier: "work_packages_table",
                                    start_row: 1,
                                    end_row: 2,
                                    start_column: 1,
@@ -64,7 +64,7 @@ RSpec.describe Grids::MyPage do
         instance.save!
       end
 
-      it 'removes the widget\'s query' do
+      it "removes the widget's query" do
         instance.widgets = []
 
         expect(Query.find_by(id: query.id))

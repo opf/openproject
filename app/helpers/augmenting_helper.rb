@@ -37,7 +37,7 @@ module AugmentingHelper
   # @param block [Block] A block that renders the section's body.
   def augmented_collapsible_section(title:, initiallyExpanded: true, &block)
     render(
-      partial: '/augmented/collapsible_section',
+      partial: "/augmented/collapsible_section",
       locals: { title:, initiallyExpanded: !!initiallyExpanded, block: }
     )
   end

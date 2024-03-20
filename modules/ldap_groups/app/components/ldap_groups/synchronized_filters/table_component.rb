@@ -38,7 +38,7 @@ module LdapGroups
       end
 
       def target_controller
-        'ldap_groups/synchronized_filters'
+        "ldap_groups/synchronized_filters"
       end
 
       def sortable?
@@ -47,18 +47,18 @@ module LdapGroups
 
       def inline_create_link
         link_to({ controller: target_controller, action: :new },
-                class: 'budget-add-row wp-inline-create--add-link',
-                title: I18n.t('ldap_groups.synchronized_filters.add_new')) do
-          helpers.op_icon('icon icon-add')
+                class: "budget-add-row wp-inline-create--add-link",
+                title: I18n.t("ldap_groups.synchronized_filters.add_new")) do
+          helpers.op_icon("icon icon-add")
         end
       end
 
       def headers
         [
-          ['name', { caption: ::LdapGroups::SynchronizedFilter.human_attribute_name('name') }],
-          ['auth_source', { caption: ::LdapGroups::SynchronizedFilter.human_attribute_name('auth_source') }],
-          ['groups', { caption: I18n.t('ldap_groups.synchronized_groups.plural') }],
-          ['sync_users', { caption: ::LdapGroups::SynchronizedFilter.human_attribute_name('sync_users') }]
+          ["name", { caption: ::LdapGroups::SynchronizedFilter.human_attribute_name("name") }],
+          ["auth_source", { caption: ::LdapGroups::SynchronizedFilter.human_attribute_name("auth_source") }],
+          ["groups", { caption: I18n.t("ldap_groups.synchronized_groups.plural") }],
+          ["sync_users", { caption: ::LdapGroups::SynchronizedFilter.human_attribute_name("sync_users") }]
         ]
       end
     end

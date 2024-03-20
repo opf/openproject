@@ -53,7 +53,7 @@ class ProjectsController < ApplicationController
       format.html do
         flash.now[:error] = @query.errors.full_messages if @query.errors.any?
 
-        render layout: 'global', locals: { query: @query, state: :show }
+        render layout: "global", locals: { query: @query, state: :show }
       end
 
       format.any(*supported_export_formats) do
@@ -63,7 +63,7 @@ class ProjectsController < ApplicationController
   end
 
   def new
-    render layout: 'no_menu'
+    render layout: "no_menu"
   end
 
   def copy
@@ -77,9 +77,9 @@ class ProjectsController < ApplicationController
                      .call
 
     if service_call.success?
-      flash[:notice] = I18n.t('projects.delete.scheduled')
+      flash[:notice] = I18n.t("projects.delete.scheduled")
     else
-      flash[:error] = I18n.t('projects.delete.schedule_failed', errors: service_call.errors.full_messages.join("\n"))
+      flash[:error] = I18n.t("projects.delete.schedule_failed", errors: service_call.errors.full_messages.join("\n"))
     end
 
     redirect_to projects_path
@@ -118,7 +118,7 @@ class ProjectsController < ApplicationController
       query: query.to_hash
     )
 
-    if request.headers['Accept']&.include?('application/json')
+    if request.headers["Accept"]&.include?("application/json")
       render json: { job_id: job.job_id }
     else
       redirect_to job_status_path(job.job_id)

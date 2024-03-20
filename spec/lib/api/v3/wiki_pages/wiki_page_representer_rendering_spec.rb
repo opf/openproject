@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe API::V3::WikiPages::WikiPageRepresenter, 'rendering' do
+RSpec.describe API::V3::WikiPages::WikiPageRepresenter, "rendering" do
   include API::V3::Utilities::PathHelper
 
   let(:wiki_page) do
@@ -46,24 +46,24 @@ RSpec.describe API::V3::WikiPages::WikiPageRepresenter, 'rendering' do
 
   subject { representer.to_json }
 
-  describe '_links' do
-    it_behaves_like 'has an untitled link' do
-      let(:link) { 'self' }
+  describe "_links" do
+    it_behaves_like "has an untitled link" do
+      let(:link) { "self" }
       let(:href) { api_v3_paths.wiki_page wiki_page.id }
     end
 
-    it_behaves_like 'has an untitled link' do
+    it_behaves_like "has an untitled link" do
       let(:link) { :attachments }
       let(:href) { api_v3_paths.attachments_by_wiki_page wiki_page.id }
     end
 
-    it_behaves_like 'has a titled link' do
+    it_behaves_like "has a titled link" do
       let(:link) { :project }
       let(:title) { project.name }
       let(:href) { api_v3_paths.project project.id }
     end
 
-    it_behaves_like 'has an untitled action link' do
+    it_behaves_like "has an untitled action link" do
       let(:link) { :addAttachment }
       let(:href) { api_v3_paths.attachments_by_wiki_page wiki_page.id }
       let(:method) { :post }
@@ -71,25 +71,25 @@ RSpec.describe API::V3::WikiPages::WikiPageRepresenter, 'rendering' do
     end
   end
 
-  describe 'properties' do
-    it_behaves_like 'property', :_type do
-      let(:value) { 'WikiPage' }
+  describe "properties" do
+    it_behaves_like "property", :_type do
+      let(:value) { "WikiPage" }
     end
 
-    it_behaves_like 'property', :id do
+    it_behaves_like "property", :id do
       let(:value) { wiki_page.id }
     end
 
-    it_behaves_like 'property', :title do
+    it_behaves_like "property", :title do
       let(:value) { wiki_page.title }
     end
   end
 
-  describe '_embedded' do
-    it 'has project embedded' do
+  describe "_embedded" do
+    it "has project embedded" do
       expect(subject)
         .to be_json_eql(project.name.to_json)
-        .at_path('_embedded/project/name')
+        .at_path("_embedded/project/name")
     end
   end
 end

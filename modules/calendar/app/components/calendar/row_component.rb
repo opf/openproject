@@ -53,13 +53,13 @@ module Calendar
     def delete_link
       if render_delete_link?
         link_to(
-          '',
+          "",
           project_calendar_path(project, query.id),
           method: :delete,
-          class: 'icon icon-delete',
+          class: "icon icon-delete",
           data: {
             confirm: I18n.t(:text_are_you_sure),
-            'test-selector': "calendar-remove-#{query.id}"
+            "test-selector": "calendar-remove-#{query.id}"
           },
           title: t(:button_delete)
         )

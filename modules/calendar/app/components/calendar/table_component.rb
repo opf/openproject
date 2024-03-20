@@ -33,7 +33,7 @@ module Calendar
     sortable_columns :name, :project_name, :created_at
 
     def sortable_columns_correlation
-      super.merge(project_name: 'projects.name')
+      super.merge(project_name: "projects.name")
     end
 
     def initial_sort
@@ -47,8 +47,8 @@ module Calendar
     def headers
       @headers ||= [
         [:name, { caption: I18n.t(:label_name) }],
-        current_project.blank? ? [:project_name, { caption: I18n.t('attributes.project') }] : nil,
-        [:created_at, { caption: I18n.t('attributes.created_at') }]
+        current_project.blank? ? [:project_name, { caption: I18n.t("attributes.project") }] : nil,
+        [:created_at, { caption: I18n.t("attributes.created_at") }]
       ].compact
     end
 

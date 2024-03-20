@@ -30,7 +30,7 @@
 
 class Storages::Admin::OAuthClientsController < ApplicationController
   # See https://guides.rubyonrails.org/layouts_and_rendering.html for reference on layout
-  layout 'admin'
+  layout "admin"
 
   # Before executing any action below: Make sure the current user is an admin
   # and set the @<controller_name> variable to the object referenced in the URL.
@@ -116,7 +116,7 @@ class Storages::Admin::OAuthClientsController < ApplicationController
   end
 
   def finish_setup
-    flash[:primer_banner] = { message: I18n.t(:'storages.notice_successful_storage_connection'), scheme: :success }
+    flash[:primer_banner] = { message: I18n.t(:"storages.notice_successful_storage_connection"), scheme: :success }
 
     redirect_to admin_settings_storages_path
   end
@@ -147,7 +147,7 @@ class Storages::Admin::OAuthClientsController < ApplicationController
   def oauth_client_params
     params
       .require(:oauth_client)
-      .permit('client_id', 'client_secret')
+      .permit("client_id", "client_secret")
   end
 
   def find_storage

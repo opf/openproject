@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Notifications::Scopes::UnsentRemindersBefore do
-  describe '.unsent_reminders_before' do
+  describe ".unsent_reminders_before" do
     subject(:scope) { Notification.unsent_reminders_before(recipient:, time:) }
 
     let(:recipient) do
@@ -53,48 +53,48 @@ RSpec.describe Notifications::Scopes::UnsentRemindersBefore do
 
     let!(:notifications) { notification }
 
-    shared_examples_for 'is empty' do
-      it 'is empty' do
+    shared_examples_for "is empty" do
+      it "is empty" do
         expect(scope)
           .to be_empty
       end
     end
 
-    context 'with a unread and not reminded notification that was created before the time and for the user' do
-      it 'returns the notification' do
+    context "with a unread and not reminded notification that was created before the time and for the user" do
+      it "returns the notification" do
         expect(scope)
           .to contain_exactly(notification)
       end
     end
 
-    context 'with a unread and not reminded notification that was created after the time and for the user' do
+    context "with a unread and not reminded notification that was created after the time and for the user" do
       let(:notification_created_at) { 10.minutes.from_now }
 
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
 
-    context 'with a unread and not reminded notification that was created before the time and for different user' do
+    context "with a unread and not reminded notification that was created before the time and for different user" do
       let(:notification_recipient) { create(:user) }
 
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
 
-    context 'with a unread and not reminded notification created before the time and for the user' do
+    context "with a unread and not reminded notification created before the time and for the user" do
       let(:notification_mail_reminder_sent) { nil }
 
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
 
-    context 'with a unread but reminded notification created before the time and for the user' do
+    context "with a unread but reminded notification created before the time and for the user" do
       let(:notification_mail_reminder_sent) { true }
 
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
 
-    context 'with a read notification that was created before the time' do
+    context "with a read notification that was created before the time" do
       let(:notification_read_ian) { true }
 
-      it_behaves_like 'is empty'
+      it_behaves_like "is empty"
     end
   end
 end

@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Permissions', 'I18n' do
+RSpec.describe "Permissions", "I18n" do
   subject(:permissions) do
     OpenProject::AccessControl.instance_variable_get(:@mapped_permissions)
   end
 
-  it 'has an english translation for every permission', :aggregate_failures do
+  it "has an english translation for every permission", :aggregate_failures do
     permissions.each do |permission|
       expect(I18n.exists?("permission_#{permission.name}", :en))
         .to be(true), "English translation for #{permission.name} is missing"

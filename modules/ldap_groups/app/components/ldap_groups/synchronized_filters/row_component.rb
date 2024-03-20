@@ -65,7 +65,7 @@ module LdapGroups
 
         link_to I18n.t(:button_edit),
                 { controller: table.target_controller, ldap_filter_id: model.id, action: :edit },
-                class: 'icon icon-edit',
+                class: "icon icon-edit",
                 title: t(:button_edit)
       end
 
@@ -74,7 +74,7 @@ module LdapGroups
 
         link_to I18n.t(:button_delete),
                 { controller: table.target_controller, ldap_filter_id: model.id, action: :destroy_info },
-                class: 'icon icon-delete',
+                class: "icon icon-delete",
                 title: t(:button_delete)
       end
     end

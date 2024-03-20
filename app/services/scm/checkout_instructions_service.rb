@@ -56,13 +56,13 @@ class SCM::CheckoutInstructionsService
   ##
   # Returns the checkout base URL as defined in settings.
   def checkout_base_url
-    checkout_settings['base_url']
+    checkout_settings["base_url"]
   end
 
   ##
   # Returns the instructions defined in the settings.
   def instructions
-    checkout_settings['text'].presence ||
+    checkout_settings["text"].presence ||
       I18n.t("repositories.checkout.default_instructions.#{repository.vendor}")
   end
 
@@ -89,7 +89,7 @@ class SCM::CheckoutInstructionsService
   end
 
   def checkout_enabled?
-    checkout_settings['enabled'].to_i > 0
+    checkout_settings["enabled"].to_i > 0
   end
 
   def supported_but_not_enabled?

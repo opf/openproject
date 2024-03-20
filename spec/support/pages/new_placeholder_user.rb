@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   class NewPlaceholderUser < Page
     def path
-      '/placeholder_users/new'
+      "/placeholder_users/new"
     end
 
     ##
@@ -39,11 +39,11 @@ module Pages
     def fill_in!(fields = {})
       form = FormFiller.new fields
 
-      form.fill! 'Name', :name
+      form.fill! "Name", :name
     end
 
     def submit!
-      click_button 'Create'
+      click_button "Create"
     end
   end
 end

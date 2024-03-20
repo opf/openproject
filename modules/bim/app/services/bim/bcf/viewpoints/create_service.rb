@@ -33,7 +33,7 @@ module Bim::Bcf
 
       def persist(service_result)
         # snapshot base64 data must not get stored
-        service_result.result.json_viewpoint['snapshot']&.delete('snapshot_data')
+        service_result.result.json_viewpoint["snapshot"]&.delete("snapshot_data")
 
         super(service_result)
       end

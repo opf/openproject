@@ -1,20 +1,20 @@
-require 'spec_helper'
-require_relative '../../support/pages/ifc_models/show_default'
+require "spec_helper"
+require_relative "../../support/pages/ifc_models/show_default"
 
-RSpec.describe 'Copy work packages through Rails view', :js, :with_cuprite, with_config: { edition: 'bim' } do
-  shared_let(:project) { create(:project, name: 'Source', enabled_module_names: %i[bim work_package_tracking]) }
+RSpec.describe "Copy work packages through Rails view", :js, :with_cuprite, with_config: { edition: "bim" } do
+  shared_let(:project) { create(:project, name: "Source", enabled_module_names: %i[bim work_package_tracking]) }
 
   shared_let(:dev) do
     create(:user,
-           firstname: 'Dev',
-           lastname: 'Guy',
+           firstname: "Dev",
+           lastname: "Guy",
            member_with_permissions: { project => %i[view_work_packages work_package_assigned
                                                     view_ifc_models view_linked_issues] })
   end
   shared_let(:mover) do
     create(:user,
-           firstname: 'Manager',
-           lastname: 'Guy',
+           firstname: "Manager",
+           lastname: "Guy",
            member_with_permissions: {
              project => %i[view_work_packages view_ifc_models view_linked_issues
                            copy_work_packages move_work_packages manage_subtasks assign_versions edit_work_packages
@@ -38,72 +38,72 @@ RSpec.describe 'Copy work packages through Rails view', :js, :with_cuprite, with
     expect_angular_frontend_initialized
     wp_table.expect_work_package_listed work_package, work_package2
 
-    wp_table.switch_view 'Cards'
+    wp_table.switch_view "Cards"
     loading_indicator_saveguard
 
     # Select all work packages
-    find('body').send_keys [:control, 'a']
+    find("body").send_keys [:control, "a"]
   end
 
-  describe 'accessing the bulk copy from the card view' do
-    context 'with permissions' do
+  describe "accessing the bulk copy from the card view" do
+    context "with permissions" do
       let(:current_user) { mover }
 
-      it 'does allow to copy' do
+      it "does allow to copy" do
         context_menu.open_for work_package, card_view: true
-        context_menu.expect_options 'Bulk copy'
+        context_menu.expect_options "Bulk copy"
       end
     end
 
-    context 'without permission' do
+    context "without permission" do
       let(:current_user) { dev }
 
-      it 'does not allow to copy' do
+      it "does not allow to copy" do
         context_menu.open_for work_package, card_view: true
-        context_menu.expect_no_options 'Bulk copy'
+        context_menu.expect_no_options "Bulk copy"
       end
     end
   end
 
-  describe 'accessing the bulk move from the card view' do
-    context 'with permissions' do
+  describe "accessing the bulk move from the card view" do
+    context "with permissions" do
       let(:current_user) { mover }
 
-      it 'does allow to move' do
+      it "does allow to move" do
         context_menu.open_for work_package, card_view: true
-        context_menu.expect_options 'Bulk change of project'
+        context_menu.expect_options "Bulk change of project"
       end
     end
 
-    context 'without permission' do
+    context "without permission" do
       let(:current_user) { dev }
 
-      it 'does not allow to move' do
+      it "does not allow to move" do
         context_menu.open_for work_package, card_view: true
-        context_menu.expect_no_options 'Bulk change of project'
+        context_menu.expect_no_options "Bulk change of project"
       end
     end
   end
 
-  describe 'accessing the bulk edit from the card view' do
-    context 'with permissions' do
+  describe "accessing the bulk edit from the card view" do
+    context "with permissions" do
       let(:current_user) { mover }
 
-      it 'does allow to edit' do
+      it "does allow to edit" do
         context_menu.open_for work_package, card_view: true
-        context_menu.expect_options 'Bulk edit'
+        context_menu.expect_options "Bulk edit"
       end
 
-      context 'with a project budget' do
+      context "with a project budget" do
         let!(:budget) { create(:budget, project:) }
 
-        it 'updates all the work packages' do
+        it "updates all the work packages" do
           context_menu.open_for work_package, card_view: true
-          context_menu.choose 'Bulk edit'
+          context_menu.choose "Bulk edit"
 
-          select budget.subject, from: 'work_package_budget_id'
-          click_on 'Submit'
-          wp_table.expect_and_dismiss_toaster message: 'Successful update.'
+          select budget.subject, from: "work_package_budget_id"
+          click_on "Submit"
+          wp_table.expect_and_dismiss_toaster message: "Successful update."
 
           expect(work_package.reload.budget_id).to eq(budget.id)
           expect(work_package2.reload.budget_id).to eq(budget.id)
@@ -111,12 +111,12 @@ RSpec.describe 'Copy work packages through Rails view', :js, :with_cuprite, with
       end
     end
 
-    context 'without permission' do
+    context "without permission" do
       let(:current_user) { dev }
 
-      it 'does not allow to edit' do
+      it "does not allow to edit" do
         context_menu.open_for work_package, card_view: true
-        context_menu.expect_no_options 'Bulk edit'
+        context_menu.expect_no_options "Bulk edit"
       end
     end
   end

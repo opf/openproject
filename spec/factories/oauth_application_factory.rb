@@ -27,13 +27,13 @@
 #++
 
 FactoryBot.define do
-  factory :oauth_application, class: '::Doorkeeper::Application' do
-    name { 'My API application' }
+  factory :oauth_application, class: "::Doorkeeper::Application" do
+    name { "My API application" }
     confidential { true }
     owner factory: :admin
-    owner_type { 'User' }
+    owner_type { "User" }
     sequence(:uid) { |n| "2345678901-#{n}" }
-    redirect_uri { 'urn:ietf:wg:oauth:2.0:oob' }
-    scopes { 'api_v3' }
+    redirect_uri { "urn:ietf:wg:oauth:2.0:oob" }
+    scopes { "api_v3" }
   end
 end

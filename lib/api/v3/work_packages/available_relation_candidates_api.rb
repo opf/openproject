@@ -37,12 +37,12 @@ module API
           end
 
           def filters_param
-            JSON::parse(params[:filters] || '[]')
+            JSON::parse(params[:filters] || "[]")
               .concat([string_filter, type_filter])
           end
 
           def string_filter
-            filter_param(:typeahead, '**', params[:query])
+            filter_param(:typeahead, "**", params[:query])
           end
 
           def type_filter

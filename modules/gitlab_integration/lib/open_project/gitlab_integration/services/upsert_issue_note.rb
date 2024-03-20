@@ -69,8 +69,8 @@ module OpenProject
 
         def extract_label_values(payload)
           {
-            title: payload['title'],
-            color: payload['color']
+            title: payload["title"],
+            color: payload["color"]
           }
         end
 

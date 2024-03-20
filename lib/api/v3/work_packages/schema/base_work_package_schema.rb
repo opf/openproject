@@ -55,7 +55,7 @@ module API
             property = property.to_s
 
             # Special case for milestones + date property
-            property = 'start_date' if property == 'date' && milestone?
+            property = "start_date" if property == "date" && milestone?
 
             @writable_attributes ||= contract.writable_attributes
             @writable_attributes.include?(property)

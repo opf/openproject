@@ -31,7 +31,7 @@
 # FileLinks are attached to a "container", which currently has to be a WorkPackage.
 class Storages::FileLink < ApplicationRecord
   belongs_to :storage
-  belongs_to :creator, class_name: 'User'
+  belongs_to :creator, class_name: "User"
   belongs_to :container, polymorphic: true
 
   validates :container_type, inclusion: { in: ["WorkPackage", nil] }

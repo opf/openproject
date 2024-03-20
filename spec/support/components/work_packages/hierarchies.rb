@@ -48,11 +48,11 @@ module Components
       alias_method :enable_via_menu, :enable_hierarchy
 
       def enable_via_header
-        page.find('.wp-table--table-header .icon-no-hierarchy').click
+        page.find(".wp-table--table-header .icon-no-hierarchy").click
       end
 
       def disable_via_header
-        page.find('.wp-table--table-header .icon-hierarchy').click
+        page.find(".wp-table--table-header .icon-hierarchy").click
       end
 
       def disable_hierarchy
@@ -62,39 +62,39 @@ module Components
       end
 
       def expect_no_hierarchies
-        expect(page).to have_no_css('.wp-table--hierarchy-span')
+        expect(page).to have_no_css(".wp-table--hierarchy-span")
       end
 
       alias_method :expect_mode_disabled, :expect_no_hierarchies
 
       def expect_mode_enabled
-        expect(page).to have_css('.wp-table--table-header .icon-hierarchy')
+        expect(page).to have_css(".wp-table--table-header .icon-hierarchy")
       end
 
       def expect_mode_disabled
-        expect(page).to have_css('.wp-table--table-header .icon-no-hierarchy')
+        expect(page).to have_css(".wp-table--table-header .icon-no-hierarchy")
       end
 
       def expect_indent(work_package, indent: true, outdent: true, card_view: false)
         context_menu.open_for(work_package, card_view:)
 
         if indent
-          context_menu.expect_options 'Indent hierarchy'
+          context_menu.expect_options "Indent hierarchy"
         end
 
         if outdent
-          context_menu.expect_options 'Outdent hierarchy'
+          context_menu.expect_options "Outdent hierarchy"
         end
       end
 
       def indent!(work_package)
         context_menu.open_for work_package
-        context_menu.choose 'Indent hierarchy'
+        context_menu.choose "Indent hierarchy"
       end
 
       def outdent!(work_package)
         context_menu.open_for work_package
-        context_menu.choose 'Outdent hierarchy'
+        context_menu.choose "Outdent hierarchy"
       end
 
       def expect_leaf_at(*work_packages)

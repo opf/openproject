@@ -28,7 +28,7 @@
 
 module Queries::Operators
   class Everywhere < Base
-    label 'everywhere'
-    set_symbol '**'
+    label "everywhere"
+    set_symbol "**"
   end
 end
