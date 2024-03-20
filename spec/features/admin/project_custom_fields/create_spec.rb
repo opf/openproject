@@ -102,5 +102,20 @@ RSpec.describe "Create project custom fields", :js do
       expect(page).to have_no_current_path(admin_settings_project_custom_fields_path(tab: "ProjectCustomField"))
       expect(page).to have_current_path(new_admin_settings_project_custom_field_path)
     end
+
+    context "without any existing sections" do
+      before do
+        ProjectCustomFieldSection.destroy_all
+        visit new_admin_settings_project_custom_field_path
+      end
+
+      it "prevents creating a new project custom field with an empty name" do
+        fill_in("custom_field_name", with: "New custom field")
+
+        click_on("Save")
+
+        expect(page).to have_text("Section can't be blank.")
+      end
+    end
   end
 end
