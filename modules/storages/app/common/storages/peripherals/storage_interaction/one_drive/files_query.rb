@@ -112,7 +112,7 @@ module Storages
               [],
               StorageFile.new(
                 id: parent_id,
-                name: path.split('/').last,
+                name: path.split("/").last,
                 location: path,
                 permissions: %i[readable writeable]
               ),
@@ -121,7 +121,7 @@ module Storages
           end
 
           def parent(parent_reference)
-            _, _, name = parent_reference[:path].gsub(/.*root:/, '').rpartition '/'
+            _, _, name = parent_reference[:path].gsub(/.*root:/, "").rpartition "/"
 
             if name.empty?
               root(parent_reference[:id])
@@ -136,10 +136,10 @@ module Storages
           end
 
           def forge_ancestors(parent_reference)
-            path_elements = parent_reference[:path].gsub(/.+root:/, '').split('/')
+            path_elements = parent_reference[:path].gsub(/.+root:/, "").split("/")
 
             path_elements[0..-2].map do |component|
-              next root(Digest::SHA256.hexdigest('i_am_root')) if component.blank?
+              next root(Digest::SHA256.hexdigest("i_am_root")) if component.blank?
 
               StorageFile.new(
                 id: Digest::SHA256.hexdigest(component),
@@ -169,7 +169,7 @@ module Storages
           end
 
           def encode_path(path)
-            path.split('/').map { |fragment| URI.encode_uri_component(fragment) }.join('/')
+            path.split("/").map { |fragment| URI.encode_uri_component(fragment) }.join("/")
           end
         end
       end
