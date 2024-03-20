@@ -79,9 +79,8 @@ RSpec.describe Attachments::PrepareUploadService,
       .to eql ""
   end
 
-  it 'sets the download count to -1' do
-    expect(attachment.downloads)
-      .to be -1
+  it 'sets the status to prepared' do
+    expect(attachment.status).to eq 'prepared'
   end
 
   context 'with a special character in the filename' do

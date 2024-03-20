@@ -55,8 +55,8 @@ RSpec.describe Queries::Members::MemberQuery, 'Integration' do
     let(:project) { create(:project) }
     let(:work_package) { create(:work_package, project:) }
     let(:user) { create(:user) }
-    let(:role) { create(:project_role, permissions: [:manage_members]) }
-    let(:wp_role) { create(:work_package_role, permissions: [:view_work_packages]) }
+    let(:role) { create(:project_role, permissions: %i[manage_members view_shared_work_packages]) }
+    let(:wp_role) { create(:work_package_role) }
     let!(:project_membership) { create(:member, principal: user, project:, roles: [role]) }
     let!(:wp_membership) { create(:member, principal: user, project:, entity: work_package, roles: [wp_role]) }
 

@@ -802,7 +802,7 @@ RSpec.describe Storages::NextcloudGroupFolderPropertiesSyncService, :webmock do
           expect(OpenProject.logger)
             .to have_received(:warn)
                   .with(source: "OpenProject/Lost Jedi Project Folder #3/",
-                        target: project_storage2.project_folder_path,
+                        target: project_storage2.managed_project_folder_path,
                         command: Storages::Peripherals::StorageInteraction::Nextcloud::RenameFileCommand,
                         message: 'Outbound request destination not found',
                         data: { status: 404, body: '' })

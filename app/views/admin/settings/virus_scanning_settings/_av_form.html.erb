@@ -1,0 +1,40 @@
+<turbo-frame id="attachments_av_subform">
+  <% if selected == :clamav_socket %>
+    <div class="form--field">
+      <%= setting_text_field :antivirus_scan_target, container_class: '-wide', not_translated_label: 'ClamAV (Socket)' %>
+      <div class="form--field-instructions">
+        <p><%= t('settings.antivirus.modes.clamav_socket_html',
+                 example: content_tag(:code, '/var/run/clamav/clamd.ctl'),
+               ) %>
+        </p>
+      </div>
+    </div>
+  <% elsif selected == :clamav_host %>
+    <div class="form--field">
+      <%= setting_text_field :antivirus_scan_target, container_class: '-wide', not_translated_label: 'ClamAV (Host)' %>
+      <div class="form--field-instructions">
+        <p><%= t('settings.antivirus.modes.clamav_host_html',
+                 example: content_tag(:code, 'remotehost:1024'),
+               ) %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+  <% if selected != :disabled %>
+    <div class="form--field">
+      <%= setting_select :antivirus_scan_action,
+                         [
+                           [t('settings.antivirus.actions.quarantine'), :quarantine],
+                           [t('settings.antivirus.actions.delete'), :delete],
+                         ],
+                         container_class: '-wide'
+      %>
+      <div class="form--field-instructions">
+        <p><%= t('settings.antivirus.actions.instructions_html',
+                 quarantine_option: t('settings.antivirus.actions.quarantine'),
+                 delete_option: t('settings.antivirus.actions.delete')
+               ) %></p>
+      </div>
+    </div>
+  <% end %>
+</turbo-frame>

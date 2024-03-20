@@ -8,6 +8,7 @@ zh-CN:
         text: "某些组件，如工作包图组件，只在企业版提供。"
         link: '企业版。'
       widgets:
+        missing_permission: "您没有查看此微件所需的权限。"
         custom_text:
           title: '自定义文本'
         documents:

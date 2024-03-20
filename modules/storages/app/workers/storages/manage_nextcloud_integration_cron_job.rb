@@ -34,7 +34,7 @@ module Storages
 
     queue_with_priority :low
 
-    self.cron_expression = '*/5 * * * *'
+    self.cron_expression = '1 * * * *'
 
     def self.ensure_scheduled!
       if ::Storages::ProjectStorage.active_automatically_managed.exists?

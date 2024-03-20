@@ -36,8 +36,8 @@ module Storages
           class DriveItemQuery
             UTIL = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
 
-            def self.call(storage:, user:, drive_item_id:, fields: [])
-              new(storage).call(user:, drive_item_id:, fields:)
+            def self.call(storage:, token:, drive_item_id:, fields: [])
+              new(storage).call(token:, drive_item_id:, fields:)
             end
 
             def initialize(storage)
@@ -45,16 +45,14 @@ module Storages
               @uri = storage.uri
             end
 
-            def call(user:, drive_item_id:, fields: [])
+            def call(token:, drive_item_id:, fields: [])
               select_url_query = if fields.empty?
                                    ''
                                  else
                                    "?$select=#{fields.join(',')}"
                                  end
 
-              UTIL.using_user_token(@storage, user) do |token|
-                make_file_request(drive_item_id, token, select_url_query)
-              end
+              make_file_request(drive_item_id, token, select_url_query)
             end
 
             private

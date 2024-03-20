@@ -33,7 +33,7 @@ RSpec.describe API::V3::Queries::SortBys::QuerySortByRepresenter do
 
   let(:column_name) { 'status' }
   let(:direction) { 'desc' }
-  let(:column) { Queries::WorkPackages::Columns::PropertyColumn.new(column_name) }
+  let(:column) { Queries::WorkPackages::Selects::PropertySelect.new(column_name) }
   let(:decorator) { API::V3::Queries::SortBys::SortByDecorator.new(column, direction) }
   let(:representer) do
     described_class

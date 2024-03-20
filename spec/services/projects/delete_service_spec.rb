@@ -55,7 +55,7 @@ RSpec.describe Projects::DeleteService, type: :model do
           work_package = create(:work_package, project:)
           create(:file_link, container: work_package, storage:)
           delete_folder_url =
-            "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}/"
+            "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.managed_project_folder_path.chop}/"
 
           stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
 

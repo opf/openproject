@@ -54,7 +54,7 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
 
       before do
         Storages::Peripherals::Registry
-          .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
+          .stub('nextcloud.queries.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
       it 'updates all origin_* fields' do
@@ -77,7 +77,7 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
 
       before do
         Storages::Peripherals::Registry
-          .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
+          .stub('nextcloud.queries.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
       it 'returns a FileLink with #origin_status :not_allowed' do
@@ -97,7 +97,7 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
 
       before do
         Storages::Peripherals::Registry
-          .stub('queries.nextcloud.files_info',
+          .stub('nextcloud.queries.files_info',
                 ->(_) { ServiceResult.success(result: [file_info_one, file_info_two]) })
       end
 
@@ -117,7 +117,7 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
 
       before do
         Storages::Peripherals::Registry
-          .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
+          .stub('nextcloud.queries.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
       it 'returns the file link with a status set to :not_found' do
@@ -134,7 +134,7 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
 
       before do
         Storages::Peripherals::Registry
-          .stub('queries.nextcloud.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
+          .stub('nextcloud.queries.files_info', ->(_) { ServiceResult.success(result: [file_info]) })
       end
 
       it 'returns the file link with a status set to :error' do
@@ -148,7 +148,7 @@ RSpec.describe Storages::FileLinkSyncService, type: :model do
     context 'with files_info_query failing' do
       before do
         Storages::Peripherals::Registry
-          .stub('queries.nextcloud.files_info',
+          .stub('nextcloud.queries.files_info',
                 ->(_) { ServiceResult.failure(result: :error, errors: Storages::StorageError.new(code: :error)) })
       end
 

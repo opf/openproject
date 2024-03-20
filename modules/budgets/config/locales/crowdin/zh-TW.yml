@@ -32,10 +32,10 @@ zh-TW:
         description: "說明"
         spent: "花費"
         status: "狀態"
-        subject: "主題"
+        subject: "名稱"
         type: "費用類別"
-        labor_budget: "計劃勞力成本"
-        material_budget: "計畫單位成本"
+        labor_budget: "規劃人工成本"
+        material_budget: "規畫單位成本"
       work_package:
         budget_subject: "預算標題"
     models:
@@ -68,11 +68,11 @@ zh-TW:
   label_example_placeholder: '例如，%{decimal}'
   label_view_all_budgets: "檢視所有預算"
   label_yes: "是"
-  notice_budget_conflict: "工作包必須是同一個專案"
+  notice_budget_conflict: "工作項目必須是同一個專案"
   notice_no_budgets_available: "無可用預算"
   permission_edit_budgets: "編輯預算"
   permission_view_budgets: "檢視預算"
   project_module_budgets: "預算"
   text_budget_reassign_to: "重新指定至這筆預算"
   text_budget_delete: "從所有項目中刪除這筆預算"
-  text_budget_destroy_assigned_wp: "有 %{count} 個工作包被分配到此預算。您想怎麼做？"
+  text_budget_destroy_assigned_wp: "有 %{count} 個工作項目被分配到此預算。您想怎麼做？"

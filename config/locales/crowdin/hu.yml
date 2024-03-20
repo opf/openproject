@@ -90,6 +90,17 @@ hu:
     show_until: Mutassa eddig
     is_active: jelenleg látható
     is_inactive: jelenleg nem látható
+  antivirus_scan:
+    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
+    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
+    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
+    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
+    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    quarantined_attachments:
+      container: "Container"
+      delete: "Delete the quarantined file"
+      title: "Quarantined attachments"
+      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
   attribute_help_texts:
     note_public: "Az ehhez a mezőhöz hozzáadott szöveg és kép nyilvánosan látható minden bejelentkezett felhasználó számára!\n"
     text_overview: "Ebben a nézetben egyedi súgószövegeket hozhat létre az attribútumokhoz. Definiálást követően ezek a szövegek jelennek meg az attribútum Súgó ikonjára kattintást követően."
@@ -253,12 +264,15 @@ hu:
       no_results_title_text: Jelenleg nincsenek projektek
       no_results_content_text: Új projekt létrehozása
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: "Active projects"
+      my: "My projects"
+      archived: "Archived projects"
+      my_private: "My private project lists"
       new:
-        placeholder: 'New project list'
+        placeholder: "New project list"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Azonosító megváltoztatása
       activities:
@@ -280,6 +294,8 @@ hu:
         no_results_content_text: Új verzió létrehozása
       storage:
         no_results_title_text: "Ebben a projektben nincs további rögzített lemezterület.\n"
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: Jelenleg egy tagja sincs a projektnek.
@@ -332,7 +348,7 @@ hu:
     memberships:
       no_results_title_text: Ez a felhasználó jelenleg nem tagja egy projektnek sem.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       Nem törölheti a teszt felhasználót. Nincs joga a tagok kezeléséhez minden olyan projektben, amelynek a teszt felhasználó tagja.
@@ -553,6 +569,7 @@ hu:
           false: "private"
         queries: "Lekérdezések"
         status_code: "Projekt állapot"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "El nem kezdett"
@@ -827,6 +844,10 @@ hu:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}\n"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "kölcsönösen kizárja a csoportot a '%{group_by}' csoporttal. Nem aktiválhatja mindkettőt."
           filters:
             custom_fields:
@@ -1179,6 +1200,7 @@ hu:
   button_reset: "Visszaállít, reset"
   button_rollback: "Visszaállitás erre a verzióra"
   button_save: "Mentés"
+  button_save_as: "Save as"
   button_apply_changes: "Apply changes"
   button_save_back: "Mentés és vissza"
   button_show: "Mutat"
@@ -1763,6 +1785,7 @@ hu:
   label_diff_side_by_side: "egymás mellett"
   label_digital_accessibility: "Digitális hozzáférhetőség (DH)"
   label_disabled: "letiltva"
+  label_disabled_uppercase: "Disabled"
   label_display: "Megjelenítés"
   label_display_per_page: "Oldalanként: %{value}"
   label_display_used_statuses_only: "Csak azok a megjelenítési állapotok, melyeket ez a típusú használt"
@@ -1897,6 +1920,7 @@ hu:
   label_member_new: "Új tag"
   label_member_all_admin: "(Összes jogosultság az admin állapot végett)"
   label_member_plural: "Tagok"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Felhasználó hozzáadva"
   lable_membership_updated: "Felhasználó frissítve"
   label_menu_badge:
@@ -1989,6 +2013,7 @@ hu:
   label_precedes: "Megelőzi"
   label_preferences: "Tulajdonságok"
   label_preview: "Előnézet"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Korábbi"
   label_previous_week: "Előző héten"
   label_principal_invite_via_email: " vagy új felhasználót hívhat meg e-mailben"
@@ -2199,6 +2224,10 @@ hu:
     one: "1 projekt"
     other: "%{count} projekt"
     zero: "nincsenek projektek"
+  label_x_files:
+    one: "1 file"
+    other: "%{count} files"
+    zero: "no files"
   label_yesterday: "tegnap"
   label_role_type: "Típus"
   label_member_role: "Project role"
@@ -2570,6 +2599,7 @@ hu:
     name_or_identifier: "Név vagy azonosító"
     only_subproject_id: "Csak alprojekt"
     shared_with_user: "Shared with user"
+    shared_with_me: "Shared with me"
     subproject_id: "Beleértve az alprojektet"
   repositories:
     at_identifier: "%{identifier} -n"
@@ -2710,6 +2740,8 @@ hu:
   setting_app_subtitle: "Alkalmazás felirat"
   setting_app_title: "Alkalmazás címe"
   setting_attachment_max_size: "Melléklet max. méret"
+  setting_antivirus_scan_mode: "Scan mode"
+  setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Automatikus letöltés tároló változás"
   setting_autologin: "Automatikus bejelentkezés"
   setting_available_languages: "A rendelkezésre álló nyelvek"
@@ -2718,7 +2750,7 @@ hu:
   setting_brute_force_block_minutes: "Mennyi időre tiltsa ki"
   setting_cache_formatted_text: "Gyorsítótárazott formázott szöveg"
   setting_use_wysiwyg_description: "Összes felhasználó CKEditor5 WYSIWYG szerkesztő alapértelmezés szerint. CKEditor tegye a GFM Markdown korlátozott funkcionalitással."
-  setting_column_options: "A feladatcsoport listák megjelenésének testreszabása"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Kulcsszavak rögzítése"
   setting_commit_logs_encoding: "Üzenetek kódolása"
   setting_commit_logtime_activity_id: "Tevékenységek a naplózott időben"
@@ -2740,7 +2772,7 @@ hu:
   setting_emails_header: "E-mailek fejléce"
   setting_email_login: "Használd az e-mail címet a bejellentkezéshez"
   setting_enabled_scm: "SCM engedélyezve"
-  setting_enabled_projects_columns: "Látható a projektlistában"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Hírcsatornák engedélyezése"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Tartalom szintjének a korlátja"
@@ -2751,7 +2783,6 @@ hu:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Alapértelmezés megjelenítése"
   setting_work_package_properties: "feladatcsoport tulajdonságok"
   setting_work_package_startdate_is_adddate: "Az aktuális dátum használata, mint kezdő dátuma az új feladatcsoportoknak"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2809,6 +2840,27 @@ hu:
     attachments:
       whitelist_text_html: >
         Határozza meg a feltöltött fájlok érvényes fájlkiterjesztéseinek és/vagy mime típusainak listáját. <br/> Adjon meg fájlkiterjesztéseket (pl. <code>%{ext_example} </code>) vagy mime típusokat (pl. <code>%{mime_example} </code>). <br/> Hagyja üresen, ha bármilyen fájltípust szeretne feltölteni. Több érték megengedett (egy sor minden értékhez).
+    antivirus:
+      title: "Virus scanning"
+      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      remaining_quarantined_files_html: >
+        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+      remaining_scan_complete_html: >
+        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+      remaining_rescanned_files: >
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+      upsale:
+        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+      actions:
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
+        instructions_html: >
+          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+      modes:
+        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
+        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        description_html: >
+          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
     brute_force_prevention: "Felhasználó automatikus blokkolása"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2838,7 +2890,7 @@ hu:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Új projekt beállításai"
-      section_project_overview: "A projekt áttekintési lista beállítása"
+      section_project_overview: "Settings for project lists"
     session: "Munkamenet"
     user:
       default_preferences: "Alapértelmezett preferenciák"
@@ -3003,6 +3055,12 @@ hu:
       Ha engedélyezve van, a felhasználó nem tudja kiválasztani a bejelentkezést a regisztráció során. Ehelyett a megadott e-mail címet fogja bejelentkezésre használni. Az adminisztrátor továbbra is külön módosíthatja a bejelentkezést.
   queries:
     apply_filter: Előre beállított szűrő alkalmazása
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "További források"
     getting_started: "Kezdés"

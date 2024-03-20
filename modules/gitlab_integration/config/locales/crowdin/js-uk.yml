@@ -1,0 +1,50 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) 2023 Ben Tey
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#Copyright (C) 2012-2021 the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See docs/COPYRIGHT.rdoc for more details.
+#++
+uk:
+  js:
+    gitlab_integration:
+      work_packages:
+        tab_name: "GitLab"
+      tab_header_issue:
+        title: "Задачі"
+      tab_header_mr:
+        title: "Запити на злиття"
+        create_mr:
+          label: Створити MR
+          description: Створити запит на злиття
+        copy_menu:
+          label: Фрагменти Git
+          description: Копіювати git-фрагменти у буфер обміну
+        git_actions:
+          branch_name: Назва гілки
+          commit_message: Створити коміт із повідомленням
+          cmd: Створити гілку з пустим комітом
+          title: Швидкі фрагменти для Git
+          copy_success: '✅ Скопійовано!'
+          copy_error: '❌ Не скопійовано!'
+      tab_issue:
+        empty: 'Зараз немає жодної зв’язаної задачі. Зв’яжіть наявну задачу, використовуючи код <code>OP#%{wp_id}</code> (або <code>PP#%{wp_id}</code> для приватних посилань) у назві / описі задачі, або створіть нову задачу.'
+      tab_mrs:
+        empty: 'Зараз немає жодного зв’язаного запиту на злиття. Зв’яжіть наявний запит MR, використовуючи код <code>OP#%{wp_id}</code> (або <code>PP#%{wp_id}</code> для приватних посилань) у назві / описі MR, або створіть новий запит MR.'
+      gitlab_pipelines: Конвеєри
+      updated_on: Оновлено

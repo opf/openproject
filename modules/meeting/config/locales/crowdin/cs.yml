@@ -97,6 +97,10 @@ cs:
   label_time_zone: "Časové pásmo"
   label_start_date: "Datum zahájení"
   meeting:
+    copy:
+      title: "Kopírovat schůzku %{title}"
+      agenda: "Kopírovat program"
+      agenda_text: "Zkopírujte program staré schůzky"
     email:
       open_meeting_link: "Otevřít schůzku"
       invited:

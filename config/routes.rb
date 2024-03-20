@@ -423,6 +423,13 @@ Rails.application.routes.draw do
       end
 
       resource :authentication, controller: '/admin/settings/authentication_settings', only: %i[show update]
+      resource :attachments, controller: '/admin/settings/attachments_settings', only: %i[show update]
+      resource :virus_scanning, controller: '/admin/settings/virus_scanning_settings', only: %i[show update] do
+        collection do
+          get :av_form
+        end
+      end
+
       resource :incoming_mails, controller: '/admin/settings/incoming_mails_settings', only: %i[show update]
       resource :aggregation, controller: '/admin/settings/aggregation_settings', only: %i[show update]
       resource :mail_notifications, controller: '/admin/settings/mail_notifications_settings', only: %i[show update]
@@ -440,6 +447,10 @@ Rails.application.routes.draw do
       get 'plugin/:id', action: :show_plugin
       post 'plugin/:id', action: :update_plugin
     end
+
+    resources :quarantined_attachments,
+              controller: '/admin/attachments/quarantined_attachments',
+              only: %i[index destroy]
 
     resource :backups, controller: '/admin/backups', only: %i[show] do
       collection do

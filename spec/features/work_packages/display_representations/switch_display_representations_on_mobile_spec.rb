@@ -36,11 +36,11 @@ RSpec.describe 'Switching work package view on mobile', :js do
 
   let(:wp_1) do
     create(:work_package,
-           project:,)
+           project:)
   end
   let(:wp_2) do
     create(:work_package,
-           project:,)
+           project:)
   end
 
   before do

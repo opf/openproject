@@ -1,0 +1,111 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://login.microsoftonline.com/4d44bf36-9b56-45c0-8807-bbf386dd047f/oauth2/v2.0/token
+    body:
+      encoding: UTF-8
+      string: grant_type=client_credentials&scope=https%3A%2F%2Fgraph.microsoft.com%2F.default
+    headers:
+      User-Agent:
+      - Rack::OAuth2 (2.2.1)
+      Authorization:
+      - Basic <BASIC_AUTH>
+      Content-Type:
+      - application/x-www-form-urlencoded
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Pragma:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      P3p:
+      - CP="DSP CUR OTPi IND OTRi ONL FIN"
+      X-Ms-Request-Id:
+      - 80ed89aa-e0fd-46b2-8a8a-3c61a2bf1600
+      X-Ms-Ests-Server:
+      - 2.1.17184.4 - FRC ProdSlices
+      X-Xss-Protection:
+      - '0'
+      Set-Cookie:
+      - fpc=AgkUqOdYlQRNpz7MWHdKp26kbDoXAQAAAPbBTt0OAAAA; expires=Sun, 03-Mar-2024
+        10:59:03 GMT; path=/; secure; HttpOnly; SameSite=None
+      - stsservicecookie=estsfd; path=/; secure; samesite=none; httponly
+      - x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly
+      Date:
+      - Fri, 02 Feb 2024 10:59:02 GMT
+      Content-Length:
+      - '1708'
+    body:
+      encoding: UTF-8
+      string: '{"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"<ACCESS_TOKEN>"}'
+  recorded_at: Fri, 02 Feb 2024 10:59:03 GMT
+- request:
+    method: get
+    uri: https://graph.microsoft.com/v1.0/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root/children
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer <BEARER TOKEN>
+      Accept:
+      - application/json
+      Content-Type:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.2.1
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-store, no-cache
+      Transfer-Encoding:
+      - chunked
+      Content-Type:
+      - application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false;
+        charset=utf-8
+      Content-Encoding:
+      - gzip
+      Strict-Transport-Security:
+      - max-age=31536000
+      Request-Id:
+      - a6f8548d-2c01-487a-9c8b-bad988ef1677
+      Client-Request-Id:
+      - a6f8548d-2c01-487a-9c8b-bad988ef1677
+      X-Ms-Ags-Diagnostic:
+      - '{"ServerInfo":{"DataCenter":"Germany West Central","Slice":"E","Ring":"5","ScaleUnit":"001","RoleInstance":"FR2PEPF00000403"}}'
+      Date:
+      - Fri, 02 Feb 2024 10:59:02 GMT
+    body:
+      encoding: UTF-8
+      string: '{"@odata.context":"https://graph.microsoft.com/v1.0/$metadata#Collection(driveItem)","value":[{"createdBy":{"user":{"email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a","displayName":"Eric
+        Schubert"}},"createdDateTime":"2023-09-26T14:38:50Z","eTag":"\"{6087B980-4C01-4020-BBF2-1E349BD0C831},1\"","id":"01AZJL5PMAXGDWAAKMEBALX4Q6GSN5BSBR","lastModifiedBy":{"user":{"email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a","displayName":"Eric
+        Schubert"}},"lastModifiedDateTime":"2023-09-26T14:38:50Z","name":"Folder","parentReference":{"driveType":"documentLibrary","driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","id":"01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ","name":"VCR","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50"},"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/Folder","cTag":"\"c:{6087B980-4C01-4020-BBF2-1E349BD0C831},0\"","fileSystemInfo":{"createdDateTime":"2023-09-26T14:38:50Z","lastModifiedDateTime":"2023-09-26T14:38:50Z"},"folder":{"childCount":5},"shared":{"scope":"users"},"size":260500},{"createdBy":{"user":{"email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a","displayName":"Eric
+        Schubert"}},"createdDateTime":"2023-09-26T14:38:57Z","eTag":"\"{BAABD554-2A6E-4B51-A07F-22B54378CC94},1\"","id":"01AZJL5PKU2WV3U3RKKFF2A7ZCWVBXRTEU","lastModifiedBy":{"user":{"email":"eschubert.op@outlook.com","id":"0a0d38a9-a59b-4245-93fa-0d2cf727f17a","displayName":"Eric
+        Schubert"}},"lastModifiedDateTime":"2023-09-26T14:38:57Z","name":"Folder with
+        spaces","parentReference":{"driveType":"documentLibrary","driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","id":"01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ","name":"VCR","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50"},"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/Folder%20with%20spaces","cTag":"\"c:{BAABD554-2A6E-4B51-A07F-22B54378CC94},0\"","fileSystemInfo":{"createdDateTime":"2023-09-26T14:38:57Z","lastModifiedDateTime":"2023-09-26T14:38:57Z"},"folder":{"childCount":4},"shared":{"scope":"users"},"size":35141},{"createdBy":{"user":{"email":"mrocha.op@outlook.com","id":"d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce","displayName":"Marcello
+        Rocha"}},"createdDateTime":"2024-01-12T09:05:10Z","eTag":"\"{73565DBB-32EA-46CE-9F64-A01EDD691B01},3\"","id":"01AZJL5PN3LVLHH2RSZZDJ6ZFAD3OWSGYB","lastModifiedBy":{"user":{"email":"mrocha.op@outlook.com","id":"d6e00f6d-1ae7-43e6-b0af-15d99a56d4ce","displayName":"Marcello
+        Rocha"}},"lastModifiedDateTime":"2024-01-12T09:05:24Z","name":"Permissions
+        Folder","parentReference":{"driveType":"documentLibrary","driveId":"b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs","id":"01AZJL5PN6Y2GOVW7725BZO354PWSELRRZ","name":"VCR","path":"/drives/b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2OBb-brzKzZAR4DYT1k9KPXs/root:","siteId":"1b4b6576-906d-4d94-8f49-6d00a9507b50"},"webUrl":"https://finn.sharepoint.com/sites/openprojectfilestoragetests/VCR/Permissions%20Folder","cTag":"\"c:{73565DBB-32EA-46CE-9F64-A01EDD691B01},0\"","decorator":{"iconColor":"darkRed"},"fileSystemInfo":{"createdDateTime":"2024-01-12T09:05:10Z","lastModifiedDateTime":"2024-01-12T09:05:24Z"},"folder":{"childCount":0},"shared":{"scope":"users"},"size":0}]}'
+  recorded_at: Fri, 02 Feb 2024 10:59:03 GMT
+recorded_with: VCR 6.2.0

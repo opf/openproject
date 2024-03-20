@@ -41,11 +41,7 @@ RSpec.describe 'Team planner working days', :js,
       team_planner.visit!
 
       team_planner.expect_empty_state
-      retry_block do
-        team_planner.click_add_user
-        page.find("#{test_selector('tp-add-assignee')} input")
-        team_planner.select_user_to_add user.name
-      end
+      team_planner.add_assignee user.name
 
       # Initially, in the "Work week" view, non working days are hidden
       expect(page).to have_css('.fc-day-mon')

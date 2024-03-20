@@ -7,7 +7,7 @@ zh-TW:
       label_unnamed_list: '未命名列表'
       label_board_type: '看板類型'
       upsale:
-        teaser_text: '你想用看板來自動化你的工作流程嗎？高級看板是一項企業功能。請升級到付費計劃。'
+        teaser_text: '你想用看板來自動化你的工作流程嗎？進階看板是一項企業功能。請升級到付費計劃。'
         upgrade: '立即更新'
       lists:
         delete: '刪除列表'
@@ -20,7 +20,7 @@ zh-TW:
         unlock_version: '解除鎖定'
         edit_version: '編輯版本'
         show_version: '顯示版本'
-        locked: '鎖定'
+        locked: '停用'
         closed: '已關閉'
       new_board: '新增看板'
       add_list: '新增列表至看板'
@@ -36,29 +36,29 @@ zh-TW:
         free: '基本'
         select_board_type: '選擇您需要的看板類型'
         free_text: >
-          從空白看板開始使用，添加新的卡片和列表到這個看板
+          啟用空白看板。手動增加新卡片和列表到這個看板。
         action: '行動項看板'
         action_by_attribute: '行動項看板 (%{attribute})'
         action_text: >
-          一個在 %{attribute} 屬性上具有篩選列表的面板。將工作包移動到其他列表會更新其屬性。
+          一個含 %{attribute} 屬性篩選看板。(將工作項目移動到其他列表會更新其屬性)
         action_text_subprojects: >
-          具有子項目自動列的面板。將工作包拖動到其他列表會相應地更新（子）項目。
+          有子專案的看板。將工作項目拖動到其他列表會相應地更新（子）項目。
         action_text_subtasks: >
-          具有子元素自動列的面板。將工作包拖動到其他列表會相應地更新父項。
+          有子元件的看板。將工作項目拖動到其他列表會相應地更新主要項目。
         action_text_status: >
           基本看板樣式的面板，包含「待辦」、「正在進行」、「已完成」等狀態的列。
         action_text_assignee: >
-          具有根據所分配用戶自動生成的列的面板。適合分發工作包。
+          「執行者」視角的看板。適合分發工作項目。
         action_text_version: >
           基於版本屬性的自動列面板。理想用於產品開發規劃。
         action_type:
-          assignee: 負責執行者
+          assignee: 執行者
           status: 狀態
           version: 版本
           subproject: 子專案
           subtasks: 父-子
         board_type_title:
-          assignee: 負責執行者
+          assignee: 執行者
           status: 狀態
           version: 版本
           subproject: 子專案
@@ -67,7 +67,7 @@ zh-TW:
         select_attribute: "動作屬性"
       add_list_modal:
         labels:
-          assignee: 選擇使用者至新的指派列表
+          assignee: 選擇使用者至新的「執行者」列表
           status: 依選擇狀態新增清單
           version: 依選擇版本新增清單
           subproject: 依選擇子專案新增清單
@@ -77,7 +77,7 @@ zh-TW:
             目前無可用狀態
           assignee: 沒有任何符合您設定篩選值的人員
           no_member: 此專案目前沒有任何可以加入的人員
-          add_members: <a href="%{link}">新增人員至此專案</a> 來再次選擇使用者。
+          add_members: <a href="%{link}">新增成員至此專案</a> 再次選擇使用者。
       configuration_modal:
         title: '設定此看板'
         display_settings:

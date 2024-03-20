@@ -90,6 +90,17 @@ de:
     show_until: Anzeigen bis
     is_active: derzeit angezeigt
     is_inactive: derzeit nicht angezeigt
+  antivirus_scan:
+    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
+    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
+    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
+    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
+    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    quarantined_attachments:
+      container: "Container"
+      delete: "Delete the quarantined file"
+      title: "Quarantined attachments"
+      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
   attribute_help_texts:
     note_public: "Alle Texte und Bilder, die Sie diesem Feld hinzufügen, sind öffentlich für angemeldete Benutzer sichtbar."
     text_overview: "In dieser Ansicht können Sie benutzerdefinierte Hilfe-Texte für Attribute definieren. Für Attribute mit hinterlegtem Text können diese über ein kleines Hilfe-Icon neben dem Attribut angezeigt werden."
@@ -251,12 +262,15 @@ de:
       no_results_title_text: Es gibt aktuell keine Projekte
       no_results_content_text: Neues Projekt erstellen
     lists:
-      active: 'Aktive Projekte'
-      my: 'Meine Projekte'
-      archived: 'Archivierte Projekte'
-      my_private: 'Meine privaten Projektlisten'
+      active: "Aktive Projekte"
+      my: "Meine Projekte"
+      archived: "Archivierte Projekte"
+      my_private: "Meine privaten Projektlisten"
       new:
-        placeholder: 'Neue Projektliste'
+        placeholder: "Neue Projektliste"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Kennung ändern
       activities:
@@ -278,6 +292,8 @@ de:
         no_results_content_text: Neue Version erstellen
       storage:
         no_results_title_text: Durch dieses Projekt wird kein zusätzlicher erfasster Speicherplatz verbraucht.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: Zur Zeit hat dieses Projekt keine Mitglieder.
@@ -330,7 +346,7 @@ de:
     memberships:
       no_results_title_text: Dieser Nutzer ist derzeit in keinem Projekt Mitglied.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       Sie sind nicht berechtigt, diesen Platzhalter zu löschen. Sie haben nicht das Recht, Mitglieder für alle Projekte zu verwalten, in denen der Platzhalter Mitglied ist.
@@ -551,6 +567,7 @@ de:
           false: "privat"
         queries: "Abfragen"
         status_code: "Projektstatus"
+        description: "Description"
         status_explanation: "Projektstatusbeschreibung"
         status_codes:
           not_started: "Nicht gestartet"
@@ -824,6 +841,10 @@ de:
             timestamps:
               invalid: "Zeitstempel enthalten ungültige Werte: %{values}"
               forbidden: "Zeitstempel enthalten ungültige Werte: %{values}"
+              format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "schließt sich gegenseitig mit der Gruppierung nach \"%{group_by}\" aus. Beide können nicht zeitgleich aktiv sein."
           filters:
@@ -1177,6 +1198,7 @@ de:
   button_reset: "Zurücksetzen"
   button_rollback: "Auf diese Version zurücksetzen"
   button_save: "Speichern"
+  button_save_as: "Save as"
   button_apply_changes: "Änderungen anwenden"
   button_save_back: "Speichern und zurück"
   button_show: "Anzeigen"
@@ -1761,6 +1783,7 @@ de:
   label_diff_side_by_side: "nebeneinander"
   label_digital_accessibility: "Erklärung zur digitalen Barrierefreiheit"
   label_disabled: "deaktiviert"
+  label_disabled_uppercase: "Disabled"
   label_display: "Anzeige"
   label_display_per_page: "Pro Seite: %{value}"
   label_display_used_statuses_only: "Zeige nur Status an, die von diesem Typ verwendet werden"
@@ -1895,6 +1918,7 @@ de:
   label_member_new: "Neues Mitglied"
   label_member_all_admin: "(Alle Rollen, da Administrator)"
   label_member_plural: "Mitglieder"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Mitglied hinzugefügt"
   lable_membership_updated: "Mitglied aktualisiert"
   label_menu_badge:
@@ -1987,6 +2011,7 @@ de:
   label_precedes: "Vorgänger von"
   label_preferences: "Präferenzen"
   label_preview: "Vorschau"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Zurück"
   label_previous_week: "Woche zurück"
   label_principal_invite_via_email: " oder Nutzer per E-Mail einladen"
@@ -2197,6 +2222,10 @@ de:
     one: "Ein Projekt"
     other: "%{count} Projekte"
     zero: "Keine Projekte"
+  label_x_files:
+    one: "1 file"
+    other: "%{count} files"
+    zero: "no files"
   label_yesterday: "gestern"
   label_role_type: "Typ"
   label_member_role: "Projektrolle"
@@ -2569,6 +2598,7 @@ de:
     name_or_identifier: "Name oder Kennung"
     only_subproject_id: "Nur Unterprojekt"
     shared_with_user: "Mit Benutzer geteilt"
+    shared_with_me: "Shared with me"
     subproject_id: "Einschließlich Unterprojekt"
   repositories:
     at_identifier: "auf %{identifier}"
@@ -2709,6 +2739,8 @@ de:
   setting_app_subtitle: "Applikations-Untertitel"
   setting_app_title: "Applikations-Titel"
   setting_attachment_max_size: "Max. Dateigröße"
+  setting_antivirus_scan_mode: "Scan mode"
+  setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Automatisches Abrufen von Projektarchiv-Änderungen"
   setting_autologin: "Automatische Anmeldung"
   setting_available_languages: "Verfügbare Sprachen"
@@ -2717,7 +2749,7 @@ de:
   setting_brute_force_block_minutes: "Sperre Benutzer für Dauer von"
   setting_cache_formatted_text: "Formatierten Text im Cache speichern"
   setting_use_wysiwyg_description: "Aktivieren, um den CKEditor5 WYSIWYG-Editor für alle Nutzer zu aktivieren. CKEditor hat aktuell eingeschränkte Formatierungsfunktionen für Markdown."
-  setting_column_options: "Anpassen der Darstellung der Arbeitspaketlisten"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Schlüsselwörter (Status)"
   setting_commit_logs_encoding: "Codierung der Commit-Log-Meldungen"
   setting_commit_logtime_activity_id: "Aktivität für die Zeiterfassung"
@@ -2739,7 +2771,7 @@ de:
   setting_emails_header: "E-Mail-Kopfzeile"
   setting_email_login: "E-Mail als Benutzername verwenden"
   setting_enabled_scm: "Aktivierte Versionskontrollsysteme"
-  setting_enabled_projects_columns: "In der Projektliste sichtbar"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Feeds aktiviert"
   setting_ical_enabled: "iCalendar-Abonnements aktivieren"
   setting_feeds_limit: "Max. Anzahl Einträge pro Atom-Feed"
@@ -2750,7 +2782,6 @@ de:
   setting_work_package_done_ratio_field: "Das Arbeitspaket-Feld"
   setting_work_package_done_ratio_status: "Arbeitspaket-Status"
   setting_work_package_done_ratio_disabled: "Deaktivieren (Verstecke das % abgeschlossen-Feld)"
-  setting_work_package_list_default_columns: "Standardmäßig anzeigen"
   setting_work_package_properties: "Arbeitspaket-Eigenschaften"
   setting_work_package_startdate_is_adddate: "Neue Arbeitspakete haben \"Heute\" als Anfangsdatum"
   setting_work_packages_projects_export_limit: "Arbeitspakete / Exportlimit für Projekte"
@@ -2808,6 +2839,27 @@ de:
     attachments:
       whitelist_text_html: >
         Legen Sie eine Liste gültiger Dateierweiterungen und/oder Mime-Typen für hochgeladene Dateien fest. <br/> Dateierweiterungen (z. B. <code>%{ext_example}</code>) oder Mime-Typen (z. ., <code>%{mime_example}</code>). <br/> Lassen Sie diese Liste leer, um das Hochladen beliebiger Dateitypen zu erlauben. Mehrere Werte erlaubt (eine Zeile pro Wert).
+    antivirus:
+      title: "Virus scanning"
+      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      remaining_quarantined_files_html: >
+        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+      remaining_scan_complete_html: >
+        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+      remaining_rescanned_files: >
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+      upsale:
+        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+      actions:
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
+        instructions_html: >
+          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+      modes:
+        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
+        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        description_html: >
+          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
     brute_force_prevention: "Automatisches Sperren von Benutzern"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2837,7 +2889,7 @@ de:
     projects:
       missing_dependencies: "Projektmodul %{module} wurde aktiviert, hängt aber ab von %{dependencies}. Sie müssen diese Module ebenfalls aktivieren."
       section_new_projects: "Einstellungen für neue Projekte"
-      section_project_overview: "Einstellungen für Projektliste"
+      section_project_overview: "Settings for project lists"
     session: "Sitzung"
     user:
       default_preferences: "Standardeinstellungen"
@@ -3002,6 +3054,12 @@ de:
       Wenn aktiviert, kann ein Nutzer seinen Benutzernamen bei der Registrierung nicht selbst wählen. Stattdessen wird dessen E-Mail-Adresse als Benutzername verwendet. Ein Administrator kann unabhängig davon den Benutzernamen weiterhin ändern.
   queries:
     apply_filter: vorkonfigurierten Filter anwenden
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Weitere Ressourcen"
     getting_started: "Erste Schritte"

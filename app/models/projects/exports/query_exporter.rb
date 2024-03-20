@@ -54,19 +54,15 @@ module Projects::Exports
     def forced_columns
       [
         { name: :id, caption: Project.human_attribute_name(:id) },
-        { name: :identifier, caption: Project.human_attribute_name(:identifier) },
-        { name: :name, caption: Project.human_attribute_name(:name) },
-        { name: :description, caption: Project.human_attribute_name(:description) }
+        { name: :identifier, caption: Project.human_attribute_name(:identifier) }
       ]
     end
 
     def selected_columns
-      ::Projects::TableComponent
-        .new(current_user: User.current)
-        .all_columns
-        .reject { |_, options| options[:builtin] } # We add builtin columns ourselves
-        .select { |name, _| Setting.enabled_projects_columns.include?(name.to_s) }
-        .map { |name, options| { name:, caption: options[:caption] } }
+      query
+        .selects
+        .reject { |s| s.is_a?(Queries::Selects::NotExistingSelect) }
+        .map { |s| { name: s.attribute, caption: s.caption } }
     end
   end
 end

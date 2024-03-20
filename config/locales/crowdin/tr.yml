@@ -90,6 +90,17 @@ tr:
     show_until: Son görüntülenme tarihi
     is_active: şu an görüntüleniyor
     is_inactive: şu an görüntülenmiyor
+  antivirus_scan:
+    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
+    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
+    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
+    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
+    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    quarantined_attachments:
+      container: "Container"
+      delete: "Delete the quarantined file"
+      title: "Quarantined attachments"
+      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
   attribute_help_texts:
     note_public: "Bu alana eklediğiniz herhangi bir metin ve resim, oturum açmış tüm kullanıcılar tarafından herkes tarafından görülebilir!"
     text_overview: "Bu görünümde, öznitelikleri görünüm için özel yardım metinler oluşturabilirsiniz. Tanımladığınızda, bu metinler, aidiyet öznitelik yanındaki Yardım simgesini tıklayarak gösterilebilir."
@@ -254,12 +265,15 @@ tr:
       no_results_title_text: Şu anda hiç proje bulunmamakta
       no_results_content_text: Yeni bir proje oluşturun
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: "Active projects"
+      my: "My projects"
+      archived: "Archived projects"
+      my_private: "My private project lists"
       new:
-        placeholder: 'New project list'
+        placeholder: "New project list"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Dil Tanımlayıcı değiştir
       activities:
@@ -281,6 +295,8 @@ tr:
         no_results_content_text: Yeni bir versiyon oluştur
       storage:
         no_results_title_text: Bu proje tarafından tüketilen ek kayıtlı disk alanı yoktur.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: Bu projenini parçası olan mevcut bir üye bulunmamakta.
@@ -333,7 +349,7 @@ tr:
     memberships:
       no_results_title_text: Bu kullanıcı şuan için bir proje üyesi değil.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       Yer tutucu kullanıcıyı silme izniniz yok. Yer tutucu kullanıcının üyesi olduğu tüm projeler için üyeleri yönetme hakkınız yoktur.
@@ -555,6 +571,7 @@ tr:
           false: "özel"
         queries: "Sorgular"
         status_code: "Proje Durumu"
+        description: "Description"
         status_explanation: "Project status description"
         status_codes:
           not_started: "Başlatılmadı"
@@ -828,6 +845,10 @@ tr:
             timestamps:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
+              format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "grubu tarafından '%{group_by}' ile birlikte kullanılamaz. Her ikisi de etkinleştiremezsiniz."
           filters:
@@ -1181,6 +1202,7 @@ tr:
   button_reset: "Sıfırla"
   button_rollback: "Bu sürüme geri al"
   button_save: "Kaydet"
+  button_save_as: "Save as"
   button_apply_changes: "Değişiklikleri uygula"
   button_save_back: "Kaydet ve geri dön"
   button_show: "Göster"
@@ -1765,6 +1787,7 @@ tr:
   label_diff_side_by_side: "yan yana"
   label_digital_accessibility: "Dijital erişilebilirlik (DE)"
   label_disabled: "devre dışı"
+  label_disabled_uppercase: "Disabled"
   label_display: "Göster"
   label_display_per_page: "Sayfa başına: %{value}"
   label_display_used_statuses_only: "Yalnızca bu tür tarafından kullanılan durumları görüntüle"
@@ -1899,6 +1922,7 @@ tr:
   label_member_new: "Yeni Üye"
   label_member_all_admin: "(Yönetici durumuna bağlı olarak tüm roller)"
   label_member_plural: "Üyeler"
+  label_membership_plural: "Memberships"
   lable_membership_added: "Üye eklendi"
   lable_membership_updated: "Üye güncellendi"
   label_menu_badge:
@@ -1991,6 +2015,7 @@ tr:
   label_precedes: "iletletir"
   label_preferences: "Seçenekler"
   label_preview: "Ön İzleme"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Önceki"
   label_previous_week: "Geçen Hafta"
   label_principal_invite_via_email: " veya yeni kullanıcılar e-posta ile davet et"
@@ -2201,6 +2226,10 @@ tr:
     one: "1 proje"
     other: "%{count} proje"
     zero: "proje yok"
+  label_x_files:
+    one: "1 file"
+    other: "%{count} files"
+    zero: "no files"
   label_yesterday: "dün"
   label_role_type: "Tür"
   label_member_role: "Proje rolü"
@@ -2570,6 +2599,7 @@ tr:
     name_or_identifier: "İsim veya tanımlayıcı"
     only_subproject_id: "Sadece alt proje"
     shared_with_user: "Shared with user"
+    shared_with_me: "Shared with me"
     subproject_id: "Alt proje dahil"
   repositories:
     at_identifier: "at% {tanıtıcı} %{identifier}"
@@ -2710,6 +2740,8 @@ tr:
   setting_app_subtitle: "Uygulama alt başlığı"
   setting_app_title: "Uygulama başlığı"
   setting_attachment_max_size: "En büyük ek boyutu"
+  setting_antivirus_scan_mode: "Scan mode"
+  setting_antivirus_scan_action: "Infected file action"
   setting_autofetch_changesets: "Autofetch depo değişiklikleri"
   setting_autologin: "Otomatik Giriş"
   setting_available_languages: "Mevcut diller"
@@ -2718,7 +2750,7 @@ tr:
   setting_brute_force_block_minutes: "Kullanıcının engellediği süre"
   setting_cache_formatted_text: "Biçimlendirilmiş metni önbelleğe al"
   setting_use_wysiwyg_description: "Tüm kullanıcılar için varsayılan olarak CKEditor5 WYSIWYG düzenleyiciyi etkinleştirmek için seçin. GFM Markdown için CKEditor sınırlı işleve sahiptir."
-  setting_column_options: "İş paketi listelerinin görünümünü özelleştirme"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Anahtar kelimeleri düzeltme"
   setting_commit_logs_encoding: "İleti kodlamayı tamamla"
   setting_commit_logtime_activity_id: "Kaydedilen zaman için faaliyet"
@@ -2740,7 +2772,7 @@ tr:
   setting_emails_header: "E-posta üstbilgisi"
   setting_email_login: "Giriş olarak e-posta kullanın"
   setting_enabled_scm: "Etkinleştirilmiş SCM"
-  setting_enabled_projects_columns: "Proje listesinde görünür"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Yayınları Etkinleştir"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Besleme içeriği sınırı"
@@ -2751,7 +2783,6 @@ tr:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Varsayılan olarak göster"
   setting_work_package_properties: "İş paketi özellikleri"
   setting_work_package_startdate_is_adddate: "Yeni iş paketlerinde şu anki tarihi başlangıç tarihi olarak kullan"
   setting_work_packages_projects_export_limit: "İş paketleri / Projeler dışa aktarım limiti"
@@ -2809,6 +2840,27 @@ tr:
     attachments:
       whitelist_text_html: >
         Yüklenen dosyalar için geçerli dosya uzantılarının ve/veya mim türlerinin bir listesini tanımlayın. <br/> Dosya uzantılarını (ör. <code>%{ext_example}</code>) veya mime türlerini (ör. <code>%{mime_example}</code>) girin. <br/> Herhangi bir dosya türünün yüklenmesine izin vermek için boş bırakın. Birden çok değere izin verilir (her değer için bir satır).
+    antivirus:
+      title: "Virus scanning"
+      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      remaining_quarantined_files_html: >
+        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+      remaining_scan_complete_html: >
+        Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
+      remaining_rescanned_files: >
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+      upsale:
+        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+      actions:
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
+        instructions_html: >
+          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+      modes:
+        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
+        clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
+        description_html: >
+          Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
     brute_force_prevention: "Otomatik kullanıcı engelleme"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2838,7 +2890,7 @@ tr:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Yeni projeler için ayarlar"
-      section_project_overview: "Projeye genel bakış listesi ayarları"
+      section_project_overview: "Settings for project lists"
     session: "Oturum"
     user:
       default_preferences: "Varsayılan Tercihler"
@@ -3003,6 +3055,12 @@ tr:
       Etkinleştirildiğinde, kullanıcı kayıt sırasında bir giriş yapamaz. Bunun yerine verilen e-posta adresi giriş olarak görev yapacak. Bir yönetici hala girişi ayrı ayrı değiştirebilir.
   queries:
     apply_filter: Önceden yapılandırılmış filtre uygula
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Ek Kaynaklar"
     getting_started: "Başlarken"

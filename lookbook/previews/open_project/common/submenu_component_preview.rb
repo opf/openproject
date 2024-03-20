@@ -6,22 +6,26 @@ module OpenProject
         # Meant to be rendered inside the left-handed sidebar
         render OpenProject::Common::SubmenuComponent.new(
           sidebar_menu_items: [
-            {
+            OpenProject::Menu::MenuGroup.new(
               header: nil,
               children: [
-                { title: I18n.t('members.menu.all'), href: '' },
-                { title: I18n.t('members.menu.locked'), href: '' },
-                { title: I18n.t('members.menu.invited'), href: '' }
+                OpenProject::Menu::MenuItem.new(title: I18n.t('members.menu.all'), href: '', selected: true),
+                OpenProject::Menu::MenuItem.new(title: I18n.t('members.menu.locked'), href: '', selected: false),
+                OpenProject::Menu::MenuItem.new(title: I18n.t('members.menu.invited'), href: '', selected: false)
               ]
-            },
-            {
+            ),
+            OpenProject::Menu::MenuGroup.new(
               header: I18n.t('members.menu.project_roles'),
-              children: [{ title: 'ROLE X', href: '' }]
-            },
-            {
+              children: [
+                OpenProject::Menu::MenuItem.new(title: 'ROLE X', href: '', selected: false)
+              ]
+            ),
+            OpenProject::Menu::MenuGroup.new(
               header: I18n.t('members.menu.groups'),
-              children: [{ title: 'GROUP X', href: '' }]
-            }
+              children: [
+                OpenProject::Menu::MenuItem.new(title: 'GROUP X', href: '', selected: false)
+              ]
+            )
           ]
         )
       end

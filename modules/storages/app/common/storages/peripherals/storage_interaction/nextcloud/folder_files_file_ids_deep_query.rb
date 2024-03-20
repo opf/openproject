@@ -30,16 +30,18 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class FolderFilesFileIdsDeepQuery
-    def self.call(storage:, path:)
+    def self.call(storage:, folder:)
       ::Storages::Peripherals::Registry
-        .resolve("queries.nextcloud.propfind")
+        .resolve("nextcloud.queries.propfind")
         .call(
           storage:,
           depth: 'infinity',
-          path:,
+          path: folder.path,
           # nc:acl-list is only required to avoid https://community.openproject.org/wp/49628. See comment #4.
           props: %w[oc:fileid nc:acl-list]
-        )
+        ).map do |obj|
+        obj.transform_values { |value| Storages::StorageFileInfo.from_id(value["fileid"]) }
+      end
     end
   end
 end

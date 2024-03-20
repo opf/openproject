@@ -40,13 +40,13 @@ RSpec.describe Attachments::CleanupUncontaineredJob, type: :job do
   end
 
   let!(:finished_upload) do
-    create(:attachment, created_at: Time.now - grace_period.minutes, digest: "0x42")
+    create(:attachment, created_at: Time.now - grace_period.minutes, status: :uploaded)
   end
   let!(:old_pending_upload) do
-    create(:attachment, created_at: Time.now - grace_period.minutes, digest: "", downloads: -1)
+    create(:attachment, created_at: Time.now - grace_period.minutes, status: :prepared)
   end
   let!(:new_pending_upload) do
-    create(:attachment, created_at: Time.now - (grace_period - 1).minutes, digest: "", downloads: -1)
+    create(:attachment, created_at: Time.now - (grace_period - 1).minutes, status: :prepared)
   end
 
   let(:job) { described_class.new }

@@ -90,6 +90,17 @@
     show_until: Vis til
     is_active: vises nå
     is_inactive: vises ikke
+  antivirus_scan:
+    not_processed_yet_message: "Nedlasting er blokkert, fordi filen ikke ble skannet for virus enda. Vennligst prøv igjen senere."
+    quarantined_message: "Et virus ble oppdaget i filen '%{filename}'. Den er satt i karantene og er ikke tilgjengelig for nedlasting."
+    deleted_message: "Et virus ble oppdaget i filen '%{filename}'. Filen har blitt slettet."
+    deleted_by_admin: "Filen '%{filename}' som var i karantene har blitt slettet av en administrator."
+    overridden_by_admin: "Karantene for filen '%{filename}' har blitt opphevet av %{user}. Filen er nå tilgjengelig."
+    quarantined_attachments:
+      container: "Beholder"
+      delete: "Slett filen i karantene"
+      title: "Vedlegg i karantene"
+      error_cannot_act_self: "Kan ikke utføre handlinger på egne opplastede filer."
   attribute_help_texts:
     note_public: "Eventuell tekst og bilder du legger til i dette feltet er offentlig synlig for alle påloggede brukere!"
     text_overview: "I denne visningen kan du opprette egendefinerte hjelpetekster for attributtvisning. Når definert kan disse tekstene vises ved å klikke på hjelpeikonet ved siden av egenskapen det tilhører."
@@ -254,12 +265,15 @@
       no_results_title_text: Det er for tiden ingen prosjekter
       no_results_content_text: Opprett nytt prosjekt
     lists:
-      active: 'Aktive prosjekter'
-      my: 'Mine prosjekter'
-      archived: 'Arkiverte prosjekter'
-      my_private: 'Mine private prosjektlister'
+      active: "Aktive prosjekter"
+      my: "Mine prosjekter"
+      archived: "Arkiverte prosjekter"
+      my_private: "Mine private prosjektlister"
       new:
-        placeholder: 'Ny prosjektliste'
+        placeholder: "Ny prosjektliste"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Endre identifier
       activities:
@@ -281,6 +295,8 @@
         no_results_content_text: Lag en ny versjon
       storage:
         no_results_title_text: Det er ingen ekstra registrert diskplass brukt av dette prosjektet.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: Det er ingen medlemmer i prosjektet.
@@ -333,7 +349,7 @@
     memberships:
       no_results_title_text: Denne brukeren er for øyeblikket ikke medlem av et prosjekt.
   page:
-    text: 'Tekst'
+    text: "Tekst"
   placeholder_users:
     right_to_manage_members_missing: >
       Du har ikke tilgang til å slette plassholderbrukeren. Du har ikke rettigheter til å administrere medlemmer i alle prosjekter som plassholderen er medlem av.
@@ -556,6 +572,7 @@
           false: "privat"
         queries: "Spørringer"
         status_code: "Prosjektstatus"
+        description: "Description"
         status_explanation: "Prosjekt statusbeskrivelse"
         status_codes:
           not_started: "Ikke påbegynt"
@@ -829,6 +846,10 @@
             timestamps:
               invalid: "Tidsstempler inneholder ugyldige verdier: %{values}"
               forbidden: "Tidsstempler inneholder forbudte verdier: %{values}"
+              format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
               format: "%{message}"
           group_by_hierarchies_exclusive: "er gjensidig eksklusiv med grupper med '%{group_by}'. Du kan ikke aktivere begge."
           filters:
@@ -1182,6 +1203,7 @@
   button_reset: "Nullstill"
   button_rollback: "Rull tilbake til denne versjonen"
   button_save: "Lagre"
+  button_save_as: "Save as"
   button_apply_changes: "Bruk endringer"
   button_save_back: "Lagre og tilbake"
   button_show: "Vis"
@@ -1766,6 +1788,7 @@
   label_diff_side_by_side: "side ved side"
   label_digital_accessibility: "Digital tilgjengelighet (DE)"
   label_disabled: "deaktivert"
+  label_disabled_uppercase: "Disabled"
   label_display: "Vis"
   label_display_per_page: "Pr. side: %{value}"
   label_display_used_statuses_only: "Bare vis statuser som brukes av denne typen"
@@ -1900,6 +1923,7 @@
   label_member_new: "Nytt medlem"
   label_member_all_admin: "(Alle roller på grunn av administratorstatus)"
   label_member_plural: "Medlemmer"
+  label_membership_plural: "Medlemskap"
   lable_membership_added: "Medlem lagt til"
   lable_membership_updated: "Medlem oppdatert"
   label_menu_badge:
@@ -1992,6 +2016,7 @@
   label_precedes: "kommer før"
   label_preferences: "Innstillinger"
   label_preview: "Forhåndsvis"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Forrige"
   label_previous_week: "Forrige uke"
   label_principal_invite_via_email: " eller inviter nye brukere via e-post"
@@ -2202,6 +2227,10 @@
     one: "%{count} prosjekt"
     other: "%{count} prosjekter"
     zero: "ingen prosjekter"
+  label_x_files:
+    one: "1 fil"
+    other: "{count} filer"
+    zero: "ingen filer"
   label_yesterday: "i går"
   label_role_type: "Type"
   label_member_role: "Prosjektrolle"
@@ -2574,6 +2603,7 @@
     name_or_identifier: "Navn eller identifikator"
     only_subproject_id: "Bare underprosjekt"
     shared_with_user: "Delt med bruker"
+    shared_with_me: "Shared with me"
     subproject_id: "Inkludert underprosjekt"
   repositories:
     at_identifier: "%{identifier}"
@@ -2714,6 +2744,8 @@
   setting_app_subtitle: "Undertittel for applikasjon"
   setting_app_title: "Applikasjonsnavn"
   setting_attachment_max_size: "Maksstørrelse for vedlegg"
+  setting_antivirus_scan_mode: "Skannemodus"
+  setting_antivirus_scan_action: "Handling for infisert fil"
   setting_autofetch_changesets: "Autofetch kodelagerendringer"
   setting_autologin: "Autoinnlogging"
   setting_available_languages: "Tilgjengelige språk"
@@ -2722,7 +2754,7 @@
   setting_brute_force_block_minutes: "Tiden brukeren er blokkert for"
   setting_cache_formatted_text: "Mellomlagring av formattert tekst"
   setting_use_wysiwyg_description: "Velg for å aktivere CKEditor5 WYSIWYG editor for alle brukere som standard. CKEditor har begrenset funksjonalitet for GFM Markdown."
-  setting_column_options: "Tilpass utseendet for listen over arbeidspakker"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Retting av nøkkelord"
   setting_commit_logs_encoding: "Lagre meldingskoding"
   setting_commit_logtime_activity_id: "Aktivitet for tidsrapport"
@@ -2744,7 +2776,7 @@
   setting_emails_header: "Topptekst for e-post"
   setting_email_login: "Bruk e-post som innlogging"
   setting_enabled_scm: "SCM aktivert"
-  setting_enabled_projects_columns: "Synlig på prosjektlisten"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Aktiver Feeds"
   setting_ical_enabled: "Aktiver iCalendar abonnementer"
   setting_feeds_limit: "Innholdsgrense for Feed"
@@ -2755,7 +2787,6 @@
   setting_work_package_done_ratio_field: "Feltet arbeidspakke"
   setting_work_package_done_ratio_status: "Status for arbeidspakken"
   setting_work_package_done_ratio_disabled: "Deaktiver (skjul % komplette felt)"
-  setting_work_package_list_default_columns: "Vis som standard"
   setting_work_package_properties: "Egenskaper for arbeidspakke"
   setting_work_package_startdate_is_adddate: "Bruk gjeldende dato som startdato for nye arbeidspakker"
   setting_work_packages_projects_export_limit: "Eksportgrense for arbeidspakker/prosjekter"
@@ -2813,6 +2844,27 @@
     attachments:
       whitelist_text_html: >
         Definer en liste over gydlige fil-typer og/eller mime typer for opplastingsfiler.<br/>Sett inn fil-typer (f.eks. <code>%{ext_example}</code>) eller mime typer (f.eks. <code>%{mime_example}</code>).<br/> La stå tom for å godta at alle filtyper kan lastes opp.  Flere verdier er tillatt (en linje for hver verdi).
+    antivirus:
+      title: "Virusskanning"
+      clamav_ping_failed: "Kan ikke koble til ClamAV daemon. Dobbeltsjekk konfigurasjonen og prøv på nytt."
+      remaining_quarantined_files_html: >
+        Virusskanning er deaktivert. %{file_count} forblir i karantene. For å gjennomgå filer i karantene, besøk denne lenken: %{link}
+      remaining_scan_complete_html: >
+        Gjenværende filer er skannet. Det er %{file_count} i karantene. Du blir omdirigert til karantensiden. Bruk denne siden til å slette eller overstyre karantenes filer.
+      remaining_rescanned_files: >
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+      upsale:
+        description: "Sikre at opplastede filer i OpenProject blir skannet for virus før de er tilgjengelige for andre brukere."
+      actions:
+        delete: "Slett filen"
+        quarantine: "Sett filen i karantene"
+        instructions_html: >
+          Velg hvilken handling som skal utføres for filer der et virus er oppdaget: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Sett filen i karantene og forhindre brukere i å få tilgang til den. Administratorer kan gjennomgå og slette filer i karantene i administrasjonen.</li> <li><strong>%{delete_option}</strong>: Slett filen umiddelbart.</li> </ul>
+      modes:
+        clamav_socket_html: Skriv inn kontakten for clamd daemon, f.eks %{example}
+        clamav_host_html: Angi vertsnavn og port til clamd daemon separert med kolon. F.eks. %{example}
+        description_html: >
+          Velg modusen for integrasjon av antivirusskanner. <br/> <ul> <li><strong>%{disabled_option}</strong>: Opplastede filer blir ikke skannet for virus.</li> <li><strong>%{socket_option}</strong>: Du har konfigurert ClamAV på samme server som OpenProject og skanningen daemon clamd kjører i bakgrunnen</li> <li><strong>%{host_option}</strong>: Du sender filer til en ekstern virusskanningsvert.</li> </ul>
     brute_force_prevention: "Automatisk blokkering av brukere"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2842,7 +2894,7 @@
     projects:
       missing_dependencies: "Prosjektmodul %{module} ble valgt, og denne avhenger av %{dependencies}. Du må også sjekke disse avhengighetene."
       section_new_projects: "Innstillinger for nye prosjekter"
-      section_project_overview: "Innstillinger for liste over prosjektoversikt"
+      section_project_overview: "Settings for project lists"
     session: "Sesjon"
     user:
       default_preferences: "Standardinnstillinger"
@@ -3007,6 +3059,12 @@
       Hvis aktivert vil en bruker ikke kunne velge pålogging under registrering. I stedet vil deres oppgitte e-postadresse fungere som innlogging. En administrator kan fortsatt endre innlogging separat.
   queries:
     apply_filter: Bruk forhåndskonfigurert filter
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Tilleggsressurser"
     getting_started: "Komme i gang"

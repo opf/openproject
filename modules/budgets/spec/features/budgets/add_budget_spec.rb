@@ -100,8 +100,8 @@ RSpec.describe 'adding a new budget', :js do
     let(:project_members) { { user => create(:project_role, permissions: %i[work_package_assigned]) } }
 
     before do
-      create(:cost_rate, cost_type:, rate: 50.0)
-      create(:default_hourly_rate, user:, rate: 25.0)
+      create(:cost_rate, cost_type:, rate: 50.0, valid_from: 1.year.ago)
+      create(:default_hourly_rate, user:, rate: 25.0, valid_from: 1.year.ago)
     end
 
     context 'with german locale' do
@@ -113,13 +113,13 @@ RSpec.describe 'adding a new budget', :js do
 
         fill_in Budget.human_attribute_name(:subject, locale: :de), with: 'First Aid'
 
-        new_budget_page.add_unit_costs! '3,50', comment: 'RadAway'
-        new_budget_page.add_unit_costs! '1.000,50', comment: 'Rad-X'
+        new_budget_page.add_unit_costs! '3,50', comment: 'RadAway', expected_costs: '175,00 EUR'
+        new_budget_page.add_unit_costs! '1.000,50', comment: 'Rad-X', expected_costs: '50.025,00 EUR'
 
-        new_budget_page.add_labor_costs! '5000,10', user_name: user.name, comment: 'treatment'
-        new_budget_page.add_labor_costs! '0,5', user_name: user.name, comment: 'attendance'
+        new_budget_page.add_labor_costs! '5000,10', user_name: user.name, comment: 'treatment', expected_costs: '125.002,50 EUR'
+        new_budget_page.add_labor_costs! '0,5', user_name: user.name, comment: 'attendance', expected_costs: '12,50 EUR'
 
-        click_on 'Anlegen'
+        page.find('[data-test-selector="budgets-create-button"]').click
         expect(page).to have_content(I18n.t(:notice_successful_create, locale: :de))
 
         expect(new_budget_page.unit_costs_at(1)).to have_content '175,00 EUR'
@@ -160,13 +160,11 @@ RSpec.describe 'adding a new budget', :js do
       click_on 'Create'
       expect(page).to have_content('Successful creation')
 
-      new_budget_page.toggle_unit_costs!
       expect(page).to have_css('td.currency', text: '150.00 EUR')
       expect(new_budget_page.unit_costs_at(1)).to have_content '150.00 EUR'
       expect(new_budget_page.unit_costs_at(2)).to have_content '100.00 EUR'
       expect(new_budget_page.overall_unit_costs).to have_content '250.00 EUR'
 
-      new_budget_page.toggle_labor_costs!
       expect(page).to have_css('td.currency', text: '125.00 EUR')
       expect(new_budget_page.labor_costs_at(1)).to have_content '125.00 EUR'
       expect(new_budget_page.labor_costs_at(2)).to have_content '50.00 EUR'

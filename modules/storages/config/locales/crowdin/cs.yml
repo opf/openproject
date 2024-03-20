@@ -53,7 +53,8 @@ cs:
       complete_without_setup: Dokončit bez něj
       done_complete_setup: Hotovo, kompletní nastavení
       done_continue: Hotovo, pokračovat
-      replace_provider_type_oauth: Nahradit %{provider_type} OAuth
+      replace_oauth_application: Nahradit OpenProject OAuth
+      replace_oauth_client: Nahradit %{provider_type} OAuth
       save_and_continue: Uložit a pokračovat
       select_folder: Vyberte složku
     configuration_checks:
@@ -62,8 +63,8 @@ cs:
         one_drive: Povolit OpenProject přístup k Azure datům pomocí OAuth pro připojení OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Dokončete nastavení správným přesměrováním URI.
-    confirm_replace_oauth_application: Jste si jisti? Všichni uživatelé se budou muset znovu autorizovat proti OpenProject.
-    confirm_replace_oauth_client: Jste si jisti? Všichni uživatelé budou muset znovu autorizovat proti úložišti.
+    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
+    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
     delete_warning:
       input_delete_confirmation: Zadejte název úložiště souboru %{file_storage} pro potvrzení odstranění.
       irreversible_notice: Smazání úložiště souborů je nevratná akce.
@@ -144,7 +145,6 @@ cs:
     label_edit_storage:
     label_edit_storage_automatically_managed_folders: Upravit automaticky spravované složky úložiště
     label_edit_storage_host: Upravit host úložiště
-    label_edit_storage_oauth_client: Upravit OAuth klienta úložiště
     label_existing_manual_folder: Stávající složka s ručně spravovanými oprávněními
     label_file_storage: Úložiště souborů
     label_host: URL adresa hostitele
@@ -178,9 +178,12 @@ cs:
       Pro použití tohoto úložiště souborů nezapomeňte aktivovat modul a konkrétní úložiště v nastavení projektu každého požadovaného projektu.
     oauth_grant_nudge_modal:
       access_granted: Přístup udělen
+      access_granted_screen_reader: Přístup je povolen. Nyní jste připraveni použít %{storage}.
       body: Chcete-li získat přístup ke složce projektu, musíte se přihlásit do %{storage}.
       cancel_button_label: Udělám to později
+      confirm_button_aria_label: Přihlásit se do %{storage}
       confirm_button_label: Přihlášení
+      requesting_access_to: Žádost o přístup na %{storage}
       storage_ready: Nyní jste připraveni použít %{storage}
       title: Ještě jeden krok...
     open_project_storage_modal:

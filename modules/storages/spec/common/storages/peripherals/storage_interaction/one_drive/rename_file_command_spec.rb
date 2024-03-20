@@ -35,14 +35,14 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::RenameFileCo
   let(:storage) { create(:sharepoint_dev_drive_storage) }
   let(:folder) do
     Storages::Peripherals::Registry
-                   .resolve('commands.one_drive.create_folder')
+                   .resolve('one_drive.commands.create_folder')
                    .call(storage:, folder_path: "Wrong Name")
   end
 
   subject(:command) { described_class.new(storage) }
 
   it 'is registered as rename_file' do
-    expect(Storages::Peripherals::Registry.resolve('commands.one_drive.rename_file')).to eq(described_class)
+    expect(Storages::Peripherals::Registry.resolve('one_drive.commands.rename_file')).to eq(described_class)
   end
 
   it 'responds to .call with correct parameters' do
@@ -70,7 +70,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::OneDrive::RenameFileCo
 
   def delete_folder(folder_id)
     Storages::Peripherals::Registry
-      .resolve('commands.one_drive.delete_folder')
+      .resolve('one_drive.commands.delete_folder')
       .call(storage:, location: folder_id)
   end
 end

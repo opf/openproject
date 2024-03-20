@@ -26,7 +26,7 @@ module OpenProject::Bim
             colors: {
               'primary-color' => "#3270DB",
               'primary-color-dark' => "#163473",
-              'alternative-color' => "#349939",
+              'alternative-color' => OpenProject::CustomStyles::ColorThemes::PRIMER_PRIMARY_BUTTON_COLOR,
               'header-bg-color' => "#05002C",
               'header-item-bg-hover-color' => "#163473",
               'content-link-color' => "#275BB5",

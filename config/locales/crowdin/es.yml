@@ -90,6 +90,17 @@ es:
     show_until: Muestran hasta
     is_active: mostrado actualmente
     is_inactive: no mostrado actualmente
+  antivirus_scan:
+    not_processed_yet_message: "La descarga está bloqueada, ya que el archivo aún no ha sido analizado en busca de virus. Inténtelo de nuevo más tarde."
+    quarantined_message: "Se ha detectado un virus en el archivo «%{filename}». Se ha puesto en cuarentena y no está disponible para su descarga."
+    deleted_message: "Se ha detectado un virus en el archivo «%{filename}». El archivo ha sido eliminado."
+    deleted_by_admin: "El archivo en cuarentena «%{filename}» ha sido eliminado por un administrador."
+    overridden_by_admin: "La cuarentena para el archivo «%{filename}» ha sido eliminada por %{user}. Ahora se puede acceder al archivo."
+    quarantined_attachments:
+      container: "Contenedor"
+      delete: "Eliminar el archivo en cuarentena"
+      title: "Adjuntos en cuarentena"
+      error_cannot_act_self: "No puede realizar acciones en sus propios archivos cargados."
   attribute_help_texts:
     note_public: "Todos los usuarios que hayan iniciado sesión podrán ver el texto o las imágenes que añada en este campo."
     text_overview: "En esta vista, puede crear textos de ayuda personalizados para la vista de atributos. Después de definir estos textos, se pueden mostrar al hacer clic en el icono de ayuda junto al atributo al que pertenezcan."
@@ -251,12 +262,15 @@ es:
       no_results_title_text: No hay proyectos por el momento
       no_results_content_text: Crear un nuevo proyecto
     lists:
-      active: 'Proyectos activos'
-      my: 'Mis proyectos'
-      archived: 'Proyectos archivados'
-      my_private: 'Mis listas de proyectos privados'
+      active: "Proyectos activos"
+      my: "Mis proyectos"
+      archived: "Proyectos archivados"
+      my_private: "Mis listas de proyectos privados"
       new:
-        placeholder: 'Nueva lista de proyectos'
+        placeholder: "Nueva lista de proyectos"
+      delete_modal:
+        title: "Eliminar lista de proyectos"
+        text: "Esta acción no eliminará ningún proyecto que contenga la lista. ¿Seguro que desea eliminar esta lista de proyectos?"
     settings:
       change_identifier: Cambiar identificador
       activities:
@@ -278,6 +292,8 @@ es:
         no_results_content_text: Crear un nueva versión
       storage:
         no_results_title_text: No se ha registrado el uso de espacio en disco adicional por este proyecto.
+  lists:
+    can_be_saved_as: "Las modificaciones solo pueden guardarse en una lista nueva."
   members:
     index:
       no_results_title_text: Actualmente no hay miembros que formen parte de este proyecto.
@@ -330,7 +346,7 @@ es:
     memberships:
       no_results_title_text: El usuario no es actualmente un miembro del proyecto.
   page:
-    text: 'Texto'
+    text: "Texto"
   placeholder_users:
     right_to_manage_members_missing: >
       No puede eliminar el usuario de marcador de posición. No tiene permiso para administrar miembros en todos los proyectos al que pertenece el usuario de marcador de posición.
@@ -553,6 +569,7 @@ es:
           false: "privado"
         queries: "Consultas"
         status_code: "Estado del proyecto"
+        description: "Descripción"
         status_explanation: "Descripción del estado del proyecto"
         status_codes:
           not_started: "No iniciado"
@@ -826,6 +843,10 @@ es:
             timestamps:
               invalid: "Las marcas de tiempo contienen valores no válidos: %{values}"
               forbidden: "Las marcas de tiempo contienen valores prohibidos: %{values}"
+              format: "%{message}"
+            selects:
+              name_not_included: "Es necesario incluir la columna «Nombre»"
+              nonexistent: "La columna «%{column}» no existe."
               format: "%{message}"
           group_by_hierarchies_exclusive: "es mutuamente exclusivo con el grupo '%{group_by}'. No puede activar ambos."
           filters:
@@ -1179,6 +1200,7 @@ es:
   button_reset: "Reiniciar"
   button_rollback: "Volver a esta versión"
   button_save: "Guardar"
+  button_save_as: "Guardar como"
   button_apply_changes: "Aplicar cambios"
   button_save_back: "Guardar y volver"
   button_show: "Mostrar"
@@ -1763,6 +1785,7 @@ es:
   label_diff_side_by_side: "lado a lado"
   label_digital_accessibility: "Accesibilidad digital (DE)"
   label_disabled: "deshabilitado"
+  label_disabled_uppercase: "Deshabilitado"
   label_display: "Mostrar"
   label_display_per_page: "Por página: %{value}"
   label_display_used_statuses_only: "Mostrar sólo los Estados utilizados por este tipo"
@@ -1897,6 +1920,7 @@ es:
   label_member_new: "Nuevo miembro"
   label_member_all_admin: "(Todos los roles se deben al estado del administrador)"
   label_member_plural: "Miembros"
+  label_membership_plural: "Afiliaciones"
   lable_membership_added: "Miembro añadido"
   lable_membership_updated: "Miembro actualizado"
   label_menu_badge:
@@ -1989,6 +2013,7 @@ es:
   label_precedes: "precede"
   label_preferences: "Preferencias"
   label_preview: "Vista preliminar"
+  label_preview_not_available: "(Vista previa no disponible)"
   label_previous: "Anterior"
   label_previous_week: "Semana anterior"
   label_principal_invite_via_email: " o invitar nuevos usuarios vía email"
@@ -2199,6 +2224,10 @@ es:
     one: "1 proyecto"
     other: "%{count} proyectos"
     zero: "sin proyectos"
+  label_x_files:
+    one: "1 archivo"
+    other: "%{count} archivos"
+    zero: "sin archivos"
   label_yesterday: "ayer"
   label_role_type: "Tipo"
   label_member_role: "Rol del proyecto"
@@ -2570,6 +2599,7 @@ es:
     name_or_identifier: "Nombre o identificador"
     only_subproject_id: "Sólo subproyecto"
     shared_with_user: "Compartido con usuario"
+    shared_with_me: "Compartido conmigo"
     subproject_id: "Incluyendo subproyecto"
   repositories:
     at_identifier: "en %{identifier}"
@@ -2710,6 +2740,8 @@ es:
   setting_app_subtitle: "Subtítulo de aplicación"
   setting_app_title: "Título de aplicación"
   setting_attachment_max_size: "Tamaño máximo de adjunto"
+  setting_antivirus_scan_mode: "Modo de escaneo"
+  setting_antivirus_scan_action: "Acción del archivo infectado"
   setting_autofetch_changesets: "Recopilación automática de cambios del repositorio"
   setting_autologin: "Inicio de sesión automático"
   setting_available_languages: "Idiomas disponibles"
@@ -2718,7 +2750,7 @@ es:
   setting_brute_force_block_minutes: "Tiempo que el usuario estará bloqueado"
   setting_cache_formatted_text: "Texto formateado del cache"
   setting_use_wysiwyg_description: "Seleccione esta opción para habilitar el editor WYSIWYG de CKEditor 5 de forma predeterminada para todos los usuarios. CKEditor tiene funciones limitadas para la versión GFM de Markdown."
-  setting_column_options: "Personalizar la apariencia de las listas de paquete te trabajo"
+  setting_column_options: "Columnas de listas del paquete de trabajo por defecto"
   setting_commit_fix_keywords: "Reparando palabras clave"
   setting_commit_logs_encoding: "Codificación de mensajes de compromiso"
   setting_commit_logtime_activity_id: "Actividad para tiempo registrado"
@@ -2740,7 +2772,7 @@ es:
   setting_emails_header: "Encabezado de correos electrónicos"
   setting_email_login: "Usar correo electrónico como nombre de usuario"
   setting_enabled_scm: "SCM activado"
-  setting_enabled_projects_columns: "Visible en la lista de proyectos"
+  setting_enabled_projects_columns: "Columnas de una lista de proyectos mostradas por defecto"
   setting_feeds_enabled: "Activar Feeds"
   setting_ical_enabled: "Habilitar las suscripciones a iCalendar"
   setting_feeds_limit: "Limite de contenido de feed"
@@ -2751,7 +2783,6 @@ es:
   setting_work_package_done_ratio_field: "Campo del paquete de trabajo"
   setting_work_package_done_ratio_status: "Estado del paquete de trabajo"
   setting_work_package_done_ratio_disabled: "Desactivar (ocultar el campo % Completado)"
-  setting_work_package_list_default_columns: "Mostrar por defecto"
   setting_work_package_properties: "Propiedades de paquete de trabajo"
   setting_work_package_startdate_is_adddate: "Usar fecha actual como fecha de inicio para nuevos paquetes de trabajo"
   setting_work_packages_projects_export_limit: "Fecha límite para exportar paquete de trabajo o proyectos"
@@ -2809,6 +2840,27 @@ es:
     attachments:
       whitelist_text_html: >
         Define una lista de extensiones de archivo válidas o tipos MIME para los archivos cargados. <br/> Escriba las extensiones de archivo (por ejemplo, <code>%{ext_example}</code>) o tipos MIME (<code>%{mime_example}</code>). <br/> Deje vacío este campo para que pueda cargarse cualquier tipo de archivo. Se permiten varios valores (una línea para cada valor).
+    antivirus:
+      title: "Escaneado de virus"
+      clamav_ping_failed: "Ha fallado la conexión con el daemon ClamAV. Vuelva a comprobar la configuración e inténtelo de nuevo."
+      remaining_quarantined_files_html: >
+        Se ha desactivado el análisis de virus. %{file_count} permanecen en cuarentena. Para revisar los archivos en cuarentena, visite este enlace: %{link}
+      remaining_scan_complete_html: >
+        Se han analizado los archivos restantes. Hay %{file_count} en cuarentena. Está siendo redirigido a la página de cuarentena. Utilice esta página para eliminar o sobreescribir los archivos en cuarentena.
+      remaining_rescanned_files: >
+        El escaneado de virus se ha activado correctamente. Hay %{file_count} que se cargaron anteriormente y aún deben ser escaneados. Este proceso se ha programado en segundo plano. Los archivos permanecerán accesibles durante el escaneado.
+      upsale:
+        description: "Asegúrese de que los archivos cargados en OpenProject se analizan en busca de virus antes de que otros usuarios puedan acceder a ellos."
+      actions:
+        delete: "Eliminar el archivo"
+        quarantine: "Ponga el archivo en cuarentena"
+        instructions_html: >
+          Seleccione la acción a realizar para los archivos en los que se ha detectado un virus: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Poner en cuarentena el archivo, impidiendo que los usuarios accedan a él. Los administradores pueden revisar y eliminar los archivos en cuarentena en la administración.</li> <li><strong>%{delete_option}</strong>: Eliminar el archivo inmediatamente.</li> </ul>
+      modes:
+        clamav_socket_html: Introduzca el socket al daemon clamd, por ejemplo, %{example}
+        clamav_host_html: Introduzca el nombre de host y el puerto al daemon clamd separados por dos puntos. Por ejemplo, %{example}
+        description_html: >
+          Seleccione el modo en el que debe funcionar la integración del escáner antivirus. <br/> <ul> <li><strong>%{disabled_option}</strong>: Los archivos cargados no se analizan en busca de virus.</li> <li><strong>%{socket_option}</strong>: Ha configurado ClamAV en el mismo servidor que OpenProject y el daemon de análisis clamd se está ejecutando en segundo plano.</li> <li><strong>%{host_option}</strong>: Está transmitiendo archivos a un host externo de análisis de virus.</li> </ul>
     brute_force_prevention: "Bloqueo automático de usuarios"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2838,7 +2890,7 @@ es:
     projects:
       missing_dependencies: "Se ha comprobado el módulo de proyecto %{module} que depende de %{dependencies}. Necesitas comprobar estas dependencias también."
       section_new_projects: "Configuración para nuevos proyectos"
-      section_project_overview: "Configuración de la lista de información general del proyecto"
+      section_project_overview: "Configuración de las listas de proyectos"
     session: "Sesión"
     user:
       default_preferences: "Preferencias predeterminadas"
@@ -3003,6 +3055,12 @@ es:
       En caso de estar habilitado, el usuario no podrá elegir el nombre de usuario durante el registro. En su lugar, deberá utilizar el correo electrónico como nombre de usuario. No obstante, el administrador podría cambiar el nombre de usuario por su cuenta.
   queries:
     apply_filter: Aplicar filtro preconfigurado
+    configure_view:
+      heading: Configurar vista
+      columns:
+        input_label: "Añadir columnas"
+        input_placeholder: "Seleccionar una columna"
+        drag_area_label: "Gestionar y reordenar columnas"
   top_menu:
     additional_resources: "Recursos Adicionales"
     getting_started: "Primeros pasos"

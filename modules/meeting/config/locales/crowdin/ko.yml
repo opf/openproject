@@ -94,6 +94,10 @@ ko:
   label_time_zone: "표준 시간대"
   label_start_date: "시작일"
   meeting:
+    copy:
+      title: "미팅 %{title} 복사"
+      agenda: "의제 복사"
+      agenda_text: "이전 미팅의 의제 복사"
     email:
       open_meeting_link: "미팅 열기"
       invited:

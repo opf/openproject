@@ -95,6 +95,10 @@ fr:
   label_time_zone: "Fuseau horaire"
   label_start_date: "Date de début"
   meeting:
+    copy:
+      title: "Copier la réunion %{title}"
+      agenda: "Copier l'ordre du jour"
+      agenda_text: "Copier l'ordre du jour de l'ancienne réunion"
     email:
       open_meeting_link: "Ouvrir la réunion"
       invited:

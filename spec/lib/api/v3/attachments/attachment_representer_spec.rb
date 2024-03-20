@@ -42,6 +42,7 @@ RSpec.describe API::V3::Attachments::AttachmentRepresenter do
   let(:attachment) do
     build_stubbed(:attachment,
                   container:,
+                  status: :uploaded,
                   author:) do |attachment|
       allow(attachment)
         .to receive(:filename)
@@ -66,6 +67,7 @@ RSpec.describe API::V3::Attachments::AttachmentRepresenter do
   it { is_expected.to be_json_eql(attachment.filename.to_json).at_path('fileName') }
   it { is_expected.to be_json_eql(attachment.filesize.to_json).at_path('fileSize') }
   it { is_expected.to be_json_eql(attachment.content_type.to_json).at_path('contentType') }
+  it { is_expected.to be_json_eql('uploaded'.to_json).at_path('status') }
 
   it_behaves_like 'API V3 formattable', 'description' do
     let(:format) { 'plain' }

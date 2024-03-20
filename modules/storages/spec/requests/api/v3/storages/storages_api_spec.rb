@@ -361,7 +361,7 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
   describe 'DELETE /api/v3/storages/:storage_id' do
     let(:path) { api_v3_paths.storage(storage.id) }
     let(:delete_folder_url) do
-      "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.project_folder_path.chop}/"
+      "#{storage.host}/remote.php/dav/files/#{storage.username}/#{project_storage.managed_project_folder_path.chop}/"
     end
     let(:deletion_request_stub) do
       stub_request(:delete, delete_folder_url).to_return(status: 204, body: nil, headers: {})
@@ -408,7 +408,7 @@ RSpec.describe 'API v3 storages resource', :webmock, content_type: :json do
 
     before do
       Storages::Peripherals::Registry.stub(
-        'queries.nextcloud.open_storage',
+        'nextcloud.queries.open_storage',
         ->(_) { ServiceResult.success(result: location) }
       )
     end
