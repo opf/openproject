@@ -47,7 +47,7 @@ module Storages
 
           def call(auth_strategy:)
             Auth[auth_strategy].call(storage: @storage, http_options: Util.ocs_api_request) do |http|
-              handle_response http.get(Util.join_uri_path(@storage.uri, '/ocs/v1.php/cloud/user'))
+              handle_response http.get(Util.join_uri_path(@storage.uri, "/ocs/v1.php/cloud/user"))
             end
           end
 
@@ -60,7 +60,7 @@ module Storages
             in { status: 401 }
               ServiceResult.failure(result: :unauthorized, errors: ::Storages::StorageError.new(code: :unauthorized))
             else
-              data = ::Storages::StorageErrorData.new(source: self, payload: response)
+              data = ::Storages::StorageErrorData.new(source: self.class, payload: response)
               ServiceResult.failure(result: :error, errors: ::Storages::StorageError.new(code: :error, data:))
             end
           end

@@ -110,10 +110,10 @@ module API::V3::Storages
                           getter: ->(*) {
                             type = STORAGE_TYPE_URN_MAP[represented.provider_type] || represented.provider_type
 
-                            { href: type, title: 'Nextcloud' }
+                            { href: type, title: "Nextcloud" }
                           },
                           setter: ->(fragment:, **) {
-                            href = fragment['href']
+                            href = fragment["href"]
                             break if href.blank?
 
                             represented.provider_type = STORAGE_TYPE_MAP[href] || href
@@ -122,9 +122,9 @@ module API::V3::Storages
     link_without_resource :origin,
                           getter: ->(*) { { href: represented.host } },
                           setter: ->(fragment:, **) {
-                            break if fragment['href'].blank?
+                            break if fragment["href"].blank?
 
-                            represented.host = fragment['href'].gsub(/\/+$/, '')
+                            represented.host = fragment["href"].gsub(/\/+$/, "")
                           }
 
     links :prepareUpload do
@@ -135,8 +135,8 @@ module API::V3::Storages
           title: "Upload file",
           payload: {
             projectId: project_id,
-            fileName: '{fileName}',
-            parent: '{parent}'
+            fileName: "{fileName}",
+            parent: "{parent}"
           },
           templated: true
         }
@@ -165,7 +165,7 @@ module API::V3::Storages
     link :authorize do
       next unless authorization_state == :failed_authorization
 
-      { href: represented.oauth_configuration.authorization_uri(state: nil), title: 'Authorize' }
+      { href: represented.oauth_configuration.authorization_uri, title: "Authorize" }
     end
 
     link :projectStorages do
@@ -204,7 +204,7 @@ module API::V3::Storages
                         }
 
     def _type
-      'Storage'
+      "Storage"
     end
 
     private
