@@ -32,59 +32,30 @@ require "spec_helper"
 require_module_spec_helper
 
 # rubocop:disable RSpec/DescribeClass
-RSpec.describe "network errors for storage interaction" do
+RSpec.describe "network errors for storage interaction", :webmock do
   using Storages::Peripherals::ServiceResultRefinements
 
   let(:user) { create(:user) }
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
-  let(:request_url) { "https://my.timeout.org/" }
+  let(:fields) { Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery::FIELDS }
+  let(:request_url) { "https://graph.microsoft.com/v1.0/drives/#{storage.drive_id}/root/children#{fields}" }
+  let(:folder) { Storages::Peripherals::ParentFolder.new("/") }
   let(:auth_strategy) do
     Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
   end
 
   context "if a timeout happens" do
-    before do
-      request = HTTPX::Request.new(:get, request_url)
-      httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, "Timeout happens", {}))
-      allow(httpx_double).to receive(:with).and_return(httpx_double)
-      allow(OpenProject).to receive(:httpx).and_return(httpx_double)
-    end
-
     it "must return an error with wrapped network error response" do
-      result = Storages::Peripherals::StorageInteraction::Authentication[auth_strategy].call(storage:) do |http|
-        make_request(http)
-      end
+      # Test network error handling specifically with the files query.
+      # Other queries and commands should implement the network error handling in the same way.
+      stub_request(:get, request_url).to_timeout
+      result = Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery.call(storage:, auth_strategy:, folder:)
 
       expect(result).to be_failure
       expect(result.result).to eq(:error)
+      expect(result.error_source).to be(Storages::Peripherals::StorageInteraction::OneDrive::FilesQuery)
       expect(result.error_payload).to be_a(HTTPX::ErrorResponse)
     end
-  end
-
-  private
-
-  def make_request(http)
-    handle_response http.get(request_url)
-  end
-
-  def handle_response(response)
-    case response
-    in { status: 200..299 }
-      ServiceResult.success(result: "EXPECTED_RESULT")
-    in { status: 401 }
-      error(:unauthorized)
-    in { status: 403 }
-      error(:forbidden)
-    in { status: 404 }
-      error(:not_found)
-    else
-      error(:error, response)
-    end
-  end
-
-  def error(code, payload = nil)
-    data = Storages::StorageErrorData.new(source: "EXECUTING_QUERY", payload:)
-    ServiceResult.failure(result: code, errors: Storages::StorageError.new(code:, data:))
   end
 end
 # rubocop:enable RSpec/DescribeClass
