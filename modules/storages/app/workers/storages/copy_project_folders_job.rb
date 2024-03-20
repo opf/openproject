@@ -30,13 +30,15 @@
 
 module Storages
   class CopyProjectFoldersJob < ApplicationJob
-    retry_on Errors::PollingRequired, wait: 3, attempts: (Rails.env.test? ? 3 : :unlimited)
+    include GoodJob::ActiveJobExtensions::Batches
+
+    retry_on Errors::PollingRequired, wait: 3, attempts: :unlimited
     discard_on HTTPX::HTTPError
 
-    def perform(user_id:, source_id:, target_id:, work_package_map:)
+    def perform(source_id:, target_id:, work_package_map:)
       target = ProjectStorage.find(target_id)
       source = ProjectStorage.find(source_id)
-      user = User.find(user_id)
+      user = batch.properties[:user]
 
       project_folder_result = results_from_polling || initiate_copy(source, target)
 
@@ -59,25 +61,31 @@ module Storages
     def prepare_polling(result, source)
       return unless result.requires_polling?
 
-      Thread.current[job_id] = result.polling_url
+      batch.properties.merge!(polling_state: :ongoing, polling_url: result.polling_url)
+      batch.save
+
       raise Errors::PollingRequired, "Storage #{source.storage.name} requires polling"
     end
 
     def polling?
-      !!Thread.current[job_id]
+      batch.properties[:polling_state] == :ongoing
     end
 
     def results_from_polling
       return unless polling?
 
-      response = OpenProject.httpx.get(Thread.current[job_id]).json(symbolize_keys: true)
+      response = OpenProject.httpx.get(batch.properties[:polling_url]).json(symbolize_keys: true)
 
-      # FIXME: We may want to discard in case some other error is raised
-      raise(Errors::PollingRequired, "#{job_id} Polling not completed yet") if response[:status] != "completed"
+      if response[:status] != "completed"
+        batch.properties[:polling_state] == :ongoing
+        batch.save
+        raise(Errors::PollingRequired, "#{job_id} Polling not completed yet")
+      end
 
-      Thread.current[job_id] = nil
+      batch.properties[:polling_state] == :completed
+      batch.save
+
       result = Peripherals::StorageInteraction::ResultData::CopyTemplateFolder.new(response[:resourceId], nil, false)
-
       ServiceResult.success(result:)
     end
 
