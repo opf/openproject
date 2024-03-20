@@ -27,7 +27,12 @@
 #++
 
 class StructuredMeeting < Meeting
-  has_many :agenda_items, dependent: :destroy, foreign_key: 'meeting_id', class_name: 'MeetingAgendaItem'
+  has_many :agenda_items,
+           dependent: :destroy,
+           foreign_key: 'meeting_id',
+           class_name: 'MeetingAgendaItem',
+           inverse_of: :meeting
+  accepts_nested_attributes_for :agenda_items
 
   # triggered by MeetingAgendaItem#after_create/after_destroy/after_save
   def calculate_agenda_item_time_slots

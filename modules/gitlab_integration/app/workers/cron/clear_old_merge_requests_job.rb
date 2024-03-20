@@ -31,10 +31,9 @@
 
 module Cron
   class ClearOldMergeRequestsJob < CronJob
-    priority_number :low
+    self.cron_expression = '25 1 * * *' # runs at 1:25 nightly
 
-    # runs at 1:25 nightly
-    self.cron_expression = '25 1 * * *'
+    priority_number :low
 
     def perform
       GitlabMergeRequest.without_work_package

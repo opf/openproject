@@ -35,7 +35,7 @@ class API::V3::FileLinks::FileLinksDownloadAPI < API::OpenProjectAPI
   resources :download do
     get do
       Storages::Peripherals::Registry
-        .resolve("queries.#{@file_link.storage.short_provider_type}.download_link")
+        .resolve("#{@file_link.storage.short_provider_type}.queries.download_link")
         .call(storage: @file_link.storage, user: User.current, file_link: @file_link)
         .match(
           on_success: ->(url) do

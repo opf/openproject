@@ -1,0 +1,26 @@
+<div
+  data-controller="attribute"
+  data-application-target="dynamic"
+  class="op-long-text-attribute">
+
+  <%= render(
+        Primer::Beta::Text.new(tag: :div,
+                               classes: ['op-long-text-attribute--text', PARAGRAPH_CSS_CLASS],
+                               color: text_color,
+                               data: {
+                                 'attribute-target': "descriptionText"
+                               })) { short_text } %>
+
+  <%= render(
+        Primer::Alpha::Dialog.new(id: id,
+                                  title: name,
+                                  size: :large)) do |component|
+      component.with_show_button(scheme: :link,
+                                 display: display_expand_button_value,
+                                 ml: 1,
+                                 data: { 'attribute-target': 'expandButton' }) { I18n.t('js.label_expand') }
+      component.with_body(mt: 2) { full_text }
+      component.with_header(variant: :large)
+    end
+  %>
+</div>

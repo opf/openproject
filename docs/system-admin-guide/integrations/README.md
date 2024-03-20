@@ -5,7 +5,7 @@ sidebar_navigation:
 description: Integration to OpenProject.
 keywords: projects, integration, Jira
 ---
-# Integrations and Community plugins
+# Integrations and community plugins
 
 There are various integrations and Community plugins out there. Please [contact us](https://www.openproject.org/contact/) if you want to have your plugin to be added to this list.
 
@@ -21,10 +21,9 @@ Find out more about the [Excel synchronization with OpenProject](./excel-synchro
 
 OpenProject offers a basic GitHub integration. You will find more information about the GitHub integration in our [GitHub integration guideline](./github-integration/).
 
-## Gitlab
+## GitLab
 
-There is a Gitlab plugin from the community. You will find the README and the code [here](https://github.com/btey/openproject-gitlab-integration).
-
+OpenProject offers a GitLab integration, based on the [GitLab plugin contributed by the Community](https://github.com/btey/openproject-gitlab-integration). More information on the GitLab integration is available in our [GitLab integration guide](./gitlab-integration/).
 
 ## Jira
 

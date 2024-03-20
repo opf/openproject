@@ -139,7 +139,7 @@ module OpenProject
               label: 'homescreen.links.shortcuts'
             },
             forums: {
-              href: 'https://community.openproject.com/projects/openproject/forums',
+              href: 'https://community.openproject.org/projects/openproject/forums',
               label: 'homescreen.links.forums'
             },
             enterprise_support_as_community: {
@@ -184,7 +184,7 @@ module OpenProject
             },
             api_docs: {
               href: 'https://www.openproject.org/docs/api/',
-              label: :label_api_documentation
+              label: :label_api_doc
             },
             text_formatting: {
               href: 'https://www.openproject.org/docs/user-guide/wysiwyg/',
@@ -257,7 +257,7 @@ module OpenProject
                 href: 'https://www.openproject.org/docs/system-admin-guide/integrations/one-drive/'
               },
               one_drive_drive_id_guide: {
-                href: 'https://www.openproject.org/docs/system-admin-guide/integrations/one-drive/drive-id-guide/'
+                href: 'https://www.openproject.org/docs/system-admin-guide/integrations/one-drive/drive-guide/'
               },
               nextcloud_oauth_application: {
                 href: 'https://apps.nextcloud.com/apps/integration_openproject'

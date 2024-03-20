@@ -301,7 +301,7 @@ module Costs
       end
 
       ::Queries::Register.register(::Query) do
-        column Costs::QueryCurrencyColumn
+        select Costs::QueryCurrencySelect
       end
     end
   end

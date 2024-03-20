@@ -90,6 +90,17 @@ lt:
     show_until: Rodyti iki
     is_active: šiuo metu rodoma
     is_inactive: šiuo metu nerodoma
+  antivirus_scan:
+    not_processed_yet_message: "Atsisiuntimas užblokuotas, nes failas dar nebuvo patikrintas dėl virusų. Prašome pabandyti vėliau."
+    quarantined_message: "Faile „%{filename}“ aptiktas virusas. Jis buvo patalpintas į karantiną ir jo atsisiųsti negalima."
+    deleted_message: "Faile „%{filename}“ aptiktas virusas. Failas buvo ištrintas."
+    deleted_by_admin: "Administratorius ištrynė į karantiną patekusį failą „%{filename}“."
+    overridden_by_admin: "Failo „%{filename}“ karantinas buvo pašalintas %{user}. Dabar failą galima pasiekti."
+    quarantined_attachments:
+      container: "Konteineris"
+      delete: "Trinti į karantiną patekusį failą"
+      title: "Į karantiną patalpinti priedai"
+      error_cannot_act_self: "Negalima atlikti veiksmų su savo įkeltais failais."
   attribute_help_texts:
     note_public: "Bet koks tekstas ir piešinukai, kuriuos jūs pridedate prie šio lauko, yra viešai matomas visiems prisijungusiems naudotojams!"
     text_overview: "Šioje peržiūroje Jūs galite kurti pritaikytus pagalbos tekstus atributams. Kai nustatyti, šie tekstai gali būti rodomi paspaudžiant pagalbos piktogramą šalia atitinkamo atributo."
@@ -251,12 +262,15 @@ lt:
       no_results_title_text: Nėra jokių projektų
       no_results_content_text: Sukurti naują projektą
     lists:
-      active: 'Aktyvūs projektai'
-      my: 'Mano projektai'
-      archived: 'Archyvuoti projektai'
-      my_private: 'Mano privatūs projektų sąrašai'
+      active: "Aktyvūs projektai"
+      my: "Mano projektai"
+      archived: "Archyvuoti projektai"
+      my_private: "Mano privatūs projektų sąrašai"
       new:
-        placeholder: 'Naujas projektų sąrašas'
+        placeholder: "Naujas projektų sąrašas"
+      delete_modal:
+        title: "Trinti projektų sąrašą"
+        text: "Atlikus šį veiksmą nebus ištrintas nė vienas sąraše esantis projektas. Ar tikrai norite ištrinti šį projektų sąrašą?"
     settings:
       change_identifier: Pokyčio identifikatorius
       activities:
@@ -278,6 +292,8 @@ lt:
         no_results_content_text: Sukurti naują versiją
       storage:
         no_results_title_text: Šis projektas papildomos vietos diske nenaudoja.
+  lists:
+    can_be_saved_as: "Pakeitimus galima išsaugoti tik naujame sąraše."
   members:
     index:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
@@ -330,7 +346,7 @@ lt:
     memberships:
       no_results_title_text: Šis naudotojas šiuo metu nėra projekto narys.
   page:
-    text: 'Tekstas'
+    text: "Tekstas"
   placeholder_users:
     right_to_manage_members_missing: >
       Jums neleidžiama ištrinti statytinio naudotojo. Jūs neturite teisių valdyti projektų narių visuose projektuose, kuriuose šis statytinis naudotojas yra narys.
@@ -555,6 +571,7 @@ lt:
           false: "privatus"
         queries: "Užklausos"
         status_code: "Projekto būsena"
+        description: "Aprašymas"
         status_explanation: "Projekto būsenos aprašymas"
         status_codes:
           not_started: "Nepradėta"
@@ -628,9 +645,9 @@ lt:
         begin_insertion: "Įterpimo pradžioje"
         begin_deletion: "Ištrynimo pradžioje"
         children: "Subelementai"
-        derived_done_ratio: "Išvestas % baigta"
-        derived_remaining_hours: "Išvestas likęs darbas"
-        derived_remaining_time: "Išvestas likęs darbas"
+        derived_done_ratio: "Iš viso % baigta"
+        derived_remaining_hours: "Iš viso liko darbo"
+        derived_remaining_time: "Iš viso liko darbo"
         done_ratio: "% baigta"
         duration: "Trukmė"
         end_insertion: "Įterpimo pabaigoje"
@@ -828,6 +845,10 @@ lt:
             timestamps:
               invalid: "Laiko žymėse yra netinkamos reikšmės: %{values}"
               forbidden: "Laiko žymėse yra uždraustos reikšmės: %{values}"
+              format: "%{message}"
+            selects:
+              name_not_included: "Būtina įtraukti stulpelį „Pavadinimas“"
+              nonexistent: "Stulpelis „%{column}“ neegzistuoja."
               format: "%{message}"
           group_by_hierarchies_exclusive: "yra nesuderinamas su grupavimu pagal '%{group_by}'. Jūs negalite įjungti abiejų."
           filters:
@@ -1080,7 +1101,7 @@ lt:
     default_columns: "Numatytieji stulpeliai"
     description: "Aprašymas"
     derived_due_date: "Išvestinė pabaigos data"
-    derived_estimated_hours: "Išvestas darbas"
+    derived_estimated_hours: "Iš viso darbo"
     derived_start_date: "Išvestinė pradžios data"
     display_sums: "Rodyti suvestines"
     due_date: "Pabaigos data"
@@ -1197,6 +1218,7 @@ lt:
   button_reset: "Nustatyti iš naujo"
   button_rollback: "Grąžinti į šią versiją"
   button_save: "Išsaugoti"
+  button_save_as: "Įrašyti kaip"
   button_apply_changes: "Pritaikyti pakeitimus"
   button_save_back: "Įrašyti ir grįžti atgal"
   button_show: "Rodyti"
@@ -1817,6 +1839,7 @@ lt:
   label_diff_side_by_side: "šalia"
   label_digital_accessibility: "Skaitmeninis prieinamumas (DE)"
   label_disabled: "neleidžiama"
+  label_disabled_uppercase: "Išjungta"
   label_display: "Rodymas"
   label_display_per_page: "%{value} įrašų puslapyje"
   label_display_used_statuses_only: "Rodyti tik tas būsenas, kurias naudoja šis tipas"
@@ -1951,6 +1974,7 @@ lt:
   label_member_new: "Naujas narys"
   label_member_all_admin: "(Visi vaidmenys, nes turite administratoriaus statusą)"
   label_member_plural: "Nariai"
+  label_membership_plural: "Narystės"
   lable_membership_added: "Narys pridėtas"
   lable_membership_updated: "Narys atnaujintas"
   label_menu_badge:
@@ -2043,6 +2067,7 @@ lt:
   label_precedes: "ankstesnis"
   label_preferences: "Parinktys"
   label_preview: "Peržiūra"
+  label_preview_not_available: "(peržiūra negalima)"
   label_previous: "Ankstesnis"
   label_previous_week: "Ankstesnė savaitė"
   label_principal_invite_via_email: " arba pakviesti naujus vartotojus naudojant el. paštą"
@@ -2253,6 +2278,10 @@ lt:
     one: "1 projektas"
     other: "%{count} projektai (-as, -ų)"
     zero: "nėra projektų"
+  label_x_files:
+    one: "1 failas"
+    other: "%{count} failai"
+    zero: "nėra failų"
   label_yesterday: "vakar"
   label_role_type: "Tipas"
   label_member_role: "Vaidmuo projekte"
@@ -2614,7 +2643,7 @@ lt:
   project_module_news: "Naujienos"
   project_module_repository: "Repozitorija"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
+  permission_header_for_project_module_work_package_tracking: "Darbo paketai ir Gantt diagramos"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2627,6 +2656,7 @@ lt:
     name_or_identifier: "Pavadinimas arba identifikatorius"
     only_subproject_id: "Tik sub-projektai"
     shared_with_user: "Bendrinamas su naudotoju"
+    shared_with_me: "Bendrinama su manimi"
     subproject_id: "Įtraukti sub-projektus"
   repositories:
     at_identifier: "%{identifier}"
@@ -2765,6 +2795,8 @@ lt:
   setting_app_subtitle: "Programos paantraštė"
   setting_app_title: "Programos pavadinimas"
   setting_attachment_max_size: "Didžiausias prisegamo failo dydis"
+  setting_antivirus_scan_mode: "Skenavimo režimas"
+  setting_antivirus_scan_action: "Užkrėsto failo veiksmas"
   setting_autofetch_changesets: "Automatiškai įkelti repozitorijos pakeitimus"
   setting_autologin: "Automatinis prisijungimas"
   setting_available_languages: "Siūlomos kalbos"
@@ -2773,7 +2805,7 @@ lt:
   setting_brute_force_block_minutes: "Laikas, kuriam vartotojas yra blokuojamas"
   setting_cache_formatted_text: "Atmintyje laikyti formatuotą tekstą"
   setting_use_wysiwyg_description: "Parinkite, kad įjungtumėte CKEditor5 WYSIWYG redaktorių visiems naudotojams pagal nutylėjimą. CKEditor turi ribotą GFM Markdown funkcionalumą."
-  setting_column_options: "Pritaikyti sau darbų paketų sąrašų atvaizdavimą"
+  setting_column_options: "Numatyti darbų paketų sąrašo stulpeliai"
   setting_commit_fix_keywords: "Reikšminių žodžių fiksavimas"
   setting_commit_logs_encoding: "Patvirtinti žinučių koduotę"
   setting_commit_logtime_activity_id: "Veiklos įrašai prisijungus"
@@ -2795,7 +2827,7 @@ lt:
   setting_emails_header: "El. laiškų antraštė"
   setting_email_login: "Naudokite e-paštą prisijungimui"
   setting_enabled_scm: "Įgalinti SCM"
-  setting_enabled_projects_columns: "Matomas projektų sąraše"
+  setting_enabled_projects_columns: "Stulpeliai projektų sąraše rodomi pagal nutylėjimą"
   setting_feeds_enabled: "Leisti naujienų kanalus"
   setting_ical_enabled: "Įjungti iCalendar prenumeratas"
   setting_feeds_limit: "Naujienų kanalų turinio limitas"
@@ -2806,7 +2838,6 @@ lt:
   setting_work_package_done_ratio_field: "Darbo paketo lauku"
   setting_work_package_done_ratio_status: "Darbų paketo būsena"
   setting_work_package_done_ratio_disabled: "Išjungti (paslėpti lauką % baigta)"
-  setting_work_package_list_default_columns: "Pagal nutylėjimą rodyti"
   setting_work_package_properties: "Darbų paketo ypatybės"
   setting_work_package_startdate_is_adddate: "Naudoti dabartinę datą kaip naujų darbų paketų pradžios datą"
   setting_work_packages_projects_export_limit: "Darbo paketų / Projektų eksporto limitas"
@@ -2864,6 +2895,27 @@ lt:
     attachments:
       whitelist_text_html: >
         Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).
+    antivirus:
+      title: "Virusų tikrinimas"
+      clamav_ping_failed: "Nepavyko prisijungti prie ClamAV demono. Dar kartą patikrinkite konfigūraciją ir bandykite dar kartą."
+      remaining_quarantined_files_html: >
+        Virusų tikrinimas išjungtas. %{file_count} lieka karantine. Norėdami peržiūrėti į karantiną patekusius failus, apsilankykite šią nuorodą: %{link}
+      remaining_scan_complete_html: >
+        Likę failai buvo patikrinti. Karantine yra %{file_count} . Esate nukreipiami į karantino puslapį. Naudokitės šiuo puslapiu norėdami ištrinti arba pakeisti karantine esančius failus.
+      remaining_rescanned_files: >
+        Virusų skenavimas sėkmingai įjungtas. Yra %{file_count}, kurie buvo įkelti anksčiau ir turi būti patikrinti. Šis darbas suplanuotas fone. Failai liks prieinami tikrinimo metu.
+      upsale:
+        description: "Užtikrinkite, kad į OpenProject įkelti failai būtų patikrinti nuo virusų prieš padarant juos prieinamus kitiems naudotojams."
+      actions:
+        delete: "Trinti failą"
+        quarantine: "Karantinuoti failą"
+        instructions_html: >
+          Pasirinkite veiksmą, kurį norite atlikti su failais, kuriuose aptiktas virusas: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Perkelkite į karantiną, neleisdami naudotojams prieiti prie failo. Administratoriai gali peržiūrėti ir ištrinti į karantiną patalpintus failus administravimo įrankiais.</li> <li><strong>%{delete_option}</strong>: Iškart ištrinti failą.</li> </ul>
+      modes:
+        clamav_socket_html: Įveskite clamd demono lizdą, pvz., %{example}
+        clamav_host_html: Įveskite kompiuterio pavadinimą ir prievadą clamd demonui, atskirti dvitaškiu. pvz., %{example}
+        description_html: >
+          Pasirinkite režimą, kuriuo turėtų veikti virusų tikrinimo integracija. <br/> <ul> <li><strong>%{disabled_option}</strong>: Įkelti failai nėra tikrinami dėl virusų.</li> <li><strong>%{socket_option}</strong>: Tame pačiame serveryje, kuriame yra „OpenProject“, įdiegėte "ClamAV" ir fone veikia skenavimo demonas clamd.</li> <li><strong>%{host_option}</strong>: Siunčiate failus į išorinį virusų skenavimo kompiuterį.</li> </ul>
     brute_force_prevention: "Automatinis vartotojų blokavimas"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2893,7 +2945,7 @@ lt:
     projects:
       missing_dependencies: "Parinktas projekto modulis %{module}, kuris priklauso nuo %{dependencies}. Jums reikia pažymėti ir šias priklausomybes."
       section_new_projects: "Naujų projektų nustatymai"
-      section_project_overview: "Nustatymai projektų apžvalgos sąrašui"
+      section_project_overview: "Projektų sąrašų nustatymai"
     session: "Sesija"
     user:
       default_preferences: "Numatytosios parinktys"
@@ -3058,6 +3110,12 @@ lt:
       Įjungus, naudotojas negalės pasirinkti prisijungimo vardo registracijos metu. Jų nurodytas e-pašto adresas veiks kaip prisijungimas. Administratorius galės atskirai pakeisti prisijungimo vardą.
   queries:
     apply_filter: Pritaikyti iš anksto sukonfigūruotą filtrą
+    configure_view:
+      heading: Konfigūruoti vaizdą
+      columns:
+        input_label: "Pridėti stulpelių"
+        input_placeholder: "Parinkti stulpelį"
+        drag_area_label: "Tvarkyti ir perrikiuoti stulpelius"
   top_menu:
     additional_resources: "Papildomi ištekliai"
     getting_started: "Darbo pradžia"

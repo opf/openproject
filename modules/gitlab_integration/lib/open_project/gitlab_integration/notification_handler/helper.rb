@@ -30,7 +30,6 @@
 module OpenProject::GitlabIntegration
   module NotificationHandler
     module Helper
-
       ##
       # Parses the given source string and returns a list of work_package ids
       # which it finds and should be considered public or private.
@@ -49,13 +48,13 @@ module OpenProject::GitlabIntegration
         # e.g.,: This is a reference to OP#1234
         # For private comments you can use the prefix: PP#
         host_name = Regexp.escape(Setting.host_name)
-        if kind == 'private'
-          wp_regex = /PP#(\d+)/
-        elsif kind != 'note'
-          wp_regex = /OP#(\d+)|PP#(\d+)|http(?:s?):\/\/#{host_name}\/(?:\S+?\/)*(?:work_packages|wp)\/([0-9]+)/
-        else
-          wp_regex = /OP#(\d+)|http(?:s?):\/\/#{host_name}\/(?:\S+?\/)*(?:work_packages|wp)\/([0-9]+)/
-        end
+        wp_regex = if kind == 'private'
+                     /PP#(\d+)/
+                   elsif kind != 'note'
+                     /OP#(\d+)|PP#(\d+)|http(?:s?):\/\/#{host_name}\/(?:\S+?\/)*(?:work_packages|wp)\/([0-9]+)/
+                   else
+                     /OP#(\d+)|http(?:s?):\/\/#{host_name}\/(?:\S+?\/)*(?:work_packages|wp)\/([0-9]+)/
+                   end
         String(text)
           .scan(wp_regex)
           .map { |first, second| (first || second).to_i }
@@ -92,9 +91,10 @@ module OpenProject::GitlabIntegration
       # Adds comments to the given WorkPackages.
       def comment_on_referenced_work_packages(work_packages, user, notes)
         return if notes.nil?
+
         work_packages.each do |work_package|
           ::WorkPackages::UpdateService
-            .new(user: user, model: work_package)
+            .new(user:, model: work_package)
             .call(journal_notes: notes, send_notifications: false)
         end
       end
@@ -104,7 +104,7 @@ module OpenProject::GitlabIntegration
       def status_on_referenced_work_packages(work_packages, user, status)
         work_packages.each do |work_package|
           ::WorkPackages::UpdateService
-            .new(user: user, model: work_package)
+            .new(user:, model: work_package)
             .call(status_id: status)
         end
       end
@@ -145,7 +145,6 @@ module OpenProject::GitlabIntegration
       def wrap_payload(payload)
         Payload.new(payload)
       end
-
     end
   end
 end

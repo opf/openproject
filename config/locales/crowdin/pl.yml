@@ -90,6 +90,17 @@ pl:
     show_until: Pokazuj do
     is_active: obecnie wyświetlane
     is_inactive: obecnie nie są wyświetlane
+  antivirus_scan:
+    not_processed_yet_message: "Pobieranie jest zablokowane, ponieważ plik nie został jeszcze zeskanowany w poszukiwaniu wirusów. Spróbuj ponownie później."
+    quarantined_message: "Wykryto wirusa w pliku '%{filename}'. Został on poddany kwarantannie i nie jest dostępny do pobrania."
+    deleted_message: "Wykryto wirusa w pliku '%{filename}'. Plik został usunięty."
+    deleted_by_admin: "Poddany kwarantannie plik '%{filename}' został usunięty przez administratora."
+    overridden_by_admin: "Kwarantanna dla pliku '%{filename}' została cofnięta przez %{user}. Można teraz uzyskać dostęp do pliku."
+    quarantined_attachments:
+      container: "Kontener"
+      delete: "Usuń plik poddany kwarantannie"
+      title: "Załączniki poddane kwarantannie"
+      error_cannot_act_self: "Nie można wykonać działań na twoich przesłanych plikach."
   attribute_help_texts:
     note_public: "Każdy tekst i obrazy, które dodasz do tego pola, będą publicznie widoczne dla wszystkich zalogowanych użytkowników!"
     text_overview: "W tym widoku możesz utworzyć własny widok tekstów pomocy dla atrybutów. Gdy zostaną zdefiniowane, będą widoczna po kliknięciu w ikonę pomocy danego atrybutu."
@@ -251,12 +262,15 @@ pl:
       no_results_title_text: Nie ma jeszcze żadnego projektu
       no_results_content_text: Utwórz nowy projekt
     lists:
-      active: 'Aktywne projekty'
-      my: 'Moje projekty'
-      archived: 'Zarchiwizowane projekty'
-      my_private: 'Moje prywatne listy projektów'
+      active: "Aktywne projekty"
+      my: "Moje projekty"
+      archived: "Zarchiwizowane projekty"
+      my_private: "Moje prywatne listy projektów"
       new:
-        placeholder: 'Nowa lista projektów'
+        placeholder: "Nowa lista projektów"
+      delete_modal:
+        title: "Usuń listę projektów"
+        text: "To działanie nie spowoduje usunięcia żadnego projektu znajdującego się na liście. Czy na pewno chcesz usunąć tę listę projektów?"
     settings:
       change_identifier: Identyfikator zmiany
       activities:
@@ -278,6 +292,8 @@ pl:
         no_results_content_text: Utwórz nową wersję projektu
       storage:
         no_results_title_text: Nie ma dodatkowego zarejestrowanego miejsca na dysku zużytego przez ten projekt.
+  lists:
+    can_be_saved_as: "Modyfikacje można zapisać tylko na nowej liście."
   members:
     index:
       no_results_title_text: Nie ma jeszcze żadnych członków projektu.
@@ -330,7 +346,7 @@ pl:
     memberships:
       no_results_title_text: Użytkownik jeszcze nie jest członkiem projektu.
   page:
-    text: 'Tekst'
+    text: "Tekst"
   placeholder_users:
     right_to_manage_members_missing: >
       Nie masz uprawnień do usunięcia użytkownika zastępczego. Nie masz uprawnień do zarządzania członkami niektórych projektów, których użytkownik zastępczy jest członkiem.
@@ -555,6 +571,7 @@ pl:
           false: "prywatne"
         queries: "Kwerendy"
         status_code: "Stan projektu"
+        description: "Opis"
         status_explanation: "Opis statusu projektu"
         status_codes:
           not_started: "Nierozpoczęte"
@@ -628,9 +645,9 @@ pl:
         begin_insertion: "Początek wstawiania"
         begin_deletion: "Początek usuwania"
         children: "Elementy składowe"
-        derived_done_ratio: "% ukończenia wyprowadzania"
-        derived_remaining_hours: "Wyprowadzona pozostała praca"
-        derived_remaining_time: "Wyprowadzona pozostała praca"
+        derived_done_ratio: "Dotychczas ukończono"
+        derived_remaining_hours: "pozostało do ukończenia"
+        derived_remaining_time: "pozostało do ukończenia"
         done_ratio: "% ukończono"
         duration: "Czas trwania"
         end_insertion: "Koniec wstawiania"
@@ -828,6 +845,10 @@ pl:
             timestamps:
               invalid: "Znaczniki czasu zawierają nieprawidłowe wartości: %{values}"
               forbidden: "Znaczniki czasu zawierają niedozwolone wartości: %{values}"
+              format: "%{message}"
+            selects:
+              name_not_included: "Należy uwzględnić kolumnę „Nazwa”"
+              nonexistent: "Kolumna „%{column}” nie istnieje."
               format: "%{message}"
           group_by_hierarchies_exclusive: "wzajemnie się wykluczają w ramach grupowania wg \"%{group_by}\". Nie można aktywować równocześnie."
           filters:
@@ -1080,7 +1101,7 @@ pl:
     default_columns: "Domyślne kolumny"
     description: "Opis"
     derived_due_date: "Wyprowadzona data zakończenia"
-    derived_estimated_hours: "Wyprowadzona praca"
+    derived_estimated_hours: "Całkowita praca"
     derived_start_date: "Wyprowadzona data rozpoczęcia"
     display_sums: "Wyświetl sumy"
     due_date: "Data zakończenia"
@@ -1197,6 +1218,7 @@ pl:
   button_reset: "Reset"
   button_rollback: "Wycofaj do tej wersji"
   button_save: "Zapisz"
+  button_save_as: "Zapisz jako"
   button_apply_changes: "Zastosuj zmiany"
   button_save_back: "Zapisz i wróć"
   button_show: "Pokaż"
@@ -1817,6 +1839,7 @@ pl:
   label_diff_side_by_side: "Obok siebie"
   label_digital_accessibility: "Dostępność cyfrowa (DE)"
   label_disabled: "wyłączone"
+  label_disabled_uppercase: "Wyłączono"
   label_display: "Wyświetlanie"
   label_display_per_page: "Na stronę: %{value}"
   label_display_used_statuses_only: "Tylko wyświetla statusy, które są używane przez ten typ"
@@ -1951,6 +1974,7 @@ pl:
   label_member_new: "Nowy członek"
   label_member_all_admin: "(Wszystkie role związane ze statusem administratora)"
   label_member_plural: "Członkowie"
+  label_membership_plural: "Uczestnictwa"
   lable_membership_added: "Dodano członka"
   lable_membership_updated: "Zaktualizowano członka"
   label_menu_badge:
@@ -2043,6 +2067,7 @@ pl:
   label_precedes: "Poprzedza"
   label_preferences: "Preferencje"
   label_preview: "Podgląd"
+  label_preview_not_available: "(Podgląd niedostępny)"
   label_previous: "Poprzedni"
   label_previous_week: "Poprzedni tygodzień"
   label_principal_invite_via_email: " lub zaproś nowych użytkowników przez email"
@@ -2253,6 +2278,10 @@ pl:
     one: "1 projekt"
     other: "Liczba projektów: %{count}"
     zero: "brak projektów"
+  label_x_files:
+    one: "1 plik"
+    other: "%{count} plików"
+    zero: "brak plików"
   label_yesterday: "wczoraj"
   label_role_type: "Typ"
   label_member_role: "Rola w projekcie"
@@ -2615,7 +2644,7 @@ pl:
   project_module_news: "Aktualności"
   project_module_repository: "Repozytorium"
   project_module_wiki: "Wiki"
-  permission_header_for_project_module_work_package_tracking: "Work packages and Gantt charts"
+  permission_header_for_project_module_work_package_tracking: "Pakiety robocze i wykresy Gantta"
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   #possible query parameters (e.g. issue queries),
@@ -2628,6 +2657,7 @@ pl:
     name_or_identifier: "Nazwa lub identyfikator"
     only_subproject_id: "Tylko podprojekt"
     shared_with_user: "Udostępniono użytkownikowi"
+    shared_with_me: "Udostępnione dla mnie"
     subproject_id: "Uwzględniając podprojekt"
   repositories:
     at_identifier: "w %{identifier}"
@@ -2766,6 +2796,8 @@ pl:
   setting_app_subtitle: "Podtytuł"
   setting_app_title: "Tytuł"
   setting_attachment_max_size: "Maks. rozmiar załącznika"
+  setting_antivirus_scan_mode: "Tryb skanowania"
+  setting_antivirus_scan_action: "Działanie wobec zainfekowanego pliku"
   setting_autofetch_changesets: "Autopobieranie zmian repozytorium"
   setting_autologin: "Automatyczne logowanie"
   setting_available_languages: "Dostępne języki"
@@ -2774,7 +2806,7 @@ pl:
   setting_brute_force_block_minutes: "Czas, kiedy użytkownik jest zablokowany"
   setting_cache_formatted_text: "Tekst sformatowany w pamięci podręcznej"
   setting_use_wysiwyg_description: "Wybierz, aby włączyć edytor WYSIWYG CKEditor5 domyślnie dla wszystkich użytkowników. CKEditor ma ograniczną funkcjonalność w przypadku dialektu GFM Markdown."
-  setting_column_options: "Dostosuj wygląd list pakietów roboczych"
+  setting_column_options: "Domyślne kolumny listy pakietów roboczych"
   setting_commit_fix_keywords: "Stałe słowa kluczowe"
   setting_commit_logs_encoding: "Commit messages encoding"
   setting_commit_logtime_activity_id: "Aktywność dla logowania czasu pracy"
@@ -2796,7 +2828,7 @@ pl:
   setting_emails_header: "Nagłówek wiadomości e-mail"
   setting_email_login: "Użyj adresu e-mail jako loginu"
   setting_enabled_scm: "Włączone SCM"
-  setting_enabled_projects_columns: "Widoczny na liście projektów"
+  setting_enabled_projects_columns: "Kolumny wyświetlane domyślnie na liście projektów"
   setting_feeds_enabled: "Włącz kanały"
   setting_ical_enabled: "Włącz subskrypcje iCalendar"
   setting_feeds_limit: "Feed content limit"
@@ -2807,7 +2839,6 @@ pl:
   setting_work_package_done_ratio_field: "Pole pakietu roboczego"
   setting_work_package_done_ratio_status: "Status pakietu roboczego"
   setting_work_package_done_ratio_disabled: "Wyłącz (ukryj pole % ukończenia)"
-  setting_work_package_list_default_columns: "Wyświetlane domyślnie"
   setting_work_package_properties: "Właściwości pakietu roboczego"
   setting_work_package_startdate_is_adddate: "Użyj bieżącej daty jako daty początkowej dla nowych pakietów roboczych"
   setting_work_packages_projects_export_limit: "Limit eksportu pakietów roboczych / projektów"
@@ -2865,6 +2896,27 @@ pl:
     attachments:
       whitelist_text_html: >
         Zdefiniuj listę poprawnych rozszerzeń plików i/lub typów mime dla przesłanych plików. <br/> Wprowadź rozszerzenia plików (np. <code>%{ext_example}</code>) lub typy mime (np. <code>%{mime_example}</code>). <br/> Pozostaw puste, aby umożliwić przesłanie dowolnego typu pliku. Dozwolone wielokrotne wartości (jeden wiersz dla każdej wartości).
+    antivirus:
+      title: "Skanowanie antywirusowe"
+      clamav_ping_failed: "Nie udało się połączyć z demonem ClamAV. Proszę sprawdzić konfigurację i spróbować ponownie."
+      remaining_quarantined_files_html: >
+        Skanowanie antywirusowe zostało wyłączone. %{file_count} pozostaje w kwarantannie. Aby przejrzeć pliki poddane kwarantannie, proszę odwiedzić ten link: %{link}
+      remaining_scan_complete_html: >
+        Pozostałe pliki zostały przeskanowane. W kwarantannie znajduje się %{file_count} plików. Zostaną Państwo przekierowani na stronę kwarantanny. Proszę użyć tej strony, aby usunąć lub zastąpić pliki poddane kwarantannie.
+      remaining_rescanned_files: >
+        Skanowanie antywirusowe zostało włączone. Niektóre pliki (%{file_count}) zostały przesłane wcześniej i nadal wymagają skanowania. Proces ten został zaplanowany w tle. Pliki pozostaną dostępne podczas skanowania.
+      upsale:
+        description: "Upewnij się, że przesłane do OpenProject pliki  są przeskanowane pod kątem wirusów, zanim będą dostępne dla innych użytkowników."
+      actions:
+        delete: "Usuń plik"
+        quarantine: "Poddaj plik kwarantannie"
+        instructions_html: >
+          Wybierz akcję do wykonania dla plików, w których wykryto wirus: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Poddaj plik kwarantannie, uniemożliwiając użytkownikom dostęp do niego. Administratorzy mogą przeglądać i usuwać pliki poddane kwarantannie w administracji.</li> <li><strong>%{delete_option}</strong>Natychmiast usuń plik.</li> </ul>
+      modes:
+        clamav_socket_html: Wprowadź socket do demona clamd, np. %{example}
+        clamav_host_html: Wprowadź nazwę hosta i port demona clamd oddzielone dwukropkiem. np. %{example}
+        description_html: >
+          Wybierz tryb, w którym będzie działać integracja ze skanerem antywirusowym. <br/> <ul> <li><strong>%{disabled_option}</strong>: Przesłane pliki nie są skanowane w poszukiwaniu wirusów.</li> <li><strong>%{socket_option}</strong>: Skonfigurowałeś ClamAV na tym samym serwerze co OpenProject i skanowanie clamd jest uruchomione w tle</li> <li><strong>%{host_option}</strong>: Przesyłasz pliki do zewnętrznego hosta antywirusowego.</li> </ul>
     brute_force_prevention: "Automatyczne blokowanie użytkowników"
     date_format:
       first_date_of_week_and_year_set: >
@@ -2894,7 +2946,7 @@ pl:
     projects:
       missing_dependencies: "Sprawdzono moduł projektu %{module}, który zależy od %{dependencies}. Musisz sprawdzić również te zależności."
       section_new_projects: "Ustawienia nowych projektów"
-      section_project_overview: "Ustawienia listy przeglądu projektu"
+      section_project_overview: "Ustawienia list projektów"
     session: "Sesja"
     user:
       default_preferences: "Ustawienia domyślne"
@@ -3059,6 +3111,12 @@ pl:
       Jeśli włączone, użytkownik nie będzie mógł wybrać loginu podczas rejestracji. Zamiast tego jako identyfikator logowania będzie służyć jego adres e-mail. Administrator może zmienić login oddzielnie.
   queries:
     apply_filter: Zastosuj wstępny filtr
+    configure_view:
+      heading: Konfiguruj widok
+      columns:
+        input_label: "Dodaj kolumny"
+        input_placeholder: "Wybierz kolumnę"
+        drag_area_label: "Zarządzaj kolumnami i zmieniaj ich kolejność"
   top_menu:
     additional_resources: "Dodatkowe zasoby"
     getting_started: "Pierwsze kroki"

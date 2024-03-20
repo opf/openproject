@@ -1,0 +1,92 @@
+<%= embed OpenProject::Deprecated::ModalPreview, :danger_zone %>
+
+> Example of modal with two buttons: Cancel and Continue (danger)
+
+The modal dialogue is used to to provide actions that require the user’s attention. They interrupt the user’s regular navigation in that they cover the screen and make interaction behind it not possible whilst it is displayed.
+
+The most common use-case are alert dialogues (before deleting a file, for example), but the modal is also used for in a number of other places (see “Where it’s used”).
+
+## Composition
+
+This pattern is composed of these components:
+
+**Modal header**
+This consists of the top header, with text and an optional horizontal divider. The text is ideally short and serves to clarify the context of the modal to the user.
+
+**Modal body**
+This part contains all the elements that form the modal: text, form elements, videos, images, work package cards. The user normally is invited to perform actions or view something.
+
+**Modal footer**
+The footer of a modal dialogue is always an [action bar](?path=/docs/blocks-action-bar--default-story).
+
+## Container
+
+The modal is contained in frame with a white background, rounded corners (4px). The footer, being an action bar, can either have a grey (default) or a white background.
+
+## Modal body content
+
+In its simplest form, the modal’s content is simply text (as in the example above). However, the modal can contain a range of other components, including images, video, tables, work package cards, checkbox and scrollable areas.
+
+This component does not by itself define the types of content it can contain. Some Dos and Don’ts are nevertheless to be respected.
+
+## Behaviour
+
+The modal is launched by user action and displayed in a lightbox (a semi-transparent grey background).
+
+The action bar always has only two actions, one of which is always “Cancel” (secondary) and the other one usually an confirmational action like “Apply” or “Save”. As with any action bar, a third action (usually a checkbox) can optionally be displayed on the left corner.
+
+Clicking outside the modal, in the grey area, is the equivalent of pressing the cancel button.
+
+## Dos and Dont's
+
+**Do**
+
+- Do try to keep the modal as simple as possible. The goal is to direct user attention to something specific in the context of another action or place. If a feature requires a lot of configuration options and that itself has different modes, consider a full page.
+
+**Don't**
+
+- Don’t nest modals into modals, simple drop-downs are fine.
+- Customise the modal with variations (like colours) unless they are absolutely necessary, In which case, the modal component can be expanded to allow for them.
+- Make titles very long (avoid having them span more than a line)
+
+**Margins, Padding and Styling**
+
+The container has 4px rounded corners.
+
+The modal (in desktop form) has two acceptable widths: 40 REM and 60 REM.
+
+The header has 16px padding (left and right) and a 16px top margin.
+
+Note that the optional divider in the header a 16px top margin but no additional margin/padding, and must take 100% of the width of the modal.
+
+The content area has has 16px margins all around it.
+The action bar has no margins relative to the container (but does have its own internal margins defined in the action bar component).
+
+## Options
+
+**Header divider**
+
+The header can have an optional divider at the bottom (Grey-5 #E0E0E0, 1px).
+
+**Header icon**
+
+The header can have an optional icon (24px square) on the left side.
+
+## Where it's used
+
+- Filepicker / location picker
+- Alert dialogue
+- Delete file links
+- Remove file
+- Work package deletion
+- Invite user
+- Log time
+- Add widget
+- New Board
+- Work package table settings
+- Help text
+- Help > Introduction video
+- My account > Two-factor authentication > Backup codes password
+- My account > Two-factor authentication > Delete authentication
+- Administration > Attribute help texts > Preview help text
+- Administration > Enterprise Edition > Delete token

@@ -33,7 +33,7 @@ class GitlabIntegrationModels < ActiveRecord::Migration[6.1]
       t.references :gitlab_user
       t.references :merged_by
 
-      t.bigint :gitlab_id, unique: true 
+      t.bigint :gitlab_id, unique: true
       t.integer :number, null: false
       t.string :gitlab_html_url, null: false, unique: true
       t.string :state, null: false
@@ -45,6 +45,7 @@ class GitlabIntegrationModels < ActiveRecord::Migration[6.1]
       t.boolean :merged
       t.datetime :merged_at
       t.json :labels # [{name, color}]
+
       t.timestamps
     end
 
@@ -54,7 +55,6 @@ class GitlabIntegrationModels < ActiveRecord::Migration[6.1]
               unique: true,
               name: "unique_index_gl_mrs_wps_on_gl_mr_id_and_wp_id"
     end
-
 
     create_table :gitlab_users do |t|
       t.bigint :gitlab_id, null: false, unique: true
@@ -66,14 +66,13 @@ class GitlabIntegrationModels < ActiveRecord::Migration[6.1]
       t.timestamps
     end
 
-
     create_table :gitlab_pipelines do |t|
       t.references :gitlab_merge_request, null: false
 
       t.bigint :gitlab_id, null: false, unique: true
       t.string :gitlab_html_url, null: false
-      t.bigint :project_id, null: false 
-      t.string :gitlab_user_avatar_url, null: false 
+      t.bigint :project_id, null: false
+      t.string :gitlab_user_avatar_url, null: false
       t.string :status, null: false
       t.string :name, null: false
       t.string :details_url

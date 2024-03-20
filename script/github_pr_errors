@@ -28,6 +28,7 @@ class Options
   DEFAULTS = {
     compact: false,
     display_rerun_info: false,
+    display_images: false,
     failed_jobs_logs: [],
     no_cache: false,
     run_id: nil,
@@ -98,6 +99,10 @@ class Options
           options[:failed_jobs_logs] << path
         end
 
+        parser.on("-i", "--images", "Download and display screenshots of failed feature tests") do
+          options[:display_images] = true
+        end
+
         parser.on("-n", "--no-cache", "Do not use cached replies from GitHub API calls") do
           options[:no_cache] = true
         end
@@ -123,7 +128,7 @@ class Options
 
     def parse_url(url)
       case url
-      when %r{^https://github.com/opf/openproject/actions/runs/(\d+)(?:/job/\d+)?$}
+      when %r{^https://github.com/opf/openproject/actions/runs/(\d+)(?:/job/\d+(?:\?.*)?)?$}
         run_id = $1.to_i
         say_verbose("Extracted run id #{run_id} from #{url}")
         { run_id: }
@@ -492,7 +497,30 @@ class Formatter
     puts escaped_location(error)
     display_error_attribute("loading error", error.loading_error)
     display_error_attribute("html", error.page_html)
-    display_error_attribute("screenshot", error.page_screenshot)
+    display_error_screenshot(error.page_screenshot)
+  end
+
+  def display_error_screenshot(screenshot_url)
+    return unless screenshot_url
+
+    display_error_attribute("screenshot", screenshot_url)
+    if Options.display_images
+      if screenshot_url.start_with?("/")
+        # external pull requests do not have access to AWS credentials to upload screenshots
+        warn "      (cannot display screenshot: it is local file stored on the runner)".yellow
+        return
+      end
+      begin
+        Open3.popen2e('imgcat', '--width', '50%', '--url', screenshot_url) do |stdin, stdout_and_stderr, _thread|
+          stdin.close
+          warn stdout_and_stderr.read
+        end
+      rescue Errno::ENOENT => e
+        warn e
+        warn "To display image inline, you need to have a compatible terminal like iTerm2 or Konsole, and the 'imgcat' command installed."
+        warn "See https://iterm2.com/documentation-images.html to know more."
+      end
+    end
   end
 
   def display_error_attribute(name, value)

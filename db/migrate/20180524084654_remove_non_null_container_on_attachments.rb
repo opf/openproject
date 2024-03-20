@@ -44,7 +44,11 @@ class RemoveNonNullContainerOnAttachments < ActiveRecord::Migration[5.1]
     rename_column :attachments, :created_on, :created_at
 
     reversible do |change|
-      change.up { Attachment.update_all("updated_at = created_at") }
+      change.up do
+        execute <<~SQL.squish
+          Update attachments SET updated_at = created_at
+        SQL
+      end
     end
   end
 end

@@ -97,6 +97,10 @@ uk:
   label_time_zone: "Часовий пояс"
   label_start_date: "Дата початку"
   meeting:
+    copy:
+      title: "Копіювати нараду «%{title}»"
+      agenda: "Копіювати порядок денний"
+      agenda_text: "Копіювати порядок денний старої наради"
     email:
       open_meeting_link: "Відкрити зустріч"
       invited:

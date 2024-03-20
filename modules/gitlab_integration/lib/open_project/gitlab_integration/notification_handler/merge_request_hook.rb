@@ -83,14 +83,14 @@ module OpenProject::GitlabIntegration
 
         return nil unless key
 
-        I18n.t("gitlab_integration.merge_request_#{key_action ? key_action : key}_comment",
-               :mr_number => payload.object_attributes.iid,
-               :mr_title => payload.object_attributes.title,
-               :mr_url => payload.object_attributes.url,
-               :repository => payload.repository.name,
-               :repository_url => payload.repository.url,
-               :gitlab_user => payload.user.name,
-               :gitlab_user_url => payload.user.avatar_url)
+        I18n.t("gitlab_integration.merge_request_#{key_action || key}_comment",
+               mr_number: payload.object_attributes.iid,
+               mr_title: payload.object_attributes.title,
+               mr_url: payload.object_attributes.url,
+               repository: payload.repository.name,
+               repository_url: payload.repository.url,
+               gitlab_user: payload.user.name,
+               gitlab_user_url: payload.user.avatar_url)
       end
 
       def merge_request
@@ -102,10 +102,10 @@ module OpenProject::GitlabIntegration
 
       def upsert_merge_request(work_packages)
         return if work_packages.empty? && merge_request.nil?
-        OpenProject::GitlabIntegration::Services::UpsertMergeRequest.new.call(payload,
-                                                                             work_packages: work_packages)
-      end
 
+        OpenProject::GitlabIntegration::Services::UpsertMergeRequest.new.call(payload,
+                                                                              work_packages:)
+      end
     end
   end
 end

@@ -1,0 +1,21 @@
+<%= render(Primer::Alpha::Dialog.new(title: t('js.label_export'),
+                                     id: MODAL_ID)) do |d| %>
+  <% d.with_header(variant: :large) %>
+  <% d.with_body do %>
+    <ul class="op-export-options"
+        data-controller="params-from-query"
+        data-application-target="dynamic"
+        data-params-from-query-all-anchors-value="true"
+        data-params-from-query-allowed-value='["query_id", "filters", "sortBy", "columns"]'>
+      <% helpers.supported_export_formats.each do |key| %>
+        <li class="op-export-options--option">
+          <%= link_to url_for(action: 'index', format: key),
+                      class: 'op-export-options--option-link' do %>
+            <%= helpers.op_icon("icon-big icon-export-#{key}") %>
+            <span class="op-export-options--option-label"><%= t("export.format.#{key}") %></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>

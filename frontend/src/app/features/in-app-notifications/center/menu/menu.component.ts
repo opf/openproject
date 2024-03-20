@@ -40,7 +40,6 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { INotificationPageQueryParameters } from '../../in-app-notifications.routes';
 import { IanMenuService } from './state/ian-menu.service';
-import { BannersService } from 'core-app/core/enterprise/banners.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export const ianMenuSelector = 'op-ian-menu';
@@ -98,14 +97,13 @@ export class IanMenuComponent implements OnInit {
       key: 'dateAlert',
       title: this.I18n.t('js.notifications.menu.date_alert'),
       icon: 'date-alert',
-      isEnterprise: true,
-      ...this.eeGuardedDateAlertRoute,
+      ...getUiLinkForFilters({ filter: 'reason', name: 'dateAlert' }),
     },
     {
       key: 'shared',
       title: this.I18n.t('js.notifications.menu.shared'),
       icon: 'share',
-      ...getUiLinkForFilters({ filter: 'reason', name: 'shared' }),
+      ...getUiLinkForFilters({ filter: 'reason', name: 'shared' })
     },
   ];
 
@@ -168,19 +166,9 @@ export class IanMenuComponent implements OnInit {
     readonly I18n:I18nService,
     readonly ianMenuService:IanMenuService,
     readonly state:StateService,
-    readonly bannersService:BannersService,
     readonly configurationService:ConfigurationService,
   ) { }
 
   ngOnInit():void {
     this.ianMenuService.reload();
   }
-
-  private get eeGuardedDateAlertRoute() {
-    if (this.bannersService.eeShowBanners) {
-      return { uiSref: 'notifications.date_alerts_upsale', uiParams: null, uiOptions: { inherit: false } };
-    }
-
-    return getUiLinkForFilters({ filter: 'reason', name: 'dateAlert' });
-  }
-}

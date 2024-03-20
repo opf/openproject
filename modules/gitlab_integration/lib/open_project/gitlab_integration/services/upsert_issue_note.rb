@@ -31,8 +31,9 @@
 module OpenProject
   module GitlabIntegration
     module Services
-
       class UpsertIssueNote
+        include ParamsHelper
+
         def call(payload, work_packages: [])
           find_or_initialize(payload).tap do |issue|
             issue.update!(work_packages: issue.work_packages | work_packages, **extract_params(payload))
@@ -43,8 +44,8 @@ module OpenProject
 
         def find_or_initialize(payload)
           GitlabIssue.find_by_gitlab_identifiers(id: payload.issue.iid,
-                                                      url: payload.issue.url,
-                                                      initialize: true)
+                                                 url: payload.issue.url,
+                                                 initialize: true)
         end
 
         # Receives the input from the gitlab webhook and translates them
@@ -59,7 +60,7 @@ module OpenProject
             gitlab_updated_at: payload.issue.updated_at,
             state: payload.issue.state,
             title: payload.issue.title,
-            body: description(payload),
+            body: description(payload.object_attributes.description),
             repository: payload.repository.name,
             labels: payload.issue.labels.map { |values| extract_label_values(values) }
           }
@@ -77,10 +78,6 @@ module OpenProject
           return if payload.blank?
 
           ::OpenProject::GitlabIntegration::Services::UpsertGitlabUser.new.call(payload)
-        end
-
-        def description(payload)
-          payload.object_attributes.description.presence || 'No description provided'
         end
       end
     end

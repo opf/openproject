@@ -110,7 +110,7 @@ In addition, in *Project settings* and *Modules* you will need to activate the G
 
 ![GitHub-module](Github-module-2647262.png)
 
-Seeing the 'GitHub' tab requires permission so the permission needs to be granted to all roles in a project allowed to see the tab.
+Seeing the 'GitHub' tab requires **Show GitHub content** permission, so this permission needs to be granted to all roles in a project allowed to see the tab.
 
 ### GitHub
 

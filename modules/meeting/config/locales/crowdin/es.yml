@@ -95,6 +95,10 @@ es:
   label_time_zone: "Zona horaria"
   label_start_date: "Fecha de inicio"
   meeting:
+    copy:
+      title: "Copiar reunión %{title}"
+      agenda: "Copiar agenda"
+      agenda_text: "Copiar la agenda de la reunión anterior"
     email:
       open_meeting_link: "Abrir reunión"
       invited:

@@ -64,7 +64,7 @@ module Projects::Copy
                                                      file_ids: source_file_links.map(&:origin_id))
           folder_files_file_ids_deep_query_result = folder_files_file_ids_deep_query(
             storage:,
-            path: target_project_storage.project_folder_path
+            location: target_project_storage.managed_project_folder_path
           )
           source_file_links.each do |old_file_link|
             attributes = {
@@ -87,7 +87,7 @@ module Projects::Copy
                   target_project_storage.project_folder_path_escaped
                 )
                 new_file_location = CGI.unescape(new_file_location[1..])
-                folder_files_file_ids_deep_query_result[new_file_location]['fileid']
+                folder_files_file_ids_deep_query_result[new_file_location].id
               else
                 old_file_link.origin_id
               end
@@ -109,21 +109,22 @@ module Projects::Copy
         end
       end
     end
+
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/PerceivedComplexity
 
     def files_info_query(storage:, file_ids:)
       Storages::Peripherals::Registry
-        .resolve("queries.#{storage.short_provider_type}.files_info")
+        .resolve("#{storage.short_provider_type}.queries.files_info")
         .call(storage:, user: User.current, file_ids:)
         .on_failure { |r| add_error!("files_info_query", r.to_active_model_errors) }
         .result
     end
 
-    def folder_files_file_ids_deep_query(storage:, path:)
+    def folder_files_file_ids_deep_query(storage:, location:)
       Storages::Peripherals::Registry
-        .resolve("queries.#{storage.short_provider_type}.folder_files_file_ids_deep_query")
-        .call(storage:, path:)
+        .resolve("#{storage.short_provider_type}.queries.folder_files_file_ids_deep_query")
+        .call(storage:, folder: Storages::Peripherals::ParentFolder.new(location))
         .on_failure { |r| add_error!("folder_files_file_ids_deep_query", r.to_active_model_errors) }
         .result
     end

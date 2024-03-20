@@ -59,8 +59,8 @@ module Storages::ProjectStorages
     private
 
     def delete_project_folder
-      Storages::Peripherals::Registry.resolve("commands.#{model.storage.short_provider_type}.delete_folder")
-        .call(storage: model.storage, location: model.project_folder_path)
+      ::Storages::Peripherals::Registry.resolve("#{model.storage.short_provider_type}.commands.delete_folder")
+        .call(storage: model.storage, location: model.project_folder_location)
     end
 
     # Delete FileLinks with the same Storage as the ProjectStorage.

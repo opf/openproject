@@ -14,11 +14,11 @@ allOf:
         properties:
           self:
             allOf:
-              - $ref: "./link.yml"
+              - $ref:  './link.yml'
               - description: |-
                   This group collection
 
-                  **Resource**: GroupCollectionReadModel
+                  **Resource**: Collection
       _embedded:
         type: object
         required:

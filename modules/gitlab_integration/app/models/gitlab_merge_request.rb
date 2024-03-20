@@ -53,7 +53,7 @@ class GitlabMergeRequest < ApplicationRecord
                         unless: :partial?
   validate :validate_labels_schema
 
-  scope :without_work_package, -> { left_outer_joins(:work_packages).where(work_packages: { id: nil }) }
+  scope :without_work_package, -> { where.missing(:work_packages) }
 
   def self.find_by_gitlab_identifiers(id: nil, url: nil, initialize: false)
     raise ArgumentError, "needs an id or an url" if id.nil? && url.blank?
@@ -88,7 +88,7 @@ class GitlabMergeRequest < ApplicationRecord
     return if labels.nil?
     return if labels.all? { |label| label.keys.sort == LABEL_KEYS }
 
-    errors.add(:labels, 'invalid schema')
+    errors.add(:labels, :invalid_schema)
   end
 
   def with_logging

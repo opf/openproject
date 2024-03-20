@@ -220,6 +220,10 @@ paths:
     "$ref": "./paths/help_texts.yml"
   "/api/v3/help_texts/{id}":
     "$ref": "./paths/help_text.yml"
+  "/api/v3/meetings/{id}":
+    "$ref": "./paths/meeting.yml"
+  "/api/v3/meetings/{id}/attachments":
+    "$ref": "./paths/meeting_attachments.yml"
   "/api/v3/memberships":
     "$ref": "./paths/memberships.yml"
   "/api/v3/memberships/available_projects":
@@ -256,6 +260,10 @@ paths:
     "$ref": "./paths/oauth_application.yml"
   "/api/v3/oauth_client_credentials/{id}":
     "$ref": "./paths/oauth_client_credentials.yml"
+  "/api/v3/placeholder_users":
+    "$ref": "./paths/placeholder_users.yml"
+  "/api/v3/placeholder_users/{id}":
+    "$ref": "./paths/placeholder_user.yml"
   "/api/v3/posts/{id}":
     "$ref": "./paths/post.yml"
   "/api/v3/posts/{id}/attachments":
@@ -475,6 +483,8 @@ components:
       $ref: './components/examples/grid-simple-patch-model.yml'
     GridSimpleResponse:
       $ref: './components/examples/grid-simple-response.yml'
+    GroupResponse:
+      $ref: './components/examples/group-response.yml'
     MembershipCreateRequestCustomMessage:
       $ref: './components/examples/membership-create-request-custom-message.yml'
     MembershipCreateRequestGlobalRole:
@@ -495,6 +505,8 @@ components:
       $ref: './components/examples/mentioned_notification.yml'
     NotificationCollection:
       $ref: './components/examples/notification_collection.yml'
+    PlaceholderUserResponse:
+      $ref: './components/examples/placeholder-user-response.yml'
     Project:
       $ref: './components/examples/project.yml'
     ProjectBody:
@@ -511,6 +523,8 @@ components:
       $ref: './components/examples/status_collection.yml'
     StoragesSimpleCollectionModel:
       $ref: './components/examples/storages-simple-collection-response.yml'
+    UserResponse:
+      $ref: './components/examples/user-response.yml'
     ValuesPropertyStartDateSchema:
       $ref: './components/examples/values_property_start_date_schema.yml'
     ValuesPropertyDueDateSchema:
@@ -639,6 +653,8 @@ components:
       "$ref": "./components/schemas/list_of_news_model.yml"
     List_projects_by_versionModel:
       "$ref": "./components/schemas/list_projects_by_version_model.yml"
+    MeetingModel:
+      "$ref": "./components/schemas/meeting_model.yml"
     MarkdownModel:
       "$ref": "./components/schemas/markdown_model.yml"
     MembershipCollectionModel:
@@ -669,12 +685,20 @@ components:
       "$ref": "./components/schemas/oauth_client_credentials_write_model.yml"
     PaginatedCollectionModel:
       "$ref": "./components/schemas/paginated_collection_model.yml"
+    PlaceholderUserCollectionModel:
+      "$ref": "./components/schemas/placeholder_user_collection_model.yml"
+    PlaceholderUserCreateModel:
+      "$ref": "./components/schemas/placeholder_user_create_model.yml"
+    PlaceholderUserModel:
+      "$ref": "./components/schemas/placeholder_user_model.yml"
     Plain_TextModel:
       "$ref": "./components/schemas/plain_text_model.yml"
     PostModel:
       "$ref": "./components/schemas/post_model.yml"
-    PrincipalsModel:
-      "$ref": "./components/schemas/principals_model.yml"
+    PrincipalCollectionModel:
+      "$ref": "./components/schemas/principal_collection_model.yml"
+    PrincipalModel:
+      "$ref": "./components/schemas/principal_model.yml"
     PrioritiesModel:
       "$ref": "./components/schemas/priorities_model.yml"
     PriorityModel:

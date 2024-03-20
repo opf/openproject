@@ -148,7 +148,7 @@ class CostReportsController < ApplicationController
   # RecordNotFound if the query at :id does not exist
   def destroy
     if @query
-      @query.destroy if allowed_in_report(:destroy, @query)
+      @query.destroy if allowed_in_report?(:destroy, @query)
     else
       raise ActiveRecord::RecordNotFound
     end

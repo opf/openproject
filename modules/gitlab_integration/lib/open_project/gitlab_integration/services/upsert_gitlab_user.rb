@@ -38,6 +38,8 @@ module OpenProject
       #
       # Returns the upserted `GitlabUser`.
       class UpsertGitlabUser
+        include ParamsHelper
+
         def call(payload)
           GitlabUser.find_or_initialize_by(gitlab_id: payload.id)
                     .tap do |gitlab_user|
@@ -56,12 +58,8 @@ module OpenProject
             gitlab_name: payload.name,
             gitlab_username: payload.username,
             gitlab_email: payload.email,
-            gitlab_avatar_url: avatar_url(payload)
+            gitlab_avatar_url: avatar_url(payload.avatar_url)
           }
-        end
-
-        def avatar_url(payload)
-          payload.avatar_url.presence || 'https://www.gravatar.com/avatar/?d=mp'
         end
       end
     end

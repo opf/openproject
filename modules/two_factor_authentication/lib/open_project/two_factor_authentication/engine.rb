@@ -1,4 +1,5 @@
 require 'open_project/plugins'
+require 'webauthn'
 
 module OpenProject::TwoFactorAuthentication
   class Engine < ::Rails::Engine

@@ -77,14 +77,23 @@ class Role < ApplicationRecord
             inclusion: { in: ->(*) { Role.subclasses.map(&:to_s) } }
 
   def self.givable
-    where.not(builtin: [BUILTIN_NON_MEMBER, BUILTIN_ANONYMOUS])
+    where
+      .not(
+        builtin: [
+          Role::BUILTIN_NON_MEMBER,
+          Role::BUILTIN_ANONYMOUS,
+          Role::BUILTIN_WORK_PACKAGE_VIEWER,
+          Role::BUILTIN_WORK_PACKAGE_COMMENTER,
+          Role::BUILTIN_WORK_PACKAGE_EDITOR
+        ]
+      )
       .order(Arel.sql('position'))
   end
 
   def permissions
     # prefer map over pluck as we will probably always load
     # the permissions anyway
-    role_permissions.map(&:permission).map(&:to_sym)
+    role_permissions.map { |perm| perm.permission.to_sym }
   end
 
   def permissions=(perms)
@@ -143,7 +152,7 @@ class Role < ApplicationRecord
     if action.is_a? Hash
       allowed_actions.include? "#{action[:controller]}/#{action[:action]}"
     else
-      allowed_permissions.include? action
+      permissions.include? action
     end
   end
 
@@ -159,12 +168,8 @@ class Role < ApplicationRecord
 
   private
 
-  def allowed_permissions
-    @allowed_permissions ||= permissions + OpenProject::AccessControl.public_permissions.map(&:name)
-  end
-
   def allowed_actions
-    @allowed_actions ||= allowed_permissions.flat_map do |permission|
+    @allowed_actions ||= permissions.flat_map do |permission|
       OpenProject::AccessControl.allowed_actions(permission)
     end
   end

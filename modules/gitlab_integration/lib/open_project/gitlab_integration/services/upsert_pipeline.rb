@@ -31,8 +31,9 @@
 module OpenProject
   module GitlabIntegration
     module Services
-
       class UpsertPipeline
+        include ParamsHelper
+
         def call(payload, merge_request:)
           GitlabPipeline.find_or_initialize_by(gitlab_id: payload.object_attributes.iid)
                         .tap do |pipeline|
@@ -49,7 +50,7 @@ module OpenProject
             gitlab_id: payload.object_attributes.iid,
             gitlab_html_url: "#{payload.project.web_url}/-/pipelines/#{payload.object_attributes.iid}",
             project_id: payload.project.id,
-            gitlab_user_avatar_url: payload.user.avatar_url,
+            gitlab_user_avatar_url: avatar_url(payload.user.avatar_url),
             name: payload.object_attributes.iid,
             status: payload.object_attributes.status,
             details_url: "#{payload.project.web_url}/-/commit/#{payload.object_attributes.sha[0..7]}",

@@ -35,7 +35,24 @@ See COPYRIGHT and LICENSE files for more details.
     <%= f.text_field :title, :required => true, :size => 60, container_class: '-wide' %>
   </div>
 
-  <% if @meeting.new_record? %>
+  <% copy_from = local_assigns[:copy_from] %>
+  <% if copy_from.present? %>
+    <%= f.hidden_field :type, value: copy_from.type %>
+    <%= hidden_field_tag "copied_from_meeting_id", copy_from.id %>
+    <div class="form--field -required">
+      <%= styled_label_tag 'copy_agenda', t('meeting.copy.agenda') %>
+      <div class="form--field-container">
+        <%= styled_check_box_tag 'copy_agenda',
+                                 1,
+                                 true,
+                                 no_label: true,
+                                 class: 'radio-button' %>
+      </div>
+      <div class="form--field-instructions">
+        <%= t('meeting.copy.agenda_text') %>
+      </div>
+    </div>
+  <% elsif @meeting.new_record? %>
     <div class="form--field -required -align-start">
       <label class="form--label" for="meeting_type"><%= Meeting.human_attribute_name(:type) %></label>
       <div class="form--field-container">
@@ -45,7 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
                  data-test-selector="op-tile-block">
             <div class="op-tile-block--content">
               <%= styled_radio_button_tag 'meeting[type]',
-                                          'dynamic',
+                                          'StructuredMeeting',
                                           true,
                                           no_label: true,
                                           class: 'radio-button' %>
@@ -68,7 +85,7 @@ See COPYRIGHT and LICENSE files for more details.
                  data-test-selector="op-tile-block">
             <div class="op-tile-block--content">
               <%= styled_radio_button_tag 'meeting[type]',
-                                          'classic',
+                                          'Meeting',
                                           false,
                                           no_label: true,
                                           class: 'radio-button' %>
@@ -161,7 +178,4 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
 
   <%= render partial: 'meetings/participants_section' %>
-
-  <%= hidden_field_tag "copied_from_meeting_id", params[:copied_from_meeting_id] if params[:copied_from_meeting_id].present? %>
-  <%= hidden_field_tag "copied_meeting_agenda_text", params[:copied_meeting_agenda_text] if params[:copied_meeting_agenda_text].present? %>
 </section>

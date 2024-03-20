@@ -28,6 +28,7 @@
 
 class Meeting < ApplicationRecord
   include VirtualAttribute
+  include OpenProject::Journal::AttachmentHelper
 
   self.table_name = 'meetings'
 
@@ -58,6 +59,16 @@ class Meeting < ApplicationRecord
       .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_meetings))
   }
+
+  acts_as_attachable(
+    after_remove: :attachments_changed,
+    order: "#{Attachment.table_name}.file",
+    add_on_new_permission: :create_meetings,
+    add_on_persisted_permission: :edit_meetings,
+    view_permission: :view_meetings,
+    delete_permission: :edit_meetings,
+    modification_blocked: ->(*) { false }
+  )
 
   acts_as_watchable permission: :view_meetings
 
@@ -110,6 +121,7 @@ class Meeting < ApplicationRecord
 
   def start_time=(value)
     super(value&.to_datetime)
+    update_derived_fields
   end
 
   def start_month
@@ -162,25 +174,6 @@ class Meeting < ApplicationRecord
       .uniq(&:id)
   end
 
-  def copy(attrs)
-    copy = dup
-
-    # Set a default to next week
-    copy.start_time = start_time + 1.week
-
-    copy.author = attrs.delete(:author)
-    copy.attributes = attrs
-    copy.set_initial_values
-    # Initialize virtual attributes
-    copy.start_date
-    copy.start_time_hour
-
-    copy.participants.clear
-    copy.participants_attributes = allowed_participants.collect(&:copy_attributes)
-
-    copy
-  end
-
   def self.group_by_time(meetings)
     by_start_year_month_date = ActiveSupport::OrderedHash.new do |hy, year|
       hy[year] = ActiveSupport::OrderedHash.new do |hm, month|
@@ -225,12 +218,10 @@ class Meeting < ApplicationRecord
 
   def participants_attributes=(attrs)
     attrs.each do |participant|
-      participant['_destroy'] = true if !(participant['attended'] || participant['invited'])
+      participant['_destroy'] = true if !(participant[:attended] || participant[:invited])
     end
     self.original_participants_attributes = attrs
   end
-
-  protected
 
   # Participants of older meetings
   # might contain users no longer in the project
@@ -243,11 +234,16 @@ class Meeting < ApplicationRecord
       .where(user_id: available_members)
   end
 
+  protected
+
   def set_initial_values
     # set defaults
     write_attribute(:start_time, Date.tomorrow + 10.hours) if start_time.nil?
     self.duration ||= 1
+    update_derived_fields
+  end
 
+  def update_derived_fields
     @start_date = start_time.to_date.iso8601
     @start_time_hour = start_time.strftime('%H:%M')
   end

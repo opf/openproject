@@ -1,4 +1,6 @@
-## Introducing OpenProject GitLab Integration v2.1.4 GA
+## Introducing OpenProject GitLab Integration v2.1.6 GA
+
+<div><a href="https://jb.gg/OpenSourceSupport"><img width="300" src="https://github.com/btey/openproject-gitlab-integration/assets/14983519/bc7b3e7f-163d-4bcf-ab31-9f5982b8d2fc"></a></div>
 
 Based on the OpenProject Github Integration, this plugin offers the same functionalities plus other new features. This is the first version that includes the visualization of the status of the *Pipelines* (by now, it is considered in Beta status). You can test it by activating the Pipelines event in the GitLab webhook. Just keep in mind that not all pipelines will be reflected in OpenProject, only Merge Request type pipelines (for more information see the GitLab issue https://gitlab.com/gitlab-org/gitlab/-/issues/345028). Any feedback about the pipelines feature would be very appreciated, whether it works or if issues arise (you can use this ticket https://github.com/btey/openproject-gitlab-integration/issues/43).
 
@@ -7,15 +9,14 @@ In this version it has also been implemented that **all linked or referenced** I
 If there are labels related to the Issue or MR, a button with the label icon will appear. By clicking the button you can show/hide the associated labels.
 
 <img width="531" src="https://github.com/btey/openproject-gitlab-integration/assets/14983519/00b19597-2b1b-4b93-9a20-155c40efeb3f">
-
+<br><br>
 <img width="532" src="https://github.com/btey/openproject-gitlab-integration/assets/14983519/98fd20f7-83c2-4003-aca9-f33657e1b4cb">
-
 
 ## Overview
 
 OpenProject module for integration with GitLab:
 * Latest Gitlab release tested: **16.6.2**
-* Latest OpenProject release tested: **13.1.0** (for OP v13.0.X use v2.1.2)
+* Latest OpenProject release tested: **13.1.2** (for OP v13.0.X use v2.1.2)
 
 The reference system is based on the same system as for GitHub integration. You can use a link to the work package or just use “OP#87” or "PP#87" in the title/description of the Issue/MR in GitLab.
 
@@ -32,6 +33,7 @@ OpenProject will **add comments** to work package for the following events:
 * Merge Request (Opened, Closed and Merged)
 * Issue (Opened, Closed)
 * Push commits in Merge Requests
+  * Since v2.1.5 of the plugin you can activate system hooks for Push events.
 * Comments (on Issues, Merge Request, Commits and Snippets)
 * Pipelines (Beta feature)
 
@@ -159,7 +161,7 @@ Add the following in **Gemfile.lock**:
 PATH
   remote: modules/gitlab_integration
   specs:
-    openproject-gitlab_integration (2.1.4)
+    openproject-gitlab_integration (2.1.6)
       openproject-webhooks
 ```
 
@@ -213,11 +215,11 @@ You need to configure just two things in the webhook:
 1. The URL must point to your OpenProject server’s GitLab webhook endpoint (/webhooks/gitlab). Append it to the URL as a simple GET parameter named key. In the end the URL should look something like this:
 
    ```
-   http://openproject-url.com/webhooks/gitlab?key=ae278268
+   http://openproject-url.com/webhooks/gitlab?key=[previous_generated_access_token_key]
    ```
 
 2. Enable the required triggers:
-   1. Push events
+   1. Push events (project hooks or systems hooks)
    2. Comments
    3. Issues events
    4. Merge request events

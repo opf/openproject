@@ -27,12 +27,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 class AddGitlabIssues < ActiveRecord::Migration[7.0]
-  # rubocop:disable Metrics/AbcSize
   def change
     create_table :gitlab_issues do |t|
       t.references :gitlab_user
 
-      t.bigint :gitlab_id, unique: true 
+      t.bigint :gitlab_id, unique: true
       t.integer :number, null: false
       t.string :gitlab_html_url, null: false, unique: true
       t.string :state, null: false
@@ -41,6 +40,7 @@ class AddGitlabIssues < ActiveRecord::Migration[7.0]
       t.string :title
       t.text :body
       t.json :labels # [{name, color}]
+
       t.timestamps
     end
 
@@ -50,7 +50,5 @@ class AddGitlabIssues < ActiveRecord::Migration[7.0]
               unique: true,
               name: "unique_index_gl_issues_wps_on_gl_issue_id_and_wp_id"
     end
-
   end
-  # rubocop:enable Metrics/AbcSize
 end

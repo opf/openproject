@@ -90,6 +90,12 @@ module API
         %w(application/json application/hal+json)
       end
 
+      # Prevent committing the session
+      # This prevents an unnecessary write when accessing the API
+      def skip_session_write
+        request.session_options[:skip] = true
+      end
+
       def enforce_content_type
         # Content-Type is not present in GET or DELETE requests
         return if request.get? || request.delete?
@@ -144,13 +150,13 @@ module API
       # @param project [Project] the project the permission needs to be checked on
       #
       # @raise [API::Errors::Unauthorized] when permission is not met
-      def authorize_in_project(permission_or_permissions, project:, user: current_user, &block)
+      def authorize_in_project(permission_or_permissions, project:, user: current_user, &)
         permissions = Array.wrap(permission_or_permissions)
         authorized = permissions.any? do |permission|
           user.allowed_in_project?(permission, project)
         end
 
-        authorize_by_with_raise(authorized, &block)
+        authorize_by_with_raise(authorized, &)
       end
 
       # Checks that the current user has the given permission in any of the given projects or raise {API::Errors::Unauthorized}.
@@ -162,7 +168,7 @@ module API
       # @param projects [[Project]] the projects the permission needs to be checked on
       #
       # @raise [API::Errors::Unauthorized] when permission is not met
-      def authorize_in_projects(permission_or_permissions, projects:, user: current_user, &block)
+      def authorize_in_projects(permission_or_permissions, projects:, user: current_user, &)
         raise ArgumentError if projects.blank?
 
         permissions = Array.wrap(permission_or_permissions)
@@ -174,7 +180,7 @@ module API
           projects.intersect?(allowed_projects)
         end
 
-        authorize_by_with_raise(authorized, &block)
+        authorize_by_with_raise(authorized, &)
       end
 
       # Checks that the current user has the given permission on any project or raise {API::Errors::Unauthorized}.
@@ -184,13 +190,13 @@ module API
       #   those permissions, not all.
       #
       # @raise [API::Errors::Unauthorized] when permission is not met
-      def authorize_in_any_project(permission_or_permissions, user: current_user, &block)
+      def authorize_in_any_project(permission_or_permissions, user: current_user, &)
         permissions = Array.wrap(permission_or_permissions)
         authorized = permissions.any? do |permission|
           user.allowed_in_any_project?(permission)
         end
 
-        authorize_by_with_raise(authorized, &block)
+        authorize_by_with_raise(authorized, &)
       end
 
       # Checks that the current user has the given permission on any work package or project or raise {API::Errors::Unauthorized}.
@@ -200,13 +206,13 @@ module API
       #   those permissions, not all.
       #
       # @raise [API::Errors::Unauthorized] when permission is not met
-      def authorize_in_any_work_package(permission_or_permissions, user: current_user, in_project: nil, &block)
+      def authorize_in_any_work_package(permission_or_permissions, user: current_user, in_project: nil, &)
         permissions = Array.wrap(permission_or_permissions)
         authorized = permissions.any? do |permission|
           user.allowed_in_any_work_package?(permission, in_project:)
         end
 
-        authorize_by_with_raise(authorized, &block)
+        authorize_by_with_raise(authorized, &)
       end
 
       # Checks that the current user has the given permission on the given work package or raise {API::Errors::Unauthorized}.
@@ -218,13 +224,13 @@ module API
       # @param work_package [Project] the work package the permission needs to be checked on
       #
       # @raise [API::Errors::Unauthorized] when permission is not met
-      def authorize_in_work_package(permission_or_permissions, work_package:, user: current_user, &block)
+      def authorize_in_work_package(permission_or_permissions, work_package:, user: current_user, &)
         permissions = Array.wrap(permission_or_permissions)
         authorized = permissions.any? do |permission|
           user.allowed_in_work_package?(permission, work_package)
         end
 
-        authorize_by_with_raise(authorized, &block)
+        authorize_by_with_raise(authorized, &)
       end
 
       # Checks that the current user has the given permission globally or raise {API::Errors::Unauthorized}.
@@ -234,13 +240,13 @@ module API
       #   those permissions, not all.
       #
       # @raise [API::Errors::Unauthorized] when permission is not met
-      def authorize_globally(permission_or_permissions, user: current_user, &block)
+      def authorize_globally(permission_or_permissions, user: current_user, &)
         permissions = Array.wrap(permission_or_permissions)
         authorized = permissions.any? do |permission|
           user.allowed_globally?(permission)
         end
 
-        authorize_by_with_raise(authorized, &block)
+        authorize_by_with_raise(authorized, &)
       end
 
       def authorize_admin
@@ -325,6 +331,7 @@ module API
 
     # run authentication before each request
     after_validation do
+      skip_session_write
       authenticate
       set_localization
       enforce_content_type
