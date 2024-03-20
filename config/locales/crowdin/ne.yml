@@ -26,7 +26,8 @@ ne:
       no_results_title_text: यो अवधिमा आयोजनाको कुनै पनि क्रियाकलाप भएको छैन ।
   admin:
     plugins:
-      no_results_title_text: हाल कुनै प्लगइनहरू उपलब्ध छैन।
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "रंग विषयवस्तु"
       color_theme_custom: "(अनुकूलन)"

@@ -76,7 +76,7 @@ uk:
       button_register_mobile_phone_for_user: "Зареєструйте мобільний телефон"
       text_2fa_enabled: "Під час кожного входу користувачу пропонуватиметься ввести маркер OTP зі свого пристрою 2FA за замовчуванням."
       text_2fa_disabled: "Користувач не налаштував пристрій 2FA на своїй сторінці «Мій обліковий запис»"
-      only_sms_allowed: "Only SMS delivery can be set up for other users."
+      only_sms_allowed: "Для інших користувачів можна налаштувати лише доставку SMS."
     upsale:
       title: "Двофакторна аутентифікація"
       description: "Посильте безпеку свого екземпляра OpenProject, передбачивши можливість проходити двоетапну автентифікацію (добровільно або примусово) для всіх учасників проєкту."
@@ -114,12 +114,12 @@ uk:
       failed_to_delete: "Не вдалося видалити пристрій 2FA."
       is_default_cannot_delete: "Пристрій позначено як типовий і його не можна видалити через активну політику безпеки. Перед видаленням позначте інший пристрій як стандартний."
       not_existing: "Для вашого облікового запису не зареєстровано жодного пристрою 2FA."
-      2fa_from_input: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
-      2fa_from_webauthn: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
+      2fa_from_input: Введіть код, що надійшов на пристрій %{device_name}, щоб підтвердити свою особу.
+      2fa_from_webauthn: Укажіть пристрій WebAuthn <strong>%{device_name}</strong>. Якщо це USB-пристрій, переконайтеся, що його підключено, і торкніться його. Потім натисніть кнопку входу.
       webauthn:
         title: "WebAuthn"
-        description: Use Web Authentication to register a FIDO2 device (like a YubiKey) or the secure enclave of your mobile device as a second factor.
-        further_steps: After you have chosen a name, you can click the Continue button. Your browser will prompt you to present your WebAuthn device. When you have done so, you are done registering the device.
+        description: Зареєструйте пристрій FIDO2 (наприклад, YubiKey) або захищений анклав свого мобільного пристрою як другий фактор за допомогою вебавтентифікації.
+        further_steps: Коли виберете ім’я, натисніть кнопку «Продовжити». У браузері з’явиться запит указати ваш пристрій WebAuthn. Після цього реєстрацію пристрою буде завершено.
       totp:
         title: "Використовуйте автентифікатор на основі програм"
         provisioning_uri: "URI для забезпечення"

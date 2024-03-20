@@ -26,7 +26,8 @@ ca:
       no_results_title_text: No hi hagut activitat al projecte en aquesta finestra de temps.
   admin:
     plugins:
-      no_results_title_text: Actualment no hi ha plugins disponibles.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Tema de color"
       color_theme_custom: "(Personalitzat)"

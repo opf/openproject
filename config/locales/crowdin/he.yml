@@ -26,7 +26,8 @@ he:
       no_results_title_text: בפרק זמן זה לא הייתה כל פעילות עבור הפרויקט.
   admin:
     plugins:
-      no_results_title_text: כרגע אין פלגאינים זמינים.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Color theme"
       color_theme_custom: "(Custom)"

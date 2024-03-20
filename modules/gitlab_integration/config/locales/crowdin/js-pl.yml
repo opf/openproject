@@ -26,25 +26,25 @@ pl:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "Problemy"
       tab_header_mr:
-        title: "Merge requests"
+        title: "Żądania scalania"
         create_mr:
-          label: Create MR
-          description: Create a Merge Request
+          label: Utwórz MR
+          description: Utwórz żądanie scalenia
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Fragmenty git
+          description: Skopiuj fragmenty git do schowka
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: Nazwa gałęzi
+          commit_message: Wiadomość o zmianach
+          cmd: Utwórz gałąź z pustą zmianą
+          title: Szybkie fragmenty do Git
+          copy_success: '✅ Skopiowano!'
+          copy_error: '❌ Kopiowanie nie powiodło się!'
       tab_issue:
-        empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
+        empty: 'Nie ma jeszcze żadnych powiązanych problemów. Powiąż istniejący problem, używając kodu <code>OP#%{wp_id}</code> (lub <code>PP#%{wp_id}</code> w przypadku linków prywatnych) w tytule/opisie problemu lub utwórz nowy problem.'
       tab_mrs:
-        empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
-      gitlab_pipelines: Pipelines
-      updated_on: Updated on
+        empty: 'Nie ma jeszcze żadnych powiązanych żądań scalenia. Powiąż istniejące MR, używając kodu <code>OP#%{wp_id}</code> (lub <code>PP#%{wp_id}</code> w przypadku linków prywatnych) w tytule/opisie MR lub utwórz nowe MR.'
+      gitlab_pipelines: Lejki
+      updated_on: Zaktualizowano

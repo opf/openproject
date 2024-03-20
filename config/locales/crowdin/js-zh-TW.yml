@@ -230,7 +230,7 @@ zh-TW:
           session_timeout: "Your session timed out. Please try to reload the page or resend email."
           status_label: "狀態："
           status_confirmed: "已確認"
-          status_waiting: "email sent - waiting for confirmation"
+          status_waiting: "電子郵件已寄發-等待確認"
           test_ee: "免費體驗企業版 14 天"
           quick_overview: "用 OpenProject 企業版，快速瞭解項目管理和團隊協作的概況。"
         upsale:
@@ -262,7 +262,7 @@ zh-TW:
       working_days:
         calendar:
           empty_state_header: "非工作日"
-          empty_state_description: 'No specific non-working days are defined for this year. Click on "+ Non-working day" below to add a date.'
+          empty_state_description: '尚未設定非工作日。點擊下面的“+ 非工作日”新增非工作日期。'
           new_date: "（新）"
         add_non_working_day: "非工作日"
         already_added_error: "A non-working day for this date exists already. There can only be one non-working day created for each unique date."
@@ -354,7 +354,7 @@ zh-TW:
                 The release contains various new features and improvements: <br> <ul class="%{list_styling_class}"> <li>GitLab integration (originally developed by Community contributors)</li> <li>Advanced features for custom project lists</li> <li>Advanced features for the Meetings module</li> <li>Virus scanning functionality with ClamAV (Enterprise add-on)</li> <li>PDF Export: Lists in table cells are supported</li> <li>WebAuthn/FIDO/U2F is added as a second factor</li> <li>More languages added to the default available set</li> </ul>
     ical_sharing_modal:
       title: "訂閱日曆"
-      inital_setup_error_message: "An error occured while fetching data."
+      inital_setup_error_message: "更新資料時發生錯誤"
       description: "You can use the URL (iCalendar) to subscribe to this calendar in an external client and view up-to-date work package information from there."
       warning: "Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password."
       token_name_label: "Where will you be using this?"
@@ -515,7 +515,7 @@ zh-TW:
     label_children_derived_duration: "Work package's children derived duration"
     label_warning: "警告"
     label_work_package: "工作項目"
-    label_work_package_parent: "Parent work package"
+    label_work_package_parent: "主工作項目"
     label_work_package_plural: "工作項目"
     label_watch: "監看"
     label_watch_work_package: "關注工作項目"
@@ -662,7 +662,7 @@ zh-TW:
               PT0S: 當日
               P1D: 一天前
               P3D: 3 天前
-              P7D: a week before
+              P7D: 1 週前
             overdue:
               P1D: 每天
               P3D: 每 3 天
@@ -720,7 +720,7 @@ zh-TW:
       click_to_switch_to_project: "Project: %{projectname}"
       confirm_template_load: "Switching the template will reload the page and you will lose all input to this form. Continue?"
       use_template: "使用範本"
-      no_template_selected: "(None)"
+      no_template_selected: "(無)"
       copy:
         copy_options: "Copy options"
       autocompleter:
@@ -997,7 +997,7 @@ zh-TW:
         assigned_to_me: "分配給我"
         recently_created: "最近創建的"
         all_open: "所有「進行中」工作"
-        summary: "大綱"
+        summary: "總覽"
         shared_with_users: "分配給成員"
         shared_with_me: "分享給我的"
       jump_marks:
@@ -1230,7 +1230,7 @@ zh-TW:
           description_no_ee: '由於沒有存取專案權限，所以不會發送電子郵件。<br>請查看<a href="%{eeHref}" target="_blank">企業版</a>。'
       principal:
         label:
-          name_or_email: "Name or email address"
+          name_or_email: "名稱或電子郵件地址"
           name: "名稱"
         already_member_message: "已是「 %{project} 」成員"
         no_results_user: "找不到使用者。"
@@ -1286,7 +1286,7 @@ zh-TW:
       show_changes_since: "顯示差異"
       baseline_comparison: "基準日比較"
       help_description: "Reference time zone for the baseline."
-      time_description: "In your local time: %{datetime}"
+      time_description: "當地時間： %{datetime}"
       time: "時間"
       from: "寄件者"
       to: "到"
