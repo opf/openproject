@@ -47,11 +47,11 @@ module Storages
         def authorization_state_check(token)
           authorization_check_wrapper do
             OpenProject.httpx.get(
-              Util.join_uri_path(@uri, '/ocs/v1.php/cloud/user'),
+              Util.join_uri_path(@uri, "/ocs/v1.php/cloud/user"),
               headers: {
-                'Authorization' => "Bearer #{token}",
-                'OCS-APIRequest' => 'true',
-                'Accept' => 'application/json'
+                "Authorization" => "Bearer #{token}",
+                "OCS-APIRequest" => "true",
+                "Accept" => "application/json"
               }
             )
           end

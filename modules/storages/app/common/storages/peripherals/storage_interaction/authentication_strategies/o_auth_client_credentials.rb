@@ -40,7 +40,7 @@ module Storages
           def call(storage:, http_options: {}, &)
             config = storage.oauth_configuration.to_httpx_oauth_config
 
-            return build_failure(storage) unless config.complete?
+            return build_failure(storage) unless config.valid?
 
             create_http_and_yield(issuer: config.issuer,
                                   client_id: config.client_id,
@@ -59,13 +59,13 @@ module Storages
                                             client_id:,
                                             client_secret:,
                                             scope:,
-                                            token_endpoint_auth_method: 'client_secret_post')
+                                            token_endpoint_auth_method: "client_secret_post")
                                 .with_access_token
                                 .with(http_options)
             rescue HTTPX::HTTPError => e
-              data = ::Storages::StorageErrorData.new(source: self, payload: e.response.json)
+              data = ::Storages::StorageErrorData.new(source: self.class, payload: e.response.json)
               return Failures::Builder.call(code: :unauthorized,
-                                            log_message: 'Error while fetching OAuth access token.',
+                                            log_message: "Error while fetching OAuth access token.",
                                             data:)
             end
 
@@ -73,8 +73,8 @@ module Storages
           end
 
           def build_failure(storage)
-            log_message = 'Cannot authenticate storage with client credential oauth flow. Storage not configured.'
-            data = ::Storages::StorageErrorData.new(source: self, payload: storage)
+            log_message = "Cannot authenticate storage with client credential oauth flow. Storage not configured."
+            data = ::Storages::StorageErrorData.new(source: self.class, payload: storage)
             Failures::Builder.call(code: :error, log_message:, data:)
           end
         end

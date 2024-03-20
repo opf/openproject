@@ -28,29 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 # rubocop:disable RSpec/DescribeClass
-RSpec.describe 'network errors for storage interaction' do
+RSpec.describe "network errors for storage interaction" do
   using Storages::Peripherals::ServiceResultRefinements
 
   let(:user) { create(:user) }
   let(:storage) { create(:sharepoint_dev_drive_storage, oauth_client_token_user: user) }
-  let(:request_url) { 'https://my.timeout.org/' }
+  let(:request_url) { "https://my.timeout.org/" }
   let(:auth_strategy) do
     Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken.strategy.with_user(user)
   end
 
-  context 'if a timeout happens' do
+  context "if a timeout happens" do
     before do
       request = HTTPX::Request.new(:get, request_url)
-      httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, 'Timeout happens', {}))
+      httpx_double = class_double(HTTPX, get: HTTPX::ErrorResponse.new(request, "Timeout happens", {}))
       allow(httpx_double).to receive(:with).and_return(httpx_double)
       allow(OpenProject).to receive(:httpx).and_return(httpx_double)
     end
 
-    it 'must return an error with wrapped network error response' do
+    it "must return an error with wrapped network error response" do
       result = Storages::Peripherals::StorageInteraction::Authentication[auth_strategy].call(storage:) do |http|
         make_request(http)
       end
@@ -70,7 +70,7 @@ RSpec.describe 'network errors for storage interaction' do
   def handle_response(response)
     case response
     in { status: 200..299 }
-      ServiceResult.success(result: 'EXPECTED_RESULT')
+      ServiceResult.success(result: "EXPECTED_RESULT")
     in { status: 401 }
       error(:unauthorized)
     in { status: 403 }
@@ -83,7 +83,7 @@ RSpec.describe 'network errors for storage interaction' do
   end
 
   def error(code, payload = nil)
-    data = Storages::StorageErrorData.new(source: 'EXECUTING_QUERY', payload:)
+    data = Storages::StorageErrorData.new(source: "EXECUTING_QUERY", payload:)
     ServiceResult.failure(result: code, errors: Storages::StorageError.new(code:, data:))
   end
 end

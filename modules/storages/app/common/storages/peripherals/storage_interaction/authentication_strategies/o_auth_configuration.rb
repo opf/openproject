@@ -33,7 +33,11 @@ module Storages
     module StorageInteraction
       module AuthenticationStrategies
         class OAuthConfiguration
+          include ActiveModel::Validations
+
           attr_reader :scope, :issuer, :client_secret, :client_id
+
+          validates_presence_of :client_id, :client_secret, :issuer
 
           def initialize(client_id: nil,
                          client_secret: nil,
@@ -43,10 +47,6 @@ module Storages
             @client_secret = client_secret
             @issuer = issuer
             @scope = scope
-          end
-
-          def complete?
-            [@client_id, @client_secret, @issuer].all?(&:present?)
           end
         end
       end

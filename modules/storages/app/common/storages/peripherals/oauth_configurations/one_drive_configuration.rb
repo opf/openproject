@@ -49,17 +49,17 @@ module Storages
         def authorization_state_check(access_token)
           authorization_check_wrapper do
             OpenProject.httpx.get(
-              Util.join_uri_path(@uri, '/v1.0/me'),
-              headers: { 'Authorization' => "Bearer #{access_token}", 'Accept' => 'application/json' }
+              Util.join_uri_path(@uri, "/v1.0/me"),
+              headers: { "Authorization" => "Bearer #{access_token}", "Accept" => "application/json" }
             )
           end
         end
 
         def extract_origin_user_id(rack_access_token)
           OpenProject.httpx.get(
-            Util.join_uri_path(@uri, '/v1.0/me'),
-            headers: { 'Authorization' => "Bearer #{rack_access_token.access_token}", 'Accept' => 'application/json' }
-          ).raise_for_status.json['id']
+            Util.join_uri_path(@uri, "/v1.0/me"),
+            headers: { "Authorization" => "Bearer #{rack_access_token.access_token}", "Accept" => "application/json" }
+          ).raise_for_status.json["id"]
         end
 
         def to_httpx_oauth_config

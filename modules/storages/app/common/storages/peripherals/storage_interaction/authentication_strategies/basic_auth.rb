@@ -49,8 +49,8 @@ module Storages
           private
 
           def build_failure(storage)
-            log_message = 'Cannot authenticate storage with basic auth. Password or username not configured.'
-            data = ::Storages::StorageErrorData.new(source: self, payload: storage)
+            log_message = "Cannot authenticate storage with basic auth. Password or username not configured."
+            data = ::Storages::StorageErrorData.new(source: self.class, payload: storage)
             Failures::Builder.call(code: :error, log_message:, data:)
           end
         end

@@ -38,7 +38,6 @@ module Storages
           end
 
           def initialize(user)
-            super()
             @user = user
           end
 
@@ -47,19 +46,22 @@ module Storages
             config = storage.oauth_configuration
             current_token = OAuthClientToken.find_by(user_id: @user, oauth_client_id: config.oauth_client.id)
             if current_token.nil?
-              data = ::Storages::StorageErrorData.new(source: self)
+              data = ::Storages::StorageErrorData.new(source: self.class)
               return Failures::Builder.call(code: :unauthorized,
-                                            log_message: 'Authorization failed. No user access token found.',
+                                            log_message: "Authorization failed. No user access token found.",
                                             data:)
             end
 
-            opts = http_options.merge({ headers: { 'Authorization' => "Bearer #{current_token.access_token}" } })
+            opts = http_options.merge({ headers: { "Authorization" => "Bearer #{current_token.access_token}" } })
             response_with_current_token = yield OpenProject.httpx.with(opts)
 
             if response_with_current_token.success? || response_with_current_token.result != :unauthorized
               response_with_current_token
             else
-              refresh_and_retry(config.to_httpx_oauth_config, http_options, current_token, &)
+              httpx_oauth_config = config.to_httpx_oauth_config
+              return build_failure(storage) unless httpx_oauth_config.valid?
+
+              refresh_and_retry(httpx_oauth_config, http_options, current_token, &)
             end
           end
 
@@ -76,13 +78,13 @@ module Storages
                                                     client_secret: config.client_secret,
                                                     scope: config.scope,
                                                     refresh_token: token.refresh_token,
-                                                    token_endpoint_auth_method: 'client_secret_post')
+                                                    token_endpoint_auth_method: "client_secret_post")
                                         .with_access_token
                                         .with(http_options)
             rescue HTTPX::HTTPError => e
-              data = ::Storages::StorageErrorData.new(source: self, payload: e.response.json)
+              data = ::Storages::StorageErrorData.new(source: self.class, payload: e.response.json)
               return Failures::Builder.call(code: :unauthorized,
-                                            log_message: 'Error while refreshing OAuth token.',
+                                            log_message: "Error while refreshing OAuth token.",
                                             data:)
             end
 
@@ -91,9 +93,9 @@ module Storages
             if response.success?
               success = update_refreshed_token(token, http_session)
               unless success
-                data = ::Storages::StorageErrorData.new(source: self)
+                data = ::Storages::StorageErrorData.new(source: self.class)
                 return Failures::Builder.call(code: :error,
-                                              log_message: 'Error while persisting updated access token.',
+                                              log_message: "Error while persisting updated access token.",
                                               data:)
               end
             end
@@ -109,6 +111,12 @@ module Storages
             refresh_token = oauth.refresh_token
 
             token.update(access_token:, refresh_token:)
+          end
+
+          def build_failure(storage)
+            log_message = "Cannot refresh user token for storage. Storage authentication credentials not configured."
+            data = ::Storages::StorageErrorData.new(source: self.class, payload: storage)
+            Failures::Builder.call(code: :error, log_message:, data:)
           end
         end
       end
