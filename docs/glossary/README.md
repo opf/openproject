@@ -274,7 +274,7 @@ Your activated plugins are listed together with your [modules](#module) in your 
 
 ### Primer design system
 
-OpenProject started adopting [Github's Primer Design System](https://primer.style/) in 2023. New features will be developed using Primer and existing features will will be gradually revised. Relevant reusable components from Primer as well as common patterns and compositions of these components will be documented in our [Lookbook](https://qa.openproject-edge.com/lookbook/pages/how_to_use). [Read more about OpenProject's decision to use Primer](https://www.openproject.org/blog/primer-design-system/).
+OpenProject started adopting [GitHub's Primer Design System](https://primer.style/) in 2023. New features will be developed using Primer and existing features will will be gradually revised. Relevant reusable components from Primer as well as common patterns and compositions of these components will be documented in our [Lookbook](https://qa.openproject-edge.com/lookbook/pages/how_to_use). [Read more about OpenProject's decision to use Primer](https://www.openproject.org/blog/primer-design-system/).
 
 ### Project
 

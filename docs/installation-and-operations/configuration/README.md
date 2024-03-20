@@ -758,7 +758,7 @@ OPENPROJECT_2FA_ENFORCED="true"
 
 **Setting available strategies**
 
-By default, the TOTP and WebAuthn strategie are active.
+By default, the TOTP and WebAuthn strategies are active.
 
 If you have a [MessageBird account](https://www.messagebird.com/), you can setup a SMS 2FA by activating that strategy like so:
 
