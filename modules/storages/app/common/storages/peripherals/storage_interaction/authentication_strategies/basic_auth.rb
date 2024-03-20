@@ -1,3 +1,5 @@
+# frozen_string_literal:true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,20 +28,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  class CreateContract < BaseContract
-    include AdminWritableTimestamps
-    # Projects update their updated_at timestamp due to awesome_nested_set
-    # so allowing writing here would be useless.
-    allow_writable_timestamps :created_at
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module AuthenticationStrategies
+        class BasicAuth
+          def self.strategy
+            Strategy.new(:basic_auth)
+          end
 
-    private
+          def call(storage:, http_options: {})
+            username = storage.username
+            password = storage.password
 
-    def validate_user_allowed_to_manage
-      unless user.allowed_globally?(:add_project) ||
-             (model.parent && user.allowed_in_project?(:add_subprojects, model.parent))
+            return build_failure(storage) if username.blank? || password.blank?
 
-        errors.add :base, :error_unauthorized
+            yield OpenProject.httpx.basic_auth(username, password).with(http_options)
+          end
+
+          private
+
+          def build_failure(storage)
+            log_message = "Cannot authenticate storage with basic auth. Password or username not configured."
+            data = ::Storages::StorageErrorData.new(source: self.class, payload: storage)
+            Failures::Builder.call(code: :error, log_message:, data:)
+          end
+        end
       end
     end
   end

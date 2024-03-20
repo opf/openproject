@@ -1,3 +1,5 @@
+# frozen_string_literal:true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,20 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  class CreateContract < BaseContract
-    include AdminWritableTimestamps
-    # Projects update their updated_at timestamp due to awesome_nested_set
-    # so allowing writing here would be useless.
-    allow_writable_timestamps :created_at
-
-    private
-
-    def validate_user_allowed_to_manage
-      unless user.allowed_globally?(:add_project) ||
-             (model.parent && user.allowed_in_project?(:add_subprojects, model.parent))
-
-        errors.add :base, :error_unauthorized
+module Storages
+  module Peripherals
+    module StorageInteraction
+      module AuthenticationStrategies
+        module Failures
+          Builder = ->(code:, log_message:, data:) do
+            storage_error = ::Storages::StorageError.new(code:, log_message:, data:)
+            ServiceResult.failure(result: code, errors: storage_error)
+          end
+        end
       end
     end
   end

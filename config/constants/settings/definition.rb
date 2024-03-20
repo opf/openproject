@@ -62,6 +62,10 @@ module Settings
       apiv3_max_page_size: {
         default: 1000
       },
+      apiv3_write_readonly_attributes: {
+        description: "Allow overriding readonly attributes (e.g. createdAt, updatedAt, author) during the creation of resources via the REST API",
+        default: false
+      },
       app_title: {
         default: "OpenProject"
       },

@@ -53,6 +53,7 @@ module OpenProject
     Thread.current[:httpx_session] ||= begin
       session = HTTPX
         .plugin(:persistent) # persistent plugin enables retries plugin under the hood
+        .plugin(:oauth)
         .plugin(:basic_auth)
         .plugin(:webdav)
         .with(
