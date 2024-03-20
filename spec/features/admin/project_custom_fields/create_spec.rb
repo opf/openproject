@@ -114,7 +114,7 @@ RSpec.describe "Create project custom fields", :js do
 
         click_on("Save")
 
-        expect(page).to have_text("Section can't be blank.")
+        expect(page).to have_text("section can't be blank.")
       end
     end
   end
