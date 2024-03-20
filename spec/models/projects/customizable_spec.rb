@@ -96,7 +96,6 @@ RSpec.describe Project, "customizable" do
       context "when custom fields are mapped to this project" do
         before do
           project.project_custom_fields << [text_custom_field, bool_custom_field]
-          project.reload # TODO: why is this necessary?
         end
 
         it "#custom_field_values returns a hash of mapped custom fields with nil values" do

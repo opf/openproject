@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../shared_context'
+require "spec_helper"
+require_relative "../shared_context"
 
-RSpec.describe 'Edit project custom fields on project overview page', :js do
-  include_context 'with seeded projects, members and project custom fields'
+RSpec.describe "Edit project custom fields on project overview page", :js do
+  include_context "with seeded projects, members and project custom fields"
 
   let(:overview_page) { Pages::Projects::Show.new(project) }
 
@@ -39,19 +39,19 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
     overview_page.visit_page
   end
 
-  describe 'with correct updating behaviour' do
-    describe 'with input fields' do
+  describe "with correct updating behaviour" do
+    describe "with input fields" do
       let(:section) { section_for_input_fields }
       let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
 
-      shared_examples 'a custom field checkbox' do
-        it 'sets the value to true if checked' do
+      shared_examples "a custom field checkbox" do
+        it "sets the value to true if checked" do
           custom_field.custom_values.destroy_all
 
           overview_page.visit_page
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content I18n.t('placeholders.default')
+            expect(page).to have_content I18n.t("placeholders.default")
           end
 
           overview_page.open_edit_dialog_for_section(section)
@@ -66,7 +66,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        it 'sets the value to false if unchecked' do
+        it "sets the value to false if unchecked" do
           overview_page.within_custom_field_container(custom_field) do
             expect(page).to have_content "Yes"
           end
@@ -83,7 +83,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        it 'does not change the value if untouched' do
+        it "does not change the value if untouched" do
           overview_page.within_custom_field_container(custom_field) do
             expect(page).to have_content "Yes"
           end
@@ -101,14 +101,14 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
         end
       end
 
-      shared_examples 'a custom field input' do
-        it 'saves the value properly' do
+      shared_examples "a custom field input" do
+        it "saves the value properly" do
           custom_field.custom_values.destroy_all
 
           overview_page.visit_page
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content I18n.t('placeholders.default')
+            expect(page).to have_content I18n.t("placeholders.default")
           end
 
           overview_page.open_edit_dialog_for_section(section)
@@ -123,7 +123,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        it 'does not change the value if untouched' do
+        it "does not change the value if untouched" do
           overview_page.visit_page
 
           overview_page.within_custom_field_container(custom_field) do
@@ -142,26 +142,26 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        it 'removes the value properly' do
+        it "removes the value properly" do
           overview_page.within_custom_field_container(custom_field) do
             expect(page).to have_content expected_initial_value
           end
 
           overview_page.open_edit_dialog_for_section(section)
 
-          field.fill_in(with: '')
+          field.fill_in(with: "")
 
           dialog.submit
           dialog.expect_closed
 
           overview_page.within_custom_field_container(custom_field) do
-            expect(page).to have_content I18n.t('placeholders.default')
+            expect(page).to have_content I18n.t("placeholders.default")
           end
         end
       end
 
-      shared_examples 'a rich text custom field input' do
-        it 'saves the value properly' do
+      shared_examples "a rich text custom field input" do
+        it "saves the value properly" do
           custom_field.custom_values.destroy_all
 
           overview_page.visit_page
@@ -182,7 +182,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        it 'does not change the value if untouched' do
+        it "does not change the value if untouched" do
           overview_page.visit_page
 
           overview_page.within_custom_field_container(custom_field) do
@@ -201,14 +201,14 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        it 'removes the value properly' do
+        it "removes the value properly" do
           overview_page.within_custom_field_container(custom_field) do
             expect(page).to have_text(expected_initial_value)
           end
 
           overview_page.open_edit_dialog_for_section(section)
 
-          field.set_value('')
+          field.set_value("")
 
           dialog.submit
           dialog.expect_closed
@@ -219,71 +219,70 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
         end
       end
 
-      describe 'with boolean CF' do
+      describe "with boolean CF" do
         let(:custom_field) { boolean_project_custom_field }
         let(:field) { FormFields::Primerized::InputField.new(custom_field) }
-        let(:expected_initial_value) { true }
 
-        it_behaves_like 'a custom field checkbox'
+        it_behaves_like "a custom field checkbox"
       end
 
-      describe 'with string CF' do
+      describe "with string CF" do
         let(:custom_field) { string_project_custom_field }
         let(:field) { FormFields::Primerized::InputField.new(custom_field) }
-        let(:expected_initial_value) { 'Foo' }
-        let(:update_value) { 'Bar' }
+        let(:expected_initial_value) { "Foo" }
+        let(:update_value) { "Bar" }
         let(:expected_updated_value) { update_value }
 
-        it_behaves_like 'a custom field input'
+        it_behaves_like "a custom field input"
       end
 
-      describe 'with integer CF' do
+      describe "with integer CF" do
         let(:custom_field) { integer_project_custom_field }
         let(:field) { FormFields::Primerized::InputField.new(custom_field) }
         let(:expected_initial_value) { 123 }
         let(:update_value) { 456 }
         let(:expected_updated_value) { update_value }
 
-        it_behaves_like 'a custom field input'
+        it_behaves_like "a custom field input"
       end
 
-      describe 'with float CF' do
+      describe "with float CF" do
         let(:custom_field) { float_project_custom_field }
         let(:field) { FormFields::Primerized::InputField.new(custom_field) }
         let(:expected_initial_value) { 123.456 }
         let(:update_value) { 456.789 }
         let(:expected_updated_value) { update_value }
 
-        it_behaves_like 'a custom field input'
+        it_behaves_like "a custom field input"
       end
 
-      describe 'with date CF' do
+      describe "with date CF" do
         let(:custom_field) { date_project_custom_field }
         let(:field) { FormFields::Primerized::InputField.new(custom_field) }
-        let(:expected_initial_value) { '01/01/2024' }
+        let(:expected_initial_value) { "01/01/2024" }
         let(:update_value) { Date.new(2024, 1, 2) }
-        let(:expected_updated_value) { '01/02/2024' }
+        let(:expected_updated_value) { "01/02/2024" }
 
-        it_behaves_like 'a custom field input'
+        it_behaves_like "a custom field input"
       end
 
-      describe 'with text CF' do
+      describe "with text CF" do
         let(:custom_field) { text_project_custom_field }
         let(:field) { FormFields::Primerized::EditorFormField.new(custom_field) }
         let(:expected_initial_value) { "Lorem\nipsum" } # TBD: why is the second newline missing?
         let(:update_value) { "Dolor\n\nsit" }
         let(:expected_updated_value) { "Dolor\nsit" }
 
-        it_behaves_like 'a rich text custom field input'
+        it_behaves_like "a rich text custom field input"
       end
     end
 
-    describe 'with select fields' do
+    describe "with select fields" do
       let(:section) { section_for_select_fields }
       let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
 
-      shared_examples 'a select field' do
-        it 'saves the value properly' do
+      shared_examples "a select field" do
+        it "saves the value properly" do
           custom_field.custom_values.destroy_all
 
           overview_page.visit_page
@@ -304,7 +303,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        it 'does not change the value if untouched' do
+        it "does not change the value if untouched" do
           overview_page.visit_page
 
           overview_page.within_custom_field_container(custom_field) do
@@ -324,7 +323,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        it 'removes the value properly' do
+        it "removes the value properly" do
           overview_page.within_custom_field_container(custom_field) do
             expect(page).to have_text first_option
           end
@@ -342,39 +341,39 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
         end
       end
 
-      describe 'with list CF' do
+      describe "with list CF" do
         let(:custom_field) { list_project_custom_field }
         let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
 
         let(:first_option) { custom_field.custom_options.first.value }
 
-        it_behaves_like 'a select field'
+        it_behaves_like "a select field"
       end
 
-      describe 'with version select CF' do
+      describe "with version select CF" do
         let(:custom_field) { version_project_custom_field }
         let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
 
         let(:first_option) { first_version.name }
 
-        it_behaves_like 'a select field'
+        it_behaves_like "a select field"
       end
 
-      describe 'with user select CF' do
+      describe "with user select CF" do
         let(:custom_field) { user_project_custom_field }
         let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
 
         let(:first_option) { member_in_project.name }
 
-        it_behaves_like 'a select field'
+        it_behaves_like "a select field"
 
-        describe 'with support for user groups' do
+        describe "with support for user groups" do
           let!(:group) do
-            create(:group, name: 'Group 1 in project',
+            create(:group, name: "Group 1 in project",
                            member_with_roles: { project => reader_role })
           end
 
-          it 'saves selected user group properly' do
+          it "saves selected user group properly" do
             custom_field.custom_values.destroy_all
 
             overview_page.visit_page
@@ -392,13 +391,13 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        describe 'with support for placeholder users' do
+        describe "with support for placeholder users" do
           let!(:placeholder_user) do
-            create(:placeholder_user, name: 'Placeholder user',
+            create(:placeholder_user, name: "Placeholder user",
                                       member_with_roles: { project => reader_role })
           end
 
-          it 'saves selected placeholer user properly' do
+          it "saves selected placeholer user properly" do
             custom_field.custom_values.destroy_all
 
             overview_page.visit_page
@@ -418,12 +417,12 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
       end
     end
 
-    describe 'with multi select fields' do
+    describe "with multi select fields" do
       let(:section) { section_for_multi_select_fields }
       let(:dialog) { Components::Projects::ProjectCustomFields::EditDialog.new(project, section) }
 
-      shared_examples 'a autocomplete multi select field' do
-        it 'saves single selected values properly' do
+      shared_examples "a autocomplete multi select field" do
+        it "saves single selected values properly" do
           custom_field.custom_values.destroy_all
 
           overview_page.visit_page
@@ -444,7 +443,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        it 'saves multi selected values properly' do
+        it "saves multi selected values properly" do
           custom_field.custom_values.destroy_all
 
           overview_page.visit_page
@@ -468,7 +467,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        it 'removes deselected values properly' do
+        it "removes deselected values properly" do
           overview_page.within_custom_field_container(custom_field) do
             expect(page).to have_text first_option
             expect(page).to have_text second_option
@@ -487,7 +486,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        it 'does not remove values when not touching the init values' do
+        it "does not remove values when not touching the init values" do
           overview_page.within_custom_field_container(custom_field) do
             expect(page).to have_text first_option
             expect(page).to have_text second_option
@@ -507,7 +506,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        it 'removes all values when clearing the input' do
+        it "removes all values when clearing the input" do
           overview_page.within_custom_field_container(custom_field) do
             expect(page).to have_text first_option
             expect(page).to have_text second_option
@@ -526,7 +525,7 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        it 'adds values properly to init values' do
+        it "adds values properly to init values" do
           custom_field.custom_values.destroy_all
 
           overview_page.visit_page
@@ -562,46 +561,46 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
         end
       end
 
-      describe 'with multi select list CF' do
+      describe "with multi select list CF" do
         let(:custom_field) { multi_list_project_custom_field }
         let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
 
         let(:first_option) { custom_field.custom_options.first.value }
         let(:second_option) { custom_field.custom_options.second.value }
 
-        it_behaves_like 'a autocomplete multi select field'
+        it_behaves_like "a autocomplete multi select field"
       end
 
-      describe 'with multi version select list CF' do
+      describe "with multi version select list CF" do
         let(:custom_field) { multi_version_project_custom_field }
         let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
 
         let(:first_option) { first_version.name }
         let(:second_option) { second_version.name }
 
-        it_behaves_like 'a autocomplete multi select field'
+        it_behaves_like "a autocomplete multi select field"
       end
 
-      describe 'with multi user select list CF' do
+      describe "with multi user select list CF" do
         let(:custom_field) { multi_user_project_custom_field }
         let(:field) { FormFields::Primerized::AutocompleteField.new(custom_field) }
 
         let(:first_option) { member_in_project.name }
         let(:second_option) { another_member_in_project.name }
 
-        it_behaves_like 'a autocomplete multi select field'
+        it_behaves_like "a autocomplete multi select field"
 
-        describe 'with support for user groups' do
+        describe "with support for user groups" do
           let!(:group) do
-            create(:group, name: 'Group 1 in project',
+            create(:group, name: "Group 1 in project",
                            member_with_roles: { project => reader_role })
           end
           let!(:another_group) do
-            create(:group, name: 'Group 2 in project',
+            create(:group, name: "Group 2 in project",
                            member_with_roles: { project => reader_role })
           end
 
-          it 'saves selected user groups properly' do
+          it "saves selected user groups properly" do
             custom_field.custom_values.destroy_all
 
             overview_page.visit_page
@@ -621,17 +620,17 @@ RSpec.describe 'Edit project custom fields on project overview page', :js do
           end
         end
 
-        describe 'with support for placeholder users' do
+        describe "with support for placeholder users" do
           let!(:placeholder_user) do
-            create(:placeholder_user, name: 'Placeholder user',
+            create(:placeholder_user, name: "Placeholder user",
                                       member_with_roles: { project => reader_role })
           end
           let!(:another_placeholder_user) do
-            create(:placeholder_user, name: 'Another placeholder User',
+            create(:placeholder_user, name: "Another placeholder User",
                                       member_with_roles: { project => reader_role })
           end
 
-          it 'shows only placeholder users from this project' do
+          it "shows only placeholder users from this project" do
             custom_field.custom_values.destroy_all
 
             overview_page.visit_page
