@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal:true
 
 #-- copyright
 # OpenProject is an open source project management software.
@@ -30,26 +30,23 @@
 
 module Storages
   module Peripherals
-    module OAuthConfigurations
-      class ConfigurationInterface
-        def authorization_state_check(_) = raise ::Storages::Errors::SubclassResponsibility
+    module StorageInteraction
+      module AuthenticationStrategies
+        class OAuthConfiguration
+          include ActiveModel::Validations
 
-        def scope = raise ::Storages::Errors::SubclassResponsibility
+          attr_reader :scope, :issuer, :client_secret, :client_id
 
-        def basic_rack_oauth_client = raise ::Storages::Errors::SubclassResponsibility
+          validates_presence_of :client_id, :client_secret, :issuer
 
-        def to_httpx_oauth_config = raise ::Storages::Errors::SubclassResponsibility
-
-        private
-
-        def authorization_check_wrapper
-          case yield
-          in { status: 200..299 }
-            :success
-          in { status: 401 | 403 }
-            :refresh_needed
-          else
-            :error
+          def initialize(client_id: nil,
+                         client_secret: nil,
+                         issuer: nil,
+                         scope: nil)
+            @client_id = client_id
+            @client_secret = client_secret
+            @issuer = issuer
+            @scope = scope
           end
         end
       end
