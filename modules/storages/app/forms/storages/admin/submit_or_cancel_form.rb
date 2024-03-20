@@ -58,7 +58,7 @@ module Storages::Admin
         name: :cancel,
         scheme: :default,
         tag: :a,
-        href: Rails.application.routes.url_helpers.admin_settings_storages_path,
+        href: OpenProject::StaticRouting::StaticRouter.new.url_helpers.admin_settings_storages_path,
         label: I18n.t('button_cancel')
       }
     end

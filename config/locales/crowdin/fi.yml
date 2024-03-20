@@ -26,15 +26,14 @@ fi:
       no_results_title_text: Ei tapahtumia projektissa tällä aikavälillä.
   admin:
     plugins:
-      no_results_title_text: Tällä hetkellä ei ole liitännäisiä saatavilla.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Väriteema"
       color_theme_custom: "(Mukautettu)"
       colors:
-        alternative-color: "Vaihtoehtoinen"
-        content-link-color: "Linkin kirjasin"
-        primary-color: "Primary"
-        primary-color-dark: "Primary (dark)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Header background"
         header-item-bg-hover-color: "Header background on hover"
         header-item-font-color: "Header font"
@@ -53,10 +52,8 @@ fi:
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Muokkaa värin valitsemis asetuksia"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
-        content-link-color: "Fontin väri eniten linkkejä."
-        primary-color: "Pääväri."
-        primary-color-dark: "Yleensä tummempi versio pääväristä on käytössä valintatehosteissa."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Taustan väri klikattava otsikko eriä kun leijui hiirellä."
         header-item-font-color: "Fontin väri klikattava otsikko eriä."
         header-item-font-hover-color: "Fontin väri klikattava otsikko eriä kun leijui hiirellä."
@@ -265,12 +262,15 @@ fi:
       no_results_title_text: Tällä hetkellä ei ole projekteja
       no_results_content_text: Luo uusi projekti
     lists:
-      active: 'Active projects'
-      my: 'My projects'
-      archived: 'Archived projects'
-      my_private: 'My private project lists'
+      active: "Active projects"
+      my: "My projects"
+      archived: "Archived projects"
+      my_private: "My private project lists"
       new:
-        placeholder: 'New project list'
+        placeholder: "New project list"
+      delete_modal:
+        title: "Delete project list"
+        text: "This action will not delete any project the list contains. Are you sure you want to delete this project list?"
     settings:
       change_identifier: Change identifier
       activities:
@@ -292,6 +292,8 @@ fi:
         no_results_content_text: Luo uusi versio
       storage:
         no_results_title_text: There is no additional recorded disk space consumed by this project.
+  lists:
+    can_be_saved_as: "The modifications can only be saved in a new list."
   members:
     index:
       no_results_title_text: Tähän projektiin ei kuulu yhtään henkilöä.
@@ -344,7 +346,7 @@ fi:
     memberships:
       no_results_title_text: Tämä käyttäjä ei ole projektin jäsen.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       You are not allowed to delete the placeholder user. You do not have the right to manage members for all projects that the placeholder user is a member of.
@@ -842,6 +844,10 @@ fi:
               invalid: "Timestamps contain invalid values: %{values}"
               forbidden: "Timestamps contain forbidden values: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "The 'Name' column needs to be included"
+              nonexistent: "The column '%{column}' does not exist."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
@@ -1194,6 +1200,7 @@ fi:
   button_reset: "Nollaus"
   button_rollback: "Siirry takaisin tähän versioon"
   button_save: "Tallenna"
+  button_save_as: "Save as"
   button_apply_changes: "Apply changes"
   button_save_back: "Tallenna ja palaa"
   button_show: "Näytä"
@@ -1522,6 +1529,7 @@ fi:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "Käyttöoppaat"
       faq: "UKK"
+      impressum: "Legal notice"
       glossary: "Sanasto"
       shortcuts: "Pikanäppäimet"
       blog: "OpenProject blogi"
@@ -1778,6 +1786,7 @@ fi:
   label_diff_side_by_side: "vierekkäin"
   label_digital_accessibility: "Digital accessibility (DE)"
   label_disabled: "poistettu käytöstä"
+  label_disabled_uppercase: "Disabled"
   label_display: "Näytä"
   label_display_per_page: "Per sivu: %{value}"
   label_display_used_statuses_only: "Näytä vain tilat, jotka ovat käytössä tälle tyypille"
@@ -1852,7 +1861,6 @@ fi:
   label_subject_or_id: "Aihe tai ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Legal notice"
   label_in: "tässä"
   label_in_less_than: "pienempi kuin"
   label_in_more_than: "suurempi kuin"
@@ -2005,6 +2013,7 @@ fi:
   label_precedes: "edeltää"
   label_preferences: "Asetukset"
   label_preview: "Esikatselu"
+  label_preview_not_available: "(Preview not available)"
   label_previous: "Edellinen"
   label_previous_week: "Edellinen viikko"
   label_principal_invite_via_email: " tai kutsu uusia käyttäjiä sähköpostilla"
@@ -2591,6 +2600,7 @@ fi:
     name_or_identifier: "Name or identifier"
     only_subproject_id: "Only subproject"
     shared_with_user: "Shared with user"
+    shared_with_me: "Shared with me"
     subproject_id: "Including subproject"
   repositories:
     at_identifier: "klo %{identifier}"
@@ -2741,7 +2751,7 @@ fi:
   setting_brute_force_block_minutes: "Aika jonka käyttäjä on estettynä"
   setting_cache_formatted_text: "Käytä välimuistia muotoillulle tekstille"
   setting_use_wysiwyg_description: "Select to enable CKEditor5 WYSIWYG editor for all users by default. CKEditor has limited functionality for GFM Markdown."
-  setting_column_options: "Muokkaa tehtävälistauksen ulkoasua"
+  setting_column_options: "Default work package lists columns"
   setting_commit_fix_keywords: "Korjaavat hakusanat"
   setting_commit_logs_encoding: "Commit messages encoding"
   setting_commit_logtime_activity_id: "Tapahtuma kirjatulle ajalle"
@@ -2763,7 +2773,7 @@ fi:
   setting_emails_header: "Sähköpostit otsikko"
   setting_email_login: "Käytä sähköpostiosoitetta kirjautumiseen"
   setting_enabled_scm: "Käytössäoleva versionhallinta"
-  setting_enabled_projects_columns: "Visible in project list"
+  setting_enabled_projects_columns: "Columns in a projects list displayed by default"
   setting_feeds_enabled: "Ota syötteet käyttöön"
   setting_ical_enabled: "Enable iCalendar subscriptions"
   setting_feeds_limit: "Syötteen sisällön raja"
@@ -2774,7 +2784,6 @@ fi:
   setting_work_package_done_ratio_field: "The work package field"
   setting_work_package_done_ratio_status: "The work package status"
   setting_work_package_done_ratio_disabled: "Disable (hide the % Complete field)"
-  setting_work_package_list_default_columns: "Oletuksena näkyvissä"
   setting_work_package_properties: "Tehtävän ominaisuudet"
   setting_work_package_startdate_is_adddate: "Käytä nykyistä päivämäärää uuden tehtävän aloistuspäivänä"
   setting_work_packages_projects_export_limit: "Work packages / Projects export limit"
@@ -2840,12 +2849,12 @@ fi:
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus scanning has been enabled successfuly. There are %{file_count} that were uploaded previously and still need to be scanned. This process has been scheduled in the background. The files will remain accessible during the scan.
       upsale:
         description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Delete the file"
+        quarantine: "Quarantine the file"
         instructions_html: >
           Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
       modes:
@@ -2882,7 +2891,7 @@ fi:
     projects:
       missing_dependencies: "Project module %{module} was checked which depends on %{dependencies}. You need to check these dependencies as well."
       section_new_projects: "Settings for new projects"
-      section_project_overview: "Settings for project overview list"
+      section_project_overview: "Settings for project lists"
     session: "Istunto"
     user:
       default_preferences: "Default preferences"
@@ -3047,6 +3056,12 @@ fi:
       If enabled a user will be unable to chose a login during registration. Instead their given email address will serve as the login. An administrator may still change the login separately.
   queries:
     apply_filter: Apply preconfigured filter
+    configure_view:
+      heading: Configure view
+      columns:
+        input_label: "Add columns"
+        input_placeholder: "Select a column"
+        drag_area_label: "Manage and reorder columns"
   top_menu:
     additional_resources: "Lisäresurssit"
     getting_started: "Getting started"

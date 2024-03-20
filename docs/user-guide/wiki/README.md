@@ -90,14 +90,6 @@ OpenProject has supported macros on textile formatted pages and continues to do 
 
 Where applicable, the table of contents (TOC) macro will output a listing of all headings on the current page.
 
-###  Work package button
-
-Configure a button or link to target the work package creation screen in the current project. You can preselect a work package type that should be selected, making it easy to guide the users to the work package creation form.
-
-### Include wiki page
-
-Include the content of a given wiki page in the current, or another visible project.
-
 ### Embed work package table and Gantt chart
 
 This is the most flexible macro that provides extensive functionality regarding the inclusion of dynamic work package tables with all the potential of the regular work package table.
@@ -107,6 +99,14 @@ By adding an embedded work package table through the toolbar, you can configure 
 The rendered page will then fetch the work package table results dynamically, respecting the visibility for each user.
 
 Use it to embed views in other pages, create reporting of multiple results, or to embed a Gantt chart view.
+
+###  Work package button
+
+Configure a button or link to target the work package creation screen in the current project. You can preselect a work package type that should be selected, making it easy to guide the users to the work package creation form.
+
+### Links to child pages
+
+Create a hierarchical list of all child pages of the current page.
 
 ## Full vs constrained editor
 

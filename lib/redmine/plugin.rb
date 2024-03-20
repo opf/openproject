@@ -96,6 +96,7 @@ module Redmine # :nodoc:
       end
     end
     def_field :gem_name, :url, :author, :author_url, :version, :settings, :bundled
+    alias :bundled? :bundled
     attr_reader :id
 
     # Plugin constructor
@@ -163,6 +164,12 @@ module Redmine # :nodoc:
     # Returns an array of all registered plugins
     def self.all
       registered_plugins.values
+    end
+
+    def self.not_bundled
+      registered_plugins
+        .values
+        .reject(&:bundled)
     end
 
     # Finds a plugin by its id

@@ -14,7 +14,7 @@ module OpenProject::TwoFactorAuthentication
         @device = device
       end
 
-      def verify(input_token)
+      def verify(input_token, **)
         # Ensure this strategy uses mobile tokens or overrode this method
         raise 'Cannot verify mobile token' unless self.class.mobile_token?
 

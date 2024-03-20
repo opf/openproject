@@ -79,7 +79,7 @@ module Admin::Settings
     def success_callback(_call)
       if Setting.antivirus_scan_mode == :disabled && Attachment.status_quarantined.any?
         remaining_quarantine_warning
-      elsif scan_enabled?
+      elsif scan_enabled? && Attachment.status_uploaded.any?
         rescan_files
       else
         super
@@ -87,7 +87,7 @@ module Admin::Settings
     end
 
     def rescan_files
-      flash[:info] = t('settings.antivirus.remaining_rescanned_files',
+      flash[:notice] = t('settings.antivirus.remaining_rescanned_files',
                        file_count: t(:label_x_files, count: Attachment.status_uploaded.count))
       Attachment.status_uploaded.update_all(status: :rescan)
 

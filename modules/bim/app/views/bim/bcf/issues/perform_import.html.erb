@@ -4,7 +4,7 @@
 
 <%= link_to t('bcf.bcf_xml.import.button_back_to_list'),
             defaults_bcf_project_ifc_models_path(@project),
-            class: 'button -highlight' %>
+            class: 'button -primary' %>
 
 <fieldset class="form--fieldset">
   <legend class="form--fieldset-legend"><%= I18n.t('bcf.label_imported_successfully') %></legend>
@@ -17,4 +17,3 @@
   <legend class="form--fieldset-legend"><%= I18n.t('bcf.label_imported_failed') %></legend>
   <%= render partial: 'render_issues', locals: { issues: @issues[:failed] } %>
 </fieldset>
-

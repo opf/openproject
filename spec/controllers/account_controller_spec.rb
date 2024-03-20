@@ -218,28 +218,6 @@ RSpec.describe AccountController, :skip_2fa_stage do
         expect(response).to redirect_to my_page_path
       end
 
-      context 'with an auth source',
-              with_settings: { self_registration: Setting::SelfRegistration.disabled } do
-        let(:auth_source) { create(:ldap_auth_source) }
-
-        it 'creates the user on the fly' do
-          allow(LdapAuthSource)
-            .to(receive(:authenticate))
-            .and_return(login: 'foo',
-                        firstname: 'Foo',
-                        lastname: 'Smith',
-                        mail: 'foo@bar.com',
-                        ldap_auth_source_id: auth_source.id)
-          post :login, params: { username: 'foo', password: 'bar' }
-
-          expect(response).to redirect_to home_url(first_time_user: true)
-          user = User.find_by(login: 'foo')
-          expect(user).to be_an_instance_of User
-          expect(user.ldap_auth_source_id).to eq(auth_source.id)
-          expect(user.current_password).to be_nil
-        end
-      end
-
       context 'with a relative url root' do
         around do |example|
           old_relative_url_root = OpenProject::Configuration['rails_relative_url_root']
@@ -432,48 +410,6 @@ RSpec.describe AccountController, :skip_2fa_stage do
 
       it 'is not found' do
         expect(response).to have_http_status :not_found
-      end
-    end
-
-    context 'with an auth source',
-            with_settings: { self_registration: Setting::SelfRegistration.disabled } do
-      let(:auth_source) { create(:ldap_auth_source) }
-
-      let(:user_attributes) do
-        {
-          login: 's.scallywag',
-          firstname: 'Scarlet',
-          lastname: 'Scallywag',
-          mail: 's.scallywag@openproject.com',
-          ldap_auth_source_id: auth_source.id
-        }
-      end
-
-      let(:authenticate) { true }
-
-      before do
-        allow(LdapAuthSource).to receive(:authenticate).and_return(authenticate ? user_attributes : nil)
-
-        # required so that the register view can be rendered
-        allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false) # rubocop:disable RSpec/AnyInstance
-      end
-
-      context 'with user limit reached' do
-        render_views
-
-        before do
-          allow(OpenProject::Enterprise).to receive(:user_limit_reached?).and_return(true)
-
-          post :login, params: { username: 'foo', password: 'bar' }
-        end
-
-        it 'shows the user limit error' do
-          expect(response.body).to have_text "User limit reached"
-        end
-
-        it 'renders the register form' do
-          expect(response.body).to include "/account/register"
-        end
       end
     end
   end
@@ -893,51 +829,11 @@ RSpec.describe AccountController, :skip_2fa_stage do
             with_settings: { self_registration: Setting::SelfRegistration.disabled } do
       before do
         allow_any_instance_of(User).to receive(:change_password_allowed?).and_return(false) # rubocop:disable RSpec/AnyInstance
-        allow(LdapAuthSource).to receive(:authenticate).and_return(login: 'foo',
-                                                                   lastname: 'Smith',
-                                                                   ldap_auth_source_id: 66)
-      end
-
-      context 'with password login enabled' do
-        before do
-          post :login, params: { username: 'foo', password: 'bar' }
-        end
-
-        it 'registers the user on-the-fly' do
-          expect(subject).to respond_with :success
-          expect(response).to render_template :register
-
-          post :register,
-               params: {
-                 user: {
-                   firstname: 'Foo',
-                   lastname: 'Smith',
-                   mail: 'foo@bar.com'
-                 }
-               }
-          expect(response).to redirect_to home_path(first_time_user: true)
-
-          user = User.find_by_login('foo') # rubocop:disable Rails/DynamicFindBy
-
-          expect(user).to be_an_instance_of(User)
-          expect(user.ldap_auth_source_id).to be 66
-          expect(user.current_password).to be_nil
-        end
       end
 
       context 'with password login disabled' do
         before do
           allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
-        end
-
-        describe 'login' do
-          before do
-            post :login, params: { username: 'foo', password: 'bar' }
-          end
-
-          it 'is not found' do
-            expect(response).to have_http_status :not_found
-          end
         end
 
         describe 'registration' do

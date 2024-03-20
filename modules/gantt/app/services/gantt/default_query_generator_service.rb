@@ -29,11 +29,10 @@
 module ::Gantt
   class DefaultQueryGeneratorService
     DEFAULT_QUERY = :all_open
-    QUERY_MAPPINGS = {
-      DEFAULT_QUERY => I18n.t('js.queries.all_open'),
-      :milestones => I18n.t('js.queries.milestones')
-    }.freeze
-    QUERY_OPTIONS = QUERY_MAPPINGS.keys
+    QUERY_OPTIONS = [
+      DEFAULT_QUERY,
+      :milestones
+    ].freeze
 
     PROJECT_DEFAULT_COLUMNS = %w[id type subject status startDate dueDate duration].freeze
     GLOBAL_DEFAULT_COLUMNS = %w[id project type subject status startDate dueDate duration].freeze

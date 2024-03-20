@@ -12,6 +12,8 @@ zh-CN:
       remove_assignee: '移除受理人'
       two_weeks: '2 周'
       one_week: '1 周'
+      four_weeks: '4 周'
+      eight_weeks: '8 周'
       work_week: '工作周'
       today: '今天'
       drag_here_to_remove: '拖动到此处可移除受理人及开始日期和结束日期。'

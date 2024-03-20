@@ -30,19 +30,65 @@ require 'nokogiri'
 module OpenProject
   module Common
     class AttributeComponent < Primer::Component
+      attr_reader :id,
+                  :name,
+                  :description
+
+      PARAGRAPH_CSS_CLASS = 'op-uc-p'.freeze
+
       def initialize(id, name, description, **args)
         super
         @id = id
         @name = name
         @description = description
-        @attr_value = is_multi_type(description) ? I18n.t('js.label_preview_not_available') : Nokogiri::HTML(description).text
         @system_arguments = args
+      end
+
+      def short_text
+        if multi_type?
+          I18n.t(:label_preview_not_available)
+        else
+          first_paragraph
+        end
+      end
+
+      def full_text
+        @full_text ||= helpers.format_text(description)
+      end
+
+      def display_expand_button_value
+        multi_type? || body_children.length > 1 ? :block : :none
+      end
+
+      def text_color
+        :muted if multi_type?
       end
 
       private
 
-      def is_multi_type(text)
-        text.to_s.include?('figure') || text.to_s.include?('macro')
+      def first_paragraph
+        @first_paragraph ||= if body_children.any?
+                               body_children
+                                 .first
+                                 .inner_html
+                                 .html_safe # rubocop:disable Rails/OutputSafety
+                             else
+                               ''
+                             end
+      end
+
+      def text_ast
+        @text_ast ||= Nokogiri::HTML(full_text)
+      end
+
+      def body_children
+        text_ast
+          .xpath('html/body')
+          .children
+      end
+
+      def multi_type?
+        first_paragraph.include?('figure') || first_paragraph.include?('macro')
       end
     end
   end

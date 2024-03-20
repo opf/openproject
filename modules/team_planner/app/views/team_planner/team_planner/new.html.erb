@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%= toolbar title: t('team_planner.label_new_team_planner') %>
 <%= labelled_tabular_form_for @view, url: { controller: '/team_planner/team_planner', action: 'create' }, :html => {:id => 'team-planner-form'} do |f| -%>
   <%= render :partial => 'form', :locals => {:f => f} %>
-  <%= styled_button_tag t(:button_create), class: '-highlight' %>
+  <%= styled_button_tag t(:button_create), class: '-primary' %>
   <%= link_to t(:button_cancel), { controller: 'team_planner/team_planner', action: 'overview' },
               class: 'button' %>
 <% end %>

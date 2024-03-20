@@ -57,7 +57,7 @@ module Pages
 
           visit!
         else
-          expect(page).to have_no_css('.button.-alt-highlight', text: 'IFC model')
+          expect(page).to have_no_css('.button.-primary', text: 'IFC model')
         end
       end
 

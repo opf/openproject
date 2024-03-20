@@ -31,7 +31,8 @@ require 'services/base_services/behaves_like_create_service'
 
 RSpec.describe CustomFields::CreateService, type: :model do
   it_behaves_like 'BaseServices create service' do
-    context 'when creating a project cf' do
+    context 'when creating a project cf',
+            with_ee: %i[custom_fields_in_projects_list] do
       let(:model_instance) { build_stubbed(:project_custom_field) }
 
       it 'modifies the settings on successful call' do

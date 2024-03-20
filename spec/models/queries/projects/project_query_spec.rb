@@ -31,13 +31,14 @@ require 'spec_helper'
 RSpec.describe Queries::Projects::ProjectQuery do
   let(:instance) { described_class.new }
 
-  shared_let(:current_user) { create(:user) }
+  shared_let(:user) { create(:user) }
+  shared_let(:admin) { create(:admin) }
 
   context 'when persisting' do
     let(:properties) do
       {
         name: 'some name',
-        user: current_user
+        user:
       }
     end
 
@@ -75,6 +76,77 @@ RSpec.describe Queries::Projects::ProjectQuery do
 
       expect(described_class.find(instance.id).orders.map { |o| { o.attribute => o.direction } })
         .to eql [{ id: :desc }]
+    end
+
+    it 'takes selects' do
+      instance = described_class.new(**properties)
+
+      instance.select(:name, :public)
+
+      instance.save!
+
+      expect(described_class.find(instance.id).selects.map(&:attribute))
+        .to eql %i[name public]
+    end
+  end
+
+  describe '.available_selects' do
+    current_user { user }
+
+    before do
+      scope = instance_double(ActiveRecord::Relation)
+
+      allow(ProjectCustomField)
+        .to receive(:visible)
+              .and_return(scope)
+
+      allow(scope)
+        .to receive(:pluck)
+              .and_return([23, 42])
+    end
+
+    it 'lists registered selects' do
+      expect(instance.available_selects.map(&:attribute))
+        .to contain_exactly(:name,
+                            :public,
+                            :description,
+                            :hierarchy,
+                            :project_status,
+                            :status_explanation)
+    end
+
+    context 'with the user being admin' do
+      current_user { admin }
+
+      it 'includes admin columns' do
+        expect(instance.available_selects.map(&:attribute))
+          .to contain_exactly(:name,
+                              :public,
+                              :description,
+                              :hierarchy,
+                              :project_status,
+                              :status_explanation,
+                              :created_at,
+                              :latest_activity_at,
+                              :required_disk_space)
+      end
+    end
+
+    context 'with an enterprise token',
+            with_ee: %i[custom_fields_in_projects_list] do
+      # rubocop:disable Naming/VariableNumber
+      it 'includes custom field columns' do
+        expect(instance.available_selects.map(&:attribute))
+          .to contain_exactly(:name,
+                              :public,
+                              :description,
+                              :hierarchy,
+                              :project_status,
+                              :status_explanation,
+                              :cf_23,
+                              :cf_42)
+      end
+      # rubocop:enable Naming/VariableNumber
     end
   end
 end

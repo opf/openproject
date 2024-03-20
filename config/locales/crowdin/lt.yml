@@ -26,15 +26,14 @@ lt:
       no_results_title_text: Šiuo periodu projekte nieko neįvyko.
   admin:
     plugins:
-      no_results_title_text: Nėra jokių pasiekiamų plėtinių.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Spalvų tema"
       color_theme_custom: "(Pasirinktinis)"
       colors:
-        alternative-color: "Alternatyva"
-        content-link-color: "Nuorodų šriftas"
-        primary-color: "Pagrindinė"
-        primary-color-dark: "Pagrindinė (tamsi)"
+        primary-button-color: "Pagrindinis mygtukas"
+        accent-color: "Akcentas"
         header-bg-color: "Antraštės fonas"
         header-item-bg-hover-color: "Atraštės fonas užvedus pelę"
         header-item-font-color: "Antraštės šriftas"
@@ -53,10 +52,8 @@ lt:
       enterprise_more_info: "Pastaba: panaudotas logotipas bus viešai prieinamas."
       manage_colors: "Redaguoti spalvos pasirinkimo variantus"
       instructions:
-        alternative-color: "Stipri, akį rėžianti spalva, įprastai naudojama svarbiausiam mygtukui ekrane."
-        content-link-color: "Šrifto spalva daugeliui nuorodų."
-        primary-color: "Pagrindinė spalva."
-        primary-color-dark: "Įprastai tamsesnė pagrindinės spalvos atmaina naudojama žymeklio užvedimo efektui sukurti."
+        primary-button-color: "Stipraus akcento spalva, naudojama svarbiausiam ekrano mygtukui."
+        accent-color: "Spalvos nuorodoms ir kitiems dalinai paryškintiems elementams."
         header-item-bg-hover-color: "Antraštės fono spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
         header-item-font-color: "Šrifto spalva galimiems paspausti antraštės įrašams."
         header-item-font-hover-color: "Šrifto spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
@@ -262,12 +259,15 @@ lt:
       no_results_title_text: Nėra jokių projektų
       no_results_content_text: Sukurti naują projektą
     lists:
-      active: 'Aktyvūs projektai'
-      my: 'Mano projektai'
-      archived: 'Archyvuoti projektai'
-      my_private: 'Mano privatūs projektų sąrašai'
+      active: "Aktyvūs projektai"
+      my: "Mano projektai"
+      archived: "Archyvuoti projektai"
+      my_private: "Mano privatūs projektų sąrašai"
       new:
-        placeholder: 'Naujas projektų sąrašas'
+        placeholder: "Naujas projektų sąrašas"
+      delete_modal:
+        title: "Trinti projektų sąrašą"
+        text: "Atlikus šį veiksmą nebus ištrintas nė vienas sąraše esantis projektas. Ar tikrai norite ištrinti šį projektų sąrašą?"
     settings:
       change_identifier: Pokyčio identifikatorius
       activities:
@@ -289,6 +289,8 @@ lt:
         no_results_content_text: Sukurti naują versiją
       storage:
         no_results_title_text: Šis projektas papildomos vietos diske nenaudoja.
+  lists:
+    can_be_saved_as: "Pakeitimus galima išsaugoti tik naujame sąraše."
   members:
     index:
       no_results_title_text: Nėra nė vieno šio projekto dalyvio.
@@ -341,7 +343,7 @@ lt:
     memberships:
       no_results_title_text: Šis naudotojas šiuo metu nėra projekto narys.
   page:
-    text: 'Tekstas'
+    text: "Tekstas"
   placeholder_users:
     right_to_manage_members_missing: >
       Jums neleidžiama ištrinti statytinio naudotojo. Jūs neturite teisių valdyti projektų narių visuose projektuose, kuriuose šis statytinis naudotojas yra narys.
@@ -841,6 +843,10 @@ lt:
               invalid: "Laiko žymėse yra netinkamos reikšmės: %{values}"
               forbidden: "Laiko žymėse yra uždraustos reikšmės: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "Būtina įtraukti stulpelį „Pavadinimas“"
+              nonexistent: "Stulpelis „%{column}“ neegzistuoja."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "yra nesuderinamas su grupavimu pagal '%{group_by}'. Jūs negalite įjungti abiejų."
           filters:
             custom_fields:
@@ -1209,6 +1215,7 @@ lt:
   button_reset: "Nustatyti iš naujo"
   button_rollback: "Grąžinti į šią versiją"
   button_save: "Išsaugoti"
+  button_save_as: "Įrašyti kaip"
   button_apply_changes: "Pritaikyti pakeitimus"
   button_save_back: "Įrašyti ir grįžti atgal"
   button_show: "Rodyti"
@@ -1573,6 +1580,7 @@ lt:
       postgres_migration: "Migruojame jūsų instaliaciją į PostgreSQL"
       user_guides: "Vartotojo vadovai"
       faq: "D.U.K"
+      impressum: "Teisinė informacija"
       glossary: "Aiškinamasis terminų žodynas"
       shortcuts: "Nuorodos"
       blog: "OpenProject blogas"
@@ -1829,6 +1837,7 @@ lt:
   label_diff_side_by_side: "šalia"
   label_digital_accessibility: "Skaitmeninis prieinamumas (DE)"
   label_disabled: "neleidžiama"
+  label_disabled_uppercase: "Išjungta"
   label_display: "Rodymas"
   label_display_per_page: "%{value} įrašų puslapyje"
   label_display_used_statuses_only: "Rodyti tik tas būsenas, kurias naudoja šis tipas"
@@ -1903,7 +1912,6 @@ lt:
   label_subject_or_id: "Tema arba ID"
   label_calendar_subscriptions: "Kalendoriaus prenumeratos"
   label_identifier: "Identifikatorius"
-  label_impressum: "Teisinė informacija"
   label_in: " "
   label_in_less_than: "mažiau nei"
   label_in_more_than: "daugiau nei"
@@ -2056,6 +2064,7 @@ lt:
   label_precedes: "ankstesnis"
   label_preferences: "Parinktys"
   label_preview: "Peržiūra"
+  label_preview_not_available: "(peržiūra negalima)"
   label_previous: "Ankstesnis"
   label_previous_week: "Ankstesnė savaitė"
   label_principal_invite_via_email: " arba pakviesti naujus vartotojus naudojant el. paštą"
@@ -2644,6 +2653,7 @@ lt:
     name_or_identifier: "Pavadinimas arba identifikatorius"
     only_subproject_id: "Tik sub-projektai"
     shared_with_user: "Bendrinamas su naudotoju"
+    shared_with_me: "Bendrinama su manimi"
     subproject_id: "Įtraukti sub-projektus"
   repositories:
     at_identifier: "%{identifier}"
@@ -2792,7 +2802,7 @@ lt:
   setting_brute_force_block_minutes: "Laikas, kuriam vartotojas yra blokuojamas"
   setting_cache_formatted_text: "Atmintyje laikyti formatuotą tekstą"
   setting_use_wysiwyg_description: "Parinkite, kad įjungtumėte CKEditor5 WYSIWYG redaktorių visiems naudotojams pagal nutylėjimą. CKEditor turi ribotą GFM Markdown funkcionalumą."
-  setting_column_options: "Pritaikyti sau darbų paketų sąrašų atvaizdavimą"
+  setting_column_options: "Numatyti darbų paketų sąrašo stulpeliai"
   setting_commit_fix_keywords: "Reikšminių žodžių fiksavimas"
   setting_commit_logs_encoding: "Patvirtinti žinučių koduotę"
   setting_commit_logtime_activity_id: "Veiklos įrašai prisijungus"
@@ -2814,7 +2824,7 @@ lt:
   setting_emails_header: "El. laiškų antraštė"
   setting_email_login: "Naudokite e-paštą prisijungimui"
   setting_enabled_scm: "Įgalinti SCM"
-  setting_enabled_projects_columns: "Matomas projektų sąraše"
+  setting_enabled_projects_columns: "Stulpeliai projektų sąraše rodomi pagal nutylėjimą"
   setting_feeds_enabled: "Leisti naujienų kanalus"
   setting_ical_enabled: "Įjungti iCalendar prenumeratas"
   setting_feeds_limit: "Naujienų kanalų turinio limitas"
@@ -2825,7 +2835,6 @@ lt:
   setting_work_package_done_ratio_field: "Darbo paketo lauku"
   setting_work_package_done_ratio_status: "Darbų paketo būsena"
   setting_work_package_done_ratio_disabled: "Išjungti (paslėpti lauką % baigta)"
-  setting_work_package_list_default_columns: "Pagal nutylėjimą rodyti"
   setting_work_package_properties: "Darbų paketo ypatybės"
   setting_work_package_startdate_is_adddate: "Naudoti dabartinę datą kaip naujų darbų paketų pradžios datą"
   setting_work_packages_projects_export_limit: "Darbo paketų / Projektų eksporto limitas"
@@ -2891,12 +2900,12 @@ lt:
       remaining_scan_complete_html: >
         Likę failai buvo patikrinti. Karantine yra %{file_count} . Esate nukreipiami į karantino puslapį. Naudokitės šiuo puslapiu norėdami ištrinti arba pakeisti karantine esančius failus.
       remaining_rescanned_files: >
-        Dabar, kai virusų skenavimas yra aktyvus, yra %{file_count} failai, kuruos reikia iš naujo patikrinti. Šis procesas suplanuotas fone. Tikrinimo metu failai išliks prieinami.
+        Virusų skenavimas sėkmingai įjungtas. Yra %{file_count}, kurie buvo įkelti anksčiau ir turi būti patikrinti. Šis darbas suplanuotas fone. Failai liks prieinami tikrinimo metu.
       upsale:
         description: "Užtikrinkite, kad į OpenProject įkelti failai būtų patikrinti nuo virusų prieš padarant juos prieinamus kitiems naudotojams."
       actions:
-        delete: 'Trinti failą'
-        quarantine: 'Karantinuoti failą'
+        delete: "Trinti failą"
+        quarantine: "Karantinuoti failą"
         instructions_html: >
           Pasirinkite veiksmą, kurį norite atlikti su failais, kuriuose aptiktas virusas: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Perkelkite į karantiną, neleisdami naudotojams prieiti prie failo. Administratoriai gali peržiūrėti ir ištrinti į karantiną patalpintus failus administravimo įrankiais.</li> <li><strong>%{delete_option}</strong>: Iškart ištrinti failą.</li> </ul>
       modes:
@@ -2933,7 +2942,7 @@ lt:
     projects:
       missing_dependencies: "Parinktas projekto modulis %{module}, kuris priklauso nuo %{dependencies}. Jums reikia pažymėti ir šias priklausomybes."
       section_new_projects: "Naujų projektų nustatymai"
-      section_project_overview: "Nustatymai projektų apžvalgos sąrašui"
+      section_project_overview: "Projektų sąrašų nustatymai"
     session: "Sesija"
     user:
       default_preferences: "Numatytosios parinktys"
@@ -3098,6 +3107,12 @@ lt:
       Įjungus, naudotojas negalės pasirinkti prisijungimo vardo registracijos metu. Jų nurodytas e-pašto adresas veiks kaip prisijungimas. Administratorius galės atskirai pakeisti prisijungimo vardą.
   queries:
     apply_filter: Pritaikyti iš anksto sukonfigūruotą filtrą
+    configure_view:
+      heading: Konfigūruoti vaizdą
+      columns:
+        input_label: "Pridėti stulpelių"
+        input_placeholder: "Parinkti stulpelį"
+        drag_area_label: "Tvarkyti ir perrikiuoti stulpelius"
   top_menu:
     additional_resources: "Papildomi ištekliai"
     getting_started: "Darbo pradžia"

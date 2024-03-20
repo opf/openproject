@@ -68,10 +68,8 @@ module OpenProject::CustomStyles
     ##
     # Returns the keys of variables that are customizable through the design
     def customizable_variables
-      %w( primary-color
-          primary-color-dark
-          alternative-color
-          content-link-color
+      %w( primary-button-color
+          accent-color
           header-bg-color
           header-item-bg-hover-color
           header-item-font-color

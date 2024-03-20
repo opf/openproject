@@ -26,15 +26,14 @@ cs:
       no_results_title_text: V tomto časovém rámci nebyla pro projekt žádná aktivita.
   admin:
     plugins:
-      no_results_title_text: V současné době nejsou k dispozici žádné pluginy.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Barevné téma"
       color_theme_custom: "Vlastní"
       colors:
-        alternative-color: "Alternativa"
-        content-link-color: "Link font"
-        primary-color: "Primární"
-        primary-color-dark: "Primární (tmavé)"
+        primary-button-color: "Primární tlačítko"
+        accent-color: "Odstín"
         header-bg-color: "Pozadí záhlaví"
         header-item-bg-hover-color: "Pozadí záhlaví při přejetí myší"
         header-item-font-color: "Písmo záhlaví"
@@ -53,10 +52,8 @@ cs:
       enterprise_more_info: "Poznámka: použité logo bude veřejně přístupné."
       manage_colors: "Upravit možnosti výběru barvy"
       instructions:
-        alternative-color: "Silná barva zvýraznění, obvykle používaná pro nejdůležitější tlačítko na obrazovce."
-        content-link-color: "Barva písma většiny odkazů."
-        primary-color: "Hlavní barva."
-        primary-color-dark: "Obvykle tmavší verze hlavní barvy použité pro efekt vznášení."
+        primary-button-color: "Výrazná akcentní barva, která se používá pro nejdůležitější tlačítko na obrazovce."
+        accent-color: "Barva pro odkazy a další decentně zvýrazněné prvky."
         header-item-bg-hover-color: "Barva pozadí klikacích položek záhlaví při najetí myší."
         header-item-font-color: "Barva pozadí klikacích položek záhlaví."
         header-item-font-hover-color: "Barva pozadí klikacích položek záhlaví při najetí myší."
@@ -91,16 +88,16 @@ cs:
     is_active: aktuálně zobrazené
     is_inactive: v současné době nejsou zobrazeny
   antivirus_scan:
-    not_processed_yet_message: "Downloading is blocked, as file was not scanned for viruses yet. Please try again later."
-    quarantined_message: "A virus was detected in file '%{filename}'. It has been quarantined and is not available for download."
-    deleted_message: "A virus was detected in file '%{filename}'. The file has been deleted."
-    deleted_by_admin: "The quarantined file '%{filename}' has been deleted by an administrator."
-    overridden_by_admin: "The quarantine for file '%{filename}' has been removed by %{user}. The file can now be acccessed."
+    not_processed_yet_message: "Stahování je zablokováno, protože soubor ještě nebyl zkontrolován na přítomnost virů. Zkuste to prosím později."
+    quarantined_message: "V souboru '%{filename}' byl zjištěn virus. Byl umístěn do karantény a není k dispozici ke stažení."
+    deleted_message: "V souboru '%{filename}' byl zjištěn virus. Soubor byl smazán."
+    deleted_by_admin: "Soubor v karanténě '%{filename}' byl odstraněn správcem."
+    overridden_by_admin: "Karanténa pro soubor '%{filename}' byla odstraněna %{user}. Soubor je přístupný."
     quarantined_attachments:
-      container: "Container"
-      delete: "Delete the quarantined file"
-      title: "Quarantined attachments"
-      error_cannot_act_self: "Cannot perform actions on your own uploaded files."
+      container: "Kontejner"
+      delete: "Odstranit soubor karantény"
+      title: "Přílohy v karanténě"
+      error_cannot_act_self: "Nelze provádět akce s vlastními nahranými soubory."
   attribute_help_texts:
     note_public: "Jakýkoliv text a obrázky, které přidáte do tohoto pole, jsou veřejně přístupné všem přihlášeným uživatelům!"
     text_overview: "V tomto zobrazení můžete vytvořit vlastní nápovědné texty pro zobrazení atributů. Pokud je definováno, mohou být tyto texty zobrazeny klepnutím na ikonu nápovědy vedle jejího atributu."
@@ -265,12 +262,15 @@ cs:
       no_results_title_text: V současné době nejsou žádné projekty
       no_results_content_text: Vytvořit nový projekt
     lists:
-      active: 'Aktivní projekty'
-      my: 'Moje projekty'
-      archived: 'Archivované projekty'
-      my_private: 'soukromé seznamy  projektů'
+      active: "Aktivní projekty"
+      my: "Moje projekty"
+      archived: "Archivované projekty"
+      my_private: "soukromé seznamy  projektů"
       new:
-        placeholder: 'Nový seznam projektů'
+        placeholder: "Nový seznam projektů"
+      delete_modal:
+        title: "Odstranit seznam projektů"
+        text: "Tato akce neodstraní žádný projekt, který seznam obsahuje. Opravdu chcete tento seznam projektů smazat?"
     settings:
       change_identifier: Změnit identifikátor
       activities:
@@ -292,6 +292,8 @@ cs:
         no_results_content_text: Vytvořit novou verzi
       storage:
         no_results_title_text: Neexistuje žádné další diskové místo využívané tímto projektem.
+  lists:
+    can_be_saved_as: "Úpravy lze uložit pouze v novém seznamu."
   members:
     index:
       no_results_title_text: Momentálně nejsou žádní členové součástí tohoto projektu.
@@ -344,7 +346,7 @@ cs:
     memberships:
       no_results_title_text: Tento uživatel není v současné době členem projektu.
   page:
-    text: 'Text'
+    text: "Text"
   placeholder_users:
     right_to_manage_members_missing: >
       Nemáte oprávnění odstranit zástupného uživatele. Nemáte právo spravovat členy pro všechny projekty, jejichž členem je zástupný uživatel.
@@ -569,7 +571,7 @@ cs:
           false: "soukromý"
         queries: "Dotazy"
         status_code: "Stav projektu"
-        description: "Description"
+        description: "Popis"
         status_explanation: "Popis stavu projektu"
         status_codes:
           not_started: "Nezahájeno"
@@ -844,6 +846,10 @@ cs:
               invalid: "Časová razítka obsahují neplatné hodnoty: %{values}"
               forbidden: "Časová razítka obsahují zakázané hodnoty: %{values}"
               format: "%{message}"
+            selects:
+              name_not_included: "Je třeba uvést sloupec \"Název\"."
+              nonexistent: "Sloupec '%{column}' neexistuje."
+              format: "%{message}"
           group_by_hierarchies_exclusive: "je vzájemně exkluzivní se skupinou od '%{group_by}'. Nelze aktivovat obojí."
           filters:
             custom_fields:
@@ -913,7 +919,7 @@ cs:
               cannot_be_null: "nelze nastavit na null, protože datum zahájení a trvání je známo "
             duration:
               larger_than_dates: "je větší než interval mezi datem zahájení a datem ukončení."
-              smaller_than_dates: "je mwnší než interval mezi datem zahájení a datem ukončení."
+              smaller_than_dates: "je menší než interval mezi datem zahájení a datem ukončení."
               not_available_for_milestones: "není k dispozici pro pracovní balíčky uvedené v milnících."
               cannot_be_null: "nelze nastavit na null jako datum zahájení a datum dokončení je známé."
             parent:
@@ -1212,6 +1218,7 @@ cs:
   button_reset: "Obnovit"
   button_rollback: "Obnovit tuto verzi"
   button_save: "Uložit"
+  button_save_as: "Uložit jako"
   button_apply_changes: "Použít změny"
   button_save_back: "Uložit a odejít"
   button_show: "Zobrazit"
@@ -1576,6 +1583,7 @@ cs:
       postgres_migration: "Migrujte vaši instalaci na PostgreSQL"
       user_guides: "Uživatelské příručky"
       faq: "FAQ - často kladené dotazy"
+      impressum: "Právní ustanovení"
       glossary: "Glossary"
       shortcuts: "Klávesové zkratky"
       blog: "OpenProject blog"
@@ -1832,6 +1840,7 @@ cs:
   label_diff_side_by_side: "vedle sebe"
   label_digital_accessibility: "Digitální dostupnost (DE)"
   label_disabled: "zakázáno"
+  label_disabled_uppercase: "Zakázáno"
   label_display: "Zobrazit"
   label_display_per_page: "Na stránku: %{value}"
   label_display_used_statuses_only: "Zobrazit pouze stavy, které jsou tímto typem používány"
@@ -1906,7 +1915,6 @@ cs:
   label_subject_or_id: "Předmět nebo ID"
   label_calendar_subscriptions: "Předplatné kalendáře"
   label_identifier: "Identifikátor"
-  label_impressum: "Právní oznámení"
   label_in: "v"
   label_in_less_than: "za méně než"
   label_in_more_than: "za více než"
@@ -1966,7 +1974,7 @@ cs:
   label_member_new: "Nový člen"
   label_member_all_admin: "(Všechny role z důvodu stavu správce)"
   label_member_plural: "Členové"
-  label_membership_plural: "Memberships"
+  label_membership_plural: "Členství"
   lable_membership_added: "Člen přidán"
   lable_membership_updated: "Člen aktualizován"
   label_menu_badge:
@@ -2059,6 +2067,7 @@ cs:
   label_precedes: "předchází"
   label_preferences: "Nastavení"
   label_preview: "Náhled"
+  label_preview_not_available: "Náhled není k dispozici."
   label_previous: "Předchozí"
   label_previous_week: "Předchozí týden"
   label_principal_invite_via_email: " nebo pozvat nové uživatele e-mailem"
@@ -2270,9 +2279,9 @@ cs:
     other: "%{count} projektů"
     zero: "Žádné projekty"
   label_x_files:
-    one: "1 file"
-    other: "%{count} files"
-    zero: "no files"
+    one: "1 soubor"
+    other: "{count} souborů"
+    zero: "žádné soubory"
   label_yesterday: "včera"
   label_role_type: "Typ"
   label_member_role: "Projektová role"
@@ -2648,6 +2657,7 @@ cs:
     name_or_identifier: "Jméno nebo identifikátor"
     only_subproject_id: "Pouze podprojekt"
     shared_with_user: "Sdíleno s uživatelem"
+    shared_with_me: "Sdílené se mnou"
     subproject_id: "Včetně podprojektu"
   repositories:
     at_identifier: "v %{identifier}"
@@ -2788,8 +2798,8 @@ cs:
   setting_app_subtitle: "Podtitulek aplikace"
   setting_app_title: "Název aplikace"
   setting_attachment_max_size: "Maximální velikost příloh"
-  setting_antivirus_scan_mode: "Scan mode"
-  setting_antivirus_scan_action: "Infected file action"
+  setting_antivirus_scan_mode: "Režim skenování"
+  setting_antivirus_scan_action: "Akce s infikovaným souborem"
   setting_autofetch_changesets: "Automaticky načíst změny repozitáře"
   setting_autologin: "Automatické přihlašování"
   setting_available_languages: "Dostupné jazyky"
@@ -2798,7 +2808,7 @@ cs:
   setting_brute_force_block_minutes: "Čas, po který je uživatel zablokován"
   setting_cache_formatted_text: "Ukládat formátovaný text do vyrovnávací paměti"
   setting_use_wysiwyg_description: "Zaškrtnutím tohoto políčka povolíte CKEditor5 WYSIWYG editor pro všechny uživatele ve výchozím nastavení. Aplikaci CKEditor má omezenou funkčnost pro GFM Markdown."
-  setting_column_options: "Přizpůsobit vzhled seznamů pracovních balíčků"
+  setting_column_options: "Výchozí seznamy pracovních balíčků"
   setting_commit_fix_keywords: "Oprava klíčových slov"
   setting_commit_logs_encoding: "Kódování zpráv"
   setting_commit_logtime_activity_id: "Aktivita pro odpracovaný čas"
@@ -2820,7 +2830,7 @@ cs:
   setting_emails_header: "Záhlaví emailů"
   setting_email_login: "Použít e-mail jako přihlášení"
   setting_enabled_scm: "Povolit SCM"
-  setting_enabled_projects_columns: "Viditelné v seznamu projektů"
+  setting_enabled_projects_columns: "Sloupce v seznamu projektů zobrazené ve výchozím nastavení"
   setting_feeds_enabled: "Povolit kanály"
   setting_ical_enabled: "Povolit odebírání iCalendar"
   setting_feeds_limit: "Limit obsahu kanálů"
@@ -2831,7 +2841,6 @@ cs:
   setting_work_package_done_ratio_field: "Pole pracovního balíčku"
   setting_work_package_done_ratio_status: "Stav pracovního balíčku"
   setting_work_package_done_ratio_disabled: "Zakázat (skrýt pole % Průběh )"
-  setting_work_package_list_default_columns: "Zobrazit ve výchozím nastavení"
   setting_work_package_properties: "Vlastnosti pracovního balíčku"
   setting_work_package_startdate_is_adddate: "Použít aktuální datum jako počáteční datum pro nové úkoly"
   setting_work_packages_projects_export_limit: "Limit exportu pracovních balíčků / projektů"
@@ -2890,23 +2899,23 @@ cs:
       whitelist_text_html: >
         Definujte seznam platných přípon souborů a/nebo mime typů pro nahrané soubory. <br/> Zadejte přípony souborů (např. <code>%{ext_example}</code>) nebo mime typy (např. ., <code>%{mime_example}</code>). <br/> Ponechte prázdné pro nahrání jakéhokoli typu souboru. Povoleno více hodnot (jeden řádek pro každou hodnotu).
     antivirus:
-      title: "Virus scanning"
-      clamav_ping_failed: "Failed to connect the the ClamAV daemon. Double-check the configuration and try again."
+      title: "Antivirová kontrola"
+      clamav_ping_failed: "Nepodařilo se připojit k ClamAV démonu. Zkontroluj konfiguraci a zkus to znovu."
       remaining_quarantined_files_html: >
-        Virus scanning has been disbled. %{file_count} remain in quarantine. To review quarantined files, please visit this link: %{link}
+        Antivirová kontrola byla zrušena. %{file_count} zůstává v karanténě. Chcete-li si prohlédnout soubory v karanténě, navštivte tento odkaz: %{link}
       remaining_scan_complete_html: >
         Remaining files have been scanned. There are %{file_count} in quarantine. You are being redirected to the quarantine page. Use this page to delete or override quarantined files.
       remaining_rescanned_files: >
-        With virus scanning now active, there are %{file_count} that need to be rescanned. This process has been scheduled in the background. The files will remain accessible during the scan.
+        Virus byl úspěšně aktivován. Existuje %{file_count} , které byly nahrány dříve a stále je třeba skenovat. Tento proces byl naplánován na pozadí. Soubory zůstanou přístupné během skenování.
       upsale:
-        description: "Ensure uploaded files in OpenProject are scanned for viruses before being accessible by other users."
+        description: "Zajistěte, aby nahrané soubory v OpenProjectu byly před zpřístupněním ostatním uživatelům zkontrolovány na přítomnost virů."
       actions:
-        delete: 'Delete the file'
-        quarantine: 'Quarantine the file'
+        delete: "Smazat soubor"
+        quarantine: "Umístění souboru do karantény"
         instructions_html: >
-          Select the action to perform for files on which a virus has been detected: <br/> <ul> <li><strong>%{quarantine_option}</strong>: Quarantine the file, preventing users from accessing it. Administrators can review and delete quarantined files in the administration.</li> <li><strong>%{delete_option}</strong>: Delete the file immediately.</li> </ul>
+          Vyberte akci, která se má provést u souborů, u nichž byl zjištěn virus: <br/>. <ul> <li><strong>%{quarantine_option}</strong>: Umístěte soubor do karantény a zabraňte uživatelům v přístupu k němu. Správci mohou soubory v karanténě kontrolovat a odstraňovat v administraci.</li> <li><strong>%{delete_option}</strong>: Okamžité odstranění souboru.</li> </ul>
       modes:
-        clamav_socket_html: Enter the socket to the clamd daemon, e.g., %{example}
+        clamav_socket_html: Zadejte soket démona clamd, např. %{example}.
         clamav_host_html: Enter the hostname and port to the clamd daemon separated by colon. e.g., %{example}
         description_html: >
           Select the mode in which the antivirus scanner integration should operate. <br/> <ul> <li><strong>%{disabled_option}</strong>: Uploaded files are not scanned for viruses.</li> <li><strong>%{socket_option}</strong>: You have set up ClamAV on the same server as OpenProject and the scan daemon clamd is running in the background</li> <li><strong>%{host_option}</strong>: You are streaming files to an external virus scanning host.</li> </ul>
@@ -2939,7 +2948,7 @@ cs:
     projects:
       missing_dependencies: "Projektový modul %{module} byl zkontrolován, který závisí na %{dependencies}. Tyto závislosti musíte také zkontrolovat."
       section_new_projects: "Nastavení pro nové projekty"
-      section_project_overview: "Nastavení přehledu seznamu  projektu"
+      section_project_overview: "Nastavení pro seznamy projektů"
     session: "Relace"
     user:
       default_preferences: "Výchozí předvolby"
@@ -3104,6 +3113,12 @@ cs:
       Pokud je povoleno, uživatel nebude schopen vybrat přihlášení během registrace. Namísto toho bude jejich e-mailová adresa sloužit jako přihlašovací jméno. Administrátor může stále měnit přihlašovací údaje zvlášť.
   queries:
     apply_filter: Použít přednastavený filtr
+    configure_view:
+      heading: Konfigurace zobrazení
+      columns:
+        input_label: "Přidat sloupce"
+        input_placeholder: "Vyberte sloupec"
+        drag_area_label: "Správa a změna pořadí sloupců"
   top_menu:
     additional_resources: "Další zdroje"
     getting_started: "Začínáme"
@@ -3423,10 +3438,10 @@ cs:
       refresh_token_updated_failed: "Chyba při aktualizaci OAuthClientTokenu"
       oauth_client_not_found_explanation: >
         Tato chyba se objeví po aktualizaci klient_id a klient_tajného v OpenProject, ale neaktualizovali pole 'Vrátit URI' v OAuth2.
-      oauth_code_not_present: "OAuth2 'code' not found in 'callback' endpoint (redirect_uri)."
+      oauth_code_not_present: "OAuth2 'code' nebyl nalezen v koncovém bodě 'callback' (redirect_uri)."
       oauth_code_not_present_explanation: >
         This error appears if you have selected the wrong response_type in the OAuth2 provider. Response_type should be 'code' or similar.
-      oauth_state_not_present: "OAuth2 'state' not found in 'callback' endpoint (redirect_uri)."
+      oauth_state_not_present: "OAuth2 'state' nebylo nalezeno v koncovém bodě 'callback' (redirect_uri)."
       oauth_state_not_present_explanation: >
         The 'state' is used to indicate to OpenProject where to continue after a successful OAuth2 authorization. A missing 'state' is an internal error that may appear during setup. Please contact your system administrator.
       rack_oauth2:

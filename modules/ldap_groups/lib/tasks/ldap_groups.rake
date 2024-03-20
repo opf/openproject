@@ -58,36 +58,6 @@ namespace :ldap_groups do
       ldif = ENV.fetch('LDIF_FILE') { Rails.root.join('spec/fixtures/ldap/users.ldif') }
       ldap_server = Ladle::Server.new(quiet: false, port: '12389', domain: 'dc=example,dc=com', ldif:).start
 
-      puts <<~INFO
-        LDAP server ready at localhost:12389
-        Users Base dn: ou=people,dc=example,dc=com
-        Admin account: uid=admin,ou=system
-        Admin password: secret
-
-        --------------------------------------------------------
-
-        Attributes
-        Login: uid
-        First name: givenName
-        Last name: sn
-        Email: mail
-        Admin: isAdmin
-        memberOf: (Hard-coded, not virtual)
-
-        --------------------------------------------------------
-
-        Users:
-        uid=aa729,ou=people,dc=example,dc=com (Password: smada)
-        uid=bb459,ou=people,dc=example,dc=com (Password: niwdlab)
-        uid=cc414,ou=people,dc=example,dc=com (Password: retneprac)
-
-        --------------------------------------------------------
-
-        Groups:
-        cn=foo,ou=groups,dc=example,dc=com (Members: aa729)
-        cn=bar,ou=groups,dc=example,dc=com (Members: aa729, bb459, cc414)
-      INFO
-
       puts "Creating a connection called ladle"
       source = LdapAuthSource.find_or_initialize_by(name: 'ladle local development')
 
@@ -117,6 +87,56 @@ namespace :ldap_groups do
       filter.save!
 
       LdapGroups::SynchronizationJob.perform_now
+
+      puts <<~INFO
+        LDAP server ready at localhost:12389
+
+        Connection details
+
+        Host: localhost
+        Port: 12389
+        No encryption
+
+        --------------------------------------------------------
+
+        System account
+
+        Account: uid=admin,ou=system
+        Password: secret
+
+        --------------------------------------------------------
+
+        LDAP details
+
+        Base DN: ou=people,dc=example,dc=com
+
+        --------------------------------------------------------
+
+        Attribute mapping
+
+        Login: uid
+        First name: givenName
+        Last name: sn
+        Email: mail
+        Admin: isAdmin
+        memberOf: (Hard-coded, not virtual)
+
+        --------------------------------------------------------
+
+        Users
+
+        uid=aa729,ou=people,dc=example,dc=com (Password: smada)
+        uid=bb459,ou=people,dc=example,dc=com (Password: niwdlab)
+        uid=cc414,ou=people,dc=example,dc=com (Password: retneprac)
+
+        --------------------------------------------------------
+
+        Groups
+
+        cn=foo,ou=groups,dc=example,dc=com (Members: aa729)
+        cn=bar,ou=groups,dc=example,dc=com (Members: aa729, bb459, cc414)
+
+      INFO
 
       puts "Send CTRL+D to stop the server"
       require 'irb'

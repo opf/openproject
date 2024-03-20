@@ -27,10 +27,7 @@
 #++
 
 module PaperTrailAudits
-  class CleanupJob < ::Cron::CronJob
-    # runs at 4:03 on Saturday
-    self.cron_expression = '3 4 * * 6'
-
+  class CleanupJob < ApplicationJob
     # Clean any paper trails older than 60 days
     def perform
       ::PaperTrailAudit

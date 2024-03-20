@@ -56,7 +56,6 @@ class RootSeeder < Seeder
   end
 
   def seed_data!
-    reset_active_record!
     set_locale! do
       print_status "*** Seeding for locale: '#{I18n.locale}'"
       prepare_seed! do
@@ -99,18 +98,6 @@ class RootSeeder < Seeder
     ::Rails::Engine.subclasses.map(&:instance)
   end
 
-  ##
-  # Clears some schema caches and column information.
-  def reset_active_record!
-    ActiveRecord::Base
-      .descendants
-      .reject(&:abstract_class?)
-      .each do |klass|
-      klass.connection.schema_cache.clear!
-      klass.reset_column_information
-    end
-  end
-
   def set_locale!
     I18n.with_locale(desired_lang) do
       @locale_set = true
@@ -126,13 +113,13 @@ class RootSeeder < Seeder
     ActionMailer::Base.perform_deliveries = false
 
     # Avoid asynchronous DeliverWorkPackageCreatedJob
-    previous_delay_jobs = Delayed::Worker.delay_jobs
-    Delayed::Worker.delay_jobs = false
+    previous_execution_mode = Rails.configuration.good_job.execution_mode
+    Rails.configuration.good_job.execution_mode = :inline
 
     yield
   ensure
     ActionMailer::Base.perform_deliveries = previous_perform_deliveries
-    Delayed::Worker.delay_jobs = previous_delay_jobs
+    Rails.configuration.good_job.execution_mode = previous_execution_mode
   end
 
   def seed_basic_data
