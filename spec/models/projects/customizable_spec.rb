@@ -455,7 +455,7 @@ RSpec.describe Project, "customizable" do
         expect(project.project_custom_field_project_mappings.pluck(:custom_field_id))
           .to contain_exactly(text_custom_field.id, bool_custom_field.id, hidden_custom_field.id)
 
-        expect(project.custom_value_for(hidden_custom_field)).to eq("hidden")
+        expect(project.custom_value_for(hidden_custom_field).typed_value).to eq("hidden")
       end
     end
 
