@@ -514,7 +514,7 @@ GEM
     erblint-github (1.0.1)
     erubi (1.12.0)
     escape_utils (1.3.0)
-    et-orbi (1.2.7)
+    et-orbi (1.2.9)
       tzinfo
     eventmachine (1.2.7)
     eventmachine_httpserver (0.2.1)
@@ -538,7 +538,7 @@ GEM
       websocket-driver (>= 0.6, < 0.8)
     ffi (1.16.3)
     flamegraph (0.9.5)
-    fog-aws (3.21.1)
+    fog-aws (3.22.0)
       fog-core (~> 2.1)
       fog-json (~> 1.1)
       fog-xml (~> 0.1)
