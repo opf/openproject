@@ -81,41 +81,14 @@ module Projects
     end
 
     def after_perform(call)
-      disable_custom_fields_not_activated_in_source(call)
-      enable_custom_fields_not_activated_in_target(call)
+      copy_activated_custom_fields(call)
 
       super
     end
 
-    def disable_custom_fields_not_activated_in_source(call)
-      # TODO: seems a bit too hacky to me, find better solution
-      # remove custom fields from target project which are not activated in source project
-      # this is required in cases, when
-      # a custom field with a default value exists but is not activated in the source project
-      # this custom field is then not shown in the copy form (which is desired)
-      # but the custom field would be activated in the target project with its default value,
-      # which is desired in pure project creation context
-      # but in the copy context we clean them up here:
-      custom_fields_activated_in_source = source.project_custom_fields.pluck(:id)
-      custom_fields_activated_in_target = call.result.project_custom_fields.pluck(:id)
-
-      custom_fields_to_disable = custom_fields_activated_in_target - custom_fields_activated_in_source
-      call.result.project_custom_field_project_mappings.where(custom_field_id: custom_fields_to_disable).destroy_all
+    def copy_activated_custom_fields(call)
+       call.result.project_custom_field_ids = source.project_custom_field_ids
     end
-
-    def enable_custom_fields_not_activated_in_target(call)
-      # TODO: seems a bit too hacky to me, find better solution
-      # if custom fields in source project are activated but set to blank
-      # they would not be activated in the target project,
-      # which is desired in pure project creation context (-> as form fields are blank)
-      # but in the copy context we activate them here in order to have the same mapping as seen in the source project:
-      custom_fields_activated_in_source = source.project_custom_fields.pluck(:id)
-      custom_fields_activated_in_target = call.result.project_custom_fields.pluck(:id)
-
-      custom_fields_to_enable = custom_fields_activated_in_source - custom_fields_activated_in_target
-      call.result.project_custom_fields << ProjectCustomField.where(id: custom_fields_to_enable)
-    end
-
     def contract_options
       { copy_source: source, validate_model: true }
     end
