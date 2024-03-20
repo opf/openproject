@@ -26,80 +26,80 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-RSpec.describe 'Create project custom fields', :js do
-  include_context 'with seeded project custom fields'
+RSpec.describe "Create project custom fields", :js do
+  include_context "with seeded project custom fields"
 
-  context 'with insufficient permissions' do
-    it 'is not accessible' do
+  context "with insufficient permissions" do
+    it "is not accessible" do
       login_as(non_admin)
       visit new_admin_settings_project_custom_field_path
 
-      expect(page).to have_text('You are not authorized to access this page.')
+      expect(page).to have_text("You are not authorized to access this page.")
     end
   end
 
-  context 'with sufficient permissions' do
+  context "with sufficient permissions" do
     before do
       login_as(admin)
       visit new_admin_settings_project_custom_field_path
     end
 
-    it 'shows a correct breadcrumb menu' do
-      within '#breadcrumb' do
+    it "shows a correct breadcrumb menu" do
+      within "#breadcrumb" do
         expect(page).to have_link("Administration")
-        expect(page).to have_link('Project attributes')
-        expect(page).to have_text('New attribute')
+        expect(page).to have_link("Project attributes")
+        expect(page).to have_text("New attribute")
       end
     end
 
-    it 'allows to create a new project custom field with an associated section' do
+    it "allows to create a new project custom field with an associated section" do
       # TODO: reuse specs for classic custom field form in order to test for other attribute settings
-      expect(page).to have_css('.PageHeader-title', text: 'New attribute')
+      expect(page).to have_css(".PageHeader-title", text: "New attribute")
 
-      fill_in('custom_field_name', with: 'New custom field')
-      select(section_for_select_fields.name, from: 'custom_field_custom_field_section_id')
+      fill_in("custom_field_name", with: "New custom field")
+      select(section_for_select_fields.name, from: "custom_field_custom_field_section_id")
 
-      click_on('Save')
+      click_on("Save")
 
       # redirects to the overview page
       # the tab parameter is set as the redirect originates from the former custom field controller but does not have an effect
-      expect(page).to have_current_path(admin_settings_project_custom_fields_path(tab: 'ProjectCustomField'))
+      expect(page).to have_current_path(admin_settings_project_custom_fields_path(tab: "ProjectCustomField"))
 
-      expect(page).to have_text('New custom field')
+      expect(page).to have_text("New custom field")
 
       latest_custom_field = ProjectCustomField.reorder(created_at: :asc).last
 
-      expect(latest_custom_field.name).to eq('New custom field')
+      expect(latest_custom_field.name).to eq("New custom field")
       expect(latest_custom_field.project_custom_field_section).to eq(section_for_select_fields)
     end
 
-    it 'allows to create a new project custom field with a prefilled section via url param' do
+    it "allows to create a new project custom field with a prefilled section via url param" do
       visit new_admin_settings_project_custom_field_path(custom_field_section_id: section_for_multi_select_fields.id)
 
-      fill_in('custom_field_name', with: 'New custom field')
+      fill_in("custom_field_name", with: "New custom field")
 
-      click_on('Save')
+      click_on("Save")
 
       # redirects to the overview page
       # the tab parameter is set as the redirect originates from the former custom field controller but does not have an effect
-      expect(page).to have_current_path(admin_settings_project_custom_fields_path(tab: 'ProjectCustomField'))
+      expect(page).to have_current_path(admin_settings_project_custom_fields_path(tab: "ProjectCustomField"))
 
       latest_custom_field = ProjectCustomField.reorder(created_at: :asc).last
 
-      expect(latest_custom_field.name).to eq('New custom field')
+      expect(latest_custom_field.name).to eq("New custom field")
       expect(latest_custom_field.project_custom_field_section).to eq(section_for_multi_select_fields)
     end
 
-    it 'prevents creating a new project custom field with an empty name' do
-      click_on('Save')
+    it "prevents creating a new project custom field with an empty name" do
+      click_on("Save")
 
-      expect(page).to have_field 'custom_field_name', validation_message: 'Please fill in this field.'
+      expect(page).to have_field "custom_field_name", validation_message: "Please fill out this field."
 
       # expect no redirect
-      expect(page).to have_no_current_path(admin_settings_project_custom_fields_path(tab: 'ProjectCustomField'))
+      expect(page).to have_no_current_path(admin_settings_project_custom_fields_path(tab: "ProjectCustomField"))
       expect(page).to have_current_path(new_admin_settings_project_custom_field_path)
     end
   end
