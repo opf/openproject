@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'support/board_index_page'
+require "spec_helper"
+require_relative "support/board_index_page"
 
-RSpec.describe 'Work Package Project Boards Index Page',
+RSpec.describe "Work Package Project Boards Index Page",
                :with_cuprite,
                with_ee: %i[board_view] do
   # The identifier is important to test https://community.openproject.com/wp/29754
-  shared_let(:project) { create(:project, identifier: 'boards', enabled_module_names: %i[work_package_tracking board_view]) }
+  shared_let(:project) { create(:project, identifier: "boards", enabled_module_names: %i[work_package_tracking board_view]) }
 
   shared_let(:management_role) do
     create(:project_role,
@@ -75,92 +75,92 @@ RSpec.describe 'Work Package Project Boards Index Page',
     board_index.visit!
   end
 
-  describe 'create button' do
-    context 'as a user with board management permissions' do
+  describe "create button" do
+    context "as a user with board management permissions" do
       let(:current_user) { user_with_full_permissions }
 
-      it 'is shown' do
+      it "is shown" do
         board_index.expect_create_button
       end
     end
 
-    context 'as a user with view only permissions' do
+    context "as a user with view only permissions" do
       let(:current_user) { user_with_limited_permissions }
 
-      it 'is shown' do
+      it "is shown" do
         board_index.expect_no_create_button
       end
     end
   end
 
-  context 'when no boards exist' do
-    it 'displays the empty message' do
+  context "when no boards exist" do
+    it "displays the empty message" do
       board_index.expect_no_boards_listed
     end
   end
 
-  context 'when boards exist' do
+  context "when boards exist" do
     shared_let(:board_view) do
-      create(:board_grid_with_query, name: 'My board', project:)
+      create(:board_grid_with_query, name: "My board", project:)
     end
     shared_let(:other_board_view) do
-      create(:board_grid_with_query, name: 'My other board', project:)
+      create(:board_grid_with_query, name: "My other board", project:)
     end
 
-    it 'lists the boards' do
+    it "lists the boards" do
       board_index.expect_boards_listed(board_view,
                                        other_board_view)
     end
 
-    describe 'delete links' do
-      context 'as a project member with board management permissions' do
+    describe "delete links" do
+      context "as a project member with board management permissions" do
         let(:current_user) { user_with_full_permissions }
 
-        it 'renders delete links for each board' do
+        it "renders delete links for each board" do
           board_index.expect_delete_buttons(board_view,
                                             other_board_view)
         end
       end
 
-      context 'as a project member with view only permissions' do
+      context "as a project member with view only permissions" do
         let(:current_user) { user_with_limited_permissions }
 
-        it 'does not render delete links' do
+        it "does not render delete links" do
           board_index.expect_no_delete_buttons(board_view,
                                                other_board_view)
         end
       end
     end
 
-    describe 'sorting' do
+    describe "sorting" do
       it 'allows sorting by "Name" and "Created on"' do
         # Initial sort is Name ASC
         # We can assert this behavior by expected the order to be
         # 1. board_view
         # 2. other_board_view
         # upon page load
-        aggregate_failures 'Sorting by Name' do
+        aggregate_failures "Sorting by Name" do
           board_index.expect_boards_listed_in_order(board_view,
                                                     other_board_view)
 
-          board_index.click_to_sort_by('Name')
+          board_index.click_to_sort_by("Name")
           board_index.expect_boards_listed_in_order(other_board_view,
                                                     board_view)
         end
 
-        aggregate_failures 'Sorting by Created on' do
-          board_index.click_to_sort_by('Created on')
+        aggregate_failures "Sorting by Created on" do
+          board_index.click_to_sort_by("Created on")
           board_index.expect_boards_listed_in_order(board_view,
                                                     other_board_view)
 
-          board_index.click_to_sort_by('Created on')
+          board_index.click_to_sort_by("Created on")
           board_index.expect_boards_listed_in_order(other_board_view,
                                                     board_view)
         end
       end
     end
 
-    it 'paginates results', with_settings: { per_page_options: '1' } do
+    it "paginates results", with_settings: { per_page_options: "1" } do
       # First page displays the historically last meeting
       board_index.expect_boards_listed(board_view)
       board_index.expect_boards_not_listed(other_board_view)

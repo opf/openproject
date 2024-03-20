@@ -61,7 +61,7 @@ module LdapGroups
       ldap_con.search(
         base: filter.used_base_dn,
         filter: filter.parsed_filter_string,
-        attributes: ['dn', filter.group_name_attribute],
+        attributes: ["dn", filter.group_name_attribute],
         &
       )
     end

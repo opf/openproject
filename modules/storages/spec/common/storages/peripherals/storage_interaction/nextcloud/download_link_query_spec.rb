@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLinkQuery, :webmock do
@@ -41,9 +41,9 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLin
     {
       ocs: {
         meta: {
-          status: 'ok',
+          status: "ok",
           statuscode: 200,
-          message: 'OK'
+          message: "OK"
         },
         data: {
           url: "https://example.com/remote.php/direct/#{download_token}"
@@ -63,35 +63,35 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLin
     stub_request(:post, "#{url}/ocs/v2.php/apps/dav/api/v1/direct").to_return(status: 200, body: json, headers: {})
   end
 
-  it 'must return a download link URL' do
+  it "must return a download link URL" do
     result = described_class.call(storage:, user:, file_link:)
     expect(result).to be_success
     expect(result.result).to eql(uri)
   end
 
-  context 'if Nextcloud is running on a sub path' do
-    let(:storage) { create(:nextcloud_storage, :with_oauth_client, host: 'https://example.com/html') }
+  context "if Nextcloud is running on a sub path" do
+    let(:storage) { create(:nextcloud_storage, :with_oauth_client, host: "https://example.com/html") }
 
-    it 'must return a download link URL' do
+    it "must return a download link URL" do
       result = described_class.call(storage:, user:, file_link:)
       expect(result).to be_success
       expect(result.result).to eql(uri)
     end
   end
 
-  describe 'with outbound request returning 200 and an empty body' do
+  describe "with outbound request returning 200 and an empty body" do
     before do
-      stub_request(:post, "#{url}/ocs/v2.php/apps/dav/api/v1/direct").to_return(status: 200, body: '')
+      stub_request(:post, "#{url}/ocs/v2.php/apps/dav/api/v1/direct").to_return(status: 200, body: "")
     end
 
-    it 'must return :unauthorized ServiceResult' do
+    it "must return :unauthorized ServiceResult" do
       result = described_class.call(user:, file_link:, storage:)
       expect(result).to be_failure
       expect(result.errors.code).to be(:unauthorized)
     end
   end
 
-  shared_examples_for 'outbound is failing' do |code = 500, symbol = :error|
+  shared_examples_for "outbound is failing" do |code = 500, symbol = :error|
     describe "with outbound request returning #{code}" do
       before do
         stub_request(:post, "#{url}/ocs/v2.php/apps/dav/api/v1/direct").to_return(status: code)
@@ -105,7 +105,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Nextcloud::DownloadLin
     end
   end
 
-  include_examples 'outbound is failing', 404, :not_found
-  include_examples 'outbound is failing', 401, :unauthorized
-  include_examples 'outbound is failing', 500, :error
+  include_examples "outbound is failing", 404, :not_found
+  include_examples "outbound is failing", 401, :unauthorized
+  include_examples "outbound is failing", 500, :error
 end

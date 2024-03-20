@@ -36,7 +36,7 @@ module RemovedJsHelpersHelper
     id = html_options.delete(:id) { "link-to-function-#{SecureRandom.uuid}" }
     csp_onclick(function, "##{id}")
 
-    content_tag(:a, content, html_options.merge(id:, href: ''))
+    content_tag(:a, content, html_options.merge(id:, href: ""))
   end
 
   ##

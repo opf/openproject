@@ -8,7 +8,7 @@ class CustomStyle < ApplicationRecord
   class << self
     def current
       RequestStore.fetch(:current_custom_style) do
-        custom_style = CustomStyle.order(Arel.sql('created_at DESC')).first
+        custom_style = CustomStyle.order(Arel.sql("created_at DESC")).first
         if custom_style.nil?
           return nil
         else

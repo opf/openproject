@@ -70,7 +70,7 @@ module Journal::Timestamps
       timestamp = timestamp.to_time if timestamp.kind_of? Timestamp
       timestamp = timestamp.in_time_zone if timestamp.kind_of? DateTime
 
-      where(['validity_period @> timestamp with time zone ?', timestamp])
+      where(["validity_period @> timestamp with time zone ?", timestamp])
     end
   end
 end

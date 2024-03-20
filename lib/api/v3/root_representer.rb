@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/decorators/single'
+require "api/decorators/single"
 
 module API
   module V3
@@ -112,7 +112,7 @@ module API
                if: ->(*) { current_user.admin? }
 
       def _type
-        'Root'
+        "Root"
       end
     end
   end

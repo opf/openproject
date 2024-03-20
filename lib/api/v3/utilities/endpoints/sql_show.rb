@@ -48,7 +48,7 @@ module API
 
           def scope(params)
             query_class.new(user: User.current)
-                       .where('id', '=', params[:id])
+                       .where("id", "=", params[:id])
                        .results
           end
 
@@ -60,7 +60,7 @@ module API
             ::API::V3::Utilities::SqlRepresenterWalker
               .new(scope.limit(1),
                    current_user: User.current,
-                   url_query: { select: { '*' => {} } })
+                   url_query: { select: { "*" => {} } })
               .walk(render_representer)
           end
 

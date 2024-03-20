@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -40,7 +40,7 @@ module API
 
         associated_resource :project,
                             setter: ->(fragment:, **) {
-                              id = id_from_href "projects", fragment['href']
+                              id = id_from_href "projects", fragment["href"]
 
                               # In case an identifier is provided, which might
                               # start with numbers, the id needs to be looked up
@@ -71,7 +71,7 @@ module API
             .new(represented)
             .to_url_query(merge_params: params.slice(:offset, :pageSize))
           {
-            href: [path, url_query].join('?')
+            href: [path, url_query].join("?")
           }
         end
 
@@ -192,7 +192,7 @@ module API
                    end
                  },
                  setter: ->(fragment:, **) {
-                   attr = id_from_href "queries/group_bys", fragment['href']
+                   attr = id_from_href "queries/group_bys", fragment["href"]
 
                    represented.group_by =
                      if attr.nil?
@@ -225,7 +225,7 @@ module API
                   },
                   setter: ->(fragment:, **) {
                     columns = Array(fragment).map do |column|
-                      name = id_from_href "queries/columns", column['href']
+                      name = id_from_href "queries/columns", column["href"]
 
                       ::API::Utilities::PropertyNameConverter.to_ar_name(name, context: WorkPackage.new) if name
                     end
@@ -249,7 +249,7 @@ module API
                   },
                   setter: ->(fragment:, **) {
                     columns = Array(fragment).map do |column|
-                      name = id_from_href "queries/columns", column['href']
+                      name = id_from_href "queries/columns", column["href"]
 
                       ::API::Utilities::PropertyNameConverter.to_ar_name(name, context: WorkPackage.new) if name
                     end
@@ -339,7 +339,7 @@ module API
                               { project: :work_package_custom_fields }]
 
         def _type
-          'Query'
+          "Query"
         end
 
         def filters
@@ -385,7 +385,7 @@ module API
                    super
                  end
 
-          [base, query_props].select(&:present?).join('?')
+          [base, query_props].select(&:present?).join("?")
         end
 
         def convert_attribute(attribute)
@@ -411,7 +411,7 @@ module API
         end
 
         def column_direction_from_href(sort_by)
-          if id = id_from_href("queries/sort_bys", sort_by['href'])
+          if id = id_from_href("queries/sort_bys", sort_by["href"])
             column, direction = id.split("-") # e.g. ["start_date", "desc"]
 
             if column && direction

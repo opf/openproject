@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Resolved status' do
+RSpec.describe "Resolved status" do
   let!(:project) do
     create(:project,
            enabled_module_names: %w(backlogs))
@@ -48,13 +48,13 @@ RSpec.describe 'Resolved status' do
     login_as current_user
   end
 
-  it 'allows setting a status as done although it is not closed' do
-    settings_page.visit_tab! 'backlogs'
+  it "allows setting a status as done although it is not closed" do
+    settings_page.visit_tab! "backlogs"
 
     check status.name
-    click_button 'Save'
+    click_button "Save"
 
-    settings_page.expect_toast(message: 'Successful update')
+    settings_page.expect_toast(message: "Successful update")
 
     expect(page)
       .to have_checked_field(status.name)

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Relations::Scopes::Visible do
   let(:from) { create(:work_package, project: project1) }
@@ -34,7 +34,7 @@ RSpec.describe Relations::Scopes::Visible do
   let(:to) { create(:work_package, project: project2) }
   let(:project1) { create(:project) }
   let(:project2) { create(:project) }
-  let(:type) { 'relates' }
+  let(:type) { "relates" }
   let!(:relation1) { create(:relation, from:, to: intermediary, relation_type: type) }
   let!(:relation2) { create(:relation, from: intermediary, to:, relation_type: type) }
   let(:user) { create(:user) }
@@ -53,36 +53,36 @@ RSpec.describe Relations::Scopes::Visible do
            roles: [role])
   end
 
-  describe '.visible' do
-    context 'when the user can see all work packages' do
+  describe ".visible" do
+    context "when the user can see all work packages" do
       before do
         member_project1
         member_project2
       end
 
-      it 'returns the relations' do
+      it "returns the relations" do
         expect(Relation.visible(user))
           .to contain_exactly(relation1, relation2)
       end
     end
 
-    context 'when the user can see only the work packages in one project' do
+    context "when the user can see only the work packages in one project" do
       before do
         member_project1
       end
 
-      it 'returns the relation within the one project' do
+      it "returns the relation within the one project" do
         expect(Relation.visible(user))
           .to contain_exactly(relation1)
       end
     end
 
-    context 'when the user can see only the to work packages' do
+    context "when the user can see only the to work packages" do
       before do
         member_project2
       end
 
-      it 'does not return any relation (as the relation points outside the project)' do
+      it "does not return any relation (as the relation points outside the project)" do
         expect(Relation.visible(user))
           .to be_empty
       end

@@ -26,46 +26,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Category do
   let(:project) { create(:project) }
   let(:created_category) { create(:category, project:, assigned_to: assignee) }
   let(:assignee) { nil }
 
-  describe '#create' do
-    it 'is creatable and takes the attributes' do
-      category = described_class.create project:, name: 'New category'
+  describe "#create" do
+    it "is creatable and takes the attributes" do
+      category = described_class.create project:, name: "New category"
 
-      expect(category.attributes.slice('project_id', 'name'))
-        .to eq('project_id' => project.id, 'name' => 'New category')
+      expect(category.attributes.slice("project_id", "name"))
+        .to eq("project_id" => project.id, "name" => "New category")
     end
 
-    context 'with a group assignment' do
+    context "with a group assignment" do
       let(:group) do
         create(:group,
                member_with_permissions: { project => [] })
       end
       let(:assignee) { group }
 
-      it 'allows to assign groups' do
+      it "allows to assign groups" do
         expect(created_category.assigned_to)
           .to eq group
       end
     end
   end
 
-  describe '#destroy' do
+  describe "#destroy" do
     let!(:work_package) { create(:work_package, project:, category: created_category) }
 
-    it 'nullifies existing assignments to a work package' do
+    it "nullifies existing assignments to a work package" do
       created_category.destroy
 
       expect(work_package.reload.category_id)
         .to be_nil
     end
 
-    it 'allows reassigning to a different category' do
+    it "allows reassigning to a different category" do
       other_category = create(:category, project:)
 
       created_category.destroy(other_category)

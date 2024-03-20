@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Calendar::ResolveWorkPackagesService, type: :model do
   let(:user1) do
@@ -83,7 +83,7 @@ RSpec.describe Calendar::ResolveWorkPackagesService, type: :model do
     described_class.new
   end
 
-  context 'for a valid query' do
+  context "for a valid query" do
     before do
       # login for this isolated test:
       # in context of the whole iCalendar API flow, the user is not logged in but resolved from the token
@@ -93,7 +93,7 @@ RSpec.describe Calendar::ResolveWorkPackagesService, type: :model do
 
     subject { instance.call(query:) }
 
-    it 'returns work_packages of query with start and due date as result' do
+    it "returns work_packages of query with start and due date as result" do
       result = subject.result
 
       expect(result)
@@ -108,20 +108,20 @@ RSpec.describe Calendar::ResolveWorkPackagesService, type: :model do
         .not_to include(work_package_without_dates)
     end
 
-    it 'is a success' do
+    it "is a success" do
       expect(subject)
         .to be_success
     end
   end
 
-  context 'if query is nil' do
+  context "if query is nil" do
     before do
       login_as(user1)
     end
 
     subject { instance.call(query: nil) }
 
-    it 'does not resolve work_packages and raises ActiveRecord::RecordNotFound' do
+    it "does not resolve work_packages and raises ActiveRecord::RecordNotFound" do
       expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end

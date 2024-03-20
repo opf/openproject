@@ -38,7 +38,7 @@ module Bim::Bcf
       end
 
       def set_default_attributes(_params)
-        viewpoint['guid'] = model.uuid
+        viewpoint["guid"] = model.uuid
       end
 
       def set_snapshot
@@ -60,7 +60,7 @@ module Bim::Bcf
       end
 
       def snapshot_data_complete?
-        viewpoint['snapshot'] &&
+        viewpoint["snapshot"] &&
           snapshot_extension &&
           snapshot_base64 &&
           snapshot_url_parts.length > 1
@@ -70,22 +70,22 @@ module Bim::Bcf
         # Return nil when the extension is not within the specified set
         # which will lead to the snapshot not being created.
         # The contract will catch the error.
-        return unless viewpoint['snapshot']
+        return unless viewpoint["snapshot"]
 
-        case viewpoint['snapshot']['snapshot_type']
-        when 'png'
-          'image/png'
-        when 'jpg'
-          'image/jpeg'
+        case viewpoint["snapshot"]["snapshot_type"]
+        when "png"
+          "image/png"
+        when "jpg"
+          "image/jpeg"
         end
       end
 
       def snapshot_extension
-        viewpoint['snapshot']['snapshot_type']
+        viewpoint["snapshot"]["snapshot_type"]
       end
 
       def snapshot_base64
-        viewpoint['snapshot']['snapshot_data']
+        viewpoint["snapshot"]["snapshot_data"]
       end
 
       def snapshot_binary_contents

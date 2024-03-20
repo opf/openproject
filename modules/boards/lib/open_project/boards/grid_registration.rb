@@ -1,13 +1,13 @@
 module OpenProject
   module Boards
     class GridRegistration < ::Grids::Configuration::Registration
-      grid_class 'Boards::Grid'
+      grid_class "Boards::Grid"
       to_scope :project_work_package_boards_path
 
-      widgets 'work_package_query'
+      widgets "work_package_query"
 
-      widget_strategy 'work_package_query' do
-        options_representer '::API::V3::Boards::Widgets::BoardOptionsRepresenter'
+      widget_strategy "work_package_query" do
+        options_representer "::API::V3::Boards::Widgets::BoardOptionsRepresenter"
       end
 
       defaults -> {
@@ -23,7 +23,7 @@ module OpenProject
           recognized = ::OpenProject::StaticRouting.recognize_route(scope)
           return if recognized.nil?
 
-          if recognized[:controller] == 'boards/boards'
+          if recognized[:controller] == "boards/boards"
             recognized.slice(:project_id, :id, :user_id)&.merge(class: ::Boards::Grid)
           end
         end

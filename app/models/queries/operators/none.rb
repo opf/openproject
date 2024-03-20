@@ -28,8 +28,8 @@
 
 module Queries::Operators
   class None < Base
-    label 'operator_none'
-    set_symbol '!*'
+    label "operator_none"
+    set_symbol "!*"
     require_value false
 
     def self.sql_for_field(_values, db_table, db_field)

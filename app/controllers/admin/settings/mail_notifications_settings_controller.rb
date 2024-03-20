@@ -39,7 +39,7 @@ module Admin::Settings
     end
 
     def default_breadcrumb
-      t(:'menus.admin.mail_notification')
+      t(:"menus.admin.mail_notification")
     end
 
     def show_local_breadcrumb

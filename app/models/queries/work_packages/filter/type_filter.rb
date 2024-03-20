@@ -58,6 +58,6 @@ class Queries::WorkPackages::Filter::TypeFilter <
   private
 
   def types
-    project.nil? ? ::Type.order(Arel.sql('position')) : project.rolled_up_types
+    project.nil? ? ::Type.order(Arel.sql("position")) : project.rolled_up_types
   end
 end

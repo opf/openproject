@@ -87,17 +87,17 @@ class Seedifier
   end
 
   def calc_status(work_package)
-    prefix = ''
+    prefix = ""
     if ["Resolved"].include?(work_package.status.name)
-      prefix = 'bim.'
+      prefix = "bim."
     end
     "#{prefix}default_status_#{calc_low_dash(work_package.status.name.downcase)}"
   end
 
   def calc_type(work_package)
-    prefix = ''
+    prefix = ""
     if ["Issue", "Clash", "Remark", "Request"].include?(work_package.type.name)
-      prefix = 'bim.'
+      prefix = "bim."
     end
     "#{prefix}default_type_#{calc_low_dash(work_package.type.name.downcase)}"
   end
@@ -114,7 +114,7 @@ class Seedifier
 
     @written_work_packages_ids << work_package.id
 
-    predecessors = work_package.follows.sort_by(&:start_date).map { |predecessor| { to: predecessor.subject, type: 'follows' } }
+    predecessors = work_package.follows.sort_by(&:start_date).map { |predecessor| { to: predecessor.subject, type: "follows" } }
 
     children = work_package.children.sort_by(&:start_date).filter_map { |child| seedify_work_package(child, project) }
 

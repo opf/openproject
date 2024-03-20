@@ -28,8 +28,8 @@
 
 module Redmine::MenuManager::TopMenu::ProjectsMenu
   def render_projects_top_menu_node
-    return '' if User.current.anonymous? and Setting.login_required?
-    return '' if User.current.anonymous? and User.current.number_of_known_projects.zero?
+    return "" if User.current.anonymous? and Setting.login_required?
+    return "" if User.current.anonymous? and User.current.number_of_known_projects.zero?
 
     render_projects_dropdown
   end
@@ -37,8 +37,8 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   private
 
   def render_projects_dropdown
-    content_tag(:li, class: 'op-app-menu--item') do
-      angular_component_tag('op-header-project-select')
+    content_tag(:li, class: "op-app-menu--item") do
+      angular_component_tag("op-header-project-select")
     end
   end
 

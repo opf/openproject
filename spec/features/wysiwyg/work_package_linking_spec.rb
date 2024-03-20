@@ -26,37 +26,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Wysiwyg work package linking', :js do
+RSpec.describe "Wysiwyg work package linking", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
-  let(:work_package) { create(:work_package, subject: 'Foobar', project:) }
+  let(:work_package) { create(:work_package, subject: "Foobar", project:) }
   let(:editor) { Components::WysiwygEditor.new }
 
   before do
     login_as(user)
   end
 
-  describe 'creating a wiki page' do
+  describe "creating a wiki page" do
     before do
       visit project_wiki_path(project, :wiki)
     end
 
-    it 'can reference work packages' do
+    it "can reference work packages" do
       # single hash autocomplete
       editor.click_and_type_slowly "##{work_package.id}"
       editor.click_autocomplete work_package.subject
 
-      expect(editor.editor_element).to have_css('a.mention', text: "##{work_package.id}")
+      expect(editor.editor_element).to have_css("a.mention", text: "##{work_package.id}")
 
       # Save wiki page
-      click_on 'Save'
+      click_on "Save"
 
-      expect(page).to have_css('.op-toast.-success')
+      expect(page).to have_css(".op-toast.-success")
 
-      within('#content') do
-        expect(page).to have_css('a.issue', count: 1)
+      within("#content") do
+        expect(page).to have_css("a.issue", count: 1)
       end
     end
   end

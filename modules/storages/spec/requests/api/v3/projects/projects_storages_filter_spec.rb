@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe 'API v3 projects resource with filters for the linked storages',
+RSpec.describe "API v3 projects resource with filters for the linked storages",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
@@ -63,58 +63,58 @@ RSpec.describe 'API v3 projects resource with filters for the linked storages',
 
   before { login_as user }
 
-  describe 'GET /api/v3/projects' do
+  describe "GET /api/v3/projects" do
     let(:path) { api_v3_paths.path_for :projects, filters: }
 
     before { get path }
 
-    context 'with filter for storage id' do
+    context "with filter for storage id" do
       let(:storage_id) { storage1.id }
-      let(:filters) { [{ storageId: { operator: '=', values: [storage_id] } }] }
+      let(:filters) { [{ storageId: { operator: "=", values: [storage_id] } }] }
 
-      it_behaves_like 'API V3 collection response', 3, 3, 'Project', 'Collection' do
+      it_behaves_like "API V3 collection response", 3, 3, "Project", "Collection" do
         let(:elements) { [project3, project2, project1] }
       end
 
-      context 'if a project has the storages module deactivated' do
-        before(:all) { disable_module(project1, 'storages') }
-        after(:all) { enable_module(project1, 'storages') }
+      context "if a project has the storages module deactivated" do
+        before(:all) { disable_module(project1, "storages") }
+        after(:all) { enable_module(project1, "storages") }
 
-        it_behaves_like 'API V3 collection response', 2, 2, 'Project', 'Collection' do
+        it_behaves_like "API V3 collection response", 2, 2, "Project", "Collection" do
           let(:elements) { [project3, project2] }
         end
       end
 
-      context 'if the filter is set to an unknown storage id' do
-        let(:storage_id) { '1337' }
+      context "if the filter is set to an unknown storage id" do
+        let(:storage_id) { "1337" }
 
-        it_behaves_like 'API V3 collection response', 0, 0, 'Project', 'Collection' do
+        it_behaves_like "API V3 collection response", 0, 0, "Project", "Collection" do
           let(:elements) { [] }
         end
       end
     end
 
-    context 'with filter for storage url' do
+    context "with filter for storage url" do
       let(:storage_url) { CGI.escape(storage1.host) }
-      let(:filters) { [{ storageUrl: { operator: '=', values: [storage_url] } }] }
+      let(:filters) { [{ storageUrl: { operator: "=", values: [storage_url] } }] }
 
-      it_behaves_like 'API V3 collection response', 3, 3, 'Project', 'Collection' do
+      it_behaves_like "API V3 collection response", 3, 3, "Project", "Collection" do
         let(:elements) { [project3, project2, project1] }
       end
 
-      context 'if a project has the storages module deactivated' do
-        before(:all) { disable_module(project1, 'storages') }
-        after(:all) { enable_module(project1, 'storages') }
+      context "if a project has the storages module deactivated" do
+        before(:all) { disable_module(project1, "storages") }
+        after(:all) { enable_module(project1, "storages") }
 
-        it_behaves_like 'API V3 collection response', 2, 2, 'Project', 'Collection' do
+        it_behaves_like "API V3 collection response", 2, 2, "Project", "Collection" do
           let(:elements) { [project3, project2] }
         end
       end
 
-      context 'if the filter is set to an unknown storage url' do
+      context "if the filter is set to an unknown storage url" do
         let(:storage_url) { CGI.escape("https://not.my-domain.org") }
 
-        it_behaves_like 'API V3 collection response', 0, 0, 'Project', 'Collection' do
+        it_behaves_like "API V3 collection response", 0, 0, "Project", "Collection" do
           let(:elements) { [] }
         end
       end

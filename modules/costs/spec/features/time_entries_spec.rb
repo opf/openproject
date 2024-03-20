@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require_relative "../spec_helper"
 
-RSpec.describe 'Work Package table cost entries', :js do
+RSpec.describe "Work Package table cost entries", :js do
   shared_let(:project) { create(:project_with_types) }
   shared_let(:user) { create(:admin) }
 
@@ -65,7 +65,7 @@ RSpec.describe 'Work Package table cost entries', :js do
     login_as(user)
   end
 
-  it 'shows the correct sum of the time entries' do
+  it "shows the correct sum of the time entries" do
     wp_table.visit_query(query)
     wp_table.expect_work_package_listed(parent)
     wp_table.expect_work_package_listed(work_package)
@@ -73,20 +73,20 @@ RSpec.describe 'Work Package table cost entries', :js do
     parent_row = wp_table.row(parent)
     wp_row = wp_table.row(work_package)
 
-    expect(parent_row).to have_css('.inline-edit--container.spentTime', text: '12.5 h')
-    expect(wp_row).to have_css('.inline-edit--container.spentTime', text: '2.5 h')
+    expect(parent_row).to have_css(".inline-edit--container.spentTime", text: "12.5 h")
+    expect(wp_row).to have_css(".inline-edit--container.spentTime", text: "2.5 h")
   end
 
-  it 'creates an activity' do
+  it "creates an activity" do
     visit project_activities_path project
 
     # Activate the spent time filter
-    check('Spent time')
-    click_on 'Apply'
+    check("Spent time")
+    click_on "Apply"
 
     wp1 = time_entry1.work_package
     wp2 = time_entry2.work_package
-    expect(page).to have_css('.op-activity-list--item-title', text: "#{wp1.type.name} ##{wp1.id}: #{wp1.subject}")
-    expect(page).to have_css('.op-activity-list--item-title', text: "#{wp2.type.name} ##{wp2.id}: #{wp2.subject}")
+    expect(page).to have_css(".op-activity-list--item-title", text: "#{wp1.type.name} ##{wp1.id}: #{wp1.subject}")
+    expect(page).to have_css(".op-activity-list--item-title", text: "#{wp2.type.name} ##{wp2.id}: #{wp2.subject}")
   end
 end

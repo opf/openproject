@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.shared_examples_for 'API V3 collection response' do |total, count, element_type, collection_type = 'Collection'|
+RSpec.shared_examples_for "API V3 collection response" do |total, count, element_type, collection_type = "Collection"|
   subject { last_response.body }
 
   # If an array of elements is provided, those elements are expected
@@ -57,7 +57,7 @@ RSpec.shared_examples_for 'API V3 collection response' do |total, count, element
   # Allow overriding the expect HTTP status code
   let(:expected_status_code) { 200 }
 
-  it 'returns a collection successfully' do
+  it "returns a collection successfully" do
     aggregate_failures do
       expect(last_response.status).to eq(expected_status_code)
       errors = JSON.parse(subject).dig("_embedded", "errors")&.map { _1["message"] }
@@ -65,15 +65,15 @@ RSpec.shared_examples_for 'API V3 collection response' do |total, count, element
     end
   end
 
-  it 'contains all elements' do
+  it "contains all elements" do
     aggregate_failures do
-      expect(subject).to be_json_eql(collection_type.to_json).at_path('_type')
-      expect(subject).to be_json_eql(count_number.to_json).at_path('count')
-      expect(subject).to be_json_eql(total_number.to_json).at_path('total')
-      expect(subject).to have_json_size(count_number).at_path('_embedded/elements')
+      expect(subject).to be_json_eql(collection_type.to_json).at_path("_type")
+      expect(subject).to be_json_eql(count_number.to_json).at_path("count")
+      expect(subject).to be_json_eql(total_number.to_json).at_path("total")
+      expect(subject).to have_json_size(count_number).at_path("_embedded/elements")
 
       if element_type && count_number > 0
-        expect(subject).to be_json_eql(element_type.to_json).at_path('_embedded/elements/0/_type')
+        expect(subject).to be_json_eql(element_type.to_json).at_path("_embedded/elements/0/_type")
       end
 
       elements&.each_with_index do |element, index|

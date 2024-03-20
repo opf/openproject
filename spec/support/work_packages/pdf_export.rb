@@ -1,5 +1,5 @@
-require 'spec_helper'
-require 'pdf/inspector'
+require "spec_helper"
+require "pdf/inspector"
 
 module PDFExportSpecUtils
   def column_title(column_name)

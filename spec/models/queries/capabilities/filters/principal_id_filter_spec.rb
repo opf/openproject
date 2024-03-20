@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Capabilities::Filters::PrincipalIdFilter do
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :principal_id }
     let(:type) { :integer }
     let(:model) { Capability }
     let(:attribute) { :principal_id }
-    let(:values) { ['5'] }
+    let(:values) { ["5"] }
   end
 end

@@ -101,7 +101,7 @@ module Acts::Journalized
 
       def options_with_defaults(options)
         {
-          class_name: 'Journal',
+          class_name: "Journal",
           dependent: :destroy,
           foreign_key: :journable_id,
           timestamp: :updated_at,

@@ -73,8 +73,8 @@ module API
                         self.class.name
                       end
 
-          classname.to_s.split('::') + [
-            'json',
+          classname.to_s.split("::") + [
+            "json",
             I18n.locale,
             json_key_representer_parts
           ]
@@ -89,7 +89,7 @@ module API
         private
 
         def apply_link_cache_ifs(hash_rep)
-          link_conditions = representable_attrs['links']
+          link_conditions = representable_attrs["links"]
                             .link_configs
                             .select { |config, _block| config[:cache_if] }
 
@@ -99,7 +99,7 @@ module API
 
             name = config[:rel]
 
-            delete_from_hash(hash_rep, '_links', name)
+            delete_from_hash(hash_rep, "_links", name)
           end
         end
 
@@ -113,12 +113,12 @@ module API
 
             hash_name = (config[:as] && instance_exec(&config[:as])) || name
 
-            delete_from_hash(hash_rep, config[:embedded] ? '_embedded' : nil, hash_name)
+            delete_from_hash(hash_rep, config[:embedded] ? "_embedded" : nil, hash_name)
           end
         end
 
         def add_uncacheable_links(hash_rep)
-          link_conditions = representable_attrs['links']
+          link_conditions = representable_attrs["links"]
                             .link_configs
                             .select { |config, _block| config[:uncacheable] }
 
@@ -127,9 +127,9 @@ module API
             block_result = instance_exec(&block)
 
             if block_result
-              hash_rep['_links'][name] = block_result
+              hash_rep["_links"][name] = block_result
             else
-              hash_rep['_links'].delete(name)
+              hash_rep["_links"].delete(name)
             end
           end
         end

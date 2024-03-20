@@ -28,9 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe 'Work Package Sharing Enterprise Restriction', :js, :with_cuprite do
+RSpec.describe "Work Package Sharing Enterprise Restriction", :js, :with_cuprite do
   shared_let(:view_work_package_role)    { create(:view_work_package_role)    }
   shared_let(:comment_work_package_role) { create(:comment_work_package_role) }
   shared_let(:edit_work_package_role)    { create(:edit_work_package_role)    }
@@ -41,7 +41,7 @@ RSpec.describe 'Work Package Sharing Enterprise Restriction', :js, :with_cuprite
                                           share_work_packages])
   end
 
-  shared_let(:sharer) { create(:user, firstname: 'Sharer', lastname: 'User') }
+  shared_let(:sharer) { create(:user, firstname: "Sharer", lastname: "User") }
 
   shared_let(:project)      { create(:project, members: { sharer => [sharer_role] }) }
   shared_let(:work_package) { create(:work_package, project:) }
@@ -58,14 +58,14 @@ RSpec.describe 'Work Package Sharing Enterprise Restriction', :js, :with_cuprite
     share_modal.expect_open
   end
 
-  context 'without an enterprise token' do
-    it 'renders an upsale banner' do
+  context "without an enterprise token" do
+    it "renders an upsale banner" do
       share_modal.expect_upsale_banner
     end
   end
 
-  context 'with an enterprise token', with_ee: %i[work_package_sharing] do
-    it 'renders the share modal' do
+  context "with an enterprise token", with_ee: %i[work_package_sharing] do
+    it "renders the share modal" do
       share_modal.expect_blankslate
     end
   end

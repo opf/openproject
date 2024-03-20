@@ -29,7 +29,7 @@
 class HomescreenController < ApplicationController
   skip_before_action :check_if_login_required, only: [:robots]
 
-  layout 'global'
+  layout "global"
 
   def index
     @newest_projects = Project.visible.newest.take(3)
@@ -46,7 +46,7 @@ class HomescreenController < ApplicationController
 
   def robots
     if Setting.login_required?
-      render template: 'homescreen/robots-login-required', format: :text
+      render template: "homescreen/robots-login-required", format: :text
     else
       @projects = Project.active.public_projects
     end

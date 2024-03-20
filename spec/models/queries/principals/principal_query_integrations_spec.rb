@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Queries::Principals::PrincipalQuery, 'integration' do
+RSpec.describe Queries::Principals::PrincipalQuery, "integration" do
   let(:current_user) { create(:user) }
   let(:instance) { described_class.new }
   let!(:non_member_role) { create(:non_member) }
@@ -37,7 +37,7 @@ RSpec.describe Queries::Principals::PrincipalQuery, 'integration' do
     login_as(current_user)
   end
 
-  context 'with a member filter' do
+  context "with a member filter" do
     let(:project) { create(:project, public: true) }
     let(:role) { create(:project_role) }
     let(:project_user) do
@@ -62,23 +62,23 @@ RSpec.describe Queries::Principals::PrincipalQuery, 'integration' do
       users
     end
 
-    context 'with the = operator' do
+    context "with the = operator" do
       before do
-        instance.where('member', '=', [project.id.to_s])
+        instance.where("member", "=", [project.id.to_s])
       end
 
-      it 'returns all principals being member' do
+      it "returns all principals being member" do
         expect(instance.results)
           .to contain_exactly(project_user)
       end
     end
 
-    context 'with the ! operator' do
+    context "with the ! operator" do
       before do
-        instance.where('member', '!', [project.id.to_s])
+        instance.where("member", "!", [project.id.to_s])
       end
 
-      it 'returns all principals not being member' do
+      it "returns all principals not being member" do
         expect(instance.results)
           .to contain_exactly(current_user, other_project_user)
       end

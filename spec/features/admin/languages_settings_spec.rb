@@ -26,38 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Languages settings page', :cuprite, :js do
+RSpec.describe "Languages settings page", :cuprite, :js do
   current_user { create(:admin) }
 
   let(:languages_page) { Pages::Admin::SystemSettings::Languages.new }
 
-  context 'when available languages setting is writable' do
+  context "when available languages setting is writable" do
     before do
-      Setting.default_language = 'fr'
+      Setting.default_language = "fr"
       Setting.available_languages = %w[de en]
     end
 
-    it 'adds default language to available languages when saving' do
+    it "adds default language to available languages when saving" do
       languages_page.visit!
 
-      expect(languages_page).to have_field('available_languages_de', checked: true)
-      expect(languages_page).to have_field('available_languages_en', checked: true)
-      expect(languages_page).to have_field('available_languages_fr', checked: true, disabled: true)
-      expect(languages_page).to have_field('available_languages_ja', checked: false)
+      expect(languages_page).to have_field("available_languages_de", checked: true)
+      expect(languages_page).to have_field("available_languages_en", checked: true)
+      expect(languages_page).to have_field("available_languages_fr", checked: true, disabled: true)
+      expect(languages_page).to have_field("available_languages_ja", checked: false)
 
       expect { languages_page.save }
-        .to change { Setting.find_by(name: 'available_languages').value }
+        .to change { Setting.find_by(name: "available_languages").value }
         .from(%w[de en])
         .to(%w[de en fr])
     end
   end
 
-  context 'when available languages setting is not writable (set by env var)', :settings_reset do
-    it 'disables the save button and does not change the available languages setting', with_env: {
-      OPENPROJECT_AVAILABLE__LANGUAGES: 'de en',
-      OPENPROJECT_DEFAULT_LANGUAGE: 'fr'
+  context "when available languages setting is not writable (set by env var)", :settings_reset do
+    it "disables the save button and does not change the available languages setting", with_env: {
+      OPENPROJECT_AVAILABLE__LANGUAGES: "de en",
+      OPENPROJECT_DEFAULT_LANGUAGE: "fr"
     } do
       reset(:available_languages)
       reset(:default_language)
@@ -65,14 +65,14 @@ RSpec.describe 'Languages settings page', :cuprite, :js do
 
       languages_page.visit!
 
-      expect(languages_page).to have_field('available_languages_de', checked: true, disabled: true)
-      expect(languages_page).to have_field('available_languages_en', checked: true, disabled: true)
-      expect(languages_page).to have_field('available_languages_fr', checked: true, disabled: true)
-      expect(languages_page).to have_field('available_languages_ja', checked: false, disabled: true)
+      expect(languages_page).to have_field("available_languages_de", checked: true, disabled: true)
+      expect(languages_page).to have_field("available_languages_en", checked: true, disabled: true)
+      expect(languages_page).to have_field("available_languages_fr", checked: true, disabled: true)
+      expect(languages_page).to have_field("available_languages_ja", checked: false, disabled: true)
 
-      expect(page).to have_button('Save', disabled: true)
+      expect(page).to have_button("Save", disabled: true)
 
-      expect(Setting.where(name: 'available_languages')).not_to exist
+      expect(Setting.where(name: "available_languages")).not_to exist
     end
   end
 end

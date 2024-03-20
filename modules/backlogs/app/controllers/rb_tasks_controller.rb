@@ -60,7 +60,7 @@ class RbTasksController < RbApplicationController
     @include_meta = true
 
     respond_to do |format|
-      format.html { render partial: 'task', object: @task, status:, locals: { errors: call.errors } }
+      format.html { render partial: "task", object: @task, status:, locals: { errors: call.errors } }
     end
   end
 

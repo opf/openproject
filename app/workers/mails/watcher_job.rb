@@ -71,6 +71,6 @@ class Mails::WatcherJob < Mails::DeliverJob
   end
 
   def action
-    raise NotImplementedError, 'subclass responsibility'
+    raise NotImplementedError, "subclass responsibility"
   end
 end

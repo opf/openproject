@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require "spec_helper"
+require "features/work_packages/work_packages_page"
 
-RSpec.describe 'Filter updates pagination', :js do
+RSpec.describe "Filter updates pagination", :js do
   let(:user) do
     create(:user,
            member_with_permissions: { project => %i[view_work_packages] })
@@ -44,7 +44,7 @@ RSpec.describe 'Filter updates pagination', :js do
   let(:work_package_2) { create(:work_package, project:) }
 
   before do
-    allow(Setting).to receive(:per_page_options).and_return '1'
+    allow(Setting).to receive(:per_page_options).and_return "1"
 
     work_package_1
     work_package_2
@@ -53,34 +53,34 @@ RSpec.describe 'Filter updates pagination', :js do
     wp_table.visit!
   end
 
-  it 'resets page to 1 if changing filter' do
+  it "resets page to 1 if changing filter" do
     wp_table.expect_work_package_listed work_package_1
     wp_table.ensure_work_package_not_listed! work_package_2
 
     # Expect pagination to be correct
-    expect(page).to have_css('.op-pagination--item_current', text: '1')
+    expect(page).to have_css(".op-pagination--item_current", text: "1")
 
     # Go to second page
-    within('.op-pagination--pages') do
-      find('.op-pagination--item button', text: '2').click
+    within(".op-pagination--pages") do
+      find(".op-pagination--item button", text: "2").click
     end
 
     wp_table.expect_work_package_listed work_package_2
     wp_table.ensure_work_package_not_listed! work_package_1
 
     # Expect pagination to be correct
-    expect(page).to have_css('.op-pagination--item_current', text: '2')
+    expect(page).to have_css(".op-pagination--item_current", text: "2")
 
     # Change filter to assigned to
     filters.expect_filter_count 1
     filters.open
-    filters.add_filter_by 'Assignee', 'is (OR)', user.name
+    filters.add_filter_by "Assignee", "is (OR)", user.name
     filters.expect_filter_count 2
 
     wp_table.expect_work_package_listed work_package_1
     wp_table.ensure_work_package_not_listed! work_package_2
 
     # Expect pagination to be back to 1
-    expect(page).to have_css('.op-pagination--range', text: '1 - 1/1')
+    expect(page).to have_css(".op-pagination--range", text: "1 - 1/1")
   end
 end

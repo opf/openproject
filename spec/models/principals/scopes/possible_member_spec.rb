@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Principals::Scopes::PossibleMember do
   let(:project) { create(:project) }
@@ -76,21 +76,21 @@ RSpec.describe Principals::Scopes::PossibleMember do
     end
   end
 
-  describe '.possible_member' do
+  describe ".possible_member" do
     subject { Principal.possible_member(project) }
 
-    context 'as a simple user' do
+    context "as a simple user" do
       current_user { active_user }
 
-      it 'returns non locked users, groups and placeholder users not part of the project yet' do
+      it "returns non locked users, groups and placeholder users not part of the project yet" do
         expect(subject).to contain_exactly(active_user, member_in_public_project)
       end
     end
 
-    context 'as a user with global permission to manage users' do
+    context "as a user with global permission to manage users" do
       current_user { global_manager }
 
-      it 'returns non locked users, groups and placeholder users not part of the project yet' do
+      it "returns non locked users, groups and placeholder users not part of the project yet" do
         expect(subject).to contain_exactly(admin_user, global_manager, active_user, registered_user, invited_user,
                                            placeholder_user, group, member_in_public_project,
                                            shared_work_package_with_user,
@@ -98,10 +98,10 @@ RSpec.describe Principals::Scopes::PossibleMember do
       end
     end
 
-    context 'as an admin' do
+    context "as an admin" do
       current_user { admin_user }
 
-      it 'returns non locked users, groups and placeholder users not part of the project yet' do
+      it "returns non locked users, groups and placeholder users not part of the project yet" do
         expect(subject).to contain_exactly(admin_user, global_manager, active_user, registered_user, invited_user,
                                            placeholder_user, group, member_in_public_project,
                                            shared_work_package_with_user,

@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Queries::Schemas::FollowsFilterDependencyRepresenter do
-  it_behaves_like 'relation filter dependency' do
+  it_behaves_like "relation filter dependency" do
     let(:filter) { Queries::WorkPackages::Filter::FollowsFilter.create!(context: query) }
   end
 end

@@ -33,7 +33,7 @@ Capybara.add_selector(:list) do
 end
 
 Capybara.add_selector(:list_item) do
-  label 'list item'
+  label "list item"
 
   xpath { ".//li" }
 

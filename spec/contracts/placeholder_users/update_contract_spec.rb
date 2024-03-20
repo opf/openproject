@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe PlaceholderUsers::UpdateContract do
-  include_context 'ModelContract shared context'
+  include_context "ModelContract shared context"
 
-  it_behaves_like 'placeholder user contract' do
+  it_behaves_like "placeholder user contract" do
     let(:placeholder_user) { build_stubbed(:placeholder_user, name: placeholder_user_name) }
     let(:contract) { described_class.new(placeholder_user, current_user) }
   end

@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Selects::WorkPackageSelect do
   it "allows to be constructed with attribute highlightable" do
-    expect(described_class.new('foo', highlightable: true).highlightable?).to be(true)
+    expect(described_class.new("foo", highlightable: true).highlightable?).to be(true)
   end
 
   it "allows to be constructed without attribute highlightable" do
-    expect(described_class.new('foo').highlightable?).to be(false)
+    expect(described_class.new("foo").highlightable?).to be(false)
   end
 end

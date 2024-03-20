@@ -1,6 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Cost report showing my own times', :js do
+RSpec.describe "Cost report showing my own times", :js do
   let(:project) { create(:project) }
   let(:user) { create(:admin) }
   let(:user2) { create(:admin) }
@@ -21,21 +21,21 @@ RSpec.describe 'Cost report showing my own times', :js do
     visit cost_reports_path(project)
   end
 
-  context 'as user with logged time' do
+  context "as user with logged time" do
     let(:current_user) { user }
 
-    it 'shows my time' do
-      expect(page).to have_css('.report', text: '10.0')
+    it "shows my time" do
+      expect(page).to have_css(".report", text: "10.0")
     end
   end
 
-  context 'as user without logged time' do
+  context "as user without logged time" do
     let(:current_user) { user2 }
 
-    it 'shows my time' do
-      expect(page).to have_no_css('.report')
-      expect(page).to have_css('.generic-table--no-results-title')
-      expect(page).to have_no_text '10.0' # 1 EUR x 10
+    it "shows my time" do
+      expect(page).to have_no_css(".report")
+      expect(page).to have_css(".generic-table--no-results-title")
+      expect(page).to have_no_text "10.0" # 1 EUR x 10
     end
   end
 end

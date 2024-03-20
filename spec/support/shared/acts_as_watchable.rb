@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples_for 'acts_as_watchable included' do
+RSpec.shared_examples_for "acts_as_watchable included" do
   before do
     unless defined?(model_instance) &&
            defined?(watch_permission) &&
@@ -81,19 +81,19 @@ MESSAGE
     OpenProject::AccessControl.public_permissions.map(&:name).include?(watch_permission)
   end
 
-  shared_context 'non member role has the permission to watch' do
+  shared_context "non member role has the permission to watch" do
     before do
       non_member_role.add_permission! watch_permission unless is_public_permission
     end
   end
 
-  shared_context 'anonymous role has the permission to watch' do
+  shared_context "anonymous role has the permission to watch" do
     before do
       anonymous_role.add_permission! watch_permission unless is_public_permission
     end
   end
 
-  describe '#possible_watcher_users' do
+  describe "#possible_watcher_users" do
     subject { model_instance.possible_watcher_users }
 
     before do
@@ -111,16 +111,16 @@ MESSAGE
       locked_user_with_permission.save!
     end
 
-    include_context 'non member role has the permission to watch'
-    include_context 'anonymous role has the permission to watch'
+    include_context "non member role has the permission to watch"
+    include_context "anonymous role has the permission to watch"
 
-    context 'when it is a public project' do
+    context "when it is a public project" do
       before do
         project.update public: true
         model_instance.reload
       end
 
-      it 'contains all allowed to view' do
+      it "contains all allowed to view" do
         expected_users = [user_with_permission,
                           non_member_user,
                           admin]
@@ -132,20 +132,20 @@ MESSAGE
       end
     end
 
-    context 'when it is a private project' do
+    context "when it is a private project" do
       before do
         project.update public: false
         model_instance.reload
       end
 
-      it 'contains members allowed to view' do
+      it "contains members allowed to view" do
         expect(model_instance.possible_watcher_users)
           .to contain_exactly(user_with_permission)
       end
     end
   end
 
-  describe '#watched_by?' do
+  describe "#watched_by?" do
     before do
       watching_user
       model_instance.reload
@@ -153,16 +153,16 @@ MESSAGE
 
     subject { model_instance.watched_by?(watching_user) }
 
-    it 'is truthy' do
+    it "is truthy" do
       expect(subject).to be_truthy
     end
 
-    context 'when the permission to view work packages has been removed' do
+    context "when the permission to view work packages has been removed" do
       # an existing watcher shouldn't be removed
       before do
         if is_public_permission
           skip "Not applicable for #{model_instance.class} as #{watch_permission} " +
-               'is a public permission'
+               "is a public permission"
         end
 
         watcher_role.remove_permission! watch_permission
@@ -174,7 +174,7 @@ MESSAGE
     end
   end
 
-  describe '#addable_watcher_users' do
+  describe "#addable_watcher_users" do
     subject { model_instance.addable_watcher_users }
 
     before do
@@ -193,16 +193,16 @@ MESSAGE
       user_wo_permission.save!
     end
 
-    include_context 'non member role has the permission to watch'
-    include_context 'anonymous role has the permission to watch'
+    include_context "non member role has the permission to watch"
+    include_context "anonymous role has the permission to watch"
 
-    context 'when it is a public project' do
+    context "when it is a public project" do
       before do
         project.update public: true
         model_instance.reload
       end
 
-      it 'contains all allowed to view' do
+      it "contains all allowed to view" do
         expected_users = [user_with_permission,
                           non_member_user,
                           admin]
@@ -213,13 +213,13 @@ MESSAGE
           .to match_array(expected_users)
       end
 
-      context 'when the user is already watching' do
+      context "when the user is already watching" do
         before do
           Watcher.create(watchable: model_instance, user: user_with_permission)
           Watcher.create(watchable: model_instance, user: non_member_user)
         end
 
-        it 'is no longer contained' do
+        it "is no longer contained" do
           expected_users = [admin]
 
           expected_users << user_wo_permission if is_public_permission
@@ -230,23 +230,23 @@ MESSAGE
       end
     end
 
-    context 'when it is a private project' do
+    context "when it is a private project" do
       before do
         project.update public: false
         model_instance.reload
       end
 
-      it 'contains members allowed to view' do
+      it "contains members allowed to view" do
         expect(subject)
           .to contain_exactly(user_with_permission)
       end
 
-      context 'when the user is already watching' do
+      context "when the user is already watching" do
         before do
           Watcher.create(watchable: model_instance, user: user_with_permission)
         end
 
-        it 'is no longer contained' do
+        it "is no longer contained" do
           expect(subject)
             .to be_empty
         end

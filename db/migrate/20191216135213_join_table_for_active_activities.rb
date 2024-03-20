@@ -59,7 +59,7 @@ class JoinTableForActiveActivities < ActiveRecord::Migration[6.0]
     add_index :time_entry_activities_projects,
               %i[project_id activity_id],
               unique: true,
-              name: 'index_teap_on_project_id_and_activity_id'
+              name: "index_teap_on_project_id_and_activity_id"
   end
 
   # Delete all references from enumerations to projects which point to no longer

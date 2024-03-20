@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
   let(:version) { build_stubbed(:version) }
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:type) { :list_optional }
     let(:class_key) { :version_id }
     let(:values) { [version.id.to_s] }
-    let(:name) { WorkPackage.human_attribute_name('version') }
+    let(:name) { WorkPackage.human_attribute_name("version") }
 
     before do
       if project
@@ -49,13 +49,13 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
       end
     end
 
-    describe '#valid?' do
-      context 'within a project' do
-        it 'is true if the value exists as a version' do
+    describe "#valid?" do
+      context "within a project" do
+        it "is true if the value exists as a version" do
           expect(instance).to be_valid
         end
 
-        it 'is false if the value does not exist as a version' do
+        it "is false if the value does not exist as a version" do
           allow(project)
             .to receive_message_chain(:shared_versions, :pluck)
             .and_return []
@@ -64,14 +64,14 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
         end
       end
 
-      context 'outside of a project' do
+      context "outside of a project" do
         let(:project) { nil }
 
-        it 'is true if the value exists as a version' do
+        it "is true if the value exists as a version" do
           expect(instance).to be_valid
         end
 
-        it 'is false if the value does not exist as a version' do
+        it "is false if the value does not exist as a version" do
           allow(Version)
             .to receive_message_chain(:visible, :systemwide, :pluck)
             .and_return []
@@ -81,15 +81,15 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
       end
     end
 
-    describe '#allowed_values' do
-      context 'within a project' do
+    describe "#allowed_values" do
+      context "within a project" do
         before do
           expect(instance.allowed_values)
             .to contain_exactly([version.id.to_s, version.id.to_s])
         end
       end
 
-      context 'outside of a project' do
+      context "outside of a project" do
         let(:project) { nil }
 
         before do
@@ -99,14 +99,14 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
       end
     end
 
-    describe '#ar_object_filter?' do
-      it 'is true' do
+    describe "#ar_object_filter?" do
+      it "is true" do
         expect(instance)
           .to be_ar_object_filter
       end
     end
 
-    describe '#value_objects' do
+    describe "#value_objects" do
       let(:version1) { build_stubbed(:version) }
       let(:version2) { build_stubbed(:version) }
 
@@ -118,7 +118,7 @@ RSpec.describe Queries::WorkPackages::Filter::VersionFilter do
         instance.values = [version1.id.to_s]
       end
 
-      it 'returns an array of versions' do
+      it "returns an array of versions" do
         expect(instance.value_objects)
           .to contain_exactly(version1)
       end

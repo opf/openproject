@@ -49,7 +49,7 @@ module API
                             end
 
         def _type
-          'Post'
+          "Post"
         end
       end
     end

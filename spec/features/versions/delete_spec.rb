@@ -26,48 +26,48 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'version delete', :js, :with_cuprite do
-  let!(:project) { create(:project, name: 'Parent') }
-  let!(:archived_child) { create(:project, name: 'Archived child', parent: project, active: false) }
+RSpec.describe "version delete", :js, :with_cuprite do
+  let!(:project) { create(:project, name: "Parent") }
+  let!(:archived_child) { create(:project, name: "Archived child", parent: project, active: false) }
 
   let!(:user) do
     create(:user,
            member_with_permissions: { version.project => %i[manage_versions view_work_packages] })
   end
-  let!(:version) { create(:version, sharing: 'system') }
-  let!(:wp_archived) { create(:work_package, version:, project: archived_child, subject: 'Task in archive') }
+  let!(:version) { create(:version, sharing: "system") }
+  let!(:wp_archived) { create(:work_package, version:, project: archived_child, subject: "Task in archive") }
 
   before do
     login_as(user)
   end
 
-  it 'cannot delete a version in use in archived projects, but shows details where it is used' do
+  it "cannot delete a version in use in archived projects, but shows details where it is used" do
     # from the version show page
     visit version_path(version)
 
-    within '.toolbar' do
+    within ".toolbar" do
       accept_confirm do
-        click_link 'Delete'
+        click_link "Delete"
       end
     end
 
-    expect(page).to have_css('.op-toast.-error', text: I18n.t(:error_can_not_delete_in_use_archived_undisclosed))
-    expect(page).to have_no_css("a", text: 'Archived child')
+    expect(page).to have_css(".op-toast.-error", text: I18n.t(:error_can_not_delete_in_use_archived_undisclosed))
+    expect(page).to have_no_css("a", text: "Archived child")
 
     user.update!(admin: true)
 
     # from the version show page
     visit version_path(version)
 
-    within '.toolbar' do
+    within ".toolbar" do
       accept_confirm do
-        click_link 'Delete'
+        click_link "Delete"
       end
     end
 
-    expect(page).to have_css('.op-toast.-error', text: 'There are also work packages in archived projects.')
-    expect(page).to have_css("a", text: 'Archived child')
+    expect(page).to have_css(".op-toast.-error", text: "There are also work packages in archived projects.")
+    expect(page).to have_css("a", text: "Archived child")
   end
 end

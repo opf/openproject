@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/page_objects/notification'
+require "spec_helper"
+require "features/page_objects/notification"
 
-RSpec.describe 'Upload attachment to documents', :js,
+RSpec.describe "Upload attachment to documents", :js,
                with_settings: {
                  journal_aggregation_time_minutes: 0
                } do
@@ -47,7 +47,7 @@ RSpec.describe 'Upload attachment to documents', :js,
   end
   let(:project) { create(:project) }
   let(:attachments) { Components::Attachments.new }
-  let(:image_fixture) { UploadedFile.load_from('spec/fixtures/files/image.png') }
+  let(:image_fixture) { UploadedFile.load_from("spec/fixtures/files/image.png") }
   let(:editor) { Components::WysiwygEditor.new }
   let(:attachments_list) { Components::AttachmentsList.new }
 
@@ -55,43 +55,43 @@ RSpec.describe 'Upload attachment to documents', :js,
     login_as(user)
   end
 
-  shared_examples 'can upload an image' do
-    it 'can upload an image' do
+  shared_examples "can upload an image" do
+    it "can upload an image" do
       visit new_project_document_path(project)
 
-      expect(page).to have_css('#new_document', wait: 10)
+      expect(page).to have_css("#new_document", wait: 10)
       SeleniumHubWaiter.wait
-      select(category.name, from: 'Category')
-      fill_in "Title", with: 'New documentation'
+      select(category.name, from: "Category")
+      fill_in "Title", with: "New documentation"
 
       # adding an image via the attachments-list
       find_test_selector("op-attachments--drop-box").drop(image_fixture.path)
 
-      editor.attachments_list.expect_attached('image.png')
+      editor.attachments_list.expect_attached("image.png")
 
       # adding an image
-      editor.drag_attachment image_fixture.path, 'Image uploaded on creation'
-      editor.attachments_list.expect_attached('image.png', count: 2)
+      editor.drag_attachment image_fixture.path, "Image uploaded on creation"
+      editor.attachments_list.expect_attached("image.png", count: 2)
       editor.wait_until_upload_progress_toaster_cleared
 
       perform_enqueued_jobs do
-        click_on 'Create'
+        click_on "Create"
 
         # Expect it to be present on the index page
-        expect(page).to have_css('.document-category-elements--header', text: 'New documentation')
-        expect(page).to have_css('#content img', count: 1)
-        expect(page).to have_content('Image uploaded on creation')
+        expect(page).to have_css(".document-category-elements--header", text: "New documentation")
+        expect(page).to have_css("#content img", count: 1)
+        expect(page).to have_content("Image uploaded on creation")
       end
 
       document = Document.last
-      expect(document.title).to eq 'New documentation'
+      expect(document.title).to eq "New documentation"
 
       # Expect it to be present on the show page
       SeleniumHubWaiter.wait
-      find('.document-category-elements--header a', text: 'New documentation').click
+      find(".document-category-elements--header a", text: "New documentation").click
       expect(page).to have_current_path "/documents/#{document.id}", wait: 10
-      expect(page).to have_css('#content img', count: 1)
-      expect(page).to have_content('Image uploaded on creation')
+      expect(page).to have_css("#content img", count: 1)
+      expect(page).to have_content("Image uploaded on creation")
 
       # Adding a second image
       # We should be using the 'Edit' button at the top but that leads to flickering specs
@@ -101,27 +101,27 @@ RSpec.describe 'Upload attachment to documents', :js,
       # editor.click_and_type_slowly 'abc'
       SeleniumHubWaiter.wait
 
-      editor.attachments_list.expect_attached('image.png', count: 2)
+      editor.attachments_list.expect_attached("image.png", count: 2)
 
-      editor.drag_attachment image_fixture.path, 'Image uploaded the second time'
+      editor.drag_attachment image_fixture.path, "Image uploaded the second time"
 
-      editor.attachments_list.expect_attached('image.png', count: 3)
+      editor.attachments_list.expect_attached("image.png", count: 3)
 
       editor.attachments_list.drag_enter
       editor.attachments_list.drop(image_fixture)
 
-      editor.attachments_list.expect_attached('image.png', count: 4)
+      editor.attachments_list.expect_attached("image.png", count: 4)
 
       editor.wait_until_upload_progress_toaster_cleared
 
       perform_enqueued_jobs do
-        click_on 'Save'
+        click_on "Save"
 
         # Expect both images to be present on the show page
-        expect(page).to have_css('#content img', count: 2)
-        expect(page).to have_content('Image uploaded on creation')
-        expect(page).to have_content('Image uploaded the second time')
-        attachments_list.expect_attached('image.png', count: 4)
+        expect(page).to have_css("#content img", count: 2)
+        expect(page).to have_content("Image uploaded on creation")
+        expect(page).to have_content("Image uploaded the second time")
+        attachments_list.expect_attached("image.png", count: 4)
       end
 
       # Expect a mail to be sent to the user having subscribed to all notifications
@@ -132,19 +132,19 @@ RSpec.describe 'Upload attachment to documents', :js,
         .to contain_exactly(other_user.mail)
 
       expect(ActionMailer::Base.deliveries.last.subject)
-        .to include 'New documentation'
+        .to include "New documentation"
     end
   end
 
-  context 'with direct uploads (Regression #34285)', :with_direct_uploads do
+  context "with direct uploads (Regression #34285)", :with_direct_uploads do
     before do
       allow_any_instance_of(Attachment).to receive(:diskfile).and_return image_fixture # rubocop:disable RSpec/AnyInstance
     end
 
-    it_behaves_like 'can upload an image'
+    it_behaves_like "can upload an image"
   end
 
-  context 'for internal uploads', with_direct_uploads: false do
-    it_behaves_like 'can upload an image'
+  context "for internal uploads", with_direct_uploads: false do
+    it_behaves_like "can upload an image"
   end
 end

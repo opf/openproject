@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Authorization::UserProjectRolesQuery do
   let(:user) { build(:user) }
@@ -44,74 +44,74 @@ RSpec.describe Authorization::UserProjectRolesQuery do
   let(:member2) { build(:member, project: project2, roles: [role2], principal: user) }
   let(:wp_member) { build(:member, project:, roles: [wp_role], principal: user, entity: work_package) }
 
-  describe '.query' do
+  describe ".query" do
     before do
       non_member.save!
       anonymous_role.save!
       user.save!
     end
 
-    it 'is a user relation' do
+    it "is a user relation" do
       expect(described_class.query(user, project)).to be_a ActiveRecord::Relation
     end
 
-    context 'with the user being a member in the project' do
+    context "with the user being a member in the project" do
       before do
         member.save!
       end
 
-      it 'is the project roles' do
+      it "is the project roles" do
         expect(described_class.query(user, project)).to match [role]
       end
     end
 
-    context 'without the user being member in the project' do
-      context 'with the project being private' do
-        it 'is empty' do
+    context "without the user being member in the project" do
+      context "with the project being private" do
+        it "is empty" do
           expect(described_class.query(user, project)).to be_empty
         end
       end
 
-      context 'with the project being public' do
-        it 'is the non member role' do
+      context "with the project being public" do
+        it "is the non member role" do
           expect(described_class.query(user, public_project)).to contain_exactly(non_member)
         end
       end
     end
 
-    context 'with the user being anonymous' do
-      context 'with the project being public' do
-        it 'is empty' do
+    context "with the user being anonymous" do
+      context "with the project being public" do
+        it "is empty" do
           expect(described_class.query(anonymous, public_project)).to contain_exactly(anonymous_role)
         end
       end
 
-      context 'without the project being public' do
-        it 'is empty' do
+      context "without the project being public" do
+        it "is empty" do
           expect(described_class.query(anonymous, project)).to be_empty
         end
       end
     end
 
-    context 'with the user being a member in two projects' do
+    context "with the user being a member in two projects" do
       before do
         member.save!
         member2.save!
       end
 
-      it 'returns only the roles from the requested project' do
+      it "returns only the roles from the requested project" do
         expect(described_class.query(user, project)).to contain_exactly(role)
       end
     end
 
-    context 'with the user being a member of a work package of the project' do
+    context "with the user being a member of a work package of the project" do
       before { wp_member.save! }
 
-      context 'and not being a member of the project itself' do
+      context "and not being a member of the project itself" do
         it { expect(described_class.query(user, project)).to be_empty }
       end
 
-      context 'and being a member of the project as well' do
+      context "and being a member of the project as well" do
         before { member.save! }
 
         it { expect(described_class.query(user, project)).to contain_exactly(role) }

@@ -34,30 +34,30 @@ module Components
       include RSpec::Matchers
 
       def expect_active
-        expect(page).to have_css('.wp-table--baseline-th')
+        expect(page).to have_css(".wp-table--baseline-th")
       end
 
       def expect_legends
-        expect(page).to have_css('.op-baseline-legends')
+        expect(page).to have_css(".op-baseline-legends")
       end
 
       def expect_legend_text(text)
-        expect(page).to have_css('.op-baseline-legends--filter', text:)
+        expect(page).to have_css(".op-baseline-legends--filter", text:)
       end
 
       def expect_legend_tooltip(text)
         expect(page).to have_css('[data-test-selector="baseline-legend-time-offset"]', visible: :all) { |node|
-          node['title'] == text
+          node["title"] == text
         }
       end
 
       def expect_no_legends
-        expect(page).to have_no_css('.op-baseline-legends')
+        expect(page).to have_no_css(".op-baseline-legends")
       end
 
       def expect_inactive
-        expect(page).to have_no_css('.wp-table--baseline-th')
-        expect(page).to have_no_css('.op-table-baseline--column-cell')
+        expect(page).to have_no_css(".wp-table--baseline-th")
+        expect(page).to have_no_css(".op-table-baseline--column-cell")
       end
 
       def expect_changed(work_package)
@@ -90,8 +90,8 @@ module Components
             base_selector = ".op-table-baseline--container.#{attribute}"
             expect(page).to have_css("#{base_selector} .op-table-baseline--old-field", text: old_value)
 
-            if new_value == ''
-              expect(page).to have_css("#{base_selector} .op-table-baseline--new-field", text: '', visible: :all)
+            if new_value == ""
+              expect(page).to have_css("#{base_selector} .op-table-baseline--new-field", text: "", visible: :all)
             else
               expect(page).to have_css("#{base_selector} .op-table-baseline--new-field", text: new_value)
             end

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Test mail notification', :js, :with_cuprite do
+RSpec.describe "Test mail notification", :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
 
   before do
@@ -36,15 +36,15 @@ RSpec.describe 'Test mail notification', :js, :with_cuprite do
     visit admin_settings_mail_notifications_path(tab: :notifications)
   end
 
-  it 'shows the correct message on errors in test notification (Regression #28226)' do
+  it "shows the correct message on errors in test notification (Regression #28226)" do
     error_message = '"error" with <strong>Markup?</strong>'
     expect(UserMailer).to receive(:test_mail).with(admin)
       .and_raise error_message
 
-    click_link 'Send a test email'
+    click_link "Send a test email"
 
     expected = "An error occurred while sending mail (#{error_message})"
-    expect(page).to have_css('.op-toast.-error', text: expected)
-    expect(page).to have_no_css('.op-toast.-error strong')
+    expect(page).to have_css(".op-toast.-error", text: expected)
+    expect(page).to have_no_css(".op-toast.-error strong")
   end
 end

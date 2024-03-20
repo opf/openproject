@@ -29,7 +29,7 @@
 class ReorderProjectChildren < ActiveRecord::Migration[6.1]
   class ProjectMigration < ApplicationRecord
     include ::Projects::Hierarchy
-    self.table_name = 'projects'
+    self.table_name = "projects"
   end
 
   def up

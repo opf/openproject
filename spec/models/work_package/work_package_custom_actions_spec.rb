@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe WorkPackage, 'custom_actions' do
+RSpec.describe WorkPackage, "custom_actions" do
   let(:work_package) do
     build_stubbed(:work_package,
                   project:)
@@ -55,8 +55,8 @@ RSpec.describe WorkPackage, 'custom_actions' do
     action
   end
 
-  describe '#custom_actions' do
-    context 'with the custom action having no restriction' do
+  describe "#custom_actions" do
+    context "with the custom action having no restriction" do
       let(:conditions) do
         []
       end
@@ -65,56 +65,56 @@ RSpec.describe WorkPackage, 'custom_actions' do
         work_package.status_id = status.id
       end
 
-      it 'returns the action' do
+      it "returns the action" do
         expect(work_package.custom_actions(user))
           .to contain_exactly(custom_action)
       end
     end
 
-    context 'with a status restriction' do
-      context 'with the work package having the same status' do
+    context "with a status restriction" do
+      context "with the work package having the same status" do
         before do
           work_package.status_id = status.id
         end
 
-        it 'returns the action' do
+        it "returns the action" do
           expect(work_package.custom_actions(user))
             .to contain_exactly(custom_action)
         end
       end
 
-      context 'with the work package having a different status' do
+      context "with the work package having a different status" do
         before do
           work_package.status_id = other_status.id
         end
 
-        it 'does not return the action' do
+        it "does not return the action" do
           expect(work_package.custom_actions(user))
             .to be_empty
         end
       end
     end
 
-    context 'with a role restriction' do
+    context "with a role restriction" do
       let(:conditions) do
         [CustomActions::Conditions::Role.new(role.id)]
       end
 
-      context 'with the user having the same role' do
-        it 'returns the action' do
+      context "with the user having the same role" do
+        it "returns the action" do
           expect(work_package.custom_actions(user))
             .to contain_exactly(custom_action)
         end
       end
 
-      context 'with the condition requiring a different role' do
+      context "with the condition requiring a different role" do
         let(:other_role) { create(:project_role) }
 
         let(:conditions) do
           [CustomActions::Conditions::Role.new(other_role.id)]
         end
 
-        it 'does not return the action' do
+        it "does not return the action" do
           expect(work_package.custom_actions(user))
             .to be_empty
         end

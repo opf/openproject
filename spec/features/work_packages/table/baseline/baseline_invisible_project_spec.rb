@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'baseline with a work package moved to an invisible project', :js,
-               with_settings: { date_format: '%Y-%m-%d' } do
+RSpec.describe "baseline with a work package moved to an invisible project", :js,
+               with_settings: { date_format: "%Y-%m-%d" } do
   shared_let(:type_bug) { create(:type_bug) }
   shared_let(:visible_project) { create(:project, types: [type_bug]) }
   shared_let(:private_project) { create(:project, types: [type_bug]) }
 
   shared_let(:user) do
     create(:user,
-           firstname: 'Itsa',
-           lastname: 'Me',
+           firstname: "Itsa",
+           lastname: "Me",
            member_with_permissions: { visible_project => %i[view_work_packages edit_work_packages work_package_assigned
                                                             assign_versions] })
   end
@@ -49,16 +49,16 @@ RSpec.describe 'baseline with a work package moved to an invisible project', :js
              type: type_bug,
              assigned_to: user,
              responsible: user,
-             subject: 'WP in public project',
-             start_date: '2023-05-01',
-             due_date: '2023-05-02')
+             subject: "WP in public project",
+             start_date: "2023-05-01",
+             due_date: "2023-05-02")
     end
 
     Timecop.travel(1.hour.ago) do
       WorkPackages::UpdateService
         .new(user: User.system, model: wp)
         .call(
-          subject: 'Moved to private project',
+          subject: "Moved to private project",
           project: private_project
         )
         .on_failure { |result| raise result.message }
@@ -68,7 +68,7 @@ RSpec.describe 'baseline with a work package moved to an invisible project', :js
 
   shared_let(:query) do
     query = create(:query,
-                   name: 'Global query changes since yesterday',
+                   name: "Global query changes since yesterday",
                    project: nil,
                    user:)
 
@@ -85,17 +85,17 @@ RSpec.describe 'baseline with a work package moved to an invisible project', :js
 
   current_user { user }
 
-  describe 'with EE active', with_ee: %i[baseline_comparison] do
-    it 'shows the item with all values removed' do
+  describe "with EE active", with_ee: %i[baseline_comparison] do
+    it "shows the item with all values removed" do
       wp_table.visit_query(query)
 
       baseline.expect_active
       baseline.expect_removed wp_bug
 
       baseline.expect_changed_attributes wp_bug,
-                                         subject: ['WP in public project', ''],
-                                         startDate: ['2023-05-01', ''],
-                                         dueDate: ['2023-05-02', '']
+                                         subject: ["WP in public project", ""],
+                                         startDate: ["2023-05-01", ""],
+                                         dueDate: ["2023-05-02", ""]
     end
   end
 end

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'work_packages/create_contract'
+require "work_packages/create_contract"
 
 # Can be used to copy all of a project's work packages. As the
 # work packages can be old, some of the validations that would

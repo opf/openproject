@@ -26,31 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::AccessControl::Permission do
-  describe '#dependencies' do
-    context 'for a permission with a dependency' do
+  describe "#dependencies" do
+    context "for a permission with a dependency" do
       subject { OpenProject::AccessControl.permission(:edit_work_packages) }
 
-      it 'denotes the pre-requisites' do
+      it "denotes the pre-requisites" do
         expect(subject.dependencies)
           .to contain_exactly(:view_work_packages)
       end
     end
 
-    context 'for a permission without a dependency' do
+    context "for a permission without a dependency" do
       subject { OpenProject::AccessControl.permission(:view_work_packages) }
 
-      it 'is empty' do
+      it "is empty" do
         expect(subject.dependencies)
           .to be_empty
       end
     end
   end
 
-  describe '#work_package?' do
-    context 'when marked as permissible on work package roles' do
+  describe "#work_package?" do
+    context "when marked as permissible on work package roles" do
       subject(:permission) do
         described_class.new(:perm, { cont: [:action] }, permissible_on: :work_package)
       end
@@ -59,8 +59,8 @@ RSpec.describe OpenProject::AccessControl::Permission do
     end
   end
 
-  describe '#project?' do
-    context 'when marked as permissible on project roles' do
+  describe "#project?" do
+    context "when marked as permissible on project roles" do
       subject(:permission) do
         described_class.new(:perm, { cont: [:action] }, permissible_on: :project)
       end
@@ -69,8 +69,8 @@ RSpec.describe OpenProject::AccessControl::Permission do
     end
   end
 
-  describe '#global?' do
-    context 'when marked as permissible on global roles' do
+  describe "#global?" do
+    context "when marked as permissible on global roles" do
       subject(:permission) do
         described_class.new(:perm, { cont: [:action] }, permissible_on: :global)
       end
@@ -79,7 +79,7 @@ RSpec.describe OpenProject::AccessControl::Permission do
     end
   end
 
-  describe 'marking it as permissible on multiple role types' do
+  describe "marking it as permissible on multiple role types" do
     subject(:permission) do
       described_class.new(:perm, { cont: [:action] }, permissible_on: %i[work_package project])
     end
@@ -88,7 +88,7 @@ RSpec.describe OpenProject::AccessControl::Permission do
     it { expect(permission).to be_project }
   end
 
-  context 'without :permissible_on as an argument' do
+  context "without :permissible_on as an argument" do
     it do
       expect do
         described_class.new(:perm, { cont: [:action] })
@@ -96,8 +96,8 @@ RSpec.describe OpenProject::AccessControl::Permission do
     end
   end
 
-  describe '#grant_to_admin?' do
-    context 'when it is marked as grant-able to admin' do
+  describe "#grant_to_admin?" do
+    context "when it is marked as grant-able to admin" do
       subject(:permission) do
         described_class.new(:perm, {}, permissible_on: :project, grant_to_admin: true)
       end
@@ -105,7 +105,7 @@ RSpec.describe OpenProject::AccessControl::Permission do
       it { expect(permission).to be_grant_to_admin }
     end
 
-    context 'when it is marked as non-grant-able to admin' do
+    context "when it is marked as non-grant-able to admin" do
       subject(:permission) do
         described_class.new(:perm, {}, permissible_on: :project, grant_to_admin: false)
       end
@@ -113,12 +113,12 @@ RSpec.describe OpenProject::AccessControl::Permission do
       it { expect(permission).not_to be_grant_to_admin }
     end
 
-    context 'without specifying whether the permissions is grant-able to admin or not' do
+    context "without specifying whether the permissions is grant-able to admin or not" do
       subject(:permission) do
         described_class.new(:perm, {}, permissible_on: :project)
       end
 
-      it 'defaults to grant-able to admin' do
+      it "defaults to grant-able to admin" do
         expect(permission).to be_grant_to_admin
       end
     end

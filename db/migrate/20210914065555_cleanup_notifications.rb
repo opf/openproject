@@ -36,23 +36,23 @@ class CleanupNotifications < ActiveRecord::Migration[6.1]
     end
 
     change_table :notification_settings, bulk: true do |t|
-      t.remove_index name: 'index_notification_settings_unique_project_null'
-      t.remove_index name: 'index_notification_settings_unique_project'
+      t.remove_index name: "index_notification_settings_unique_project_null"
+      t.remove_index name: "index_notification_settings_unique_project"
 
       # Delete all non in-app
-      NotificationSetting.where('channel > 0').delete_all
+      NotificationSetting.where("channel > 0").delete_all
 
       t.remove :channel, :all
 
       t.index %i[user_id],
               unique: true,
               where: "project_id IS NULL",
-              name: 'index_notification_settings_unique_project_null'
+              name: "index_notification_settings_unique_project_null"
 
       t.index %i[user_id project_id],
               unique: true,
               where: "project_id IS NOT NULL",
-              name: 'index_notification_settings_unique_project'
+              name: "index_notification_settings_unique_project"
     end
   end
 
@@ -69,18 +69,18 @@ class CleanupNotifications < ActiveRecord::Migration[6.1]
       t.integer :channel, limit: 1
       t.boolean :all, default: false
 
-      t.remove_index name: 'index_notification_settings_unique_project_null'
-      t.remove_index name: 'index_notification_settings_unique_project'
+      t.remove_index name: "index_notification_settings_unique_project_null"
+      t.remove_index name: "index_notification_settings_unique_project"
 
       t.index %i[user_id channel],
               unique: true,
               where: "project_id IS NULL",
-              name: 'index_notification_settings_unique_project_null'
+              name: "index_notification_settings_unique_project_null"
 
       t.index %i[user_id project_id channel],
               unique: true,
               where: "project_id IS NOT NULL",
-              name: 'index_notification_settings_unique_project'
+              name: "index_notification_settings_unique_project"
     end
   end
 end

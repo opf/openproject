@@ -34,7 +34,7 @@ FactoryBot.define do
     cost_type
     spent_on { Date.today }
     units { 1 }
-    comments { '' }
+    comments { "" }
 
     before(:create) do |ce|
       ce.work_package.project = ce.project

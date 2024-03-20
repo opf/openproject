@@ -32,7 +32,7 @@ module StimulusHelper
     @stimulus_content_data = data
       .merge({
                controller: name,
-               'application-target': dynamic ? 'dynamic' : nil
+               "application-target": dynamic ? "dynamic" : nil
              })
   end
 

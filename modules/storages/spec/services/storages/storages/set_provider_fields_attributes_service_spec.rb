@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Storages::SetProviderFieldsAttributesService, type: :model do
@@ -42,59 +42,59 @@ RSpec.describe Storages::Storages::SetProviderFieldsAttributesService, type: :mo
 
   before { allow(storage).to receive(:valid?).and_return(true) }
 
-  context 'when automatically_managed is not set' do
+  context "when automatically_managed is not set" do
     let(:storage) { build(:nextcloud_storage, provider_fields: {}) }
 
-    it 'sets automatically_managed to true' do
+    it "sets automatically_managed to true" do
       expect { provider_fields_attributes_service }
-        .to change(storage, :provider_fields).from({}).to({ 'automatically_managed' => true })
+        .to change(storage, :provider_fields).from({}).to({ "automatically_managed" => true })
 
-      aggregate_failures 'returns the storage model object as the result' do
+      aggregate_failures "returns the storage model object as the result" do
         expect(provider_fields_attributes_service.result).to eq(storage)
       end
 
-      aggregate_failures 'is valid contract' do
+      aggregate_failures "is valid contract" do
         expect(provider_fields_attributes_service).to be_a_success
       end
     end
   end
 
-  context 'when automatically_managed is already set as true' do
+  context "when automatically_managed is already set as true" do
     let(:storage) { build(:nextcloud_storage, :as_automatically_managed) }
 
-    it 'retains the set value, does not change the object' do
+    it "retains the set value, does not change the object" do
       expect { provider_fields_attributes_service }.not_to change(storage, :provider_fields)
       expect(provider_fields_attributes_service.result.automatically_managed).to be(true)
 
-      aggregate_failures 'returns the storage model object as the result' do
+      aggregate_failures "returns the storage model object as the result" do
         expect(provider_fields_attributes_service.result).to eq(storage)
       end
 
-      aggregate_failures 'is valid contract' do
+      aggregate_failures "is valid contract" do
         expect(provider_fields_attributes_service).to be_a_success
       end
     end
   end
 
-  context 'when automatically_managed is set as false' do
+  context "when automatically_managed is set as false" do
     let(:storage) { build(:nextcloud_storage, :as_not_automatically_managed) }
 
-    it 'retains the set value, does not change the object' do
+    it "retains the set value, does not change the object" do
       expect { provider_fields_attributes_service }.not_to change(storage, :provider_fields)
       expect(provider_fields_attributes_service.result.automatically_managed).to be(false)
 
-      aggregate_failures 'returns the storage model object as the result' do
+      aggregate_failures "returns the storage model object as the result" do
         expect(provider_fields_attributes_service.result).to eq(storage)
       end
 
-      aggregate_failures 'is valid contract' do
+      aggregate_failures "is valid contract" do
         expect(provider_fields_attributes_service).to be_a_success
       end
     end
   end
 
   def stub_valid_contract(contract_class)
-    contract_errors = instance_double(ActiveModel::Errors, 'contract_errors')
+    contract_errors = instance_double(ActiveModel::Errors, "contract_errors")
     contract_valid = true
     contract_instance = stub_contract_instance(contract_class, contract_valid, contract_errors)
     allow(contract_class).to receive(:new).and_return(contract_instance)
@@ -103,7 +103,7 @@ RSpec.describe Storages::Storages::SetProviderFieldsAttributesService, type: :mo
   end
 
   def stub_contract_instance(contract_class, contract_valid, contract_errors)
-    contract_instance = instance_double(contract_class, 'contract_instance')
+    contract_instance = instance_double(contract_class, "contract_instance")
     allow(contract_instance).to receive_messages(validate: contract_valid, errors: contract_errors)
     contract_instance
   end

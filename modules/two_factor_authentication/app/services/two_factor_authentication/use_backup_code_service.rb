@@ -13,7 +13,7 @@ module TwoFactorAuthentication
     def verify(code)
       token = user.otp_backup_codes.find_by_plaintext_value(code)
 
-      raise I18n.t('two_factor_authentication.error_invalid_backup_code') if token.nil?
+      raise I18n.t("two_factor_authentication.error_invalid_backup_code") if token.nil?
 
       use_valid_token! token
     rescue StandardError => e

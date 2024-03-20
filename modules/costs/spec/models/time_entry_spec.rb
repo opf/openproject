@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe TimeEntry do
   let(:project) { create(:project_with_types, public: false) }
@@ -60,7 +60,7 @@ RSpec.describe TimeEntry do
            hours:,
            user:,
            rate: hourly_one,
-           comments: 'lorem')
+           comments: "lorem")
   end
 
   let(:time_entry2) do
@@ -71,7 +71,7 @@ RSpec.describe TimeEntry do
            hours:,
            user:,
            rate: hourly_one,
-           comments: 'lorem')
+           comments: "lorem")
   end
 
   def is_member(project, user, permissions)
@@ -81,23 +81,23 @@ RSpec.describe TimeEntry do
            roles: [create(:project_role, permissions:)])
   end
 
-  describe '#hours' do
-    formats = { '2' => 2.0,
-                '21.1' => 21.1,
-                '2,1' => 2.1,
-                '1,5h' => 1.5,
-                '7:12' => 7.2,
-                '10h' => 10.0,
-                '10 h' => 10.0,
-                '45m' => 0.75,
-                '45 m' => 0.75,
-                '3h15' => 3.25,
-                '3h 15' => 3.25,
-                '3 h 15' => 3.25,
-                '3 h 15m' => 3.25,
-                '3 h 15 m' => 3.25,
-                '3 hours' => 3.0,
-                '12min' => 0.2 }
+  describe "#hours" do
+    formats = { "2" => 2.0,
+                "21.1" => 21.1,
+                "2,1" => 2.1,
+                "1,5h" => 1.5,
+                "7:12" => 7.2,
+                "10h" => 10.0,
+                "10 h" => 10.0,
+                "45m" => 0.75,
+                "45 m" => 0.75,
+                "3h15" => 3.25,
+                "3h 15" => 3.25,
+                "3 h 15" => 3.25,
+                "3 h 15m" => 3.25,
+                "3 h 15 m" => 3.25,
+                "3 hours" => 3.0,
+                "12min" => 0.2 }
 
     formats.each do |from, to|
       it "formats '#{from}'" do
@@ -108,7 +108,7 @@ RSpec.describe TimeEntry do
     end
   end
 
-  it 'always prefers overridden_costs' do
+  it "always prefers overridden_costs" do
     allow(User).to receive(:current).and_return(user)
 
     value = rand(500)
@@ -118,13 +118,13 @@ RSpec.describe TimeEntry do
     time_entry.save!
   end
 
-  describe 'given rate' do
+  describe "given rate" do
     before do
       allow(User).to receive(:current).and_return(user)
       @default_example = time_entry2
     end
 
-    it 'returns the current costs depending on the number of hours' do
+    it "returns the current costs depending on the number of hours" do
       101.times do |hours|
         time_entry.hours = hours
         time_entry.save!
@@ -132,7 +132,7 @@ RSpec.describe TimeEntry do
       end
     end
 
-    it 'updates cost if a new rate is added at the end' do
+    it "updates cost if a new rate is added at the end" do
       time_entry.user = User.current
       time_entry.spent_on = Time.now
       time_entry.hours = 1
@@ -149,7 +149,7 @@ RSpec.describe TimeEntry do
       expect(time_entry.costs).to eq(hourly.rate)
     end
 
-    it 'updates cost if a new rate is added in between' do
+    it "updates cost if a new rate is added in between" do
       time_entry.user = User.current
       time_entry.spent_on = 3.days.ago.to_date
       time_entry.hours = 1
@@ -166,7 +166,7 @@ RSpec.describe TimeEntry do
       expect(time_entry.costs).to eq(hourly.rate)
     end
 
-    it 'updates cost if a spent_on changes' do
+    it "updates cost if a spent_on changes" do
       time_entry.hours = 1
       (5.days.ago.to_date..Date.today).each do |time|
         time_entry.spent_on = time.to_date
@@ -175,7 +175,7 @@ RSpec.describe TimeEntry do
       end
     end
 
-    it 'updates cost if a rate is removed' do
+    it "updates cost if a rate is removed" do
       time_entry.spent_on = hourly_one.valid_from
       time_entry.hours = 1
       time_entry.save!
@@ -188,7 +188,7 @@ RSpec.describe TimeEntry do
       expect(time_entry.costs).to eq(hourly_five.rate)
     end
 
-    it 'is able to change order of rates (sorted by valid_from)' do
+    it "is able to change order of rates (sorted by valid_from)" do
       time_entry.spent_on = hourly_one.valid_from
       time_entry.save!
       expect(time_entry.rate).to eq(hourly_one)
@@ -199,13 +199,13 @@ RSpec.describe TimeEntry do
     end
   end
 
-  describe 'default rate' do
+  describe "default rate" do
     before do
       allow(User).to receive(:current).and_return(user)
       @default_example = time_entry2
     end
 
-    it 'returns the current costs depending on the number of hours' do
+    it "returns the current costs depending on the number of hours" do
       101.times do |hours|
         @default_example.hours = hours
         @default_example.save!
@@ -213,7 +213,7 @@ RSpec.describe TimeEntry do
       end
     end
 
-    it 'updates cost if a new rate is added at the end' do
+    it "updates cost if a new rate is added at the end" do
       @default_example.user = user2
       @default_example.spent_on = Time.now.to_date
       @default_example.hours = 1
@@ -229,7 +229,7 @@ RSpec.describe TimeEntry do
       expect(@default_example.costs).to eq(hourly.rate)
     end
 
-    it 'updates cost if a new rate is added in between' do
+    it "updates cost if a new rate is added in between" do
       @default_example.user = user2
       @default_example.spent_on = 3.days.ago.to_date
       @default_example.hours = 1
@@ -245,7 +245,7 @@ RSpec.describe TimeEntry do
       expect(@default_example.costs).to eq(hourly.rate)
     end
 
-    it 'updates cost if a spent_on changes' do
+    it "updates cost if a spent_on changes" do
       @default_example.hours = 1
       (5.days.ago.to_date..Date.today).each do |time|
         @default_example.spent_on = time.to_date
@@ -254,7 +254,7 @@ RSpec.describe TimeEntry do
       end
     end
 
-    it 'updates cost if a rate is removed' do
+    it "updates cost if a rate is removed" do
       @default_example.spent_on = default_hourly_one.valid_from
       @default_example.hours = 1
       @default_example.save!
@@ -267,7 +267,7 @@ RSpec.describe TimeEntry do
       expect(@default_example.costs).to eq(default_hourly_five.rate)
     end
 
-    it 'is able to switch between default hourly rate and hourly rate' do
+    it "is able to switch between default hourly rate and hourly rate" do
       @default_example.user = user2
       @default_example.rate = default_hourly_one
       @default_example.save!
@@ -288,9 +288,9 @@ RSpec.describe TimeEntry do
       expect(@default_example.rate).to eq(default_hourly_one)
     end
 
-    describe '#costs_visible_by?' do
+    describe "#costs_visible_by?" do
       before do
-        project.enabled_module_names = project.enabled_module_names << 'costs'
+        project.enabled_module_names = project.enabled_module_names << "costs"
       end
 
       describe "WHEN the time_entry is assigned to the user
@@ -339,49 +339,49 @@ RSpec.describe TimeEntry do
     end
   end
 
-  describe 'visible_by?' do
-    context 'when not having the necessary permissions' do
+  describe "visible_by?" do
+    context "when not having the necessary permissions" do
       before do
         is_member(project, user, [])
       end
 
-      it 'is visible' do
+      it "is visible" do
         expect(time_entry.visible_by?(user)).to be_falsey
       end
     end
 
-    context 'when having the view_time_entries permission' do
+    context "when having the view_time_entries permission" do
       before do
         is_member(project, user, [:view_time_entries])
       end
 
-      it 'is visible' do
+      it "is visible" do
         expect(time_entry.visible_by?(user)).to be_truthy
       end
     end
 
-    context 'when having the view_own_time_entries permission ' +
-            'and being the owner of the time entry' do
+    context "when having the view_own_time_entries permission " +
+            "and being the owner of the time entry" do
       before do
         is_member(project, user, [:view_own_time_entries])
 
         time_entry.user = user
       end
 
-      it 'is visible' do
+      it "is visible" do
         expect(time_entry.visible_by?(user)).to be_truthy
       end
     end
 
-    context 'when having the view_own_time_entries permission ' +
-            'and not being the owner of the time entry' do
+    context "when having the view_own_time_entries permission " +
+            "and not being the owner of the time entry" do
       before do
         is_member(project, user, [:view_own_time_entries])
 
         time_entry.user = build :user
       end
 
-      it 'is visible' do
+      it "is visible" do
         expect(time_entry.visible_by?(user)).to be_falsey
       end
     end

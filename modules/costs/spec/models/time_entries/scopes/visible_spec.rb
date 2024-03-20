@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe TimeEntry, "visible scope" do
   let(:project) { create(:project) }
@@ -59,22 +59,22 @@ RSpec.describe TimeEntry, "visible scope" do
            user:)
   end
 
-  describe '.visible' do
+  describe ".visible" do
     subject { TimeEntry.visible(user) }
 
-    context 'for a user having the view_time_entries permission' do
+    context "for a user having the view_time_entries permission" do
       let(:user) { create(:user, member_with_permissions: { project => [:view_time_entries] }) }
 
-      it 'retrieves all the time entries of projects the user has the permissions in' do
+      it "retrieves all the time entries of projects the user has the permissions in" do
         expect(subject)
           .to contain_exactly(own_project_time_entry, project_time_entry)
       end
     end
 
-    context 'for a user having the view_own_time_entries permission on a work package' do
+    context "for a user having the view_own_time_entries permission on a work package" do
       let(:user) { create(:user, member_with_permissions: { work_package => [:view_own_time_entries] }) }
 
-      it 'retrieves all the time entries of the user in projects the user has the permissions in' do
+      it "retrieves all the time entries of the user in projects the user has the permissions in" do
         expect(subject)
           .to contain_exactly(own_project_time_entry)
       end

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Empty backlogs project',
+RSpec.describe "Empty backlogs project",
                :js, :with_cuprite do
   shared_let(:story) { create(:type_feature) }
   shared_let(:task) { create(:type_task) }
@@ -39,31 +39,31 @@ RSpec.describe 'Empty backlogs project',
     login_as current_user
     allow(Setting)
         .to receive(:plugin_openproject_backlogs)
-                .and_return('story_types' => [story.id.to_s],
-                            'task_type' => task.id.to_s)
+                .and_return("story_types" => [story.id.to_s],
+                            "task_type" => task.id.to_s)
 
     visit backlogs_project_backlogs_path(project)
   end
 
-  context 'as admin' do
+  context "as admin" do
     let(:current_user) { create(:admin) }
 
-    it 'shows a no results box with action' do
-      expect(page).to have_css('.generic-table--no-results-container', text: I18n.t(:backlogs_empty_title))
-      expect(page).to have_css('.generic-table--no-results-description', text: I18n.t(:backlogs_empty_action_text))
+    it "shows a no results box with action" do
+      expect(page).to have_css(".generic-table--no-results-container", text: I18n.t(:backlogs_empty_title))
+      expect(page).to have_css(".generic-table--no-results-description", text: I18n.t(:backlogs_empty_action_text))
 
-      link = page.find '.generic-table--no-results-description a'
+      link = page.find ".generic-table--no-results-description a"
       expect(link[:href]).to include(new_project_version_path(project))
     end
   end
 
-  context 'as regular member' do
+  context "as regular member" do
     let(:role) { create(:project_role, permissions: %i(view_master_backlog)) }
     let(:current_user) { create(:user, member_with_roles: { project => role }) }
 
-    it 'only shows a no results box' do
-      expect(page).to have_css('.generic-table--no-results-container', text: I18n.t(:backlogs_empty_title))
-      expect(page).to have_no_css('.generic-table--no-results-description')
+    it "only shows a no results box" do
+      expect(page).to have_css(".generic-table--no-results-container", text: I18n.t(:backlogs_empty_title))
+      expect(page).to have_no_css(".generic-table--no-results-description")
     end
   end
 end

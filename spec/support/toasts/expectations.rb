@@ -20,7 +20,7 @@ module Toasts
 
     def dismiss_toaster!
       sleep 0.1
-      page.find('.op-toast--close').click
+      page.find(".op-toast--close").click
     end
 
     def expect_no_toaster(type: :success, message: nil, wait: 10)

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe API::V3::GitlabMergeRequests::GitlabUserRepresenter do
@@ -39,32 +39,32 @@ RSpec.describe API::V3::GitlabMergeRequests::GitlabUserRepresenter do
 
   let(:user) { build_stubbed(:admin) }
 
-  it { is_expected.to include_json('GitlabUser'.to_json).at_path('_type') }
+  it { is_expected.to include_json("GitlabUser".to_json).at_path("_type") }
 
-  describe 'properties' do
-    it_behaves_like 'property', :_type do
-      let(:value) { 'GitlabUser' }
+  describe "properties" do
+    it_behaves_like "property", :_type do
+      let(:value) { "GitlabUser" }
     end
 
-    it_behaves_like 'property', :login do
+    it_behaves_like "property", :login do
       let(:value) { gitlab_user.gitlab_name }
     end
 
-    it_behaves_like 'property', :email do
+    it_behaves_like "property", :email do
       let(:value) { gitlab_user.gitlab_email }
     end
 
-    it_behaves_like 'property', :avatarUrl do
+    it_behaves_like "property", :avatarUrl do
       let(:value) { gitlab_user.gitlab_avatar_url }
     end
   end
 
-  describe '_links' do
-    it { is_expected.to have_json_type(Object).at_path('_links') }
-    it { is_expected.to have_json_path('_links/self/href') }
+  describe "_links" do
+    it { is_expected.to have_json_type(Object).at_path("_links") }
+    it { is_expected.to have_json_path("_links/self/href") }
   end
 
-  describe 'caching' do
+  describe "caching" do
     before do
       allow(OpenProject::Cache).to receive(:fetch).and_call_original
     end
@@ -77,22 +77,22 @@ RSpec.describe API::V3::GitlabMergeRequests::GitlabUserRepresenter do
         .with(representer.json_cache_key)
     end
 
-    describe '#json_cache_key' do
+    describe "#json_cache_key" do
       let!(:former_cache_key) { representer.json_cache_key }
 
-      it 'includes the name of the representer class' do
+      it "includes the name of the representer class" do
         expect(representer.json_cache_key)
-          .to include('API', 'V3', 'GitlabMergeRequests', 'GitlabUserRepresenter')
+          .to include("API", "V3", "GitlabMergeRequests", "GitlabUserRepresenter")
       end
 
-      it 'changes when the locale changes' do
+      it "changes when the locale changes" do
         I18n.with_locale(:fr) do
           expect(representer.json_cache_key)
             .not_to eql former_cache_key
         end
       end
 
-      it 'changes when the gitlab_user is updated' do
+      it "changes when the gitlab_user is updated" do
         gitlab_user.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)

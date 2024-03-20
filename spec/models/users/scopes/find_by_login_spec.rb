@@ -26,38 +26,38 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Users::Scopes::FindByLogin do
   let!(:activity) { create(:time_entry_activity) }
   let!(:project) { create(:project) }
   let!(:user) { create(:user, login:) }
-  let(:login) { 'Some string' }
+  let(:login) { "Some string" }
   let(:search_login) { login }
 
-  describe '.find_by_login' do
+  describe ".find_by_login" do
     subject { User.find_by_login(search_login) }
 
-    context 'with the exact same login' do
-      it 'returns the user' do
+    context "with the exact same login" do
+      it "returns the user" do
         expect(subject)
           .to eql user
       end
     end
 
-    context 'with a non existing login' do
-      let(:search_login) { 'nothing' }
+    context "with a non existing login" do
+      let(:search_login) { "nothing" }
 
-      it 'returns nil' do
+      it "returns nil" do
         expect(subject)
           .to be_nil
       end
     end
 
-    context 'with a lowercase login' do
+    context "with a lowercase login" do
       let(:search_login) { login.downcase }
 
-      it 'returns the user with the matching login' do
+      it "returns the user with the matching login" do
         expect(subject)
           .to eql user
       end

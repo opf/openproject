@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::Decorators::AggregationGroup do
   let(:query) do
@@ -35,19 +35,19 @@ RSpec.describe API::Decorators::AggregationGroup do
 
     query
   end
-  let(:group_key) { OpenStruct.new name: 'ABC' }
+  let(:group_key) { OpenStruct.new name: "ABC" }
   let(:count) { 5 }
   let(:current_user) { build_stubbed(:user) }
 
   subject { described_class.new(group_key, count, query:, current_user:).to_json }
 
-  context 'with an empty array key' do
+  context "with an empty array key" do
     let(:group_key) { [] }
 
-    it 'has an empty value' do
+    it "has an empty value" do
       expect(subject)
         .to be_json_eql(nil.to_json)
-        .at_path('value')
+        .at_path("value")
     end
   end
 end

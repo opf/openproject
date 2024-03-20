@@ -10,7 +10,7 @@ module OpenProject
       # with the file logger within <rails root>/log/<filename>
       def initialize(log_name, max_level = ::Logger::DEBUG)
         @stdout = ::ActiveSupport::Logger.new STDOUT
-        @file = ::ActiveSupport::Logger.new Rails.root.join('log', "#{File.basename(log_name, '.log')}.log")
+        @file = ::ActiveSupport::Logger.new Rails.root.join("log", "#{File.basename(log_name, '.log')}.log")
 
         stdout.level = max_level
         file.level = max_level

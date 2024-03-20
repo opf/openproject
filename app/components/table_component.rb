@@ -174,7 +174,7 @@ class TableComponent < ApplicationComponent
   end
 
   def initial_order
-    initial_sort_correlation.join(' ')
+    initial_sort_correlation.join(" ")
   end
 
   def paginated?

@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
 RSpec.describe "API v3 version's projects resource" do
   include Rack::Test::Methods
@@ -47,14 +47,14 @@ RSpec.describe "API v3 version's projects resource" do
   let(:project2) { create(:project, public: false) }
   let(:project3) { create(:project, public: false) }
   let(:project4) { create(:project, public: false) }
-  let(:version) { create(:version, project:, sharing: 'system') }
+  let(:version) { create(:version, project:, sharing: "system") }
 
   subject(:response) { last_response }
 
-  describe '#get (index)' do
+  describe "#get (index)" do
     let(:get_path) { api_v3_paths.projects_by_version version.id }
 
-    context 'logged in user with permissions' do
+    context "logged in user with permissions" do
       before do
         current_user
 
@@ -73,16 +73,16 @@ RSpec.describe "API v3 version's projects resource" do
         get get_path
       end
 
-      it_behaves_like 'API V3 collection response', 3, 3, 'Project'
+      it_behaves_like "API V3 collection response", 3, 3, "Project"
 
-      it 'includes only the projects which the user can see' do
-        id_in_response = JSON.parse(response.body)['_embedded']['elements'].map { |p| p['id'] }
+      it "includes only the projects which the user can see" do
+        id_in_response = JSON.parse(response.body)["_embedded"]["elements"].map { |p| p["id"] }
 
         expect(id_in_response).to contain_exactly(project.id, project2.id, project3.id)
       end
     end
 
-    context 'logged in user without permissions' do
+    context "logged in user without permissions" do
       let(:role) { role_without_permissions }
 
       before do
@@ -91,7 +91,7 @@ RSpec.describe "API v3 version's projects resource" do
         get get_path
       end
 
-      it_behaves_like 'not found'
+      it_behaves_like "not found"
     end
   end
 end

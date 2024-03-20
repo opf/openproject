@@ -51,8 +51,8 @@ class SecureContextUriValidator < ActiveModel::EachValidator
   end
 
   def self.secure_context_uri?(uri)
-    return true if uri.scheme == 'https' # https is always safe
-    return true if uri.host == 'localhost' # Simple localhost
+    return true if uri.scheme == "https" # https is always safe
+    return true if uri.host == "localhost" # Simple localhost
     return true if /\.localhost\.?$/.match?(uri.host) # i.e. 'foo.localhost' or 'foo.localhost.'
 
     # Check for loopback interface. The constructor can throw an exception for non IP addresses.

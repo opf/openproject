@@ -28,13 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Home', :js, with_settings: { login_required: false } do
-  context 'for #content' do
-    it 'passes axe-core accessibility tests' do
-      visit '/'
-      expect(page).to be_axe_clean.within '#content'
+RSpec.describe "Home", :js, with_settings: { login_required: false } do
+  context "for #content" do
+    it "passes axe-core accessibility tests" do
+      visit "/"
+      expect(page).to be_axe_clean.within "#content"
     end
   end
 end

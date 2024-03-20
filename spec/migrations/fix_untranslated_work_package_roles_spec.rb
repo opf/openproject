@@ -26,39 +26,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require Rails.root.join("db/migrate/20240206173841_fix_untranslated_work_package_roles.rb")
 
 RSpec.describe FixUntranslatedWorkPackageRoles, type: :model do
   # Silencing migration logs, since we are not interested in that during testing
   subject(:run_migration) { ActiveRecord::Migration.suppress_messages { described_class.new.up } }
 
-  context 'when work package roles are already present' do
+  context "when work package roles are already present" do
     before do
-      create(:work_package_role, builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_EDITOR, name: 'foo')
-      create(:work_package_role, builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_COMMENTER, name: 'bar')
-      create(:work_package_role, builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_VIEWER, name: 'baz')
+      create(:work_package_role, builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_EDITOR, name: "foo")
+      create(:work_package_role, builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_COMMENTER, name: "bar")
+      create(:work_package_role, builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_VIEWER, name: "baz")
     end
 
-    it 'updates them with correct names' do
+    it "updates them with correct names" do
       expect { run_migration }
         .not_to change(WorkPackageRole, :count).from(3)
 
       expect(WorkPackageRole.find_by(builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_EDITOR))
-        .to have_attributes(name: 'Work package editor')
+        .to have_attributes(name: "Work package editor")
       expect(WorkPackageRole.find_by(builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_COMMENTER))
-        .to have_attributes(name: 'Work package commenter')
+        .to have_attributes(name: "Work package commenter")
       expect(WorkPackageRole.find_by(builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_VIEWER))
-        .to have_attributes(name: 'Work package viewer')
+        .to have_attributes(name: "Work package viewer")
     end
 
     [
-      'OPENPROJECT_SEED_LOCALE',
-      'OPENPROJECT_DEFAULT_LANGUAGE'
+      "OPENPROJECT_SEED_LOCALE",
+      "OPENPROJECT_DEFAULT_LANGUAGE"
     ].each do |env_var_name|
       describe "when #{env_var_name} is set with a non-English language", :settings_reset do
-        it 'renames the work package roles in the language specified', :settings_reset do
-          with_env(env_var_name => 'de') do
+        it "renames the work package roles in the language specified", :settings_reset do
+          with_env(env_var_name => "de") do
             reset(:default_language)
             run_migration
           ensure
@@ -66,25 +66,25 @@ RSpec.describe FixUntranslatedWorkPackageRoles, type: :model do
           end
 
           expect(WorkPackageRole.find_by(builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_EDITOR))
-            .to have_attributes(name: 'Arbeitspaket-Bearbeiter')
+            .to have_attributes(name: "Arbeitspaket-Bearbeiter")
           expect(WorkPackageRole.find_by(builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_COMMENTER))
-            .to have_attributes(name: 'Arbeitspaket-Kommentator')
+            .to have_attributes(name: "Arbeitspaket-Kommentator")
           expect(WorkPackageRole.find_by(builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_VIEWER))
-            .to have_attributes(name: 'Arbeitspaket-Betrachter')
+            .to have_attributes(name: "Arbeitspaket-Betrachter")
         end
       end
 
       describe "when #{env_var_name} is set with an unsupported language", :settings_reset do
-        it 'uses the English name', :settings_reset do
-          allow(Settings).to receive(:default_language).and_return('pt-br')
+        it "uses the English name", :settings_reset do
+          allow(Settings).to receive(:default_language).and_return("pt-br")
           run_migration
 
           expect(WorkPackageRole.find_by(builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_EDITOR))
-            .to have_attributes(name: 'Work package editor')
+            .to have_attributes(name: "Work package editor")
           expect(WorkPackageRole.find_by(builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_COMMENTER))
-            .to have_attributes(name: 'Work package commenter')
+            .to have_attributes(name: "Work package commenter")
           expect(WorkPackageRole.find_by(builtin: WorkPackageRole::BUILTIN_WORK_PACKAGE_VIEWER))
-            .to have_attributes(name: 'Work package viewer')
+            .to have_attributes(name: "Work package viewer")
         end
       end
     end

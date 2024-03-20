@@ -28,13 +28,13 @@
 
 module AdminHelper
   def project_status_options_for_select(selected)
-    options_for_select([[I18n.t(:label_all), ''],
+    options_for_select([[I18n.t(:label_all), ""],
                         [I18n.t(:status_active), 1]], selected)
   end
 
   def linked_sha_reference(sha, url)
     if sha && url
-      link_to sha, url, target: '_blank', rel: 'noopener'
+      link_to sha, url, target: "_blank", rel: "noopener"
     else
       sha
     end

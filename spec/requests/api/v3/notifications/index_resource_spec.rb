@@ -25,11 +25,11 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
 RSpec.describe API::V3::Notifications::NotificationsAPI,
-               'index', content_type: :json do
+               "index", content_type: :json do
   include API::V3::Utilities::PathHelper
 
   shared_let(:work_package) { create(:work_package) }
@@ -70,36 +70,36 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
     send_request
   end
 
-  describe 'as the user with notifications' do
+  describe "as the user with notifications" do
     let(:current_user) { recipient }
 
-    it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do
+    it_behaves_like "API V3 collection response", 2, 2, "Notification" do
       let(:elements) { [date_alert_notification, mentioned_notification] }
     end
 
-    context 'with a readIAN filter' do
+    context "with a readIAN filter" do
       let(:nil_notification) { create(:notification, recipient:, read_ian: nil) }
 
       let(:filters) do
         [
           {
-            'readIAN' => {
-              'operator' => '=',
-              'values' => ['f']
+            "readIAN" => {
+              "operator" => "=",
+              "values" => ["f"]
 
             }
           }
         ]
       end
 
-      context 'with the filter being set to false' do
-        it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do
+      context "with the filter being set to false" do
+        it_behaves_like "API V3 collection response", 2, 2, "Notification" do
           let(:elements) { [date_alert_notification, mentioned_notification] }
         end
       end
     end
 
-    context 'with a resource filter' do
+    context "with a resource filter" do
       shared_let(:other_work_package) { create(:work_package, project: work_package.project) }
       shared_let(:other_resource_notification) do
         create(:notification,
@@ -111,26 +111,26 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
       let(:filters) do
         [
           {
-            'resourceId' => {
-              'operator' => '=',
-              'values' => [other_work_package.id.to_s]
+            "resourceId" => {
+              "operator" => "=",
+              "values" => [other_work_package.id.to_s]
             }
           },
           {
-            'resourceType' => {
-              'operator' => '=',
-              'values' => [WorkPackage.name.to_s]
+            "resourceType" => {
+              "operator" => "=",
+              "values" => [WorkPackage.name.to_s]
             }
           }
         ]
       end
 
-      it_behaves_like 'API V3 collection response', 1, 1, 'Notification' do
+      it_behaves_like "API V3 collection response", 1, 1, "Notification" do
         let(:elements) { [other_resource_notification] }
       end
     end
 
-    context 'with a project filter' do
+    context "with a project filter" do
       shared_let(:other_project) do
         create(:project,
                members: { recipient => recipient.members.first.roles })
@@ -146,20 +146,20 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
       let(:filters) do
         [
           {
-            'project' => {
-              'operator' => '=',
-              'values' => [other_work_package.project_id.to_s]
+            "project" => {
+              "operator" => "=",
+              "values" => [other_work_package.project_id.to_s]
             }
           }
         ]
       end
 
-      it_behaves_like 'API V3 collection response', 1, 1, 'Notification' do
+      it_behaves_like "API V3 collection response", 1, 1, "Notification" do
         let(:elements) { [other_project_notification] }
       end
     end
 
-    context 'with a reason filter', with_ee: %i[date_alerts] do
+    context "with a reason filter", with_ee: %i[date_alerts] do
       shared_let(:assigned_notification) do
         create(:notification,
                reason: :assigned,
@@ -180,64 +180,64 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
       let(:filters) do
         [
           {
-            'reason' => {
-              'operator' => '=',
-              'values' => [mentioned_notification.reason.to_s, responsible_notification.reason.to_s, 'dateAlert']
+            "reason" => {
+              "operator" => "=",
+              "values" => [mentioned_notification.reason.to_s, responsible_notification.reason.to_s, "dateAlert"]
             }
           }
         ]
       end
 
-      it_behaves_like 'API V3 collection response', 3, 3, 'Notification' do
+      it_behaves_like "API V3 collection response", 3, 3, "Notification" do
         let(:elements) { [responsible_notification, date_alert_notification, mentioned_notification] }
       end
 
-      context 'when using date alerts without enterprise', with_ee: false do
+      context "when using date alerts without enterprise", with_ee: false do
         let(:filters) do
           [
             {
-              'reason' => {
-                'operator' => '=',
-                'values' => ['dateAlert']
+              "reason" => {
+                "operator" => "=",
+                "values" => ["dateAlert"]
               }
             }
           ]
         end
 
-        it 'returns an error' do
+        it "returns an error" do
           expect(last_response.status)
             .to be 400
 
           expect(last_response.body)
             .to be_json_eql("Filters Reason filter has invalid values.".to_json)
-                  .at_path('message')
+                  .at_path("message")
         end
       end
 
-      context 'with an invalid reason' do
+      context "with an invalid reason" do
         let(:filters) do
           [
             {
-              'reason' => {
-                'operator' => '=',
-                'values' => ['bogus']
+              "reason" => {
+                "operator" => "=",
+                "values" => ["bogus"]
               }
             }
           ]
         end
 
-        it 'returns an error' do
+        it "returns an error" do
           expect(last_response.status)
             .to be 400
 
           expect(last_response.body)
             .to be_json_eql("Filters Reason filter has invalid values.".to_json)
-                  .at_path('message')
+                  .at_path("message")
         end
       end
     end
 
-    context 'with a non ian notification' do
+    context "with a non ian notification" do
       shared_let(:wiki_page) { create(:wiki_page) }
 
       shared_let(:non_ian_notification) do
@@ -249,12 +249,12 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
                journal: wiki_page.journals.first)
       end
 
-      it_behaves_like 'API V3 collection response', 2, 2, 'Notification' do
+      it_behaves_like "API V3 collection response", 2, 2, "Notification" do
         let(:elements) { [date_alert_notification, mentioned_notification] }
       end
     end
 
-    context 'with a reason groupBy' do
+    context "with a reason groupBy" do
       shared_let(:responsible_notification) do
         create(:notification,
                recipient:,
@@ -276,27 +276,27 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
         get api_v3_paths.path_for :notifications, group_by: :reason
       end
 
-      let(:groups) { parsed_response['groups'] }
+      let(:groups) { parsed_response["groups"] }
 
-      it_behaves_like 'API V3 collection response', 4, 4, 'Notification' do
+      it_behaves_like "API V3 collection response", 4, 4, "Notification" do
         let(:elements) do
           [mentioned_notification, responsible_notification, date_alert_notification, due_date_alert_notification]
         end
       end
 
-      it 'contains the reason groups', :aggregate_failures do
+      it "contains the reason groups", :aggregate_failures do
         expect(groups).to be_a Array
         expect(groups.count).to eq 3
 
-        keyed = groups.index_by { |el| el['value'] }
-        expect(keyed.keys).to contain_exactly 'mentioned', 'responsible', 'dateAlert'
-        expect(keyed['mentioned']['count']).to eq 1
-        expect(keyed['responsible']['count']).to eq 1
-        expect(keyed['dateAlert']['count']).to eq 2
+        keyed = groups.index_by { |el| el["value"] }
+        expect(keyed.keys).to contain_exactly "mentioned", "responsible", "dateAlert"
+        expect(keyed["mentioned"]["count"]).to eq 1
+        expect(keyed["responsible"]["count"]).to eq 1
+        expect(keyed["dateAlert"]["count"]).to eq 2
       end
     end
 
-    context 'with a project groupBy' do
+    context "with a project groupBy" do
       shared_let(:other_project) do
         create(:project,
                members: { recipient => recipient.members.first.roles })
@@ -315,34 +315,34 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
         get api_v3_paths.path_for :notifications, group_by: :project
       end
 
-      let(:groups) { parsed_response['groups'] }
+      let(:groups) { parsed_response["groups"] }
 
-      it_behaves_like 'API V3 collection response', 3, 3, 'Notification'
+      it_behaves_like "API V3 collection response", 3, 3, "Notification"
 
-      it 'contains the project groups', :aggregate_failures do
+      it "contains the project groups", :aggregate_failures do
         expect(groups).to be_a Array
         expect(groups.count).to eq 2
 
-        keyed = groups.index_by { |el| el['value'] }
+        keyed = groups.index_by { |el| el["value"] }
         expect(keyed.keys).to contain_exactly other_project.name, work_package.project.name
-        expect(keyed[work_package.project.name]['count']).to eq 2
-        expect(keyed[work_package2.project.name]['count']).to eq 1
+        expect(keyed[work_package.project.name]["count"]).to eq 2
+        expect(keyed[work_package2.project.name]["count"]).to eq 1
 
-        expect(keyed.dig(work_package.project.name, '_links', 'valueLink')[0]['href'])
+        expect(keyed.dig(work_package.project.name, "_links", "valueLink")[0]["href"])
           .to eq "/api/v3/projects/#{work_package.project.id}"
       end
     end
 
-    context 'when having lost the permission to see the work package' do
+    context "when having lost the permission to see the work package" do
       let(:additional_setup) do
         Member.where(principal: recipient).destroy_all
       end
 
-      it_behaves_like 'API V3 collection response', 0, 0, 'Notification'
+      it_behaves_like "API V3 collection response", 0, 0, "Notification"
     end
 
-    context 'when signaling' do
-      let(:select) { 'total,count' }
+    context "when signaling" do
+      let(:select) { "total,count" }
       let(:send_request) do
         get api_v3_paths.path_for :notifications, select:
       end
@@ -354,28 +354,28 @@ RSpec.describe API::V3::Notifications::NotificationsAPI,
         }
       end
 
-      it 'is the reduced set of properties of the embedded elements' do
+      it "is the reduced set of properties of the embedded elements" do
         expect(last_response.body)
           .to be_json_eql(expected.to_json)
       end
     end
   end
 
-  describe 'admin user' do
+  describe "admin user" do
     let(:current_user) { build(:admin) }
 
-    it_behaves_like 'API V3 collection response', 0, 0, 'Notification'
+    it_behaves_like "API V3 collection response", 0, 0, "Notification"
   end
 
-  describe 'as any user' do
+  describe "as any user" do
     let(:current_user) { build(:user) }
 
-    it_behaves_like 'API V3 collection response', 0, 0, 'Notification'
+    it_behaves_like "API V3 collection response", 0, 0, "Notification"
   end
 
-  describe 'as an anonymous user' do
+  describe "as an anonymous user" do
     let(:current_user) { User.anonymous }
 
-    it_behaves_like 'forbidden response based on login_required'
+    it_behaves_like "forbidden response based on login_required"
   end
 end

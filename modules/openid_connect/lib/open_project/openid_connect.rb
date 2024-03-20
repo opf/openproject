@@ -1,10 +1,10 @@
-require 'omniauth/openid_connect'
-require 'omniauth/openid_connect/providers'
-require 'open_project/openid_connect/engine'
+require "omniauth/openid_connect"
+require "omniauth/openid_connect/providers"
+require "open_project/openid_connect/engine"
 
 module OpenProject
   module OpenIDConnect
-    CONFIG_KEY = 'openid_connect'.freeze
+    CONFIG_KEY = "openid_connect".freeze
 
     def providers
       # update base redirect URI in case settings changed

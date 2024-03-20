@@ -25,14 +25,14 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require_relative 'show_resource_examples'
+require "spec_helper"
+require_relative "show_resource_examples"
 
 RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
-               'show' do
+               "show" do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:placeholder) { create(:placeholder_user, name: 'foo') }
+  shared_let(:placeholder) { create(:placeholder_user, name: "foo") }
 
   let(:send_request) do
     header "Content-Type", "application/json"
@@ -47,30 +47,30 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
     send_request
   end
 
-  describe 'admin user' do
+  describe "admin user" do
     let(:user) { build(:admin) }
 
-    it_behaves_like 'represents the placeholder'
+    it_behaves_like "represents the placeholder"
   end
 
-  describe 'user with manage_placeholder_user permission' do
+  describe "user with manage_placeholder_user permission" do
     let(:user) { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
-    it_behaves_like 'represents the placeholder'
+    it_behaves_like "represents the placeholder"
   end
 
-  describe 'user with manage_members permission' do
+  describe "user with manage_members permission" do
     let(:role) { create(:project_role, permissions: %i[manage_members]) }
     let(:project) { create(:project, members: { placeholder => role }) }
     let(:user) { create(:user, member_with_roles: { project => role }) }
 
-    it_behaves_like 'represents the placeholder'
+    it_behaves_like "represents the placeholder"
   end
 
-  describe 'unauthorized user' do
+  describe "unauthorized user" do
     let(:user) { build(:user) }
 
-    it 'returns a 403 response' do
+    it "returns a 403 response" do
       expect(last_response.status).to eq(403)
     end
   end

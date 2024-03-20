@@ -26,4 +26,4 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-instance_eval File.read(File.join(File.dirname(__FILE__), 'test.rb'))
+instance_eval File.read(File.join(File.dirname(__FILE__), "test.rb"))

@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Principals resource' do
+RSpec.describe "API v3 Principals resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  describe '#GET /api/v3/principals' do
+  describe "#GET /api/v3/principals" do
     subject(:response) { last_response }
 
     let(:path) do
@@ -50,8 +50,8 @@ RSpec.describe 'API v3 Principals resource' do
     let(:user) do
       user = create(:user,
                     member_with_roles: { project => role },
-                    lastname: 'Aaaa',
-                    mail: 'aaaa@example.com')
+                    lastname: "Aaaa",
+                    mail: "aaaa@example.com")
 
       create(:member,
              project: other_project,
@@ -63,22 +63,22 @@ RSpec.describe 'API v3 Principals resource' do
     let!(:other_user) do
       create(:user,
              member_with_roles: { other_project => role },
-             lastname: 'Bbbb')
+             lastname: "Bbbb")
     end
     let!(:user_in_non_member_project) do
       create(:user,
              member_with_roles: { non_member_project => role },
-             lastname: 'Cccc')
+             lastname: "Cccc")
     end
     let!(:group) do
       create(:group,
              member_with_roles: { project => role },
-             lastname: 'Gggg')
+             lastname: "Gggg")
     end
     let!(:placeholder_user) do
       create(:placeholder_user,
              member_with_roles: { project => role },
-             name: 'Pppp')
+             name: "Pppp")
     end
 
     current_user { user }
@@ -87,108 +87,108 @@ RSpec.describe 'API v3 Principals resource' do
       get path
     end
 
-    it 'succeeds' do
+    it "succeeds" do
       expect(response.status)
         .to eq(200)
     end
 
-    it_behaves_like 'API V3 collection response', 4, 4 do
+    it_behaves_like "API V3 collection response", 4, 4 do
       let(:elements) { [placeholder_user, group, other_user, user] }
     end
 
-    context 'with a filter for project the user is member in' do
+    context "with a filter for project the user is member in" do
       let(:filter) do
-        [{ member: { operator: '=', values: [project.id.to_s] } }]
+        [{ member: { operator: "=", values: [project.id.to_s] } }]
       end
 
-      it_behaves_like 'API V3 collection response', 3, 3
+      it_behaves_like "API V3 collection response", 3, 3
     end
 
     context 'with a filter for type "User"' do
       let(:filter) do
-        [{ type: { operator: '=', values: ['User'] } }]
+        [{ type: { operator: "=", values: ["User"] } }]
       end
 
-      it_behaves_like 'API V3 collection response', 2, 2, nil
+      it_behaves_like "API V3 collection response", 2, 2, nil
     end
 
     context 'with a filter for type "Group"' do
       let(:filter) do
-        [{ type: { operator: '=', values: ['Group'] } }]
+        [{ type: { operator: "=", values: ["Group"] } }]
       end
 
-      it_behaves_like 'API V3 collection response', 1, 1, 'Group'
+      it_behaves_like "API V3 collection response", 1, 1, "Group"
     end
 
     context 'with a filter for type "PlaceholderUser"' do
       let(:filter) do
-        [{ type: { operator: '=', values: ['PlaceholderUser'] } }]
+        [{ type: { operator: "=", values: ["PlaceholderUser"] } }]
       end
 
-      it_behaves_like 'API V3 collection response', 1, 1, 'PlaceholderUser'
+      it_behaves_like "API V3 collection response", 1, 1, "PlaceholderUser"
     end
 
-    context 'with a without a project membership' do
+    context "with a without a project membership" do
       let(:user) { create(:user) }
 
       # The user herself
-      it_behaves_like 'API V3 collection response', 1, 1, 'User'
+      it_behaves_like "API V3 collection response", 1, 1, "User"
     end
 
-    context 'with a filter for any name attribute' do
+    context "with a filter for any name attribute" do
       let(:filter) do
-        [{ any_name_attribute: { operator: '~', values: ['aaaa@example.com'] } }]
+        [{ any_name_attribute: { operator: "~", values: ["aaaa@example.com"] } }]
       end
 
-      it_behaves_like 'API V3 collection response', 1, 1, 'User'
+      it_behaves_like "API V3 collection response", 1, 1, "User"
     end
 
-    context 'with a filter for id' do
+    context "with a filter for id" do
       let(:filter) do
-        [{ id: { operator: '=', values: [user.id.to_s] } }]
+        [{ id: { operator: "=", values: [user.id.to_s] } }]
       end
 
-      it_behaves_like 'API V3 collection response', 1, 1, 'User' do
+      it_behaves_like "API V3 collection response", 1, 1, "User" do
         let(:elements) { [user] }
       end
     end
 
-    context 'with a filter for id with the `me` value' do
+    context "with a filter for id with the `me` value" do
       let(:filter) do
-        [{ id: { operator: '=', values: ['me'] } }]
+        [{ id: { operator: "=", values: ["me"] } }]
       end
 
-      it_behaves_like 'API V3 collection response', 1, 1, 'User' do
+      it_behaves_like "API V3 collection response", 1, 1, "User" do
         let(:elements) { [current_user] }
       end
     end
 
-    context 'with the permission to `manage_members`' do
+    context "with the permission to `manage_members`" do
       let(:permissions) { [:manage_members] }
 
-      it_behaves_like 'API V3 collection response', 5, 5 do
+      it_behaves_like "API V3 collection response", 5, 5 do
         let(:elements) { [placeholder_user, group, user_in_non_member_project, other_user, user] }
       end
     end
 
-    context 'with the permission to `manage_user`' do
+    context "with the permission to `manage_user`" do
       let(:permissions) { [:manage_user] }
 
-      it_behaves_like 'API V3 collection response', 5, 5 do
+      it_behaves_like "API V3 collection response", 5, 5 do
         let(:elements) { [placeholder_user, group, user_in_non_member_project, other_user, user] }
       end
     end
 
-    context 'with the permission to `share_work_packages`' do
+    context "with the permission to `share_work_packages`" do
       let(:permissions) { [:share_work_packages] }
 
-      it_behaves_like 'API V3 collection response', 5, 5 do
+      it_behaves_like "API V3 collection response", 5, 5 do
         let(:elements) { [placeholder_user, group, user_in_non_member_project, other_user, user] }
       end
     end
 
-    context 'when signaling' do
-      let(:select) { 'total,count,elements/*' }
+    context "when signaling" do
+      let(:select) { "total,count,elements/*" }
 
       let(:expected) do
         {
@@ -197,7 +197,7 @@ RSpec.describe 'API v3 Principals resource' do
           _embedded: {
             elements: [
               {
-                _type: 'PlaceholderUser',
+                _type: "PlaceholderUser",
                 id: placeholder_user.id,
                 name: placeholder_user.name,
                 _links: {
@@ -208,7 +208,7 @@ RSpec.describe 'API v3 Principals resource' do
                 }
               },
               {
-                _type: 'Group',
+                _type: "Group",
                 id: group.id,
                 name: group.name,
                 _links: {
@@ -247,7 +247,7 @@ RSpec.describe 'API v3 Principals resource' do
         }
       end
 
-      it 'is the reduced set of properties of the embedded elements' do
+      it "is the reduced set of properties of the embedded elements" do
         expect(last_response.body)
           .to be_json_eql(expected.to_json)
       end
@@ -255,7 +255,7 @@ RSpec.describe 'API v3 Principals resource' do
 
     # This request is executed like this by the user dropdown in the frontend
     # INFO -- : duration=55.89 db=29.21 view=26.68 status=200 method=GET path=/api/v3/principals params={"filters"=>"[{\"status\":{\"operator\":\"!\",\"values\":[\"3\"]}},{\"type\":{\"operator\":\"=\",\"values\":[\"User\",\"Group\",\"PlaceholderUser\"]}},{\"member\":{\"operator\":\"*\",\"values\":[]}}]", "pageSize"=>"-1", "select"=>"elements/id,elements/name,elements/self,total,count,pageSize"} host=localhost user=4
-    describe 'REGRESSION #50930: When the user is member of multiple projects, filtering for memberships and using select' do
+    describe "REGRESSION #50930: When the user is member of multiple projects, filtering for memberships and using select" do
       let(:filter) do
         [
           { status: { operator: "!", values: ["3"] } },
@@ -319,7 +319,7 @@ RSpec.describe 'API v3 Principals resource' do
         }
       end
 
-      it 'contains each user element only once' do
+      it "contains each user element only once" do
         pending "This is just a fix to note that we have the bug, the fix will be done in the frontend at first, then we can come back here"
         expect(last_response.body).to be_json_eql(expected.to_json)
       end

@@ -29,7 +29,7 @@
 class CreateLastProjectFolders < ActiveRecord::Migration[7.0]
   def change
     create_table :last_project_folders,
-                 comment: 'This table contains the last used project folder IDs for a project storage per mode.' do |t|
+                 comment: "This table contains the last used project folder IDs for a project storage per mode." do |t|
       t.references :projects_storage, null: false, foreign_key: { on_delete: :cascade }
       t.string :origin_folder_id
       t.enum :mode, enum_type: :project_folder_modes, default: :inactive, null: false

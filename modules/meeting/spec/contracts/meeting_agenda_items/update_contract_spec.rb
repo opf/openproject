@@ -28,48 +28,48 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe MeetingAgendaItems::UpdateContract do
-  include_context 'ModelContract shared context'
+  include_context "ModelContract shared context"
 
   shared_let(:project) { create(:project) }
   shared_let(:meeting) { create(:structured_meeting, project:) }
   shared_let(:item) { create(:meeting_agenda_item, meeting:) }
   let(:contract) { described_class.new(item, user) }
 
-  context 'with permission' do
+  context "with permission" do
     let(:user) do
       create(:user, member_with_permissions: { project => [:manage_agendas] })
     end
 
-    it_behaves_like 'contract is valid'
+    it_behaves_like "contract is valid"
 
-    context 'when :meeting is not editable' do
+    context "when :meeting is not editable" do
       before do
         meeting.update_column(:state, :closed)
       end
 
-      it_behaves_like 'contract is invalid', base: I18n.t(:text_agenda_item_not_editable_anymore)
+      it_behaves_like "contract is invalid", base: I18n.t(:text_agenda_item_not_editable_anymore)
     end
 
-    context 'when an item_type is provided' do
+    context "when an item_type is provided" do
       before do
-        allow(item).to receive(:changed).and_return(['item_type'])
+        allow(item).to receive(:changed).and_return(["item_type"])
       end
 
-      it_behaves_like 'contract is invalid', item_type: :error_readonly
+      it_behaves_like "contract is invalid", item_type: :error_readonly
     end
   end
 
-  context 'without permission' do
+  context "without permission" do
     let(:user) { build_stubbed(:user) }
 
-    it_behaves_like 'contract is invalid', base: :error_unauthorized
+    it_behaves_like "contract is invalid", base: :error_unauthorized
   end
 
-  include_examples 'contract reuses the model errors' do
+  include_examples "contract reuses the model errors" do
     let(:user) { build_stubbed(:user) }
   end
 end

@@ -26,17 +26,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package filtering by responsible', :js do
+RSpec.describe "Work package filtering by responsible", :js do
   let(:project) { create(:project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
   let(:role) { create(:project_role, permissions: %i[view_work_packages save_queries]) }
   let(:other_user) do
     create(:user,
-           firstname: 'Other',
-           lastname: 'User',
+           firstname: "Other",
+           lastname: "User",
            member_with_roles: { project => role })
   end
   let(:placeholder_user) do
@@ -59,19 +59,19 @@ RSpec.describe 'Work package filtering by responsible', :js do
     create(:user, member_with_roles: { project => role })
   end
 
-  it 'shows the work package matching the responsible filter' do
+  it "shows the work package matching the responsible filter" do
     wp_table.visit!
     wp_table.expect_work_package_listed(work_package_user_responsible, work_package_placeholder_user_responsible)
 
     filters.open
-    filters.add_filter_by('Accountable', 'is (OR)', [other_user.name], 'responsible')
+    filters.add_filter_by("Accountable", "is (OR)", [other_user.name], "responsible")
 
     wp_table.ensure_work_package_not_listed!(work_package_placeholder_user_responsible)
     wp_table.expect_work_package_listed(work_package_user_responsible)
 
-    wp_table.save_as('Responsible query')
+    wp_table.save_as("Responsible query")
 
-    wp_table.expect_and_dismiss_toaster(message: 'Successful creation.')
+    wp_table.expect_and_dismiss_toaster(message: "Successful creation.")
 
     # Revisit query
     wp_table.visit_query Query.last
@@ -79,9 +79,9 @@ RSpec.describe 'Work package filtering by responsible', :js do
     wp_table.expect_work_package_listed(work_package_user_responsible)
 
     filters.open
-    filters.expect_filter_by('Accountable', 'is (OR)', [other_user.name], 'responsible')
-    filters.remove_filter 'responsible'
-    filters.add_filter_by('Accountable', 'is (OR)', [placeholder_user.name], 'responsible')
+    filters.expect_filter_by("Accountable", "is (OR)", [other_user.name], "responsible")
+    filters.remove_filter "responsible"
+    filters.add_filter_by("Accountable", "is (OR)", [placeholder_user.name], "responsible")
 
     wp_table.ensure_work_package_not_listed!(work_package_user_responsible)
     wp_table.expect_work_package_listed(work_package_placeholder_user_responsible)

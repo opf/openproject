@@ -37,7 +37,7 @@
 # grow beyond limits. Therefore we create multiple smaller PDFs that we finally
 # merge do one file.
 
-require 'open3'
+require "open3"
 
 class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::QueryExporter
   include WorkPackage::PDFExport::Common
@@ -148,7 +148,7 @@ class WorkPackage::PDFExport::WorkPackageListToPdf < WorkPackage::Exports::Query
 
     @batch_supported =
       begin
-        _, status = Open3.capture2e('pdfunite', '-h')
+        _, status = Open3.capture2e("pdfunite", "-h")
         status.success?
       rescue StandardError => e
         Rails.logger.error "Failed to test pdfunite version: #{e.message}"

@@ -36,7 +36,7 @@ module API
                       self_path: :newses)
                  .mount
 
-          route_param :id, type: Integer, desc: 'News ID' do
+          route_param :id, type: Integer, desc: "News ID" do
             after_validation do
               @news = ::News
                       .visible

@@ -51,7 +51,7 @@ module Enumerations
     end
 
     def sort
-      helpers.reorder_links('enumeration', { action: 'move', id: enumeration }, method: :post)
+      helpers.reorder_links("enumeration", { action: "move", id: enumeration }, method: :post)
     end
 
     def button_links
@@ -62,7 +62,7 @@ module Enumerations
 
     def delete_link
       helpers.link_to(
-        helpers.op_icon('icon icon-delete'),
+        helpers.op_icon("icon icon-delete"),
         helpers.enumeration_path(enumeration),
         method: :delete,
         data: { confirm: I18n.t(:text_are_you_sure) },

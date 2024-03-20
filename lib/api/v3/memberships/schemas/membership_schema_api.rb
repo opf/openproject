@@ -38,7 +38,7 @@ module API
 
             get &::API::V3::Utilities::Endpoints::Schema.new(model: Member,
                                                              contract: Members::CreateContract,
-                                                             api_name: 'Membership')
+                                                             api_name: "Membership")
                                                         .mount
           end
         end

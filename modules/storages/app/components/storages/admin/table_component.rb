@@ -52,25 +52,25 @@ module Storages::Admin
     # Purpose: return the link to be used to create the storage
     def inline_create_link
       link_to(new_admin_settings_storage_path,
-              class: 'wp-inline-create--add-link',
-              title: I18n.t('storages.label_new_storage')) do
-        helpers.op_icon('icon icon-add')
+              class: "wp-inline-create--add-link",
+              title: I18n.t("storages.label_new_storage")) do
+        helpers.op_icon("icon icon-add")
       end
     end
 
     # Show this pretty message if there are now Storages::Storage objects in the system
     def empty_row_message
-      I18n.t 'storages.no_results'
+      I18n.t "storages.no_results"
     end
 
     # Definition of the table header using the keys from columns above.
     def headers
       [
-        ['name', { caption: ::Storages::Storage.human_attribute_name(:name) }],
-        ['provider_type', { caption: I18n.t('storages.provider_types.label') }],
-        ['host', { caption: I18n.t('storages.label_host') }],
-        ['creator', { caption: I18n.t('storages.label_creator') }],
-        ['created_at', { caption: ::Storages::Storage.human_attribute_name(:created_at) }]
+        ["name", { caption: ::Storages::Storage.human_attribute_name(:name) }],
+        ["provider_type", { caption: I18n.t("storages.provider_types.label") }],
+        ["host", { caption: I18n.t("storages.label_host") }],
+        ["creator", { caption: I18n.t("storages.label_creator") }],
+        ["created_at", { caption: ::Storages::Storage.human_attribute_name(:created_at) }]
       ]
     end
   end

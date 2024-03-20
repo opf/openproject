@@ -25,14 +25,14 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require_relative 'update_resource_examples'
+require "spec_helper"
+require_relative "update_resource_examples"
 
 RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
-               'update' do
+               "update" do
   include API::V3::Utilities::PathHelper
 
-  shared_let(:placeholder) { create(:placeholder_user, name: 'foo') }
+  shared_let(:placeholder) { create(:placeholder_user, name: "foo") }
 
   let(:parameters) do
     {}
@@ -51,22 +51,22 @@ RSpec.describe API::V3::PlaceholderUsers::PlaceholderUsersAPI,
     send_request
   end
 
-  describe 'admin user' do
+  describe "admin user" do
     let(:user) { build(:admin) }
 
-    it_behaves_like 'updates the placeholder'
+    it_behaves_like "updates the placeholder"
   end
 
-  describe 'user with manage_placeholder_user permission' do
+  describe "user with manage_placeholder_user permission" do
     let(:user) { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
-    it_behaves_like 'updates the placeholder'
+    it_behaves_like "updates the placeholder"
   end
 
-  describe 'unauthorized user' do
+  describe "unauthorized user" do
     let(:user) { build(:user) }
 
-    it 'returns a 403 response' do
+    it "returns a 403 response" do
       expect(last_response.status).to eq(403)
     end
   end

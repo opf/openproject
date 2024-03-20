@@ -64,12 +64,12 @@ module Entry
       private
 
       def all(*args)
-        ActiveSupport::Deprecation.warn('Passing arguments is deprecated') if args.any?
+        ActiveSupport::Deprecation.warn("Passing arguments is deprecated") if args.any?
         find_many :all # *args
       end
 
       def count(*args)
-        ActiveSupport::Deprecation.warn('Passing arguments is deprecated') if args.any?
+        ActiveSupport::Deprecation.warn("Passing arguments is deprecated") if args.any?
         find_many :count # *args
       end
 

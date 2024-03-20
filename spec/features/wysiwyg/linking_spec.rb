@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Wysiwyg linking', :js do
+RSpec.describe "Wysiwyg linking", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %w[wiki work_package_tracking]) }
   let(:editor) { Components::WysiwygEditor.new }
@@ -37,19 +37,19 @@ RSpec.describe 'Wysiwyg linking', :js do
     login_as(user)
   end
 
-  describe 'creating a wiki page' do
+  describe "creating a wiki page" do
     before do
       visit project_wiki_path(project, :wiki)
     end
 
-    it 'can create links with spaces (Regression #29742)' do
+    it "can create links with spaces (Regression #29742)" do
       # single hash autocomplete
-      editor.insert_link 'http://example.org/link with spaces'
+      editor.insert_link "http://example.org/link with spaces"
 
       # Save wiki page
-      click_on 'Save'
+      click_on "Save"
 
-      expect(page).to have_css('.op-toast.-success')
+      expect(page).to have_css(".op-toast.-success")
 
       wiki_page = project.wiki.pages.first.reload
 

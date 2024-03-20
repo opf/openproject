@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'settings routes' do
+RSpec.describe "settings routes" do
   it do
-    expect(get('/admin/settings/plugin/abc'))
-      .to route_to(controller: 'admin/settings',
-                   action: 'show_plugin',
-                   id: 'abc')
+    expect(get("/admin/settings/plugin/abc"))
+      .to route_to(controller: "admin/settings",
+                   action: "show_plugin",
+                   id: "abc")
   end
 
   it do
-    expect(post('/admin/settings/plugin/abc'))
-      .to route_to(controller: 'admin/settings',
-                   action: 'update_plugin',
-                   id: 'abc')
+    expect(post("/admin/settings/plugin/abc"))
+      .to route_to(controller: "admin/settings",
+                   action: "update_plugin",
+                   id: "abc")
   end
 end

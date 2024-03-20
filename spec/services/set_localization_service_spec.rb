@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe SetLocalizationService do
   let(:user) { build_stubbed(:user, language: user_language) }
@@ -20,8 +20,8 @@ RSpec.describe SetLocalizationService do
     expect(I18n).to receive(:locale=).with(locale)
   end
 
-  shared_examples_for 'falls back to the header' do
-    it 'falls back to the header' do
+  shared_examples_for "falls back to the header" do
+    it "falls back to the header" do
       expect_locale(http_accept_language)
 
       instance.call
@@ -36,15 +36,15 @@ RSpec.describe SetLocalizationService do
     end
   end
 
-  context 'for a logged in user' do
+  context "for a logged in user" do
     it "sets the language to the user's selected language" do
       expect_locale(user_language)
 
       instance.call
     end
 
-    context 'with a language prefix being valid' do
-      let(:prefix) { 'someprefix' }
+    context "with a language prefix being valid" do
+      let(:prefix) { "someprefix" }
       let(:user_language) { "#{prefix}-specific" }
 
       before do
@@ -60,16 +60,16 @@ RSpec.describe SetLocalizationService do
       end
     end
 
-    context 'with the language not being valid' do
+    context "with the language not being valid" do
       before do
         allow(instance).to receive(:valid_languages).and_return [http_accept_language,
                                                                  default_language]
       end
 
-      it_behaves_like 'falls back to the header'
+      it_behaves_like "falls back to the header"
 
-      context 'with a language prefix being valid' do
-        let(:prefix) { 'someprefix' }
+      context "with a language prefix being valid" do
+        let(:prefix) { "someprefix" }
         let(:http_accept_header) { "#{prefix}-specific" }
 
         before do
@@ -85,14 +85,14 @@ RSpec.describe SetLocalizationService do
       end
     end
 
-    context 'with the user not having a language selected' do
+    context "with the user not having a language selected" do
       before do
         user.language = nil
       end
 
-      it_behaves_like 'falls back to the header'
+      it_behaves_like "falls back to the header"
 
-      context 'with the header not being valid' do
+      context "with the header not being valid" do
         before do
           allow(instance).to receive(:valid_languages).and_return [user_language,
                                                                    default_language]
@@ -101,33 +101,33 @@ RSpec.describe SetLocalizationService do
         it_behaves_like "falls back to the instane's default language"
       end
 
-      context 'with no header set' do
+      context "with no header set" do
         let(:http_accept_header) { nil }
 
         it_behaves_like "falls back to the instane's default language"
       end
 
-      context 'with wildcard header set' do
-        let(:http_accept_language) { '*' }
+      context "with wildcard header set" do
+        let(:http_accept_language) { "*" }
 
         it_behaves_like "falls back to the instane's default language"
       end
     end
   end
 
-  context 'for an anonymous user' do
+  context "for an anonymous user" do
     let(:user) { build_stubbed(:anonymous) }
 
-    it_behaves_like 'falls back to the header'
+    it_behaves_like "falls back to the header"
 
-    context 'with no header set' do
+    context "with no header set" do
       let(:http_accept_header) { nil }
 
       it_behaves_like "falls back to the instane's default language"
     end
 
-    context 'with a wildcard header set' do
-      let(:http_accept_language) { '*' }
+    context "with a wildcard header set" do
+      let(:http_accept_language) { "*" }
 
       it_behaves_like "falls back to the instane's default language"
     end

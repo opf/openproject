@@ -33,7 +33,7 @@ class Widget::Table < Widget::Base
   attr_accessor :debug, :fields, :mapping
 
   def initialize(query)
-    raise ArgumentError, 'Tables only work on CostQuery!' unless query.is_a? CostQuery
+    raise ArgumentError, "Tables only work on CostQuery!" unless query.is_a? CostQuery
 
     super
   end
@@ -47,11 +47,11 @@ class Widget::Table < Widget::Base
   end
 
   def render
-    write('<!-- table start -->')
+    write("<!-- table start -->")
     if @subject.result.count <= 0
-      write(content_tag(:div, '', class: 'generic-table--no-results-container') do
-        content_tag(:i, '', class: 'icon-info1') +
-          content_tag(:span, I18n.t(:no_results_title_text), class: 'generic-table--no-results-title')
+      write(content_tag(:div, "", class: "generic-table--no-results-container") do
+        content_tag(:i, "", class: "icon-info1") +
+          content_tag(:span, I18n.t(:no_results_title_text), class: "generic-table--no-results-title")
       end)
     else
       str = render_widget(resolve_table, @subject, @options.reverse_merge(to: @output))

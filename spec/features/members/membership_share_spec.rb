@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Shared users in the members table', :js, :with_cuprite do
+RSpec.describe "Shared users in the members table", :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
   shared_let(:project) { create(:project) }
-  shared_let(:role) { create(:project_role, name: 'Developer') }
+  shared_let(:role) { create(:project_role, name: "Developer") }
 
   shared_let(:work_package) { create(:work_package, project:) }
   shared_let(:work_package2) { create(:work_package, project:) }
@@ -39,9 +39,9 @@ RSpec.describe 'Shared users in the members table', :js, :with_cuprite do
   shared_let(:view_work_package_role) { create(:view_work_package_role) }
   shared_let(:comment_work_package_role) { create(:comment_work_package_role) }
 
-  shared_let(:active_user) { create(:user, firstname: 'Active', lastname: 'User', status: Principal.statuses[:active]) }
-  shared_let(:shared_user) { create(:user, firstname: 'Shared', lastname: 'User', status: Principal.statuses[:active]) }
-  shared_let(:other_shared_user) { create(:user, firstname: 'Other', lastname: 'User', status: Principal.statuses[:active]) }
+  shared_let(:active_user) { create(:user, firstname: "Active", lastname: "User", status: Principal.statuses[:active]) }
+  shared_let(:shared_user) { create(:user, firstname: "Shared", lastname: "User", status: Principal.statuses[:active]) }
+  shared_let(:other_shared_user) { create(:user, firstname: "Other", lastname: "User", status: Principal.statuses[:active]) }
 
   shared_let(:active_user_member) do
     create(:member,
@@ -81,46 +81,46 @@ RSpec.describe 'Shared users in the members table', :js, :with_cuprite do
     SeleniumHubWaiter.wait
   end
 
-  it 'shows the shared users in the members table and allows filtering it' do
+  it "shows the shared users in the members table and allows filtering it" do
     expect(members_page).to have_user active_user.name
     expect(members_page).to have_user shared_user.name
     expect(members_page).to have_user other_shared_user.name
 
     members_page.in_user_row(active_user) do
-      expect(page).to have_css('td.shared', text: '', exact_text: true)
-      expect(page).to have_css('td.roles', text: 'Developer')
+      expect(page).to have_css("td.shared", text: "", exact_text: true)
+      expect(page).to have_css("td.roles", text: "Developer")
     end
 
     members_page.in_user_row(shared_user) do
-      expect(page).to have_text '2 work packages'
-      expect(page).to have_css('td.roles', text: '', exact_text: true)
+      expect(page).to have_text "2 work packages"
+      expect(page).to have_css("td.roles", text: "", exact_text: true)
     end
 
     members_page.in_user_row(other_shared_user) do
-      expect(page).to have_text '1 work package'
-      expect(page).to have_css('td.roles', text: '', exact_text: true)
+      expect(page).to have_text "1 work package"
+      expect(page).to have_css("td.roles", text: "", exact_text: true)
     end
 
-    members_page.click_menu_item 'View'
+    members_page.click_menu_item "View"
     expect(members_page).to have_user shared_user.name
     expect(members_page).to have_user other_shared_user.name
     expect(members_page).not_to have_user active_user.name
 
     members_page.in_user_row(shared_user) do
-      expect(page).to have_text '1 work package'
+      expect(page).to have_text "1 work package"
     end
 
     members_page.in_user_row(other_shared_user) do
-      expect(page).to have_text '1 work package'
+      expect(page).to have_text "1 work package"
     end
 
-    members_page.click_menu_item 'Comment'
+    members_page.click_menu_item "Comment"
     expect(members_page).to have_user shared_user.name
     expect(members_page).not_to have_user other_shared_user.name
     expect(members_page).not_to have_user active_user.name
 
     members_page.in_user_row(shared_user) do
-      expect(page).to have_text '1 work package'
+      expect(page).to have_text "1 work package"
     end
   end
 end

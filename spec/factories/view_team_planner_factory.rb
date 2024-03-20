@@ -28,7 +28,7 @@
 
 FactoryBot.define do
   factory :view_team_planner, parent: :view do
-    type { 'team_planner' }
+    type { "team_planner" }
     transient do
       assignees { [] }
       projects { [] }
@@ -38,11 +38,11 @@ FactoryBot.define do
       query = view.query
 
       if evaluator.assignees.any?
-        query.add_filter('assigned_to_id', '=', evaluator.assignees.map(&:id).uniq)
+        query.add_filter("assigned_to_id", "=", evaluator.assignees.map(&:id).uniq)
       end
 
       if evaluator.projects.any?
-        query.add_filter('project_id', '=', ([query.project.id] + evaluator.projects.map(&:id)).uniq)
+        query.add_filter("project_id", "=", ([query.project.id] + evaluator.projects.map(&:id)).uniq)
       end
 
       User.system.run_given do

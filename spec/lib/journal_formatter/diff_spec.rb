@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::JournalFormatter::Diff do
   include ActionView::Helpers::TagHelper
@@ -42,7 +42,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
   let(:id) { 1 }
   let(:work_package) do
     build_stubbed(:work_package,
-                  subject: 'Test subject',
+                  subject: "Test subject",
                   status_id: 1,
                   type_id: 1,
                   project_id: 1)
@@ -59,7 +59,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
                               project_id: work_package.project_id))
   end
   let(:instance) { klass.new(journal) }
-  let(:key) { 'description' }
+  let(:key) { "description" }
 
   let(:path) do
     url_helper.diff_journal_path(id: journal.id,
@@ -71,35 +71,35 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
                                 protocol: Setting.protocol,
                                 host: Setting.host_name)
   end
-  let(:link) { link_to(I18n.t(:label_details), path, class: 'description-details') }
-  let(:full_url_link) { link_to(I18n.t(:label_details), url, class: 'description-details') }
+  let(:link) { link_to(I18n.t(:label_details), path, class: "description-details") }
+  let(:full_url_link) { link_to(I18n.t(:label_details), url, class: "description-details") }
 
-  describe '#render' do
-    describe 'WITH the first value being nil, and the second a string' do
+  describe "#render" do
+    describe "WITH the first value being nil, and the second a string" do
       let(:expected) do
         I18n.t(:text_journal_set_with_diff,
                label: "<strong>#{key.camelize}</strong>",
                link:)
       end
 
-      it { expect(instance.render(key, [nil, 'new value'])).to eq(expected) }
+      it { expect(instance.render(key, [nil, "new value"])).to eq(expected) }
     end
 
-    describe 'WITH the first value being a string, and the second a string' do
+    describe "WITH the first value being a string, and the second a string" do
       let(:expected) do
         I18n.t(:text_journal_changed_with_diff,
                label: "<strong>#{key.camelize}</strong>",
                link:)
       end
 
-      it { expect(instance.render(key, ['old value', 'new value'])).to eq(expected) }
+      it { expect(instance.render(key, ["old value", "new value"])).to eq(expected) }
     end
 
     describe "WITH the first value being a string, and the second a string
               WITH de as locale" do
       let(:expected) do
         I18n.t(:text_journal_changed_with_diff,
-               label: '<strong>Beschreibung</strong>',
+               label: "<strong>Beschreibung</strong>",
                link:)
       end
 
@@ -111,17 +111,17 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
         I18n.locale = :en
       end
 
-      it { expect(instance.render(key, ['old value', 'new value'])).to eq(expected) }
+      it { expect(instance.render(key, ["old value", "new value"])).to eq(expected) }
     end
 
-    describe 'WITH the first value being a string, and the second nil (with link)' do
+    describe "WITH the first value being a string, and the second nil (with link)" do
       let(:expected) do
         I18n.t(:text_journal_deleted_with_diff,
                label: "<strong>#{key.camelize}</strong>",
                link:)
       end
 
-      it { expect(instance.render(key, ['old_value', nil])).to eq(expected) }
+      it { expect(instance.render(key, ["old_value", nil])).to eq(expected) }
     end
 
     describe "WITH the first value being nil, and the second a string
@@ -132,7 +132,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
                link: path)
       end
 
-      it { expect(instance.render(key, [nil, 'new value'], html: false)).to eq(expected) }
+      it { expect(instance.render(key, [nil, "new value"], html: false)).to eq(expected) }
     end
 
     describe "WITH the first value being a string, and the second a string
@@ -143,7 +143,7 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
                link: path)
       end
 
-      it { expect(instance.render(key, ['old value', 'new value'], html: false)).to eq(expected) }
+      it { expect(instance.render(key, ["old value", "new value"], html: false)).to eq(expected) }
     end
 
     describe "WITH the first value being a string, and the second a string
@@ -154,17 +154,17 @@ RSpec.describe OpenProject::JournalFormatter::Diff do
                link: full_url_link)
       end
 
-      it { expect(instance.render(key, ['old value', 'new value'], only_path: false)).to eq(expected) }
+      it { expect(instance.render(key, ["old value", "new value"], only_path: false)).to eq(expected) }
     end
 
-    describe 'WITH the first value being a string, and the second nil (with url)' do
+    describe "WITH the first value being a string, and the second nil (with url)" do
       let(:expected) do
         I18n.t(:text_journal_deleted_with_diff,
                label: key.camelize,
                link: path)
       end
 
-      it { expect(instance.render(key, ['old_value', nil], html: false)).to eq(expected) }
+      it { expect(instance.render(key, ["old_value", nil], html: false)).to eq(expected) }
     end
   end
 end

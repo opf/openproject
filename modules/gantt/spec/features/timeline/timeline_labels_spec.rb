@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package timeline labels',
+RSpec.describe "Work package timeline labels",
                :js,
                :selenium,
-               with_settings: { date_format: '%Y-%m-%d' } do
+               with_settings: { date_format: "%Y-%m-%d" } do
   let(:user) { create(:admin) }
   let(:today) { Time.zone.today }
   let(:tomorrow) { Time.zone.tomorrow }
@@ -43,8 +43,8 @@ RSpec.describe 'Work package timeline labels',
            assigned_to: user,
            start_date: today,
            due_date: tomorrow,
-           subject: 'My subject',
-           custom_field_values: { custom_field.id => custom_value_for('onions') })
+           subject: "My subject",
+           custom_field_values: { custom_field.id => custom_value_for("onions") })
   end
   let(:milestone_work_package) do
     create(:work_package,
@@ -52,7 +52,7 @@ RSpec.describe 'Work package timeline labels',
            type: milestone_type,
            start_date: future,
            due_date: future,
-           subject: 'My milestone')
+           subject: "My milestone")
   end
   let(:type) { create(:type_bug) }
   let(:milestone_type) { create(:type, is_milestone: true) }
@@ -77,7 +77,7 @@ RSpec.describe 'Work package timeline labels',
     query = build(:query_with_view_gantt, user:, project:)
     query.filters.clear
     query.timeline_visible = true
-    query.name = 'Query with Timeline'
+    query.name = "Query with Timeline"
 
     query.save!
 
@@ -98,12 +98,12 @@ RSpec.describe 'Work package timeline labels',
     wp_timeline.expect_timeline!
   end
 
-  it 'shows and allows to configure labels' do
+  it "shows and allows to configure labels" do
     # Check default labels (bar type)
     row = wp_timeline.timeline_row work_package.id
     row.expect_labels left: nil,
                       right: nil,
-                      farRight: 'My subject'
+                      farRight: "My subject"
 
     row.expect_hovered_labels left: today.iso8601, right: tomorrow.iso8601
 
@@ -111,18 +111,18 @@ RSpec.describe 'Work package timeline labels',
     row = wp_timeline.timeline_row milestone_work_package.id
     row.expect_labels left: nil,
                       right: nil,
-                      farRight: 'My milestone'
+                      farRight: "My milestone"
     row.expect_hovered_labels left: nil, right: future.iso8601
 
     # Modify label configuration
     config_modal.open!
-    config_modal.expect_labels! left: '(none)',
-                                right: '(none)',
-                                farRight: 'Subject'
+    config_modal.expect_labels! left: "(none)",
+                                right: "(none)",
+                                farRight: "Subject"
 
-    config_modal.update_labels left: 'Assignee',
-                               right: 'Type',
-                               farRight: 'Status'
+    config_modal.update_labels left: "Assignee",
+                               right: "Type",
+                               farRight: "Status"
 
     # Check overridden labels
     row = wp_timeline.timeline_row work_package.id
@@ -132,19 +132,19 @@ RSpec.describe 'Work package timeline labels',
 
     # Check default labels (milestone)
     row = wp_timeline.timeline_row milestone_work_package.id
-    row.expect_labels left: '-',
+    row.expect_labels left: "-",
                       right: milestone_type.name.upcase,
                       farRight: milestone_work_package.status.name
 
     # Save the query
-    settings_menu.open_and_save_query_as 'changed labels'
-    wp_timeline.expect_title 'changed labels'
+    settings_menu.open_and_save_query_as "changed labels"
+    wp_timeline.expect_title "changed labels"
 
     # Check the query
     query = Query.last
-    expect(query.timeline_labels).to eq left: 'assignee',
-                                        right: 'type',
-                                        farRight: 'status'
+    expect(query.timeline_labels).to eq left: "assignee",
+                                        right: "type",
+                                        farRight: "status"
 
     # Revisit page
     wp_timeline.visit_query query
@@ -159,19 +159,19 @@ RSpec.describe 'Work package timeline labels',
 
     # Check overridden labels (milestone)
     row = wp_timeline.timeline_row milestone_work_package.id
-    row.expect_labels left: '-',
+    row.expect_labels left: "-",
                       right: milestone_type.name.upcase,
                       farRight: milestone_work_package.status.name
 
     # Set labels to start|due|subject
     config_modal.open!
-    config_modal.expect_labels! left: 'Assignee',
-                                right: 'Type',
-                                farRight: 'Status'
+    config_modal.expect_labels! left: "Assignee",
+                                right: "Type",
+                                farRight: "Status"
 
-    config_modal.update_labels left: 'Start date',
-                               right: 'Finish date',
-                               farRight: 'Subject'
+    config_modal.update_labels left: "Start date",
+                               right: "Finish date",
+                               farRight: "Subject"
 
     # Check overridden labels
     row = wp_timeline.timeline_row work_package.id

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Members::Scopes::OfAnyWorkPackage do
   let(:project) { create(:project) }
@@ -61,10 +61,10 @@ RSpec.describe Members::Scopes::OfAnyWorkPackage do
            principal: user)
   end
 
-  describe '.of_any_work_package' do
+  describe ".of_any_work_package" do
     subject { Member.of_any_work_package }
 
-    it 'returns all memberships on work package entities' do
+    it "returns all memberships on work package entities" do
       expect(subject)
         .to contain_exactly(work_package_member, work_package_in_other_project_member)
     end

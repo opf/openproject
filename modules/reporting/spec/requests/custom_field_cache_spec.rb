@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require File.join(File.dirname(__FILE__), '..', 'support', 'custom_field_filter')
-require File.join(File.dirname(__FILE__), '..', 'support', 'configuration_helper')
+require "spec_helper"
+require File.join(File.dirname(__FILE__), "..", "support", "custom_field_filter")
+require File.join(File.dirname(__FILE__), "..", "support", "configuration_helper")
 
-RSpec.describe 'Custom field filter and group by caching' do
+RSpec.describe "Custom field filter and group by caching" do
   include OpenProject::Reporting::SpecHelper::CustomFieldFilterHelper
   include OpenProject::Reporting::SpecHelper::ConfigurationHelper
 
@@ -69,11 +69,11 @@ RSpec.describe 'Custom field filter and group by caching' do
 
   def visit_cost_reports_index
     header "Content-Type", "text/html"
-    header 'X-Requested-With', 'XMLHttpRequest'
+    header "X-Requested-With", "XMLHttpRequest"
     get "/projects/#{project.id}/cost_reports"
   end
 
-  it 'removes the filter/group_by if the custom field is removed' do
+  it "removes the filter/group_by if the custom field is removed" do
     custom_field2.save!
 
     visit_cost_reports_index
@@ -95,7 +95,7 @@ RSpec.describe 'Custom field filter and group by caching' do
     expect_filter_all_to_not_exist(custom_field2)
   end
 
-  it 'removes the filter/group_by if the last custom field is removed' do
+  it "removes the filter/group_by if the last custom field is removed" do
     visit_cost_reports_index
 
     expect_group_by_all_to_include(custom_field)

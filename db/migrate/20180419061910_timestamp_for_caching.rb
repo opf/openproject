@@ -28,7 +28,7 @@
 
 class TimestampForCaching < ActiveRecord::Migration[5.1]
   class MigratingAuthSource < ApplicationRecord
-    self.table_name = 'auth_sources'
+    self.table_name = "auth_sources"
   end
 
   def change

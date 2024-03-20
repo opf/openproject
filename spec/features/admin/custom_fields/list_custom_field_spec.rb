@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'List custom fields edit', :js, :with_cuprite do
+RSpec.describe "List custom fields edit", :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
 
   before do
@@ -36,36 +36,36 @@ RSpec.describe 'List custom fields edit', :js, :with_cuprite do
     visit custom_fields_path(tab: :TimeEntryCustomField)
   end
 
-  it 'can create and edit list custom fields (#37654)' do
+  it "can create and edit list custom fields (#37654)" do
     # Create CF
-    click_on 'Create a new custom field'
+    click_on "Create a new custom field"
 
     wait_for_reload
 
-    fill_in 'custom_field_name', with: 'My List CF'
-    select 'List', from: 'custom_field_field_format'
+    fill_in "custom_field_name", with: "My List CF"
+    select "List", from: "custom_field_field_format"
 
-    expect(page).to have_field('custom_field_custom_options_attributes_0_value')
-    fill_in 'custom_field_custom_options_attributes_0_value', with: 'A'
+    expect(page).to have_field("custom_field_custom_options_attributes_0_value")
+    fill_in "custom_field_custom_options_attributes_0_value", with: "A"
 
-    click_on 'Save'
+    click_on "Save"
 
     # Expect correct values
     cf = CustomField.last
-    expect(cf.name).to eq('My List CF')
+    expect(cf.name).to eq("My List CF")
     expect(cf.possible_values.map(&:value)).to eq %w(A)
 
     # Edit again
-    find('a', text: 'My List CF').click
+    find("a", text: "My List CF").click
 
-    expect(page).to have_field('custom_field_custom_options_attributes_0_value')
-    fill_in 'custom_field_custom_options_attributes_0_value', with: 'B'
+    expect(page).to have_field("custom_field_custom_options_attributes_0_value")
+    fill_in "custom_field_custom_options_attributes_0_value", with: "B"
 
-    click_on 'Save'
+    click_on "Save"
 
     # Expect correct values again
     cf = CustomField.last
-    expect(cf.name).to eq('My List CF')
+    expect(cf.name).to eq("My List CF")
     expect(cf.possible_values.map(&:value)).to eq %w(B)
   end
 end
