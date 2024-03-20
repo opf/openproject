@@ -661,7 +661,7 @@ GEM
       faraday-follow_redirects
     json-schema (4.2.0)
       addressable (>= 2.8)
-    json_schemer (2.2.0)
+    json_schemer (2.2.1)
       base64
       bigdecimal
       hana (~> 1.3)
