@@ -112,6 +112,10 @@ jobs:
         uses: docker/metadata-action@v4
         with:
           context: git
+          labels: |
+            io.artifacthub.package.readme-url="https://www.openproject.org/docs/installation-and-operations/installation/docker/"
+            org.opencontainers.image.documentation="https://www.openproject.org/docs/"
+            org.opencontainers.image.vendor="OpenProject GmbH"
           tags: |
             type=semver,pattern={{version}},value=${{ needs.extract_version.outputs.version }}
           images: |
