@@ -50,14 +50,10 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def self.skip_optimistic_locking(&)
-    # TODO: The activerecord-import gem does not respect the ActiveRecord::Base.lock_optimistically
-    # flag, so a direct cleaning of the locking_column is necessary.
-    # Once the gem is updated we can use the ActiveRecord::Base.lock_optimistically = false, instead of
-    # removing the locking_column. See: https://github.com/zdennis/activerecord-import/pull/822
-    original_locking_column = locking_column
-    self.locking_column = nil
+    original_lock_optimistically = ActiveRecord::Base.lock_optimistically
+    ActiveRecord::Base.lock_optimistically = false
     yield
   ensure
-    self.locking_column = original_locking_column
+    ActiveRecord::Base.lock_optimistically = original_lock_optimistically
   end
 end
