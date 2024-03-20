@@ -45,11 +45,16 @@ class OpenProject::JournalFormatter::Cause < JournalFormatter::Base
   private
 
   def cause_type_translation(type)
+    mapped_type = mapped_cause_type(type)
+    I18n.t("journals.caused_changes.#{mapped_type}", default: mapped_type)
+  end
+
+  def mapped_cause_type(type)
     case type
-    when 'system_update'
-      I18n.t("journals.caused_changes.system_update")
+    when /changed_times/, "working_days_changed"
+      "dates_changed"
     else
-      I18n.t("journals.caused_changes.dates_changed")
+      type
     end
   end
 

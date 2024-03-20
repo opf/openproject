@@ -26,20 +26,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  class CreateContract < BaseContract
-    include AdminWritableTimestamps
-    # Projects update their updated_at timestamp due to awesome_nested_set
-    # so allowing writing here would be useless.
-    allow_writable_timestamps :created_at
+require "spec_helper"
 
-    private
+RSpec.describe Projects::CreateService, "integration", type: :model do
+  let(:instance) { described_class.new(user:) }
+  let(:new_project) { service_result.result }
+  let(:service_result) { instance.call(**attributes) }
 
-    def validate_user_allowed_to_manage
-      unless user.allowed_globally?(:add_project) ||
-             (model.parent && user.allowed_in_project?(:add_subprojects, model.parent))
+  before do
+    login_as(user)
+  end
 
-        errors.add :base, :error_unauthorized
+  describe "writing created_at timestamp" do
+    shared_let(:user) { create(:admin) }
+
+    let(:created_at) { 11.days.ago }
+
+    let(:attributes) do
+      {
+        name: "test",
+        created_at:,
+      }
+    end
+
+    context "when enabled", with_settings: { apiv3_write_readonly_attributes: true } do
+      it "updates the timestamps correctly" do
+        expect(service_result)
+          .to be_success
+
+        new_project.reload
+        expect(new_project.created_at).to be_within(1.second).of created_at
+      end
+    end
+
+    context "when disabled", with_settings: { apiv3_write_readonly_attributes: false } do
+      it "rejects the creation" do
+        expect(service_result)
+          .not_to be_success
+
+        expect(new_project.errors.symbols_for(:created_at))
+          .to contain_exactly(:error_readonly)
       end
     end
   end

@@ -26,21 +26,22 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Projects
-  class CreateContract < BaseContract
-    include AdminWritableTimestamps
-    # Projects update their updated_at timestamp due to awesome_nested_set
-    # so allowing writing here would be useless.
-    allow_writable_timestamps :created_at
+module AdminWritableTimestamps
+  extend ActiveSupport::Concern
 
-    private
-
-    def validate_user_allowed_to_manage
-      unless user.allowed_globally?(:add_project) ||
-             (model.parent && user.allowed_in_project?(:add_subprojects, model.parent))
-
-        errors.add :base, :error_unauthorized
+  class_methods do
+    def allow_writable_timestamps(attributes = %i[created_at updated_at])
+      Array(attributes).each do |attr|
+        attribute attr,
+                  writable: -> { default_attributes_admin_writable? }
       end
     end
+  end
+
+  private
+
+  # Adds an error if user is archived or not an admin.
+  def default_attributes_admin_writable?
+    user.admin? && Setting.apiv3_write_readonly_attributes?
   end
 end
