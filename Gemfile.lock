@@ -1032,7 +1032,7 @@ GEM
       websocket (~> 1.0)
     semantic (1.6.1)
     shoulda-context (2.0.0)
-    shoulda-matchers (6.1.0)
+    shoulda-matchers (6.2.0)
       activesupport (>= 5.2.0)
     signet (0.19.0)
       addressable (~> 2.8)
