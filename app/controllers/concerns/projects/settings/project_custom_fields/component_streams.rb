@@ -48,20 +48,6 @@ module Projects
               )
             )
           end
-
-          def update_custom_field_row_via_turbo_stream(
-            project: @project,
-            project_custom_field: @project_custom_field,
-            project_custom_field_project_mappings: @project_custom_field_project_mappings
-          )
-            update_via_turbo_stream(
-              component: ::Projects::Settings::ProjectCustomFieldSections::CustomFieldRowComponent.new(
-                project:,
-                project_custom_field:,
-                project_custom_field_project_mappings:
-              )
-            )
-          end
         end
       end
     end

@@ -59,11 +59,17 @@
           end
         end
       else
+        first_and_last = [@project_custom_fields.first, @project_custom_fields.last]
         @project_custom_fields.each do |project_custom_field|
           component.with_row(
             data: draggable_item_config(project_custom_field)
           ) do
-            render(Settings::ProjectCustomFieldSections::CustomFieldRowComponent.new(project_custom_field:))
+            render(
+              ::Settings::ProjectCustomFieldSections::CustomFieldRowComponent.new(
+                project_custom_field:,
+                first_and_last:
+              )
+            )
           end
         end
       end
