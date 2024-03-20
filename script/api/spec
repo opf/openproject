@@ -7,11 +7,11 @@ if /((-h)|(--help))/.match?(ARGV.join(" "))
   return
 end
 
-require 'pathname'
-require 'yaml'
-require 'json'
+require "pathname"
+require "yaml"
+require "json"
 
-require_relative '../../lib/api/open_api'
+require_relative "../../lib/api/open_api"
 
 path = Pathname(__dir__).join("../../docs/api/apiv3/openapi-spec.yml")
 spec = API::OpenAPI.assemble_spec path

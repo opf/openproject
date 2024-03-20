@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../support//board_index_page'
-require_relative '../support/board_page'
+require "spec_helper"
+require_relative "../support//board_index_page"
+require_relative "../support/board_page"
 
-RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
+RSpec.describe "Status action board", :js, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
            member_with_roles: { project => role })
@@ -50,10 +50,10 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
   end
 
   let!(:priority) { create(:default_priority) }
-  let!(:open_status) { create(:default_status, name: 'Open') }
-  let!(:whatever_status) { create(:status, name: 'Whatever') }
-  let!(:closed_status) { create(:status, is_closed: true, name: 'Closed') }
-  let!(:work_package) { create(:work_package, project:, subject: 'Foo', status: whatever_status) }
+  let!(:open_status) { create(:default_status, name: "Open") }
+  let!(:whatever_status) { create(:status, name: "Whatever") }
+  let!(:closed_status) { create(:status, is_closed: true, name: "Closed") }
+  let!(:work_package) { create(:work_package, project:, subject: "Foo", status: whatever_status) }
 
   let(:filters) { Components::WorkPackages::Filters.new }
 
@@ -91,21 +91,21 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
     login_as(user)
   end
 
-  context 'with full boards permissions' do
-    it 'can add a case-insensitive list (Regression #35744)' do
+  context "with full boards permissions" do
+    it "can add a case-insensitive list (Regression #35744)" do
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: 'Status'
+      board_page = board_index.create_board action: "Status"
 
       # expect lists of default status
-      board_page.expect_list 'Open'
+      board_page.expect_list "Open"
 
-      board_page.add_list option: 'Closed', query: 'closed'
-      board_page.expect_list 'Closed'
+      board_page.add_list option: "Closed", query: "closed"
+      board_page.expect_list "Closed"
     end
 
-    it 'does not change moving card project when filtering on projects (Bug #44895)' do
+    it "does not change moving card project when filtering on projects (Bug #44895)" do
       other_project = create(:project,
                              types: [type],
                              enabled_module_names: %i[work_package_tracking board_view],
@@ -113,13 +113,13 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: 'Status'
+      board_page = board_index.create_board action: "Status"
 
-      board_page.add_list option: 'Whatever'
-      board_page.expect_list 'Whatever'
+      board_page.add_list option: "Whatever"
+      board_page.expect_list "Whatever"
 
       # Add item
-      board_page.add_card 'Open', 'New Task'
+      board_page.add_card "Open", "New Task"
 
       # Add projects filter
       board_page.filters.open
@@ -127,7 +127,7 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
       # board_page.filters.add_filter('Project')
       # board_page.filters.add_filter_by('Project', 'is (OR)', [other_project.name, project.name])
 
-      board_page.filters.add_filter_by('Project', 'is not', other_project.name)
+      board_page.filters.add_filter_by("Project", "is not", other_project.name)
       board_page.filters.expect_filter_count 1
 
       # wait for the chain of debounces:
@@ -139,40 +139,40 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
       loading_indicator_saveguard
 
       # move card
-      board_page.move_card(0, from: 'Open', to: 'Whatever')
+      board_page.move_card(0, from: "Open", to: "Whatever")
       board_page.wait_for_lists_reload
 
-      board_page.expect_card('Whatever', 'New Task', present: true)
+      board_page.expect_card("Whatever", "New Task", present: true)
 
-      wp_task = WorkPackage.find_by(subject: 'New Task')
+      wp_task = WorkPackage.find_by(subject: "New Task")
 
-      expect(wp_task.status).to eq(whatever_status), 'Moving the card should have updated the status'
-      expect(wp_task.project).to eq(project), 'Moving the card should not change the project'
+      expect(wp_task.status).to eq(whatever_status), "Moving the card should have updated the status"
+      expect(wp_task.project).to eq(project), "Moving the card should not change the project"
     end
 
-    it 'allows management of boards', with_settings: { login_required: false } do
+    it "allows management of boards", with_settings: { login_required: false } do
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board title: 'My Status Board',
-                                            action: 'Status'
+      board_page = board_index.create_board title: "My Status Board",
+                                            action: "Status"
 
       # expect lists of default status
-      board_page.expect_list 'Open'
+      board_page.expect_list "Open"
 
-      board_page.add_list option: 'Closed'
-      board_page.expect_list 'Closed'
+      board_page.add_list option: "Closed"
+      board_page.expect_list "Closed"
 
       board_page.board(reload: true) do |board|
-        expect(board.name).to eq 'My Status Board'
+        expect(board.name).to eq "My Status Board"
         queries = board.contained_queries
         expect(queries.count).to eq(2)
 
         open = queries.first
         closed = queries.last
 
-        expect(open.name).to eq 'Open'
-        expect(closed.name).to eq 'Closed'
+        expect(open.name).to eq "Open"
+        expect(closed.name).to eq "Closed"
 
         expect(open.filters.first.name).to eq :status_id
         expect(open.filters.first.values).to eq [open_status.id.to_s]
@@ -182,29 +182,29 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
       end
 
       # Create new list
-      board_page.add_list option: 'Whatever'
-      board_page.expect_list 'Whatever'
+      board_page.add_list option: "Whatever"
+      board_page.expect_list "Whatever"
 
       # Add item
-      board_page.add_card 'Open', 'Task 1'
+      board_page.add_card "Open", "Task 1"
       sleep 2
 
       # Expect added to query
       queries = board_page.board(reload: true).contained_queries
       expect(queries.count).to eq 3
-      first = queries.find_by(name: 'Open')
-      second = queries.find_by(name: 'Closed')
+      first = queries.find_by(name: "Open")
+      second = queries.find_by(name: "Closed")
       expect(first.ordered_work_packages.count).to eq(1)
       expect(second.ordered_work_packages).to be_empty
 
       # Expect work package to be saved in query first
       subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :status_id)
-      expect(subjects).to contain_exactly(['Task 1', open_status.id])
+      expect(subjects).to contain_exactly(["Task 1", open_status.id])
 
       # Move item to Closed
-      board_page.move_card(0, from: 'Open', to: 'Closed')
-      board_page.expect_card('Open', 'Task 1', present: false)
-      board_page.expect_card('Closed', 'Task 1', present: true)
+      board_page.move_card(0, from: "Open", to: "Closed")
+      board_page.expect_card("Open", "Task 1", present: false)
+      board_page.expect_card("Closed", "Task 1", present: true)
 
       # Expect work package to be saved in query second
       sleep 2
@@ -214,17 +214,17 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
       end
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :status_id)
-      expect(subjects).to contain_exactly(['Task 1', closed_status.id])
+      expect(subjects).to contain_exactly(["Task 1", closed_status.id])
 
       # Try to drag to whatever, which has no workflow
-      board_page.move_card(0, from: 'Closed', to: 'Whatever')
+      board_page.move_card(0, from: "Closed", to: "Whatever")
       board_page.expect_and_dismiss_toaster(
         type: :error,
         message: "Status is invalid because no valid transition exists from old to new status for the current user's roles."
       )
-      board_page.expect_card('Open', 'Task 1', present: false)
-      board_page.expect_card('Whatever', 'Task 1', present: false)
-      board_page.expect_card('Closed', 'Task 1', present: true)
+      board_page.expect_card("Open", "Task 1", present: false)
+      board_page.expect_card("Whatever", "Task 1", present: false)
+      board_page.expect_card("Closed", "Task 1", present: true)
 
       # Add filter
       # Filter for Task
@@ -233,14 +233,14 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
 
       # Expect that status is not available for global filter selection
       filters.open_available_filter_list
-      filters.expect_available_filter 'Status', present: false
+      filters.expect_available_filter "Status", present: false
 
-      filters.quick_filter 'Task'
+      filters.quick_filter "Task"
       board_page.expect_changed
       sleep 2
 
-      board_page.expect_card('Closed', 'Task 1', present: true)
-      board_page.expect_card('Whatever', work_package.subject, present: false)
+      board_page.expect_card("Closed", "Task 1", present: true)
+      board_page.expect_card("Whatever", work_package.subject, present: false)
 
       # Expect query props to be present
       url = URI.parse(page.current_url).query
@@ -251,7 +251,7 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
 
       # Expect filter to be saved in board
       board_page.board(reload: true) do |board|
-        expect(board.options[:filters]).to eq [{ search: { operator: '**', values: ['Task'] } }]
+        expect(board.options[:filters]).to eq [{ search: { operator: "**", values: ["Task"] } }]
       end
 
       # Revisit board
@@ -260,67 +260,67 @@ RSpec.describe 'Status action board', :js, with_ee: %i[board_view] do
       # Expect filter to be present
       filters.expect_filter_count 1
       filters.open
-      filters.expect_quick_filter 'Task'
+      filters.expect_quick_filter "Task"
 
       # No query props visible
       board_page.expect_not_changed
 
       # Remove query
-      board_page.remove_list 'Whatever'
+      board_page.remove_list "Whatever"
       queries = board_page.board(reload: true).contained_queries
       expect(queries.count).to eq(2)
-      expect(queries.first.name).to eq 'Open'
-      expect(queries.last.name).to eq 'Closed'
+      expect(queries.first.name).to eq "Open"
+      expect(queries.last.name).to eq "Closed"
       expect(queries.first.ordered_work_packages).to be_empty
 
       subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id))
-      expect(subjects.pluck(:subject, :status_id)).to contain_exactly(['Task 1', closed_status.id])
+      expect(subjects.pluck(:subject, :status_id)).to contain_exactly(["Task 1", closed_status.id])
 
       # Open remaining in split view
       wp = second.ordered_work_packages.first.work_package
       card = board_page.card_for(wp)
       split_view = card.open_details_view
       split_view.expect_subject
-      split_view.edit_field(:status).update('Open')
-      split_view.expect_and_dismiss_toaster message: 'Successful update.'
+      split_view.edit_field(:status).update("Open")
+      split_view.expect_and_dismiss_toaster message: "Successful update."
 
       wp.reload
       expect(wp.status).to eq(open_status)
 
-      board_page.expect_card('Open', 'Task 1', present: true)
-      board_page.expect_card('Closed', 'Task 1', present: false)
+      board_page.expect_card("Open", "Task 1", present: true)
+      board_page.expect_card("Closed", "Task 1", present: false)
 
       # Re-add task 1 to closed
-      board_page.reference('Closed', subjects.first)
+      board_page.reference("Closed", subjects.first)
 
-      board_page.expect_card('Open', 'Task 1', present: false)
-      board_page.expect_card('Closed', 'Task 1', present: true)
+      board_page.expect_card("Open", "Task 1", present: false)
+      board_page.expect_card("Closed", "Task 1", present: true)
 
-      aggregate_failures 'allows to access the board publicly (Regression #51850)' do
+      aggregate_failures "allows to access the board publicly (Regression #51850)" do
         project.update!(public: true)
         login_as User.anonymous
 
         board_page.visit!
-        board_page.expect_card('Closed', 'Task 1', present: true)
+        board_page.expect_card("Closed", "Task 1", present: true)
       end
     end
 
-    it 'shows the default column only once (regression #40858)' do
+    it "shows the default column only once (regression #40858)" do
       board_index.visit!
 
       # Create new board
-      board_page = board_index.create_board action: 'Status'
+      board_page = board_index.create_board action: "Status"
 
       # expect lists of default status
-      board_page.expect_list 'Open'
+      board_page.expect_list "Open"
       expect(board_page.list_count).to eq(1)
 
       board_index.visit!
       # Create another status board
-      second_board_page = board_index.create_board action: 'Status', via_toolbar: false
+      second_board_page = board_index.create_board action: "Status", via_toolbar: false
 
       # Expect only one list with the default status
-      second_board_page.expect_list 'Open'
+      second_board_page.expect_list "Open"
       expect(second_board_page.list_count).to eq(1)
     end
   end

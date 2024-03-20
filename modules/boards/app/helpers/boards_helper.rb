@@ -9,12 +9,12 @@ module BoardsHelper
 
   def board_types
     [
-      build_board_type_attributes('basic', 'lists', false),
-      build_board_type_attributes('status', 'status'),
-      build_board_type_attributes('assignee', 'assignees'),
-      build_board_type_attributes('version', 'version'),
-      build_board_type_attributes('subproject', 'subproject'),
-      build_board_type_attributes('subtasks', 'parent-child')
+      build_board_type_attributes("basic", "lists", false),
+      build_board_type_attributes("status", "status"),
+      build_board_type_attributes("assignee", "assignees"),
+      build_board_type_attributes("version", "version"),
+      build_board_type_attributes("subproject", "subproject"),
+      build_board_type_attributes("subtasks", "parent-child")
     ]
   end
 

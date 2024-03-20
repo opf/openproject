@@ -60,12 +60,12 @@ module Projects::Copy
       source
         .work_packages
         .includes(:custom_values, :version, :assigned_to, :responsible)
-        .order_by_ancestors('asc')
-        .order('id ASC')
+        .order_by_ancestors("asc")
+        .order("id ASC")
     end
 
     def copy_work_packages(to_copy)
-      user_cf_ids = WorkPackageCustomField.where(field_format: 'user').pluck(:id)
+      user_cf_ids = WorkPackageCustomField.where(field_format: "user").pluck(:id)
 
       to_copy.inject({}) do |work_packages_map, wp|
         parent_id = work_packages_map[wp.parent_id] || wp.parent_id
@@ -115,7 +115,7 @@ module Projects::Copy
 
         Relation.create(source_relation
                           .attributes
-                          .except('id', 'from_id', 'to_id')
+                          .except("id", "from_id", "to_id")
                           .merge(to_id:, from_id:))
       end
     end

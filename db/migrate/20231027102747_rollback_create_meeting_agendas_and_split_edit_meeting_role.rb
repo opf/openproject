@@ -31,7 +31,7 @@ require Rails.root.join("db/migrate/migration_utils/permission_adder")
 class RollbackCreateMeetingAgendasAndSplitEditMeetingRole < ActiveRecord::Migration[7.0]
   def up
     # Rollback the create_meeting_agendas permission
-    RolePermission.where(permission: 'manage_agendas').update_all(permission: 'create_meeting_agendas')
+    RolePermission.where(permission: "manage_agendas").update_all(permission: "create_meeting_agendas")
 
     # Introduce manage_agendas permission, that is being split from the edit_meeting permission
     ::Migration::MigrationUtils::PermissionAdder
@@ -40,7 +40,7 @@ class RollbackCreateMeetingAgendasAndSplitEditMeetingRole < ActiveRecord::Migrat
   end
 
   def down
-    RolePermission.where(permission: 'manage_agendas').destroy_all
-    RolePermission.where(permission: 'create_meeting_agendas').update_all(permission: 'manage_agendas')
+    RolePermission.where(permission: "manage_agendas").destroy_all
+    RolePermission.where(permission: "create_meeting_agendas").update_all(permission: "manage_agendas")
   end
 end

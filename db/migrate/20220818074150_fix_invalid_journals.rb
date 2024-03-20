@@ -62,7 +62,7 @@ class FixInvalidJournals < ActiveRecord::Migration[7.0]
 
   def get_broken_journals
     Journal
-      .pluck('DISTINCT(journable_type)')
+      .pluck("DISTINCT(journable_type)")
       .compact
       .to_h do |journable_type|
       relation = Journal

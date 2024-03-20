@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages::Admin::SystemSettings
   class Page < ::Pages::Page
@@ -38,7 +38,7 @@ module Pages::Admin::SystemSettings
 
     def press_save_button
       scroll_to(:bottom)
-      click_button('Save')
+      click_button("Save")
       self
     end
   end

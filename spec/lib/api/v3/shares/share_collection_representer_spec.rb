@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Shares::ShareCollectionRepresenter do
-  let(:self_base_link) { '/api/v3/shares' }
+  let(:self_base_link) { "/api/v3/shares" }
   let(:members) do
     build_stubbed_list(:work_package_member, 3).tap do |members|
       allow(members).to receive(:limit).with(page_size).and_return(members)
@@ -49,13 +49,13 @@ RSpec.describe API::V3::Shares::ShareCollectionRepresenter do
   let(:page) { 1 }
   let(:page_size) { 2 }
   let(:actual_count) { 3 }
-  let(:collection_inner_type) { 'Share' }
+  let(:collection_inner_type) { "Share" }
 
   include API::V3::Utilities::PathHelper
 
-  context 'generation' do
+  context "generation" do
     subject(:collection) { representer.to_json }
 
-    it_behaves_like 'offset-paginated APIv3 collection', 3, 'shares', 'Share'
+    it_behaves_like "offset-paginated APIv3 collection", 3, "shares", "Share"
   end
 end

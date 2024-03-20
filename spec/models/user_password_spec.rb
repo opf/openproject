@@ -26,43 +26,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe UserPassword do
   let(:old_password) { create(:old_user_password) }
   let(:user) { create(:user) }
-  let(:password) { create(:user_password, user:, plain_password: 'adminAdmin!') }
+  let(:password) { create(:user_password, user:, plain_password: "adminAdmin!") }
 
-  describe '#expired?' do
-    context 'with expiry value set',
+  describe "#expired?" do
+    context "with expiry value set",
             with_settings: { password_days_valid: 30 } do
-      it 'is true for an old password when password expiry is activated' do
+      it "is true for an old password when password expiry is activated" do
         expect(old_password.expired?).to be_truthy
       end
 
-      it 'is false when password expiry is enabled and the password was changed recently' do
+      it "is false when password expiry is enabled and the password was changed recently" do
         expect(password.expired?).to be_falsey
       end
     end
 
-    context 'with expiry value disabled',
+    context "with expiry value disabled",
             with_settings: { password_days_valid: 0 } do
-      it 'is false for an old password when password expiry is disabled' do
+      it "is false for an old password when password expiry is disabled" do
         expect(old_password.expired?).to be_falsey
       end
     end
   end
 
-  describe '#matches_plaintext?' do
-    it 'still matches the password' do
+  describe "#matches_plaintext?" do
+    it "still matches the password" do
       expect(password).to be_a(UserPassword.active_type)
-      expect(password.matches_plaintext?('adminAdmin!')).to be_truthy
+      expect(password.matches_plaintext?("adminAdmin!")).to be_truthy
     end
   end
 
-  describe '#rehash_as_active' do
+  describe "#rehash_as_active" do
     let(:password) do
-      pass = build(:legacy_sha1_password, user:, plain_password: 'adminAdmin!')
+      pass = build(:legacy_sha1_password, user:, plain_password: "adminAdmin!")
       expect(pass).to receive(:salt_and_hash_password!).and_return nil
 
       pass.save!
@@ -74,31 +74,31 @@ RSpec.describe UserPassword do
       user.reload
     end
 
-    it 'rehashed the password when correct' do
+    it "rehashed the password when correct" do
       expect(user.current_password).to be_a(UserPassword::SHA1)
       expect do
-        password.matches_plaintext?('adminAdmin!')
+        password.matches_plaintext?("adminAdmin!")
       end.not_to change { user.passwords.count }
 
       expect(user.current_password).to be_a(UserPassword::Bcrypt)
-      expect(user.current_password.hashed_password).to start_with '$2a$'
+      expect(user.current_password.hashed_password).to start_with "$2a$"
     end
 
-    it 'does not alter the password when invalid' do
-      expect(password.matches_plaintext?('wat')).to be false
+    it "does not alter the password when invalid" do
+      expect(password.matches_plaintext?("wat")).to be false
       expect(password).to be_a(UserPassword::SHA1)
     end
 
-    it 'does not alter the password when disabled' do
-      expect(password.matches_plaintext?('adminAdmin!', update_legacy: false)).to be true
+    it "does not alter the password when disabled" do
+      expect(password.matches_plaintext?("adminAdmin!", update_legacy: false)).to be true
       expect(user.current_password).to be_a(UserPassword::SHA1)
     end
   end
 
-  describe '#save' do
+  describe "#save" do
     let(:password) { build(:user_password) }
 
-    it 'saves correctly' do
+    it "saves correctly" do
       expect(password).to receive(:salt_and_hash_password!).and_call_original
       expect { password.save! }.not_to raise_error
       expect(password).not_to be_expired

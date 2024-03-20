@@ -29,12 +29,12 @@
 # ++
 #
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Admin::Settings::AggregationSettingsController do # rubocop:disable RSpec/EmptyExampleGroup
   shared_let(:user) { create(:admin) }
 
   current_user { user }
 
-  require_admin_and_render_template('aggregation_settings')
+  require_admin_and_render_template("aggregation_settings")
 end

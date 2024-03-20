@@ -26,15 +26,14 @@ vi:
       no_results_title_text: Đã không có bất kỳ hoạt động nào cho dự án trong khung thời gian này.
   admin:
     plugins:
-      no_results_title_text: Không có plugins nào khả dụng.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Màu sắc giao diện"
       color_theme_custom: "(Tùy chỉnh)"
       colors:
-        alternative-color: "Thay thế"
-        content-link-color: "Liên kết phông chữ"
-        primary-color: "Cấp 1"
-        primary-color-dark: "Cấp 1(tối)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Nền của tiêu đề"
         header-item-bg-hover-color: "Màu nền tiêu đề khi trỏ chuột"
         header-item-font-color: "Phông chữ tiêu đề"
@@ -53,10 +52,8 @@ vi:
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Chỉnh sửa màu sắc trong select option"
       instructions:
-        alternative-color: "Màu nhấn mạnh, thường được sử dụng cho nút quan trọng nhất trên màn hình."
-        content-link-color: "Màu sắc Font chữ các liên kết"
-        primary-color: "Màu sắc chính"
-        primary-color-dark: "Typically a darker version of the main color used for hover effects."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Màu nền của tiêu đề được thay đổi khi đưa chuột đến"
         header-item-font-color: "Màu sắc font chữ của tiêu đề đã nhấp"
         header-item-font-hover-color: "Màu sắc của tiêu đề được thay đổi khi đưa chuột đến"
@@ -1507,6 +1504,7 @@ vi:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
+      impressum: "Legal notice"
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       blog: "OpenProject blog"
@@ -1838,7 +1836,6 @@ vi:
   label_subject_or_id: "Chủ đề hoặc Mã"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Thông báo pháp lý"
   label_in: "trong"
   label_in_less_than: "ít hơn"
   label_in_more_than: "nhiều hơn"

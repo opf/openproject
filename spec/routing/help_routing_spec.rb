@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe HelpController do
-  it 'connects GET /help/keyboard_shortcuts to help#keyboard_shortcuts' do
-    expect(get('/help/keyboard_shortcuts'))
-      .to route_to(controller: 'help',
-                   action: 'keyboard_shortcuts')
+  it "connects GET /help/keyboard_shortcuts to help#keyboard_shortcuts" do
+    expect(get("/help/keyboard_shortcuts"))
+      .to route_to(controller: "help",
+                   action: "keyboard_shortcuts")
   end
 end

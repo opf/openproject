@@ -62,7 +62,7 @@ module Queries::Copy
       subhash = filter[name]
       ar_name = ::API::Utilities::QueryFiltersNameConverter.to_ar_name(name, refer_to_ids: true)
 
-      subhash['values'] = mapped_values(ar_name, subhash['values'])
+      subhash["values"] = mapped_values(ar_name, subhash["values"])
     end
 
     def map_filter_class(filter)

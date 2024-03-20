@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe 'API v3 work packages resource with filters for the linkable to storage attribute',
+RSpec.describe "API v3 work packages resource with filters for the linkable to storage attribute",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
@@ -73,92 +73,92 @@ RSpec.describe 'API v3 work packages resource with filters for the linkable to s
     login_as current_user
   end
 
-  describe 'GET /api/v3/work_packages' do
+  describe "GET /api/v3/work_packages" do
     let(:path) { api_v3_paths.path_for :work_packages, filters: }
 
     before do
       get path
     end
 
-    context 'with filter for storage id' do
+    context "with filter for storage id" do
       let(:storage_id) { storage.id }
       let(:filters) do
         [
           {
             linkable_to_storage_id: {
-              operator: '=',
+              operator: "=",
               values: [storage_id]
             }
           }
         ]
       end
 
-      it_behaves_like 'API V3 collection response', 4, 4, 'WorkPackage', 'WorkPackageCollection' do
+      it_behaves_like "API V3 collection response", 4, 4, "WorkPackage", "WorkPackageCollection" do
         let(:elements) { [work_package1, work_package2, work_package3, work_package4] }
       end
 
-      context 'if user has no sufficient permissions in one project' do
+      context "if user has no sufficient permissions in one project" do
         let(:role2) { create(:project_role, permissions: %i(view_work_packages view_file_links)) }
 
-        it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [work_package1, work_package2] }
         end
       end
 
-      context 'if a project has the storages module deactivated' do
+      context "if a project has the storages module deactivated" do
         let(:project1) { create(:project, disable_modules: :storages, members: { current_user => role1 }) }
 
-        it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [work_package3, work_package4] }
         end
       end
 
-      context 'if the filter is set to an unknown storage id' do
+      context "if the filter is set to an unknown storage id" do
         let(:storage_id) { "1337" }
 
-        it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 0, 0, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [] }
         end
       end
     end
 
-    context 'with filter for storage url' do
+    context "with filter for storage url" do
       let(:storage_url) { CGI.escape(storage.host) }
       let(:filters) do
         [
           {
             linkable_to_storage_url: {
-              operator: '=',
+              operator: "=",
               values: [storage_url]
             }
           }
         ]
       end
 
-      it_behaves_like 'API V3 collection response', 4, 4, 'WorkPackage', 'WorkPackageCollection' do
+      it_behaves_like "API V3 collection response", 4, 4, "WorkPackage", "WorkPackageCollection" do
         let(:elements) { [work_package1, work_package2, work_package3, work_package4] }
       end
 
-      context 'if user has no sufficient permissions in one project' do
+      context "if user has no sufficient permissions in one project" do
         let(:role2) { create(:project_role, permissions: %i(view_work_packages view_file_links)) }
 
-        it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [work_package1, work_package2] }
         end
       end
 
-      context 'if a project has the storages module deactivated' do
+      context "if a project has the storages module deactivated" do
         let(:project1) { create(:project, disable_modules: :storages, members: { current_user => role1 }) }
 
-        it_behaves_like 'API V3 collection response', 2, 2, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 2, 2, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [work_package3, work_package4] }
         end
       end
 
-      context 'if the filter is set to an unknown storage url' do
+      context "if the filter is set to an unknown storage url" do
         let(:storage_url) { CGI.escape("https://not.my-domain.org") }
 
-        it_behaves_like 'API V3 collection response', 0, 0, 'WorkPackage', 'WorkPackageCollection' do
+        it_behaves_like "API V3 collection response", 0, 0, "WorkPackage", "WorkPackageCollection" do
           let(:elements) { [] }
         end
       end

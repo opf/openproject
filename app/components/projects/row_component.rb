@@ -39,7 +39,7 @@ module Projects
 
     # Hierarchy cell is just a placeholder
     def hierarchy
-      ''
+      ""
     end
 
     def column_value(column)
@@ -56,10 +56,10 @@ module Projects
       cf = column.custom_field
       custom_value = project.formatted_custom_value_for(cf)
 
-      if cf.field_format == 'text' && custom_value.present?
+      if cf.field_format == "text" && custom_value.present?
         render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-cf-#{cf.id}", cf.name, custom_value.html_safe) # rubocop:disable Rails/OutputSafety
       elsif custom_value.is_a?(Array)
-        safe_join(Array(custom_value).compact_blank, ', ')
+        safe_join(Array(custom_value).compact_blank, ", ")
       else
         custom_value
       end
@@ -74,20 +74,20 @@ module Projects
     end
 
     def required_disk_space
-      return '' unless project.required_disk_space.to_i > 0
+      return "" unless project.required_disk_space.to_i > 0
 
       number_to_human_size(project.required_disk_space, precision: 2)
     end
 
     def name
-      content = content_tag(:i, '', class: "projects-table--hierarchy-icon")
+      content = content_tag(:i, "", class: "projects-table--hierarchy-icon")
 
       if project.archived?
-        content << ' '
-        content << content_tag(:span, I18n.t('project.archive.archived'), class: 'archived-label')
+        content << " "
+        content << content_tag(:span, I18n.t("project.archive.archived"), class: "archived-label")
       end
 
-      content << ' '
+      content << " "
       content << helpers.link_to_project(project, {}, {}, false)
       content
     end
@@ -95,13 +95,13 @@ module Projects
     def project_status
       return nil unless user_can_view_project?
 
-      content = ''.html_safe
+      content = "".html_safe
 
       status_code = project.status_code
 
       if status_code
         classes = helpers.project_status_css_class(status_code)
-        content << content_tag(:span, '', class: "project-status--bulb -inline #{classes}")
+        content << content_tag(:span, "", class: "project-status--bulb -inline #{classes}")
         content << content_tag(:span, helpers.project_status_name(status_code), class: "project-status--name #{classes}")
       end
 
@@ -113,7 +113,7 @@ module Projects
 
       if project.status_explanation.present? && project.status_explanation
         render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-status-explanation",
-                                                           I18n.t('activerecord.attributes.project.status_explanation'),
+                                                           I18n.t("activerecord.attributes.project.status_explanation"),
                                                            project.status_explanation)
       end
     end
@@ -123,7 +123,7 @@ module Projects
 
       if project.description.present?
         render OpenProject::Common::AttributeComponent.new("dialog-#{project.id}-description",
-                                                           I18n.t('activerecord.attributes.project.description'),
+                                                           I18n.t("activerecord.attributes.project.description"),
                                                            project.description)
       end
     end
@@ -149,11 +149,11 @@ module Projects
     end
 
     def project_css_classes
-      s = ' project '.html_safe
+      s = " project ".html_safe
 
-      s << ' root' if project.root?
-      s << ' child' if project.child?
-      s << (project.leaf? ? ' leaf' : ' parent')
+      s << " root" if project.root?
+      s << " child" if project.child?
+      s << (project.leaf? ? " leaf" : " parent")
 
       s
     end
@@ -169,7 +169,7 @@ module Projects
         "project-long-text-container"
       elsif custom_field_column?(column)
         cf = column.custom_field
-        formattable = cf.field_format == 'text' ? ' project-long-text-container' : ''
+        formattable = cf.field_format == "text" ? " project-long-text-container" : ""
         "format-#{cf.field_format}#{formattable}"
       end
     end
@@ -188,17 +188,17 @@ module Projects
       if User.current.allowed_in_project?(:add_subprojects, project)
         [t(:label_subproject_new),
          new_project_path(parent_id: project.id),
-         { class: 'icon-context icon-add',
+         { class: "icon-context icon-add",
            title: t(:label_subproject_new) }]
       end
     end
 
     def more_menu_settings_item
-      if User.current.allowed_in_project?({ controller: '/projects/settings/general', action: 'show', project_id: project.id },
+      if User.current.allowed_in_project?({ controller: "/projects/settings/general", action: "show", project_id: project.id },
                                           project)
         [t(:label_project_settings),
          project_settings_general_path(project),
-         { class: 'icon-context icon-settings',
+         { class: "icon-context icon-settings",
            title: t(:label_project_settings) }]
       end
     end
@@ -207,8 +207,8 @@ module Projects
       if User.current.allowed_in_project?(:view_project_activity, project)
         [
           t(:label_project_activity),
-          project_activity_index_path(project, event_types: ['project_attributes']),
-          { class: 'icon-context icon-checkmark',
+          project_activity_index_path(project, event_types: ["project_attributes"]),
+          { class: "icon-context icon-checkmark",
             title: t(:label_project_activity) }
         ]
       end
@@ -218,9 +218,9 @@ module Projects
       if User.current.allowed_in_project?(:archive_project, project) && project.active?
         [t(:button_archive),
          project_archive_path(project, status: params[:status]),
-         { data: { confirm: t('project.archive.are_you_sure', name: project.name) },
+         { data: { confirm: t("project.archive.are_you_sure", name: project.name) },
            method: :post,
-           class: 'icon-context icon-locked',
+           class: "icon-context icon-locked",
            title: t(:button_archive) }]
       end
     end
@@ -230,7 +230,7 @@ module Projects
         [t(:button_unarchive),
          project_archive_path(project, status: params[:status]),
          { method: :delete,
-           class: 'icon-context icon-unlocked',
+           class: "icon-context icon-unlocked",
            title: t(:button_unarchive) }]
       end
     end
@@ -239,7 +239,7 @@ module Projects
       if User.current.allowed_in_project?(:copy_projects, project) && !project.archived?
         [t(:button_copy),
          copy_project_path(project),
-         { class: 'icon-context icon-copy',
+         { class: "icon-context icon-copy",
            title: t(:button_copy) }]
       end
     end
@@ -248,7 +248,7 @@ module Projects
       if User.current.admin
         [t(:button_delete),
          confirm_destroy_project_path(project),
-         { class: 'icon-context icon-delete',
+         { class: "icon-context icon-delete",
            title: t(:button_delete) }]
       end
     end

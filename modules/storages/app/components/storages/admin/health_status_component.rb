@@ -36,7 +36,7 @@ module Storages::Admin
     # formatted manner. e.g. "Not found: Outbound request destination not found since 12/07/2023 03:45 PM"
     def formatted_health_reason
       "#{storage.health_reason_identifier.tr('_', ' ').strip.capitalize}: #{storage.health_reason_description} " +
-        I18n.t('storages.health.since', datetime: helpers.format_time(storage.health_changed_at))
+        I18n.t("storages.health.since", datetime: helpers.format_time(storage.health_changed_at))
     end
   end
 end

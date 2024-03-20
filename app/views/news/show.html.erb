@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div id="edit-news" style="display:none;">
     <%= labelled_tabular_form_for @news, html: { id: 'news-form' } do |f| %>
       <%= render partial: 'form', locals: { f: f } %>
-      <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+      <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
       <%= link_to_function t(:button_cancel), 'jQuery("#edit-news").hide()', class: 'button -with-icon icon-cancel'%>
     <% end %>
   </div>
@@ -103,7 +103,7 @@ See COPYRIGHT and LICENSE files for more details.
         <%= wikitoolbar_for 'comment_comments', preview_context: preview_context(@news) %>
       </div>
       <p>
-        <%= submit_tag t(:button_add_comment), class: 'button -highlight' %>
+        <%= submit_tag t(:button_add_comment), class: 'button -primary' %>
       </p>
     <% end %>
   <% end %>

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackages::CreateContract do
   let(:work_package) { build(:work_package, author: other_user, project:) }
@@ -52,19 +52,19 @@ RSpec.describe WorkPackages::CreateContract do
 
   subject(:contract) { described_class.new(work_package, user) }
 
-  describe 'story points' do
+  describe "story points" do
     before do
       contract.validate
     end
 
-    context 'when not changed' do
-      it('is valid') { expect(contract.errors.symbols_for(:story_points)).to be_empty }
+    context "when not changed" do
+      it("is valid") { expect(contract.errors.symbols_for(:story_points)).to be_empty }
     end
 
-    context 'when changed' do
-      let(:changed_values) { ['story_points'] }
+    context "when changed" do
+      let(:changed_values) { ["story_points"] }
 
-      it('is valid') { expect(contract.errors.symbols_for(:story_points)).to be_empty }
+      it("is valid") { expect(contract.errors.symbols_for(:story_points)).to be_empty }
     end
   end
 end

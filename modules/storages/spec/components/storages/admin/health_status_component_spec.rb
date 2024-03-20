@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Admin::HealthStatusComponent, type: :component do
@@ -39,55 +39,55 @@ RSpec.describe Storages::Admin::HealthStatusComponent, type: :component do
     render_inline(health_status_component)
   end
 
-  context 'with healthy storage' do
+  context "with healthy storage" do
     shared_let(:storage) do
       travel_to(frozen_date_time) do
         create(:nextcloud_storage_with_complete_configuration, :as_healthy)
       end
     end
 
-    it 'shows a healthy status' do
-      expect(page).to have_test_selector('storage-health-label-healthy', text: 'Healthy')
-      expect(page).to have_test_selector('storage-health-checked-at', text: "Last checked 11/28/2023 01:02 AM")
+    it "shows a healthy status" do
+      expect(page).to have_test_selector("storage-health-label-healthy", text: "Healthy")
+      expect(page).to have_test_selector("storage-health-checked-at", text: "Last checked 11/28/2023 01:02 AM")
     end
   end
 
-  context 'with storage health pending' do
+  context "with storage health pending" do
     shared_let(:storage) do
       travel_to(frozen_date_time) do
         create(:nextcloud_storage_with_complete_configuration)
       end
     end
 
-    it 'shows pending label' do
-      expect(page).to have_test_selector('storage-health-label-pending', text: 'Pending')
+    it "shows pending label" do
+      expect(page).to have_test_selector("storage-health-label-pending", text: "Pending")
     end
   end
 
-  context 'with unhealthy storage' do
+  context "with unhealthy storage" do
     shared_let(:storage) do
       travel_to(frozen_date_time) do
         create(:nextcloud_storage_with_complete_configuration, :as_unhealthy)
       end
     end
 
-    it 'shows an error status' do
-      expect(page).to have_test_selector('storage-health-label-error', text: 'Error')
-      expect(page).to have_test_selector('storage-health-reason', text: 'Error code: description since 11/28/2023 01:02 AM')
+    it "shows an error status" do
+      expect(page).to have_test_selector("storage-health-label-error", text: "Error")
+      expect(page).to have_test_selector("storage-health-reason", text: "Error code: description since 11/28/2023 01:02 AM")
     end
   end
 
-  context 'with unhealthy storage, long reason' do
+  context "with unhealthy storage, long reason" do
     shared_let(:storage) do
       travel_to(frozen_date_time) do
         create(:nextcloud_storage_with_complete_configuration, :as_unhealthy_long_reason)
       end
     end
 
-    it 'shows a formatted error reason' do
-      expect(page).to have_test_selector('storage-health-label-error', text: 'Error')
-      expect(page).to have_test_selector('storage-health-reason',
-                                         text: 'Unauthorized: Outbound request not authorized since 11/28/2023 01:02 AM')
+    it "shows a formatted error reason" do
+      expect(page).to have_test_selector("storage-health-label-error", text: "Error")
+      expect(page).to have_test_selector("storage-health-reason",
+                                         text: "Unauthorized: Outbound request not authorized since 11/28/2023 01:02 AM")
     end
   end
 end

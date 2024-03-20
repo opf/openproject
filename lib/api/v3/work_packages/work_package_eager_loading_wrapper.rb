@@ -98,9 +98,9 @@ module API
               .joins(labor_scope.arel.join_sources)
               .includes(WorkPackageRepresenter.to_eager_load)
               .includes(:status)
-              .select('work_packages.*')
-              .select('spent_time_hours.hours')
-              .select('derived_dates.derived_start_date', 'derived_dates.derived_due_date')
+              .select("work_packages.*")
+              .select("spent_time_hours.hours")
+              .select("derived_dates.derived_start_date", "derived_dates.derived_due_date")
               .select(material_scope.select_values)
               .select(labor_scope.select_values)
               .distinct
@@ -115,8 +115,8 @@ module API
             wp_table = WorkPackage.arel_table
 
             wp_table
-              .outer_join(time_scope.arel.as('spent_time_hours'))
-              .on(wp_table[:id].eq(time_scope.arel_table.alias('spent_time_hours')[:id]))
+              .outer_join(time_scope.arel.as("spent_time_hours"))
+              .on(wp_table[:id].eq(time_scope.arel_table.alias("spent_time_hours")[:id]))
           end
 
           def derived_dates_subquery(scope)
@@ -128,8 +128,8 @@ module API
             wp_table = WorkPackage.arel_table
 
             wp_table
-              .outer_join(dates_scope.arel.as('derived_dates'))
-              .on(wp_table[:id].eq(dates_scope.arel_table.alias('derived_dates')[:id]))
+              .outer_join(dates_scope.arel.as("derived_dates"))
+              .on(wp_table[:id].eq(dates_scope.arel_table.alias("derived_dates")[:id]))
           end
 
           def work_package_material_scope(scope)

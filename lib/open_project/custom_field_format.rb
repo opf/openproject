@@ -35,7 +35,7 @@ module OpenProject
 
     attr_accessor :name, :order, :label, :edit_as, :class_names, :formatter
 
-    def initialize(name, label:, order:, edit_as: name, only: nil, formatter: 'CustomValue::StringStrategy')
+    def initialize(name, label:, order:, edit_as: name, only: nil, formatter: "CustomValue::StringStrategy")
       self.name = name
       self.label = label
       self.order = order

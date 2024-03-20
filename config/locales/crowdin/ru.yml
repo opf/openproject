@@ -26,15 +26,14 @@ ru:
       no_results_title_text: В течение этого периода времени не было никакой деятельности по проекту.
   admin:
     plugins:
-      no_results_title_text: Дополнения отсутствуют.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Цветовая тема"
       color_theme_custom: "(Пользовательская)"
       colors:
-        alternative-color: "Альтернативная"
-        content-link-color: "Шрифт ссылки"
-        primary-color: "Основной"
-        primary-color-dark: "Основной (темный)"
+        primary-button-color: "Основная кнопка"
+        accent-color: "Акцент"
         header-bg-color: "Фон заголовка"
         header-item-bg-hover-color: "Фон заголовка при наведении курсора"
         header-item-font-color: "Шрифт заголовка"
@@ -53,10 +52,8 @@ ru:
       enterprise_more_info: "Примечание: используемый логотип будет общедоступным."
       manage_colors: "Изменить цвет выбранных опций"
       instructions:
-        alternative-color: "Яркий контрастный цвет, который обычно используют для важных кнопок на экране."
-        content-link-color: "Цвет шрифта большинства ссылок."
-        primary-color: "Основной цвет."
-        primary-color-dark: "Для эффекта наведения обычно используется более темная версия основного цвета."
+        primary-button-color: "Яркий контрастный цвет, который обычно используют для важных кнопок на экране."
+        accent-color: "Цвет ссылок и других удачно выделенных элементов."
         header-item-bg-hover-color: "Цвет фона в заголовках интерактивных элементов при наведении мыши."
         header-item-font-color: "Цвет шрифта в заголовках интерактивных элементов."
         header-item-font-hover-color: "Цвет шрифта в заголовках интерактивных элементов при наведении мыши."
@@ -1585,6 +1582,7 @@ ru:
       postgres_migration: "Перенос вашей установки в PostgreSQL"
       user_guides: "Руководство пользователя"
       faq: "ЧаВо"
+      impressum: "Правовое уведомление"
       glossary: "Глоссарий"
       shortcuts: "Ярлыки"
       blog: "Openproject блог"
@@ -1916,7 +1914,6 @@ ru:
   label_subject_or_id: "Тема или ID"
   label_calendar_subscriptions: "Подписки на календарь"
   label_identifier: "Идентификатор"
-  label_impressum: "Правовое уведомление"
   label_in: "в"
   label_in_less_than: "менее чем"
   label_in_more_than: "более чем"

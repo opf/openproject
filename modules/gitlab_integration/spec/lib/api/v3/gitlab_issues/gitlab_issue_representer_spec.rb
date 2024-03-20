@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe API::V3::GitlabIssues::GitlabIssueRepresenter do
@@ -36,15 +36,15 @@ RSpec.describe API::V3::GitlabIssues::GitlabIssueRepresenter do
 
   let(:gitlab_issue) do
     build_stubbed(:gitlab_issue,
-                  state: 'opened',
+                  state: "opened",
                   labels:,
                   gitlab_user:)
   end
   let(:labels) do
     [
       {
-        'name' => 'grey',
-        'color' => '#666'
+        "name" => "grey",
+        "color" => "#666"
       }
     ]
   end
@@ -53,67 +53,67 @@ RSpec.describe API::V3::GitlabIssues::GitlabIssueRepresenter do
 
   let(:user) { build_stubbed(:admin) }
 
-  it { is_expected.to include_json('GitlabIssue'.to_json).at_path('_type') }
+  it { is_expected.to include_json("GitlabIssue".to_json).at_path("_type") }
 
-  describe 'properties' do
-    it_behaves_like 'property', :_type do
-      let(:value) { 'GitlabIssue' }
+  describe "properties" do
+    it_behaves_like "property", :_type do
+      let(:value) { "GitlabIssue" }
     end
 
-    it_behaves_like 'property', :id do
+    it_behaves_like "property", :id do
       let(:value) { gitlab_issue.id }
     end
 
-    it_behaves_like 'property', :number do
+    it_behaves_like "property", :number do
       let(:value) { gitlab_issue.number }
     end
 
-    it_behaves_like 'property', :htmlUrl do
+    it_behaves_like "property", :htmlUrl do
       let(:value) { gitlab_issue.gitlab_html_url }
     end
 
-    it_behaves_like 'property', :state do
+    it_behaves_like "property", :state do
       let(:value) { gitlab_issue.state }
     end
 
-    it_behaves_like 'property', :repository do
+    it_behaves_like "property", :repository do
       let(:value) { gitlab_issue.repository }
     end
 
-    it_behaves_like 'property', :title do
+    it_behaves_like "property", :title do
       let(:value) { gitlab_issue.title }
     end
 
-    it_behaves_like 'formattable property', :body do
+    it_behaves_like "formattable property", :body do
       let(:value) { gitlab_issue.body }
     end
 
-    it_behaves_like 'property', :labels do
+    it_behaves_like "property", :labels do
       let(:value) { gitlab_issue.labels }
     end
 
-    it_behaves_like 'has UTC ISO 8601 date and time' do
+    it_behaves_like "has UTC ISO 8601 date and time" do
       let(:date) { gitlab_issue.created_at }
-      let(:json_path) { 'createdAt' }
+      let(:json_path) { "createdAt" }
     end
 
-    it_behaves_like 'has UTC ISO 8601 date and time' do
+    it_behaves_like "has UTC ISO 8601 date and time" do
       let(:date) { gitlab_issue.updated_at }
-      let(:json_path) { 'updatedAt' }
+      let(:json_path) { "updatedAt" }
     end
   end
 
-  describe '_links' do
-    it { is_expected.to have_json_type(Object).at_path('_links') }
+  describe "_links" do
+    it { is_expected.to have_json_type(Object).at_path("_links") }
 
-    it_behaves_like 'has a titled link' do
-      let(:link) { 'gitlabUser' }
+    it_behaves_like "has a titled link" do
+      let(:link) { "gitlabUser" }
       let(:href) { api_v3_paths.gitlab_user(gitlab_user.id) }
       let(:title) { gitlab_user.gitlab_name }
     end
   end
 
-  describe 'caching' do
+  describe "caching" do
     before do
       allow(OpenProject::Cache).to receive(:fetch).and_call_original
     end
@@ -126,29 +126,29 @@ RSpec.describe API::V3::GitlabIssues::GitlabIssueRepresenter do
         .with(representer.json_cache_key)
     end
 
-    describe '#json_cache_key' do
+    describe "#json_cache_key" do
       let!(:former_cache_key) { representer.json_cache_key }
 
-      it 'includes the name of the representer class' do
+      it "includes the name of the representer class" do
         expect(representer.json_cache_key)
-          .to include('API', 'V3', 'GitlabIssues', 'GitlabIssueRepresenter')
+          .to include("API", "V3", "GitlabIssues", "GitlabIssueRepresenter")
       end
 
-      it 'changes when the locale changes' do
+      it "changes when the locale changes" do
         I18n.with_locale(:fr) do
           expect(representer.json_cache_key)
             .not_to eql former_cache_key
         end
       end
 
-      it 'changes when the gitlab_issue is updated' do
+      it "changes when the gitlab_issue is updated" do
         gitlab_issue.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)
           .not_to eql former_cache_key
       end
 
-      it 'changes when the gitlab_user is updated' do
+      it "changes when the gitlab_user is updated" do
         gitlab_issue.gitlab_user.updated_at = 20.seconds.from_now
 
         expect(representer.json_cache_key)

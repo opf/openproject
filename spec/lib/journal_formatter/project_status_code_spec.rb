@@ -28,21 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe OpenProject::JournalFormatter::ProjectStatusCode do
   def status_code_as_integer(status)
     Project.status_codes.fetch(status, nil)
   end
 
-  describe '#render' do
+  describe "#render" do
     let(:journal) { build_stubbed(:project_journal) }
     let(:instance) { described_class.new(journal) }
-    let(:status_code_key) { 'status_code' }
+    let(:status_code_key) { "status_code" }
 
-    context 'when setting a status' do
+    context "when setting a status" do
       let(:old_value) { nil }
-      let(:new_value) { status_code_as_integer('off_track') }
+      let(:new_value) { status_code_as_integer("off_track") }
       let(:expected) do
         I18n.t(:text_journal_set_to,
                label: "<strong>Project status</strong>",
@@ -52,8 +52,8 @@ RSpec.describe OpenProject::JournalFormatter::ProjectStatusCode do
       it { expect(instance.render(status_code_key, [old_value, new_value])).to eq(expected) }
     end
 
-    context 'when deleting a status' do
-      let(:old_value) { status_code_as_integer('discontinued') }
+    context "when deleting a status" do
+      let(:old_value) { status_code_as_integer("discontinued") }
       let(:new_value) { nil }
       let(:expected) do
         I18n.t(:text_journal_deleted,
@@ -64,9 +64,9 @@ RSpec.describe OpenProject::JournalFormatter::ProjectStatusCode do
       it { expect(instance.render(status_code_key, [old_value, new_value])).to eq(expected) }
     end
 
-    context 'when modifying a status' do
-      let(:old_value) { status_code_as_integer('off_track') }
-      let(:new_value) { status_code_as_integer('on_track') }
+    context "when modifying a status" do
+      let(:old_value) { status_code_as_integer("off_track") }
+      let(:new_value) { status_code_as_integer("on_track") }
       let(:expected) do
         I18n.t(:text_journal_changed_plain,
                label: "<strong>Project status</strong>",

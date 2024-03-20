@@ -4,7 +4,7 @@
 <%= toolbar title: t('webhooks.plural') do %>
   <li class="toolbar-item">
     <%= link_to new_admin_outgoing_webhook_path,
-          { class: 'button -alt-highlight',
+          { class: 'button -primary',
             aria: {label: t('webhooks.outgoing.label_add_new')},
             title: t('webhooks.outgoing.label_add_new')} do %>
       <%= op_icon('button--icon icon-add') %>
@@ -19,4 +19,3 @@
 </p>
 
 <%= render ::Webhooks::Outgoing::Webhooks::TableComponent.new(rows: @webhooks) %>
-

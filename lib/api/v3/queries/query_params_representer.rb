@@ -40,7 +40,7 @@ module API
         # which contains a reference to the columns array as columns[].
         # This will match the Rails +to_query+ output
         def to_json(*_args)
-          to_h(column_key: :'columns[]').to_json
+          to_h(column_key: :"columns[]").to_json
         end
 
         def to_h(column_key: :columns)

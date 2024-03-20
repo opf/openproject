@@ -26,15 +26,14 @@ uk:
       no_results_title_text: Протягом цього часу не було жодної діяльності для проекту.
   admin:
     plugins:
-      no_results_title_text: Наразі немає доступних плагінів.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Колірна тема"
       color_theme_custom: "(Власний)"
       colors:
-        alternative-color: "Альтернативний"
-        content-link-color: "Шрифт посилання"
-        primary-color: "Основний"
-        primary-color-dark: "Основний (темний)"
+        primary-button-color: "Основна кнопка"
+        accent-color: "Акцент"
         header-bg-color: "Фон заголовка"
         header-item-bg-hover-color: "Фон заголовка в разі наведення курсора"
         header-item-font-color: "Шрифт заголовка"
@@ -53,10 +52,8 @@ uk:
       enterprise_more_info: "Примітка: використаний логотип буде загальнодоступний."
       manage_colors: "Редагувати параметри вибору кольору"
       instructions:
-        alternative-color: "Насичений акцентний колір зазвичай використовується для більшості важливих кнопок на екрані."
-        content-link-color: "Колір шрифту більшості посилань."
-        primary-color: "Основний колір."
-        primary-color-dark: "Зазвичай темний варіант основного кольору, який використовується для ефектів наведення."
+        primary-button-color: "Насичений акцентний колір використовується для більшості важливих кнопок на екрані."
+        accent-color: "Колір для посилань та інших елементів, які має бути виділено."
         header-item-bg-hover-color: "Колір фону в заголовках інтерактивних елементів під курсором миші."
         header-item-font-color: "Колір шрифту в заголовках інтерактивних елементів."
         header-item-font-hover-color: "Колір шрифту в заголовках інтерактивних елементів під курсором миші."
@@ -1581,6 +1578,7 @@ uk:
       postgres_migration: "Міграція інсталяції в PostgreSQL"
       user_guides: "Посібники користувача"
       faq: "ЧаПи"
+      impressum: "Юридична інформація"
       glossary: "Глосарій"
       shortcuts: "Ярлики"
       blog: "Openproject блог"
@@ -1912,7 +1910,6 @@ uk:
   label_subject_or_id: "Тема або ідентифікатор"
   label_calendar_subscriptions: "Підписки на календарі"
   label_identifier: "Ідентифікатор"
-  label_impressum: "Правове повідомлення"
   label_in: "в"
   label_in_less_than: "менш ніж"
   label_in_more_than: "більше ніж"
@@ -1923,7 +1920,7 @@ uk:
   label_index_by_title: "Індекс за назвою"
   label_information: "Інформація"
   label_information_plural: "Інформація"
-  label_installation_guides: "Інструкції із встановлення"
+  label_installation_guides: "Інструкції зі встановлення"
   label_integer: "Ціле число"
   label_internal: "Власне"
   label_introduction_video: "Введення відео"

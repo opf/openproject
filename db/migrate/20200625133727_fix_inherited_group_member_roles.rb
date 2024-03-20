@@ -35,7 +35,7 @@ class FixInheritedGroupMemberRoles < ActiveRecord::Migration[6.0]
     # which will auto-create members for the users if necessary
     Member
       .includes(%i[principal])
-      .where(users: { type: 'Group' })
+      .where(users: { type: "Group" })
       .find_each do |member|
       # Recreate member_roles for all group members
       Groups::UpdateRolesService

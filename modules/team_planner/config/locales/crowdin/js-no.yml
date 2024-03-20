@@ -12,6 +12,8 @@
       remove_assignee: 'Fjern deltaker'
       two_weeks: 'Andre uke'
       one_week: 'Første uke'
+      four_weeks: '4-week'
+      eight_weeks: '8-week'
       work_week: 'Arbeidsuke'
       today: 'I dag'
       drag_here_to_remove: 'Dra hit for å fjerne deltker og start og sluttdato.'

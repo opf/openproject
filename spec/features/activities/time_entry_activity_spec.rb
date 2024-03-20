@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'TimeEntry activity',
+RSpec.describe "TimeEntry activity",
                :js,
                :with_cuprite,
                with_settings: { journal_aggregation_time_minutes: 0 } do
@@ -42,7 +42,7 @@ RSpec.describe 'TimeEntry activity',
                                                     edit_work_packages
                                                     edit_time_entries] })
   end
-  let(:user2) { create(:user, firstname: 'Peter', lastname: 'Parker') }
+  let(:user2) { create(:user, firstname: "Peter", lastname: "Parker") }
   let(:project) { build(:project_with_types, enabled_module_names: %w[costs activity work_package_tracking]) }
   let(:time_entry_activity) { create(:time_entry_activity) }
   let(:time_entry_activity2) { create(:time_entry_activity) }
@@ -56,7 +56,7 @@ RSpec.describe 'TimeEntry activity',
            hours: 5,
            user:,
            activity_id: time_entry_activity.id,
-           comments: 'lorem ipsum')
+           comments: "lorem ipsum")
   end
 
   before do
@@ -66,20 +66,20 @@ RSpec.describe 'TimeEntry activity',
   it "tracks the time_entry's activities" do
     visit project_activity_index_path(project)
 
-    check 'Spent time'
+    check "Spent time"
 
-    click_button 'Apply'
+    click_button "Apply"
 
     within("li.op-activity-list--item", match: :first) do
       expect(page).to have_link("#{project.types.first} ##{work_package.id}: #{work_package.subject}")
-      expect(page).to have_css('li', text: "Spent time: 5 hours")
-      expect(page).to have_link('Details')
-      click_link('Details')
+      expect(page).to have_css("li", text: "Spent time: 5 hours")
+      expect(page).to have_link("Details")
+      click_link("Details")
     end
 
     wait_for_reload
 
-    expect(find_field('work_package_id_arg_1_val').value).to eq(work_package.id.to_s)
+    expect(find_field("work_package_id_arg_1_val").value).to eq(work_package.id.to_s)
 
     old_comments = time_entry.comments
     old_spent_on = time_entry.spent_on
@@ -90,31 +90,31 @@ RSpec.describe 'TimeEntry activity',
       hours: 1.0,
       user: user2,
       activity_id: time_entry_activity2.id,
-      comments: 'updated comment'
+      comments: "updated comment"
     }
 
     time_entry.update!(new_attributes)
 
     visit project_activity_index_path(project)
 
-    check 'Spent time'
+    check "Spent time"
 
-    click_button 'Apply'
+    click_button "Apply"
 
     within("li.op-activity-list--item", match: :first) do
       expect(page).to have_link("#{project.types.first} ##{work_package2.id}: #{work_package2.subject}")
-      expect(page).to have_css('li', text: "Logged for #{user2.name}")
-      expect(page).to have_css('li', text: "Work package changed from #{work_package.name} to #{work_package2.name}")
-      expect(page).to have_css('li', text: "Spent time changed from 5 hours to 1 hour")
-      expect(page).to have_css('li', text: "Comment changed from #{old_comments} to #{time_entry.comments}")
-      expect(page).to have_css('li',
+      expect(page).to have_css("li", text: "Logged for #{user2.name}")
+      expect(page).to have_css("li", text: "Work package changed from #{work_package.name} to #{work_package2.name}")
+      expect(page).to have_css("li", text: "Spent time changed from 5 hours to 1 hour")
+      expect(page).to have_css("li", text: "Comment changed from #{old_comments} to #{time_entry.comments}")
+      expect(page).to have_css("li",
                                text: "Activity changed from #{time_entry_activity.name} to #{time_entry_activity2.name}")
-      expect(page).to have_css('li', text: "Date changed from #{old_spent_on} to #{time_entry.spent_on}")
-      click_link('Details')
+      expect(page).to have_css("li", text: "Date changed from #{old_spent_on} to #{time_entry.spent_on}")
+      click_link("Details")
     end
 
     wait_for_reload
 
-    expect(find_field('work_package_id_arg_1_val').value).to eq(work_package2.id.to_s)
+    expect(find_field("work_package_id_arg_1_val").value).to eq(work_package2.id.to_s)
   end
 end

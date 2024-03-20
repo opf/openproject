@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   ##
@@ -35,7 +35,7 @@ module Pages
     ##
     # Adds planned unit costs with the default cost type.
     def add_unit_costs!(num_units, comment: nil, expected_costs: nil)
-      edit_unit_costs! unit_rows, units: num_units, comment:, expected_costs:, type: 'new'
+      edit_unit_costs! unit_rows, units: num_units, comment:, expected_costs:, type: "new"
       add_unit_costs_row!
     end
 
@@ -47,7 +47,7 @@ module Pages
                         user_name:,
                         comment:,
                         expected_costs:,
-                        type: 'new')
+                        type: "new")
       add_labor_costs_row!
     end
 
@@ -68,7 +68,7 @@ module Pages
       row_id = "#budget_existing_#{type}_budget_item_attributes_#{id}"
 
       page.within row_id do
-        find('.costs--edit-planned-costs-btn').click
+        find(".costs--edit-planned-costs-btn").click
       end
     end
 
@@ -87,14 +87,14 @@ module Pages
 
     # Submit the costs form
     def submit_form!
-      find_by_id('budget-table--submit-button').click
+      find_by_id("budget-table--submit-button").click
     end
 
     ##
     # Adds planned labor costs with the default cost type.
     #
     # @param type [String] Either 'existing' (default) or 'new'
-    def edit_labor_costs!(id, hours: nil, user_name: nil, comment: nil, expected_costs: nil, type: 'existing')
+    def edit_labor_costs!(id, hours: nil, user_name: nil, comment: nil, expected_costs: nil, type: "existing")
       prefix = "#{labor_cost_attr_id(type)}_#{id}"
       options = { fill_options: { clear: :backspace } }
 
@@ -106,13 +106,13 @@ module Pages
     end
 
     def add_unit_costs_row!
-      find('#material_budget_items_fieldset .wp-inline-create--add-link').click
+      find("#material_budget_items_fieldset .wp-inline-create--add-link").click
 
       @unit_rows = unit_rows + 1
     end
 
     def add_labor_costs_row!
-      find('#labor_budget_items_fieldset .wp-inline-create--add-link').click
+      find("#labor_budget_items_fieldset .wp-inline-create--add-link").click
 
       @labor_rows = labor_rows + 1
     end
@@ -133,19 +133,19 @@ module Pages
     end
 
     def unit_costs_at(num_row)
-      unit_costs_container.all('tbody td.currency')[num_row - 1]
+      unit_costs_container.all("tbody td.currency")[num_row - 1]
     end
 
     def overall_unit_costs
-      unit_costs_container.first('tfoot td.currency')
+      unit_costs_container.first("tfoot td.currency")
     end
 
     def labor_costs_at(num_row)
-      labor_costs_container.all('tbody td.currency')[num_row - 1]
+      labor_costs_container.all("tbody td.currency")[num_row - 1]
     end
 
     def overall_labor_costs
-      labor_costs_container.first('tfoot td.currency')
+      labor_costs_container.first("tfoot td.currency")
     end
 
     def unit_costs_container
@@ -157,7 +157,7 @@ module Pages
     end
 
     def find_container(title)
-      find('h4', text: title).find(:xpath, '..')
+      find("h4", text: title).find(:xpath, "..")
     end
 
     ##

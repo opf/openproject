@@ -26,15 +26,14 @@ pl:
       no_results_title_text: W tym okresie nie było żadnych działań związanych z projektem.
   admin:
     plugins:
-      no_results_title_text: Aktualnie nie ma dostępnych żadnych dodatków.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Kolor motywu"
       color_theme_custom: "(Niestandardowe)"
       colors:
-        alternative-color: "Alternatywny"
-        content-link-color: "Czcionka linków"
-        primary-color: "Główny"
-        primary-color-dark: "Główny (ciemny)"
+        primary-button-color: "Przycisk główny"
+        accent-color: "Akcent"
         header-bg-color: "Tło nagłówka"
         header-item-bg-hover-color: "Tło nagłowka po najechaniu myszą"
         header-item-font-color: "Czcionka nagłówka"
@@ -53,10 +52,8 @@ pl:
       enterprise_more_info: "Uwaga: użyte logo będzie ogólnodostępne."
       manage_colors: "Edytuj kolor wybranych opcji"
       instructions:
-        alternative-color: "Silnie zaakcentowany kolor, zazwyczaj stosowany do najważniejszego przycisku na ekranie."
-        content-link-color: "Kolor czcionki większości linków."
-        primary-color: "Główny kolor."
-        primary-color-dark: "Zwykle ciemniejsza wersja głównego koloru, używana dla efektów po najechaniu kursorem."
+        primary-button-color: "Silnie zaakcentowany kolor, stosowany do najważniejszego przycisku na ekranie."
+        accent-color: "Kolor linków i innych ostatnio wyróżnionych elementów."
         header-item-bg-hover-color: "Kolor tła nagłówkowych elementów po najechaniu myszą."
         header-item-font-color: "Kolor czcionki elementów nagłówkowych."
         header-item-font-hover-color: "Kolor czcionki elementów nagłówkowych po najechaniu myszą."
@@ -697,7 +694,7 @@ pl:
         confirmation: "nie pasuje do %{attribute}."
         could_not_be_copied: "Nie można było (w pełni) skopiować %{dependency}."
         does_not_exist: "nie istnieje."
-        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise Edition"
+        error_enterprise_only: "%{action} jest dostępna tylko w OpenProject Enterprise edition"
         error_unauthorized: "— nie można uzyskac dostępu."
         error_readonly: "— podjęto próbę zapisu, ale nie jest zapisywalny."
         error_conflict: "Information has been updated by at least one other user in the meantime."
@@ -1583,6 +1580,7 @@ pl:
       postgres_migration: "Migrowanie instalacji do PostgreSQL"
       user_guides: "Przewodniki"
       faq: "Najczęściej Zadawane Pytania"
+      impressum: "Informacje prawne"
       glossary: "Słownik"
       shortcuts: "Podpowiedzi"
       blog: "Blog OpenProject"
@@ -1914,7 +1912,6 @@ pl:
   label_subject_or_id: "Temat lub identyfikator"
   label_calendar_subscriptions: "Subskrypcje Kalendarza"
   label_identifier: "Identyfikator"
-  label_impressum: "Informacje prawne"
   label_in: "w"
   label_in_less_than: "w mniej niż"
   label_in_more_than: "w ponad"
@@ -3028,7 +3025,7 @@ pl:
   text_work_packages_ref_in_commit_messages: "Odwołania i poprawki do pakietów roboczych w wiadomościach o zmianach"
   text_journal_added: "%{label} %{value} added"
   text_journal_attachment_added: "%{label} %{value} dodano jako załącznik"
-  text_journal_attachment_deleted: "%{label} %{old} usunięto jako załącznik"
+  text_journal_attachment_deleted: "%{label} %{value} usunięto jako załącznik"
   text_journal_changed_plain: "%{label} zmieniono z %{old} %{linebreak}na %{new}"
   text_journal_changed_no_detail: "%{label} updated"
   text_journal_changed_with_diff: "%{label} changed (%{link})"
@@ -3261,7 +3258,7 @@ pl:
         non_working: "%{day} jest teraz dniem nieroboczym"
       dates:
         working: "%{day} jest teraz roboczym"
-        non_working: "%{date} jest teraz wolnym od pracy"
+        non_working: "%{day} jest teraz wolnym od pracy"
   nothing_to_preview: "Nie ma nic do podglądu"
   api_v3:
     attributes:

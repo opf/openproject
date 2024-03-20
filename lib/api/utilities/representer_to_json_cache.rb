@@ -50,7 +50,7 @@ module API
       private
 
       def json_representer_name_cache_key
-        self.class.name.to_s.split('::') + ['json', I18n.locale]
+        self.class.name.to_s.split("::") + ["json", I18n.locale]
       end
     end
   end

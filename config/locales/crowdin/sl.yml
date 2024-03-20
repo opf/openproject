@@ -26,15 +26,14 @@ sl:
       no_results_title_text: Na projektu ni bilo nobene aktivnosti v izbranem časovnem okviru
   admin:
     plugins:
-      no_results_title_text: Trenutno vtičniki niso na voljo
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Barvna tema"
       color_theme_custom: "(Po meri)"
       colors:
-        alternative-color: "Alternativno"
-        content-link-color: "Pisava povezave"
-        primary-color: "Primarna"
-        primary-color-dark: "Primarna (temna)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Ozadje glave"
         header-item-bg-hover-color: "Ozadje glave, ko smo z miško na vsebini"
         header-item-font-color: "Pisava glave"
@@ -53,10 +52,8 @@ sl:
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Uredi možnosti izbire barve"
       instructions:
-        alternative-color: "Močna poudarjena barva, ki se običajno uporablja za najpomembnejši gumb na zaslonu."
-        content-link-color: "Barva pisave večine povezav."
-        primary-color: "Glavna barva."
-        primary-color-dark: "Običajno temnejša različica glavne barve, ki se uporablja za učinke lebdenja."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Barva ozadja enot v glavi katere je mogoče klikniti, ko se z miško premaknete na njih."
         header-item-font-color: "Barva pisave enot v glavi, na katere lahko kliknemo."
         header-item-font-hover-color: "Barva pisave elementov v glavi, na katere lahko kliknemo, ko se z miško premaknemo na njih."
@@ -1318,8 +1315,8 @@ sl:
       - "avgust"
       - "september"
       - "oktober"
-      - "november"
-      - "december"
+      - "November"
+      - "December"
     order:
       - :leto
       - :mesec
@@ -1583,6 +1580,7 @@ sl:
       postgres_migration: "Selitev namestitve na PostgreSQL"
       user_guides: "Uporabniški priročniki"
       faq: "FAQ"
+      impressum: "Legal notice"
       glossary: "Slovar"
       shortcuts: "Bližnjice"
       blog: "Blog OpenProject"
@@ -1914,7 +1912,6 @@ sl:
   label_subject_or_id: "Predmet ali ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Pravno obvestilo"
   label_in: "v"
   label_in_less_than: "v manj kot"
   label_in_more_than: "v več kot"

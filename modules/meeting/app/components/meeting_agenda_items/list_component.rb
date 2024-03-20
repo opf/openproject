@@ -44,9 +44,9 @@ module MeetingAgendaItems
 
     def wrapper_data_attributes
       {
-        controller: 'meeting-agenda-item-drag-and-drop',
-        'application-target': 'dynamic',
-        'target-tag': 'ul'
+        controller: "meeting-agenda-item-drag-and-drop",
+        "application-target": "dynamic",
+        "target-tag": "ul"
       }
     end
 
@@ -55,7 +55,7 @@ module MeetingAgendaItems
     end
 
     def insert_target_modifier_id
-      'meeting-agenda-items-new-item'
+      "meeting-agenda-items-new-item"
     end
   end
 end

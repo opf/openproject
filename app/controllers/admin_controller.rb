@@ -25,10 +25,10 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'open3'
+require "open3"
 
 class AdminController < ApplicationController
-  layout 'admin'
+  layout "admin"
 
   before_action :require_admin, except: %i[index]
   before_action :authorize_global, only: %i[index]
@@ -53,11 +53,11 @@ class AdminController < ApplicationController
   end
 
   def projects
-    redirect_to controller: 'projects', action: 'index'
+    redirect_to controller: "projects", action: "index"
   end
 
   def plugins
-    @plugins = Redmine::Plugin.all.sort
+    @plugins = Redmine::Plugin.not_bundled.sort
   end
 
   def test_email
@@ -91,9 +91,9 @@ class AdminController < ApplicationController
 
   def default_breadcrumb
     case params[:action]
-    when 'plugins'
+    when "plugins"
       t(:label_plugins)
-    when 'info'
+    when "info"
       t(:label_information)
     end
   end
@@ -111,12 +111,12 @@ class AdminController < ApplicationController
   def plaintext_extraction_checks
     if OpenProject::Database.allows_tsv?
       [
-        [:'extraction.available.pdftotext', Plaintext::PdfHandler.available?],
-        [:'extraction.available.unrtf', Plaintext::RtfHandler.available?],
-        [:'extraction.available.catdoc', Plaintext::DocHandler.available?],
-        [:'extraction.available.xls2csv', Plaintext::XlsHandler.available?],
-        [:'extraction.available.catppt', Plaintext::PptHandler.available?],
-        [:'extraction.available.tesseract', Plaintext::ImageHandler.available?]
+        [:"extraction.available.pdftotext", Plaintext::PdfHandler.available?],
+        [:"extraction.available.unrtf", Plaintext::RtfHandler.available?],
+        [:"extraction.available.catdoc", Plaintext::DocHandler.available?],
+        [:"extraction.available.xls2csv", Plaintext::XlsHandler.available?],
+        [:"extraction.available.catppt", Plaintext::PptHandler.available?],
+        [:"extraction.available.tesseract", Plaintext::ImageHandler.available?]
       ]
     else
       []
@@ -124,11 +124,11 @@ class AdminController < ApplicationController
   end
 
   def image_conversion_checks
-    [[:'image_conversion.imagemagick', image_conversion_libs_available?]]
+    [[:"image_conversion.imagemagick", image_conversion_libs_available?]]
   end
 
   def image_conversion_libs_available?
-    Open3.capture2e('convert', '-version').first.include?('ImageMagick')
+    Open3.capture2e("convert", "-version").first.include?("ImageMagick")
   rescue StandardError
     false
   end

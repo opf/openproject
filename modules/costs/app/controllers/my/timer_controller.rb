@@ -39,8 +39,8 @@ module My
 
     def find_active_timer
       query = Queries::TimeEntries::TimeEntryQuery.new(user: current_user)
-      query.where 'ongoing', '=', ['t']
-      query.where 'user_id', '=', [current_user.id]
+      query.where "ongoing", "=", ["t"]
+      query.where "user_id", "=", [current_user.id]
 
       @timer = query.results.first
     end

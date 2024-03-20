@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::WorkPackages::FormRepresenter do
   include API::V3::Utilities::PathHelper
@@ -45,19 +45,19 @@ RSpec.describe API::V3::WorkPackages::FormRepresenter do
     described_class.new(work_package, current_user:, errors:)
   end
 
-  context 'generation' do
+  context "generation" do
     subject(:generated) { representer.to_json }
 
-    it { is_expected.to be_json_eql('Form'.to_json).at_path('_type') }
+    it { is_expected.to be_json_eql("Form".to_json).at_path("_type") }
 
-    describe 'validation errors' do
-      context 'w/o errors' do
-        it { is_expected.to be_json_eql({}.to_json).at_path('_embedded/validationErrors') }
+    describe "validation errors" do
+      context "w/o errors" do
+        it { is_expected.to be_json_eql({}.to_json).at_path("_embedded/validationErrors") }
       end
 
-      context 'with errors' do
-        let(:subject_error_message) { 'Subject can\'t be blank!' }
-        let(:status_error_message) { 'Status can\'t be blank!' }
+      context "with errors" do
+        let(:subject_error_message) { "Subject can't be blank!" }
+        let(:status_error_message) { "Status can't be blank!" }
         let(:errors) { [subject_error, status_error] }
         let(:subject_error) { API::Errors::Validation.new(:subject, subject_error_message) }
         let(:status_error) { API::Errors::Validation.new(:status, status_error_message) }
@@ -65,11 +65,11 @@ RSpec.describe API::V3::WorkPackages::FormRepresenter do
         let(:api_status_error) { API::V3::Errors::ErrorRepresenter.new(status_error) }
         let(:api_errors) { { subject: api_subject_error, status: api_status_error } }
 
-        it { is_expected.to be_json_eql(api_errors.to_json).at_path('_embedded/validationErrors') }
+        it { is_expected.to be_json_eql(api_errors.to_json).at_path("_embedded/validationErrors") }
       end
     end
 
-    it { is_expected.to have_json_path('_embedded/payload') }
-    it { is_expected.to have_json_path('_embedded/schema') }
+    it { is_expected.to have_json_path("_embedded/payload") }
+    it { is_expected.to have_json_path("_embedded/schema") }
   end
 end

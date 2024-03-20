@@ -26,40 +26,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe DeletedUser do
   let(:user) { DeletedUser.new }
 
-  describe '#admin' do
+  describe "#admin" do
     it { expect(user.admin).to be_falsey }
   end
 
-  describe '#logged?' do
+  describe "#logged?" do
     it { expect(user).not_to be_logged }
   end
 
-  describe '#name' do
-    it { expect(user.name).to eq(I18n.t('user.deleted')) }
+  describe "#name" do
+    it { expect(user.name).to eq(I18n.t("user.deleted")) }
   end
 
-  describe '#mail' do
+  describe "#mail" do
     it { expect(user.mail).to be_nil }
   end
 
-  describe '#time_zone' do
+  describe "#time_zone" do
     it { expect(user.time_zone).to be_nil }
   end
 
-  describe '#rss_key' do
+  describe "#rss_key" do
     it { expect(user.rss_key).to be_nil }
   end
 
-  describe '#destroy' do
+  describe "#destroy" do
     it { expect(user.destroy).to be_falsey }
   end
 
-  describe '#available_custom_fields' do
+  describe "#available_custom_fields" do
     before do
       create(:user_custom_field)
     end
@@ -67,8 +67,8 @@ RSpec.describe DeletedUser do
     it { expect(user.available_custom_fields).to eq([]) }
   end
 
-  describe '#create' do
-    describe 'WHEN creating a second deleted user' do
+  describe "#create" do
+    describe "WHEN creating a second deleted user" do
       let(:u1) { build(:deleted_user) }
       let(:u2) { build(:deleted_user) }
 
@@ -79,20 +79,20 @@ RSpec.describe DeletedUser do
 
       it { expect(u1).not_to be_new_record }
       it { expect(u2).to be_new_record }
-      it { expect(u2.errors[:base]).to include 'A DeletedUser already exists.' }
+      it { expect(u2.errors[:base]).to include "A DeletedUser already exists." }
     end
   end
 
-  describe '#valid' do
-    describe 'WHEN no login, first-, lastname and mail is provided' do
+  describe "#valid" do
+    describe "WHEN no login, first-, lastname and mail is provided" do
       let(:user) { DeletedUser.new }
 
       it { expect(user).to be_valid }
     end
   end
 
-  describe '#first' do
-    describe 'WHEN a deleted user already exists' do
+  describe "#first" do
+    describe "WHEN a deleted user already exists" do
       let(:user) { build(:deleted_user) }
 
       before do
@@ -102,7 +102,7 @@ RSpec.describe DeletedUser do
       it { expect(DeletedUser.first).to eq(user) }
     end
 
-    describe 'WHEN no deleted user exists' do
+    describe "WHEN no deleted user exists" do
       it { expect(DeletedUser.first.is_a?(DeletedUser)).to be_truthy }
       it { expect(DeletedUser.first).not_to be_new_record }
     end

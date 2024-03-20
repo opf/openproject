@@ -30,13 +30,13 @@
 
 module UserPermissionsHelper
   def add_permissions(user, *)
-    role = Role.joins(members: :principal).where('users.id': user).first
+    role = Role.joins(members: :principal).where("users.id": user).first
     role.add_permission!(*)
     user.reload # clear user's project_role_cache
   end
 
   def remove_permissions(user, *)
-    role = Role.joins(members: :principal).where('users.id': user).first
+    role = Role.joins(members: :principal).where("users.id": user).first
     role.remove_permission!(*)
     user.reload # clear user's project_role_cache
   end

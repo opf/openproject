@@ -26,35 +26,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'REST API docs index page', :js do
+RSpec.describe "REST API docs index page", :js do
   subject(:visit_docs_page) { visit(api_docs_path) }
 
-  context 'with anonymous user' do
-    it 'displays the login form' do
+  context "with anonymous user" do
+    it "displays the login form" do
       visit_docs_page
 
       expect(page).to have_current_path(signin_path(back_url: api_docs_url))
     end
   end
 
-  context 'with authenticated user' do
+  context "with authenticated user" do
     current_user { create(:user) }
 
-    it 'displays the docs rendered by openapi-explorer' do
+    it "displays the docs rendered by openapi-explorer" do
       visit_docs_page
 
       # web component are harder to test with capybara
-      expect(find("openapi-explorer").shadow_root).to have_css('#api-title', text: 'OpenProject API V3 (Stable)')
+      expect(find("openapi-explorer").shadow_root).to have_css("#api-title", text: "OpenProject API V3 (Stable)")
     end
 
-    context 'when APIv3 documentation is disabled (from Administration > API > Enable docs page)',
+    context "when APIv3 documentation is disabled (from Administration > API > Enable docs page)",
             with_settings: { apiv3_docs_enabled: false } do
-      it 'renders a 404' do
+      it "renders a 404" do
         visit_docs_page
 
-        expect(page).to have_text 'Error 404'
+        expect(page).to have_text "Error 404"
       end
     end
   end

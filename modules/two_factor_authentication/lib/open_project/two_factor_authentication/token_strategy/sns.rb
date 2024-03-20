@@ -1,5 +1,5 @@
-require 'net/http'
-require 'aws-sdk-sns'
+require "net/http"
+require "aws-sdk-sns"
 
 module OpenProject::TwoFactorAuthentication
   module TokenStrategy
@@ -48,7 +48,7 @@ module OpenProject::TwoFactorAuthentication
       end
 
       def build_token_text(token)
-        I18n.t('two_factor_authentication.text_otp_delivery_message_sms', app_title: Setting.app_title, token:)
+        I18n.t("two_factor_authentication.text_otp_delivery_message_sms", app_title: Setting.app_title, token:)
       end
 
       ##
@@ -57,24 +57,24 @@ module OpenProject::TwoFactorAuthentication
       # Stored format: +xx yyy yyy yyyy (optional whitespacing)
       def build_user_phone
         phone = device.phone_number
-        phone.gsub!(/\s/, '')
+        phone.gsub!(/\s/, "")
 
         phone
       end
 
       # rubocop:disable Metrics/AbcSize
       def submit
-        aws_params = configuration_params.slice 'region', 'access_key_id', 'secret_access_key'
+        aws_params = configuration_params.slice "region", "access_key_id", "secret_access_key"
         sns = ::Aws::SNS::Client.new aws_params
 
         sns.set_sms_attributes(
           attributes: {
             # Use transactional message type to ensure timely delivery.
             # Amazon SNS optimizes the message delivery to achieve the highest reliability.
-            'DefaultSMSType' => 'Transactional',
+            "DefaultSMSType" => "Transactional",
 
             # Set sender ID name (may not be supported in all countries)
-            'DefaultSenderID' => configuration_params.fetch('sender_id', 'OpenProject')
+            "DefaultSenderID" => configuration_params.fetch("sender_id", "OpenProject")
           }
         )
 
@@ -94,7 +94,7 @@ module OpenProject::TwoFactorAuthentication
           "[2FA] SNS delivery failed for user #{user.login} (Error: #{e})"
         end
 
-        raise I18n.t('two_factor_authentication.sns.delivery_failed')
+        raise I18n.t("two_factor_authentication.sns.delivery_failed")
       end
       # rubocop:enable Metrics/AbcSize
     end

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Query::Results, 'Project filter integration' do
+RSpec.describe Query::Results, "Project filter integration" do
   let(:query) do
     build(:query,
           user:,
@@ -48,8 +48,8 @@ RSpec.describe Query::Results, 'Project filter integration' do
 
   shared_let(:user) do
     create(:user,
-           firstname: 'user',
-           lastname: '1',
+           firstname: "user",
+           lastname: "1",
            member_with_permissions: {
              parent_project => [:view_work_packages],
              child_project => [:view_work_packages],
@@ -68,85 +68,85 @@ RSpec.describe Query::Results, 'Project filter integration' do
     login_as user
   end
 
-  describe 'both parent projects selected' do
+  describe "both parent projects selected" do
     before do
-      query.add_filter 'project_id', '=', [parent_project.id, second_parent_project.id]
+      query.add_filter "project_id", "=", [parent_project.id, second_parent_project.id]
     end
 
-    context 'when subprojects included', with_settings: { display_subprojects_work_packages: true } do
-      it 'shows the sub work packages' do
+    context "when subprojects included", with_settings: { display_subprojects_work_packages: true } do
+      it "shows the sub work packages" do
         expect(query_results.work_packages).to contain_exactly(parent_wp, child_wp, second_parent_wp, second_child_wp)
       end
     end
 
-    context 'when subprojects not included', with_settings: { display_subprojects_work_packages: false } do
-      it 'does not show the sub work packages' do
+    context "when subprojects not included", with_settings: { display_subprojects_work_packages: false } do
+      it "does not show the sub work packages" do
         expect(query_results.work_packages).to contain_exactly(parent_wp, second_parent_wp)
       end
     end
 
-    context 'when subprojects explicitly disabled' do
+    context "when subprojects explicitly disabled" do
       before do
         query.include_subprojects = false
       end
 
-      it 'does not show the sub work packages' do
+      it "does not show the sub work packages" do
         expect(query_results.work_packages).to contain_exactly(parent_wp, second_parent_wp)
       end
     end
   end
 
-  describe 'one parent projects selected' do
+  describe "one parent projects selected" do
     before do
-      query.add_filter 'project_id', '=', [second_parent_project.id]
+      query.add_filter "project_id", "=", [second_parent_project.id]
     end
 
-    context 'when subprojects included', with_settings: { display_subprojects_work_packages: true } do
-      it 'shows the sub work packages' do
+    context "when subprojects included", with_settings: { display_subprojects_work_packages: true } do
+      it "shows the sub work packages" do
         expect(query_results.work_packages).to contain_exactly(second_parent_wp, second_child_wp)
       end
     end
 
-    context 'when subprojects not included', with_settings: { display_subprojects_work_packages: false } do
-      it 'does not show the sub work packages' do
+    context "when subprojects not included", with_settings: { display_subprojects_work_packages: false } do
+      it "does not show the sub work packages" do
         expect(query_results.work_packages).to contain_exactly(second_parent_wp)
       end
     end
 
-    context 'when subprojects explicitly disabled' do
+    context "when subprojects explicitly disabled" do
       before do
         query.include_subprojects = false
       end
 
-      it 'does not show the sub work packages' do
+      it "does not show the sub work packages" do
         expect(query_results.work_packages).to contain_exactly(second_parent_wp)
       end
     end
   end
 
-  describe 'one parent and one other child selected' do
+  describe "one parent and one other child selected" do
     before do
-      query.add_filter 'project_id', '=', [child_project.id, second_parent_project.id]
+      query.add_filter "project_id", "=", [child_project.id, second_parent_project.id]
     end
 
-    context 'when subprojects included', with_settings: { display_subprojects_work_packages: true } do
-      it 'shows the sub work packages' do
+    context "when subprojects included", with_settings: { display_subprojects_work_packages: true } do
+      it "shows the sub work packages" do
         expect(query_results.work_packages).to contain_exactly(child_wp, second_parent_wp, second_child_wp)
       end
     end
 
-    context 'when subprojects not included', with_settings: { display_subprojects_work_packages: false } do
-      it 'does not show the sub work packages' do
+    context "when subprojects not included", with_settings: { display_subprojects_work_packages: false } do
+      it "does not show the sub work packages" do
         expect(query_results.work_packages).to contain_exactly(child_wp, second_parent_wp)
       end
     end
 
-    context 'when subprojects explicitly disabled' do
+    context "when subprojects explicitly disabled" do
       before do
         query.include_subprojects = false
       end
 
-      it 'does not show the sub work packages' do
+      it "does not show the sub work packages" do
         expect(query_results.work_packages).to contain_exactly(child_wp, second_parent_wp)
       end
     end

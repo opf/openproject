@@ -1,5 +1,5 @@
-require 'open_project/plugins'
-require 'recaptcha'
+require "open_project/plugins"
+require "recaptcha"
 
 module OpenProject::Recaptcha
   class Engine < ::Rails::Engine
@@ -7,8 +7,8 @@ module OpenProject::Recaptcha
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'openproject-recaptcha',
-             author_url: 'https://www.openproject.org',
+    register "openproject-recaptcha",
+             author_url: "https://www.openproject.org",
              settings: {
                default: {
                  recaptcha_type: ::OpenProject::Recaptcha::TYPE_DISABLED,
@@ -18,9 +18,9 @@ module OpenProject::Recaptcha
              bundled: true do
       menu :admin_menu,
            :plugin_recaptcha,
-           { controller: '/recaptcha/admin', action: :show },
+           { controller: "/recaptcha/admin", action: :show },
            parent: :authentication,
-           caption: ->(*) { I18n.t('recaptcha.label_recaptcha') }
+           caption: ->(*) { I18n.t("recaptcha.label_recaptcha") }
     end
 
     initializer "openproject.configuration" do

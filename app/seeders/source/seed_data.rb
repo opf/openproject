@@ -119,7 +119,7 @@ class Source::SeedData
   attr_reader :data, :registry
 
   def fetch(path)
-    keys = path.to_s.split('.')
+    keys = path.to_s.split(".")
     data.dig(*keys)
   end
 end

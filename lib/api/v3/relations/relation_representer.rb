@@ -47,7 +47,7 @@ module API
             {
               href: api_v3_paths.relation(represented.id),
               method: :delete,
-              title: 'Remove relation'
+              title: "Remove relation"
             }
           end
         end

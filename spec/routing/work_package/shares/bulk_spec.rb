@@ -28,24 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package bulk sharing routing' do
-  describe 'DELETE /work_packages/:work_package_id/shares' do
-    it 'routes to work_packages/shares/bulk#destroy' do
-      expect(delete('/work_packages/1/shares/bulk'))
-        .to route_to(controller: 'work_packages/shares/bulk',
-                     action: 'destroy',
-                     work_package_id: '1')
+RSpec.describe "Work package bulk sharing routing" do
+  describe "DELETE /work_packages/:work_package_id/shares" do
+    it "routes to work_packages/shares/bulk#destroy" do
+      expect(delete("/work_packages/1/shares/bulk"))
+        .to route_to(controller: "work_packages/shares/bulk",
+                     action: "destroy",
+                     work_package_id: "1")
     end
   end
 
-  describe 'PATCH /work_packages/:work_package_id/shares' do
-    it 'routes to work_packages/shares/bulk#update' do
-      expect(patch('/work_packages/1/shares/bulk'))
-        .to route_to(controller: 'work_packages/shares/bulk',
-                     action: 'update',
-                     work_package_id: '1')
+  describe "PATCH /work_packages/:work_package_id/shares" do
+    it "routes to work_packages/shares/bulk#update" do
+      expect(patch("/work_packages/1/shares/bulk"))
+        .to route_to(controller: "work_packages/shares/bulk",
+                     action: "update",
+                     work_package_id: "1")
     end
   end
 end

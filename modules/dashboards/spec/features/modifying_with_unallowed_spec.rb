@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/dashboard'
+require_relative "../support/pages/dashboard"
 
-RSpec.describe 'Modifying a dashboard which already has widgets for which permissions are lacking', :js do
+RSpec.describe "Modifying a dashboard which already has widgets for which permissions are lacking", :js do
   let!(:project) do
     create(:project)
   end
@@ -60,12 +60,12 @@ RSpec.describe 'Modifying a dashboard which already has widgets for which permis
     dashboard_page.visit!
   end
 
-  it 'can add and modify widgets' do
+  it "can add and modify widgets" do
     dashboard_page.add_widget(dashboard.row_count, dashboard.column_count, :row, "News")
 
     sleep(0.1)
 
-    news_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+    news_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(2)")
 
     within news_widget.area do
       expect(page)
@@ -76,7 +76,7 @@ RSpec.describe 'Modifying a dashboard which already has widgets for which permis
 
     dashboard_page.visit!
 
-    news_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(2)')
+    news_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(2)")
 
     within news_widget.area do
       expect(page)
@@ -90,6 +90,6 @@ RSpec.describe 'Modifying a dashboard which already has widgets for which permis
     dashboard_page.visit!
 
     expect(page)
-      .to have_no_css('.grid--area.-widgeted:nth-of-type(2)')
+      .to have_no_css(".grid--area.-widgeted:nth-of-type(2)")
   end
 end

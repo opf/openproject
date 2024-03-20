@@ -44,13 +44,13 @@ class Queries::Principals::Filters::AccessToAnythingInProjectFilter < Queries::P
 
   def scope
     case operator
-    when '='
+    when "="
       visible_scope.in_anything_in_project(values)
-    when '!'
+    when "!"
       visible_scope.not_in_anything_in_project(values)
-    when '*'
+    when "*"
       member_included_scope.where.not(members: { id: nil })
-    when '!*'
+    when "!*"
       member_included_scope.where.not(id: Member.distinct(:user_id).select(:user_id))
     end
   end

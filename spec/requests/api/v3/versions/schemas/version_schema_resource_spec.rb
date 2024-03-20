@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Version schema resource', content_type: :json do
+RSpec.describe "API v3 Version schema resource", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -48,30 +48,30 @@ RSpec.describe 'API v3 Version schema resource', content_type: :json do
 
   subject(:response) { last_response }
 
-  describe '#GET /versions/schema' do
+  describe "#GET /versions/schema" do
     before do
       get path
     end
 
-    it 'responds with 200 OK' do
+    it "responds with 200 OK" do
       expect(subject.status).to eq(200)
     end
 
-    it 'returns a schema' do
+    it "returns a schema" do
       expect(subject.body)
-        .to be_json_eql('Schema'.to_json)
-        .at_path '_type'
+        .to be_json_eql("Schema".to_json)
+        .at_path "_type"
     end
 
-    it 'does not embed' do
+    it "does not embed" do
       expect(subject.body)
-        .not_to have_json_path('definingProject/_links/allowedValues')
+        .not_to have_json_path("definingProject/_links/allowedValues")
     end
 
-    context 'if lacking permissions' do
+    context "if lacking permissions" do
       let(:permissions) { [] }
 
-      it 'responds with 403' do
+      it "responds with 403" do
         expect(subject.status).to eq(403)
       end
     end

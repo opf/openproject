@@ -27,7 +27,7 @@
 #++
 
 namespace :test do
-  desc 'runs all tests'
+  desc "runs all tests"
   namespace :suite do
     task run: [:spec]
   end
@@ -35,6 +35,6 @@ end
 
 %w(spec).each do |type|
   if Rake::Task.task_defined?("#{type}:prepare")
-    Rake::Task["#{type}:prepare"].enhance(['assets:prepare_op'])
+    Rake::Task["#{type}:prepare"].enhance(["assets:prepare_op"])
   end
 end

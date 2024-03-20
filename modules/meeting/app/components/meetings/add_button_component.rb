@@ -44,7 +44,7 @@ module Meetings
     end
 
     def id
-      'add-meeting-button'
+      "add-meeting-button"
     end
 
     def accessibility_label_text

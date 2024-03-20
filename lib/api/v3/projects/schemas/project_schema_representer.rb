@@ -35,35 +35,35 @@ module API
           custom_field_injector type: :schema_representer
 
           schema :id,
-                 type: 'Integer'
+                 type: "Integer"
 
           schema :name,
-                 type: 'String',
+                 type: "String",
                  min_length: 1,
                  max_length: 255
 
           schema :identifier,
-                 type: 'String',
+                 type: "String",
                  required: true,
                  has_default: true,
                  min_length: 1,
                  max_length: 100
 
           schema :description,
-                 type: 'Formattable',
+                 type: "Formattable",
                  required: false
 
           schema :public,
-                 type: 'Boolean',
+                 type: "Boolean",
                  required: false
 
           schema :active,
-                 type: 'Boolean',
+                 type: "Boolean",
                  required: false
 
           schema_with_allowed_collection :status,
-                                         type: 'ProjectStatus',
-                                         name_source: ->(*) { I18n.t('activerecord.attributes.project.status_code') },
+                                         type: "ProjectStatus",
+                                         name_source: ->(*) { I18n.t("activerecord.attributes.project.status_code") },
                                          required: false,
                                          writable: ->(*) { represented.writable?(:status_code) },
                                          values_callback: ->(*) {
@@ -78,13 +78,13 @@ module API
                                          }
 
           schema :status_explanation,
-                 type: 'Formattable',
-                 name_source: ->(*) { I18n.t('activerecord.attributes.project.status_explanation') },
+                 type: "Formattable",
+                 name_source: ->(*) { I18n.t("activerecord.attributes.project.status_explanation") },
                  required: false,
                  writable: ->(*) { represented.writable?(:status_explanation) }
 
           schema_with_allowed_link :parent,
-                                   type: 'Project',
+                                   type: "Project",
                                    required: ->(*) {
                                      # Users only having the add_subprojects permission need to provide
                                      # a parent when creating a new project.
@@ -93,7 +93,7 @@ module API
                                    },
                                    href_callback: ->(*) {
                                      query_props = if represented.model.new_record?
-                                                     ''
+                                                     ""
                                                    else
                                                      "?of=#{represented.model.id}"
                                                    end
@@ -102,10 +102,10 @@ module API
                                    }
 
           schema :created_at,
-                 type: 'DateTime'
+                 type: "DateTime"
 
           schema :updated_at,
-                 type: 'DateTime'
+                 type: "DateTime"
 
           def self.represented_class
             ::Project

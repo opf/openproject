@@ -1,5 +1,5 @@
-require 'net/ldap'
-require 'net/ldap/dn'
+require "net/ldap"
+require "net/ldap/dn"
 
 module LdapGroups
   class SynchronizedGroup < ApplicationRecord
@@ -8,12 +8,12 @@ module LdapGroups
     belongs_to :ldap_auth_source
 
     belongs_to :filter,
-               class_name: '::LdapGroups::SynchronizedFilter'
+               class_name: "::LdapGroups::SynchronizedFilter"
 
     has_many :users,
-             class_name: '::LdapGroups::Membership',
+             class_name: "::LdapGroups::Membership",
              dependent: :delete_all,
-             foreign_key: 'group_id'
+             foreign_key: "group_id"
 
     validates_presence_of :dn
     validates_presence_of :group

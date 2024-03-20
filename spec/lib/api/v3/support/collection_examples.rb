@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_examples_for 'collection' do |name|
+RSpec.shared_examples_for "collection" do |name|
   it "has the #{name} property" do
     represented_elements = value.map { |v| element_decorator.call(v) }
 

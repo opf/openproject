@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/hypermedia'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/hypermedia"
+require "roar/json/hal"
 
 module API
   module Decorators
@@ -52,7 +52,7 @@ module API
       end
 
       def initialize(model, current_user:, embed_links: false)
-        raise 'no represented object passed' if model_required? && model.nil?
+        raise "no represented object passed" if model_required? && model.nil?
 
         @current_user = current_user
         @embed_links = embed_links

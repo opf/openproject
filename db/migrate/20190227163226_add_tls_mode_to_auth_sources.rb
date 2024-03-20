@@ -28,7 +28,7 @@
 
 class AddTlsModeToAuthSources < ActiveRecord::Migration[5.2]
   class MigratingAuthSource < ApplicationRecord
-    self.table_name = 'auth_sources'
+    self.table_name = "auth_sources"
   end
 
   def change

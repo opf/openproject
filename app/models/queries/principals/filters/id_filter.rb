@@ -30,7 +30,7 @@ class Queries::Principals::Filters::IdFilter < Queries::Principals::Filters::Pri
   include Queries::WorkPackages::Filter::MeValueFilterMixin
 
   def allowed_values
-    raise NotImplementedError, 'There would be too many candidates'
+    raise NotImplementedError, "There would be too many candidates"
   end
 
   def where

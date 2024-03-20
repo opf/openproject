@@ -28,6 +28,6 @@
 
 FactoryBot.define do
   factory :export do
-    factory :project_export, class: '::Projects::Export'
+    factory :project_export, class: "::Projects::Export"
   end
 end

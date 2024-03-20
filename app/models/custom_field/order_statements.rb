@@ -32,31 +32,31 @@ module CustomField::OrderStatements
   # Returns false, if the custom field can not be used for sorting.
   def order_statements
     case field_format
-    when 'list'
+    when "list"
       if multi_value?
         [select_custom_values_joined_options_as_group]
       else
         [select_custom_option_position]
       end
-    when 'string', 'text', 'date', 'bool'
+    when "string", "text", "date", "bool"
       if multi_value?
         [select_custom_values_as_group]
       else
         [coalesce_select_custom_value_as_string]
       end
-    when 'int', 'float'
+    when "int", "float"
       # Make the database cast values into numeric
       # Postgresql will raise an error if a value can not be casted!
       # CustomValue validations should ensure that it doesn't occur
       [select_custom_value_as_decimal]
-    when 'user'
+    when "user"
       [
-        order_by_user_sql('lastname'),
-        order_by_user_sql('firstname'),
-        order_by_user_sql('id')
+        order_by_user_sql("lastname"),
+        order_by_user_sql("firstname"),
+        order_by_user_sql("id")
       ]
-    when 'version'
-      [order_by_version_sql('name')]
+    when "version"
+      [order_by_version_sql("name")]
     end
   end
 
@@ -65,7 +65,7 @@ module CustomField::OrderStatements
   def null_handling(asc)
     return unless %w[int float].include?(field_format)
 
-    null_direction = asc ? 'FIRST' : 'LAST'
+    null_direction = asc ? "FIRST" : "LAST"
     Arel.sql("NULLS #{null_direction}")
   end
 
@@ -73,7 +73,7 @@ module CustomField::OrderStatements
   # which differ for multi-value select fields,
   # because in this case we do want the primary CV values
   def group_by_statement
-    return order_statements unless field_format == 'list'
+    return order_statements unless field_format == "list"
 
     if multi_value?
       # We want to return the internal IDs in the case of grouping

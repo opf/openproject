@@ -28,11 +28,11 @@
 
 class Reports::ResponsibleReport < Reports::Report
   def self.report_type
-    'responsible'
+    "responsible"
   end
 
   def field
-    @field ||= 'responsible_id'
+    @field ||= "responsible_id"
   end
 
   def rows

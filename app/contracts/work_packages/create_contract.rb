@@ -26,14 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'work_packages/base_contract'
+require "work_packages/base_contract"
 
 module WorkPackages
   class CreateContract < BaseContract
+    include AdminWritableTimestamps
+    allow_writable_timestamps
+
     attribute :author_id,
-              writable: false do
-      errors.add :author_id, :invalid if model.author != user
-    end
+              writable: -> { default_attributes_admin_writable? }
+
     attribute :status_id,
               # Overriding permission from WP base contract to ignore change_work_package_status for creation,
               # because we don't require that permission for writable status during WP creation.
@@ -62,7 +64,7 @@ module WorkPackages
 
     def attributes_changed_by_user
       # lock version is initialized by AR itself
-      super - ['lock_version']
+      super - ["lock_version"]
     end
   end
 end

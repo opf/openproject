@@ -12,12 +12,12 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
     end
 
     add_check_constraint :journals,
-                         'NOT isempty(validity_period) AND validity_period IS NOT NULL',
+                         "NOT isempty(validity_period) AND validity_period IS NOT NULL",
                          name: "journals_validity_period_not_empty"
   end
 
   def fix_all_journal_timestamps
-    max_attempts = attempts = (ENV['MAX_JOURNAL_TIMESTAMPS_ATTEMPTS'].presence && ENV['MAX_JOURNAL_TIMESTAMPS_ATTEMPTS'].to_i) ||
+    max_attempts = attempts = (ENV["MAX_JOURNAL_TIMESTAMPS_ATTEMPTS"].presence && ENV["MAX_JOURNAL_TIMESTAMPS_ATTEMPTS"].to_i) ||
                               Journal.all.maximum(:version)
 
     invalid_journables = nil

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::ManualSortFilter do
   let!(:in_order) { create(:work_package) }
@@ -37,11 +37,11 @@ RSpec.describe Queries::WorkPackages::Filter::ManualSortFilter do
   let(:query_double) { double(Query, ordered_work_packages: ar_double) }
 
   let(:instance) do
-    described_class.create!(name: :manual_sort, context: query_double, operator: 'ow', values: [])
+    described_class.create!(name: :manual_sort, context: query_double, operator: "ow", values: [])
   end
 
-  describe '#where' do
-    it 'filters based on the manual sort order' do
+  describe "#where" do
+    it "filters based on the manual sort order" do
       expect(WorkPackage.where(instance.where))
         .to contain_exactly(in_order2, in_order)
     end

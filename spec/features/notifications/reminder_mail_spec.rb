@@ -1,5 +1,5 @@
-require 'spec_helper'
-require_relative '../users/notifications/shared_examples'
+require "spec_helper"
+require_relative "../users/notifications/shared_examples"
 
 RSpec.describe "Reminder email sending", :js, :with_cuprite do
   let!(:project) { create(:project, members: { current_user => role }) }
@@ -9,13 +9,13 @@ RSpec.describe "Reminder email sending", :js, :with_cuprite do
   let(:work_package) { create(:work_package, project:) }
   let(:watched_work_package) { create(:work_package, project:, watcher_users: [current_user]) }
   let(:involved_work_package) { create(:work_package, project:, assigned_to: current_user) }
-  # The run_at time of the delayed job used for scheduling the reminder mails
+  # ApplicationJob#job_scheduled_at is used for scheduling the reminder mails
   # needs to be within a time frame eligible for sending out mails for the chose
   # time zone. For the time zone Hawaii (UTC-10) this means between 8:00:00 and 8:14:59 UTC.
-  # The job is scheduled to run every 15 min so the run_at will in production always move between the quarters of an hour.
+  # The job is scheduled to run every 15 min so the scheduled_at will in production always move between the quarters of an hour.
   # The current time can be way behind that.
-  let(:current_utc_time) { ActiveSupport::TimeZone['Pacific/Honolulu'].parse("2021-09-30T08:34:10").utc }
-  let(:job_run_at) { ActiveSupport::TimeZone['Pacific/Honolulu'].parse("2021-09-30T08:00:00").utc }
+  let(:current_utc_time) { ActiveSupport::TimeZone["Pacific/Honolulu"].parse("2021-09-30T08:34:10").utc }
+  let(:job_run_at) { ActiveSupport::TimeZone["Pacific/Honolulu"].parse("2021-09-30T08:00:00").utc }
 
   # Fix the time of the specs to ensure a consistent run
   around do |example|
@@ -28,10 +28,10 @@ RSpec.describe "Reminder email sending", :js, :with_cuprite do
     create(
       :user,
       preferences: {
-        time_zone: 'Pacific/Honolulu',
+        time_zone: "Pacific/Honolulu",
         daily_reminders: {
           enabled: true,
-          times: [hitting_reminder_slot_for('Pacific/Honolulu', current_utc_time)]
+          times: [hitting_reminder_slot_for("Pacific/Honolulu", current_utc_time)]
         },
         immediate_reminders: {
           mentioned: false
@@ -57,16 +57,13 @@ RSpec.describe "Reminder email sending", :js, :with_cuprite do
     work_package
     involved_work_package
 
-    ActiveJob::Base.queue_adapter.enqueued_jobs.clear
+    ActiveJob::Base.disable_test_adapter
 
-    # There is no delayed_job associated when using the testing backend of ActiveJob
-    # so we have to mock it.
-    allow(Notifications::ScheduleReminderMailsJob)
-      .to receive(:delayed_job)
-            .and_return(instance_double(Delayed::Backend::ActiveRecord::Job, run_at: job_run_at))
+    scheduled_job = Notifications::ScheduleReminderMailsJob.perform_later
+    GoodJob::Job.where(id: scheduled_job.job_id).update_all(scheduled_at: job_run_at)
   end
 
-  it 'sends a digest mail based on the configuration', with_settings: { journal_aggregation_time_minutes: 0 } do
+  it "sends a digest mail based on the configuration", with_settings: { journal_aggregation_time_minutes: 0 } do
     # Perform some actions the user listens to
     User.execute_as other_user do
       note = <<~NOTE
@@ -81,20 +78,16 @@ RSpec.describe "Reminder email sending", :js, :with_cuprite do
       work_package.add_journal(user: other_user, notes: note)
       work_package.save!
 
-      watched_work_package.subject = 'New watched work package subject'
+      watched_work_package.subject = "New watched work package subject"
       watched_work_package.save!
 
-      involved_work_package.description = 'New involved work package description'
+      involved_work_package.description = "New involved work package description"
       involved_work_package.save!
     end
 
-    # The Job is triggered by time so we mock it and the jobs started by it being triggered
-    Notifications::ScheduleReminderMailsJob.perform_later
-    2.times { perform_enqueued_jobs }
+    2.times { GoodJob.perform_inline }
 
-    expect(ActionMailer::Base.deliveries.length)
-      .to be 1
-
+    expect(ActionMailer::Base.deliveries.length).to be 1
     expect(ActionMailer::Base.deliveries.first.subject)
       .to eql "OpenProject - 1 unread notification including a mention"
   end

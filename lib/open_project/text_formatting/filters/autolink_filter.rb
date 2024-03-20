@@ -50,7 +50,7 @@ module OpenProject::TextFormatting
           enabled: true,
           # Having to specify the link class again here is unfortunate. But as rinku seems to run latest,
           # it cannot receive the link class like all the rest of the links.
-          classes: 'op-uc-link'
+          classes: "op-uc-link"
         }
       end
     end

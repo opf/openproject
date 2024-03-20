@@ -28,26 +28,26 @@
 
 class Widget::Filters < Widget::Base
   def render
-    spacer = content_tag :li, '', class: 'advanced-filters--spacer hide-when-print'
+    spacer = content_tag :li, "", class: "advanced-filters--spacer hide-when-print"
 
-    add_filter = content_tag :li, id: 'add_filter_block', class: 'advanced-filters--add-filter hide-when-print' do
-      add_filter_label = label_tag 'add_filter_select', I18n.t(:label_filter_add),
-                                   class: 'advanced-filters--add-filter-label'
-      add_filter_label += label_tag 'add_filter_select', I18n.t('js.filter.description.text_open_filter') + ' ' +
-                                                         I18n.t('js.filter.description.text_close_filter'),
-                                    class: 'hidden-for-sighted'
+    add_filter = content_tag :li, id: "add_filter_block", class: "advanced-filters--add-filter hide-when-print" do
+      add_filter_label = label_tag "add_filter_select", I18n.t(:label_filter_add),
+                                   class: "advanced-filters--add-filter-label"
+      add_filter_label += label_tag "add_filter_select", I18n.t("js.filter.description.text_open_filter") + " " +
+                                                         I18n.t("js.filter.description.text_close_filter"),
+                                    class: "hidden-for-sighted"
 
-      add_filter_value = content_tag :div, class: 'advanced-filters--add-filter-value' do
-        select_tag 'add_filter_select',
-                   options_for_select([['', '']] + selectables),
-                   class: 'advanced-filters--select',
+      add_filter_value = content_tag :div, class: "advanced-filters--add-filter-value" do
+        select_tag "add_filter_select",
+                   options_for_select([["", ""]] + selectables),
+                   class: "advanced-filters--select",
                    name: nil
       end
 
       (add_filter_label + add_filter_value).html_safe
     end
 
-    list = content_tag :ul, id: 'filter_table', class: 'advanced-filters--filters' do
+    list = content_tag :ul, id: "filter_table", class: "advanced-filters--filters" do
       render_filters + spacer + add_filter
     end
 
@@ -66,12 +66,12 @@ class Widget::Filters < Widget::Base
     engine::Filter.all.select(&:selectable?).map do |filter|
       opts = { id: "filter_#{filter.underscore_name}",
                class: "#{filter.underscore_name} advanced-filters--filter",
-               'data-filter-name': filter.underscore_name }
+               "data-filter-name": filter.underscore_name }
       active_instance = active_filters.detect { |f| f.instance_of?(filter) }
       if active_instance
-        opts[:'data-selected'] = true
+        opts[:"data-selected"] = true
       else
-        opts[:style] = 'display:none'
+        opts[:style] = "display:none"
       end
       content_tag :li, opts do
         render_filter filter, active_instance
@@ -81,7 +81,7 @@ class Widget::Filters < Widget::Base
 
   def render_filter(f_cls, f_inst)
     f = f_inst || f_cls
-    html = ''.html_safe
+    html = "".html_safe
     render_widget Label, f, to: html
     render_widget Operators, f, to: html
 

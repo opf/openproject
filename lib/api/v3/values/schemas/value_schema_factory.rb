@@ -67,7 +67,7 @@ module API::V3::Values::Schemas
     def type_for(_property)
       # This is but a stub. Currently, only 'start_date' and 'due_date'
       # need to be supported so this simple approach works.
-      'Date'
+      "Date"
     end
   end
 end

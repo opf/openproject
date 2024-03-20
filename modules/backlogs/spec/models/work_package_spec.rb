@@ -26,64 +26,64 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackage do
-  describe '#backlogs_types' do
-    it 'returns all the ids of types that are configures to be considered backlogs types' do
-      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [1], 'task_type' => 2 })
+  describe "#backlogs_types" do
+    it "returns all the ids of types that are configures to be considered backlogs types" do
+      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "story_types" => [1], "task_type" => 2 })
 
       expect(described_class.backlogs_types).to contain_exactly(1, 2)
     end
 
-    it 'returns an empty array if nothing is defined' do
+    it "returns an empty array if nothing is defined" do
       allow(Setting).to receive(:plugin_openproject_backlogs).and_return({})
 
       expect(described_class.backlogs_types).to eq([])
     end
 
-    it 'reflects changes to the configuration' do
-      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [1], 'task_type' => 2 })
+    it "reflects changes to the configuration" do
+      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "story_types" => [1], "task_type" => 2 })
       expect(described_class.backlogs_types).to contain_exactly(1, 2)
 
-      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [3], 'task_type' => 4 })
+      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "story_types" => [3], "task_type" => 4 })
       expect(described_class.backlogs_types).to contain_exactly(3, 4)
     end
   end
 
-  describe '#story' do
+  describe "#story" do
     shared_let(:project) { create(:project) }
     shared_let(:status) { create(:status) }
-    shared_let(:story_type) { create(:type, name: 'Story') }
-    shared_let(:task_type) { create(:type, name: 'Task') }
+    shared_let(:story_type) { create(:type, name: "Story") }
+    shared_let(:task_type) { create(:type, name: "Task") }
 
     before do
-      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'story_types' => [story_type.id],
-                                                                           'task_type' => task_type.id })
+      allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "story_types" => [story_type.id],
+                                                                           "task_type" => task_type.id })
     end
 
-    context 'for a WorkPackage' do
+    context "for a WorkPackage" do
       let(:work_package) { build_stubbed(:work_package) }
 
-      it 'returns nil' do
+      it "returns nil" do
         expect(work_package.story).to be_nil
       end
     end
 
-    context 'for a Story' do
+    context "for a Story" do
       let(:story) { create(:story, project:, status:, type: story_type) }
 
-      it 'returns self' do
+      it "returns self" do
         expect(story.story).to eq(story)
       end
     end
 
-    context 'for a Task' do
+    context "for a Task" do
       let(:parent_parent_story) { create(:story, project:, status:, type: story_type) }
       let(:parent_story) { create(:story, parent: parent_parent_story, project:, status:, type: story_type) }
       let(:task) { create(:task, parent: parent_story, project:, status:, type: task_type) }
 
-      it 'returns the closest WorkPackage ancestor being a Story' do
+      it "returns the closest WorkPackage ancestor being a Story" do
         expect(task.story).to eq(described_class.find(parent_story.id))
 
         # transform the parent_story into a task

@@ -56,13 +56,13 @@ module TeamPlanner
     def delete_link
       if table.current_user.allowed_in_project?(:manage_team_planner, project)
         link_to(
-          '',
+          "",
           project_team_planner_path(project, query.id),
-          class: 'spot-link icon icon-delete',
+          class: "spot-link icon icon-delete",
           method: :delete,
           data: {
             confirm: I18n.t(:text_are_you_sure),
-            'test-selector': "team-planner-remove-#{query.id}"
+            "test-selector": "team-planner-remove-#{query.id}"
           },
           title: t(:button_delete)
         )

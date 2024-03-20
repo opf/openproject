@@ -41,7 +41,7 @@ module API
 
         associated_resource :entity,
                             getter: ::API::V3::Shares::EntityRepresenterFactory.create_getter_lambda(:entity),
-                            link: ::API::V3::Shares::EntityRepresenterFactory.create_link_lambda(:entity, getter: 'entity_id')
+                            link: ::API::V3::Shares::EntityRepresenterFactory.create_link_lambda(:entity, getter: "entity_id")
 
         associated_resource :principal,
                             getter: ::API::V3::Principals::PrincipalRepresenterFactory
@@ -49,7 +49,7 @@ module API
                             setter: ::API::V3::Principals::PrincipalRepresenterFactory
                                       .create_setter_lambda(:user),
                             link: ::API::V3::Principals::PrincipalRepresenterFactory
-                                    .create_link_lambda(:principal, getter: 'user_id')
+                                    .create_link_lambda(:principal, getter: "user_id")
 
         associated_resources :roles,
                              getter: ->(*) do
@@ -77,7 +77,7 @@ module API
                               { member_roles: :role }]
 
         def _type
-          'Share'
+          "Share"
         end
 
         def unmarked_roles

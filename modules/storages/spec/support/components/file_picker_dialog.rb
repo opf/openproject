@@ -45,10 +45,10 @@ module Components
         case selection_count
         when 0
           expect(page).to have_button(disabled: true,
-                                      exact_text: I18n.t('js.storages.file_links.selection.zero'))
+                                      exact_text: I18n.t("js.storages.file_links.selection.zero"))
         else
           expect(page).to have_button(disabled: false,
-                                      exact_text: I18n.t('js.storages.file_links.selection', count: selection_count))
+                                      exact_text: I18n.t("js.storages.file_links.selection", count: selection_count))
         end
       end
     end
@@ -74,7 +74,7 @@ module Components
     def has_list_item?(text:, checked:, disabled:)
       page.within(container) do
         expect(page.find('[data-test-selector="op-files-picker-modal--list-item"]', text:))
-          .to have_field(type: 'checkbox', checked:, disabled:)
+          .to have_field(type: "checkbox", checked:, disabled:)
       end
     end
 
@@ -92,17 +92,17 @@ module Components
       end
     end
 
-    def use_breadcrumb(position: 'root' | 'grandparent' | 'parent')
+    def use_breadcrumb(position: "root" | "grandparent" | "parent")
       page.within(container) do
         crumbs = page.all('[data-test-selector="op-breadcrumb"]')
         case position
-        when 'root'
+        when "root"
           expect(crumbs.size).to be > 1
           crumbs[0].click
-        when 'parent'
+        when "parent"
           expect(crumbs.size).to be > 2
           crumbs[-2].click
-        when 'grandparent'
+        when "grandparent"
           expect(crumbs.size).to be > 3
           crumbs[-3].click
         end

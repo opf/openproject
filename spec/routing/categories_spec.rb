@@ -26,36 +26,36 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe CategoriesController do
-  it 'connects GET /projects/test/categories/new to categories#new' do
-    expect(get('/projects/test/categories/new')).to route_to(controller: 'categories',
-                                                             action: 'new',
-                                                             project_id: 'test')
+  it "connects GET /projects/test/categories/new to categories#new" do
+    expect(get("/projects/test/categories/new")).to route_to(controller: "categories",
+                                                             action: "new",
+                                                             project_id: "test")
   end
 
-  it 'connects POST /projects/test/categories to categories#create' do
-    expect(post('/projects/test/categories')).to route_to(controller: 'categories',
-                                                          action: 'create',
-                                                          project_id: 'test')
+  it "connects POST /projects/test/categories to categories#create" do
+    expect(post("/projects/test/categories")).to route_to(controller: "categories",
+                                                          action: "create",
+                                                          project_id: "test")
   end
 
-  it 'connects GET /categories/5/edit to categories#edit' do
-    expect(get('/categories/5/edit')).to route_to(controller: 'categories',
-                                                  action: 'edit',
-                                                  id: '5')
+  it "connects GET /categories/5/edit to categories#edit" do
+    expect(get("/categories/5/edit")).to route_to(controller: "categories",
+                                                  action: "edit",
+                                                  id: "5")
   end
 
-  it 'connects PUT /categories/5 to categories#update' do
-    expect(put('/categories/5')).to route_to(controller: 'categories',
-                                             action: 'update',
-                                             id: '5')
+  it "connects PUT /categories/5 to categories#update" do
+    expect(put("/categories/5")).to route_to(controller: "categories",
+                                             action: "update",
+                                             id: "5")
   end
 
-  it 'connects DELETE /categories/5 to categories#delete' do
-    expect(delete('/categories/5')).to route_to(controller: 'categories',
-                                                action: 'destroy',
-                                                id: '5')
+  it "connects DELETE /categories/5 to categories#delete" do
+    expect(delete("/categories/5")).to route_to(controller: "categories",
+                                                action: "destroy",
+                                                id: "5")
   end
 end

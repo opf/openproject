@@ -42,12 +42,12 @@ module OpenProject
           s.gsub!(%r{^((\d+)\s*(h|hours?))?\s*((\d+)\s*(m|min)?)?$}) { |m| $1 || $4 ? ($2.to_i + ($5.to_i / 60.0)) : m[0] }
         end
         # 2,5 => 2.5
-        s.tr!(',', '.')
+        s.tr!(",", ".")
         begin; Kernel.Float(s); rescue StandardError; nil; end
       end
 
       def with_leading_slash
-        starts_with?('/') ? self : "/#{self}"
+        starts_with?("/") ? self : "/#{self}"
       end
     end
   end

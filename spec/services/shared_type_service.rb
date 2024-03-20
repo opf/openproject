@@ -26,20 +26,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-RSpec.shared_context 'with custom field params' do
-  let(:cf1) { create(:work_package_custom_field, field_format: 'text') }
-  let(:cf2) { create(:work_package_custom_field, field_format: 'text') }
-  let!(:cf3) { create(:work_package_custom_field, field_format: 'text') }
+RSpec.shared_context "with custom field params" do
+  let(:cf1) { create(:work_package_custom_field, field_format: "text") }
+  let(:cf2) { create(:work_package_custom_field, field_format: "text") }
+  let!(:cf3) { create(:work_package_custom_field, field_format: "text") }
 
   let(:attribute_groups) do
     {
       attribute_groups: [
-        { 'type' => 'attribute',
-          'name' => 'group1',
-          'attributes' => [{ 'key' => cf1.attribute_name }, { 'key' => cf2.attribute_name }] },
-        { 'type' => 'attribute',
-          'name' => 'groups',
-          'attributes' => [{ 'key' => cf2.attribute_name }] }
+        { "type" => "attribute",
+          "name" => "group1",
+          "attributes" => [{ "key" => cf1.attribute_name }, { "key" => cf2.attribute_name }] },
+        { "type" => "attribute",
+          "name" => "groups",
+          "attributes" => [{ "key" => cf2.attribute_name }] }
       ]
     }
   end
@@ -47,7 +47,7 @@ RSpec.shared_context 'with custom field params' do
   let(:params) { attribute_groups }
 end
 
-RSpec.shared_examples_for 'type service' do
+RSpec.shared_examples_for "type service" do
   let(:success) { true }
   let(:params) { {} }
   let!(:contract) do
@@ -66,41 +66,41 @@ RSpec.shared_examples_for 'type service' do
   let(:contract_errors) { instance_double(ActiveModel::Errors) }
   let(:contract_valid) { success }
 
-  describe '#call' do
+  describe "#call" do
     before do
       allow(type)
         .to receive(:save)
         .and_return(success)
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(service_call).to be_success
     end
 
-    it 'yields the block with success' do
+    it "yields the block with success" do
       expect(service_call(&:success?)).to be_truthy
     end
 
-    describe 'with attributes' do
-      let(:params) { { name: 'blubs blubs' } }
+    describe "with attributes" do
+      let(:params) { { name: "blubs blubs" } }
 
-      it 'set the values provided on the call' do
+      it "set the values provided on the call" do
         service_call
 
         expect(type.name).to eql params[:name]
       end
     end
 
-    describe 'attribute groups' do
+    describe "attribute groups" do
       before do
         allow(type).to receive(:reset_attribute_groups)
         allow(type).to receive(:attribute_groups=)
       end
 
-      context 'when not given' do
-        let(:params) { { name: 'blubs blubs' } }
+      context "when not given" do
+        let(:params) { { name: "blubs blubs" } }
 
-        it 'set the values provided on the call' do
+        it "set the values provided on the call" do
           service_call
 
           expect(type).not_to have_received(:reset_attribute_groups)
@@ -109,10 +109,10 @@ RSpec.shared_examples_for 'type service' do
         end
       end
 
-      context 'when empty' do
+      context "when empty" do
         let(:params) { { attribute_groups: [] } }
 
-        it 'set the values provided on the call' do
+        it "set the values provided on the call" do
           service_call
 
           expect(type).to have_received(:reset_attribute_groups)
@@ -120,10 +120,10 @@ RSpec.shared_examples_for 'type service' do
         end
       end
 
-      context 'when other' do
-        let(:params) { { attribute_groups: [{ 'type' => 'attribute', 'name' => 'foo', 'attributes' => [] }] } }
+      context "when other" do
+        let(:params) { { attribute_groups: [{ "type" => "attribute", "name" => "foo", "attributes" => [] }] } }
 
-        it 'set the values provided on the call' do
+        it "set the values provided on the call" do
           service_call
 
           expect(type).not_to have_received(:reset_attribute_groups)
@@ -132,10 +132,10 @@ RSpec.shared_examples_for 'type service' do
       end
     end
 
-    describe 'custom fields' do
-      include_context 'with custom field params'
+    describe "custom fields" do
+      include_context "with custom field params"
 
-      it 'enables the custom fields that are passed via attribute_groups' do
+      it "enables the custom fields that are passed via attribute_groups" do
         allow(type)
           .to receive(:work_package_attributes)
           .and_return(cf1.attribute_name => {}, cf2.attribute_name => {})
@@ -149,24 +149,24 @@ RSpec.shared_examples_for 'type service' do
         expect(type).to have_received(:custom_field_ids=)
       end
 
-      context 'when all the projects are associated with the type' do
+      context "when all the projects are associated with the type" do
         before do
           type.projects = create_list :project, 2
         end
 
-        it 'enables the custom fields in the projects' do
+        it "enables the custom fields in the projects" do
           expect { service_call }
             .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
             .from([[], []])
             .to([[cf1, cf2], [cf1, cf2]])
         end
 
-        context 'when a custom field is already associated with the type' do
+        context "when a custom field is already associated with the type" do
           before do
             type.custom_field_ids = [cf1.id]
           end
 
-          it 'enables the new custom field only' do
+          it "enables the new custom field only" do
             expect { service_call }
               .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
               .from([[], []])
@@ -174,12 +174,12 @@ RSpec.shared_examples_for 'type service' do
           end
         end
 
-        context 'when all custom fields are already associated with the type' do
+        context "when all custom fields are already associated with the type" do
           before do
             type.custom_field_ids = [cf1.id, cf2.id]
           end
 
-          it 'enables no custom field' do
+          it "enables no custom field" do
             expect { service_call }
               .not_to change { Project.where(id: type.project_ids).map(&:work_package_custom_field_ids) }
               .from([[], []])
@@ -187,7 +187,7 @@ RSpec.shared_examples_for 'type service' do
         end
       end
 
-      context 'when a project is being set on the type' do
+      context "when a project is being set on the type" do
         let(:projects) { create_list(:project, 2) }
         let(:active_project) { projects.first }
         let(:project_ids) { { project_ids: [*projects.map { |p| p.id.to_s }, ""] } }
@@ -199,19 +199,19 @@ RSpec.shared_examples_for 'type service' do
           type.projects << active_project
         end
 
-        it 'enables the custom fields for all the projects' do
+        it "enables the custom fields for all the projects" do
           expect { service_call }
             .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
             .from([[]])
             .to([[cf1, cf2], [cf1, cf2]])
         end
 
-        context 'when a custom field is already associated with the type' do
+        context "when a custom field is already associated with the type" do
           before do
             type.custom_field_ids = [cf1.id]
           end
 
-          it 'enables the new cf for the existing project and enables both cfs for the new project' do
+          it "enables the new cf for the existing project and enables both cfs for the new project" do
             expect { service_call }
               .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
               .from([[]])
@@ -219,14 +219,14 @@ RSpec.shared_examples_for 'type service' do
           end
         end
 
-        context 'when all custom fields are already associated with the type' do
+        context "when all custom fields are already associated with the type" do
           let(:params) { project_ids }
 
           before do
             type.custom_field_ids = [cf1.id, cf2.id]
           end
 
-          it 'enables the custom fields in the new project only' do
+          it "enables the custom fields in the new project only" do
             expect { service_call }
               .to change { Project.where(id: type.project_ids).map(&:work_package_custom_fields) }
               .from([[]])
@@ -236,15 +236,15 @@ RSpec.shared_examples_for 'type service' do
       end
     end
 
-    describe 'query group' do
+    describe "query group" do
       let(:query_params) do
-        sort_by = JSON::dump(['status:desc'])
-        filters = JSON::dump([{ 'status_id' => { 'operator' => '=', 'values' => %w(1 2) } }])
+        sort_by = JSON::dump(["status:desc"])
+        filters = JSON::dump([{ "status_id" => { "operator" => "=", "values" => %w(1 2) } }])
 
-        { 'sortBy' => sort_by, 'filters' => filters }
+        { "sortBy" => sort_by, "filters" => filters }
       end
       let(:query_group_params) do
-        { 'type' => 'query', 'name' => 'group1', 'query' => JSON.dump(query_params) }
+        { "type" => "query", "name" => "group1", "query" => JSON.dump(query_params) }
       end
       let(:params) { { attribute_groups: [query_group_params] } }
       let(:query) { Query.new }
@@ -257,7 +257,7 @@ RSpec.shared_examples_for 'type service' do
           .and_return(query)
       end
 
-      it 'assigns the fully parsed query to the type\'s attribute group with the system user as the querie\'s user' do
+      it "assigns the fully parsed query to the type's attribute group with the system user as the querie's user" do
         expect(service_call).to be_success
 
         expect(type.attribute_groups[0].query)
@@ -273,11 +273,11 @@ RSpec.shared_examples_for 'type service' do
           .to eq User.system
       end
 
-      context 'when the query parse service reports an error' do
+      context "when the query parse service reports an error" do
         let(:success) { false }
         let(:service_result) { ServiceResult.failure(result: nil) }
 
-        it 'reports the error' do
+        it "reports the error" do
           expect(service_call).to be_failure
 
           expect(type.attribute_groups[0].query)
@@ -286,30 +286,30 @@ RSpec.shared_examples_for 'type service' do
       end
     end
 
-    describe 'on failure' do
+    describe "on failure" do
       let(:success) { false }
       let(:params) { { name: nil } }
 
       subject { service_call }
 
-      it 'returns a failed service result' do
+      it "returns a failed service result" do
         expect(subject).not_to be_success
       end
 
-      it 'returns the errors of the type' do
+      it "returns the errors of the type" do
         expect(subject.errors)
           .to eql contract_errors
       end
 
-      describe 'custom fields' do
-        include_context 'with custom field params'
+      describe "custom fields" do
+        include_context "with custom field params"
 
-        context 'when the type is associated with projects' do
+        context "when the type is associated with projects" do
           before do
             type.projects = create_list :project, 2
           end
 
-          it 'does not changes project custom fields' do
+          it "does not changes project custom fields" do
             expect { service_call }
               .not_to change { Project.where(id: type.project_ids).map(&:work_package_custom_field_ids) }
               .from([[], []])

@@ -28,10 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.shared_examples 'sets the appropriate sort_criteria on each query' do
-  it '', :aggregate_failures do
+RSpec.shared_examples "sets the appropriate sort_criteria on each query" do
+  it "", :aggregate_failures do
     subject
 
     queries_sort_criteria = queries.map(&:sort_criteria)

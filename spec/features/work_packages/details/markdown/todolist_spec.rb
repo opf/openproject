@@ -68,11 +68,11 @@ RSpec.describe 'Todolists in CKEditor', :js do
 
       # Select first and first nested item
       ckeditor.in_editor do |_container, editable|
-        first_item = editable.all('.op-uc-list li')[0]
+        first_item = editable.all('.todo-list li')[0]
         first_item.find('input[type=checkbox]', visible: :all).set true
 
         # First nested
-        first_nested_item = editable.all('.op-uc-list .op-uc-list li')[0]
+        first_nested_item = editable.all('.todo-list .todo-list li')[0]
         first_nested_item.find('input[type=checkbox]', visible: :all).set true
 
         sleep 0.5
@@ -165,7 +165,7 @@ RSpec.describe 'Todolists in CKEditor', :js do
 
       # Update the link text, no idea how to do this differently
       ckeditor.in_editor do |_container, editable|
-        link = editable.find('.op-uc-list .op-uc-list a')
+        link = editable.find('.todo-list .todo-list a')
         link.set('This is a link')
 
         sleep 0.5
@@ -173,7 +173,7 @@ RSpec.describe 'Todolists in CKEditor', :js do
 
       # Select nested item
       ckeditor.in_editor do |_container, editable|
-        editable.find('.op-uc-list .op-uc-list input[type=checkbox]', visible: :all).set true
+        editable.find('.todo-list .todo-list input[type=checkbox]', visible: :all).set true
 
         sleep 0.5
       end
@@ -206,7 +206,7 @@ RSpec.describe 'Todolists in CKEditor', :js do
 
       # Select first item
       ckeditor.in_editor do |_container, editable|
-        first_item = editable.all('.op-uc-list li')[0]
+        first_item = editable.all('.todo-list li')[0]
         first_item.find('input[type=checkbox]', visible: :all).set true
 
         sleep 0.5
@@ -229,13 +229,13 @@ RSpec.describe 'Todolists in CKEditor', :js do
       # Expect still the same when editing again
       field.activate!
       ckeditor.in_editor do |_container, editable|
-        expect(editable).to have_css('.op-uc-list li', count: 2)
+        expect(editable).to have_css('.todo-list li', count: 2)
 
-        first_item = editable.all('.op-uc-list li')[0].find('input[type=checkbox]', visible: :all)
+        first_item = editable.all('.todo-list li')[0].find('input[type=checkbox]', visible: :all)
         expect(first_item).to be_checked
 
         # Check last item
-        last_item = editable.all('.op-uc-list li').last
+        last_item = editable.all('.todo-list li').last
         last_item.find('input[type=checkbox]', visible: :all).set true
 
         sleep 0.5

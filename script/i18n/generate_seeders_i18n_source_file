@@ -29,19 +29,19 @@
 #++
 
 if !defined? Rails
-  puts 'Loading necessary files to run without loading Rails'
+  puts "Loading necessary files to run without loading Rails"
   puts "(Alternatively, you can try running bundle exec rails runner #{$0})"
   puts
 
-  require 'pathname'
-  require 'yaml'
-  require 'active_support/core_ext/hash/deep_merge'
-  require 'active_support/core_ext/hash/keys'
-  require 'active_support/core_ext/object/blank'
+  require "pathname"
+  require "yaml"
+  require "active_support/core_ext/hash/deep_merge"
+  require "active_support/core_ext/hash/keys"
+  require "active_support/core_ext/object/blank"
 
   class Rails
     def self.root
-      Pathname.new File.expand_path('../../', __dir__)
+      Pathname.new File.expand_path("../../", __dir__)
     end
   end
 
@@ -71,7 +71,7 @@ class GenerateSeederSourceTranslationFiles
       source_data = translatable_data(seed_files)
       return if source_data.blank?
 
-      source_file_path(dir).open('w') do |f|
+      source_file_path(dir).open("w") do |f|
         puts "Generate crowdin source file #{relative_path(f.path)}"
 
         f.puts comment
@@ -80,7 +80,7 @@ class GenerateSeederSourceTranslationFiles
     end
 
     def create_additional_dummy_crowdin_source_file
-      dummy_file = Rails.root.join('modules/boards/config/locales/en.seeders.yml')
+      dummy_file = Rails.root.join("modules/boards/config/locales/en.seeders.yml")
       content = <<~CONTENT
         #{comment}
         #
@@ -101,9 +101,9 @@ class GenerateSeederSourceTranslationFiles
       base_path = seed_file_path
       loop do
         base_path, dir = base_path.split
-        break if dir.to_s == 'app'
+        break if dir.to_s == "app"
       end
-      base_path.join('config/locales/en.seeders.yml')
+      base_path.join("config/locales/en.seeders.yml")
     end
 
     def comment
@@ -125,14 +125,14 @@ class GenerateSeederSourceTranslationFiles
       return if merged_translatables.blank?
 
       {
-        'en' => {
+        "en" => {
           Source::Translate::I18N_PREFIX => merged_translatables
         }
       }
     end
 
     def relative_path(path)
-      return path unless path.start_with?('/')
+      return path unless path.start_with?("/")
 
       Pathname.new(path).relative_path_from(Rails.root).to_s
     end

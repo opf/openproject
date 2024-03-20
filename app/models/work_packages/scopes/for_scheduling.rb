@@ -159,7 +159,7 @@ module WorkPackages::Scopes
           ::OpenProject::SqlSanitization
             .sanitize "(:id, false, false)",
                       id: wp.id
-        end.join(', ')
+        end.join(", ")
 
         <<~SQL.squish
           to_schedule (id, manually) AS (

@@ -5,11 +5,11 @@ module Boards
     private
 
     def query_name
-      'Unnamed list'
+      "Unnamed list"
     end
 
     def query_filters
-      [{ manual_sort: { operator: 'ow', values: [] } }]
+      [{ manual_sort: { operator: "ow", values: [] } }]
     end
 
     def options_for_widgets(params)

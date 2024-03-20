@@ -39,8 +39,8 @@ class Projects::QueriesController < ApplicationController
   end
 
   def new
-    render template: '/projects/index',
-           layout: 'global',
+    render template: "/projects/index",
+           layout: "global",
            locals: { query: @query, state: :edit }
   end
 
@@ -52,8 +52,8 @@ class Projects::QueriesController < ApplicationController
     if call.success?
       redirect_to projects_path(query_id: call.result.id)
     else
-      render template: '/projects/index',
-             layout: 'global',
+      render template: "/projects/index",
+             layout: "global",
              locals: { query: call.result, state: :edit }
     end
   end

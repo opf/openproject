@@ -52,7 +52,7 @@ module WorkPackagesControllerHelper
 
     unless @query.valid?
       # Ensure outputting an html response
-      request.format = 'html'
+      request.format = "html"
       render_400(message: @query.errors.full_messages.join(". "))
     end
   rescue ActiveRecord::RecordNotFound

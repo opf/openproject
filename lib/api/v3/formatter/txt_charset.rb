@@ -50,7 +50,7 @@ module API::V3::Formatter
     #
     # This might return an invalid charset as only pattern matching is applied.
     def self.charset(env)
-      content_type = env['CONTENT_TYPE'].to_s
+      content_type = env["CONTENT_TYPE"].to_s
 
       if (matches = content_type.match(/charset=([^\s;]+)/))
         matches[1]

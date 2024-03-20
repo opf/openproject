@@ -34,12 +34,12 @@ class Document < ApplicationRecord
 
   acts_as_journalized
   acts_as_event title: Proc.new { |o| "#{Document.model_name.human}: #{o.title}" },
-                url: Proc.new { |o| { controller: '/documents', action: 'show', id: o.id } },
+                url: Proc.new { |o| { controller: "/documents", action: "show", id: o.id } },
                 author: Proc.new { |o|
                           o.attachments.find(:first, order: "#{Attachment.table_name}.created_at ASC").try(:author)
                         }
 
-  acts_as_searchable columns: ['title', "#{table_name}.description"],
+  acts_as_searchable columns: ["title", "#{table_name}.description"],
                      include: :project,
                      references: :projects,
                      date_column: "#{table_name}.created_at"

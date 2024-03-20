@@ -26,15 +26,14 @@ ro:
       no_results_title_text: Nu s-a înregistrat nicio activitate pentru acest proiect în această perioadă de timp.
   admin:
     plugins:
-      no_results_title_text: În acest moment nu există plugin-uri disponibile.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Culoarea temei"
       color_theme_custom: "(Personalizat)"
       colors:
-        alternative-color: "Logo-ul alternativ"
-        content-link-color: "Font Legături"
-        primary-color: "Primar"
-        primary-color-dark: "Primară (închisă)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Fundal antet"
         header-item-bg-hover-color: "Fundal antet la plutire"
         header-item-font-color: "Font Antet"
@@ -53,10 +52,8 @@ ro:
       enterprise_more_info: "Notă: logo-ul utilizat va fi accesibil publicului."
       manage_colors: "Modificați opțiunile de selecție ale culorilor"
       instructions:
-        alternative-color: "Culoare accentuată puternică, folosită de obicei pentru cel mai important buton de pe un ecran."
-        content-link-color: "Culoarea fontului pentru majoritatea link-urilor."
-        primary-color: "Culoarea principală."
-        primary-color-dark: "De obicei, o versiune mai închisă a culorii principale, utilizată pentru efectele hover."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Culoarea de fundal a obiectelor care pot fi selectate când cursorului se află deasupra lor."
         header-item-font-color: "Culoare fontului pentru elementele selectabile din antet."
         header-item-font-hover-color: "Culoarea fontului pentru elementele selectabile din antet când cursorul se află deasupra lor."
@@ -1559,6 +1556,7 @@ ro:
       postgres_migration: "Migrarea instalației dvs. către PostgreSQL"
       user_guides: "Ghiduri utilizator"
       faq: "Întrebări Frecvente"
+      impressum: "Legal notice"
       glossary: "Glosar"
       shortcuts: "Scurtături"
       blog: "Blog-ul OpenProject"
@@ -1890,7 +1888,6 @@ ro:
   label_subject_or_id: "Subiect sau ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Notificare legala"
   label_in: "în"
   label_in_less_than: "în mai puțin de"
   label_in_more_than: "în mai mult de"

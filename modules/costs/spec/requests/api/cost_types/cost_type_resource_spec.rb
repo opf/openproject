@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Cost Type resource' do
+RSpec.describe "API v3 Cost Type resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -48,38 +48,38 @@ RSpec.describe 'API v3 Cost Type resource' do
     get get_path
   end
 
-  describe 'cost_types/:id' do
+  describe "cost_types/:id" do
     let(:get_path) { api_v3_paths.cost_type cost_type.id }
 
-    context 'user can see cost entries' do
-      context 'valid id' do
-        it 'returns HTTP 200' do
+    context "user can see cost entries" do
+      context "valid id" do
+        it "returns HTTP 200" do
           expect(response.status).to be(200)
         end
       end
 
-      context 'cost type deleted' do
+      context "cost type deleted" do
         let!(:cost_type) { create(:cost_type, :deleted) }
 
-        it_behaves_like 'not found'
+        it_behaves_like "not found"
       end
 
-      context 'invalid id' do
-        let(:get_path) { api_v3_paths.cost_type 'bogus' }
+      context "invalid id" do
+        let(:get_path) { api_v3_paths.cost_type "bogus" }
 
-        it_behaves_like 'param validation error' do
-          let(:id) { 'bogus' }
+        it_behaves_like "param validation error" do
+          let(:id) { "bogus" }
         end
       end
     end
 
-    context 'user can\'t see cost entries' do
+    context "user can't see cost entries" do
       let(:current_user) { create(:user) }
 
-      it_behaves_like 'error response',
+      it_behaves_like "error response",
                       403,
-                      'MissingPermission',
-                      I18n.t('api_v3.errors.code_403')
+                      "MissingPermission",
+                      I18n.t("api_v3.errors.code_403")
     end
   end
 end

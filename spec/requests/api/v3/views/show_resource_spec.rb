@@ -25,10 +25,10 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Views::ViewsAPI,
-               'show',
+               "show",
                content_type: :json do
   include API::V3::Utilities::PathHelper
 
@@ -61,30 +61,30 @@ RSpec.describe API::V3::Views::ViewsAPI,
     send_request
   end
 
-  context 'with a user allowed to see the query' do
-    it 'returns 200 OK' do
+  context "with a user allowed to see the query" do
+    it "returns 200 OK" do
       expect(response.status)
         .to eq(200)
     end
 
-    it 'returns the view' do
+    it "returns the view" do
       expect(response.body)
-        .to be_json_eql('Views::WorkPackagesTable'.to_json)
-              .at_path('_type')
+        .to be_json_eql("Views::WorkPackagesTable".to_json)
+              .at_path("_type")
 
       expect(response.body)
         .to be_json_eql(view.id.to_json)
-              .at_path('id')
+              .at_path("id")
     end
   end
 
-  context 'with a user not allowed to see the query' do
+  context "with a user not allowed to see the query" do
     current_user do
       create(:user,
              member_with_roles: { project => role })
     end
 
-    it 'returns a 404 response' do
+    it "returns a 404 response" do
       expect(last_response.status).to eq(404)
     end
   end

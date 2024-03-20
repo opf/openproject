@@ -26,15 +26,14 @@ fr:
       no_results_title_text: Il n’y a pas eu d'activité pour le projet pendant cette période.
   admin:
     plugins:
-      no_results_title_text: Il n'y a actuellement aucun plugin disponible.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Thème de couleur"
       color_theme_custom: "(Personnalisé)"
       colors:
-        alternative-color: "Alternative"
-        content-link-color: "Police des liens"
-        primary-color: "Principale"
-        primary-color-dark: "Principale (sombre)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Fond de l'en-tête"
         header-item-bg-hover-color: "Fond d’en-tête au survol"
         header-item-font-color: "Police de l'en-tête"
@@ -53,10 +52,8 @@ fr:
       enterprise_more_info: "Remarque : le logo utilisé sera accessible publiquement."
       manage_colors: "Modifier les options du sélecteur de couleur"
       instructions:
-        alternative-color: "Couleur d'accentuation, habituellement utilisée pour le bouton le plus important à l'écran."
-        content-link-color: "Couleur de la police de la plupart des liens."
-        primary-color: "Couleur principale."
-        primary-color-dark: "Généralement une version plus sombre de la couleur principale utilisée pour les effets de survol."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Couleur d’arrière-plan des éléments de l’en-tête survolées par la souris."
         header-item-font-color: "Couleur de la police des éléments de l’en-tête cliquables."
         header-item-font-hover-color: "Couleur de la police des éléments de l’en-tête survolées par la souris."
@@ -1532,6 +1529,7 @@ fr:
       postgres_migration: "Migration de votre installation vers PostgreSQL"
       user_guides: "Guides d'utilisation"
       faq: "FAQ"
+      impressum: "Legal notice"
       glossary: "Lexique"
       shortcuts: "Raccourcis"
       blog: "Blog OpenProject"
@@ -1863,7 +1861,6 @@ fr:
   label_subject_or_id: "Objet ou ID"
   label_calendar_subscriptions: "Abonnements au calendrier"
   label_identifier: "Identifiant"
-  label_impressum: "Mentions légales"
   label_in: "dans"
   label_in_less_than: "dans moins de"
   label_in_more_than: "dans plus de"

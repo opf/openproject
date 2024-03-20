@@ -26,32 +26,32 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Queries::Members::MemberQuery, 'Integration' do
+RSpec.describe Queries::Members::MemberQuery, "Integration" do
   let(:instance) { described_class.new }
 
   current_user { user }
 
   subject { instance.results }
 
-  context 'with two groups in a project' do
+  context "with two groups in a project" do
     let(:project) { create(:project) }
     let(:user) { create(:user) }
     let(:role) { create(:project_role, permissions: %i[view_members manage_members]) }
-    let!(:group1) { create(:group, name: 'A', member_with_roles: { project => role }, members: [user]) }
-    let!(:group2) { create(:group, name: 'B', member_with_roles: { project => role }, members: [user]) }
+    let!(:group1) { create(:group, name: "A", member_with_roles: { project => role }, members: [user]) }
+    let!(:group2) { create(:group, name: "B", member_with_roles: { project => role }, members: [user]) }
 
-    it 'only returns one user when filtering for one group (Regression #45331)' do
-      instance.where 'project_id', '=', [project.id.to_s]
-      instance.where 'group', '=', [group1.id.to_s]
+    it "only returns one user when filtering for one group (Regression #45331)" do
+      instance.where "project_id", "=", [project.id.to_s]
+      instance.where "group", "=", [group1.id.to_s]
 
       expect(subject.count).to eq 1
       expect(subject.first.user_id).to eq user.id
     end
   end
 
-  context 'with a project and a work package membership' do
+  context "with a project and a work package membership" do
     let(:project) { create(:project) }
     let(:work_package) { create(:work_package, project:) }
     let(:user) { create(:user) }
@@ -60,7 +60,7 @@ RSpec.describe Queries::Members::MemberQuery, 'Integration' do
     let!(:project_membership) { create(:member, principal: user, project:, roles: [role]) }
     let!(:wp_membership) { create(:member, principal: user, project:, entity: work_package, roles: [wp_role]) }
 
-    it 'returns both, the project membership and the workPackage membership' do
+    it "returns both, the project membership and the workPackage membership" do
       expect(subject.count).to eq(2)
       expect(subject.first).to have_attributes(
         project:,

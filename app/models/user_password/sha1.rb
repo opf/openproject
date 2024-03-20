@@ -54,7 +54,7 @@ class UserPassword::SHA1 < UserPassword
   ##
   # Override the base method to disallow new passwords being generated this way.
   def salt_and_hash_password!
-    raise ArgumentError, 'Do not use UserPassword::SHA1 for new passwords!'
+    raise ArgumentError, "Do not use UserPassword::SHA1 for new passwords!"
   end
 
   ##

@@ -2,7 +2,7 @@
 # Extracts sections of a BCF markup file
 # manually. If we want to extract the entire markup,
 # this should be turned into a representable/xml decorator
-require_relative 'file_entry'
+require_relative "file_entry"
 
 module OpenProject::Bim::BcfXml
   class IssueReader
@@ -57,7 +57,7 @@ module OpenProject::Bim::BcfXml
 
       if call.success?
         issue.work_package = call.result
-        create_wp_comment(user, I18n.t('bcf.bcf_xml.import_update_comment')) if is_update
+        create_wp_comment(user, I18n.t("bcf.bcf_xml.import_update_comment")) if is_update
       else
         issue.errors.merge!(call.errors)
         Rails.logger.error "Failed to synchronize BCF #{issue.uuid} with work package: #{call.errors.full_messages.join('; ')}"
@@ -226,13 +226,13 @@ module OpenProject::Bim::BcfXml
     ##
     # Get the topic name of an entry
     def topic_uuid
-      entry.name.split('/').first
+      entry.name.split("/").first
     end
 
     ##
     # Get an entry within the uuid
     def as_file_entry(filename)
-      file_entry = zip.find_entry [topic_uuid, filename].join('/')
+      file_entry = zip.find_entry [topic_uuid, filename].join("/")
 
       if file_entry
         FileEntry.new(file_entry.get_input_stream, filename:)
@@ -242,7 +242,7 @@ module OpenProject::Bim::BcfXml
     ##
     # Read an entry as string
     def read_entry(filename)
-      file_entry = zip.find_entry [topic_uuid, filename].join('/')
+      file_entry = zip.find_entry [topic_uuid, filename].join("/")
       file_entry.get_input_stream.read
     end
 
@@ -317,7 +317,7 @@ module OpenProject::Bim::BcfXml
       errors = ActiveModel::Errors.new(issue)
       errors.add :base,
                  :conflict,
-                 message: I18n.t('bcf.bcf_xml.import.work_package_has_newer_changes',
+                 message: I18n.t("bcf.bcf_xml.import.work_package_has_newer_changes",
                                  bcf_uuid: issue.uuid)
 
       ServiceResult.failure(errors:)

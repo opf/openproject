@@ -31,29 +31,29 @@
 require "rails_helper"
 
 RSpec.describe ApplicationComponent, type: :component do
-  describe '.options' do
+  describe ".options" do
     let(:component_class) do
       Class.new(described_class) do
-        options title: 'Hello World!', subtitle: 'How are you today?'
+        options title: "Hello World!", subtitle: "How are you today?"
         options enabled: true
         options :x, :y
       end
     end
 
-    it 'defines options with default values as constructor attributes' do
+    it "defines options with default values as constructor attributes" do
       component = component_class.new
 
-      expect(component.title).to eq('Hello World!')
-      expect(component.subtitle).to eq('How are you today?')
+      expect(component.title).to eq("Hello World!")
+      expect(component.subtitle).to eq("How are you today?")
       expect(component.enabled).to be(true)
       expect(component.x).to be_nil
       expect(component.y).to be_nil
     end
 
-    it 'returns value used in constructor if present' do
-      component = component_class.new(title: 'My title', subtitle: nil, enabled: false, x: 13, y: 37)
+    it "returns value used in constructor if present" do
+      component = component_class.new(title: "My title", subtitle: nil, enabled: false, x: 13, y: 37)
 
-      expect(component.title).to eq('My title')
+      expect(component.title).to eq("My title")
       expect(component.subtitle).to be_nil
       expect(component.enabled).to be(false)
       expect(component.x).to eq(13)

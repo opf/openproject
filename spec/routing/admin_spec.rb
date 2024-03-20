@@ -26,31 +26,31 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'admin routes' do
-  it 'connects GET /admin to admin#index' do
-    expect(get('/admin'))
-      .to route_to('admin#index')
+RSpec.describe "admin routes" do
+  it "connects GET /admin to admin#index" do
+    expect(get("/admin"))
+      .to route_to("admin#index")
   end
 
-  it 'connects GET /projects to projects#index' do
-    expect(get('/projects'))
-      .to route_to('projects#index')
+  it "connects GET /projects to projects#index" do
+    expect(get("/projects"))
+      .to route_to("projects#index")
   end
 
-  it 'connects GET /admin/plugins to admin#plugins' do
-    expect(get('/admin/plugins'))
-      .to route_to('admin#plugins')
+  it "connects GET /admin/plugins to admin#plugins" do
+    expect(get("/admin/plugins"))
+      .to route_to("admin#plugins")
   end
 
-  it 'connects GET /admin/info to admin#info' do
-    expect(get('/admin/info'))
-      .to route_to('admin#info')
+  it "connects GET /admin/info to admin#info" do
+    expect(get("/admin/info"))
+      .to route_to("admin#info")
   end
 
-  it 'connects POST /admin/test_email to admin#test_email' do
-    expect(post('/admin/test_email'))
-      .to route_to('admin#test_email')
+  it "connects POST /admin/test_email to admin#test_email" do
+    expect(post("/admin/test_email"))
+      .to route_to("admin#test_email")
   end
 end

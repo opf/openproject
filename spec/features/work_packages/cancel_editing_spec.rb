@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Cancel editing work package', :js do
+RSpec.describe "Cancel editing work package", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
@@ -53,22 +53,22 @@ RSpec.describe 'Cancel editing work package', :js do
   def expect_active_edit(path)
     visit path
     expect_angular_frontend_initialized
-    expect(page).to have_css('#wp-new-inline-edit--field-subject', wait: 10)
+    expect(page).to have_css("#wp-new-inline-edit--field-subject", wait: 10)
   end
 
   def expect_subject(val)
-    subject = page.find_by_id('wp-new-inline-edit--field-subject')
+    subject = page.find_by_id("wp-new-inline-edit--field-subject")
     expect(subject.value).to eq(val)
   end
 
   def move_to_home_page(alert: true)
-    find('.op-logo--link').click
+    find(".op-logo--link").click
 
     page.driver.browser.switch_to.alert.accept if alert
-    expect(page).to have_css('#projects-menu', text: 'Select a project')
+    expect(page).to have_css("#projects-menu", text: "Select a project")
   end
 
-  it 'does not show an alert when moving to other pages' do
+  it "does not show an alert when moving to other pages" do
     # This used to show an alert until browsers dropped support
     # for `onbeforeunload`.
     #
@@ -84,7 +84,7 @@ RSpec.describe 'Cancel editing work package', :js do
     end
   end
 
-  it 'shows an alert when moving to other states' do
+  it "shows an alert when moving to other states" do
     expect_active_edit(new_split_work_packages_path)
     loading_indicator_saveguard
     wp_table.expect_work_package_listed(work_package2)
@@ -92,11 +92,11 @@ RSpec.describe 'Cancel editing work package', :js do
     wp_table.open_split_view(work_package2)
     page.driver.browser.switch_to.alert.dismiss
 
-    expect(page).to have_css('#wp-new-inline-edit--field-subject')
+    expect(page).to have_css("#wp-new-inline-edit--field-subject")
     expect(wp_page).not_to have_alert_dialog
   end
 
-  it 'shows an alert when moving to other states while editing a single attribute (Regression #25135)' do
+  it "shows an alert when moving to other states while editing a single attribute (Regression #25135)" do
     wp_table.visit!
     wp_table.expect_work_package_listed(work_package, work_package2)
 
@@ -119,45 +119,45 @@ RSpec.describe 'Cancel editing work package', :js do
     version.expect_inactive!
   end
 
-  it 'cancels the editing when clicking the button' do
+  it "cancels the editing when clicking the button" do
     paths.each do |path|
       expect_active_edit(path)
-      find_by_id('work-packages--edit-actions-cancel').click
+      find_by_id("work-packages--edit-actions-cancel").click
 
       expect(wp_page).not_to have_alert_dialog
     end
   end
 
-  it 'allows to move from split to full screen in edit mode' do
+  it "allows to move from split to full screen in edit mode" do
     # Start creating on split view
     expect_active_edit(new_split_work_packages_path)
 
-    find_by_id('wp-new-inline-edit--field-subject').set 'foobar'
+    find_by_id("wp-new-inline-edit--field-subject").set "foobar"
 
     # Expect editing works when moving to full screen
-    find('.work-packages-show-view-button').click
+    find(".work-packages-show-view-button").click
 
     expect(wp_page).not_to have_alert_dialog
-    expect(page).to have_css('#wp-new-inline-edit--field-subject')
-    expect_subject('foobar')
+    expect(page).to have_css("#wp-new-inline-edit--field-subject")
+    expect_subject("foobar")
 
     # Moving back also works
-    page.execute_script('window.history.back()')
+    page.execute_script("window.history.back()")
 
     expect(wp_page).not_to have_alert_dialog
-    expect(page).to have_css('#wp-new-inline-edit--field-subject')
-    expect_subject('foobar')
+    expect(page).to have_css("#wp-new-inline-edit--field-subject")
+    expect_subject("foobar")
 
     # Cancel edition
-    find_by_id('work-packages--edit-actions-cancel').click
+    find_by_id("work-packages--edit-actions-cancel").click
     expect(wp_page).not_to have_alert_dialog
 
     # Visiting another page does not create alert
-    find('.op-logo--link').click
+    find(".op-logo--link").click
     expect(wp_page).not_to have_alert_dialog
   end
 
-  it 'correctly cancels setting the back route (Regression #30714)' do
+  it "correctly cancels setting the back route (Regression #30714)" do
     wp_page = Pages::FullWorkPackage.new work_package
     wp_page.visit!
     wp_page.ensure_page_loaded
@@ -165,7 +165,7 @@ RSpec.describe 'Cancel editing work package', :js do
     # Edit description in full view
     description = wp_page.edit_field :description
     description.activate!
-    description.click_and_type_slowly 'foobar'
+    description.click_and_type_slowly "foobar"
 
     # Try to move back to list, expect warning
     wp_page.go_back
@@ -180,12 +180,12 @@ RSpec.describe 'Cancel editing work package', :js do
     wp_table.expect_work_package_listed(work_package, work_package2)
   end
 
-  context 'when user does not want to be warned' do
+  context "when user does not want to be warned" do
     before do
       create(:user_preference, user:, others: { warn_on_leaving_unsaved: false })
     end
 
-    it 'does not alert when moving anywhere' do
+    it "does not alert when moving anywhere" do
       # Moving to angular states
       expect_active_edit(new_split_work_packages_path)
       wp_table.expect_work_package_listed(work_package2)
@@ -193,8 +193,8 @@ RSpec.describe 'Cancel editing work package', :js do
       wp_table.open_split_view(work_package2)
       expect(wp_page).not_to have_alert_dialog
 
-      expect(page).to have_no_css('#wp-new-inline-edit--field-subject')
-      expect(page).to have_css('.work-packages--details--subject', text: work_package2.subject)
+      expect(page).to have_no_css("#wp-new-inline-edit--field-subject")
+      expect(page).to have_css(".work-packages--details--subject", text: work_package2.subject)
 
       # Moving somewhere else
       expect_active_edit(new_split_work_packages_path)

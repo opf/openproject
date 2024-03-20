@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../spec_helper'
+require_relative "../spec_helper"
 
-RSpec.describe 'model viewer', :js, with_config: { edition: 'bim' } do
+RSpec.describe "model viewer", :js, with_config: { edition: "bim" } do
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   # TODO: Add empty viewpoint and stub method to load viewpoints once defined
   let(:work_package) { create(:work_package, project:) }
@@ -49,15 +49,15 @@ RSpec.describe 'model viewer', :js, with_config: { edition: 'bim' } do
   let(:model_tree) { Components::XeokitModelTree.new }
   let(:card_view) { Pages::WorkPackageCards.new(project) }
 
-  context 'with all permissions' do
-    describe 'showing a model' do
+  context "with all permissions" do
+    describe "showing a model" do
       before do
         login_as(user)
         work_package
         show_model_page.visit_and_wait_until_finished_loading!
       end
 
-      it 'loads and shows the viewer correctly' do
+      it "loads and shows the viewer correctly" do
         show_model_page.model_viewer_visible true
         show_model_page.model_viewer_shows_a_toolbar true
         show_model_page.page_shows_a_toolbar true
@@ -65,12 +65,12 @@ RSpec.describe 'model viewer', :js, with_config: { edition: 'bim' } do
         model_tree.expect_model_management_available visible: true
       end
 
-      it 'shows a work package list as cards next to the viewer' do
+      it "shows a work package list as cards next to the viewer" do
         show_model_page.model_viewer_visible true
         card_view.expect_work_package_listed work_package
       end
 
-      it 'can trigger creation, update and deletion of IFC models from within the model tree view' do
+      it "can trigger creation, update and deletion of IFC models from within the model tree view" do
         model_tree.click_add_model
         expect(page).to have_current_path new_bcf_project_ifc_model_path(project)
 
@@ -83,22 +83,22 @@ RSpec.describe 'model viewer', :js, with_config: { edition: 'bim' } do
 
         model_tree.select_model_menu_item(model.title, "Delete")
         show_model_page.finished_loading
-        expect(page).to have_text(I18n.t('js.ifc_models.empty_warning'))
+        expect(page).to have_text(I18n.t("js.ifc_models.empty_warning"))
       end
     end
 
-    context 'in a project with no model' do
+    context "in a project with no model" do
       let!(:model) { nil }
 
-      it 'shows a warning that no IFC models exist yet' do
+      it "shows a warning that no IFC models exist yet" do
         login_as user
         visit defaults_bcf_project_ifc_models_path(project)
-        expect(page).to have_css('.op-toast.-info', text: I18n.t('js.ifc_models.empty_warning'))
+        expect(page).to have_css(".op-toast.-info", text: I18n.t("js.ifc_models.empty_warning"))
       end
     end
   end
 
-  context 'with only viewing permissions' do
+  context "with only viewing permissions" do
     let(:view_role) { create(:project_role, permissions: %i[view_ifc_models view_work_packages view_linked_issues]) }
     let(:view_user) do
       create(:user,
@@ -110,7 +110,7 @@ RSpec.describe 'model viewer', :js, with_config: { edition: 'bim' } do
       show_model_page.visit_and_wait_until_finished_loading!
     end
 
-    it 'loads and shows the viewer correctly, but has no possibility to edit the model' do
+    it "loads and shows the viewer correctly, but has no possibility to edit the model" do
       show_model_page.model_viewer_visible true
       show_model_page.model_viewer_shows_a_toolbar true
       show_model_page.page_shows_a_toolbar false
@@ -119,7 +119,7 @@ RSpec.describe 'model viewer', :js, with_config: { edition: 'bim' } do
     end
   end
 
-  context 'without any permissions' do
+  context "without any permissions" do
     let(:no_permissions_role) { create(:project_role, permissions: %i[]) }
     let(:user_without_permissions) do
       create(:user,
@@ -132,9 +132,9 @@ RSpec.describe 'model viewer', :js, with_config: { edition: 'bim' } do
       show_model_page.visit!
     end
 
-    it 'shows no viewer' do
-      expected = '[Error 403] You are not authorized to access this page.'
-      expect(page).to have_css('.op-toast.-error', text: expected)
+    it "shows no viewer" do
+      expected = "[Error 403] You are not authorized to access this page."
+      expect(page).to have_css(".op-toast.-error", text: expected)
 
       show_model_page.model_viewer_visible false
       show_model_page.model_viewer_shows_a_toolbar false
@@ -142,7 +142,7 @@ RSpec.describe 'model viewer', :js, with_config: { edition: 'bim' } do
       model_tree.sidebar_shows_viewer_menu false
     end
 
-    it 'shows no work package list next to the viewer' do
+    it "shows no work package list next to the viewer" do
       show_model_page.model_viewer_visible false
       card_view.expect_work_package_not_listed work_package
     end

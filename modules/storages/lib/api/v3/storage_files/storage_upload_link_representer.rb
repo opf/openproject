@@ -36,12 +36,12 @@ module API::V3::StorageFiles
       {
         href: represented.destination,
         method: represented.method,
-        title: 'Upload File'
+        title: "Upload File"
       }
     end
 
     def _type
-      Storages::UploadLink.name.split('::').last
+      Storages::UploadLink.name.split("::").last
     end
   end
 end

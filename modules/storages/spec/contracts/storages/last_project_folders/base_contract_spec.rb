@@ -28,48 +28,48 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-require 'contracts/shared/model_contract_shared_context'
+require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe Storages::LastProjectFolders::BaseContract do
-  include_context 'ModelContract shared context'
+  include_context "ModelContract shared context"
 
   let(:last_project_folder) { build(:last_project_folder) }
   let(:contract) { described_class.new(last_project_folder, build_stubbed(:admin)) }
 
-  context 'if no project storage is given' do
+  context "if no project storage is given" do
     before do
       last_project_folder.project_storage = nil
     end
 
-    it_behaves_like 'contract is invalid'
+    it_behaves_like "contract is invalid"
   end
 
-  context 'if the project folder mode is `inactive`' do
+  context "if the project folder mode is `inactive`" do
     before do
-      last_project_folder.mode = 'inactive'
+      last_project_folder.mode = "inactive"
     end
 
-    it_behaves_like 'contract is invalid'
+    it_behaves_like "contract is invalid"
   end
 
-  context 'if the project folder mode is `manual`' do
+  context "if the project folder mode is `manual`" do
     before do
-      last_project_folder.mode = 'manual'
+      last_project_folder.mode = "manual"
     end
 
-    it_behaves_like 'contract is valid'
+    it_behaves_like "contract is valid"
   end
 
-  context 'if the project folder mode is `automatic`' do
+  context "if the project folder mode is `automatic`" do
     before do
-      last_project_folder.mode = 'automatic'
+      last_project_folder.mode = "automatic"
     end
 
-    it_behaves_like 'contract is valid'
+    it_behaves_like "contract is valid"
   end
 
-  include_examples 'contract reuses the model errors'
+  include_examples "contract reuses the model errors"
 end

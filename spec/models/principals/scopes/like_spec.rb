@@ -26,52 +26,52 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Principals::Scopes::Like do
-  describe '.like' do
+  describe ".like" do
     let!(:login) do
-      create(:principal, login: 'login')
+      create(:principal, login: "login")
     end
     let!(:login2) do
-      create(:principal, login: 'login2')
+      create(:principal, login: "login2")
     end
     let!(:firstname) do
-      create(:principal, firstname: 'firstname')
+      create(:principal, firstname: "firstname")
     end
     let!(:firstname2) do
-      create(:principal, firstname: 'firstname2')
+      create(:principal, firstname: "firstname2")
     end
     let!(:lastname) do
-      create(:principal, lastname: 'lastname')
+      create(:principal, lastname: "lastname")
     end
     let!(:lastname2) do
-      create(:principal, lastname: 'lastname2')
+      create(:principal, lastname: "lastname2")
     end
     let!(:mail) do
-      create(:principal, mail: 'mail@example.com')
+      create(:principal, mail: "mail@example.com")
     end
     let!(:mail2) do
-      create(:principal, mail: 'mail2@example.com')
+      create(:principal, mail: "mail2@example.com")
     end
 
-    it 'finds by login' do
-      expect(Principal.like('login'))
+    it "finds by login" do
+      expect(Principal.like("login"))
         .to contain_exactly(login, login2)
     end
 
-    it 'finds by firstname' do
-      expect(Principal.like('firstname'))
+    it "finds by firstname" do
+      expect(Principal.like("firstname"))
         .to contain_exactly(firstname, firstname2)
     end
 
-    it 'finds by lastname' do
-      expect(Principal.like('lastname'))
+    it "finds by lastname" do
+      expect(Principal.like("lastname"))
         .to contain_exactly(lastname, lastname2)
     end
 
-    it 'finds by mail' do
-      expect(Principal.like('mail'))
+    it "finds by mail" do
+      expect(Principal.like("mail"))
         .to contain_exactly(mail, mail2)
     end
   end

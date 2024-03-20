@@ -26,15 +26,14 @@ da:
       no_results_title_text: Der har ikke været nogen aktivitet for projektet i tidsperioden.
   admin:
     plugins:
-      no_results_title_text: Der er i øjeblikket ingen plugins installeret.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Farvetema"
       color_theme_custom: "(Tilpas)"
       colors:
-        alternative-color: "Alternativ"
-        content-link-color: "Tilknyt skrifttype"
-        primary-color: "Primær"
-        primary-color-dark: "Primær (mørk)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Overskriftsbaggrund"
         header-item-bg-hover-color: "Overskriftsbaggrund ved mus over"
         header-item-font-color: "Hoved skrifttype"
@@ -53,10 +52,8 @@ da:
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Redigér egenskaber for farvevalg"
       instructions:
-        alternative-color: "Stærk accentfarve, typisk brugt til den vigtigste knap på en skærm."
-        content-link-color: "Tekst-farve på de fleste links."
-        primary-color: "Hovedfarve."
-        primary-color-dark: "Typisk en mørkere version af hovedfarven, brugt til hover effekter."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Baggrundsfarve på knapper i headeren, når musen føres over."
         header-item-font-color: "Tekst-farve på knapper i headeren."
         header-item-font-hover-color: "Tekst-farve på knapper i headeren, når musen føres over."
@@ -1530,6 +1527,7 @@ da:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "Brugervejledninger"
       faq: "Spørgsmål & Svar"
+      impressum: "Legal notice"
       glossary: "Ordliste"
       shortcuts: "Genveje "
       blog: "OpenProject blog"
@@ -1861,7 +1859,6 @@ da:
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Legal notice"
   label_in: "i"
   label_in_less_than: "på mindre end"
   label_in_more_than: "på mere end"

@@ -26,15 +26,14 @@ es:
       no_results_title_text: No se ha producido ninguna actividad en el proyecto en este período de tiempo.
   admin:
     plugins:
-      no_results_title_text: No hay extensiones disponibles.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Tema de color"
       color_theme_custom: "(Personalizado)"
       colors:
-        alternative-color: "Alternativo"
-        content-link-color: "Fuente de enlace"
-        primary-color: "Primario"
-        primary-color-dark: "Primario (oscuro)"
+        primary-button-color: "Botón primario"
+        accent-color: "Acento"
         header-bg-color: "Fondo de encabezado"
         header-item-bg-hover-color: "Fondo de encabezado al mantener el cursor"
         header-item-font-color: "Fuente de encabezado"
@@ -53,10 +52,8 @@ es:
       enterprise_more_info: "Nota: el logotipo utilizado será de acceso público."
       manage_colors: "Editar opciones de selección de colores"
       instructions:
-        alternative-color: "Color de énfasis intenso, que suele usarse para el botón más importante de una pantalla."
-        content-link-color: "Color de fuente de la mayoría de los enlaces."
-        primary-color: "Color principal."
-        primary-color-dark: "Se suelen usar versions oscuras del color principal para la acción de pasar el ratón por encima."
+        primary-button-color: "Color de acento fuerte, utilizado para el botón más importante de una pantalla."
+        accent-color: "Color para los enlaces y otros elementos resaltados decentemente."
         header-item-bg-hover-color: "Color de fondo de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
         header-item-font-color: "Color de fuente de los elementos interactivos del encabezado."
         header-item-font-hover-color: "Color de fuente de los elementos interactivos del encabezado cuando se mantiene el ratón sobre estos."
@@ -1529,6 +1526,7 @@ es:
       postgres_migration: "Migrando su instalación a PostgreSQL"
       user_guides: "Guia de usuario"
       faq: "Preguntas Frecuentes"
+      impressum: "Aviso legal"
       glossary: "Glosario"
       shortcuts: "Accesos directos"
       blog: "Blog de OpenProject"
@@ -1860,7 +1858,6 @@ es:
   label_subject_or_id: "Asunto o ID"
   label_calendar_subscriptions: "Suscripciones al calendario"
   label_identifier: "Identificador"
-  label_impressum: "Aviso legal"
   label_in: "en"
   label_in_less_than: "en menos de"
   label_in_more_than: "en más de"

@@ -26,46 +26,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe FrontendAssetHelper do
-  describe '#include_frontend_assets' do
-    context 'when in development or test',
-            with_env: { 'OPENPROJECT_DISABLE_DEV_ASSET_PROXY' => '' } do
+  describe "#include_frontend_assets" do
+    context "when in development or test",
+            with_env: { "OPENPROJECT_DISABLE_DEV_ASSET_PROXY" => "" } do
       before do
         allow(Rails.env).to receive(:production?).and_return(false)
       end
 
-      it 'returns the proxied frontend server' do
+      it "returns the proxied frontend server" do
         expect(helper.include_frontend_assets).to match(%r{script src="http://localhost:4200/assets/frontend/main(.*).js"})
       end
     end
 
-    context 'when in production' do
+    context "when in production" do
       before do
         allow(Rails.env).to receive(:production?).and_return(true)
       end
 
-      it 'returns the path to the asset' do
+      it "returns the path to the asset" do
         expect(helper.include_frontend_assets).to match(%r{script src="/assets/frontend/main(.*).js"})
       end
 
-      context 'when using relative_url_root' do
+      context "when using relative_url_root" do
         before do
           controller.config.relative_url_root = "/openproject"
         end
 
-        it 'prepends it to the asset path' do
+        it "prepends it to the asset path" do
           expect(helper.include_frontend_assets).to match(%r{script src="/openproject/assets/frontend/main(.*).js"})
         end
       end
 
-      context 'when using relative_url_root ending with a slash' do
+      context "when using relative_url_root ending with a slash" do
         before do
           controller.config.relative_url_root = "/openproject/"
         end
 
-        it 'prepends it to the asset path only once (bug #41428)' do
+        it "prepends it to the asset path only once (bug #41428)" do
           expect(helper.include_frontend_assets).to match(%r{script src="/openproject/assets/frontend/main(.*).js"})
         end
       end

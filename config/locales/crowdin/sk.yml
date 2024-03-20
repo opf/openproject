@@ -26,15 +26,14 @@ sk:
       no_results_title_text: Počas tohto časového obdobia nebola vykonaná žiadna aktivita na projekte.
   admin:
     plugins:
-      no_results_title_text: Momentálne nie sú k dispozícii žiadne zásuvné moduly.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Farebný motív"
       color_theme_custom: "(Vlastné)"
       colors:
-        alternative-color: "Alternatíva"
-        content-link-color: "Link font"
-        primary-color: "Primárna"
-        primary-color-dark: "Primary (dark)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Pozadie hlavičky"
         header-item-bg-hover-color: "Header background on hover"
         header-item-font-color: "Písmo hlavičky"
@@ -53,10 +52,8 @@ sk:
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Upraviť možnosti výberu farieb"
       instructions:
-        alternative-color: "Strong accent color, typically used for the most important button on a screen."
-        content-link-color: "Farba písma väčšiny odkazov."
-        primary-color: "Hlavná farba."
-        primary-color-dark: "Obvykle sa používa tmavšia verzia hlavnej farby pre hover efekty."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Farba pozadia kliknuteľnej hlavičky pri umiestnení kurzora nad hlavičku."
         header-item-font-color: "Farba písma kliknuteľnej hlavičky položky."
         header-item-font-hover-color: "Farba písma kliknuteľnej hlavičky pri umiestnení kurzora nad hlavičku."
@@ -1586,6 +1583,7 @@ sk:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "Používateľské príručky"
       faq: "Často kladené otázky"
+      impressum: "Legal notice"
       glossary: "Slovníček pojmov"
       shortcuts: "Skratky"
       blog: "OpenProject blog"
@@ -1917,7 +1915,6 @@ sk:
   label_subject_or_id: "Predmet alebo ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Legal notice"
   label_in: "v"
   label_in_less_than: "v menej ako"
   label_in_more_than: "vo viac ako"

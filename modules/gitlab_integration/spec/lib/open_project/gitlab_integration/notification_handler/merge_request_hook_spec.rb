@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequestHook do
@@ -40,45 +40,45 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
   let(:gitlab_merge_request) { GitlabMergeRequest.find_by_gitlab_identifiers(id: 4) }
 
   let(:mr_description) { "Mentioning OP##{work_package.id}" }
-  let(:gitlab_action) { 'open' }
-  let(:mr_state) { 'opened' }
+  let(:gitlab_action) { "open" }
+  let(:mr_state) { "opened" }
   let(:mr_draft) { false }
   let(:labels) { [] }
 
   let(:payload) do
     {
-      'open_project_user_id' => gitlab_system_user.id,
-      'object_kind' => "merge_request",
-      'event_type' => "merge_request",
-      'user' => {
-        'id' => 1,
-        'name' => "Administrator",
-        'username' => "root",
-        'avatar_url' => "https://www.gravatar.com/avatar/258d8dc916db8cea2cafb6c3cd0cb0246efe061421dbd83ec3a350428cabda4f?s=80&d=identicon",
-        'email' => "[REDACTED]"
+      "open_project_user_id" => gitlab_system_user.id,
+      "object_kind" => "merge_request",
+      "event_type" => "merge_request",
+      "user" => {
+        "id" => 1,
+        "name" => "Administrator",
+        "username" => "root",
+        "avatar_url" => "https://www.gravatar.com/avatar/258d8dc916db8cea2cafb6c3cd0cb0246efe061421dbd83ec3a350428cabda4f?s=80&d=identicon",
+        "email" => "[REDACTED]"
       },
-      'object_attributes' => {
-        'action' => gitlab_action,
-        'assignee_id' => nil,
-        'author_id' => 1,
-        'created_at' => '2024-03-04 16:09:08 UTC',
-        'title' => 'A MR title',
-        'description' => mr_description,
-        'draft' => mr_draft,
-        'work_in_progress' => mr_draft,
-        'state' => mr_state,
-        'head_pipeline_id' => nil,
-        'id' => 4,
-        'iid' => 4,
-        'url' => 'http://79dfcd98b723/root/hot_do/-/merge_requests/4',
-        'updated_at' => Time.current.iso8601
+      "object_attributes" => {
+        "action" => gitlab_action,
+        "assignee_id" => nil,
+        "author_id" => 1,
+        "created_at" => "2024-03-04 16:09:08 UTC",
+        "title" => "A MR title",
+        "description" => mr_description,
+        "draft" => mr_draft,
+        "work_in_progress" => mr_draft,
+        "state" => mr_state,
+        "head_pipeline_id" => nil,
+        "id" => 4,
+        "iid" => 4,
+        "url" => "http://79dfcd98b723/root/hot_do/-/merge_requests/4",
+        "updated_at" => Time.current.iso8601
       },
-      'labels' => labels,
-      'repository' => {
-        'name' => "Hot Do",
-        'url' => "git@79dfcd98b723:root/hot_do.git",
-        'description' => nil,
-        'homepage' => 'http://79dfcd98b723/root/hot_do/-/merge_requests/4'
+      "labels" => labels,
+      "repository" => {
+        "name" => "Hot Do",
+        "url" => "git@79dfcd98b723:root/hot_do.git",
+        "description" => nil,
+        "homepage" => "http://79dfcd98b723/root/hot_do/-/merge_requests/4"
       }
     }
   end
@@ -89,15 +89,15 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
     allow(upsert_service).to receive(:call).and_call_original
   end
 
-  shared_examples_for 'not adding a comment' do
-    it 'does not add comments to work packages' do
+  shared_examples_for "not adding a comment" do
+    it "does not add comments to work packages" do
       process
       expect(handler_instance).not_to have_received(:comment_on_referenced_work_packages)
     end
   end
 
-  shared_examples_for 'adding a comment' do
-    it 'adds a comment to the work packages' do
+  shared_examples_for "adding a comment" do
+    it "adds a comment to the work packages" do
       process
       expect(handler_instance).to have_received(:comment_on_referenced_work_packages).with(
         [work_package],
@@ -107,37 +107,37 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
     end
   end
 
-  shared_examples_for 'calls the merge request upsert service' do
-    it 'calls the merge request upsert service' do
+  shared_examples_for "calls the merge request upsert service" do
+    it "calls the merge request upsert service" do
       process
       expect(upsert_service).to have_received(:call)
         .with(a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload), work_packages: [work_package])
     end
 
-    context 'when no work_package was mentioned' do
-      let(:mr_description) { 'some text that does not mention any work package' }
+    context "when no work_package was mentioned" do
+      let(:mr_description) { "some text that does not mention any work package" }
 
-      it 'does not call the merge request upsert service' do
+      it "does not call the merge request upsert service" do
         process
         expect(upsert_service).not_to have_received(:call)
       end
     end
   end
 
-  context 'with an opened action' do
+  context "with an opened action" do
     let(:comment) do
       "**MR Opened:** Merge request 4 [A MR title](http://79dfcd98b723/root/hot_do/-/merge_requests/4) for " \
         "[Hot Do](git@79dfcd98b723:root/hot_do.git) has been opened by " \
         "[Administrator](https://www.gravatar.com/avatar/258d8dc916db8cea2cafb6c3cd0cb0246efe061421dbd83ec3a350428cabda4f?s=80&d=identicon).\n"
     end
 
-    it_behaves_like 'adding a comment'
-    it_behaves_like 'calls the merge request upsert service'
+    it_behaves_like "adding a comment"
+    it_behaves_like "calls the merge request upsert service"
   end
 
-  context 'with a closed action' do
-    let(:gitlab_action) { 'close' }
-    let(:mr_state) { 'closed' }
+  context "with a closed action" do
+    let(:gitlab_action) { "close" }
+    let(:mr_state) { "closed" }
 
     let(:comment) do
       "**MR Closed:** Merge request 4 [A MR title](http://79dfcd98b723/root/hot_do/-/merge_requests/4) for " \
@@ -145,13 +145,13 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
         "[Administrator](https://www.gravatar.com/avatar/258d8dc916db8cea2cafb6c3cd0cb0246efe061421dbd83ec3a350428cabda4f?s=80&d=identicon).\n"
     end
 
-    it_behaves_like 'adding a comment'
-    it_behaves_like 'calls the merge request upsert service'
+    it_behaves_like "adding a comment"
+    it_behaves_like "calls the merge request upsert service"
   end
 
-  context 'when the MR was merged' do
-    let(:gitlab_action) { 'merge' }
-    let(:mr_state) { 'merged' }
+  context "when the MR was merged" do
+    let(:gitlab_action) { "merge" }
+    let(:mr_state) { "merged" }
 
     let(:comment) do
       "**MR Merged:** Merge request 4 [A MR title](http://79dfcd98b723/root/hot_do/-/merge_requests/4) for " \
@@ -159,16 +159,16 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
         "[Administrator](https://www.gravatar.com/avatar/258d8dc916db8cea2cafb6c3cd0cb0246efe061421dbd83ec3a350428cabda4f?s=80&d=identicon).\n"
     end
 
-    it_behaves_like 'adding a comment'
-    it_behaves_like 'calls the merge request upsert service'
+    it_behaves_like "adding a comment"
+    it_behaves_like "calls the merge request upsert service"
 
-    context 'when the work package is already known to the GitlabMergeRequest' do
+    context "when the work package is already known to the GitlabMergeRequest" do
       let!(:gitlab_merge_request) { create(:gitlab_merge_request, gitlab_id: 4, work_packages: [work_package]) }
 
-      it_behaves_like 'adding a comment'
+      it_behaves_like "adding a comment"
 
-      it 'calls the merge request upsert service' do
-        expect { process }.to change { gitlab_merge_request.reload.state }.from('opened').to('merged')
+      it "calls the merge request upsert service" do
+        expect { process }.to change { gitlab_merge_request.reload.state }.from("opened").to("merged")
         expect(upsert_service).to have_received(:call).with(
           a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload), work_packages: [work_package]
         )
@@ -176,18 +176,18 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
     end
   end
 
-  context 'when the MR is converted to draft' do
-    let(:gitlab_action) { 'update' }
-    let(:mr_state) { 'opened' }
+  context "when the MR is converted to draft" do
+    let(:gitlab_action) { "update" }
+    let(:mr_state) { "opened" }
     let(:mr_draft) { true }
 
-    it_behaves_like 'not adding a comment'
-    it_behaves_like 'calls the merge request upsert service'
+    it_behaves_like "not adding a comment"
+    it_behaves_like "calls the merge request upsert service"
   end
 
-  context 'with a labeled action' do
-    let(:gitlab_action) { 'update' }
-    let(:mr_state) { 'opened' }
+  context "with a labeled action" do
+    let(:gitlab_action) { "update" }
+    let(:mr_state) { "opened" }
 
     let(:labels) do
       [
@@ -220,9 +220,9 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
       ]
     end
 
-    it_behaves_like 'not adding a comment'
+    it_behaves_like "not adding a comment"
 
-    it 'calls the merge request upsert service with all work_packages' do
+    it "calls the merge request upsert service with all work_packages" do
       gitlab_merge_request = process.reload
       expect(gitlab_merge_request.labels).to eq([{ "title" => "feature", "color" => "#009966" },
                                                  { "title" => "needs review", "color" => "#9400d3" }])
@@ -232,9 +232,9 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
     end
   end
 
-  context 'when the MR is ready for review' do
-    let(:gitlab_action) { 'update' }
-    let(:mr_state) { 'opened' }
+  context "when the MR is ready for review" do
+    let(:gitlab_action) { "update" }
+    let(:mr_state) { "opened" }
     let(:mr_draft) { false }
 
     let(:comment) do
@@ -245,18 +245,18 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
 
     before { create(:gitlab_merge_request, gitlab_id: 4, work_packages: [work_package]) }
 
-    it_behaves_like 'not adding a comment'
+    it_behaves_like "not adding a comment"
 
-    it 'calls the merge request upsert service' do
+    it "calls the merge request upsert service" do
       process
       expect(upsert_service).to have_received(:call)
         .with(a_kind_of(OpenProject::GitlabIntegration::NotificationHandler::Helper::Payload), work_packages: [work_package])
     end
   end
 
-  context 'with a reopened action' do
-    let(:gitlab_action) { 'reopen' }
-    let(:mr_state) { 'opened' }
+  context "with a reopened action" do
+    let(:gitlab_action) { "reopen" }
+    let(:mr_state) { "opened" }
 
     let(:comment) do
       "**MR Reopened:** Merge request 4 [A MR title](http://79dfcd98b723/root/hot_do/-/merge_requests/4) for " \
@@ -264,7 +264,7 @@ RSpec.describe OpenProject::GitlabIntegration::NotificationHandler::MergeRequest
         "[Administrator](https://www.gravatar.com/avatar/258d8dc916db8cea2cafb6c3cd0cb0246efe061421dbd83ec3a350428cabda4f?s=80&d=identicon).\n"
     end
 
-    it_behaves_like 'adding a comment'
-    it_behaves_like 'calls the merge request upsert service'
+    it_behaves_like "adding a comment"
+    it_behaves_like "calls the merge request upsert service"
   end
 end

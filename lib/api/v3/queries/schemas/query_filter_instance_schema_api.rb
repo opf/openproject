@@ -54,7 +54,7 @@ module API
                                          current_user:)
             end
 
-            route_param :id, type: String, regexp: /\A\w+\z/, desc: 'Filter schema ID' do
+            route_param :id, type: String, regexp: /\A\w+\z/, desc: "Filter schema ID" do
               get do
                 ar_name = ::API::Utilities::QueryFiltersNameConverter
                           .to_ar_name(params[:id], refer_to_ids: true)

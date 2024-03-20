@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Top menu items', :js, :with_cuprite do
+RSpec.describe "Top menu items", :js, :with_cuprite do
   shared_let(:project) { create(:project, public: true) }
   let(:user) { create(:user) }
   let(:open_menu) { true }
 
   def has_menu_items?(*items)
-    within '.op-app-header' do
+    within ".op-app-header" do
       items.each do |item|
         expect(page).to have_link(item.label)
       end
@@ -45,8 +45,8 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
   end
 
   def click_link_in_open_menu(title)
-    within '.op-app-menu--dropdown[aria-expanded=true]' do
-      expect(page).to have_no_css('[style~=overflow]')
+    within ".op-app-menu--dropdown[aria-expanded=true]" do
+      expect(page).to have_no_css("[style~=overflow]")
 
       click_link(title)
     end
@@ -66,7 +66,7 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
     top_menu.click if open_menu
   end
 
-  describe 'Modules' do
+  describe "Modules" do
     let!(:top_menu) { find("[title=#{I18n.t('label_modules')}]") }
 
     shared_let(:menu_link_item) { Struct.new(:label, :path) }
@@ -75,11 +75,11 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
     shared_let(:activity_item) { menu_link_item.new(I18n.t(:label_activity), activity_index_path) }
     shared_let(:work_packages_item) { menu_link_item.new(I18n.t(:label_work_package_plural), work_packages_path) }
     shared_let(:calendar_item) { menu_link_item.new(I18n.t(:label_calendar_plural), calendars_path) }
-    shared_let(:team_planners_item) { menu_link_item.new(I18n.t('team_planner.label_team_planner_plural'), team_planners_path) }
+    shared_let(:team_planners_item) { menu_link_item.new(I18n.t("team_planner.label_team_planner_plural"), team_planners_path) }
     shared_let(:boards_item) { menu_link_item.new(I18n.t(:project_module_board_view), work_package_boards_path) }
     shared_let(:news_item) { menu_link_item.new(I18n.t(:label_news_plural), news_index_path) }
-    shared_let(:reporting_item) { menu_link_item.new(I18n.t(:cost_reports_title), '/cost_reports') }
-    shared_let(:meetings_item) { menu_link_item.new(I18n.t(:label_meeting_plural), '/meetings') }
+    shared_let(:reporting_item) { menu_link_item.new(I18n.t(:cost_reports_title), "/cost_reports") }
+    shared_let(:meetings_item) { menu_link_item.new(I18n.t(:label_meeting_plural), "/meetings") }
 
     shared_let(:all_items) do
       [
@@ -95,21 +95,21 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
       ]
     end
 
-    shared_examples 'visits the global index page' do |item:|
+    shared_examples "visits the global index page" do |item:|
       it "visits the #{item.label} page" do
         click_link_in_open_menu item.label
         expect(page).to have_current_path item.path
       end
     end
 
-    context 'as an admin' do
+    context "as an admin" do
       let(:user) { create(:admin) }
 
-      it 'displays all items' do
+      it "displays all items" do
         has_menu_items?(*all_items)
       end
 
-      it 'visits all module pages', :aggregate_failures, with_ee: %i[team_planner_view] do
+      it "visits all module pages", :aggregate_failures, with_ee: %i[team_planner_view] do
         all_items.each do |item|
           click_link_in_open_menu item.label
           expect(page).to have_current_path(item.path)
@@ -119,72 +119,72 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
       end
     end
 
-    context 'as a regular user' do
-      it 'only displays projects, activity and news' do
+    context "as a regular user" do
+      it "only displays projects, activity and news" do
         has_menu_items? project_item, activity_item, news_item
       end
     end
 
-    context 'as a user with permissions' do
+    context "as a user with permissions" do
       let(:additional_before) do
         -> { mock_permissions_for(user, &:allow_everything) }
       end
 
-      it 'displays all options' do
+      it "displays all options" do
         has_menu_items?(*all_items)
       end
     end
 
-    context 'as an anonymous user' do
+    context "as an anonymous user" do
       let(:user) { create(:anonymous) }
 
-      context 'when login_required', with_settings: { login_required: true } do
-        it 'redirects to login' do
+      context "when login_required", with_settings: { login_required: true } do
+        it "redirects to login" do
           expect(page).to have_current_path /login/
         end
       end
 
-      context 'when not login_required', with_settings: { login_required: false } do
-        it 'displays only projects, activity and news' do
+      context "when not login_required", with_settings: { login_required: false } do
+        it "displays only projects, activity and news" do
           has_menu_items? project_item, activity_item, news_item
         end
       end
     end
   end
 
-  describe 'Projects' do
-    let(:top_menu) { find_by_id('projects-menu') }
+  describe "Projects" do
+    let(:top_menu) { find_by_id("projects-menu") }
 
-    let(:all_projects) { I18n.t('js.label_project_list') }
-    let(:add_project) { I18n.t('js.label_project') }
+    let(:all_projects) { I18n.t("js.label_project_list") }
+    let(:add_project) { I18n.t("js.label_project") }
 
-    context 'as an admin' do
+    context "as an admin" do
       let(:user) { create(:admin) }
 
-      it 'displays all items' do
-        expect(page).to have_css('a.button', exact_text: all_projects)
-        expect(page).to have_css('a.button', exact_text: add_project)
+      it "displays all items" do
+        expect(page).to have_css("a.button", exact_text: all_projects)
+        expect(page).to have_css("a.button", exact_text: add_project)
       end
 
-      it 'visits the projects page' do
+      it "visits the projects page" do
         page.find_link(all_projects).click
 
         expect(page).to have_current_path(projects_path)
       end
     end
 
-    context 'as a user without project permission' do
+    context "as a user without project permission" do
       before do
         ProjectRole.non_member.update_attribute :permissions, [:view_project]
       end
 
-      it 'does not display new_project' do
-        expect(page).to have_css('a.button', exact_text: all_projects)
-        expect(page).to have_no_css('a.button', exact_text: add_project)
+      it "does not display new_project" do
+        expect(page).to have_css("a.button", exact_text: all_projects)
+        expect(page).to have_no_css("a.button", exact_text: add_project)
       end
     end
 
-    context 'as an anonymous user' do
+    context "as an anonymous user" do
       let(:user) { create(:anonymous) }
       let(:open_menu) { false }
 
@@ -194,8 +194,8 @@ RSpec.describe 'Top menu items', :js, :with_cuprite do
         project.update(public: true)
       end
 
-      it 'does not show the menu' do
-        expect(page).to have_no_css('#projects-menu')
+      it "does not show the menu" do
+        expect(page).to have_no_css("#projects-menu")
       end
     end
   end

@@ -90,7 +90,7 @@ module OpenProject
           if context.key?(:exception)
             Rails.logger.debug do
               exception = context[:exception]
-              trace = context[:backtrace]&.join('; ')
+              trace = context[:backtrace]&.join("; ")
               "[#{exception.class}] #{exception.message}: #{trace}"
             end
           end

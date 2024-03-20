@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'rbconfig'
-require 'support/pages/page'
+require "rbconfig"
+require "support/pages/page"
 
 module Pages
   class MeetingsTab < Page
@@ -43,78 +43,78 @@ module Pages
     end
 
     def expect_tab_present
-      expect(page).to have_css('.op-tab-row--link', text: 'MEETINGS')
+      expect(page).to have_css(".op-tab-row--link", text: "MEETINGS")
     end
 
     def expect_tab_count(count)
-      expect(page).to have_css('.op-tab-row--link', text: "MEETINGS (#{count})", wait: 10)
+      expect(page).to have_css(".op-tab-row--link", text: "MEETINGS (#{count})", wait: 10)
     end
 
     def expect_tab_not_present
-      expect(page).to have_no_css('.op-tab-row--link', text: 'MEETINGS')
+      expect(page).to have_no_css(".op-tab-row--link", text: "MEETINGS")
     end
 
     def expect_tab_content_rendered
-      expect(page).to have_test_selector('op-work-package-meetings-tab-container')
+      expect(page).to have_test_selector("op-work-package-meetings-tab-container")
     end
 
     def expect_upcoming_counter_to_be(amount)
-      page.within_test_selector('op-upcoming-meetings-counter') do
+      page.within_test_selector("op-upcoming-meetings-counter") do
         expect(page).to have_content(amount)
       end
     end
 
     def expect_past_counter_to_be(amount)
-      page.within_test_selector('op-past-meetings-counter') do
+      page.within_test_selector("op-past-meetings-counter") do
         expect(page).to have_content(amount)
       end
     end
 
     def expect_add_to_meeting_button_present
-      expect(page).to have_test_selector('op-add-work-package-to-meeting-dialog-trigger')
+      expect(page).to have_test_selector("op-add-work-package-to-meeting-dialog-trigger")
     end
 
     def expect_add_to_meeting_button_not_present
-      expect(page).not_to have_test_selector('op-add-work-package-to-meeting-dialog-trigger')
+      expect(page).not_to have_test_selector("op-add-work-package-to-meeting-dialog-trigger")
     end
 
     def expect_add_to_meeting_dialog_shown
-      expect(page).to have_test_selector('op-add-work-package-to-meeting-dialog-body')
+      expect(page).to have_test_selector("op-add-work-package-to-meeting-dialog-body")
     end
 
     def switch_to_upcoming_meetings_section
       within container_element do
-        find('.tabnav-tab', text: 'Upcoming').click
+        find(".tabnav-tab", text: "Upcoming").click
       end
     end
 
     def switch_to_past_meetings_section
       within container_element do
-        find('.tabnav-tab', text: 'Past').click
+        find(".tabnav-tab", text: "Past").click
       end
     end
 
     def open_add_to_meeting_dialog
-      page.find_test_selector('op-add-work-package-to-meeting-dialog-trigger').click
+      page.find_test_selector("op-add-work-package-to-meeting-dialog-trigger").click
     end
 
     def fill_and_submit_meeting_dialog(meeting, notes)
-      fill_in('meeting_agenda_item_meeting_id', with: meeting.title)
-      expect(page).to have_css('.ng-option-marked', text: meeting.title) # wait for selection
-      page.find('.ng-option-marked').click
-      page.find('.ck-editor__editable').set(notes)
+      fill_in("meeting_agenda_item_meeting_id", with: meeting.title)
+      expect(page).to have_css(".ng-option-marked", text: meeting.title) # wait for selection
+      page.find(".ng-option-marked").click
+      page.find(".ck-editor__editable").set(notes)
 
-      click_button('Save')
+      click_button("Save")
     end
 
     private
 
     def container_element
-      page.find_test_selector('op-work-package-meetings-tab-container')
+      page.find_test_selector("op-work-package-meetings-tab-container")
     end
 
     def osx?
-      RbConfig::CONFIG['host_os'].include?('darwin')
+      RbConfig::CONFIG["host_os"].include?("darwin")
     end
   end
 end

@@ -26,15 +26,14 @@ zh-TW:
       no_results_title_text: 在這一時限內, 該專案沒有任何活動。
   admin:
     plugins:
-      no_results_title_text: 目前沒有外掛可以使用
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "色彩佈景主題"
       color_theme_custom: "自訂"
       colors:
-        alternative-color: "替代"
-        content-link-color: "連結字型"
-        primary-color: "主要"
-        primary-color-dark: "主要（深色）"
+        primary-button-color: "Primary button"
+        accent-color: "強調（Accent）"
         header-bg-color: "頁首背景"
         header-item-bg-hover-color: "頁首背景（滑鼠停留）"
         header-item-font-color: "頁首字型"
@@ -53,10 +52,8 @@ zh-TW:
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "編輯顏色選擇選項"
       instructions:
-        alternative-color: "濃重的主題色，通常用於螢幕上最重要的按鈕。"
-        content-link-color: "大部分連結的文字顏色"
-        primary-color: "主要顏色"
-        primary-color-dark: "通常深色的主顏色用於懸浮特效。"
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "當滑鼠移動到可點選的標題項目的背景顏色"
         header-item-font-color: "可點擊的標題項目的文字顏色"
         header-item-font-hover-color: "當滑鼠移動到可點選的標題項目的文字顏色"
@@ -425,7 +422,7 @@ zh-TW:
       copy_failed: "此工作項目無法被複製"
       move_failed: "此工作項目無法被移動"
       could_not_be_saved: "以下文檔無法被保存"
-      none_could_be_saved: " %{total} 工作項目無法更新"
+      none_could_be_saved: "None of the %{total} work packages could be updated."
       x_out_of_y_could_be_saved: "%{failing} out of the %{total} work packages could not be updated while %{success} could."
       selected_because_descendants: "While %{selected} work packages where selected, in total %{total} work packages are affected which includes descendants."
       descendant: "descendant of selected"
@@ -1504,6 +1501,7 @@ zh-TW:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "使用手冊"
       faq: "問答集"
+      impressum: "Legal notice"
       glossary: "術語表 "
       shortcuts: "快捷鍵"
       blog: "Openproject 部落格"
@@ -1808,7 +1806,7 @@ zh-TW:
   label_file_plural: "檔案"
   label_filter_add: "新增條件"
   label_filter: "篩選條件"
-  label_filter_plural: "篩選條件"
+  label_filter_plural: "篩選器"
   label_filters_toggle: "顯示/隱藏篩選條件"
   label_float: "浮點數"
   label_folder: "資料夾"
@@ -1832,10 +1830,9 @@ zh-TW:
   label_history: "歷史"
   label_hierarchy_leaf: "頁面結構頁"
   label_home: "Home"
-  label_subject_or_id: "名稱或 id"
+  label_subject_or_id: "主旨或 id"
   label_calendar_subscriptions: "訂閱行事曆"
   label_identifier: "識別碼"
-  label_impressum: "法律聲明"
   label_in: "在"
   label_in_less_than: "少於"
   label_in_more_than: "多於"

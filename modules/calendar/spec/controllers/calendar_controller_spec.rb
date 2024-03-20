@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Calendar::CalendarsController do
   let(:project) do
@@ -48,29 +48,29 @@ RSpec.describe Calendar::CalendarsController do
     login_as user
   end
 
-  describe '#index' do
-    shared_examples_for 'calendar#index' do
+  describe "#index" do
+    shared_examples_for "calendar#index" do
       subject { response }
 
       it { is_expected.to be_successful }
 
-      it { is_expected.to render_template('calendar/calendars/index') }
+      it { is_expected.to render_template("calendar/calendars/index") }
     end
 
-    context 'within a project context' do
+    context "within a project context" do
       before do
         get :index, params: { project_id: project.id }
       end
 
-      it_behaves_like 'calendar#index'
+      it_behaves_like "calendar#index"
     end
 
-    context 'within a global context' do
+    context "within a global context" do
       before do
         get :index
       end
 
-      it_behaves_like 'calendar#index'
+      it_behaves_like "calendar#index"
     end
   end
 end

@@ -1,14 +1,14 @@
-require_relative '../spec_helper'
+require_relative "../spec_helper"
 
-RSpec.describe 'LDAP group filter administration spec', :js do
+RSpec.describe "LDAP group filter administration spec", :js do
   let(:admin) { create(:admin) }
 
   before do
     login_as admin
   end
 
-  context 'with EE', with_ee: %i[ldap_groups] do
-    context 'when providing seed variables',
+  context "with EE", with_ee: %i[ldap_groups] do
+    context "when providing seed variables",
             :settings_reset,
             with_env: {
               OPENPROJECT_SEED_LDAP_FOO_HOST: "localhost",
@@ -30,18 +30,18 @@ RSpec.describe 'LDAP group filter administration spec', :js do
               OPENPROJECT_SEED_LDAP_FOO_GROUPFILTER_BAR_SYNC__USERS: "true",
               OPENPROJECT_SEED_LDAP_FOO_GROUPFILTER_BAR_GROUP__ATTRIBUTE: "dn"
             } do
-      it 'blocks editing of the filter' do
+      it "blocks editing of the filter" do
         reset(:seed_ldap)
         allow(LdapGroups::SynchronizationJob).to receive(:perform_now)
         EnvData::LdapSeeder.new({}).seed_data!
 
         visit ldap_groups_synchronized_groups_path
-        expect(page).to have_text 'bar'
-        page.find('td.name a', text: 'bar').click
+        expect(page).to have_text "bar"
+        page.find("td.name a", text: "bar").click
 
         expect(page).to have_text I18n.t(:label_seeded_from_env_warning)
-        expect(page).to have_no_link 'Edit'
-        expect(page).to have_no_link 'Delete'
+        expect(page).to have_no_link "Edit"
+        expect(page).to have_no_link "Delete"
       end
     end
   end

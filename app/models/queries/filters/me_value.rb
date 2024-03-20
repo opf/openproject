@@ -27,7 +27,7 @@
 #++
 
 class Queries::Filters::MeValue
-  KEY = 'me'.freeze
+  KEY = "me".freeze
 
   def id
     KEY

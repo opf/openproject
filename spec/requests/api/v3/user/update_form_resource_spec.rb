@@ -25,8 +25,8 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
 RSpec.describe API::V3::Users::UpdateFormAPI, content_type: :json do
   include Rack::Test::Methods
@@ -58,92 +58,92 @@ RSpec.describe API::V3::Users::UpdateFormAPI, content_type: :json do
 
   subject(:response) { last_response }
 
-  context 'with authorized user' do
+  context "with authorized user" do
     # Required to satisfy the Users::UpdateContract#at_least_one_admin_is_active
     shared_let(:default_admin) { create(:admin) }
     shared_let(:current_user) do
       create(:user, global_permissions: [:manage_user])
     end
 
-    describe 'empty payload' do
-      it 'returns a valid form', :aggregate_failures do
+    describe "empty payload" do
+      it "returns a valid form", :aggregate_failures do
         expect(response.status).to eq(200)
-        expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
+        expect(response.body).to be_json_eql("Form".to_json).at_path("_type")
 
         expect(body)
           .to be_json_eql(user.mail.to_json)
-                .at_path('_embedded/payload/email')
+                .at_path("_embedded/payload/email")
 
         expect(body)
           .to be_json_eql(user.firstname.to_json)
-                .at_path('_embedded/payload/firstName')
+                .at_path("_embedded/payload/firstName")
 
         expect(body)
           .to be_json_eql(user.lastname.to_json)
-                .at_path('_embedded/payload/lastName')
+                .at_path("_embedded/payload/lastName")
 
         expect(body)
           .to have_json_size(0)
-                .at_path('_embedded/validationErrors')
+                .at_path("_embedded/validationErrors")
       end
     end
 
-    describe 'with a writable status' do
+    describe "with a writable status" do
       let(:payload) do
         {
-          status: 'locked'
+          status: "locked"
         }
       end
 
-      it 'returns a valid response', :aggregate_failures do
+      it "returns a valid response", :aggregate_failures do
         expect(response.status).to eq(200)
-        expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
+        expect(response.body).to be_json_eql("Form".to_json).at_path("_type")
 
         expect(subject.body)
           .to have_json_size(0)
-                .at_path('_embedded/validationErrors')
+                .at_path("_embedded/validationErrors")
 
         expect(body)
-          .to be_json_eql('locked'.to_json)
-                .at_path('_embedded/payload/status')
+          .to be_json_eql("locked".to_json)
+                .at_path("_embedded/payload/status")
 
         # Does not change the user's status
         user.reload
-        expect(user.status).to eq 'active'
+        expect(user.status).to eq "active"
       end
     end
 
-    describe 'with an empty firstname' do
+    describe "with an empty firstname" do
       let(:payload) do
         {
           firstName: nil
         }
       end
 
-      it 'returns an invalid form', :aggregate_failures do
+      it "returns an invalid form", :aggregate_failures do
         expect(response.status).to eq(200)
-        expect(response.body).to be_json_eql('Form'.to_json).at_path('_type')
+        expect(response.body).to be_json_eql("Form".to_json).at_path("_type")
 
         expect(body)
           .to be_json_eql(user.mail.to_json)
-                .at_path('_embedded/payload/email')
+                .at_path("_embedded/payload/email")
 
         expect(body)
-          .not_to have_json_path('_embedded/payload/firstName')
+          .not_to have_json_path("_embedded/payload/firstName")
 
         expect(body)
           .to be_json_eql(user.lastname.to_json)
-                .at_path('_embedded/payload/lastName')
+                .at_path("_embedded/payload/lastName")
 
         expect(subject.body)
           .to have_json_size(1)
-                .at_path('_embedded/validationErrors')
+                .at_path("_embedded/validationErrors")
 
         expect(subject.body)
-          .to have_json_path('_embedded/validationErrors/firstName')
+          .to have_json_path("_embedded/validationErrors/firstName")
 
         expect(subject.body)
-          .not_to have_json_path('_links/commit')
+          .not_to have_json_path("_links/commit")
 
         name_before = user.name
 
@@ -152,18 +152,18 @@ RSpec.describe API::V3::Users::UpdateFormAPI, content_type: :json do
       end
     end
 
-    context 'with a non existing id' do
+    context "with a non existing id" do
       let(:path) { api_v3_paths.user_form(12345) }
 
-      it 'returns 404 Not found' do
+      it "returns 404 Not found" do
         expect(response.status).to eq(404)
       end
     end
   end
 
-  context 'with unauthorized user' do
+  context "with unauthorized user" do
     let(:current_user) { create(:user) }
 
-    it_behaves_like 'unauthorized access'
+    it_behaves_like "unauthorized access"
   end
 end

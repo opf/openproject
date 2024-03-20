@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Filter by budget', :js do
+RSpec.describe "Filter by budget", :js do
   let(:user) { create(:admin) }
   let(:project) { create(:project) }
 
@@ -70,21 +70,21 @@ RSpec.describe 'Filter by budget', :js do
     wp_table.visit!
   end
 
-  it 'allows filtering for budgets' do
+  it "allows filtering for budgets" do
     wp_table.expect_work_package_listed work_package_with_budget, work_package_without_budget
 
     filters.expect_filter_count 1
     filters.open
-    filters.add_filter_by('Budget', 'is (OR)', budget.name)
+    filters.add_filter_by("Budget", "is (OR)", budget.name)
 
     wp_table.expect_work_package_listed work_package_with_budget
     wp_table.ensure_work_package_not_listed! work_package_without_budget
 
-    wp_table.save_as('Some query name')
+    wp_table.save_as("Some query name")
 
-    wp_table.expect_and_dismiss_toaster message: 'Successful creation.'
+    wp_table.expect_and_dismiss_toaster message: "Successful creation."
 
-    filters.remove_filter 'budget'
+    filters.remove_filter "budget"
 
     wp_table.expect_work_package_listed work_package_with_budget, work_package_without_budget
 
@@ -97,6 +97,6 @@ RSpec.describe 'Filter by budget', :js do
 
     filters.open
 
-    filters.expect_filter_by('Budget', 'is (OR)', budget.name)
+    filters.expect_filter_by("Budget", "is (OR)", budget.name)
   end
 end

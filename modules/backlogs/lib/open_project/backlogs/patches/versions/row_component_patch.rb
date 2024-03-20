@@ -36,9 +36,9 @@ module OpenProject::Backlogs::Patches::Versions::RowComponentPatch
   def backlogs_edit_link
     return if version.project == table.project || !table.project.module_enabled?("backlogs")
 
-    helpers.link_to_if_authorized '',
-                                  { controller: '/versions', action: 'edit', id: version, project_id: table.project.id },
-                                  class: 'icon icon-edit',
+    helpers.link_to_if_authorized "",
+                                  { controller: "/versions", action: "edit", id: version, project_id: table.project.id },
+                                  class: "icon icon-edit",
                                   title: t(:button_edit)
   end
 end

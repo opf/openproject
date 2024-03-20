@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Bim::Bcf::API::V2_1::Viewpoints::SingleRepresenter, 'rendering' do
+RSpec.describe Bim::Bcf::API::V2_1::Viewpoints::SingleRepresenter, "rendering" do
   let(:struct) do
     OpenStruct.new
   end
@@ -84,7 +84,7 @@ RSpec.describe Bim::Bcf::API::V2_1::Viewpoints::SingleRepresenter, 'rendering' d
 
   subject { representer.from_hash(hash).to_h.to_json }
 
-  shared_examples_for 'parses' do |attribute|
+  shared_examples_for "parses" do |attribute|
     it attribute do
       expect(subject)
         .to be_json_eql(hash[attribute].to_json)
@@ -92,24 +92,24 @@ RSpec.describe Bim::Bcf::API::V2_1::Viewpoints::SingleRepresenter, 'rendering' d
     end
   end
 
-  it 'does not parse uuid' do
+  it "does not parse uuid" do
     expect(subject)
-      .not_to have_json_path('guid')
+      .not_to have_json_path("guid")
   end
 
-  it_behaves_like 'parses', 'index'
+  it_behaves_like "parses", "index"
 
-  it_behaves_like 'parses', 'orthogonal_camera'
+  it_behaves_like "parses", "orthogonal_camera"
 
-  it_behaves_like 'parses', 'perspective_camera'
+  it_behaves_like "parses", "perspective_camera"
 
-  it_behaves_like 'parses', 'lines'
+  it_behaves_like "parses", "lines"
 
-  it_behaves_like 'parses', 'clipping_planes'
+  it_behaves_like "parses", "clipping_planes"
 
-  it_behaves_like 'parses', 'bitmaps' # in order to throw a not writable error)
+  it_behaves_like "parses", "bitmaps" # in order to throw a not writable error)
 
-  it_behaves_like 'parses', 'snapshot'
+  it_behaves_like "parses", "snapshot"
 
-  it_behaves_like 'parses', 'components'
+  it_behaves_like "parses", "components"
 end

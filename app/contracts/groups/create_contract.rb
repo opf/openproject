@@ -36,7 +36,7 @@ module Groups
 
     def type_is_group
       unless model.type == Group.name
-        errors.add(:type, 'Type and class mismatch')
+        errors.add(:type, "Type and class mismatch")
       end
     end
   end

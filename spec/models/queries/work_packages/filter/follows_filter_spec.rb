@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::FollowsFilter do
-  it_behaves_like 'filter by work package id' do
+  it_behaves_like "filter by work package id" do
     let(:class_key) { :follows }
 
-    it_behaves_like 'filter for relation' do
+    it_behaves_like "filter for relation" do
       let(:relation_type) { :follows }
     end
   end

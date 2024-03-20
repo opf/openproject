@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Projects::UnarchiveService do
   let(:project) { create(:project, active: false) }
   let(:user) { create(:admin) }
   let(:instance) { described_class.new(user:, model: project) }
 
-  it 'unarchives and sends the notification' do
+  it "unarchives and sends the notification" do
     allow(OpenProject::Notifications).to receive(:send)
     expect(project.active).to be(false)
 
@@ -48,13 +48,13 @@ RSpec.describe Projects::UnarchiveService do
             .with(OpenProject::Events::PROJECT_UNARCHIVED, project:))
   end
 
-  context 'with the seeded demo project' do
+  context "with the seeded demo project" do
     let(:demo_project) do
-      create(:project, name: 'Demo project', identifier: 'demo-project', public: true, active: false)
+      create(:project, name: "Demo project", identifier: "demo-project", public: true, active: false)
     end
     let(:instance) { described_class.new(user:, model: demo_project) }
 
-    it 'saves in a Setting that the demo project was modified (regression #52826)' do
+    it "saves in a Setting that the demo project was modified (regression #52826)" do
       # Un-archive the demo project
       expect(instance.call).to be_truthy
       expect(demo_project.active).to be(true)

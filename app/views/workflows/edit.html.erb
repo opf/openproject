@@ -56,7 +56,7 @@ See COPYRIGHT and LICENSE files for more details.
         </li>
       </ul>
       <li class="simple-filters--controls">
-        <%= submit_tag t(:button_edit), name: nil, accesskey: accesskey(:edit), class: 'button -small -highlight' %>
+        <%= submit_tag t(:button_edit), name: nil, accesskey: accesskey(:edit), class: 'button -small -primary' %>
       </li>
     </ul>
   </fieldset>
@@ -79,7 +79,7 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render partial: 'form', locals: { name: 'assignee', workflows: @workflows['assignee'] } %>
     <% end %>
 
-    <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+    <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
   <% end %>
 <% end %>
 

@@ -30,7 +30,7 @@ class DigestMailerPreview < ActionMailer::Preview
   # Preview emails at http://localhost:3000/rails/mailers/digest_mailer
 
   def work_packages
-    notifications = Notification.where(resource_type: 'WorkPackage')
+    notifications = Notification.where(resource_type: "WorkPackage")
     DigestMailer.work_packages(notifications.first.recipient_id, [notifications.ids])
   end
 end
