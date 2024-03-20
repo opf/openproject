@@ -8,7 +8,7 @@ pl:
         text: "Niektóre widżety, takie jak widżet wykresu pakietu roboczego, są dostępne jedynie w wersji Enterprise."
         link: 'Wersja Enterprise.'
       widgets:
-        missing_permission: "You don't have the necessary permissions to view this widget."
+        missing_permission: "Nie masz uprawnień niezbędnych do wyświetlenia tego widżetu."
         custom_text:
           title: 'Tekst niestandardowy/użytkownika'
         documents:

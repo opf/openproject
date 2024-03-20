@@ -4,14 +4,14 @@ ms:
     bcf:
       label_bcf: 'BCF'
       import: 'Import'
-      import_bcf_xml_file: 'Import BCF XML file (BCF version 2.1)'
-      export: 'Export'
-      export_bcf_xml_file: 'Export BCF XML file (BCF version 2.1)'
-      viewpoint: 'Viewpoint'
-      add_viewpoint: 'Add viewpoint'
-      show_viewpoint: 'Show viewpoint'
-      delete_viewpoint: 'Delete viewpoint'
-      management: 'BCF management'
+      import_bcf_xml_file: 'Import fail BCF XML (BCF version 2.1)'
+      export: 'Eksport'
+      export_bcf_xml_file: 'Eksport fail BCF XML (BCF version 2.1)'
+      viewpoint: 'Sudut pandangan'
+      add_viewpoint: 'Tambah sudut pandangan'
+      show_viewpoint: 'Tunjuk sudut pandangan'
+      delete_viewpoint: 'Padam sudut pandangan'
+      management: "Pengurusan BCF\n"
       refresh: 'Refresh'
       refresh_work_package: 'Refresh work package'
     ifc_models:

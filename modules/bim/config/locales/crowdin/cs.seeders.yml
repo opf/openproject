@@ -472,7 +472,7 @@ cs:
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
               children:
                 item_0:
-                  subject: Gathering the project specific data and information for the BIM model
+                  subject: Shromažďování údajů a informací specifických pro projekt pro model BIM
                   description: |-
                     ## Goal
 

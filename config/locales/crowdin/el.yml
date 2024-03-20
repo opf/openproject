@@ -26,7 +26,8 @@ el:
       no_results_title_text: Δεν υπήρξε καμία δραστηριότητα για το έργο εντός αυτού του χρονικού πλαισίου.
   admin:
     plugins:
-      no_results_title_text: Προς το παρόν δεν υπάρχουν διαθέσιμα πρόσθετα.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Χρωματικό θέμα"
       color_theme_custom: "(Προσαρμοσμένο)"

@@ -26,7 +26,8 @@ th:
       no_results_title_text: ไม่มีกิจกรรมสำหรับโปรเจคนี้
   admin:
     plugins:
-      no_results_title_text: ขณะนี้ยังไม่มีปลั๊กอินที่พร้อมใช้งาน
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "สีของรูปแบบ"
       color_theme_custom: "ตั้งค่าเอง"

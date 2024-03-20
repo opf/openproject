@@ -26,7 +26,8 @@ vi:
       no_results_title_text: Đã không có bất kỳ hoạt động nào cho dự án trong khung thời gian này.
   admin:
     plugins:
-      no_results_title_text: Không có plugins nào khả dụng.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Màu sắc giao diện"
       color_theme_custom: "(Tùy chỉnh)"

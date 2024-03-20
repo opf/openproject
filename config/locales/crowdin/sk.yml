@@ -26,7 +26,8 @@ sk:
       no_results_title_text: Počas tohto časového obdobia nebola vykonaná žiadna aktivita na projekte.
   admin:
     plugins:
-      no_results_title_text: Momentálne nie sú k dispozícii žiadne zásuvné moduly.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Farebný motív"
       color_theme_custom: "(Vlastné)"

@@ -103,7 +103,7 @@ zh-TW:
       invited:
         summary: "%{actor} 已經向您發送了一個 %{title} 會議邀請"
       rescheduled:
-        header: "Meeting %{title} has been rescheduled"
+        header: "會議 %{title} 已經重新安排"
         summary: "會議 %{title} 已經被 %{actor} 重新安排"
         body: "此會議 %{title} 已經被 %{actor} 重新安排。"
         old_date_time: "舊日期/時間"
@@ -149,7 +149,7 @@ zh-TW:
   label_meeting_delete: "刪除會議"
   label_meeting_created_by: "建立者"
   label_meeting_last_updated: "最後更新於"
-  label_agenda_item_undisclosed_wp: "Work package #%{id} not visible"
+  label_agenda_item_undisclosed_wp: "工作項目 #%{id} 非可見"
   label_agenda_item_deleted_wp: "已將引用的工作項目刪除"
   label_agenda_item_actions: "議程項目行動"
   label_agenda_item_move_to_top: "移到頂部"

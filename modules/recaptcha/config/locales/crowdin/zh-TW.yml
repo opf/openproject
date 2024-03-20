@@ -10,7 +10,7 @@ zh-TW:
     error_captcha: "您的帳號無法驗證，請洽管理員。"
     settings:
       website_key: '網站金鑰'
-      response_limit: 'Response limit for HCaptcha'
+      response_limit: 'HCaptcha回應限制'
       response_limit_text: 'The maximum number of characters to treat the HCaptcha response as valid.'
       website_key_text: 'Enter the website key you created on the reCAPTCHA admin console for this domain.'
       secret_key: '密鑰'
