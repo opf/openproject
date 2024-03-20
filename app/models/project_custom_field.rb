@@ -36,7 +36,7 @@ class ProjectCustomField < CustomField
 
   after_save :activate_required_field_in_all_projects
 
-  validates :project_custom_field_section, presence: true
+  validates :custom_field_section_id, presence: true
 
   def type_name
     :label_project_plural

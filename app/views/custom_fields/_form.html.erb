@@ -31,10 +31,11 @@ See COPYRIGHT and LICENSE files for more details.
     <%= f.text_field :name, required: true, container_class: '-middle' %>
   </div>
   <% if @custom_field.type == 'ProjectCustomField' %>
-    <div class="form--field">
+    <div class="form--field -required">
       <%= f.select :custom_field_section_id,
                   ProjectCustomFieldSection.all.collect { |s| [s.name, s.id] },
-                  { container_class: '-slim' }
+                  { container_class: '-slim' },
+                  required: true
       %>
     </div>
   <% end %>
