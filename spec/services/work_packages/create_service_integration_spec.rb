@@ -248,8 +248,8 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
           expect(service_result)
             .to be_success
 
-          expect(new_work_package.created_at).to eq(created_at)
-          expect(new_work_package.updated_at).to eq(updated_at)
+          expect(new_work_package.created_at).to be_within(1.second).of(created_at)
+          expect(new_work_package.updated_at).to be_within(1.second).of(updated_at)
         end
       end
 

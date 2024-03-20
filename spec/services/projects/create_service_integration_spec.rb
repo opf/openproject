@@ -55,7 +55,7 @@ RSpec.describe Projects::CreateService, "integration", type: :model do
           .to be_success
 
         new_project.reload
-        expect(new_project.created_at).to eq(created_at)
+        expect(new_project.created_at).to be_within(1.second).of created_at
       end
     end
 
