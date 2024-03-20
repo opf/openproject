@@ -36,4 +36,4 @@ A big thanks to everyone involved in fixing and reporting those bugs!
 For a complete list of changes, please refer to the 
 [Changelog v4.0.2](https://community.openproject.org/versions/532) 
 or to
-[Github](https://github.com/opf/openproject/tree/v4.0.2).
+[GitHub](https://github.com/opf/openproject/tree/v4.0.2).

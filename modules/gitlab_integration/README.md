@@ -2,7 +2,7 @@
 
 <div><a href="https://jb.gg/OpenSourceSupport"><img width="300" src="https://github.com/btey/openproject-gitlab-integration/assets/14983519/bc7b3e7f-163d-4bcf-ab31-9f5982b8d2fc"></a></div>
 
-Based on the OpenProject Github Integration, this plugin offers the same functionalities plus other new features. This is the first version that includes the visualization of the status of the *Pipelines* (by now, it is considered in Beta status). You can test it by activating the Pipelines event in the GitLab webhook. Just keep in mind that not all pipelines will be reflected in OpenProject, only Merge Request type pipelines (for more information see the GitLab issue https://gitlab.com/gitlab-org/gitlab/-/issues/345028). Any feedback about the pipelines feature would be very appreciated, whether it works or if issues arise (you can use this ticket https://github.com/btey/openproject-gitlab-integration/issues/43).
+Based on the OpenProject GitHub Integration, this plugin offers the same functionalities plus other new features. This is the first version that includes the visualization of the status of the *Pipelines* (by now, it is considered in Beta status). You can test it by activating the Pipelines event in the GitLab webhook. Just keep in mind that not all pipelines will be reflected in OpenProject, only Merge Request type pipelines (for more information see the GitLab issue https://gitlab.com/gitlab-org/gitlab/-/issues/345028). Any feedback about the pipelines feature would be very appreciated, whether it works or if issues arise (you can use this ticket https://github.com/btey/openproject-gitlab-integration/issues/43).
 
 In this version it has also been implemented that **all linked or referenced** Issues appear in the GitLab tab (https://github.com/btey/openproject-gitlab-integration/issues/34). The opportunity has also been taken to redesign how the information is presented so that it is visually easy to read and at the same time can continue to provide all the information, including labels and pipeline status.
 
@@ -15,7 +15,7 @@ If there are labels related to the Issue or MR, a button with the label icon wil
 ## Overview
 
 OpenProject module for integration with GitLab:
-* Latest Gitlab release tested: **16.6.2**
+* Latest GitLab release tested: **16.6.2**
 * Latest OpenProject release tested: **13.1.2** (for OP v13.0.X use v2.1.2)
 
 The reference system is based on the same system as for GitHub integration. You can use a link to the work package or just use “OP#87” or "PP#87" in the title/description of the Issue/MR in GitLab.
@@ -136,7 +136,7 @@ A typical workflow on GitLab side would be:
 
 ## Configuration
 
-You will have to configure both **OpenProject** and **Gitlab** for the integration to work.
+You will have to configure both **OpenProject** and **GitLab** for the integration to work.
 
 In case of **Docker** installation, follow the official OpenProject documentation [here](https://www.openproject.org/docs/installation-and-operations/installation/docker/#openproject-plugins). If for some reason the installation with Docker described in the official documentation does not work for you, you can try building your own docker image:
 * Clone from the Openproject Repo: `git clone https://github.com/opf/openproject.git --branch=stable/13 --depth=1 .`
@@ -147,11 +147,11 @@ In case of **Docker** installation, follow the official OpenProject documentatio
 
 In case of **DEB/RPM** based instalation, follow the official OpenProject documentation [here](https://www.openproject.org/docs/installation-and-operations/configuration/plugins/).
 
-In case of [**manual**](https://www.openproject.org/docs/installation-and-operations/installation/manual/) installation, this plugin should be installed in the same place as the Github plugin that comes bundled with OpenProject.
+In case of [**manual**](https://www.openproject.org/docs/installation-and-operations/installation/manual/) installation, this plugin should be installed in the same place as the GitHub plugin that comes bundled with OpenProject.
 
-- **Github plugin path:** `modules/github_integration`
+- **GitHub plugin path:** `modules/github_integration`
 
-- **Path to put Gitlab plugin:** `modules/gitlab_integration`
+- **Path to put GitLab plugin:** `modules/gitlab_integration`
 
 But first you must modify **Gemfile.lock** and **Gemfile.modules** so that OpenProject detects the new module.
 
@@ -198,13 +198,13 @@ bundle config set deployment
 
 First you will need to create a user in OpenProject that will make the comments. The user will have to be added to each project with a role that allows them to comment on work packages and change status.
 
-Once the user is created you need to generate an OpenProject API token for it to use later on the Gitlab side:
+Once the user is created you need to generate an OpenProject API token for it to use later on the GitLab side:
 
 * Login as the newly created user.
 * Go to My Account (click on Avatar in top right corner).
 * Go to Access Token.
 * Click on generate in the API row.
-* Copy the generated key. You can now configure the necessary webhook in Gitlab.
+* Copy the generated key. You can now configure the necessary webhook in GitLab.
 
 ### The webhook in GitLab
 
@@ -227,7 +227,7 @@ You need to configure just two things in the webhook:
 
 Now the integration is set up on both sides and you can use it.
 
-> **Note:** If you are installing and configuring OpenProject on the same server as GitLab you will need to enable in Gitlab the option [`Allow requests to the local network from web hooks and services`](https://docs.gitlab.com/ee/security/webhooks.html#allow-requests-to-the-local-network-from-webhooks-and-integrations) so that it can send the data locally to the OpenProject webhook since they will be on the same machine.
+> **Note:** If you are installing and configuring OpenProject on the same server as GitLab you will need to enable in GitLab the option [`Allow requests to the local network from web hooks and services`](https://docs.gitlab.com/ee/security/webhooks.html#allow-requests-to-the-local-network-from-webhooks-and-integrations) so that it can send the data locally to the OpenProject webhook since they will be on the same machine.
 
 ## How to report bugs or issues
 
