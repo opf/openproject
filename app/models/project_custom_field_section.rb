@@ -27,5 +27,6 @@
 #++
 
 class ProjectCustomFieldSection < CustomFieldSection
-  has_many :custom_fields, class_name: "ProjectCustomField", dependent: :destroy
+  has_many :custom_fields, class_name: "ProjectCustomField", dependent: :destroy, foreign_key: :custom_field_section_id,
+                           inverse_of: :project_custom_field_section
 end

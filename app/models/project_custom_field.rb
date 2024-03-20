@@ -27,8 +27,9 @@
 #++
 
 class ProjectCustomField < CustomField
-  belongs_to :project_custom_field_section, class_name: 'ProjectCustomFieldSection', foreign_key: :custom_field_section_id
-  has_many :project_custom_field_project_mappings, class_name: 'ProjectCustomFieldProjectMapping', foreign_key: :custom_field_id,
+  belongs_to :project_custom_field_section, class_name: "ProjectCustomFieldSection", foreign_key: :custom_field_section_id,
+                                            inverse_of: :custom_fields
+  has_many :project_custom_field_project_mappings, class_name: "ProjectCustomFieldProjectMapping", foreign_key: :custom_field_id,
                                                    dependent: :destroy, inverse_of: :project_custom_field
 
   acts_as_list column: :position_in_custom_field_section, scope: [:custom_field_section_id]
