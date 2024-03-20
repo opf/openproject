@@ -26,14 +26,15 @@ nl:
       no_results_title_text: Er is geen activiteit voor deze projecten binnen deze periode.
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: Er zijn momenteel geen plugins beschikbaar.
     custom_styles:
       color_theme: "Kleurenschema"
       color_theme_custom: "(Custom)"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
+        alternative-color: "Alternatief"
+        content-link-color: "Link font"
+        primary-color: "Primary"
+        primary-color-dark: "Primary (Donker)"
         header-bg-color: "Koptekst achtergrond"
         header-item-bg-hover-color: "Header background on hover"
         header-item-font-color: "Lettertype koptekst"
@@ -52,8 +53,10 @@ nl:
       enterprise_more_info: "Opmerking: het gebruikte logo is openbaar toegankelijk."
       manage_colors: "Bewerk de kleur selectie opties"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
+        alternative-color: "Sterke accentkleur, meestal gebruikt voor de belangrijkste knop op een scherm."
+        content-link-color: "De kleur van het lettertype van de meeste van de links."
+        primary-color: "Hoofdkleur."
+        primary-color-dark: "Meestal een donkere versie van de belangrijkste kleur die gebruikt wordt voor hover-effecten."
         header-item-bg-hover-color: "De achtergrondkleur van klikbare header items wanneer deze aangewezen door de muis."
         header-item-font-color: "De lettertypekleur van klikbare header items."
         header-item-font-hover-color: "De achtergrondkleur van klikbare header items wanneer deze aangewezen worden door de muis."
@@ -1526,7 +1529,6 @@ nl:
       postgres_migration: "Uw installatie overzetten naar PostgreSQL"
       user_guides: "Gebruikershandleidingen"
       faq: "Veelgestelde vragen (FAQ)"
-      impressum: "Legal notice"
       glossary: "Woordenlijst"
       shortcuts: "Snelkoppelingen"
       blog: "OpenProject blog"
@@ -1858,6 +1860,7 @@ nl:
   label_subject_or_id: "Onderwerp of ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
+  label_impressum: "Juridische mededeling"
   label_in: "in"
   label_in_less_than: "in minder dan"
   label_in_more_than: "in meer dan"

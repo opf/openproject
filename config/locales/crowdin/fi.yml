@@ -26,14 +26,15 @@ fi:
       no_results_title_text: Ei tapahtumia projektissa tällä aikavälillä.
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: Tällä hetkellä ei ole liitännäisiä saatavilla.
     custom_styles:
       color_theme: "Väriteema"
       color_theme_custom: "(Mukautettu)"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
+        alternative-color: "Vaihtoehtoinen"
+        content-link-color: "Linkin kirjasin"
+        primary-color: "Primary"
+        primary-color-dark: "Primary (dark)"
         header-bg-color: "Header background"
         header-item-bg-hover-color: "Header background on hover"
         header-item-font-color: "Header font"
@@ -52,8 +53,10 @@ fi:
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Muokkaa värin valitsemis asetuksia"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        content-link-color: "Fontin väri eniten linkkejä."
+        primary-color: "Pääväri."
+        primary-color-dark: "Yleensä tummempi versio pääväristä on käytössä valintatehosteissa."
         header-item-bg-hover-color: "Taustan väri klikattava otsikko eriä kun leijui hiirellä."
         header-item-font-color: "Fontin väri klikattava otsikko eriä."
         header-item-font-hover-color: "Fontin väri klikattava otsikko eriä kun leijui hiirellä."
@@ -1529,7 +1532,6 @@ fi:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "Käyttöoppaat"
       faq: "UKK"
-      impressum: "Legal notice"
       glossary: "Sanasto"
       shortcuts: "Pikanäppäimet"
       blog: "OpenProject blogi"
@@ -1861,6 +1863,7 @@ fi:
   label_subject_or_id: "Aihe tai ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
+  label_impressum: "Legal notice"
   label_in: "tässä"
   label_in_less_than: "pienempi kuin"
   label_in_more_than: "suurempi kuin"

@@ -26,14 +26,15 @@ lt:
       no_results_title_text: Šiuo periodu projekte nieko neįvyko.
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: Nėra jokių pasiekiamų plėtinių.
     custom_styles:
       color_theme: "Spalvų tema"
       color_theme_custom: "(Pasirinktinis)"
       colors:
-        primary-button-color: "Pagrindinis mygtukas"
-        accent-color: "Akcentas"
+        alternative-color: "Alternatyva"
+        content-link-color: "Nuorodų šriftas"
+        primary-color: "Pagrindinė"
+        primary-color-dark: "Pagrindinė (tamsi)"
         header-bg-color: "Antraštės fonas"
         header-item-bg-hover-color: "Atraštės fonas užvedus pelę"
         header-item-font-color: "Antraštės šriftas"
@@ -52,8 +53,10 @@ lt:
       enterprise_more_info: "Pastaba: panaudotas logotipas bus viešai prieinamas."
       manage_colors: "Redaguoti spalvos pasirinkimo variantus"
       instructions:
-        primary-button-color: "Stipraus akcento spalva, naudojama svarbiausiam ekrano mygtukui."
-        accent-color: "Spalvos nuorodoms ir kitiems dalinai paryškintiems elementams."
+        alternative-color: "Stipri, akį rėžianti spalva, įprastai naudojama svarbiausiam mygtukui ekrane."
+        content-link-color: "Šrifto spalva daugeliui nuorodų."
+        primary-color: "Pagrindinė spalva."
+        primary-color-dark: "Įprastai tamsesnė pagrindinės spalvos atmaina naudojama žymeklio užvedimo efektui sukurti."
         header-item-bg-hover-color: "Antraštės fono spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
         header-item-font-color: "Šrifto spalva galimiems paspausti antraštės įrašams."
         header-item-font-hover-color: "Šrifto spalva galimiems paspausti antraštės įrašams, kai užvedama pelė."
@@ -1580,7 +1583,6 @@ lt:
       postgres_migration: "Migruojame jūsų instaliaciją į PostgreSQL"
       user_guides: "Vartotojo vadovai"
       faq: "D.U.K"
-      impressum: "Teisinė informacija"
       glossary: "Aiškinamasis terminų žodynas"
       shortcuts: "Nuorodos"
       blog: "OpenProject blogas"
@@ -1912,6 +1914,7 @@ lt:
   label_subject_or_id: "Tema arba ID"
   label_calendar_subscriptions: "Kalendoriaus prenumeratos"
   label_identifier: "Identifikatorius"
+  label_impressum: "Teisinė informacija"
   label_in: " "
   label_in_less_than: "mažiau nei"
   label_in_more_than: "daugiau nei"

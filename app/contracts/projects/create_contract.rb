@@ -28,11 +28,6 @@
 
 module Projects
   class CreateContract < BaseContract
-    include AdminWritableTimestamps
-    # Projects update their updated_at timestamp due to awesome_nested_set
-    # so allowing writing here would be useless.
-    allow_writable_timestamps :created_at
-
     private
 
     def validate_user_allowed_to_manage

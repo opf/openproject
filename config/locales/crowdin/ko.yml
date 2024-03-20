@@ -26,14 +26,15 @@ ko:
       no_results_title_text: 이 시간 프레임 내에서 프로젝트에 대한 활동이 없습니다.
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: 사용 가능한 플러그인이 없습니다.
     custom_styles:
       color_theme: "컬러 테마"
       color_theme_custom: "(사용자 지정)"
       colors:
-        primary-button-color: "기본 버튼"
-        accent-color: "강조 색"
+        alternative-color: "대안"
+        content-link-color: "링크 글꼴"
+        primary-color: "기본"
+        primary-color-dark: "기본(진함)"
         header-bg-color: "헤더 배경"
         header-item-bg-hover-color: "가리킬 때 헤더 배경"
         header-item-font-color: "헤더 글꼴"
@@ -52,8 +53,10 @@ ko:
       enterprise_more_info: "참고: 사용된 로그는 공개적으로 액세스 가능합니다."
       manage_colors: "색상 선택 옵션 편집"
       instructions:
-        primary-button-color: "강한 강조 색은 화면의 가장 중요한 버튼에 사용됩니다."
-        accent-color: "링크 및 기타 적절하게 강조 표시된 요소의 색상을 지정하세요."
+        alternative-color: "강한 강조 색은 일반적으로 화면의 가장 중요한 버튼에 사용됩니다."
+        content-link-color: "대부분 링크의 글꼴색입니다."
+        primary-color: "주 색상"
+        primary-color-dark: "일반적으로 메인 색상의 어두운 버전은 호버 효과에 사용됩니다."
         header-item-bg-hover-color: "마우스로 가리킬 때 클릭 가능한 헤더 항목의 배경색입니다."
         header-item-font-color: "클릭 가능한 헤더 항목의 글꼴색입니다."
         header-item-font-hover-color: "마우스로 가리킬 때 클릭 가능한 헤더 항목의 글꼴색입니다."
@@ -1501,7 +1504,6 @@ ko:
       postgres_migration: "설치를 PostgreSQL로 마이그레이션"
       user_guides: "사용자 가이드"
       faq: "FAQ"
-      impressum: "법적 고지"
       glossary: "용어집"
       shortcuts: "바로가기 "
       blog: "OpenProject 블로그"
@@ -1833,6 +1835,7 @@ ko:
   label_subject_or_id: "제목 또는 ID"
   label_calendar_subscriptions: "캘린더 구독"
   label_identifier: "식별자"
+  label_impressum: "법적 고지"
   label_in: "-"
   label_in_less_than: "보다 작음"
   label_in_more_than: "보다 큼"

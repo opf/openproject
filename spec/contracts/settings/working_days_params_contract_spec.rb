@@ -31,11 +31,18 @@ require 'contracts/shared/model_contract_shared_context'
 
 RSpec.describe Settings::WorkingDaysParamsContract do
   include_context 'ModelContract shared context'
-  shared_let(:current_user) { create(:admin) }
   let(:setting) { Setting }
+  let(:current_user) { build_stubbed(:admin) }
   let(:params) { { working_days: [1] } }
   let(:contract) do
     described_class.new(setting, current_user, params:)
+  end
+  let(:apply_job_scheduled) { false }
+
+  before do
+    allow(WorkPackages::ApplyWorkingDaysChangeJob)
+      .to receive(:scheduled?)
+            .and_return(apply_job_scheduled)
   end
 
   it_behaves_like 'contract is valid for active admins and invalid for regular users'
@@ -46,17 +53,9 @@ RSpec.describe Settings::WorkingDaysParamsContract do
     include_examples 'contract is invalid', base: :working_days_are_missing
   end
 
-  context 'with an ApplyWorkingDaysChangeJob already existing',
-          with_good_job: WorkPackages::ApplyWorkingDaysChangeJob do
+  context 'with an ApplyWorkingDaysChangeJob already existing' do
     let(:params) { { working_days: [1, 2, 3] } }
-
-    before do
-      WorkPackages::ApplyWorkingDaysChangeJob
-        .set(wait: 10.minutes) # GoodJob executes inline job without wait immediately
-        .perform_later(user_id: current_user.id,
-                       previous_non_working_days: [],
-                       previous_working_days: [1, 2, 3, 4])
-    end
+    let(:apply_job_scheduled) { true }
 
     include_examples 'contract is invalid', base: :previous_working_day_changes_unprocessed
   end

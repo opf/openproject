@@ -26,14 +26,15 @@ ca:
       no_results_title_text: No hi hagut activitat al projecte en aquesta finestra de temps.
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: Actualment no hi ha plugins disponibles.
     custom_styles:
       color_theme: "Tema de color"
       color_theme_custom: "(Personalitzat)"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
+        alternative-color: "Alternatiu"
+        content-link-color: "Enllaça font"
+        primary-color: "Primari"
+        primary-color-dark: "Primari (fosc)"
         header-bg-color: "Fons de capçalera"
         header-item-bg-hover-color: "Fons de capçalera en passar el ratolí"
         header-item-font-color: "Font de capçalera"
@@ -52,8 +53,10 @@ ca:
       enterprise_more_info: "Nota: el logotip utilitzat serà accessible públicament."
       manage_colors: "Edita les opcions de selecció de colors"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
+        alternative-color: "Color d'accent fort, típicament utilitzat per al botó més important de la pantalla."
+        content-link-color: "Color de lletra de la majoria dels enllaços."
+        primary-color: "Color principal."
+        primary-color-dark: "Habitualment una versió més fosca del color principal feta servir per efectes quan el ratolí passa per sobre."
         header-item-bg-hover-color: "Color de fons dels elements clicables de la capçalera quan el ratolí hi passa per damunt."
         header-item-font-color: "Color de lletra dels elements clicables de la capçalera."
         header-item-font-hover-color: "Color de lletra dels elements clicables de la capçalera quan el ratolí hi passa per damunt."
@@ -1525,7 +1528,6 @@ ca:
       postgres_migration: "Migrant la teva instal·lació a PostgreSQL"
       user_guides: "Guies d'usuari"
       faq: "Preguntes Més Freqüents"
-      impressum: "Legal notice"
       glossary: "Glossari"
       shortcuts: "Dreceres"
       blog: "Blog OpenProject"
@@ -1857,6 +1859,7 @@ ca:
   label_subject_or_id: "Subjecte o ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
+  label_impressum: "Avís legal"
   label_in: "en"
   label_in_less_than: "en menys de"
   label_in_more_than: "en més de"

@@ -26,14 +26,15 @@ ne:
       no_results_title_text: यो अवधिमा आयोजनाको कुनै पनि क्रियाकलाप भएको छैन ।
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: हाल कुनै प्लगइनहरू उपलब्ध छैन।
     custom_styles:
       color_theme: "रंग विषयवस्तु"
       color_theme_custom: "(अनुकूलन)"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
+        alternative-color: "वैकल्पिक"
+        content-link-color: "फन्ट लिंक गर्नुहोस् "
+        primary-color: "प्राथमिक"
+        primary-color-dark: "प्राथमिक (अँध्यारो)"
         header-bg-color: "हेडर पृष्ठभूमि"
         header-item-bg-hover-color: "होभरमा हेडर पृष्ठभूमि"
         header-item-font-color: "हेडर फन्ट"
@@ -52,8 +53,10 @@ ne:
       enterprise_more_info: "नोट: प्रयोग गरिएको लोगो सार्वजनिक रूपमा पहुँचयोग्य हुनेछ।"
       manage_colors: "रङ चयन गर्न सकिने विकल्पहरू सम्पादन गर्नुहोस्"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
+        alternative-color: "कडा उच्चारण रंग, सामान्यतया स्क्रिनमा सबै भन्दा महत्वपूर्ण बटन को लागी प्रयोग गरिने।"
+        content-link-color: "अधिकांश लिङ्कहरूको फन्ट रङ।"
+        primary-color: "मुख्य रंग "
+        primary-color-dark: "सामान्यतया मुख्य रंगको गाढा संस्करण होभर प्रभावहरूको लागि प्रयोग गरिन्छ।"
         header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
         header-item-font-color: "Font color of clickable header items."
         header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
@@ -1529,7 +1532,6 @@ ne:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
-      impressum: "Legal notice"
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       blog: "OpenProject blog"
@@ -1861,6 +1863,7 @@ ne:
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
+  label_impressum: "Legal notice"
   label_in: "in"
   label_in_less_than: "in less than"
   label_in_more_than: "in more than"

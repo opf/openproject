@@ -26,14 +26,15 @@ pt:
       no_results_title_text: Não ocorreu nenhuma atividade neste projeto dentro deste espaço de tempo.
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: Atualmente, não existem extensões disponíveis.
     custom_styles:
       color_theme: "Cores do tema"
       color_theme_custom: "(Personalizado)"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
+        alternative-color: "Alternativo"
+        content-link-color: "Fonte dos links"
+        primary-color: "Primária"
+        primary-color-dark: "Primária (escuro)"
         header-bg-color: "Fundo do cabeçalho"
         header-item-bg-hover-color: "Fundo do cabeçalho ao passar o rato"
         header-item-font-color: "Fonte do cabeçalho"
@@ -52,8 +53,10 @@ pt:
       enterprise_more_info: "Nota: o logótipo usado estará acessível ao público."
       manage_colors: "Editar opções de selecção de cor"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
+        alternative-color: "Cor de contraste forte, utilizada habitualmente no botão mais importante de um ecrã."
+        content-link-color: "Cor da fonte da maioria dos hyperlinks."
+        primary-color: "Cor principal."
+        primary-color-dark: "Normalmente é utilizada uma cor mais escura da cor principal para a ação de passar com o rato por cima."
         header-item-bg-hover-color: "Cor de fundo de itens do cabeçalho clicáveis quando se passa com o rato por cima."
         header-item-font-color: "Cor da fonte dos itens clicáveis do cabeçalho."
         header-item-font-hover-color: "Cor da fonte de itens clicáveis do cabeçalho quando se passa com o mouse por cima."
@@ -1527,7 +1530,6 @@ pt:
       postgres_migration: "A migrar a sua instalação para PostgreSQL"
       user_guides: "Guia do Utilizador"
       faq: "FAQ (Perguntas Mais Frequentes)"
-      impressum: "Legal notice"
       glossary: "Glossário"
       shortcuts: "Atalhos"
       blog: "Blog de OpenProject"
@@ -1859,6 +1861,7 @@ pt:
   label_subject_or_id: "ID ou Assunto"
   label_calendar_subscriptions: "Subscrições do calendário"
   label_identifier: "Identificador"
+  label_impressum: "Aviso legal"
   label_in: "em"
   label_in_less_than: "em menos de"
   label_in_more_than: "em mais de"

@@ -26,14 +26,15 @@
       no_results_title_text: Det har ikke vært noen aktivitet i dette prosjektet i valgt periode
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: Det er for tiden ingen utvidelser tilgjengelig
     custom_styles:
       color_theme: "Fargetema"
       color_theme_custom: "Egendefinert"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
+        alternative-color: "Alternativ"
+        content-link-color: "Lenkefarge"
+        primary-color: "Primær"
+        primary-color-dark: "Primær (mørk)"
         header-bg-color: "Topp bakgrunn"
         header-item-bg-hover-color: "Topp bakgrunn på hover"
         header-item-font-color: "Header font"
@@ -52,8 +53,10 @@
       enterprise_more_info: "Merk: den brukte logoen vil være offentlig tilgjengelig."
       manage_colors: "Endre alternativer for fargevalg"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
+        alternative-color: "Sterk aksentfarge, vanligvis brukt på den viktigste knappen på en skjerm."
+        content-link-color: "Skriftfarge til de fleste lenker."
+        primary-color: "Hovedfarge."
+        primary-color-dark: "Typisk en mørkere versjon av hovedfargen som brukes for effekter ved peking."
         header-item-bg-hover-color: "Bakgrunnsfarge for klikkbare toppelementer når du peker med musen."
         header-item-font-color: "Skriftfarge på klikkbare toppelementer."
         header-item-font-hover-color: "Skriftfarge for klikkbare toppelementer når du peker med musen."
@@ -1529,7 +1532,6 @@
       postgres_migration: "Overføre installasjonen til PostgreSQL"
       user_guides: "Brukerveiledning"
       faq: "FAQ"
-      impressum: "Legal notice"
       glossary: "Ordliste"
       shortcuts: "Snarveier"
       blog: "OpenProject blogg"
@@ -1861,6 +1863,7 @@
   label_subject_or_id: "Emne eller ID"
   label_calendar_subscriptions: "Abonnementer til kalendere"
   label_identifier: "Identifikator"
+  label_impressum: "Juridisk merknad"
   label_in: "i"
   label_in_less_than: "i mindre enn"
   label_in_more_than: "i mer enn"

@@ -104,7 +104,7 @@ RSpec.describe OAuthClients::ConnectionManager, :webmock, type: :model do
     it 'always add the necessary scopes' do
       uri = connection_manager.get_authorization_uri(state: nil)
 
-      expect(uri).to include CGI.escape(storage.oauth_configuration.scope.join(' '))
+      expect(uri).to include storage.oauth_configuration.scope.join('%20')
     end
 
     it 'adds the state if present' do
