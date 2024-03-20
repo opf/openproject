@@ -92,15 +92,17 @@ RSpec.describe Notifications::ScheduleDateAlertsNotificationsJob, type: :job, wi
   end
 
   shared_examples_for "job execution creates date alerts creation job" do
+    let(:job_class) { Notifications::CreateDateAlertsNotificationsJob.name }
+
     it "creates the job for the user" do
       expect do
         run_job(timezone:, scheduled_at:, local_time:) do
-          j = GoodJob::Job.where(job_class: "Notifications::CreateDateAlertsNotificationsJob")
+          j = GoodJob::Job.where(job_class:)
                           .order(created_at: :desc)
                           .last
           expect_job(j, user)
         end
-      end.to change { GoodJob::Job.where(job_class: "Notifications::CreateDateAlertsNotificationsJob").count }.by 1
+      end.to change { GoodJob::Job.where(job_class:).count }.by 1
     end
   end
 
