@@ -145,7 +145,8 @@ Thanks to our great Community we can continuously offer more languages for OpenP
 - Bugfix: Webauthn fails on mobile Safari \[[#53442](https://community.openproject.org/wp/53442)\]
 - Bugfix: Rake secret task gone in 13.3.1 (breaking scripts & diverging from docs) \[[#53447](https://community.openproject.org/wp/53447)\]
 - Bugfix: WebAuth fails on iOS \[[#53494](https://community.openproject.org/wp/53494)\]
-- Bugfix: WebAuthen not selectable on mobile  \[[#53495](https://community.openproject.org/wp/53495)\]
+- Bugfix: WebAuthen not selectable on mobile \[[#53495](https://community.openproject.org/wp/53495)\]
+- Bugfix: Cannot delete reports in time and costs \[[#52284](https://community.openproject.org/projects/openproject/work_packages/52284/activity)\]
 
 <!-- END AUTOMATED SECTION -->
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
