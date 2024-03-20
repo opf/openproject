@@ -111,6 +111,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
+          context: git
           tags: |
             type=semver,pattern={{version}},value=${{ needs.extract_version.outputs.version }}
           images: |
@@ -193,6 +194,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
+          context: git
           images: ${{ env.REGISTRY_IMAGE }}
           labels: |
             io.artifacthub.package.readme-url="https://www.openproject.org/docs/installation-and-operations/installation/docker/"
