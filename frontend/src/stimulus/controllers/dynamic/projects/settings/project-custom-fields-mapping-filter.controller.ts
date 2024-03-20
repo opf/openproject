@@ -66,9 +66,9 @@ export default class ProjectCustomFieldsMappingFilterController extends Controll
       const text = item.textContent?.toLowerCase();
 
       if (text?.includes(query)) {
-        (item as HTMLElement).style.display = 'block';
+        (item as HTMLElement).classList.remove('hidden-by-filter');
       } else {
-        (item as HTMLElement).style.display = 'none';
+        (item as HTMLElement).classList.add('hidden-by-filter');
       }
     });
   }
