@@ -659,7 +659,7 @@ GEM
       bindata
       faraday (~> 2.0)
       faraday-follow_redirects
-    json-schema (4.1.1)
+    json-schema (4.2.0)
       addressable (>= 2.8)
     json_schemer (2.2.0)
       base64
