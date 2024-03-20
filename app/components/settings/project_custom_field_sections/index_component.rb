@@ -39,6 +39,10 @@ module Settings
         @project_custom_field_sections = project_custom_field_sections
       end
 
+      def first_and_last
+        [@project_custom_field_sections.first, @project_custom_field_sections.last]
+      end
+
       private
 
       def wrapper_data_attributes

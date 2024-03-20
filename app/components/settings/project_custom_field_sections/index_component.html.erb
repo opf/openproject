@@ -6,7 +6,7 @@
           flex.with_row(
             data: draggable_item_config(section)
           ) do
-            render(Settings::ProjectCustomFieldSections::ShowComponent.new(project_custom_field_section: section))
+            render(Settings::ProjectCustomFieldSections::ShowComponent.new(project_custom_field_section: section, first_and_last:))
           end
         end
       end

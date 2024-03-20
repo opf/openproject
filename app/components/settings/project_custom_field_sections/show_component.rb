@@ -33,11 +33,12 @@ module Settings
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(project_custom_field_section:)
+      def initialize(project_custom_field_section:, first_and_last: [])
         super
 
         @project_custom_field_section = project_custom_field_section
         @project_custom_fields = project_custom_field_section.custom_fields
+        @first_and_last = first_and_last
       end
 
       private
@@ -64,17 +65,12 @@ module Settings
       end
 
       def move_actions(menu)
-        # TODO: these methods trigger database queries for each section displayed
-        # it would be nice if can eager load this information
-        first_in_list = @project_custom_field_section.first?
-        last_in_list = @project_custom_field_section.last?
-
-        unless first_in_list
+        unless first?
           move_action_item(menu, :highest, t("label_agenda_item_move_to_top"),
                            "move-to-top")
           move_action_item(menu, :higher, t("label_agenda_item_move_up"), "chevron-up")
         end
-        unless last_in_list
+        unless last?
           move_action_item(menu, :lower, t("label_agenda_item_move_down"),
                            "chevron-down")
           move_action_item(menu, :lowest, t("label_agenda_item_move_to_bottom"),
@@ -121,6 +117,24 @@ module Settings
                        }) do |item|
           item.with_leading_visual_icon(icon: :trash)
         end
+      end
+
+      def first?
+        @first ||=
+          if @first_and_last.first
+            @first_and_last.first == @project_custom_field_section
+          else
+            @project_custom_field_section.first?
+          end
+      end
+
+      def last?
+        @last ||=
+          if @first_and_last.last
+            @first_and_last.last == @project_custom_field_section
+          else
+            @project_custom_field_section.last?
+          end
       end
     end
   end
