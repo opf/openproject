@@ -1214,7 +1214,7 @@ DEPENDENCIES
   friendly_id (~> 5.5.0)
   fuubar (~> 2.5.0)
   gon (~> 6.4.0)
-  good_job (~> 3.26.1)
+  good_job (= 3.26.1)
   google-apis-gmail_v1
   googleauth
   grape (~> 2.0.0)
