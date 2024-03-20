@@ -26,14 +26,15 @@ th:
       no_results_title_text: ไม่มีกิจกรรมสำหรับโปรเจคนี้
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: ขณะนี้ยังไม่มีปลั๊กอินที่พร้อมใช้งาน
     custom_styles:
       color_theme: "สีของรูปแบบ"
       color_theme_custom: "ตั้งค่าเอง"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
+        alternative-color: "ตัวเลือกอื่น"
+        content-link-color: "ลิงค์แบบอักษร"
+        primary-color: "สีหลัก"
+        primary-color-dark: "สีหลักธีมดำ"
         header-bg-color: "พื้นหลังหัวข้อ"
         header-item-bg-hover-color: "พื้นหลังส่วนหัวบนโฮเวอร์"
         header-item-font-color: "แบบอักษรส่วนหัว"
@@ -52,8 +53,10 @@ th:
       enterprise_more_info: "Note: the used logo will be publicly accessible."
       manage_colors: "Redigér egenskaber for farvevalg"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
+        alternative-color: "Strong accent color, typically used for the most important button on a screen."
+        content-link-color: "Font color of most of the links."
+        primary-color: "สีหลัก"
+        primary-color-dark: "Typically a darker version of the main color used for hover effects."
         header-item-bg-hover-color: "Background color of clickable header items when hovered with the mouse."
         header-item-font-color: "Font color of clickable header items."
         header-item-font-hover-color: "Font color of clickable header items when hovered with the mouse."
@@ -1502,7 +1505,6 @@ th:
       postgres_migration: "Migrating your installation to PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
-      impressum: "Legal notice"
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       blog: "OpenProject blog"
@@ -1834,6 +1836,7 @@ th:
   label_subject_or_id: "Subject or ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
+  label_impressum: "Legal notice"
   label_in: "ใน"
   label_in_less_than: "ในไม่เกิน"
   label_in_more_than: "ในมากกว่า"

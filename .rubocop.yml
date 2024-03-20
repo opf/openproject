@@ -415,9 +415,10 @@ Style/SpecialGlobalVars:
 #   For the record: using single quotes does NOT have any performance advantages.
 #   Even if it did, this would be a silly argument.
 #
-# Quote away.
+# Ideally we would just use double quotes everywhere but since that would result
+# in innumerable rubocop offenses we will just disable this. Quote away.
 Style/StringLiterals:
-  EnforcedStyle: double_quotes
+  Enabled: false
 
 Style/TrivialAccessors:
   Enabled: false

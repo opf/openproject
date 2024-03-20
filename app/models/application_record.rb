@@ -30,7 +30,7 @@ class ApplicationRecord < ActiveRecord::Base
   # Returns the timestamp of the most recently updated value
   def self.most_recently_changed(*record_classes)
     queries = record_classes.map do |clz|
-      column_name = clz.send(:timestamp_attributes_for_update_in_model)&.first || "updated_at"
+      column_name = clz.send(:timestamp_attributes_for_update_in_model)&.first || 'updated_at'
       "(SELECT MAX(#{column_name}) AS max_updated_at FROM #{clz.table_name})"
     end
       .join(" UNION ")

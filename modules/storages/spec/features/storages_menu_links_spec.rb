@@ -31,25 +31,23 @@
 require 'spec_helper'
 require_module_spec_helper
 
-RSpec.describe 'Storage links in project menu' do
+RSpec.describe 'Storage links in project menu', :js, :with_cuprite do
   include EnsureConnectionPathHelper
 
-  shared_let(:project) { create(:project, enabled_module_names: %i[storages]) }
-  shared_let(:storage_configured_linked1) { create(:nextcloud_storage_configured, :as_automatically_managed, name: "Storage 1") }
-  shared_let(:project_storage1) do
-    create(:project_storage, :as_automatically_managed, project:, storage: storage_configured_linked1)
-  end
-  shared_let(:storage_configured_linked2) { create(:nextcloud_storage_configured, name: "Storage 2") }
-  shared_let(:project_storage2) do
+  let!(:storage_configured_linked1) { create(:nextcloud_storage_configured, :as_automatically_managed, name: "Storage 1") }
+  let!(:project_storage1) { create(:project_storage, :as_automatically_managed, project:, storage: storage_configured_linked1) }
+  let!(:storage_configured_linked2) { create(:nextcloud_storage_configured, name: "Storage 2") }
+  let!(:project_storage2) do
     create(:project_storage, project_folder_mode: 'inactive', project:, storage: storage_configured_linked2)
   end
-  shared_let(:storage_configured_linked3) { create(:nextcloud_storage_configured, name: "Storage 3") }
-  shared_let(:project_storage3) do
+  let!(:storage_configured_linked3) { create(:nextcloud_storage_configured, name: "Storage 3") }
+  let!(:project_storage3) do
     create(:project_storage, project_folder_mode: 'manual', project:, storage: storage_configured_linked3)
   end
-  shared_let(:storage_configured_unlinked) { create(:nextcloud_storage_configured, name: "Storage 4") }
-  shared_let(:storage_unconfigured_linked) { create(:nextcloud_storage, name: "Storage 5") }
-  shared_let(:project_storage4) { create(:project_storage, project:, storage: storage_unconfigured_linked) }
+  let!(:storage_configured_unlinked) { create(:nextcloud_storage_configured, name: "Storage 4") }
+  let!(:storage_unconfigured_linked) { create(:nextcloud_storage, name: "Storage 5") }
+  let!(:project_storage4) { create(:project_storage, project:, storage: storage_unconfigured_linked) }
+  let!(:project) { create(:project, enabled_module_names: %i[storages]) }
   let(:user) { create(:user, member_with_permissions: { project => permissions }) }
 
   before do
@@ -83,22 +81,6 @@ RSpec.describe 'Storage links in project menu' do
         expect(page).to have_link(storage_configured_linked3.name, href: ensure_connection_path(project_storage3))
         expect(page).to have_no_link(storage_configured_unlinked.name)
         expect(page).to have_no_link(storage_unconfigured_linked.name)
-      end
-
-      context 'when OP has been installed behind prefix' do
-        let(:prefix) { '/qwerty' }
-
-        before { allow(OpenProject::Configuration).to receive(:rails_relative_url_root).and_return(prefix) }
-
-        it 'has all links prefixed' do
-          visit(project_path(id: project.id))
-
-          expect(page).to have_link(storage_configured_linked1.name, href: ensure_connection_path(project_storage1))
-          expect(page).to have_link(storage_configured_linked2.name, href: ensure_connection_path(project_storage2))
-          expect(page).to have_link(storage_configured_linked3.name, href: ensure_connection_path(project_storage3))
-          expect(page).to have_no_link(storage_configured_unlinked.name)
-          expect(page).to have_no_link(storage_unconfigured_linked.name)
-        end
       end
     end
 

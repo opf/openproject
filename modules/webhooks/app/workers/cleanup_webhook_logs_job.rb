@@ -26,11 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class CleanupWebhookLogsJob < ApplicationJob
+class CleanupWebhookLogsJob < Cron::CronJob
+  # runs at 5:28 on Sunday
+  self.cron_expression = '28 5 * * 7'
+
   # Clean any logs older than 7 days
   def perform
     ::Webhooks::Log
-      .where("created_at < ?", 7.days.ago)
+      .where('created_at < ?', 7.days.ago)
       .delete_all
   end
 end

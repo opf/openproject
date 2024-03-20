@@ -26,14 +26,15 @@ id:
       no_results_title_text: Belum ada kegiatan untuk proyek dalam jangka waktu ini.
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: Tidak ada plugin yang tersedia saat ini.
     custom_styles:
       color_theme: "Warna tema"
       color_theme_custom: "Kustomisasi"
       colors:
-        primary-button-color: "Primary button"
-        accent-color: "Accent"
+        alternative-color: "Alternatif"
+        content-link-color: "Tautan huruf"
+        primary-color: "Primer"
+        primary-color-dark: "Primer (gelap)"
         header-bg-color: "Latar Belakang Header"
         header-item-bg-hover-color: "Latar belakang header melayang"
         header-item-font-color: "Bentuk huruf Judul"
@@ -52,8 +53,10 @@ id:
       enterprise_more_info: "Catatan: logo yang digunakan akan dapat diakses publik."
       manage_colors: "Edit warna pilih opsi"
       instructions:
-        primary-button-color: "Strong accent color, used for the most important button on a screen."
-        accent-color: "Color for links and other decently highlighted elements."
+        alternative-color: "Warna cerah, umumnya dipakai sebagai penanda tombol penting pada layar monitor."
+        content-link-color: "Warna font sebagian besar tautan."
+        primary-color: "Warna utama."
+        primary-color-dark: "Warna yang lebih gelap dari warna utama biasanya dipakai sebagai efek lintasan kursor."
         header-item-bg-hover-color: "Warna latar belakang \"item header\" yang bisa di klik ketika ditunjuk dengan mouse."
         header-item-font-color: "Warna font item header yang bisa diklik."
         header-item-font-hover-color: "Warna font \"item header\" yang bisa di klik ketika ditunjuk dengan mouse."
@@ -1495,7 +1498,6 @@ id:
       postgres_migration: "Migrasi instalasi anda ke PostgreSQL"
       user_guides: "User guides"
       faq: "FAQ"
-      impressum: "Legal notice"
       glossary: "Glossary"
       shortcuts: "Shortcuts"
       blog: "OpenProject blog"
@@ -1800,7 +1802,7 @@ id:
   label_file_plural: "File"
   label_filter_add: "Tambah Filter"
   label_filter: "Filters"
-  label_filter_plural: "Filter"
+  label_filter_plural: "Penyaring"
   label_filters_toggle: "Tampilkan/Sembunyikan penyaringan"
   label_float: "Float"
   label_folder: "Folder"
@@ -1827,6 +1829,7 @@ id:
   label_subject_or_id: "Subyek atau ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
+  label_impressum: "Pernyataan hukum"
   label_in: "dalam"
   label_in_less_than: "kurang dari"
   label_in_more_than: "lebih dari"

@@ -26,14 +26,15 @@ pt:
       no_results_title_text: Não há nenhuma atividade no projeto neste período de tempo.
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: Atualmente, não existem plugins disponíveis.
     custom_styles:
       color_theme: "Tema Colorido"
       color_theme_custom: "(Personalizado)"
       colors:
-        primary-button-color: "Botão primário"
-        accent-color: "Destaque"
+        alternative-color: "Alternativo"
+        content-link-color: "Fonte do link"
+        primary-color: "Primário"
+        primary-color-dark: "Primário (escuro)"
         header-bg-color: "Fundo do cabeçalho"
         header-item-bg-hover-color: "Fundo do cabeçalho ao passar o mouse"
         header-item-font-color: "Fonte do cabeçalho"
@@ -52,8 +53,10 @@ pt:
       enterprise_more_info: "Obs.: o logotipo usado pode ser acessado publicamente."
       manage_colors: "Editar opções de seleção de cor"
       instructions:
-        primary-button-color: "Cor de destaque forte, usada para o botão mais importante na tela."
-        accent-color: "Cor para os links e outros elementos destacados adequadamente."
+        alternative-color: "Cor de destaque forte, normalmente usada para o botão mais importante na tela."
+        content-link-color: "Cor da fonte da maioria dos links."
+        primary-color: "Cor principal."
+        primary-color-dark: "Normalmente, uma versão mais escura da cor principal usada para efeitos de foco."
         header-item-bg-hover-color: "Cor de fundo dos itens clicáveis do cabeçalho ao passar o mouse sobre eles."
         header-item-font-color: "Cor da fonte dos itens clicáveis do cabeçalho."
         header-item-font-hover-color: "Cor da fonte dos itens clicáveis do cabeçalho ao passar o mouse sobre eles."
@@ -1528,7 +1531,6 @@ pt:
       postgres_migration: "Migrando sua instalação para PostgreSQL"
       user_guides: "Guias do usuário"
       faq: "Perguntas Freqüentes"
-      impressum: "Aviso legal"
       glossary: "Glossário"
       shortcuts: "Atalhos"
       blog: "Blog do OpenProject"
@@ -1860,6 +1862,7 @@ pt:
   label_subject_or_id: "Assunto ou ID"
   label_calendar_subscriptions: "Assinaturas do calendários"
   label_identifier: "Identificador"
+  label_impressum: "Aviso legal"
   label_in: "em"
   label_in_less_than: "em menos de"
   label_in_more_than: "em mais de"

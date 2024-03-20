@@ -4,10 +4,8 @@
   (ngSubmit)="saveChanges()"
   class="op-form"
 >
-  <div class="op-form--section-header">
-    <h3 class="op-form--section-header-title">{{ text.notifyImmediately.title }}</h3>
-    <p>{{ text.notifyImmediately.description }}</p>
-  </div>
+  <h5>{{ text.notifyImmediately.title }}</h5>
+  <p>{{ text.notifyImmediately.description }}</p>
 
   <spot-selector-field
     class="op-notifications-settings--bold-label"
@@ -67,11 +65,8 @@
     />
   </spot-selector-field>
 
-  <div class="op-form--section-header">
-    <h3 class="op-form--section-header-title">{{ text.dateAlerts.title }}</h3>
-    <p>{{ text.dateAlerts.description }}</p>
-  </div>
-
+  <h5>{{ text.dateAlerts.title }}</h5>
+  <p>{{ text.dateAlerts.description }}</p>
   <div *ngIf="!eeShowBanners">
     <div
       class="op-reminder-settings-date-alerts--row"
@@ -176,11 +171,8 @@
     class="op-date-alert-ee-banner">
   </op-enterprise-banner>
 
-
-  <div class="op-form--section-header">
-    <h3 class="op-form--section-header-title">{{ text.alsoNotifyFor.title }}</h3>
-    <p>{{ text.alsoNotifyFor.description }}</p>
-  </div>
+  <h5>{{ text.alsoNotifyFor.title }}</h5>
+  <p>{{ text.alsoNotifyFor.description }}</p>
 
   <spot-selector-field
     [label]="text.work_package_created"
@@ -238,10 +230,8 @@
   </spot-selector-field>
 
 
-  <div class="op-form--section-header">
-    <h3 class="op-form--section-header-title">{{ text.projectSpecific.title }}</h3>
-    <p>{{text.projectSpecific.description}}</p>
-  </div>
+  <h5>{{text.projectSpecific.title}}</h5>
+  <p>{{text.projectSpecific.description}}</p>
 
   <op-notification-settings-table
     *ngIf="userId"
@@ -253,7 +243,7 @@
 
   <div class="generic-table--action-buttons">
     <button
-      class="button -primary"
+      class="button -highlight"
       [textContent]="text.save"
       type="submit"
     ></button>
