@@ -114,7 +114,8 @@ RSpec.describe "Create project custom fields", :js do
 
         click_on("Save")
 
-        expect(page).to have_text("section can't be blank.")
+        expect(page).to have_field "custom_field_custom_field_section_id",
+                                   validation_message: "Please select an item in the list."
       end
     end
   end
