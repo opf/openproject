@@ -1,17 +1,17 @@
 ms:
   js:
     job_status:
-      download_starts: 'The download should start automatically.'
-      click_to_download: 'Or click here to download.'
-      title: 'Background job status'
-      redirect: 'You are being redirected.'
-      redirect_link: 'Please click here to continue.'
-      redirect_errors: 'Due to these errors, you will not be redirected automatically.'
-      errors: 'Some errors have occurred'
+      download_starts: 'Proses muat turun akan mula secara automatik.'
+      click_to_download: 'Atau klik sini untuk muat turun.'
+      title: 'Latar belakang status kerja'
+      redirect: 'Anda sedang dialihkan.'
+      redirect_link: 'Sila klik sini untuk teruskan.'
+      redirect_errors: 'Disebabkan ralat ini, anda tidak akan dialihkan secara automatik.'
+      errors: "Beberapa ralat telah berlaku\n"
       generic_messages:
-        not_found: 'This job could not be found.'
-        in_queue: 'The job has been queued and will be processed shortly.'
-        in_process: 'The job is currently being processed.'
-        error: 'The job has failed to complete.'
-        cancelled: 'The job has been cancelled due to an error.'
-        success: 'The job completed successfully.'
+        not_found: 'Kerja ini tidak dapat dijumpai.'
+        in_queue: 'Kerja ini sedang menunggu giliran dan akan di proses sebentar lagi.'
+        in_process: 'Kerja ini sedang diproses.'
+        error: 'Kerja ini gagal disiapkan.'
+        cancelled: 'Kerja ini telah dibatalkan disebabkan oleh sebuah ralat.'
+        success: 'Kerja ini selesai dengan jayanya.'

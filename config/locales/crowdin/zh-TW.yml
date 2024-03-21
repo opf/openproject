@@ -983,7 +983,7 @@ zh-TW:
               ungrantable: "has an unassignable role."
               more_than_one: "has more than one role."
             principal:
-              unassignable: "cannot be assigned to a project."
+              unassignable: "無法分派到專案。"
         version:
           undeletable_archived_projects: "The version cannot be deleted as it has work packages attached to it."
           undeletable_work_packages_attached: "The version cannot be deleted as it has work packages attached to it."
@@ -1080,8 +1080,8 @@ zh-TW:
     derived_start_date: "Derived start date"
     display_sums: "顯示加總"
     due_date: "完成日期"
-    estimated_hours: "Work"
-    estimated_time: "Work"
+    estimated_hours: "工時"
+    estimated_time: "工時"
     expires_at: "過期於"
     firstname: "名字"
     group: "群組"
@@ -2723,7 +2723,7 @@ zh-TW:
   setting_brute_force_block_minutes: "使用者被禁止的時間"
   setting_cache_formatted_text: "快取格式化文字"
   setting_use_wysiwyg_description: "勾選此選項可在預設情況下為所有使用者啟用 CKEditor5 所見即所得 (WYSIWYG) 編輯器。CKEditor 對 GFM Markdown的功能有限。"
-  setting_column_options: "Default work package lists columns"
+  setting_column_options: "預設工作項目欄位"
   setting_commit_fix_keywords: "固定的關鍵字"
   setting_commit_logs_encoding: "Commit 訊息的編碼"
   setting_commit_logtime_activity_id: "紀錄時間的動作"

@@ -280,7 +280,7 @@ cs:
                     *   This overview informs all participants about the decisions made
                     *   ...
             item_3:
-              subject: Passing of preliminary planning
+              subject: Přijetí předběžného plánu
               description: This type is hierarchically a parent of the types &quot;Clash&quot; and &quot;Request&quot;, thus represents a general note.
             item_4:
               subject: Plánování návrhů
@@ -363,7 +363,7 @@ cs:
                     *   Finish the roof
                     *   ...
                 item_4:
-                  subject: Installing the building service systems
+                  subject: Instalace servisních systémů budovy
                   description: |-
                     ## Goal
 
@@ -410,8 +410,8 @@ cs:
             item_0:
               title: Vítejte ve vašem demo projektu
               summary: |
-                We are glad you joined.
-                In this module you can communicate project news to your team members.
+                Jsme rádi, že jste se připojili.
+                V tomto modulu můžete sdělit zprávy o projektu členům vašeho týmu.
               description: Aktuální novinky
           categories:
             item_0: Kategorie 1 (bude změněno v nastavení projektu)
