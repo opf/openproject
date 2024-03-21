@@ -55,4 +55,8 @@ class Queries::Selects::Base
   def initialize(attribute)
     self.attribute = attribute
   end
+
+  def available?
+    true
+  end
 end
