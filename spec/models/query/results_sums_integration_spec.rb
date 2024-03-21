@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Query::Results, 'sums' do
+RSpec.describe Query::Results, "sums" do
   let(:project) do
     create(:project) do |p|
       p.work_package_custom_fields << int_cf
       p.work_package_custom_fields << float_cf
     end
   end
-  let(:estimated_hours_column) { query.displayable_columns.detect { |c| c.name.to_s == 'estimated_hours' } }
+  let(:estimated_hours_column) { query.displayable_columns.detect { |c| c.name.to_s == "estimated_hours" } }
   let(:int_cf_column) { query.displayable_columns.detect { |c| c.name.to_s == int_cf.column_name } }
   let(:float_cf_column) { query.displayable_columns.detect { |c| c.name.to_s == float_cf.column_name } }
   let(:material_costs_column) { query.displayable_columns.detect { |c| c.name.to_s == "material_costs" } }
@@ -152,8 +152,8 @@ RSpec.describe Query::Results, 'sums' do
     login_as(current_user)
   end
 
-  describe '#all_total_sums' do
-    it 'is a hash of all summable columns' do
+  describe "#all_total_sums" do
+    it "is a hash of all summable columns" do
       expect(query_results.all_total_sums)
         .to eql(estimated_hours_column => 20.0,
                 int_cf_column => 30,
@@ -165,12 +165,12 @@ RSpec.describe Query::Results, 'sums' do
                 story_points_column => 21)
     end
 
-    context 'when filtering' do
+    context "when filtering" do
       before do
-        query.add_filter('assigned_to_id', '=', [current_user.id.to_s])
+        query.add_filter("assigned_to_id", "=", [current_user.id.to_s])
       end
 
-      it 'is a hash of all summable columns and includes only the work packages matching the filter' do
+      it "is a hash of all summable columns and includes only the work packages matching the filter" do
         expect(query_results.all_total_sums)
           .to eql(estimated_hours_column => 10.0,
                   int_cf_column => 20,
@@ -184,11 +184,11 @@ RSpec.describe Query::Results, 'sums' do
     end
   end
 
-  describe '#all_sums_for_group' do
-    context 'when grouped by assigned_to' do
+  describe "#all_sums_for_group" do
+    context "when grouped by assigned_to" do
       let(:group_by) { :assigned_to }
 
-      it 'is a hash of sums grouped by user values (and nil) and grouped columns' do
+      it "is a hash of sums grouped by user values (and nil) and grouped columns" do
         expect(query_results.all_group_sums)
           .to eql(current_user => { estimated_hours_column => 10.0,
                                     int_cf_column => 20,
@@ -208,12 +208,12 @@ RSpec.describe Query::Results, 'sums' do
                            story_points_column => 7 })
       end
 
-      context 'when filtering' do
+      context "when filtering" do
         before do
-          query.add_filter('responsible_id', '=', [current_user.id.to_s])
+          query.add_filter("responsible_id", "=", [current_user.id.to_s])
         end
 
-        it 'is a hash of sums grouped by user values and grouped columns' do
+        it "is a hash of sums grouped by user values and grouped columns" do
           expect(query_results.all_group_sums)
             .to eql(current_user => { estimated_hours_column => 5.0,
                                       int_cf_column => 10,
@@ -227,10 +227,10 @@ RSpec.describe Query::Results, 'sums' do
       end
     end
 
-    context 'when grouped by done_ratio' do
+    context "when grouped by done_ratio" do
       let(:group_by) { :done_ratio }
 
-      it 'is a hash of sums grouped by done_ratio values and grouped columns' do
+      it "is a hash of sums grouped by done_ratio values and grouped columns" do
         expect(query_results.all_group_sums)
           .to eql(50 => { estimated_hours_column => 10.0,
                           int_cf_column => 20,
@@ -250,12 +250,12 @@ RSpec.describe Query::Results, 'sums' do
                           story_points_column => 7 })
       end
 
-      context 'when filtering' do
+      context "when filtering" do
         before do
-          query.add_filter('responsible_id', '=', [current_user.id.to_s])
+          query.add_filter("responsible_id", "=", [current_user.id.to_s])
         end
 
-        it 'is a hash of sums grouped by done_ratio values and grouped columns' do
+        it "is a hash of sums grouped by done_ratio values and grouped columns" do
           expect(query_results.all_group_sums)
             .to eql(50 => { estimated_hours_column => 5.0,
                             int_cf_column => 10,

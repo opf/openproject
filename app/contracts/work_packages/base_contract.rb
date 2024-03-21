@@ -74,7 +74,7 @@ module WorkPackages
       next unless model.project
 
       validate_people_visible :assigned_to,
-                              'assigned_to_id',
+                              "assigned_to_id",
                               assignable_assignees
     end
 
@@ -82,7 +82,7 @@ module WorkPackages
       next unless model.project
 
       validate_people_visible :responsible,
-                              'responsible_id',
+                              "responsible_id",
                               assignable_responsibles
     end
 
@@ -223,7 +223,7 @@ module WorkPackages
 
     def validate_after_soonest_start(date_attribute)
       if !model.schedule_manually? && before_soonest_start?(date_attribute)
-        message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_relationships',
+        message = I18n.t("activerecord.errors.models.work_package.attributes.start_date.violates_relationships",
                          soonest_start: model.soonest_start)
 
         errors.add date_attribute, message, error_symbol: :violates_relationships
@@ -353,7 +353,7 @@ module WorkPackages
 
       unless principal_visible?(id, list)
         errors.add attribute,
-                   I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
+                   I18n.t("api_v3.errors.validation.invalid_user_assigned_to_work_package",
                           property: I18n.t("attributes.#{attribute}"))
       end
     end

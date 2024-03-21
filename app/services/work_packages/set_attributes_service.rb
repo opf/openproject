@@ -222,7 +222,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   end
 
   def normalize_whitespace(string)
-    string.gsub(/\s/, ' ').squeeze(' ')
+    string.gsub(/\s/, " ").squeeze(" ")
   end
 
   def set_custom_attributes(attributes)

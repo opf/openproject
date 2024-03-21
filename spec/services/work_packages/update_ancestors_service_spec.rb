@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
   shared_association_default(:author, factory_name: :user) { create(:user) }
@@ -54,16 +54,16 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       .call(attributes)
   end
 
-  describe 'done_ratio/estimated_hours/remaining_hours propagation' do
-    context 'when setting the status of a work package' do
+  describe "done_ratio/estimated_hours/remaining_hours propagation" do
+    context "when setting the status of a work package" do
       shared_let(:open_status) { create(:status) }
       shared_let(:new_status_with_done_ratio) { create(:status, default_done_ratio: 100) }
       shared_let(:new_status_without_done_ratio) { create(:status) }
 
-      shared_examples 'updates % complete of ancestors' do
-        it 'considers the work package as the % complete ' \
-           'attached to the status and sets the ' \
-           'derived % complete value of the ancestors accordingly' do
+      shared_examples "updates % complete of ancestors" do
+        it "considers the work package as the % complete " \
+           "attached to the status and sets the " \
+           "derived % complete value of the ancestors accordingly" do
           expect(child.done_ratio)
             .to eq(new_status_with_done_ratio.default_done_ratio)
 
@@ -77,10 +77,10 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
         end
       end
 
-      shared_examples 'does not update % complete of ancestors' do
-        it 'does not consider the closed status a special value and ' \
-           'does not set % complete of the work package or set the ' \
-           'derived % complete value of the ancestors accordingly' do
+      shared_examples "does not update % complete of ancestors" do
+        it "does not consider the closed status a special value and " \
+           "does not set % complete of the work package or set the " \
+           "derived % complete value of the ancestors accordingly" do
           expect(child.done_ratio).to eq(0)
 
           expect do
@@ -94,8 +94,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       end
 
       context 'when using the "status-based" % complete mode',
-              with_settings: { work_package_done_ratio: 'status' } do
-        context 'with both parent and children having estimated hours set' do
+              with_settings: { work_package_done_ratio: "status" } do
+        context "with both parent and children having estimated hours set" do
           shared_let(:parent) do
             create(:work_package,
                    estimated_hours: 10.0,
@@ -112,78 +112,78 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                    status: open_status)
           end
 
-          context 'when the new status has its default done ratio set' do
-            context 'with the status field' do
+          context "when the new status has its default done ratio set" do
+            context "with the status field" do
               before do
                 set_attributes_on(child, status: new_status_with_done_ratio)
               end
 
-              include_examples 'updates % complete of ancestors'
+              include_examples "updates % complete of ancestors"
             end
 
-            context 'with the status_id field' do
+            context "with the status_id field" do
               before do
                 set_attributes_on(child, status_id: new_status_with_done_ratio.id)
               end
 
-              include_examples 'updates % complete of ancestors'
+              include_examples "updates % complete of ancestors"
             end
           end
 
-          context 'when the closed status has no default done ratio set' do
-            context 'with the status field' do
+          context "when the closed status has no default done ratio set" do
+            context "with the status field" do
               before do
                 set_attributes_on(child, status: new_status_without_done_ratio)
               end
 
-              include_examples 'does not update % complete of ancestors'
+              include_examples "does not update % complete of ancestors"
             end
 
-            context 'with the status_id field' do
+            context "with the status_id field" do
               before do
                 set_attributes_on(child, status_id: new_status_without_done_ratio.id)
               end
 
-              include_examples 'does not update % complete of ancestors'
+              include_examples "does not update % complete of ancestors"
             end
           end
         end
       end
     end
 
-    context 'for the new ancestor chain' do
-      shared_examples 'attributes of parent having children' do
+    context "for the new ancestor chain" do
+      shared_examples "attributes of parent having children" do
         before do
           children
         end
 
-        it 'is a success' do
+        it "is a success" do
           expect(subject)
           .to be_success
         end
 
-        it 'updated one work package - the parent' do
+        it "updated one work package - the parent" do
           expect(subject.dependent_results.map(&:result))
           .to contain_exactly(parent)
         end
 
-        it 'has the expected derived done ratio' do
+        it "has the expected derived done ratio" do
           expect(subject.dependent_results.first.result.derived_done_ratio)
           .to eq aggregate_done_ratio
         end
 
-        it 'has the expected derived estimated_hours' do
+        it "has the expected derived estimated_hours" do
           expect(subject.dependent_results.first.result.derived_estimated_hours)
           .to eq aggregate_estimated_hours
         end
 
-        it 'has the expected derived remaining_hours' do
+        it "has the expected derived remaining_hours" do
           expect(subject.dependent_results.first.result.derived_remaining_hours)
             .to eq aggregate_remaining_hours
         end
       end
 
-      context 'when on field-based mode for % complete' do
+      context "when on field-based mode for % complete" do
         let(:children) do
           (statuses.size - 1).downto(0).map do |i|
             create(:work_package,
@@ -195,9 +195,9 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           end
         end
 
-        shared_let(:parent) { create(:work_package, subject: 'parent', status: open_status) }
+        shared_let(:parent) { create(:work_package, subject: "parent", status: open_status) }
 
-        context 'when estimated_hours is changed' do
+        context "when estimated_hours is changed" do
           subject do
             # On field-based mode, changing estimated_hours
             # entails done_ratio also changing when going
@@ -208,23 +208,23 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
               .call(%i(estimated_hours done_ratio))
           end
 
-          context 'with no estimated hours and no progress' do
+          context "with no estimated hours and no progress" do
             let(:estimated_hours) { [nil, nil, nil] }
             let(:remaining_hours) { [nil, nil, nil] }
 
-            it 'is a success' do
+            it "is a success" do
               expect(subject)
                 .to be_success
             end
 
-            it 'does not update the parent' do
+            it "does not update the parent" do
               expect(subject.dependent_results)
                 .to be_empty
             end
           end
 
-          context 'with all tasks having estimated hours and some having progress done already' do
-            it_behaves_like 'attributes of parent having children' do
+          context "with all tasks having estimated hours and some having progress done already" do
+            it_behaves_like "attributes of parent having children" do
               let(:estimated_hours) do
                 [10.0, 10.0, 10.0]
               end
@@ -244,8 +244,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
 
-          context 'with all tasks having estimated hours and all having progress done already' do
-            it_behaves_like 'attributes of parent having children' do
+          context "with all tasks having estimated hours and all having progress done already" do
+            it_behaves_like "attributes of parent having children" do
               let(:estimated_hours) do
                 [10.0, 10.0, 10.0]
               end
@@ -265,8 +265,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
 
-          context 'with all tasks having estimated hours and no tasks having any progress done yet' do
-            it_behaves_like 'attributes of parent having children' do
+          context "with all tasks having estimated hours and no tasks having any progress done yet" do
+            it_behaves_like "attributes of parent having children" do
               let(:estimated_hours) do
                 [10.0, 2.0, 3.0]
               end
@@ -286,8 +286,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
 
-          context 'with all tasks having estimated hours and no tasks having progress set' do
-            it_behaves_like 'attributes of parent having children' do
+          context "with all tasks having estimated hours and no tasks having progress set" do
+            it_behaves_like "attributes of parent having children" do
               let(:estimated_hours) do
                 [10.0, 2.0, 3.0]
               end
@@ -307,8 +307,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
 
-          context 'with some tasks having estimated hours and none having progress set' do
-            it_behaves_like 'attributes of parent having children' do
+          context "with some tasks having estimated hours and none having progress set" do
+            it_behaves_like "attributes of parent having children" do
               let(:estimated_hours) do
                 [10.0, nil, nil]
               end
@@ -328,8 +328,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
 
-          context 'with some tasks having estimated hours and those that do also having progress done' do
-            it_behaves_like 'attributes of parent having children' do
+          context "with some tasks having estimated hours and those that do also having progress done" do
+            it_behaves_like "attributes of parent having children" do
               let(:estimated_hours) do
                 [10.0, nil, nil]
               end
@@ -349,16 +349,16 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
 
-          context 'with the parent having estimated hours and progress' do
+          context "with the parent having estimated hours and progress" do
             shared_let(:parent) do
               create(:work_package,
-                     subject: 'parent',
+                     subject: "parent",
                      estimated_hours: 10.0,
                      remaining_hours: 5.0)
             end
 
-            context 'and some tasks having estimated hours and some progress' do
-              it_behaves_like 'attributes of parent having children' do
+            context "and some tasks having estimated hours and some progress" do
+              it_behaves_like "attributes of parent having children" do
                 let(:estimated_hours) do
                   [10.0, nil, nil]
                 end
@@ -379,8 +379,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
               end
             end
 
-            context 'and no tasks having estimated hours or progress' do
-              it_behaves_like 'attributes of parent having children' do
+            context "and no tasks having estimated hours or progress" do
+              it_behaves_like "attributes of parent having children" do
                 let(:estimated_hours) do
                   [nil, nil, nil]
                 end
@@ -403,7 +403,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           end
         end
 
-        context 'when remaining_hours is changed' do
+        context "when remaining_hours is changed" do
           subject do
             # On field-based mode, changing remaining_hours
             # entails done_ratio also changing when going
@@ -414,24 +414,24 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
               .call(%i(remaining_hours done_ratio))
           end
 
-          context 'with no estimated hours and no progress' do
+          context "with no estimated hours and no progress" do
             let(:estimated_hours) { [nil, nil, nil] }
             let(:remaining_hours) { [nil, nil, nil] }
             # let(:statuses) { %i(open open open) }
 
-            it 'is a success' do
+            it "is a success" do
               expect(subject)
                 .to be_success
             end
 
-            it 'does not update the parent' do
+            it "does not update the parent" do
               expect(subject.dependent_results)
                 .to be_empty
             end
           end
 
-          context 'with all tasks having estimated hours and some having progress done already' do
-            it_behaves_like 'attributes of parent having children' do
+          context "with all tasks having estimated hours and some having progress done already" do
+            it_behaves_like "attributes of parent having children" do
               let(:estimated_hours) do
                 [10.0, 10.0, 10.0]
               end
@@ -451,8 +451,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
 
-          context 'with all tasks having estimated hours and all having progress done already' do
-            it_behaves_like 'attributes of parent having children' do
+          context "with all tasks having estimated hours and all having progress done already" do
+            it_behaves_like "attributes of parent having children" do
               let(:estimated_hours) do
                 [10.0, 10.0, 10.0]
               end
@@ -472,8 +472,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
 
-          context 'with all tasks having estimated hours and no tasks having any progress done yet' do
-            it_behaves_like 'attributes of parent having children' do
+          context "with all tasks having estimated hours and no tasks having any progress done yet" do
+            it_behaves_like "attributes of parent having children" do
               let(:estimated_hours) do
                 [10.0, 2.0, 3.0]
               end
@@ -493,8 +493,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
 
-          context 'with all tasks having estimated hours and no tasks having progress set' do
-            it_behaves_like 'attributes of parent having children' do
+          context "with all tasks having estimated hours and no tasks having progress set" do
+            it_behaves_like "attributes of parent having children" do
               let(:estimated_hours) do
                 [10.0, 2.0, 3.0]
               end
@@ -514,8 +514,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
 
-          context 'with some tasks having estimated hours and none having progress set' do
-            it_behaves_like 'attributes of parent having children' do
+          context "with some tasks having estimated hours and none having progress set" do
+            it_behaves_like "attributes of parent having children" do
               let(:estimated_hours) do
                 [10.0, nil, nil]
               end
@@ -535,8 +535,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
 
-          context 'with some tasks having estimated hours and those that do also having progress done' do
-            it_behaves_like 'attributes of parent having children' do
+          context "with some tasks having estimated hours and those that do also having progress done" do
+            it_behaves_like "attributes of parent having children" do
               let(:estimated_hours) do
                 [10.0, nil, nil]
               end
@@ -556,16 +556,16 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             end
           end
 
-          context 'with the parent having estimated hours and progress' do
+          context "with the parent having estimated hours and progress" do
             shared_let(:parent) do
               create(:work_package,
-                     subject: 'parent',
+                     subject: "parent",
                      estimated_hours: 10.0,
                      remaining_hours: 5.0)
             end
 
-            context 'and some tasks having estimated hours and some progress' do
-              it_behaves_like 'attributes of parent having children' do
+            context "and some tasks having estimated hours and some progress" do
+              it_behaves_like "attributes of parent having children" do
                 let(:estimated_hours) do
                   [10.0, nil, nil]
                 end
@@ -586,8 +586,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
               end
             end
 
-            context 'and no tasks having estimated hours or progress' do
-              it_behaves_like 'attributes of parent having children' do
+            context "and no tasks having estimated hours or progress" do
+              it_behaves_like "attributes of parent having children" do
                 let(:estimated_hours) do
                   [nil, nil, nil]
                 end
@@ -612,7 +612,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       end
     end
 
-    context 'for the previous ancestors' do
+    context "for the previous ancestors" do
       shared_let(:sibling_estimated_hours) { 7.0 }
       shared_let(:sibling_remaining_hours) { 3.5 }
       shared_let(:parent_estimated_hours) { 3.0 }
@@ -621,19 +621,19 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
       shared_let(:grandparent) do
         create(:work_package,
-               subject: 'grandparent',
+               subject: "grandparent",
                estimated_hours: grandparent_estimated_hours,
                remaining_hours: grandparent_remaining_hours)
       end
       shared_let(:parent) do
         create(:work_package,
-               subject: 'parent',
+               subject: "parent",
                estimated_hours: parent_estimated_hours,
                parent: grandparent)
       end
       shared_let(:sibling) do
         create(:work_package,
-               subject: 'sibling',
+               subject: "sibling",
                parent:,
                estimated_hours: sibling_estimated_hours,
                remaining_hours: sibling_remaining_hours)
@@ -641,7 +641,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
       shared_let(:work_package) do
         create(:work_package,
-               subject: 'subject - loses its parent',
+               subject: "subject - loses its parent",
                parent:)
       end
 
@@ -655,17 +655,17 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           .call(%i(parent))
       end
 
-      it 'is successful' do
+      it "is successful" do
         expect(subject)
           .to be_success
       end
 
-      it 'returns the former ancestors in the dependent results' do
+      it "returns the former ancestors in the dependent results" do
         expect(subject.dependent_results.map(&:result))
           .to contain_exactly(parent, grandparent)
       end
 
-      it 'updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the former parent' do
+      it "updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the former parent" do
         expect do
           subject
           parent.reload
@@ -675,7 +675,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           .and change(parent, :derived_remaining_hours).to(sibling_remaining_hours)
       end
 
-      it 'updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the former grandparent' do
+      it "updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the former grandparent" do
         expect do
           subject
           grandparent.reload
@@ -689,7 +689,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       end
     end
 
-    context 'for new ancestors' do
+    context "for new ancestors" do
       shared_let(:estimated_hours) { 7.0 }
       shared_let(:remaining_hours) { 3.5 }
       shared_let(:parent_estimated_hours) { 3.0 }
@@ -697,34 +697,34 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
       shared_let(:grandparent) do
         create(:work_package,
-               subject: 'grandparent')
+               subject: "grandparent")
       end
       shared_let(:parent) do
         create(:work_package,
-               subject: 'parent',
+               subject: "parent",
                estimated_hours: parent_estimated_hours,
                remaining_hours: parent_remaining_hours,
                parent: grandparent)
       end
       shared_let(:work_package) do
         create(:work_package,
-               subject: 'subject - gains a new parent and grandparent',
+               subject: "subject - gains a new parent and grandparent",
                estimated_hours:,
                remaining_hours:)
       end
 
-      shared_examples_for 'updates the attributes within the new hierarchy' do
-        it 'is successful' do
+      shared_examples_for "updates the attributes within the new hierarchy" do
+        it "is successful" do
           expect(subject)
             .to be_success
         end
 
-        it 'returns the new ancestors in the dependent results' do
+        it "returns the new ancestors in the dependent results" do
           expect(subject.dependent_results.map(&:result))
             .to contain_exactly(parent, grandparent)
         end
 
-        it 'updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the new parent' do
+        it "updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the new parent" do
           expect do
             subject
             parent.reload
@@ -734,8 +734,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             .and change(parent, :derived_remaining_hours).to(parent_remaining_hours + remaining_hours)
         end
 
-        it 'updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours ' \
-           'of the new grandparent' do
+        it "updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours " \
+           "of the new grandparent" do
           expect do
             subject
             grandparent.reload
@@ -746,7 +746,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
         end
       end
 
-      context 'if setting the parent' do
+      context "if setting the parent" do
         subject do
           work_package.parent = parent
           work_package.save!
@@ -757,10 +757,10 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             .call(%i(parent))
         end
 
-        it_behaves_like 'updates the attributes within the new hierarchy'
+        it_behaves_like "updates the attributes within the new hierarchy"
       end
 
-      context 'if setting the parent_id' do
+      context "if setting the parent_id" do
         subject do
           work_package.parent_id = parent.id
           work_package.save!
@@ -771,11 +771,11 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
             .call(%i(parent_id))
         end
 
-        it_behaves_like 'updates the attributes within the new hierarchy'
+        it_behaves_like "updates the attributes within the new hierarchy"
       end
     end
 
-    context 'with old and new parent having a common ancestor' do
+    context "with old and new parent having a common ancestor" do
       shared_let(:estimated_hours) { 7.0 }
       shared_let(:remaining_hours) { 3.5 }
       shared_let(:new_estimated_hours) { 10.0 }
@@ -783,14 +783,14 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
       shared_let(:grandparent) do
         create(:work_package,
-               subject: 'common grandparent',
+               subject: "common grandparent",
                derived_done_ratio: 50, # two children having [done_ratio, 0]
                derived_estimated_hours: estimated_hours,
                derived_remaining_hours: remaining_hours)
       end
       shared_let(:old_parent) do
         create(:work_package,
-               subject: 'old parent',
+               subject: "old parent",
                parent: grandparent,
                derived_done_ratio: 50,
                derived_estimated_hours: estimated_hours,
@@ -798,12 +798,12 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       end
       shared_let(:new_parent) do
         create(:work_package,
-               subject: 'new parent',
+               subject: "new parent",
                parent: grandparent)
       end
       shared_let(:work_package) do
         create(:work_package,
-               subject: 'subject - parent changes from old parent to new parent, same grandparent',
+               subject: "subject - parent changes from old parent to new parent, same grandparent",
                parent: old_parent,
                estimated_hours:,
                remaining_hours:)
@@ -831,18 +831,18 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           .call(%i(parent))
       end
 
-      it 'is successful' do
+      it "is successful" do
         expect(subject)
           .to be_success
       end
 
-      it 'returns both the former and new ancestors in the dependent results without duplicates' do
+      it "returns both the former and new ancestors in the dependent results without duplicates" do
         expect(subject.dependent_results.map(&:result))
           .to contain_exactly(new_parent, grandparent, old_parent)
       end
 
-      it 'updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours ' \
-         'of the former parent to 0' do
+      it "updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours " \
+         "of the former parent to 0" do
         expect do
           subject
           old_parent.reload
@@ -852,7 +852,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           .and change(old_parent, :derived_remaining_hours).to(nil)
       end
 
-      it 'updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the new parent' do
+      it "updates the derived_done_ratio, derived_estimated_hours, and derived_remaining_hours of the new parent" do
         expect do
           subject
           new_parent.reload
@@ -862,7 +862,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
           .and change(new_parent, :derived_remaining_hours).to(new_remaining_hours)
       end
 
-      it 'updates the derived_done_ratio, erived_estimated_hours, and derived_remaining_hours of the grandparent' do
+      it "updates the derived_done_ratio, erived_estimated_hours, and derived_remaining_hours of the grandparent" do
         expect do
           subject
           grandparent.reload
@@ -874,10 +874,10 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     end
   end
 
-  describe 'estimated_hours propagation' do
-    shared_let(:parent) { create(:work_package, subject: 'parent') }
+  describe "estimated_hours propagation" do
+    shared_let(:parent) { create(:work_package, subject: "parent") }
 
-    context 'when setting estimated hours of a work package' do
+    context "when setting estimated hours of a work package" do
       before do
         parent.estimated_hours = 2.0
       end
@@ -887,7 +887,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                        .call(%i(estimated_hours))
       end
 
-      it 'sets its derived value to the same value' do
+      it "sets its derived value to the same value" do
         expect { call_result }
           .to change(parent, :derived_estimated_hours).from(nil).to(2.0)
         expect(call_result).to be_success
@@ -895,8 +895,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       end
     end
 
-    context 'for the new ancestors chain' do
-      context 'with parent having no work' do
+    context "for the new ancestors chain" do
+      context "with parent having no work" do
         let_work_packages(<<~TABLE)
           hierarchy | work |
           parent    |      |
@@ -910,7 +910,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                          .call(%i(estimated_hours))
         end
 
-        it 'sets parent derived remaining work to the sum of children remaining work' do
+        it "sets parent derived remaining work to the sum of children remaining work" do
           expect(call_result).to be_success
           updated_work_packages = call_result.dependent_results.map(&:result)
           expect_work_packages(updated_work_packages, <<~TABLE)
@@ -920,7 +920,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
         end
       end
 
-      context 'with parent having some remaining work' do
+      context "with parent having some remaining work" do
         let_work_packages(<<~TABLE)
           hierarchy |  work |
           parent    | 5.25h |
@@ -934,7 +934,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                          .call(%i(estimated_hours))
         end
 
-        it 'sets parent derived work to the sum of itself and children remaining work' do
+        it "sets parent derived work to the sum of itself and children remaining work" do
           expect(call_result).to be_success
           updated_work_packages = call_result.dependent_results.map(&:result)
           expect_work_packages(updated_work_packages, <<~TABLE)
@@ -944,7 +944,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
         end
       end
 
-      context 'with parent and children having no work' do
+      context "with parent and children having no work" do
         let_work_packages(<<~TABLE)
           hierarchy | work |
           parent    |      |
@@ -957,7 +957,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                          .call(%i(estimated_hours))
         end
 
-        it 'does not update the parent derived work' do
+        it "does not update the parent derived work" do
           expect(call_result).to be_success
           expect(call_result.dependent_results).to be_empty
           expect_work_packages([parent.reload], <<~TABLE)
@@ -969,10 +969,10 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     end
   end
 
-  describe 'remaining_hours propagation' do
-    shared_let(:parent) { create(:work_package, subject: 'parent') }
+  describe "remaining_hours propagation" do
+    shared_let(:parent) { create(:work_package, subject: "parent") }
 
-    context 'when setting remaining hours of a work package' do
+    context "when setting remaining hours of a work package" do
       before do
         parent.remaining_hours = 2.0
       end
@@ -982,7 +982,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                        .call(%i(remaining_hours))
       end
 
-      it 'sets its derived value to the same value' do
+      it "sets its derived value to the same value" do
         expect { call_result }
           .to change(parent, :derived_remaining_hours).from(nil).to(2.0)
         expect(call_result).to be_success
@@ -990,8 +990,8 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       end
     end
 
-    context 'for the new ancestors chain' do
-      context 'with parent having no remaining work' do
+    context "for the new ancestors chain" do
+      context "with parent having no remaining work" do
         let_work_packages(<<~TABLE)
           hierarchy | remaining work |
           parent    |                |
@@ -1005,7 +1005,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                          .call(%i(remaining_hours))
         end
 
-        it 'sets parent derived remaining work to the sum of children remaining work' do
+        it "sets parent derived remaining work to the sum of children remaining work" do
           expect(call_result).to be_success
           updated_work_packages = call_result.dependent_results.map(&:result)
           expect_work_packages(updated_work_packages, <<~TABLE)
@@ -1015,7 +1015,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
         end
       end
 
-      context 'with parent having some remaining work' do
+      context "with parent having some remaining work" do
         let_work_packages(<<~TABLE)
           hierarchy | remaining work |
           parent    |          5.25h |
@@ -1029,7 +1029,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                          .call(%i(remaining_hours))
         end
 
-        it 'sets parent derived remaining work to the sum of itself and children remaining work' do
+        it "sets parent derived remaining work to the sum of itself and children remaining work" do
           expect(call_result).to be_success
           updated_work_packages = call_result.dependent_results.map(&:result)
           expect_work_packages(updated_work_packages, <<~TABLE)
@@ -1039,7 +1039,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
         end
       end
 
-      context 'with parent and children having no remaining work' do
+      context "with parent and children having no remaining work" do
         let_work_packages(<<~TABLE)
           hierarchy | remaining work |
           parent    |                |
@@ -1052,7 +1052,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
                          .call(%i(remaining_hours))
         end
 
-        it 'does not update the parent derived remaining work' do
+        it "does not update the parent derived remaining work" do
           expect(call_result).to be_success
           expect(call_result.dependent_results).to be_empty
           expect_work_packages([parent.reload], <<~TABLE)
@@ -1064,24 +1064,24 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
     end
   end
 
-  describe 'ignore_non_working_days propagation' do
+  describe "ignore_non_working_days propagation" do
     shared_let(:grandgrandparent) do
       create(:work_package,
-             subject: 'grandgrandparent')
+             subject: "grandgrandparent")
     end
     shared_let(:grandparent) do
       create(:work_package,
-             subject: 'grandparent',
+             subject: "grandparent",
              parent: grandgrandparent)
     end
     shared_let(:parent) do
       create(:work_package,
-             subject: 'parent',
+             subject: "parent",
              parent: grandparent)
     end
     shared_let(:sibling) do
       create(:work_package,
-             subject: 'sibling',
+             subject: "sibling",
              parent:)
     end
     shared_let(:work_package) do
@@ -1100,7 +1100,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
 
     let(:new_parent) { parent }
 
-    context 'for the previous ancestors (parent removed)' do
+    context "for the previous ancestors (parent removed)" do
       let(:new_parent) { nil }
 
       before do
@@ -1116,12 +1116,12 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
         end
       end
 
-      it 'is successful' do
+      it "is successful" do
         expect(subject)
           .to be_success
       end
 
-      it 'returns the former ancestors in the dependent results' do
+      it "returns the former ancestors in the dependent results" do
         expect(subject.dependent_results.map(&:result))
           .to contain_exactly(parent, grandparent, grandgrandparent)
       end
@@ -1144,7 +1144,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       end
     end
 
-    context 'for the new ancestors where the grandparent is on manual scheduling' do
+    context "for the new ancestors where the grandparent is on manual scheduling" do
       before do
         [grandgrandparent, work_package].each do |wp|
           wp.update_column(:ignore_non_working_days, true)
@@ -1159,17 +1159,17 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
         end
       end
 
-      it 'is successful' do
+      it "is successful" do
         expect(subject)
           .to be_success
       end
 
-      it 'returns the former ancestors in the dependent results' do
+      it "returns the former ancestors in the dependent results" do
         expect(subject.dependent_results.map(&:result))
           .to contain_exactly(parent)
       end
 
-      it 'sets the ignore_non_working_days property of the new ancestors' do
+      it "sets the ignore_non_working_days property of the new ancestors" do
         subject
 
         expect(parent.reload.ignore_non_working_days)
@@ -1186,7 +1186,7 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
       end
     end
 
-    context 'for the new ancestors where the parent is on manual scheduling' do
+    context "for the new ancestors where the parent is on manual scheduling" do
       before do
         [grandgrandparent, grandparent, work_package].each do |wp|
           wp.update_column(:ignore_non_working_days, true)
@@ -1201,17 +1201,17 @@ RSpec.describe WorkPackages::UpdateAncestorsService, type: :model do
         end
       end
 
-      it 'is successful' do
+      it "is successful" do
         expect(subject)
           .to be_success
       end
 
-      it 'returns the former ancestors in the dependent results' do
+      it "returns the former ancestors in the dependent results" do
         expect(subject.dependent_results.map(&:result))
           .to be_empty
       end
 
-      it 'sets the ignore_non_working_days property of the new ancestors' do
+      it "sets the ignore_non_working_days property of the new ancestors" do
         subject
 
         expect(parent.reload.ignore_non_working_days)
