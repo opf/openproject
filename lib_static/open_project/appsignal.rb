@@ -36,7 +36,7 @@ module OpenProject
 
     def exception_handler(message, log_context = {})
       if (exception = log_context[:exception])
-        if Appsignal::Transaction.current?
+        if ::Appsignal::Transaction.current?
           ::Appsignal.set_error(exception) do |transaction|
             transaction.set_tags tags(log_context)
           end
