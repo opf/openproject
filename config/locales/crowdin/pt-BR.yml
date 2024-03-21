@@ -26,8 +26,8 @@ pt:
       no_results_title_text: Não há nenhuma atividade no projeto neste período de tempo.
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins installed.
-      no_results_content_text: See our integrations and plugins page for more information.
+      no_results_title_text: Atualmente, não existem plugins instalados.
+      no_results_content_text: Confira nossa página de integrações e plugins para obter mais informações.
     custom_styles:
       color_theme: "Tema Colorido"
       color_theme_custom: "(Personalizado)"
@@ -1539,6 +1539,7 @@ pt:
   journals:
     changes_retracted: "As mudanças foram retraídas."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Data modificada"
       system_update: "Atualização do sistema OpenProject:"
     cause_descriptions:
@@ -2715,6 +2716,9 @@ pt:
   setting_apiv3_cors_origins: "Cross-Origin Resource Sharing (CORS) permitidos pela API V3"
   setting_apiv3_cors_origins_text_html: >
     Se o CORS estiver habilitado, essas são as origens que têm permissão para acessar a API OpenProject. <br/>Por favor, verifique a <a href="%{origin_link}" target="_blank">documentação na header da Origin </a> sobre como especificar os valores esperados.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Tamanho máximo da página de API"
   setting_apiv3_max_page_instructions_html: >
     Defina o tamanho máximo de página com o qual a API responderá. Não será possível realizar solicitações de API que retornem mais valores em uma única página. <br/> <strong>Aviso:</strong> Somente altere este valor se tiver certeza do motivo de sua necessidade. Definir um valor alto resultará em impactos significativos no desempenho, enquanto um valor menor que as opções por página causará erros nas visualizações paginadas.
@@ -3093,6 +3097,7 @@ pt:
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: "Mudança de situação"
     text_change_disabled_for_provider_login: "O nome é definido por seu fornecedor de início de sessão e, desta forma, não pode ser alterado."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Desbloquear"
     unlock_and_reset_failed_logins: "Desbloquear e redefinir logins com falha"
   version_status_closed: "fechado"

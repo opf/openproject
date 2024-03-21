@@ -43,8 +43,8 @@ zh-CN:
           copy_success: '✅ 已复制！'
           copy_error: '❌ 复制失败！'
       tab_issue:
-        empty: '尚未链接任何问题。请在问题标题/描述中使用代码 <code>OP#%{wp_id}</code>（对于私有链接，使用代码 <code>PP#%{wp_id}</code>）链接现有问题，或者创建新问题。'
+        empty: '尚未链接任何问题。请在问题标题/描述中使用代码 <code>OP#%{wp_id}</code>（对于不公开链接，使用代码 <code>PP#%{wp_id}</code>）链接现有问题，或者创建新问题。'
       tab_mrs:
-        empty: '尚未链接任何合并请求。请在问题标题/描述中使用代码 <code>OP#%{wp_id}</code>（对于私有链接，使用代码 <code>PP#%{wp_id}</code>）链接现有合并请求，或者创建新的合并请求。'
+        empty: '尚未链接任何合并请求。请在合并请求标题/描述中使用代码 <code>OP#%{wp_id}</code>（对于不公开链接，使用代码 <code>PP#%{wp_id}</code>）链接现有合并请求，或者创建新的合并请求。'
       gitlab_pipelines: 管道
       updated_on: 更新时间

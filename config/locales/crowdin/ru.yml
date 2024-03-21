@@ -1593,6 +1593,7 @@ ru:
   journals:
     changes_retracted: "Изменения отменены."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Даты изменены"
       system_update: "Обновление системы OpenProject:"
     cause_descriptions:
@@ -2772,6 +2773,9 @@ ru:
   setting_apiv3_cors_origins: "Разделение ресурсов (CORS) разрешено в API V3"
   setting_apiv3_cors_origins_text_html: >
     Если CORS включен, то это источники, которым разрешен доступ к OpenProject API. <br/> Пожалуйста, проверьте <a href="%{origin_link}" target="_blank">документацию по происхождению</a> о том, как указывать ожидаемые значения.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "Максимальный размер страницы API"
   setting_apiv3_max_page_instructions_html: >
     Установите максимальный размер страницы, который будет отвечать API. Невозможно выполнить API-запросы, возвращающие много значений на одной странице. <br/> <strong>Предупреждение:</strong> Пожалуйста, измените это значение, только если вы уверены, зачем вам это нужно. Установка большого значения приведет к значительному снижению производительности, в то время как значение ниже, чем для параметров страницы, вызовет ошибки в представлениях с разбивкой на страницы.
@@ -3152,6 +3156,7 @@ ru:
     status_user_and_brute_force: "%{user} и %{brute_force}"
     status_change: "Смена статуса"
     text_change_disabled_for_provider_login: "Это имя задано вашим поставщиком авторизации, поэтому его нельзя изменить."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Разблокировать"
     unlock_and_reset_failed_logins: "Разблокировать и сбросить неудачные попытки входа"
   version_status_closed: "закрыт"
