@@ -18,7 +18,7 @@ jobs:
       run: |
         BRANCH=$(curl -H "Authorization: token $GITHUB_TOKEN" \
           https://api.github.com/repos/$GITHUB_REPOSITORY/branches?protected=true | \
-          jq -r .[].name | grep "release/" | sort -r | head -1
+          jq -r '.[].name' | grep '^release/' | sort --version-sort | tail -1
         )
         if [ "$BRANCH" = "" ]; then
           echo "Invalid release branch found: $BRANCH"
