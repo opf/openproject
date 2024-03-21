@@ -290,7 +290,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
   # - +estimated_hours+
   #
   # Unless both +remaining_hours+ and +estimated_hours+ are set, +done_ratio+ will be
-  # considered 0.
+  # considered nil.
   def update_done_ratio
     if WorkPackage.use_status_for_done_ratio?
       return unless model.status_id_changed?
@@ -302,7 +302,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
       return unless work_package.remaining_hours_changed? || work_package.estimated_hours_changed?
 
       work_package.done_ratio = if done_ratio_dependent_attribute_unset?
-                                  0
+                                  nil
                                 else
                                   compute_done_ratio
                                 end
@@ -331,6 +331,10 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
       model.remaining_hours = if model.estimated_hours
                                 remaining_hours_from_done_ratio_and_estimated_hours
                               end
+    elsif WorkPackage.use_field_for_done_ratio? &&
+          model.estimated_hours_changed? &&
+          model.estimated_hours.nil?
+      model.remaining_hours = nil
     end
   end
 
