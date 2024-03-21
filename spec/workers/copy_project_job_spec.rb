@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProjectJob] do
+RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProjectJob, SendCopyProjectStatusEmailJob] do
   let(:params) { { name: "Copy", identifier: "copy" } }
   let(:user_de) { create(:admin, language: :de) }
   let(:mail_double) { double("Mail::Message", deliver: true) } # rubocop:disable RSpec/VerifiedDoubles
@@ -48,8 +50,6 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
 
     let(:job_args) do
       {
-        user_id: admin.id,
-        source_project_id: source_project.id,
         target_project_params: params,
         associations_to_copy: [:work_packages]
       }
@@ -67,7 +67,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
 
     it "copies the project", :aggregate_failures do
       copy_job = nil
-      batch = GoodJob::Batch.enqueue(user: admin) do
+      batch = GoodJob::Batch.enqueue(user: admin, source_project:) do
         copy_job = described_class.perform_later(**job_args)
       end
       GoodJob.perform_inline
@@ -88,7 +88,7 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
     end
 
     it "ensures that error messages are correctly localized" do
-      batch = GoodJob::Batch.enqueue(user: user_de) do
+      batch = GoodJob::Batch.enqueue(user: user_de, source_project:) do
         described_class.perform_later(**job_args)
       end
       GoodJob.perform_inline
@@ -111,15 +111,6 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       project
     end
 
-    let(:copy_job) do
-      described_class.new.tap do |job|
-        job.perform user_id: admin.id,
-                    source_project_id: source_project.id,
-                    target_project_params: params,
-                    associations_to_copy: [:work_packages]
-      end
-    end
-
     before do
       allow(User).to receive(:current).and_return(admin)
     end
@@ -127,11 +118,8 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
     it "saves without the repository" do
       expect(source_project).not_to be_valid
 
-      batch = GoodJob::Batch.enqueue(user: admin) do
-        described_class.perform_later(user_id: nil,
-                                      source_project_id: source_project.id,
-                                      target_project_params: params,
-                                      associations_to_copy: [:work_packages])
+      batch = GoodJob::Batch.enqueue(user: admin, source_project:) do
+        described_class.perform_later(target_project_params: params, associations_to_copy: [:work_packages])
       end
 
       GoodJob.perform_inline
@@ -154,22 +142,19 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
 
     before do
       allow(User).to receive(:current).and_return(admin)
-      allow(ProjectMailer).to receive(:copy_project_succeeded).and_raise "error message not meant for user"
+      allow(Projects::CopyService).to receive(:new).and_return(->(*) { raise "Gen. Failure reporting for duty!" })
     end
 
     it "renders a error when unexpected errors occur" do
       copy_job = nil
-      GoodJob::Batch.enqueue(user: admin) do
-        copy_job = described_class.perform_later(user_id: admin.id,
-                                                 source_project_id: source_project.id,
-                                                 target_project_params: params,
-                                                 associations_to_copy: [:work_packages])
+      GoodJob::Batch.enqueue(user: admin, source_project:) do
+        copy_job = described_class.perform_later(target_project_params: params, associations_to_copy: [:work_packages])
       end
 
-      expect(ProjectMailer)
+      allow(ProjectMailer)
         .to receive(:copy_project_failed)
               .with(admin, source_project, "Copy", [I18n.t("copy_project.failed_internal")])
-              .and_return mail_double
+              .and_return(mail_double)
 
       GoodJob.perform_inline
 
@@ -208,11 +193,8 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       allow(OpenProject.logger).to receive(:error)
 
       copy_job = nil
-      batch = GoodJob::Batch.enqueue(user: admin) do
-        copy_job = described_class.perform_later(user_id: nil,
-                                                 source_project_id: source_project.id,
-                                                 target_project_params: params,
-                                                 associations_to_copy: [:work_packages])
+      batch = GoodJob::Batch.enqueue(user: admin, source_project:) do
+        copy_job = described_class.perform_later(target_project_params: params, associations_to_copy: [:work_packages])
       end
       GoodJob.perform_inline
       batch.reload
@@ -230,12 +212,10 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
 
     shared_context "on copy project" do
       before do
-        GoodJob::Batch.enqueue(user:) do
-          described_class.perform_later user_id: user.id,
-                                        source_project_id: project_to_copy.id,
-                                        target_project_params: params,
-                                        associations_to_copy: [:members]
+        GoodJob::Batch.enqueue(on_finish: SendCopyProjectStatusEmailJob, user:, source_project: project_to_copy) do
+          described_class.perform_later(target_project_params: params, associations_to_copy: [:members])
         end
+
         GoodJob.perform_inline
       end
     end
@@ -249,14 +229,11 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
       let(:params) { { name: "Copy", identifier: "copy" } }
       let(:subproject) do
         create(:project, parent: project).tap do |p|
-          create(:member,
-                 principal: user,
-                 roles: [role],
-                 project: p)
+          create(:member, principal: user, roles: [role], project: p)
         end
       end
 
-      subject { Project.find_by(identifier: "copy") }
+      subject(:copied_project) { Project.find_by(identifier: "copy") }
 
       describe "user without add_subprojects permission in parent" do
         include_context "on copy project" do
@@ -264,17 +241,17 @@ RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProject
         end
 
         it "copies the project without the parent being set" do
-          expect(subject).not_to be_nil
-          expect(subject.parent).to be_nil
+          expect(copied_project).not_to be_nil
+          expect(copied_project.parent).to be_nil
 
           expect(subproject.reload.enabled_module_names).not_to be_empty
         end
 
         it "notifies the user of the success" do
-          perform_enqueued_jobs
+          perform_enqueued_jobs # needed for the deliveries
 
           mail = ActionMailer::Base.deliveries
-                                   .find { |m| m.message_id.start_with? "op.project-#{subject.id}" }
+                                   .find { |m| m.message_id.start_with? "op.project-#{copied_project.id}" }
 
           expect(mail).to be_present
           expect(mail.subject).to eq "Created project #{subject.name}"
