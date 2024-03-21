@@ -60,6 +60,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
 
   # Show a HTML page with a form in order to create a new ProjectStorage
   # Called by: When a user clicks on the "+New" button in Project -> Settings -> File Storages
+  # rubocop:disable Metrics/AbcSize
   def new
     @available_storages = available_storages
     project_folder_mode = Storages::ProjectStorage.project_folder_modes.values.find do |mode|
@@ -75,6 +76,8 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
 
     render template: "/storages/project_settings/new"
   end
+
+  # rubocop:enable Metrics/AbcSize
 
   # Create a new ProjectStorage object.
   # Called by: The new page above with form-data from that form.
@@ -113,7 +116,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
     end
   end
 
-  # Edit page is very similar to new page, except that we don"t need to set
+  # Edit page is very similar to new page, except that we don't need to set
   # default attribute values because the object already exists
   # Called by: Global app/config/routes.rb to serve Web page
   def edit
@@ -149,7 +152,7 @@ class Storages::Admin::ProjectStoragesController < Projects::SettingsController
   end
 
   # Purpose: Destroy a ProjectStorage object
-  # Called by: By pressing a "Delete" icon in the Project"s settings ProjectStorages page
+  # Called by: By pressing a "Delete" icon in the Project's settings ProjectStorages page
   # It redirects back to the list of ProjectStorages in the project
   def destroy
     # The complex logic for deleting associated objects was moved into a service:
