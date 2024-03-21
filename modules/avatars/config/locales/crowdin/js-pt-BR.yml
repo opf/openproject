@@ -1,5 +1,5 @@
 #English strings go here
-pt:
+pt-BR:
   js:
     label_preview: 'Pré-visualizar'
     button_update: 'Atualizar'

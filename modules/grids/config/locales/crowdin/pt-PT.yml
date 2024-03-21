@@ -1,4 +1,4 @@
-pt:
+pt-PT:
   grids:
     label_widget_in_grid: "Widget contido na Grelha %{grid_name}"
   activerecord:
