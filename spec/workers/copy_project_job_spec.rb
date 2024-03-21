@@ -28,50 +28,24 @@
 
 require "spec_helper"
 
-RSpec.describe CopyProjectJob, type: :model do
+RSpec.describe CopyProjectJob, type: :model, with_good_job_batches: [CopyProjectJob] do
   let(:params) { { name: "Copy", identifier: "copy" } }
-  let(:maildouble) { double("Mail::Message", deliver: true) }
+  let(:user_de) { create(:admin, language: :de) }
+  let(:mail_double) { double("Mail::Message", deliver: true) } # rubocop:disable RSpec/VerifiedDoubles
 
-  before do
-    allow(maildouble).to receive(:deliver_later)
-  end
-
-  describe "copy localizes error message" do
-    let(:user_de) { create(:admin, language: :de) }
-    let(:source_project) { create(:project) }
-    let(:target_project) { create(:project) }
-
-    let(:copy_job) do
-      described_class.new
-    end
-
-    it "sets locale correctly" do
-      expect(copy_job)
-        .to receive(:create_project_copy)
-              .and_wrap_original do |m, *args, &block|
-        expect(I18n.locale).to eq(:de)
-        m.call(*args, &block)
-      end
-
-      copy_job.perform user_id: user_de.id,
-                       source_project_id: source_project.id,
-                       target_project_params: {},
-                       associations_to_copy: []
-    end
-  end
+  before { allow(mail_double).to receive(:deliver_later) }
 
   describe "copy project succeeds with errors" do
     let(:admin) { create(:admin) }
     let(:source_project) { create(:project, types: [type]) }
+
     let!(:work_package) { create(:work_package, project: source_project, type:) }
+
     let(:type) { create(:type_bug) }
     let(:custom_field) do
-      create(:work_package_custom_field,
-             name: "required_field",
-             field_format: "text",
-             is_required: true,
-             is_for_all: true)
+      create(:work_package_custom_field, name: "required_field", field_format: "text", is_required: true, is_for_all: true)
     end
+
     let(:job_args) do
       {
         user_id: admin.id,
@@ -80,40 +54,50 @@ RSpec.describe CopyProjectJob, type: :model do
         associations_to_copy: [:work_packages]
       }
     end
-    let(:copy_job) do
-      described_class.new(**job_args).tap(&:perform_now)
-    end
 
     let(:params) { { name: "Copy", identifier: "copy", type_ids: [type.id], work_package_custom_field_ids: [custom_field.id] } }
     let(:expected_error_message) do
       "#{WorkPackage.model_name.human} '#{work_package.type.name} ##{work_package.id}: #{work_package.subject}': #{custom_field.name} #{I18n.t('errors.messages.blank')}."
     end
 
-    # rubocop:disable RSpec/InstanceVariable
     before do
       source_project.work_package_custom_fields << custom_field
       type.custom_fields << custom_field
-
-      allow(User).to receive(:current).and_return(admin)
-
-      @copied_project = copy_job.target_project
-      @errors = copy_job.errors
     end
 
     it "copies the project", :aggregate_failures do
-      expect(Project.find_by(identifier: params[:identifier])).to eq(@copied_project)
-      expect(@errors.first).to eq(expected_error_message)
+      copy_job = nil
+      batch = GoodJob::Batch.enqueue(user: admin) do
+        copy_job = described_class.perform_later(**job_args)
+      end
+      GoodJob.perform_inline
+      batch.reload
+
+      copied_project = Project.find_by(identifier: params[:identifier])
+
+      expect(copied_project).to eq(batch.properties[:target_project])
+      expect(batch.properties[:errors].first).to eq(expected_error_message)
 
       # expect to create a status
       expect(copy_job.job_status).to be_present
       expect(copy_job.job_status[:status]).to eq "success"
       expect(copy_job.job_status[:payload]["redirect"]).to include "/projects/copy"
 
-      expected_link = { "href" => "/api/v3/projects/#{@copied_project.id}", "title" => @copied_project.name }
+      expected_link = { "href" => "/api/v3/projects/#{copied_project.id}", "title" => copied_project.name }
       expect(copy_job.job_status[:payload]["_links"]["project"]).to eq(expected_link)
     end
+
+    it "ensures that error messages are correctly localized" do
+      batch = GoodJob::Batch.enqueue(user: user_de) do
+        described_class.perform_later(**job_args)
+      end
+      GoodJob.perform_inline
+      batch.reload
+
+      msg = /Arbeitspaket 'Bug #\d+: WorkPackage No. \d+': required_field muss ausgefüllt werden\./
+      expect(batch.properties[:errors].first).to match(msg)
+    end
   end
-  # rubocop:enable RSpec/InstanceVariable
 
   describe "project has an invalid repository" do
     let(:admin) { create(:admin) }
@@ -143,8 +127,18 @@ RSpec.describe CopyProjectJob, type: :model do
     it "saves without the repository" do
       expect(source_project).not_to be_valid
 
-      copied_project = copy_job.target_project
-      errors = copy_job.errors
+      batch = GoodJob::Batch.enqueue(user: admin) do
+        described_class.perform_later(user_id: nil,
+                                      source_project_id: source_project.id,
+                                      target_project_params: params,
+                                      associations_to_copy: [:work_packages])
+      end
+
+      GoodJob.perform_inline
+      batch.reload
+
+      copied_project = batch.properties[:target_project]
+      errors = batch.properties[:errors]
 
       expect(errors).to be_empty
       expect(copied_project).to be_valid
@@ -156,15 +150,6 @@ RSpec.describe CopyProjectJob, type: :model do
   describe "copy project fails with internal error" do
     let(:admin) { create(:admin) }
     let(:source_project) { create(:project) }
-    let(:copy_job) do
-      described_class.new.tap do |job|
-        job.perform user_id: admin.id,
-                    source_project_id: source_project.id,
-                    target_project_params: params,
-                    associations_to_copy: [:work_packages]
-      end
-    end
-
     let(:params) { { name: "Copy", identifier: "copy" } }
 
     before do
@@ -173,12 +158,20 @@ RSpec.describe CopyProjectJob, type: :model do
     end
 
     it "renders a error when unexpected errors occur" do
+      copy_job = nil
+      GoodJob::Batch.enqueue(user: admin) do
+        copy_job = described_class.perform_later(user_id: admin.id,
+                                                 source_project_id: source_project.id,
+                                                 target_project_params: params,
+                                                 associations_to_copy: [:work_packages])
+      end
+
       expect(ProjectMailer)
         .to receive(:copy_project_failed)
               .with(admin, source_project, "Copy", [I18n.t("copy_project.failed_internal")])
-              .and_return maildouble
+              .and_return mail_double
 
-      expect { copy_job }.not_to raise_error
+      GoodJob.perform_inline
 
       # expect to create a status
       expect(copy_job.job_status).to be_present
@@ -211,34 +204,39 @@ RSpec.describe CopyProjectJob, type: :model do
         .call(%i[estimated_hours remaining_hours ignore_non_working_days])
     end
 
-    it "copies the project without any errord (Bug #52384)" do
+    it "copies the project without any errors (Bug #52384)" do
       allow(OpenProject.logger).to receive(:error)
 
-      copy_job = described_class.new
-      copy_job.perform user_id: admin.id,
-                       source_project_id: source_project.id,
-                       target_project_params: params,
-                       associations_to_copy: [:work_packages]
+      copy_job = nil
+      batch = GoodJob::Batch.enqueue(user: admin) do
+        copy_job = described_class.perform_later(user_id: nil,
+                                                 source_project_id: source_project.id,
+                                                 target_project_params: params,
+                                                 associations_to_copy: [:work_packages])
+      end
+      GoodJob.perform_inline
+      batch.reload
 
       expect(copy_job.job_status.status).to eq "success"
-      expect(copy_job.errors).to be_empty
+      expect(batch.properties[:errors]).to be_empty
       expect(OpenProject.logger).not_to have_received(:error)
     end
   end
 
-  describe "perform" do
+  describe "#perform" do
     let(:project) { create(:project, public: false) }
     let(:user) { create(:user) }
     let(:role) { create(:project_role, permissions: [:copy_projects]) }
 
-    shared_context "copy project" do
+    shared_context "on copy project" do
       before do
-        described_class.new.tap do |job|
-          job.perform user_id: user.id,
-                      source_project_id: project_to_copy.id,
-                      target_project_params: params,
-                      associations_to_copy: [:members]
+        GoodJob::Batch.enqueue(user:) do
+          described_class.perform_later user_id: user.id,
+                                        source_project_id: project_to_copy.id,
+                                        target_project_params: params,
+                                        associations_to_copy: [:members]
         end
+        GoodJob.perform_inline
       end
     end
 
@@ -261,7 +259,7 @@ RSpec.describe CopyProjectJob, type: :model do
       subject { Project.find_by(identifier: "copy") }
 
       describe "user without add_subprojects permission in parent" do
-        include_context "copy project" do
+        include_context "on copy project" do
           let(:project_to_copy) { subproject }
         end
 
@@ -287,7 +285,7 @@ RSpec.describe CopyProjectJob, type: :model do
       describe "user without add_subprojects permission in parent and when explicitly setting that parent" do
         let(:params) { { name: "Copy", identifier: "copy", parent_id: project.id } }
 
-        include_context "copy project" do
+        include_context "on copy project" do
           let(:project_to_copy) { subproject }
         end
 
@@ -318,7 +316,7 @@ RSpec.describe CopyProjectJob, type: :model do
           member_add_subproject
         end
 
-        include_context "copy project" do
+        include_context "on copy project" do
           let(:project_to_copy) { subproject }
         end
 

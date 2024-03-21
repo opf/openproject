@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -28,7 +30,7 @@
 require "spec_helper"
 require "rack/test"
 
-RSpec.describe API::V3::Projects::Copy::CopyAPI, content_type: :json do
+RSpec.describe "API::V3::Projects::Copy::CopyAPI", content_type: :json, with_good_job_batches: [CopyProjectJob] do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -69,6 +71,8 @@ RSpec.describe API::V3::Projects::Copy::CopyAPI, content_type: :json do
 
   subject(:response) { last_response }
 
+  # rubocop:disable RSpec/Rails/HaveHttpStatus
+  # those are mock responses that don't deal well with the rails helpers
   describe "#POST /api/v3/projects/:id/copy" do
     describe "with empty params" do
       it "returns 422", :aggregate_failures do
@@ -104,17 +108,17 @@ RSpec.describe API::V3::Projects::Copy::CopyAPI, content_type: :json do
 
         get response.location
 
-        expect(last_response.status).to eq 200
+        expect(last_response.status).to eq(200)
 
         expect(last_response.body)
           .to be_json_eql("in_queue".to_json)
                 .at_path("status")
 
-        perform_enqueued_jobs
+        GoodJob.perform_inline
 
         get response.location
 
-        expect(last_response.status).to eq 200
+        expect(last_response.status).to eq(200)
 
         expect(last_response.body)
           .to be_json_eql("success".to_json)
@@ -143,7 +147,7 @@ RSpec.describe API::V3::Projects::Copy::CopyAPI, content_type: :json do
       end
 
       it "does not copy the wiki" do
-        perform_enqueued_jobs
+        GoodJob.perform_inline
 
         project = Project.find_by(identifier: "my-copied-project")
         expect(project).to be_present
@@ -169,10 +173,10 @@ RSpec.describe API::V3::Projects::Copy::CopyAPI, content_type: :json do
         let(:sendNotifications) { false }
 
         it "queues the job without notifications" do
-          expect(CopyProjectJob)
-            .to have_been_enqueued.with do |args|
-            expect(args[:send_mails]).to be false
-          end
+          job = GoodJob::Job.where(job_class: "CopyProjectJob").last
+          enqueue_params = job.serialized_params["arguments"][0]
+
+          expect(enqueue_params["send_mails"]).to be_falsey
         end
       end
 
@@ -180,10 +184,10 @@ RSpec.describe API::V3::Projects::Copy::CopyAPI, content_type: :json do
         let(:sendNotifications) { true }
 
         it "queues the job with notifications" do
-          expect(CopyProjectJob)
-            .to have_been_enqueued.with do |args|
-            expect(args[:send_mails]).to be true
-          end
+          job = GoodJob::Job.where(job_class: "CopyProjectJob").last
+          enqueue_params = job.serialized_params["arguments"][0]
+
+          expect(enqueue_params["send_mails"]).to be_truthy
         end
       end
     end
@@ -199,4 +203,5 @@ RSpec.describe API::V3::Projects::Copy::CopyAPI, content_type: :json do
       end
     end
   end
+  # rubocop:enable RSpec/Rails/HaveHttpStatus
 end

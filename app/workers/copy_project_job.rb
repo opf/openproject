@@ -29,15 +29,19 @@
 class CopyProjectJob < ApplicationJob
   queue_with_priority :above_normal
   include OpenProject::LocaleHelper
+  include GoodJob::ActiveJobExtensions::Batches
 
-  attr_reader :user_id,
-              :source_project_id,
-              :target_project_params,
-              :target_project_name,
-              :target_project,
-              :errors,
-              :associations_to_copy,
-              :send_mails
+  queue_with_priority :above_normal
+
+  attr_reader :errors, :target_project, :target_project_params
+
+  # attr_reader :source_project_id,
+  #             :target_project_params,
+  #             :target_project_name,
+  #             :target_project,
+  #             :errors,
+  #             :associations_to_copy,
+  #             :send_mails
 
   def perform(user_id:,
               source_project_id:,
@@ -46,11 +50,10 @@ class CopyProjectJob < ApplicationJob
               send_mails: false)
     # Needs refactoring after moving to activejob
 
-    @user_id               = user_id
-    @source_project_id     = source_project_id
+    @source_project_id = source_project_id
     @target_project_params = target_project_params.with_indifferent_access
-    @associations_to_copy  = associations_to_copy
-    @send_mails            = send_mails
+    @associations_to_copy = associations_to_copy
+    @send_mails = send_mails
 
     User.current = user
     @target_project_name = target_project_params[:name]
@@ -59,18 +62,21 @@ class CopyProjectJob < ApplicationJob
       create_project_copy
     end
 
+    batch.properties.merge!(target_project:, errors:)
+    batch.save
+
     if target_project
       successful_status_update
       ProjectMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_later
     else
       failure_status_update
-      ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_later
+      ProjectMailer.copy_project_failed(user, source_project, @target_project_name, errors).deliver_later
     end
   rescue StandardError => e
     logger.error { "Failed to finish copy project job: #{e} #{e.message}" }
     errors = [I18n.t("copy_project.failed_internal")]
     failure_status_update
-    ProjectMailer.copy_project_failed(user, source_project, target_project_name, errors).deliver_later
+    ProjectMailer.copy_project_failed(user, source_project, @target_project_name, errors).deliver_later
   end
 
   def store_status?
@@ -124,17 +130,17 @@ class CopyProjectJob < ApplicationJob
   end
 
   def user
-    @user ||= User.find user_id
+    @user ||= batch.properties[:user]
   end
 
   def source_project
-    @source_project ||= Project.find source_project_id
+    @source_project ||= Project.find @source_project_id
   end
 
   def create_project_copy
     errors = []
 
-    ProjectMailer.with_deliveries(send_mails) do
+    ProjectMailer.with_deliveries(@send_mails) do
       service_call = copy_project
       target_project = service_call.result
       errors = service_call.errors.full_messages
@@ -149,13 +155,15 @@ class CopyProjectJob < ApplicationJob
     end
   rescue ActiveRecord::RecordNotFound => e
     logger.error("Entity missing: #{e.message} #{e.backtrace.join("\n")}")
+    raise e
   rescue StandardError => e
     logger.error("Encountered an error when trying to copy project " \
-                 "'#{source_project_id}' : #{e.message} #{e.backtrace.join("\n")}")
+                 "'#{@source_project_id}' : #{e.message} #{e.backtrace.join("\n")}")
+    raise e
   ensure
     unless errors.empty?
       logger.error("Encountered an errors while trying to copy related objects for " \
-                   "project '#{source_project_id}': #{errors.inspect}")
+                   "project '#{@source_project_id}': #{errors.inspect}")
     end
   end
 
@@ -166,8 +174,8 @@ class CopyProjectJob < ApplicationJob
   end
 
   def copy_project_params
-    params = { target_project_params:, send_notifications: send_mails }
-    params[:only] = associations_to_copy if associations_to_copy.present?
+    params = { target_project_params:, send_notifications: @send_mails }
+    params[:only] = @associations_to_copy if @associations_to_copy.present?
 
     params
   end
