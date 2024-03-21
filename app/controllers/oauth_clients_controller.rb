@@ -201,7 +201,7 @@ class OAuthClientsController < ApplicationController
                        I18n.t("oauth_client.errors.oauth_client_not_found_explanation")]
 
       redirect_user_or_admin(get_redirect_uri) do
-        # Something must be wrong in the storage"s setup
+        # Something must be wrong in the storage's setup
         redirect_to admin_settings_storages_path
       end
     end
