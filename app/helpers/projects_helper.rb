@@ -63,6 +63,7 @@ module ProjectsHelper
     Setting
       .enabled_projects_columns
       .map { |c| projects_columns_options.find { |o| o[:id].to_s == c } }
+      .compact
   end
 
   def protected_projects_columns_options
