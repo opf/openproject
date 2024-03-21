@@ -56,7 +56,7 @@ module API
           private
 
           def type
-            '[1]BacklogsType'
+            "[1]BacklogsType"
           end
         end
       end

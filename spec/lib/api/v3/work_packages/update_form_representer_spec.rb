@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::WorkPackages::UpdateFormRepresenter do
   include API::V3::Utilities::PathHelper
@@ -49,51 +49,51 @@ RSpec.describe API::V3::WorkPackages::UpdateFormRepresenter do
     end
   end
 
-  context 'generation' do
+  context "generation" do
     subject(:generated) { representer.to_json }
 
-    describe '_links' do
-      it { is_expected.to have_json_path('_links') }
+    describe "_links" do
+      it { is_expected.to have_json_path("_links") }
 
-      it { is_expected.to have_json_path('_links/self/href') }
+      it { is_expected.to have_json_path("_links/self/href") }
 
-      describe 'validate' do
-        it { is_expected.to have_json_path('_links/validate/href') }
+      describe "validate" do
+        it { is_expected.to have_json_path("_links/validate/href") }
 
-        it { is_expected.to be_json_eql(:post.to_json).at_path('_links/validate/method') }
+        it { is_expected.to be_json_eql(:post.to_json).at_path("_links/validate/method") }
       end
 
-      describe 'preview markup' do
-        it { is_expected.to have_json_path('_links/previewMarkup/href') }
+      describe "preview markup" do
+        it { is_expected.to have_json_path("_links/previewMarkup/href") }
 
-        it { is_expected.to be_json_eql(:post.to_json).at_path('_links/previewMarkup/method') }
+        it { is_expected.to be_json_eql(:post.to_json).at_path("_links/previewMarkup/method") }
 
-        it 'contains link to work package' do
+        it "contains link to work package" do
           body = parse_json(subject)
-          actual_preview_link = body['_links']['previewMarkup']['href']
-          expected_preview_link = api_v3_paths.render_markup link: body['_links']['commit']['href']
+          actual_preview_link = body["_links"]["previewMarkup"]["href"]
+          expected_preview_link = api_v3_paths.render_markup link: body["_links"]["commit"]["href"]
 
           expect(actual_preview_link).to eq(expected_preview_link)
         end
       end
 
-      describe 'commit' do
-        context 'valid work package' do
-          it { is_expected.to have_json_path('_links/commit/href') }
+      describe "commit" do
+        context "valid work package" do
+          it { is_expected.to have_json_path("_links/commit/href") }
 
-          it { is_expected.to be_json_eql(:patch.to_json).at_path('_links/commit/method') }
+          it { is_expected.to be_json_eql(:patch.to_json).at_path("_links/commit/method") }
         end
 
-        context 'invalid work package' do
-          let(:errors) { [API::Errors::Validation.new(:subject, 'it is broken')] }
+        context "invalid work package" do
+          let(:errors) { [API::Errors::Validation.new(:subject, "it is broken")] }
 
-          it { is_expected.not_to have_json_path('_links/commit/href') }
+          it { is_expected.not_to have_json_path("_links/commit/href") }
         end
 
-        context 'user with insufficient permissions' do
+        context "user with insufficient permissions" do
           let(:permissions) { [] }
 
-          it { is_expected.not_to have_json_path('_links/commit/href') }
+          it { is_expected.not_to have_json_path("_links/commit/href") }
         end
       end
     end

@@ -49,9 +49,9 @@ class Backlog
 
   def initialize(options = {})
     options = options.with_indifferent_access
-    @sprint = options['sprint']
-    @stories = options['stories']
-    @owner_backlog = options['owner_backlog']
+    @sprint = options["sprint"]
+    @stories = options["stories"]
+    @owner_backlog = options["owner_backlog"]
   end
 
   def updated_at

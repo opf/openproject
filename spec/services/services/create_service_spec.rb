@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_create_service'
+require "spec_helper"
+require "services/base_services/behaves_like_create_service"
 
 RSpec.describe Views::CreateService, type: :model do
-  it_behaves_like 'BaseServices create service' do
+  it_behaves_like "BaseServices create service" do
     let(:call_attributes) do
       {
         type: "work_packages_table",

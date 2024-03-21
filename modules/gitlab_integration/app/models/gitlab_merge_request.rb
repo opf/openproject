@@ -35,12 +35,12 @@ class GitlabMergeRequest < ApplicationRecord
   has_and_belongs_to_many :work_packages
   has_many :gitlab_pipelines, dependent: :destroy
   belongs_to :gitlab_user, optional: true
-  belongs_to :merged_by, optional: true, class_name: 'GitlabUser'
+  belongs_to :merged_by, optional: true, class_name: "GitlabUser"
 
   enum state: {
-    opened: 'opened',
-    merged: 'merged',
-    closed: 'closed'
+    opened: "opened",
+    merged: "merged",
+    closed: "closed"
   }
 
   validates_presence_of :gitlab_html_url,

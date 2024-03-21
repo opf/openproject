@@ -87,7 +87,7 @@ class Report::Walker
   end
 
   def reverse_headers
-    fail 'call header first' unless @header_stack
+    fail "call header first" unless @header_stack
 
     first = true
     @header_stack.reverse_each do |list|
@@ -99,7 +99,7 @@ class Report::Walker
   end
 
   def headers_empty?
-    fail 'call header first' unless @header_stack
+    fail "call header first" unless @header_stack
 
     @header_stack.empty?
   end

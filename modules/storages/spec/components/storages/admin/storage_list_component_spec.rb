@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
 RSpec.describe Storages::Admin::StorageListComponent, type: :component do
@@ -41,18 +41,18 @@ RSpec.describe Storages::Admin::StorageListComponent, type: :component do
     render_inline(storage_list_component)
   end
 
-  context 'with storages' do
-    it 'lists all storages' do
+  context "with storages" do
+    it "lists all storages" do
       expect(page).to have_list_item(count: 2)
       expect(page).to have_list_item(nextcloud_storage.name)
       expect(page).to have_list_item(one_drive_storage.name)
     end
   end
 
-  context 'with no storages' do
+  context "with no storages" do
     let(:storages) { [] }
 
-    it 'renders a blank slate' do
+    it "renders a blank slate" do
       expect(page).to have_text("You don't have any storages yet.")
     end
   end

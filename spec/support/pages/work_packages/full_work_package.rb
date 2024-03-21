@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/work_packages/abstract_work_package'
+require "support/pages/work_packages/abstract_work_package"
 
 module Pages
   class FullWorkPackage < Pages::AbstractWorkPackage
     def ensure_loaded
-      find('.work-packages--details--subject', match: :first)
+      find(".work-packages--details--subject", match: :first)
     end
 
     def toolbar
-      find_by_id('toolbar-items')
+      find_by_id("toolbar-items")
     end
 
     def click_share_button
@@ -46,23 +46,23 @@ module Pages
         # include waiting for other network requests unrelated to
         # sharing), waiting for the button to be present makes
         # the spec a tad faster.
-        click_button('Share', wait: 10)
+        click_button("Share", wait: 10)
       end
     end
 
     def expect_share_button_count(count)
-      page.within_test_selector('op-wp-share-button') do
-        expect(page).to have_css('.badge', text: count, wait: 10)
+      page.within_test_selector("op-wp-share-button") do
+        expect(page).to have_css(".badge", text: count, wait: 10)
       end
     end
 
     private
 
     def container
-      find('.work-packages--show-view')
+      find(".work-packages--show-view")
     end
 
-    def path(tab = 'activity')
+    def path(tab = "activity")
       if project
         project_work_package_path(project, work_package.id, tab)
       else

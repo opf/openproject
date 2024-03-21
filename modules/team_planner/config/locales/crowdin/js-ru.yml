@@ -12,6 +12,8 @@ ru:
       remove_assignee: 'Удалить ответственного'
       two_weeks: '2 недели'
       one_week: '1 неделя'
+      four_weeks: '4-week'
+      eight_weeks: '8-week'
       work_week: 'Рабочая неделя'
       today: 'Сегодня'
       drag_here_to_remove: 'Перетащите сюда, чтобы удалить ответственного, а также даты начала и окончания.'

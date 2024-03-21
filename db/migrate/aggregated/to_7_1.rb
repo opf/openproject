@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative 'base'
+require_relative "base"
 
 # rubocop:disable Naming/ClassAndModuleCamelCase
 class Aggregated::To_7_1 < Aggregated::Base

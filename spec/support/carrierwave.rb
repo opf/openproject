@@ -40,15 +40,15 @@ module MockCarrierwave
   end
 
   def bucket
-    'test-bucket'
+    "test-bucket"
   end
 
   def credentials
     {
-      provider: 'AWS',
-      aws_access_key_id: 'someaccesskeyid',
-      aws_secret_access_key: 'someprivateaccesskey',
-      region: 'us-east-1'
+      provider: "AWS",
+      aws_access_key_id: "someaccesskeyid",
+      aws_secret_access_key: "someprivateaccesskey",
+      region: "us-east-1"
     }
   end
 end

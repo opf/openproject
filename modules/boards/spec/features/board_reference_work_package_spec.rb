@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'support/board_index_page'
-require_relative 'support/board_page'
+require "spec_helper"
+require_relative "support/board_index_page"
+require_relative "support/board_page"
 
-RSpec.describe 'Board reference work package spec', :js, with_ee: %i[board_view] do
+RSpec.describe "Board reference work package spec", :js, with_ee: %i[board_view] do
   let(:user) do
     create(:user,
            member_with_roles: { project => role })
   end
   let(:project) { create(:project, enabled_module_names: %i[work_package_tracking board_view]) }
   let(:role) { create(:project_role, permissions:) }
-  let!(:work_package) { create(:work_package, version:, subject: 'Foo', project:) }
+  let!(:work_package) { create(:work_package, version:, subject: "Foo", project:) }
 
   let(:board_index) { Pages::BoardIndex.new(project) }
   let(:filters) { Components::WorkPackages::Filters.new }
@@ -57,33 +57,33 @@ RSpec.describe 'Board reference work package spec', :js, with_ee: %i[board_view]
 
   let!(:priority) { create(:default_priority) }
   let!(:status) { create(:default_status) }
-  let!(:version) { create(:version, name: 'Foo version', project:) }
+  let!(:version) { create(:version, name: "Foo version", project:) }
 
   before do
     project
     login_as(user)
   end
 
-  it 'allows referencing with filters (Regression #29966)' do
+  it "allows referencing with filters (Regression #29966)" do
     board_view
     board_index.visit!
 
     # Create new board
     board_page = board_index.create_board
-    board_page.rename_list 'Unnamed list', 'First'
+    board_page.rename_list "Unnamed list", "First"
 
     # Filter for Version
     filters.open
-    filters.add_filter_by('Version', 'is (OR)', version.name)
+    filters.add_filter_by("Version", "is (OR)", version.name)
     sleep 2
 
     # Reference an existing work package
-    board_page.reference('First', work_package)
+    board_page.reference("First", work_package)
     sleep 2
-    board_page.expect_card('First', work_package.subject)
+    board_page.expect_card("First", work_package.subject)
 
     queries = board_page.board(reload: true).contained_queries
-    first = queries.find_by(name: 'First')
+    first = queries.find_by(name: "First")
     ids = first.ordered_work_packages.pluck(:work_package_id)
     expect(ids).to contain_exactly(work_package.id)
 
@@ -92,39 +92,39 @@ RSpec.describe 'Board reference work package spec', :js, with_ee: %i[board_view]
     expect(work_package.version_id).to eq version.id
   end
 
-  context 'with a subproject and work packages within it (Regression #31613)' do
+  context "with a subproject and work packages within it (Regression #31613)" do
     let!(:child_project) { create(:project, parent: project) }
-    let!(:work_package) { create(:work_package, subject: 'WP SUB', project: child_project) }
+    let!(:work_package) { create(:work_package, subject: "WP SUB", project: child_project) }
 
     let(:user) do
       create(:user, member_with_roles: { project => role, child_project => role })
     end
 
-    it 'returns the work package when subproject filters is added' do
+    it "returns the work package when subproject filters is added" do
       board_view
       board_index.visit!
 
       # Create new board
       board_page = board_index.create_board
-      board_page.rename_list 'Unnamed list', 'First'
+      board_page.rename_list "Unnamed list", "First"
 
       # Reference an existing work package
-      board_page.expect_not_referencable('First', work_package)
+      board_page.expect_not_referencable("First", work_package)
       sleep 2
-      board_page.expect_card('First', work_package.subject, present: false)
+      board_page.expect_card("First", work_package.subject, present: false)
 
       # Add subproject filter
       filters.open
-      filters.add_filter_by('subproject', 'is not empty', nil, 'subprojectId')
+      filters.add_filter_by("subproject", "is not empty", nil, "subprojectId")
       sleep 2
 
       # Reference an existing work package
-      board_page.reference('First', work_package)
+      board_page.reference("First", work_package)
       sleep 2
-      board_page.expect_card('First', work_package.subject)
+      board_page.expect_card("First", work_package.subject)
 
       queries = board_page.board(reload: true).contained_queries
-      first = queries.find_by(name: 'First')
+      first = queries.find_by(name: "First")
       ids = first.ordered_work_packages.pluck(:work_package_id)
       expect(ids).to contain_exactly(work_package.id)
 

@@ -47,7 +47,7 @@ module OpenProject::TextFormatting
       ##
       # Faster inclusion check before the regex is being applied
       def self.applicable?(content)
-        content.include?('Label:') || content.include?('Value:')
+        content.include?("Label:") || content.include?("Value:")
       end
 
       def self.process_match(m, _matched_string, _context)
@@ -60,7 +60,7 @@ module OpenProject::TextFormatting
         type = m[2].downcase
 
         ApplicationController.helpers.content_tag "opce-macro-attribute-#{type}",
-                                                  '',
+                                                  "",
                                                   data: macro_attributes
       end
     end

@@ -42,29 +42,29 @@ class Principal < ApplicationRecord
 
   has_one :preference,
           dependent: :destroy,
-          class_name: 'UserPreference',
-          foreign_key: 'user_id',
+          class_name: "UserPreference",
+          foreign_key: "user_id",
           inverse_of: :user
-  has_many :members, foreign_key: 'user_id', dependent: :destroy, inverse_of: :principal
+  has_many :members, foreign_key: "user_id", dependent: :destroy, inverse_of: :principal
   has_many :memberships,
            -> {
              includes(:project, :roles)
                .merge(Member.of_any_project.or(Member.global))
                .where(["projects.active = ? OR members.project_id IS NULL", true])
-               .order(Arel.sql('projects.name ASC'))
+               .order(Arel.sql("projects.name ASC"))
            },
            inverse_of: :principal,
            dependent: :nullify,
-           class_name: 'Member',
-           foreign_key: 'user_id'
+           class_name: "Member",
+           foreign_key: "user_id"
   has_many :work_package_shares,
            -> { where(entity_type: WorkPackage.name) },
            inverse_of: :principal,
            dependent: :delete_all,
-           class_name: 'Member',
-           foreign_key: 'user_id'
+           class_name: "Member",
+           foreign_key: "user_id"
   has_many :projects, through: :memberships
-  has_many :categories, foreign_key: 'assigned_to_id', dependent: :nullify, inverse_of: :assigned_to
+  has_many :categories, foreign_key: "assigned_to_id", dependent: :nullify, inverse_of: :assigned_to
 
   has_paper_trail
 
@@ -106,8 +106,8 @@ class Principal < ApplicationRecord
   scope :within_group, ->(group, positive = true) {
     group_id = group.is_a?(Group) ? [group.id] : Array(group).map(&:to_i)
 
-    sql_condition = group_id.any? ? 'WHERE gu.group_id IN (?)' : ''
-    sql_not = positive ? '' : 'NOT'
+    sql_condition = group_id.any? ? "WHERE gu.group_id IN (?)" : ""
+    sql_not = positive ? "" : "NOT"
 
     sql_query = [
       "#{User.table_name}.id #{sql_not} IN " \
@@ -190,10 +190,10 @@ class Principal < ApplicationRecord
 
   # Make sure we don't try to insert NULL values (see #4632)
   def set_default_empty_values
-    self.login ||= ''
-    self.firstname ||= ''
-    self.lastname ||= ''
-    self.mail ||= ''
+    self.login ||= ""
+    self.firstname ||= ""
+    self.lastname ||= ""
+    self.mail ||= ""
     true
   end
 end

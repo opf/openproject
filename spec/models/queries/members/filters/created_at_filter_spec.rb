@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Members::Filters::CreatedAtFilter do
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :created_at }
     let(:type) { :datetime_past }
     let(:model) { Member }
     let(:attribute) { :created_at }
-    let(:values) { ['3'] }
+    let(:values) { ["3"] }
   end
 end

@@ -127,13 +127,13 @@ module Grids::Configuration
 
       def register!
         unless grid_class
-          raise 'Need to define the grid class first. Use grid_class to do so.'
+          raise "Need to define the grid class first. Use grid_class to do so."
         end
         unless widgets
-          raise 'Need to define at least one widget first. Use widgets to do so.'
+          raise "Need to define at least one widget first. Use widgets to do so."
         end
         unless to_scope
-          raise 'Need to define a scope. Use to_scope to do so'
+          raise "Need to define a scope. Use to_scope to do so"
         end
 
         Grids::Configuration.register_grid(grid_class, self)

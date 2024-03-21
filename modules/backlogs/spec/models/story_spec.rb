@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Story do
   let(:user) { @user ||= create(:user) }
   let(:role) { @role ||= create(:project_role) }
-  let(:status1) { @status1 ||= create(:status, name: 'status 1', is_default: true) }
+  let(:status1) { @status1 ||= create(:status, name: "status 1", is_default: true) }
   let(:type_feature) { @type_feature ||= create(:type_feature) }
   let(:version) { @version ||= create(:version, project:) }
   let(:version2) { create(:version, project:) }
@@ -74,15 +74,15 @@ RSpec.describe Story do
   before do
     ActionController::Base.perform_caching = false
 
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
-                                                                         'wiki_template' => '',
-                                                                         'story_types' => [type_feature.id.to_s],
-                                                                         'task_type' => task_type.id.to_s })
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ "points_burn_direction" => "down",
+                                                                         "wiki_template" => "",
+                                                                         "story_types" => [type_feature.id.to_s],
+                                                                         "task_type" => task_type.id.to_s })
     project.types << task_type
   end
 
-  describe 'Class methods' do
-    describe '#backlogs' do
+  describe "Class methods" do
+    describe "#backlogs" do
       describe "WITH one sprint
                 WITH the sprint having 1 story" do
         before do
@@ -148,7 +148,7 @@ RSpec.describe Story do
       describe "WITH one sprint
                 WITH the sprint having one story in this project and one story in another project" do
         before do
-          version.sharing = 'system'
+          version.sharing = "system"
           version.save!
 
           another_project = create(:project)

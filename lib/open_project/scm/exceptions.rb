@@ -65,7 +65,7 @@ module OpenProject
 
       # a localized exception raised when SCM could be accessed
       class SCMUnavailable < SCMError
-        def initialize(key = 'unavailable')
+        def initialize(key = "unavailable")
           @error = I18n.t("repositories.errors.#{key}")
         end
 
@@ -77,14 +77,14 @@ module OpenProject
       # raised if SCM could not be accessed due to authorization failure
       class SCMUnauthorized < SCMUnavailable
         def initialize
-          super('unauthorized')
+          super("unauthorized")
         end
       end
 
       # raised when encountering an empty (bare) repository
       class SCMEmpty < SCMUnavailable
         def initialize
-          super('empty_repository')
+          super("empty_repository")
         end
       end
     end

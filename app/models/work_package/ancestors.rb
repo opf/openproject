@@ -78,7 +78,7 @@ module WorkPackage::Ancestors
         .where(descendant_id: @ids)
         .includes(:ancestor)
         .where(ancestor: { project_id: Project.allowed_to(user, :view_work_packages) })
-        .where('generations > 0')
+        .where("generations > 0")
         .order(generations: :desc)
         .group_by(&:descendant_id)
         .transform_values { |hierarchies| hierarchies.map(&:ancestor) }

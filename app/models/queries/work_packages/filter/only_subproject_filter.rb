@@ -33,7 +33,7 @@ class Queries::WorkPackages::Filter::OnlySubprojectFilter <
   end
 
   def human_name
-    I18n.t('query_fields.only_subproject_id')
+    I18n.t("query_fields.only_subproject_id")
   end
 
   def self.key

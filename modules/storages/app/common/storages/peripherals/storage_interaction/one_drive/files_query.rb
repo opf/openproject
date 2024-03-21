@@ -34,11 +34,12 @@ module Storages
       module OneDrive
         class FilesQuery
           FIELDS = "?$select=id,name,size,webUrl,lastModifiedBy,createdBy,fileSystemInfo,file,folder,parentReference"
+          Auth = ::Storages::Peripherals::StorageInteraction::Authentication
 
           using ServiceResultRefinements
 
-          def self.call(storage:, user:, folder:)
-            new(storage).call(user:, folder:)
+          def self.call(storage:, auth_strategy:, folder:)
+            new(storage).call(auth_strategy:, folder:)
           end
 
           def initialize(storage)
@@ -46,20 +47,16 @@ module Storages
             @uri = storage.uri
           end
 
-          def call(user:, folder:)
-            result = Util.using_user_token(@storage, user) do |token|
-              response = OpenProject.httpx.get(
-                Util.join_uri_path(@uri, children_uri_path_for(folder) + FIELDS),
-                headers: { 'Authorization' => "Bearer #{token.access_token}" }
-              )
+          def call(auth_strategy:, folder:)
+            Auth[auth_strategy].call(storage: @storage) do |http|
+              call = http.get(Util.join_uri_path(@uri, children_uri_path_for(folder) + FIELDS))
+              response = handle_response(call, :value)
 
-              handle_response(response, :value)
-            end
-
-            if result.result.empty?
-              empty_response(user, folder)
-            else
-              result.map { |json_files| storage_files(json_files) }
+              if response.result.empty?
+                empty_response(http, folder)
+              else
+                response.map { |json_files| storage_files(json_files) }
+              end
             end
           end
 
@@ -103,17 +100,11 @@ module Storages
             )
           end
 
-          def empty_response(user, folder)
-            result = Util.using_user_token(@storage, user) do |token|
-              response = OpenProject.httpx.get(
-                Util.join_uri_path(@uri, location_uri_path_for(folder) + FIELDS),
-                headers: { 'Authorization' => "Bearer #{token.access_token}" }
-              )
-
-              handle_response(response, :id)
+          def empty_response(http, folder)
+            response = http.get(Util.join_uri_path(@uri, location_uri_path_for(folder) + FIELDS))
+            handle_response(response, :id).map do |parent_location_id|
+              empty_storage_files(folder.path, parent_location_id)
             end
-
-            result.map { |parent_location_id| empty_storage_files(folder.path, parent_location_id) }
           end
 
           def empty_storage_files(path, parent_id)
@@ -121,7 +112,7 @@ module Storages
               [],
               StorageFile.new(
                 id: parent_id,
-                name: path.split('/').last,
+                name: path.split("/").last,
                 location: path,
                 permissions: %i[readable writeable]
               ),
@@ -130,7 +121,7 @@ module Storages
           end
 
           def parent(parent_reference)
-            _, _, name = parent_reference[:path].gsub(/.*root:/, '').rpartition '/'
+            _, _, name = parent_reference[:path].gsub(/.*root:/, "").rpartition "/"
 
             if name.empty?
               root(parent_reference[:id])
@@ -145,10 +136,10 @@ module Storages
           end
 
           def forge_ancestors(parent_reference)
-            path_elements = parent_reference[:path].gsub(/.+root:/, '').split('/')
+            path_elements = parent_reference[:path].gsub(/.+root:/, "").split("/")
 
             path_elements[0..-2].map do |component|
-              next root(Digest::SHA256.hexdigest('i_am_root')) if component.blank?
+              next root(Digest::SHA256.hexdigest("i_am_root")) if component.blank?
 
               StorageFile.new(
                 id: Digest::SHA256.hexdigest(component),
@@ -178,7 +169,7 @@ module Storages
           end
 
           def encode_path(path)
-            path.split('/').map { |fragment| URI.encode_uri_component(fragment) }.join('/')
+            path.split("/").map { |fragment| URI.encode_uri_component(fragment) }.join("/")
           end
         end
       end

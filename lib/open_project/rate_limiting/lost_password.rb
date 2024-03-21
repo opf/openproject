@@ -22,7 +22,7 @@ module OpenProject
       end
 
       def discriminator(req)
-        if req.post? && req.path.end_with?('/account/lost_password')
+        if req.post? && req.path.end_with?("/account/lost_password")
           req.env.dig "rack.request.form_hash", "mail"
         end
       end

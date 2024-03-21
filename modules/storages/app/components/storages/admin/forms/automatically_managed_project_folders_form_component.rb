@@ -44,7 +44,7 @@ module Storages::Admin::Forms
     def submit_button_options
       {
         label: submit_button_label,
-        data: { 'storages--automatically-managed-project-folders-form-target': 'submitButton' }.tap do |data_hash|
+        data: { "storages--automatically-managed-project-folders-form-target": "submitButton" }.tap do |data_hash|
           # For create action, break from Turbo Frame and follow full page redirect
           data_hash[:turbo] = false if new_record?
         end
@@ -91,8 +91,8 @@ module Storages::Admin::Forms
       render(
         Primer::Beta::Link.new(
           href: Storages::Peripherals::StorageInteraction::Nextcloud::Util.join_uri_path(storage.host,
-                                                                                         'settings/admin/openproject'),
-          target: '_blank'
+                                                                                         "settings/admin/openproject"),
+          target: "_blank"
         )
       ) { I18n.t("storages.instructions.#{storage.short_provider_type}.integration") }
     end

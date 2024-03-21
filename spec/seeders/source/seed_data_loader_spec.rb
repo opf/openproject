@@ -28,10 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Source::SeedDataLoader do
-  let(:seed_name) { 'standard' }
+  let(:seed_name) { "standard" }
 
   subject(:loader) { described_class.new(seed_name:) }
 
@@ -43,123 +43,123 @@ RSpec.describe Source::SeedDataLoader do
     )
   end
 
-  describe '#raw_content' do
-    it 'merges the data from seed files matching the given seed name' do
+  describe "#raw_content" do
+    it "merges the data from seed files matching the given seed name" do
       allow(Source::SeedFile).to receive(:all).and_return(
         [
           seed_file_double(name: seed_name,
                            raw_content: {
-                             'data_from_file1' => 'hello'
+                             "data_from_file1" => "hello"
                            }),
           seed_file_double(name: seed_name,
                            raw_content: {
-                             'data_from_file2' => 'world'
+                             "data_from_file2" => "world"
                            })
         ]
       )
 
       expect(loader.translated_seed_files_content).to eq(
         {
-          'data_from_file1' => 'hello',
-          'data_from_file2' => 'world'
+          "data_from_file1" => "hello",
+          "data_from_file2" => "world"
         }
       )
     end
 
-    it 'merges also the data from all common seed files regardless of the given seed name' do
+    it "merges also the data from all common seed files regardless of the given seed name" do
       allow(Source::SeedFile).to receive(:all).and_return(
         [
           seed_file_double(name: seed_name,
                            raw_content: {
-                             'data_from_file1' => 'hello'
+                             "data_from_file1" => "hello"
                            }),
-          seed_file_double(name: 'common',
+          seed_file_double(name: "common",
                            raw_content: {
-                             'data_from_common_file1' => 'world'
+                             "data_from_common_file1" => "world"
                            }),
-          seed_file_double(name: 'common',
+          seed_file_double(name: "common",
                            raw_content: {
-                             'data_from_common_file2' => '!!!'
+                             "data_from_common_file2" => "!!!"
                            })
         ]
       )
 
       expect(loader.translated_seed_files_content).to eq(
         {
-          'data_from_file1' => 'hello',
-          'data_from_common_file1' => 'world',
-          'data_from_common_file2' => '!!!'
+          "data_from_file1" => "hello",
+          "data_from_common_file1" => "world",
+          "data_from_common_file2" => "!!!"
         }
       )
     end
 
-    it 'does not merge the data from seed files with a name different from the given name' do
+    it "does not merge the data from seed files with a name different from the given name" do
       allow(Source::SeedFile).to receive(:all).and_return(
         [
           seed_file_double(name: seed_name,
                            raw_content: {
-                             'data_from_standard_file' => 'hello'
+                             "data_from_standard_file" => "hello"
                            }),
-          seed_file_double(name: 'different',
+          seed_file_double(name: "different",
                            raw_content: {
-                             'data_from_different_file' => 'this data will not be merged'
+                             "data_from_different_file" => "this data will not be merged"
                            }),
-          seed_file_double(name: 'bim',
+          seed_file_double(name: "bim",
                            raw_content: {
-                             'data_from_bim_file' => 'this data will not be merged either'
+                             "data_from_bim_file" => "this data will not be merged either"
                            })
         ]
       )
 
       expect(loader.translated_seed_files_content).to eq(
         {
-          'data_from_standard_file' => 'hello'
+          "data_from_standard_file" => "hello"
         }
       )
     end
 
-    it 'deep merges hashes with identical paths' do
+    it "deep merges hashes with identical paths" do
       allow(Source::SeedFile).to receive(:all).and_return(
         [
           seed_file_double(name: seed_name,
                            raw_content: {
-                             'welcome' => { title: 'welcome title' }
+                             "welcome" => { title: "welcome title" }
                            }),
           seed_file_double(name: seed_name,
                            raw_content: {
-                             'welcome' => { description: 'welcome description' }
+                             "welcome" => { description: "welcome description" }
                            })
         ]
       )
 
       expect(loader.translated_seed_files_content).to eq(
         {
-          'welcome' => {
-            title: 'welcome title',
-            description: 'welcome description'
+          "welcome" => {
+            title: "welcome title",
+            description: "welcome description"
           }
         }
       )
     end
 
-    it 'does not concat arrays with identical paths' do
+    it "does not concat arrays with identical paths" do
       allow(Source::SeedFile).to receive(:all).and_return(
         [
           seed_file_double(name: seed_name,
                            raw_content: {
-                             'project' => { 'users' => ['Alice', 'Bob'] }
+                             "project" => { "users" => ["Alice", "Bob"] }
                            }),
           seed_file_double(name: seed_name,
                            raw_content: {
-                             'project' => { 'users' => ['Caroline', 'Devanshi'] }
+                             "project" => { "users" => ["Caroline", "Devanshi"] }
                            })
         ]
       )
 
       expect(loader.translated_seed_files_content).to eq(
         {
-          'project' => {
-            'users' => ['Caroline', 'Devanshi'] # last one wins...
+          "project" => {
+            "users" => ["Caroline", "Devanshi"] # last one wins...
           }
         }
       )

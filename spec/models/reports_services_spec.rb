@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Reports::ReportsService do
   let(:project) { create(:project) }
 
-  it 'is initializable with a project' do
+  it "is initializable with a project" do
     expect { Reports::ReportsService.new(project) }.not_to raise_error
   end
 
-  it 'raises an error, when given no project' do
+  it "raises an error, when given no project" do
     expect { Reports::ReportsService.new(nil) }.to raise_error("You must provide a project to report upon")
   end
 end

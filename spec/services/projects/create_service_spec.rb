@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/base_services/behaves_like_create_service'
+require "spec_helper"
+require "services/base_services/behaves_like_create_service"
 
 RSpec.describe Projects::CreateService, type: :model do
-  it_behaves_like 'BaseServices create service' do
+  it_behaves_like "BaseServices create service" do
     let(:new_project_role) { build_stubbed(:project_role) }
     let(:create_member_instance) { instance_double(Members::CreateService) }
 
@@ -48,7 +48,7 @@ RSpec.describe Projects::CreateService, type: :model do
         .to(receive(:call))
     end
 
-    it 'adds the current user to the project' do
+    it "adds the current user to the project" do
       subject
 
       expect(create_member_instance)
@@ -58,8 +58,8 @@ RSpec.describe Projects::CreateService, type: :model do
               roles: [new_project_role])
     end
 
-    context 'current user is admin' do
-      it 'does not add the user to the project' do
+    context "current user is admin" do
+      it "does not add the user to the project" do
         allow(user)
           .to(receive(:admin?))
           .and_return(true)

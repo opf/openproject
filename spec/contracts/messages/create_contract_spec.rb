@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_contract_examples'
+require "spec_helper"
+require_relative "shared_contract_examples"
 
 RSpec.describe Messages::CreateContract do
-  it_behaves_like 'message contract' do
+  it_behaves_like "message contract" do
     let(:message) do
       Message.new(forum: message_forum,
                   parent: message_parent,

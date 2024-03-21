@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::Notifications::Filters::IdFilter do
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:class_key) { :id }
     let(:type) { :list }
     let(:model) { Notification }
     let(:attribute) { :id }
-    let(:values) { ['5'] }
+    let(:values) { ["5"] }
   end
 end

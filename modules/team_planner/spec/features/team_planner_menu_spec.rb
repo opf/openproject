@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Team planner Menu Item', :js, :with_cuprite do
+RSpec.describe "Team planner Menu Item", :js, :with_cuprite do
   shared_let(:project) do
     create(:project, enabled_module_names: %w[work_package_tracking team_planner_view])
   end
@@ -47,77 +47,77 @@ RSpec.describe 'Team planner Menu Item', :js, :with_cuprite do
            ] })
   end
 
-  context 'within the global menu' do
+  context "within the global menu" do
     before do
       login_as user_without_rights
 
       visit root_path
 
-      within '#main-menu' do
-        click_link 'Team planners'
+      within "#main-menu" do
+        click_link "Team planners"
       end
     end
 
-    context 'when EE enabled', with_ee: %i[team_planner_view] do
-      it 'navigates to the global index page' do
+    context "when EE enabled", with_ee: %i[team_planner_view] do
+      it "navigates to the global index page" do
         expect(page).to have_current_path(team_planners_path)
       end
     end
   end
 
-  context 'within the project side menu' do
-    context 'as a user that does not have create rights' do
+  context "within the project side menu" do
+    context "as a user that does not have create rights" do
       current_user { user_without_rights }
 
-      context 'when EE disabled' do
-        it 'does not show the create team planner option' do
+      context "when EE disabled" do
+        it "does not show the create team planner option" do
           visit project_path(project)
 
-          within '#main-menu' do
-            click_link 'Team planners'
+          within "#main-menu" do
+            click_link "Team planners"
           end
 
-          expect(page).not_to have_test_selector('team-planner--create-button')
+          expect(page).not_to have_test_selector("team-planner--create-button")
         end
       end
 
-      context 'when EE enabled', with_ee: %i[team_planner_view] do
-        it 'does not show the create team planner option' do
+      context "when EE enabled", with_ee: %i[team_planner_view] do
+        it "does not show the create team planner option" do
           visit project_path(project)
 
-          within '#main-menu' do
-            click_link 'Team planners'
+          within "#main-menu" do
+            click_link "Team planners"
           end
 
-          expect(page).not_to have_test_selector('team-planner--create-button')
+          expect(page).not_to have_test_selector("team-planner--create-button")
         end
       end
     end
 
-    context 'as a user that has create rights' do
+    context "as a user that has create rights" do
       current_user { user_with_rights }
 
-      context 'when EE disabled' do
-        it 'does not show the create team planner option' do
+      context "when EE disabled" do
+        it "does not show the create team planner option" do
           visit project_path(project)
 
-          within '#main-menu' do
-            click_link 'Team planners'
+          within "#main-menu" do
+            click_link "Team planners"
           end
 
-          expect(page).not_to have_test_selector('team-planner--create-button')
+          expect(page).not_to have_test_selector("team-planner--create-button")
         end
       end
 
-      context 'when EE enabled', with_ee: %i[team_planner_view] do
-        it 'shows the create team planner option' do
+      context "when EE enabled", with_ee: %i[team_planner_view] do
+        it "shows the create team planner option" do
           visit project_path(project)
 
-          within '#main-menu' do
-            click_link 'Team planners'
+          within "#main-menu" do
+            click_link "Team planners"
           end
 
-          expect(page).to have_test_selector('team-planner--create-button')
+          expect(page).to have_test_selector("team-planner--create-button")
         end
       end
     end

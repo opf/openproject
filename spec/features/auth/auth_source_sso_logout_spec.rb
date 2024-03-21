@@ -26,41 +26,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 Capybara.register_driver :auth_source_sso do |app|
-  Capybara::RackTest::Driver.new(app, headers: { 'HTTP_X_REMOTE_USER' => 'bob' })
+  Capybara::RackTest::Driver.new(app, headers: { "HTTP_X_REMOTE_USER" => "bob" })
 end
 
-RSpec.describe 'Login with auth source SSO',
+RSpec.describe "Login with auth source SSO",
                driver: :auth_source_sso do
   let(:sso_config) do
     {
-      header: 'X-Remote-User',
-      logout_url: 'http://google.com/'
+      header: "X-Remote-User",
+      logout_url: "http://google.com/"
     }
   end
 
-  let!(:user) { create(:user, login: 'bob') }
+  let!(:user) { create(:user, login: "bob") }
 
   before do
     allow(OpenProject::Configuration)
       .to receive(:auth_source_sso)
             .and_return(sso_config)
-    allow(LdapAuthSource).to receive(:find_user).with('bob').and_return(user)
+    allow(LdapAuthSource).to receive(:find_user).with("bob").and_return(user)
   end
 
-  it 'can log out after multiple visits' do
+  it "can log out after multiple visits" do
     visit home_path
 
-    expect(page).to have_css('.controller-homescreen')
+    expect(page).to have_css(".controller-homescreen")
 
     visit home_path
 
-    expect(page).to have_css('.controller-homescreen')
+    expect(page).to have_css(".controller-homescreen")
 
     visit signout_path
 
-    expect(current_url).to eq 'http://google.com/'
+    expect(current_url).to eq "http://google.com/"
   end
 end

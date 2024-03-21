@@ -28,8 +28,8 @@
 
 module Queries::Operators
   class CastedLessOrEqual < Base
-    label 'less_or_equal'
-    set_symbol '<='
+    label "less_or_equal"
+    set_symbol "<="
 
     def self.sql_for_field(values, db_table, db_field)
       "#{db_table}.#{db_field} != '' " +

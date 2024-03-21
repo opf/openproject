@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Calendar::ResolveICalTokenService, type: :model do
   let(:user) { create(:user) }
@@ -40,10 +40,10 @@ RSpec.describe Calendar::ResolveICalTokenService, type: :model do
     described_class.new
   end
 
-  context 'for a given valid ical token value' do
+  context "for a given valid ical token value" do
     subject { instance.call(ical_token_string: valid_ical_token_value) }
 
-    it 'resolves the ical_token instance as result' do
+    it "resolves the ical_token instance as result" do
       ical_token_instance = subject.result
 
       expect(ical_token_instance)
@@ -56,24 +56,24 @@ RSpec.describe Calendar::ResolveICalTokenService, type: :model do
         .to eql query
     end
 
-    it 'is a success' do
+    it "is a success" do
       expect(subject)
         .to be_success
     end
   end
 
-  context 'when given ical token value is invalid' do
+  context "when given ical token value is invalid" do
     subject { instance.call(ical_token_string: invalid_ical_token_value) }
 
-    it 'raises ActiveRecord::RecordNotFound' do
+    it "raises ActiveRecord::RecordNotFound" do
       expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end
 
-  context 'when no ical token value is given' do
+  context "when no ical token value is given" do
     subject { instance.call(ical_token_string: nil) }
 
-    it 'raises ActiveRecord::RecordNotFound' do
+    it "raises ActiveRecord::RecordNotFound" do
       expect { subject }.to raise_error(ActiveRecord::RecordNotFound)
     end
   end

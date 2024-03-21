@@ -26,15 +26,14 @@ tr:
       no_results_title_text: Bu zaman dilimi içerisinde proje için herhangi bir faaliyet olmamıştır.
   admin:
     plugins:
-      no_results_title_text: Şu anda kullanılabilir eklenti mevcut değil.
+      no_results_title_text: There are currently no plugins installed.
+      no_results_content_text: See our integrations and plugins page for more information.
     custom_styles:
       color_theme: "Renk teması"
       color_theme_custom: "(Özel)"
       colors:
-        alternative-color: "Alternatif"
-        content-link-color: "Bağlantı yazı tipi"
-        primary-color: "Birincil"
-        primary-color-dark: "Birincil (karanlık)"
+        primary-button-color: "Primary button"
+        accent-color: "Accent"
         header-bg-color: "Üstbilgi arka planı"
         header-item-bg-hover-color: "Fareyle üzerine gelindiğinde başlık arka planı"
         header-item-font-color: "Başlık yazı tipi"
@@ -53,10 +52,8 @@ tr:
       enterprise_more_info: "Not: Kullanılan logo herkese açık olacaktır."
       manage_colors: "Renk seçim seçeneklerini düzenle"
       instructions:
-        alternative-color: "Güçlü vurgu rengi, genellikle ekrandaki en önemli düğme için kullanılır."
-        content-link-color: "Bir çok bağlantının yazı tipi rengi."
-        primary-color: "Ana renk."
-        primary-color-dark: "Daha etkili efektler için ana renklerin koyu versiyonu."
+        primary-button-color: "Strong accent color, used for the most important button on a screen."
+        accent-color: "Color for links and other decently highlighted elements."
         header-item-bg-hover-color: "Tıklanabilir başlık bileşenleri nin üzerine gelindiğinde kullanılacak arka plan rengi."
         header-item-font-color: "Tıklanabilir başlık bileşenleri için yazı rengi."
         header-item-font-hover-color: "Tıklanabilir başlık bileşenleri nin üzerine gelindiğinde kullanılacak yazı rengi."
@@ -1074,7 +1071,7 @@ tr:
     base: "Genel Hata:"
     blocks_ids: "Engellenen iş paketlerinin ID'leri"
     category: "Kategori"
-    comment: "Yorumlar"
+    comment: "Yorum"
     comments: "Yorum"
     content: "İçerik"
     color: "Renk"
@@ -1531,6 +1528,7 @@ tr:
       postgres_migration: "Kurulumunuzu PostgreSQL'e taşıyın"
       user_guides: "Kullanıcı rehberleri"
       faq: "SSS"
+      impressum: "Legal notice"
       glossary: "Terimler sözlüğü"
       shortcuts: "Kısayollar"
       blog: "OpenProject blog"
@@ -1541,6 +1539,7 @@ tr:
   journals:
     changes_retracted: "Değişiklikler geri çekildi."
     caused_changes:
+      default_attribute_written: "Read-only attributes written"
       dates_changed: "Dates changed"
       system_update: "OpenProject system update:"
     cause_descriptions:
@@ -1862,7 +1861,6 @@ tr:
   label_subject_or_id: "Konu ya da ID"
   label_calendar_subscriptions: "Calendar subscriptions"
   label_identifier: "Identifier"
-  label_impressum: "Yasal uyarı"
   label_in: "şurada"
   label_in_less_than: "daha azdır"
   label_in_more_than: "daha fazla"
@@ -2717,6 +2715,9 @@ tr:
   setting_apiv3_cors_origins: "API V3 Kaynaklar Arası Kaynak Paylaşımı (CORS) izin verilen kaynaklar"
   setting_apiv3_cors_origins_text_html: >
     CORS etkinleştirilirse, bunlar OpenProject API'ye erişmesine izin verilen kaynaklardır. <br/> Beklenen değerlerin nasıl belirtileceğini öğrenmek için lütfen  <a href="%{origin_link}" target="_blank">Kaynak başlığındaki Belgeleri </a> kontrol edin.
+  setting_apiv3_write_readonly_attributes: "Write access to read-only attributes"
+  setting_apiv3_write_readonly_attributes_instructions_html: >
+    If enabled, the API will allow administrators to write static read-only attributes during creation, such as createdAt and updatedAt timestamps. <br/> <strong>Warning:</strong> This setting has a use-case for e.g., importing data, but allows administrators to impersonate the creation of items as other users. All creation requests are being logged however with the true author. </br> For more information on attributes and supported resources, please see the %{api_documentation_link}.
   setting_apiv3_max_page_size: "En büyük API sayfası boyutu"
   setting_apiv3_max_page_instructions_html: >
     API'nin yanıt vereceği maksimum sayfa boyutunu ayarlayın. Tek bir sayfada daha fazla değer döndüren API isteklerini gerçekleştirmek mümkün olmayacaktır. <br/> <strong>Uyarı:</strong> Lütfen bu değeri yalnızca ihtiyaç duyduğunuzdan eminseniz değiştirin. Yüksek bir değere ayarlamak önemli performans etkilerine neden olurken, sayfa başına seçeneklerden daha düşük bir değer sayfalandırılmış görünümlerde hatalara neden olur.
@@ -3095,6 +3096,7 @@ tr:
     status_user_and_brute_force: "%{user} ve %{brute_force}"
     status_change: "Durum değişikliği"
     text_change_disabled_for_provider_login: "Ad, giriş sağlayıcınız tarafından belirlenir ve bu nedenle değiştirilemez."
+    text_change_disabled_for_ldap_login: "The name and email is set by LDAP and can thus not be changed."
     unlock: "Kilidi kaldır"
     unlock_and_reset_failed_logins: "Başarısız oturum açma işlemlerinin kilidini aç ve sıfırla"
   version_status_closed: "kapalı"

@@ -18,16 +18,16 @@ module TwoFactorAuthentication
     end
     validates_inclusion_of :channel, in: supported_channels
 
-    def options_for_create
-      @options_for_create ||= WebAuthn::Credential.options_for_create(
+    def options_for_create(relying_party)
+      @options_for_create ||= relying_party.options_for_registration(
         user: { id: user.webauthn_id, name: user.name },
         exclude: TwoFactorAuthentication::Device::Webauthn.where(user:).pluck(:webauthn_external_id)
       )
     end
 
-    def options_for_get
-      @options_for_get ||= WebAuthn::Credential.options_for_get(
-        allow: webauthn_external_id # TODO: Maybe also allow all other tokens? Let's see
+    def options_for_get(relying_party)
+      @options_for_get ||= relying_party.options_for_authentication(
+        allow: [webauthn_external_id] # TODO: Maybe also allow all other tokens? Let's see
       )
     end
 

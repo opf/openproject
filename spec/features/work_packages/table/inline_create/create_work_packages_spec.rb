@@ -1,6 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'inline create work package', :js do
+RSpec.describe "inline create work package", :js do
   let(:type) { create(:type) }
   let(:types) { [type] }
 
@@ -28,67 +28,67 @@ RSpec.describe 'inline create work package', :js do
     login_as user
   end
 
-  shared_examples 'inline create work package' do
-    context 'when user may create work packages' do
-      it 'allows to create work packages' do
+  shared_examples "inline create work package" do
+    context "when user may create work packages" do
+      it "allows to create work packages" do
         wp_table.expect_work_package_listed(existing_wp)
 
         wp_table.click_inline_create
-        expect(page).to have_css('.wp--row', count: 2)
-        expect(page).to have_css('.wp-inline-create-row')
-        expect(page).to have_focus_on('#wp-new-inline-edit--field-subject')
+        expect(page).to have_css(".wp--row", count: 2)
+        expect(page).to have_css(".wp-inline-create-row")
+        expect(page).to have_focus_on("#wp-new-inline-edit--field-subject")
 
         # Expect subject to be activated
         subject_field = wp_table.edit_field(nil, :subject)
         subject_field.expect_active!
-        subject_field.set_value 'Some subject'
+        subject_field.set_value "Some subject"
         subject_field.save!
 
         # Callback for adjustments
         callback.call
 
         wp_table.expect_toast(
-          message: 'Successful creation. Click here to open this work package in fullscreen view.'
+          message: "Successful creation. Click here to open this work package in fullscreen view."
         )
 
         # Expect new create row to exist
-        expect(page).to have_css('.wp--row', count: 2)
-        expect(page).to have_button(exact_text: 'Create new work package')
+        expect(page).to have_css(".wp--row", count: 2)
+        expect(page).to have_button(exact_text: "Create new work package")
 
         wp_table.click_inline_create
 
         subject_field = wp_table.edit_field(nil, :subject)
         subject_field.expect_active!
-        subject_field.set_value 'Another subject'
+        subject_field.set_value "Another subject"
         subject_field.save!
 
         # Callback for adjustments
         callback.call
 
-        expect(page).to have_css('.wp--row .subject', text: 'Some subject')
-        expect(page).to have_css('.wp--row .subject', text: 'Another subject')
+        expect(page).to have_css(".wp--row .subject", text: "Some subject")
+        expect(page).to have_css(".wp--row .subject", text: "Another subject")
 
         # safeguards
         wp_table.dismiss_toaster!
         wp_table.expect_no_toaster(
-          message: 'Successful update. Click here to open this work package in fullscreen view.'
+          message: "Successful update. Click here to open this work package in fullscreen view."
         )
 
         # Expect no inline create open
-        expect(page).to have_no_css('.wp-inline-create-row')
+        expect(page).to have_no_css(".wp-inline-create-row")
       end
     end
 
-    context 'when user may not create work packages' do
+    context "when user may not create work packages" do
       let(:permissions) { [:view_work_packages] }
 
-      it 'renders the work package, but no create row' do
+      it "renders the work package, but no create row" do
         wp_table.expect_work_package_listed(existing_wp)
-        expect(page).to have_no_button(exact_text: 'Create new work package')
+        expect(page).to have_no_button(exact_text: "Create new work package")
       end
     end
 
-    context 'when having filtered by custom field and switching to that type' do
+    context "when having filtered by custom field and switching to that type" do
       let(:cf_list) do
         create(:list_wp_custom_field, is_for_all: true, is_filter: true)
       end
@@ -98,10 +98,10 @@ RSpec.describe 'inline create work package', :js do
       let(:cf_type) { create(:type, custom_fields: [cf_list]) }
       let(:columns) { Components::WorkPackages::Columns.new }
 
-      it 'applies the filter value for the custom field' do
+      it "applies the filter value for the custom field" do
         wp_table.visit!
         filters.open
-        filters.add_filter_by cf_list.name, 'is (OR)', cf_list.custom_options.second.name, cf_accessor_frontend
+        filters.add_filter_by cf_list.name, "is (OR)", cf_list.custom_options.second.name, cf_accessor_frontend
 
         sleep(0.3)
 
@@ -118,16 +118,16 @@ RSpec.describe 'inline create work package', :js do
 
         wp_table.expect_toast(
           type: :error,
-          message: 'Subject can\'t be blank.'
+          message: "Subject can't be blank."
         )
 
         subject_field = wp_table.edit_field(nil, :subject)
         subject_field.expect_active!
-        subject_field.set_value 'Some subject'
+        subject_field.set_value "Some subject"
         subject_field.save!
 
         wp_table.expect_toast(
-          message: 'Successful creation. Click here to open this work package in fullscreen view.'
+          message: "Successful creation. Click here to open this work package in fullscreen view."
         )
 
         created_wp = WorkPackage.last
@@ -138,14 +138,14 @@ RSpec.describe 'inline create work package', :js do
     end
   end
 
-  describe 'global create' do
+  describe "global create" do
     let(:wp_table) { Pages::WorkPackagesTable.new }
 
     before do
       wp_table.visit!
     end
 
-    it_behaves_like 'inline create work package' do
+    it_behaves_like "inline create work package" do
       let(:callback) do
         -> {
           # Set project which will also select the type (first one in the selected project)
@@ -159,20 +159,20 @@ RSpec.describe 'inline create work package', :js do
     end
   end
 
-  describe 'project context create' do
+  describe "project context create" do
     let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
     before do
       wp_table.visit!
     end
 
-    it_behaves_like 'inline create work package' do
+    it_behaves_like "inline create work package" do
       let(:callback) do
         -> {}
       end
     end
 
-    context 'when user has permissions in other project' do
+    context "when user has permissions in other project" do
       let(:permissions) { [:view_work_packages] }
 
       let(:project2) { create(:project) }
@@ -188,10 +188,10 @@ RSpec.describe 'inline create work package', :js do
                roles: [role2])
       end
 
-      it 'renders the work packages, but no create' do
+      it "renders the work packages, but no create" do
         wp_table.expect_work_package_listed(existing_wp)
-        expect(page).to have_no_button(exact_text: 'Create new work package')
-        expect(page).to have_css('.add-work-package[disabled]')
+        expect(page).to have_no_button(exact_text: "Create new work package")
+        expect(page).to have_css(".add-work-package[disabled]")
       end
     end
   end

@@ -1,50 +1,50 @@
-require 'spec_helper'
-require 'timecop'
+require "spec_helper"
+require "timecop"
 
 RSpec.describe TwoFactorAuthentication::Device::Totp do
   let(:user) { create(:user) }
   let(:channel) { :totp }
 
-  subject { described_class.new identifier: 'foo', channel:, user:, active: true }
+  subject { described_class.new identifier: "foo", channel:, user:, active: true }
 
-  describe 'validations' do
-    context 'with invalid channel' do
+  describe "validations" do
+    context "with invalid channel" do
       let(:channel) { :whatver }
 
-      it 'is invalid' do
+      it "is invalid" do
         expect(subject).to be_invalid
         expect(subject.errors[:channel]).to be_present
       end
     end
 
-    context 'with valid channel' do
-      it 'is valid' do
+    context "with valid channel" do
+      it "is valid" do
         expect(subject).to be_valid
         expect(subject.errors).to be_empty
       end
     end
   end
 
-  describe 'token validation' do
+  describe "token validation" do
     let(:totp) { subject.send :totp }
 
-    context 'when setting drift',
+    context "when setting drift",
             with_settings: {
               plugin_openproject_two_factor_authentication: {
-                'otp_drift_window' => 30
+                "otp_drift_window" => 30
               }
             } do
-      it 'uses the drift window from configuration' do
+      it "uses the drift window from configuration" do
         expect(subject.allowed_drift).to eq 30
       end
     end
 
-    context 'when no drift set' do
-      it 'uses the default drift window' do
+    context "when no drift set" do
+      it "uses the default drift window" do
         expect(subject.allowed_drift).to eq 60
       end
 
-      it 'uses the drift value for verification' do
+      it "uses the drift value for verification" do
         # Assume never used
         # rubocop:disable RSpec/SubjectStub
         allow(subject).to receive(:last_used_at).and_return nil
@@ -73,7 +73,7 @@ RSpec.describe TwoFactorAuthentication::Device::Totp do
       end
     end
 
-    it 'avoids double verification' do
+    it "avoids double verification" do
       subject.save!
 
       valid = totp.at(Time.current)

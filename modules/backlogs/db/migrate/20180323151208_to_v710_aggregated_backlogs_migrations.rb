@@ -39,18 +39,18 @@ class ToV710AggregatedBacklogsMigrations < ActiveRecord::Migration[5.1]
 
   def up
     Migration::MigrationSquasher.squash(migrations) do
-      create_table 'version_settings', id: :integer do |t|
-        t.integer 'project_id'
-        t.integer 'version_id'
-        t.integer 'display'
-        t.datetime 'created_at', null: false
-        t.datetime 'updated_at', null: false
+      create_table "version_settings", id: :integer do |t|
+        t.integer "project_id"
+        t.integer "version_id"
+        t.integer "display"
+        t.datetime "created_at", null: false
+        t.datetime "updated_at", null: false
       end
-      add_index 'version_settings', ['project_id', 'version_id'], name: 'index_version_settings_on_project_id_and_version_id'
+      add_index "version_settings", ["project_id", "version_id"], name: "index_version_settings_on_project_id_and_version_id"
 
-      create_table 'done_statuses_for_project', id: false do |t|
-        t.integer 'project_id'
-        t.integer 'status_id'
+      create_table "done_statuses_for_project", id: false do |t|
+        t.integer "project_id"
+        t.integer "status_id"
       end
 
       add_column :work_packages, :position, :integer
@@ -65,13 +65,13 @@ class ToV710AggregatedBacklogsMigrations < ActiveRecord::Migration[5.1]
                    status_id
                    project_id
                    type_id],
-                name: 'work_package_journal_on_burndown_attributes'
+                name: "work_package_journal_on_burndown_attributes"
     end
   end
 
   def down
-    drop_table 'version_settings'
-    drop_table 'done_statuses_for_project'
+    drop_table "version_settings"
+    drop_table "done_statuses_for_project"
 
     remove_column :work_packages, :position
     remove_column :work_packages, :story_points
@@ -81,14 +81,14 @@ class ToV710AggregatedBacklogsMigrations < ActiveRecord::Migration[5.1]
     remove_column :work_package_journals, :remaining_hours
 
     remove_index :work_package_journals,
-                 name: 'work_package_journal_on_burndown_attributes'
+                 name: "work_package_journal_on_burndown_attributes"
   end
 
   private
 
   def migrations
     MIGRATION_FILES.split.map do |m|
-      m.gsub(/_.*\z/, '')
+      m.gsub(/_.*\z/, "")
     end
   end
 end

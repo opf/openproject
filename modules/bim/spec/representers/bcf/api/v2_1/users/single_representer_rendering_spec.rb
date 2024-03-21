@@ -26,29 +26,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../shared_examples'
+require_relative "../shared_examples"
 
-RSpec.describe Bim::Bcf::API::V2_1::Users::SingleRepresenter, 'rendering' do
+RSpec.describe Bim::Bcf::API::V2_1::Users::SingleRepresenter, "rendering" do
   let(:user) { build_stubbed(:user) }
 
   let(:instance) { described_class.new(user) }
 
   subject { instance.to_json }
 
-  describe 'attributes' do
-    context 'id' do
-      it_behaves_like 'attribute' do
+  describe "attributes" do
+    context "id" do
+      it_behaves_like "attribute" do
         let(:value) { user.mail }
-        let(:path) { 'id' }
+        let(:path) { "id" }
       end
     end
 
-    context 'name' do
-      it_behaves_like 'attribute' do
+    context "name" do
+      it_behaves_like "attribute" do
         let(:value) { user.name }
-        let(:path) { 'name' }
+        let(:path) { "name" }
       end
     end
   end

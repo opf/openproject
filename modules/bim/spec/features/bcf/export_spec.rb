@@ -25,17 +25,17 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
-require_relative '../../support/pages/ifc_models/show_default'
+require "spec_helper"
+require_relative "../../support/pages/ifc_models/show_default"
 
-RSpec.describe 'bcf export', :js,
-               with_config: { edition: 'bim' } do
-  let(:status) { create(:status, name: 'New', is_default: true) }
-  let(:closed_status) { create(:closed_status, name: 'Closed') }
+RSpec.describe "bcf export", :js,
+               with_config: { edition: "bim" } do
+  let(:status) { create(:status, name: "New", is_default: true) }
+  let(:closed_status) { create(:closed_status, name: "Closed") }
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
 
-  let!(:open_work_package) { create(:work_package, project:, subject: 'Open WP', status:) }
-  let!(:closed_work_package) { create(:work_package, project:, subject: 'Closed WP', status: closed_status) }
+  let!(:open_work_package) { create(:work_package, project:, subject: "Open WP", status:) }
+  let!(:closed_work_package) { create(:work_package, project:, subject: "Closed WP", status: closed_status) }
   let!(:open_bcf_issue) { create(:bcf_issue, work_package: open_work_package) }
   let!(:closed_bcf_issue) { create(:bcf_issue, work_package: closed_work_package) }
 
@@ -75,17 +75,17 @@ RSpec.describe 'bcf export', :js,
 
   def export_into_bcf_extractor
     DownloadList.clear
-    page.find('.export-bcf-button').click
+    page.find(".export-bcf-button").click
 
     # Expect to get a response regarding queuing
-    expect(page).to have_content(I18n.t('js.job_status.generic_messages.in_queue'),
+    expect(page).to have_content(I18n.t("js.job_status.generic_messages.in_queue"),
                                  wait: 10)
 
     perform_enqueued_jobs
     expect(page).to have_text("completed successfully")
 
     # Close the modal
-    page.find('.spot-modal-overlay').click
+    page.find(".spot-modal-overlay").click
 
     @download_list.refresh_from(page)
 
@@ -97,7 +97,7 @@ RSpec.describe 'bcf export', :js,
     ).extractor_list
   end
 
-  it 'can export the open and closed BCF issues (Regression #30953)' do
+  it "can export the open and closed BCF issues (Regression #30953)" do
     model_page.visit!
     wp_cards.expect_work_package_listed(open_work_package)
     wp_cards.expect_work_package_not_listed(closed_work_package)
@@ -106,12 +106,12 @@ RSpec.describe 'bcf export', :js,
     # Expect only the open issue
     extractor_list = export_into_bcf_extractor
     expect(extractor_list.length).to eq(1)
-    expect(extractor_list.first[:title]).to eq('Open WP')
+    expect(extractor_list.first[:title]).to eq("Open WP")
 
     model_page.visit!
     # Change the query to show all statuses
     filters.open
-    filters.remove_filter('status')
+    filters.remove_filter("status")
     filters.expect_filter_count(0)
 
     wp_cards.expect_work_package_listed(open_work_package, closed_work_package)
@@ -121,6 +121,6 @@ RSpec.describe 'bcf export', :js,
     expect(extractor_list.length).to eq(2)
 
     titles = extractor_list.pluck(:title)
-    expect(titles).to contain_exactly('Open WP', 'Closed WP')
+    expect(titles).to contain_exactly("Open WP", "Closed WP")
   end
 end

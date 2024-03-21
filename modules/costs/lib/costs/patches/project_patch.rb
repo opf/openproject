@@ -32,12 +32,12 @@ module Costs::Patches::ProjectPatch
     base.include(InstanceMethods)
 
     base.class_eval do
-      has_many :rates, class_name: 'HourlyRate'
+      has_many :rates, class_name: "HourlyRate"
 
       has_many :member_groups, -> {
         includes(:principal)
           .where("#{Principal.table_name}.type='Group'")
-      }, class_name: 'Member'
+      }, class_name: "Member"
       has_many :groups, through: :member_groups, source: :principal
     end
   end

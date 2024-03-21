@@ -36,7 +36,7 @@ module Members::Concerns::RoleAssignment
   end
 
   def assign_roles(params)
-    raise ArgumentError, 'Cannot handle changing `roles`. Use role_ids instead.' if model.persisted? && params.key?(:roles)
+    raise ArgumentError, "Cannot handle changing `roles`. Use role_ids instead." if model.persisted? && params.key?(:roles)
 
     return unless params[:role_ids]
 

@@ -32,7 +32,7 @@ module Redmine::MenuManager::TopMenuHelper
   include Redmine::MenuManager::TopMenu::QuickAddMenu
 
   def render_top_menu_left
-    content_tag :ul, class: 'op-app-menu op-app-menu_drop-left' do
+    content_tag :ul, class: "op-app-menu op-app-menu_drop-left" do
       safe_join top_menu_left_menu_items
     end
   end
@@ -44,24 +44,24 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_top_menu_center
-    content_tag :div, class: 'op-logo' do
-      mode_class = User.current.pref.high_contrast_theme? ? 'op-logo--link_high_contrast' : ''
-      link_to(I18n.t('label_home'),
+    content_tag :div, class: "op-logo" do
+      mode_class = User.current.pref.high_contrast_theme? ? "op-logo--link_high_contrast" : ""
+      link_to(I18n.t("label_home"),
               configurable_home_url,
               class: "op-logo--link #{mode_class}")
     end
   end
 
   def render_top_menu_search
-    content_tag :div, class: 'op-app-search' do
+    content_tag :div, class: "op-app-search" do
       render_global_search_input
     end
   end
 
   def render_global_search_input
-    angular_component_tag 'opce-global-search',
+    angular_component_tag "opce-global-search",
                           inputs: {
-                            placeholder: I18n.t('global_search.placeholder', app_title: Setting.app_title)
+                            placeholder: I18n.t("global_search.placeholder", app_title: Setting.app_title)
                           }
   end
 
@@ -73,7 +73,7 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def top_menu_right_node
-    content_tag(:ul, class: 'op-app-menu') do
+    content_tag(:ul, class: "op-app-menu") do
       safe_join top_menu_right_menu_items
     end
   end
@@ -88,11 +88,11 @@ module Redmine::MenuManager::TopMenuHelper
   private
 
   def render_notification_top_menu_node
-    return ''.html_safe unless User.current.logged?
-    return ''.html_safe if Setting.notifications_hidden?
+    return "".html_safe unless User.current.logged?
+    return "".html_safe if Setting.notifications_hidden?
 
-    content_tag('li', class: 'op-app-menu--item', title: I18n.t('mail.notification.center')) do
-      angular_component_tag 'op-in-app-notification-bell',
+    content_tag("li", class: "op-app-menu--item", title: I18n.t("mail.notification.center")) do
+      angular_component_tag "op-in-app-notification-bell",
                             inputs: {
                               interval: Setting.notifications_polling_interval
                             }
@@ -110,26 +110,26 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_login_drop_down
-    url = { controller: '/account', action: 'login' }
+    url = { controller: "/account", action: "login" }
     link = link_to url,
-                   class: 'op-app-menu--item-action',
+                   class: "op-app-menu--item-action",
                    title: I18n.t(:label_login) do
-      concat content_tag(:span, I18n.t(:label_login), class: 'op-app-menu--item-title hidden-for-mobile')
-      concat content_tag(:i, '', class: 'op-app-menu--item-dropdown-indicator button--dropdown-indicator hidden-for-mobile')
-      concat content_tag(:i, '', class: 'icon2 icon-user hidden-for-desktop')
+      concat content_tag(:span, I18n.t(:label_login), class: "op-app-menu--item-title hidden-for-mobile")
+      concat content_tag(:i, "", class: "op-app-menu--item-dropdown-indicator button--dropdown-indicator hidden-for-mobile")
+      concat content_tag(:i, "", class: "icon2 icon-user hidden-for-desktop")
     end
 
-    render_menu_dropdown(link, menu_item_class: '') do
+    render_menu_dropdown(link, menu_item_class: "") do
       render_login_partial
     end
   end
 
   def render_direct_login
     link = link_to signin_path,
-                   class: 'op-app-menu--item-action login',
+                   class: "op-app-menu--item-action login",
                    title: I18n.t(:label_login) do
-      concat content_tag(:span, I18n.t(:label_login), class: 'op-app-menu--item-title hidden-for-mobile')
-      concat content_tag(:i, '', class: 'icon2 icon-user hidden-for-desktop')
+      concat content_tag(:span, I18n.t(:label_login), class: "op-app-menu--item-title hidden-for-mobile")
+      concat content_tag(:i, "", class: "icon2 icon-user hidden-for-desktop")
     end
 
     content_tag :li, class: "" do
@@ -138,25 +138,25 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_user_drop_down(items)
-    avatar = avatar(User.current, class: 'op-top-menu-user-avatar')
+    avatar = avatar(User.current, class: "op-top-menu-user-avatar")
     render_menu_dropdown_with_items(
-      label: avatar.presence || '',
+      label: avatar.presence || "",
       label_options: {
         title: User.current.name,
-        class: 'op-top-menu-user',
-        icon: (avatar.present? ? 'overridden-by-avatar' : 'icon-user')
+        class: "op-top-menu-user",
+        icon: (avatar.present? ? "overridden-by-avatar" : "icon-user")
       },
       items:,
-      options: { drop_down_id: 'user-menu', menu_item_class: 'last-child' }
+      options: { drop_down_id: "user-menu", menu_item_class: "last-child" }
     )
   end
 
   def render_login_partial
     partial =
       if OpenProject::Configuration.disable_password_login?
-        'account/omniauth_login'
+        "account/omniauth_login"
       else
-        'account/login'
+        "account/login"
       end
 
     render partial:
@@ -165,10 +165,10 @@ module Redmine::MenuManager::TopMenuHelper
   def render_module_top_menu_node(items = more_top_menu_items)
     unless items.empty?
       render_menu_dropdown_with_items(
-        label: '',
-        label_options: { icon: 'icon-menu', title: I18n.t('label_modules') },
+        label: "",
+        label_options: { icon: "icon-menu", title: I18n.t("label_modules") },
         items:,
-        options: { drop_down_id: 'more-menu', drop_down_class: 'drop-down--modules ', menu_item_class: 'hidden-for-mobile' }
+        options: { drop_down_id: "more-menu", drop_down_class: "drop-down--modules ", menu_item_class: "hidden-for-mobile" }
       )
     end
   end
@@ -176,7 +176,7 @@ module Redmine::MenuManager::TopMenuHelper
   def render_main_top_menu_nodes(items = main_top_menu_items)
     items.map do |item|
       render_menu_node(item)
-    end.join(' ')
+    end.join(" ")
   end
 
   # Menu items for the main top menu

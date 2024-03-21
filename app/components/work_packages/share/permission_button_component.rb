@@ -54,7 +54,7 @@ module WorkPackages
       end
 
       def wrapper_uniq_by
-        share.id || @system_arguments.dig(:data, :'test-selector')
+        share.id || @system_arguments.dig(:data, :"test-selector")
       end
 
       private
@@ -77,8 +77,8 @@ module WorkPackages
 
       def form_inputs(role_id)
         [].tap do |inputs|
-          inputs << { name: 'role_ids[]', value: role_id }
-          inputs << { name: 'filters', value: params[:filters] } if params[:filters]
+          inputs << { name: "role_ids[]", value: role_id }
+          inputs << { name: "filters", value: params[:filters] } if params[:filters]
         end
       end
     end

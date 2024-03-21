@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/dashboard'
+require_relative "../support/pages/dashboard"
 
-RSpec.describe 'Project status widget on dashboard', :js do
+RSpec.describe "Project status widget on dashboard", :js do
   let!(:project) do
     create(:project,
-           status_code: 'on_track',
-           status_explanation: 'some explanation')
+           status_code: "on_track",
+           status_explanation: "some explanation")
   end
 
   let(:read_only_permissions) do
@@ -65,7 +65,7 @@ RSpec.describe 'Project status widget on dashboard', :js do
     dashboard_page.visit!
     dashboard_page.add_widget(1, 1, :within, "Project status")
 
-    dashboard_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+    dashboard_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
   end
 
   before do
@@ -73,77 +73,77 @@ RSpec.describe 'Project status widget on dashboard', :js do
     add_project_status_widget
   end
 
-  context 'without editing permissions' do
+  context "without editing permissions" do
     let(:current_user) { read_only_user }
 
-    it 'can add the widget, but not edit the status' do
+    it "can add the widget, but not edit the status" do
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
-      status_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+      status_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
       within(status_widget.area) do
         # The description is visible
         expect(page)
-          .to have_content('ON TRACK')
+          .to have_content("ON TRACK")
 
         expect(page)
           .to have_content(project.status_explanation)
 
         # The status selector does not open
-        field = EditField.new(dashboard_page, 'status')
+        field = EditField.new(dashboard_page, "status")
         field.expect_read_only
         field.activate! expect_open: false
 
         # The explanation is not editable
-        field = TextEditorField.new(dashboard_page, 'statusExplanation')
+        field = TextEditorField.new(dashboard_page, "statusExplanation")
         field.expect_read_only
         field.activate! expect_open: false
       end
     end
   end
 
-  context 'with editing permissions' do
+  context "with editing permissions" do
     let(:current_user) { editing_user }
 
-    it 'can edit the status and its explanation' do
+    it "can edit the status and its explanation" do
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
-      status_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+      status_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
       within(status_widget.area) do
         # Open status selector
-        field = ProjectStatusField.new(dashboard_page, 'status')
+        field = ProjectStatusField.new(dashboard_page, "status")
         field.activate!
         sleep(0.1)
 
         # Change the value
-        field.set_to('AT RISK')
+        field.set_to("AT RISK")
 
         # The edit field is toggled and the value saved.
-        expect(page).to have_content('AT RISK', wait: 5)
+        expect(page).to have_content("AT RISK", wait: 5)
         expect(page).to have_selector(field.selector)
         expect(page).to have_no_selector(field.input_selector)
 
         # Unset the project status
         field.activate!
         sleep(0.1)
-        field.set_to('NOT SET')
+        field.set_to("NOT SET")
 
         # The edit field is toggled and the value saved.
-        expect(page).to have_content('NOT SET', wait: 5)
+        expect(page).to have_content("NOT SET", wait: 5)
         expect(page).to have_selector(field.selector)
         expect(page).to have_no_selector(field.input_selector)
 
         # Open explanation field
-        field = TextEditorField.new dashboard_page, 'statusExplanation'
+        field = TextEditorField.new dashboard_page, "statusExplanation"
         field.activate!
         sleep(0.1)
 
         # Change the value
         field.expect_value(project.status_explanation)
-        field.set_value 'A completely new explanation which is super cool.'
+        field.set_value "A completely new explanation which is super cool."
         field.save!
 
         # The edit field is toggled and the value saved.
-        expect(page).to have_content('A completely new explanation which is super cool.')
+        expect(page).to have_content("A completely new explanation which is super cool.")
         expect(page).to have_selector(field.selector)
         expect(page).to have_no_selector(field.input_selector)
       end

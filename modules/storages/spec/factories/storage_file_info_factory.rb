@@ -27,7 +27,7 @@
 #++
 
 FactoryBot.define do
-  factory :storage_file_info, class: '::Storages::StorageFileInfo' do
+  factory :storage_file_info, class: "::Storages::StorageFileInfo" do
     status { "OK" }
     status_code { 200 }
     sequence(:id) { |n| "20000#{n}" } # rubocop:disable FactoryBot/IdSequence

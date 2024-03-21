@@ -47,7 +47,7 @@ module Users::Scopes
       end
 
       def user_default_time_zone
-        Arel::Nodes::build_quoted(Setting.user_default_timezone.presence || 'Etc/UTC')
+        Arel::Nodes::build_quoted(Setting.user_default_timezone.presence || "Etc/UTC")
       end
     end
   end

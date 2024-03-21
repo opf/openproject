@@ -33,22 +33,22 @@
 
 # Loads spec_helper from OpenProject core
 # This will include any support file from OpenProject core
-require 'spec_helper'
-require 'dry/container/stub'
+require "spec_helper"
+require "dry/container/stub"
 
 # Record Storages Cassettes in module
 VCR.configure do |config|
-  config.cassette_library_dir = 'modules/storages/spec/support/fixtures/vcr_cassettes'
-  config.filter_sensitive_data('<ACCESS_TOKEN>') do
-    ENV.fetch('ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN', 'MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN')
+  config.cassette_library_dir = "modules/storages/spec/support/fixtures/vcr_cassettes"
+  config.filter_sensitive_data("<ACCESS_TOKEN>") do
+    ENV.fetch("ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN", "MISSING_ONE_DRIVE_TEST_OAUTH_CLIENT_ACCESS_TOKEN")
   end
-  config.filter_sensitive_data('<ACCESS_TOKEN>') do
-    ENV.fetch('NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN', 'MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN')
+  config.filter_sensitive_data("<ACCESS_TOKEN>") do
+    ENV.fetch("NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN", "MISSING_NEXTCLOUD_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN")
   end
 end
 
 # Loads files from relative support/ directory
-Dir[File.join(File.dirname(__FILE__), 'support/**/*.rb')].each { |f| require f }
+Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
   config.prepend_before { Storages::Peripherals::Registry.enable_stubs! }

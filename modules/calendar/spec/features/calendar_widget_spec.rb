@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../../../overviews/spec/support/pages/overview'
-require_relative '../support/pages/calendar'
+require "spec_helper"
+require_relative "../../../overviews/spec/support/pages/overview"
+require_relative "../support/pages/calendar"
 
-RSpec.describe 'Calendar Widget', :js, :with_cuprite, with_settings: { start_of_week: 1 } do
+RSpec.describe "Calendar Widget", :js, :with_cuprite, with_settings: { start_of_week: 1 } do
   let(:project) do
     create(:project, enabled_module_names: %w[work_package_tracking calendar_view])
   end
@@ -58,36 +58,36 @@ RSpec.describe 'Calendar Widget', :js, :with_cuprite, with_settings: { start_of_
     overview_page.visit!
   end
 
-  it 'opens the work package full view when clicking a calendar entry' do
+  it "opens the work package full view when clicking a calendar entry" do
     # within top-left area, add an additional widget
-    overview_page.add_widget(1, 1, :row, 'Calendar')
+    overview_page.add_widget(1, 1, :row, "Calendar")
 
-    overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+    overview_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
     # Clicking the calendar entry goes to work package full screen
-    page.find('.fc-event-title', text: work_package.subject).click
+    page.find(".fc-event-title", text: work_package.subject).click
     wp_full_view.ensure_page_loaded
 
     wp_full_view.go_back
-    expect(page).to have_text('Overview')
+    expect(page).to have_text("Overview")
   end
 
-  it 'can resize the same work package twice (Regression #48333)', with_cuprite: false do
+  it "can resize the same work package twice (Regression #48333)", with_cuprite: false do
     # within top-left area, add an additional widget
-    overview_page.add_widget(1, 1, :row, 'Calendar')
+    overview_page.add_widget(1, 1, :row, "Calendar")
 
-    overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+    overview_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
-    expect(page).to have_css('.fc-event-title', text: work_package.subject)
+    expect(page).to have_css(".fc-event-title", text: work_package.subject)
 
     calendar.resize_date(work_package, work_package.due_date - 1.day)
-    overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+    overview_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
     work_package.reload
     expect(work_package.due_date).to eq Time.zone.today.beginning_of_week.next_occurring(:wednesday)
 
     calendar.resize_date(work_package, work_package.due_date - 1.day)
-    overview_page.expect_and_dismiss_toaster message: I18n.t('js.notice_successful_update')
+    overview_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
     work_package.reload
     expect(work_package.due_date).to eq Time.zone.today.beginning_of_week.next_occurring(:tuesday)

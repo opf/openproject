@@ -1,4 +1,4 @@
-require 'active_storage/filename'
+require "active_storage/filename"
 
 module Projects
   class ExportJob < ::Exports::ExportJob

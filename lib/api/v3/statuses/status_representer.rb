@@ -46,7 +46,7 @@ module API
         property :position, render_nil: true
 
         def _type
-          'Status'
+          "Status"
         end
       end
     end

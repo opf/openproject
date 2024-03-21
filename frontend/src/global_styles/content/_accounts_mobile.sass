@@ -32,31 +32,23 @@
   #nav-login-content .login-auth-providers
     width: 100%
 
-  #content .login-auth-providers
-    margin-top: 114px
-
-    h3:before
-      top: -14px
-
   #login-form
     .form--field-container
       @include grid-content(12)
       padding: 0
+      margin: 0
 
-    .login-options-container
-      position: relative
+    .login-form--footer
+      flex-direction: column
+      align-items: center
 
-      .login-links
-        float: none
-        position: absolute
-        text-align: center
-        width: 100%
-        margin-top: 0
-
-        a
-          display: block
+      .login-form--footer-link
+        display: inline-block
+        margin-top: 15px
 
     .button
+      margin-right: 0
+      margin-left: 0
       width: 100%
 
   #new_user

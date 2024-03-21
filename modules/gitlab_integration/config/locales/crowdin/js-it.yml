@@ -26,25 +26,25 @@ it:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "Problemi"
       tab_header_mr:
-        title: "Merge requests"
+        title: "Richieste di merge"
         create_mr:
-          label: Create MR
-          description: Create a Merge Request
+          label: Crea MR
+          description: Crea una richiesta di merge.
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Frammento di codice su Git
+          description: Copia frammenti di codice su Git negli appunti
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: Nome branch
+          commit_message: Messaggio del commit
+          cmd: Crea branch con commit vuoto
+          title: Frammenti di codice rapidi per Git
+          copy_success: '✅ Copiato!'
+          copy_error: '❌ Copia non riuscita!'
       tab_issue:
-        empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
+        empty: 'Non ci sono ancora problemi collegati. Collega un problema esistente utilizzando il codice <code>OP#%{wp_id}</code> (o <code>PP#%{wp_id}</code> per collegamenti privati) nel titolo/descrizione del problema o crea un nuovo problema.'
       tab_mrs:
-        empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
-      gitlab_pipelines: Pipelines
-      updated_on: Updated on
+        empty: 'Non ci sono ancora richieste di merge collegate. Collega una MR esistente utilizzando il codice <code>OP#%{wp_id}</code> (o <code>PP#%{wp_id}</code> per collegamenti privati) nel titolo/descrizione della MR o crea una nuova MR.'
+      gitlab_pipelines: Pipeline
+      updated_on: 'Aggiornamento:'

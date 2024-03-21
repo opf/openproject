@@ -8,6 +8,7 @@ pt:
         text: "Alguns widgets, como o widget gráfico do pacote de trabalho, só estão disponíveis na edição Enterprise."
         link: 'Edição Enterprise.'
       widgets:
+        missing_permission: "Você não tem as permissões necessárias para visualizar este widget."
         custom_text:
           title: 'Texto personalizado'
         documents:

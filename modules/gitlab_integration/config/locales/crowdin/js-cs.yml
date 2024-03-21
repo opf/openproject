@@ -26,25 +26,25 @@ cs:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "Problémy"
       tab_header_mr:
-        title: "Merge requests"
+        title: "Sloučit požadavky"
         create_mr:
-          label: Create MR
-          description: Create a Merge Request
+          label: Vytvořit MR
+          description: Vytvořit požadavek na sloučení
         copy_menu:
           label: Git snippets
-          description: Copy git snippets to clipboard
+          description: Kopírovat git snippents do schránky
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: název větve
+          commit_message: Commitnout zprávu
+          cmd: Vytvořit větev s prázdným commitem
+          title: Rychlé snippety pro Git
+          copy_success: '✅ Zkopírováno!'
+          copy_error: '❌ Kopírování selhalo!'
       tab_issue:
-        empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
+        empty: 'Zatím nejsou k dispozici žádné propojené problémy. Propojte existující problém pomocí kódu <code>OP#%{wp_id}</code> (nebo <code>PP#%{wp_id}</code> pro soukromé odkazy) v názvu/popisu problému nebo vytvořte nový problém.'
       tab_mrs:
-        empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
-      gitlab_pipelines: Pipelines
-      updated_on: Updated on
+        empty: 'Zatím nejsou k dispozici žádné propojené problémy. Propojte existující problém pomocí kódu <code>OP#%{wp_id}</code> (nebo <code>PP#%{wp_id}</code> pro soukromé odkazy) v názvu/popisu problému nebo vytvořte nový problém.'
+      gitlab_pipelines: Datové kanály
+      updated_on: Aktualizováno

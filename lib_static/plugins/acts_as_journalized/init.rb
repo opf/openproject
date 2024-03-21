@@ -26,5 +26,5 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'acts_as_journalized'
+require "acts_as_journalized"
 ActiveRecord::Base.include(Acts::Journalized)

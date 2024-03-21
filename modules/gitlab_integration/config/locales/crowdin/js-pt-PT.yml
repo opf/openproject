@@ -26,19 +26,19 @@ pt:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "Problema"
       tab_header_mr:
         title: "Pedidos de fusão"
         create_mr:
-          label: Create MR
-          description: Create a Merge Request
+          label: Criar MR
+          description: Crie Pedido de Fusão
         copy_menu:
           label: Git snippets
-          description: Copy git snippets to clipboard
+          description: Copiar pedaços de código git para área de transferência
         git_actions:
           branch_name: Nome do ramo
           commit_message: Commit message
-          cmd: Create branch with empty commit
+          cmd: Criar ramificação com a confirmação vazia
           title: Quick snippets for Git
           copy_success: '✅ Copiado!'
           copy_error: '❌ A cópia falhou!'

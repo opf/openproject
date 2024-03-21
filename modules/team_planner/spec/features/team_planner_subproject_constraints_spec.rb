@@ -26,18 +26,18 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-RSpec.describe 'Team planner constraints for a subproject',
+RSpec.describe "Team planner constraints for a subproject",
                :js,
                with_ee: %i[team_planner_view],
                with_settings: { start_of_week: 1 } do
-  include_context 'with team planner full access'
+  include_context "with team planner full access"
 
   let!(:other_user) do
     create(:user,
-           firstname: 'Bernd',
+           firstname: "Bernd",
            member_with_permissions: { project => %w[view_work_packages view_team_planner work_package_assigned] })
   end
 
@@ -54,18 +54,16 @@ RSpec.describe 'Team planner constraints for a subproject',
            due_date: Time.zone.today.beginning_of_week.next_occurring(:thursday))
   end
 
-  it 'shows a visual aid that the other user cannot be assigned' do
+  it "shows a visual aid that the other user cannot be assigned" do
     team_planner.visit!
 
     team_planner.add_assignee user
-    retry_block do
-      team_planner.add_assignee other_user
-    end
+    team_planner.add_assignee other_user
 
     # Include the subproject
     project_include.toggle!
     project_include.toggle_checkbox(subproject.id)
-    project_include.click_button 'Apply'
+    project_include.click_button "Apply"
     project_include.expect_count 1
 
     team_planner.within_lane(user) do

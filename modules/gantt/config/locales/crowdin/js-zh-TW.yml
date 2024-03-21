@@ -1,6 +1,6 @@
 zh-TW:
   js:
     queries:
-      all_open: 'All open'
+      all_open: '所有「開啟中」'
       timeline: '時間軸'
       milestones: '里程碑'

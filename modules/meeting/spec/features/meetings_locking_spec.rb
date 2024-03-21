@@ -26,40 +26,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Meetings locking', :js do
+RSpec.describe "Meetings locking", :js do
   let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:user) { create(:admin) }
   let!(:meeting) { create(:meeting) }
   let!(:agenda) { create(:meeting_agenda, meeting:) }
   let(:agenda_field) do
     TextEditorField.new(page,
-                        '',
-                        selector: test_selector('op-meeting--meeting_agenda'))
+                        "",
+                        selector: test_selector("op-meeting--meeting_agenda"))
   end
 
   before do
     login_as(user)
   end
 
-  it 'shows an error when trying to update a meeting update while editing' do
+  it "shows an error when trying to update a meeting update while editing" do
     visit meeting_path(meeting)
 
     # Edit agenda
-    within '#tab-content-agenda' do
-      find('.button--edit-agenda').click
+    within "#tab-content-agenda" do
+      find(".button--edit-agenda").click
 
-      agenda_field.set_value('Some new text')
+      agenda_field.set_value("Some new text")
 
-      agenda.text = 'blabla'
+      agenda.text = "blabla"
       agenda.save!
 
-      click_on 'Save'
+      click_on "Save"
     end
 
-    expect(page).to have_text 'Information has been updated by at least one other user in the meantime.'
+    expect(page).to have_text "Information has been updated by at least one other user in the meantime."
 
-    agenda_field.expect_value('Some new text')
+    agenda_field.expect_value("Some new text")
   end
 end

@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++require 'rspec'
 
-require 'spec_helper'
-require_relative 'eager_loading_mock_wrapper'
+require "spec_helper"
+require_relative "eager_loading_mock_wrapper"
 
 RSpec.describe API::V3::WorkPackages::EagerLoading::CustomAction do
   let!(:work_package1) { create(:work_package) }
@@ -50,8 +50,8 @@ RSpec.describe API::V3::WorkPackages::EagerLoading::CustomAction do
     login_as(user)
   end
 
-  describe '.apply' do
-    it 'preloads the correct custom_actions' do
+  describe ".apply" do
+    it "preloads the correct custom_actions" do
       wrapped = EagerLoadingMockWrapper.wrap(described_class, [work_package1, work_package2])
 
       expect(work_package1)

@@ -45,22 +45,22 @@ module Users
 
       def is_current # rubocop:disable Naming/PredicateName
         if current?
-          helpers.op_icon 'icon-yes'
+          helpers.op_icon "icon-yes"
         end
       end
 
       def device
-        token_data[:platform] || I18n.t('users.sessions.unknown_os')
+        token_data[:platform] || I18n.t("users.sessions.unknown_os")
       end
 
       def browser
-        name = token_data[:browser] || 'unknown browser'
+        name = token_data[:browser] || "unknown browser"
         version = token_data[:browser_version]
         "#{name} #{version ? "(Version #{version})" : ''}"
       end
 
       def platform
-        token_data[:platform] || 'unknown platform'
+        token_data[:platform] || "unknown platform"
       end
 
       def expires_on
@@ -76,9 +76,9 @@ module Users
         return if current?
 
         link_to(
-          helpers.op_icon('icon icon-delete'),
-          { controller: '/my/auto_login_tokens', action: 'destroy', id: token.id },
-          class: 'button--link',
+          helpers.op_icon("icon icon-delete"),
+          { controller: "/my/auto_login_tokens", action: "destroy", id: token.id },
+          class: "button--link",
           role: :button,
           method: :delete,
           data: { confirm: I18n.t(:text_are_you_sure), disable_with: I18n.t(:label_loading) },

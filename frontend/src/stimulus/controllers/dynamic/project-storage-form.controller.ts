@@ -111,6 +111,7 @@ export default class ProjectStorageFormController extends Controller {
       }
 
       this.toggleFolderDisplay(this.folderModeValue);
+      this.setProjectFolderModeQueryParam(this.folderModeValue);
     });
   }
 
@@ -158,8 +159,8 @@ export default class ProjectStorageFormController extends Controller {
     }
 
     this.folderModeValue = mode;
-
     this.toggleFolderDisplay(mode);
+    this.setProjectFolderModeQueryParam(mode);
   }
 
   private get modalService():Observable<OpModalService> {
@@ -206,6 +207,12 @@ export default class ProjectStorageFormController extends Controller {
           return null;
         }),
       );
+  }
+
+  private setProjectFolderModeQueryParam(mode:string) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('storages_project_storage[project_folder_mode]', mode);
+    window.history.replaceState(window.history.state, '', url);
   }
 
   private toggleFolderDisplay(value:string):void {

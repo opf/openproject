@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 module TableHelpers
   RSpec.describe TableRepresenter do
@@ -43,7 +43,7 @@ module TableHelpers
 
     subject(:representer) { described_class.new(tables_data:, columns:) }
 
-    context 'when using a second table for the size' do
+    context "when using a second table for the size" do
       let(:twin_table) do
         <<~TABLE
           | subject                        |
@@ -53,10 +53,10 @@ module TableHelpers
       let(:twin_table_data) { TableData.for(twin_table) }
 
       let(:tables_data) { [table_data, twin_table_data] }
-      let(:columns) { [Column.for('subject')] }
+      let(:columns) { [Column.for("subject")] }
 
-      it 'adapts the column sizes to fit the largest value of both tables ' \
-         'so that they can be compared and diffed' do
+      it "adapts the column sizes to fit the largest value of both tables " \
+         "so that they can be compared and diffed" do
         expect(representer.render(table_data)).to eq <<~TABLE
           | subject                        |
           | Work Package                   |
@@ -68,10 +68,10 @@ module TableHelpers
       end
     end
 
-    describe 'subject column' do
-      let(:columns) { [Column.for('subject')] }
+    describe "subject column" do
+      let(:columns) { [Column.for("subject")] }
 
-      it 'is rendered as text' do
+      it "is rendered as text" do
         expect(representer.render(table_data)).to eq <<~TABLE
           | subject      |
           | Work Package |
@@ -79,10 +79,10 @@ module TableHelpers
       end
     end
 
-    describe 'remaining work column' do
-      let(:columns) { [Column.for('remaining work')] }
+    describe "remaining work column" do
+      let(:columns) { [Column.for("remaining work")] }
 
-      it 'is rendered as a duration' do
+      it "is rendered as a duration" do
         expect(representer.render(table_data)).to eq <<~TABLE
           | remaining work |
           |           1.5h |
@@ -90,10 +90,10 @@ module TableHelpers
       end
     end
 
-    describe 'derived remaining work column' do
-      let(:columns) { [Column.for('derived remaining work')] }
+    describe "derived remaining work column" do
+      let(:columns) { [Column.for("derived remaining work")] }
 
-      it 'sets the derived remaining work attribute' do
+      it "sets the derived remaining work attribute" do
         expect(representer.render(table_data)).to eq <<~TABLE
           | derived remaining work |
           |                     9h |

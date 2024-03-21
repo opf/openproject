@@ -1,6 +1,6 @@
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Zen mode', :js do
+RSpec.describe "Zen mode", :js do
   let(:dev_role) do
     create(:project_role,
            permissions: %i[view_work_packages
@@ -8,8 +8,8 @@ RSpec.describe 'Zen mode', :js do
   end
   let(:dev) do
     create(:user,
-           firstname: 'Dev',
-           lastname: 'Guy',
+           firstname: "Dev",
+           lastname: "Guy",
            member_with_roles: { project => dev_role })
   end
 
@@ -34,13 +34,13 @@ RSpec.describe 'Zen mode', :js do
     wp_page.ensure_page_loaded
   end
 
-  it 'hides menus' do
+  it "hides menus" do
     wp_page.expect_no_zen_mode
-    wp_page.page.find_by_id('work-packages-zen-mode-toggle-button').click
+    wp_page.page.find_by_id("work-packages-zen-mode-toggle-button").click
     wp_page.expect_zen_mode
     wp_page.go_back
     wp_page.expect_zen_mode
-    wp_page.page.find_by_id('work-packages-zen-mode-toggle-button').click
+    wp_page.page.find_by_id("work-packages-zen-mode-toggle-button").click
     wp_page.expect_no_zen_mode
   end
 end

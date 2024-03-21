@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package create uses attributes from filters', :js, :selenium do
+RSpec.describe "Work package create uses attributes from filters", :js, :selenium do
   let(:user) { create(:admin) }
   let(:type_bug) { create(:type_bug) }
   let(:type_task) { create(:type_task) }
@@ -50,13 +50,13 @@ RSpec.describe 'Work package create uses attributes from filters', :js, :seleniu
         query.add_filter(*filter)
       end
 
-      query.column_names = ['id', 'subject', 'type', 'assigned_to', 'status']
+      query.column_names = ["id", "subject", "type", "assigned_to", "status"]
       query.save!
     end
   end
 
   let(:filters) do
-    [['type_id', '=', [type_task.id]]]
+    [["type_id", "=", [type_task.id]]]
   end
 
   before do
@@ -65,7 +65,7 @@ RSpec.describe 'Work package create uses attributes from filters', :js, :seleniu
     wp_table.expect_no_work_package_listed
   end
 
-  context 'with a multi-value custom field' do
+  context "with a multi-value custom field" do
     let(:type_task) { create(:type_task, custom_fields: [custom_field]) }
     let!(:project) do
       create(:project,
@@ -86,42 +86,42 @@ RSpec.describe 'Work package create uses attributes from filters', :js, :seleniu
     end
 
     let(:filters) do
-      [['type_id', '=', [type_task.id]],
-       [custom_field.column_name, '=', [custom_field.custom_options.detect { |o| o.value == 'A' }.id]]]
+      [["type_id", "=", [type_task.id]],
+       [custom_field.column_name, "=", [custom_field.custom_options.detect { |o| o.value == "A" }.id]]]
     end
 
-    it 'allows to save with a single value (Regression test #27833)' do
+    it "allows to save with a single value (Regression test #27833)" do
       split_page = wp_table.create_wp_by_button type_task
 
       subject = split_page.edit_field(:subject)
       subject.expect_active!
-      subject.set_value 'Foobar!'
+      subject.set_value "Foobar!"
       split_page.save!
 
       wp_table.expect_and_dismiss_toaster(
-        message: 'Successful creation. Click here to open this work package in fullscreen view.'
+        message: "Successful creation. Click here to open this work package in fullscreen view."
       )
       wp = WorkPackage.last
-      expect(wp.subject).to eq 'Foobar!'
+      expect(wp.subject).to eq "Foobar!"
       expect(wp.send(custom_field.attribute_getter)).to eq %w(A)
       expect(wp.type_id).to eq type_task.id
     end
   end
 
-  context 'with assignee filter' do
+  context "with assignee filter" do
     let!(:assignee) do
       create(:user,
-             firstname: 'An',
-             lastname: 'assignee',
+             firstname: "An",
+             lastname: "assignee",
              member_with_roles: { project => role })
     end
 
     let(:filters) do
-      [['type_id', '=', [type_task.id]],
-       ['assigned_to_id', '=', [assignee.id]]]
+      [["type_id", "=", [type_task.id]],
+       ["assigned_to_id", "=", [assignee.id]]]
     end
 
-    it 'uses the assignee filter in inline-create and split view' do
+    it "uses the assignee filter in inline-create and split view" do
       wp_table.click_inline_create
 
       subject_field = wp_table.edit_field(nil, :subject)
@@ -136,16 +136,16 @@ RSpec.describe 'Work package create uses attributes from filters', :js, :seleniu
       assignee_field.expect_state_text type_task.name.upcase
 
       # Save the WP
-      subject_field.set_value 'Foobar!'
+      subject_field.set_value "Foobar!"
       subject_field.submit_by_enter
 
       wp_table.expect_toast(
-        message: 'Successful creation. Click here to open this work package in fullscreen view.'
+        message: "Successful creation. Click here to open this work package in fullscreen view."
       )
       wp_table.dismiss_toaster!
 
       wp = WorkPackage.last
-      expect(wp.subject).to eq 'Foobar!'
+      expect(wp.subject).to eq "Foobar!"
       expect(wp.assigned_to_id).to eq assignee.id
       expect(wp.type_id).to eq type_task.id
 
@@ -155,7 +155,7 @@ RSpec.describe 'Work package create uses attributes from filters', :js, :seleniu
       # Subject
       subject_field = split_view_create.edit_field :subject
       subject_field.expect_active!
-      subject_field.set_value 'Split Foobar!'
+      subject_field.set_value "Split Foobar!"
 
       # Type field IS NOT synced
       type_field = split_view_create.edit_field :type
@@ -163,28 +163,28 @@ RSpec.describe 'Work package create uses attributes from filters', :js, :seleniu
 
       # Assignee is synced
       assignee_field = split_view_create.edit_field :assignee
-      expect(assignee_field.input_element.find('.ng-value-label').text).to eql('An assignee')
+      expect(assignee_field.input_element.find(".ng-value-label").text).to eql("An assignee")
 
-      within '.work-packages--edit-actions' do
-        click_button 'Save'
+      within ".work-packages--edit-actions" do
+        click_button "Save"
       end
 
-      wp_table.expect_toast(message: 'Successful creation.')
+      wp_table.expect_toast(message: "Successful creation.")
 
       wp = WorkPackage.last
-      expect(wp.subject).to eq 'Split Foobar!'
+      expect(wp.subject).to eq "Split Foobar!"
       expect(wp.assigned_to_id).to eq assignee.id
       expect(wp.type_id).to eq type_bug.id
     end
   end
 
-  context 'with status filter' do
+  context "with status filter" do
     let(:closed_status) { create(:closed_status, workflow_for_type: type_bug) }
     let(:filters) do
-      [['status_id', '=', [closed_status.id]]]
+      [["status_id", "=", [closed_status.id]]]
     end
 
-    it 'uses the status filter in inline-create and split view' do
+    it "uses the status filter in inline-create and split view" do
       # When the chosen type ( type_task ) does not have a workflow for the status (closed_status)
       # of the filter, it uses the default status instead (Regression #36719)
       wp_table.click_inline_create
@@ -199,16 +199,16 @@ RSpec.describe 'Work package create uses attributes from filters', :js, :seleniu
 
       # Save the WP
       subject_field = wp_table.edit_field(nil, :subject)
-      subject_field.set_value 'Foobar!'
+      subject_field.set_value "Foobar!"
       subject_field.submit_by_enter
 
       wp_table.expect_toast(
-        message: 'Successful creation. Click here to open this work package in fullscreen view.'
+        message: "Successful creation. Click here to open this work package in fullscreen view."
       )
       wp_table.dismiss_toaster!
 
       wp = WorkPackage.last
-      expect(wp.subject).to eq 'Foobar!'
+      expect(wp.subject).to eq "Foobar!"
       expect(wp.type_id).to eq type_task.id
       expect(wp.status_id).to eq default_status.id
 
@@ -220,7 +220,7 @@ RSpec.describe 'Work package create uses attributes from filters', :js, :seleniu
 
       subject_field = split_view_create.edit_field :subject
       subject_field.expect_active!
-      subject_field.set_value 'Split Foobar!'
+      subject_field.set_value "Split Foobar!"
 
       # Type field IS NOT synced
       type_field = split_view_create.edit_field :type
@@ -230,14 +230,14 @@ RSpec.describe 'Work package create uses attributes from filters', :js, :seleniu
       status_field = split_view_create.edit_field :status
       status_field.expect_display_value(closed_status.name.humanize)
 
-      within '.work-packages--edit-actions' do
-        click_button 'Save'
+      within ".work-packages--edit-actions" do
+        click_button "Save"
       end
 
-      wp_table.expect_toast(message: 'Successful creation.')
+      wp_table.expect_toast(message: "Successful creation.")
 
       wp = WorkPackage.last
-      expect(wp.subject).to eq 'Split Foobar!'
+      expect(wp.subject).to eq "Split Foobar!"
       expect(wp.type_id).to eq type_bug.id
       expect(wp.status_id).to eq closed_status.id
 
@@ -251,7 +251,7 @@ RSpec.describe 'Work package create uses attributes from filters', :js, :seleniu
 
       subject_field = split_view_create.edit_field :subject
       subject_field.expect_active!
-      subject_field.set_value 'Split Foobar!'
+      subject_field.set_value "Split Foobar!"
 
       # Type field IS NOT synced
       type_field = split_view_create.edit_field :type
@@ -261,14 +261,14 @@ RSpec.describe 'Work package create uses attributes from filters', :js, :seleniu
       status_field = split_view_create.edit_field :status
       status_field.expect_display_value(default_status.name.humanize)
 
-      within '.work-packages--edit-actions' do
-        click_button 'Save'
+      within ".work-packages--edit-actions" do
+        click_button "Save"
       end
 
-      wp_table.expect_toast(message: 'Successful creation.')
+      wp_table.expect_toast(message: "Successful creation.")
 
       wp = WorkPackage.last
-      expect(wp.subject).to eq 'Split Foobar!'
+      expect(wp.subject).to eq "Split Foobar!"
       expect(wp.type_id).to eq type_task.id
       expect(wp.status_id).to eq default_status.id
     end

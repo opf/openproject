@@ -33,23 +33,23 @@ module Storages
     using Peripherals::ServiceResultRefinements
 
     belongs_to :project, touch: true
-    belongs_to :storage, touch: true, class_name: 'Storages::Storage'
-    belongs_to :creator, class_name: 'User'
+    belongs_to :storage, touch: true, class_name: "Storages::Storage"
+    belongs_to :creator, class_name: "User"
 
     has_many :last_project_folders,
-             class_name: 'Storages::LastProjectFolder',
+             class_name: "Storages::LastProjectFolder",
              dependent: :destroy
 
     # There should be only one ProjectStorage per project and storage.
     validates :project, uniqueness: { scope: :storage }
 
     enum project_folder_mode: {
-      inactive: 'inactive',
-      manual: 'manual',
-      automatic: 'automatic'
-    }.freeze, _prefix: 'project_folder'
+      inactive: "inactive",
+      manual: "manual",
+      automatic: "automatic"
+    }.freeze, _prefix: "project_folder"
 
-    scope :automatic, -> { where(project_folder_mode: 'automatic') }
+    scope :automatic, -> { where(project_folder_mode: "automatic") }
     scope :active, -> { joins(:project).where(project: { active: true }) }
     scope :active_automatically_managed, -> do
       automatic
@@ -92,10 +92,10 @@ module Storages
     def open_with_connection_ensured
       return unless storage.configured?
 
-      url_helpers = Rails.application.routes.url_helpers
+      url_helpers = OpenProject::StaticRouting::StaticRouter.new.url_helpers
       open_project_storage_url = url_helpers.open_project_storage_url(
         host: Setting.host_name,
-        protocol: 'https',
+        protocol: "https",
         project_id: project.identifier,
         id:
       )

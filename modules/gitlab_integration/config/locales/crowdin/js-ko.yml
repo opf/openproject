@@ -26,25 +26,25 @@ ko:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "이슈"
       tab_header_mr:
-        title: "Merge requests"
+        title: "병합 요청"
         create_mr:
-          label: Create MR
-          description: Create a Merge Request
+          label: MR 만들기
+          description: 병합 요청 만들기
         copy_menu:
-          label: Git snippets
-          description: Copy git snippets to clipboard
+          label: Git 코드 조각
+          description: 클립보드에 Git 코드 조각 복사
         git_actions:
-          branch_name: Branch name
-          commit_message: Commit message
-          cmd: Create branch with empty commit
-          title: Quick snippets for Git
-          copy_success: '✅ Copied!'
-          copy_error: '❌ Copy failed!'
+          branch_name: 브랜치 이름
+          commit_message: 커밋 메시지
+          cmd: 빈 커밋으로 브랜치 만들기
+          title: Git용 빠른 코드 조각
+          copy_success: '✅ 복사 완료!'
+          copy_error: '❌ 복사 실패!'
       tab_issue:
-        empty: 'There are no issues linked yet. Link an existing issue by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the issue title/description or create a new issue.'
+        empty: '아직 링크된 이슈가 없습니다. 이슈 제목/설명에 <code>OP#%{wp_id}</code>(또는 비공개 링크의 경우 <code>PP#%{wp_id}</code>) 코드를 사용하여 기존 이슈를 링크하거나 새 이슈를 만드세요.'
       tab_mrs:
-        empty: 'There are no merge requests linked yet. Link an existing MR by using the code <code>OP#%{wp_id}</code> (or <code>PP#%{wp_id}</code> for private links) in the MR title/description or create a new MR.'
-      gitlab_pipelines: Pipelines
-      updated_on: Updated on
+        empty: '아직 링크된 병합 요청이 없습니다. MR 제목/설명에 <code>OP#%{wp_id}</code>(또는 비공개 링크의 경우 <code>PP#%{wp_id}</code>) 코드를 사용하여 기존 MR을 링크하거나 새 MR을 만드세요.'
+      gitlab_pipelines: 파이프라인
+      updated_on: 업데이트 날짜

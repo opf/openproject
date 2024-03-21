@@ -53,8 +53,8 @@ es:
       complete_without_setup: Completar sin usar
       done_complete_setup: Hecho, configuración completada
       done_continue: Hecho, continuar
-      replace_oauth_application: Replace OpenProject OAuth
-      replace_oauth_client: Replace %{provider_type} OAuth
+      replace_oauth_application: Reemplazar OpenProject OAuth
+      replace_oauth_client: Reemplazar %{provider_type} OAuth
       save_and_continue: Guardar y continuar
       select_folder: Seleccionar carpeta
     configuration_checks:
@@ -63,8 +63,8 @@ es:
         one_drive: Permitir a OpenProject acceder a datos Azure usando OAuth para conectar OneDrive/Sharepoint.
       redirect_uri_incomplete:
         one_drive: Completa la configuración con la redirección URI correcta.
-    confirm_replace_oauth_application: This action will reset the current OAuth credentials. After confirming you will have to reenter the credentials at the storage provider and all remote users will have to authorize against OpenProject again. Are you sure you want to proceed?
-    confirm_replace_oauth_client: This action will reset the current OAuth credentials. After confirming you will have to enter new credentials from the storage provider and all users will have to authorize against %{provider_type} again. Are you sure you want to proceed?
+    confirm_replace_oauth_application: Esta acción restablecerá las credenciales OAuth actuales. Después de confirmar tendrá que volver a introducir las credenciales en el proveedor de almacenamiento y todos los usuarios remotos tendrán que autorizarse contra OpenProject de nuevo. ¿Seguro que desea continuar?
+    confirm_replace_oauth_client: Esta acción restablecerá las credenciales OAuth actuales. Después de confirmar tendrá que introducir nuevas credenciales del proveedor de almacenamiento y todos los usuarios tendrán que autorizarse contra %{provider_type} de nuevo. ¿Seguro que desea continuar?
     delete_warning:
       input_delete_confirmation: Introduzca el nombre de almacenamiento de archivos %{file_storage} para confirmar la eliminación.
       irreversible_notice: Eliminar un archivo almacenado es una acción irreversible.
@@ -178,12 +178,12 @@ es:
       ¡Almacenamiento conectado con éxito! Recuerda activar el módulo y el almacenamiento específico en la configuración del proyecto de cada proyecto deseado para usarlo.
     oauth_grant_nudge_modal:
       access_granted: Acceso permitido
-      access_granted_screen_reader: Access granted. You are now ready to use %{storage}.
+      access_granted_screen_reader: Acceso concedido. Ya puede utilizar %{storage}.
       body: Para obtener acceso a la carpeta del proyecto necesitas iniciar sesión en %{storage}.
       cancel_button_label: Lo haré más tarde
-      confirm_button_aria_label: Login to %{storage}
+      confirm_button_aria_label: Iniciar sesión en %{storage}
       confirm_button_label: Iniciar sesión
-      requesting_access_to: Requesting access to %{storage}
+      requesting_access_to: Solicitando acceso a %{storage}
       storage_ready: Ahora estás listo para usar %{storage}
       title: Queda un paso más...
     open_project_storage_modal:

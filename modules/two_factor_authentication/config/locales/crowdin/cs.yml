@@ -75,7 +75,7 @@ cs:
       button_register_mobile_phone_for_user: "Registrovat mobilní telefon"
       text_2fa_enabled: "Při každém přihlášení bude tento uživatel požádán, aby zadal jednorázové heslo z jeho výchozího 2FA zařízení."
       text_2fa_disabled: "Uživatel si nenastavil 2FA zařízení prostřednictvím stránky 'Můj účet'"
-      only_sms_allowed: "Only SMS delivery can be set up for other users."
+      only_sms_allowed: "Pro ostatní uživatele lze nastavit pouze doručení SMS."
     upsale:
       title: "Dvoufázové ověření"
       description: "Posilte bezpečnost vaší OpenProject instance tím, že nabízíte (nebo vynucujte) dvoufaktorové ověřování všem členům projektu."
@@ -113,7 +113,7 @@ cs:
       failed_to_delete: "Smazání 2FA zařízení se nezdařilo."
       is_default_cannot_delete: "Zařízení je označeno jako výchozí a nemůže být odstraněno z důvodu aktivní bezpečnostní politiky. Před smazáním označte jiné zařízení jako výchozí."
       not_existing: "Žádné 2FA zařízení nebylo zaregistrováno pro váš účet."
-      2fa_from_input: Please enter the code from your <strong>%{device_name}</strong> to verify your identity.
+      2fa_from_input: Zadejte prosím kód z Vašeho %{device_name} pro ověření Vaší identity.
       2fa_from_webauthn: Please provide the WebAuthn device <strong>%{device_name}</strong>. If it is USB based make sure to plug it in and touch it. Then click the sign in button.
       webauthn:
         title: "WebAuthn"

@@ -62,10 +62,10 @@ module OpenProject
 
         def modify_base_url_custom_rules
           replacement = case instance.send(settings.attribute_to_urlify).to_s
-                        when '.'
-                          'dot'
-                        when '!'
-                          'bang'
+                        when "."
+                          "dot"
+                        when "!"
+                          "bang"
                         end
 
           self.base_url = replacement if replacement

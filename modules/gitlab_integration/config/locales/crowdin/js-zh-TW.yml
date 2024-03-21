@@ -26,9 +26,9 @@ zh-TW:
       work_packages:
         tab_name: "GitLab"
       tab_header_issue:
-        title: "Issues"
+        title: "問題"
       tab_header_mr:
-        title: "Merge requests"
+        title: "合併請求"
         create_mr:
           label: Create MR
           description: Create a Merge Request
@@ -37,7 +37,7 @@ zh-TW:
           description: Copy git snippets to clipboard
         git_actions:
           branch_name: Branch name
-          commit_message: Commit message
+          commit_message: 提交訊息
           cmd: Create branch with empty commit
           title: Quick snippets for Git
           copy_success: '✅ Copied!'

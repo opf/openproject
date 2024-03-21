@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe API::V3::Attachments::AttachmentParsingRepresenter do
   let(:current_user) { build_stubbed(:user) }
@@ -39,24 +39,24 @@ RSpec.describe API::V3::Attachments::AttachmentParsingRepresenter do
     data.digest = original_digest
     data
   end
-  let(:original_file_name) { 'a file name' }
-  let(:original_description) { 'a description' }
-  let(:original_content_type) { 'text/plain' }
+  let(:original_file_name) { "a file name" }
+  let(:original_description) { "a description" }
+  let(:original_content_type) { "text/plain" }
   let(:original_file_size) { 42 }
   let(:original_digest) { "0xFF" }
   let(:representer) { described_class.new(metadata, current_user:) }
 
   include API::V3::Utilities::PathHelper
 
-  describe 'parsing' do
+  describe "parsing" do
     let(:parsed_hash) do
       {
-        'metadata' => {
-          'fileName' => 'the parsed name',
-          'description' => { 'raw' => 'the parsed description' },
-          'contentType' => 'text/html',
-          'fileSize' => 43,
-          'digest' => '0x00'
+        "metadata" => {
+          "fileName" => "the parsed name",
+          "description" => { "raw" => "the parsed description" },
+          "contentType" => "text/html",
+          "fileSize" => 43,
+          "digest" => "0x00"
         }
       }
     end
@@ -67,10 +67,10 @@ RSpec.describe API::V3::Attachments::AttachmentParsingRepresenter do
       representer.from_hash parsed_hash
     end
 
-    it { expect(subject.filename).to eql('the parsed name') }
-    it { expect(subject.description).to eql('the parsed description') }
-    it { expect(subject.content_type).to eql('text/html') }
+    it { expect(subject.filename).to eql("the parsed name") }
+    it { expect(subject.description).to eql("the parsed description") }
+    it { expect(subject.content_type).to eql("text/html") }
     it { expect(subject.filesize).to be(43) }
-    it { expect(subject.digest).to eql('0x00') }
+    it { expect(subject.digest).to eql("0x00") }
   end
 end

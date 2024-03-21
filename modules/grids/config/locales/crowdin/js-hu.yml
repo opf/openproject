@@ -8,6 +8,7 @@ hu:
         text: "Some widgets, like the work package graph widget, are only available in the Enterprise edition."
         link: 'Enterprise edition.'
       widgets:
+        missing_permission: "Nincs meg a szükséges jogosultsága a widget megtekintéséhez."
         custom_text:
           title: 'Egyéni szöveg'
         documents:

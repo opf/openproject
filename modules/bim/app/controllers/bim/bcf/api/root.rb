@@ -43,7 +43,7 @@ module Bim::Bcf
 
       authentication_scope OpenProject::Authentication::Scope::BCF_V2_1
 
-      version '2.1', using: :path do
+      version "2.1", using: :path do
         # /auth
         mount ::Bim::Bcf::API::V2_1::AuthAPI
         # /current-user

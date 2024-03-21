@@ -32,9 +32,9 @@ class UserMailer < ApplicationMailer
   helper_method :message_url
 
   def test_mail(user)
-    @welcome_url = url_for(controller: '/homescreen')
+    @welcome_url = url_for(controller: "/homescreen")
 
-    open_project_headers 'Type' => 'Test'
+    open_project_headers "Type" => "Test"
 
     send_localized_mail(user) { "#{Setting.app_title} Test" }
   end
@@ -57,11 +57,11 @@ class UserMailer < ApplicationMailer
     return unless token.user # token's can have no user
 
     @token = token
-    @reset_password_url = url_for(controller: '/account',
+    @reset_password_url = url_for(controller: "/account",
                                   action: :lost_password,
                                   token: @token.value)
 
-    open_project_headers 'Type' => 'Account'
+    open_project_headers "Type" => "Account"
 
     send_localized_mail(token.user) { I18n.t(:mail_subject_lost_password, value: Setting.app_title) }
   end
@@ -74,21 +74,21 @@ class UserMailer < ApplicationMailer
       else
         user.authentication_provider
       end
-    open_project_headers 'Type' => 'Account'
+    open_project_headers "Type" => "Account"
 
-    send_localized_mail(user) { I18n.t('mail_password_change_not_possible.title') }
+    send_localized_mail(user) { I18n.t("mail_password_change_not_possible.title") }
   end
 
   def news_added(user, news)
     @news = news
 
-    open_project_headers 'Type' => 'News'
-    open_project_headers 'Project' => @news.project.identifier if @news.project
+    open_project_headers "Type" => "News"
+    open_project_headers "Project" => @news.project.identifier if @news.project
 
     message_id @news, user
     references @news
 
-    project = @news.project ? "#{@news.project.name}] " : ''
+    project = @news.project ? "#{@news.project.name}] " : ""
     send_localized_mail(user) { "#{project}#{News.model_name.human}: #{@news.title}" }
   end
 
@@ -97,11 +97,11 @@ class UserMailer < ApplicationMailer
 
     @user = token.user
     @token = token
-    @activation_url = url_for(controller: '/account',
+    @activation_url = url_for(controller: "/account",
                               action: :activate,
                               token: @token.value)
 
-    open_project_headers 'Type' => 'Account'
+    open_project_headers "Type" => "Account"
 
     send_localized_mail(token.user) { I18n.t(:mail_subject_register, value: Setting.app_title) }
   end
@@ -110,14 +110,14 @@ class UserMailer < ApplicationMailer
     @comment = comment
     @news = @comment.commented
 
-    open_project_headers 'Project' => @news.project.identifier if @news.project
+    open_project_headers "Project" => @news.project.identifier if @news.project
 
     message_id @comment, user
     references @news, @comment
 
     subject = "#{News.model_name.human}: #{@news.title}"
 
-    project = @news.project ? "#{@news.project.name}] " : ''
+    project = @news.project ? "#{@news.project.name}] " : ""
     send_localized_mail(user) do
       "Re: #{project}#{subject}"
     end
@@ -136,7 +136,7 @@ class UserMailer < ApplicationMailer
 
   def wiki_page_updated(user, wiki_page)
     @wiki_page = wiki_page
-    @wiki_diff_url = url_for(controller: '/wiki',
+    @wiki_diff_url = url_for(controller: "/wiki",
                              action: :diff,
                              project_id: wiki_page.project,
                              id: wiki_page.slug,
@@ -165,7 +165,7 @@ class UserMailer < ApplicationMailer
   def account_activated(user)
     @user = user
 
-    open_project_headers 'Type' => 'Account'
+    open_project_headers "Type" => "Account"
 
     send_localized_mail(user) { t(:mail_subject_register, value: Setting.app_title) }
   end
@@ -174,19 +174,19 @@ class UserMailer < ApplicationMailer
     @user = user
     @password = password
 
-    open_project_headers 'Type' => 'Account'
+    open_project_headers "Type" => "Account"
 
     send_localized_mail(user) { t(:mail_subject_register, value: Setting.app_title) }
   end
 
   def account_activation_requested(admin, user)
     @user = user
-    @activation_url = url_for(controller: '/users',
+    @activation_url = url_for(controller: "/users",
                               action: :index,
-                              status: 'registered',
-                              sort: 'created_at:desc')
+                              status: "registered",
+                              sort: "created_at:desc")
 
-    open_project_headers 'Type' => 'Account'
+    open_project_headers "Type" => "Account"
 
     send_localized_mail(admin) { t(:mail_subject_account_activation_request, value: Setting.app_title) }
   end
@@ -217,8 +217,8 @@ class UserMailer < ApplicationMailer
     @incoming_text = mail[:text]
     @quote = mail[:quote]
 
-    headers['References'] = ["<#{mail[:message_id]}>"]
-    headers['In-Reply-To'] = ["<#{mail[:message_id]}>"]
+    headers["References"] = ["<#{mail[:message_id]}>"]
+    headers["In-Reply-To"] = ["<#{mail[:message_id]}>"]
 
     send_localized_mail(user) do
       mail[:subject].present? ? "Re: #{mail[:subject]}" : I18n.t("mail_subject_incoming_email_error")
@@ -228,14 +228,14 @@ class UserMailer < ApplicationMailer
   private
 
   def open_project_wiki_headers(wiki_page)
-    open_project_headers 'Project' => wiki_page.project.identifier,
-                         'Wiki-Page-Id' => wiki_page.id,
-                         'Type' => 'Wiki'
+    open_project_headers "Project" => wiki_page.project.identifier,
+                         "Wiki-Page-Id" => wiki_page.id,
+                         "Type" => "Wiki"
   end
 
   def open_project_message_headers(message)
-    open_project_headers 'Project' => message.project.identifier,
-                         'Message-Id' => message.parent_id || message.id,
-                         'Type' => 'Forum'
+    open_project_headers "Project" => message.project.identifier,
+                         "Message-Id" => message.parent_id || message.id,
+                         "Type" => "Forum"
   end
 end

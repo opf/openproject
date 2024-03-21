@@ -1,0 +1,78 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://nextcloud.local/ocs/v1.php/cloud/user
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Basic <BASIC_AUTH>
+      Ocs-Apirequest:
+      - 'true'
+      Accept:
+      - application/json
+      User-Agent:
+      - httpx.rb/1.2.3
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Cache-Control:
+      - no-cache, no-store, must-revalidate
+      Content-Encoding:
+      - gzip
+      Content-Security-Policy:
+      - default-src 'none';base-uri 'none';manifest-src 'self';frame-ancestors 'none'
+      Content-Type:
+      - application/json; charset=utf-8
+      Date:
+      - Fri, 08 Mar 2024 08:56:52 GMT
+      Expires:
+      - Thu, 19 Nov 1981 08:52:00 GMT
+      Feature-Policy:
+      - autoplay 'none';camera 'none';fullscreen 'none';geolocation 'none';microphone
+        'none';payment 'none'
+      Pragma:
+      - no-cache
+      Referrer-Policy:
+      - no-referrer
+      Server:
+      - Apache/2.4.57 (Debian)
+      Set-Cookie:
+      - ocirabgzify6=5493b458c5edc569998af2a938a9ecae; path=/; secure; HttpOnly; SameSite=Lax,
+        oc_sessionPassphrase=NHZ%2BN0amCVQHv6ahVDPyyFOksinMG062jNl6c5jjkDhmh7ITHbUjqv5JlcTPON28x7grqeOFYWlrnRJcG4eXfCVy62nmjhezAhkIVpyHXiCPRMtWe9KB%2FychAQJ%2BiLGG;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=5493b458c5edc569998af2a938a9ecae;
+        path=/; secure; HttpOnly; SameSite=Lax, __Host-nc_sameSiteCookielax=true;
+        path=/; httponly;secure; expires=Fri, 31-Dec-2100 23:59:59 GMT; SameSite=lax,
+        __Host-nc_sameSiteCookiestrict=true; path=/; httponly;secure; expires=Fri,
+        31-Dec-2100 23:59:59 GMT; SameSite=strict, ocirabgzify6=5493b458c5edc569998af2a938a9ecae;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=5493b458c5edc569998af2a938a9ecae;
+        path=/; secure; HttpOnly; SameSite=Lax, ocirabgzify6=a0fdf49e46837e242aeaa08c4eeb9d41;
+        path=/; secure; HttpOnly; SameSite=Lax, cookie_test=test; expires=Fri, 08
+        Mar 2024 09:56:53 GMT; Max-Age=3600
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Permitted-Cross-Domain-Policies:
+      - none
+      X-Powered-By:
+      - PHP/8.2.16
+      X-Request-Id:
+      - CsPiZvs47I8ubFZtVXa5
+      X-Robots-Tag:
+      - noindex, nofollow
+      X-Xss-Protection:
+      - 1; mode=block
+      Content-Length:
+      - '492'
+    body:
+      encoding: UTF-8
+      string: '{"ocs":{"meta":{"status":"ok","statuscode":100,"message":"OK","totalitems":"","itemsperpage":""},"data":{"enabled":true,"storageLocation":"\/var\/www\/html\/data\/admin","id":"admin","lastLogin":1709888213000,"backend":"Database","subadmin":[],"quota":{"free":961968066560,"used":1137306515,"total":963105373075,"relative":0.12,"quota":-3},"manager":"","avatarScope":"v2-federated","email":null,"emailScope":"v2-federated","additional_mail":[],"additional_mailScope":[],"displayname":"admin","display-name":"admin","displaynameScope":"v2-federated","phone":"","phoneScope":"v2-local","address":"","addressScope":"v2-local","website":"","websiteScope":"v2-local","twitter":"","twitterScope":"v2-local","fediverse":"","fediverseScope":"v2-local","organisation":"","organisationScope":"v2-local","role":"","roleScope":"v2-local","headline":"","headlineScope":"v2-local","biography":"","biographyScope":"v2-local","profile_enabled":"1","profile_enabledScope":"v2-local","groups":["admin"],"language":"en","locale":"","notify_email":null,"backendCapabilities":{"setDisplayName":true,"setPassword":true}}}}'
+  recorded_at: Fri, 08 Mar 2024 08:56:53 GMT
+recorded_with: VCR 6.2.0

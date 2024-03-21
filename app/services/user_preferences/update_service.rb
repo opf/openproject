@@ -60,8 +60,8 @@ module UserPreferences
                           .map { |item| item.merge(user_id: model.user_id) }
                           .partition { |setting| setting[:project_id].nil? }
 
-      global_ids = upsert_notifications(global, %i[user_id], 'project_id IS NULL')
-      project_ids = upsert_notifications(project, %i[user_id project_id], 'project_id IS NOT NULL')
+      global_ids = upsert_notifications(global, %i[user_id], "project_id IS NULL")
+      project_ids = upsert_notifications(project, %i[user_id project_id], "project_id IS NOT NULL")
 
       global_ids + project_ids
     end

@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 documents resource' do
+RSpec.describe "API v3 documents resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -49,7 +49,7 @@ RSpec.describe 'API v3 documents resource' do
     login_as(current_user)
   end
 
-  describe 'GET /api/v3/documents' do
+  describe "GET /api/v3/documents" do
     let(:path) { api_v3_paths.documents }
 
     before do
@@ -59,56 +59,56 @@ RSpec.describe 'API v3 documents resource' do
       get path
     end
 
-    it 'returns 200 OK' do
+    it "returns 200 OK" do
       expect(subject.status)
         .to be(200)
     end
 
-    it 'returns a Collection of visible documents' do
+    it "returns a Collection of visible documents" do
       expect(subject.body)
-        .to be_json_eql('Collection'.to_json)
-        .at_path('_type')
+        .to be_json_eql("Collection".to_json)
+        .at_path("_type")
 
       expect(subject.body)
         .to be_json_eql(1.to_json)
-        .at_path('total')
+        .at_path("total")
 
       expect(subject.body)
-        .to be_json_eql('Document'.to_json)
-        .at_path('_embedded/elements/0/_type')
+        .to be_json_eql("Document".to_json)
+        .at_path("_embedded/elements/0/_type")
 
       expect(subject.body)
         .to be_json_eql(document.title.to_json)
-        .at_path('_embedded/elements/0/title')
+        .at_path("_embedded/elements/0/title")
     end
   end
 
-  describe 'GET /api/v3/documents/:id' do
+  describe "GET /api/v3/documents/:id" do
     let(:path) { api_v3_paths.document(document.id) }
 
     before do
       get path
     end
 
-    it 'returns 200 OK' do
+    it "returns 200 OK" do
       expect(subject.status)
         .to be(200)
     end
 
-    it 'returns the document' do
+    it "returns the document" do
       expect(subject.body)
-        .to be_json_eql('Document'.to_json)
-        .at_path('_type')
+        .to be_json_eql("Document".to_json)
+        .at_path("_type")
 
       expect(subject.body)
         .to be_json_eql(document.id.to_json)
-        .at_path('id')
+        .at_path("id")
     end
 
-    context 'when lacking permissions' do
+    context "when lacking permissions" do
       let(:permissions) { [] }
 
-      it 'returns 404 NOT FOUND' do
+      it "returns 404 NOT FOUND" do
         expect(subject.status)
           .to be(404)
       end

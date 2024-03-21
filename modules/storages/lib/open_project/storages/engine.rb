@@ -153,19 +153,22 @@ module OpenProject::Storages
            caption: :project_module_storages,
            parent: :settings
 
-      configure_menu :project_menu do |menu, project|
-        if project.present? &&
-          User.current.logged? &&
-          User.current.member_of?(project) &&
-          User.current.allowed_in_project?(:view_file_links, project)
-          project.project_storages.each do |project_storage|
-            storage = project_storage.storage
-            next unless storage.configured?
+      configure_menu :project_menu do |menu, prj|
+        u = User.current
+        if prj.present? && u.logged? && u.member_of?(prj) && u.allowed_in_project?(:view_file_links, prj)
+          prj.project_storages.each do |prj_storage|
+            storage = prj_storage.storage
+            hide_from_menu = !storage.configured? ||
+                             # the following check is required for ensure access modal final check being possible
+                             # the modal waiting for read_files permission on the project folder
+                             # otherwise polls backend until eternity
+                             (prj_storage.project_folder_automatic? && !u.allowed_in_project?(:read_files, prj))
+            next if hide_from_menu
 
             icon = storage.provider_type_nextcloud? ? 'nextcloud-circle' : 'hosting'
             menu.push(
               :"storage_#{storage.id}",
-              project_storage.open_with_connection_ensured,
+              prj_storage.open_with_connection_ensured,
               caption: storage.name,
               before: :members,
               icon:,

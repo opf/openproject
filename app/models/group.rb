@@ -65,7 +65,7 @@ class Group < Principal
   private
 
   def uniqueness_of_name
-    groups_with_name = Group.where('lastname = ? AND id <> ?', name, id || 0).count
+    groups_with_name = Group.where("lastname = ? AND id <> ?", name, id || 0).count
     if groups_with_name > 0
       errors.add :name, :taken
     end

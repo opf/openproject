@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Shared::ServiceContext, 'integration', type: :model do
+RSpec.describe Shared::ServiceContext, "integration", type: :model do
   let(:user) { build_stubbed(:user) }
 
   let(:instance) do
@@ -65,37 +65,37 @@ RSpec.describe Shared::ServiceContext, 'integration', type: :model do
     end.new(user)
   end
 
-  describe '#in_context' do
-    context 'with a model' do
+  describe "#in_context" do
+    context "with a model" do
       let(:model) { User.new } # model implementation is irrelevant
 
-      context 'with a failure result' do
-        it 'reverts all database changes' do
+      context "with a failure result" do
+        it "reverts all database changes" do
           expect { instance.test_method_failure(model) }
             .not_to change { Setting.count }
         end
       end
 
-      context 'with a success result' do
-        it 'keeps database changes' do
+      context "with a success result" do
+        it "keeps database changes" do
           expect { instance.test_method_success(model) }
             .to change { Setting.count }
         end
       end
     end
 
-    context 'without a model' do
+    context "without a model" do
       let(:model) { nil }
 
-      context 'with a failure result' do
-        it 'reverts all database changes' do
+      context "with a failure result" do
+        it "reverts all database changes" do
           expect { instance.test_method_failure(model) }
             .not_to change { Setting.count }
         end
       end
 
-      context 'with a success result' do
-        it 'keeps database changes' do
+      context "with a success result" do
+        it "keeps database changes" do
           expect { instance.test_method_success(model) }
             .to change { Setting.count }
         end

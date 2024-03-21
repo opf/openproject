@@ -25,14 +25,14 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Notification do
-  describe '.save' do
-    context 'for a non existing journal (e.g. because it has been deleted)' do
+  describe ".save" do
+    context "for a non existing journal (e.g. because it has been deleted)" do
       let(:notification) { build(:notification) }
 
-      it 'raises an error' do
+      it "raises an error" do
         notification.journal_id = 99999
         expect { notification.save }
           .to raise_error ActiveRecord::InvalidForeignKey

@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Journalized Objects' do
-  describe 'journal_editable_by?' do
-    context 'when the journable is a work package' do
+RSpec.describe "Journalized Objects" do
+  describe "journal_editable_by?" do
+    context "when the journable is a work package" do
       let!(:user) { create(:user, member_with_permissions: { project => [] }) }
       let!(:project) { create(:project_with_types) }
       let!(:work_package) do
@@ -38,7 +38,7 @@ RSpec.describe 'Journalized Objects' do
                type: project.types.first,
                author: user,
                project:,
-               description: '')
+               description: "")
       end
 
       subject { work_package.journal_editable_by?(work_package.journals.first, user) }

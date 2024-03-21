@@ -33,7 +33,7 @@ RSpec.describe CostQuery, :reporting_query_helper do
 
   minimal_query
 
-  describe '#chain' do
+  describe "#chain" do
     around do |example|
       # FIXME: is there a better way to load all filter and groups?
       CostQuery::Filter.all && CostQuery::GroupBy.all
@@ -165,7 +165,7 @@ RSpec.describe CostQuery, :reporting_query_helper do
   end
 
   describe Report::Chainable do
-    describe '#top' do
+    describe "#top" do
       let(:chain) { described_class.new }
 
       it "returns for an one element long chain that chain as top" do
@@ -190,7 +190,7 @@ RSpec.describe CostQuery, :reporting_query_helper do
       end
     end
 
-    describe '#inherited_attribute' do
+    describe "#inherited_attribute" do
       before do
         @a = Class.new described_class
         @a.inherited_attribute :foo, default: 42
@@ -199,31 +199,31 @@ RSpec.describe CostQuery, :reporting_query_helper do
         @d = Class.new @b
       end
 
-      it 'takes default argument' do
+      it "takes default argument" do
         expect(@a.foo).to eq(42)
         expect(@b.foo).to eq(42)
         expect(@c.foo).to eq(42)
         expect(@d.foo).to eq(42)
       end
 
-      it 'inherits values' do
+      it "inherits values" do
         @a.foo 1337
         expect(@d.foo).to eq(1337)
       end
 
-      it 'does not change values of parents and akin' do
+      it "does not change values of parents and akin" do
         @b.foo 1337
         expect(@a.foo).not_to eq(1337)
         expect(@c.foo).not_to eq(1337)
       end
 
-      it 'is able to map values' do
+      it "is able to map values" do
         @a.inherited_attribute :bar, map: proc { |x| x * 2 }
         @a.bar 21
         expect(@a.bar).to eq(42)
       end
 
-      describe '#list' do
+      describe "#list" do
         it "merges lists" do
           @a.inherited_attribute :bar, list: true
           @a.bar 1
@@ -262,7 +262,7 @@ RSpec.describe CostQuery, :reporting_query_helper do
       end
     end
 
-    describe '#display' do
+    describe "#display" do
       it "gives display? == false when a filter says dont_display!" do
         class TestFilter < Report::Filter::Base
           dont_display!
@@ -287,7 +287,7 @@ RSpec.describe CostQuery, :reporting_query_helper do
       end
     end
 
-    describe '#selectable' do
+    describe "#selectable" do
       it "gives selectable? == false when a filter says not_selectable!" do
         class TestFilter < Report::Filter::Base
           not_selectable!

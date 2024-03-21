@@ -348,11 +348,11 @@ lt:
           learn_about: "Sužinokite daugiau apie naujas galimybes"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_3":
+          "13_4":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                Šioje laidoje yra įvairios naujos savybės bei patobulinimai: <br> <ul class="%{list_styling_class}"> <li>Filtruokite ir įrašykite savo projekto sąrašus.</li> <li>Atskiras Gantt diagramos modulis su naujais numatytais vaizdais.</li> <li>Automatiškai valdomi aplankai OneDrive/SharePoint integracijai.</li> <li>Rodyti „Bendrinamų naudotojų“ skaičių bendrinimo mygtuke ir rodyti juos darbo paketų sąraše.</li> <li>Pagerintas darbo paketų hierarchijos progreso ataskaitų skaičiavimas ir atnaujinimas.</li> </ul>
+                Laidoje yra naujų funkcijų bei patobulinimų: <br> <ul class="%{list_styling_class}"> <li>GitLab integracija (originaliai sukurta Bendruomenės talkininkų)</li> <li>Sudėtingesnis projektų sąrašu funkcionalumas</li> <li>Sudėtingesnis susitikimų modulio funkcionalumas</li> <li>Virusų skenavimo su ClamAV funkcionalumas (Enterprise priedas)</li> <li>PDF eksportas: palaikomi sąrašai lentelėse</li> <li>WebAuthn/FIDO/U2F pridėtas kaip antras kriterijus</li> <li>Į pradinį rinkinį pridėta daugiau kalbų</li> </ul>
     ical_sharing_modal:
       title: "Prenumeruoti kalendorių"
       inital_setup_error_message: "Gaunant duomenis įvyko klaida."

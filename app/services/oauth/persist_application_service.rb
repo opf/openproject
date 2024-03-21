@@ -52,7 +52,7 @@ module OAuth
       return if application.owner_id
 
       application.owner = current_user
-      application.owner_type = 'User'
+      application.owner_type = "User"
     end
 
     def set_secret_and_id

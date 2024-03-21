@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'group show page' do
+RSpec.describe "group show page" do
   let!(:member) { create(:user) }
   let!(:group) { create(:group, lastname: "Bob's Team", members: [member]) }
 
@@ -36,26 +36,26 @@ RSpec.describe 'group show page' do
     login_as current_user
   end
 
-  context 'as an admin' do
+  context "as an admin" do
     shared_let(:admin) { create(:admin) }
     let(:current_user) { admin }
 
-    it 'I can visit the group page' do
+    it "I can visit the group page" do
       visit show_group_path(group)
-      expect(page).to have_css('h2', text: "Bob's Team")
-      expect(page).to have_css('.toolbar-item', text: 'Edit')
-      expect(page).to have_css('li', text: member.name)
+      expect(page).to have_css("h2", text: "Bob's Team")
+      expect(page).to have_css(".toolbar-item", text: "Edit")
+      expect(page).to have_css("li", text: member.name)
     end
   end
 
-  context 'as a regular user' do
+  context "as a regular user" do
     let(:current_user) { create(:user) }
 
-    it 'I can visit the group page' do
+    it "I can visit the group page" do
       visit show_group_path(group)
-      expect(page).to have_css('h2', text: "Bob's Team")
-      expect(page).to have_no_css('.toolbar-item')
-      expect(page).to have_no_css('li', text: member.name)
+      expect(page).to have_css("h2", text: "Bob's Team")
+      expect(page).to have_no_css(".toolbar-item")
+      expect(page).to have_no_css("li", text: member.name)
     end
   end
 end

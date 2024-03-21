@@ -27,20 +27,20 @@
 #++
 
 def require_admin_and_render_template(path)
-  describe 'GET #show' do
-    subject { get 'show' }
+  describe "GET #show" do
+    subject { get "show" }
 
-    describe 'permissions' do
+    describe "permissions" do
       let(:fetch) { subject }
 
-      it_behaves_like 'a controller action with require_admin'
+      it_behaves_like "a controller action with require_admin"
     end
 
-    it 'renders the API settings template' do
+    it "renders the API settings template" do
       subject
 
       expect(response).to be_successful
-      expect(response).to render_template "admin/settings/#{path}/show", 'layouts/admin'
+      expect(response).to render_template "admin/settings/#{path}/show", "layouts/admin"
     end
   end
 end

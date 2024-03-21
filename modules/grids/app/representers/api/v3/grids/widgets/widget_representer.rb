@@ -49,7 +49,7 @@ module API
                    }
 
           def _type
-            'GridWidget'
+            "GridWidget"
           end
         end
       end

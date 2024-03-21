@@ -28,59 +28,69 @@
 
 module Storages::Peripherals::StorageInteraction::Nextcloud
   class FilesQuery
+    Auth = ::Storages::Peripherals::StorageInteraction::Authentication
+
+    def self.call(storage:, auth_strategy:, folder:)
+      new(storage).call(auth_strategy:, folder:)
+    end
+
     def initialize(storage)
-      @uri = storage.uri
-      @configuration = storage.oauth_configuration
+      @storage = storage
     end
 
-    def self.call(storage:, user:, folder:)
-      new(storage).call(user:, folder:)
-    end
-
-    def call(user:, folder:)
-      result = Util.token(user:, configuration: @configuration) do |token|
-        @location_prefix = Util.join_uri_path(@uri.path, "remote.php/dav/files", token.origin_user_id.gsub(' ', '%20'))
-
-        response = OpenProject
-                     .httpx
-                     .request(
-                       "PROPFIND",
-                       Util.join_uri_path(@uri,
-                                          "remote.php/dav/files",
-                                          CGI.escapeURIComponent(token.origin_user_id),
-                                          requested_folder(folder)),
-                       xml: requested_properties,
-                       headers: {
-                         'Depth' => '1',
-                         'Authorization' => "Bearer #{token.access_token}"
-                       }
-                     )
-
-        handle_response(response)
+    def call(auth_strategy:, folder:)
+      if auth_strategy.user.nil?
+        error_data = Storages::StorageErrorData.new(source: self)
+        return Util.error(:error, "Cannot execute query without user context.", error_data)
       end
 
+      origin_user = origin_user_id(auth_strategy.user)
+      @location_prefix = Util.join_uri_path(@storage.uri.path,
+                                            "remote.php/dav/files",
+                                            origin_user.gsub(" ", "%20"))
+
+      result = make_request(auth_strategy:, folder:, user: auth_strategy.user)
       storage_files(result)
     end
 
     private
 
+    def make_request(auth_strategy:, folder:, user:)
+      origin_user = origin_user_id(user)
+
+      Auth[auth_strategy].call(storage: @storage,
+                               http_options: Util.webdav_request_with_depth(1)) do |http|
+        response = http.request("PROPFIND",
+                                Util.join_uri_path(@storage.uri,
+                                                   "remote.php/dav/files",
+                                                   CGI.escapeURIComponent(origin_user),
+                                                   requested_folder(folder)),
+                                xml: requested_properties)
+        handle_response(response)
+      end
+    end
+
     def handle_response(response)
-      error_data = Storages::StorageErrorData.new(source: self, payload: response)
+      error_data = Storages::StorageErrorData.new(source: self.class, payload: response)
 
       case response
       in { status: 200..299 }
         ServiceResult.success(result: response.body)
       in { status: 404 }
-        Util.error(:not_found, 'Outbound request destination not found', error_data)
+        Util.error(:not_found, "Outbound request destination not found", error_data)
       in { status: 401 }
-        Util.error(:unauthorized, 'Outbound request not authorized', error_data)
+        Util.error(:unauthorized, "Outbound request not authorized", error_data)
       else
-        Util.error(:error, 'Outbound request failed', error_data)
+        Util.error(:error, "Outbound request failed", error_data)
       end
     end
 
+    def origin_user_id(user)
+      OAuthClientToken.find_by(user_id: user, oauth_client_id: @storage.oauth_client.id)&.origin_user_id || ""
+    end
+
     def requested_folder(folder)
-      return '' if folder.root?
+      return "" if folder.root?
 
       Util.escape_path(folder.path)
     end
@@ -88,17 +98,17 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     # rubocop:disable Metrics/AbcSize
     def requested_properties
       Nokogiri::XML::Builder.new do |xml|
-        xml['d'].propfind(
-          'xmlns:d' => 'DAV:',
-          'xmlns:oc' => 'http://owncloud.org/ns'
+        xml["d"].propfind(
+          "xmlns:d" => "DAV:",
+          "xmlns:oc" => "http://owncloud.org/ns"
         ) do
-          xml['d'].prop do
-            xml['oc'].fileid
-            xml['oc'].size
-            xml['d'].getcontenttype
-            xml['d'].getlastmodified
-            xml['oc'].permissions
-            xml['oc'].send(:'owner-display-name')
+          xml["d"].prop do
+            xml["oc"].fileid
+            xml["oc"].size
+            xml["d"].getcontenttype
+            xml["d"].getlastmodified
+            xml["oc"].permissions
+            xml["oc"].send(:"owner-display-name")
           end
         end
       end.to_xml
@@ -109,7 +119,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def storage_files(response)
       response.map do |xml|
         parent, *files = Nokogiri::XML(xml)
-                           .xpath('//d:response')
+                           .xpath("//d:response")
                            .to_a
                            .map { |file_element| storage_file(file_element) }
 
@@ -118,12 +128,12 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def ancestors(parent_location)
-      path = parent_location.split('/')
+      path = parent_location.split("/")
       return [] if path.count == 0
 
       path.take(path.count - 1).reduce([]) do |list, item|
         last = list.last
-        prefix = last.nil? || last.location[-1] != '/' ? '/' : ''
+        prefix = last.nil? || last.location[-1] != "/" ? "/" : ""
         location = "#{last&.location}#{prefix}#{item}"
         list.append(forge_ancestor(location))
       end
@@ -136,7 +146,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     end
 
     def name(location)
-      location == '/' ? 'Root' : CGI.unescape(location.split('/').last)
+      location == "/" ? "Root" : CGI.unescape(location.split("/").last)
     end
 
     def storage_file(file_element)
@@ -156,7 +166,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def id(element)
       element
-        .xpath('.//oc:fileid')
+        .xpath(".//oc:fileid")
         .map(&:inner_text)
         .reject(&:empty?)
         .first
@@ -164,21 +174,21 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def location(element)
       texts = element
-                .xpath('d:href')
+                .xpath("d:href")
                 .map(&:inner_text)
 
       return nil if texts.empty?
 
       element_name = texts.first.delete_prefix(@location_prefix)
 
-      return element_name if element_name == '/'
+      return element_name if element_name == "/"
 
-      element_name.delete_suffix('/')
+      element_name.delete_suffix("/")
     end
 
     def size(element)
       element
-        .xpath('.//oc:size')
+        .xpath(".//oc:size")
         .map(&:inner_text)
         .map { |e| Integer(e) }
         .first
@@ -186,22 +196,22 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def mime_type(element)
       element
-        .xpath('.//d:getcontenttype')
+        .xpath(".//d:getcontenttype")
         .map(&:inner_text)
         .reject(&:empty?)
-        .first || 'application/x-op-directory'
+        .first || "application/x-op-directory"
     end
 
     def last_modified_at(element)
       element
-        .xpath('.//d:getlastmodified')
+        .xpath(".//d:getlastmodified")
         .map { |e| DateTime.parse(e) }
         .first
     end
 
     def created_by(element)
       element
-        .xpath('.//oc:owner-display-name')
+        .xpath(".//oc:owner-display-name")
         .map(&:inner_text)
         .reject(&:empty?)
         .first
@@ -210,7 +220,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def permissions(element)
       permissions_string =
         element
-          .xpath('.//oc:permissions')
+          .xpath(".//oc:permissions")
           .map(&:inner_text)
           .reject(&:empty?)
           .first
@@ -218,7 +228,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
       # Nextcloud Dav permissions:
       # https://github.com/nextcloud/server/blob/66648011c6bc278ace57230db44fd6d63d67b864/lib/public/Files/DavUtil.php
       result = []
-      result << :readable if permissions_string.include?('G')
+      result << :readable if permissions_string.include?("G")
       result << :writeable if %w[CK W].reduce(false) { |s, v| s || permissions_string.include?(v) }
       result
     end

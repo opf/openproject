@@ -32,7 +32,7 @@ FactoryBot.define do
 
     sequence(:number)
     sequence(:github_id)
-    state { 'open' }
+    state { "open" }
     github_html_url { "https://github.com/test_user/test_repo/pull/#{number}" }
 
     labels { [] }
@@ -77,11 +77,11 @@ FactoryBot.define do
     trait :open
 
     trait :closed_unmerged do
-      state { 'closed' }
+      state { "closed" }
     end
 
     trait :closed_merged do
-      state { 'closed' }
+      state { "closed" }
       merged { true }
       merged_by { association :github_user }
       merged_at { Time.current }

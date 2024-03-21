@@ -52,7 +52,7 @@ module Components
       end
 
       def open_and_set_display_mode(mode)
-        open_and_switch_to 'Display settings'
+        open_and_switch_to "Display settings"
         choose("display_mode_switch", option: mode)
       end
 
@@ -67,12 +67,12 @@ module Components
       end
 
       def set_display_sums(enable: true)
-        open_and_switch_to 'Display settings'
+        open_and_switch_to "Display settings"
 
         if enable
-          check 'display_sums_switch'
+          check "display_sums_switch"
         else
-          uncheck 'display_sums_switch'
+          uncheck "display_sums_switch"
         end
         save
       end
@@ -82,7 +82,7 @@ module Components
       end
 
       def cancel
-        find("#{selector} .button", text: 'Cancel').click
+        find("#{selector} .button", text: "Cancel").click
       end
 
       def expect_open
@@ -90,7 +90,7 @@ module Components
       end
 
       def open?
-        page.has_selector?('.wp-table--configuration-modal', wait: 1)
+        page.has_selector?(".wp-table--configuration-modal", wait: 1)
       end
 
       def expect_closed
@@ -118,7 +118,7 @@ module Components
       end
 
       def selector
-        '.spot-modal'
+        ".spot-modal"
       end
 
       private
@@ -126,10 +126,10 @@ module Components
       def trigger
         if trigger_parent
           within trigger_parent do
-            find('.wp-table--configuration-modal--trigger')
+            find(".wp-table--configuration-modal--trigger")
           end
         else
-          find('.wp-table--configuration-modal--trigger')
+          find(".wp-table--configuration-modal--trigger")
         end
       end
     end

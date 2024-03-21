@@ -348,11 +348,11 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "13_3":
+          "13_4":
             standard:
-              learn_about_link: https://www.openproject.org/blog/openproject-13-3-release/
+              learn_about_link: https://www.openproject.org/blog/openproject-13-4-release/
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Filtruj i zapisuj niestandardowe listy projektów.</li> <li>Oddzielny moduł wykresów Gantta z nowymi widokami domyślnymi.</li> <li>Automatycznie zarządzane foldery projektów do integracji usług OneDrive/SharePoint. </li> <li>Pokazuj liczbę udostępnień użytkownikom w przycisku udostępniania i wyświetlaj ich na liście pakietów roboczych.</li> <li>Ulepszone obliczenia i aktualizacje raportów postępu dla hierarchii pakietów roboczych.</li> </ul>
+                Wersja zawiera różne nowe funkcje i ulepszenia: <br> <ul class="%{list_styling_class}"> <li>Integracja z GitLab (pierwotnie opracowana przez członków społeczności)</li> <li>Zaawansowane funkcje niestandardowych list projektów</li> <li>Zaawansowane funkcje modułu Spotkania</li> <li>Funkcja skanowania antywirusowego za pomocą programu ClamAV (dodatek wersji Enterprise)</li> <li>Eksport w formacie PDF: obsługiwane są listy w komórkach tabeli</li> <li>Dodano WebAuthn/FIDO/U2F jako drugi skłądnik uwierzytelniania.</li> <li>Do domyślnie dostępnego zestawu dodano więcej języków </li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -444,7 +444,7 @@ pl:
     label_less_than_ago: "mniej niż dni temu"
     label_loading: "Ładowanie..."
     label_mail_notification: "Powiadomienia e-mail"
-    label_manage_columns: "Manage and reorder columns"
+    label_manage_columns: "Zarządzaj kolumnami i zmieniaj ich kolejność"
     label_me: "ja"
     label_meeting_agenda: "Plan spotkania"
     label_meeting_minutes: "Protokół ze spotkania"
@@ -483,7 +483,7 @@ pl:
     label_report: "Raport"
     label_repository_plural: "Repozytoria"
     label_save_as: "Zapisz jako"
-    label_search_columns: "Search a column"
+    label_search_columns: "Wyszukaj kolumnę"
     label_select_project: "Wybierz projekt"
     label_select_watcher: "Wybierz obserwatora..."
     label_selected_filter_list: "Wybrane filtry"
@@ -1003,7 +1003,7 @@ pl:
         all_open: "Wszystkie otwarte"
         summary: "Podsumowanie"
         shared_with_users: "Udostępnione użytkownikom"
-        shared_with_me: "Shared with me"
+        shared_with_me: "Udostępnione dla mnie"
       jump_marks:
         pagination: "Przejdź do stronicowania tabeli"
         label_pagination: "Kliknij tutaj, aby pominąć tablicę zadań i przejść do stronicowania"

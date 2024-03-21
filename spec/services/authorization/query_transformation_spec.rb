@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Authorization::QueryTransformation do
-  let(:on) { 'on' }
-  let(:name) { 'name' }
-  let(:after) { 'after' }
-  let(:before) { 'before' }
+  let(:on) { "on" }
+  let(:name) { "name" }
+  let(:after) { "after" }
+  let(:before) { "before" }
   let(:block) { ->(*args) { args } }
 
   let(:instance) do
@@ -43,30 +43,30 @@ RSpec.describe Authorization::QueryTransformation do
                         block
   end
 
-  context 'initialSetup' do
-    it 'sets on' do
+  context "initialSetup" do
+    it "sets on" do
       expect(instance.on).to eql on
     end
 
-    it 'sets name' do
+    it "sets name" do
       expect(instance.name).to eql name
     end
 
-    it 'sets after' do
+    it "sets after" do
       expect(instance.after).to eql after
     end
 
-    it 'sets before' do
+    it "sets before" do
       expect(instance.before).to eql before
     end
 
-    it 'sets block' do
+    it "sets block" do
       expect(instance.block).to eql block
     end
   end
 
-  context 'apply' do
-    it 'calls the block' do
+  context "apply" do
+    it "calls the block" do
       expect(instance.apply(1, 2, 3)).to contain_exactly(1, 2, 3)
     end
   end

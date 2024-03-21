@@ -1,1 +1,1 @@
-require 'open_project/ldap_groups'
+require "open_project/ldap_groups"

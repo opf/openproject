@@ -26,27 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/project_include/project_include_shared_examples'
-require_relative '../support/pages/calendar'
+require "spec_helper"
+require "features/work_packages/project_include/project_include_shared_examples"
+require_relative "../support/pages/calendar"
 
-RSpec.describe 'Calendar project include', :js do
+RSpec.describe "Calendar project include", :js do
   shared_let(:enabled_modules) { %w[work_package_tracking calendar_view] }
   shared_let(:permissions) do
     %i[view_work_packages view_calendar edit_work_packages add_work_packages save_queries manage_public_queries]
   end
 
-  it_behaves_like 'has a project include dropdown' do
+  it_behaves_like "has a project include dropdown" do
     let(:work_package_view) { Pages::Calendar.new project }
     let(:dropdown) { Components::ProjectIncludeComponent.new }
 
-    it 'correctly filters work packages by project' do
+    it "correctly filters work packages by project" do
       dropdown.expect_count 1, wait: 10
 
       # Make sure the filter gets set once
       dropdown.toggle!
       dropdown.expect_open
-      dropdown.click_button 'Apply'
+      dropdown.click_button "Apply"
       dropdown.expect_closed
 
       work_package_view.expect_event task
@@ -57,7 +57,7 @@ RSpec.describe 'Calendar project include', :js do
 
       dropdown.toggle!
       dropdown.toggle_checkbox(sub_sub_sub_project.id)
-      dropdown.click_button 'Apply'
+      dropdown.click_button "Apply"
       dropdown.expect_count 1
 
       work_package_view.expect_event sub_bug, present: true
@@ -65,7 +65,7 @@ RSpec.describe 'Calendar project include', :js do
 
       dropdown.toggle!
       dropdown.toggle_checkbox(other_project.id)
-      dropdown.click_button 'Apply'
+      dropdown.click_button "Apply"
       dropdown.expect_count 2
 
       work_package_view.expect_event other_task

@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'project menu' do
+RSpec.describe "project menu" do
   let(:current_user) { create(:admin) }
-  let!(:project) { create(:valid_project, identifier: 'ponyo', name: 'Ponyo') }
+  let!(:project) { create(:valid_project, identifier: "ponyo", name: "Ponyo") }
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -59,59 +59,59 @@ RSpec.describe 'project menu' do
   # Refer to `engine.rb` to see where the menu entries are declared.
   #
   # * May apply to routes used with parameters in general.
-  describe '#18788 (cost reports not found (404)) regression test' do
-    describe 'link to project cost reports' do
-      shared_examples 'it leads to the project costs reports' do
+  describe "#18788 (cost reports not found (404)) regression test" do
+    describe "link to project cost reports" do
+      shared_examples "it leads to the project costs reports" do
         before do
           visit current_path
         end
 
-        it 'leads to cost reports' do
-          find("#main-menu #{test_selector('op-menu--item-action')}", text: 'Time and costs').click
+        it "leads to cost reports" do
+          find("#main-menu #{test_selector('op-menu--item-action')}", text: "Time and costs").click
 
           expect(page).to have_current_path("/projects/ponyo/cost_reports")
         end
       end
 
       context "when on the project's activity page" do
-        let(:current_path) { '/projects/ponyo/activity' }
+        let(:current_path) { "/projects/ponyo/activity" }
 
-        it_behaves_like 'it leads to the project costs reports'
+        it_behaves_like "it leads to the project costs reports"
       end
 
       context "when on the project's calendars" do
-        let(:current_path) { '/projects/ponyo/calendars' }
+        let(:current_path) { "/projects/ponyo/calendars" }
 
-        it_behaves_like 'it leads to the project costs reports'
+        it_behaves_like "it leads to the project costs reports"
       end
     end
 
-    describe 'link to global cost reports' do
-      shared_examples 'it leads to the cost reports' do
+    describe "link to global cost reports" do
+      shared_examples "it leads to the cost reports" do
         before do
           visit current_path
         end
 
-        it 'leads to cost reports' do
+        it "leads to cost reports" do
           # doing what no human can - click on invisible items.
           # This way, we avoid having to use selenium and by that increase stability.
-          find("#main-menu #{test_selector('op-menu--item-action')}", text: 'Time and costs').click
+          find("#main-menu #{test_selector('op-menu--item-action')}", text: "Time and costs").click
 
           # to make sure we're not seeing the project cost reports:
-          expect(page).to have_no_text('Ponyo')
+          expect(page).to have_no_text("Ponyo")
         end
       end
 
       context "when on the project's activity page" do
-        let(:current_path) { '/projects/ponyo/activity' }
+        let(:current_path) { "/projects/ponyo/activity" }
 
-        it_behaves_like 'it leads to the cost reports'
+        it_behaves_like "it leads to the cost reports"
       end
 
       context "when on the project's calendar" do
-        let(:current_path) { '/projects/ponyo/calendars' }
+        let(:current_path) { "/projects/ponyo/calendars" }
 
-        it_behaves_like 'it leads to the cost reports'
+        it_behaves_like "it leads to the cost reports"
       end
     end
   end

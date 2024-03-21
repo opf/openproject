@@ -29,7 +29,7 @@
 # ++
 
 class Projects::ExportListModalComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-  MODAL_ID = 'op-project-list-export-dialog'
+  MODAL_ID = "op-project-list-export-dialog"
 
   options :query
 end

@@ -1,5 +1,5 @@
-require 'google/apis/gmail_v1'
-require 'googleauth'
+require "google/apis/gmail_v1"
+require "googleauth"
 
 module Redmine
   module Gmail
@@ -12,7 +12,7 @@ module Redmine
         gmail = Google::Apis::GmailV1::GmailService.new
         gmail.authorization = authenticate(credentials, username)
 
-        gmail.list_user_messages('me', q: query, max_results: gmail_options[:max_emails]).messages.each do |message|
+        gmail.list_user_messages("me", q: query, max_results: gmail_options[:max_emails]).messages.each do |message|
           receive(message.id, gmail, gmail_options, options)
         end
       end
@@ -28,7 +28,7 @@ module Redmine
       end
 
       def receive(message_id, gmail, gmail_options, options)
-        email = gmail.get_user_message('me', message_id, format: "raw")
+        email = gmail.get_user_message("me", message_id, format: "raw")
         msg = email.raw
 
         raise "Messages was not successfully handled." unless MailHandler.receive(msg, options)
@@ -42,7 +42,7 @@ module Redmine
       def message_received(message_id, gmail, _gmail_options)
         log_debug { "Message #{message_id} successfully received" }
 
-        modify_request = Google::Apis::GmailV1::ModifyThreadRequest.new(remove_label_ids: ['UNREAD'])
+        modify_request = Google::Apis::GmailV1::ModifyThreadRequest.new(remove_label_ids: ["UNREAD"])
         gmail.modify_message("me", message_id, modify_request)
       end
 
@@ -50,7 +50,7 @@ module Redmine
         log_debug { "Message #{message_id} can not be processed" }
 
         if gmail_options[:read_on_failure]
-          modify_request = Google::Apis::GmailV1::ModifyThreadRequest.new(remove_label_ids: ['UNREAD'])
+          modify_request = Google::Apis::GmailV1::ModifyThreadRequest.new(remove_label_ids: ["UNREAD"])
           gmail.modify_message("me", message_id, modify_request)
         end
       end

@@ -29,7 +29,7 @@
 module JournalFormatter
   class NamedAssociation < Attribute
     def render(key_with_id, values, options = { html: true })
-      key = key_with_id.to_s.delete_suffix('_id')
+      key = key_with_id.to_s.delete_suffix("_id")
       label, old_value, value = format_details(key, values, cache: options[:cache])
 
       if options[:html]

@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -43,7 +43,7 @@ module API
         property :github_avatar_url, as: :avatarUrl
 
         def _type
-          'GithubUser'
+          "GithubUser"
         end
       end
     end

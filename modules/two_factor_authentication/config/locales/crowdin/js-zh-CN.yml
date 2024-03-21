@@ -23,4 +23,4 @@ zh-CN:
   js:
     two_factor_authentication:
       errors:
-        aborted: "The authentication was cancelled. Please try again."
+        aborted: "身份验证已取消。请重试。"

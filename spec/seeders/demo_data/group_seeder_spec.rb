@@ -28,14 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe DemoData::GroupSeeder do
   subject(:seeder) { described_class.new(seed_data) }
 
   let(:seed_data) { Source::SeedData.new(data_hash) }
 
-  context 'with a group defined' do
+  context "with a group defined" do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
         groups:
@@ -44,13 +44,13 @@ RSpec.describe DemoData::GroupSeeder do
       SEEDING_DATA_YAML
     end
 
-    it 'creates the corresponding group with the given name as lastname' do
+    it "creates the corresponding group with the given name as lastname" do
       seeder.seed!
       created_group = Group.last
-      expect(created_group).to have_attributes(lastname: 'Architects')
+      expect(created_group).to have_attributes(lastname: "Architects")
     end
 
-    it 'references the group in the seed data' do
+    it "references the group in the seed data" do
       seeder.seed!
       created_group = Group.last
       expect(seed_data.find_reference(:architects)).to eq(created_group)

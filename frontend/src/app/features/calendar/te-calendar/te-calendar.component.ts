@@ -34,7 +34,9 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import interactionPlugin from '@fullcalendar/interaction';
-import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import {
+  HalResourceEditingService,
+} from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { TimeEntryEditService } from 'core-app/shared/components/time_entries/edit/edit.service';
 import { TimeEntryCreateService } from 'core-app/shared/components/time_entries/create/create.service';
 import { ColorsService } from 'core-app/shared/components/colors/colors.service';
@@ -50,10 +52,11 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { VerboseFormattingArg } from '@fullcalendar/common';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { Subject, firstValueFrom } from 'rxjs';
+import { firstValueFrom, Subject } from 'rxjs';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
 import { IDay } from 'core-app/core/state/days/day.model';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
+import allLocales from '@fullcalendar/core/locales-all';
 
 interface TimeEntrySchema extends SchemaResource {
   activity:IFieldSchema;
@@ -138,6 +141,7 @@ export class TimeEntryCalendarComponent {
 
   public additionalOptions:CalendarOptionsWithDayGrid = {
     editable: false,
+    locales: allLocales,
     locale: this.i18n.locale,
     fixedWeekCount: false,
     headerToolbar: {

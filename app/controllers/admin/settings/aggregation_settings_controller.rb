@@ -37,7 +37,7 @@ module Admin::Settings
     end
 
     def default_breadcrumb
-      t(:'menus.admin.aggregation')
+      t(:"menus.admin.aggregation")
     end
 
     def show_local_breadcrumb

@@ -50,14 +50,14 @@ module API
 
       link :jumpTo do
         {
-          href: make_page_link(page: '{offset}', page_size: @per_page),
+          href: make_page_link(page: "{offset}", page_size: @per_page),
           templated: true
         }
       end
 
       link :changeSize do
         {
-          href: make_page_link(page: @page, page_size: '{size}'),
+          href: make_page_link(page: @page, page_size: "{size}"),
           templated: true
         }
       end

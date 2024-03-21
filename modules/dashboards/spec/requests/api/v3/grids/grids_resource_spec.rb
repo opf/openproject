@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Grids resource', content_type: :json do
+RSpec.describe "API v3 Grids resource", content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -46,7 +46,7 @@ RSpec.describe 'API v3 Grids resource', content_type: :json do
   end
   let(:widgets) do
     [create(:grid_widget,
-            identifier: 'custom_text',
+            identifier: "custom_text",
             start_column: 1,
             end_column: 3,
             start_row: 1,
@@ -63,7 +63,7 @@ RSpec.describe 'API v3 Grids resource', content_type: :json do
 
   subject(:response) { last_response }
 
-  describe '#get' do
+  describe "#get" do
     let(:path) { api_v3_paths.grid(grid.id) }
 
     let(:stored_grids) do
@@ -76,42 +76,42 @@ RSpec.describe 'API v3 Grids resource', content_type: :json do
       get path
     end
 
-    it 'responds with 200 OK' do
+    it "responds with 200 OK" do
       expect(subject.status).to eq(200)
     end
 
-    it 'sends a grid block' do
+    it "sends a grid block" do
       expect(subject.body)
-        .to be_json_eql('Grid'.to_json)
-        .at_path('_type')
+        .to be_json_eql("Grid".to_json)
+        .at_path("_type")
     end
 
-    it 'identifies the url the grid is stored for' do
+    it "identifies the url the grid is stored for" do
       expect(subject.body)
         .to be_json_eql(project_dashboards_path(project).to_json)
-        .at_path('_links/scope/href')
+        .at_path("_links/scope/href")
     end
 
-    it 'has a widget that renders custom text' do
+    it "has a widget that renders custom text" do
       expect(subject.body)
-        .to be_json_eql('custom_text'.to_json)
-        .at_path('widgets/0/identifier')
+        .to be_json_eql("custom_text".to_json)
+        .at_path("widgets/0/identifier")
 
       expect(subject.body)
         .to be_json_eql(custom_text.to_json)
-        .at_path('widgets/0/options/text/raw')
+        .at_path("widgets/0/options/text/raw")
     end
 
-    context 'with the grid not existing' do
+    context "with the grid not existing" do
       let(:path) { api_v3_paths.grid(grid.id + 1) }
 
-      it 'responds with 404 NOT FOUND' do
+      it "responds with 404 NOT FOUND" do
         expect(subject.status).to be 404
       end
     end
   end
 
-  describe '#patch' do
+  describe "#patch" do
     let(:path) { api_v3_paths.grid(grid.id) }
 
     let(:stored_grids) do
@@ -123,7 +123,7 @@ RSpec.describe 'API v3 Grids resource', content_type: :json do
     let(:params) do
       {
         rowCount: 10,
-        name: 'foo',
+        name: "foo",
         columnCount: 15,
         widgets: widget_params
       }.with_indifferent_access
@@ -135,7 +135,7 @@ RSpec.describe 'API v3 Grids resource', content_type: :json do
       patch path, params.to_json
     end
 
-    context 'with an added custom_text widget' do
+    context "with an added custom_text widget" do
       let(:widget_params) do
         [
           {
@@ -157,38 +157,38 @@ RSpec.describe 'API v3 Grids resource', content_type: :json do
       end
       let(:widgets) { [] }
 
-      it 'responds with 200 OK' do
+      it "responds with 200 OK" do
         expect(subject.status).to eq(200)
       end
 
-      it 'returns the altered grid block with the added widget' do
+      it "returns the altered grid block with the added widget" do
         expect(subject.body)
-          .to be_json_eql('Grid'.to_json)
-          .at_path('_type')
+          .to be_json_eql("Grid".to_json)
+          .at_path("_type")
         expect(subject.body)
-          .to be_json_eql('foo'.to_json)
-          .at_path('name')
+          .to be_json_eql("foo".to_json)
+          .at_path("name")
         expect(subject.body)
-          .to be_json_eql(params['rowCount'].to_json)
-          .at_path('rowCount')
+          .to be_json_eql(params["rowCount"].to_json)
+          .at_path("rowCount")
         expect(subject.body)
-          .to be_json_eql(params['widgets'][0]['identifier'].to_json)
-          .at_path('widgets/0/identifier')
+          .to be_json_eql(params["widgets"][0]["identifier"].to_json)
+          .at_path("widgets/0/identifier")
         expect(subject.body)
-          .to be_json_eql(params['widgets'][0]['options']['text']['raw'].to_json)
-          .at_path('widgets/0/options/text/raw')
+          .to be_json_eql(params["widgets"][0]["options"]["text"]["raw"].to_json)
+          .at_path("widgets/0/options/text/raw")
         expect(subject.body)
-          .to be_json_eql(params['widgets'][0]['options']['name'].to_json)
-          .at_path('widgets/0/options/name')
+          .to be_json_eql(params["widgets"][0]["options"]["name"].to_json)
+          .at_path("widgets/0/options/name")
       end
 
-      it 'perists the changes' do
+      it "perists the changes" do
         expect(grid.reload.row_count)
-          .to eql params['rowCount']
-        expect(grid.reload.widgets[0].options['text'])
-          .to eql params['widgets'][0]['options']['text']['raw']
-        expect(grid.reload.widgets[0].options['name'])
-          .to eql params['widgets'][0]['options']['name']
+          .to eql params["rowCount"]
+        expect(grid.reload.widgets[0].options["text"])
+          .to eql params["widgets"][0]["options"]["text"]["raw"]
+        expect(grid.reload.widgets[0].options["name"])
+          .to eql params["widgets"][0]["options"]["name"]
       end
     end
   end

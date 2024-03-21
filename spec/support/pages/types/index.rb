@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
+require "support/pages/page"
 
 module Pages
   module Types
@@ -36,7 +36,7 @@ module Pages
       end
 
       def expect_listed(*types)
-        rows = page.all 'td.timelines-pet-name'
+        rows = page.all "td.timelines-pet-name"
 
         expected = types.map { |t| canonical_name(t) }
 
@@ -52,8 +52,8 @@ module Pages
       end
 
       def click_new
-        within '.toolbar-items' do
-          click_link 'Type'
+        within ".toolbar-items" do
+          click_link "Type"
         end
       end
 
@@ -66,7 +66,7 @@ module Pages
       def delete(type)
         accept_alert do
           within_row(type) do
-            find('.icon-delete').click
+            find(".icon-delete").click
           end
         end
       end
@@ -74,7 +74,7 @@ module Pages
       private
 
       def within_row(type)
-        row = page.find('table tr', text: canonical_name(type))
+        row = page.find("table tr", text: canonical_name(type))
 
         within row do
           yield row

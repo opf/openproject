@@ -52,25 +52,25 @@ class IndividualPrincipalBaseFilterComponent < ApplicationComponent
 
     def filter_name(query, name)
       if name.present?
-        query.where(:any_name_attribute, '~', name)
+        query.where(:any_name_attribute, "~", name)
       end
     end
 
     def filter_group(query, group_id)
       if group_id.present?
-        query.where(:group, '=', group_id)
+        query.where(:group, "=", group_id)
       end
     end
 
     def filter_role(query, role_id)
       if role_id.present?
-        query.where(:role_id, '=', role_id)
+        query.where(:role_id, "=", role_id)
       end
     end
 
     def filter_project(query, project_id)
       if project_id.present?
-        query.where(:project_id, '=', project_id)
+        query.where(:project_id, "=", project_id)
       end
     end
 

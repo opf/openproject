@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe ApplicationHelper do
-  describe '.link_to_if_authorized' do
+  describe ".link_to_if_authorized" do
     let(:project) { create(:valid_project) }
     let(:project_member) do
       create(:user,
@@ -43,15 +43,15 @@ RSpec.describe ApplicationHelper do
              type: project.types.first)
     end
 
-    context 'if user is authorized' do
+    context "if user is authorized" do
       before do
         expect(self).to receive(:authorize_for).and_return(true)
-        @response = link_to_if_authorized('link_content', {
-                                            controller: 'work_packages',
-                                            action: 'show',
+        @response = link_to_if_authorized("link_content", {
+                                            controller: "work_packages",
+                                            action: "show",
                                             id: issue
                                           },
-                                          class: 'fancy_css_class')
+                                          class: "fancy_css_class")
       end
 
       subject { @response }
@@ -61,15 +61,15 @@ RSpec.describe ApplicationHelper do
       it { is_expected.to match /fancy_css_class/ }
     end
 
-    context 'if user is unauthorized' do
+    context "if user is unauthorized" do
       before do
         expect(self).to receive(:authorize_for).and_return(false)
-        @response = link_to_if_authorized('link_content', {
-                                            controller: 'work_packages',
-                                            action: 'show',
+        @response = link_to_if_authorized("link_content", {
+                                            controller: "work_packages",
+                                            action: "show",
                                             id: issue
                                           },
-                                          class: 'fancy_css_class')
+                                          class: "fancy_css_class")
       end
 
       subject { @response }
@@ -77,12 +77,12 @@ RSpec.describe ApplicationHelper do
       it { is_expected.to be_nil }
     end
 
-    context 'allow using the :controller and :action for the target link' do
+    context "allow using the :controller and :action for the target link" do
       before do
         expect(self).to receive(:authorize_for).and_return(true)
-        @response = link_to_if_authorized('By controller/action',
-                                          controller: 'work_packages',
-                                          action: 'show',
+        @response = link_to_if_authorized("By controller/action",
+                                          controller: "work_packages",
+                                          action: "show",
                                           id: issue.id)
       end
 
@@ -92,10 +92,10 @@ RSpec.describe ApplicationHelper do
     end
   end
 
-  describe 'other_formats_links' do
-    context 'link given' do
+  describe "other_formats_links" do
+    context "link given" do
       before do
-        @links = other_formats_links { |f| f.link_to 'Atom', url: { controller: :projects, action: :index } }
+        @links = other_formats_links { |f| f.link_to "Atom", url: { controller: :projects, action: :index } }
       end
 
       it {
@@ -103,29 +103,29 @@ RSpec.describe ApplicationHelper do
       }
     end
 
-    context 'link given but disabled' do
+    context "link given but disabled" do
       before do
         allow(Setting).to receive(:feeds_enabled?).and_return(false)
-        @links = other_formats_links { |f| f.link_to 'Atom', url: { controller: :projects, action: :index } }
+        @links = other_formats_links { |f| f.link_to "Atom", url: { controller: :projects, action: :index } }
       end
 
       it { expect(@links).to be_nil }
     end
   end
 
-  describe 'time_tag' do
+  describe "time_tag" do
     around do |example|
       I18n.with_locale(:en) { example.run }
     end
 
     subject { time_tag(time) }
 
-    context 'with project' do
+    context "with project" do
       before do
         @project = build(:project)
       end
 
-      context 'right now' do
+      context "right now" do
         let(:time) { Time.now }
 
         it { is_expected.to match /^<a/ }
@@ -133,7 +133,7 @@ RSpec.describe ApplicationHelper do
         it { is_expected.to be_html_safe }
       end
 
-      context 'some time ago' do
+      context "some time ago" do
         let(:time) do
           Timecop.travel(2.weeks.ago) do
             Time.now
@@ -146,8 +146,8 @@ RSpec.describe ApplicationHelper do
       end
     end
 
-    context 'without project' do
-      context 'right now' do
+    context "without project" do
+      context "right now" do
         let(:time) { Time.now }
 
         it { is_expected.to match /^<time/ }
@@ -156,7 +156,7 @@ RSpec.describe ApplicationHelper do
         it { is_expected.to be_html_safe }
       end
 
-      context 'some time ago' do
+      context "some time ago" do
         let(:time) do
           Timecop.travel(1.week.ago) do
             Time.now
@@ -171,21 +171,21 @@ RSpec.describe ApplicationHelper do
     end
   end
 
-  describe '.authoring_at' do
-    it 'escapes html from author name' do
-      created = '2023-06-02'
-      author = build(:user, firstname: '<b>Hello</b>', lastname: 'world')
+  describe ".authoring_at" do
+    it "escapes html from author name" do
+      created = "2023-06-02"
+      author = build(:user, firstname: "<b>Hello</b>", lastname: "world")
       author.save! validate: false
       expect(authoring_at(created, author))
         .to eq("Added by <a href=\"/users/#{author.id}\">&lt;b&gt;Hello&lt;/b&gt; world</a> at 2023-06-02")
     end
   end
 
-  describe '.all_lang_options_for_select' do
+  describe ".all_lang_options_for_select" do
     it 'has all languages translated ("English" should appear only once)' do
       impostor_locales =
         all_lang_options_for_select
-          .reject { |_lang, locale| locale == 'en' }
+          .reject { |_lang, locale| locale == "en" }
           .select { |lang, _locale| lang == "English" }
           .map { |_lang, locale| locale }
       expect(impostor_locales.count).to eq(0), <<~ERR
@@ -202,7 +202,7 @@ RSpec.describe ApplicationHelper do
       ERR
     end
 
-    it 'has distinct languages translation' do
+    it "has distinct languages translation" do
       duplicate_langs =
         all_lang_options_for_select
           .map { |lang, _locale| lang }

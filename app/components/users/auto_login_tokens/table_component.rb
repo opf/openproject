@@ -41,10 +41,10 @@ module Users
 
       def headers
         [
-          [:is_current, { caption: I18n.t('users.sessions.current') }],
-          [:browser, { caption: I18n.t('users.sessions.browser') }],
-          [:device, { caption: I18n.t('users.sessions.device') }],
-          [:expires_on, { caption: I18n.t('attributes.expires_at') }]
+          [:is_current, { caption: I18n.t("users.sessions.current") }],
+          [:browser, { caption: I18n.t("users.sessions.browser") }],
+          [:device, { caption: I18n.t("users.sessions.device") }],
+          [:expires_on, { caption: I18n.t("attributes.expires_at") }]
         ]
       end
     end

@@ -53,15 +53,15 @@ module NoResultsHelper
                      display_action:     false,
                      custom_title:       nil,
                      custom_action_text: nil)
-    title_text = custom_title || t('.no_results_title_text', cascade: true) || ''
+    title_text = custom_title || t(".no_results_title_text", cascade: true) || ""
     action_text = if display_action
-                    custom_action_text || t('.no_results_content_text')
+                    custom_action_text || t(".no_results_content_text")
                   else
-                    ''
+                    ""
                   end
-    action_url = action_url || ''
+    action_url = action_url || ""
 
-    render partial: '/common/no_results',
+    render partial: "/common/no_results",
            locals: {
              title_text:,
              action_text:,

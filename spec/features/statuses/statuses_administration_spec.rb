@@ -26,47 +26,47 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Statuses administration' do
+RSpec.describe "Statuses administration" do
   current_user { create(:admin) }
 
-  describe 'New status page' do
+  describe "New status page" do
     before do
       visit new_status_path
     end
 
-    describe 'with EE token', with_ee: %i[readonly_work_packages] do
-      it 'allows to set readonly status' do
-        expect(page).to have_field 'status[is_readonly]', disabled: false
+    describe "with EE token", with_ee: %i[readonly_work_packages] do
+      it "allows to set readonly status" do
+        expect(page).to have_field "status[is_readonly]", disabled: false
       end
     end
 
-    describe 'without EE token' do
-      it 'does not allow to set readonly status' do
-        expect(page).to have_field 'status[is_readonly]', disabled: true
+    describe "without EE token" do
+      it "does not allow to set readonly status" do
+        expect(page).to have_field "status[is_readonly]", disabled: true
       end
     end
   end
 
-  describe 'Work Package statuses page' do
-    context 'without any statuses' do
+  describe "Work Package statuses page" do
+    context "without any statuses" do
       it 'displays the "no results" text' do
         visit statuses_path
-        expect(page).to have_content(I18n.t('no_results_title_text'))
+        expect(page).to have_content(I18n.t("no_results_title_text"))
       end
     end
 
-    context 'with some statuses' do
-      let!(:new_status) { create(:default_status, name: 'I am new') }
-      let!(:in_progress_status) { create(:status, name: 'Working on it') }
-      let!(:closed_status) { create(:closed_status, name: 'Job finished') }
+    context "with some statuses" do
+      let!(:new_status) { create(:default_status, name: "I am new") }
+      let!(:in_progress_status) { create(:status, name: "Working on it") }
+      let!(:closed_status) { create(:closed_status, name: "Job finished") }
 
-      it 'list statuses' do
+      it "list statuses" do
         visit statuses_path
-        expect(page).to have_content('I am new')
-        expect(page).to have_content('Working on it')
-        expect(page).to have_content('Job finished')
+        expect(page).to have_content("I am new")
+        expect(page).to have_content("Working on it")
+        expect(page).to have_content("Job finished")
       end
     end
   end

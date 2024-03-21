@@ -29,7 +29,7 @@
 # ++
 
 class Projects::DeleteListModalComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
-  MODAL_ID = 'op-project-list-delete-dialog'
+  MODAL_ID = "op-project-list-delete-dialog"
 
   options :query
 end

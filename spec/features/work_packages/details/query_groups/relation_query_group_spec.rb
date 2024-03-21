@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package with relation query group', :js, :selenium do
-  include_context 'ng-select-autocomplete helpers'
+RSpec.describe "Work package with relation query group", :js, :selenium do
+  include_context "ng-select-autocomplete helpers"
 
   let(:user) { create(:admin) }
   let(:project) { create(:project, types: [type]) }
@@ -60,8 +60,8 @@ RSpec.describe 'Work package with relation query group', :js, :selenium do
   let(:full_wp) { Pages::FullWorkPackage.new(work_package) }
   let(:relations) { Components::WorkPackages::Relations.new(work_package) }
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
-  let(:relations_tab) { find('.op-tab-row--link', text: 'RELATIONS') }
-  let(:embedded_table) { Pages::EmbeddedWorkPackagesTable.new(first('wp-single-view .work-packages-embedded-view--container')) }
+  let(:relations_tab) { find(".op-tab-row--link", text: "RELATIONS") }
+  let(:embedded_table) { Pages::EmbeddedWorkPackagesTable.new(first("wp-single-view .work-packages-embedded-view--container")) }
 
   let(:visit) { true }
 
@@ -80,14 +80,14 @@ RSpec.describe 'Work package with relation query group', :js, :selenium do
     end
   end
 
-  context 'children table' do
-    it 'creates and removes across all tables' do
+  context "children table" do
+    it "creates and removes across all tables" do
       embedded_table.expect_work_package_count 1
       relations_tab.click
       relations.expect_child(related_work_package)
 
       # Create new work package within embedded table
-      embedded_table.table_container.find("button", text: I18n.t('js.relation_buttons.add_new_child')).click
+      embedded_table.table_container.find("button", text: I18n.t("js.relation_buttons.add_new_child")).click
       subject_field = embedded_table.edit_field(nil, :subject)
       subject_field.expect_active!
       subject_field.set_value("Fresh WP\n")
@@ -107,7 +107,7 @@ RSpec.describe 'Work package with relation query group', :js, :selenium do
     end
   end
 
-  describe 'follower table with project filters' do
+  describe "follower table with project filters" do
     let(:visit) { false }
     let!(:project2) { create(:project, types: [type]) }
     let!(:project3) { create(:project, types: [type]) }
@@ -123,17 +123,17 @@ RSpec.describe 'Work package with relation query group', :js, :selenium do
     let(:type) do
       create(:type_with_relation_query_group, relation_filter: relation_type)
     end
-    let(:query_text) { 'Embedded Table for follows'.upcase }
+    let(:query_text) { "Embedded Table for follows".upcase }
 
     before do
       query = type.attribute_groups.last.query
-      query.add_filter('project_id', '=', [project2.id, project3.id])
+      query.add_filter("project_id", "=", [project2.id, project3.id])
       # User has no permission to save, avoid creating another user to allow it
       query.save!(validate: false)
       type.save!
     end
 
-    context 'with a user who has permission in one project' do
+    context "with a user who has permission in one project" do
       let(:role) { create(:project_role, permissions:) }
       let(:permissions) { %i[view_work_packages add_work_packages edit_work_packages manage_work_package_relations] }
       let(:user) do
@@ -146,24 +146,24 @@ RSpec.describe 'Work package with relation query group', :js, :selenium do
         member.save!
       end
 
-      it 'can load the query and inline create' do
+      it "can load the query and inline create" do
         full_wp.visit!
         full_wp.ensure_page_loaded
 
-        expect(page).to have_css('.attributes-group--header-text', text: query_text, wait: 20)
+        expect(page).to have_css(".attributes-group--header-text", text: query_text, wait: 20)
         embedded_table.expect_work_package_listed related_work_package
         embedded_table.click_inline_create
 
         subject_field = embedded_table.edit_field(nil, :subject)
         subject_field.expect_active!
-        subject_field.set_value 'Another subject'
+        subject_field.set_value "Another subject"
         subject_field.save!
 
-        embedded_table.expect_work_package_subject 'Another subject'
+        embedded_table.expect_work_package_subject "Another subject"
       end
     end
 
-    context 'with a user who has no permission in any project' do
+    context "with a user who has no permission in any project" do
       let(:role) { create(:project_role, permissions:) }
       let(:permissions) { [:view_work_packages] }
       let(:user) do
@@ -171,18 +171,18 @@ RSpec.describe 'Work package with relation query group', :js, :selenium do
                member_with_roles: { project => role })
       end
 
-      it 'hides that group automatically without showing an error' do
+      it "hides that group automatically without showing an error" do
         full_wp.visit!
         full_wp.ensure_page_loaded
 
         # Will first try to load the query, and then hide it.
-        expect(page).to have_no_css('.attributes-group--header-text', text: query_text, wait: 20)
-        expect(page).to have_no_css('.work-packages-embedded-view--container .op-toast.-error')
+        expect(page).to have_no_css(".attributes-group--header-text", text: query_text, wait: 20)
+        expect(page).to have_no_css(".work-packages-embedded-view--container .op-toast.-error")
       end
     end
   end
 
-  context 'follower table' do
+  context "follower table" do
     let(:relation_type) { :follows }
     let(:relation_target) { work_package }
     let!(:independent_work_package) do
@@ -196,23 +196,23 @@ RSpec.describe 'Work package with relation query group', :js, :selenium do
       relations.expect_relation(related_work_package)
     end
 
-    it 'creates and removes across all tables' do
-      embedded_table.table_container.find('button', text: I18n.t('js.relation_buttons.create_new')).click
+    it "creates and removes across all tables" do
+      embedded_table.table_container.find("button", text: I18n.t("js.relation_buttons.create_new")).click
       subject_field = embedded_table.edit_field(nil, :subject)
 
       subject_field.expect_active!
       subject_field.set_value("Fresh WP\n")
 
-      expect(embedded_table.table_container).to have_text('Fresh WP', wait: 10)
-      relations.expect_relation_by_text('Fresh WP')
+      expect(embedded_table.table_container).to have_text("Fresh WP", wait: 10)
+      relations.expect_relation_by_text("Fresh WP")
     end
 
-    it 'add existing, remove it, add it from relations tab, remove from relations tab' do
-      embedded_table.table_container.find('button', text: I18n.t('js.relation_buttons.add_existing')).click
-      embedded_table.table_container.find('.wp-relations-create--form', wait: 10)
+    it "add existing, remove it, add it from relations tab, remove from relations tab" do
+      embedded_table.table_container.find("button", text: I18n.t("js.relation_buttons.add_existing")).click
+      embedded_table.table_container.find(".wp-relations-create--form", wait: 10)
       autocomplete = page.find_test_selector("wp-relations-autocomplete")
       select_autocomplete autocomplete,
-                          results_selector: '.ng-dropdown-panel-items',
+                          results_selector: ".ng-dropdown-panel-items",
                           query: independent_work_package.subject,
                           select_text: independent_work_package.subject
 
@@ -239,9 +239,9 @@ RSpec.describe 'Work package with relation query group', :js, :selenium do
 
       # Check that deletion of relations still work after a page reload
       full_wp.visit!
-      relations_tab = find('.op-tab-row--link', text: 'RELATIONS')
+      relations_tab = find(".op-tab-row--link", text: "RELATIONS")
       relations = Components::WorkPackages::Relations.new(work_package)
-      embedded_table = Pages::EmbeddedWorkPackagesTable.new(first('wp-single-view .work-packages-embedded-view--container'))
+      embedded_table = Pages::EmbeddedWorkPackagesTable.new(first("wp-single-view .work-packages-embedded-view--container"))
 
       embedded_table.table_container.find(".wp-row-#{independent_work_package.id}-table").hover
       embedded_table.table_container.find("#{row} .wp-table-action--unlink").click

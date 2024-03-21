@@ -1,5 +1,7 @@
 module ::TwoFactorAuthentication
   class BaseController < ApplicationController
+    include ::TwoFactorAuthentication::WebauthnRelyingParty
+
     # Ensure 2FA authentication is enabled
     before_action :ensure_enabled_2fa
 
@@ -10,17 +12,17 @@ module ::TwoFactorAuthentication
 
     helper_method :optional_webauthn_challenge_url
 
-    layout 'no_menu'
+    layout "no_menu"
 
     def new
       if params[:type]
         @device_type = params[:type].to_sym
         @device = new_device_type! @device_type
 
-        render 'two_factor_authentication/two_factor_devices/new'
+        render "two_factor_authentication/two_factor_devices/new"
       else
         @available_devices = available_devices
-        render 'two_factor_authentication/two_factor_devices/new_type'
+        render "two_factor_authentication/two_factor_devices/new_type"
       end
     end
 
@@ -32,7 +34,7 @@ module ::TwoFactorAuthentication
       if @device.make_default!
         flash[:notice] = t(:notice_successful_update)
       else
-        flash[:error] = t('two_factor_authentication.devices.make_default_failed')
+        flash[:error] = t("two_factor_authentication.devices.make_default_failed")
       end
 
       redirect_to index_path
@@ -42,14 +44,14 @@ module ::TwoFactorAuthentication
     # Destroy the given device if its not the default
     def destroy
       if @device.default && strategy_manager.enforced?
-        render_400 message: t('two_factor_authentication.devices.is_default_cannot_delete')
+        render_400 message: t("two_factor_authentication.devices.is_default_cannot_delete")
         return
       end
 
       if @device.destroy
         flash[:notice] = t(:notice_successful_delete)
       else
-        flash[:error] = t('two_factor_authentication.devices.failed_to_delete')
+        flash[:error] = t("two_factor_authentication.devices.failed_to_delete")
         Rails.logger.error "Failed to delete #{@device.id} of user#{target_user.id}. Errors: #{@device.errors.full_messages.join(' ')}"
       end
 
@@ -75,7 +77,7 @@ module ::TwoFactorAuthentication
 
       ensure_user_has_webauthn_id!
 
-      webauthn_options = device.options_for_create
+      webauthn_options = device.options_for_create(webauthn_relying_party)
       session[:webauthn_challenge] = webauthn_options.challenge
 
       render json: webauthn_options
@@ -89,8 +91,8 @@ module ::TwoFactorAuthentication
       request_token_for_device(
         @device,
         confirm_path: url_for(action: :confirm, device_id: @device.id),
-        title: I18n.t('two_factor_authentication.devices.confirm_device'),
-        message: I18n.t('two_factor_authentication.devices.text_confirm_to_complete_html', identifier: @device.identifier)
+        title: I18n.t("two_factor_authentication.devices.confirm_device"),
+        message: I18n.t("two_factor_authentication.devices.text_confirm_to_complete_html", identifier: @device.identifier)
       )
     end
 
@@ -112,15 +114,15 @@ module ::TwoFactorAuthentication
     # rubocop:disable Metrics/AbcSize
     def confirm_and_save(result)
       if result.success? && @device.confirm_registration_and_save
-        flash[:notice] = t('two_factor_authentication.devices.registration_complete')
+        flash[:notice] = t("two_factor_authentication.devices.registration_complete")
         true
       elsif !result.success?
         flash[:notice] = nil
-        flash[:error] = t('two_factor_authentication.devices.registration_failed_token_invalid')
+        flash[:error] = t("two_factor_authentication.devices.registration_failed_token_invalid")
         false
       else
         flash[:notice] = nil
-        flash[:error] = t('two_factor_authentication.devices.registration_failed_update')
+        flash[:error] = t("two_factor_authentication.devices.registration_failed_update")
         false
       end
     end
@@ -133,10 +135,10 @@ module ::TwoFactorAuthentication
         flash[:notice] = transmit.result if transmit.result.present?
 
         # Request confirmation from user as in the regular login flow
-        render 'two_factor_authentication/two_factor_devices/confirm', layout: 'base', locals:
+        render "two_factor_authentication/two_factor_devices/confirm", layout: "base", locals:
       else
         error = transmit.errors.full_messages.join(". ")
-        default_message = t('two_factor_authentication.devices.confirm_send_failed')
+        default_message = t("two_factor_authentication.devices.confirm_send_failed")
         flash[:error] = "#{default_message} #{error}"
 
         redirect_to registration_failure_path
@@ -177,13 +179,19 @@ module ::TwoFactorAuthentication
     end
 
     def webauthn_credential
-      @webauthn_credential ||= WebAuthn::Credential.from_create(JSON.parse(params[:device][:webauthn_credential]))
+      @webauthn_credential ||= webauthn_relying_party.verify_registration(
+        JSON.parse(params[:device][:webauthn_credential]),
+        session[:webauthn_challenge]
+      )
     end
 
     def verify_webauthn_credential
-      webauthn_credential.verify(session[:webauthn_challenge])
-      session.delete(:webauthn_challenge)
-      true
+      if webauthn_credential
+        session.delete(:webauthn_challenge)
+        true
+      else
+        false
+      end
     rescue WebAuthn::Error => e
       Rails.logger.error "Failed to verify WebAuthn credential for registration. #{e}"
       false
@@ -239,7 +247,7 @@ module ::TwoFactorAuthentication
     end
 
     def default_breadcrumb
-      t('two_factor_authentication.label_devices')
+      t("two_factor_authentication.label_devices")
     end
 
     def available_devices

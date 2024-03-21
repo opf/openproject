@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe API::V3::CustomActions::CustomActionExecuteRepresenter, 'parsing' do
+RSpec.describe API::V3::CustomActions::CustomActionExecuteRepresenter, "parsing" do
   include API::V3::Utilities::PathHelper
 
   let(:struct) { OpenStruct.new }
@@ -49,32 +49,32 @@ RSpec.describe API::V3::CustomActions::CustomActionExecuteRepresenter, 'parsing'
     struct
   end
 
-  context 'lockVersion' do
+  context "lockVersion" do
     let(:payload) do
       {
-        'lockVersion' => 1
+        "lockVersion" => 1
       }
     end
 
-    it 'sets the lockVersion' do
+    it "sets the lockVersion" do
       expect(subject.lock_version)
-        .to eql payload['lockVersion']
+        .to eql payload["lockVersion"]
     end
   end
 
-  context '_links' do
-    context 'workPackage' do
+  context "_links" do
+    context "workPackage" do
       let(:payload) do
         {
-          '_links' => {
-            'workPackage' => {
-              'href' => api_v3_paths.work_package(work_package.id)
+          "_links" => {
+            "workPackage" => {
+              "href" => api_v3_paths.work_package(work_package.id)
             }
           }
         }
       end
 
-      it 'sets the work_package_id' do
+      it "sets the work_package_id" do
         expect(subject.work_package_id)
           .to eql work_package.id.to_s
       end

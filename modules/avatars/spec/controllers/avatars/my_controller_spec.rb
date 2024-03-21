@@ -1,5 +1,5 @@
-require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
-require File.expand_path(File.dirname(__FILE__) + '/../../shared_examples')
+require File.expand_path(File.dirname(__FILE__) + "/../../spec_helper")
+require File.expand_path(File.dirname(__FILE__) + "/../../shared_examples")
 
 RSpec.describe Avatars::MyAvatarController do
   include_context "there are users with and without avatars"
@@ -11,43 +11,43 @@ RSpec.describe Avatars::MyAvatarController do
     allow(OpenProject::Avatars::AvatarManager).to receive(:avatars_enabled?).and_return enabled
   end
 
-  describe '#show' do
+  describe "#show" do
     before do
       get :show
     end
 
-    it 'renders the edit action' do
+    it "renders the edit action" do
       expect(response).to be_successful
-      expect(response).to render_template 'avatars/my/avatar'
+      expect(response).to render_template "avatars/my/avatar"
     end
   end
 
-  describe '#update' do
-    context 'when not logged in' do
+  describe "#update" do
+    context "when not logged in" do
       let(:user) { User.anonymous }
 
-      it 'renders 403' do
+      it "renders 403" do
         post :update
         expect(response).to redirect_to signin_path(back_url: edit_my_avatar_url)
       end
     end
 
-    context 'when not enabled' do
+    context "when not enabled" do
       let(:enabled) { false }
 
-      it 'renders 404' do
+      it "renders 404" do
         post :update
         expect(response.status).to eq 404
       end
     end
 
-    it 'returns invalid method for post request' do
+    it "returns invalid method for post request" do
       post :update
       expect(response).not_to be_successful
       expect(response.status).to eq 405
     end
 
-    it 'calls the service for put' do
+    it "calls the service for put" do
       expect_any_instance_of(Avatars::UpdateService)
         .to receive(:replace)
         .and_return(ServiceResult.success)
@@ -57,7 +57,7 @@ RSpec.describe Avatars::MyAvatarController do
       expect(response.status).to eq 200
     end
 
-    it 'calls the service for put' do
+    it "calls the service for put" do
       expect_any_instance_of(Avatars::UpdateService)
         .to receive(:replace)
         .and_return(ServiceResult.failure)
@@ -68,27 +68,27 @@ RSpec.describe Avatars::MyAvatarController do
     end
   end
 
-  describe '#delete' do
-    it 'returns invalid method for post request' do
+  describe "#delete" do
+    it "returns invalid method for post request" do
       post :destroy
       expect(response).not_to be_successful
       expect(response.status).to eq 405
     end
 
-    it 'calls the service for delete' do
+    it "calls the service for delete" do
       expect_any_instance_of(Avatars::UpdateService)
         .to receive(:destroy)
-        .and_return(ServiceResult.success(result: 'message'))
+        .and_return(ServiceResult.success(result: "message"))
 
       delete :destroy
-      expect(flash[:notice]).to include 'message'
+      expect(flash[:notice]).to include "message"
       expect(flash[:error]).not_to be_present
       expect(response).to redirect_to controller.send :redirect_path
     end
 
-    it 'calls the service for delete' do
+    it "calls the service for delete" do
       result = ServiceResult.failure
-      result.errors.add :base, 'error'
+      result.errors.add :base, "error"
 
       expect_any_instance_of(Avatars::UpdateService)
         .to receive(:destroy)
@@ -97,7 +97,7 @@ RSpec.describe Avatars::MyAvatarController do
       delete :destroy
       expect(response).not_to be_successful
       expect(flash[:notice]).not_to be_present
-      expect(flash[:error]).to include 'error'
+      expect(flash[:error]).to include "error"
       expect(response).to redirect_to controller.send :redirect_path
     end
   end

@@ -38,7 +38,7 @@ FactoryBot.define do
     details_url { "https://gitlab.com/test_user/test_repo/commit/#{commit_id}" }
     gitlab_html_url { "https://gitlab.com/test_user/test_repo/pipelines/#{gitlab_id}" }
     gitlab_user_avatar_url { "https://www.gravatar.com/avatar/#{gitlab_id}/owner.jpg" }
-    status { 'pending' }
+    status { "pending" }
     started_at { 1.hour.ago }
     completed_at { nil }
     project_id { 1 }
@@ -48,7 +48,7 @@ FactoryBot.define do
     end
 
     trait :complete do
-      status { 'success' }
+      status { "success" }
       completed_at { 1.minute.ago }
     end
 
@@ -61,14 +61,14 @@ FactoryBot.define do
     end
   end
 
-  factory :gitlab_pipeline_ci_detail, class: 'Hash' do
+  factory :gitlab_pipeline_ci_detail, class: "Hash" do
     skip_create
 
     initialize_with { attributes }
 
     stage { %w[test build deploy].sample }
     sequence(:name) { |n| "job_#{n}" }
-    status { 'success' }
+    status { "success" }
     started_at { 1.hour.ago }
     created_at { started_at }
     finished_at { nil }

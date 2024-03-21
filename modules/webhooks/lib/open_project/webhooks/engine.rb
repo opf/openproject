@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/plugins'
+require "open_project/plugins"
 
 module OpenProject::Webhooks
   class Engine < ::Rails::Engine
@@ -34,18 +34,18 @@ module OpenProject::Webhooks
 
     include OpenProject::Plugins::ActsAsOpEngine
 
-    register 'openproject-webhooks',
+    register "openproject-webhooks",
              bundled: true,
-             author_url: 'https://www.openproject.org' do
+             author_url: "https://www.openproject.org" do
       menu :admin_menu,
            :plugin_webhooks,
-           { controller: 'webhooks/outgoing/admin', action: :index },
+           { controller: "webhooks/outgoing/admin", action: :index },
            if: Proc.new { User.current.admin? },
            parent: :api_and_webhooks,
-           caption: :'webhooks.plural'
+           caption: :"webhooks.plural"
     end
 
-    initializer 'webhooks.subscribe_to_notifications' do |app|
+    initializer "webhooks.subscribe_to_notifications" do |app|
       app.config.after_initialize do
         ::OpenProject::Webhooks::EventResources.subscribe!
       end
@@ -54,7 +54,7 @@ module OpenProject::Webhooks
     add_cron_jobs do
       {
         CleanupWebhookLogsJob: {
-          cron: '28 5 * * 7', # runs at 5:28 on Sunday
+          cron: "28 5 * * 7", # runs at 5:28 on Sunday
           class: ::CleanupWebhookLogsJob.name
         }
       }

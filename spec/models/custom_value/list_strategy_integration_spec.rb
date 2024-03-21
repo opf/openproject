@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe CustomValue::ListStrategy, 'integration tests' do
+RSpec.describe CustomValue::ListStrategy, "integration tests" do
   let(:type) { create(:type) }
   let(:project) { create(:project, types: [type]) }
   let!(:custom_field) do
@@ -38,7 +38,7 @@ RSpec.describe CustomValue::ListStrategy, 'integration tests' do
       multi_value: true,
       types: [type],
       projects: [project],
-      possible_values: ['A', 'B']
+      possible_values: ["A", "B"]
     )
   end
 
@@ -46,17 +46,17 @@ RSpec.describe CustomValue::ListStrategy, 'integration tests' do
     create(:work_package,
            project:,
            type:,
-           custom_values: { custom_field.id => custom_field.custom_options.find_by(value: 'A') })
+           custom_values: { custom_field.id => custom_field.custom_options.find_by(value: "A") })
   end
 
-  it 'can handle invalid CustomOptions (Regression test)' do
+  it "can handle invalid CustomOptions (Regression test)" do
     expect(work_package.public_send(custom_field.attribute_getter)).to eq(%w(A))
 
     # Remove the custom value without replacement
-    CustomValue.find_by(customized_id: work_package.id).update_columns(value: 'invalid')
+    CustomValue.find_by(customized_id: work_package.id).update_columns(value: "invalid")
     work_package.reload
     work_package.reset_custom_values!
 
-    expect(work_package.public_send(custom_field.attribute_getter)).to eq(['invalid not found'])
+    expect(work_package.public_send(custom_field.attribute_getter)).to eq(["invalid not found"])
   end
 end

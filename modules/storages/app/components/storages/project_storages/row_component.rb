@@ -57,24 +57,24 @@ module Storages::ProjectStorages
     end
 
     def members_connection_status_link
-      link_to '',
+      link_to "",
               project_settings_project_storage_members_path(project_id: project_storage.project,
                                                             project_storage_id: project_storage),
-              class: 'icon icon-group',
-              title: I18n.t(:'storages.page_titles.project_settings.members_connection_status')
+              class: "icon icon-group",
+              title: I18n.t(:"storages.page_titles.project_settings.members_connection_status")
     end
 
     def edit_link
-      link_to '',
+      link_to "",
               edit_project_settings_project_storage_path(project_id: project_storage.project, id: project_storage),
-              class: 'icon icon-edit',
+              class: "icon icon-edit",
               title: I18n.t(:button_edit)
     end
 
     def delete_link
-      link_to '',
+      link_to "",
               confirm_destroy_project_settings_project_storage_path(project_id: project_storage.project, id: project_storage),
-              class: 'icon icon-delete',
+              class: "icon icon-delete",
               title: I18n.t(:button_delete),
               method: :get
     end
