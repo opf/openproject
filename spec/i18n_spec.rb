@@ -28,9 +28,16 @@ RSpec.describe I18n do
     expect(non_normalized).to be_empty, error_message
   end
 
-  it 'does not have inconsistent interpolations' do
-    error_message = "#{inconsistent_interpolations.leaves.count} i18n keys have inconsistent interpolations.\n" \
-                    "Run `i18n-tasks check-consistent-interpolations' to show them"
-    expect(inconsistent_interpolations).to be_empty, error_message
+  context 'for all i18n files' do
+    let(:root_dir) { Pathname.new(__FILE__).dirname.join('..') }
+    let(:config_file) { root_dir.join('config/i18n-tasks-all-files.yml') }
+    let(:i18n) { I18n::Tasks::BaseTask.new(config_file:) }
+
+    it 'does not have inconsistent interpolations' do
+      config_file_relative_path = config_file.relative_path_from(Dir.pwd)
+      error_message = "#{inconsistent_interpolations.leaves.count} i18n keys have inconsistent interpolations.\n" \
+                      "Run 'i18n-tasks check-consistent-interpolations --config #{config_file_relative_path}' to show them"
+      expect(inconsistent_interpolations).to be_empty, error_message
+    end
   end
 end
