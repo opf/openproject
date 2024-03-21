@@ -151,8 +151,7 @@ RSpec.describe 'Activation of storages in projects', :js, :webmock, with_setting
     # Press Edit icon to change the project folder mode to inactive
     page.find('.icon.icon-edit').click
     expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
-                                                                                 id: Storages::ProjectStorage.last,
-                                                                                 storages_project_storage: {project_folder_mode: 'manual'})
+                                                                                 id: Storages::ProjectStorage.last)
     expect(page).to have_text('Edit the file storage to this project')
     expect(page).to have_no_select('storages_project_storage_storage_id')
     expect(page).to have_text(storage.name)
@@ -171,8 +170,7 @@ RSpec.describe 'Activation of storages in projects', :js, :webmock, with_setting
     # Click Edit icon again but cancel the edit
     page.find('.icon.icon-edit').click
     expect(page).to have_current_path edit_project_settings_project_storage_path(project_id: project,
-                                                                                 id: Storages::ProjectStorage.last,
-                                                                                 storages_project_storage: {project_folder_mode: 'inactive'})
+                                                                                 id: Storages::ProjectStorage.last)
     expect(page).to have_text('Edit the file storage to this project')
     page.click_link('Cancel')
     expect(page).to have_current_path project_settings_project_storages_path(project)

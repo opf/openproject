@@ -43,7 +43,7 @@ class RootSeeder < Seeder
   # Returns the demo data in the default language.
   def seed_data
     @seed_data ||= begin
-      raise "cannot generate demo seed data without setting locale first" unless @locale_set
+      raise 'cannot generate demo seed data without setting locale first' unless @locale_set
 
       Source::SeedDataLoader.get_data
     end
@@ -56,6 +56,7 @@ class RootSeeder < Seeder
   end
 
   def seed_data!
+    reset_active_record!
     set_locale! do
       print_status "*** Seeding for locale: '#{I18n.locale}'"
       prepare_seed! do
@@ -90,12 +91,24 @@ class RootSeeder < Seeder
   end
 
   def load_engine_seeders(engine)
-    engine.root.glob("app/seeders/**/*.rb")
+    engine.root.glob('app/seeders/**/*.rb')
       .each { |file| require file }
   end
 
   def rails_engines
     ::Rails::Engine.subclasses.map(&:instance)
+  end
+
+  ##
+  # Clears some schema caches and column information.
+  def reset_active_record!
+    ActiveRecord::Base
+      .descendants
+      .reject(&:abstract_class?)
+      .each do |klass|
+      klass.connection.schema_cache.clear!
+      klass.reset_column_information
+    end
   end
 
   def set_locale!
@@ -113,13 +126,13 @@ class RootSeeder < Seeder
     ActionMailer::Base.perform_deliveries = false
 
     # Avoid asynchronous DeliverWorkPackageCreatedJob
-    previous_execution_mode = Rails.configuration.good_job.execution_mode
-    Rails.configuration.good_job.execution_mode = :inline
+    previous_delay_jobs = Delayed::Worker.delay_jobs
+    Delayed::Worker.delay_jobs = false
 
     yield
   ensure
     ActionMailer::Base.perform_deliveries = previous_perform_deliveries
-    Rails.configuration.good_job.execution_mode = previous_execution_mode
+    Delayed::Worker.delay_jobs = previous_delay_jobs
   end
 
   def seed_basic_data
@@ -128,23 +141,23 @@ class RootSeeder < Seeder
   end
 
   def seed_admin_user
-    print_status "*** Seeding admin user"
+    print_status '*** Seeding admin user'
     AdminUserSeeder.new(seed_data).seed!
   end
 
   def seed_demo_data
-    print_status "*** Seeding demo data"
+    print_status '*** Seeding demo data'
     DemoDataSeeder.new(seed_data).seed!
   end
 
   def seed_env_data
-    print_status "*** Seeding data from environment variables"
+    print_status '*** Seeding data from environment variables'
     EnvDataSeeder.new(seed_data).seed!
   end
 
   def seed_development_data
-    print_status "*** Seeding development data"
-    require "factory_bot"
+    print_status '*** Seeding development data'
+    require 'factory_bot'
     # Load FactoryBot factories
     begin
       ::FactoryBot.find_definitions
@@ -163,7 +176,7 @@ class RootSeeder < Seeder
   end
 
   def desired_lang
-    desired_lang = ENV.fetch("OPENPROJECT_SEED_LOCALE", Setting.default_language)
+    desired_lang = ENV.fetch('OPENPROJECT_SEED_LOCALE', Setting.default_language)
 
     if Redmine::I18n.all_languages.exclude?(desired_lang)
       if raise_on_unknown_language

@@ -105,7 +105,7 @@ RB.Model = (function ($) {
         buttons: [
         {
           text: 'OK',
-          class: 'button -primary',
+          class: 'button -highlight',
           click: function () {
             self.copyFromDialog();
             $(this).dialog("close");

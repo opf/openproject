@@ -31,7 +31,7 @@ module OpenProject
     module_function
 
     def enabled?
-      ENV["APPSIGNAL_ENABLED"] == "true"
+      ENV['APPSIGNAL_ENABLED'] == 'true'
     end
 
     def exception_handler(message, log_context = {})

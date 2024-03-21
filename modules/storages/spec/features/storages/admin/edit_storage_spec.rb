@@ -227,18 +227,8 @@ RSpec.describe 'Admin Edit File storage',
     end
   end
 
-  context 'with Nextcloud Storage and not automatically managed' do
-    let(:storage) { create(:nextcloud_storage, :as_not_automatically_managed, name: 'Cloud Storage') }
-
-    it 'does not render health status information' do
-      visit edit_admin_settings_storage_path(storage)
-
-      expect(page).not_to have_test_selector('storage-health-label-pending', text: 'Pending')
-    end
-  end
-
-  context 'with OneDrive/SharePoint Storage' do
-    let(:storage) { create(:one_drive_storage, :as_automatically_managed, name: 'Test Drive') }
+  context 'with OneDrive Storage' do
+    let(:storage) { create(:one_drive_storage, name: 'Test Drive') }
     let(:oauth_client) { create(:oauth_client, integration: storage) }
 
     before { oauth_client }
@@ -246,9 +236,7 @@ RSpec.describe 'Admin Edit File storage',
     it 'renders an edit view', :webmock do
       visit edit_admin_settings_storage_path(storage)
 
-      expect(page).to be_axe_clean
-        .within('#content')
-        .skipping('heading-order')
+      expect(page).to be_axe_clean.within '#content'
 
       expect(page).to have_test_selector('storage-new-page-header--title', text: 'Test Drive (OneDrive/SharePoint)')
 
@@ -325,22 +313,6 @@ RSpec.describe 'Admin Edit File storage',
         expect(page).to have_test_selector('label-storage_oauth_client_configured-status', text: 'Completed')
         expect(page).to have_test_selector('storage-oauth-client-id-description', text: "OAuth Client ID: 1234567890")
       end
-    end
-
-    it 'renders health status information' do
-      visit edit_admin_settings_storage_path(storage)
-
-      expect(page).to have_test_selector('storage-health-label-pending', text: 'Pending')
-    end
-  end
-
-  context 'with OneDrive/SharePoint Storage and not automatically managed' do
-    let(:storage) { create(:one_drive_storage, :as_not_automatically_managed, name: 'Cloud Storage') }
-
-    it 'does not render health status information' do
-      visit edit_admin_settings_storage_path(storage)
-
-      expect(page).not_to have_test_selector('storage-health-label-pending', text: 'Pending')
     end
   end
 end

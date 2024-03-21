@@ -49,12 +49,12 @@
       transition-timing-function: ease
 
   &--input:checked + &--fake
-    border-color: var(--control-checked-color)
-    background-color: var(--control-checked-color--minor1)
+    border-color: var(--primary-color)
+    background-color: var(--primary-color--minor3)
 
   &--input:checked + &--fake::before
     left: calc(100% - #{$spot-spacing-1} - 1px)
-    background-color: var(--control-checked-color)
+    background-color: var(--primary-color)
 
   &--input:disabled + &--fake,
   &--input:disabled + &--fake::before

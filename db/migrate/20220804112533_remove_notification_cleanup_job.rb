@@ -28,9 +28,14 @@
 
 class RemoveNotificationCleanupJob < ActiveRecord::Migration[7.0]
   def up
-    execute("DELETE FROM delayed_jobs WHERE handler LIKE '%job_class: Notifications::CleanupJob%'")
+    # Remove the cron job no longer desired.
+    # The code itself is removed but keeping it in the database would lead to UninitializedConstant errors.
+    Delayed::Job
+      .where('handler LIKE ?', "%job_class: Notifications::CleanupJob%")
+      .delete_all
+
     Setting
-      .where(name: "notification_retention_period_days")
+      .where(name: 'notification_retention_period_days')
       .delete_all
   end
 end

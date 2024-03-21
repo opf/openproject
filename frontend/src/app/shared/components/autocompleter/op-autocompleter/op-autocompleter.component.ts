@@ -213,8 +213,6 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   @Input() public typeahead:BehaviorSubject<string>|null = null;
 
-  @Input() public resetOnChange?:boolean = false;
-
   // a function for setting the options of ng-select
   @Input() public getOptionsFn:(searchTerm:string) => Observable<unknown>;
 
@@ -396,11 +394,6 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     this.onChange(val);
     this.syncHiddenField(this.mappedInputValue);
     this.change.emit(val);
-
-    if (this.resetOnChange) {
-      this.ngSelectInstance.clearModel();
-    }
-
     this.cdRef.detectChanges();
   }
 

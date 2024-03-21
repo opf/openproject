@@ -26,13 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Storages::CleanupUncontaineredFileLinksJob < ApplicationJob
+class Storages::CleanupUncontaineredFileLinksJob < Cron::CronJob
   queue_with_priority :low
+
+  self.cron_expression = '06 22 * * *'
 
   def perform
     Storages::FileLink
       .where(container: nil)
-      .where("created_at <= ?", Time.current - OpenProject::Configuration.attachments_grace_period.minutes)
+      .where('created_at <= ?', Time.current - OpenProject::Configuration.attachments_grace_period.minutes)
       .delete_all
   end
 end

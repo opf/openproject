@@ -32,47 +32,39 @@ module Storages
   module Peripherals
     module OAuthConfigurations
       class OneDriveConfiguration < ConfigurationInterface
-        Util = StorageInteraction::OneDrive::Util
+        DEFAULT_SCOPES = %w[offline_access files.readwrite.all user.read sites.readwrite.all].freeze
 
         attr_reader :oauth_client
 
-        # rubocop:disable Lint/MissingSuper
         def initialize(storage)
           @storage = storage
           @uri = storage.uri
           @oauth_client = storage.oauth_client
-          @oauth_uri = URI("https://login.microsoftonline.com/#{@storage.tenant_id}/oauth2/v2.0").normalize
+          @oauth_uri = URI('https://login.microsoftonline.com/').normalize
         end
 
-        # rubocop:enable Lint/MissingSuper
-
         def authorization_state_check(access_token)
+          util = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
+
           authorization_check_wrapper do
             OpenProject.httpx.get(
-              Util.join_uri_path(@uri, "/v1.0/me"),
-              headers: { "Authorization" => "Bearer #{access_token}", "Accept" => "application/json" }
+              util.join_uri_path(@uri, '/v1.0/me'),
+              headers: { 'Authorization' => "Bearer #{access_token}", 'Accept' => 'application/json' }
             )
           end
         end
 
         def extract_origin_user_id(rack_access_token)
-          OpenProject.httpx.get(
-            Util.join_uri_path(@uri, "/v1.0/me"),
-            headers: { "Authorization" => "Bearer #{rack_access_token.access_token}", "Accept" => "application/json" }
-          ).raise_for_status.json["id"]
-        end
+          util = ::Storages::Peripherals::StorageInteraction::OneDrive::Util
 
-        def to_httpx_oauth_config
-          StorageInteraction::AuthenticationStrategies::OAuthConfiguration.new(
-            client_id: @oauth_client.client_id,
-            client_secret: @oauth_client.client_secret,
-            issuer: @oauth_uri,
-            scope: %w[https://graph.microsoft.com/.default]
-          )
+          OpenProject.httpx.get(
+            util.join_uri_path(@uri, '/v1.0/me'),
+            headers: { 'Authorization' => "Bearer #{rack_access_token.access_token}", 'Accept' => 'application/json' }
+          ).raise_for_status.json['id']
         end
 
         def scope
-          %w[https://graph.microsoft.com/.default]
+          DEFAULT_SCOPES
         end
 
         def basic_rack_oauth_client
@@ -83,8 +75,8 @@ module Storages
             scheme: @oauth_uri.scheme,
             host: @oauth_uri.host,
             port: @oauth_uri.port,
-            authorization_endpoint: "#{@oauth_uri.path}/authorize",
-            token_endpoint: "#{@oauth_uri.path}/token"
+            authorization_endpoint: "/#{@storage.tenant_id}/oauth2/v2.0/authorize",
+            token_endpoint: "/#{@storage.tenant_id}/oauth2/v2.0/token"
           )
         end
       end

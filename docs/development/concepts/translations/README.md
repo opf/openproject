@@ -115,7 +115,7 @@ public text = {
 Then you can use them as below in your template:
 
 ```html
-<button type="submit" class="button -primary">
+<button type="submit" class="button -highlight">
   <span class="button—text" [innerText]=”text.saveButton”></span>
 </button>
 

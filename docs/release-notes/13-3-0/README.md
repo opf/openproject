@@ -56,7 +56,7 @@ With this release, admins of an Enterprise edition can choose between manually o
 - Bugfix: Lookbook is broken \[[#51787](https://community.openproject.org/wp/51787)\]
 - Bugfix: Anonymous Users (without signing in) cannot load board content \[[#51850](https://community.openproject.org/wp/51850)\]
 - Bugfix: Misalignment in the dropdown on searching work packages \[[#51948](https://community.openproject.org/wp/51948)\]
-- Bugfix: Remove colour in share modal is not correct \[[#52012](https://community.openproject.org/wp/52012)\]
+- Bugfix: Remove color in share modal is not correct \[[#52012](https://community.openproject.org/wp/52012)\]
 - Bugfix: Timeouts as non privileged users \[[#52022](https://community.openproject.org/wp/52022)\]
 - Bugfix: WorkPackage query with baseline filter takes too much time for non-admins \[[#52156](https://community.openproject.org/wp/52156)\]
 - Bugfix: Multi-select user custom field broken in table \[[#52289](https://community.openproject.org/wp/52289)\]
