@@ -28,7 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Projects copy", :js, :with_cuprite do
+RSpec.describe "Projects copy", :js, :with_cuprite, with_good_job_batches: [CopyProjectJob, SendCopyProjectStatusEmailJob] do
   describe "with a full copy example" do
     let!(:project) do
       create(:project,
@@ -369,7 +369,7 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
       editor = Components::WysiwygEditor.new "[data-qa-field-name='customField#{project_custom_field.id}']"
       editor.expect_value "some text cf"
 
-      click_button "Save"
+      click_on "Save"
 
       wait_for_copy_to_finish
 
@@ -494,10 +494,11 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
 
       fill_in "Name", with: "Copied project"
 
-      click_button "Save"
+      click_on "Save"
 
       expect(page).to have_text "The job has been queued and will be processed shortly."
 
+      GoodJob.perform_inline
       perform_enqueued_jobs
 
       expect(copied_project)
@@ -513,6 +514,7 @@ RSpec.describe "Projects copy", :js, :with_cuprite do
     expect(page).to have_text "The job has been queued and will be processed shortly."
 
     # ensure all jobs are run especially emails which might be sent later on
+    GoodJob.perform_inline
     while perform_enqueued_jobs > 0
     end
   end

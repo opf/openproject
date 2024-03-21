@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) 2012-2024 the OpenProject GmbH
@@ -26,34 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Notifications
-  # Creates date alert jobs for users whose local time is 1:00 am.
-  class ScheduleDateAlertsNotificationsJob < ApplicationJob
-    def perform
-      return unless EnterpriseToken.allows_to?(:date_alerts)
+class SendCopyProjectStatusEmailJob < ApplicationJob
+  # Job is to be used as a callback to the CopyProjectJob batch
 
-      Service.new(times_from_scheduled_to_execution).call
+  def perform(batch, _args)
+    if copy_job_succeeded?(batch) && batch.properties[:target_project]
+      send_success_email(batch)
+    else
+      send_failure_email(batch)
     end
+  end
 
-    # Returns times from scheduled execution time to current time in 15 minutes
-    # steps.
-    #
-    # As scheduled execution time can be different from current time by more
-    # than 15 minutes when workers are busy, all times at 15 minutes interval
-    # between scheduled time and current time need to be considered to match
-    # with 1:00am in a time zone.
-    def times_from_scheduled_to_execution
-      time = scheduled_time
-      times = []
-      begin
-        times << time
-        time += 15.minutes
-      end while time < Time.current
-      times
-    end
+  private
 
-    def scheduled_time
-      job_scheduled_at.then { |t| t.change(min: t.min / 15 * 15) }
-    end
+  def copy_job_succeeded?(batch)
+    job = batch.active_jobs.find { |batch_job| batch_job.instance_of?(CopyProjectJob) }
+
+    job.job_status.success?
+  end
+
+  def send_failure_email(batch)
+    ProjectMailer.copy_project_failed(
+      batch.properties[:user],
+      batch.properties[:source_project],
+      batch.properties[:target_project_name],
+      batch.properties[:errors]
+    ).deliver_later
+  end
+
+  def send_success_email(batch)
+    ProjectMailer.copy_project_succeeded(
+      batch.properties[:user],
+      batch.properties[:source_project],
+      batch.properties[:target_project],
+      batch.properties[:errors]
+    ).deliver_later
   end
 end
