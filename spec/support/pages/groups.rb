@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'support/pages/page'
-require 'support/components/autocompleter/ng_select_autocomplete_helpers'
+require "support/pages/page"
+require "support/components/autocompleter/ng_select_autocomplete_helpers"
 
 module Pages
   class Groups < Page
     def path
-      '/admin/groups'
+      "/admin/groups"
     end
 
     def edit_group!(group_name)
@@ -52,16 +52,16 @@ module Pages
 
     def delete_group!(name)
       accept_alert do
-        find_group(name).find('a[data-method=delete]').click
+        find_group(name).find("a[data-method=delete]").click
       end
     end
 
     def find_group(name)
-      find('tr', text: name)
+      find("tr", text: name)
     end
 
     def has_group?(name)
-      has_selector? 'tr', text: name
+      has_selector? "tr", text: name
     end
 
     def group(group_name)
@@ -82,14 +82,14 @@ module Pages
     end
 
     def open_users_tab!
-      within('.content--tabs') do
-        click_on 'Users'
+      within(".content--tabs") do
+        click_on "Users"
       end
     end
 
     def open_projects_tab!
-      within('.content--tabs') do
-        click_on 'Projects'
+      within(".content--tabs") do
+        click_on "Projects"
       end
     end
 
@@ -98,59 +98,59 @@ module Pages
       SeleniumHubWaiter.wait
       select_project! project_name
       Array(as).each { |role| check role }
-      click_on 'Add'
+      click_on "Add"
     end
 
     def remove_from_project!(name)
       open_projects_tab!
       SeleniumHubWaiter.wait
-      find_project(name).find('a[data-method=delete]').click
+      find_project(name).find("a[data-method=delete]").click
     end
 
     def search_for_project(query)
       autocomplete = page.find('[data-test-selector="membership_project_id"]')
       search_autocomplete autocomplete,
                           query:,
-                          results_selector: 'body'
+                          results_selector: "body"
     end
 
     def find_project(name)
-      find('tr', text: name)
+      find("tr", text: name)
     end
 
     def has_project?(name)
-      has_selector? 'tr', text: name
+      has_selector? "tr", text: name
     end
 
     def select_project!(project_name)
       select_autocomplete page.find('[data-test-selector="membership_project_id"]'),
                           query: project_name,
                           select_text: project_name,
-                          results_selector: 'body'
+                          results_selector: "body"
     end
 
     def add_user!(user_name)
       open_users_tab!
       SeleniumHubWaiter.wait
 
-      select_autocomplete page.find('.new-group-members--autocomplete'),
+      select_autocomplete page.find(".new-group-members--autocomplete"),
                           query: user_name
-      click_on 'Add'
+      click_on "Add"
     end
 
     def remove_user!(user_name)
       open_users_tab!
       SeleniumHubWaiter.wait
 
-      find_user(user_name).find('a[data-method=delete]').click
+      find_user(user_name).find("a[data-method=delete]").click
     end
 
     def find_user(user_name)
-      find('tr', text: user_name)
+      find("tr", text: user_name)
     end
 
     def has_user?(user_name)
-      has_selector? 'tr', text: user_name
+      has_selector? "tr", text: user_name
     end
   end
 end

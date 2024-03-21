@@ -29,7 +29,7 @@
 class Storages::UploadLink
   attr_reader :destination, :method
 
-  def initialize(destination = '', method = :post)
+  def initialize(destination = "", method = :post)
     @destination = destination
     @method = method
   end

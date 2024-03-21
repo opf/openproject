@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe IssuePriority do
   shared_let(:priority) { create(:priority) }
@@ -33,18 +33,18 @@ RSpec.describe IssuePriority do
 
   let(:stubbed_priority) { build_stubbed(:priority) }
 
-  describe '.ancestors' do
-    it 'is an enumeration' do
+  describe ".ancestors" do
+    it "is an enumeration" do
       expect(IssuePriority.ancestors)
         .to include(Enumeration)
     end
   end
 
-  describe '#objects_count' do
+  describe "#objects_count" do
     let(:work_package1) { create(:work_package, priority:) }
     let(:work_package2) { create(:work_package) }
 
-    it 'counts the work packages having the priority' do
+    it "counts the work packages having the priority" do
       expect(priority.objects_count)
         .to be 0
 
@@ -57,15 +57,15 @@ RSpec.describe IssuePriority do
     end
   end
 
-  describe '#option_name' do
-    it 'is a symbol' do
+  describe "#option_name" do
+    it "is a symbol" do
       expect(stubbed_priority.option_name)
         .to be :enumeration_work_package_priorities
     end
   end
 
-  describe '#cache_key' do
-    it 'updates when the updated_at field changes' do
+  describe "#cache_key" do
+    it "updates when the updated_at field changes" do
       old_cache_key = stubbed_priority.cache_key
 
       stubbed_priority.updated_at = Time.now
@@ -75,13 +75,13 @@ RSpec.describe IssuePriority do
     end
   end
 
-  describe '#transer_to' do
+  describe "#transer_to" do
     let(:new_priority) { create(:priority) }
     let(:work_package1) { create(:work_package, priority:) }
     let(:work_package2) { create(:work_package) }
     let(:work_package3) { create(:work_package, priority: new_priority) }
 
-    it 'moves all work_packages to the designated priority' do
+    it "moves all work_packages to the designated priority" do
       work_package1
       work_package2
       work_package3
@@ -93,45 +93,45 @@ RSpec.describe IssuePriority do
     end
   end
 
-  describe '#in_use?' do
-    context 'with a work package that uses the priority' do
+  describe "#in_use?" do
+    context "with a work package that uses the priority" do
       let!(:work_package) { create(:work_package, priority:) }
 
-      it 'is true' do
+      it "is true" do
         expect(priority)
           .to be_in_use
       end
     end
 
-    context 'without a work package that uses the priority' do
-      it 'is false' do
+    context "without a work package that uses the priority" do
+      it "is false" do
         expect(priority)
           .not_to be_in_use
       end
     end
   end
 
-  describe '.default' do
-    it 'returns the default priority' do
+  describe ".default" do
+    it "returns the default priority" do
       expect(described_class.default)
         .to eq default_priority
     end
 
-    it 'changes if a new default priority is created' do
-      new_default = described_class.create(name: 'New default', is_default: true)
+    it "changes if a new default priority is created" do
+      new_default = described_class.create(name: "New default", is_default: true)
 
       expect(described_class.default)
         .to eq new_default
     end
 
-    it 'does not change if a new non default priority is created' do
-      described_class.create(name: 'New default', is_default: false)
+    it "does not change if a new non default priority is created" do
+      described_class.create(name: "New default", is_default: false)
 
       expect(described_class.default)
         .to eq default_priority
     end
 
-    it 'is nil if the default priority looses the default flag' do
+    it "is nil if the default priority looses the default flag" do
       default_priority.update(is_default: false)
 
       expect(described_class.default)
@@ -139,25 +139,25 @@ RSpec.describe IssuePriority do
     end
   end
 
-  describe '#default?' do
-    it 'is true for a default priority' do
+  describe "#default?" do
+    it "is true for a default priority" do
       expect(default_priority)
         .to be_is_default
     end
 
-    it 'is false for a non default priority' do
+    it "is false for a non default priority" do
       expect(priority)
         .not_to be_is_default
     end
 
-    it 'changes if a new default priority is created' do
-      described_class.create(name: 'New default', is_default: true)
+    it "changes if a new default priority is created" do
+      described_class.create(name: "New default", is_default: true)
 
       expect(default_priority.reload)
         .not_to be_is_default
     end
 
-    it 'changes if an existing priority is assigned default' do
+    it "changes if an existing priority is assigned default" do
       new_default_priority = create(:priority)
       new_default_priority.update(is_default: true)
 
@@ -166,11 +166,11 @@ RSpec.describe IssuePriority do
     end
   end
 
-  describe '.destroy' do
+  describe ".destroy" do
     let!(:work_package) { create(:work_package, priority:) }
 
-    context 'with reassign' do
-      it 'reassigns the work packages' do
+    context "with reassign" do
+      it "reassigns the work packages" do
         priority.destroy(default_priority)
 
         expect(WorkPackage.where(priority: default_priority))
@@ -178,8 +178,8 @@ RSpec.describe IssuePriority do
       end
     end
 
-    context 'without reassign' do
-      it 'raises an error as it is in use' do
+    context "without reassign" do
+      it "raises an error as it is in use" do
         expect { priority.destroy }
           .to raise_error RuntimeError
       end

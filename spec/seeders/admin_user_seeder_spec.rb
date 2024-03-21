@@ -28,26 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe AdminUserSeeder do
   subject(:seeder) { described_class.new(seed_data) }
 
   let(:seed_data) { Source::SeedData.new({}) }
 
-  it 'creates an admin user' do
+  it "creates an admin user" do
     expect { seeder.seed! }.to change { User.admin.count }.by(1)
   end
 
-  context 'when providing admin user seed variables',
+  context "when providing admin user seed variables",
           :settings_reset,
           with_env: {
-            OPENPROJECT_SEED_ADMIN_USER_PASSWORD_RESET: 'false',
-            OPENPROJECT_SEED_ADMIN_USER_PASSWORD: 'foobar',
-            OPENPROJECT_SEED_ADMIN_USER_MAIL: 'foobar@example.com',
-            OPENPROJECT_SEED_ADMIN_USER_NAME: 'foo bar'
+            OPENPROJECT_SEED_ADMIN_USER_PASSWORD_RESET: "false",
+            OPENPROJECT_SEED_ADMIN_USER_PASSWORD: "foobar",
+            OPENPROJECT_SEED_ADMIN_USER_MAIL: "foobar@example.com",
+            OPENPROJECT_SEED_ADMIN_USER_NAME: "foo bar"
           } do
-    it 'uses those variables' do
+    it "uses those variables" do
       reset(:seed_admin_user_password)
       reset(:seed_admin_user_password_reset)
       reset(:seed_admin_user_name)
@@ -56,55 +56,55 @@ RSpec.describe AdminUserSeeder do
       seeder.seed!
 
       admin = User.admin.last
-      expect(admin.firstname).to eq 'foo'
-      expect(admin.lastname).to eq 'bar'
-      expect(admin.mail).to eq 'foobar@example.com'
+      expect(admin.firstname).to eq "foo"
+      expect(admin.lastname).to eq "bar"
+      expect(admin.mail).to eq "foobar@example.com"
       expect(admin.force_password_change).to be false
-      expect(admin.check_password?('admin')).to be false
-      expect(admin.check_password?('foobar')).to be true
+      expect(admin.check_password?("admin")).to be false
+      expect(admin.check_password?("foobar")).to be true
     end
   end
 
-  it 'references the admin user as :openproject_admin in the seed_data' do
+  it "references the admin user as :openproject_admin in the seed_data" do
     seeder.seed!
     expect(seed_data.find_reference(:openproject_admin)).to eq(User.admin.first)
   end
 
-  context 'when a builtin admin user already exists' do
+  context "when a builtin admin user already exists" do
     before do
       User.system
     end
 
-    it 'creates a non-builtin admin user' do
+    it "creates a non-builtin admin user" do
       expect(User.admin.count).to eq(1)
       expect { seeder.seed! }.to change { User.user.admin.count }.by(1)
     end
   end
 
-  context 'when some admin users already exist' do
+  context "when some admin users already exist" do
     before do
       User.system
-      create(:admin, firstname: 'First existing admin')
-      create(:admin, firstname: 'Second existing admin')
+      create(:admin, firstname: "First existing admin")
+      create(:admin, firstname: "Second existing admin")
     end
 
-    it 'does not create another admin user' do
+    it "does not create another admin user" do
       expect { seeder.seed! }.not_to change { User.admin.count }
     end
 
-    it 'references the first non-builtin admin user as :openproject_admin in the seed_data' do
+    it "references the first non-builtin admin user as :openproject_admin in the seed_data" do
       seeder.seed!
       expect(seed_data.find_reference(:openproject_admin)).to eq(User.user.admin.first)
     end
   end
 
-  context 'when a non-admin user exists with the same email' do
+  context "when a non-admin user exists with the same email" do
     before do
       User.system
       create(:user, mail: Setting.seed_admin_user_mail)
     end
 
-    it 'does not create another admin user' do
+    it "does not create another admin user" do
       expect { seeder.seed! }.not_to change { User.admin.count }
     end
   end

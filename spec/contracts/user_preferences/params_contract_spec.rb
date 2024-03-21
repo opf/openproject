@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/shared/model_contract_shared_context'
+require "spec_helper"
+require "contracts/shared/model_contract_shared_context"
 
 RSpec.describe UserPreferences::ParamsContract do
-  include_context 'ModelContract shared context'
+  include_context "ModelContract shared context"
 
   let(:current_user) { build_stubbed(:user) }
   let(:preference_user) { current_user }
@@ -47,20 +47,20 @@ RSpec.describe UserPreferences::ParamsContract do
     {
       hide_mail: true,
       auto_hide_popups: true,
-      comments_sorting: 'desc',
+      comments_sorting: "desc",
       daily_reminders: {
         enabled: true,
         times: %w[08:00:00+00:00 12:00:00+00:00]
       },
-      time_zone: 'Brasilia',
+      time_zone: "Brasilia",
       warn_on_leaving_unsaved: true,
       notification_settings:
     }
   end
   let(:contract) { described_class.new(user_preference, current_user, params:) }
 
-  describe 'notification settings' do
-    context 'when multiple global settings' do
+  describe "notification settings" do
+    context "when multiple global settings" do
       let(:notification_settings) do
         [
           { project_id: nil, mentioned: true },
@@ -68,39 +68,39 @@ RSpec.describe UserPreferences::ParamsContract do
         ]
       end
 
-      it_behaves_like 'contract is invalid', notification_settings: :only_one_global_setting
+      it_behaves_like "contract is invalid", notification_settings: :only_one_global_setting
     end
 
-    context 'when project settings with an email alert set' do
+    context "when project settings with an email alert set" do
       let(:notification_settings) do
         [
           { project_id: 1234, news_added: true }
         ]
       end
 
-      it_behaves_like 'contract is invalid', notification_settings: :email_alerts_global
+      it_behaves_like "contract is invalid", notification_settings: :email_alerts_global
     end
 
-    context 'when global settings with an email alert set' do
+    context "when global settings with an email alert set" do
       let(:notification_settings) do
         [
           { project_id: nil, news_added: true }
         ]
       end
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
     end
 
-    context 'without enterprise' do
-      context 'when global setting with start_date, due_date and overdue set' do
+    context "without enterprise" do
+      context "when global setting with start_date, due_date and overdue set" do
         let(:notification_settings) do
           [
             { start_date: 1, due_date: 1, overdue: 1 }
           ]
         end
 
-        it_behaves_like 'contract is invalid', base: :error_enterprise_only do
-          it 'displays the error message containing the feature name' do
+        it_behaves_like "contract is invalid", base: :error_enterprise_only do
+          it "displays the error message containing the feature name" do
             contract.validate
             expect(contract.errors.full_messages)
               .to eq(["Date Alerts is only available in the OpenProject Enterprise edition"])
@@ -108,117 +108,117 @@ RSpec.describe UserPreferences::ParamsContract do
         end
       end
 
-      context 'when project setting with start_date, due_date and overdue set' do
+      context "when project setting with start_date, due_date and overdue set" do
         let(:notification_settings) do
           [
             { project_id: 1234, start_date: 1, due_date: 1, overdue: 1 }
           ]
         end
 
-        it_behaves_like 'contract is invalid', base: :error_enterprise_only
+        it_behaves_like "contract is invalid", base: :error_enterprise_only
       end
     end
 
-    context 'with enterprise', with_ee: %i[date_alerts] do
-      context 'when project setting with start_date, due_date and overdue set' do
+    context "with enterprise", with_ee: %i[date_alerts] do
+      context "when project setting with start_date, due_date and overdue set" do
         let(:notification_settings) do
           [
             { project_id: 1234, start_date: 1, due_date: 1, overdue: 1 }
           ]
         end
 
-        it_behaves_like 'contract is valid'
+        it_behaves_like "contract is valid"
       end
 
-      context 'when global setting with start_date, due_date and overdue set' do
+      context "when global setting with start_date, due_date and overdue set" do
         let(:notification_settings) do
           [
             { start_date: 1, due_date: 1, overdue: 1 }
           ]
         end
 
-        it_behaves_like 'contract is valid'
+        it_behaves_like "contract is valid"
       end
 
-      context 'when project setting with valid start_date, valid due_date and invalid overdue' do
+      context "when project setting with valid start_date, valid due_date and invalid overdue" do
         let(:notification_settings) do
           [
             { project_id: 1234, start_date: 1, due_date: 1, overdue: 0 }
           ]
         end
 
-        it_behaves_like 'contract is invalid', notification_settings: :wrong_date
+        it_behaves_like "contract is invalid", notification_settings: :wrong_date
       end
 
-      context 'when global setting with invalid start_date, valid due_date and valid overdue' do
+      context "when global setting with invalid start_date, valid due_date and valid overdue" do
         let(:notification_settings) do
           [
             { start_date: -1, due_date: 1, overdue: 1 }
           ]
         end
 
-        it_behaves_like 'contract is invalid', notification_settings: :wrong_date
+        it_behaves_like "contract is invalid", notification_settings: :wrong_date
       end
 
-      context 'when project setting with start_date, due_date and overdue missing' do
+      context "when project setting with start_date, due_date and overdue missing" do
         let(:notification_settings) do
           [
             { project_id: 1234, start_date: 1, due_date: 1 }
           ]
         end
 
-        it_behaves_like 'contract is valid'
+        it_behaves_like "contract is valid"
       end
 
-      context 'when global setting with start_date, due_date and overdue missing' do
+      context "when global setting with start_date, due_date and overdue missing" do
         let(:notification_settings) do
           [
             { start_date: 1, due_date: 1 }
           ]
         end
 
-        it_behaves_like 'contract is valid'
+        it_behaves_like "contract is valid"
       end
 
-      context 'when project setting with valid start_date, invalid due_date and overdue missing' do
+      context "when project setting with valid start_date, invalid due_date and overdue missing" do
         let(:notification_settings) do
           [
             { project_id: 1234, start_date: 1, due_date: 24 }
           ]
         end
 
-        it_behaves_like 'contract is invalid', notification_settings: :wrong_date
+        it_behaves_like "contract is invalid", notification_settings: :wrong_date
       end
 
-      context 'when global setting with invalid start_date, valid due_date and overdue missing' do
+      context "when global setting with invalid start_date, valid due_date and overdue missing" do
         let(:notification_settings) do
           [
             { start_date: 24, due_date: 1 }
           ]
         end
 
-        it_behaves_like 'contract is invalid', notification_settings: :wrong_date
+        it_behaves_like "contract is invalid", notification_settings: :wrong_date
       end
     end
 
-    context 'when notification_settings empty' do
+    context "when notification_settings empty" do
       let(:params) do
         {
           hide_mail: true,
           auto_hide_popups: true,
-          comments_sorting: 'desc',
+          comments_sorting: "desc",
           daily_reminders: {
             enabled: true,
             times: %w[08:00:00+00:00 12:00:00+00:00]
           },
-          time_zone: 'Brasilia',
+          time_zone: "Brasilia",
           warn_on_leaving_unsaved: true
         }
       end
 
-      it_behaves_like 'contract is valid'
+      it_behaves_like "contract is valid"
     end
   end
 
-  include_examples 'contract reuses the model errors'
+  include_examples "contract reuses the model errors"
 end

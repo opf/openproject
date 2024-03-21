@@ -36,9 +36,9 @@ module Redmine
 
       def initialize(content_to, content_from)
         @words = content_to.to_s.split(/(\s+)/)
-        @words = @words.select { |word| word != ' ' }
+        @words = @words.select { |word| word != " " }
         words_from = content_from.to_s.split(/(\s+)/)
-        words_from = words_from.select { |word| word != ' ' }
+        words_from = words_from.select { |word| word != " " }
         @diff = words_from.diff @words
       end
 
@@ -52,16 +52,16 @@ module Redmine
           add_at = nil
           add_to = nil
           del_at = nil
-          deleted = ''
+          deleted = ""
           diff.each do |change|
             pos = change[1]
-            if change[0] == '+'
+            if change[0] == "+"
               add_at ||= pos + dels
               add_to = pos + dels
               words_add += 1
             else
               del_at ||= pos
-              deleted << (' ' + h(change[2]))
+              deleted << (" " + h(change[2]))
               words_del += 1
             end
           end
@@ -69,7 +69,7 @@ module Redmine
             words[add_at] =
               ('<label class="hidden-for-sighted">' + WorkPackage.human_attribute_name(:begin_insertion) + '</label><ins class="diffmod">').html_safe + words[add_at]
             words[add_to] =
-              words[add_to] + ('</ins><label class="hidden-for-sighted">' + WorkPackage.human_attribute_name(:end_insertion) + '</label>').html_safe
+              words[add_to] + ('</ins><label class="hidden-for-sighted">' + WorkPackage.human_attribute_name(:end_insertion) + "</label>").html_safe
 
           end
           if del_at
@@ -77,13 +77,13 @@ module Redmine
                                                                 WorkPackage.human_attribute_name(:begin_deletion) +
                                                                 '</label><del class="diffmod">').html_safe + deleted +
                                                               ('</del><label class="hidden-for-sighted">' +
-                                                              WorkPackage.human_attribute_name(:end_deletion) + '</label>').html_safe
+                                                              WorkPackage.human_attribute_name(:end_deletion) + "</label>").html_safe
             dels += 1
             del_off += words_del
             words_del = 0
           end
         end
-        words.join(' ')
+        words.join(" ")
       end
 
       def additions

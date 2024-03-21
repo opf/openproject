@@ -28,13 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-require 'services/base_services/behaves_like_create_service'
+require "services/base_services/behaves_like_create_service"
 
 RSpec.describe Storages::Storages::CreateService, type: :model do
-  it_behaves_like 'BaseServices create service' do
+  it_behaves_like "BaseServices create service" do
     let(:factory) { :storage }
 
     let!(:user) { create(:admin) }
@@ -46,9 +46,9 @@ RSpec.describe Storages::Storages::CreateService, type: :model do
 
     let(:call_attributes) do
       {
-        name: 'My storage',
-        host: 'https://example.org',
-        provider_type: 'Storages::NextcloudStorage'
+        name: "My storage",
+        host: "https://example.org",
+        provider_type: "Storages::NextcloudStorage"
       }
     end
 

@@ -28,27 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Gantt::GanttController do
-  shared_let(:project) { create(:project, identifier: 'test_project', public: false) }
+  shared_let(:project) { create(:project, identifier: "test_project", public: false) }
 
   current_user do
     create(:user,
            member_with_permissions: { project => %i[view_work_packages export_work_packages] })
   end
 
-  describe 'index' do
+  describe "index" do
     let(:default_gantt_params) { Gantt::DefaultQueryGeneratorService.new(with_project: project).call }
 
-    context 'for atom format' do
-      let(:params) { default_gantt_params.merge(project_id: project.id, format: 'atom') }
+    context "for atom format" do
+      let(:params) { default_gantt_params.merge(project_id: project.id, format: "atom") }
 
-      it 'returns the atom feed' do
-        get('index', params:)
+      it "returns the atom feed" do
+        get("index", params:)
 
         expect(response).to have_http_status(:success)
-        expect(response.content_type).to include('application/atom+xml')
+        expect(response.content_type).to include("application/atom+xml")
       end
     end
   end

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
   let(:instance) do
@@ -36,10 +36,10 @@ RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
     filter
   end
 
-  let(:operator) { '=' }
+  let(:operator) { "=" }
   let(:values) { [] }
 
-  describe 'where filter results' do
+  describe "where filter results" do
     let(:work_package) { create(:work_package, assigned_to: assignee) }
     let(:assignee) { create(:user) }
     let(:group) { create(:group, members: group_members) }
@@ -47,17 +47,17 @@ RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
 
     subject { WorkPackage.where(instance.where) }
 
-    context 'for the user value' do
+    context "for the user value" do
       let(:values) { [assignee.id.to_s] }
 
-      it 'returns the work package' do
+      it "returns the work package" do
         expect(subject)
           .to contain_exactly(work_package)
       end
     end
 
-    context 'for the me value with the user being logged in' do
-      let(:values) { ['me'] }
+    context "for the me value with the user being logged in" do
+      let(:values) { ["me"] }
 
       before do
         allow(User)
@@ -65,14 +65,14 @@ RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
           .and_return(assignee)
       end
 
-      it 'returns the work package' do
+      it "returns the work package" do
         expect(subject)
           .to contain_exactly(work_package)
       end
     end
 
-    context 'for the me value with another user being logged in' do
-      let(:values) { ['me'] }
+    context "for the me value with another user being logged in" do
+      let(:values) { ["me"] }
 
       before do
         allow(User)
@@ -80,36 +80,36 @@ RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
           .and_return(create(:user))
       end
 
-      it 'does not return the work package' do
+      it "does not return the work package" do
         expect(subject)
           .to be_empty
       end
     end
 
-    context 'for a group value with the group being assignee' do
+    context "for a group value with the group being assignee" do
       let(:assignee) { group }
       let(:values) { [group.id.to_s] }
 
-      it 'returns the work package' do
+      it "returns the work package" do
         expect(subject)
           .to contain_exactly(work_package)
       end
     end
 
-    context 'for a group value with a group member being assignee' do
+    context "for a group value with a group member being assignee" do
       let(:values) { [group.id.to_s] }
       let(:group_members) { [assignee] }
 
-      it 'returns the work package' do
+      it "returns the work package" do
         expect(subject)
           .to contain_exactly(work_package)
       end
     end
 
-    context 'for a group value with no group member being assignee' do
+    context "for a group value with no group member being assignee" do
       let(:values) { [group.id.to_s] }
 
-      it 'does not return the work package' do
+      it "does not return the work package" do
         expect(subject)
           .to be_empty
       end
@@ -121,7 +121,7 @@ RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
       let(:user) { create(:user) }
       let!(:group) { create(:group, members: user) }
 
-      it 'returns the work package' do
+      it "returns the work package" do
         expect(subject)
           .to contain_exactly(work_package)
       end
@@ -132,31 +132,31 @@ RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
       let(:assignee) { group }
       let(:user) { create(:user) }
 
-      it 'does not return the work package' do
+      it "does not return the work package" do
         expect(subject)
           .to be_empty
       end
     end
 
-    context 'for an unmatched value' do
-      let(:values) { ['0'] }
+    context "for an unmatched value" do
+      let(:values) { ["0"] }
 
-      it 'does not return the work package' do
+      it "does not return the work package" do
         expect(subject)
           .to be_empty
       end
     end
   end
 
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:type) { :list_optional }
     let(:class_key) { :assignee_or_group }
-    let(:human_name) { I18n.t('query_fields.assignee_or_group') }
+    let(:human_name) { I18n.t("query_fields.assignee_or_group") }
 
-    describe '#valid_values!' do
+    describe "#valid_values!" do
       let(:user) { build_stubbed(:user) }
       let(:loader) do
-        loader = double('loader')
+        loader = double("loader")
 
         allow(loader)
           .to receive(:user_values)
@@ -173,10 +173,10 @@ RSpec.describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter do
           .to receive(:new)
           .and_return(loader)
 
-        instance.values = [user.id.to_s, '99999']
+        instance.values = [user.id.to_s, "99999"]
       end
 
-      it 'remove the invalid value' do
+      it "remove the invalid value" do
         instance.valid_values!
 
         expect(instance.values).to contain_exactly(user.id.to_s)

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'sticky messages' do
+RSpec.describe "sticky messages" do
   let(:forum) { create(:forum) }
 
   let!(:message1) do
@@ -64,15 +64,15 @@ RSpec.describe 'sticky messages' do
     end
   end
 
-  it 'sticky messages are on top' do
+  it "sticky messages are on top" do
     expect_order_of_messages(message1, message2, message3)
 
     click_link(message2.subject)
 
-    click_link('Edit')
+    click_link("Edit")
 
-    check('message[sticky]')
-    click_button('Save')
+    check("message[sticky]")
+    click_button("Save")
 
     visit project_forum_path(forum.project, forum)
 

@@ -77,14 +77,14 @@ class WorkPackages::CopyService
     attributes = work_package
                    .attributes
                    .slice(*writable_work_package_attributes(work_package))
-                   .merge('parent_id' => work_package.parent_id,
-                          'custom_field_values' => work_package.custom_value_attributes)
+                   .merge("parent_id" => work_package.parent_id,
+                          "custom_field_values" => work_package.custom_value_attributes)
                    .merge(overwritten_attributes)
 
-    if overwritten_attributes.has_key?('start_date') &&
-      overwritten_attributes.has_key?('due_date') &&
-      !overwritten_attributes.has_key?('duration')
-      attributes.delete('duration')
+    if overwritten_attributes.has_key?("start_date") &&
+      overwritten_attributes.has_key?("due_date") &&
+      !overwritten_attributes.has_key?("duration")
+      attributes.delete("duration")
     end
 
     attributes
@@ -106,7 +106,7 @@ class WorkPackages::CopyService
 
   def copy_work_package_attachments(copy)
     copy_attachments(
-      'WorkPackage',
+      "WorkPackage",
       from: work_package,
       to: copy,
       references: %i[description]

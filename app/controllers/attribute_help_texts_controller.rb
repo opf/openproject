@@ -27,7 +27,7 @@
 #++
 
 class AttributeHelpTextsController < ApplicationController
-  layout 'admin'
+  layout "admin"
   menu_item :attribute_help_texts
 
   before_action :authorize_global
@@ -56,8 +56,8 @@ class AttributeHelpTextsController < ApplicationController
       redirect_to attribute_help_texts_path(tab: call.result.attribute_scope)
     else
       @attribute_help_text = call.result
-      flash[:error] = call.message || I18n.t('notice_internal_server_error')
-      render action: 'new'
+      flash[:error] = call.message || I18n.t("notice_internal_server_error")
+      render action: "new"
     end
   end
 
@@ -70,8 +70,8 @@ class AttributeHelpTextsController < ApplicationController
       flash[:notice] = t(:notice_successful_update)
       redirect_to attribute_help_texts_path(tab: @attribute_help_text.attribute_scope)
     else
-      flash[:error] = call.message || I18n.t('notice_internal_server_error')
-      render action: 'edit'
+      flash[:error] = call.message || I18n.t("notice_internal_server_error")
+      render action: "edit"
     end
   end
 
@@ -88,10 +88,10 @@ class AttributeHelpTextsController < ApplicationController
   protected
 
   def default_breadcrumb
-    if action_name == 'index'
-      t('attribute_help_texts.label_plural')
+    if action_name == "index"
+      t("attribute_help_texts.label_plural")
     else
-      ActionController::Base.helpers.link_to(t('attribute_help_texts.label_plural'), attribute_help_texts_path)
+      ActionController::Base.helpers.link_to(t("attribute_help_texts.label_plural"), attribute_help_texts_path)
     end
   end
 
@@ -122,7 +122,7 @@ class AttributeHelpTextsController < ApplicationController
   end
 
   def find_type_scope
-    name = params.fetch(:name, 'WorkPackage')
+    name = params.fetch(:name, "WorkPackage")
     submodule = AttributeHelpText.available_types.find { |mod| mod == name }
 
     if submodule.nil?

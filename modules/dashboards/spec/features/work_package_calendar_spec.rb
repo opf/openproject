@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-require_relative '../support/pages/dashboard'
+require_relative "../support/pages/dashboard"
 
-RSpec.describe 'Work package calendar widget on dashboard', :js do
+RSpec.describe "Work package calendar widget on dashboard", :js do
   let!(:type) { create(:type) }
   let!(:priority) { create(:default_priority) }
   let!(:project) { create(:project, types: [type]) }
@@ -38,7 +38,7 @@ RSpec.describe 'Work package calendar widget on dashboard', :js do
   let!(:open_status) { create(:default_status) }
   let!(:spanning_work_package) do
     create(:work_package,
-           subject: 'Spanning work package',
+           subject: "Spanning work package",
            project:,
            start_date: Date.today - 8.days,
            due_date: Date.today + 8.days,
@@ -48,7 +48,7 @@ RSpec.describe 'Work package calendar widget on dashboard', :js do
   end
   let!(:starting_work_package) do
     create(:work_package,
-           subject: 'Starting work package',
+           subject: "Starting work package",
            project:,
            start_date: Date.today,
            due_date: Date.today + 8.days,
@@ -58,7 +58,7 @@ RSpec.describe 'Work package calendar widget on dashboard', :js do
   end
   let!(:ending_work_package) do
     create(:work_package,
-           subject: 'Ending work package',
+           subject: "Ending work package",
            project:,
            start_date: Date.today - 8.days,
            due_date: Date.today,
@@ -68,7 +68,7 @@ RSpec.describe 'Work package calendar widget on dashboard', :js do
   end
   let!(:outdated_work_package) do
     create(:work_package,
-           subject: 'Outdated work package',
+           subject: "Outdated work package",
            project:,
            start_date: Date.today - 9.days,
            due_date: Date.today - 7.days,
@@ -78,7 +78,7 @@ RSpec.describe 'Work package calendar widget on dashboard', :js do
   end
   let!(:other_project_work_package) do
     create(:work_package,
-           subject: 'Other project work package',
+           subject: "Other project work package",
            project: other_project,
            start_date: Date.today - 9.days,
            due_date: Date.today + 7.days,
@@ -114,29 +114,29 @@ RSpec.describe 'Work package calendar widget on dashboard', :js do
     dashboard.visit!
   end
 
-  it 'can add the widget and see the work packages of the project' do
+  it "can add the widget and see the work packages of the project" do
     dashboard.add_widget(1, 1, :within, "Calendar")
 
     sleep(0.1)
 
     # As the user lacks the necessary permissions, no widget is preconfigured
-    calendar_widget = Components::Grids::GridArea.new('.grid--area.-widgeted:nth-of-type(1)')
+    calendar_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
     within(calendar_widget.area) do
       expect(page)
-        .to have_css('.fc-event-title', text: spanning_work_package.subject)
+        .to have_css(".fc-event-title", text: spanning_work_package.subject)
 
       expect(page)
-        .to have_css('.fc-event-title', text: starting_work_package.subject)
+        .to have_css(".fc-event-title", text: starting_work_package.subject)
 
       expect(page)
-        .to have_css('.fc-event-title', text: ending_work_package.subject)
+        .to have_css(".fc-event-title", text: ending_work_package.subject)
 
       expect(page)
-        .to have_no_css('.fc-event-title', text: outdated_work_package.subject)
+        .to have_no_css(".fc-event-title", text: outdated_work_package.subject)
 
       expect(page)
-        .to have_no_css('.fc-event-title', text: other_project_work_package.subject)
+        .to have_no_css(".fc-event-title", text: other_project_work_package.subject)
     end
   end
 end

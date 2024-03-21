@@ -33,7 +33,7 @@ module API
         }.with_indifferent_access
 
         def self._type
-          'WorkPackageCollection'
+          "WorkPackageCollection"
         end
       end
     end

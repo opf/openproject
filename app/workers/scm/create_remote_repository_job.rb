@@ -39,12 +39,12 @@ class SCM::CreateRemoteRepositoryJob < SCM::RemoteRepositoryJob
     super(repository)
 
     response = send_request(repository_request.merge(action: :create))
-    repository.root_url = response['path']
-    repository.url = response['url']
+    repository.root_url = response["path"]
+    repository.url = response["url"]
 
     unless repository.save
       raise OpenProject::SCM::Exceptions::SCMError.new(
-        I18n.t('repositories.errors.remote_save_failed')
+        I18n.t("repositories.errors.remote_save_failed")
       )
     end
   end

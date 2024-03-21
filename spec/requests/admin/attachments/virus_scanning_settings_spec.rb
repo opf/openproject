@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Attachments virus scanning',
+RSpec.describe "Attachments virus scanning",
                :skip_csrf,
                type: :rails_request do
   shared_let(:admin) { create(:admin) }
@@ -43,50 +43,50 @@ RSpec.describe 'Attachments virus scanning',
     allow(service).to receive(:ping)
   end
 
-  describe 'enabling virus scanning',
+  describe "enabling virus scanning",
            with_ee: %i[virus_scanning] do
     subject do
-      patch '/admin/settings/virus_scanning',
+      patch "/admin/settings/virus_scanning",
             params: {
               settings: {
-                antivirus_scan_mode: 'clamav_socket'
+                antivirus_scan_mode: "clamav_socket"
               }
             }
       response
     end
 
-    it 'shows an error if ClamAV cannot be reached' do
+    it "shows an error if ClamAV cannot be reached" do
       allow(service).to receive(:ping).and_raise(Errno::ECONNREFUSED)
 
       expect(subject).to be_redirect
       follow_redirect!
-      expect(response.body).to have_text I18n.t('settings.antivirus.clamav_ping_failed')
+      expect(response.body).to have_text I18n.t("settings.antivirus.clamav_ping_failed")
       expect(Setting.antivirus_scan_mode).to eq(:disabled)
     end
 
-    it 'shows no error if ClamAV can be reached' do
+    it "shows no error if ClamAV can be reached" do
       expect(subject).to be_redirect
       follow_redirect!
-      expect(response.body).to have_no_text I18n.t('settings.antivirus.clamav_ping_failed')
+      expect(response.body).to have_no_text I18n.t("settings.antivirus.clamav_ping_failed")
       expect(Setting.antivirus_scan_mode).to eq(:clamav_socket)
     end
   end
 
-  describe 'rescanning uploaded files',
+  describe "rescanning uploaded files",
            with_ee: %i[virus_scanning] do
     shared_let(:attachment) { create(:attachment, status: :uploaded) }
 
-    it 'triggers rescanning of the uploaded files' do
-      patch '/admin/settings/virus_scanning',
+    it "triggers rescanning of the uploaded files" do
+      patch "/admin/settings/virus_scanning",
             params: {
               settings: {
-                antivirus_scan_mode: 'clamav_socket'
+                antivirus_scan_mode: "clamav_socket"
               }
             }
 
       expect(response).to be_redirect
       follow_redirect!
-      expect(response.body).to have_text 'This process has been scheduled in the background'
+      expect(response.body).to have_text "This process has been scheduled in the background"
       expect(Setting.antivirus_scan_mode).to eq(:clamav_socket)
 
       expect(attachment.reload).to be_status_rescan
@@ -95,44 +95,44 @@ RSpec.describe 'Attachments virus scanning',
     end
   end
 
-  describe 'disabling virus scanning',
+  describe "disabling virus scanning",
            with_ee: %i[virus_scanning] do
     shared_let(:attachment) { create(:attachment, status: :quarantined) }
 
-    it 'shows no warning if there are no quarantined files' do
+    it "shows no warning if there are no quarantined files" do
       attachment.destroy!
-      patch '/admin/settings/virus_scanning',
+      patch "/admin/settings/virus_scanning",
             params: {
               settings: {
-                antivirus_scan_mode: 'disabled'
+                antivirus_scan_mode: "disabled"
               }
             }
 
       expect(response).to be_redirect
       follow_redirect!
-      expect(response.body).to have_no_text 'remain in quarantine.'
+      expect(response.body).to have_no_text "remain in quarantine."
       expect(Setting.antivirus_scan_mode).to eq(:disabled)
     end
 
-    it 'shows a warning if there are still quarantined files' do
-      patch '/admin/settings/virus_scanning',
+    it "shows a warning if there are still quarantined files" do
+      patch "/admin/settings/virus_scanning",
             params: {
               settings: {
-                antivirus_scan_mode: 'disabled'
+                antivirus_scan_mode: "disabled"
               }
             }
 
       expect(response).to be_redirect
       follow_redirect!
-      expect(response.body).to have_text '1 file remain in quarantine.'
+      expect(response.body).to have_text "1 file remain in quarantine."
       expect(Setting.antivirus_scan_mode).to eq(:disabled)
     end
   end
 
-  describe 'without ee' do
-    it 'redirects to upsale' do
-      get '/admin/settings/virus_scanning'
-      expect(response.body).to have_text 'Virus scanning is an Enterprise add-on', normalize_ws: true
+  describe "without ee" do
+    it "redirects to upsale" do
+      get "/admin/settings/virus_scanning"
+      expect(response.body).to have_text "Virus scanning is an Enterprise add-on", normalize_ws: true
     end
   end
 end

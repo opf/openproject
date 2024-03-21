@@ -70,12 +70,12 @@ module API
 
       def validate_attachment_access!(attachment)
         if attachment.status_quarantined?
-          raise ::API::Errors::Unauthorized.new(message: I18n.t('antivirus_scan.quarantined_message',
+          raise ::API::Errors::Unauthorized.new(message: I18n.t("antivirus_scan.quarantined_message",
                                                                 filename: attachment.filename))
         end
 
         if attachment.author != current_user && attachment.pending_virus_scan?
-          raise ::API::Errors::Unauthorized.new(message: I18n.t('antivirus_scan.not_processed_yet_message',
+          raise ::API::Errors::Unauthorized.new(message: I18n.t("antivirus_scan.not_processed_yet_message",
                                                                 filename: attachment.filename))
         end
       end
@@ -87,8 +87,8 @@ module API
 
       def send_attachment(attachment)
         content_type attachment.content_type
-        header['Content-Disposition'] = attachment.content_disposition
-        env['api.format'] = :binary
+        header["Content-Disposition"] = attachment.content_disposition
+        env["api.format"] = :binary
         sendfile attachment.diskfile.path
       end
 

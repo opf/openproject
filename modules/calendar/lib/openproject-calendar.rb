@@ -1,1 +1,1 @@
-require 'open_project/calendar'
+require "open_project/calendar"

@@ -59,16 +59,19 @@ module API::V3::StorageFiles
             .call(storage: @storage, user: current_user, data:)
         end
       end
+
+      def auth_strategy
+        Storages::Peripherals::StorageInteraction::AuthenticationStrategies::OAuthUserToken
+          .strategy
+          .with_user(current_user)
+      end
     end
 
     resources :files do
       get do
         Storages::Peripherals::Registry
           .resolve("#{@storage.short_provider_type}.queries.files")
-          .call(
-            storage: @storage,
-            user: current_user, folder: extract_parent_folder(params)
-          )
+          .call(storage: @storage, auth_strategy:, folder: extract_parent_folder(params))
           .match(
             on_success: ->(files) { API::V3::StorageFiles::StorageFilesRepresenter.new(files, @storage, current_user:) },
             on_failure: ->(error) { raise_error(error) }

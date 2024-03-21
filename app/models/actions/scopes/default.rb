@@ -39,7 +39,7 @@ module Actions::Scopes
           SQL
 
           unscoped # prevent triggering the default scope again
-            .select('actions.*')
+            .select("actions.*")
             .from(actions_sql)
         end
       end
@@ -51,7 +51,7 @@ module Actions::Scopes
           .contract_actions_map
           .map { |permission, v| map_actions(permission, **v) }
           .flatten
-          .join(', ')
+          .join(", ")
       end
 
       def map_actions(permission, actions:, global:, module_name:, grant_to_admin:, public:)
@@ -61,10 +61,10 @@ module Actions::Scopes
               quote_string("#{action_v3_name(namespace)}/#{action}"),
               quote_string(permission),
               global,
-              module_name ? quote_string(module_name) : 'NULL',
+              module_name ? quote_string(module_name) : "NULL",
               grant_to_admin,
               public
-            ].join(', ')
+            ].join(", ")
 
             "(#{values})"
           end

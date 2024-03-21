@@ -26,26 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::CategoryFilter do
-  it_behaves_like 'basic query filter' do
+  it_behaves_like "basic query filter" do
     let(:type) { :list_optional }
     let(:class_key) { :category_id }
 
-    describe '#available?' do
-      context 'within a project' do
+    describe "#available?" do
+      context "within a project" do
         before do
           allow(project)
             .to receive_message_chain(:categories, :exists?)
             .and_return true
         end
 
-        it 'is true' do
+        it "is true" do
           expect(instance).to be_available
         end
 
-        it 'is false without a type' do
+        it "is false without a type" do
           allow(project)
             .to receive_message_chain(:categories, :exists?)
             .and_return false
@@ -54,16 +54,16 @@ RSpec.describe Queries::WorkPackages::Filter::CategoryFilter do
         end
       end
 
-      context 'without a project' do
+      context "without a project" do
         let(:project) { nil }
 
-        it 'is false' do
+        it "is false" do
           expect(instance).not_to be_available
         end
       end
     end
 
-    describe '#allowed_values' do
+    describe "#allowed_values" do
       let(:category) { build_stubbed(:category) }
 
       before do
@@ -72,13 +72,13 @@ RSpec.describe Queries::WorkPackages::Filter::CategoryFilter do
           .and_return [category]
       end
 
-      it 'returns an array of type options' do
+      it "returns an array of type options" do
         expect(instance.allowed_values)
           .to contain_exactly([category.name, category.id.to_s])
       end
     end
 
-    describe '#value_objects' do
+    describe "#value_objects" do
       let(:category1) { build_stubbed(:category) }
       let(:category2) { build_stubbed(:category) }
 
@@ -90,14 +90,14 @@ RSpec.describe Queries::WorkPackages::Filter::CategoryFilter do
         instance.values = [category2.id.to_s]
       end
 
-      it 'returns an array of category' do
+      it "returns an array of category" do
         expect(instance.value_objects)
           .to contain_exactly(category2)
       end
     end
 
-    describe '#ar_object_filter?' do
-      it 'is true' do
+    describe "#ar_object_filter?" do
+      it "is true" do
         expect(instance)
           .to be_ar_object_filter
       end

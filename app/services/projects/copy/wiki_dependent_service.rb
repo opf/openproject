@@ -46,7 +46,7 @@ module Projects::Copy
       # Check that the source project has a wiki first
       return if source.wiki.nil?
 
-      target.wiki = target.build_wiki(source.wiki.attributes.dup.except('id', 'project_id'))
+      target.wiki = target.build_wiki(source.wiki.attributes.dup.except("id", "project_id"))
       target.wiki.wiki_menu_items.delete_all
 
       copy_wiki_pages(params)
@@ -115,7 +115,7 @@ module Projects::Copy
 
       source.wiki.wiki_menu_items.each do |item|
         new_item = MenuItems::WikiMenuItem.new
-        new_item.attributes = item.attributes.dup.except('id', 'wiki_id', 'parent_id')
+        new_item.attributes = item.attributes.dup.except("id", "wiki_id", "parent_id")
         new_item.wiki = target.wiki
         (wiki_menu_items_map[item.id] = new_item.reload) if new_item.save
       end

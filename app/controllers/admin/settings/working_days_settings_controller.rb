@@ -37,7 +37,7 @@ module Admin::Settings
     def failure_callback(call)
       @modified_non_working_days = modified_non_working_days_for(call.result)
       flash[:error] = call.message || I18n.t(:notice_internal_server_error)
-      render action: 'show'
+      render action: "show"
     end
 
     protected

@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Members::Scopes::Global do
   let(:project) { create(:project) }
@@ -54,10 +54,10 @@ RSpec.describe Members::Scopes::Global do
            principal: user)
   end
 
-  describe '.global' do
+  describe ".global" do
     subject { Member.global }
 
-    it 'returns global memberships' do
+    it "returns global memberships" do
       expect(subject)
         .to contain_exactly(global_member)
     end

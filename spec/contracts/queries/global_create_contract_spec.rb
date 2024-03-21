@@ -28,17 +28,17 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'contracts/queries/shared_contract_examples'
+require "spec_helper"
+require "contracts/queries/shared_contract_examples"
 
 RSpec.describe Queries::GlobalCreateContract do
-  include_context 'with queries contract'
+  include_context "with queries contract"
 
-  describe 'validation' do
-    context 'if the project_id is nil' do
+  describe "validation" do
+    context "if the project_id is nil" do
       let(:project) { nil }
 
-      it_behaves_like 'contract is invalid', project_id: :blank
+      it_behaves_like "contract is invalid", project_id: :blank
     end
   end
 end

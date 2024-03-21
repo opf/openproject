@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe "API::V3::Projects::AvailableAssigneesAPI" do
   include API::V3::Utilities::PathHelper
 
-  it_behaves_like 'available principals', :assignees do
+  it_behaves_like "available principals", :assignees do
     let(:base_permissions) { %i[add_work_packages] }
     let(:href) { api_v3_paths.available_assignees_in_project(project.id) }
   end

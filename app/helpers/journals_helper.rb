@@ -30,14 +30,14 @@
 
 module JournalsHelper
   def back_to_activity_page_url(activity_page)
-    case activity_page&.split('/')
-    in ['all']
+    case activity_page&.split("/")
+    in ["all"]
       activities_url
-    in ['projects', project_id]
+    in ["projects", project_id]
       project_activities_url(project_id)
-    in ['users', user_id]
+    in ["users", user_id]
       user_url(user_id)
-    in ['work_packages', work_package_id]
+    in ["work_packages", work_package_id]
       work_package_url(work_package_id)
     else
       nil

@@ -32,8 +32,8 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
   class UploadLinkQuery
     using Storages::Peripherals::ServiceResultRefinements
 
-    URI_TOKEN_REQUEST = 'index.php/apps/integration_openproject/direct-upload-token'
-    URI_UPLOAD_BASE_PATH = 'index.php/apps/integration_openproject/direct-upload'
+    URI_TOKEN_REQUEST = "index.php/apps/integration_openproject/direct-upload-token"
+    URI_UPLOAD_BASE_PATH = "index.php/apps/integration_openproject/direct-upload"
 
     def initialize(storage)
       @uri = storage.uri
@@ -46,12 +46,12 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def call(user:, data:)
       Util.token(user:, configuration: @configuration) do |token|
-        if data.nil? || data['parent'].nil?
-          Util.error(:error, 'Data is invalid', data)
+        if data.nil? || data["parent"].nil?
+          Util.error(:error, "Data is invalid", data)
         else
           outbound_response(
             relative_path: URI_TOKEN_REQUEST,
-            payload: { folder_id: data['parent'] },
+            payload: { folder_id: data["parent"] },
             token:
           ).map do |response|
             Storages::UploadLink.new(
@@ -67,9 +67,9 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
     def outbound_response(relative_path:, payload:, token:)
       response = OpenProject
                    .httpx
-                   .with(headers: { 'Authorization' => "Bearer #{token.access_token}",
-                                    'Accept' => 'application/json',
-                                    'Content-Type' => 'application/json' })
+                   .with(headers: { "Authorization" => "Bearer #{token.access_token}",
+                                    "Accept" => "application/json",
+                                    "Content-Type" => "application/json" })
                    .post(
                      Util.join_uri_path(@uri, relative_path),
                      json: payload
@@ -82,14 +82,14 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
             result: JSON.parse(response.body.to_s, object_class: OpenStruct) # rubocop:disable Style/OpenStructUse
           )
         else
-          Util.error(:unauthorized, 'Outbound request not authorized!')
+          Util.error(:unauthorized, "Outbound request not authorized!")
         end
       in { status: 404 }
-        Util.error(:not_found, 'Outbound request destination not found!', response)
+        Util.error(:not_found, "Outbound request destination not found!", response)
       in { status: 401 }
-        Util.error(:unauthorized, 'Outbound request not authorized!', response)
+        Util.error(:unauthorized, "Outbound request not authorized!", response)
       else
-        Util.error(:error, 'Outbound request failed!')
+        Util.error(:error, "Outbound request failed!")
       end
     end
   end

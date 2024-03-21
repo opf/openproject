@@ -36,8 +36,8 @@ class GitlabIssue < ApplicationRecord
   belongs_to :gitlab_user, optional: true
 
   enum state: {
-    opened: 'opened',
-    closed: 'closed'
+    opened: "opened",
+    closed: "closed"
   }
 
   validates_presence_of :gitlab_html_url,

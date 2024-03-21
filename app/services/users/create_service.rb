@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'work_packages/create_contract'
-require 'concerns/user_invitation'
+require "work_packages/create_contract"
+require "concerns/user_invitation"
 
 module Users
   class CreateService < ::BaseServices::Create

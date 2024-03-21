@@ -28,10 +28,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Principals::ReplaceReferencesService, '#call', type: :model do
+RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
   shared_let(:principal) { create(:user) }
   shared_let(:to_principal) { create(:user) }
 
@@ -41,17 +41,17 @@ RSpec.describe Principals::ReplaceReferencesService, '#call', type: :model do
     described_class.new
   end
 
-  shared_examples 'replaces the creator' do
+  shared_examples "replaces the creator" do
     before do
       model
     end
 
-    it 'is successful' do
+    it "is successful" do
       expect(service_call)
         .to be_success
     end
 
-    it 'replaces principal with to_principal' do
+    it "replaces principal with to_principal" do
       service_call
       model.reload
 
@@ -59,8 +59,8 @@ RSpec.describe Principals::ReplaceReferencesService, '#call', type: :model do
     end
   end
 
-  context 'with MeetingAgendaItem' do
-    it_behaves_like 'replaces the creator' do
+  context "with MeetingAgendaItem" do
+    it_behaves_like "replaces the creator" do
       let(:model) { create(:meeting_agenda_item, author: principal) }
     end
   end

@@ -28,10 +28,10 @@
 
 class ConvertToMarkdown < ActiveRecord::Migration[5.1]
   def up
-    setting = Setting.where(name: 'text_formatting').pluck(:value)
-    return unless setting && setting[0] == 'textile'
+    setting = Setting.where(name: "text_formatting").pluck(:value)
+    return unless setting && setting[0] == "textile"
 
-    if ENV['OPENPROJECT_SKIP_TEXTILE_MIGRATION'].present?
+    if ENV["OPENPROJECT_SKIP_TEXTILE_MIGRATION"].present?
       warn <<~WARNING
         Your instance is configured with Textile text formatting, this means you have likely been running OpenProject before 8.0.0
 
@@ -49,7 +49,7 @@ class ConvertToMarkdown < ActiveRecord::Migration[5.1]
       return
     end
 
-    if setting && setting[0] == 'textile'
+    if setting && setting[0] == "textile"
       raise <<~ERROR
         You appear to be upgrading from an old version of OpenProject using textile text formatters.
 

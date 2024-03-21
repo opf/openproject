@@ -29,17 +29,17 @@
 # ++
 #
 
-require 'spec_helper'
-require_relative 'shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-RSpec.describe 'Team planner overview',
+RSpec.describe "Team planner overview",
                :with_cuprite,
                with_ee: %i[team_planner_view] do
   # The order the Projects are created in is important. By naming `project` alphanumerically
   # after `other_project`, we can ensure that subsequent specs that assert sorting is
   # correct for the right reasons (sorting by Project name and not id)
-  shared_let(:project) { create(:project, name: 'Project 2') }
-  shared_let(:other_project) { create(:project, name: 'Project 1') }
+  shared_let(:project) { create(:project, name: "Project 2") }
+  shared_let(:other_project) { create(:project, name: "Project 1") }
 
   shared_let(:admin) { create(:admin) }
   shared_let(:user_with_full_permissions) do
@@ -53,7 +53,7 @@ RSpec.describe 'Team planner overview',
   end
   shared_let(:user_with_limited_permissions) do
     create(:user,
-           firstname: 'Bernd',
+           firstname: "Bernd",
            member_with_permissions: { project => %w[view_work_packages view_team_planner] })
   end
 
@@ -66,23 +66,23 @@ RSpec.describe 'Team planner overview',
     visit team_planners_path
   end
 
-  it 'renders a global menu with its item selected' do
-    within '#main-menu' do
-      expect(page).to have_css '.selected', text: 'Team planners'
+  it "renders a global menu with its item selected" do
+    within "#main-menu" do
+      expect(page).to have_css ".selected", text: "Team planners"
     end
   end
 
-  it 'shows a create button' do
+  it "shows a create button" do
     team_planner.expect_create_button
   end
 
-  context 'with no views' do
-    it 'shows an empty overview action' do
+  context "with no views" do
+    it "shows an empty overview action" do
       team_planner.expect_no_views_rendered
     end
   end
 
-  context 'with existing views' do
+  context "with existing views" do
     shared_let(:query) do
       create(:public_query, user: user_with_full_permissions, project:)
     end
@@ -111,27 +111,27 @@ RSpec.describe 'Team planner overview',
       create(:view_team_planner, query: other_project_query)
     end
 
-    context 'as an admin' do
+    context "as an admin" do
       let(:current_user) { admin }
 
-      it 'shows those views' do
+      it "shows those views" do
         team_planner.expect_views_rendered(query, other_query, other_project_query)
 
         team_planner.expect_no_delete_buttons_for(query, other_query, other_project_query)
       end
     end
 
-    context 'as a user with full permissions within a project' do
+    context "as a user with full permissions within a project" do
       let(:current_user) { user_with_full_permissions }
 
-      it 'shows views in projects the user is a member of' do
+      it "shows views in projects the user is a member of" do
         team_planner.expect_views_rendered(query, private_query, other_query)
 
         team_planner.expect_no_delete_buttons_for(query, private_query, other_query)
       end
 
-      context 'and as the author of a private view' do
-        it 'shows my private view' do
+      context "and as the author of a private view" do
+        it "shows my private view" do
           team_planner.expect_views_rendered(query, private_query, other_query)
 
           team_planner.expect_no_delete_buttons_for(query, private_query, other_query)
@@ -139,36 +139,36 @@ RSpec.describe 'Team planner overview',
       end
     end
 
-    context 'as a user with limited permissions within a project' do
+    context "as a user with limited permissions within a project" do
       let(:current_user) { user_with_limited_permissions }
 
-      it 'does not show the management buttons' do
+      it "does not show the management buttons" do
         team_planner.expect_no_create_button
         team_planner.expect_no_delete_buttons_for(query, other_query)
       end
 
-      it 'shows views in projects the user is a member of' do
+      it "shows views in projects the user is a member of" do
         team_planner.expect_views_rendered(query, other_query)
       end
     end
 
-    describe 'sorting' do
+    describe "sorting" do
       let(:current_user) { admin }
 
-      it 'allows sorting by all columns' do
+      it "allows sorting by all columns" do
         # Initial sort is Name ASC
         # We can assert this by expecting the order to be
         # 1. query
         # 2. other_query
         # 3. other_project_query
-        aggregate_failures 'Sorting by Name' do
+        aggregate_failures "Sorting by Name" do
           team_planner.expect_views_listed_in_order(query, other_query, other_project_query)
-          team_planner.click_to_sort_by('Name')
+          team_planner.click_to_sort_by("Name")
           team_planner.expect_views_listed_in_order(other_project_query, other_query, query)
         end
 
-        aggregate_failures 'Sorting by Project' do
-          team_planner.click_to_sort_by('Project')
+        aggregate_failures "Sorting by Project" do
+          team_planner.click_to_sort_by("Project")
           # Sorting is performed on multiple columns at a time, taking into account
           # previous sorting criteria and using the latest clicked column as
           # the first column in the +ORDER BY+ clause and previously sorted by columns after.
@@ -180,14 +180,14 @@ RSpec.describe 'Team planner overview',
           #   visual feedback of all columns currently being taken into account for
           #   sorting.
           team_planner.expect_views_listed_in_order(other_project_query, other_query, query)
-          team_planner.click_to_sort_by('Project')
+          team_planner.click_to_sort_by("Project")
           team_planner.expect_views_listed_in_order(other_query, query, other_project_query)
         end
 
-        aggregate_failures 'Sorting by Created on' do
-          team_planner.click_to_sort_by('Created on')
+        aggregate_failures "Sorting by Created on" do
+          team_planner.click_to_sort_by("Created on")
           team_planner.expect_views_listed_in_order(query, other_query, other_project_query)
-          team_planner.click_to_sort_by('Created on')
+          team_planner.click_to_sort_by("Created on")
           team_planner.expect_views_listed_in_order(other_project_query, other_query, query)
         end
       end

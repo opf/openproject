@@ -26,14 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'api/v3/categories/category_representer'
+require "api/v3/categories/category_representer"
 
 module API
   module V3
     module Categories
       class CategoriesAPI < ::API::OpenProjectAPI
         resources :categories do
-          route_param :id, type: Integer, desc: 'Category ID' do
+          route_param :id, type: Integer, desc: "Category ID" do
             after_validation do
               @category = Category.find(params[:id])
               authorize_in_project(:view_project, project: @category.project) do

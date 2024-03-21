@@ -26,16 +26,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe Users::LogoutService, type: :model do
   shared_let(:user) { create(:user) }
   let(:request) { {} }
   let(:browser) do
     instance_double(Browser::Safari,
-                    name: 'Safari',
-                    version: '13.2',
-                    platform: instance_double(Browser::Platform::Linux, name: 'Linux'))
+                    name: "Safari",
+                    version: "13.2",
+                    platform: instance_double(Browser::Platform::Linux, name: "Linux"))
   end
   let(:cookies) { {} }
   let(:controller) { instance_double(ApplicationController, browser:, cookies:) }
@@ -48,8 +48,8 @@ RSpec.describe Users::LogoutService, type: :model do
     allow(controller).to(receive(:reset_session))
   end
 
-  describe 'User.current' do
-    it 'resets it' do
+  describe "User.current" do
+    it "resets it" do
       User.current = user
 
       subject
@@ -58,13 +58,13 @@ RSpec.describe Users::LogoutService, type: :model do
     end
   end
 
-  describe 'delete other sessions on destroy' do
+  describe "delete other sessions on destroy" do
     let!(:sessions) { create_list(:user_session, 2, user:) }
     let!(:other_session) { create(:user_session) }
 
-    context 'when config is enabled',
+    context "when config is enabled",
             with_config: { drop_old_sessions_on_logout: true } do
-      it 'destroys both sessions' do
+      it "destroys both sessions" do
         expect(Sessions::UserSession.count).to eq(3)
         expect(Sessions::UserSession.for_user(user).count).to eq(2)
 
@@ -74,11 +74,11 @@ RSpec.describe Users::LogoutService, type: :model do
         expect(Sessions::UserSession.for_user(user).count).to eq(0)
       end
 
-      describe 'autologin cookie' do
+      describe "autologin cookie" do
         let!(:token) { create(:autologin_token, user:) }
         let!(:other_token) { create(:autologin_token, user:) }
 
-        it 'removes all autologin tokens' do
+        it "removes all autologin tokens" do
           cookies[OpenProject::Configuration.autologin_cookie_name] = token.plain_value
 
           subject
@@ -91,9 +91,9 @@ RSpec.describe Users::LogoutService, type: :model do
       end
     end
 
-    context 'when config is disabled',
+    context "when config is disabled",
             with_config: { drop_old_sessions_on_logout: false } do
-      it 'destroys none of the existing sessions' do
+      it "destroys none of the existing sessions" do
         expect(Sessions::UserSession.count).to eq(3)
         expect(Sessions::UserSession.for_user(user).count).to eq(2)
 
@@ -103,11 +103,11 @@ RSpec.describe Users::LogoutService, type: :model do
         expect(Sessions::UserSession.for_user(user).count).to eq(2)
       end
 
-      describe 'autologin cookie' do
+      describe "autologin cookie" do
         let!(:token) { create(:autologin_token, user:) }
         let!(:other_token) { create(:autologin_token, user:) }
 
-        it 'removes the matching autologin cookie and token' do
+        it "removes the matching autologin cookie and token" do
           cookies[OpenProject::Configuration.autologin_cookie_name] = token.plain_value
 
           subject

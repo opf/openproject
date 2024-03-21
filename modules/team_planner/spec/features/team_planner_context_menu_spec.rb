@@ -1,12 +1,12 @@
-require 'spec_helper'
-require_relative 'shared_context'
-require 'features/work_packages/table/context_menu/context_menu_shared_examples'
+require "spec_helper"
+require_relative "shared_context"
+require "features/work_packages/table/context_menu/context_menu_shared_examples"
 
-RSpec.describe 'Work package table context menu',
+RSpec.describe "Work package table context menu",
                :js,
                with_ee: %i[team_planner_view],
                with_settings: { start_of_week: 1 } do
-  include_context 'with team planner full access'
+  include_context "with team planner full access"
 
   let!(:work_package) do
     create(:work_package,
@@ -37,7 +37,7 @@ RSpec.describe 'Work package table context menu',
     end
   end
 
-  it_behaves_like 'provides a single WP context menu' do
+  it_behaves_like "provides a single WP context menu" do
     let(:open_context_menu) do
       -> {
         team_planner.visit!

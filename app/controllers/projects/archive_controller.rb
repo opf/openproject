@@ -48,7 +48,7 @@ class Projects::ArchiveController < ApplicationController
       redirect_to(projects_path)
     else
       flash[:error] = t(:"error_can_not_#{status}_project",
-                        errors: service_call.errors.full_messages.join(', '))
+                        errors: service_call.errors.full_messages.join(", "))
       redirect_back fallback_location: projects_path
     end
   end

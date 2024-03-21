@@ -25,7 +25,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'capybara/rspec'
+require "capybara/rspec"
 
 module TestSelectorFinders
   def test_selector(value)
@@ -47,7 +47,7 @@ module TestSelectorFinders
 end
 
 RSpec.configure do |config|
-  Capybara.test_id = 'data-test-selector'
+  Capybara.test_id = "data-test-selector"
   Capybara.add_selector(:test_id) do
     xpath do |locator|
       XPath.descendant[XPath.attr(Capybara.test_id) == locator]

@@ -28,6 +28,6 @@ bugs!
 For a complete list of changes, please refer to the 
 [Changelog v3.0.16](https://community.openproject.org/versions/544) 
 or have a look at 
-[GitHub](https://github.com/opf/openproject/tree/v3.0.16).
+[Github](https://github.com/opf/openproject/tree/v3.0.16).
 
 

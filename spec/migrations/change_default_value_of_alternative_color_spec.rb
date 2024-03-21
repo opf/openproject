@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require Rails.root.join("db/migrate/20240306083241_change_default_value_of_alternative_color.rb")
 
 RSpec.describe ChangeDefaultValueOfAlternativeColor, type: :model do
-  context 'when migrating up' do
-    context 'when there is no custom value set' do
+  context "when migrating up" do
+    context "when there is no custom value set" do
       let(:design_color) do
         DesignColor.new variable: "alternative-color",
                         hexcode: OpenProject::CustomStyles::ColorThemes::DEPRECATED_ALTERNATIVE_COLOR
@@ -46,13 +46,13 @@ RSpec.describe ChangeDefaultValueOfAlternativeColor, type: :model do
 
       it "changes the default value" do
         expect { subject }
-          .to change { DesignColor.where(variable: 'alternative-color').first.hexcode }
+          .to change { DesignColor.where(variable: "alternative-color").first.hexcode }
                 .from(OpenProject::CustomStyles::ColorThemes::DEPRECATED_ALTERNATIVE_COLOR)
                 .to(OpenProject::CustomStyles::ColorThemes::PRIMER_PRIMARY_BUTTON_COLOR)
       end
     end
 
-    context 'when there is a custom value set' do
+    context "when there is a custom value set" do
       let(:design_color) do
         DesignColor.new variable: "alternative-color", hexcode: "#AB1234"
       end
@@ -66,13 +66,13 @@ RSpec.describe ChangeDefaultValueOfAlternativeColor, type: :model do
 
       it "does not change the default value" do
         expect { subject }
-          .not_to change { DesignColor.where(variable: 'alternative-color').first.hexcode }
+          .not_to change { DesignColor.where(variable: "alternative-color").first.hexcode }
       end
     end
   end
 
-  context 'when migrating down' do
-    context 'when there is no custom value set' do
+  context "when migrating down" do
+    context "when there is no custom value set" do
       let(:design_color) do
         DesignColor.new variable: "alternative-color",
                         hexcode: OpenProject::CustomStyles::ColorThemes::PRIMER_PRIMARY_BUTTON_COLOR
@@ -87,13 +87,13 @@ RSpec.describe ChangeDefaultValueOfAlternativeColor, type: :model do
 
       it "changes the default value" do
         expect { subject }
-          .to change { DesignColor.where(variable: 'alternative-color').first.hexcode }
+          .to change { DesignColor.where(variable: "alternative-color").first.hexcode }
                 .from(OpenProject::CustomStyles::ColorThemes::PRIMER_PRIMARY_BUTTON_COLOR)
                 .to(OpenProject::CustomStyles::ColorThemes::DEPRECATED_ALTERNATIVE_COLOR)
       end
     end
 
-    context 'when there is a custom value set' do
+    context "when there is a custom value set" do
       let(:design_color) do
         DesignColor.new variable: "alternative-color", hexcode: "#AB1234"
       end
@@ -107,7 +107,7 @@ RSpec.describe ChangeDefaultValueOfAlternativeColor, type: :model do
 
       it "does not change the default value" do
         expect { subject }
-          .not_to change { DesignColor.where(variable: 'alternative-color').first.hexcode }
+          .not_to change { DesignColor.where(variable: "alternative-color").first.hexcode }
       end
     end
   end

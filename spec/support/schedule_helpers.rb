@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Dir[Rails.root.join('spec/support/schedule_helpers/*.rb')].each { |f| require f }
+Dir[Rails.root.join("spec/support/schedule_helpers/*.rb")].each { |f| require f }
 
 RSpec.configure do |config|
   config.extend ScheduleHelpers::LetSchedule

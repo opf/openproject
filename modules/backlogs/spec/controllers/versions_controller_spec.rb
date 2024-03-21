@@ -26,12 +26,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe VersionsController do
   let(:version) do
     create(:version,
-           sharing: 'system')
+           sharing: "system")
   end
 
   let(:other_project) do
@@ -51,7 +51,7 @@ RSpec.describe VersionsController do
   before do
     # Create a version assigned to a project
     @oldVersionName = version.name
-    @newVersionName = 'NewVersionName'
+    @newVersionName = "NewVersionName"
 
     # Create params to update version
     @params = {}
@@ -60,19 +60,19 @@ RSpec.describe VersionsController do
     login_as current_user
   end
 
-  describe 'update' do
-    it 'does not allow to update versions from different projects' do
+  describe "update" do
+    it "does not allow to update versions from different projects" do
       @params[:project_id] = other_project.id
-      patch 'update', params: @params
+      patch "update", params: @params
       version.reload
 
       expect(response).to redirect_to project_settings_versions_path(other_project)
       expect(version.name).to eq(@oldVersionName)
     end
 
-    it 'allows to update versions from the version project' do
+    it "allows to update versions from the version project" do
       @params[:project_id] = version.project.id
-      patch 'update', params: @params
+      patch "update", params: @params
       version.reload
 
       expect(response).to redirect_to project_settings_versions_path(version.project)

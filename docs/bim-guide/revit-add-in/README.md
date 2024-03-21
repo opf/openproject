@@ -48,7 +48,7 @@ The **OpenProject Revit AddIn** does not have any special system requirements. A
 
 To download the setup application for the **OpenProject Revit AddIn**, click here: [DOWNLOAD](https://github.com/opf/openproject-revit-add-in/releases/download/v2.3.3/OpenProject.Revit.exe)
 
-You can find the latest version of our AddIn on [GitHub](https://github.com/opf/openproject-revit-add-in/releases/latest) as well.
+You can find the latest version of our AddIn on [Github](https://github.com/opf/openproject-revit-add-in/releases/latest) as well.
 
 
 

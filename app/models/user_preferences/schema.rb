@@ -28,7 +28,7 @@
 
 class UserPreferences::Schema
   class << self
-    PATH = Rails.root.join('config/schemas/user_preferences.schema.json')
+    PATH = Rails.root.join("config/schemas/user_preferences.schema.json")
 
     class_attribute :extensions,
                     default: {}
@@ -37,7 +37,7 @@ class UserPreferences::Schema
       @schema ||= begin
         json = JSON::parse(File.read(PATH))
         extensions.each do |path, extension|
-          existing = json.dig(*path.split('/'))
+          existing = json.dig(*path.split("/"))
 
           existing.merge!(extension)
         end
@@ -51,7 +51,7 @@ class UserPreferences::Schema
     end
 
     def properties
-      @properties ||= schema.dig('definitions', 'UserPreferences', 'properties')&.keys || []
+      @properties ||= schema.dig("definitions", "UserPreferences", "properties")&.keys || []
     end
   end
 end

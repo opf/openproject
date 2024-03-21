@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Estimated hours display', :js do
+RSpec.describe "Estimated hours display", :js do
   shared_let(:project) { create(:project) }
   shared_let(:user) { create(:admin) }
   shared_let(:wiki_page) { create(:wiki_page, wiki: project.wiki) }
@@ -58,8 +58,8 @@ RSpec.describe 'Estimated hours display', :js do
     login_as(user)
   end
 
-  shared_examples 'estimated time display' do |expected_text:|
-    it 'work package index' do
+  shared_examples "estimated time display" do |expected_text:|
+    it "work package index" do
       wp_table.visit_query query
       wp_table.expect_work_package_listed child
 
@@ -68,19 +68,19 @@ RSpec.describe 'Estimated hours display', :js do
       )
     end
 
-    it 'work package details' do
+    it "work package details" do
       visit work_package_path(parent.id)
 
       expect(page).to have_content("Work\n#{expected_text}")
     end
 
-    it 'wiki page workPackageValue:id:estimatedTime macro' do
+    it "wiki page workPackageValue:id:estimatedTime macro" do
       visit edit_project_wiki_path(project, wiki_page.id)
 
       editor.set_markdown("workPackageValue:#{parent.id}:estimatedTime")
-      click_on 'Save'
+      click_on "Save"
 
-      expect(page).to have_css('.wiki-content', text: expected_text)
+      expect(page).to have_css(".wiki-content", text: expected_text)
     end
   end
 
@@ -91,7 +91,7 @@ RSpec.describe 'Estimated hours display', :js do
         child     |   3h |
     TABLE
 
-    include_examples 'estimated time display', expected_text: '1 h·Σ 4 h'
+    include_examples "estimated time display", expected_text: "1 h·Σ 4 h"
   end
 
   context "with just work" do
@@ -101,7 +101,7 @@ RSpec.describe 'Estimated hours display', :js do
         child     |   0h |
     TABLE
 
-    include_examples 'estimated time display', expected_text: '1 h'
+    include_examples "estimated time display", expected_text: "1 h"
   end
 
   context "with just derived work with (parent work 0 h)" do
@@ -111,7 +111,7 @@ RSpec.describe 'Estimated hours display', :js do
         child     |   3h |
     TABLE
 
-    include_examples 'estimated time display', expected_text: '0 h·Σ 3 h'
+    include_examples "estimated time display", expected_text: "0 h·Σ 3 h"
   end
 
   context "with just derived work (parent work unset)" do
@@ -121,7 +121,7 @@ RSpec.describe 'Estimated hours display', :js do
         child     |   3h |
     TABLE
 
-    include_examples 'estimated time display', expected_text: '-·Σ 3 h'
+    include_examples "estimated time display", expected_text: "-·Σ 3 h"
   end
 
   context "with neither work nor derived work (both 0 h)" do
@@ -131,7 +131,7 @@ RSpec.describe 'Estimated hours display', :js do
         child     |   0h |
     TABLE
 
-    include_examples 'estimated time display', expected_text: '0 h'
+    include_examples "estimated time display", expected_text: "0 h"
   end
 
   context "with neither work nor derived work (both unset)" do
@@ -141,10 +141,10 @@ RSpec.describe 'Estimated hours display', :js do
         child     |      |
     TABLE
 
-    include_examples 'estimated time display', expected_text: '-'
+    include_examples "estimated time display", expected_text: "-"
   end
 
-  describe 'link to detailed view' do
+  describe "link to detailed view" do
     let_work_packages(<<~TABLE)
       hierarchy          | work |
       parent             |   5h |
@@ -158,7 +158,7 @@ RSpec.describe 'Estimated hours display', :js do
     # Run UpdateAncestorsService on the grand child to update the whole hierarchy derived values
     let(:initiator_work_package) { grand_child21 }
 
-    it 'displays a link to a detailed view explaining work calculation' do
+    it "displays a link to a detailed view explaining work calculation" do
       wp_table.visit_query query
 
       # parent
@@ -169,29 +169,29 @@ RSpec.describe 'Estimated hours display', :js do
       expect(page).to have_link("Σ 15 h")
     end
 
-    context 'when clicking the link of a top parent' do
+    context "when clicking the link of a top parent" do
       before do
         visit work_package_path(parent)
       end
 
-      it 'shows a work package table with a parent filter to list the direct children' do
+      it "shows a work package table with a parent filter to list the direct children" do
         click_on("Σ 20 h")
 
         wp_table.expect_work_package_count(4)
         wp_table.expect_work_package_listed(parent, child1, child2, child3)
         within(:table) do
-          expect(page).to have_columnheader('Work')
-          expect(page).to have_columnheader('Remaining work')
+          expect(page).to have_columnheader("Work")
+          expect(page).to have_columnheader("Remaining work")
         end
       end
     end
 
-    context 'when clicking the link of an intermediate parent' do
+    context "when clicking the link of an intermediate parent" do
       before do
         visit work_package_path(child2)
       end
 
-      it 'shows also all ancestors in the work package table' do
+      it "shows also all ancestors in the work package table" do
         expect(page).to have_content("Work\n3 h·Σ 15 h")
         click_on("Σ 15 h")
 

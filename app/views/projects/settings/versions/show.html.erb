@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if current_user.allowed_in_project?(:manage_versions, @project) %>
     <li class="toolbar-item">
       <%= link_to_if_authorized({ controller: '/versions', action: 'new', project_id: @project },
-                                { class: 'button -alt-highlight',
+                                { class: 'button -primary',
                                   aria: {label: t(:label_version_new)},
                                   title: t(:label_version_new)}) do %>
         <%= op_icon('button--icon icon-add') %>

@@ -32,7 +32,7 @@
 class WorkPackageRole < Role
   def self.givable
     super
-      .where(type: 'WorkPackageRole')
+      .where(type: "WorkPackageRole")
   end
 
   def member?

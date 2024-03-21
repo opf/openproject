@@ -26,56 +26,56 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require File.expand_path('../../../../spec_helper', __dir__)
+require File.expand_path("../../../../spec_helper", __dir__)
 
 RSpec.describe OpenProject::GithubIntegration::NotificationHandler::Helper do
   subject(:handler) { Class.new.include(described_class).new }
 
   before do
-    allow(Setting).to receive(:host_name).and_return('example.net')
+    allow(Setting).to receive(:host_name).and_return("example.net")
   end
 
-  describe '#extract_work_package_ids' do
-    it 'returns an empty array for an empty source' do
-      expect(handler.extract_work_package_ids('')).to eq([])
+  describe "#extract_work_package_ids" do
+    it "returns an empty array for an empty source" do
+      expect(handler.extract_work_package_ids("")).to eq([])
     end
 
-    it 'returns an empty array for a null source' do
+    it "returns an empty array for a null source" do
       expect(handler.extract_work_package_ids(nil)).to eq([])
     end
 
-    it 'finds a work package by code' do
+    it "finds a work package by code" do
       source = "Blabla\nOP#1234\n"
       expect(handler.extract_work_package_ids(source)).to eq([1234])
     end
 
-    it 'finds a plain work package url' do
+    it "finds a plain work package url" do
       source = 'Blabla\nhttps://example.net/work_packages/234\n'
       expect(handler.extract_work_package_ids(source)).to eq([234])
     end
 
-    it 'finds a work package url in markdown link syntax' do
+    it "finds a work package url in markdown link syntax" do
       source = 'Blabla\n[WP 234](https://example.net/work_packages/234)\n'
       expect(handler.extract_work_package_ids(source)).to eq([234])
     end
 
-    it 'finds multiple work package urls' do
+    it "finds multiple work package urls" do
       source = "I reference https://example.net/work_packages/434\n and Blabla\n[WP 234](https://example.net/wp/234)\n"
       expect(handler.extract_work_package_ids(source)).to eq([434, 234])
     end
 
-    it 'finds multiple occurrences of a work package only once' do
+    it "finds multiple occurrences of a work package only once" do
       source = "I reference https://example.net/work_packages/434\n and Blabla\n[WP 234](https://example.net/work_packages/434)\n"
       expect(handler.extract_work_package_ids(source)).to eq([434])
     end
   end
 
-  describe '#find_visible_work_packages' do
+  describe "#find_visible_work_packages" do
     let(:user) { build_stubbed(:user) }
     let(:visible_wp) { instance_double(WorkPackage, project: :project_with_permissions) }
     let(:invisible_wp) { instance_double(WorkPackage, project: :project_without_permissions) }
 
-    shared_examples_for 'it finds visible work packages' do
+    shared_examples_for "it finds visible work packages" do
       subject(:find_visible_work_packages) { handler.find_visible_work_packages(ids, user) }
 
       before do
@@ -87,41 +87,41 @@ RSpec.describe OpenProject::GithubIntegration::NotificationHandler::Helper do
         end
       end
 
-      it 'finds work packages visible to the user' do
+      it "finds work packages visible to the user" do
         expect(find_visible_work_packages).to eql(expected)
       end
     end
 
-    describe 'should find an existing work package' do
+    describe "should find an existing work package" do
       let(:work_packages) { [visible_wp] }
       let(:ids) { [0] }
       let(:expected) { work_packages }
 
-      it_behaves_like 'it finds visible work packages'
+      it_behaves_like "it finds visible work packages"
     end
 
-    describe 'should not find a non-existing work package' do
+    describe "should not find a non-existing work package" do
       let(:work_packages) { [invisible_wp] }
       let(:ids) { [0] }
       let(:expected) { [] }
 
-      it_behaves_like 'it finds visible work packages'
+      it_behaves_like "it finds visible work packages"
     end
 
-    describe 'should find multiple existing work packages' do
+    describe "should find multiple existing work packages" do
       let(:work_packages) { [visible_wp, visible_wp] }
       let(:ids) { [0, 1] }
       let(:expected) { work_packages }
 
-      it_behaves_like 'it finds visible work packages'
+      it_behaves_like "it finds visible work packages"
     end
 
-    describe 'should not find work package which the user shall not see' do
+    describe "should not find work package which the user shall not see" do
       let(:work_packages) { [visible_wp, invisible_wp, visible_wp, invisible_wp] }
       let(:ids) { [0, 1, 2, 3] }
       let(:expected) { [visible_wp, visible_wp] }
 
-      it_behaves_like 'it finds visible work packages'
+      it_behaves_like "it finds visible work packages"
     end
   end
 end

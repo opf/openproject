@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require_relative '../../support/pages/ifc_models/show_default'
+require "spec_helper"
+require_relative "../../support/pages/ifc_models/show_default"
 
-RSpec.describe 'Selecting cards in the card view (regression #31962)', :js, with_config: { edition: 'bim' } do
+RSpec.describe "Selecting cards in the card view (regression #31962)", :js, with_config: { edition: "bim" } do
   let(:user) { create(:admin) }
   let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
   let(:wp_table) { Pages::IfcModels::ShowDefault.new(project) }
@@ -45,12 +45,12 @@ RSpec.describe 'Selecting cards in the card view (regression #31962)', :js, with
 
     login_as(user)
     wp_table.visit!
-    wp_table.switch_view 'Cards'
+    wp_table.switch_view "Cards"
     cards.expect_work_package_listed work_package1, work_package2, work_package3
   end
 
-  describe 'selecting cards' do
-    it 'can select and deselect all cards' do
+  describe "selecting cards" do
+    it "can select and deselect all cards" do
       # Select all
       cards.select_all_work_packages
       cards.expect_work_package_selected work_package1, true
@@ -64,7 +64,7 @@ RSpec.describe 'Selecting cards in the card view (regression #31962)', :js, with
       cards.expect_work_package_selected work_package3, false
     end
 
-    it 'can select and deselect single cards' do
+    it "can select and deselect single cards" do
       # Select a card
       cards.select_work_package work_package1
       cards.expect_work_package_selected work_package1, true
@@ -84,7 +84,7 @@ RSpec.describe 'Selecting cards in the card view (regression #31962)', :js, with
       cards.expect_work_package_selected work_package3, false
     end
 
-    it 'can select and deselect range of cards' do
+    it "can select and deselect range of cards" do
       # Select the first WP
       cards.select_work_package work_package1
       cards.expect_work_package_selected work_package1, true
@@ -105,20 +105,20 @@ RSpec.describe 'Selecting cards in the card view (regression #31962)', :js, with
     end
   end
 
-  describe 'opening' do
-    it 'the full screen view via double click' do
+  describe "opening" do
+    it "the full screen view via double click" do
       cards.open_full_screen_by_doubleclick(work_package1)
-      expect(page).to have_css('.work-packages--details--subject',
+      expect(page).to have_css(".work-packages--details--subject",
                                text: work_package1.subject)
     end
 
-    it 'the split screen of the selected WP' do
+    it "the split screen of the selected WP" do
       cards.open_split_view_by_info_icon(work_package2)
       split_wp = Pages::SplitWorkPackage.new(work_package2)
       split_wp.expect_attributes Subject: work_package2.subject
     end
 
-    it 'can move between card details using info icon (Regression #33451)' do
+    it "can move between card details using info icon (Regression #33451)" do
       # move to first details
       split = cards.open_split_view_by_info_icon work_package1
       split.expect_subject

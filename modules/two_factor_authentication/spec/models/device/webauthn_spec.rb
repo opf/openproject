@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe TwoFactorAuthentication::Device::Webauthn do
   let(:user) { create(:user) }

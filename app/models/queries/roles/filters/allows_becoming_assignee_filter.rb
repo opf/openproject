@@ -41,7 +41,7 @@ class Queries::Roles::Filters::AllowsBecomingAssigneeFilter <
                        unassignable_permissions
                      end
 
-    if operator == '='
+    if operator == "="
       ["role_permissions.id IN (?)", permission_ids]
     else
       ["role_permissions.id NOT IN (?)", permission_ids]
@@ -60,12 +60,12 @@ class Queries::Roles::Filters::AllowsBecomingAssigneeFilter <
   private
 
   def assignable_permissions
-    RolePermission.where(permission: 'work_package_assigned')
-                  .select('id')
+    RolePermission.where(permission: "work_package_assigned")
+                  .select("id")
   end
 
   def unassignable_permissions
-    RolePermission.where.not(permission: 'work_package_assigned')
-                  .select('id')
+    RolePermission.where.not(permission: "work_package_assigned")
+                  .select("id")
   end
 end

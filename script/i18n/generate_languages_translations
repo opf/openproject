@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 begin
-  require 'cldr'
+  require "cldr"
 rescue LoadError
   warn <<~MSG
     Error: the ruby-cldr gem is not installed
@@ -9,15 +9,15 @@ rescue LoadError
   MSG
   exit 1
 end
-require 'pathname'
-require 'yaml'
+require "pathname"
+require "yaml"
 
 class App
   class << self
     def locales
-      @locales ||= rails_root.glob('config/locales/**/*.yml')
-          .map { |f| f.basename.to_s.split('.', 2).first }
-          .reject! { |l| l.start_with?('js-') || l == 'lol' }
+      @locales ||= rails_root.glob("config/locales/**/*.yml")
+          .map { |f| f.basename.to_s.split(".", 2).first }
+          .reject! { |l| l.start_with?("js-") || l == "lol" }
           .uniq
           .map(&:to_sym)
     end
@@ -26,7 +26,7 @@ class App
       @rails_root ||=
         Pathname.new(__dir__)
           .ascend
-          .find { |dir| dir.join('Gemfile').exist? }
+          .find { |dir| dir.join("Gemfile").exist? }
           .tap { |dir| raise "Unable to find Rails root directory (looking up from #{__dir__})" if dir.nil? }
     end
   end
@@ -37,7 +37,7 @@ class CldrTranslations
 
   def initialize
     ensure_cldr_database_is_downloaded
-    Cldr::Export::Data.dir = cldr_db_location.join('common').to_s
+    Cldr::Export::Data.dir = cldr_db_location.join("common").to_s
   end
 
   def language_name(locale)
@@ -72,8 +72,8 @@ class CldrTranslations
   #   zh-TW <=> zh-Hant (zh-Hant or zh-Hant-TW (Taiwan) is preferred zh-TW)
   def cldr_supported(locale)
     case locale
-    when :'zh-CN' then :'zh-Hans-CN'
-    when :'zh-TW' then :'zh-Hant-TW'
+    when :"zh-CN" then :"zh-Hans-CN"
+    when :"zh-TW" then :"zh-Hant-TW"
     else locale
     end
   end
@@ -85,8 +85,8 @@ class CldrTranslations
   # From :'pt-PT', returns [:'pt-PT', :pt]
   def variations(locale)
     locale.to_s
-      .split('-')
-      .reduce([]) { |variations, part| variations.unshift([variations.first, part].compact.join('-')) }
+      .split("-")
+      .reduce([]) { |variations, part| variations.unshift([variations.first, part].compact.join("-")) }
       .then { |variations| insert_self_variation(variations) }
       .select { |variation| available_locale?(variation) }
       .map(&:to_sym)
@@ -106,13 +106,13 @@ class CldrTranslations
   end
 
   def available_locales
-    @available_locales ||= Set.new(Cldr::Export::Data.locales.map { _1.tr('_', '-') })
+    @available_locales ||= Set.new(Cldr::Export::Data.locales.map { _1.tr("_", "-") })
   end
 
   def ensure_cldr_database_is_downloaded
     return if cldr_db_location.exist?
 
-    require 'cldr/download'
+    require "cldr/download"
     target = cldr_db_location.to_s
     source = "https://unicode.org/Public/cldr/#{CLDR_VERSION}/core.zip"
     puts <<~MSG
@@ -153,7 +153,7 @@ class GenerateTranslationFiles
     end
 
     def create_translation_file(locale)
-      translations_directory.join("#{locale}.yml").open('w') do |f|
+      translations_directory.join("#{locale}.yml").open("w") do |f|
         f.puts COMMENT
         YAML.dump(yaml_content(locale), f)
       end
@@ -162,8 +162,8 @@ class GenerateTranslationFiles
     def yaml_content(locale)
       {
         locale.to_s => {
-          'cldr' => {
-            'language_name' => cldr_translations.language_name(locale)
+          "cldr" => {
+            "language_name" => cldr_translations.language_name(locale)
           }
         }
       }
@@ -174,7 +174,7 @@ class GenerateTranslationFiles
     end
 
     def translations_directory
-      @translations_directory ||= App.rails_root.join('config/locales/generated').tap do |dir|
+      @translations_directory ||= App.rails_root.join("config/locales/generated").tap do |dir|
         dir.mkdir unless dir.exist?
       end
     end

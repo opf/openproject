@@ -28,12 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 require_module_spec_helper
-require 'contracts/shared/model_contract_shared_context'
+require "contracts/shared/model_contract_shared_context"
 
-RSpec.shared_examples_for 'file_link contract' do
-  include_context 'ModelContract shared context'
+RSpec.shared_examples_for "file_link contract" do
+  include_context "ModelContract shared context"
 
   let(:current_user) { create(:user) }
   let(:role) { create(:project_role, permissions: [:manage_file_links]) }
@@ -50,125 +50,125 @@ RSpec.shared_examples_for 'file_link contract' do
   let(:file_link_creator) { current_user }
   let(:file_link_attributes) { {} }
 
-  it_behaves_like 'contract is valid for active admins and invalid for regular users'
+  it_behaves_like "contract is valid for active admins and invalid for regular users"
 
-  describe 'validations' do
-    context 'when all attributes are valid' do
-      it_behaves_like 'contract is valid'
+  describe "validations" do
+    context "when all attributes are valid" do
+      it_behaves_like "contract is valid"
     end
 
-    describe 'storage_id' do
-      context 'when empty' do
+    describe "storage_id" do
+      context "when empty" do
         let(:storage_id) { "" }
         let(:file_link) { create(:file_link, container: work_package, storage_id:) }
 
-        include_examples 'contract is invalid', storage: :blank
+        include_examples "contract is invalid", storage: :blank
       end
     end
 
-    describe 'origin_id' do
-      context 'when empty' do
-        let(:file_link_attributes) { { origin_id: '' } }
+    describe "origin_id" do
+      context "when empty" do
+        let(:file_link_attributes) { { origin_id: "" } }
 
-        include_examples 'contract is invalid', origin_id: %i[blank too_short]
+        include_examples "contract is invalid", origin_id: %i[blank too_short]
       end
 
-      context 'when nil' do
+      context "when nil" do
         let(:file_link_attributes) { { origin_id: nil } }
 
-        include_examples 'contract is invalid', origin_id: %i[blank too_short]
+        include_examples "contract is invalid", origin_id: %i[blank too_short]
       end
 
-      context 'when numeric' do
+      context "when numeric" do
         let(:file_link_attributes) { { origin_id: 12345 } }
 
-        include_examples 'contract is valid'
+        include_examples "contract is valid"
       end
 
-      context 'when uuid-like' do
-        let(:file_link_attributes) { { origin_id: '5eda571a-819e-44b2-939c-2301f9322ac6' } }
+      context "when uuid-like" do
+        let(:file_link_attributes) { { origin_id: "5eda571a-819e-44b2-939c-2301f9322ac6" } }
 
-        include_examples 'contract is valid'
+        include_examples "contract is valid"
       end
 
-      context 'when having non ascii characters' do
-        let(:file_link_attributes) { { origin_id: 'Hëllò Wôrłd!' } }
+      context "when having non ascii characters" do
+        let(:file_link_attributes) { { origin_id: "Hëllò Wôrłd!" } }
 
-        include_examples 'contract is valid'
+        include_examples "contract is valid"
       end
 
-      context 'when longer than 100 characters' do
-        let(:file_link_attributes) { { origin_id: '1' * 201 } }
+      context "when longer than 100 characters" do
+        let(:file_link_attributes) { { origin_id: "1" * 201 } }
 
-        include_examples 'contract is invalid', origin_id: :too_long
+        include_examples "contract is invalid", origin_id: :too_long
       end
     end
 
-    describe 'origin_name' do
-      context 'when empty' do
-        let(:file_link_attributes) { { origin_name: '' } }
+    describe "origin_name" do
+      context "when empty" do
+        let(:file_link_attributes) { { origin_name: "" } }
 
-        include_examples 'contract is invalid', origin_name: :blank
+        include_examples "contract is invalid", origin_name: :blank
       end
 
-      context 'when nil' do
+      context "when nil" do
         let(:file_link_attributes) { { origin_name: nil } }
 
-        include_examples 'contract is invalid', origin_name: :blank
+        include_examples "contract is invalid", origin_name: :blank
       end
     end
 
-    describe 'origin_mime_type' do
-      context 'when empty' do
-        let(:file_link_attributes) { { origin_mime_type: '' } }
+    describe "origin_mime_type" do
+      context "when empty" do
+        let(:file_link_attributes) { { origin_mime_type: "" } }
 
-        include_examples 'contract is valid'
+        include_examples "contract is valid"
       end
 
-      context 'when nil' do
+      context "when nil" do
         let(:file_link_attributes) { { origin_mime_type: nil } }
 
-        include_examples 'contract is valid'
+        include_examples "contract is valid"
       end
 
-      context 'when anything' do
-        let(:file_link_attributes) { { origin_mime_type: 'abcdef/zyxwvut' } }
+      context "when anything" do
+        let(:file_link_attributes) { { origin_mime_type: "abcdef/zyxwvut" } }
 
-        include_examples 'contract is valid'
+        include_examples "contract is valid"
       end
 
-      context 'when longer than 255 characters' do
-        let(:file_link_attributes) { { origin_mime_type: 'a' * 256 } }
+      context "when longer than 255 characters" do
+        let(:file_link_attributes) { { origin_mime_type: "a" * 256 } }
 
-        include_examples 'contract is invalid', origin_mime_type: :too_long
+        include_examples "contract is invalid", origin_mime_type: :too_long
       end
     end
 
-    shared_examples_for 'optional attribute' do |params|
-      context 'when nil' do
+    shared_examples_for "optional attribute" do |params|
+      context "when nil" do
         let(:file_link_attributes) { params.transform_values { nil } }
 
-        include_examples 'contract is valid'
+        include_examples "contract is valid"
       end
 
       context "when #{params.inspect}" do
         let(:file_link_attributes) { params }
 
-        include_examples 'contract is valid'
+        include_examples "contract is valid"
       end
     end
 
     {
-      origin_created_by_name: 'someone',
-      origin_last_modified_by_name: 'someone',
+      origin_created_by_name: "someone",
+      origin_last_modified_by_name: "someone",
       origin_created_at: Time.zone.now,
       origin_updated_at: Time.zone.now
     }.each do |(attribute, a_valid_value)|
       describe attribute.name do
-        it_behaves_like 'optional attribute', attribute => a_valid_value
+        it_behaves_like "optional attribute", attribute => a_valid_value
       end
     end
   end
 
-  include_examples 'contract reuses the model errors'
+  include_examples "contract reuses the model errors"
 end

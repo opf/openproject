@@ -50,7 +50,7 @@ class Projects::TemplatedController < ApplicationController
       flash[:notice] = t(:notice_successful_update)
     else
       messages = [
-        t('activerecord.errors.template.header', model: Project.model_name.human, count: service_call.errors.count),
+        t("activerecord.errors.template.header", model: Project.model_name.human, count: service_call.errors.count),
         service_call.message
       ]
 

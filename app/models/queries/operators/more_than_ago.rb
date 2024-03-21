@@ -28,8 +28,8 @@
 
 module Queries::Operators
   class MoreThanAgo < Base
-    label 'more_than_ago'
-    set_symbol '<t-'
+    label "more_than_ago"
+    set_symbol "<t-"
 
     extend DateRangeClauses
 

@@ -63,7 +63,7 @@ module Users
     def ensure_provider_not_limited!
       if limited_provider?(user) && Setting::SelfRegistration.disabled?
         name = provider_name(user)
-        ServiceResult.failure(result: user, message: I18n.t('account.error_self_registration_limited_provider', name:))
+        ServiceResult.failure(result: user, message: I18n.t("account.error_self_registration_limited_provider", name:))
       end
     end
 
@@ -72,7 +72,7 @@ module Users
     # for non-invited users
     def ensure_registration_allowed!
       if Setting::SelfRegistration.disabled?
-        ServiceResult.failure(result: user, message: I18n.t('account.error_self_registration_disabled'))
+        ServiceResult.failure(result: user, message: I18n.t("account.error_self_registration_disabled"))
       end
     end
 

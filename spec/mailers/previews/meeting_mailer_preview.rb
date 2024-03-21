@@ -30,8 +30,8 @@ class MeetingMailerPreview < ActionMailer::Preview
   # Preview emails at http://localhost:3000/rails/mailers/meeting_mailer
 
   def rescheduled
-    language = params['locale'] || I18n.default_locale
-    actor = FactoryBot.build_stubbed(:user, lastname: 'Actor')
+    language = params["locale"] || I18n.default_locale
+    actor = FactoryBot.build_stubbed(:user, lastname: "Actor")
     user = FactoryBot.build_stubbed(:user, language:)
     meeting = FactoryBot.build_stubbed(:meeting, start_time: 1.day.from_now, duration: 1.0)
 
@@ -46,8 +46,8 @@ class MeetingMailerPreview < ActionMailer::Preview
   end
 
   def invited
-    language = params['locale'] || I18n.default_locale
-    actor = FactoryBot.build_stubbed(:user, lastname: 'Actor')
+    language = params["locale"] || I18n.default_locale
+    actor = FactoryBot.build_stubbed(:user, lastname: "Actor")
     user = FactoryBot.build_stubbed(:user, language:)
     meeting = FactoryBot.build_stubbed(:meeting)
 

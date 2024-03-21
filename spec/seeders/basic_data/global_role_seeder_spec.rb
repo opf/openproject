@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe BasicData::GlobalRoleSeeder do
   subject(:seeder) { described_class.new(seed_data) }
@@ -39,7 +39,7 @@ RSpec.describe BasicData::GlobalRoleSeeder do
     seeder.seed!
   end
 
-  context 'with some global roles defined' do
+  context "with some global roles defined" do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
         global_roles:
@@ -51,21 +51,21 @@ RSpec.describe BasicData::GlobalRoleSeeder do
       SEEDING_DATA_YAML
     end
 
-    it 'creates the corresponding global roles with the given attributes' do
+    it "creates the corresponding global roles with the given attributes" do
       expect(GlobalRole.count).to eq(1)
-      expect(GlobalRole.find_by(name: 'Staff manager')).to have_attributes(
+      expect(GlobalRole.find_by(name: "Staff manager")).to have_attributes(
         builtin: Role::NON_BUILTIN,
         permissions: %i[hire_people give_feedback]
       )
     end
 
-    it 'references the role in the seed data' do
-      role = GlobalRole.find_by(name: 'Staff manager')
+    it "references the role in the seed data" do
+      role = GlobalRole.find_by(name: "Staff manager")
       expect(seed_data.find_reference(:role_staff_manager)).to eq(role)
     end
   end
 
-  context 'with permissions: :all_assignable_permissions' do
+  context "with permissions: :all_assignable_permissions" do
     let(:data_hash) do
       YAML.load <<~SEEDING_DATA_YAML
         global_roles:
@@ -77,8 +77,8 @@ RSpec.describe BasicData::GlobalRoleSeeder do
       SEEDING_DATA_YAML
     end
 
-    it 'gives all assignable permissions to the role' do
-      expect(GlobalRole.find_by(name: 'Project admin').permissions)
+    it "gives all assignable permissions to the role" do
+      expect(GlobalRole.find_by(name: "Project admin").permissions)
         .to match_array(Roles::CreateContract.new(GlobalRole.new, nil).assignable_permissions.map { _1.name.to_sym })
     end
   end

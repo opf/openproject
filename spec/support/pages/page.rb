@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative '../toasts/expectations'
+require_relative "../toasts/expectations"
 
 module Pages
   class Page
@@ -41,7 +41,7 @@ module Pages
     end
 
     def visit!
-      raise 'No path defined' unless path
+      raise "No path defined" unless path
 
       visit path
 
@@ -95,7 +95,7 @@ module Pages
     end
 
     def click_to_sort_by(header_name)
-      within '.generic-table thead' do
+      within ".generic-table thead" do
         click_link header_name
       end
     end
@@ -156,7 +156,7 @@ module Pages
     def navigate_to_modules_menu_item(link_title)
       visit root_path
 
-      within '#more-menu', visible: false do
+      within "#more-menu", visible: false do
         click_on link_title, visible: false
       end
     end

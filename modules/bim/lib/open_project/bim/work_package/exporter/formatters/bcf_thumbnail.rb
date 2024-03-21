@@ -5,7 +5,7 @@ module OpenProject::Bim::WorkPackage::Exporter::Formatters
     end
 
     def format(work_package, **_options)
-      work_package&.bcf_issue&.viewpoints&.any? ? "x" : ''
+      work_package&.bcf_issue&.viewpoints&.any? ? "x" : ""
     end
   end
 end

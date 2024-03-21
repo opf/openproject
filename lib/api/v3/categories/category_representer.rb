@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
+require "roar/decorator"
+require "roar/json/hal"
 
 module API
   module V3
@@ -64,7 +64,7 @@ module API
         property :name, render_nil: true
 
         def _type
-          'Category'
+          "Category"
         end
       end
     end

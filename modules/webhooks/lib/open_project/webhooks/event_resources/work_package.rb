@@ -1,4 +1,4 @@
-require_relative 'base'
+require_relative "base"
 
 module OpenProject::Webhooks::EventResources
   class WorkPackage < Base

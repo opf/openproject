@@ -39,9 +39,9 @@ module Copy
         source
           .dup
           .attributes
-          .except('file')
-          .merge('author_id' => user.id,
-                 'container_id' => to_id)
+          .except("file")
+          .merge("author_id" => user.id,
+                 "container_id" => to_id)
       end
 
       def update_references(attachment_source:, attachment_target:, model_source:, model_target:, references:)

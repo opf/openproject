@@ -26,11 +26,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/work_packages/work_packages_page'
+require "spec_helper"
+require "features/work_packages/work_packages_page"
 
-RSpec.describe 'Work package query summary item', :js do
-  let(:project) { create(:project, identifier: 'test_project', public: false) }
+RSpec.describe "Work package query summary item", :js do
+  let(:project) { create(:project, identifier: "test_project", public: false) }
   let(:role) { create(:project_role, permissions: [:view_work_packages]) }
   let(:work_package) { create(:work_package, project:) }
   let(:wp_page) { Pages::WorkPackagesTable.new project }
@@ -43,9 +43,9 @@ RSpec.describe 'Work package query summary item', :js do
     wp_page.visit!
   end
 
-  it 'allows users to visit the summary page' do
-    find('.op-sidemenu--item-action', text: 'Summary', wait: 10).click
-    expect(page).to have_css('h2', text: 'Summary')
-    expect(page).to have_css('td', text: work_package.type.name)
+  it "allows users to visit the summary page" do
+    find(".op-sidemenu--item-action", text: "Summary", wait: 10).click
+    expect(page).to have_css("h2", text: "Summary")
+    expect(page).to have_css("td", text: work_package.type.name)
   end
 end

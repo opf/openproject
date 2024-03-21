@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe RbBurndownChartsController do
-  describe 'routing' do
+  describe "routing" do
     it {
-      expect(get('/projects/project_42/sprints/21/burndown_chart')).to route_to(controller: 'rb_burndown_charts',
-                                                                                action: 'show',
-                                                                                project_id: 'project_42',
-                                                                                sprint_id: '21')
+      expect(get("/projects/project_42/sprints/21/burndown_chart")).to route_to(controller: "rb_burndown_charts",
+                                                                                action: "show",
+                                                                                project_id: "project_42",
+                                                                                sprint_id: "21")
     }
   end
 end

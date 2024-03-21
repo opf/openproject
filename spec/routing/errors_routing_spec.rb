@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'errors routing' do
-  it { is_expected.to route(:get, '/404').to(controller: 'errors', action: 'not_found') }
-  it { is_expected.to route(:get, '/422').to(controller: 'errors', action: 'unacceptable') }
-  it { is_expected.to route(:get, '/500').to(controller: 'errors', action: 'internal_error') }
+RSpec.describe "errors routing" do
+  it { is_expected.to route(:get, "/404").to(controller: "errors", action: "not_found") }
+  it { is_expected.to route(:get, "/422").to(controller: "errors", action: "unacceptable") }
+  it { is_expected.to route(:get, "/500").to(controller: "errors", action: "internal_error") }
 end

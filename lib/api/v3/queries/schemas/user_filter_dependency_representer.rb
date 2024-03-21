@@ -39,13 +39,13 @@ module API
           private
 
           def filter_query
-            params = [{ type: { operator: '=',
+            params = [{ type: { operator: "=",
                                 values: %w[User Group PlaceholderUser] } },
-                      { status: { operator: '!',
+                      { status: { operator: "!",
                                   values: [Principal.statuses[:locked].to_s] } }]
 
             if filter.project
-              params << { member: { operator: '=', values: [filter.project.id.to_s] } }
+              params << { member: { operator: "=", values: [filter.project.id.to_s] } }
             end
 
             params

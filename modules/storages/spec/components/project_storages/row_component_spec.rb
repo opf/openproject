@@ -26,13 +26,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 #
-require_relative '../../spec_helper'
+require_relative "../../spec_helper"
 
 RSpec.describe Storages::ProjectStorages::RowComponent,
                type: :component do
-  describe '#button_links' do
-    context 'with non-automatic project storage' do
-      it 'renders edit and delete buttons' do
+  describe "#button_links" do
+    context "with non-automatic project storage" do
+      it "renders edit and delete buttons" do
         project_storage = build_stubbed(:project_storage)
         expect(project_storage).not_to be_project_folder_automatic
 
@@ -41,14 +41,14 @@ RSpec.describe Storages::ProjectStorages::RowComponent,
 
         render_inline(component)
 
-        expect(page).to have_no_css('a.icon.icon-group')
-        expect(page).to have_css('a.icon.icon-edit')
-        expect(page).to have_css('a.icon.icon-delete')
+        expect(page).to have_no_css("a.icon.icon-group")
+        expect(page).to have_css("a.icon.icon-edit")
+        expect(page).to have_css("a.icon.icon-delete")
       end
     end
 
-    context 'with automatic project storage' do
-      it 'renders members connection status, edit and delete buttons' do
+    context "with automatic project storage" do
+      it "renders members connection status, edit and delete buttons" do
         project_storage = build_stubbed(:project_storage, :as_automatically_managed)
         expect(project_storage).to be_project_folder_automatic
 
@@ -57,9 +57,9 @@ RSpec.describe Storages::ProjectStorages::RowComponent,
 
         render_inline(component)
 
-        expect(page).to have_css('a.icon.icon-group')
-        expect(page).to have_css('a.icon.icon-edit')
-        expect(page).to have_css('a.icon.icon-delete')
+        expect(page).to have_css("a.icon.icon-group")
+        expect(page).to have_css("a.icon.icon-edit")
+        expect(page).to have_css("a.icon.icon-delete")
       end
     end
   end

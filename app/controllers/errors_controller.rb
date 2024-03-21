@@ -26,6 +26,6 @@ class ErrorsController < ActionController::Base
   end
 
   def use_layout
-    'only_logo'
+    "only_logo"
   end
 end

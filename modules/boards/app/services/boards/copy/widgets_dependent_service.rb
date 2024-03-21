@@ -31,7 +31,7 @@ module Boards::Copy
     protected
 
     def duplicate_widget(widget, _new_board, _params)
-      unless widget.identifier == 'work_package_query'
+      unless widget.identifier == "work_package_query"
         raise "Expected widget work_package_query, got #{widget.identifier}"
       end
 

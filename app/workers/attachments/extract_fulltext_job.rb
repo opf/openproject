@@ -67,7 +67,7 @@ module Attachments
     def update
       Attachment
         .where(id: @attachment_id)
-        .update_all(['fulltext = ?, fulltext_tsv = to_tsvector(?, ?), file_tsv = to_tsvector(?, ?)',
+        .update_all(["fulltext = ?, fulltext_tsv = to_tsvector(?, ?), file_tsv = to_tsvector(?, ?)",
                      @text,
                      @language,
                      OpenProject::FullTextSearch.normalize_text(@text),

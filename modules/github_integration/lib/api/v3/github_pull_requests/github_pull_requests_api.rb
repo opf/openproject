@@ -31,7 +31,7 @@ module API
     module GithubPullRequests
       class GithubPullRequestsAPI < ::API::OpenProjectAPI
         resources :github_pull_requests do
-          route_param :id, type: Integer, desc: 'Pull Request ID' do
+          route_param :id, type: Integer, desc: "Pull Request ID" do
             after_validation do
               @pull_request = GithubPullRequest.find(declared_params[:id])
 

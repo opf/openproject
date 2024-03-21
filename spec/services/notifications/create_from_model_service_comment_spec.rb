@@ -25,15 +25,15 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require 'spec_helper'
-require_relative 'create_from_journal_job_shared'
+require "spec_helper"
+require_relative "create_from_journal_job_shared"
 
-RSpec.describe Notifications::CreateFromModelService, 'comment', with_settings: { journal_aggregation_time_minutes: 0 } do
+RSpec.describe Notifications::CreateFromModelService, "comment", with_settings: { journal_aggregation_time_minutes: 0 } do
   subject(:call) do
     described_class.new(resource).call(send_notifications)
   end
 
-  include_context 'with CreateFromJournalJob context'
+  include_context "with CreateFromJournalJob context"
 
   shared_let(:project) { create(:project) }
   shared_let(:news) { create(:news, project:) }
@@ -45,7 +45,7 @@ RSpec.describe Notifications::CreateFromModelService, 'comment', with_settings: 
     create(:comment,
            commented: news,
            author:,
-           comments: 'Some text')
+           comments: "Some text")
   end
 
   let(:journal) { nil }
@@ -58,10 +58,10 @@ RSpec.describe Notifications::CreateFromModelService, 'comment', with_settings: 
     recipient
   end
 
-  describe '#perform' do
-    context 'with a newly created comment' do
-      context 'with the user having registered for all notifications' do
-        it_behaves_like 'creates notification' do
+  describe "#perform" do
+    context "with a newly created comment" do
+      context "with the user having registered for all notifications" do
+        it_behaves_like "creates notification" do
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
@@ -73,37 +73,37 @@ RSpec.describe Notifications::CreateFromModelService, 'comment', with_settings: 
         end
       end
 
-      context 'with the user having registered for assignee notifications' do
+      context "with the user having registered for assignee notifications" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false.merge(assignee: true))
           ]
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for responsible notifications' do
+      context "with the user having registered for responsible notifications" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false.merge(responsible: true))
           ]
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for no notifications' do
+      context "with the user having registered for no notifications" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false)
           ]
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for watcher notifications and watching the news' do
+      context "with the user having registered for watcher notifications and watching the news" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false.merge(watched: true))
@@ -114,7 +114,7 @@ RSpec.describe Notifications::CreateFromModelService, 'comment', with_settings: 
           news.watcher_users << recipient
         end
 
-        it_behaves_like 'creates notification' do
+        it_behaves_like "creates notification" do
           let(:notification_channel_reasons) do
             {
               read_ian: nil,
@@ -126,7 +126,7 @@ RSpec.describe Notifications::CreateFromModelService, 'comment', with_settings: 
         end
       end
 
-      context 'with the user not having registered for watcher notifications and watching the news' do
+      context "with the user not having registered for watcher notifications and watching the news" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false)
@@ -137,25 +137,25 @@ RSpec.describe Notifications::CreateFromModelService, 'comment', with_settings: 
           news.watcher_users << recipient
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for watcher notifications and not watching the news' do
+      context "with the user having registered for watcher notifications and not watching the news" do
         let(:recipient_notification_settings) do
           [
             build(:notification_setting, **notification_settings_all_false.merge(watched: true))
           ]
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
 
-      context 'with the user having registered for all notifications but lacking permissions' do
+      context "with the user having registered for all notifications but lacking permissions" do
         before do
           recipient.members.destroy_all
         end
 
-        it_behaves_like 'creates no notification'
+        it_behaves_like "creates no notification"
       end
     end
   end

@@ -42,7 +42,7 @@ class Queries::WorkPackages::Selects::RelationOfTypeSelect < Queries::WorkPackag
   alias :relation_type :sym
 
   def caption
-    I18n.t(:'activerecord.attributes.query.relations_of_type_column',
+    I18n.t(:"activerecord.attributes.query.relations_of_type_column",
            type: I18n.t(type[:sym_name]).capitalize)
   end
 

@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'features/page_objects/notification'
+require "spec_helper"
+require "features/page_objects/notification"
 
-RSpec.describe 'Work package transitive status workflows', :js do
+RSpec.describe "Work package transitive status workflows", :js do
   let(:dev_role) do
     create(:project_role,
            permissions: %i[view_work_packages
@@ -37,8 +37,8 @@ RSpec.describe 'Work package transitive status workflows', :js do
   end
   let(:dev) do
     create(:user,
-           firstname: 'Dev',
-           lastname: 'Guy',
+           firstname: "Dev",
+           lastname: "Guy",
            member_with_roles: { project => dev_role })
   end
 
@@ -89,7 +89,7 @@ RSpec.describe 'Work package transitive status workflows', :js do
 
   ##
   # Regression test for #24129
-  it 'allows to move to the final status as defined in the workflow' do
+  it "allows to move to the final status as defined in the workflow" do
     wp_page.update_attributes status: status_intermediate.name
     wp_page.expect_attributes status: status_intermediate.name
 

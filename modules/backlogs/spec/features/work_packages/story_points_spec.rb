@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work packages having story points', :js, :with_cuprite do
+RSpec.describe "Work packages having story points", :js, :with_cuprite do
   before do
     login_as current_user
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return('points_burn_direction' => 'down',
-                                                                       'wiki_template' => '',
-                                                                       'story_types' => [story_type.id.to_s],
-                                                                       'task_type' => task_type.id.to_s)
+    allow(Setting).to receive(:plugin_openproject_backlogs).and_return("points_burn_direction" => "down",
+                                                                       "wiki_template" => "",
+                                                                       "story_types" => [story_type.id.to_s],
+                                                                       "task_type" => task_type.id.to_s)
   end
 
   let(:current_user) { create(:admin) }
@@ -46,7 +46,7 @@ RSpec.describe 'Work packages having story points', :js, :with_cuprite do
   let(:story_type) { create(:type_feature) }
   let(:task_type) { create(:type_feature) }
 
-  describe 'showing the story points on the work package show page' do
+  describe "showing the story points on the work package show page" do
     let(:story_points) { 42 }
     let(:story_with_sp) do
       create(:story,
@@ -57,7 +57,7 @@ RSpec.describe 'Work packages having story points', :js, :with_cuprite do
              story_points:)
     end
 
-    it 'is displayed' do
+    it "is displayed" do
       wp_page = Pages::FullWorkPackage.new(story_with_sp)
 
       wp_page.visit!

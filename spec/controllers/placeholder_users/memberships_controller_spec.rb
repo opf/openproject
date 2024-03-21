@@ -26,8 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'work_package'
+require "spec_helper"
+require "work_package"
 
 RSpec.describe PlaceholderUsers::MembershipsController do
   shared_let(:placeholder_user) { create(:placeholder_user) }
@@ -35,8 +35,8 @@ RSpec.describe PlaceholderUsers::MembershipsController do
   shared_let(:project) { create(:project) }
   shared_let(:role) { create(:project_role) }
 
-  shared_examples 'update memberships flow' do
-    it 'works' do
+  shared_examples "update memberships flow" do
+    it "works" do
       # i.e. it should successfully add a placeholder user to a project's members
       post :create,
            params: {
@@ -47,10 +47,10 @@ RSpec.describe PlaceholderUsers::MembershipsController do
              }
            }
 
-      expect(response).to redirect_to(controller: '/placeholder_users',
-                                      action: 'edit',
+      expect(response).to redirect_to(controller: "/placeholder_users",
+                                      action: "edit",
                                       id: placeholder_user.id,
-                                      tab: 'memberships')
+                                      tab: "memberships")
 
       is_member = placeholder_user.reload.memberships.any? do |m|
         m.project_id == project.id && m.role_ids.include?(role.id)
@@ -59,9 +59,9 @@ RSpec.describe PlaceholderUsers::MembershipsController do
     end
   end
 
-  shared_examples 'update memberships forbidden flow' do
-    describe 'POST create' do
-      it 'returns an error' do
+  shared_examples "update memberships forbidden flow" do
+    describe "POST create" do
+      it "returns an error" do
         post :create, params: {
           placeholder_user_id: placeholder_user.id,
           membership: {
@@ -74,8 +74,8 @@ RSpec.describe PlaceholderUsers::MembershipsController do
       end
     end
 
-    describe 'PUT update' do
-      it 'returns an error' do
+    describe "PUT update" do
+      it "returns an error" do
         put :update, params: {
           placeholder_user_id: placeholder_user.id,
           id: 1234
@@ -85,8 +85,8 @@ RSpec.describe PlaceholderUsers::MembershipsController do
       end
     end
 
-    describe 'DELETE destroy' do
-      it 'returns an error' do
+    describe "DELETE destroy" do
+      it "returns an error" do
         delete :destroy, params: {
           placeholder_user_id: placeholder_user.id,
           id: 1234
@@ -97,27 +97,27 @@ RSpec.describe PlaceholderUsers::MembershipsController do
     end
   end
 
-  context 'as admin' do
+  context "as admin" do
     current_user { create(:admin) }
 
-    it_behaves_like 'update memberships flow'
+    it_behaves_like "update memberships flow"
   end
 
-  context 'as user with global permission and manage_members' do
+  context "as user with global permission and manage_members" do
     current_user do
       create(:user,
              member_with_permissions: { project => %i[manage_members] },
              global_permissions: %i[manage_placeholder_user])
     end
 
-    it_behaves_like 'update memberships flow'
+    it_behaves_like "update memberships flow"
   end
 
-  context 'as user with global permission but not project permission' do
+  context "as user with global permission but not project permission" do
     current_user { create(:user, global_permissions: %i[manage_placeholder_user]) }
 
-    describe 'POST create' do
-      it 'redirects but fails to create' do
+    describe "POST create" do
+      it "redirects but fails to create" do
         post :create, params: {
           placeholder_user_id: placeholder_user.id,
           membership: {
@@ -131,12 +131,12 @@ RSpec.describe PlaceholderUsers::MembershipsController do
       end
     end
 
-    context 'with a membership in another project that is invisible' do
+    context "with a membership in another project that is invisible" do
       shared_let(:project2) { create(:project) }
       shared_let(:membership) { create(:member, principal: placeholder_user, project: project2, roles: [role]) }
 
-      describe 'PUT update' do
-        it 'returns an error' do
+      describe "PUT update" do
+        it "returns an error" do
           put :update, params: {
             placeholder_user_id: placeholder_user.id,
             id: membership.id
@@ -146,8 +146,8 @@ RSpec.describe PlaceholderUsers::MembershipsController do
         end
       end
 
-      describe 'DELETE destroy' do
-        it 'returns an error' do
+      describe "DELETE destroy" do
+        it "returns an error" do
           delete :destroy, params: {
             placeholder_user_id: placeholder_user.id,
             id: membership.id
@@ -159,9 +159,9 @@ RSpec.describe PlaceholderUsers::MembershipsController do
     end
   end
 
-  context 'as user without global permission' do
+  context "as user without global permission" do
     current_user { create(:user) }
 
-    it_behaves_like 'update memberships forbidden flow'
+    it_behaves_like "update memberships forbidden flow"
   end
 end

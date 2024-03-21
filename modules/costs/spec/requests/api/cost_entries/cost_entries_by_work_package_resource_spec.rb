@@ -26,10 +26,10 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'rack/test'
+require "spec_helper"
+require "rack/test"
 
-RSpec.describe 'API v3 Cost Entry resource' do
+RSpec.describe "API v3 Cost Entry resource" do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
@@ -57,57 +57,57 @@ RSpec.describe 'API v3 Cost Entry resource' do
     get get_path
   end
 
-  describe 'work_packages/:id/cost_entries' do
+  describe "work_packages/:id/cost_entries" do
     let(:get_path) { api_v3_paths.cost_entries_by_work_package work_package.id }
 
-    context 'user can see any cost entries' do
-      it 'returns HTTP 200' do
+    context "user can see any cost entries" do
+      it "returns HTTP 200" do
         expect(response.status).to be(200)
       end
     end
 
-    context 'user can see own cost entries' do
+    context "user can see own cost entries" do
       let(:cost_entry_permissions) { [:view_own_cost_entries] }
 
-      it 'returns HTTP 200' do
+      it "returns HTTP 200" do
         expect(response.status).to be(200)
       end
     end
 
-    context 'user has no cost entry permissions' do
+    context "user has no cost entry permissions" do
       let(:cost_entry_permissions) { [] }
 
-      it_behaves_like 'error response',
+      it_behaves_like "error response",
                       403,
-                      'MissingPermission',
-                      I18n.t('api_v3.errors.code_403')
+                      "MissingPermission",
+                      I18n.t("api_v3.errors.code_403")
     end
   end
 
-  describe 'work_packages/:id/summarized_costs_by_type' do
+  describe "work_packages/:id/summarized_costs_by_type" do
     let(:get_path) { api_v3_paths.summarized_work_package_costs_by_type work_package.id }
 
-    context 'user can see any cost entries' do
-      it 'returns HTTP 200' do
+    context "user can see any cost entries" do
+      it "returns HTTP 200" do
         expect(response.status).to be(200)
       end
     end
 
-    context 'user can see own cost entries' do
+    context "user can see own cost entries" do
       let(:cost_entry_permissions) { [:view_own_cost_entries] }
 
-      it 'returns HTTP 200' do
+      it "returns HTTP 200" do
         expect(response.status).to be(200)
       end
     end
 
-    context 'user has no cost entry permissions' do
+    context "user has no cost entry permissions" do
       let(:cost_entry_permissions) { [] }
 
-      it_behaves_like 'error response',
+      it_behaves_like "error response",
                       403,
-                      'MissingPermission',
-                      I18n.t('api_v3.errors.code_403')
+                      "MissingPermission",
+                      I18n.t("api_v3.errors.code_403")
     end
   end
 end

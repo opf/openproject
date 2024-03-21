@@ -38,7 +38,7 @@ module Storages::Peripherals::StorageInteraction::Nextcloud
 
     def call(path:)
       query_params = {
-        depth: '1',
+        depth: "1",
         path:,
         props: %w[oc:fileid]
       }

@@ -38,6 +38,6 @@ class DevelopmentDataSeeder < CompositeSeeder
   end
 
   def namespace
-    'DevelopmentData'
+    "DevelopmentData"
   end
 end

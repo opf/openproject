@@ -26,15 +26,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
-require 'services/shared_type_service'
+require "spec_helper"
+require "services/shared_type_service"
 
 RSpec.describe CreateTypeService do
   let(:type) { instance.type }
   let(:user) { build_stubbed(:admin) }
 
   let(:instance) { described_class.new(user) }
-  let(:service_call) { instance.call({ name: 'foo' }.merge(params), {}) }
+  let(:service_call) { instance.call({ name: "foo" }.merge(params), {}) }
 
-  it_behaves_like 'type service'
+  it_behaves_like "type service"
 end

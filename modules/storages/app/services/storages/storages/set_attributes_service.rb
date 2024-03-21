@@ -43,13 +43,13 @@ module Storages::Storages
     end
 
     def remove_host_trailing_slashes
-      storage.host = storage.host&.gsub(/\/+$/, '')
+      storage.host = storage.host&.gsub(/\/+$/, "")
     end
 
     def replace_empty_host_with_nil(params)
       cloned_param = params.clone
 
-      if cloned_param[:host] == ''
+      if cloned_param[:host] == ""
         cloned_param[:host] = nil
       end
 

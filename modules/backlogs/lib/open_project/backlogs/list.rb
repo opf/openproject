@@ -45,7 +45,7 @@ module OpenProject::Backlogs::List
     # Also sanitize_sql seems to be unavailable in a sensible way. Therefore
     # we're using send to circumvent visibility work_packages.
     def scope_condition
-      self.class.send(:sanitize_sql, ['project_id = ? AND version_id = ? AND type_id IN (?)',
+      self.class.send(:sanitize_sql, ["project_id = ? AND version_id = ? AND type_id IN (?)",
                                       project_id, version_id, types])
     end
 
@@ -88,8 +88,8 @@ module OpenProject::Backlogs::List
     end
 
     def fix_other_work_package_positions
-      if changes.slice('project_id', 'type_id', 'version_id').present?
-        if changes.slice('project_id', 'version_id').blank? and
+      if changes.slice("project_id", "type_id", "version_id").present?
+        if changes.slice("project_id", "version_id").blank? and
            Story.types.include?(type_id.to_i) and
            Story.types.include?(type_id_was.to_i)
           return
@@ -132,8 +132,8 @@ module OpenProject::Backlogs::List
     end
 
     def fix_own_work_package_position
-      if changes.slice('project_id', 'type_id', 'version_id').present?
-        if changes.slice('project_id', 'version_id').blank? and
+      if changes.slice("project_id", "type_id", "version_id").present?
+        if changes.slice("project_id", "version_id").blank? and
            Story.types.include?(type_id.to_i) and
            Story.types.include?(type_id_was.to_i)
           return

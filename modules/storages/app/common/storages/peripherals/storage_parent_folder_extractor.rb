@@ -35,7 +35,7 @@ module Storages::Peripherals
     end
 
     def root?
-      @path == '/'
+      @path == "/"
     end
 
     def to_s
@@ -45,7 +45,7 @@ module Storages::Peripherals
 
   module StorageParentFolderExtractor
     def extract_parent_folder(params)
-      ParentFolder.new(params[:parent].presence || '/')
+      ParentFolder.new(params[:parent].presence || "/")
     end
   end
 end

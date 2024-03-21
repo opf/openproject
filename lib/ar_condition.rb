@@ -30,7 +30,7 @@ class ARCondition
   attr_reader :conditions
 
   def initialize(condition = nil)
-    @conditions = ['1=1']
+    @conditions = ["1=1"]
     add(condition) if condition
   end
 

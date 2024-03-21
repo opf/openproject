@@ -28,14 +28,14 @@
 
 class OpenProject::JournalFormatter::Template < JournalFormatter::Base
   def render(_key, values, options = { html: true })
-    label_text = label('project')
+    label_text = label("project")
     label_text = content_tag(:strong, label_text) if options[:html]
 
     value =
       if values.last
-        I18n.t('activerecord.attributes.project.templated_value.true')
+        I18n.t("activerecord.attributes.project.templated_value.true")
       else
-        I18n.t('activerecord.attributes.project.templated_value.false')
+        I18n.t("activerecord.attributes.project.templated_value.false")
       end
     value = content_tag(:strong, value) if options[:html]
 

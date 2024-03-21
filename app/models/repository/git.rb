@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/scm/adapters/git'
+require "open_project/scm/adapters/git"
 
 class Repository::Git < Repository
   validates :url, presence: true
@@ -40,7 +40,7 @@ class Repository::Git < Repository
     if scm_type == self.class.managed_type
       unless manageable?
         raise OpenProject::SCM::Exceptions::RepositoryBuildError.new(
-          I18n.t('repositories.managed.error_not_manageable')
+          I18n.t("repositories.managed.error_not_manageable")
         )
       end
 
@@ -69,7 +69,7 @@ class Repository::Git < Repository
   end
 
   def repository_type
-    'Git'
+    "Git"
   end
 
   ##
@@ -84,7 +84,7 @@ class Repository::Git < Repository
   end
 
   def repo_log_encoding
-    'UTF-8'
+    "UTF-8"
   end
 
   def self.authorization_policy
@@ -112,10 +112,10 @@ class Repository::Git < Repository
   def find_changeset_by_name(name)
     return nil if name.nil? || name.empty?
 
-    e = changesets.where(['revision = ?', name.to_s]).first
+    e = changesets.where(["revision = ?", name.to_s]).first
     return e if e
 
-    changesets.where(['scmid LIKE ?', "#{name}%"]).first
+    changesets.where(["scmid LIKE ?", "#{name}%"]).first
   end
 
   # With SCM's that have a sequential commit numbering, redmine is able to be
@@ -127,13 +127,13 @@ class Repository::Git < Repository
   # The repository can still be fully reloaded by calling #clear_changesets
   # before fetching changesets (eg. for offline resync)
   def fetch_changesets
-    c = changesets.order(Arel.sql('committed_on DESC')).first
+    c = changesets.order(Arel.sql("committed_on DESC")).first
     since = (c ? c.committed_on - 7.days : nil)
 
-    revisions = scm.revisions('', nil, nil, all: true, since:, reverse: true)
+    revisions = scm.revisions("", nil, nil, all: true, since:, reverse: true)
     return if revisions.nil? || revisions.empty?
 
-    recent_changesets = changesets.where(['committed_on >= ?', since])
+    recent_changesets = changesets.where(["committed_on >= ?", since])
 
     # Clean out revisions that are no longer in git
     recent_changesets.each { |c| c.destroy unless revisions.detect { |r| r.scmid.to_s == c.scmid.to_s } }
@@ -173,15 +173,15 @@ class Repository::Git < Repository
     revisions = scm.revisions(path, nil, rev, limit:, all: false)
     return [] if revisions.nil? || revisions.empty?
 
-    changesets.where(['scmid IN (?)', revisions.map!(&:scmid)])
-      .order(Arel.sql('committed_on DESC'))
+    changesets.where(["scmid IN (?)", revisions.map!(&:scmid)])
+      .order(Arel.sql("committed_on DESC"))
   end
 
   private
 
   def validity_of_local_url
     parsed = URI.parse root_url.presence || url
-    if parsed.scheme == 'ssh'
+    if parsed.scheme == "ssh"
       errors.add :url, :must_not_be_ssh
     end
   rescue StandardError => e

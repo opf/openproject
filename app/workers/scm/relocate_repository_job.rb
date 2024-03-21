@@ -50,8 +50,8 @@ class SCM::RelocateRepositoryJob < SCM::RemoteRepositoryJob
                               action: :relocate,
                               old_identifier: File.basename(repository.root_url)
                             ))
-    repository.root_url = response['path']
-    repository.url = response['url']
+    repository.root_url = response["path"]
+    repository.url = response["url"]
 
     unless repository.save
       Rails.logger.error("Could not relocate the remote repository " \

@@ -80,7 +80,7 @@ class WikiPages::CopyService
 
   def copy_wiki_page_attachments(copy)
     copy_attachments(
-      'WikiPage',
+      "WikiPage",
       from: model,
       to: copy,
       references: %i[text]

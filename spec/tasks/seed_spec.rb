@@ -26,39 +26,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'db:seed' do # rubocop:disable RSpec/DescribeClass
-  include_context 'rake'
-  let(:task_path) { 'lib/tasks/seed' }
+RSpec.describe "db:seed" do # rubocop:disable RSpec/DescribeClass
+  include_context "rake"
+  let(:task_path) { "lib/tasks/seed" }
 
-  describe 'db:seed:only' do
+  describe "db:seed:only" do
     before do
       allow($stdout).to receive(:puts)
     end
 
-    it 'fails if seeder is not specified' do
+    it "fails if seeder is not specified" do
       expect { subject.invoke }
         .to raise_error "Specify a seeder class name 'rake db:seed:only[Some::ClassName]'"
     end
 
-    it 'runs the specified seeder' do
-      subject.invoke('BasicData::WorkPackageRoleSeeder')
+    it "runs the specified seeder" do
+      subject.invoke("BasicData::WorkPackageRoleSeeder")
       expect(WorkPackageRole.count).to eq 3
     end
 
-    it 'displays an error if the given seeder class name does not exist' do
-      expect { subject.invoke('BasicData::BadSeeder') }
-        .to raise_error ArgumentError, 'No seeder with class name BasicData::BadSeeder'
+    it "displays an error if the given seeder class name does not exist" do
+      expect { subject.invoke("BasicData::BadSeeder") }
+        .to raise_error ArgumentError, "No seeder with class name BasicData::BadSeeder"
     end
 
-    it 'displays an error if the given class name is not a seeder' do
-      expect { subject.invoke('Queries::Queries::QueryQuery') }
-        .to raise_error ArgumentError, 'Queries::Queries::QueryQuery is not a seeder'
+    it "displays an error if the given class name is not a seeder" do
+      expect { subject.invoke("Queries::Queries::QueryQuery") }
+        .to raise_error ArgumentError, "Queries::Queries::QueryQuery is not a seeder"
     end
 
-    it 'does not work for all seeders because of missing references' do
-      expect { subject.invoke('DevelopmentData::ProjectsSeeder') }
+    it "does not work for all seeders because of missing references" do
+      expect { subject.invoke("DevelopmentData::ProjectsSeeder") }
         .to raise_error ActiveRecord::RecordNotFound
       expect(Project.count).to eq 0
     end

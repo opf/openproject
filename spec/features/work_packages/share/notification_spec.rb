@@ -26,7 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
 RSpec.describe "Notifications sent on shared work packages",
                :js,
@@ -62,7 +62,7 @@ RSpec.describe "Notifications sent on shared work packages",
   let(:center) { Pages::Notifications::Center.new }
   let(:side_menu) { Components::Notifications::Sidemenu.new }
 
-  describe 'notification for being mentioned' do
+  describe "notification for being mentioned" do
     before do
       # The notifications need to be created as a different user
       # as they are otherwise swallowed to avoid self notification.
@@ -76,7 +76,7 @@ RSpec.describe "Notifications sent on shared work packages",
       end
     end
 
-    it 'mentioned user receives a notification' do
+    it "mentioned user receives a notification" do
       login_as(recipient)
 
       visit home_path
@@ -88,13 +88,13 @@ RSpec.describe "Notifications sent on shared work packages",
 
       center.expect_work_package_item notification_mentioned
 
-      side_menu.click_item 'Mentioned'
+      side_menu.click_item "Mentioned"
       side_menu.finished_loading
       center.expect_work_package_item notification_mentioned
     end
   end
 
-  describe 'notification for being shared with' do
+  describe "notification for being shared with" do
     before do
       # The notifications need to be created as a different user
       # as they are otherwise swallowed to avoid self notification.
@@ -108,7 +108,7 @@ RSpec.describe "Notifications sent on shared work packages",
       end
     end
 
-    it 'shared with user receives notification' do
+    it "shared with user receives notification" do
       login_as(recipient)
 
       visit home_path
@@ -120,7 +120,7 @@ RSpec.describe "Notifications sent on shared work packages",
 
       center.expect_work_package_item notification_shared
 
-      side_menu.click_item 'Shared'
+      side_menu.click_item "Shared"
       side_menu.finished_loading
       center.expect_work_package_item notification_shared
     end

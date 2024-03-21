@@ -28,13 +28,13 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'Work package sharing invited users',
+RSpec.describe "Work package sharing invited users",
                :js, :with_cuprite,
                with_ee: %i[work_package_sharing] do
   shared_let(:view_work_package_role) { create(:view_work_package_role) }
-  shared_let(:editor) { create(:admin, firstname: 'Mr.', lastname: 'Sharer') }
+  shared_let(:editor) { create(:admin, firstname: "Mr.", lastname: "Sharer") }
 
   shared_let(:sharer_role) do
     create(:project_role,
@@ -54,16 +54,16 @@ RSpec.describe 'Work package sharing invited users',
   let(:work_package_page) { Pages::FullWorkPackage.new(work_package) }
   let(:share_modal) { Components::WorkPackages::ShareModal.new(work_package) }
 
-  it 'allows to invite and activate the account' do
-    login_with(editor.login, 'adminADMIN!')
-    expect(page).to have_current_path '/my/page'
+  it "allows to invite and activate the account" do
+    login_with(editor.login, "adminADMIN!")
+    expect(page).to have_current_path "/my/page"
 
     work_package_page.visit!
     work_package_page.click_share_button
 
     share_modal.expect_open
     # Invite a user that does not exist yet
-    share_modal.invite_user('foobar@example.com', 'View')
+    share_modal.invite_user("foobar@example.com", "View")
     # New user is shown in the list of shares
     share_modal.expect_shared_count_of(1)
 
@@ -76,23 +76,23 @@ RSpec.describe 'Work package sharing invited users',
     user = token.user
     expect(token).to be_present
     expect(user).to be_invited
-    expect(user.mail).to eq 'foobar@example.com'
+    expect(user.mail).to eq "foobar@example.com"
     expect(link).to include token.value
 
     # Can log in and register the first time
     visit signout_path
     visit link
 
-    expect(page).to have_text 'Create a new account'
+    expect(page).to have_text "Create a new account"
     password = SecureRandom.hex(16)
 
-    fill_in 'Password', with: password
-    fill_in 'Confirmation', with: password
+    fill_in "Password", with: password
+    fill_in "Confirmation", with: password
 
-    click_button 'Create'
+    click_button "Create"
 
-    expect(page).to have_text 'Welcome, your account has been activated. You are logged in now.'
-    expect(page).to have_current_path project_work_package_path(project, work_package.id, 'activity')
+    expect(page).to have_text "Welcome, your account has been activated. You are logged in now."
+    expect(page).to have_current_path project_work_package_path(project, work_package.id, "activity")
 
     expect(page).to have_text work_package.subject
     expect(user.reload).to be_active
@@ -101,10 +101,10 @@ RSpec.describe 'Work package sharing invited users',
     visit signout_path
     visit link
 
-    expect(page).to have_text 'Sign in'
-    login_with 'foobar@example.com', password, visit_signin_path: false
+    expect(page).to have_text "Sign in"
+    login_with "foobar@example.com", password, visit_signin_path: false
 
-    expect(page).to have_current_path project_work_package_path(project, work_package.id, 'activity')
+    expect(page).to have_current_path project_work_package_path(project, work_package.id, "activity")
     expect(page).to have_text work_package.subject
   end
 end

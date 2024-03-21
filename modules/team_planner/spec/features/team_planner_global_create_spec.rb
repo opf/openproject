@@ -28,43 +28,43 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-require 'spec_helper'
-require_relative 'shared_context'
+require "spec_helper"
+require_relative "shared_context"
 
-RSpec.describe 'Team Planner',
-               'Creating a view from a Global Context',
+RSpec.describe "Team Planner",
+               "Creating a view from a Global Context",
                :js,
                :with_cuprite,
                with_ee: %i[team_planner_view] do
-  include_context 'with team planner full access'
+  include_context "with team planner full access"
 
-  context 'within the overview page' do
+  context "within the overview page" do
     before do
       visit team_planners_path
     end
 
-    context 'when clicking on the create button' do
+    context "when clicking on the create button" do
       before do
         team_planner.click_on_create_button
       end
 
-      it 'navigates to the global create form' do
+      it "navigates to the global create form" do
         expect(page).to have_current_path(new_team_planners_path)
-        expect(page).to have_content I18n.t('team_planner.label_new_team_planner')
+        expect(page).to have_content I18n.t("team_planner.label_new_team_planner")
       end
     end
   end
 
-  context 'within the global create page' do
+  context "within the global create page" do
     before do
       visit new_team_planners_path
     end
 
-    context 'with all fields set' do
+    context "with all fields set" do
       before do
         wait_for_reload # Halt until the project autocompleter is ready
 
-        team_planner.set_title('Gotham Renewal')
+        team_planner.set_title("Gotham Renewal")
         team_planner.set_project(project)
         team_planner.set_public
         team_planner.set_favoured
@@ -73,15 +73,15 @@ RSpec.describe 'Team Planner',
         wait_for_reload
       end
 
-      it 'creates a view and redirects me to it' do
+      it "creates a view and redirects me to it" do
         expect(page).to have_text(I18n.t(:notice_successful_create))
         expect(page).to have_current_path(project_team_planner_path(project, Query.last), ignore_query: true)
-        expect(page).to have_text('Gotham Renewal')
+        expect(page).to have_text("Gotham Renewal")
       end
     end
 
-    context 'when missing a required field' do
-      describe 'title' do
+    context "when missing a required field" do
+      describe "title" do
         before do
           wait_for_reload # Halt until the project autocompleter is ready
 
@@ -89,7 +89,7 @@ RSpec.describe 'Team Planner',
           team_planner.click_on_submit
         end
 
-        it 'renders a required attribute validation error' do
+        it "renders a required attribute validation error" do
           expect(Query.all).to be_empty
 
           # Required HTML attribute just warns
@@ -97,15 +97,15 @@ RSpec.describe 'Team Planner',
         end
       end
 
-      describe 'project_id' do
+      describe "project_id" do
         before do
-          team_planner.set_title('Gotham Renewal')
+          team_planner.set_title("Gotham Renewal")
           team_planner.click_on_submit
 
           wait_for_reload
         end
 
-        it 'renders a required attribute validation error' do
+        it "renders a required attribute validation error" do
           expect(Query.all).to be_empty
 
           expect(page).to have_text("Project can't be blank.")
@@ -113,13 +113,13 @@ RSpec.describe 'Team Planner',
       end
     end
 
-    describe 'cancel button' do
+    describe "cancel button" do
       context "when it's clicked" do
         before do
           team_planner.click_on_cancel_button
         end
 
-        it 'navigates back to the overview page' do
+        it "navigates back to the overview page" do
           expect(page).to have_current_path(team_planners_path)
         end
       end

@@ -28,11 +28,11 @@
 
 class Reports::VersionReport < Reports::Report
   def self.report_type
-    'version'
+    "version"
   end
 
   def field
-    @field ||= 'version_id'
+    @field ||= "version_id"
   end
 
   def rows

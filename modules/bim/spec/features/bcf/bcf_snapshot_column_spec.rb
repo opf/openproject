@@ -1,7 +1,7 @@
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe 'BCF snapshot column', :js,
-               with_config: { edition: 'bim' } do
+RSpec.describe "BCF snapshot column", :js,
+               with_config: { edition: "bim" } do
   let(:project) { create(:project, enabled_module_names: %w[bim work_package_tracking]) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
   let(:permissions) { %i[add_work_packages view_work_packages view_linked_issues] }
@@ -13,7 +13,7 @@ RSpec.describe 'BCF snapshot column', :js,
   end
   let!(:query) do
     query              = build(:query, user:, project:)
-    query.column_names = ['subject', 'bcf_thumbnail']
+    query.column_names = ["subject", "bcf_thumbnail"]
     query.filters.clear
     query.show_hierarchies = false
 
@@ -25,7 +25,7 @@ RSpec.describe 'BCF snapshot column', :js,
     login_as(user)
   end
 
-  it 'shows BCF snapshot column correctly (Regression)' do
+  it "shows BCF snapshot column correctly (Regression)" do
     wp_table.visit_query query
     wp_table.expect_work_package_listed(work_package)
 

@@ -26,9 +26,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'spec_helper'
+require "spec_helper"
 
-RSpec.describe Projects::Settings::ModulesController, 'menu' do
+RSpec.describe Projects::Settings::ModulesController, "menu" do
   let(:current_user) { build_stubbed(:user) }
 
   let(:project) do
@@ -43,84 +43,84 @@ RSpec.describe Projects::Settings::ModulesController, 'menu' do
     login_as(current_user)
   end
 
-  shared_examples_for 'renders the modules show page' do
-    it 'renders show' do
-      get('show', params:)
+  shared_examples_for "renders the modules show page" do
+    it "renders show" do
+      get("show", params:)
       expect(response).to be_successful
-      expect(response).to render_template 'projects/settings/modules/show'
+      expect(response).to render_template "projects/settings/modules/show"
     end
   end
 
-  shared_examples_for 'has selector' do |selector|
+  shared_examples_for "has selector" do |selector|
     render_views
 
     it do
-      get('show', params:)
+      get("show", params:)
 
       expect(response.body).to have_selector selector
     end
   end
 
-  shared_examples_for 'has no selector' do |selector|
+  shared_examples_for "has no selector" do |selector|
     render_views
 
     it do
-      get('show', params:)
+      get("show", params:)
 
       expect(response.body).to have_no_selector selector
     end
   end
 
-  describe 'show' do
-    describe 'without wiki' do
+  describe "show" do
+    describe "without wiki" do
       before do
         project.wiki.destroy
         project.reload
       end
 
-      it_behaves_like 'renders the modules show page'
+      it_behaves_like "renders the modules show page"
 
-      it_behaves_like 'has no selector', '#main-menu a.wiki-wiki-menu-item'
+      it_behaves_like "has no selector", "#main-menu a.wiki-wiki-menu-item"
     end
 
-    describe 'with wiki' do
-      describe 'without custom wiki menu items' do
-        it_behaves_like 'has selector', '#main-menu a.wiki-wiki-menu-item'
+    describe "with wiki" do
+      describe "without custom wiki menu items" do
+        it_behaves_like "has selector", "#main-menu a.wiki-wiki-menu-item"
       end
 
-      describe 'with custom wiki menu item' do
+      describe "with custom wiki menu item" do
         before do
           main_item = create(:wiki_menu_item,
                              navigatable_id: project.wiki.id,
-                             name: 'example',
-                             title: 'Example Title')
+                             name: "example",
+                             title: "Example Title")
           create(:wiki_menu_item,
                  navigatable_id: project.wiki.id,
-                 name: 'sub',
-                 title: 'Sub Title',
+                 name: "sub",
+                 title: "Sub Title",
                  parent_id: main_item.id)
         end
 
-        it_behaves_like 'renders the modules show page'
+        it_behaves_like "renders the modules show page"
 
-        it_behaves_like 'has selector', '#main-menu a.wiki-example-menu-item'
+        it_behaves_like "has selector", "#main-menu a.wiki-example-menu-item"
 
-        it_behaves_like 'has selector', '#main-menu a.wiki-sub-menu-item'
+        it_behaves_like "has selector", "#main-menu a.wiki-sub-menu-item"
       end
     end
 
-    describe 'with activated activity module' do
+    describe "with activated activity module" do
       let(:enabled_modules) { %w[activity] }
 
-      it_behaves_like 'renders the modules show page'
+      it_behaves_like "renders the modules show page"
 
-      it_behaves_like 'has selector', '#main-menu a.activity-menu-item'
+      it_behaves_like "has selector", "#main-menu a.activity-menu-item"
     end
 
-    describe 'without activated activity module' do
-      it_behaves_like 'renders the modules show page'
+    describe "without activated activity module" do
+      it_behaves_like "renders the modules show page"
 
-      it_behaves_like 'has no selector', '#main-menu a.activity-menu-item'
+      it_behaves_like "has no selector", "#main-menu a.activity-menu-item"
     end
   end
 end

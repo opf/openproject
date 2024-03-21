@@ -27,7 +27,7 @@
 #++
 
 class UsersController < ApplicationController
-  layout 'admin'
+  layout "admin"
 
   before_action :authorize_global, except: %i[show deletion_info destroy]
 
@@ -76,7 +76,7 @@ class UsersController < ApplicationController
 
     if can_show_user?
       @events = events
-      render layout: (can_manage_or_create_users? ? 'admin' : 'no_menu')
+      render layout: (can_manage_or_create_users? ? "admin" : "no_menu")
     else
       render_404
     end
@@ -102,7 +102,7 @@ class UsersController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to(params[:continue] ? new_user_path : helpers.allowed_management_user_profile_path(@user))
     else
-      render action: 'new'
+      render action: "new"
     end
   end
 
@@ -134,7 +134,7 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = I18n.t(:notice_successful_update)
-          redirect_back(fallback_location: edit_user_path(@user))
+          render action: :edit
         end
       end
     else
@@ -160,14 +160,14 @@ class UsersController < ApplicationController
   def change_status
     if @user.id == current_user.id
       # user is not allowed to change own status
-      redirect_back_or_default(action: 'edit', id: @user)
+      redirect_back_or_default(action: "edit", id: @user)
       return
     end
 
     if (params[:unlock] || params[:activate]) && user_limit_reached?
       show_user_limit_error!
 
-      return redirect_back_or_default(action: 'edit', id: @user)
+      return redirect_back_or_default(action: "edit", id: @user)
     end
 
     if params[:unlock]
@@ -182,7 +182,7 @@ class UsersController < ApplicationController
     was_activated = (@user.status_change == %w[registered active])
 
     if params[:activate] && @user.missing_authentication_method?
-      flash[:error] = I18n.t('user.error_status_change_failed',
+      flash[:error] = I18n.t("user.error_status_change_failed",
                              errors: I18n.t(:notice_user_missing_authentication_method))
     elsif @user.save
       flash[:notice] = I18n.t(:notice_successful_update)
@@ -190,10 +190,10 @@ class UsersController < ApplicationController
         UserMailer.account_activated(@user).deliver_later
       end
     else
-      flash[:error] = I18n.t('user.error_status_change_failed',
-                             errors: @user.errors.full_messages.join(', '))
+      flash[:error] = I18n.t("user.error_status_change_failed",
+                             errors: @user.errors.full_messages.join(", "))
     end
-    redirect_back_or_default(action: 'edit', id: @user)
+    redirect_back_or_default(action: "edit", id: @user)
   end
 
   def resend_invitation
@@ -218,7 +218,7 @@ class UsersController < ApplicationController
 
     Users::DeleteService.new(model: @user, user: User.current).call
 
-    flash[:notice] = I18n.t('account.deletion_pending')
+    flash[:notice] = I18n.t("account.deletion_pending")
 
     respond_to do |format|
       format.html do
@@ -228,7 +228,7 @@ class UsersController < ApplicationController
   end
 
   def deletion_info
-    render action: 'deletion_info', layout: my_or_admin_layout
+    render action: "deletion_info", layout: my_or_admin_layout
   end
 
   private
@@ -267,9 +267,9 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html { render_403 }
-        format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
-        format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
-        format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.xml  { head :unauthorized, "WWW-Authenticate" => 'Basic realm="OpenProject API"' }
+        format.js   { head :unauthorized, "WWW-Authenticate" => 'Basic realm="OpenProject API"' }
+        format.json { head :unauthorized, "WWW-Authenticate" => 'Basic realm="OpenProject API"' }
       end
 
       false
@@ -288,9 +288,9 @@ class UsersController < ApplicationController
     # TODO: how can this be done better:
     # check if the route used to call the action is in the 'my' namespace
     if url_for(:delete_my_account_info) == request.url
-      'my'
+      "my"
     else
-      'admin'
+      "admin"
     end
   end
 
@@ -301,10 +301,10 @@ class UsersController < ApplicationController
   protected
 
   def default_breadcrumb
-    if action_name == 'index'
-      t('label_user_plural')
+    if action_name == "index"
+      t("label_user_plural")
     else
-      ActionController::Base.helpers.link_to(t('label_user_plural'), users_path)
+      ActionController::Base.helpers.link_to(t("label_user_plural"), users_path)
     end
   end
 

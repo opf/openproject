@@ -29,7 +29,7 @@
 module Projects::Copy
   class BoardsDependentService < Dependency
     def self.human_name
-      I18n.t(:'boards.label_boards')
+      I18n.t(:"boards.label_boards")
     end
 
     def source_count

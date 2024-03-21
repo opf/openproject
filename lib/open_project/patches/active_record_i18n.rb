@@ -31,7 +31,7 @@ module ActiveRecord
     include Redmine::I18n
 
     def self.human_attribute_name(attr, options = {})
-      attr = attr.to_s.delete_suffix('_id')
+      attr = attr.to_s.delete_suffix("_id")
       super
     end
   end

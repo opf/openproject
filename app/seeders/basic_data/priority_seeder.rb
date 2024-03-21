@@ -28,14 +28,14 @@
 module BasicData
   class PrioritySeeder < ModelSeeder
     self.model_class = IssuePriority
-    self.seed_data_model_key = 'priorities'
+    self.seed_data_model_key = "priorities"
 
     def model_attributes(priority_data)
       {
-        name: priority_data['name'],
-        color_id: color_id(priority_data['color_name']),
-        is_default: true?(priority_data['is_default']),
-        position: priority_data['position']
+        name: priority_data["name"],
+        color_id: color_id(priority_data["color_name"]),
+        is_default: true?(priority_data["is_default"]),
+        position: priority_data["position"]
       }
     end
   end

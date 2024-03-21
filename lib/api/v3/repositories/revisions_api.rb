@@ -30,7 +30,7 @@ module API
     module Repositories
       class RevisionsAPI < ::API::OpenProjectAPI
         resources :revisions do
-          route_param :id, type: Integer, desc: 'Revision ID' do
+          route_param :id, type: Integer, desc: "Revision ID" do
             helpers do
               attr_reader :revision
 

@@ -26,4 +26,4 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require 'open_project/meeting'
+require "open_project/meeting"

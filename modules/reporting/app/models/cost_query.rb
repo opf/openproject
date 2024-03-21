@@ -60,24 +60,24 @@ class CostQuery < ApplicationRecord
 
   def self.public(project)
     if project
-      CostQuery.where(['is_public = ? AND (project_id IS NULL OR project_id = ?)', true, project])
-        .order(Arel.sql('name ASC'))
+      CostQuery.where(["is_public = ? AND (project_id IS NULL OR project_id = ?)", true, project])
+        .order(Arel.sql("name ASC"))
     else
-      CostQuery.where(['is_public = ? AND project_id IS NULL', true])
-        .order(Arel.sql('name ASC'))
+      CostQuery.where(["is_public = ? AND project_id IS NULL", true])
+        .order(Arel.sql("name ASC"))
     end
   end
 
   def self.private(project, user)
     if project
-      CostQuery.where(['user_id = ? AND is_public = ? AND (project_id IS NULL OR project_id = ?)',
+      CostQuery.where(["user_id = ? AND is_public = ? AND (project_id IS NULL OR project_id = ?)",
                        user,
                        false,
                        project])
-        .order(Arel.sql('name ASC'))
+        .order(Arel.sql("name ASC"))
     else
-      CostQuery.where(['user_id = ? AND is_public = ? AND project_id IS NULL', user, false])
-        .order(Arel.sql('name ASC'))
+      CostQuery.where(["user_id = ? AND is_public = ? AND project_id IS NULL", user, false])
+        .order(Arel.sql("name ASC"))
     end
   end
 
@@ -93,7 +93,7 @@ class CostQuery < ApplicationRecord
 
   def deserialize
     if @chain
-      raise ArgumentError, 'Cannot deserialize a report which already has a chain'
+      raise ArgumentError, "Cannot deserialize a report which already has a chain"
     else
       hash = serialized || serialize
       self.class.deserialize(hash, self)
@@ -214,9 +214,9 @@ class CostQuery < ApplicationRecord
 
   def cache_key
     deserialize unless @chain
-    parts = [self.class.table_name.sub('_reports', '')]
-    parts.concat([filters.sort, group_bys].map { |l| l.map(&:cache_key).join(' ') })
-    parts.join '/'
+    parts = [self.class.table_name.sub("_reports", "")]
+    parts.concat([filters.sort, group_bys].map { |l| l.map(&:cache_key).join(" ") })
+    parts.join "/"
   end
 
   def self.engine

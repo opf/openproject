@@ -31,15 +31,15 @@ module OpenProject::TextFormatting::Filters::Macros::ChildPages
     attr_reader(:page_value, :include_parent, :user, :page)
 
     def initialize(macro, pipeline_context)
-      @page_value = macro['data-page']
-      @include_parent = macro['data-include-parent'].to_s == 'true'
+      @page_value = macro["data-page"]
+      @include_parent = macro["data-include-parent"].to_s == "true"
       @user = pipeline_context[:current_user]
       @page = fetch_page(pipeline_context)
     end
 
     def check
       if @page.nil? || !@user.allowed_in_project?(:view_wiki_pages, @page.wiki.project)
-        raise I18n.t('macros.wiki_child_pages.errors.page_not_found', name: @page_value)
+        raise I18n.t("macros.wiki_child_pages.errors.page_not_found", name: @page_value)
       end
     end
 
