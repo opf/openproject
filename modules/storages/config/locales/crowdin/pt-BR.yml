@@ -1,4 +1,4 @@
-pt:
+pt-BR:
   activerecord:
     attributes:
       storages/file_link:
